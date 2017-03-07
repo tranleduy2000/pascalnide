@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.duy.pascal.compiler.activities.EditorActivity">
+
+    <com.duy.pascal.compiler.view.LockableScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/recycler_view"
+        android:fillViewport="true">
+
+        <com.duy.pascal.compiler.view.HighlightEditor
+            android:id="@+id/edit_editor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dropDownAnchor="@id/toolbar"
+            android:dropDownHeight="110dp"
+            android:dropDownWidth="150dp"
+            android:gravity="left|top"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarSize="5.0dip"
+            android:scrollbars="horizontal|vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+    </com.duy.pascal.compiler.view.LockableScrollView>
+
+    <com.duy.pascal.compiler.view.SymbolListView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    </com.duy.pascal.compiler.view.SymbolListView>
+</RelativeLayout>

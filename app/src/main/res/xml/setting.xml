@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/code_editor">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/key_pref_word_wrap"
+            android:summary="@string/word_wrap_desc"
+            android:title="@string/word_wrap" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/key_pref_show_line_number"
+            android:summary="@string/show_line_desc"
+            android:title="@string/show_line" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="false"
+            android:key="@string/key_show_hint"
+            android:summary="@string/show_hint_desc"
+            android:title="@string/show_hint" />
+
+        <ListPreference
+            android:defaultValue="16"
+            android:entries="@array/font_size"
+            android:entryValues="@array/font_size"
+            android:key="@string/key_pref_font_size"
+            android:title="@string/font_z" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:enabled="false"
+            android:key="@string/key_pref_font"
+            android:title="@string/font" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/user_interface">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="false"
+            android:key="@string/key_pref_hide_status_bar"
+            android:summary="@string/hide_status_bar_desc"
+            android:title="@string/hide_status_bar" />
+
+        <ListPreference
+            android:defaultValue="@string/lang_default"
+            android:entries="@array/language_entry"
+            android:entryValues="@array/language_code"
+            android:icon="@drawable/ic_language_white_24dp"
+            android:key="@string/key_pref_lang"
+            android:title="@string/language" />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>
