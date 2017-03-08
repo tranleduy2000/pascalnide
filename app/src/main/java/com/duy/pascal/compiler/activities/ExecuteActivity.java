@@ -16,9 +16,9 @@ import com.duy.pascal.compiler.CodeManager;
 import com.duy.pascal.compiler.CompileManager;
 import com.duy.pascal.compiler.data.FileManager;
 import com.js.interpreter.ast.codeunit.PascalProgram;
+import com.js.interpreter.core.ScriptSource;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.core.ScriptSource;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -247,7 +247,9 @@ public class ExecuteActivity extends AbstractConsoleActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        //stop in put thread
         isCanRead.set(false);
+        //stop program
         try {
             program.terminate();
         } catch (Exception ignored) {
@@ -258,12 +260,11 @@ public class ExecuteActivity extends AbstractConsoleActivity {
         return input;
     }
 
-
     public class InputData {
-        public static final int MAX_INPUT = 1000;
-        public int last;    // number of char in the input buffer
-        public int first;    // index of the first character
+        static final int MAX_INPUT = 1000;
         public char[] data = new char[MAX_INPUT]; // the array of the caracters
+        int last;    // number of char in the input buffer
+        int first;    // index of the first character
 
         @Override
         public String toString() {

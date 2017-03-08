@@ -1,7 +1,7 @@
 package com.js.interpreter.runtime.exception;
 
-import com.js.interpreter.ast.AbstractFunction;
 import com.duy.interpreter.linenumber.LineInfo;
+import com.js.interpreter.ast.AbstractFunction;
 
 public class PluginCallException extends RuntimePascalException {
 	public Throwable cause;
@@ -16,8 +16,8 @@ public class PluginCallException extends RuntimePascalException {
 
 	@Override
 	public String getMessage() {
-		return "When calling plugin " + function.name()
-				+ ", The following java exception occured: "
+        return "When calling Function or Procedure " + function.name()
+                + ", The following java exception occured: "
 				+ cause;
 	}
 }

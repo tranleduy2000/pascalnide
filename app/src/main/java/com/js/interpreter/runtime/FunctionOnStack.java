@@ -1,11 +1,11 @@
 package com.js.interpreter.runtime;
 
-import java.util.HashMap;
-
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+
+import java.util.HashMap;
 
 public class FunctionOnStack extends VariableContext {
 	public HashMap<String, Object> local_variables = new HashMap<String, Object>();
@@ -28,8 +28,8 @@ public class FunctionOnStack extends VariableContext {
 		for (VariableDeclaration v : prototype.declarations.UnitVarDefs) {
 			v.initialize(local_variables);
 		}
-		reference_variables = new HashMap<String, VariableBoxer>();
-		for (int i = 0; i < arguments.length; i++) {
+        reference_variables = new HashMap<>();
+        for (int i = 0; i < arguments.length; i++) {
 			if (prototype.argument_types[i].writable) {
 				reference_variables.put(prototype.argument_names[i],
 						(VariableBoxer) arguments[i]);

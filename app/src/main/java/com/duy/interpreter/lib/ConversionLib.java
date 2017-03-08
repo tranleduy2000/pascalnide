@@ -9,33 +9,33 @@ public class ConversionLib implements PascalLibrary {
         //System.out.print("$ " + ConversionLib.class.getSimpleName());
     }
 
-    public static String BoolToStr(boolean b) {
-        return b ? "True" : "False";
-    }
+//    public static String BoolToStr(boolean b) {
+//        return b ? "True" : "False";
+//    }
 
-    public static StringBuilder IntToStr(int i) {
-        return new StringBuilder(String.valueOf(i));
-    }
+//    public static StringBuilder IntToStr(int i) {
+//        return new StringBuilder(String.valueOf(i));
+//    }
 
-    public static String FloatToStr(double f) {
-        return String.valueOf(f);
-    }
+//    public static String FloatToStr(double f) {
+//        return String.valueOf(f);
+//    }
 
-    public static String CharToStr(char c) {
-        return String.valueOf(c);
-    }
+//    public static String CharToStr(char c) {
+//        return String.valueOf(c);
+//    }
 
-    public static int strtoint(String s) {
-        return strtointdef(s, -1);
-    }
+//    public static int strtoint(String s) {
+//        return strtointdef(s, -1);
+//    }
 
-    public static int strtointdef(String s, int i) {
-        try {
-            return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return i;
-        }
-    }
+//    public static int strtointdef(String s, int i) {
+//        try {
+//            return Integer.parseInt(s);
+//        } catch (NumberFormatException e) {
+//            return i;
+//        }
+//    }
 
     /**
      * ascii to character

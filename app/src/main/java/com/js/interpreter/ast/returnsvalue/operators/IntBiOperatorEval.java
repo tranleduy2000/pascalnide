@@ -1,7 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.operators;
 
 import com.duy.interpreter.exceptions.DivisionByZeroException;
-import com.duy.interpreter.exceptions.DivisionOperatorIntegerException;
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.linenumber.LineInfo;
 import com.duy.interpreter.pascaltypes.BasicType;
@@ -50,7 +49,11 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
                 }
                 return v1 / v2;
             case DIVIDE:
-                throw new DivisionOperatorIntegerException(line);
+//                throw new DivisionOperatorIntegerException(line);
+                if (v2 == 0) {
+                    throw new DivisionByZeroException(line);
+                }
+                return v1 / v2;
             case EQUALS:
                 return v1 == v2;
             case GREATEREQ:

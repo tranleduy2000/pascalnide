@@ -27,27 +27,25 @@ import com.duy.pascal.compiler.view.graph_lib.GraphObject;
 import java.util.ArrayList;
 
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
-
     public static final int QUEUE_SIZE = 1000;
     final public int CursorPaint = Color.DKGRAY;
-    public final int maxLines = 100;
-    public final Handler handler = new Handler();
-    private final char[] THE_CHAR = {'M'};
+    public int maxLines = 100;
+    public Handler handler = new Handler();
     public int xCursorConsole;
     public int yCursorConsole;
     public int consoleColumn;
     public int consoleRow;
     public int firstLine;
     public boolean fullscreen = false;
-    Paint backPaint;
     boolean cursorVisible;
     int foreColor;
-    Paint textPaint;
     int CharHeight;
     int CharAscent;
     int CharDescent;
     int CharWidth;
-    Activity activity;
+    private Paint mBackgroundPaint;
+    private Paint mTextPaint;
+    private Activity activity;
     private int backgroundColor;
     private int visibleWidth = 0;
     private int visibleHeight = 0;
@@ -102,7 +100,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         super(context);
         commonInit();
     }
-
 
 
     public Point getCursorGraph() {
@@ -210,7 +207,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     private void commonInit() {
-        backPaint = new Paint();
+        mBackgroundPaint = new Paint();
         visibleRect = new Rect();
         gestureDetector = new GestureDetector(this);
         inputBuffer = new Queue(QUEUE_SIZE);
@@ -220,17 +217,17 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         activity = a;
         this.foreColor = foreColor;
         this.backgroundColor = backColor;
-        textPaint = new Paint();
+        mTextPaint = new Paint();
 
-//        textPaint.setTypeface(Typeface.createFromAsset(a.getAssets(), "fonts/courier_new_bold.ttf"));
-        textPaint.setTypeface(Typeface.MONOSPACE);
-        textPaint.setAntiAlias(true);
-        textPaint.setTextSize(fontSize);
+//        mTextPaint.setTypeface(Typeface.createFromAsset(a.getAssets(), "fonts/courier_new_bold.ttf"));
+        mTextPaint.setTypeface(Typeface.MONOSPACE);
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setTextSize(fontSize);
 
-        CharHeight = (int) Math.ceil(textPaint.getFontSpacing());
-        CharAscent = (int) Math.ceil(textPaint.ascent());
+        CharHeight = (int) Math.ceil(mTextPaint.getFontSpacing());
+        CharAscent = (int) Math.ceil(mTextPaint.ascent());
         CharDescent = CharHeight + CharAscent;
-        CharWidth = (int) textPaint.measureText(THE_CHAR, 0, 1);
+        CharWidth = (int) mTextPaint.measureText(new char[]{'M'}, 0, 1);
 
         xCursorConsole = 0;
         yCursorConsole = 0;
@@ -242,7 +239,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         cursorBlink = true;
         cursorVisible = true;
 
-        backPaint.setColor(this.backgroundColor);
+        mBackgroundPaint.setColor(this.backgroundColor);
     }
 
     public void clearScreen() {
@@ -423,15 +420,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     private void DrawCursor(Canvas canvas, int x, int y) {
         if (cursorBlink) {
 
-            textPaint.setColor(CursorPaint);
-            canvas.drawRect(x, y - 1/*+CharAscent*/, x + CharWidth, y + CharDescent, textPaint);
+            mTextPaint.setColor(CursorPaint);
+            canvas.drawRect(x, y - 1/*+CharAscent*/, x + CharWidth, y + CharDescent, mTextPaint);
         }
 
     }
 
     private void RenderChars(Canvas canvas, int x, int y, char[] text, int start, int count) {
-        textPaint.setColor(foreColor);
-        canvas.drawText(text, start, count, x, y, textPaint);
+        mTextPaint.setColor(foreColor);
+        canvas.drawText(text, start, count, x, y, mTextPaint);
     }
 
     public void tDraw(Canvas canvas, int x, int y) {
@@ -462,7 +459,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     protected void onDraw(Canvas canvas) {
         int w = getWidth();
         int h = getHeight();
-        canvas.drawRect(leftVisible, topVisible, w, h, backPaint);
+        canvas.drawRect(leftVisible, topVisible, w, h, mBackgroundPaint);
         tDraw(canvas, leftVisible, topVisible);
         for (GraphObject graphObject : graphObjects) {
             graphObject.draw(canvas);
@@ -531,7 +528,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public void setConsoleColor(int color) {
         this.backgroundColor = color;
-        backPaint.setColor(color);
+        mBackgroundPaint.setColor(color);
         invalidate();
     }
 
