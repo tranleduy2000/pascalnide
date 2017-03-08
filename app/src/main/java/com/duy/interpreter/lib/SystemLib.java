@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class SystemLib implements PascalLibrary {
 
-    public void inc(VariableBoxer<Object> boxer) throws RuntimePascalException {
+    public static void inc(VariableBoxer<Object> boxer) throws RuntimePascalException {
         if (boxer.get() instanceof Long) {
             boxer.set((Long) boxer.get() + 1);
         } else if (boxer.get() instanceof Integer) {
@@ -22,7 +22,7 @@ public class SystemLib implements PascalLibrary {
 
     }
 
-    public void dec(VariableBoxer<Object> boxer) throws RuntimePascalException {
+    public static void dec(VariableBoxer<Object> boxer) throws RuntimePascalException {
         if (boxer.get() instanceof Long) {
             boxer.set((Long) boxer.get() - 1);
         } else if (boxer.get() instanceof Integer) {

@@ -112,6 +112,16 @@ public class MathLib implements PascalLibrary {
         return Math.exp(a);
     }
 
+
+    public static int Int(double x) {
+        return (int) x;
+    }
+
+    public static boolean odd(long x) {
+        return x % 2 == 0;
+    }
+
+
     public boolean instantiate(Map<String, Object> pluginargs) {
         return true;
     }
