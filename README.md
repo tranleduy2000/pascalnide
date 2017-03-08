@@ -1,4 +1,5 @@
 **Phần mềm lập trình Pascal trên android**
+
 Bạn muốn viết chương trình pascal nhưng không phải lúc nào cũng mạng máy tính theo bên mình, ứng dụng Pascal N-IDE sẽ giúp bạn thực hiện điều đó. Bạn có thể viết các chương trình Pascal đơn giản với phần mềm này.
 
 CÁC TÍNH NĂNG IDE HỖ TRỢ
