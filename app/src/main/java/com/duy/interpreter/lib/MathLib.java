@@ -66,10 +66,6 @@ public class MathLib implements PascalLibrary {
         return Math.log(d);
     }
 
-    public static boolean samevalue(double a, double b) {
-        return a == b;
-    }
-
     public static int max(int a, int b) {
         return a > b ? a : b;
     }

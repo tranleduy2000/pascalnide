@@ -15,6 +15,7 @@ import com.duy.interpreter.lib.ScriptControlLib;
 import com.duy.interpreter.lib.SetArrayLengthLib;
 import com.duy.interpreter.lib.SetLengthLib;
 import com.duy.interpreter.lib.StringLib;
+import com.duy.interpreter.lib.SystemLib;
 import com.duy.pascal.compiler.activities.ExecuteActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -42,7 +43,10 @@ public class PascalCompiler {
     public static final String TAG = PascalCompiler.class.getSimpleName();
     public static final boolean android = false;
     public static final boolean DEBUG = true;
+
     public ExecuteActivity activity;
+
+    private SystemLib systemLib = new SystemLib();
     private IOLib ioLib = new IOLib();
     private CrtLib crtLib = new CrtLib();
     private GraphLib graphLib = new GraphLib();
@@ -151,6 +155,7 @@ public class PascalCompiler {
         classes.add(crtLib.getClass());
         classes.add(DosLib.class);
         classes.add(graphLib.getClass());
+        classes.add(systemLib.getClass());
 
         for (Class pascalPlugin : classes) {
             Object o;

@@ -17,6 +17,9 @@ public class KeyWordAndPattern {
             "while", "repeat", "until", "case", "of",
             "and", "or", "xor", "not", "div", "mod",
 
+            //system
+            "dec(", "inc(",
+
             //io
             "writeln", "readln", "write(", "read",
 
@@ -29,8 +32,9 @@ public class KeyWordAndPattern {
             //crt
             "clrscr;", "textBackground(", "textColor(", "gotoXY(", "delay(", "whereX;", "whereY;",
             //math
-            "trunc", "round", "abs", "sin", "cos", "tan", "sqrt", "sqr", "pred", "succ", "ln", "random", "randomize",
-            "length",
+            "trunc(", "round(", "abs(", "sin(", "cos(", "tan(",
+            "sqrt(", "sqr(", "pred(", "succ(", "ln(", "random(", "randomize;",
+            "length(",
             "true", "false",
 
             "result"
@@ -43,7 +47,6 @@ public class KeyWordAndPattern {
     };
     //Words
     public static final Pattern line = Pattern.compile(".*\\n");
-    ;
     public static final Pattern numbers = Pattern.compile(
             "\\b(\\d*[.]?\\d+)\\b");
     public static final Pattern keywords = Pattern.compile(
