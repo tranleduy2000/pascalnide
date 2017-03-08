@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.data_structure;
+package com.duy.pascal.compiler.alogrithm;
 
 /**
  * Created by Duy on 10-Feb-17.

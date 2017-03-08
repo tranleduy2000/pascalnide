@@ -144,7 +144,8 @@ public class IOLib implements PascalLibrary {
     /**
      * readln procedure
      */
-    public void readlnn(VariableBoxer... variableBoxers) throws RuntimePascalException, NumberFormatException {
+    public void readlnn(Object o) throws RuntimePascalException, NumberFormatException {
+        System.out.println(o.getClass().getSimpleName());
         if (activity == null) {
             throw new RuntimeException("Can not define ExecuteActivity");
         }

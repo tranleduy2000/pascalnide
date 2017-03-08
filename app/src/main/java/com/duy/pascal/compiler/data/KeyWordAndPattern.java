@@ -36,8 +36,8 @@ public class KeyWordAndPattern {
             "sqrt(", "sqr(", "pred(", "succ(", "ln(", "random(", "randomize;",
             "length(",
             "true", "false",
-
-            "result"
+            //string
+            "concat(", "insert(", "pos(", "upcase("
     };
     public static final String[] OPERATOR_BOOLEAN = new String[]{
             "and", "or", "xor", "not", "<", ">", "=", "<>", "<=", ">="
