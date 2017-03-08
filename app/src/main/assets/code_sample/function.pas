@@ -3,7 +3,7 @@ program test_func;
 //return sqrt(number)
 function square_root(a: integer): real;
 begin
-	result := sqrt(a);
+	square_root := sqrt(a);
 end;
 
 begin

@@ -1,20 +1,21 @@
 program nested_function;
 
-function fibonacci(n:integer) :integer;
-var tmp:integer;
+function fibonacci(n: integer) : integer;
+var
+    tmp: integer;
 
-    function calculate(i: integer): integer;
-    begin
-        if (i = 1) then
-            result := 1
-        else
-            result := calculate(i-1) + calculate(i-2);
-    end;
-
+function calculate(i: integer): integer;
 begin
-	result:=calculate(n);
+    if (i = 1) or (i = 2) then
+        calculate := 1
+    else
+        calculate := calculate(i - 1) + calculate(i - 2);
 end;
 
 begin
-  writeln('fibonacci 4th = ', fibonacci(4));
+    fibonacci := calculate(n);
+end;
+
+begin
+    writeln('fibonacci 4th = ', fibonacci(4));
 end.
