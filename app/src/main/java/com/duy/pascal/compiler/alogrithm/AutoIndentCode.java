@@ -142,7 +142,7 @@ public class AutoIndentCode {
                 result += "\n";
             }
             processToken(t2);
-        } else if (t instanceof SemicolonToken) { //new line
+        } else if (t instanceof SemicolonToken || t instanceof PeriodToken) { //new line
             if (result.length() > 0) {
                 if (result.charAt(result.length() - 1) == ' ') {
                     result = result.substring(0, result.length() - 1);

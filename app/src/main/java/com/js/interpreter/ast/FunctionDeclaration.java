@@ -1,14 +1,5 @@
 package com.js.interpreter.ast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import com.js.interpreter.ast.codeunit.CodeUnit;
-import com.js.interpreter.ast.codeunit.Library;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.ast.instructions.Executable;
 import com.duy.interpreter.exceptions.ExpectedTokenException;
 import com.duy.interpreter.exceptions.OverridingFunctionException;
 import com.duy.interpreter.exceptions.ParsingException;
@@ -17,10 +8,6 @@ import com.duy.interpreter.linenumber.LineInfo;
 import com.duy.interpreter.pascaltypes.ArgumentType;
 import com.duy.interpreter.pascaltypes.DeclaredType;
 import com.duy.interpreter.pascaltypes.RuntimeType;
-import com.js.interpreter.runtime.FunctionOnStack;
-import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.duy.interpreter.tokens.Token;
 import com.duy.interpreter.tokens.WordToken;
 import com.duy.interpreter.tokens.basic.ColonToken;
@@ -30,6 +17,18 @@ import com.duy.interpreter.tokens.basic.SemicolonToken;
 import com.duy.interpreter.tokens.basic.VarToken;
 import com.duy.interpreter.tokens.grouping.GrouperToken;
 import com.duy.interpreter.tokens.grouping.ParenthesizedToken;
+import com.js.interpreter.ast.codeunit.Library;
+import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.ast.instructions.Executable;
+import com.js.interpreter.runtime.FunctionOnStack;
+import com.js.interpreter.runtime.VariableContext;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.exception.RuntimePascalException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FunctionDeclaration extends AbstractCallableFunction {
 	final public ExpressionContextMixin declarations;
@@ -40,46 +39,10 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 	public VariableDeclaration result_definition;
 
 	public LineInfo line;
-
-	/* These go together ----> */
 	public String[] argument_names;
 
 	public RuntimeType[] argument_types;
-
-	/* <----- */
-
 	private boolean body_declared;
-
-	private class FunctionExpressionContext extends ExpressionContextMixin {
-
-		public FunctionExpressionContext(ExpressionContext parent) {
-			super(parent.root(), parent);
-		}
-
-		@Override
-		public Executable handleUnrecognizedStatementImpl(Token next,
-				GrouperToken container) throws ParsingException {
-			return null;
-		}
-
-		@Override
-		public boolean handleUnrecognizedDeclarationImpl(Token next,
-				GrouperToken container) throws ParsingException {
-			if (next instanceof ForwardToken) {
-				container.assert_next_semicolon();
-				body_declared = true;
-				return true;
-			}
-			return false;
-		}
-
-		@Override
-		public void handleBeginEnd(GrouperToken i) throws ParsingException {
-			body_declared = true;
-			instructions = i.get_next_command(declarations);
-			i.assert_next_semicolon();
-		}
-	}
 
 	public FunctionDeclaration(ExpressionContext parent, GrouperToken i,
 			boolean is_procedure) throws ParsingException {
@@ -89,13 +52,15 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
 		get_arguments_for_declaration(i, is_procedure);
 		Token next = i.peek();
-		if (!(is_procedure ^ (next instanceof ColonToken))) {
+		if (is_procedure == next instanceof ColonToken) {
 			throw new ParsingException(next.lineInfo,
 					"Functions must have a return type, and procedures cannot have one");
 		}
-		if (!is_procedure && next instanceof ColonToken) {
+		if (!is_procedure) {
 			i.take();
-			result_definition = new VariableDeclaration("result",
+//			result_definition = new VariableDeclaration("result",
+// i.get_next_pascal_type(declarations), line);
+			result_definition = new VariableDeclaration(name,
 					i.get_next_pascal_type(declarations), line);
 			this.declarations.declareVariable(result_definition);
 		}
@@ -112,6 +77,12 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 		}
 	}
 
+	public FunctionDeclaration(ExpressionContext p) {
+		this.declarations = new FunctionExpressionContext(p);
+		this.argument_names = new String[0];
+		this.argument_types = new RuntimeType[0];
+	}
+
 	public void parse_function_body(GrouperToken i) throws ParsingException {
 
 		Token next = i.peek_no_EOF();
@@ -126,12 +97,6 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 				declarations.add_next_declaration(i);
 			}
 		}
-	}
-
-	public FunctionDeclaration(ExpressionContext p) {
-		this.declarations = new FunctionExpressionContext(p);
-		this.argument_names = new String[0];
-		this.argument_types = new RuntimeType[0];
 	}
 
 	@Override
@@ -241,6 +206,37 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 	@Override
 	public LineInfo getLineNumber() {
 		return line;
+	}
+
+	private class FunctionExpressionContext extends ExpressionContextMixin {
+
+		public FunctionExpressionContext(ExpressionContext parent) {
+			super(parent.root(), parent);
+		}
+
+		@Override
+		public Executable handleUnrecognizedStatementImpl(Token next,
+														  GrouperToken container) throws ParsingException {
+			return null;
+		}
+
+		@Override
+		public boolean handleUnrecognizedDeclarationImpl(Token next,
+														 GrouperToken container) throws ParsingException {
+			if (next instanceof ForwardToken) {
+				container.assert_next_semicolon();
+				body_declared = true;
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public void handleBeginEnd(GrouperToken i) throws ParsingException {
+			body_declared = true;
+			instructions = i.get_next_command(declarations);
+			i.assert_next_semicolon();
+		}
 	}
 
 }

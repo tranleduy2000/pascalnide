@@ -88,9 +88,9 @@ public class IOLib implements PascalLibrary {
      */
     public void readln(VariableBoxer<Object> s) throws RuntimePascalException, NumberFormatException {
         if (activity == null) {
-            throw new RuntimeException("can not define ExecuteActivity");
+            throw new RuntimeException("Can not define ExecuteActivity");
         }
-        if (s == null) return;
+        System.out.println("readln: " + s.get().getClass());
         String inp = "";
         if (s.get() instanceof StringBuilder) {
             //read string
@@ -154,7 +154,7 @@ public class IOLib implements PascalLibrary {
      */
     public void read(VariableBoxer<Object> s) throws RuntimePascalException, NumberFormatException {
         if (activity == null) {
-            throw new RuntimeException("can not define ExecuteActivity");
+            throw new RuntimeException("Can not define ExecuteActivity");
         }
         if (s == null) return;
         String inp = "";

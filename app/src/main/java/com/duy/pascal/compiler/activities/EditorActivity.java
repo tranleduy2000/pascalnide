@@ -45,6 +45,7 @@ import com.duy.pascal.compiler.view.HighlightEditor;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
 import com.js.interpreter.core.ScriptSource;
+import com.kobakei.ratethisapp.RateThisApp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -83,13 +84,36 @@ public class EditorActivity extends AbstractAppCompatActivity
     private CompileManager mCompileManager;
     private FileManager fileManager;
     private Handler handler = new Handler();
-//    private RunDo mUndoRedoSupport;
+    //    private RunDo mUndoRedoSupport;
     private MenuEditor menuEditor;
 
     private static float getDistanceBetweenTouches(MotionEvent ev) {
         float xx = ev.getX(1) - ev.getX(0);
         float yy = ev.getY(1) - ev.getY(0);
         return (float) Math.sqrt(xx * xx + yy * yy);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
+        RateThisApp.setCallback(new RateThisApp.Callback() {
+            @Override
+            public void onYesClicked() {
+                rateApp();
+            }
+
+            @Override
+            public void onNoClicked() {
+            }
+
+            @Override
+            public void onCancelClicked() {
+            }
+        });
     }
 
     @Override

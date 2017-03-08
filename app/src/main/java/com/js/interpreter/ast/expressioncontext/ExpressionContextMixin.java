@@ -1,23 +1,5 @@
 package com.js.interpreter.ast.expressioncontext;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.js.interpreter.ast.AbstractFunction;
-import com.js.interpreter.ast.ConstantDefinition;
-import com.js.interpreter.ast.FunctionDeclaration;
-import com.js.interpreter.ast.NamedEntity;
-import com.js.interpreter.ast.VariableDeclaration;
-import com.js.interpreter.ast.codeunit.CodeUnit;
-import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
-import com.js.interpreter.ast.returnsvalue.VariableAccess;
 import com.duy.interpreter.exceptions.ExpectedTokenException;
 import com.duy.interpreter.exceptions.NoSuchFunctionOrVariableException;
 import com.duy.interpreter.exceptions.NonConstantExpressionException;
@@ -37,25 +19,40 @@ import com.duy.interpreter.tokens.basic.TypeToken;
 import com.duy.interpreter.tokens.basic.VarToken;
 import com.duy.interpreter.tokens.grouping.BeginEndToken;
 import com.duy.interpreter.tokens.grouping.GrouperToken;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.js.interpreter.ast.AbstractFunction;
+import com.js.interpreter.ast.ConstantDefinition;
+import com.js.interpreter.ast.FunctionDeclaration;
+import com.js.interpreter.ast.NamedEntity;
+import com.js.interpreter.ast.VariableDeclaration;
+import com.js.interpreter.ast.codeunit.CodeUnit;
+import com.js.interpreter.ast.instructions.Executable;
+import com.js.interpreter.ast.returnsvalue.ConstantAccess;
+import com.js.interpreter.ast.returnsvalue.FunctionCall;
+import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.VariableAccess;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class ExpressionContextMixin extends
 		HeirarchicalExpressionContext {
+    private final ListMultimap<String, AbstractFunction> callable_functions;
+    public Map<String, ConstantDefinition> constants = new HashMap<String, ConstantDefinition>();
+    public List<VariableDeclaration> UnitVarDefs = new ArrayList<VariableDeclaration>();
+    Map<String, DeclaredType> typedefs = new HashMap<String, DeclaredType>();
+
 	public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
 		this(root, parent, (ListMultimap) ArrayListMultimap.create());
 	}
-
 	public ExpressionContextMixin(CodeUnit root, ExpressionContext parent,
 			ListMultimap<String, AbstractFunction> callable_functions) {
 		super(root, parent);
 		this.callable_functions = callable_functions;
 	}
-
-	public Map<String, ConstantDefinition> constants = new HashMap<String, ConstantDefinition>();
-
-	Map<String, DeclaredType> typedefs = new HashMap<String, DeclaredType>();
-
-	public List<VariableDeclaration> UnitVarDefs = new ArrayList<VariableDeclaration>();
-	private final ListMultimap<String, AbstractFunction> callable_functions;
 
 	public FunctionDeclaration getExistingFunction(FunctionDeclaration f)
 			throws ParsingException {
@@ -181,7 +178,6 @@ public abstract class ExpressionContextMixin extends
 
 	public void declareConst(ConstantDefinition c) {
 		constants.put(c.name(), c);
-
 	}
 
 	protected void addConstDeclarations(GrouperToken i) throws ParsingException {

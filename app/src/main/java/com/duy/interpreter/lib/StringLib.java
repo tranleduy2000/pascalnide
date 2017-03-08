@@ -295,6 +295,13 @@ public class StringLib implements PascalLibrary {
         return s.toUpperCase();
     }
 
+
+    public static String concat(String... s) {
+        String res = "";
+        for (String s1 : s) res += s1;
+        return res;
+    }
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return true;

@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.duy.pascal.compiler.BuildConfig;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.data.Preferences;
-import com.kobakei.ratethisapp.RateThisApp;
 
 import java.util.Locale;
 
@@ -87,24 +86,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         super.onStart();
         if (mPreferences != null)
             mPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        // Monitor launch times and interval from installation
-        RateThisApp.onStart(this);
-        // If the criteria is satisfied, "Rate this app" dialog will be shown
-        RateThisApp.showRateDialogIfNeeded(this);
-        RateThisApp.setCallback(new RateThisApp.Callback() {
-            @Override
-            public void onYesClicked() {
-                rateApp();
-            }
 
-            @Override
-            public void onNoClicked() {
-            }
-
-            @Override
-            public void onCancelClicked() {
-            }
-        });
 
     }
 

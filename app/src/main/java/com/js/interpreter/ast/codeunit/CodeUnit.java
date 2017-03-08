@@ -2,6 +2,7 @@ package com.js.interpreter.ast.codeunit;
 
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.exceptions.UnrecognizedTokenException;
+import com.duy.interpreter.pascaltypes.SystemConstants;
 import com.duy.interpreter.tokenizer.NewLexer;
 import com.duy.interpreter.tokens.Token;
 import com.duy.interpreter.tokens.basic.ProgramToken;
@@ -10,19 +11,47 @@ import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.runtime.codeunit.RuntimeCodeUnit;
 import com.js.interpreter.core.ScriptSource;
+import com.js.interpreter.runtime.codeunit.RuntimeCodeUnit;
 
 import java.io.Reader;
 import java.util.List;
 
 public abstract class CodeUnit {
 	public final ExpressionContextMixin context;
+    private String program_name;
+
+    public CodeUnit(ListMultimap<String, AbstractFunction> functionTable) {
+        prepareForParsing();
+        this.context = getExpressionContextInstance(functionTable);
+        SystemConstants.addSystemConstant(context);
+    }
+
+    public CodeUnit(Reader program,
+                    ListMultimap<String, AbstractFunction> functionTable,
+                    String sourcename, List<ScriptSource> includeDirectories)
+            throws ParsingException {
+        this(functionTable);
+        NewLexer grouper = new NewLexer(program, sourcename, includeDirectories);
+        new Thread(grouper).start();
+        parse_tree(grouper.token_queue);
+    }
 
 	protected CodeUnitExpressionContext getExpressionContextInstance(
 			ListMultimap<String, AbstractFunction> ftable) {
 		return new CodeUnitExpressionContext(ftable);
 	}
+
+    void parse_tree(GrouperToken tokens) throws ParsingException {
+        while (tokens.hasNext()) {
+            context.add_next_declaration(tokens);
+        }
+    }
+
+    private void prepareForParsing() {
+    }
+
+    public abstract RuntimeCodeUnit<? extends CodeUnit> run();
 
 	protected class CodeUnitExpressionContext extends ExpressionContextMixin {
 		protected CodeUnitExpressionContext(
@@ -53,34 +82,5 @@ public abstract class CodeUnit {
 		}
 
 	}
-
-	String program_name;
-
-	public CodeUnit(ListMultimap<String, AbstractFunction> functionTable) {
-		prepareForParsing();
-		this.context = getExpressionContextInstance(functionTable);
-	}
-
-	public CodeUnit(Reader program,
-			ListMultimap<String, AbstractFunction> functionTable,
-			String sourcename, List<ScriptSource> includeDirectories)
-			throws ParsingException {
-		this(functionTable);
-		NewLexer grouper = new NewLexer(program, sourcename, includeDirectories);
-		new Thread(grouper).start();
-		parse_tree(grouper.token_queue);
-	}
-
-	void parse_tree(GrouperToken tokens) throws ParsingException {
-		while (tokens.hasNext()) {
-			context.add_next_declaration(tokens);
-		}
-	}
-
-	protected void prepareForParsing() {
-		return;
-	}
-
-	public abstract RuntimeCodeUnit<? extends CodeUnit> run();
 
 }

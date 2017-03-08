@@ -1,15 +1,15 @@
 package com.duy.interpreter.pascaltypes;
 
-import com.js.interpreter.ast.VariableDeclaration;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
-import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 import com.duy.interpreter.exceptions.NonArrayIndexed;
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.interpreter.pascaltypes.bytecode.ScopedRegisterAllocator;
 import com.duy.interpreter.pascaltypes.bytecode.SimpleRegisterAllocator;
 import com.duy.interpreter.pascaltypes.bytecode.TransformationInput;
+import com.js.interpreter.ast.VariableDeclaration;
+import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
 import java.util.ArrayList;
@@ -26,14 +26,13 @@ import serp.bytecode.Project;
 public class CustomType extends ObjectType {
 
     /**
-     * This class represents a declaration of a new type in pascal.
-     */
-    private ByteClassLoader bcl = new ByteClassLoader();
-
-    /**
      * This is a list of the defined variables in the custom type.
      */
     public List<VariableDeclaration> variable_types;
+    /**
+     * This class represents a declaration of a new type in pascal.
+     */
+    private ByteClassLoader bcl = new ByteClassLoader();
     private Class cachedClass = null;
 
     public CustomType() {
@@ -345,17 +344,6 @@ public class CustomType extends ObjectType {
     @Override
     public Class<?> getStorageClass() {
         return getTransferClass();
-    }
-
-    public void lol() {
-        int[][][] l = new int[5][6][7];
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 6; j++) {
-                for (int k = 0; k < 7; k++) {
-                    l[i][k][j] = 0;
-                }
-            }
-        }
     }
 
     @Override

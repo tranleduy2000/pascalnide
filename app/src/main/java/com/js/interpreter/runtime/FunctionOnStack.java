@@ -8,14 +8,15 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import java.util.HashMap;
 
 public class FunctionOnStack extends VariableContext {
-	public HashMap<String, Object> local_variables = new HashMap<String, Object>();
+	private HashMap<String, Object> local_variables = new HashMap<>();
 
-	public FunctionDeclaration prototype;
+	private FunctionDeclaration prototype;
 
-	public VariableContext parentContext;
+	private VariableContext parentContext;
 
-	RuntimeExecutable<?> main;
+	private RuntimeExecutable<?> main;
 	@SuppressWarnings("rawtypes")
+	private
 	HashMap<String, VariableBoxer> reference_variables;
 
 	@SuppressWarnings("rawtypes")
@@ -31,8 +32,7 @@ public class FunctionOnStack extends VariableContext {
         reference_variables = new HashMap<>();
         for (int i = 0; i < arguments.length; i++) {
 			if (prototype.argument_types[i].writable) {
-				reference_variables.put(prototype.argument_names[i],
-						(VariableBoxer) arguments[i]);
+				reference_variables.put(prototype.argument_names[i], (VariableBoxer) arguments[i]);
 			} else {
 				local_variables.put(prototype.argument_names[i], arguments[i]);
 			}
@@ -43,7 +43,8 @@ public class FunctionOnStack extends VariableContext {
 
 	public Object execute() throws RuntimePascalException {
 		prototype.instructions.execute(this, main);
-		return local_variables.get("result");
+//		return local_variables.get("result");
+		return local_variables.get(prototype.name);
 	}
 
 	@Override

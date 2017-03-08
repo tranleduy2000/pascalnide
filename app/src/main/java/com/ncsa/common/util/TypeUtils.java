@@ -1,11 +1,11 @@
 package com.ncsa.common.util;
 
+import com.ncsa.common.exceptions.TypeConversionException;
+
 import java.io.File;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
-
-import com.ncsa.common.exceptions.TypeConversionException;
 
 /**
  * Various type-checking, primitive conversion and class lookup
@@ -14,8 +14,7 @@ import com.ncsa.common.exceptions.TypeConversionException;
  * @author Albert L. Rossi
  */
 public class TypeUtils {
-    public static final Class[] primitiveAssignable =
-            {
+    public static final Class[] primitiveAssignable = {
                     String.class, Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
                     Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
                     Boolean.class, Byte.class, Character.class, Double.class,
