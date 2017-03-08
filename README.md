@@ -2,7 +2,7 @@
 
 Bạn muốn viết chương trình pascal nhưng không phải lúc nào cũng mạng máy tính theo bên mình, ứng dụng Pascal N-IDE sẽ giúp bạn thực hiện điều đó. Bạn có thể viết các chương trình Pascal đơn giản với phần mềm này.
 
-CÁC TÍNH NĂNG IDE HỖ TRỢ
+**CÁC TÍNH NĂNG IDE HỖ TRỢ**
 
 - Biên dịch và thực thi chương trình.
 - Báo lỗi khi biên dịch
@@ -24,34 +24,34 @@ result, không dùng tên hàm để gán
 
 =================================
 
-KEY WORD
+**KEY WORD**
 program, begin, end, procedure, function
 
-DECLARE KEY WORD
+**DECLARE KEY WORD**
 
 const, var, type, array, record
 
-SUPPORT SOME FUNCTION
+**SUPPORT SOME FUNCTION**
 
 readln(single variable); {important, "readln" only support single variable}
 
-BASIC VARIABLE TYPE
+**BASIC VARIABLE TYPE**
 
 char, integer, real, boolean, string, longint, byte, word, extended
 
-BOOLEAN OPERATOR
+**BOOLEAN OPERATOR**
 
 and, or, xor, not
 
-RELATION OPERATORS
+**RELATION OPERATORS**
 
 <, >, =, <>, <=, >=
 
-ARTHMETIC OPERATOR
+**ARTHMETIC OPERATOR**
 
 +, -, *, /, div, mod, shl, shr
 
-LOOP
+**LOOP**
 
 while ... do ...
 for ... to ... do ...
@@ -59,7 +59,7 @@ for ... downto ... do ...
 repeat ... until ...
 case ...
 
-DECISION MARKING
+**DECISION MARKING**
 
 if ... then ...
 if ... then ... else ...
