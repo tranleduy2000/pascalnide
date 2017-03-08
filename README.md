@@ -21,29 +21,38 @@ result, không dùng tên hàm để gán
 - USES: không sử dụng từ khóa này vào chương trình, IDE sẽ tự động thêm các thư viện CRT, MATH, DOS, SYSTEM, GRAPH.
 - READLN: chỉ hỗ trợ nhập vào 1 biến
 
+
 =================================
+
 KEY WORD
 program, begin, end, procedure, function
 
 DECLARE KEY WORD
+
 const, var, type, array, record
 
 SUPPORT SOME FUNCTION
+
 readln(single variable); {important, "readln" only support single variable}
 
 BASIC VARIABLE TYPE
+
 char, integer, real, boolean, string, longint, byte, word, extended
 
 BOOLEAN OPERATOR
+
 and, or, xor, not
 
 RELATION OPERATORS
+
 <, >, =, <>, <=, >=
 
 ARTHMETIC OPERATOR
+
 +, -, *, /, div, mod, shl, shr
 
 LOOP
+
 while ... do ...
 for ... to ... do ...
 for ... downto ... do ...
@@ -51,5 +60,6 @@ repeat ... until ...
 case ...
 
 DECISION MARKING
+
 if ... then ...
 if ... then ... else ...
