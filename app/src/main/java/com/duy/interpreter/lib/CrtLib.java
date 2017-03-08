@@ -161,4 +161,9 @@ public class CrtLib implements PascalLibrary {
         }
         return -1;
     }
+
+    public void highVideo() {
+        // TODO: 08-Mar-17  do something
+    }
+
 }

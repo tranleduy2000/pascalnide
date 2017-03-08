@@ -285,7 +285,13 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
-    public static String uppercase(String s) {
+    /**
+     * lower case to upper case
+     *
+     * @param s - input
+     * @return - out with upper case
+     */
+    public static String upcase(String s) {
         return s.toUpperCase();
     }
 

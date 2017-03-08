@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class MathLib implements PascalLibrary {
-    private Random random = new Random();
+    private static Random random = new Random();
 
     public static int ceil(double d) {
         return (int) Math.ceil(d);
@@ -30,13 +30,13 @@ public class MathLib implements PascalLibrary {
         return (int) Math.round(d);
     }
 
-    public static int getsystemtime() {
-        return (int) System.currentTimeMillis();
-    }
+//    public static int getsystemtime() {
+//        return (int) System.currentTimeMillis();
+//    }
 
-    public static double pow(double base, double exponent) {
-        return Math.pow(base, exponent);
-    }
+//    public static double pow(double base, double exponent) {
+//        return Math.pow(base, exponent);
+//    }
 
     public static double sin(double d) {
         return Math.sin(d);
@@ -74,37 +74,45 @@ public class MathLib implements PascalLibrary {
         return a < b ? a : b;
     }
 
-    public static double maxE(double a, double b) {
-        return a > b ? a : b;
+//    public static double maxE(double a, double b) {
+//        return a > b ? a : b;
+//    }
+//
+//    public static double minE(double a, double b) {
+//        return a < b ? a : b;
+//    }
+
+//    public static double intpow(double base, int exp) {
+//        double result = base;
+//        while (exp != 0) {
+//            if ((exp & 1) == 1) {
+//                exp--;
+//                result *= base;
+//            } else {
+//                exp = exp >> 2;
+//                result *= result;
+//            }
+//        }
+//        return result;
+//    }
+
+    public static int random(int range) {
+        return random.nextInt(range);
     }
 
-    public static double minE(double a, double b) {
-        return a < b ? a : b;
+    public static void randomize() {
+        random = new Random(System.currentTimeMillis());
     }
 
-    public static double intpow(double base, int exp) {
-        double result = base;
-        while (exp != 0) {
-            if ((exp & 1) == 1) {
-                exp--;
-                result *= base;
-            } else {
-                exp = exp >> 2;
-                result *= result;
-            }
-        }
-        return result;
+    public static double arctan(double a) {
+        return Math.atan(a);
+    }
+
+    public static double exp(double a) {
+        return Math.exp(a);
     }
 
     public boolean instantiate(Map<String, Object> pluginargs) {
         return true;
-    }
-
-    public int random(int range) {
-        return random.nextInt(range);
-    }
-
-    public void randomize() {
-        random = new Random(System.currentTimeMillis());
     }
 }
