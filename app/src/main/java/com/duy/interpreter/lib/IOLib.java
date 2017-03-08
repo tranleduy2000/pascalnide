@@ -141,6 +141,66 @@ public class IOLib implements PascalLibrary {
         }
     }
 
+    /**
+     * readln procedure
+     */
+    public void readlnn(VariableBoxer... variableBoxers) throws RuntimePascalException, NumberFormatException {
+        if (activity == null) {
+            throw new RuntimeException("Can not define ExecuteActivity");
+        }
+        VariableBoxer s = null;
+        if (s == null) return;
+        System.out.println("readln: " + s.get().getClass());
+        String inp = "";
+        if (s.get() instanceof StringBuilder) {
+            //read string
+            activity.startInput();
+            while (activity.isInputting()) {
+                sleep();
+            }
+            inp = activity.getInput();
+            s.set(new StringBuilder(inp));
+        } else if (s.get() instanceof Double) {
+            //read real
+            inp = inp.replaceAll("\\s+", "");
+            while (inp.trim().isEmpty()) {
+                activity.startInput();
+                while (activity.isInputting()) {
+                    sleep();
+                }
+                inp = activity.getInput();
+            }
+            s.set(Double.parseDouble(inp));
+        } else if (s.get() instanceof Integer) {
+            while (inp.trim().isEmpty()) {
+                activity.startInput();
+                while (activity.isInputting()) {
+                    sleep();
+                }
+                inp = activity.getInput();
+            }
+            s.set(Integer.parseInt(inp));
+        } else if (s.get() instanceof Long) {
+            while (inp.trim().isEmpty()) {
+                activity.startInput();
+                while (activity.isInputting()) {
+                    sleep();
+                }
+                inp = activity.getInput();
+            }
+            s.set(Long.parseLong(inp));
+        } else if (s.get() instanceof Character) {
+            while (inp.trim().length() < 1) {
+                activity.startInput();
+                while (activity.isInputting()) {
+                    sleep();
+                }
+                inp = activity.getInput();
+                s.set(inp.charAt(0));
+            }
+        }
+    }
+
     private void sleep() {
 //        try {
 //            Thread.sleep(10);

@@ -60,10 +60,13 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 			i.take();
 //			result_definition = new VariableDeclaration("result",
 // i.get_next_pascal_type(declarations), line);
+
+			//define variable result of function, the name of variable same as name function
 			result_definition = new VariableDeclaration(name,
 					i.get_next_pascal_type(declarations), line);
 			this.declarations.declareVariable(result_definition);
 		}
+
 		i.assert_next_semicolon();
 
 		instructions = null;
