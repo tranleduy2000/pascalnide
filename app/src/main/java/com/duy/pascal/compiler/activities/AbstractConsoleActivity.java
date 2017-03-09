@@ -23,7 +23,7 @@ public class AbstractConsoleActivity extends AbstractAppCompatActivity {
     @BindView(R.id.console)
     public ConsoleView mConsoleView;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -238,7 +238,7 @@ public class FileManager {
 
             String line;
             while ((line = in.readLine()) != null) {
-                res += line;
+                res += line + "\n";
             }
             in.close();
         } catch (IOException e) {

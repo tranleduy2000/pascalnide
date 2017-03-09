@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditorActivity extends AbstractAppCompatActivity
+public class EditorActivity extends BaseEditorActivity
         implements SymbolListView.OnKeyListener, FileAdapter.FileListener, DrawerLayout.DrawerListener,
         MenuEditor.EditorControl {
     private static final String TAG = EditorActivity.class.getSimpleName();
@@ -142,6 +142,19 @@ public class EditorActivity extends AbstractAppCompatActivity
         });
         initContent();
         undoRedoSupport();
+
+        loadFile();
+    }
+
+    /**
+     * load lasted file
+     */
+    private void loadFile() {
+        mFileName = mPreferences.getString(Preferences.LAST_FILE);
+        if (mFileName.isEmpty()) {
+            mFileName = "new_file.pas";
+        }
+        loadFile(mFileName);
     }
 
     private void undoRedoSupport() {
@@ -381,7 +394,6 @@ public class EditorActivity extends AbstractAppCompatActivity
         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         String raw = getCode();
 
-
         //calc line
         int currentLine = 0, index = 0;
         for (char c : raw.toCharArray()) {
@@ -407,7 +419,6 @@ public class EditorActivity extends AbstractAppCompatActivity
         mHighlightEditor.refresh();
         Log.d(TAG, "showLineError: " + (row + 1) + " - " + col);
     }
-
 
     public String getCode() {
         String code = mHighlightEditor.getText().toString();
@@ -479,15 +490,16 @@ public class EditorActivity extends AbstractAppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = getIntent();
+        mHighlightEditor.updateFromSettings(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
             mFileName = intent.getStringExtra(CompileManager.FILE_PATH);
-        } else {
-            mFileName = mPreferences.getString(Preferences.LAST_FILE);
+            loadFile(mFileName);
         }
-        if (mFileName.isEmpty()) mFileName = "new_file.pas";
-        loadFile(mFileName);
-        mHighlightEditor.updateFromSettings(this);
     }
 
     @Override
@@ -743,6 +755,7 @@ public class EditorActivity extends AbstractAppCompatActivity
                             mFilesView.reload();
                             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                             sharedPreferences.edit().putString(Preferences.LAST_FILE, file.getName()).apply();
+                            loadFile(mFileName);
                         } else {
                             Toast.makeText(this, R.string.can_not_new_file, Toast.LENGTH_SHORT).show();
                         }

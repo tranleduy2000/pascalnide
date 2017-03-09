@@ -8,9 +8,9 @@ var
 begin
     Str(w,s);
     if w < 10 then
-        result := '0' + s
+        print := '0' + s
     else
-        result := s;
+        print := s;
 end;
 
 begin

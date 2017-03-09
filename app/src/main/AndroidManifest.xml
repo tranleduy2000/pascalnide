@@ -14,13 +14,12 @@
         <activity
             android:name=".activities.EditorActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.ActivitySplashScreen"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:label="@string/app_name"
-           >
+            android:label="@string/app_name">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -57,7 +56,9 @@
         <activity
             android:name=".activities.ExecuteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:icon="@drawable/ic_code_white_24dp" />
+            android:icon="@drawable/ic_code_white_24dp"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateVisible|stateAlwaysVisible" />
         <activity
             android:name=".activities.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
@@ -70,8 +71,7 @@
             android:name=".activities.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_code_white_24dp"
-            android:label="@string/title_activity_code_sample">
-        </activity>
+            android:label="@string/title_activity_code_sample" />
     </application>
 
 </manifest>

@@ -104,7 +104,7 @@ public class AutoIndentCode {
             needTab = true;
             lastToken = t;
         } else if (t instanceof OfToken) {
-            if (lastToken.getClass().getSimpleName().equalsIgnoreCase("WordToken")) {
+            if (lastToken instanceof WordToken) {
                 result += t.toString() + "\n";
                 numberTab++;
                 needTab = true;

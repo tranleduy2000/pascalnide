@@ -338,9 +338,9 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 //        }
 //    }
 
-    public void selectAll() {
-        Selection.selectAll(getText());
-    }
+//    public void selectAll() {
+//        Selection.selectAll(getText());
+//    }
 
     public void extendSelection(int index) {
         Selection.extendSelection(getText(), index);
@@ -759,6 +759,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     }
 
     public interface OnTextChangedListener {
-        public void onTextChanged(String text);
+        void onTextChanged(String text);
     }
 }

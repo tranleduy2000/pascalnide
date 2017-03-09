@@ -2,12 +2,12 @@ Program crt_text_color;
 begin
   WriteLn('This is written in the default color');
   delay(1000);
-  TextColor(4);
+    TextColor(red);
   WriteLn('This is written in Red');
   delay(1000);
-  TextColor(15);
+    TextColor(white);
   WriteLn('This is written in White');
   delay(1000);
-  TextColor(9);
+    TextColor(lightBlue);
   WriteLn('This is written in Light Blue');
 end.

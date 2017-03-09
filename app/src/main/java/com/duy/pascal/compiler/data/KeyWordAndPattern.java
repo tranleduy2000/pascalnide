@@ -51,13 +51,14 @@ public class KeyWordAndPattern {
             "\\b(\\d*[.]?\\d+)\\b");
     public static final Pattern keywords = Pattern.compile(
             "\\b(const|do|for|while|if|else|in|case|" +
-                    "and|array|begin|break|case|div|" +
-                    "downto|function|to|mod|nil|not|of|or|" +
-                    "procedure|program|record|repeat|until|shl|shr|string|" +
+                    "and|array|begin|case|div|" +
+                    "downto|function|to|mod|not|of|or|" +
+                    "procedure|program|repeat|until|shl|shr|string|" +
                     "then|type|var|while|end|" +
-                    "result|function|var|case|array|shl|shr|" +
-                    "sin|cos|sqrt|abs|floor|ceil|length|new|random|round|" +
-                    "exp|tan|true|false|boolean)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+                    "function|var|case|array|shl|shr|" +
+                    "true|false|boolean)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    public static final Pattern functions = Pattern.compile("\\b(sin|cos|sqrt|abs|floor|ceil|length|new|random|round|" +
+            "exp|tan)\\b");
     public static final Pattern comments = Pattern.compile("(//.*)|(/\\*(?:.|[\\n\\r])*?\\*/)" +
             "|(\\{(?:.|[\\n\\r])*?\\})");
     public static final Pattern symbols = Pattern.compile("[\\+\\-\\*\\=\\<\\>\\/\\:\\)\\(\\]\\[]");

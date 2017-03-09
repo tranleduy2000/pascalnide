@@ -86,7 +86,6 @@ public class CodeSampleActivity extends AppCompatActivity implements CodeViewAda
         //this code is verified, do not need compile
         intent.putExtra(CompileManager.FILE_PATH, file);
         startActivity(intent);
-
     }
 
 

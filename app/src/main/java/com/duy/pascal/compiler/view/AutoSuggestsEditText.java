@@ -5,7 +5,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -25,7 +24,6 @@ public class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMul
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> list = new ArrayList<>();
     private Context context;
-    private int charAscent;
 
     public AutoSuggestsEditText(Context context) {
         super(context);
@@ -47,12 +45,12 @@ public class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMul
      * slipt string in edittext and put it to list keyword
      */
     public void invalidateKeyWord(String source) {
-        Log.d(TAG, "invalidateKeyWord: " + source);
+//        Log.d(TAG, "invalidateKeyWord: " + source);
         list.clear();
         Collections.addAll(list, KeyWordAndPattern.LIST_KEY_WORD);
         String[] words = source.split("[^a-zA-Z']+");
         Collections.addAll(list, words);
-        Log.d(TAG, "invalidateKeyWord: " + list.toString());
+//        Log.d(TAG, "invalidateKeyWord: " + list.toString());
         mAdapter = new ArrayAdapter<>(context, R.layout.code_hint, R.id.txt_title, list);
         setAdapter(mAdapter);
     }
@@ -72,7 +70,6 @@ public class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMul
             setTokenizer(new CodeTokenizer());
             setThreshold(1);
             mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
-            charAscent = (int) Math.ceil(getPaint().ascent());
         }
     }
 
