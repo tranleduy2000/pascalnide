@@ -320,13 +320,23 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         super.setText(text, BufferType.EDITABLE);
     }
 
-    public void setSelection(int start, int stop) {
-        Selection.setSelection(getText(), start, stop);
-    }
+//    public void setSelection(int start, int stop) {
+//        try {
+//            Selection.setSelection(getText(), start, stop);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // TODO: 09-Mar-17 fix selection
+//        }
+//    }
 
-    public void setSelection(int index) {
-        Selection.setSelection(getText(), index);
-    }
+//    public void setSelection(int index) {
+//        try {
+//            Selection.setSelection(getText(), index);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // TODO: 09-Mar-17 fix selection
+//        }
+//    }
 
     public void selectAll() {
         Selection.selectAll(getText());

@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -199,7 +200,7 @@ public class FileManager {
             if (text.length() > 0) myOutWriter.write(text);
             myOutWriter.close();
             out.close();
-            Log.d(TAG, "saveInMode: " + filePath  + " " + text);
+            Log.d(TAG, "saveInMode: " + filePath + " " + text);
             return true;
         } catch (Exception ignored) {
             Log.d(TAG, "saveInMode:  failed " + name);
@@ -208,24 +209,19 @@ public class FileManager {
     }
 
     public String loadInMode(File file) {
-        int c, i = 0;
-        String txt = "";
-
+        String res = "";
         try {
-            FileInputStream in = new FileInputStream(file);
-            c = in.read();
-            while (c != -1) {
-                txt = txt + (char) c;
-                c = in.read();
-                i++;
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
+
+            String line;
+            while ((line = in.readLine()) != null) {
+                res += line;
             }
             in.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return txt;
+        return res;
     }
 
     /**
@@ -235,22 +231,20 @@ public class FileManager {
      * @return - string
      */
     public String loadInMode(String filename) {
-        int c;
-        String txt = "";
-        filename = getCurrentPath() + filename;
+        String res = "";
         try {
-            FileInputStream in = new FileInputStream(new File(filename));
-            c = in.read();
-            while (c != -1) {
-                txt = txt + (char) c;
-                c = in.read();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    new FileInputStream(new File(getCurrentPath() + filename)), "UTF8"));
+
+            String line;
+            while ((line = in.readLine()) != null) {
+                res += line;
             }
             in.close();
-            Log.d(TAG, "loadInMode: " + txt);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return txt;
+        return res;
     }
 
     /**

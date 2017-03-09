@@ -520,16 +520,22 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         imm.showSoftInput(this, 0);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////           THIS METHOD USES BY PASCAL LIB         //////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    //pascal
     public void setTextColor(int textColor) {
         Log.d(TAG, "setTextColor: ");
         this.foreColor = textColor;
         invalidate();
+
     }
 
+    //pascal
     public void setConsoleColor(int color) {
         this.backgroundColor = color;
         mBackgroundPaint.setColor(color);
-        invalidate();
+       invalidate();
     }
 
     /**
@@ -552,6 +558,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         else if (y > maxLines) y = maxLines;
         setCursor(x - 1, y - 1);
         makeCursorVisible();
+
+        postInvalidate();
     }
 
     /**
@@ -572,20 +580,24 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return yCursorConsole + 1;
     }
 
+    //pascal
     public int getColorPixel(int x, int y) {
         Bitmap bitmap = getDrawingCache();
         return bitmap.getPixel(x, y);
     }
 
+    //pascal
     public void addGraphObject(GraphObject graphObject) {
         graphObject.setPaintColor(foregroundGraphColor);
         graphObjects.add(graphObject);
     }
 
+    //pascal
     public int getXCursorPixel() {
         return leftVisible + xCursorConsole * CharWidth;
     }
 
+    //pascal
     public int getYCursorPixel() {
         return topVisible + (yCursorConsole - firstLine) * CharHeight;
     }
@@ -608,11 +620,13 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         this.foregroundGraphColor = currentColor;
     }
 
+    //pascal
     public void closeGraph() {
         graphObjects.clear();
         invalidate();
     }
 
+    //pascal
     public void clearGraph() {
         graphObjects.clear();
         cursorGraph.set(0, 0);
@@ -620,6 +634,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     }
 
+    //pascal
     public void setPointGraph(int x, int y) {
         cursorGraph.set(x, y);
     }

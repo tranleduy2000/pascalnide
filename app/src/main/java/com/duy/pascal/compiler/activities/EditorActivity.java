@@ -674,7 +674,9 @@ public class EditorActivity extends AbstractAppCompatActivity
                 assert editTitle != null;
                 i.putExtra(Intent.EXTRA_SUBJECT, "Report bug: " + editTitle.getText().toString());
                 assert editContent != null;
-                i.putExtra(Intent.EXTRA_TEXT, "Cause: \n" + editContent.getText().toString());
+                String content = "Cause: \n" + editContent.getText().toString();
+                content += "\n ====================== \n" + mHighlightEditor.getCleanText();
+                i.putExtra(Intent.EXTRA_TEXT, content);
                 try {
                     startActivity(Intent.createChooser(i, "Send mail..."));
                 } catch (ActivityNotFoundException ex) {

@@ -216,7 +216,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
      * @param textColor
      */
     public void setTextColor(final int textColor) {
-        handler.post(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mConsoleView.setTextColor(textColor);
@@ -230,7 +230,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
      * @param color
      */
     public void setTextBackground(final int color) {
-        handler.post(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mConsoleView.setConsoleColor(color);
@@ -273,7 +273,6 @@ public class ExecuteActivity extends AbstractConsoleActivity {
             return stringBuilder.toString();
         }
     }
-
 
 }
 
