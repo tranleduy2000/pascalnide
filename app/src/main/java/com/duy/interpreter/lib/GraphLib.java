@@ -36,7 +36,7 @@ public class GraphLib implements PascalLibrary {
      * hese angles are measured counterclockwise.
      */
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
-        activity.mConsoleView.arc(x, y, stAngle, endAngle, radius);
+        activity.getConsoleView().arc(x, y, stAngle, endAngle, radius);
     }
 
     /**
@@ -44,7 +44,7 @@ public class GraphLib implements PascalLibrary {
      * it with the current color and fill-style.
      */
     public void bar(int x1, int y1, int x2, int y2) {
-        activity.mConsoleView.addGraphObject(new BarObject(x1, y1, x2, y2));
+        activity.getConsoleView().addGraphObject(new BarObject(x1, y1, x2, y2));
     }
 
     /**
@@ -53,7 +53,7 @@ public class GraphLib implements PascalLibrary {
      * @return
      */
     public int getMaxX() {
-        return activity.mConsoleView.getWidth();
+        return activity.getConsoleView().getWidth();
     }
 
     /**
@@ -62,7 +62,7 @@ public class GraphLib implements PascalLibrary {
      * @return
      */
     public int getMaxY() {
-        return activity.mConsoleView.getHeight();
+        return activity.getConsoleView().getHeight();
     }
 
     /**
@@ -81,7 +81,7 @@ public class GraphLib implements PascalLibrary {
      * Draw a rectangle on the screen
      */
     public void rectangle(int x1, int y1, int x2, int y2) {
-        activity.mConsoleView.addGraphObject(new RectangleObject(x1, y1, x2, y2));
+        activity.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
     }
 
     /**
@@ -90,25 +90,25 @@ public class GraphLib implements PascalLibrary {
      * @return color in pixel x, y of {@link com.duy.pascal.compiler.view.ConsoleView}
      */
     public int getPixel(int x, int y) {
-        return activity.mConsoleView.getColorPixel(x, y);
+        return activity.getConsoleView().getColorPixel(x, y);
     }
 
     public void line(int x1, int y1, int x2, int y2) {
-        activity.mConsoleView.addGraphObject(new LineObject(x1, y1, x2, y2));
+        activity.getConsoleView().addGraphObject(new LineObject(x1, y1, x2, y2));
     }
 
     /**
      * GetY returns the Y-coordinate of the current position of the graphical pointer
      */
     public int getY() {
-        return activity.mConsoleView.getYCursorPixel();
+        return activity.getConsoleView().getYCursorPixel();
     }
 
     /**
      * GetY returns the Y-coordinate of the current position of the graphical pointer
      */
     public int getX() {
-        return activity.mConsoleView.getXCursorPixel();
+        return activity.getConsoleView().getXCursorPixel();
     }
 
     /**
@@ -126,7 +126,7 @@ public class GraphLib implements PascalLibrary {
      * GetColor returns the current drawing color (the palette entry).
      */
     public int getColor() {
-        return activity.mConsoleView.getForegroundGraphColor();
+        return activity.getConsoleView().getForegroundGraphColor();
     }
 
     /**
@@ -148,7 +148,7 @@ public class GraphLib implements PascalLibrary {
      * @param color
      */
     public void setColor(int color) {
-        activity.mConsoleView.setForegroundGraphColor(color);
+        activity.getConsoleView().setForegroundGraphColor(color);
     }
 
     /**
@@ -166,7 +166,7 @@ public class GraphLib implements PascalLibrary {
      * Closes the graphical system, and restores the screen modus which was active before the graphical modus was activated.
      */
     public void closeGraph() {
-        activity.mConsoleView.closeGraph();
+        activity.getConsoleView().closeGraph();
     }
 
     /**
@@ -206,7 +206,7 @@ public class GraphLib implements PascalLibrary {
      * Clears the graphical screen (with the current background color), and sets the pointer at (0,0).
      */
     public void clearDevice() {
-        activity.mConsoleView.clearGraph();
+        activity.getConsoleView().clearGraph();
     }
 
     /**
@@ -230,7 +230,7 @@ public class GraphLib implements PascalLibrary {
      * @param y
      */
     public void moveTo(int x, int y) {
-        activity.mConsoleView.setPointGraph(x, y);
+        activity.getConsoleView().setPointGraph(x, y);
     }
 
 
@@ -252,9 +252,9 @@ public class GraphLib implements PascalLibrary {
      * LineTo draws a line starting from the current pointer position to the point(DX,DY), relative to the current position, in the current line style and color. The Current position is set to the end of the line.
      */
     public void lineTo(int x, int y) {
-        Point point = activity.mConsoleView.getCursorGraph();
-        activity.mConsoleView.addGraphObject(new LineObject(point.x, point.y, x, y));
-        activity.mConsoleView.setCursorGraph(new Point(x, y));
+        Point point = activity.getConsoleView().getCursorGraph();
+        activity.getConsoleView().addGraphObject(new LineObject(point.x, point.y, x, y));
+        activity.getConsoleView().setCursorGraph(new Point(x, y));
     }
 
     /**
@@ -275,8 +275,8 @@ public class GraphLib implements PascalLibrary {
      * MoveRel moves the pointer to the point (DX,DY), relative to the current pointer position
      */
     public void moveRel(int dx, int dy) {
-        Point point = activity.mConsoleView.getCursorGraph();
-        activity.mConsoleView.setCursorGraph(new Point(point.x + dx, point.y + dy));
+        Point point = activity.getConsoleView().getCursorGraph();
+        activity.getConsoleView().setCursorGraph(new Point(point.x + dx, point.y + dy));
     }
 
     // TODO: 02-Mar-17  empty method

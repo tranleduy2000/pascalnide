@@ -15,6 +15,7 @@ import com.duy.pascal.compiler.BuildConfig;
 import com.duy.pascal.compiler.CodeManager;
 import com.duy.pascal.compiler.CompileManager;
 import com.duy.pascal.compiler.data.FileManager;
+import com.duy.pascal.compiler.view.ConsoleView;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -118,6 +119,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
         }
     };
     private Thread runThread = new Thread(runnableRunProgram);
+    private ConsoleView consoleView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -258,6 +260,10 @@ public class ExecuteActivity extends AbstractConsoleActivity {
 
     public String getInput() {
         return input;
+    }
+
+    public ConsoleView getConsoleView() {
+        return mConsoleView;
     }
 
     public class InputData {
