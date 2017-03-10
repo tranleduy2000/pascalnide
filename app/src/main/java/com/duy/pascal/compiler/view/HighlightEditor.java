@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Layout;
@@ -36,6 +37,9 @@ import com.duy.pascal.compiler.editor.EditorListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.CRC32;
+
+import icepick.Icepick;
+import icepick.State;
 
 import static android.graphics.Typeface.BOLD;
 import static com.duy.pascal.compiler.data.KeyWordAndPattern.comments;
@@ -70,6 +74,8 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     protected int mHighlightedLine;
     protected int mHighlightStart;
     protected Rect mDrawingRect, mLineBounds;
+    @State
+    int selectionPosition;
     private Context mContext;
     private CRC32 mCRC32;
     private boolean modified = true;
@@ -315,11 +321,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         return super.getText();
     }
 
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        super.setText(text, BufferType.EDITABLE);
-    }
-
 //    public void setSelection(int start, int stop) {
 //        try {
 //            Selection.setSelection(getText(), start, stop);
@@ -341,6 +342,11 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 //    public void selectAll() {
 //        Selection.selectAll(getText());
 //    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, BufferType.EDITABLE);
+    }
 
     public void extendSelection(int index) {
         Selection.extendSelection(getText(), index);
@@ -758,7 +764,18 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 //        Log.d(TAG, "onMove: " + l + " " + t);
     }
 
+    @Override
+    public Parcelable onSaveInstanceState() {
+        return Icepick.saveInstanceState(this, super.onSaveInstanceState());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state));
+    }
+
     public interface OnTextChangedListener {
         void onTextChanged(String text);
     }
+
 }

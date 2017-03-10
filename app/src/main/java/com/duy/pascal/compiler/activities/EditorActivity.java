@@ -12,10 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -40,20 +38,14 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.FileManager;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.utils.ClipboardManager;
-import com.duy.pascal.compiler.view.FileListView;
-import com.duy.pascal.compiler.view.HighlightEditor;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
 import com.js.interpreter.core.ScriptSource;
-import com.kobakei.ratethisapp.RateThisApp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class EditorActivity extends BaseEditorActivity
         implements SymbolListView.OnKeyListener, FileAdapter.FileListener, DrawerLayout.DrawerListener,
@@ -61,26 +53,7 @@ public class EditorActivity extends BaseEditorActivity
     private static final String TAG = EditorActivity.class.getSimpleName();
     private static final int FILE_SELECT_CODE = 1012;
     private static final int REQ_COMPILE = 1011;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
-    @BindView(R.id.recycler_view)
-    SymbolListView mKeyList;
-    @BindView(R.id.file_list)
-    FileListView mFilesView;
-    @BindView(R.id.scroll)
-    LockableScrollView mScrollView;
-    @BindView(R.id.edit_editor)
-    HighlightEditor mHighlightEditor;
-    @BindView(R.id.navigation_view)
-    NavigationView navigationView;
-    private String mFileName = "new_file.pas";
-    private boolean zoomPinch = false;
-    private float minimumTextSize;
-    private float maximumTextSize;
-    private float textSize;
-    private float zoomPinchFactor;
+
     private CompileManager mCompileManager;
     private FileManager fileManager;
     private Handler handler = new Handler();
@@ -93,43 +66,14 @@ public class EditorActivity extends BaseEditorActivity
         return (float) Math.sqrt(xx * xx + yy * yy);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Monitor launch times and interval from installation
-        RateThisApp.onStart(this);
-        // If the criteria is satisfied, "Rate this app" dialog will be shown
-        RateThisApp.showRateDialogIfNeeded(this);
-        RateThisApp.setCallback(new RateThisApp.Callback() {
-            @Override
-            public void onYesClicked() {
-                rateApp();
-            }
 
-            @Override
-            public void onNoClicked() {
-            }
-
-            @Override
-            public void onCancelClicked() {
-            }
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCompileManager = new CompileManager(this);
         fileManager = new FileManager(this);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        setTitle(R.string.app_name);
-
         mDrawerLayout.addDrawerListener(this);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
         mKeyList.setListener(this);
         mFilesView.setListener(this);
         menuEditor = new MenuEditor(this, this);
@@ -142,7 +86,6 @@ public class EditorActivity extends BaseEditorActivity
         });
         initContent();
         undoRedoSupport();
-
         loadFile();
     }
 
@@ -168,82 +111,9 @@ public class EditorActivity extends BaseEditorActivity
                 mHighlightEditor.onMove(x, y);
             }
         });
-        float density = getResources().getDisplayMetrics().scaledDensity;
-        textSize = mHighlightEditor.getTextSize() / density;
-        minimumTextSize = 9f;
-        maximumTextSize = 44f;
-        //Enable Touch Zoom
-//        setZoomable(true);
     }
 
-    /**
-     * set zoom ennale or disable editor view
-     *
-     * @param zoomable - true if enable zoom, otherwise false
-     */
-    public void setZoomable(boolean zoomable) {
-        if (zoomable) {
-            mScrollView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent ev) {
-                    return pinchZoom(ev);
-                }
-            });
-        } else {
-            mScrollView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent ev) {
-                    return false;
-                }
-            });
-        }
-    }
 
-    /**
-     * set text size editor
-     */
-    private void setTextSize() {
-        if (textSize < minimumTextSize)
-            textSize = minimumTextSize;
-        else if (textSize > maximumTextSize)
-            textSize = maximumTextSize;
-        mHighlightEditor.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, textSize);
-    }
-
-    private boolean pinchZoom(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-                mHighlightEditor.setOnLongClickListener(null);
-                mScrollView.setScrollingEnabled(true);
-                zoomPinch = false;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (ev.getPointerCount() == 2) {
-                    float d = getDistanceBetweenTouches(ev);
-                    if (!zoomPinch) {
-                        mHighlightEditor.setOnLongClickListener(
-                                new View.OnLongClickListener() {
-                                    @Override
-                                    public boolean onLongClick(View v) {
-                                        return true;
-                                    }
-                                });
-                        mScrollView.setScrollingEnabled(false);
-                        zoomPinchFactor = textSize / d;
-                        zoomPinch = true;
-                        break;
-                    }
-                    textSize = zoomPinchFactor * d;
-                    setTextSize();
-                }
-                break;
-            case MotionEvent.ACTION_DOWN:
-                zoomPinch = true;
-                break;
-        }
-        return zoomPinch;
-    }
 
     @Override
     public void onKeyClick(String text) {
@@ -505,12 +375,6 @@ public class EditorActivity extends BaseEditorActivity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         super.onSharedPreferenceChanged(sharedPreferences, s);
-//        if (s.equalsIgnoreCase(getString(R.string.key_pref_font_size))
-//                || s.equalsIgnoreCase(getString(R.string.key_pref_font)) ||
-//                s.equalsIgnoreCase(getString(R.string.key_pref_show_line_number))
-//                || s.equalsIgnoreCase(getString(R.string.key_pref_word_wrap))) {
-//            mHighlightEditor.updateFromSettings(this);
-//        }
     }
 
     /**
@@ -528,7 +392,6 @@ public class EditorActivity extends BaseEditorActivity
     public void onFileClick(File file) {
         //save current file
         fileManager.saveInMode(mFileName, getCode());
-
         //open new file
         loadFile(file.getName());
         //close drawer

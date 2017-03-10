@@ -112,3 +112,11 @@
 -keep class javax.** { *; }
 -dontwarn javax.annotation**
 -dontwarn com.google.common.collect.**
+
+-dontwarn icepick.**
+-keep class icepick.** { *; }
+-keep class **$$Icepick { *; }
+-keepclasseswithmembernames class * {
+    @icepick.* <fields>;
+}
+-keepnames class * { @icepick.State *;}
