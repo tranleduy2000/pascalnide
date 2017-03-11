@@ -359,7 +359,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     }
 
     public void setTextHighlighted(CharSequence text) {
-        Log.d(TAG, "setTextHighlighted: " + text);
+//        Log.d(TAG, "setTextHighlighted: " + text);
         cancelUpdate();
         errorLine = 0;
         dirty = false;

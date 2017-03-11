@@ -11,7 +11,6 @@ import com.duy.interpreter.lib.GraphLib;
 import com.duy.interpreter.lib.IOLib;
 import com.duy.interpreter.lib.MathLib;
 import com.duy.interpreter.lib.MiscLib;
-import com.duy.interpreter.lib.ScriptControlLib;
 import com.duy.interpreter.lib.SetArrayLengthLib;
 import com.duy.interpreter.lib.SetLengthLib;
 import com.duy.interpreter.lib.StringLib;
@@ -149,7 +148,6 @@ public class PascalCompiler {
         classes.add(ConversionLib.class);
         classes.add(MathLib.class);
         classes.add(MiscLib.class);
-        classes.add(ScriptControlLib.class);
         classes.add(StringLib.class);
         classes.add(SetArrayLengthLib.class);
         classes.add(SetLengthLib.class);

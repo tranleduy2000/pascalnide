@@ -111,7 +111,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public void inputChar(char c) {
-        Log.d(TAG, "inputChar: " + c);
+//        Log.d(TAG, "inputChar: " + c);
         inputBuffer.putByte((byte) c);
     }
 
@@ -120,6 +120,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean keyPressed() {
+        System.out.println(inputBuffer.getRear() + " " + inputBuffer.getFront());
         return inputBuffer.getRear() > inputBuffer.getFront();
     }
 

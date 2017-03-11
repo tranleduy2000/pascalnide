@@ -5,6 +5,11 @@ import com.duy.pascal.compiler.activities.ExecuteActivity;
 import java.util.Map;
 
 /**
+ * System lib
+ * <p>
+ * - key event
+ * - key read
+ * <p>
  * Created by Duy on 07-Mar-17.
  */
 
@@ -26,7 +31,23 @@ public class SystemLib implements PascalLibrary {
 
     public boolean keyPressed() {
         System.out.println("Key pressed method");
-        if (activity != null) activity.getConsoleView().keyPressed();
+        if (activity != null) {
+            return activity.getConsoleView().keyPressed();
+        }
         return false;
+    }
+
+    /**
+     * delay procedure
+     *
+     * @param ms - time
+     */
+    public void delay(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+//            System.err.println("??? Interrupted.");
+            e.printStackTrace();
+        }
     }
 }

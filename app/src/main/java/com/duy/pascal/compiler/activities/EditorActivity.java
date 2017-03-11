@@ -23,12 +23,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.duy.interpreter.core.PascalCompiler;
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.interpreter.core.PascalCompiler;
 import com.duy.pascal.compiler.CodeManager;
 import com.duy.pascal.compiler.CompileManager;
 import com.duy.pascal.compiler.ExceptionManager;
@@ -167,7 +168,7 @@ public class EditorActivity extends BaseEditorActivity
                 alertDialog.dismiss();
             }
         });
-        alertDialog.findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
+        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
@@ -212,7 +213,7 @@ public class EditorActivity extends BaseEditorActivity
                 alertDialog.dismiss();
             }
         });
-        alertDialog.findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
+        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
@@ -468,38 +469,56 @@ public class EditorActivity extends BaseEditorActivity
      * @param view
      */
     public void createNewSourceFile(View view) {
-        final AppCompatEditText edittext = new AppCompatEditText(this);
-        edittext.setPadding(10, 10, 10, 10);
-        edittext.setHint(R.string.enter_new_file_name);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.new_file_msg)
-                .setView(edittext)
-                .setIcon(R.drawable.ic_create_new_folder_white_24dp)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        saveFile();
-                        //get string path of in edit text
-                        String fileName = edittext.getText().toString();
-                        //create new file
-                        fileName = fileManager.createNewFileInMode(fileName);
-                        //save default code
-                        fileManager.saveInMode(fileName, CodeSample.MAIN);
-                        //load to view
-                        loadFile(fileName);
-                        mHighlightEditor.setSelection(CodeSample.DEFAULT_POSITION);
+        builder.setTitle(R.string.new_file);
+        builder.setView(R.layout.dialog_new_file);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        final EditText editText = (EditText) alertDialog.findViewById(R.id.edit_file_name);
+        Button btnOK = (Button) alertDialog.findViewById(R.id.btn_ok);
+        Button btnCancel = (Button) alertDialog.findViewById(R.id.btn_cancel);
+        assert btnCancel != null;
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+        assert btnOK != null;
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveFile();
+                //get string path of in edit text
+                String fileName = editText.getText().toString();
+                if (fileName.isEmpty()) {
+                    editText.setError(getString(R.string.enter_new_file_name));
+                    return;
+                }
+
+                RadioButton checkBoxPas = (RadioButton) alertDialog.findViewById(R.id.rad_pas);
+                RadioButton checkBoxInp = (RadioButton) alertDialog.findViewById(R.id.rad_inp);
+
+                if (checkBoxInp.isChecked()) fileName += ".inp";
+                else if (checkBoxPas.isChecked()) fileName += ".pas";
+
+                //create new file
+                fileName = fileManager.createNewFileInMode(fileName);
+                //load to view
+                loadFile(fileName);
+                if (checkBoxPas.isChecked()) {
+                    mHighlightEditor.setTextHighlighted(CodeSample.MAIN);
+                    mHighlightEditor.setSelection(CodeSample.DEFAULT_POSITION);
+                }
 //                        mUndoRedoSupport.clearAllQueues();
-                        mFilesView.reload();
-                        mDrawerLayout.closeDrawers();
-                        //close dialgo
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        builder.create().show();
+                mFilesView.reload();
+                mDrawerLayout.closeDrawers();
+                alertDialog.cancel();
+            }
+        });
+
     }
 
     @Override

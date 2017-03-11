@@ -1,16 +1,16 @@
 package com.duy.interpreter.pascaltypes;
 
+import com.duy.interpreter.exceptions.NonArrayIndexed;
+import com.duy.interpreter.exceptions.ParsingException;
+import com.duy.interpreter.pascaltypes.bytecode.RegisterAllocator;
+import com.duy.interpreter.pascaltypes.bytecode.TransformationInput;
+import com.duy.interpreter.pascaltypes.typeconversion.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.StringIndexAccess;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
 import com.js.interpreter.ast.returnsvalue.boxing.StringBoxer;
 import com.js.interpreter.ast.returnsvalue.cloning.StringBuilderCloner;
-import com.duy.interpreter.exceptions.NonArrayIndexed;
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.pascaltypes.bytecode.RegisterAllocator;
-import com.duy.interpreter.pascaltypes.bytecode.TransformationInput;
-import com.duy.interpreter.pascaltypes.typeconversion.TypeConverter;
 import com.ncsa.common.util.TypeUtils;
 
 import java.util.List;
@@ -167,7 +167,7 @@ public enum BasicType implements DeclaredType {
     Integer(Integer.class) {
         @Override
         Object getDefaultValue() {
-            return (int) 0;
+            return 0;
         }
 
         @Override
@@ -177,8 +177,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Integer.class, "valueOf", Integer.class,
-                    new Class[]{int.class});
+            c.invokestatic().setMethod(Integer.class, "valueOf", Integer.class, new Class[]{int.class});
         }
 
         @Override

@@ -74,4 +74,13 @@ public class SystemConstants {
         colorConst = new ConstantDefinition("Yellow".toLowerCase(), 14, new LineInfo(-1, " Yellow = 14".toLowerCase()));
         context.declareConst(colorConst);
     }
+
+    /**
+     * add some missing type
+     *
+     * @param context
+     */
+    public static void addSystemType(ExpressionContextMixin context) {
+        context.declareTypedef("text", BasicType.Integer);
+    }
 }

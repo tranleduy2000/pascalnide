@@ -99,6 +99,9 @@
     <string name="exit_mgs">Do you want to exit application?</string>
     <string name="setting_editor">Settting editor</string>
     <string name="cloud_database">Cloud database</string>
+    <string name="pas_file">Pas file</string>
+    <string name="inp_file">Inp file</string>
+    <string name="other">Other</string>
 
 
 </resources>

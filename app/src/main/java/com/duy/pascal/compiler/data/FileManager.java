@@ -273,7 +273,7 @@ public class FileManager {
      * @return - path of file
      */
     public String createNewFileInMode(String fileName) {
-        if (!fileName.endsWith(".pas")) fileName += ".pas";
+
         String name = getCurrentPath() + fileName;
         File file = new File(name);
         Log.i(TAG, "createNewFileInMode: " + name);

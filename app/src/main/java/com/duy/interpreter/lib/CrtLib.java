@@ -13,31 +13,7 @@ import java.util.Map;
 public class CrtLib implements PascalLibrary {
 
     public static final String TAG = CrtLib.class.getSimpleName();
-    ExecuteActivity activity;
-//    String doc = "\n" +
-//            "AssignCrt: " + "Assign file to CRT.\n" +
-//            "ClrEol\n" + "Clear from cursor position till end of line.\n" +
-//            "ClrScr\n" + "Clear current window.\n" + //ok
-//            "cursorbig\n" + "Show big cursor\n" +
-//            "cursoroff\n" + "Hide cursor\n" +
-//            "cursoron\n" + "Display cursor\n" +
-//            "Delay\n" + "Delay program execution.\n" + //ok
-//            "DelLine\n" + "Delete line at cursor position.\n" +
-//            "gotoXY\n" + "Set cursor position on screen.\n" + //ok
-//            "HighVideo\n" + "Switch to highlighted text mode\n" +
-//            "InsLine\n" + "Insert an empty line at cursor position\n" +
-//            "KeyPressed\n" + "Check if there is a keypress in the keybuffer\n" +
-//            "LowVideo\n" + "Switch to low intensity colors.\n" +
-//            "NormVideo\n" + "Return to normal (startup) modus\n" +
-//            "NoSound\n" + "Stop system speaker\n" +
-//            "ReadKey\n" + "Read key from keybuffer\n" +
-//            "Sound\n" + "Sound system speaker\n" +
-//            "TextBackground\n" + "Set text background\n" +
-//            "TextColor\n" + "Set text color\n" +
-//            "TextMode\n" + "Set screen mode.\n" +
-//            "whereX\n" + "Return X (horizontal) cursor position\n" +
-//            "whereY\n" + "Return Y (vertical) cursor position\n" +
-//            "Window\n" + "Create new window on screen.";
+    private ExecuteActivity activity;
 
     /**
      * constructor call by {@link ClassLoader} in {@link com.duy.interpreter.core.PascalCompiler}
@@ -50,19 +26,7 @@ public class CrtLib implements PascalLibrary {
     }
 
 
-    /**
-     * delay procedure
-     *
-     * @param ms - time
-     */
-    public void delay(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-//            System.err.println("??? Interrupted.");
-            e.printStackTrace();
-        }
-    }
+
 
     /**
      * goto x, y procedure
