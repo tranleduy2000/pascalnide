@@ -2,32 +2,26 @@ package com.duy.interpreter.lib.file_lib;
 
 import android.os.Environment;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class FileEntry {
-    private RandomAccessFile randomAccessFile;
     private String filePath = "";
+    private BufferedWriter mWriter;
+    private Scanner mReader;
 
-    public FileEntry(RandomAccessFile randomAccessFile, String filePath) {
-        this.randomAccessFile = randomAccessFile;
-        this.filePath = filePath;
-    }
 
     public FileEntry(String filePath) {
-        this.filePath = Environment.getExternalStorageDirectory().getPath()
-                + "/PascalCompiler/" + filePath;
+        this.filePath = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/" + filePath;
         System.out.println("File: " + this.filePath);
     }
 
-    public RandomAccessFile getRandomAccessFile() {
-        return randomAccessFile;
-    }
-
-    public void setRandomAccessFile(RandomAccessFile randomAccessFile) {
-        this.randomAccessFile = randomAccessFile;
-    }
 
     public String getFileName(String fileName) {
         return filePath;
@@ -38,58 +32,77 @@ public class FileEntry {
     }
 
     public void reset() throws IOException {
-        File f = new File(filePath);
-        randomAccessFile = new RandomAccessFile(f, "r");
+        mReader = new Scanner(new FileReader(filePath));
+        mReader.useLocale(Locale.ENGLISH);
     }
 
     public void rewrite() throws IOException {
         File f = new File(filePath);
-        randomAccessFile = new RandomAccessFile(f, "w");
+        if (!f.exists()) {
+            f.createNewFile();
+        }
+        RandomAccessFile randomAccessFile     = new RandomAccessFile(f, "rw");
+        randomAccessFile.setLength(0);
+        randomAccessFile.close();
+        mWriter = new BufferedWriter(new FileWriter(f));
     }
 
     public int readInt() throws IOException {
-        return randomAccessFile.readInt();
+//        int integer = randomAccessFile.readInt();
+        int integer = mReader.nextInt();
+        System.out.println("readln integer " + integer);
+        return integer;
     }
 
     public long readLong() throws IOException {
-        return randomAccessFile.readLong();
+        long l = mReader.nextLong();
+        System.out.println("readLong " + l);
+        return l;
     }
 
     public double readDouble() throws IOException {
-        return randomAccessFile.readDouble();
+        double d = mReader.nextDouble();
+        System.out.println(d);
+        return d;
     }
 
     public String readString() throws IOException {
-        return randomAccessFile.readLine();
+        String res = mReader.nextLine();
+        System.out.println(res);
+        return res;
     }
 
     public char readChar() throws IOException {
-        return randomAccessFile.readChar();
+        Character character = mReader.next().charAt(0);
+        return character;
     }
 
-    public void write(String object) throws IOException {
-        randomAccessFile.writeUTF(object);
+    public void write(Object[] objects) throws IOException {
+        for (Object o : objects) {
+            mWriter.write(o.toString());
+        }
     }
 
+    /**
+     * close file
+     *
+     * @throws IOException
+     */
     public void close() throws IOException {
-        randomAccessFile.close();
+        if (mReader != null) {
+            mReader.close();
+        }
+        if (mWriter != null) {
+            mWriter.close();
+        }
     }
 
 
     public boolean isEof() {
-        try {
-            return randomAccessFile.getFilePointer() >= randomAccessFile.length();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return mReader.hasNext();
     }
 
     public void nextLine() {
-        try {
-            randomAccessFile.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mReader.nextLine();
     }
 }

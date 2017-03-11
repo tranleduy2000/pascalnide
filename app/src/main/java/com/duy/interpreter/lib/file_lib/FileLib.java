@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
@@ -96,28 +95,31 @@ public class FileLib implements PascalLibrary {
      * @param out
      */
     public void readlnF(int fileID, VariableBoxer<Object> out) throws IOException, RuntimePascalException {
+        System.out.println("readlnF " + out.get().getClass().getSimpleName());
         checkFile(fileID);
         FileEntry f = filesMap.get(fileID);
+        Object value = null;
         if (out.get() instanceof Integer) {
-            Integer integer = f.readInt();
-            out.set(integer);
+            value = f.readInt();
+            out.set(value);
             f.nextLine();
         } else if (out.get() instanceof Long) {
-            long value = f.readLong();
+            value = f.readLong();
             out.set(value);
             f.nextLine();
         } else if (out.get() instanceof Double) {
-            double value = f.readDouble();
+            value = f.readDouble();
             f.nextLine();
             out.set(value);
         } else if (out.get() instanceof Character) {
-            char value = f.readChar();
+            value = f.readChar();
             f.nextLine();
             out.set(value);
-        } else if (out.get() instanceof String) {
-            String value = f.readString();
-            out.set(value);
+        } else if (out.get() instanceof StringBuilder) {
+            value = f.readString();
+            out.set(new StringBuilder((String) value));
         }
+        System.out.println("readlnF 2 " + value.toString());
     }
 
     /**
@@ -127,16 +129,10 @@ public class FileLib implements PascalLibrary {
      * @param objects
      * @return
      */
-    public boolean writeF(int fileID, Object... objects) {
-        RandomAccessFile f = filesMap.get(fileID).getRandomAccessFile();
-        try {
-            for (Object o : objects) {
-                f.writeUTF(o.toString());
-            }
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+    public void writeF(int fileID, Object... objects) throws IOException {
+        checkFile(fileID);
+        FileEntry f = filesMap.get(fileID);
+        f.write(objects);
     }
 
     /**
@@ -145,7 +141,7 @@ public class FileLib implements PascalLibrary {
      * @param fileID
      * @param objects
      */
-    public void writelnF(int fileID, Object... objects) {
+    public void writelnF(int fileID, Object... objects) throws IOException {
         writeF(fileID, objects);
         writeF(fileID, "\n");
     }
@@ -218,15 +214,6 @@ public class FileLib implements PascalLibrary {
         return null;
     }
 
-    public long getFileSize(int fileID) {
-        RandomAccessFile f = filesMap.get(fileID).getRandomAccessFile();
-        try {
-            return f.length();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
-    }
 
 
 }
