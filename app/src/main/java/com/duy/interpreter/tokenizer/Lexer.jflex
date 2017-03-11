@@ -31,16 +31,16 @@ import com.js.com.duy.interpreter.tokens.value.*;
 
 	private String tmpname;
 	private Reader tmpreader;
-	void addInclude(String name) throws FileNotFoundException {
+	void addInclude(String filePath) throws FileNotFoundException {
 		for (ScriptSource s : searchDirectories) {
-			Reader r = s.read(name);
+			Reader r = s.read(filePath);
 			if (r != null) {
 				this.tmpreader=r;
-				this.tmpname=name;
+				this.tmpname=filePath;
 				return;
 			}
 		}
-		throw new FileNotFoundException("Cannot find the $INCLUDE file " + name);
+		throw new FileNotFoundException("Cannot find the $INCLUDE file " + filePath);
 	}
 	
 	void commitInclude() {

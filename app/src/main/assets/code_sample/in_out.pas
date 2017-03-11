@@ -2,9 +2,9 @@ program test_io;
 var a: integer;
 	n: string;
 begin
-	write('enter your name: ');
+	write('enter your filePath: ');
 	readln(n);
-	write('your name is ', n);
+	write('your filePath is ', n);
 	
 	write('enter your age: ');
 	readln(a);
@@ -12,5 +12,5 @@ begin
 
 	writeln;
 	//print multi variable to console
-	writeln('name: ', n, ' age: ', a);
+	writeln('filePath: ', n, ' age: ', a);
 end.

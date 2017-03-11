@@ -41,7 +41,7 @@ import java.util.List;
 
 public class PascalCompiler {
     public static final String TAG = PascalCompiler.class.getSimpleName();
-    public static final boolean android = false;
+    public static final boolean android = true;
     public static final boolean DEBUG = true;
 
     public ExecuteActivity activity;

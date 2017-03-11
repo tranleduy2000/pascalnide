@@ -83,6 +83,20 @@ public class IOLib implements PascalLibrary {
         if (activity != null) activity.getConsoleView().emitString(result.toString());
     }
 
+//    public void readln(VariableBoxer<Object> s1, VariableBoxer<Object>  s2, VariableBoxer<Object>  var3) throws RuntimePascalException, NumberFormatException {
+//        if (activity == null) {
+//            throw new RuntimeException("Can not define ExecuteActivity");
+//        }
+//        System.out.println("readln: 3");
+//    }
+//
+//    public void readln(VariableBoxer<Object>  s1, VariableBoxer<Object>  s3) throws RuntimePascalException, NumberFormatException {
+//        if (activity == null) {
+//            throw new RuntimeException("Can not define ExecuteActivity");
+//        }
+//        System.out.println("readln: 2");
+//    }
+
     /**
      * readln procedure
      */
@@ -90,7 +104,7 @@ public class IOLib implements PascalLibrary {
         if (activity == null) {
             throw new RuntimeException("Can not define ExecuteActivity");
         }
-        System.out.println("readln: " + s.get().getClass());
+        System.out.println("readln: 1" + s.get().getClass());
         String inp = "";
         if (s.get() instanceof StringBuilder) {
             //read string
@@ -144,62 +158,17 @@ public class IOLib implements PascalLibrary {
     /**
      * readln procedure
      */
-    public void readlnn(Object o) throws RuntimePascalException, NumberFormatException {
-        System.out.println(o.getClass().getSimpleName());
+    public void readlnn(Object... values) throws RuntimePascalException, NumberFormatException {
+        System.out.println(values.getClass().getSimpleName());
+        for (Object value: values){
+            System.out.println(value.getClass().getSimpleName());
+
+            VariableBoxer variableBoxer = (VariableBoxer) value;
+        }
         if (activity == null) {
             throw new RuntimeException("Can not define ExecuteActivity");
         }
-        VariableBoxer s = null;
-        if (s == null) return;
-        System.out.println("readln: " + s.get().getClass());
-        String inp = "";
-        if (s.get() instanceof StringBuilder) {
-            //read string
-            activity.startInput();
-            while (activity.isInputting()) {
-                sleep();
-            }
-            inp = activity.getInput();
-            s.set(new StringBuilder(inp));
-        } else if (s.get() instanceof Double) {
-            //read real
-            inp = inp.replaceAll("\\s+", "");
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Double.parseDouble(inp));
-        } else if (s.get() instanceof Integer) {
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Integer.parseInt(inp));
-        } else if (s.get() instanceof Long) {
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Long.parseLong(inp));
-        } else if (s.get() instanceof Character) {
-            while (inp.trim().length() < 1) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-                s.set(inp.charAt(0));
-            }
-        }
+
     }
 
     private void sleep() {

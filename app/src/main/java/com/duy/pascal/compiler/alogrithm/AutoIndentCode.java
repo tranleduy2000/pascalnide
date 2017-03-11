@@ -44,8 +44,8 @@ import java.util.ArrayList;
  */
 public class AutoIndentCode {
 
-    static String result = "";
-    static Lexer lexer;
+    private static String result = "";
+    private static Lexer lexer;
     private static int numberTab = 0;
     private static boolean needTab = false;
     private static Token lastToken;
@@ -80,8 +80,6 @@ public class AutoIndentCode {
     }
 
     private static void processToken(Token t) throws IOException {
-
-        System.out.println(t.getClass().getSimpleName());
         if (t instanceof EOF_Token) {
             return;
         }
@@ -90,124 +88,47 @@ public class AutoIndentCode {
             processEnd(t);
             return;
         } else if (t instanceof UntilToken) {
-            processUntil(t);
+            completeUntil(t);
             return;
         }
 
         result += getStringTab(numberTab);
-
         //? array of
         //begin ... end; repeat ... until; case of ... end; record ... end;
         if (t instanceof BeginEndToken || t instanceof RecordToken) {
-            result += ((GrouperToken) t).toCode() + "\n";
-            numberTab++;
-            needTab = true;
-            lastToken = t;
+            processBeginToken(t);
         } else if (t instanceof OfToken) {
-            if (lastToken instanceof WordToken) {
-                result += t.toString() + "\n";
-                numberTab++;
-                needTab = true;
-            } else {
-                result += t.toString() + " ";
-            }
-            lastToken = t;
+            processOfToken(t);
         } else if (t instanceof OperatorToken) {
-            String opt = t.toString();
-            if ("+-*/".contains(opt)) {
-                result += t.toString();
-            } else {
-                result += t.toString() + " ";
-            }
-            lastToken = t;
+            processOptToken(t);
         } else if (t instanceof RepeatToken) {
-            result += t.toString() + "\n";
-            numberTab++;
-            needTab = true;
-            lastToken = t;
+            processRepeatToken(t);
         } else if (t instanceof TypeToken) {
-            result += "\n";
-            result += t.toString() + "\n";
-            lastToken = t;
+            processTypeToken(t);
         } else if (t instanceof ParenthesizedToken || t instanceof BracketedToken) {
             result += ((GrouperToken) t).toCode();
         } else if (t instanceof DoToken || t instanceof ThenToken || t instanceof CaseToken) {
-            if (t instanceof DoToken) result += ((DoToken) t).toCode() + " ";
-            if (t instanceof ThenToken) result += ((ThenToken) t).toCode() + " ";
-            if (t instanceof CaseToken) result += ((CaseToken) t).toCode() + " ";
-            lastToken = t;
-            Token t2 = lexer.yylex();
-            if (t2 instanceof BeginEndToken) {
-                needTab = true;
-                result += "\n";
-            }
-            processToken(t2);
+            processDoToken(t);
         } else if (t instanceof SemicolonToken || t instanceof PeriodToken) { //new line
-            if (result.length() > 0) {
-                if (result.charAt(result.length() - 1) == ' ') {
-                    result = result.substring(0, result.length() - 1);
-                }
-            }
-            result += t.toString() + "\n";
-            needTab = true;
-            lastToken = t;
+            processSemicolonToken(t);
         } //dont add white space, remove last space char
         else if (t instanceof ElseToken) {
-//            newLineAndNewLineAndTab(t);
-            result += t.toString() + " ";
-            lastToken = t;
+            processElseToken(t);
         } else if (t instanceof EndParenToken || t instanceof GrouperToken) {
-            if (result.length() > 1) {
-                if (result.charAt(result.length() - 1) == ' ') {
-                    result = result.substring(0, result.length() - 1);
-                }
-            }
-            if (t instanceof EndParenToken) {
-                result += ((EndParenToken) t).toCode() + " ";
-            } else {
-                result += ((GrouperToken) t).toCode() + " ";
-            }
-            lastToken = t;
+            processEndParentToken(t);
         } else if (t instanceof CommaToken) {
             result += t.toString() + " ";
         }//dont add white space
         else if (t instanceof ValueToken) {
-            Token t2 = lexer.yylex();
-            if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
-                    || t2 instanceof ClosingToken)) {
-                result += ((ValueToken) t).toCode() + " ";
-            } else result += ((ValueToken) t).toCode();
-            lastToken = t;
-            processToken(t2);
+            processValueToken(t);
         } else if (t instanceof DotDotToken) {
-            if (result.length() > 0) if (result.charAt(result.length() - 1) == ' ')
-                result = result.substring(0, result.length() - 1);
-
-            result += t.toString();
-            lastToken = t;
-        } else if (t instanceof PeriodToken) {
-            result += t.toString();
+            processDotToken(t);
         } else if (t instanceof WordToken) {
-            Token t2 = lexer.yylex();
-            if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
-                    || t2 instanceof ClosingToken
-                    || t2 instanceof DotDotToken || t2 instanceof PeriodToken
-                    || t2 instanceof ColonToken)) {
-                result += t.toString() + " ";
-            } else result += t.toString();
-            lastToken = t;
-            processToken(t2);
+            processWordToken(t);
         } else if (t instanceof ClosingToken) {
-            Token t2 = lexer.yylex();
-            if (t2 instanceof PeriodToken || t2 instanceof CommaToken
-                    || t2 instanceof ClosingToken) {
-                result += t.toString();
-            } else result += t.toString() + " ";
-            lastToken = t;
-            processToken(t2);
+            processClosingToken(t);
         } else if (t instanceof FunctionToken || t instanceof ProcedureToken) {
-            result += "\n";
-            result += t.toString() + " ";
+            processFunctionToken(t);
         }
         // TODO: 04-Mar-17 Uses, var, const every new line
         else if (t instanceof VarToken || t instanceof ConstToken || t instanceof UsesToken) {
@@ -219,7 +140,149 @@ public class AutoIndentCode {
 
     }
 
-    private static void processUntil(Token t) {
+    private static void processFunctionToken(Token t) {
+        result += "\n";
+        result += t.toString() + " ";
+    }
+
+    private static void processClosingToken(Token t) throws IOException {
+        Token t2 = lexer.yylex();
+        if (t2 instanceof PeriodToken || t2 instanceof CommaToken
+                || t2 instanceof ClosingToken) {
+            result += t.toString();
+        } else result += t.toString() + " ";
+        lastToken = t;
+        processToken(t2);
+    }
+
+    private static void processWordToken(Token t) throws IOException {
+
+        Token t2 = lexer.yylex();
+        if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
+                || t2 instanceof ClosingToken
+                || t2 instanceof DotDotToken || t2 instanceof PeriodToken
+                || t2 instanceof ColonToken)) {
+            result += t.toString() + " ";
+        } else result += t.toString();
+        lastToken = t;
+        processToken(t2);
+    }
+
+    private static void processDotToken(Token t) {
+
+        if (result.length() > 0) if (result.charAt(result.length() - 1) == ' ')
+            result = result.substring(0, result.length() - 1);
+
+        result += t.toString();
+        lastToken = t;
+    }
+
+    private static void processValueToken(Token t) throws IOException {
+        Token t2 = lexer.yylex();
+        if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
+                || t2 instanceof ClosingToken)) {
+            result += ((ValueToken) t).toCode() + " ";
+        } else result += ((ValueToken) t).toCode();
+        lastToken = t;
+        processToken(t2);
+    }
+
+    private static void processEndParentToken(Token t) {
+        if (result.length() > 1) {
+            if (result.charAt(result.length() - 1) == ' ') {
+                result = result.substring(0, result.length() - 1);
+            }
+        }
+        if (t instanceof EndParenToken) {
+            result += ((EndParenToken) t).toCode() + " ";
+        } else {
+            result += ((GrouperToken) t).toCode() + " ";
+        }
+        lastToken = t;
+    }
+
+    private static void processElseToken(Token t) {
+        result += t.toString() + " ";
+        lastToken = t;
+    }
+
+    private static void processDoToken(Token t) throws IOException {
+        if (t instanceof DoToken) result += ((DoToken) t).toCode() + " ";
+        if (t instanceof ThenToken) result += ((ThenToken) t).toCode() + " ";
+        if (t instanceof CaseToken) result += ((CaseToken) t).toCode() + " ";
+        lastToken = t;
+        Token t2 = lexer.yylex();
+        if (t2 instanceof BeginEndToken) {
+            needTab = true;
+            result += "\n";
+        }
+        processToken(t2);
+    }
+
+    private static void processSemicolonToken(Token t) {
+        if (result.length() > 0) {
+            if (result.charAt(result.length() - 1) == ' ') {
+                result = result.substring(0, result.length() - 1);
+            }
+        }
+        result += t.toString() + "\n";
+        needTab = true;
+        lastToken = t;
+    }
+
+    private static void processPeriodToken(Token t) {
+        if (result.length() > 0) {
+            if (result.charAt(result.length() - 1) == ' ') {
+                result = result.substring(0, result.length() - 1);
+            }
+        }
+        result += t.toString() + "\n";
+        needTab = true;
+        lastToken = t;
+    }
+
+    private static void processTypeToken(Token t) {
+        result += "\n";
+        result += t.toString() + "\n";
+        lastToken = t;
+    }
+
+    private static void processRepeatToken(Token t) {
+        result += t.toString() + "\n";
+        numberTab++;
+        needTab = true;
+        lastToken = t;
+    }
+
+    private static void processOptToken(Token t) {
+        String opt = t.toString();
+        if ("+-*/".contains(opt)) {
+            result += t.toString();
+        } else {
+            result += t.toString() + " ";
+        }
+        lastToken = t;
+    }
+
+    private static void processOfToken(Token t) {
+        if (lastToken instanceof WordToken) {
+            result += t.toString() + "\n";
+            numberTab++;
+            needTab = true;
+        } else {
+            result += t.toString() + " ";
+        }
+        lastToken = t;
+    }
+
+    private static void processBeginToken(Token t) {
+        result += ((GrouperToken) t).toCode() + "\n";
+        numberTab++;
+        needTab = true;
+        lastToken = t;
+    }
+
+    private static void completeUntil(Token t) {
         if (numberTab > 0)
             numberTab--;
         //new line
@@ -284,8 +347,33 @@ public class AutoIndentCode {
         return res;
     }
 
+    private static void completeStatement(Token token) {
+
+    }
+
+    private static void completeWhile() {
+    }
+
+    private static void completeIf() {
+    }
+
+    private static void completeRepeat() {
+    }
+
+    private static void completeFor() {
+    }
+
+    private static void completeParen() {
+
+    }
+
+    private static void insertNewLine() {
+        result += "\n";
+    }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName();
     }
+
 }

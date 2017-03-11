@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
+    <style filePath="AppTheme" parent="Theme.AppCompat">
+        <item filePath="windowNoTitle">true</item>
+        <item filePath="windowActionBar">false</item>
     </style>
 
 </resources>

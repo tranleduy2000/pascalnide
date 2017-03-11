@@ -37,8 +37,7 @@ public class PluginDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public Object call(VariableContext parentcontext,
-                       RuntimeExecutable<?> main, Object[] arguments)
+    public Object call(VariableContext parentcontext, RuntimeExecutable<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
         return method.invoke(owner, arguments);
     }
@@ -57,34 +56,30 @@ public class PluginDeclaration extends AbstractCallableFunction {
 
     private DeclaredType convertBasicType(Type javatype) {
         Class<?> type = (Class<?>) javatype;
-        return BasicType.anew(type.isPrimitive() ? TypeUtils
-                .getClassForType(type) : type);
+        return BasicType.anew(type.isPrimitive() ? TypeUtils.getClassForType(type) : type);
     }
 
-    private DeclaredType convertArrayType(Type javatype,
-                                          Iterator<SubrangeType> arraysizes) {
+    private DeclaredType convertArrayType(Type javatype, Iterator<SubrangeType> arraysizes) {
         Type subtype;
-        SubrangeType arrayinfo;
+        SubrangeType arrayInfo;
         if (javatype instanceof GenericArrayType) {
             subtype = ((GenericArrayType) javatype).getGenericComponentType();
-            arrayinfo = new SubrangeType();
-        } else if (javatype instanceof Class<?>
-                && ((Class<?>) javatype).isArray()) {
+            arrayInfo = new SubrangeType();
+        } else if (javatype instanceof Class<?> && ((Class<?>) javatype).isArray()) {
             subtype = ((Class<?>) javatype).getComponentType();
-            arrayinfo = new SubrangeType();
+            arrayInfo = new SubrangeType();
         } else {
             subtype = Object.class;
-            arrayinfo = null;
+            arrayInfo = null;
         }
 
         if (arraysizes.hasNext()) {
-            arrayinfo = arraysizes.next();
+            arrayInfo = arraysizes.next();
         }
-        if (arrayinfo == null) {
+        if (arrayInfo == null) {
             return convertBasicType(javatype);
         } else {
-            return new ArrayType<>(convertArrayType(subtype,
-                    arraysizes), arrayinfo);
+            return new ArrayType<>(convertArrayType(subtype, arraysizes), arrayInfo);
         }
     }
 
@@ -147,8 +142,8 @@ public class PluginDeclaration extends AbstractCallableFunction {
     public DeclaredType return_type() {
         Class<?> result = method.getReturnType();
         if (result == VariableBoxer.class) {
-            result = (Class<?>) ((ParameterizedType) method
-                    .getGenericReturnType()).getActualTypeArguments()[0];
+            result = (Class<?>) ((ParameterizedType) method.getGenericReturnType())
+                    .getActualTypeArguments()[0];
         }
         if (result.isPrimitive()) {
             result = TypeUtils.getClassForType(result);
