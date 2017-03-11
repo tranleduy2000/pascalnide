@@ -119,6 +119,10 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return (char) inputBuffer.getByte();
     }
 
+    public boolean keyPressed() {
+        return inputBuffer.getRear() > inputBuffer.getFront();
+    }
+
     public void setCursor(int x, int y) {
         int index, i;
         yCursorConsole = y;
@@ -535,7 +539,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     public void setConsoleColor(int color) {
         this.backgroundColor = color;
         mBackgroundPaint.setColor(color);
-       invalidate();
+        invalidate();
     }
 
     /**

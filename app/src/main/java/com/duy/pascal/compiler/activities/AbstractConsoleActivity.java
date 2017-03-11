@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 
 
 public class AbstractConsoleActivity extends AbstractAppCompatActivity {
-    public final static int[] fontSize = {12, 16, 20, 24};
-    public static int fontSizeNb = 1;
+    public final int[] fontSize = {12, 16, 20, 24};
+    public int fontSizeNb = 1;
     @BindView(R.id.console)
     public ConsoleView mConsoleView;
     @BindView(R.id.toolbar)

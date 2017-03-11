@@ -4,9 +4,9 @@ package com.duy.interpreter.exceptions;
 import com.duy.interpreter.linenumber.LineInfo;
 
 public class BadFunctionCallException extends com.duy.interpreter.exceptions.ParsingException {
-    String functionName;
-    boolean functionExists;
-    boolean numargsMatch;
+    public String functionName;
+    public boolean functionExists;
+    public boolean numargsMatch;
 
     public BadFunctionCallException(LineInfo line, String functionName,
                                     boolean functionExists, boolean numargsMatch) {
@@ -25,7 +25,7 @@ public class BadFunctionCallException extends com.duy.interpreter.exceptions.Par
                 return ("Either too few or two many arguments are being passed to function \"" + functionName + "\".");
             }
         } else {
-            return ("Can not call function \"" + functionName + "\", which is not defined.");
+            return ("Can not call function or procedure \"" + functionName + "\", which is not defined.");
         }
     }
 

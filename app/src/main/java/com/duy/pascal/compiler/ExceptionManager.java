@@ -8,6 +8,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
+import com.duy.interpreter.exceptions.BadFunctionCallException;
 import com.duy.interpreter.exceptions.ExpectedTokenException;
 import com.duy.interpreter.exceptions.NoSuchFunctionOrVariableException;
 
@@ -57,9 +58,37 @@ public class ExceptionManager {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             return span;
+        } else if (e instanceof BadFunctionCallException) {
+            String functionName = ((BadFunctionCallException) e).functionName + " ";
+            boolean functionExists = ((BadFunctionCallException) e).functionExists;
+            boolean numargsMatch = ((BadFunctionCallException) e).numargsMatch;
+            if (functionExists) {
+                if (numargsMatch) {
+                    String msg = context.getString(R.string.bad_function_msg1);
+                    Spannable span = new SpannableString(msg + functionName);
+                    span.setSpan(new ForegroundColorSpan(Color.YELLOW),
+                            msg.length(), msg.length() + span.length(),
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    return span;
+                } else {
+                    String msg = context.getString(R.string.bad_function_msg2);
+                    Spannable span = new SpannableString(msg + functionName);
+                    span.setSpan(new ForegroundColorSpan(Color.YELLOW),
+                            msg.length(), msg.length() + span.length(),
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    return span;
+                }
+            } else {
+                String msg1 = context.getString(R.string.can_not_call_func) + " ";
+                String msg2 = context.getString(R.string.func_not_define) + " ";
+                Spannable span = new SpannableString(msg1 + functionName + msg2);
+                span.setSpan(new ForegroundColorSpan(Color.YELLOW),
+                        msg1.length(), msg1.length() + functionName.length(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                return span;
+            }
         } else {
             return new SpannableString(e.getMessage());
         }
-//        return new SpannableString(e.getMessage());
     }
 }

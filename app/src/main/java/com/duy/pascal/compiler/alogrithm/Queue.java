@@ -4,55 +4,59 @@ package com.duy.pascal.compiler.alogrithm;
  * Created by Duy on 10-Feb-17.
  */
 public class Queue {
-    private byte Data[];
-    private int Head;
-    private int Tail;
+    private byte data[];
+    private int front;
+    private int rear;
+
 
     public Queue(int size) {
-        Data = new byte[size];
-        Head = 0;
-        Tail = 0;
+        data = new byte[size];
+        front = 0;
+        rear = 0;
+    }
+
+    public int getFront() {
+        return front;
+    }
+
+    public int getRear() {
+        return rear;
     }
 
     public synchronized byte getByte() {
-        while (Head == Tail) {
+        while (front == rear) {
             try {
                 wait();
-            } catch (InterruptedException ie) {
+            } catch (InterruptedException ignored) {
             }
         }
-        byte b = Data[Head];
-        Head++;
-        if (Head >= Data.length) Head = 0;
+        byte b = data[front];
+        front++;
+        if (front >= data.length) front = 0;
         return b;
     }
 
     public synchronized void putByte(byte b) {
-        Data[Tail] = b;
-        Tail++;
-        if (Tail >= Data.length) Tail = 0;
-        if (Head == Tail) {
-
-            Head++;
-            if (Head >= Data.length) Head = 0;
+        data[rear] = b;
+        rear++;
+        if (rear >= data.length) rear = 0;
+        if (front == rear) {
+            front++;
+            if (front >= data.length) front = 0;
         }
         notify();
     }
-    /*
-    public synchronized  void eraseByte()
-	{
-		if (Tail!=Head)
-		{
-			Tail--;
-			if (Tail<0) Tail=0;
-		}
-		notify();
-	}
 
-	public synchronized void Flush()
-	{
-		Tail=Head;
-		notify();
-	}
-	*/
+    public synchronized void eraseByte() {
+        if (rear != front) {
+            rear--;
+            if (rear < 0) rear = 0;
+        }
+        notify();
+    }
+
+    public synchronized void Flush() {
+        rear = front;
+        notify();
+    }
 }

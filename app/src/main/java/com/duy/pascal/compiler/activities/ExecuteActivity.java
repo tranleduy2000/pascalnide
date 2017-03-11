@@ -8,9 +8,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.duy.interpreter.core.PascalCompiler;
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.interpreter.core.PascalCompiler;
 import com.duy.pascal.compiler.BuildConfig;
 import com.duy.pascal.compiler.CodeManager;
 import com.duy.pascal.compiler.CompileManager;
@@ -65,11 +65,6 @@ public class ExecuteActivity extends AbstractConsoleActivity {
                         }
                         break;
                 }
-//                try {
-//                    Thread.sleep(10);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
             } while (exitFlag == 0 && isCanRead.get());
             mConsoleView.emitChar((char) 10); // return new line
             input = inputData.toString();
@@ -119,7 +114,6 @@ public class ExecuteActivity extends AbstractConsoleActivity {
         }
     };
     private Thread runThread = new Thread(runnableRunProgram);
-    private ConsoleView consoleView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

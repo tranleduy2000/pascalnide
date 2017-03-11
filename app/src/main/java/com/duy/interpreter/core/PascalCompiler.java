@@ -47,7 +47,7 @@ public class PascalCompiler {
 
     public ExecuteActivity activity;
 
-    private SystemLib systemLib = new SystemLib();
+    private SystemLib systemLib = new SystemLib(null);
     private IOLib ioLib = new IOLib(null);
     private CrtLib crtLib = new CrtLib(null);
     private GraphLib graphLib = new GraphLib(null);
