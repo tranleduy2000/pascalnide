@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="expected_token">Expected the following token to appear:</string>
-    <string name="expected_token_2">Expected the following token to appear:</string>
-    <string name="not_define_msg">is not a variable or function name</string>
-    <string name="bad_function_msg1">One or more arguments has an incorrect type when calling function </string>
-    <string name="bad_function_msg2">Either too few or two many arguments are being passed to function </string>
-    <string name="can_not_call_func">Can not call function</string>
-    <string name="func_not_define"> , which is not defined.</string>
+    <string name="expected_token" translatable="false">Expected the following token to appear:</string>
+    <string name="expected_token_2" translatable="false">Expected the following token to appear:</string>
+    <string name="not_define_msg" translatable="false">is not a variable or function name</string>
+    <string name="bad_function_msg1" translatable="false">One or more arguments has an incorrect type when calling function </string>
+    <string name="bad_function_msg2" translatable="false">Either too few or two many arguments are being passed to function </string>
+    <string name="can_not_call_func" translatable="false">Can not call function</string>
+    <string name="func_not_define" translatable="false"> , which is not defined.</string>
 </resources>
