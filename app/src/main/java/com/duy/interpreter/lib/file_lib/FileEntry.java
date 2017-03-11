@@ -31,24 +31,42 @@ public class FileEntry {
         this.filePath = filePath;
     }
 
+    /**
+     * open file
+     *
+     * @throws IOException
+     */
     public void reset() throws IOException {
         mReader = new Scanner(new FileReader(filePath));
         mReader.useLocale(Locale.ENGLISH);
     }
 
+    public void append() throws IOException {
+        File f = new File(filePath);
+        if (!f.exists()) {
+            f.createNewFile();
+        }
+        mWriter = new BufferedWriter(new FileWriter(f));
+    }
+
+    /**
+     * prepare file to writer
+     * set file empty
+     *
+     * @throws IOException
+     */
     public void rewrite() throws IOException {
         File f = new File(filePath);
         if (!f.exists()) {
             f.createNewFile();
         }
-        RandomAccessFile randomAccessFile     = new RandomAccessFile(f, "rw");
+        RandomAccessFile randomAccessFile = new RandomAccessFile(f, "rw");
         randomAccessFile.setLength(0);
         randomAccessFile.close();
         mWriter = new BufferedWriter(new FileWriter(f));
     }
 
     public int readInt() throws IOException {
-//        int integer = randomAccessFile.readInt();
         int integer = mReader.nextInt();
         System.out.println("readln integer " + integer);
         return integer;
