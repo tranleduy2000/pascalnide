@@ -14,6 +14,7 @@ public class SystemLib implements PascalLibrary {
     private ExecuteActivity activity;
 
     public SystemLib(ExecuteActivity activity) {
+        System.out.println(this);
         this.activity = activity;
     }
 
@@ -24,6 +25,7 @@ public class SystemLib implements PascalLibrary {
 
 
     public boolean keyPressed() {
+        System.out.println("Key pressed method");
         if (activity != null) activity.getConsoleView().keyPressed();
         return false;
     }
