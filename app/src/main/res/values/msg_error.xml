@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="expected_token">Expected the following token to appear:</string>
+    <string name="expected_token_2">Expected the following token to appear:</string>
+    <string name="not_define_msg">is not a variable or function name</string>
+
+</resources>

@@ -10,7 +10,6 @@ import com.js.interpreter.runtime.exception.internal.InternalInterpreterExceptio
 public class DivisionByZeroException extends InternalInterpreterException {
     public DivisionByZeroException(LineInfo line) {
         super(line);
-        System.out.print(getMessage());
     }
 
     @Override

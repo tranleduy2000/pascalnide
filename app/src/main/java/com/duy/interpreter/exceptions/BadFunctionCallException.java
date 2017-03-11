@@ -1,7 +1,6 @@
 package com.duy.interpreter.exceptions;
 
 
-import com.duy.interpreter.exceptions.*;
 import com.duy.interpreter.linenumber.LineInfo;
 
 public class BadFunctionCallException extends com.duy.interpreter.exceptions.ParsingException {
@@ -21,11 +20,9 @@ public class BadFunctionCallException extends com.duy.interpreter.exceptions.Par
     public String getMessage() {
         if (functionExists) {
             if (numargsMatch) {
-                return ("One or more arguments has an incorrect type when calling function \""
-                        + functionName + "\".");
+                return ("One or more arguments has an incorrect type when calling function \"" + functionName + "\".");
             } else {
-                return ("Either too few or two many arguments are being passed to function \""
-                        + functionName + "\".");
+                return ("Either too few or two many arguments are being passed to function \"" + functionName + "\".");
             }
         } else {
             return ("Can not call function \"" + functionName + "\", which is not defined.");

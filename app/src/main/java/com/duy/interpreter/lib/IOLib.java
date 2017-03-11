@@ -1,6 +1,6 @@
 package com.duy.interpreter.lib;
 
-import com.duy.interpreter.startup.PascalCompiler;
+import com.duy.interpreter.core.PascalCompiler;
 import com.duy.pascal.compiler.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;

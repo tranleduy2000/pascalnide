@@ -10,7 +10,7 @@ import android.view.KeyEvent;
 
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.interpreter.startup.PascalCompiler;
+import com.duy.interpreter.core.PascalCompiler;
 import com.duy.pascal.compiler.BuildConfig;
 import com.duy.pascal.compiler.CodeManager;
 import com.duy.pascal.compiler.CompileManager;

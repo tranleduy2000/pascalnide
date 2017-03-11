@@ -1,4 +1,4 @@
-package com.duy.interpreter.startup;
+package com.duy.interpreter.core;
 
 
 import android.util.Log;

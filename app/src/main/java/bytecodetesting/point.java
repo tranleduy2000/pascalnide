@@ -1,4 +1,4 @@
-package com.duy.interpreter.bytecodetesting;
+package bytecodetesting;
 
 import com.js.interpreter.runtime.variables.ContainsVariables;
 

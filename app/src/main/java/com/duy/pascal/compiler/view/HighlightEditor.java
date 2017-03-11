@@ -39,7 +39,6 @@ import java.util.regex.Pattern;
 import java.util.zip.CRC32;
 
 import icepick.Icepick;
-import icepick.State;
 
 import static android.graphics.Typeface.BOLD;
 import static com.duy.pascal.compiler.data.KeyWordAndPattern.comments;
@@ -58,6 +57,15 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     public boolean syntaxHighlighting = true;
     public float textSize = 14;
     public boolean wordWrap = true;
+
+    public boolean isFlingToScroll() {
+        return flingToScroll;
+    }
+
+    public void setFlingToScroll(boolean flingToScroll) {
+        this.flingToScroll = flingToScroll;
+    }
+
     public boolean flingToScroll = true;
     public OnTextChangedListener onTextChangedListener = null;
     public int updateDelay = 100;
@@ -74,8 +82,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     protected int mHighlightedLine;
     protected int mHighlightStart;
     protected Rect mDrawingRect, mLineBounds;
-    @State
-    int selectionPosition;
     private Context mContext;
     private CRC32 mCRC32;
     private boolean modified = true;

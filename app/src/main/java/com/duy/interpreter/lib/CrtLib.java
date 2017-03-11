@@ -40,7 +40,7 @@ public class CrtLib implements PascalLibrary {
 //            "Window\n" + "Create new window on screen.";
 
     /**
-     * constructor call by {@link ClassLoader} in {@link com.duy.interpreter.startup.PascalCompiler}
+     * constructor call by {@link ClassLoader} in {@link com.duy.interpreter.core.PascalCompiler}
      *
      * @param activity
      */

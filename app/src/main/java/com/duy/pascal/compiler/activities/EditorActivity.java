@@ -28,9 +28,10 @@ import android.widget.Toast;
 
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.interpreter.startup.PascalCompiler;
+import com.duy.interpreter.core.PascalCompiler;
 import com.duy.pascal.compiler.CodeManager;
 import com.duy.pascal.compiler.CompileManager;
+import com.duy.pascal.compiler.ExceptionManager;
 import com.duy.pascal.compiler.MenuEditor;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.adapters.FileAdapter;
@@ -328,9 +329,9 @@ public class EditorActivity extends BaseEditorActivity
     }
 
     private void showErrorDialog(Exception e) {
+        ExceptionManager exceptionManager = new ExceptionManager(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        String msg = e.getMessage() + "\n";
-        builder.setMessage(msg)
+        builder.setMessage(exceptionManager.getMessage(e))
                 .setCancelable(false)
                 .setTitle(R.string.compile_error)
                 .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -443,11 +444,10 @@ public class EditorActivity extends BaseEditorActivity
             extension = file.getPath().substring(ind + 1);// this is the extension
         }
         String info = "";
-        info += getString(R.string.name) + file.getName() + "\n" +
-                getString(R.string.path) + file.getPath() + "\n" +
-                getString(R.string.extension) + extension + "\n" +
-                getString(R.string.readable) + file.canRead() + "\n" +
-                getString(R.string.writeable) + file.canWrite();
+        info += getString(R.string.path) + " " + file.getPath() + "\n" +
+                getString(R.string.extension) + " " + extension + "\n" +
+                getString(R.string.readable) + " " + file.canRead() + "\n" +
+                getString(R.string.writeable) + " " + file.canWrite();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(file.getName());
         builder.setView(R.layout.dialog_view_file);
@@ -458,7 +458,8 @@ public class EditorActivity extends BaseEditorActivity
         txtInfo.setText(info);
         HighlightEditor codeView = (HighlightEditor) dialog.findViewById(R.id.code_view);
         assert codeView != null;
-        codeView.setCode(fileManager.readFileAsString(file));
+        codeView.setTextHighlighted(fileManager.readFileAsString(file));
+        codeView.setFlingToScroll(false);
     }
 
     /**
@@ -469,7 +470,6 @@ public class EditorActivity extends BaseEditorActivity
     public void createNewSourceFile(View view) {
         final AppCompatEditText edittext = new AppCompatEditText(this);
         edittext.setPadding(10, 10, 10, 10);
-
         edittext.setHint(R.string.enter_new_file_name);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.new_file_msg)
