@@ -100,8 +100,8 @@ public class FileManager {
         return dir.mkdir();
     }
 
-    public String readFileAsString(String filePath) {
-        File file = new File(filePath);
+    public String readFileAsString(String name) {
+        File file = new File(name);
         if (file.canRead()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -185,25 +185,23 @@ public class FileManager {
     /**
      * saveInMode file
      *
-     * @param name - name of file
+     * @param fileName - name of file
      * @param text - content of file
      */
-    public boolean saveInMode(String name, String text) {
+    public boolean saveInMode(String fileName, String text) {
         try {
-            String filePath = getCurrentPath() + name;
-            File file = new File(filePath);
+            String path = getCurrentPath() + fileName;
+            File file = new File(path);
             if (!file.exists()) {
-                createNewFileInMode(filePath);
+                createNewFileInMode(fileName);
             }
             FileOutputStream out = new FileOutputStream(file);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(out, "UTF-8");
             if (text.length() > 0) myOutWriter.write(text);
             myOutWriter.close();
             out.close();
-            Log.d(TAG, "saveInMode: " + filePath + " " + text);
             return true;
         } catch (Exception ignored) {
-            Log.d(TAG, "saveInMode:  failed " + name);
             return false;
         }
     }
@@ -255,9 +253,9 @@ public class FileManager {
      */
     public String createNewFileInMode(String fileName) {
         if (!fileName.endsWith(".pas")) fileName += ".pas";
-        String filePath = getCurrentPath() + fileName;
-        File file = new File(filePath);
-        Log.i(TAG, "createNewFileInMode: " + filePath);
+        String name = getCurrentPath() + fileName;
+        File file = new File(name);
+        Log.i(TAG, "createNewFileInMode: " + name);
         try {
             if (!file.exists()) {
                 new File(file.getParent()).mkdirs();
@@ -270,16 +268,16 @@ public class FileManager {
         }
     }
 
-    public String createNewFileWithPath(String filepath) {
-        if (!filepath.endsWith(".pas")) filepath += ".pas";
-        File file = new File(filepath);
-        Log.i(TAG, "createNewFileInMode: " + filepath);
+    public String createNewFileWithPath(String name) {
+        if (!name.endsWith(".pas")) name += ".pas";
+        File file = new File(name);
+        Log.i(TAG, "createNewFileInMode: " + name);
         try {
             if (!file.exists()) {
                 new File(file.getParent()).mkdirs();
                 file.createNewFile();
             }
-            return filepath;
+            return name;
         } catch (IOException e) {
             Log.e("", "Could not create file.", e);
             return "";
@@ -300,16 +298,16 @@ public class FileManager {
      * @param content - Content of file, string
      */
     public String setContentFileTemp(String content) {
-        String filePath = getCurrentPath(SAVE_MODE.INTERNAL) + FILE_TEMP_NAME;
-        Log.d(TAG, "setContentFileTemp: " + filePath);
+        String name = getCurrentPath(SAVE_MODE.INTERNAL) + FILE_TEMP_NAME;
+        Log.d(TAG, "setContentFileTemp: " + name);
         Log.d(TAG, "setContentFileTemp: " + content);
-        File file = new File(filePath);
+        File file = new File(name);
         FileOutputStream outputStream;
         try {
             if (!file.exists()) {
-                createNewFileWithPath(filePath);
+                createNewFileWithPath(name);
             }
-            outputStream = new FileOutputStream(new File(filePath));
+            outputStream = new FileOutputStream(new File(name));
             outputStream.write(content.getBytes());
             outputStream.close();
         } catch (Exception e) {
@@ -324,11 +322,11 @@ public class FileManager {
      * @return - pascal file
      */
     public File getTempFile() {
-        String filePath = getCurrentPath(SAVE_MODE.INTERNAL) + File.separatorChar + FILE_TEMP_NAME;
-        Log.d(TAG, "getTempFile: " + filePath);
-        File file = new File(filePath);
+        String name = getCurrentPath(SAVE_MODE.INTERNAL) + File.separatorChar + FILE_TEMP_NAME;
+        Log.d(TAG, "getTempFile: " + name);
+        File file = new File(name);
         if (!file.exists()) {
-            createNewFileInMode(filePath);
+            createNewFileInMode(name);
         }
         return file;
     }

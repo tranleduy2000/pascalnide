@@ -343,7 +343,7 @@ public class EditorActivity extends BaseEditorActivity
     /**
      * load file and set text to editor
      *
-     * @param fileName - name of file, do not include path
+     * @param fileName - fileName of file, do not include path
      */
     private void loadFile(final String fileName) {
         final String txt = fileManager.loadInMode(fileName);
@@ -432,7 +432,7 @@ public class EditorActivity extends BaseEditorActivity
 
     /**
      * show dialog with file info
-     * name, path, size, extension ...
+     * fileName, path, size, extension ...
      *
      * @param file - file to show info
      */

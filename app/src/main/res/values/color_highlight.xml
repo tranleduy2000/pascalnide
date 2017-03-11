@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color filePath="key_word_color">#60d9f1</color>
-    <color filePath="comment_color">#766c4a</color>
-    <color filePath="error_color">#b71c1c</color>
-    <color filePath="number_color">#af7eff</color>
-    <color filePath="string_color">#e6dc6e</color>
-    <color filePath="boolean_color">#60d9f1</color>
-    <color filePath="bg_editor_color">#282b2d</color>
-    <color filePath="opt_color">#fc216e</color>
+    <color name="key_word_color">#60d9f1</color>
+    <color name="comment_color">#766c4a</color>
+    <color name="error_color">#b71c1c</color>
+    <color name="number_color">#af7eff</color>
+    <color name="string_color">#e6dc6e</color>
+    <color name="boolean_color">#60d9f1</color>
+    <color name="bg_editor_color">#282b2d</color>
+    <color name="opt_color">#fc216e</color>
 
 </resources>

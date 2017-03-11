@@ -14,33 +14,33 @@ public class FileEntry {
         this.randomAccessFile = randomAccessFile;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getname() {
+        return name;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setname(String name) {
+        this.name = name;
     }
 
     private RandomAccessFile randomAccessFile;
-    private String filePath = "";
+    private String name = "";
 
-    public FileEntry(RandomAccessFile randomAccessFile, String filePath) {
+    public FileEntry(RandomAccessFile randomAccessFile, String name) {
         this.randomAccessFile = randomAccessFile;
-        this.filePath = filePath;
+        this.name = name;
     }
 
-    public FileEntry(String filePath) {
-        this.filePath = filePath;
+    public FileEntry(String name) {
+        this.name = name;
     }
 
     public void reset() throws FileNotFoundException {
-        File f = new File(filePath);
+        File f = new File(name);
         randomAccessFile = new RandomAccessFile(f, "r");
     }
 
     public void rewrite() throws FileNotFoundException {
-        File f = new File(filePath);
+        File f = new File(name);
         randomAccessFile = new RandomAccessFile(f, "w");
     }
 

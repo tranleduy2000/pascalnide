@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array filePath="font_size" translatable="false">
+    <string-array name="font_size" translatable="false">
         <item>12</item>
         <item>13</item>
         <item>14</item>

@@ -50,7 +50,7 @@
 
 #To maintain custom components names that are used on layouts XML.
 #Uncomment if having any problem with the approach below
-#-keep public class custom.components.package.and.filePath.**
+#-keep public class custom.components.package.and.name.**
 
 # keep setters in Views so that animations can still work.
 # see http://proguard.sourceforge.net/manual/examples.html#beans

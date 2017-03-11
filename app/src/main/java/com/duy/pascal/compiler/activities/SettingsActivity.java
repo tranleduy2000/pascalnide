@@ -58,7 +58,7 @@ public class SettingsActivity extends PreferenceActivity {
                         preference.setSummary(null);
                     } else {
                         // Set the summary to reflect the new ringtone display
-                        // name.
+                        // fileName.
                         String name = ringtone.getTitle(preference.getContext());
                         preference.setSummary(name);
                     }

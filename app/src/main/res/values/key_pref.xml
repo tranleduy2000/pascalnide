@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string filePath="key_pref_word_wrap" translatable="false">pref_word_wrap</string>
-    <string filePath="key_pref_show_line_number" translatable="false">pref_show_line_number</string>
-    <string filePath="key_pref_font_size" translatable="false">key_pref_font_size</string>
-    <string filePath="key_pref_font" translatable="false">key_pref_font</string>
-    <string filePath="key_show_hint" translatable="false">key_show_hint</string>
-    <string filePath="key_pref_lang" translatable="false">key_pref_lang</string>
-    <string filePath="lang_default" translatable="false">default_lang</string>
+    <string name="key_pref_word_wrap" translatable="false">pref_word_wrap</string>
+    <string name="key_pref_show_line_number" translatable="false">pref_show_line_number</string>
+    <string name="key_pref_font_size" translatable="false">key_pref_font_size</string>
+    <string name="key_pref_font" translatable="false">key_pref_font</string>
+    <string name="key_show_hint" translatable="false">key_show_hint</string>
+    <string name="key_pref_lang" translatable="false">key_pref_lang</string>
+    <string name="lang_default" translatable="false">default_lang</string>
 
-    <string-array filePath="language_entry" translatable="false">
+    <string-array name="language_entry" translatable="false">
         <item>@string/default_</item>
         <item>Tiếng Việt</item>
         <item>English</item>
     </string-array>
 
-    <string-array filePath="language_code" translatable="false">
+    <string-array name="language_code" translatable="false">
         <item>default_lang</item>
         <item>vi</item>
         <item>en</item>

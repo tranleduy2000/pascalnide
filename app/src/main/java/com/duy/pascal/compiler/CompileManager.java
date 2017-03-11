@@ -26,9 +26,9 @@ public class CompileManager {
 
 
     // Execute compiled file
-    public void execute(String filePath) {
+    public void execute(String name) {
         Intent intent = new Intent(mActivity, ExecuteActivity.class);
-        intent.putExtra(FILE_PATH, filePath);
+        intent.putExtra(FILE_PATH, name);
         mActivity.startActivity(intent);
     }
 

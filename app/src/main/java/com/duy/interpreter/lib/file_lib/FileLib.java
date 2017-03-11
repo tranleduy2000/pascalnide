@@ -17,18 +17,23 @@ import java.util.Map;
 
 public class FileLib implements PascalLibrary {
 
-    private HashMap<Integer, FileEntry> filesMap;
+    private HashMap<Integer, FileEntry> filesMap = new HashMap<>();
 
     private int numberFiles = 0;
 
     public FileLib() {
-        filesMap = new HashMap<>();
     }
 
-    public void assign(VariableBoxer<Integer> fileID, String fileName) {
+    /**
+     * add new file to map file
+     *
+     * @param fileID   - id to store address of file
+     * @param name - file path
+     */
+    public void assign(VariableBoxer<Integer> fileID, String name) {
         numberFiles++;
         fileID.set(numberFiles);
-        FileEntry fileEntry = new FileEntry(fileName);
+        FileEntry fileEntry = new FileEntry(name);
         filesMap.put(numberFiles, fileEntry);
     }
 
@@ -44,11 +49,7 @@ public class FileLib implements PascalLibrary {
      */
     public void close(int fileID) throws IOException {
         checkFile(fileID);
-        try {
-            filesMap.get(fileID).close();
-        } catch (Exception ignored) {
-            throw ignored;
-        }
+        filesMap.get(fileID).close();
     }
 
     public boolean eof(int fileID) throws IOException {

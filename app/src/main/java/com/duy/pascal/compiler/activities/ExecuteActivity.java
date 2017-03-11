@@ -33,7 +33,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
     public static final boolean DEBUG = BuildConfig.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
     public String input = "";
-    String filePath;
+    String fileName;
     private AtomicBoolean isCanRead = new AtomicBoolean(false);
     Runnable runnableInput = new Runnable() {
         @Override
@@ -127,18 +127,18 @@ public class ExecuteActivity extends AbstractConsoleActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            filePath = extras.getString(CompileManager.FILE_PATH);
-            doRun(filePath);
+            fileName = extras.getString(CompileManager.FILE_PATH);
+            doRun(fileName);
         }
     }
 
     /**
      * exec program, run program in internal memory
      *
-     * @param filePath - file pas
+     * @param name - file pas
      */
-    private void doRun(final String filePath) {
-        String code = mFileManager.readFileAsString(filePath);
+    private void doRun(final String name) {
+        String code = mFileManager.readFileAsString(name);
         code = CodeManager.normalCode(code);
         //clone it to internal storage
         this.programFile = mFileManager.setContentFileTemp(code);
