@@ -16,6 +16,7 @@ import com.duy.interpreter.lib.SetArrayLengthLib;
 import com.duy.interpreter.lib.SetLengthLib;
 import com.duy.interpreter.lib.StringLib;
 import com.duy.interpreter.lib.SystemLib;
+import com.duy.interpreter.lib.file_lib.FileLib;
 import com.duy.pascal.compiler.activities.ExecuteActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -24,9 +25,9 @@ import com.js.interpreter.ast.PluginDeclaration;
 import com.js.interpreter.ast.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.ast.codeunit.Library;
 import com.js.interpreter.ast.codeunit.PascalProgram;
+import com.js.interpreter.core.ScriptSource;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.core.ScriptSource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,9 +48,10 @@ public class PascalCompiler {
     public ExecuteActivity activity;
 
     private SystemLib systemLib = new SystemLib();
-    private IOLib ioLib = new IOLib();
-    private CrtLib crtLib = new CrtLib();
-    private GraphLib graphLib = new GraphLib();
+    private IOLib ioLib = new IOLib(null);
+    private CrtLib crtLib = new CrtLib(null);
+    private GraphLib graphLib = new GraphLib(null);
+    private FileLib fileLib = new FileLib();
 
     public PascalCompiler(ExecuteActivity activity) {
         this.activity = activity;
@@ -156,6 +158,7 @@ public class PascalCompiler {
         classes.add(DosLib.class);
         classes.add(graphLib.getClass());
         classes.add(systemLib.getClass());
+        classes.add(fileLib.getClass());
 
         for (Class pascalPlugin : classes) {
             Object o;
@@ -167,13 +170,23 @@ public class PascalCompiler {
                     IllegalAccessException | InvocationTargetException |
                     InstantiationException e) {
                 o = null;
+                try {
+                    Constructor constructor = pascalPlugin.getConstructor();
+                    o = constructor.newInstance();
+                } catch (NoSuchMethodException
+                        | IllegalArgumentException |
+                        IllegalAccessException | InvocationTargetException |
+                        InstantiationException e1) {
+                    e1.printStackTrace();
+                }
             }
+
             for (Method m : pascalPlugin.getDeclaredMethods()) {
                 if (Modifier.isPublic(m.getModifiers())) {
                     PluginDeclaration tmp = new PluginDeclaration(o, m);
                     functionTable.put(tmp.name().toLowerCase(), tmp);
                 }
-//                System.out.println("#method " + m.getName());
+                System.out.println("#method " + m.getName());
             }
         }
 

@@ -22,7 +22,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.compiler.alogrithm.Queue;
-import com.duy.pascal.compiler.view.graph_lib.GraphObject;
+import com.duy.pascal.compiler.view.graph_model.GraphObject;
 
 import java.util.ArrayList;
 

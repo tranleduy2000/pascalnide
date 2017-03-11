@@ -2,6 +2,7 @@ package com.duy.interpreter.lib.file_lib;
 
 import com.duy.interpreter.lib.PascalLibrary;
 import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,14 +22,11 @@ public class FileLib implements PascalLibrary {
 
     private int numberFiles = 0;
 
-    public FileLib() {
-    }
-
     /**
      * add new file to map file
      *
-     * @param fileID   - id to store address of file
-     * @param name - file path
+     * @param fileID - id to store address of file
+     * @param name   - file path
      */
     public void assign(VariableBoxer<Integer> fileID, String name) {
         numberFiles++;
@@ -40,6 +38,11 @@ public class FileLib implements PascalLibrary {
     public void rewrite(int fileID) throws IOException {
         checkFile(fileID);
         filesMap.get(fileID).rewrite();
+    }
+
+    public void reset(int fileID) throws IOException {
+        checkFile(fileID);
+        filesMap.get(fileID).reset();
     }
 
     /**
@@ -54,13 +57,7 @@ public class FileLib implements PascalLibrary {
 
     public boolean eof(int fileID) throws IOException {
         checkFile(fileID);
-        RandomAccessFile f = filesMap.get(fileID).getRandomAccessFile();
-        try {
-            return f.getFilePointer() >= f.length();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return filesMap.get(fileID).isEof();
     }
 
 
@@ -71,16 +68,25 @@ public class FileLib implements PascalLibrary {
      * @param out
      * @return
      */
-    public void readf(int fileID, VariableBoxer<Object> out) throws IOException {
-        RandomAccessFile f = filesMap.get(fileID).getRandomAccessFile();
-//        try {
-//            byte[] buffer = new byte[length];
-//            f.read(buffer);
-//            out.set(new String(buffer));
-//            return true;
-//        } catch (IOException e) {
-//            return false;
-//        }
+    public void readf(int fileID, VariableBoxer<Object> out) throws IOException, RuntimePascalException {
+        checkFile(fileID);
+        FileEntry f = filesMap.get(fileID);
+        if (out.get() instanceof Integer) {
+            Integer integer = f.readInt();
+            out.set(integer);
+        } else if (out.get() instanceof Long) {
+            long value = f.readLong();
+            out.set(value);
+        } else if (out.get() instanceof Double) {
+            double value = f.readDouble();
+            out.set(value);
+        } else if (out.get() instanceof Character) {
+            char value = f.readChar();
+            out.set(value);
+        } else if (out.get() instanceof String) {
+            String value = f.readString();
+            out.set(value);
+        }
     }
 
     /**
@@ -89,9 +95,29 @@ public class FileLib implements PascalLibrary {
      * @param fileID
      * @param out
      */
-    public void readlnF(int fileID, VariableBoxer<Object> out) throws IOException {
-        RandomAccessFile f = filesMap.get(fileID).getRandomAccessFile();
-        f.readLine();
+    public void readlnF(int fileID, VariableBoxer<Object> out) throws IOException, RuntimePascalException {
+        checkFile(fileID);
+        FileEntry f = filesMap.get(fileID);
+        if (out.get() instanceof Integer) {
+            Integer integer = f.readInt();
+            out.set(integer);
+            f.nextLine();
+        } else if (out.get() instanceof Long) {
+            long value = f.readLong();
+            out.set(value);
+            f.nextLine();
+        } else if (out.get() instanceof Double) {
+            double value = f.readDouble();
+            f.nextLine();
+            out.set(value);
+        } else if (out.get() instanceof Character) {
+            char value = f.readChar();
+            f.nextLine();
+            out.set(value);
+        } else if (out.get() instanceof String) {
+            String value = f.readString();
+            out.set(value);
+        }
     }
 
     /**

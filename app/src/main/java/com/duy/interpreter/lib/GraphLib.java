@@ -3,9 +3,9 @@ package com.duy.interpreter.lib;
 import android.graphics.Point;
 
 import com.duy.pascal.compiler.activities.ExecuteActivity;
-import com.duy.pascal.compiler.view.graph_lib.BarObject;
-import com.duy.pascal.compiler.view.graph_lib.LineObject;
-import com.duy.pascal.compiler.view.graph_lib.RectangleObject;
+import com.duy.pascal.compiler.view.graph_model.BarObject;
+import com.duy.pascal.compiler.view.graph_model.LineObject;
+import com.duy.pascal.compiler.view.graph_model.RectangleObject;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Map;
@@ -19,10 +19,6 @@ public class GraphLib implements PascalLibrary {
 
     public GraphLib(ExecuteActivity activity) {
         this.activity = activity;
-    }
-
-    public GraphLib() {
-
     }
 
     @Override

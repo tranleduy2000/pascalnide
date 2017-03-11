@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.view.graph_lib;
+package com.duy.pascal.compiler.view.graph_model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

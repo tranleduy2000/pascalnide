@@ -49,10 +49,6 @@ public class CrtLib implements PascalLibrary {
         this.activity = activity;
     }
 
-    public CrtLib() {
-
-    }
-
 
     /**
      * delay procedure

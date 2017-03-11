@@ -1,11 +1,26 @@
 package com.duy.interpreter.lib.file_lib;
 
+import android.os.Environment;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class FileEntry {
+    private RandomAccessFile randomAccessFile;
+    private String filePath = "";
+
+    public FileEntry(RandomAccessFile randomAccessFile, String filePath) {
+        this.randomAccessFile = randomAccessFile;
+        this.filePath = filePath;
+    }
+
+    public FileEntry(String filePath) {
+        this.filePath = Environment.getExternalStorageDirectory().getPath()
+                + "/PascalCompiler/" + filePath;
+        System.out.println("File: " + this.filePath);
+    }
+
     public RandomAccessFile getRandomAccessFile() {
         return randomAccessFile;
     }
@@ -14,33 +29,21 @@ public class FileEntry {
         this.randomAccessFile = randomAccessFile;
     }
 
-    public String getname() {
-        return name;
+    public String getFileName(String fileName) {
+        return filePath;
     }
 
-    public void setname(String name) {
-        this.name = name;
+    public void setFileName(String filePath) {
+        this.filePath = filePath;
     }
 
-    private RandomAccessFile randomAccessFile;
-    private String name = "";
-
-    public FileEntry(RandomAccessFile randomAccessFile, String name) {
-        this.randomAccessFile = randomAccessFile;
-        this.name = name;
-    }
-
-    public FileEntry(String name) {
-        this.name = name;
-    }
-
-    public void reset() throws FileNotFoundException {
-        File f = new File(name);
+    public void reset() throws IOException {
+        File f = new File(filePath);
         randomAccessFile = new RandomAccessFile(f, "r");
     }
 
-    public void rewrite() throws FileNotFoundException {
-        File f = new File(name);
+    public void rewrite() throws IOException {
+        File f = new File(filePath);
         randomAccessFile = new RandomAccessFile(f, "w");
     }
 
@@ -60,7 +63,7 @@ public class FileEntry {
         return randomAccessFile.readLine();
     }
 
-    public int readChar() throws IOException {
+    public char readChar() throws IOException {
         return randomAccessFile.readChar();
     }
 
@@ -72,4 +75,21 @@ public class FileEntry {
         randomAccessFile.close();
     }
 
+
+    public boolean isEof() {
+        try {
+            return randomAccessFile.getFilePointer() >= randomAccessFile.length();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void nextLine() {
+        try {
+            randomAccessFile.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

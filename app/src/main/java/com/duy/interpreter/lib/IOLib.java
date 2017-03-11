@@ -31,15 +31,15 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    /**
-     * default constructor
-     */
-    public IOLib() {
-        if (!PascalCompiler.android) {
-            this.stdout = System.out;
-            this.stdin = new Scanner(System.in);
-        }
-    }
+//    /**
+//     * default constructor
+//     */
+//    public IOLib() {
+//        if (!PascalCompiler.android) {
+//            this.stdout = System.out;
+//            this.stdin = new Scanner(System.in);
+//        }
+//    }
 
 
     @Override
