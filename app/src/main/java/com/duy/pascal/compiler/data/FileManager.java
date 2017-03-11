@@ -122,6 +122,27 @@ public class FileManager {
         }
         return "";
     }
+    public String readFileAsString(File file) {
+        if (file.canRead()) {
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                String result = "";
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line + "\n";
+                }
+                return result;
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+                return "";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            return "";
+        }
+        return "";
+    }
 
     /**
      * get all file in folder

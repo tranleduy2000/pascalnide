@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.interpreter.exceptions.ParsingException;
@@ -38,6 +39,7 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.FileManager;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.utils.ClipboardManager;
+import com.duy.pascal.compiler.view.HighlightEditor;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
 import com.js.interpreter.core.ScriptSource;
@@ -65,7 +67,6 @@ public class EditorActivity extends BaseEditorActivity
         float yy = ev.getY(1) - ev.getY(0);
         return (float) Math.sqrt(xx * xx + yy * yy);
     }
-
 
 
     @Override
@@ -112,7 +113,6 @@ public class EditorActivity extends BaseEditorActivity
             }
         });
     }
-
 
 
     @Override
@@ -449,7 +449,16 @@ public class EditorActivity extends BaseEditorActivity
                 getString(R.string.readable) + file.canRead() + "\n" +
                 getString(R.string.writeable) + file.canWrite();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.info).setMessage(info).create().show();
+        builder.setTitle(file.getName());
+        builder.setView(R.layout.dialog_view_file);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        TextView txtInfo = (TextView) dialog.findViewById(R.id.txt_info);
+        assert txtInfo != null;
+        txtInfo.setText(info);
+        HighlightEditor codeView = (HighlightEditor) dialog.findViewById(R.id.code_view);
+        assert codeView != null;
+        codeView.setCode(fileManager.readFileAsString(file));
     }
 
     /**
