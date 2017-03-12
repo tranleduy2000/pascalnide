@@ -61,7 +61,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     public boolean flingToScroll = true;
     public OnTextChangedListener onTextChangedListener = null;
     public int updateDelay = 100;
-    public int errorLine = 0;
+    public int errorLine = -1;
     public boolean dirty = false;
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
@@ -146,7 +146,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     }
 
     public void setupColor(Context mContext) {
-        TypedArray typedArray = mContext.obtainStyledAttributes(R.style.CodeTheme_BrightYellow,
+        TypedArray typedArray = mContext.obtainStyledAttributes(R.style.CodeTheme_EspressoLibre,
                 R.styleable.CodeTheme);
         typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
                 R.color.bg_editor_color);
@@ -371,7 +371,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     public void setTextHighlighted(CharSequence text) {
 //        Log.d(TAG, "setTextHighlighted: " + text);
         cancelUpdate();
-        errorLine = 0;
+        errorLine = -1;
         dirty = false;
         modified = false;
         setText(highlight(new SpannableStringBuilder(text)));
@@ -419,7 +419,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 
             @Override
             public void afterTextChanged(Editable e) {
-                errorLine = 0;
+                errorLine = -1;
                 cancelUpdate();
                 if (!modified)
                     return;
@@ -487,7 +487,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
             clearSpans(e);
             if (e.length() == 0)
                 return e;
-            if (errorLine > 0) {
+            if (errorLine > -1) {
                 Matcher m = line.matcher(e);
                 int count = 0;
                 while (m.find()) {

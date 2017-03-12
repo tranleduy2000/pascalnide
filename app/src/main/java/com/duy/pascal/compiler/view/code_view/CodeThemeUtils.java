@@ -10,19 +10,19 @@ import com.duy.pascal.compiler.R;
  * Created by Duy on 12-Mar-17.
  */
 
-public class CodeViewTheme extends HighlightEditor {
-    public CodeViewTheme(Context context, AttributeSet attrs) {
+public class CodeThemeUtils extends HighlightEditor {
+    public CodeThemeUtils(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, -1);
     }
 
-    public CodeViewTheme(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CodeThemeUtils(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
 
     }
 
-    public CodeViewTheme(Context context) {
+    public CodeThemeUtils(Context context) {
         super(context);
         init(context, null, -1);
     }

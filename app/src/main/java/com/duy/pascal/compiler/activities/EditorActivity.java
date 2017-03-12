@@ -289,7 +289,7 @@ public class EditorActivity extends BaseEditorActivity
 
         mHighlightEditor.setLineError(lineInfo.line);
         mHighlightEditor.refresh();
-        Log.d(TAG, "showLineError: " + (row) + " - " + col);
+        Log.d(TAG, "showLineError: " + lineInfo.toString());
     }
 
     public String getCode() {
