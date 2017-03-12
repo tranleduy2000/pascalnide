@@ -19,4 +19,5 @@
     <string name="IOException_reading_input">IOException occurred while reading the input</string>
     <string name="Incomplete_character_literal">Incomplete character literal</string>
     <string name="close_quote_to_start_new_line">You must close your quotes before starting a new line</string>
+    <string name="token_not_belong">The following token doesn\'t belong here: </string>
 </resources>

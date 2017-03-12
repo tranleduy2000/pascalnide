@@ -1,7 +1,7 @@
 package com.duy.interpreter.tokens;
 
 import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
-import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types;
+import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes;
 import com.duy.interpreter.exceptions.grouping.GroupingException;
 import com.duy.interpreter.linenumber.LineInfo;
 import com.duy.interpreter.tokens.closing.ClosingToken;
@@ -24,16 +24,16 @@ public class EOF_Token extends ClosingToken {
 	public GroupingException getClosingException(GrouperToken t) {
 		if (t instanceof ParenthesizedToken) {
 			return new EnumeratedGroupingException(t.lineInfo,
-					grouping_exception_types.UNFINISHED_PARENS);
+					GroupingExceptionTypes.UNFINISHED_PARENS);
 		} else if (t instanceof BeginEndToken) {
 			return new EnumeratedGroupingException(t.lineInfo,
-					grouping_exception_types.UNFINISHED_BEGIN_END);
+					GroupingExceptionTypes.UNFINISHED_BEGIN_END);
 		} else if (t instanceof BracketedToken) {
 			return new EnumeratedGroupingException(t.lineInfo,
-					grouping_exception_types.UNFINISHED_BRACKETS);
+					GroupingExceptionTypes.UNFINISHED_BRACKETS);
 		} else {
 			return new EnumeratedGroupingException(t.lineInfo,
-					grouping_exception_types.UNFINISHED_CONSTRUCT);
+					GroupingExceptionTypes.UNFINISHED_CONSTRUCT);
 		}
 	}
 

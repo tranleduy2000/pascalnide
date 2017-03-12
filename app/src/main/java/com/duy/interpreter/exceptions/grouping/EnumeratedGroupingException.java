@@ -8,19 +8,19 @@ public class EnumeratedGroupingException extends GroupingException {
      */
     private static final long serialVersionUID = 5878580280861132626L;
     public Exception caused;
-    grouping_exception_types grouping_exception_type;
+    public GroupingExceptionTypes exceptionTypes;
 
-    public EnumeratedGroupingException(LineInfo line, grouping_exception_types t) {
+    public EnumeratedGroupingException(LineInfo line, GroupingExceptionTypes t) {
         super(line);
-        this.grouping_exception_type = t;
+        this.exceptionTypes = t;
     }
 
     @Override
     public String getMessage() {
-        return grouping_exception_type.message + ((caused == null) ? ("") : (": " + caused.getMessage()));
+        return exceptionTypes.message + ((caused == null) ? ("") : (": " + caused.getMessage()));
     }
 
-    public enum grouping_exception_types {
+    public enum GroupingExceptionTypes {
         MISMATCHED_PARENS("Mismatched parentheses"),
         MISMATCHED_BRACKETS("Mismatched brackets"),
         MISMATCHED_BEGIN_END("Mismatched begin - end construct"),
@@ -35,7 +35,7 @@ public class EnumeratedGroupingException extends GroupingException {
         NEWLINE_IN_QUOTES("You must close your quotes before starting a new line");
         public String message;
 
-        grouping_exception_types(String message) {
+        GroupingExceptionTypes(String message) {
             this.message = message;
         }
     }

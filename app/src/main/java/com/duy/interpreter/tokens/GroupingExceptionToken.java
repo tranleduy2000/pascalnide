@@ -12,7 +12,7 @@ public class GroupingExceptionToken extends Token {
 		this.exception = g;
 	}
 
-	public GroupingExceptionToken(LineInfo line, EnumeratedGroupingException.grouping_exception_types type) {
+	public GroupingExceptionToken(LineInfo line, EnumeratedGroupingException.GroupingExceptionTypes type) {
 		super(line);
 		this.exception = new EnumeratedGroupingException(line, type);
 	}

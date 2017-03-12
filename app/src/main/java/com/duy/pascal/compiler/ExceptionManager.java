@@ -12,6 +12,7 @@ import com.duy.interpreter.exceptions.BadFunctionCallException;
 import com.duy.interpreter.exceptions.ExpectedTokenException;
 import com.duy.interpreter.exceptions.MultipleDefinitionsMainException;
 import com.duy.interpreter.exceptions.NoSuchFunctionOrVariableException;
+import com.duy.interpreter.exceptions.UnrecognizedTokenException;
 import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
 
 /**
@@ -36,13 +37,39 @@ public class ExceptionManager {
             return new SpannableString(context.getString(R.string.multi_define_main));
         } else if (e instanceof EnumeratedGroupingException) {
             return processEnumeratedGroupingException((EnumeratedGroupingException) e);
+        } else if (e instanceof UnrecognizedTokenException) {
+            return processUnrecognizedTokenException((UnrecognizedTokenException) e);
         } else {
             return new SpannableString(e.getMessage());
         }
     }
 
+    private Spannable processUnrecognizedTokenException(UnrecognizedTokenException e) {
+        String msg = context.getString(R.string.token_not_belong) + " ";
+        Spannable span = new SpannableString(msg + e.token.toString());
+        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
+                msg.length(), msg.length() + e.token.toString().length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return span;
+    }
+
     private Spannable processEnumeratedGroupingException(EnumeratedGroupingException e) {
-        return null;
+        EnumeratedGroupingException.GroupingExceptionTypes exceptionTypes = e.exceptionTypes;
+        if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION) {
+            return new SpannableString(context.getString(R.string.IOException_reading_input));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.EXTRA_END) {
+            return new SpannableString(context.getString(R.string.extra_end_program));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR) {
+            return new SpannableString(context.getString(R.string.Incomplete_character_literal));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BEGIN_END) {
+            return new SpannableString(context.getString(R.string.Mismatched_begin_end));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BRACKETS) {
+            return new SpannableString(context.getString(R.string.Mismatched_brackets));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_PARENS) {
+            return new SpannableString(context.getString(R.string.Mismatched_parentheses));
+        }
+        return new SpannableString(e.getMessage());
     }
 
     private Spannable processBadFunctionCallException(Exception e) {

@@ -58,11 +58,11 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Stack;
 
-import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types.INCOMPLETE_CHAR;
-import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types.IO_EXCEPTION;
-import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types.MISMATCHED_BRACKETS;
-import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types.MISSING_INCLUDE;
-import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types.NEWLINE_IN_QUOTES;
+import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR;
+import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION;
+import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BRACKETS;
+import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE;
+import static com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES;
 
 
 /**

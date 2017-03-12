@@ -24,6 +24,8 @@ import com.duy.pascal.compiler.data.Preferences;
 
 import java.util.Locale;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 /**
  * abstract theme for app
@@ -37,6 +39,10 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     public static final String TAG = "MainActivity";
     protected Preferences mPreferences;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     /**
      * set theme and init mHistoryDatabase for history

@@ -320,6 +320,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);
         }
+        highlightWithoutChange(getEditableText());
     }
 
     @Override

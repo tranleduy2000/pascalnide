@@ -1,7 +1,7 @@
 package com.duy.interpreter.tokens.closing;
 
 import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
-import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types;
+import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes;
 import com.duy.interpreter.exceptions.grouping.GroupingException;
 import com.duy.interpreter.linenumber.LineInfo;
 import com.duy.interpreter.tokens.grouping.BracketedToken;
@@ -17,7 +17,7 @@ public class EndBracketToken extends ClosingToken {
     public GroupingException getClosingException(GrouperToken t) {
         return t instanceof BracketedToken ? null
                 : new EnumeratedGroupingException(lineInfo,
-                        grouping_exception_types.MISMATCHED_BRACKETS);
+                        GroupingExceptionTypes.MISMATCHED_BRACKETS);
     }
 
     @Override

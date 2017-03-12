@@ -38,7 +38,7 @@ public class NewLexer implements Runnable {
         }
     }
 
-    void TossException(LineInfo line, EnumeratedGroupingException.grouping_exception_types t) {
+    void TossException(LineInfo line, EnumeratedGroupingException.GroupingExceptionTypes t) {
         GroupingExceptionToken gt = new GroupingExceptionToken(line, t);
         for (GrouperToken g : groupers) {
             g.put(gt);
@@ -83,7 +83,7 @@ public class NewLexer implements Runnable {
             } catch (IOException e) {
                 EnumeratedGroupingException g = new EnumeratedGroupingException(
                         top_of_stack.lineInfo,
-                        EnumeratedGroupingException.grouping_exception_types.IO_EXCEPTION);
+                        EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
                 g.caused = e;
                 TossException(g);
                 return;

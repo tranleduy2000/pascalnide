@@ -2,7 +2,7 @@ package com.duy.interpreter.tokenizer;
 
 
 import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
-import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types;
+import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes;
 import com.duy.interpreter.exceptions.grouping.GroupingException;
 import com.duy.interpreter.linenumber.LineInfo;
 import com.duy.interpreter.tokens.EOF_Token;
@@ -120,15 +120,15 @@ public class Grouper implements Runnable {
                                 if (top_of_stack instanceof ParenthesizedToken) {
                                     TossException(new GroupingExceptionToken(
                                             top_of_stack.lineInfo,
-                                            grouping_exception_types.UNFINISHED_PARENS));
+                                            GroupingExceptionTypes.UNFINISHED_PARENS));
                                 } else if (top_of_stack instanceof BeginEndToken) {
                                     TossException(new GroupingExceptionToken(
                                             top_of_stack.lineInfo,
-                                           grouping_exception_types.UNFINISHED_BEGIN_END));
+                                           GroupingExceptionTypes.UNFINISHED_BEGIN_END));
                                 } else {
                                     TossException(new GroupingExceptionToken(
                                             top_of_stack.lineInfo,
-                                            grouping_exception_types.UNFINISHED_CONSTRUCT));
+                                            GroupingExceptionTypes.UNFINISHED_CONSTRUCT));
                                 }
                                 return;
                             } else {
@@ -159,7 +159,7 @@ public class Grouper implements Runnable {
                                 continue do_loop_break;
                             } else {
                                 TossException(new GroupingExceptionToken(line,
-                                        grouping_exception_types.MISMATCHED_BEGIN_END));
+                                        GroupingExceptionTypes.MISMATCHED_BEGIN_END));
                                 return;
                             }
                         } else if (tokenizer.sval == "if") {
@@ -259,7 +259,7 @@ public class Grouper implements Runnable {
                     case ')':
                         if (!(groupers.pop() instanceof ParenthesizedToken)) {
                             TossException(new GroupingExceptionToken(line,
-                                    grouping_exception_types.MISMATCHED_PARENS));
+                                    GroupingExceptionTypes.MISMATCHED_PARENS));
                             return;
 
                         }
@@ -322,7 +322,7 @@ public class Grouper implements Runnable {
                     case ']':
                         if (!(groupers.pop() instanceof BracketedToken)) {
                             TossException(new GroupingExceptionToken(line,
-                                    grouping_exception_types.MISMATCHED_BRACKETS));
+                                    GroupingExceptionTypes.MISMATCHED_BRACKETS));
                             return;
                         }
                         top_of_stack.put(new EOF_Token(line));
@@ -369,7 +369,7 @@ public class Grouper implements Runnable {
                 }
             } catch (IOException e) {
                 EnumeratedGroupingException g = new EnumeratedGroupingException(
-                        line, grouping_exception_types.IO_EXCEPTION);
+                        line, GroupingExceptionTypes.IO_EXCEPTION);
                 TossException(new GroupingExceptionToken(g));
                 return;
             }

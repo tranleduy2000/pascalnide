@@ -46,5 +46,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'frankiesardo:icepick:3.2.0'
     provided 'frankiesardo:icepick-processor:3.2.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 }
 apply plugin: 'com.google.gms.google-services'
