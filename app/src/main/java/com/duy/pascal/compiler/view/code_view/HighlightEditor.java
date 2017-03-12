@@ -130,7 +130,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 
     private void setup(Context context) {
         this.mContext = context;
-        mPreferences = new EditorPreferences(context);
         mPaintNumbers = new Paint();
         mPaintNumbers.setColor(getResources().getColor(R.color.number_color));
         mPaintNumbers.setAntiAlias(true);
@@ -141,8 +140,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
         mGestureDetector = new GestureDetector(getContext(), this);
-
-        setupColor(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
         updateFromSettings(context);
     }
 
@@ -296,6 +293,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 
     public void updateFromSettings(Context c) {
         mPreferences = new EditorPreferences(c);
+        setupColor(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
         setHorizontallyScrolling(!mPreferences.isWrapText());
 //        mPaintHighlight.setAlpha(48);
         setTextSize(mPreferences.getTextSize());

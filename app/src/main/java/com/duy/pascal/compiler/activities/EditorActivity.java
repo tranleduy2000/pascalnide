@@ -41,9 +41,9 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.FileManager;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.utils.ClipboardManager;
-import com.duy.pascal.compiler.view.code_view.HighlightEditor;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
+import com.duy.pascal.compiler.view.code_view.HighlightEditor;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.File;
@@ -688,6 +688,11 @@ public class EditorActivity extends BaseEditorActivity
     public void copyAll() {
         String text = mHighlightEditor.getCleanText();
         ClipboardManager.setClipboard(this, text);
+    }
+
+    @Override
+    public void selectTheme() {
+        startActivity(new Intent(this, SelectThemeActivity.class));
     }
 
     @Override
