@@ -42,7 +42,7 @@ public class CodeViewAdapter extends RecyclerView.Adapter<CodeViewAdapter.CodeHo
 
     @Override
     public CodeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.code_entry, parent, false);
+        View view = inflater.inflate(R.layout.code_view_item, parent, false);
         return new CodeHolder(view);
     }
 

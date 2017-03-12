@@ -103,5 +103,6 @@
     <string name="inp_file" translatable="false">Inp file</string>
     <string name="other" translatable="false">Other</string>
     <string name="theme">Code style</string>
+    <string name="select">Select</string>
 </resources>
 

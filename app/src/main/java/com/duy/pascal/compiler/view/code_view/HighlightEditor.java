@@ -143,7 +143,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         updateFromSettings(context);
     }
 
-    public void setupColor(String name) {
+    public void setTheme(String name) {
         int style = CodeThemeUtils.getCodeTheme(mContext, name);
         TypedArray typedArray = mContext.obtainStyledAttributes(style,
                 R.styleable.CodeTheme);
@@ -293,7 +293,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 
     public void updateFromSettings(Context c) {
         mPreferences = new EditorPreferences(c);
-        setupColor(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
+        setTheme(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
         setHorizontallyScrolling(!mPreferences.isWrapText());
 //        mPaintHighlight.setAlpha(48);
         setTextSize(mPreferences.getTextSize());
