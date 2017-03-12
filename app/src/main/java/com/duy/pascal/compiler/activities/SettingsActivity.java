@@ -211,6 +211,7 @@ public class SettingsActivity extends PreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_font_size)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_font_size)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_code_theme)));
         }
     }
 }

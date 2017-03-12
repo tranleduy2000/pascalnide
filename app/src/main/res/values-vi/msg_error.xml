@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="expected_token">Cú pháp được đề nghị:</string>
+    <string name="expected_token_2">Cú pháp hiện tại là:</string>
+    <string name="not_define_msg">không phải là biến hoặc hàm</string>
+    <string name="bad_function_msg1">Một hoặc nhiều tham số không đúng kiểu dữ liệu khi gọi hàm </string>
+    <string name="bad_function_msg2">Có quá ít hoặc quá nhiều tham số khi gọi hàm </string>
+    <string name="can_not_call_func">Không thể gọi hàm </string>
+    <string name="func_not_define"> , hàm chưa được định nghĩa.</string>
+    <string name="multi_define_main">Quá nhiều chương trình chính được định nghĩa</string>
+
+</resources>

@@ -1,6 +1,7 @@
 package com.js.interpreter.ast.codeunit;
 
 import com.duy.interpreter.exceptions.ExpectedTokenException;
+import com.duy.interpreter.exceptions.MultipleDefinitionsMainException;
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.tokens.basic.PeriodToken;
 import com.duy.interpreter.tokens.grouping.GrouperToken;
@@ -52,7 +53,7 @@ public class PascalProgram extends ExecutableCodeUnit {
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             if (main != null) {
-                throw new ParsingException(i.peek().lineInfo,
+                throw new MultipleDefinitionsMainException(i.peek().lineInfo,
                         "Multiple definitions of main.");
             }
             main = i.get_next_command(this);

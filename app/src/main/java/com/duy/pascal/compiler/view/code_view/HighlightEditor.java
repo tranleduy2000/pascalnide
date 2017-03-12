@@ -489,7 +489,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
                 return e;
             if (errorLine > -1) {
                 Matcher m = line.matcher(e);
-                int count = 0;
+                int count = 0, last = 0;
                 while (m.find()) {
                     if (count == errorLine) {
                         e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
@@ -498,7 +498,14 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         break;
                     }
+                    last = m.end();
                     count++;
+                }
+                if (count == errorLine) {
+                    e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                            last,
+                            e.length(),
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
 

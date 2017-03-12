@@ -10,6 +10,7 @@ import android.text.style.StyleSpan;
 
 import com.duy.interpreter.exceptions.BadFunctionCallException;
 import com.duy.interpreter.exceptions.ExpectedTokenException;
+import com.duy.interpreter.exceptions.MultipleDefinitionsMainException;
 import com.duy.interpreter.exceptions.NoSuchFunctionOrVariableException;
 
 /**
@@ -67,7 +68,7 @@ public class ExceptionManager {
                     String msg = context.getString(R.string.bad_function_msg1) + " ";
                     Spannable span = new SpannableString(msg + functionName);
                     span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                            msg.length(), msg.length() + functionName.length() ,
+                            msg.length(), msg.length() + functionName.length(),
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     return span;
                 } else {
@@ -87,6 +88,8 @@ public class ExceptionManager {
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 return span;
             }
+        } else if (e instanceof MultipleDefinitionsMainException) {
+            return new SpannableString(context.getString(R.string.multi_define_main));
         } else {
             return new SpannableString(e.getMessage());
         }
