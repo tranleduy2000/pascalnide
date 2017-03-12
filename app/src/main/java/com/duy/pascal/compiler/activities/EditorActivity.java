@@ -282,13 +282,13 @@ public class EditorActivity extends BaseEditorActivity
         //index out of bound, decrease it
 //        if (index >= raw.length()) index--;
         //set index error in exit text
-        if (index + lineInfo.column < raw.length()) {
-            mHighlightEditor.setSelection(index + lineInfo.column);
-        } else {
-            mHighlightEditor.setSelection(index);
-        }
-        mHighlightEditor.setLineError(row + 1);
-        mHighlightEditor.refresh();
+//        if (index + lineInfo.column < raw.length()) {
+//            mHighlightEditor.setSelection(index + lineInfo.column);
+//        } else {
+//            mHighlightEditor.setSelection(index);
+//        }
+
+        mHighlightEditor.setLineError(lineInfo.line + 1);
         Log.d(TAG, "showLineError: " + (row + 1) + " - " + col);
     }
 

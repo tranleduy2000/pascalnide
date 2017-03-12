@@ -58,15 +58,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     public boolean syntaxHighlighting = true;
     public float textSize = 14;
     public boolean wordWrap = true;
-
-    public boolean isFlingToScroll() {
-        return flingToScroll;
-    }
-
-    public void setFlingToScroll(boolean flingToScroll) {
-        this.flingToScroll = flingToScroll;
-    }
-
     public boolean flingToScroll = true;
     public OnTextChangedListener onTextChangedListener = null;
     public int updateDelay = 100;
@@ -83,11 +74,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     protected int mHighlightedLine;
     protected int mHighlightStart;
     protected Rect mDrawingRect, mLineBounds;
-    private Context mContext;
-    private CRC32 mCRC32;
-    private boolean modified = true;
-    private int mOldTextlength = 0;
-    private long mOldTextCrc32 = 0;
     //Colors
     protected int COLOR_ERROR;
     protected int COLOR_NUMBER;
@@ -96,6 +82,9 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     protected int COLOR_OPT;
     protected int COLOR_BOOLEANS;
     protected int COLOR_STRINGS;
+    private Context mContext;
+    private CRC32 mCRC32;
+    private boolean modified = true;
     private final Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
@@ -106,17 +95,17 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
                 highlightWithoutChange(e);
         }
     };
+    private int mOldTextlength = 0;
+    private long mOldTextCrc32 = 0;
     private boolean highlightFind = false;
     private String findContent = "";
     private int scrollX = 0, scrollY = 0;
     private EditorPreferences mPreferences;
-
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup(context);
         init();
     }
-
     public HighlightEditor(Context context) {
         super(context);
         setup(context);
@@ -127,6 +116,14 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         super(context, attrs, defStyleAttr);
         setup(context);
         init();
+    }
+
+    public boolean isFlingToScroll() {
+        return flingToScroll;
+    }
+
+    public void setFlingToScroll(boolean flingToScroll) {
+        this.flingToScroll = flingToScroll;
     }
 
     private void setup(Context context) {
@@ -169,7 +166,9 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         COLOR_OPT = typedArray.getInteger(R.styleable.CodeTheme_opt_color,
                 R.color.opt_color);
 
-        setBackgroundColor(resources.getColor(R.color.bg_editor_color));
+        setBackgroundColor(typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
+                R.color.bg_editor_color));
+        setTextColor(typedArray.getInteger(R.styleable.CodeTheme_normal_text_color, R.color.normal_text_color));
         setTypeface(Typeface.MONOSPACE);
         typedArray.recycle();
     }
@@ -186,6 +185,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 
     public void setLineError(int lineError) {
         this.errorLine = lineError;
+        postInvalidate();
     }
 
     public void setCode(String code) {
