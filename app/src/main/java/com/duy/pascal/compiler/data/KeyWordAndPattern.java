@@ -37,7 +37,10 @@ public class KeyWordAndPattern {
             "length(",
             "true", "false",
             //string
-            "concat(", "insert(", "pos(", "upcase("
+            "concat(", "insert(", "pos(", "upcase(", "delete(",
+            //file
+            "writelnf(", "readlnf(", "readf(", "writef(", "assign(", "close(", "reset(", "rewrite",
+            "eof("
     };
     public static final String[] OPERATOR_BOOLEAN = new String[]{
             "and", "or", "xor", "not", "<", ">", "=", "<>", "<=", ">="

@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,6 +28,8 @@ import butterknife.ButterKnife;
 
 public class SelectThemeActivity extends AbstractAppCompatActivity {
 
+    @BindView(R.id.toolbar)
+    public Toolbar toolbar;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
@@ -33,9 +38,31 @@ public class SelectThemeActivity extends AbstractAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_theme);
         ButterKnife.bind(this);
+        setupActionBar();
+
         CodeThemeAdapter codeThemeAdapter = new CodeThemeAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(codeThemeAdapter);
+    }
+
+    private void setupActionBar() {
+        setSupportActionBar(toolbar);
+        setTitle(R.string.theme);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
+
     }
 
     public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.ViewHolder> {
@@ -51,7 +78,7 @@ public class SelectThemeActivity extends AbstractAppCompatActivity {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.code_view_item, parent, false);
+            View view = inflater.inflate(R.layout.code_theme_item, parent, false);
             return new ViewHolder(view);
         }
 

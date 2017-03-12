@@ -42,15 +42,15 @@
         <menu>
             <item
                 android:id="@+id/action_undo"
+                android:enabled="false"
                 android:icon="@drawable/ic_undo_white_24dp"
                 android:title="@string/undo"
-                android:enabled="false"
                 app:showAsAction="ifRoom" />
             <item
                 android:id="@+id/action_redo"
+                android:enabled="false"
                 android:icon="@drawable/ic_redo_white_24dp"
                 android:title="@string/redo"
-                android:enabled="false"
                 app:showAsAction="always" />
 
             <item
@@ -88,10 +88,10 @@
                 android:id="@+id/action_format"
                 android:icon="@drawable/ic_format_indent_increase_white_24dp"
                 android:title="@string/format_code" />
-  <item
+            <item
                 android:id="@+id/action_select_theme"
-                android:icon="@drawable/ic_format_indent_increase_white_24dp"
-                android:title="@string/format_code" />
+                android:icon="@drawable/ic_color_lens_white_24dp"
+                android:title="@string/theme" />
 
             <item
                 android:id="@+id/action_setting"
