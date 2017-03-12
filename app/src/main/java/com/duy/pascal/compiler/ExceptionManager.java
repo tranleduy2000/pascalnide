@@ -64,17 +64,17 @@ public class ExceptionManager {
             boolean numargsMatch = ((BadFunctionCallException) e).numargsMatch;
             if (functionExists) {
                 if (numargsMatch) {
-                    String msg = context.getString(R.string.bad_function_msg1);
+                    String msg = context.getString(R.string.bad_function_msg1) + " ";
                     Spannable span = new SpannableString(msg + functionName);
                     span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                            msg.length(), msg.length() + span.length(),
+                            msg.length(), msg.length() + functionName.length() ,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     return span;
                 } else {
-                    String msg = context.getString(R.string.bad_function_msg2);
+                    String msg = context.getString(R.string.bad_function_msg2) + " ";
                     Spannable span = new SpannableString(msg + functionName);
                     span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                            msg.length(), msg.length() + span.length(),
+                            msg.length(), msg.length() + functionName.length(),
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     return span;
                 }

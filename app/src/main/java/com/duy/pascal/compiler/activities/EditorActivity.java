@@ -41,7 +41,7 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.FileManager;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.utils.ClipboardManager;
-import com.duy.pascal.compiler.view.HighlightEditor;
+import com.duy.pascal.compiler.view.code_view.HighlightEditor;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
 import com.js.interpreter.core.ScriptSource;
@@ -267,13 +267,12 @@ public class EditorActivity extends BaseEditorActivity
         String raw = getCode();
 
         //calc line
-        int currentLine = 0, index = 0;
+        int currentLine = 0;
         for (char c : raw.toCharArray()) {
             if (c == '\n') currentLine++;
             if (currentLine == lineInfo.line) {
                 break;
             }
-            index++;
         }
         //space or end line
 //        while (index < raw.length() &&
@@ -288,8 +287,9 @@ public class EditorActivity extends BaseEditorActivity
 //            mHighlightEditor.setSelection(index);
 //        }
 
-        mHighlightEditor.setLineError(lineInfo.line + 1);
-        Log.d(TAG, "showLineError: " + (row + 1) + " - " + col);
+        mHighlightEditor.setLineError(lineInfo.line);
+        mHighlightEditor.refresh();
+        Log.d(TAG, "showLineError: " + (row) + " - " + col);
     }
 
     public String getCode() {

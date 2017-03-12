@@ -15,7 +15,7 @@
         android:layout_above="@+id/recycler_view"
         android:fillViewport="true">
 
-        <com.duy.pascal.compiler.view.HighlightEditor
+        <com.duy.pascal.compiler.view.code_view.HighlightEditor
             android:id="@+id/edit_editor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

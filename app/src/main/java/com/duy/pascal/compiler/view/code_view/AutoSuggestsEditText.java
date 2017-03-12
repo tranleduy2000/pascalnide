@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.view;
+package com.duy.pascal.compiler.view.code_view;
 
 import android.content.Context;
 import android.text.SpannableString;

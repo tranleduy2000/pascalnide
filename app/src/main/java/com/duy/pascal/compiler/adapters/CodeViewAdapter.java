@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.alogrithm.AutoIndentCode;
 import com.duy.pascal.compiler.utils.ClipboardManager;
-import com.duy.pascal.compiler.view.HighlightEditor;
+import com.duy.pascal.compiler.view.code_view.HighlightEditor;
 
 import java.util.ArrayList;
 

@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.view.FileListView;
-import com.duy.pascal.compiler.view.HighlightEditor;
+import com.duy.pascal.compiler.view.code_view.HighlightEditor;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
 

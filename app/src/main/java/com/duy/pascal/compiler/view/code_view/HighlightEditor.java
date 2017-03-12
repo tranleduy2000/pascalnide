@@ -1,7 +1,6 @@
-package com.duy.pascal.compiler.view;
+package com.duy.pascal.compiler.view.code_view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -34,6 +33,7 @@ import android.widget.Scroller;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.editor.EditorListener;
+import com.duy.pascal.compiler.view.EditorPreferences;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -101,11 +101,13 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     private String findContent = "";
     private int scrollX = 0, scrollY = 0;
     private EditorPreferences mPreferences;
+
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup(context);
         init();
     }
+
     public HighlightEditor(Context context) {
         super(context);
         setup(context);
@@ -143,10 +145,7 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         updateFromSettings(context);
     }
 
-    private void setupColor(Context mContext) {
-        Resources resources = mContext.getResources();
-
-
+    public void setupColor(Context mContext) {
         TypedArray typedArray = mContext.obtainStyledAttributes(R.style.CodeTheme_BrightYellow,
                 R.styleable.CodeTheme);
         typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
@@ -185,11 +184,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 
     public void setLineError(int lineError) {
         this.errorLine = lineError;
-        postInvalidate();
-    }
-
-    public void setCode(String code) {
-
     }
 
     @Override
@@ -494,13 +488,17 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
             if (e.length() == 0)
                 return e;
             if (errorLine > 0) {
-                BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(COLOR_ERROR);
                 Matcher m = line.matcher(e);
-                for (int n = errorLine; n-- > 0 && m.find(); ) {
-                    e.setSpan(backgroundColorSpan,
-                            m.start(),
-                            m.end(),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                int count = 0;
+                while (m.find()) {
+                    if (count == errorLine) {
+                        e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                                m.start(),
+                                m.end(),
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        break;
+                    }
+                    count++;
                 }
             }
 

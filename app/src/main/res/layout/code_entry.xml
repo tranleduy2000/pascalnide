@@ -55,7 +55,7 @@
                 android:src="@drawable/ic_content_copy_white_24dp" />
         </LinearLayout>
 
-        <com.duy.pascal.compiler.view.HighlightEditor
+        <com.duy.pascal.compiler.view.code_view.HighlightEditor
             android:id="@+id/code_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
