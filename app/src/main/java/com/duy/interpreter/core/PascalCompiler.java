@@ -20,7 +20,7 @@ import com.duy.pascal.compiler.activities.ExecuteActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
-import com.js.interpreter.ast.PluginDeclaration;
+import com.js.interpreter.ast.MethodDeclaration;
 import com.js.interpreter.ast.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.ast.codeunit.Library;
 import com.js.interpreter.ast.codeunit.PascalProgram;
@@ -32,12 +32,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class PascalCompiler {
     public static final String TAG = PascalCompiler.class.getSimpleName();
@@ -66,8 +68,9 @@ public class PascalCompiler {
             List<ScriptSource> libraries = new ArrayList<ScriptSource>();
             List<ScriptSource> includes = new ArrayList<ScriptSource>();
             String fileName = "C:\\Users\\Duy\\Downloads\\tests\\compare\\test_function.pas";
+            String program = "var a, b: integer; begin a := 1; b := 2; write(a); write(b); end.";
             Reader reader = new FileReader(new File(fileName));
-            debug(fileName, reader, includes, libraries);
+            debug(fileName, new StringReader(program), includes, libraries);
         } catch (ParsingException e) {
             if (DEBUG) System.err.println(e.line + ":" + e.getMessage());
         } catch (RuntimePascalException e) {
@@ -80,9 +83,7 @@ public class PascalCompiler {
     public ListMultimap<String, AbstractFunction> loadFunctionTable(
             List<ScriptSource> includeSearchPath,
             List<ScriptSource> librarySearchPath) throws ParsingException {
-        if (android) {
-            Log.d(TAG, "loadFunctionTable: ");
-        }
+
         ListMultimap<String, AbstractFunction> functionTable = ArrayListMultimap.create();
         loadPluginsPascal(functionTable);
         loadLibraries(functionTable, librarySearchPath, includeSearchPath);
@@ -92,8 +93,10 @@ public class PascalCompiler {
     public PascalProgram loadPascal(String sourcename, Reader in,
                                     List<ScriptSource> includeSearchPath,
                                     List<ScriptSource> librarySearchPath) throws ParsingException {
+
         ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(
                 includeSearchPath, librarySearchPath);
+
         if (android) {
             Log.d(TAG, "loadPascal: " + sourcename);
         }
@@ -144,6 +147,7 @@ public class PascalCompiler {
     }
 
     private void loadPluginsPascal(ListMultimap<String, AbstractFunction> functionTable) {
+
         ArrayList<Class> classes = new ArrayList<>();
         classes.add(ConversionLib.class);
         classes.add(MathLib.class);
@@ -181,10 +185,10 @@ public class PascalCompiler {
 
             for (Method m : pascalPlugin.getDeclaredMethods()) {
                 if (Modifier.isPublic(m.getModifiers())) {
-                    PluginDeclaration tmp = new PluginDeclaration(o, m);
+                    MethodDeclaration tmp = new MethodDeclaration(o, m);
                     functionTable.put(tmp.name().toLowerCase(), tmp);
                 }
-                System.out.println("#method " + m.getName());
+//                System.out.println("#method " + m.getName());
             }
         }
 

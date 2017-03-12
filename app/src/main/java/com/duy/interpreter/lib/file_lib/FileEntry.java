@@ -64,6 +64,7 @@ public class FileEntry {
         randomAccessFile.setLength(0);
         randomAccessFile.close();
         mWriter = new BufferedWriter(new FileWriter(f));
+
     }
 
     public int readInt() throws IOException {

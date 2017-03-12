@@ -1,7 +1,7 @@
 package com.duy.interpreter.tokenizer;
 
-import com.js.interpreter.core.ScriptSource;
 import com.duy.interpreter.tokens.EOF_Token;
+import com.js.interpreter.core.ScriptSource;
 
 import java.io.File;
 import java.io.FileReader;
@@ -30,7 +30,7 @@ public class ParserTest {
             try {
                 Object t = lexer.yylex();
                 System.out.println(t.getClass().getSimpleName());
-                if (t instanceof EOF_Token){
+                if (t instanceof EOF_Token) {
                     return;
                 }
             } catch (IOException e) {

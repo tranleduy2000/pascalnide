@@ -24,22 +24,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class PluginDeclaration extends AbstractCallableFunction {
-    private Object owner;
+public class MethodDeclaration extends AbstractCallableFunction {
+    private Object parent;
 
     private Method method;
 
     private ArgumentType[] argCache = null;
 
-    public PluginDeclaration(Object owner, Method m) {
-        this.owner = owner;
+    public MethodDeclaration(Object owner, Method m) {
+        this.parent = owner;
         method = m;
     }
 
     @Override
-    public Object call(VariableContext parentcontext, RuntimeExecutable<?> main, Object[] arguments)
+    public Object call(VariableContext parentContext, RuntimeExecutable<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        return method.invoke(owner, arguments);
+        return method.invoke(parent, arguments);
     }
 
     private Type getFirstGenericType(Type t) {
@@ -85,14 +85,14 @@ public class PluginDeclaration extends AbstractCallableFunction {
 
     private RuntimeType convertReferenceType(Type javatype, Iterator<SubrangeType> arraysizes) {
         Type subtype = javatype;
-        boolean pointer = javatype == VariableBoxer.class
-                || (javatype instanceof ParameterizedType && ((ParameterizedType) javatype)
-                .getRawType() == VariableBoxer.class);
+        boolean pointer = javatype == VariableBoxer.class ||
+                (javatype instanceof ParameterizedType
+                        && ((ParameterizedType) javatype).getRawType() == VariableBoxer.class);
         if (pointer) {
             subtype = getFirstGenericType(javatype);
         }
-        DeclaredType arraytype = convertArrayType(subtype, arraysizes);
-        return new RuntimeType(arraytype, pointer);
+        DeclaredType arrayType = convertArrayType(subtype, arraysizes);
+        return new RuntimeType(arrayType, pointer);
     }
 
     private RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(Type javatype,
@@ -158,7 +158,7 @@ public class PluginDeclaration extends AbstractCallableFunction {
 
     @Override
     public LineInfo getLineNumber() {
-        return new LineInfo(-1, owner.getClass().getCanonicalName());
+        return new LineInfo(-1, parent.getClass().getCanonicalName());
     }
 
 }

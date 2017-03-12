@@ -2,6 +2,7 @@ package com.duy.pascal.compiler.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -88,13 +89,13 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     private int mOldTextlength = 0;
     private long mOldTextCrc32 = 0;
     //Colors
-    private int COLOR_ERROR;
-    private int COLOR_NUMBER;
-    private int COLOR_KEYWORD;
-    private int COLOR_COMMENT;
-    private int COLOR_OPT;
-    private int COLOR_BOOLEANS;
-    private int COLOR_STRINGS;
+    protected int COLOR_ERROR;
+    protected int COLOR_NUMBER;
+    protected int COLOR_KEYWORD;
+    protected int COLOR_COMMENT;
+    protected int COLOR_OPT;
+    protected int COLOR_BOOLEANS;
+    protected int COLOR_STRINGS;
     private final Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
@@ -147,15 +148,30 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
 
     private void setupColor(Context mContext) {
         Resources resources = mContext.getResources();
-        COLOR_ERROR = resources.getColor(R.color.error_color);
-        COLOR_NUMBER = resources.getColor(R.color.number_color);
-        COLOR_KEYWORD = resources.getColor(R.color.key_word_color);
-        COLOR_COMMENT = resources.getColor(R.color.comment_color);
-        COLOR_STRINGS = resources.getColor(R.color.string_color);
-        COLOR_BOOLEANS = resources.getColor(R.color.boolean_color);
-        COLOR_OPT = resources.getColor(R.color.opt_color);
+
+
+        TypedArray typedArray = mContext.obtainStyledAttributes(R.style.CodeTheme_BrightYellow,
+                R.styleable.CodeTheme);
+        typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
+                R.color.bg_editor_color);
+        COLOR_ERROR = typedArray.getInteger(R.styleable.CodeTheme_error_color,
+                R.color.error_color);
+        COLOR_NUMBER = typedArray.getInteger(R.styleable.CodeTheme_number_color,
+                R.color.number_color);
+        COLOR_KEYWORD = typedArray.getInteger(R.styleable.CodeTheme_key_word_color,
+                R.color.key_word_color);
+        COLOR_COMMENT = typedArray.getInteger(R.styleable.CodeTheme_comment_color,
+                R.color.comment_color);
+        COLOR_STRINGS = typedArray.getInteger(R.styleable.CodeTheme_string_color,
+                R.color.string_color);
+        COLOR_BOOLEANS = typedArray.getInteger(R.styleable.CodeTheme_boolean_color,
+                R.color.boolean_color);
+        COLOR_OPT = typedArray.getInteger(R.styleable.CodeTheme_opt_color,
+                R.color.opt_color);
+
         setBackgroundColor(resources.getColor(R.color.bg_editor_color));
         setTypeface(Typeface.MONOSPACE);
+        typedArray.recycle();
     }
 
     public void computeScroll() {

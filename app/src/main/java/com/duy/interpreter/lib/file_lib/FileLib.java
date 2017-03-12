@@ -28,10 +28,12 @@ public class FileLib implements PascalLibrary {
      * @param name   - file path
      */
     public void assign(VariableBoxer<Integer> fileID, String name) {
+        //assign(f, 'file.inp');
         numberFiles++;
         fileID.set(numberFiles);
         FileEntry fileEntry = new FileEntry(name);
         filesMap.put(numberFiles, fileEntry);
+
     }
 
     public void rewrite(int fileID) throws IOException {

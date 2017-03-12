@@ -108,13 +108,13 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 	}
 
 	@Override
-	public Object call(VariableContext parentcontext,
+	public Object call(VariableContext parentContext,
 			RuntimeExecutable<?> main, Object[] arguments)
 			throws RuntimePascalException {
 		if (this.declarations.root() instanceof Library) {
-			parentcontext = main.getLibrary((Library) declarations.root());
+			parentContext = main.getLibrary((Library) declarations.root());
 		}
-		return new FunctionOnStack(parentcontext, main, this, arguments)
+		return new FunctionOnStack(parentContext, main, this, arguments)
 				.execute();
 	}
 

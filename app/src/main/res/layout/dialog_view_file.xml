@@ -14,6 +14,7 @@
 
     <com.duy.pascal.compiler.view.HighlightEditor
         android:id="@+id/code_view"
+        android:text="begin end for to do"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:editable="false" />

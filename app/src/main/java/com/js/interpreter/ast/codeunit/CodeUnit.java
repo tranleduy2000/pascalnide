@@ -9,6 +9,7 @@ import com.duy.interpreter.tokens.basic.ProgramToken;
 import com.duy.interpreter.tokens.grouping.GrouperToken;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
+import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.core.ScriptSource;
@@ -21,12 +22,21 @@ public abstract class CodeUnit {
     public final ExpressionContextMixin context;
     private String program_name;
 
+    private final boolean DEBUG = true;
     public CodeUnit(ListMultimap<String, AbstractFunction> functionTable) {
         prepareForParsing();
         this.context = getExpressionContextInstance(functionTable);
         SystemConstants.addSystemConstant(context);
         SystemConstants.addSystemType(context);
+    }
 
+    private void debug() {
+        if (DEBUG){
+            List<VariableDeclaration> unitVarDefs = context.getUnitVarDefs();
+            for (VariableDeclaration variableDeclaration: unitVarDefs){
+                System.out.println(variableDeclaration.get_name());
+            }
+        }
     }
 
     public CodeUnit(Reader program,
@@ -37,6 +47,8 @@ public abstract class CodeUnit {
         NewLexer grouper = new NewLexer(program, sourcename, includeDirectories);
         new Thread(grouper).start();
         parse_tree(grouper.token_queue);
+        debug();
+
     }
 
     protected CodeUnitExpressionContext getExpressionContextInstance(

@@ -65,12 +65,10 @@ public class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMul
 
     private void init(Context context) {
         this.context = context;
-        if (!isInEditMode()) {
-            invalidateKeyWord("");
-            setTokenizer(new CodeTokenizer());
-            setThreshold(1);
-            mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
-        }
+        invalidateKeyWord("");
+        setTokenizer(new CodeTokenizer());
+        setThreshold(1);
+        mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
     }
 
 

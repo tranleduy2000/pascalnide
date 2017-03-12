@@ -41,9 +41,9 @@ import java.util.Map;
 public abstract class ExpressionContextMixin extends
         HeirarchicalExpressionContext {
     private final ListMultimap<String, AbstractFunction> callable_functions;
-    public Map<String, ConstantDefinition> constants = new HashMap<String, ConstantDefinition>();
     public List<VariableDeclaration> UnitVarDefs = new ArrayList<VariableDeclaration>();
-    Map<String, DeclaredType> typedefs = new HashMap<>();
+    private Map<String, ConstantDefinition> constants = new HashMap<String, ConstantDefinition>();
+    private Map<String, DeclaredType> typedefs = new HashMap<>();
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
         this(root, parent, (ListMultimap) ArrayListMultimap.create());
@@ -53,6 +53,22 @@ public abstract class ExpressionContextMixin extends
                                   ListMultimap<String, AbstractFunction> callable_functions) {
         super(root, parent);
         this.callable_functions = callable_functions;
+    }
+
+    public ListMultimap<String, AbstractFunction> getCallable_functions() {
+        return callable_functions;
+    }
+
+    public Map<String, ConstantDefinition> getConstants() {
+        return constants;
+    }
+
+    public List<VariableDeclaration> getUnitVarDefs() {
+        return UnitVarDefs;
+    }
+
+    public Map<String, DeclaredType> getTypedefs() {
+        return typedefs;
     }
 
     public FunctionDeclaration getExistingFunction(FunctionDeclaration f)

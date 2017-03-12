@@ -4,9 +4,9 @@ package com.js.interpreter.ast;
 import com.duy.interpreter.linenumber.LineInfo;
 
 public class ConstantDefinition implements NamedEntity {
-	String name;
-	Object value;
-	LineInfo line;
+	private String name;
+	private Object value;
+	private LineInfo line;
 
 	public ConstantDefinition(String name, Object value, LineInfo line) {
 		this.name = name;
