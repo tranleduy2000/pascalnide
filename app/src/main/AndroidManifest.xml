@@ -75,6 +75,9 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_code_white_24dp"
             android:label="@string/title_activity_code_sample" />
+        <activity
+            android:name=".activities.SelectThemeActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout" />
     </application>
 
 </manifest>

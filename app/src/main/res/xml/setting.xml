@@ -34,6 +34,14 @@
             android:enabled="false"
             android:key="@string/key_pref_font"
             android:title="@string/font" />
+
+        <ListPreference
+            android:defaultValue="@string/default_theme"
+            android:entries="@array/code_themes"
+            android:entryValues="@array/code_themes"
+            android:key="@string/key_code_theme"
+            android:title="@string/theme" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/user_interface">
         <CheckBoxPreference

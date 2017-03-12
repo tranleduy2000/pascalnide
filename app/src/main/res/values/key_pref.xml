@@ -7,6 +7,7 @@
     <string name="key_show_hint" translatable="false">key_show_hint</string>
     <string name="key_pref_lang" translatable="false">key_pref_lang</string>
     <string name="lang_default" translatable="false">default_lang</string>
+    <string name="key_code_theme" translatable="false">key_code_theme</string>
 
     <string-array name="language_entry" translatable="false">
         <item>@string/default_</item>

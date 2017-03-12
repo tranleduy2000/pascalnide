@@ -102,5 +102,6 @@
     <string name="pas_file" translatable="false">Pas file</string>
     <string name="inp_file" translatable="false">Inp file</string>
     <string name="other" translatable="false">Other</string>
+    <string name="theme">Code style</string>
 </resources>
 

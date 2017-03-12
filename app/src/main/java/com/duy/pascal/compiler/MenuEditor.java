@@ -99,6 +99,9 @@ public class MenuEditor {
             case R.id.action_copy_all:
                 listener.copyAll();
                 break;
+            case R.id.action_select_theme:
+                listener.selectTheme();
+                break;
         }
         return true;
     }
@@ -154,5 +157,7 @@ public class MenuEditor {
         void paste();
 
         void copyAll();
+
+        void selectTheme();
     }
 }

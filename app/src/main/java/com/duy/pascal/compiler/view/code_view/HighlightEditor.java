@@ -131,7 +131,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
     private void setup(Context context) {
         this.mContext = context;
         mPreferences = new EditorPreferences(context);
-        setupColor(mContext);
         mPaintNumbers = new Paint();
         mPaintNumbers.setColor(getResources().getColor(R.color.number_color));
         mPaintNumbers.setAntiAlias(true);
@@ -142,11 +141,14 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
         mGestureDetector = new GestureDetector(getContext(), this);
+
+        setupColor(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
         updateFromSettings(context);
     }
 
-    public void setupColor(Context mContext) {
-        TypedArray typedArray = mContext.obtainStyledAttributes(R.style.CodeTheme_EspressoLibre,
+    public void setupColor(String name) {
+        int style = CodeThemeUtils.getCodeTheme(mContext, name);
+        TypedArray typedArray = mContext.obtainStyledAttributes(style,
                 R.styleable.CodeTheme);
         typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
                 R.color.bg_editor_color);
