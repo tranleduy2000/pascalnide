@@ -94,12 +94,12 @@
       <item>@string/KFT2</item>
     </string-array>
 
-    <string name="default_theme">DPascal</string>
-    <string name="BrightYellow">Bright Yellow</string>
-    <string name="DarkGray">Dark Gray</string>
-    <string name="EspressoLibre">Espresso Libre</string>
-    <string name="Idel">Idel</string>
-    <string name="KFT2">KFT2</string>
+    <string name="default_theme" translatable="false">DPascal</string>
+    <string name="BrightYellow" translatable="false">Bright Yellow</string>
+    <string name="DarkGray" translatable="false">Dark Gray</string>
+    <string name="EspressoLibre" translatable="false">Espresso Libre</string>
+    <string name="Idel" translatable="false">Idel</string>
+    <string name="KFT2" translatable="false">KFT2</string>
 
     <color name="key_word_color">#60d9f1</color>
     <color name="comment_color">#766c4a</color>

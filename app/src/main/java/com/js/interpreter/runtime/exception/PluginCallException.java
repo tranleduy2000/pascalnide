@@ -17,7 +17,6 @@ public class PluginCallException extends RuntimePascalException {
 	@Override
 	public String getMessage() {
         return "When calling Function or Procedure " + function.name()
-                + ", The following java exception occured: "
-				+ cause;
+                + ", The following java exception: " + cause;
 	}
 }

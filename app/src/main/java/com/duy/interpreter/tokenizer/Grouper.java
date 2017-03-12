@@ -158,8 +158,7 @@ public class Grouper implements Runnable {
                                 groupers.pop();
                                 continue do_loop_break;
                             } else {
-                                TossException(new GroupingExceptionToken(
-                                        line,
+                                TossException(new GroupingExceptionToken(line,
                                         grouping_exception_types.MISMATCHED_BEGIN_END));
                                 return;
                             }

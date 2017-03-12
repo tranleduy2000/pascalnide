@@ -8,4 +8,15 @@
     <string name="can_not_call_func">Can not call function</string>
     <string name="func_not_define"> , which is not defined.</string>
     <string name="multi_define_main">Multiple definitions of main</string>
+    <string name="Mismatched_parentheses">Mismatched parentheses</string>
+    <string name="Mismatched_brackets">Mismatched brackets</string>
+    <string name="Mismatched_begin_end">Mismatched begin - end construct</string>
+    <string name="Unfinished_begin_end">Unfinished begin - end construct</string>
+    <string name="forgot_close_parentheses">You forgot to close your parentheses</string>
+    <string name="forgot_close_brackets">You forgot to close your brackets</string>
+    <string name="extra_end_program">You have an extra \'end\' in your program</string>
+    <string name="forgot_complete_started">You forgot to complete the structure you started here</string>
+    <string name="IOException_reading_input">IOException occurred while reading the input</string>
+    <string name="Incomplete_character_literal">Incomplete character literal</string>
+    <string name="close_quote_to_start_new_line">You must close your quotes before starting a new line</string>
 </resources>

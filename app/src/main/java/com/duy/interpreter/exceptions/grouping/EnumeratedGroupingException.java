@@ -17,23 +17,22 @@ public class EnumeratedGroupingException extends GroupingException {
 
     @Override
     public String getMessage() {
-        return grouping_exception_type.message
-                + ((caused == null) ? ("") : (": " + caused.getMessage()));
+        return grouping_exception_type.message + ((caused == null) ? ("") : (": " + caused.getMessage()));
     }
 
-    public static enum grouping_exception_types {
-        MISMATCHED_PARENS("Mismatched parentheses"), MISMATCHED_BRACKETS(
-                "Mismatched brackets"), MISMATCHED_BEGIN_END(
-                "Mismatched begin-end construct"), UNFINISHED_BEGIN_END(
-                "Unfinished begin-end construct"), UNFINISHED_PARENS(
-                "You forgot to close your parentheses"), UNFINISHED_BRACKETS(
-                "You forgot to close your brackets"), EXTRA_END(
-                "You have an extra 'end' in your program"), UNFINISHED_CONSTRUCT(
-                "You forgot to complete the structure you started here"), IO_EXCEPTION(
-                "IOException occured while reading the input"), INCOMPLETE_CHAR(
-                "Incomplete character literal"), MISSING_INCLUDE(
-                "Missing file to include"), NEWLINE_IN_QUOTES(
-                "You must close your quotes before starting a new line");
+    public enum grouping_exception_types {
+        MISMATCHED_PARENS("Mismatched parentheses"),
+        MISMATCHED_BRACKETS("Mismatched brackets"),
+        MISMATCHED_BEGIN_END("Mismatched begin - end construct"),
+        UNFINISHED_BEGIN_END("Unfinished begin - end construct"),
+        UNFINISHED_PARENS("You forgot to close your parentheses"),
+        UNFINISHED_BRACKETS("You forgot to close your brackets"),
+        EXTRA_END("You have an extra 'end' in your program"),
+        UNFINISHED_CONSTRUCT("You forgot to complete the structure you started here"),
+        IO_EXCEPTION("IOException occured while reading the input"),
+        INCOMPLETE_CHAR("Incomplete character literal"),
+        MISSING_INCLUDE("Missing file to include"),
+        NEWLINE_IN_QUOTES("You must close your quotes before starting a new line");
         public String message;
 
         grouping_exception_types(String message) {
