@@ -502,12 +502,6 @@ public class HighlightEditor extends AutoSuggestsEditText implements EditorListe
                     last = m.end();
                     count++;
                 }
-                if (count == errorLine) {
-                    e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
-                            last,
-                            e.length(),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
             }
 
             for (Matcher m = numbers.matcher(e); m.find(); ) {

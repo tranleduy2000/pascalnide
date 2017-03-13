@@ -21,7 +21,7 @@ public class DApplication extends Application {
     public void onCreate() {
         super.onCreate();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Roboto-Regular.ttf")
+                .setDefaultFontPath("fonts/Roboto-Light.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

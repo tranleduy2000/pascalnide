@@ -94,7 +94,7 @@
     <string name="redo">redo</string>
     <string name="paste">Paste</string>
     <string name="copy_all">Copy all</string>
-    <string name="pascal_for_android" translatable="false">Pascal for android</string>
+    <string name="pascal_for_android" translatable="false">Pascal for Android</string>
     <string name="exit">Exit</string>
     <string name="exit_mgs">Do you want to exit application?</string>
     <string name="setting_editor">Settting editor</string>

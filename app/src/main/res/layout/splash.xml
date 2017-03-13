@@ -14,13 +14,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:text="@string/pascal_for_android"
-        android:padding="8dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:typeface="monospace" />
+        android:textColor="@color/key_word_color"
+        android:textStyle="bold" />
 
-    <android.support.v4.widget.ContentLoadingProgressBar
+    <TextView
         android:layout_width="wrap_content"
-        style="?android:attr/progressBarStyleInverse"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Nguyen Binh Khiem High School"
+        android:textColor="@color/key_word_color" />
+
+
 </LinearLayout>
