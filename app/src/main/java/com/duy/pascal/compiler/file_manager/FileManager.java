@@ -29,7 +29,7 @@ public class FileManager {
     /**
      * storage path for saveFile code
      */
-    private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler";
+    private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
     private final String TAG = FileManager.class.getSimpleName();
     private final String FILE_TEMP_NAME = "tmp.pas";
     private int mode = SAVE_MODE.EXTERNAL;
@@ -145,10 +145,12 @@ public class FileManager {
                 while ((line = bufferedReader.readLine()) != null) {
                     result += line + "\n";
                 }
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return result;
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-                return "";
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -227,10 +229,12 @@ public class FileManager {
      */
     public boolean saveFile(String filePath, String text) {
         try {
-            String path = getCurrentPath() + filePath;
-            File file = new File(path);
+            File file = new File(filePath);
             if (!file.exists()) {
-                createNewFileInMode(filePath);
+                if (!file.exists()) {
+                    new File(file.getParent()).mkdirs();
+                    file.createNewFile();
+                }
             }
             FileOutputStream out = new FileOutputStream(file);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(out, "UTF-8");
@@ -393,7 +397,7 @@ public class FileManager {
      * @param path
      */
     public void setWorkingFilePath(String path) {
-        mPreferences.put(Preferences.LAST_FILE_PATH, path);
+        mPreferences.put(Preferences.FILE_PATH, path);
     }
 
 

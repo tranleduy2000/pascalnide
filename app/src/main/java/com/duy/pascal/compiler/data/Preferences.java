@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
  * Created by Duy on 3/7/2016
  */
 public class Preferences {
-    public static final String LAST_FILE_PATH = "last_file";
+    public static final String FILE_PATH = "last_file";
     public static final String LAST_FIND = "LAST_FIND";
     public static final String LAST_REPLACE = "LAST_REPLACE";
 

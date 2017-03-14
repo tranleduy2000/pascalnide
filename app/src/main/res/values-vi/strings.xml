@@ -33,10 +33,10 @@
     <string name="install_file_manager">Vui lòng cài đặt trình quản lý file</string>
     <string name="name">Tên:</string>
     <string name="path">Đường dẫn</string>
-    <string name="readable">"Đọc: "</string>
+    <string name="readable">Đọc: </string>
     <string name="remove_file_msg">Bạn có muốn xóa tệp</string>
     <string name="select_file">Chọn file *.pas hoặc *.txt</string>
-    <string name="writeable">Ghi</string>
+    <string name="writeable">Ghi: </string>
     <string name="code_editor">Trình gõ code</string>
     <string name="find">Tìm kiếm</string>
     <string name="find_replace">Tìm kiếm và thay thế</string>

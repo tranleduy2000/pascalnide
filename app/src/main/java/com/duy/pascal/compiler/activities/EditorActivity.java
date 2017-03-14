@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,6 +38,7 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.file_manager.FileAdapter;
 import com.duy.pascal.compiler.file_manager.FileManager;
+import com.duy.pascal.compiler.file_manager.SelectFileActivity;
 import com.duy.pascal.compiler.utils.ClipboardManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
@@ -92,7 +92,7 @@ public class EditorActivity extends BaseEditorActivity
      * load lasted file
      */
     private void loadLastedFile() {
-        mFilePath = mPreferences.getString(Preferences.LAST_FILE_PATH);
+        mFilePath = mPreferences.getString(Preferences.FILE_PATH);
         if (mFilePath.isEmpty()) {
             mFilePath = FileManager.getApplicationPath() + "new_file.pas";
         }
@@ -291,6 +291,11 @@ public class EditorActivity extends BaseEditorActivity
         return CodeManager.normalCode(code);
     }
 
+    /**
+     * set text code to {@link HighlightEditor}
+     *
+     * @param code
+     */
     public void setCode(String code) {
         Log.d(TAG, "setCode: ");
         code = CodeManager.localCode(code);
@@ -304,8 +309,8 @@ public class EditorActivity extends BaseEditorActivity
     public boolean doCompile() {
         fileManager.saveFile(mFilePath, getCode());
         try {
-            new PascalCompiler(null).loadPascal(fileManager.getCurrentPath() + mFilePath,
-                    new FileReader(fileManager.getCurrentPath() + mFilePath),
+            new PascalCompiler(null).loadPascal(mFilePath,
+                    new FileReader(mFilePath),
                     new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -318,6 +323,7 @@ public class EditorActivity extends BaseEditorActivity
             return false;
         } catch (Exception e) {
             showErrorDialog(e);
+            return false;
         }
         Toast.makeText(this, R.string.compile_ok, Toast.LENGTH_SHORT).show();
         return true;
@@ -352,6 +358,7 @@ public class EditorActivity extends BaseEditorActivity
                 }
             });
             setCode(txt);
+            mPreferences.put(Preferences.FILE_PATH, filePath);
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -385,8 +392,7 @@ public class EditorActivity extends BaseEditorActivity
     protected void onPause() {
         super.onPause();
         fileManager.saveFile(mFilePath, getCode());
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.edit().putString(Preferences.LAST_FILE_PATH, mFilePath).apply();
+        mPreferences.put(Preferences.FILE_PATH, mFilePath);
     }
 
     @Override
@@ -394,7 +400,7 @@ public class EditorActivity extends BaseEditorActivity
         //save current file
         fileManager.saveFile(mFilePath, getCode());
         //open new file
-        loadFile(file.getName());
+        loadFile(file.getPath());
         //close drawer
         mDrawerLayout.closeDrawers();
     }
@@ -473,7 +479,6 @@ public class EditorActivity extends BaseEditorActivity
         builder.setView(R.layout.dialog_new_file);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
         final EditText editText = (EditText) alertDialog.findViewById(R.id.edit_file_name);
         Button btnOK = (Button) alertDialog.findViewById(R.id.btn_ok);
         Button btnCancel = (Button) alertDialog.findViewById(R.id.btn_cancel);
@@ -610,14 +615,17 @@ public class EditorActivity extends BaseEditorActivity
      * @param view
      */
     public void chooseFile(View view) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");      //all files
-        try {
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_file)), FILE_SELECT_CODE);
-        } catch (android.content.ActivityNotFoundException ex) {
-            // Potentially direct the user to the Market with a Dialog
-            Toast.makeText(this, R.string.install_file_manager, Toast.LENGTH_SHORT).show();
-        }
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        intent.setType("*/*");      //all files
+//        try {
+//            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_file)),
+//                    FILE_SELECT_CODE);
+//        } catch (android.content.ActivityNotFoundException ex) {
+//            // Potentially direct the user to the Market with a Dialog
+//            Toast.makeText(this, R.string.install_file_manager, Toast.LENGTH_SHORT).show();
+//        }
+        startActivityForResult(new Intent(this, SelectFileActivity.class),
+                FILE_SELECT_CODE);
     }
 
     @Override
@@ -639,7 +647,7 @@ public class EditorActivity extends BaseEditorActivity
 //                            fileManager.saveFile(file.getName(), fileManager.readFileAsString(file.getPath()));
 //                            mFilesView.reload();
 //                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//                            sharedPreferences.edit().putString(Preferences.LAST_FILE_PATH, file.getName()).apply();
+//                            sharedPreferences.edit().putString(Preferences.FILE_PATH, file.getName()).apply();
 //                            loadLastedFile(mFilePath);
 //                        } else {
 //                            Toast.makeText(this, R.string.can_not_new_file, Toast.LENGTH_SHORT).show();
