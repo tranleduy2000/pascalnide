@@ -36,7 +36,7 @@ import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.alogrithm.AutoIndentCode;
 import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.Preferences;
-import com.duy.pascal.compiler.file_manager.FileAdapter;
+import com.duy.pascal.compiler.file_manager.FileListener;
 import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.file_manager.SelectFileActivity;
 import com.duy.pascal.compiler.utils.ClipboardManager;
@@ -53,7 +53,7 @@ import java.util.ArrayList;
 public class EditorActivity extends BaseEditorActivity
         implements
         SymbolListView.OnKeyListener,
-        FileAdapter.FileListener,
+        FileListener,
         DrawerLayout.DrawerListener,
         MenuEditor.EditorControl {
 
