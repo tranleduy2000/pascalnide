@@ -63,7 +63,7 @@ public class FileListView extends RecyclerView {
         reload();
     }
 
-    public void setListener(FileAdapter.FileListener fileListener) {
+    public void setListener(FileListener fileListener) {
         mFileAdapter.setListener(fileListener);
     }
 

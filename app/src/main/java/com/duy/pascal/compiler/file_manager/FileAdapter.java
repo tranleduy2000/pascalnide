@@ -86,13 +86,7 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
         this.listener = listener;
     }
 
-    public interface FileListener {
-        void onFileClick(File file);
 
-        void onFileLongClick(File file);
-
-        boolean doRemoveFile(File file);
-    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName, txtPath;

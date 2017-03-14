@@ -96,6 +96,7 @@ public class EditorActivity extends BaseEditorActivity
         if (mFilePath.isEmpty()) {
             mFilePath = FileManager.getApplicationPath() + "new_file.pas";
         }
+        Log.i(TAG, "loadLastedFile: " + mFilePath);
         loadFile(mFilePath);
     }
 
@@ -348,6 +349,7 @@ public class EditorActivity extends BaseEditorActivity
      * @param filePath - fileName of file, do not include path
      */
     private void loadFile(final String filePath) {
+        Log.i(TAG, "loadFile: " + filePath);
         try {
             final File file = new File(filePath);
             final String txt = fileManager.readFileAsString(file);
@@ -358,6 +360,7 @@ public class EditorActivity extends BaseEditorActivity
                 }
             });
             setCode(txt);
+            mFilePath = filePath;
             mPreferences.put(Preferences.FILE_PATH, filePath);
         } catch (Exception e) {
             e.printStackTrace();
@@ -508,7 +511,7 @@ public class EditorActivity extends BaseEditorActivity
                 else if (checkBoxPas.isChecked()) fileName += ".pas";
 
                 //create new file
-                String filePath = fileManager.createNewFileWithPath(FileManager.getApplicationPath() + fileName);
+                String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + fileName);
                 //load to view
                 loadFile(filePath);
                 if (checkBoxPas.isChecked()) {

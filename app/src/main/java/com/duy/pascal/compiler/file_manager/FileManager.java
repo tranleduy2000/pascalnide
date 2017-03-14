@@ -231,16 +231,12 @@ public class FileManager {
         try {
             File file = new File(filePath);
             if (!file.exists()) {
-                if (!file.exists()) {
-                    new File(file.getParent()).mkdirs();
-                    file.createNewFile();
-                }
+                new File(file.getParent()).mkdirs();
+                file.createNewFile();
             }
-            FileOutputStream out = new FileOutputStream(file);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(out, "UTF-8");
-            if (text.length() > 0) myOutWriter.write(text);
-            myOutWriter.close();
-            out.close();
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+            if (text.length() > 0) writer.write(text);
+            writer.close();
             return true;
         } catch (Exception ignored) {
             return false;
@@ -308,7 +304,12 @@ public class FileManager {
         }
     }
 
-    public String createNewFileWithPath(String path) {
+    /**
+     * create new file
+     * @param path path to file
+     * @return
+     */
+    public String createNewFile(String path) {
 //        if (!name.endsWith(".pas")) name += ".pas";
         File file = new File(path);
         Log.i(TAG, "createNewFileInMode: " + path);
@@ -345,7 +346,7 @@ public class FileManager {
         FileOutputStream outputStream;
         try {
             if (!file.exists()) {
-                createNewFileWithPath(name);
+                createNewFile(name);
             }
             outputStream = new FileOutputStream(new File(name));
             outputStream.write(content.getBytes());
