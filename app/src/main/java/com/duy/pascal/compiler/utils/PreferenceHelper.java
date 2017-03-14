@@ -26,8 +26,6 @@ import android.preference.PreferenceManager;
 
 import java.io.File;
 
-import sharedcode.turboeditor.util.Device;
-
 public final class PreferenceHelper {
 
     //public static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();

@@ -76,6 +76,17 @@
             android:name=".activities.SelectThemeActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".file_manager.SelectFileActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

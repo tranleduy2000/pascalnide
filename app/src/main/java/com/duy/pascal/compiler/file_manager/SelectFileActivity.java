@@ -35,31 +35,30 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.compiler.R;
+import com.duy.pascal.compiler.adapters.AdapterDetailedList;
 import com.duy.pascal.compiler.utils.AlphanumComparator;
 import com.duy.pascal.compiler.utils.Build;
+import com.duy.pascal.compiler.utils.PreferenceHelper;
 import com.spazedog.lib.rootfw4.RootFW;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 
 import butterknife.BindView;
-import sharedcode.turboeditor.adapter.AdapterDetailedList;
-import sharedcode.turboeditor.dialogfragment.EditTextDialog;
-import sharedcode.turboeditor.preferences.PreferenceHelper;
+import butterknife.ButterKnife;
 
-public class SelectFileActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, EditTextDialog.EditDialogListener {
+public class SelectFileActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
+        AdapterView.OnItemClickListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private String currentFolder;
@@ -74,6 +73,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         currentFolder = PreferenceHelper.defaultFolder(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_file);
+        ButterKnife.bind(this);
         setupActionBar();
 
         //final Actions action = (Actions) getIntent().getExtras().getSerializable("action");
@@ -84,37 +84,6 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         listView.setTextFilterEnabled(true);
 
         FloatingActionButton mFab = (FloatingActionButton) findViewById(R.id.fabbutton);
-//        mFab.setColor(getResources().getColor(R.color.fab_light));
-//        mFab.setDrawable(getResources().getDrawable(R.drawable.ic_fab_add));
-
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(SelectFileActivity.this, v);
-
-                popup.getMenuInflater().inflate(R.menu.popup_new_file, popup.getMenu());
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int i = item.getItemId();
-                        if (i == R.id.im_new_file) {
-//                            EditTextDialog.newInstance(EditTextDialog.Actions.NewFile).show(getFragmentManager().beginTransaction(), "dialog");
-                            return true;
-                        } else if (i == R.id.im_new_folder) {
-                            EditTextDialog.newInstance(EditTextDialog.Actions.NewFolder).show(getFragmentManager().beginTransaction(), "dialog");
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                });
-
-                popup.show();
-            }
-        });
-
-//        mFab.listenTo(listView);
         String lastNavigatedPath = PreferenceHelper.getWorkingFolder(this);
 
         File file = new File(lastNavigatedPath);
@@ -146,7 +115,6 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
     public boolean onQueryTextChange(String newText) {
         if (filter == null)
             return true;
-
         if (TextUtils.isEmpty(newText)) {
             filter.filter(null);
         } else {
@@ -177,8 +145,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent,
-                            View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final String name = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
         if (name.equals("..")) {
             if (currentFolder.equals("/")) {
@@ -195,6 +162,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
             }
             return;
         } else if (name.equals(getString(R.string.home))) {
+            // TODO: 14-Mar-17
             new UpdateList().execute(PreferenceHelper.getWorkingFolder(this));
             return;
         }
@@ -261,22 +229,22 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
     }
 
 
-    @Override
-    public void onEdittextDialogEnded(final String inputText, final String hint, final EditTextDialog.Actions actions) {
-        if (actions == EditTextDialog.Actions.NewFile && !TextUtils.isEmpty(inputText)) {
-            File file = new File(currentFolder, inputText);
-            try {
-                file.createNewFile();
-                finishWithResult(file);
-            } catch (IOException e) {
-                Toast.makeText(SelectFileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        } else if (actions == EditTextDialog.Actions.NewFolder && !TextUtils.isEmpty(inputText)) {
-            File file = new File(currentFolder, inputText);
-            file.mkdirs();
-            new UpdateList().execute(currentFolder);
-        }
-    }
+//    @Override
+//    public void onEdittextDialogEnded(final String inputText, final String hint, final EditTextDialog.Actions actions) {
+//        if (actions == EditTextDialog.Actions.NewFile && !TextUtils.isEmpty(inputText)) {
+//            File file = new File(currentFolder, inputText);
+//            try {
+//                file.createNewFile();
+//                finishWithResult(file);
+//            } catch (IOException e) {
+//                Toast.makeText(SelectFileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        } else if (actions == EditTextDialog.Actions.NewFolder && !TextUtils.isEmpty(inputText)) {
+//            File file = new File(currentFolder, inputText);
+//            file.mkdirs();
+//            new UpdateList().execute(currentFolder);
+//        }
+//    }
 
     public enum Actions {
         SelectFile, SelectFolder
