@@ -47,5 +47,7 @@ dependencies {
     compile 'frankiesardo:icepick:3.2.0'
     provided 'frankiesardo:icepick-processor:3.2.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+
+    compile 'commons-io:commons-io:2.4'
 }
 apply plugin: 'com.google.gms.google-services'
