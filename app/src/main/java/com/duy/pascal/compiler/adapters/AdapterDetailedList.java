@@ -64,8 +64,7 @@ public class AdapterDetailedList extends
 
 
     @Override
-    public View getView(final int position,
-                        View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         if (convertView == null) {
             convertView = this.inflater.inflate(R.layout.item_file_list, null);
             final ViewHolder hold = new ViewHolder();
@@ -192,10 +191,7 @@ public class AdapterDetailedList extends
 
         @SuppressWarnings("unchecked")
         @Override
-        protected void publishResults(CharSequence constraint,
-                                      FilterResults results) {
-
-
+        protected void publishResults(CharSequence constraint, FilterResults results) {
             fileDetails = (LinkedList<FileDetail>) results.values;
             notifyDataSetChanged();
         }

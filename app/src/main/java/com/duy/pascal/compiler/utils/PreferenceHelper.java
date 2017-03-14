@@ -28,7 +28,7 @@ import java.io.File;
 
 public final class PreferenceHelper {
 
-    //public static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String SD_CARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     private PreferenceHelper() {
     }

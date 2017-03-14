@@ -19,7 +19,8 @@
 
 package com.duy.pascal.compiler.utils;
 
-import sharedcode.turboeditor.BuildConfig;
+
+import com.duy.pascal.compiler.BuildConfig;
 
 /**
  * Created by Artem on 30.12.13.
@@ -28,9 +29,7 @@ public final class Build {
 
     public static final boolean DEBUG = BuildConfig.DEBUG;
 
-    public static final String SUPPORT_EMAIL = "maskyngames@gmail.com";
 
-    public static final String GOOGLE_PLAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvpZca3gZSeRTHPMgxM+A1nTXuRL+9NTOWA1VJFs6ytppcO96i9EWQhmtXVUOKRQIgbXvkepxF7ut+JEjrbniQubZvmyBs9DxK7xUN4Zc3ZboQDQdfg2HJmZXzn8+joOfjXdS9WzsW7aaWKIQ8QXgOB1RUm9hdMdAlgKw+cEyp27WOoMK5m2H/i7C0MIO9tEQs3Hn9UTjayzzfy3MY+KDaX3T6oKievegbpyqyt8y4cpVusJC+uQFLa4bHKPtA3MaPUG6kU9tRV/DHrvFV6dOaPuTYCnYJELlGNfeqRUF0Nvb3Sv0U+BUoXgevjrlLdLz1bqgPDibLzaQmmofNXOnVQIDAQAB";
 
     public static final int MAX_FILE_SIZE = 20_000;
 

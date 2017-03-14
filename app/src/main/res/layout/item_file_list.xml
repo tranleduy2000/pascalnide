@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2014 Vlad Mihalachi
   ~
   ~ This file is part of Turbo Editor.
@@ -23,39 +22,39 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical|start"
     android:minHeight="72dp"
-    android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingRight="16dp"
+    android:paddingStart="16dp">
 
     <ImageView
         android:id="@android:id/icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@color/file_folder"/>
+        android:background="@color/file_folder" />
 
     <TextView
         android:id="@android:id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:textSize="15sp"
         android:ellipsize="end"
-        android:paddingStart="56dp"
+        android:maxLines="1"
         android:paddingLeft="56dp"
-        android:text="FILE NAME"/>
+        android:paddingStart="56dp"
+        android:text="FILE NAME"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@android:id/text2"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@android:id/icon"
-        android:maxLines="1"
-        android:textSize="14sp"
-        android:enabled="false"
         android:ellipsize="end"
-        android:paddingStart="56dp"
+        android:enabled="false"
+        android:maxLines="1"
         android:paddingLeft="56dp"
-        android:text="DETAIL 1"/>
+        android:paddingStart="56dp"
+        android:text="DETAIL 1"
+        android:textSize="14sp" />
 
 </RelativeLayout>

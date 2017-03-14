@@ -27,7 +27,7 @@ public class FileManager {
     /**
      * storage path for saveInMode code
      */
-    private final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler";
+    private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler";
     private final String TAG = FileManager.class.getSimpleName();
     private final String FILE_TEMP_NAME = "tmp.pas";
     private int mode = SAVE_MODE.EXTERNAL;
@@ -37,6 +37,13 @@ public class FileManager {
     public FileManager(Context context) {
         this.context = context;
         mDatabase = new Database(context);
+    }
+
+    /**
+     * @return path of application
+     */
+    public static String getApplicationPath() {
+        return EXTERNAL_DIR_CODE;
     }
 
     /**
