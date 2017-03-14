@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -48,6 +47,7 @@ import com.duy.pascal.compiler.adapters.AdapterDetailedList;
 import com.duy.pascal.compiler.utils.AlphanumComparator;
 import com.duy.pascal.compiler.utils.Build;
 import com.duy.pascal.compiler.utils.PreferenceHelper;
+import com.github.clans.fab.FloatingActionMenu;
 import com.spazedog.lib.rootfw4.RootFW;
 
 import org.apache.commons.io.FileUtils;
@@ -63,20 +63,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SelectFileActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
-        AdapterView.OnItemClickListener {
+        AdapterView.OnItemClickListener, View.OnClickListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.fab_menu)
+    FloatingActionMenu fabMenu;
+    @BindView(R.id.list_file)
+    ListView listFiles;
     private String currentFolder;
-    private ListView listView;
     private boolean wantAFile = true;
     private MenuItem mSearchViewMenuItem;
     private SearchView mSearchView;
     private Filter filter;
-    private FileManager fileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        fileManager = new FileManager(this);
         currentFolder = FileManager.getApplicationPath();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_file);
@@ -85,21 +86,11 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
 
         wantAFile = true; //action == Actions.SelectFile;
 
-        listView = (ListView) findViewById(android.R.id.list);
-        listView.setOnItemClickListener(this);
-        listView.setTextFilterEnabled(true);
-
-        FloatingActionButton mFab = (FloatingActionButton) findViewById(R.id.fabbutton);
-        String lastNavigatedPath = PreferenceHelper.getWorkingFolder(this);
-
-        File file = new File(lastNavigatedPath);
-
-        if (!file.exists()) {
-            PreferenceHelper.setWorkingFolder(this, PreferenceHelper.defaultFolder(this));
-            file = new File(PreferenceHelper.defaultFolder(this));
-        }
-
-        new UpdateList().execute(file.getAbsolutePath());
+        listFiles.setOnItemClickListener(this);
+        listFiles.setTextFilterEnabled(true);
+        fabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
+        fabMenu.findViewById(R.id.action_new_folder).setOnClickListener(this);
+        new UpdateList().execute(currentFolder);
     }
 
     /**
@@ -230,7 +221,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         } else if (i == R.id.im_is_working_folder) {
             Toast.makeText(getBaseContext(), R.string.is_the_working_folder, Toast.LENGTH_SHORT).show();
             return true;
-        } */else if (i == R.id.im_select_folder) {
+        } */ else if (i == R.id.im_select_folder) {
             finishWithResult(new File(currentFolder));
             return true;
         }
@@ -325,6 +316,18 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.action_new_file:
+                createNewFile();
+                break;
+            case R.id.action_new_folder:
+                createNewFolder();
+                break;
+        }
     }
 
     private class UpdateList extends AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {
@@ -427,7 +430,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
             if (names != null) {
                 boolean isRoot = currentFolder.equals("/");
                 AdapterDetailedList mAdapter = new AdapterDetailedList(getBaseContext(), names, isRoot);
-                listView.setAdapter(mAdapter);
+                listFiles.setAdapter(mAdapter);
                 filter = mAdapter.getFilter();
             }
             if (exceptionMessage != null) {

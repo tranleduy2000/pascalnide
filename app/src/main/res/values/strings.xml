@@ -161,5 +161,6 @@
     <string name="use_storage_access_framework">Use the "Storage Access Framework"</string>
     <string name="new_folder">Create new folder</string>
     <string name="enter_new_folder_name">Enter name of folder</string>
+    <string name="change_key_board">Change keyboard</string>
 </resources>
 

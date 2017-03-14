@@ -383,6 +383,7 @@ public class FileManager {
         mDatabase.addNewFile(new File(path));
     }
 
+
     public static class SAVE_MODE {
         static final int INTERNAL = 1;
         static final int EXTERNAL = 2;

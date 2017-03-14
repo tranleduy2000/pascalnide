@@ -2,6 +2,7 @@ package com.duy.pascal.compiler.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -76,8 +77,16 @@ public class AbstractConsoleActivity extends AbstractAppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.action_change_keyboard:
+                changeKeyBoard();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void changeKeyBoard() {
+        startActivityForResult(
+                new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS), 0);
     }
 
     public void showKeyBoard() {
