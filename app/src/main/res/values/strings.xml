@@ -106,8 +106,8 @@
     <string name="select">Select</string>
     <string name="folder">Folder</string>
     <string name="home">home</string>
-    <string name="seleziona">seleziona</string>
 
+    <string name="pin">pin</string>
     <string name="use_monospace">Use monospace</string>
     <string name="recent_files">Recent files</string>
     <string name="font_size">Font size</string>

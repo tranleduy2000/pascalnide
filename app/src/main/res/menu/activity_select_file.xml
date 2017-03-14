@@ -21,19 +21,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/im_select_folder"
-        android:title="@string/seleziona"
+        android:icon="@drawable/ic_check_circle_white_24dp"
+        android:title="@string/pin"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/im_set_as_working_folder"
-        android:title="@string/set_as_working_folder"
-        app:showAsAction="ifRoom"></item>
-    <item
-        android:id="@+id/im_is_working_folder"
-        android:title="@string/is_the_working_folder"
-        app:showAsAction="ifRoom"></item>
+    <!--<item-->
+    <!--android:id="@+id/im_set_as_working_folder"-->
+    <!--android:title="@string/set_as_working_folder"-->
+    <!--app:showAsAction="ifRoom" />-->
+    <!--<item-->
+    <!--android:id="@+id/im_is_working_folder"-->
+    <!--android:title="@string/is_the_working_folder"-->
+    <!--app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/im_search"
+        android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/find"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView"></item>
+        app:showAsAction="ifRoom|collapseActionView" />
 </menu>

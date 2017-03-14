@@ -200,17 +200,17 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // menu items
-        MenuItem imSetAsWorkingFolder = menu.findItem(R.id.im_set_as_working_folder);
-        MenuItem imIsWorkingFolder = menu.findItem(R.id.im_is_working_folder);
+//        MenuItem imSetAsWorkingFolder = menu.findItem(R.id.im_set_as_working_folder);
+//        MenuItem imIsWorkingFolder = menu.findItem(R.id.im_is_working_folder);
         MenuItem imSelectFolder = menu.findItem(R.id.im_select_folder);
-        if (imSetAsWorkingFolder != null) {
-            // set the imSetAsWorkingFolder visible only if the two folder dont concide
-            imSetAsWorkingFolder.setVisible(!currentFolder.equals(PreferenceHelper.getWorkingFolder(SelectFileActivity.this)));
-        }
-        if (imIsWorkingFolder != null) {
-            // set visible is the other is invisible
-            imIsWorkingFolder.setVisible(!imSetAsWorkingFolder.isVisible());
-        }
+//        if (imSetAsWorkingFolder != null) {
+//             set the imSetAsWorkingFolder visible only if the two folder dont concide
+//            imSetAsWorkingFolder.setVisible(!currentFolder.equals(PreferenceHelper.getWorkingFolder(SelectFileActivity.this)));
+//        }
+//        if (imIsWorkingFolder != null) {
+//             set visible is the other is invisible
+//            imIsWorkingFolder.setVisible(!imSetAsWorkingFolder.isVisible());
+//        }
         if (imSelectFolder != null) {
             imSelectFolder.setVisible(!wantAFile);
         }
@@ -223,14 +223,14 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         if (i == android.R.id.home) {
             finish();
             return true;
-        } else if (i == R.id.im_set_as_working_folder) {
+        }/* else if (i == R.id.im_set_as_working_folder) {
             PreferenceHelper.setWorkingFolder(SelectFileActivity.this, currentFolder);
             invalidateOptionsMenu();
             return true;
         } else if (i == R.id.im_is_working_folder) {
             Toast.makeText(getBaseContext(), R.string.is_the_working_folder, Toast.LENGTH_SHORT).show();
             return true;
-        } else if (i == R.id.im_select_folder) {
+        } */else if (i == R.id.im_select_folder) {
             finishWithResult(new File(currentFolder));
             return true;
         }
@@ -325,10 +325,6 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
             }
         });
 
-    }
-
-    public enum Actions {
-        SelectFile, SelectFolder
     }
 
     private class UpdateList extends AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {
