@@ -18,30 +18,7 @@
     </android.support.design.widget.TextInputLayout>
 
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/rad_pas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/pas_file" />
-
-        <RadioButton
-            android:id="@+id/rad_inp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/inp_file" />
-
-        <RadioButton
-            android:id="@+id/rad_other"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/other" />
-    </RadioGroup>
 
     <LinearLayout
         android:layout_width="wrap_content"

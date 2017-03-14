@@ -24,7 +24,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -33,8 +35,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,9 +54,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedList;
 
 import butterknife.BindView;
@@ -72,13 +77,12 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         fileManager = new FileManager(this);
-        currentFolder = fileManager.getCurrentPath();
+        currentFolder = FileManager.getApplicationPath();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_file);
         ButterKnife.bind(this);
         setupActionBar();
 
-        //final Actions action = (Actions) getIntent().getExtras().getSerializable("action");
         wantAFile = true; //action == Actions.SelectFile;
 
         listView = (ListView) findViewById(android.R.id.list);
@@ -98,6 +102,9 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         new UpdateList().execute(file.getAbsolutePath());
     }
 
+    /**
+     * set up action bar
+     */
     private void setupActionBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -231,22 +238,94 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
     }
 
 
-//    @Override
-//    public void onEdittextDialogEnded(final String inputText, final String hint, final EditTextDialog.Actions actions) {
-//        if (actions == EditTextDialog.Actions.NewFile && !TextUtils.isEmpty(inputText)) {
-//            File file = new File(currentFolder, inputText);
-//            try {
-//                file.createNewFile();
-//                finishWithResult(file);
-//            } catch (IOException e) {
-//                Toast.makeText(SelectFileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        } else if (actions == EditTextDialog.Actions.NewFolder && !TextUtils.isEmpty(inputText)) {
-//            File file = new File(currentFolder, inputText);
-//            file.mkdirs();
-//            new UpdateList().execute(currentFolder);
-//        }
-//    }
+    /**
+     * show dialog create new file
+     */
+    private void createNewFile() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.new_file);
+        builder.setView(R.layout.dialog_new_file);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        final EditText editText = (EditText) alertDialog.findViewById(R.id.edit_file_name);
+        Button btnOK = (Button) alertDialog.findViewById(R.id.btn_ok);
+        Button btnCancel = (Button) alertDialog.findViewById(R.id.btn_cancel);
+        assert btnCancel != null;
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+        assert btnOK != null;
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get string path of in edit text
+                String fileName = editText.getText().toString();
+                if (fileName.isEmpty()) {
+                    editText.setError(getString(R.string.enter_new_file_name));
+                    return;
+                }
+
+                RadioButton checkBoxPas = (RadioButton) alertDialog.findViewById(R.id.rad_pas);
+                RadioButton checkBoxInp = (RadioButton) alertDialog.findViewById(R.id.rad_inp);
+
+                if (checkBoxInp.isChecked()) fileName += ".inp";
+                else if (checkBoxPas.isChecked()) fileName += ".pas";
+
+                //create new file
+                File file = new File(currentFolder, fileName);
+                try {
+                    file.createNewFile();
+                    new UpdateList().execute(currentFolder);
+                } catch (IOException e) {
+                    Toast.makeText(SelectFileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                alertDialog.cancel();
+            }
+        });
+
+    }
+
+
+    private void createNewFolder() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.new_folder);
+        builder.setView(R.layout.dialog_new_file);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        final EditText editText = (EditText) alertDialog.findViewById(R.id.edit_file_name);
+        final TextInputLayout textInputLayout = (TextInputLayout) alertDialog.findViewById(R.id.hint);
+        textInputLayout.setHint(getString(R.string.enter_new_folder_name));
+        Button btnOK = (Button) alertDialog.findViewById(R.id.btn_ok);
+        Button btnCancel = (Button) alertDialog.findViewById(R.id.btn_cancel);
+        assert btnCancel != null;
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+        assert btnOK != null;
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get string path of in edit text
+                String fileName = editText.getText().toString();
+                if (fileName.isEmpty()) {
+                    editText.setError(getString(R.string.enter_new_file_name));
+                    return;
+                }
+                //create new file
+                File file = new File(currentFolder, fileName);
+                file.mkdirs();
+                new UpdateList().execute(currentFolder);
+                alertDialog.cancel();
+            }
+        });
+
+    }
 
     public enum Actions {
         SelectFile, SelectFolder
@@ -362,7 +441,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
             super.onPostExecute(names);
         }
 
-        public final Comparator<File> getFileNameComparator() {
+        public final AlphanumComparator getFileNameComparator() {
             return new AlphanumComparator() {
                 /**
                  * {@inheritDoc}
