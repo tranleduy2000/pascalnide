@@ -56,6 +56,7 @@ public class EditorActivity extends BaseEditorActivity
         FileAdapter.FileListener,
         DrawerLayout.DrawerListener,
         MenuEditor.EditorControl {
+
     private static final String TAG = EditorActivity.class.getSimpleName();
     private static final int FILE_SELECT_CODE = 1012;
     private static final int REQ_COMPILE = 1011;
@@ -84,16 +85,16 @@ public class EditorActivity extends BaseEditorActivity
         });
         initContent();
         undoRedoSupport();
-        loadFile();
+        loadLastedFile();
     }
 
     /**
      * load lasted file
      */
-    private void loadFile() {
-        mFilePath = mPreferences.getString(Preferences.LAST_FILE);
+    private void loadLastedFile() {
+        mFilePath = mPreferences.getString(Preferences.LAST_FILE_PATH);
         if (mFilePath.isEmpty()) {
-            mFilePath = "new_file.pas";
+            mFilePath = FileManager.getApplicationPath() + "new_file.pas";
         }
         loadFile(mFilePath);
     }
@@ -110,7 +111,6 @@ public class EditorActivity extends BaseEditorActivity
             }
         });
     }
-
 
     @Override
     public void onKeyClick(String text) {
@@ -174,12 +174,11 @@ public class EditorActivity extends BaseEditorActivity
 
     @Override
     public void runProgram() {
-        if (doCompile())
-            mCompileManager.execute(fileManager.getCurrentPath() + mFilePath);
+        if (doCompile()) mCompileManager.execute(mFilePath);
     }
 
     @Override
-    public boolean autoSave() {
+    public boolean isAutoSave() {
         return menuEditor.getChecked(R.id.action_auto_save);
     }
 
@@ -228,7 +227,7 @@ public class EditorActivity extends BaseEditorActivity
                     public void onClick(DialogInterface dialog, int id) {
                         String fileName = edittext.getText().toString();
                         dialog.cancel();
-                        fileManager.saveInMode(fileManager.createNewFileInMode(fileName),
+                        fileManager.saveFile(fileManager.createNewFileInMode(fileName),
                                 mHighlightEditor.getCleanText());
                         mFilesView.reload();
                     }
@@ -243,7 +242,7 @@ public class EditorActivity extends BaseEditorActivity
 
     @Override
     public void saveFile() {
-        boolean result = fileManager.saveInMode(mFilePath, getCode());
+        boolean result = fileManager.saveFile(mFilePath, getCode());
         if (result) Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         else Toast.makeText(this, "Can not save file!", Toast.LENGTH_SHORT).show();
     }
@@ -303,7 +302,7 @@ public class EditorActivity extends BaseEditorActivity
      */
     @Override
     public boolean doCompile() {
-        fileManager.saveInMode(mFilePath, getCode());
+        fileManager.saveFile(mFilePath, getCode());
         try {
             new PascalCompiler(null).loadPascal(fileManager.getCurrentPath() + mFilePath,
                     new FileReader(fileManager.getCurrentPath() + mFilePath),
@@ -353,7 +352,7 @@ public class EditorActivity extends BaseEditorActivity
                 }
             });
             setCode(txt);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -385,15 +384,15 @@ public class EditorActivity extends BaseEditorActivity
     @Override
     protected void onPause() {
         super.onPause();
-        fileManager.saveInMode(mFilePath, getCode());
+        fileManager.saveFile(mFilePath, getCode());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.edit().putString(Preferences.LAST_FILE, mFilePath).apply();
+        sharedPreferences.edit().putString(Preferences.LAST_FILE_PATH, mFilePath).apply();
     }
 
     @Override
     public void onFileClick(File file) {
         //save current file
-        fileManager.saveInMode(mFilePath, getCode());
+        fileManager.saveFile(mFilePath, getCode());
         //open new file
         loadFile(file.getName());
         //close drawer
@@ -469,7 +468,6 @@ public class EditorActivity extends BaseEditorActivity
      * @param view
      */
     public void createNewSourceFile(View view) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.new_file);
         builder.setView(R.layout.dialog_new_file);
@@ -505,9 +503,9 @@ public class EditorActivity extends BaseEditorActivity
                 else if (checkBoxPas.isChecked()) fileName += ".pas";
 
                 //create new file
-                fileName = fileManager.createNewFileInMode(fileName);
+                String filePath = fileManager.createNewFileWithPath(FileManager.getApplicationPath() + fileName);
                 //load to view
-                loadFile(fileName);
+                loadFile(filePath);
                 if (checkBoxPas.isChecked()) {
                     mHighlightEditor.setTextHighlighted(CodeSample.MAIN);
                     mHighlightEditor.setSelection(CodeSample.DEFAULT_POSITION);
@@ -638,11 +636,11 @@ public class EditorActivity extends BaseEditorActivity
 //                        File file = new File(path);
 //                        fileManager.addNewPath(path);
 //                        if (!fileManager.createNewFileInMode(file.getName()).isEmpty()) {
-//                            fileManager.saveInMode(file.getName(), fileManager.readFileAsString(file.getPath()));
+//                            fileManager.saveFile(file.getName(), fileManager.readFileAsString(file.getPath()));
 //                            mFilesView.reload();
 //                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//                            sharedPreferences.edit().putString(Preferences.LAST_FILE, file.getName()).apply();
-//                            loadFile(mFilePath);
+//                            sharedPreferences.edit().putString(Preferences.LAST_FILE_PATH, file.getName()).apply();
+//                            loadLastedFile(mFilePath);
 //                        } else {
 //                            Toast.makeText(this, R.string.can_not_new_file, Toast.LENGTH_SHORT).show();
 //                        }
@@ -667,7 +665,7 @@ public class EditorActivity extends BaseEditorActivity
     @Override
     public void onDrawerOpened(View drawerView) {
         hideKeyboard(mHighlightEditor);
-//        fileManager.saveInMode(mFilePath, getCode());
+//        fileManager.saveFile(mFilePath, getCode());
     }
 
     @Override

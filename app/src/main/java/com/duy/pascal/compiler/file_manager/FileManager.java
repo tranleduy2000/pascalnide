@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class FileManager {
     /**
-     * storage path for saveInMode code
+     * storage path for saveFile code
      */
     private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler";
     private final String TAG = FileManager.class.getSimpleName();
@@ -206,11 +206,11 @@ public class FileManager {
     }
 
     /**
-     * saveInMode current project
+     * saveFile current project
      *
      * @param file
      */
-    public void saveInMode(File file, String text) {
+    public void saveFile(File file, String text) {
         try {
             FileOutputStream out = new FileOutputStream(file);
             if (text.length() > 0) out.write(text.getBytes());
@@ -220,17 +220,17 @@ public class FileManager {
     }
 
     /**
-     * saveInMode file
+     * saveFile file
      *
-     * @param fileName - name of file
+     * @param filePath - name of file
      * @param text     - content of file
      */
-    public boolean saveInMode(String fileName, String text) {
+    public boolean saveFile(String filePath, String text) {
         try {
-            String path = getCurrentPath() + fileName;
+            String path = getCurrentPath() + filePath;
             File file = new File(path);
             if (!file.exists()) {
-                createNewFileInMode(fileName);
+                createNewFileInMode(filePath);
             }
             FileOutputStream out = new FileOutputStream(file);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(out, "UTF-8");
@@ -304,16 +304,16 @@ public class FileManager {
         }
     }
 
-    public String createNewFileWithPath(String name) {
-        if (!name.endsWith(".pas")) name += ".pas";
-        File file = new File(name);
-        Log.i(TAG, "createNewFileInMode: " + name);
+    public String createNewFileWithPath(String path) {
+//        if (!name.endsWith(".pas")) name += ".pas";
+        File file = new File(path);
+        Log.i(TAG, "createNewFileInMode: " + path);
         try {
             if (!file.exists()) {
                 new File(file.getParent()).mkdirs();
                 file.createNewFile();
             }
-            return name;
+            return path;
         } catch (IOException e) {
             Log.e("", "Could not create file.", e);
             return "";
@@ -393,7 +393,7 @@ public class FileManager {
      * @param path
      */
     public void setWorkingFilePath(String path) {
-        mPreferences.put(Preferences.LAST_FILE, path);
+        mPreferences.put(Preferences.LAST_FILE_PATH, path);
     }
 
 

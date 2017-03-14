@@ -130,7 +130,7 @@ public class MenuEditor {
 
         void runProgram();
 
-        boolean autoSave();
+        boolean isAutoSave();
 
         void saveFile();
 

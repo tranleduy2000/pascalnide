@@ -78,7 +78,7 @@ public class CodeSampleActivity extends AppCompatActivity implements CodeViewAda
     public void onEdit(String code) {
         //create file temp
         String file = fileManager.createNewFileInMode("temp" + new Date().getTime() + ".pas");
-        fileManager.saveInMode(file, code);
+        fileManager.saveFile(file, code);
 
         //set file temp for run
         Intent intent = new Intent(this, EditorActivity.class);
