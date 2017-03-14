@@ -35,10 +35,10 @@ import com.duy.pascal.compiler.CompileManager;
 import com.duy.pascal.compiler.ExceptionManager;
 import com.duy.pascal.compiler.MenuEditor;
 import com.duy.pascal.compiler.R;
-import com.duy.pascal.compiler.adapters.FileAdapter;
+import com.duy.pascal.compiler.file_manager.FileAdapter;
 import com.duy.pascal.compiler.alogrithm.AutoIndentCode;
 import com.duy.pascal.compiler.data.CodeSample;
-import com.duy.pascal.compiler.data.FileManager;
+import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.utils.ClipboardManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
@@ -635,14 +635,9 @@ public class EditorActivity extends BaseEditorActivity
                     path = fileManager.getPath(this, uri);
                     if (path != null) {
                         File file = new File(path);
-//                        if (file.getName().endsWith(".txt") || file.getName().endsWith(".pas")
-//                                || file.getName().endsWith(".inp") || file.getName().endsWith(".out")) {
-
-                        //clone it to application path
-
+                        fileManager.addNewPath(path);
                         if (!fileManager.createNewFileInMode(file.getName()).isEmpty()) {
-                            fileManager.saveInMode(file.getName(),
-                                    fileManager.readFileAsString(file.getPath()));
+                            fileManager.saveInMode(file.getName(), fileManager.readFileAsString(file.getPath()));
                             mFilesView.reload();
                             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                             sharedPreferences.edit().putString(Preferences.LAST_FILE, file.getName()).apply();

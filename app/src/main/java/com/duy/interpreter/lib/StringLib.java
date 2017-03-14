@@ -98,10 +98,9 @@ public class StringLib implements PascalLibrary {
         return false;
     }
 
-    public static void insert(String toinsert,
-                              VariableBoxer<StringBuilder> reciever, int pos)
+    public static void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
             throws RuntimePascalException {
-        reciever.set(reciever.get().insert(pos - 1, toinsert));
+        s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
     }
 
     public static int LastPosEx(String tofind, String findin, int from) {

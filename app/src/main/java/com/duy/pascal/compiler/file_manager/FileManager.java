@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.data;
+package com.duy.pascal.compiler.file_manager;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -32,9 +32,11 @@ public class FileManager {
     private final String FILE_TEMP_NAME = "tmp.pas";
     private int mode = SAVE_MODE.EXTERNAL;
     private Context context;
+    private Database mDatabase;
 
     public FileManager(Context context) {
         this.context = context;
+        mDatabase = new Database(context);
     }
 
     /**
@@ -122,6 +124,7 @@ public class FileManager {
         }
         return "";
     }
+
     public String readFileAsString(File file) {
         if (file.canRead()) {
             try {
@@ -162,6 +165,8 @@ public class FileManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        ArrayList<File> listFile = mDatabase.getListFile();
+        list.addAll(listFile);
         return list;
     }
 
@@ -207,7 +212,7 @@ public class FileManager {
      * saveInMode file
      *
      * @param fileName - name of file
-     * @param text - content of file
+     * @param text     - content of file
      */
     public boolean saveInMode(String fileName, String text) {
         try {
@@ -273,7 +278,6 @@ public class FileManager {
      * @return - path of file
      */
     public String createNewFileInMode(String fileName) {
-
         String name = getCurrentPath() + fileName;
         File file = new File(name);
         Log.i(TAG, "createNewFileInMode: " + name);
@@ -368,8 +372,13 @@ public class FileManager {
         }
     }
 
+    public void addNewPath(String path) {
+        mDatabase.addNewFile(new File(path));
+    }
+
     public static class SAVE_MODE {
         static final int INTERNAL = 1;
         static final int EXTERNAL = 2;
     }
+
 }

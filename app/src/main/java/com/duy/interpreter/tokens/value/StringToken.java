@@ -13,8 +13,7 @@ public class StringToken extends ValueToken {
 
     @Override
     public String toString() {
-        return new StringBuilder().append('"').append(value).append('"')
-                .toString();
+        return new StringBuilder().append('"').append(value).append('"').toString();
     }
 
     public String toCode() {

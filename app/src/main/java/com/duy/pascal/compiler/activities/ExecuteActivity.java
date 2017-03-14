@@ -14,7 +14,7 @@ import com.duy.interpreter.linenumber.LineInfo;
 import com.duy.pascal.compiler.BuildConfig;
 import com.duy.pascal.compiler.CodeManager;
 import com.duy.pascal.compiler.CompileManager;
-import com.duy.pascal.compiler.data.FileManager;
+import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.view.ConsoleView;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;

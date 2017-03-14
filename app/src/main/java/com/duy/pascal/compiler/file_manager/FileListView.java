@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.view;
+package com.duy.pascal.compiler.file_manager;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,9 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
-
-import com.duy.pascal.compiler.adapters.FileAdapter;
-import com.duy.pascal.compiler.data.FileManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +23,8 @@ public class FileListView extends RecyclerView {
      */
     private Handler handler = new Handler();
     private FileAdapter mFileAdapter;
-    private FileManager fileManager;
+    private FileManager mFileManager;
+    private Database mDatabase;
 
     public FileListView(Context context) {
         super(context);
@@ -55,14 +53,13 @@ public class FileListView extends RecyclerView {
          * if in edit, do not init view
          */
         if (isInEditMode()) return;
-        fileManager = new FileManager(getContext());
+        mFileManager = new FileManager(getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         setLayoutManager(linearLayoutManager);
         setHasFixedSize(true);
-
+        mDatabase = new Database(context);
         mFileAdapter = new FileAdapter(context);
         setAdapter(mFileAdapter);
-
         reload();
     }
 
@@ -76,7 +73,7 @@ public class FileListView extends RecyclerView {
 //    }
 
     public void reload() {
-        new LoadFileTask().execute(fileManager.getCurrentPath());
+        new LoadFileTask().execute(mFileManager.getCurrentPath());
     }
 
     private class LoadFileTask extends AsyncTask<String, Void, ArrayList<File>> {
@@ -89,7 +86,7 @@ public class FileListView extends RecyclerView {
         @Override
         protected ArrayList<File> doInBackground(String... params) {
             Log.d(TAG, "doInBackground: " + params[0]);
-            return fileManager.getListFile(params[0]);
+            return mFileManager.getListFile(params[0]);
         }
 
         @Override

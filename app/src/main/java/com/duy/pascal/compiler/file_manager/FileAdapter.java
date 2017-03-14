@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.adapters;
+package com.duy.pascal.compiler.file_manager;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

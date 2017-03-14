@@ -12,7 +12,7 @@
         android:text="@string/file"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-    <com.duy.pascal.compiler.view.FileListView
+    <com.duy.pascal.compiler.file_manager.FileListView
         android:id="@+id/file_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -14,7 +14,7 @@ import com.duy.pascal.compiler.CodeManager;
 import com.duy.pascal.compiler.CompileManager;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.adapters.CodeViewAdapter;
-import com.duy.pascal.compiler.data.FileManager;
+import com.duy.pascal.compiler.file_manager.FileManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
