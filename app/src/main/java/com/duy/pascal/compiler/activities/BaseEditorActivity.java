@@ -9,9 +9,10 @@ import android.support.v7.widget.Toolbar;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.file_manager.FileListView;
-import com.duy.pascal.compiler.view.code_view.HighlightEditor;
+import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
+import com.duy.pascal.compiler.view.code_view.HighlightEditor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
+    protected String mFilePath = FileManager.getApplicationPath() + "new_file.pas";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -35,7 +37,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     HighlightEditor mHighlightEditor;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
-    protected String mFileName = "new_file.pas";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

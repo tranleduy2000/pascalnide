@@ -18,7 +18,6 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -92,11 +91,11 @@ public class EditorActivity extends BaseEditorActivity
      * load lasted file
      */
     private void loadFile() {
-        mFileName = mPreferences.getString(Preferences.LAST_FILE);
-        if (mFileName.isEmpty()) {
-            mFileName = "new_file.pas";
+        mFilePath = mPreferences.getString(Preferences.LAST_FILE);
+        if (mFilePath.isEmpty()) {
+            mFilePath = "new_file.pas";
         }
-        loadFile(mFileName);
+        loadFile(mFilePath);
     }
 
     private void undoRedoSupport() {
@@ -176,7 +175,7 @@ public class EditorActivity extends BaseEditorActivity
     @Override
     public void runProgram() {
         if (doCompile())
-            mCompileManager.execute(fileManager.getCurrentPath() + mFileName);
+            mCompileManager.execute(fileManager.getCurrentPath() + mFilePath);
     }
 
     @Override
@@ -244,7 +243,7 @@ public class EditorActivity extends BaseEditorActivity
 
     @Override
     public void saveFile() {
-        boolean result = fileManager.saveInMode(mFileName, getCode());
+        boolean result = fileManager.saveInMode(mFilePath, getCode());
         if (result) Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         else Toast.makeText(this, "Can not save file!", Toast.LENGTH_SHORT).show();
     }
@@ -304,10 +303,10 @@ public class EditorActivity extends BaseEditorActivity
      */
     @Override
     public boolean doCompile() {
-        fileManager.saveInMode(mFileName, getCode());
+        fileManager.saveInMode(mFilePath, getCode());
         try {
-            new PascalCompiler(null).loadPascal(fileManager.getCurrentPath() + mFileName,
-                    new FileReader(fileManager.getCurrentPath() + mFileName),
+            new PascalCompiler(null).loadPascal(fileManager.getCurrentPath() + mFilePath,
+                    new FileReader(fileManager.getCurrentPath() + mFilePath),
                     new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -370,8 +369,8 @@ public class EditorActivity extends BaseEditorActivity
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
-            mFileName = intent.getStringExtra(CompileManager.FILE_PATH);
-            loadFile(mFileName);
+            mFilePath = intent.getStringExtra(CompileManager.FILE_PATH);
+            loadFile(mFilePath);
         }
     }
 
@@ -386,15 +385,15 @@ public class EditorActivity extends BaseEditorActivity
     @Override
     protected void onPause() {
         super.onPause();
-        fileManager.saveInMode(mFileName, getCode());
+        fileManager.saveInMode(mFilePath, getCode());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.edit().putString(Preferences.LAST_FILE, mFileName).apply();
+        sharedPreferences.edit().putString(Preferences.LAST_FILE, mFilePath).apply();
     }
 
     @Override
     public void onFileClick(File file) {
         //save current file
-        fileManager.saveInMode(mFileName, getCode());
+        fileManager.saveInMode(mFilePath, getCode());
         //open new file
         loadFile(file.getName());
         //close drawer
@@ -643,7 +642,7 @@ public class EditorActivity extends BaseEditorActivity
 //                            mFilesView.reload();
 //                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //                            sharedPreferences.edit().putString(Preferences.LAST_FILE, file.getName()).apply();
-//                            loadFile(mFileName);
+//                            loadFile(mFilePath);
 //                        } else {
 //                            Toast.makeText(this, R.string.can_not_new_file, Toast.LENGTH_SHORT).show();
 //                        }
@@ -668,7 +667,7 @@ public class EditorActivity extends BaseEditorActivity
     @Override
     public void onDrawerOpened(View drawerView) {
         hideKeyboard(mHighlightEditor);
-//        fileManager.saveInMode(mFileName, getCode());
+//        fileManager.saveInMode(mFilePath, getCode());
     }
 
     @Override
