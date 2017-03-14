@@ -1,6 +1,6 @@
 program file_reader;
 var
-    f1, f2: Integer;
+    f1, f2: text;
     s: string;
     i, tmp, n: integer;
     d: real;
@@ -34,7 +34,7 @@ begin
     begin
         readf(f1, tmp);
         writeln(tmp);
-        writef(f1, tmp, ' ');
+        writef(f2, tmp, ' ');
     end;
 
     close(f1);

@@ -45,10 +45,10 @@ public abstract class CodeUnit {
             throws ParsingException {
         this(functionTable);
         NewLexer grouper = new NewLexer(program, sourcename, includeDirectories);
-        new Thread(grouper).start();
+//        new Thread(grouper).start();
+        grouper.parse();
         parse_tree(grouper.token_queue);
         debug();
-
     }
 
     protected CodeUnitExpressionContext getExpressionContextInstance(

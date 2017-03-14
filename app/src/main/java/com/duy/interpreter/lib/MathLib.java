@@ -1,5 +1,6 @@
 package com.duy.interpreter.lib;
 
+import com.duy.interpreter.exceptions.WrongArgsException;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
@@ -34,11 +35,19 @@ public class MathLib implements PascalLibrary {
     }
 
 
-    public static void inc(VariableBoxer<Long> boxer) throws RuntimePascalException {
-        boxer.set(boxer.get() + 1);
+    public static void inc(VariableBoxer boxer) throws RuntimePascalException, WrongArgsException {
+        if (boxer.get() instanceof Long) {
+            boxer.set(((Long) boxer.get()) + 1);
+        } else if (boxer.get() instanceof Integer) {
+            boxer.set(((Integer) boxer.get()) + 1);
+        } else {
+            //throw exception
+            throw new WrongArgsException("wrong arg inc()");
+//            boxer.set((long) boxer.get() - 1);
+        }
     }
 
-    public static void dec(VariableBoxer<Long> boxer) throws RuntimePascalException {
+    public static void dec(VariableBoxer boxer) throws RuntimePascalException, WrongArgsException {
 //        if (boxer.get() instanceof Long) {
 //            boxer.set((Long) boxer.get() - 1);
 //        } else if (boxer.get() instanceof Integer) {
@@ -46,7 +55,14 @@ public class MathLib implements PascalLibrary {
 //        } else {
 //            throw new RuntimeException("Wrong type in function dec");
 //        }
-        boxer.set(boxer.get() - 1);
+        if (boxer.get() instanceof Long) {
+            boxer.set(((Long) boxer.get()) - 1);
+        } else if (boxer.get() instanceof Integer) {
+            boxer.set(((Integer) boxer.get()) - 1);
+        } else {
+            //throw exception
+            throw new WrongArgsException("wrong arg dec()");
+        }
     }
 
 

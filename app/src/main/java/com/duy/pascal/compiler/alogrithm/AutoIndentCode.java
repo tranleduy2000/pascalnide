@@ -72,7 +72,7 @@ public class AutoIndentCode {
                     return result;
                 }
                 processToken(t);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 return result;
             }
         }
