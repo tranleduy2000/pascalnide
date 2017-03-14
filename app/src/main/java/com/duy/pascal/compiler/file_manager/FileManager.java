@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
+import com.duy.pascal.compiler.data.Preferences;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,10 +35,12 @@ public class FileManager {
     private int mode = SAVE_MODE.EXTERNAL;
     private Context context;
     private Database mDatabase;
+    private Preferences mPreferences;
 
     public FileManager(Context context) {
         this.context = context;
         mDatabase = new Database(context);
+        mPreferences = new Preferences(context);
     }
 
     /**
@@ -381,6 +385,15 @@ public class FileManager {
 
     public void addNewPath(String path) {
         mDatabase.addNewFile(new File(path));
+    }
+
+    /**
+     * set working file path
+     *
+     * @param path
+     */
+    public void setWorkingFilePath(String path) {
+        mPreferences.put(Preferences.LAST_FILE, path);
     }
 
 

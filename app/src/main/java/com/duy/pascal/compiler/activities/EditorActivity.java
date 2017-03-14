@@ -35,11 +35,11 @@ import com.duy.pascal.compiler.CompileManager;
 import com.duy.pascal.compiler.ExceptionManager;
 import com.duy.pascal.compiler.MenuEditor;
 import com.duy.pascal.compiler.R;
-import com.duy.pascal.compiler.file_manager.FileAdapter;
 import com.duy.pascal.compiler.alogrithm.AutoIndentCode;
 import com.duy.pascal.compiler.data.CodeSample;
-import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.data.Preferences;
+import com.duy.pascal.compiler.file_manager.FileAdapter;
+import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.utils.ClipboardManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
@@ -52,7 +52,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class EditorActivity extends BaseEditorActivity
-        implements SymbolListView.OnKeyListener, FileAdapter.FileListener, DrawerLayout.DrawerListener,
+        implements
+        SymbolListView.OnKeyListener,
+        FileAdapter.FileListener,
+        DrawerLayout.DrawerListener,
         MenuEditor.EditorControl {
     private static final String TAG = EditorActivity.class.getSimpleName();
     private static final int FILE_SELECT_CODE = 1012;
@@ -63,13 +66,6 @@ public class EditorActivity extends BaseEditorActivity
     private Handler handler = new Handler();
     //    private RunDo mUndoRedoSupport;
     private MenuEditor menuEditor;
-
-    private static float getDistanceBetweenTouches(MotionEvent ev) {
-        float xx = ev.getX(1) - ev.getX(0);
-        float yy = ev.getY(1) - ev.getY(0);
-        return (float) Math.sqrt(xx * xx + yy * yy);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -345,18 +341,23 @@ public class EditorActivity extends BaseEditorActivity
     /**
      * load file and set text to editor
      *
-     * @param fileName - fileName of file, do not include path
+     * @param filePath - fileName of file, do not include path
      */
-    private void loadFile(final String fileName) {
-        final String txt = fileManager.loadInMode(fileName);
-        this.mFileName = fileName;
-        toolbar.post(new Runnable() {
-            @Override
-            public void run() {
-                toolbar.setTitle(fileName);
-            }
-        });
-        setCode(txt);
+    private void loadFile(final String filePath) {
+        try {
+            final File file = new File(filePath);
+            final String txt = fileManager.readFileAsString(file);
+            toolbar.post(new Runnable() {
+                @Override
+                public void run() {
+                    toolbar.setTitle(file.getName());
+                }
+            });
+            setCode(txt);
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -633,22 +634,24 @@ public class EditorActivity extends BaseEditorActivity
                 String path;
                 try {
                     path = fileManager.getPath(this, uri);
-                    if (path != null) {
-                        File file = new File(path);
-                        fileManager.addNewPath(path);
-                        if (!fileManager.createNewFileInMode(file.getName()).isEmpty()) {
-                            fileManager.saveInMode(file.getName(), fileManager.readFileAsString(file.getPath()));
-                            mFilesView.reload();
-                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                            sharedPreferences.edit().putString(Preferences.LAST_FILE, file.getName()).apply();
-                            loadFile(mFileName);
-                        } else {
-                            Toast.makeText(this, R.string.can_not_new_file, Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(this, R.string.can_not_open_file, Toast.LENGTH_SHORT).show();
-                    }
+                    fileManager.setWorkingFilePath(path);
+//                    if (path != null) {
+//                        File file = new File(path);
+//                        fileManager.addNewPath(path);
+//                        if (!fileManager.createNewFileInMode(file.getName()).isEmpty()) {
+//                            fileManager.saveInMode(file.getName(), fileManager.readFileAsString(file.getPath()));
+//                            mFilesView.reload();
+//                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//                            sharedPreferences.edit().putString(Preferences.LAST_FILE, file.getName()).apply();
+//                            loadFile(mFileName);
+//                        } else {
+//                            Toast.makeText(this, R.string.can_not_new_file, Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        Toast.makeText(this, R.string.can_not_open_file, Toast.LENGTH_SHORT).show();
 //                    }
+//                    }
+                    loadFile(path);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
