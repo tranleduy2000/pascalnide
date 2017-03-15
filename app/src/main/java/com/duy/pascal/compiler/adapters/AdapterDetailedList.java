@@ -98,21 +98,10 @@ public class AdapterDetailedList extends
         final String ext = FilenameUtils.getExtension(fileName);
         if (fileDetail.isFolder()) {
             viewHolder.icon.setImageResource(R.drawable.ic_folder_white_24dp);
-        } else if (Arrays.asList(MimeTypes.MIME_HTML).contains(ext) || ext.endsWith("html")) {
-            viewHolder.icon.setImageResource(R.color.file_html);
         } else if (Arrays.asList(MimeTypes.MIME_CODE).contains(ext)) {
             viewHolder.icon.setImageResource(R.drawable.ic_code_white_24dp);
-        } else if (Arrays.asList(MimeTypes.MIME_ARCHIVE).contains(ext)) {
-            viewHolder.icon.setImageResource(R.color.file_archive);
-        } else if (Arrays.asList(MimeTypes.MIME_MUSIC)
-                .contains(ext)) {
-            viewHolder.icon.setImageResource(R.color.file_media_music);
-        } else if (Arrays.asList(MimeTypes.MIME_PICTURE).contains(ext)) {
-            viewHolder.icon.setImageResource(R.color.file_media_picture);
-        } else if (Arrays.asList(MimeTypes.MIME_VIDEO).contains(ext)) {
-            viewHolder.icon.setImageResource(R.color.file_media_video);
         } else {
-            viewHolder.icon.setImageResource(R.color.file_text);
+            viewHolder.icon.setImageResource(R.drawable.ic_insert_drive_file_white_24dp);
         }
     }
 

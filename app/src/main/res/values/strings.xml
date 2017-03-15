@@ -163,5 +163,7 @@
     <string name="enter_new_folder_name">Enter name of folder</string>
     <string name="change_key_board">Change keyboard</string>
     <string name="title_activity_main3">Main3Activity</string>
+    <string name="cant_undo">Can not undo</string>
+    <string name="cant_redo">Can not redo</string>
 </resources>
 
