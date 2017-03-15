@@ -38,10 +38,11 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.file_manager.FileListener;
 import com.duy.pascal.compiler.file_manager.FileManager;
+import com.duy.pascal.compiler.file_manager.SelectFileActivity;
 import com.duy.pascal.compiler.utils.ClipboardManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
-import com.duy.pascal.compiler.view.code_view.CodeView;
+import com.duy.pascal.compiler.view.code_view.HighlightEditor;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.File;
@@ -107,19 +108,19 @@ public class EditorActivity extends BaseEditorActivity
         mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
             @Override
             public void onScroll(int x, int y) {
-                mCodeView.onMove(x, y);
+                mHighlightEditor.onMove(x, y);
             }
         });
     }
 
     @Override
     public void onKeyClick(String text) {
-        mCodeView.insert(text);
+        mHighlightEditor.insert(text);
     }
 
     @Override
     public void onKeyLongClick(String text) {
-        mCodeView.insert(text);
+        mHighlightEditor.insert(text);
     }
 
     @Override
@@ -154,7 +155,7 @@ public class EditorActivity extends BaseEditorActivity
                 assert ckbRegex != null;
                 assert editReplace != null;
                 assert ckbMatch != null;
-                mCodeView.replaceAll(
+                mHighlightEditor.replaceAll(
                         editFind.getText().toString(),
                         editReplace.getText().toString(),
                         ckbRegex.isChecked(),
@@ -199,7 +200,7 @@ public class EditorActivity extends BaseEditorActivity
             @Override
             public void onClick(View v) {
                 // TODO: 01-Mar-17 replace
-                mCodeView.find(editFind.getText().toString(),
+                mHighlightEditor.find(editFind.getText().toString(),
                         ckbRegex.isChecked(),
                         ckbWordOnly.isChecked(),
                         ckbMatch.isChecked());
@@ -229,7 +230,7 @@ public class EditorActivity extends BaseEditorActivity
                         String fileName = edittext.getText().toString();
                         dialog.cancel();
                         fileManager.saveFile(fileManager.createNewFileInMode(fileName),
-                                mCodeView.getCleanText());
+                                mHighlightEditor.getCleanText());
 //                        mFilesView.reload();
                     }
                 })
@@ -277,30 +278,30 @@ public class EditorActivity extends BaseEditorActivity
 //        if (index >= raw.length()) index--;
         //set index error in exit text
 //        if (index + lineInfo.column < raw.length()) {
-//            mCodeView.setSelection(index + lineInfo.column);
+//            mHighlightEditor.setSelection(index + lineInfo.column);
 //        } else {
-//            mCodeView.setSelection(index);
+//            mHighlightEditor.setSelection(index);
 //        }
 
-        mCodeView.setLineError(lineInfo.line);
-        mCodeView.refresh();
+        mHighlightEditor.setLineError(lineInfo.line);
+        mHighlightEditor.refresh();
         Log.d(TAG, "showLineError: " + lineInfo.toString());
     }
 
     public String getCode() {
-        String code = mCodeView.getText().toString();
+        String code = mHighlightEditor.getText().toString();
         return CodeManager.normalCode(code);
     }
 
     /**
-     * set text code to {@link CodeView}
+     * set text code to {@link HighlightEditor}
      *
      * @param code
      */
     public void setCode(String code) {
         Log.d(TAG, "setCode: ");
         code = CodeManager.localCode(code);
-        mCodeView.setTextHighlighted(code);
+        mHighlightEditor.setTextHighlighted(code);
     }
 
     /**
@@ -362,7 +363,6 @@ public class EditorActivity extends BaseEditorActivity
             setCode(txt);
             mFilePath = filePath;
             mPreferences.put(Preferences.FILE_PATH, filePath);
-            mCodeView.clearStackHistory();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -372,7 +372,7 @@ public class EditorActivity extends BaseEditorActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mCodeView.updateFromSettings(this);
+        mHighlightEditor.updateFromSettings(this);
     }
 
     @Override
@@ -467,14 +467,13 @@ public class EditorActivity extends BaseEditorActivity
         TextView txtInfo = (TextView) dialog.findViewById(R.id.txt_info);
         assert txtInfo != null;
         txtInfo.setText(info);
-        CodeView codeView = (CodeView) dialog.findViewById(R.id.code_view);
+        HighlightEditor codeView = (HighlightEditor) dialog.findViewById(R.id.code_view);
         assert codeView != null;
         codeView.setTextHighlighted(fileManager.readFileAsString(file));
         codeView.setFlingToScroll(false);
     }
 
     // TODO: 15-Mar-17 code new file
-
     /**
      * creat new source file
      *
@@ -519,8 +518,8 @@ public class EditorActivity extends BaseEditorActivity
                 //load to view
                 loadFile(filePath);
                 if (checkBoxPas.isChecked()) {
-                    mCodeView.setTextHighlighted(CodeSample.MAIN);
-                    mCodeView.setSelection(CodeSample.DEFAULT_POSITION);
+                    mHighlightEditor.setTextHighlighted(CodeSample.MAIN);
+                    mHighlightEditor.setSelection(CodeSample.DEFAULT_POSITION);
                 }
 //                        mUndoRedoSupport.clearAllQueues();
 //                mFilesView.reload();
@@ -542,9 +541,9 @@ public class EditorActivity extends BaseEditorActivity
                     public void onClick(DialogInterface dialog, int id) {
                         String lineNumber = edittext.getText().toString();
                         if (lineNumber.length() > 5) {
-                            mCodeView.goToLine(Integer.parseInt(lineNumber));
+                            mHighlightEditor.goToLine(Integer.parseInt(lineNumber));
                         }
-                        mCodeView.goToLine(1);
+                        mHighlightEditor.goToLine(1);
                         dialog.cancel();
                     }
                 })
@@ -558,9 +557,9 @@ public class EditorActivity extends BaseEditorActivity
 
     @Override
     public void formatCode() {
-        String text = mCodeView.getText().toString();
+        String text = mHighlightEditor.getText().toString();
         String result = AutoIndentCode.format(text);
-        mCodeView.setTextHighlighted(result);
+        mHighlightEditor.setTextHighlighted(result);
     }
 
     @Override
@@ -588,7 +587,7 @@ public class EditorActivity extends BaseEditorActivity
                 i.putExtra(Intent.EXTRA_SUBJECT, "Report bug: " + editTitle.getText().toString());
                 assert editContent != null;
                 String content = "Cause: \n" + editContent.getText().toString();
-                content += "\n ====================== \n" + mCodeView.getCleanText();
+                content += "\n ====================== \n" + mHighlightEditor.getCleanText();
                 i.putExtra(Intent.EXTRA_TEXT, content);
                 try {
                     startActivity(Intent.createChooser(i, "Send mail..."));
@@ -608,12 +607,31 @@ public class EditorActivity extends BaseEditorActivity
 
     @Override
     public void undo() {
-        if (mCodeView.canUndo()) mCodeView.undo();
+//        mUndoRedoSupport.undo();
     }
 
     @Override
     public void redo() {
-        if (mCodeView.canRedo()) mCodeView.redo();
+//        mUndoRedoSupport.redo();
+    }
+
+    /**
+     * open file from storage
+     *
+     * @param view
+     */
+    public void chooseFile(View view) {
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        intent.setType("*/*");      //all files
+//        try {
+//            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_file)),
+//                    FILE_SELECT_CODE);
+//        } catch (android.content.ActivityNotFoundException ex) {
+//            // Potentially direct the user to the Market with a Dialog
+//            Toast.makeText(this, R.string.install_file_manager, Toast.LENGTH_SHORT).show();
+//        }
+        startActivityForResult(new Intent(this, SelectFileActivity.class),
+                FILE_SELECT_CODE);
     }
 
     @Override
@@ -660,7 +678,7 @@ public class EditorActivity extends BaseEditorActivity
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        hideKeyboard(mCodeView);
+        hideKeyboard(mHighlightEditor);
 //        fileManager.saveFile(mFilePath, getCode());
     }
 
@@ -672,12 +690,12 @@ public class EditorActivity extends BaseEditorActivity
     @Override
     public void paste() {
         String text = ClipboardManager.getClipboard(this);
-        mCodeView.insert(text);
+        mHighlightEditor.insert(text);
     }
 
     @Override
     public void copyAll() {
-        String text = mCodeView.getCleanText();
+        String text = mHighlightEditor.getCleanText();
         ClipboardManager.setClipboard(this, text);
     }
 
@@ -717,7 +735,7 @@ public class EditorActivity extends BaseEditorActivity
 
 //    @Override
 //    public EditText getEditTextForRunDo() {
-//        return mCodeView;
+//        return mHighlightEditor;
 ////        return null;
 //    }
 }
