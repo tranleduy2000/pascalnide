@@ -50,7 +50,6 @@ import static com.duy.pascal.compiler.data.KeyWordAndPattern.symbols;
 import static com.duy.pascal.compiler.data.KeyWordAndPattern.trailingWhiteSpace;
 
 public abstract class HighlightEditor extends AutoSuggestsEditText implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
-
     public static final Pattern general_strings = Pattern.compile("'(.*?)'");
     public static final String TAG = HighlightEditor.class.getSimpleName();
     private final Handler updateHandler = new Handler();
@@ -391,6 +390,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 
     @Override
     public void init() {
+        super.init();
         mCRC32 = new CRC32();
         setFilters(new InputFilter[]{
                 new InputFilter() {

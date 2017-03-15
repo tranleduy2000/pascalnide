@@ -136,8 +136,6 @@ public class MenuEditor {
 
         void showDocumentActivity();
 
-        void chooseFile(View o);
-
         void createNewSourceFile(View view);
 
         void goToLine();

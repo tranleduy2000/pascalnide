@@ -42,13 +42,11 @@
         <menu>
             <item
                 android:id="@+id/action_undo"
-                android:enabled="false"
                 android:icon="@drawable/ic_undo_white_24dp"
                 android:title="@string/undo"
                 app:showAsAction="ifRoom" />
             <item
                 android:id="@+id/action_redo"
-                android:enabled="false"
                 android:icon="@drawable/ic_redo_white_24dp"
                 android:title="@string/redo"
                 app:showAsAction="always" />

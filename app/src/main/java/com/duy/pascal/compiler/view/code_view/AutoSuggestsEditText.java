@@ -25,22 +25,21 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     public int mCharHeight = 0;
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> list = new ArrayList<>();
-    private Context context;
 
     public AutoSuggestsEditText(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public AutoSuggestsEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
 
     }
 
     public AutoSuggestsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init();
     }
 
     /**
@@ -53,7 +52,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         String[] words = source.split("[^a-zA-Z']+");
         Collections.addAll(list, words);
 //        Log.d(TAG, "invalidateKeyWord: " + list.toString());
-        mAdapter = new ArrayAdapter<>(context, R.layout.code_hint, R.id.txt_title, list);
+        mAdapter = new ArrayAdapter<>(getContext(), R.layout.code_hint, R.id.txt_title, list);
         setAdapter(mAdapter);
     }
 
@@ -65,8 +64,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         list.remove(key);
     }
 
-    private void init(Context context) {
-        this.context = context;
+    public void init() {
         invalidateKeyWord("");
         setTokenizer(new CodeTokenizer());
         setThreshold(1);

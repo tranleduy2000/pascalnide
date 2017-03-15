@@ -19,17 +19,21 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
 
     public UndoRedoSupportEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public UndoRedoSupportEditText(Context context) {
         super(context);
+        init();
     }
 
     public UndoRedoSupportEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     public void init() {
+        super.init();
         undoRedoHelper = new UndoRedoHelper(this);
     }
 
@@ -64,7 +68,7 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
     /**
      * clear history
      */
-    public void clearStack() {
+    public void clearStackHistory() {
         undoRedoHelper.clearHistory();
     }
 

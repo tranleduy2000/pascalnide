@@ -362,6 +362,7 @@ public class EditorActivity extends BaseEditorActivity
             setCode(txt);
             mFilePath = filePath;
             mPreferences.put(Preferences.FILE_PATH, filePath);
+            mCodeView.clearStackHistory();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -473,6 +474,7 @@ public class EditorActivity extends BaseEditorActivity
     }
 
     // TODO: 15-Mar-17 code new file
+
     /**
      * creat new source file
      *
@@ -606,31 +608,12 @@ public class EditorActivity extends BaseEditorActivity
 
     @Override
     public void undo() {
-//        mUndoRedoSupport.undo();
+        if (mCodeView.canUndo()) mCodeView.undo();
     }
 
     @Override
     public void redo() {
-//        mUndoRedoSupport.redo();
-    }
-
-    /**
-     * open file from storage
-     *
-     * @param view
-     */
-    public void chooseFile(View view) {
-//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//        intent.setType("*/*");      //all files
-//        try {
-//            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_file)),
-//                    FILE_SELECT_CODE);
-//        } catch (android.content.ActivityNotFoundException ex) {
-//            // Potentially direct the user to the Market with a Dialog
-//            Toast.makeText(this, R.string.install_file_manager, Toast.LENGTH_SHORT).show();
-//        }
-//        startActivityForResult(new Intent(this, SelectFileActivity.class),
-//                FILE_SELECT_CODE);
+        if (mCodeView.canRedo()) mCodeView.redo();
     }
 
     @Override
