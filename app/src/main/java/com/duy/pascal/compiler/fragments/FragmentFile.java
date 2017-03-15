@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -50,7 +51,7 @@ import java.util.LinkedList;
  * Created by Duy on 15-Mar-17.
  */
 
-public class FragmentFile extends Fragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener, View.OnClickListener, View.OnLongClickListener, AdapterView.OnItemLongClickListener {
+public class FragmentFile extends Fragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener, View.OnClickListener, View.OnLongClickListener, AdapterView.OnItemLongClickListener, SwipeRefreshLayout.OnRefreshListener {
     private FileListener listener;
     private FloatingActionMenu fabMenu;
     private ListView listFiles;
@@ -61,6 +62,7 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
     private MenuItem mSearchViewMenuItem;
     private SearchView mSearchView;
     private Filter filter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onResume() {
@@ -82,7 +84,7 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.activity_select_file, container, false);
+        root = inflater.inflate(R.layout.fragment_file_view, container, false);
         return root;
     }
 
@@ -95,6 +97,8 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
         listFiles.setOnItemClickListener(this);
         listFiles.setOnItemLongClickListener(this);
         listFiles.setTextFilterEnabled(true);
+        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_view);
+        swipeRefreshLayout.setOnRefreshListener(this);
         fabMenu = (FloatingActionMenu) root.findViewById(R.id.fab_menu);
         fabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
         fabMenu.findViewById(R.id.action_new_folder).setOnClickListener(this);
@@ -314,6 +318,11 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
         return false;
     }
 
+    @Override
+    public void onRefresh() {
+        new UpdateList().execute(currentFolder);
+    }
+
     private class UpdateList extends AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {
 
         String exceptionMessage;
@@ -419,6 +428,14 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
             }
             if (exceptionMessage != null) {
                 Toast.makeText(activity, exceptionMessage, Toast.LENGTH_SHORT).show();
+            }
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
             }
             super.onPostExecute(names);
         }

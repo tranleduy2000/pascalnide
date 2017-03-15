@@ -16,47 +16,18 @@
             android:background="?colorPrimary" />
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:windowBackground"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ListView
-            android:id="@+id/list_file"
+        <fragment
+            android:id="@+id/file_view"
+            class="com.duy.pascal.compiler.fragments.FragmentFile"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:cacheColorHint="@null"
-            android:divider="@null"
-            android:listSelector="?selectableItemBackground"
-            android:smoothScrollbar="true" />
-
-        <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/fab_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_margin="16dp">
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/action_new_file"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_insert_drive_file_white_24dp"
-                app:fab_label="@string/new_file"
-                app:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/action_new_folder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_create_new_folder_white_24dp"
-                app:fab_label="@string/new_folder"
-                app:fab_size="mini" />
-
-        </com.github.clans.fab.FloatingActionMenu>
-
+            android:layout_height="match_parent" />
     </FrameLayout>
 
-
 </android.support.design.widget.CoordinatorLayout>
-
