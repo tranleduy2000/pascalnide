@@ -12,7 +12,7 @@
         android:text="TextView" />
 
 
-    <com.duy.pascal.compiler.view.code_view.HighlightEditor
+    <com.duy.pascal.compiler.view.code_view.CodeView
         android:id="@+id/code_view"
         android:text="begin end for to do"
         android:layout_width="match_parent"

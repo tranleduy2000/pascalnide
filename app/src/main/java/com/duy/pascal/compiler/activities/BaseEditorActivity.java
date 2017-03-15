@@ -11,7 +11,7 @@ import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
-import com.duy.pascal.compiler.view.code_view.HighlightEditor;
+import com.duy.pascal.compiler.view.code_view.CodeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +33,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     @BindView(R.id.scroll)
     LockableScrollView mScrollView;
     @BindView(R.id.edit_editor)
-    HighlightEditor mHighlightEditor;
+    CodeView mCodeView;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
 

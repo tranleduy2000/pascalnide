@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.Preferences;
-import com.duy.pascal.compiler.view.code_view.HighlightEditor;
+import com.duy.pascal.compiler.view.code_view.CodeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,7 +103,7 @@ public class SelectThemeActivity extends AbstractAppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             @BindView(R.id.code_view)
-            HighlightEditor codeView;
+            CodeView codeView;
             @BindView(R.id.txt_name)
             TextView txtTitle;
             @BindView(R.id.btn_select)

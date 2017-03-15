@@ -42,9 +42,9 @@ public class MenuEditor {
             case R.id.action_find_and_replace:
                 listener.findAndReplace();
                 break;
-            case R.id.action_open_file:
-                listener.chooseFile(null);
-                break;
+//            case R.id.action_open_file:
+//                listener.chooseFile(null);
+//                break;
             case R.id.action_doc:
                 listener.showDocumentActivity();
                 break;

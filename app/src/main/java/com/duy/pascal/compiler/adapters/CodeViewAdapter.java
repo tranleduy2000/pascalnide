@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.alogrithm.AutoIndentCode;
 import com.duy.pascal.compiler.utils.ClipboardManager;
-import com.duy.pascal.compiler.view.code_view.HighlightEditor;
+import com.duy.pascal.compiler.view.code_view.CodeView;
 
 import java.util.ArrayList;
 
@@ -91,12 +91,12 @@ public class CodeViewAdapter extends RecyclerView.Adapter<CodeViewAdapter.CodeHo
     }
 
     class CodeHolder extends RecyclerView.ViewHolder {
-        HighlightEditor highlightEditor;
+        CodeView highlightEditor;
         View btnPlay, btnEdit, btnCopy;
 
         CodeHolder(View itemView) {
             super(itemView);
-            highlightEditor = (HighlightEditor) itemView.findViewById(R.id.code_view);
+            highlightEditor = (CodeView) itemView.findViewById(R.id.code_view);
             btnPlay = itemView.findViewById(R.id.img_play);
             btnEdit = itemView.findViewById(R.id.img_edit);
             btnCopy = itemView.findViewById(R.id.img_copy);

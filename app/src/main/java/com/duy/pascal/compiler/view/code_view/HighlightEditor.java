@@ -49,7 +49,7 @@ import static com.duy.pascal.compiler.data.KeyWordAndPattern.numbers;
 import static com.duy.pascal.compiler.data.KeyWordAndPattern.symbols;
 import static com.duy.pascal.compiler.data.KeyWordAndPattern.trailingWhiteSpace;
 
-public class HighlightEditor extends AutoSuggestsEditText implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
+public abstract class HighlightEditor extends AutoSuggestsEditText implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
 
     public static final Pattern general_strings = Pattern.compile("'(.*?)'");
     public static final String TAG = HighlightEditor.class.getSimpleName();
