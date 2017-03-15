@@ -162,5 +162,6 @@
     <string name="new_folder">Create new folder</string>
     <string name="enter_new_folder_name">Enter name of folder</string>
     <string name="change_key_board">Change keyboard</string>
+    <string name="title_activity_main3">Main3Activity</string>
 </resources>
 

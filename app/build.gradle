@@ -27,6 +27,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+
+
+
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:support-annotations:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
@@ -38,18 +42,15 @@ dependencies {
     compile 'com.google.firebase:firebase-core:10.2.0'
     compile 'com.google.firebase:firebase-crash:10.2.0'
     compile 'com.google.firebase:firebase-messaging:10.2.0'
-
     compile 'com.werdpressed.partisan:rundo:1.0.5'
     compile 'org.jetbrains:annotations-java5:15.0'
-
     compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'frankiesardo:icepick:3.2.0'
-    provided 'frankiesardo:icepick-processor:3.2.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
-
     compile 'commons-io:commons-io:2.4'
     compile 'com.github.clans:fab:1.6.4'
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    provided 'frankiesardo:icepick-processor:3.2.0'
 }
 apply plugin: 'com.google.gms.google-services'
