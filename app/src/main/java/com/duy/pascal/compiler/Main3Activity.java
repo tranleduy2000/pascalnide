@@ -1,9 +1,9 @@
 package com.duy.pascal.compiler;
 
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
-public class Main3Activity extends Activity {
+public class Main3Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -47,6 +47,10 @@ public class FileManager {
      * @return path of application
      */
     public static String getApplicationPath() {
+        File file = new File(EXTERNAL_DIR_CODE);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
         return EXTERNAL_DIR_CODE;
     }
 
@@ -306,6 +310,7 @@ public class FileManager {
 
     /**
      * create new file
+     *
      * @param path path to file
      * @return
      */

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.adapters.AdapterDetailedList;
+import com.duy.pascal.compiler.file_manager.FileListener;
 import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.utils.AlphanumComparator;
 import com.duy.pascal.compiler.utils.Build;
@@ -44,18 +45,15 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Duy on 15-Mar-17.
  */
 
-public class FragmentFile extends Fragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener, View.OnClickListener {
-    @BindView(R.id.fab_menu)
-    FloatingActionMenu fabMenu;
-    @BindView(R.id.list_file)
-    ListView listFiles;
+public class FragmentFile extends Fragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener, View.OnClickListener, View.OnLongClickListener, AdapterView.OnItemLongClickListener {
+    private FileListener listener;
+    private FloatingActionMenu fabMenu;
+    private ListView listFiles;
     private Activity activity;
     private View root;
     private String currentFolder;
@@ -74,6 +72,11 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
     public void onAttach(Context context) {
         super.onAttach(context);
         activity = getActivity();
+        try {
+            listener = (FileListener) activity;
+        } catch (Exception ignored) {
+            listener = null;
+        }
     }
 
     @Nullable
@@ -87,10 +90,12 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         currentFolder = FileManager.getApplicationPath();
-        ButterKnife.bind(root);
         wantAFile = true; //action == Actions.SelectFile;
+        listFiles = (ListView) root.findViewById(R.id.list_file);
         listFiles.setOnItemClickListener(this);
+        listFiles.setOnItemLongClickListener(this);
         listFiles.setTextFilterEnabled(true);
+        fabMenu = (FloatingActionMenu) root.findViewById(R.id.fab_menu);
         fabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
         fabMenu.findViewById(R.id.action_new_folder).setOnClickListener(this);
         new UpdateList().execute(currentFolder);
@@ -139,6 +144,7 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
 
         if (selectedFile.isFile() && wantAFile) {
             // TODO: 15-Mar-17
+            if (listener != null) listener.onFileClick(selectedFile);
         } else if (selectedFile.isDirectory()) {
             new UpdateList().execute(selectedFile.getAbsolutePath());
         }
@@ -267,6 +273,45 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
                 createNewFolder();
                 break;
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        return false;
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        final String name = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
+        if (name.equals("..")) {
+            if (currentFolder.equals("/")) {
+                new UpdateList().execute(PreferenceHelper.getWorkingFolder(activity));
+            } else {
+                File tempFile = new File(currentFolder);
+                if (tempFile.isFile()) {
+                    tempFile = tempFile.getParentFile()
+                            .getParentFile();
+                } else {
+                    tempFile = tempFile.getParentFile();
+                }
+                new UpdateList().execute(tempFile.getAbsolutePath());
+            }
+            return false;
+        } else if (name.equals(getString(R.string.home))) {
+            // TODO: 14-Mar-17
+            new UpdateList().execute(PreferenceHelper.getWorkingFolder(activity));
+            return false;
+        }
+
+        final File selectedFile = new File(currentFolder, name);
+
+        if (selectedFile.isFile() && wantAFile) {
+            // TODO: 15-Mar-17
+            if (listener != null) listener.onFileLongClick(selectedFile);
+        } else if (selectedFile.isDirectory()) {
+//            new UpdateList().execute(selectedFile.getAbsolutePath());
+        }
+        return false;
     }
 
     private class UpdateList extends AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {

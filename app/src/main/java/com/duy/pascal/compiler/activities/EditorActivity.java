@@ -74,7 +74,7 @@ public class EditorActivity extends BaseEditorActivity
         fileManager = new FileManager(this);
         mDrawerLayout.addDrawerListener(this);
         mKeyList.setListener(this);
-        mFilesView.setListener(this);
+//        mFilesView.setListener(this);
         menuEditor = new MenuEditor(this, this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -216,6 +216,7 @@ public class EditorActivity extends BaseEditorActivity
         });
     }
 
+    // TODO: 15-Mar-17 code save as
     @Override
     public void saveAs() {
         final AppCompatEditText edittext = new AppCompatEditText(this);
@@ -230,7 +231,7 @@ public class EditorActivity extends BaseEditorActivity
                         dialog.cancel();
                         fileManager.saveFile(fileManager.createNewFileInMode(fileName),
                                 mHighlightEditor.getCleanText());
-                        mFilesView.reload();
+//                        mFilesView.reload();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -413,6 +414,7 @@ public class EditorActivity extends BaseEditorActivity
         showFileInfo(file);
     }
 
+    // TODO: 15-Mar-17 code delete file
     @Override
     public boolean doRemoveFile(final File file) {
 //        showDialogDeleteFile(file);
@@ -427,7 +429,7 @@ public class EditorActivity extends BaseEditorActivity
                     Toast.makeText(EditorActivity.this, R.string.deleted, Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(EditorActivity.this, R.string.failed, Toast.LENGTH_SHORT).show();
-                mFilesView.reload();
+//                mFilesView.reload();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -471,6 +473,7 @@ public class EditorActivity extends BaseEditorActivity
         codeView.setFlingToScroll(false);
     }
 
+    // TODO: 15-Mar-17 code new file
     /**
      * creat new source file
      *
@@ -519,7 +522,7 @@ public class EditorActivity extends BaseEditorActivity
                     mHighlightEditor.setSelection(CodeSample.DEFAULT_POSITION);
                 }
 //                        mUndoRedoSupport.clearAllQueues();
-                mFilesView.reload();
+//                mFilesView.reload();
                 mDrawerLayout.closeDrawers();
                 alertDialog.cancel();
             }
