@@ -8,17 +8,12 @@
     <string name="can_not_call_func">Không thể gọi hàm </string>
     <string name="func_not_define"> , hàm chưa được khai báo.</string>
     <string name="multi_define_main">Quá nhiều chương trình chính được định nghĩa</string>
-    <string name="forgot_close_parentheses">Bạn quên đóng dấu ngoặc đơn</string>
-    <string name="forgot_close_brackets">Bạn quên đóng dấu ngoặc vuông</string>
     <string name="extra_end_program">Dư từ khóa \'end\' trong chương trình của bạn</string>
-    <string name="Unfinished_begin_end">Chưa hoàn thành cấu trúc begin-end</string>
     <string name="Mismatched_parentheses">Cặp ngoặc đơn không khớp nhau</string>
     <string name="Mismatched_brackets">Cặp ngoặc vuông không khớp nhau</string>
     <string name="Mismatched_begin_end">Cấu trúc begin - end không phù hợp, dư từ khóa begin hoặc end</string>
     <string name="IOException_reading_input">Lỗi nhập xuất</string>
     <string name="Incomplete_character_literal">Incomplete character literal</string>
-    <string name="close_quote_to_start_new_line">You must close your quotes before starting a new line</string>
-    <string name="forgot_complete_started">Bạn quên hoàn thành cấu trúc mà bạn đã bắt đầu.</string>
     <string name="token_not_belong">Từ khóa hoặc cú pháp không tồn tại: </string>
 
 </resources>

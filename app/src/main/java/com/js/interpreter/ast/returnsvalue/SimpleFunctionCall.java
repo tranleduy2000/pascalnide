@@ -16,9 +16,9 @@ import com.js.interpreter.runtime.exception.internal.PluginReflectionException;
 import java.lang.reflect.InvocationTargetException;
 
 public class SimpleFunctionCall extends FunctionCall {
-    AbstractCallableFunction function;
+    private AbstractCallableFunction function;
 
-    LineInfo line;
+    private LineInfo line;
 
     public SimpleFunctionCall(AbstractCallableFunction function,
                               ReturnsValue[] arguments, LineInfo line) {
@@ -33,6 +33,7 @@ public class SimpleFunctionCall extends FunctionCall {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
+
         Object[] values = new Object[arguments.length];
         function.argumentTypes();
         for (int i = 0; i < values.length; i++) {
@@ -41,9 +42,7 @@ public class SimpleFunctionCall extends FunctionCall {
         Object result;
         try {
             result = function.call(f, main, values);
-        } catch (IllegalArgumentException e) {
-            throw new PluginReflectionException(line, e);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new PluginReflectionException(line, e);
         } catch (InvocationTargetException e) {
             throw new PluginCallException(line, e.getCause(), function);

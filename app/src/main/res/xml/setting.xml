@@ -3,19 +3,19 @@
 
     <PreferenceCategory android:title="@string/code_editor">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_pref_word_wrap"
             android:summary="@string/word_wrap_desc"
             android:title="@string/word_wrap" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="@string/key_pref_show_line_number"
             android:summary="@string/show_line_desc"
             android:title="@string/show_line" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:enabled="false"
             android:key="@string/key_show_hint"
@@ -42,9 +42,16 @@
             android:key="@string/key_code_theme"
             android:title="@string/theme" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_back_undo"
+            android:title="@string/back_to_undo" />
+
     </PreferenceCategory>
+
+
     <PreferenceCategory android:title="@string/user_interface">
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:enabled="false"
             android:key="@string/key_pref_hide_status_bar"

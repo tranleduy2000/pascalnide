@@ -37,7 +37,6 @@
             android:text="@string/inp_file" />
 
         <RadioButton
-            android:id="@+id/rad_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/other" />

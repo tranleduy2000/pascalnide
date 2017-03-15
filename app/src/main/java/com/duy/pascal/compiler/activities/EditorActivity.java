@@ -38,7 +38,6 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.file_manager.FileListener;
 import com.duy.pascal.compiler.file_manager.FileManager;
-import com.duy.pascal.compiler.file_manager.SelectFileActivity;
 import com.duy.pascal.compiler.utils.ClipboardManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
@@ -363,6 +362,7 @@ public class EditorActivity extends BaseEditorActivity
             setCode(txt);
             mFilePath = filePath;
             mPreferences.put(Preferences.FILE_PATH, filePath);
+            mCodeView.clearStackHistory();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -474,6 +474,7 @@ public class EditorActivity extends BaseEditorActivity
     }
 
     // TODO: 15-Mar-17 code new file
+
     /**
      * creat new source file
      *
@@ -700,6 +701,17 @@ public class EditorActivity extends BaseEditorActivity
             mDrawerLayout.closeDrawers();
             return;
         }
+
+        /**
+         * check can undo
+         */
+        if (mPreferences.getBoolean(getString(R.string.key_back_undo))) {
+            if (mCodeView.canUndo()) {
+                undo();
+                return;
+            }
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.exit)
                 .setMessage(R.string.exit_mgs)
@@ -717,9 +729,4 @@ public class EditorActivity extends BaseEditorActivity
                 }).create().show();
     }
 
-//    @Override
-//    public EditText getEditTextForRunDo() {
-//        return mCodeView;
-////        return null;
-//    }
 }

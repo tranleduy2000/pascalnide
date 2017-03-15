@@ -103,7 +103,6 @@
         <menu>
 
             <item
-                android:id="@+id/action_cloud"
                 android:enabled="false"
                 android:icon="@drawable/ic_cloud_white_24dp"
                 android:title="@string/cloud_database">

@@ -83,4 +83,5 @@ public class Preferences {
         return sharedPreferences.getBoolean(key, false);
     }
 
+
 }

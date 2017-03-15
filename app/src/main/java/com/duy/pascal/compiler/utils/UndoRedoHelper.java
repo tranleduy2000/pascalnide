@@ -24,16 +24,12 @@ public class UndoRedoHelper {
 
     private TextView mTextView;
 
-    // =================================================================== //
-
     public UndoRedoHelper(TextView textView) {
         mTextView = textView;
         mEditHistory = new EditHistory();
         mChangeListener = new EditTextChangeListener();
         mTextView.addTextChangedListener(mChangeListener);
     }
-
-    // =================================================================== //
 
     public void disconnect() {
         mTextView.removeTextChangedListener(mChangeListener);
@@ -172,7 +168,7 @@ public class UndoRedoHelper {
         return true;
     }
 
-    enum ActionType {
+    private enum ActionType {
         INSERT, DELETE, PASTE, NOT_DEF;
     }
 

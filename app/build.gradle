@@ -7,8 +7,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 28
-        versionName "2.9 beta"
+        versionCode 30
+        versionName "30 beta"
     }
 
     buildTypes {
@@ -27,10 +27,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
-
-
-
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:support-annotations:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'

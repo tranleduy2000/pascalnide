@@ -16,7 +16,7 @@ public class FunctionOnStack extends VariableContext {
     /**
      * function method
      */
-    private FunctionDeclaration prototype;
+    private FunctionDeclaration function;
 
     private VariableContext parentContext;
 
@@ -29,29 +29,29 @@ public class FunctionOnStack extends VariableContext {
     public FunctionOnStack(VariableContext parentContext,
                            RuntimeExecutable<?> main, FunctionDeclaration declaration,
                            Object[] arguments) {
-        this.prototype = declaration;
+        this.function = declaration;
         this.parentContext = parentContext;
         this.main = main;
-        for (VariableDeclaration v : prototype.declarations.UnitVarDefs) {
+        for (VariableDeclaration v : function.declarations.UnitVarDefs) {
             v.initialize(local_variables);
         }
         reference_variables = new HashMap<>();
         for (int i = 0; i < arguments.length; i++) {
-            if (prototype.argument_types[i].writable) {
-                reference_variables.put(prototype.argument_names[i], (VariableBoxer) arguments[i]);
+            if (function.argument_types[i].writable) {
+                reference_variables.put(function.argument_names[i], (VariableBoxer) arguments[i]);
             } else {
-                local_variables.put(prototype.argument_names[i], arguments[i]);
+                local_variables.put(function.argument_names[i], arguments[i]);
             }
         }
         this.parentContext = parentContext;
-        this.prototype = declaration;
+        this.function = declaration;
     }
 
     public Object execute() throws RuntimePascalException {
-        prototype.instructions.execute(this, main);
+        function.instructions.execute(this, main);
 //		return local_variables.get("result");
         //get result of function, name of variable is name of function
-        return local_variables.get(prototype.name);
+        return local_variables.get(function.name);
     }
 
     @Override
