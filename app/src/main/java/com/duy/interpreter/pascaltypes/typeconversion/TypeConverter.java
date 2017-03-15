@@ -161,7 +161,7 @@ public class TypeConverter {
         }
     }
 
-    static class NumberToLong implements ReturnsValue {
+    private static class NumberToLong implements ReturnsValue {
         ReturnsValue other;
 
         public NumberToLong(ReturnsValue other) {

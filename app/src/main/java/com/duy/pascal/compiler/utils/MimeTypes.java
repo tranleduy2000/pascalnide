@@ -30,23 +30,22 @@ public class MimeTypes {
             "tex", "text", "threads", "tmpl", "tpl", "txt", "ubb", "vbs", "xhtml", "xml", "xrc", "xsl"
     };
     public static final String[] MIME_CODE = {
-    	    "cs", "php", "js", "java", "py", "rb", "aspx", "cshtml", "vbhtml", "go", "c", "h", "cc", "cpp", "hh", "hpp", "pl", "pm", "t", "pod",
-            "m", "f", "for", "f90", "f95", "asp", "json", "wiki", "lua", "r"
+            "pas"
     };
     public static final String[] MIME_HTML = {
             "htm", "html", "xhtml"
     };
     public static final String[] MIME_PICTURE = {
-    		"bmp", "eps", "png", "jpeg", "jpg", "ico", "gif", "tiff", "webp"
+            "bmp", "eps", "png", "jpeg", "jpg", "ico", "gif", "tiff", "webp"
     };
     public static final String[] MIME_MUSIC = {
-    		"aac", "flac", "mp3", "mpga", "oga", "ogg", "opus", "webma", "wav"
+            "aac", "flac", "mp3", "mpga", "oga", "ogg", "opus", "webma", "wav"
     };
     public static final String[] MIME_VIDEO = {
             "avi", "mp4", "mkv", "wmw", "ogv", "webm"
     };
     public static final String[] MIME_ARCHIVE = {
-    		"7z", "arj", "bz2", "gz", "rar", "tar", "tgz", "zip", "xz"
+            "7z", "arj", "bz2", "gz", "rar", "tar", "tgz", "zip", "xz"
     };
     public static final String[] MIME_SQL = {
             "sql", "mdf", "ndf", "ldf"

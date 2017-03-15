@@ -301,7 +301,7 @@ public class FileManager {
                 new File(file.getParent()).mkdirs();
                 file.createNewFile();
             }
-            return file.getName();
+            return file.getPath();
         } catch (IOException e) {
             Log.e("", "Could not create file.", e);
             return "";

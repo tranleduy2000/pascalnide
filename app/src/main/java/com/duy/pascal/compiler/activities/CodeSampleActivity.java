@@ -21,27 +21,32 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CodeSampleActivity extends AppCompatActivity implements CodeViewAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private CodeViewAdapter adapter;
-    private RecyclerView recyclerView;
     private FileManager fileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_sample);
+        ButterKnife.bind(this);
         setTitle(R.string.title_activity_code_sample);
         fileManager = new FileManager(this);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_code_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         adapter = new CodeViewAdapter(this);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
@@ -77,7 +82,7 @@ public class CodeSampleActivity extends AppCompatActivity implements CodeViewAda
     @Override
     public void onEdit(String code) {
         //create file temp
-        String file = fileManager.createNewFileInMode("Program" + new Date().getTime() + ".pas");
+        String file = fileManager.createNewFileInMode("program" + new Date().getTime() + ".pas");
         fileManager.saveFile(file, code);
 
         //set file temp for run
@@ -100,7 +105,7 @@ public class CodeSampleActivity extends AppCompatActivity implements CodeViewAda
                     String content = readFile("code_sample/" + path);
                     publishProgress(content);
                 }
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
             return null;
         }

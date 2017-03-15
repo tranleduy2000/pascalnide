@@ -29,12 +29,12 @@
                 android:title="@string/auto_save"
                 app:showAsAction="ifRoom" />
 
-            <item
-                android:id="@+id/action_open_file"
-                android:enabled="true"
-                android:icon="@drawable/ic_create_new_folder_white_24dp"
-                android:title="@string/open_file"
-                app:showAsAction="ifRoom" />
+            <!--<item-->
+                <!--android:id="@+id/action_open_file"-->
+                <!--android:enabled="true"-->
+                <!--android:icon="@drawable/ic_create_new_folder_white_24dp"-->
+                <!--android:title="@string/open_file"-->
+                <!--app:showAsAction="ifRoom" />-->
         </menu>
     </item>
 

@@ -38,7 +38,6 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.file_manager.FileListener;
 import com.duy.pascal.compiler.file_manager.FileManager;
-import com.duy.pascal.compiler.file_manager.SelectFileActivity;
 import com.duy.pascal.compiler.utils.ClipboardManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
@@ -630,8 +629,8 @@ public class EditorActivity extends BaseEditorActivity
 //            // Potentially direct the user to the Market with a Dialog
 //            Toast.makeText(this, R.string.install_file_manager, Toast.LENGTH_SHORT).show();
 //        }
-        startActivityForResult(new Intent(this, SelectFileActivity.class),
-                FILE_SELECT_CODE);
+//        startActivityForResult(new Intent(this, SelectFileActivity.class),
+//                FILE_SELECT_CODE);
     }
 
     @Override

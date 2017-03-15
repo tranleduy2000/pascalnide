@@ -13,10 +13,6 @@
         android:text="@string/file"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
 
-    <!--<com.duy.pascal.compiler.file_manager.FileListView-->
-    <!--android:id="@+id/file_list"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
     <fragment
         android:id="@+id/file_view"
         class="com.duy.pascal.compiler.fragments.FragmentFile"
