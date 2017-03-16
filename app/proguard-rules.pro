@@ -111,7 +111,6 @@
 
 -keep class javax.** { *; }
 -dontwarn javax.annotation**
--dontwarn com.google.common.collect.**
 -dontwarn com.google.common.**
 
 -dontwarn icepick.**
