@@ -541,9 +541,10 @@ public class EditorActivity extends BaseEditorActivity
                     public void onClick(DialogInterface dialog, int id) {
                         String lineNumber = edittext.getText().toString();
                         if (lineNumber.length() > 5) {
+                            mCodeView.goToLine(1);
+                        } else {
                             mCodeView.goToLine(Integer.parseInt(lineNumber));
                         }
-                        mCodeView.goToLine(1);
                         dialog.cancel();
                     }
                 })
