@@ -15,8 +15,7 @@ import com.js.interpreter.runtime.exception.internal.InternalInterpreterExceptio
 
 public class CharBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public CharBiOperatorEval(ReturnsValue operon1, ReturnsValue operon2,
-                              OperatorTypes operator, LineInfo line) {
+    public CharBiOperatorEval(ReturnsValue operon1, ReturnsValue operon2, OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
 

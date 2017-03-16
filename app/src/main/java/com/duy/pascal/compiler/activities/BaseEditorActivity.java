@@ -3,8 +3,8 @@ package com.duy.pascal.compiler.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 
 import com.duy.pascal.compiler.R;
@@ -28,7 +28,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     DrawerLayout mDrawerLayout;
     @BindView(R.id.recycler_view)
     SymbolListView mKeyList;
-//    @BindView(R.id.file_list)
+    //    @BindView(R.id.file_list)
 //    FileListView mFilesView;
     @BindView(R.id.scroll)
     LockableScrollView mScrollView;
@@ -36,6 +36,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     CodeView mCodeView;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,8 +47,12 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
         setSupportActionBar(toolbar);
 //        setTitle(R.string.app_name);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        mDrawerLayout.setDrawerListener(toggle);
+//        toggle.syncState();
+
+        tabLayout.addTab(tabLayout.newTab().setText("Tab One"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab Two"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab Three"));
     }
 }

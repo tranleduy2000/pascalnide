@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -31,8 +30,33 @@
 
 
         </android.support.v7.widget.Toolbar>
+
+
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_editor" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include
+            layout="@layout/navigation_editor_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_weight="30"
+            android:fitsSystemWindows="true" />
+
+        <include
+            layout="@layout/content_editor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="70">
+
+        </include>
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
