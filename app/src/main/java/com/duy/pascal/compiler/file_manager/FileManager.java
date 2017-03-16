@@ -177,7 +177,7 @@ public class FileManager {
         try {
             if (files == null) return list;
             for (File file : files) {
-                list.add(file);
+                if (file.isFile()) list.add(file);
             }
         } catch (Exception e) {
             e.printStackTrace();

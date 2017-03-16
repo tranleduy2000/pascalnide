@@ -28,6 +28,8 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Scroller;
 
@@ -796,8 +798,13 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state));
     }
 
+    @Override
+    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        outAttrs.imeOptions = EditorInfo.IME_FLAG_NO_EXTRACT_UI;
+        return super.onCreateInputConnection(outAttrs);
+    }
+
     public interface OnTextChangedListener {
         void onTextChanged(String text);
     }
-
 }

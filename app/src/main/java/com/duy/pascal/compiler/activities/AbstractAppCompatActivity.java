@@ -36,7 +36,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public abstract class AbstractAppCompatActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
-    public static final String TAG = "MainActivity";
+    public static final String TAG = AbstractAppCompatActivity.class.getSimpleName();
     protected Preferences mPreferences;
 
     @Override

@@ -6,12 +6,16 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
 import com.duy.pascal.compiler.view.code_view.CodeView;
+
+import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +42,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     NavigationView navigationView;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
+    private long lastTimeClickTab = System.currentTimeMillis();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,9 +55,33 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        mDrawerLayout.setDrawerListener(toggle);
 //        toggle.syncState();
+        setupTab();
+    }
 
-        tabLayout.addTab(tabLayout.newTab().setText("Tab One"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab Two"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab Three"));
+    private void setupTab() {
+
+        FileManager fileManager = new FileManager(this);
+        ArrayList<File> listFile = fileManager.getListFile("");
+        for (File file : listFile) {
+            tabLayout.addTab(tabLayout.newTab().setText(file.getName()));
+        }
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // TODO: 16-Mar-17  move to tab
+                Log.d(TAG, "onTabSelected: ");
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabUnselected: ");
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                long currentTime = System.currentTimeMillis();
+                Log.d(TAG, "onTabReselected: ");
+            }
+        });
     }
 }

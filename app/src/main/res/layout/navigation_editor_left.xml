@@ -8,6 +8,7 @@
     android:scrollbarAlwaysDrawHorizontalTrack="true"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:scrollbarStyle="insideOverlay"
+    app:itemTextAppearance="@style/Base.TextAppearance.AppCompat.Small"
     app:menu="@menu/menu_tool">
 
 </android.support.design.widget.NavigationView>
