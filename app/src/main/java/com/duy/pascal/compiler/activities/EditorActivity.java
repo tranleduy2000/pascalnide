@@ -522,8 +522,7 @@ public class EditorActivity extends BaseEditorActivity
                     mCodeView.setTextHighlighted(CodeSample.MAIN);
                     mCodeView.setSelection(CodeSample.DEFAULT_POSITION);
                 }
-//                        mUndoRedoSupport.clearAllQueues();
-//                mFilesView.reload();
+                mCodeView.clearStackHistory();
                 mDrawerLayout.closeDrawers();
                 alertDialog.cancel();
             }
