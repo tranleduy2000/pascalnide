@@ -72,17 +72,26 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
         undoRedoHelper.clearHistory();
     }
 
+    public void saveHistory(String key) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+        undoRedoHelper.storePersistentState(editor, key);
+        editor.apply();
+    }
+
+    public void restoreHistory(String key) {
+        undoRedoHelper.restorePersistentState(
+                PreferenceManager.getDefaultSharedPreferences(getContext()), key);
+
+    }
+
     @Override
     public Parcelable onSaveInstanceState() {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-        undoRedoHelper.storePersistentState(editor, "history_undo_redo");
-        editor.apply();
+
         return super.onSaveInstanceState();
     }
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        undoRedoHelper.restorePersistentState(PreferenceManager.getDefaultSharedPreferences(getContext()), "history_undo_redo");
         super.onRestoreInstanceState(state);
     }
 }

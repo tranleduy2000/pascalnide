@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     protected String mFilePath = FileManager.getApplicationPath() + "new_file.pas";
+    protected FileManager fileManager;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -42,34 +43,30 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     NavigationView navigationView;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
+    ArrayList<File> listFile;
     private long lastTimeClickTab = System.currentTimeMillis();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fileManager = new FileManager(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-//        setTitle(R.string.app_name);
-
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        mDrawerLayout.setDrawerListener(toggle);
-//        toggle.syncState();
+        setTitle("");
         setupTab();
     }
 
     private void setupTab() {
 
-        FileManager fileManager = new FileManager(this);
-        ArrayList<File> listFile = fileManager.getListFile("");
+        listFile = fileManager.getListFile(FileManager.getApplicationPath());
         for (File file : listFile) {
             tabLayout.addTab(tabLayout.newTab().setText(file.getName()));
         }
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // TODO: 16-Mar-17  move to tab
-                Log.d(TAG, "onTabSelected: ");
+                doSelectFile(tab);
             }
 
             @Override
@@ -80,8 +77,35 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 long currentTime = System.currentTimeMillis();
+                if (currentTime - lastTimeClickTab < 200) {
+                    fileManager.saveFile(listFile.get(tab.getPosition()), getCode());
+                    listFile.remove(tab.getPosition());
+                    tabLayout.removeTab(tab);
+                } else lastTimeClickTab = currentTime;
                 Log.d(TAG, "onTabReselected: ");
             }
         });
     }
+
+    private void doSelectFile(TabLayout.Tab tab) {
+        Log.d(TAG, "onTabSelected: ");
+        lastTimeClickTab = System.currentTimeMillis();
+        /**
+         * save history for undo redo
+         */
+        mCodeView.saveHistory(mFilePath);
+        fileManager.saveFile(mFilePath, getCode());
+
+        loadFile(listFile.get(tab.getPosition()).getPath());
+
+        /**
+         * restore history undo redo of file
+         */
+        mCodeView.clearStackHistory();
+        mCodeView.restoreHistory(mFilePath);
+    }
+
+    protected abstract String getCode();
+
+    protected abstract void loadFile(String path);
 }

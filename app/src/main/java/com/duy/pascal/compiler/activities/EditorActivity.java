@@ -61,7 +61,6 @@ public class EditorActivity extends BaseEditorActivity
     private static final int REQ_COMPILE = 1011;
 
     private CompileManager mCompileManager;
-    private FileManager fileManager;
     private Handler handler = new Handler();
     //    private RunDo mUndoRedoSupport;
     private MenuEditor menuEditor;
@@ -70,7 +69,6 @@ public class EditorActivity extends BaseEditorActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCompileManager = new CompileManager(this);
-        fileManager = new FileManager(this);
         mDrawerLayout.addDrawerListener(this);
         mKeyList.setListener(this);
 //        mFilesView.setListener(this);
@@ -228,8 +226,7 @@ public class EditorActivity extends BaseEditorActivity
                     public void onClick(DialogInterface dialog, int id) {
                         String fileName = edittext.getText().toString();
                         dialog.cancel();
-                        fileManager.saveFile(fileManager.createNewFileInMode(fileName),
-                                mCodeView.getCleanText());
+                        fileManager.saveFile(fileManager.createNewFileInMode(fileName), mCodeView.getCleanText());
 //                        mFilesView.reload();
                     }
                 })
@@ -348,21 +345,17 @@ public class EditorActivity extends BaseEditorActivity
      *
      * @param filePath - fileName of file, do not include path
      */
-    private void loadFile(final String filePath) {
+    protected void loadFile(final String filePath) {
         Log.i(TAG, "loadFile: " + filePath);
         try {
-            final File file = new File(filePath);
-            final String txt = fileManager.readFileAsString(file);
-            toolbar.post(new Runnable() {
-                @Override
-                public void run() {
-                    toolbar.setTitle(file.getName());
-                }
-            });
+
+            File file = new File(filePath);
+            String txt = fileManager.readFileAsString(file);
             setCode(txt);
             mFilePath = filePath;
             mPreferences.put(Preferences.FILE_PATH, filePath);
-            mCodeView.clearStackHistory();
+
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

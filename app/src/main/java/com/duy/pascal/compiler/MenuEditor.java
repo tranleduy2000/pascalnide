@@ -84,9 +84,9 @@ public class MenuEditor {
             case R.id.action_check_update:
                 listener.checkUpdate();
                 break;
-            case R.id.action_open_tool:
-                listener.openTool();
-                break;
+//            case R.id.action_open_tool:
+//                listener.openTool();
+//                break;
             case R.id.action_undo:
                 listener.undo();
                 break;
