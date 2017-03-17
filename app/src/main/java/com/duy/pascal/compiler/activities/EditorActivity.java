@@ -48,11 +48,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-public class EditorActivity extends BaseEditorActivity implements
+public class EditorActivity extends FileEditorActivity implements
         SymbolListView.OnKeyListener,
         FileListener,
-        DrawerLayout.DrawerListener
-        {
+        DrawerLayout.DrawerListener {
 
     private static final String TAG = EditorActivity.class.getSimpleName();
     private static final int FILE_SELECT_CODE = 1012;
@@ -510,17 +509,28 @@ public class EditorActivity extends BaseEditorActivity implements
                 if (checkBoxInp.isChecked()) fileName += ".inp";
                 else if (checkBoxPas.isChecked()) fileName += ".pas";
 
+                File file = new File(FileManager.getApplicationPath() + fileName);
+                if (file.exists()) {
+                    editText.setError("File is exist, please enter other name!");
+                    return;
+                }
                 //create new file
                 String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + fileName);
-                //load to view
-                loadFile(filePath);
+                mFilePath = filePath;
+
+                //add to view
+                mCodeView.clearStackHistory();
+                fileManager.addNewPath(filePath);
+                listFile.add(new File(filePath));
+                addTabFile(new File(filePath));
+                moveToTab(listFile.size() - 1);    //load to view
+
+                //set sample code
                 if (checkBoxPas.isChecked()) {
                     mCodeView.setTextHighlighted(CodeSample.MAIN);
                     mCodeView.setSelection(CodeSample.DEFAULT_POSITION);
                 }
-                mCodeView.clearStackHistory();
                 mDrawerLayout.closeDrawers();
-                fileManager.addNewPath(filePath);
                 alertDialog.cancel();
             }
         });

@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
  * Created by Duy on 09-Mar-17.
  */
 
-public abstract class BaseEditorActivity extends AbstractAppCompatActivity
+public abstract class FileEditorActivity extends AbstractAppCompatActivity
         implements MenuEditor.EditorControl {
     protected String mFilePath = FileManager.getApplicationPath() + "new_file.pas";
     protected FileManager fileManager;
@@ -92,7 +92,10 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity
         txtTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doSelectTab(tab);
+                if (!tab.isSelected()) {
+                    tab.select();
+                    doSelectTab(tab);
+                }
             }
         });
         return tab;
@@ -106,19 +109,19 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity
     protected void removeTab(TabLayout.Tab tab) {
         //get position
         int position = tab.getPosition();
-        //save file and remove tab entry
-        fileManager.saveFile(listFile.get(position), getCode());
-        fileManager.removeTabFile(listFile.get(position).getPath());
-        listFile.remove(position);
-        tabLayout.removeTab(tab);
 
         //set last position to view
         if (position > 0) {
-            if (!mCodeView.isShown()) mCodeView.setVisibility(View.VISIBLE);
+            //save file and remove tab entry
+            fileManager.saveFile(listFile.get(position), getCode());
+            fileManager.removeTabFile(listFile.get(position).getPath());
+            listFile.remove(position);
+            tabLayout.removeTab(tab);
+
             loadFile(listFile.get(position - 1).getPath());
             Toast.makeText(this, "closed", Toast.LENGTH_SHORT).show();
         } else if (position == 0) {
-            createEmptyFile();
+//            createEmptyFile();
         }
         //show toast
     }
@@ -126,8 +129,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity
     private void createEmptyFile() {
         //auto create empty file
         //create new file
-        String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + "new" +
-                Integer.toHexString((int) System.currentTimeMillis()));
+        String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + "new_" +
+                Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         File file = new File(filePath);
         //load to view
         addTabFile(file);
@@ -191,7 +194,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            listFile = TabFileUtils.getTabFiles(BaseEditorActivity.this);
+            listFile = TabFileUtils.getTabFiles(FileEditorActivity.this);
             boolean result = false;
             for (File file : listFile) {
                 publishProgress(file);

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:title="@string/data">
+        <menu>
+
+            <item
+                android:enabled="false"
+                android:icon="@drawable/ic_cloud_white_24dp"
+                android:title="@string/cloud_database">
+
+            </item>
+            <item
+                android:id="@+id/action_doc"
+                android:enabled="false"
+                android:icon="@drawable/ic_info_white_24dp"
+                android:title="@string/document"
+                app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/action_code_sample"
+                android:icon="@drawable/ic_code_white_24dp"
+                android:title="@string/code_sample"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+
+    <item android:title="@string/code_editor">
+        <menu>
+            <item
+                android:id="@+id/action_select_theme"
+                android:icon="@drawable/ic_color_lens_white_24dp"
+                android:title="@string/theme" />
+
+            <item
+                android:id="@+id/action_setting"
+                android:enabled="true"
+                android:icon="@drawable/ic_settings_white_24dp"
+                android:title="@string/setting_editor" />
+        </menu>
+    </item>
+
+    <item android:title="@string/information">
+
+        <menu>
+
+
+            <item
+                android:id="@+id/action_report_bug"
+                android:icon="@drawable/ic_bug_report_white_24dp"
+                android:title="@string/report_bug">
+
+            </item>
+            <item
+                android:id="@+id/action_check_update"
+                android:icon="@drawable/ic_system_update_white_24dp"
+                android:title="@string/check_update" />
+
+            <item
+                android:id="@+id/action_rate"
+                android:icon="@drawable/ic_stars_white_18dp"
+                android:title="@string/rate"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/action_more"
+                android:icon="@drawable/ic_play_store"
+                android:title="@string/more_app"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+</menu>

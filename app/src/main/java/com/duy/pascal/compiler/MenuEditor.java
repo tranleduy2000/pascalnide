@@ -26,7 +26,7 @@ public class MenuEditor {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        activity.getMenuInflater().inflate(R.menu.menu_build, menu);
+        activity.getMenuInflater().inflate(R.menu.menu_tool, menu);
         return true;
     }
 
