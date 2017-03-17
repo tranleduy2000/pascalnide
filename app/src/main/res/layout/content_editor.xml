@@ -19,7 +19,7 @@
             android:id="@+id/edit_editor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dropDownAnchor="@id/toolbar"
+            android:dropDownAnchor="@+id/app_bar"
             android:dropDownHeight="110dp"
             android:dropDownWidth="150dp"
             android:gravity="left|top"

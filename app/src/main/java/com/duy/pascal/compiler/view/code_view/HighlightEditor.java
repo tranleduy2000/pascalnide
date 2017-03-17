@@ -23,7 +23,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -66,7 +65,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     public boolean dirty = false;
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
-    protected int mPaddingDP = 6;
+    protected int mPaddingDP = 4;
     protected int mPadding, mLinePadding;
     protected float mScale;
     protected Scroller mScroller;
@@ -737,9 +736,12 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
+        showPopupSuggest();
+    }
+
+    private void showPopupSuggest() {
         try {
             Layout layout = getLayout();
-
             if (layout != null) {
                 int pos = getSelectionStart();
                 int line = layout.getLineForOffset(pos);
@@ -754,16 +756,12 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 
                 int heightVisible = getHeightVisible();
                 int offsetVertical = (int) ((y + mCharHeight) - scrollY);
-                Log.i(TAG, "onTextChanged: " + heightVisible + " " + offsetVertical + " getDropDownHeight() " + getDropDownHeight());
+
                 if (offsetVertical + getDropDownHeight() > heightVisible) {
-                    Log.d(TAG, "onTextChanged: true");
-                    setDropDownVerticalOffset(offsetVertical - getDropDownHeight() - mCharHeight);
+                    setDropDownVerticalOffset((int) (offsetVertical - getDropDownHeight() + mCharHeight));
                 } else {
                     setDropDownVerticalOffset(offsetVertical);
                 }
-//            Log.d(TAG, "onTextChanged: x " + x + " " + y);
-//            Log.d(TAG, "onTextChanged: getWidth " + getWidth() + " " + getHeight());
-//            Log.d(TAG, "onTextChanged: Scroll " + getScrollX() + " " + getScrollY());
             }
         } catch (Exception e) {
             e.printStackTrace();

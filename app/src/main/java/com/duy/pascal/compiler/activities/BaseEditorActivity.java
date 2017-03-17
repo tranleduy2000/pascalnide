@@ -7,6 +7,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.file_manager.FileManager;
@@ -27,6 +30,7 @@ import butterknife.ButterKnife;
 public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     protected String mFilePath = FileManager.getApplicationPath() + "new_file.pas";
     protected FileManager fileManager;
+    protected long lastTimeClickTab = System.currentTimeMillis();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -44,7 +48,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     ArrayList<File> listFile;
-    private long lastTimeClickTab = System.currentTimeMillis();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,16 +60,17 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
         setupTab();
     }
 
-    private void setupTab() {
+    protected void setupTab() {
 
         listFile = fileManager.getListFile(FileManager.getApplicationPath());
         for (File file : listFile) {
-            tabLayout.addTab(tabLayout.newTab().setText(file.getName()));
+            addTabFile(file);
         }
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                doSelectFile(tab);
+                doSelectTab(tab);
             }
 
             @Override
@@ -78,16 +82,50 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastTimeClickTab < 200) {
-                    fileManager.saveFile(listFile.get(tab.getPosition()), getCode());
-                    listFile.remove(tab.getPosition());
-                    tabLayout.removeTab(tab);
-                } else lastTimeClickTab = currentTime;
+                    removeTab(tab);
+                } else
+                    lastTimeClickTab = currentTime;
                 Log.d(TAG, "onTabReselected: ");
             }
         });
     }
 
-    private void doSelectFile(TabLayout.Tab tab) {
+    protected TabLayout.Tab getTab(File file) {
+        final TabLayout.Tab tab = tabLayout.newTab().setText(file.getName());
+        tab.setCustomView(R.layout.item_tab_file);
+
+        View root = tab.getCustomView();
+        View vClose = tab.getCustomView().findViewById(R.id.img_close);
+        vClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeTab(tab);
+            }
+        });
+        TextView txtTitle = (TextView) root.findViewById(R.id.txt_title);
+        txtTitle.setText(file.getName());
+        return tab;
+    }
+
+    /**
+     * remove tab
+     *
+     * @param tab - tab for remove
+     */
+    protected void removeTab(TabLayout.Tab tab) {
+        int position = tab.getPosition();
+        fileManager.saveFile(listFile.get(position), getCode());
+        listFile.remove(position);
+        tabLayout.removeTab(tab);
+        if (position > 0) {
+            loadFile(listFile.get(position - 1).getPath());
+        } else if (position == 0) {
+
+        }
+        Toast.makeText(this, "closed", Toast.LENGTH_SHORT).show();
+    }
+
+    protected void doSelectTab(TabLayout.Tab tab) {
         Log.d(TAG, "onTabSelected: ");
         lastTimeClickTab = System.currentTimeMillis();
         /**
@@ -103,6 +141,20 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
          */
         mCodeView.clearStackHistory();
         mCodeView.restoreHistory(mFilePath);
+
+    }
+
+    protected void addTabFile(File file) {
+        TabLayout.Tab tab = getTab(file);
+        tabLayout.addTab(tab);
+    }
+
+    protected void moveToTab(int i) {
+        TabLayout.Tab tab = tabLayout.getTabAt(i);
+        if (tab != null) {
+            if (!tab.isSelected()) tab.select();
+        }
+
     }
 
     protected abstract String getCode();

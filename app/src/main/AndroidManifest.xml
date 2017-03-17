@@ -80,10 +80,11 @@
             android:name=".activities.SelectThemeActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
+
         <activity
             android:name=".file_manager.SelectFileActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

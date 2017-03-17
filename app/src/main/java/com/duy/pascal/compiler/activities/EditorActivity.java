@@ -396,11 +396,22 @@ public class EditorActivity extends BaseEditorActivity
     public void onFileClick(File file) {
         //save current file
         fileManager.saveFile(mFilePath, getCode());
+
+        int index = listFile.indexOf(file);
+        if (index != -1) {
+            moveToTab(index);
+        } else {
+            listFile.add(file);
+            addTabFile(file);
+            moveToTab(listFile.size() - 1);
+        }
+
         //open new file
-        loadFile(file.getPath());
         //close drawer
         mDrawerLayout.closeDrawers();
     }
+
+
 
     @Override
     public void onFileLongClick(File file) {

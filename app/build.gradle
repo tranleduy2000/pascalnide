@@ -48,5 +48,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     provided 'frankiesardo:icepick-processor:3.2.0'
+    compile 'com.rom4ek:arcnavigationview:1.0.2'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,6 +1,8 @@
 package com.duy.pascal.compiler.view.code_view;
 
 import android.content.Context;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -22,7 +24,7 @@ import java.util.Collections;
 
 public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView implements View.OnClickListener {
     private static final String TAG = AutoSuggestsEditText.class.getName();
-    public int mCharHeight = 0;
+    public float mCharHeight = 0;
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> list = new ArrayList<>();
 
@@ -68,9 +70,17 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         invalidateKeyWord("");
         setTokenizer(new CodeTokenizer());
         setThreshold(1);
-        mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
+
+        Paint.FontMetrics fm = getPaint().getFontMetrics();
+        mCharHeight = fm.descent - fm.ascent;
     }
 
+    @Override
+    public void setTypeface(Typeface tf) {
+        super.setTypeface(tf);
+        Paint.FontMetrics fm = getPaint().getFontMetrics();
+        mCharHeight = fm.descent - fm.ascent;
+    }
 
     @Override
     public void onClick(View v) {
