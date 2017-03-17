@@ -21,6 +21,7 @@ import com.js.interpreter.core.ScriptSource;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class ExecuteActivity extends AbstractConsoleActivity {
     public static final boolean DEBUG = BuildConfig.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
     public String input = "";
-    String fileName;
     private AtomicBoolean isCanRead = new AtomicBoolean(false);
     Runnable runnableInput = new Runnable() {
         @Override
@@ -121,21 +121,28 @@ public class ExecuteActivity extends AbstractConsoleActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            fileName = extras.getString(CompileManager.FILE_PATH);
-            doRun(fileName);
+            String filePath;
+            filePath = extras.getString(CompileManager.FILE_PATH);
+            File file = new File(filePath);
+            if (!file.exists()) {
+                finish();
+                return;
+            }
+            setTitle(file.getName());
+            doRun(filePath);
         }
     }
 
     /**
      * exec program, run program in internal memory
      *
-     * @param name - file pas
+     * @param path - file pas
      */
-    private void doRun(final String name) {
-        String code = mFileManager.readFileAsString(name);
+    private void doRun(final String path) {
+        String code = mFileManager.readFileAsString(path);
         code = CodeManager.normalCode(code);
         //clone it to internal storage
-        this.programFile = mFileManager.setContentFileTemp(code);
+        programFile = mFileManager.setContentFileTemp(code);
         runThread.start();
     }
 

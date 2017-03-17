@@ -3,10 +3,10 @@
     <string name="expected_token">Expected the following token to appear:</string>
     <string name="expected_token_2">Expected the following token to appear:</string>
     <string name="not_define_msg">is not a variable or function name</string>
-    <string name="bad_function_msg1">One or more arguments has an incorrect type when calling function </string>
-    <string name="bad_function_msg2">Either too few or two many arguments are being passed to function </string>
+    <string name="bad_function_msg1">"One or more arguments has an incorrect type when calling function "</string>
+    <string name="bad_function_msg2">"Either too few or two many arguments are being passed to function "</string>
     <string name="can_not_call_func">Can not call function</string>
-    <string name="func_not_define"> , which is not defined.</string>
+    <string name="func_not_define">" , which is not defined."</string>
     <string name="multi_define_main">Multiple definitions of main</string>
     <string name="Mismatched_parentheses">Mismatched parentheses</string>
     <string name="Mismatched_brackets">Mismatched brackets</string>
@@ -14,5 +14,5 @@
     <string name="extra_end_program">You have an extra \'end\' in your program</string>
     <string name="IOException_reading_input">IOException occurred while reading the input</string>
     <string name="Incomplete_character_literal">Incomplete character literal</string>
-    <string name="token_not_belong">The following token doesn\'t belong here: </string>
+    <string name="token_not_belong">"The following token doesn\'t belong here: "</string>
 </resources>

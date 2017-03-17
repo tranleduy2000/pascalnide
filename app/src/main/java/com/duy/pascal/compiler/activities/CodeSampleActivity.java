@@ -19,7 +19,6 @@ import com.duy.pascal.compiler.file_manager.FileManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,7 +81,7 @@ public class CodeSampleActivity extends AppCompatActivity implements CodeViewAda
     @Override
     public void onEdit(String code) {
         //create file temp
-        String file = fileManager.createNewFileInMode("program" + new Date().getTime() + ".pas");
+        String file = fileManager.createNewFileInMode("sample_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         fileManager.saveFile(file, code);
 
         //set file temp for run

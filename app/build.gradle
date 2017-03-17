@@ -7,7 +7,7 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 31
+        versionCode 32
         versionName "3.1 beta"
     }
 
@@ -48,6 +48,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     provided 'frankiesardo:icepick-processor:3.2.0'
-    compile 'com.rom4ek:arcnavigationview:1.0.2'
 }
 apply plugin: 'com.google.gms.google-services'

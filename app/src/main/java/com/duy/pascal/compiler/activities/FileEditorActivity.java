@@ -2,6 +2,7 @@ package com.duy.pascal.compiler.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -36,7 +37,6 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         implements MenuEditor.EditorControl {
     protected String mFilePath = FileManager.getApplicationPath() + "new_file.pas";
     protected FileManager fileManager;
-    protected long lastTimeClickTab = System.currentTimeMillis();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -53,6 +53,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     TabLayout tabLayout;
     ArrayList<File> listFile;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
             public void onClick(View v) {
                 if (!tab.isSelected()) {
                     tab.select();
-                    doSelectTab(tab);
+                    doSelectTab(tab, true);
                 }
             }
         });
@@ -109,6 +110,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     protected void removeTab(TabLayout.Tab tab) {
         //get position
         int position = tab.getPosition();
+        mCodeView.clearStackHistory();
 
         //set last position to view
         if (position > 0) {
@@ -121,7 +123,17 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
             loadFile(listFile.get(position - 1).getPath());
             Toast.makeText(this, "closed", Toast.LENGTH_SHORT).show();
         } else if (position == 0) {
-//            createEmptyFile();
+            if (listFile.size() >= 2) {
+                //save file and remove tab entry
+                fileManager.saveFile(listFile.get(position), getCode());
+                fileManager.removeTabFile(listFile.get(position).getPath());
+                listFile.remove(position);
+                tabLayout.removeTab(tab);
+                loadFile(listFile.get(0).getPath());
+                Toast.makeText(this, "closed", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Can not close file", Toast.LENGTH_SHORT).show();
+            }
         }
         //show toast
     }
@@ -140,17 +152,18 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         moveToTab(0);
     }
 
-    protected void doSelectTab(TabLayout.Tab tab) {
+
+    protected void doSelectTab(TabLayout.Tab tab, boolean save) {
         Log.d(TAG, "onTabSelected: ");
-        lastTimeClickTab = System.currentTimeMillis();
+        moveToTab(tab.getPosition());
+
         /**
          * save history for undo redo
          */
 //        mCodeView.saveHistory(mFilePath);
-        fileManager.saveFile(mFilePath, getCode());
+        if (save) fileManager.saveFile(mFilePath, getCode());
 
         loadFile(listFile.get(tab.getPosition()).getPath());
-
         /**
          * restore history undo redo of file
          */
@@ -163,18 +176,41 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         tabLayout.addTab(tab);
     }
 
-    protected void moveToTab(int i) {
-        TabLayout.Tab tab = tabLayout.getTabAt(i);
-        if (tab != null) {
-            if (!tab.isSelected()) tab.select();
+
+    /**
+     * check file if not in list file, add it to tab and select tab of file
+     */
+    protected void addNewFile(File file, boolean saveLastFile) {
+        if (file.exists()) {
+            int index = listFile.indexOf(file);
+            if (index != -1) {
+                doSelectTab(tabLayout.getTabAt(index), saveLastFile);
+            } else {
+                fileManager.addNewPath(file.getPath());
+                listFile.add(file);
+                addTabFile(file);
+                doSelectTab(tabLayout.getTabAt(listFile.size() - 1), saveLastFile);
+            }
+        } else {
         }
     }
 
+    protected void moveToTab(final int i) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                TabLayout.Tab tab = tabLayout.getTabAt(i);
+                if (tab != null) {
+                    tab.select();
+                }
+            }
+        });
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        moveToTab(mPreferences.getInt(Preferences.TAB_POSITION_FILE));
+
     }
 
     @Override
@@ -214,7 +250,15 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
             super.onPostExecute(result);
             if (!result) {//empty file
                 createEmptyFile();
+            } else {
+                int pos = (mPreferences.getInt(Preferences.TAB_POSITION_FILE));
+                Log.d(TAG, "onPostExecute: " + pos);
+                TabLayout.Tab tab = tabLayout.getTabAt((pos));
+                if (tab != null) {
+                    doSelectTab(tab, false);
+                }
             }
         }
     }
+
 }

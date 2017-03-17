@@ -3,10 +3,10 @@
     <string name="expected_token">Cú pháp được đề nghị:</string>
     <string name="expected_token_2">Cú pháp hiện tại là:</string>
     <string name="not_define_msg">không phải là biến hoặc hàm</string>
-    <string name="bad_function_msg1">Một hoặc nhiều tham số không đúng kiểu dữ liệu khi gọi hàm </string>
-    <string name="bad_function_msg2">Có quá ít hoặc quá nhiều tham số khi gọi hàm </string>
-    <string name="can_not_call_func">Không thể gọi hàm </string>
-    <string name="func_not_define"> , hàm chưa được khai báo.</string>
+    <string name="bad_function_msg1">"Một hoặc nhiều tham số không đúng kiểu dữ liệu khi gọi hàm "</string>
+    <string name="bad_function_msg2">"Có quá ít hoặc quá nhiều tham số khi gọi hàm "</string>
+    <string name="can_not_call_func">"Không thể gọi hàm "</string>
+    <string name="func_not_define">" , hàm chưa được khai báo."</string>
     <string name="multi_define_main">Quá nhiều chương trình chính được định nghĩa</string>
     <string name="extra_end_program">Dư từ khóa \'end\' trong chương trình của bạn</string>
     <string name="Mismatched_parentheses">Cặp ngoặc đơn không khớp nhau</string>
@@ -14,6 +14,6 @@
     <string name="Mismatched_begin_end">Cấu trúc begin - end không phù hợp, dư từ khóa begin hoặc end</string>
     <string name="IOException_reading_input">Lỗi nhập xuất</string>
     <string name="Incomplete_character_literal">Incomplete character literal</string>
-    <string name="token_not_belong">Từ khóa hoặc cú pháp không tồn tại: </string>
+    <string name="token_not_belong">"Từ khóa hoặc cú pháp không tồn tại: "</string>
 
 </resources>

@@ -49,19 +49,18 @@
             android:title="@string/theme" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:icon="@drawable/ic_arrow_back_white_24dp"
             android:key="@string/key_back_undo"
             android:title="@string/back_to_undo" />
 
     </PreferenceCategory>
 
-
     <PreferenceCategory android:title="@string/user_interface">
         <SwitchPreference
-            android:icon="@drawable/ic_local_bar_white_24dp"
             android:defaultValue="false"
             android:enabled="false"
+            android:icon="@drawable/ic_local_bar_white_24dp"
             android:key="@string/key_pref_hide_status_bar"
             android:summary="@string/hide_status_bar_desc"
             android:title="@string/hide_status_bar" />

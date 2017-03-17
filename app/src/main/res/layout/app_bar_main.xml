@@ -25,9 +25,13 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
+            android:layout_alignParentRight="true"
+            android:clipChildren="true"
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabGravity="fill"
             app:tabMode="scrollable"
+            app:tabPaddingEnd="0dp"
+            app:tabPaddingStart="0dp"
             app:tabTextAppearance="@style/Base.TextAppearance.AppCompat.Small" />
     </android.support.design.widget.AppBarLayout>
 

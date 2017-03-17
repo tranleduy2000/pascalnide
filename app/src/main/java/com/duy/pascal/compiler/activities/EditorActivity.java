@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -58,6 +59,7 @@ public class EditorActivity extends FileEditorActivity implements
 
     private CompileManager mCompileManager;
     private MenuEditor menuEditor;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -289,9 +291,10 @@ public class EditorActivity extends FileEditorActivity implements
      * @param code
      */
     public void setCode(String code) {
-        Log.d(TAG, "setCode: ");
         code = CodeManager.localCode(code);
-        mCodeView.setTextHighlighted(code);
+        final String finalCode = code;
+        mCodeView.setTextHighlighted(finalCode);
+
     }
 
     /**
@@ -363,7 +366,7 @@ public class EditorActivity extends FileEditorActivity implements
         super.onNewIntent(intent);
         if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
             mFilePath = intent.getStringExtra(CompileManager.FILE_PATH);
-            loadFile(mFilePath);
+            addNewFile(new File(mFilePath), false);
         }
     }
 
@@ -385,23 +388,11 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     public void onFileClick(File file) {
         //save current file
-        fileManager.saveFile(mFilePath, getCode());
+        addNewFile(file, true);
 
-        int index = listFile.indexOf(file);
-        if (index != -1) {
-            moveToTab(index);
-        } else {
-            listFile.add(file);
-            addTabFile(file);
-            moveToTab(listFile.size() - 1);
-            fileManager.addNewPath(file.getPath());
-        }
-
-        //open new file
         //close drawer
         mDrawerLayout.closeDrawers();
     }
-
 
     @Override
     public void onFileLongClick(File file) {
@@ -495,14 +486,14 @@ public class EditorActivity extends FileEditorActivity implements
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveFile();
+
                 //get string path of in edit text
                 String fileName = editText.getText().toString();
                 if (fileName.isEmpty()) {
                     editText.setError(getString(R.string.enter_new_file_name));
                     return;
                 }
-
+                saveFile();
                 RadioButton checkBoxPas = (RadioButton) alertDialog.findViewById(R.id.rad_pas);
                 RadioButton checkBoxInp = (RadioButton) alertDialog.findViewById(R.id.rad_inp);
 
@@ -517,13 +508,10 @@ public class EditorActivity extends FileEditorActivity implements
                 //create new file
                 String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + fileName);
                 mFilePath = filePath;
-
+                file = new File(filePath);
                 //add to view
                 mCodeView.clearStackHistory();
-                fileManager.addNewPath(filePath);
-                listFile.add(new File(filePath));
-                addTabFile(new File(filePath));
-                moveToTab(listFile.size() - 1);    //load to view
+                addNewFile(file, true);
 
                 //set sample code
                 if (checkBoxPas.isChecked()) {
@@ -638,22 +626,6 @@ public class EditorActivity extends FileEditorActivity implements
                 try {
                     path = fileManager.getPath(this, uri);
                     fileManager.setWorkingFilePath(path);
-//                    if (path != null) {
-//                        File file = new File(path);
-//                        fileManager.addNewPath(path);
-//                        if (!fileManager.createNewFileInMode(file.getName()).isEmpty()) {
-//                            fileManager.saveFile(file.getName(), fileManager.readFileAsString(file.getPath()));
-//                            mFilesView.reload();
-//                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//                            sharedPreferences.edit().putString(Preferences.FILE_PATH, file.getName()).apply();
-//                            loadLastedFile(mFilePath);
-//                        } else {
-//                            Toast.makeText(this, R.string.can_not_new_file, Toast.LENGTH_SHORT).show();
-//                        }
-//                    } else {
-//                        Toast.makeText(this, R.string.can_not_open_file, Toast.LENGTH_SHORT).show();
-//                    }
-//                    }
                     loadFile(path);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -675,7 +647,6 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     public void onDrawerOpened(View drawerView) {
         hideKeyboard(mCodeView);
-//        fileManager.saveFile(mFilePath, getCode());
     }
 
     @Override
