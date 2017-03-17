@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.duy.pascal.compiler.MenuEditor;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.data.TabFileUtils;
@@ -31,7 +32,8 @@ import butterknife.ButterKnife;
  * Created by Duy on 09-Mar-17.
  */
 
-public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
+public abstract class BaseEditorActivity extends AbstractAppCompatActivity
+        implements MenuEditor.EditorControl {
     protected String mFilePath = FileManager.getApplicationPath() + "new_file.pas";
     protected FileManager fileManager;
     protected long lastTimeClickTab = System.currentTimeMillis();
@@ -41,8 +43,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     DrawerLayout mDrawerLayout;
     @BindView(R.id.recycler_view)
     SymbolListView mKeyList;
-    //    @BindView(R.id.file_list)
-//    FileListView mFilesView;
     @BindView(R.id.scroll)
     LockableScrollView mScrollView;
     @BindView(R.id.edit_editor)
@@ -62,7 +62,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
@@ -72,38 +73,12 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     }
 
     protected void setupTab() {
-        listFile = TabFileUtils.getTabFiles(this);
-        for (File file : listFile) {
-            addTabFile(file);
-        }
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                doSelectTab(tab);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                Log.d(TAG, "onTabUnselected: ");
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-//                long currentTime = System.currentTimeMillis();
-//                if (currentTime - lastTimeClickTab < 200) {
-//                    removeTab(tab);
-//                } else
-//                    lastTimeClickTab = currentTime;
-//                Log.d(TAG, "onTabReselected: ");
-            }
-        });
+        new LoadTabFile().execute();
     }
 
     protected TabLayout.Tab getTab(File file) {
         final TabLayout.Tab tab = tabLayout.newTab().setText(file.getName());
         tab.setCustomView(R.layout.item_tab_file);
-
         View root = tab.getCustomView();
         View vClose = tab.getCustomView().findViewById(R.id.img_close);
         vClose.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +89,12 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
         });
         TextView txtTitle = (TextView) root.findViewById(R.id.txt_title);
         txtTitle.setText(file.getName());
+        txtTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doSelectTab(tab);
+            }
+        });
         return tab;
     }
 
@@ -133,12 +114,27 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
 
         //set last position to view
         if (position > 0) {
+            if (!mCodeView.isShown()) mCodeView.setVisibility(View.VISIBLE);
             loadFile(listFile.get(position - 1).getPath());
+            Toast.makeText(this, "closed", Toast.LENGTH_SHORT).show();
         } else if (position == 0) {
-            // TODO: 17-Mar-17
+            createEmptyFile();
         }
         //show toast
-        Toast.makeText(this, "closed", Toast.LENGTH_SHORT).show();
+    }
+
+    private void createEmptyFile() {
+        //auto create empty file
+        //create new file
+        String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + "new" +
+                Integer.toHexString((int) System.currentTimeMillis()));
+        File file = new File(filePath);
+        //load to view
+        addTabFile(file);
+        mCodeView.clearStackHistory();
+        fileManager.addNewPath(filePath);
+        listFile.add(file);
+        moveToTab(0);
     }
 
     protected void doSelectTab(TabLayout.Tab tab) {
@@ -169,7 +165,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
         if (tab != null) {
             if (!tab.isSelected()) tab.select();
         }
-
     }
 
 
@@ -185,15 +180,38 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
         mPreferences.put(Preferences.TAB_POSITION_FILE, tabLayout.getSelectedTabPosition());
     }
 
-    class LoadTabFile extends AsyncTask<Void, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            return null;
-        }
-    }
-
     protected abstract String getCode();
 
     protected abstract void loadFile(String path);
+
+    /**
+     * load lasted file in database and set data to tablayout
+     */
+    private class LoadTabFile extends AsyncTask<Void, File, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            listFile = TabFileUtils.getTabFiles(BaseEditorActivity.this);
+            boolean result = false;
+            for (File file : listFile) {
+                publishProgress(file);
+                result = true;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onProgressUpdate(File... values) {
+            super.onProgressUpdate(values);
+            addTabFile(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (!result) {//empty file
+                createEmptyFile();
+            }
+        }
+    }
 }

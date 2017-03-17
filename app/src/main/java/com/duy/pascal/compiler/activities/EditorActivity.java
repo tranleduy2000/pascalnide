@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -49,20 +48,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-public class EditorActivity extends BaseEditorActivity
-        implements
+public class EditorActivity extends BaseEditorActivity implements
         SymbolListView.OnKeyListener,
         FileListener,
-        DrawerLayout.DrawerListener,
-        MenuEditor.EditorControl {
+        DrawerLayout.DrawerListener
+        {
 
     private static final String TAG = EditorActivity.class.getSimpleName();
     private static final int FILE_SELECT_CODE = 1012;
-    private static final int REQ_COMPILE = 1011;
 
     private CompileManager mCompileManager;
-    private Handler handler = new Handler();
-    //    private RunDo mUndoRedoSupport;
     private MenuEditor menuEditor;
 
     @Override
@@ -480,6 +475,7 @@ public class EditorActivity extends BaseEditorActivity
      *
      * @param view
      */
+    @Override
     public void createNewSourceFile(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.new_file);
@@ -655,6 +651,10 @@ public class EditorActivity extends BaseEditorActivity
                 }
             }
         }
+    }
+
+    public void openFileView(View view) {
+        mDrawerLayout.openDrawer(GravityCompat.START);
     }
 
     @Override

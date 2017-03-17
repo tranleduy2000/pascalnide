@@ -1,5 +1,5 @@
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,21 +14,20 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/recycler_view"
         android:fillViewport="true">
-
         <com.duy.pascal.compiler.view.code_view.CodeView
-            android:id="@+id/edit_editor"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dropDownAnchor="@+id/app_bar"
-            android:dropDownHeight="110dp"
-            android:dropDownWidth="150dp"
-            android:gravity="left|top"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:scrollbarAlwaysDrawHorizontalTrack="true"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:scrollbarSize="5.0dip"
-            android:scrollbars="horizontal|vertical"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:id="@+id/edit_editor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dropDownAnchor="@+id/app_bar"
+                android:dropDownHeight="110dp"
+                android:dropDownWidth="150dp"
+                android:gravity="left|top"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:scrollbarAlwaysDrawHorizontalTrack="true"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarSize="5.0dip"
+                android:scrollbars="horizontal|vertical"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
     </com.duy.pascal.compiler.view.LockableScrollView>
 
