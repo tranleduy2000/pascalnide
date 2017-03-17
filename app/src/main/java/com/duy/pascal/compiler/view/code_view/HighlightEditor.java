@@ -739,7 +739,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         showPopupSuggest();
     }
 
-    private void showPopupSuggest() {
+    @Override
+    public void showPopupSuggest() {
         try {
             Layout layout = getLayout();
             if (layout != null) {
@@ -757,14 +758,14 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 int heightVisible = getHeightVisible();
                 int offsetVertical = (int) ((y + mCharHeight) - scrollY);
 
-                if (offsetVertical + getDropDownHeight() > heightVisible) {
-                    setDropDownVerticalOffset((int) (offsetVertical - getDropDownHeight() + mCharHeight));
+                int tmp = (int) (offsetVertical + getDropDownHeight() + 2 * mCharHeight);
+                if (tmp < heightVisible) {
+                    setDropDownVerticalOffset((int) (offsetVertical + mCharHeight / 2));
                 } else {
-                    setDropDownVerticalOffset(offsetVertical);
+                    setDropDownVerticalOffset((int) (offsetVertical - getDropDownHeight() - mCharHeight));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 

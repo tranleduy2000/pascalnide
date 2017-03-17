@@ -1,7 +1,6 @@
 package com.duy.pascal.compiler.view.code_view;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -24,7 +23,7 @@ import java.util.Collections;
 
 public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView implements View.OnClickListener {
     private static final String TAG = AutoSuggestsEditText.class.getName();
-    public float mCharHeight = 0;
+    public int mCharHeight = 0;
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> list = new ArrayList<>();
 
@@ -70,16 +69,18 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         invalidateKeyWord("");
         setTokenizer(new CodeTokenizer());
         setThreshold(1);
-
-        Paint.FontMetrics fm = getPaint().getFontMetrics();
-        mCharHeight = fm.descent - fm.ascent;
+        invalidateCharHeight();
     }
+
+    private void invalidateCharHeight() {
+        mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
+    }
+
 
     @Override
     public void setTypeface(Typeface tf) {
         super.setTypeface(tf);
-        Paint.FontMetrics fm = getPaint().getFontMetrics();
-        mCharHeight = fm.descent - fm.ascent;
+        invalidateCharHeight();
     }
 
     @Override
@@ -87,9 +88,10 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
     }
 
+    public abstract void showPopupSuggest();
 
     public class CodeTokenizer implements Tokenizer {
-        String token = "!@#$%^&*()_+-={}|[]:'<>/<.?1234567890 \n\t";
+        String token = "!@#$%^&*()_+-={}|[]:;'<>/<.?1234567890 \n\t";
 
         @Override
         public int findTokenStart(CharSequence text, int cursor) {
@@ -140,6 +142,5 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
             }
         }
     }
-
-
 }
+

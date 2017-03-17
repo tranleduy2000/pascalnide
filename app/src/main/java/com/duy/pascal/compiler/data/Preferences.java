@@ -13,15 +13,17 @@ public class Preferences {
     public static final String FILE_PATH = "last_file";
     public static final String LAST_FIND = "LAST_FIND";
     public static final String LAST_REPLACE = "LAST_REPLACE";
-
-    protected SharedPreferences sharedPreferences;
+    public static final String TAB_POSITION_FILE = "TAB_POSITION_FILE";
     protected SharedPreferences.Editor editor;
     protected Context context;
+    private SharedPreferences sharedPreferences;
+
     public Preferences(Context context) {
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = sharedPreferences.edit();
     }
+
     public Preferences(SharedPreferences mPreferences, Context context) {
         this.context = context;
         this.sharedPreferences = mPreferences;
@@ -82,6 +84,4 @@ public class Preferences {
     public boolean getBoolean(String key) {
         return sharedPreferences.getBoolean(key, false);
     }
-
-
 }

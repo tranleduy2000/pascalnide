@@ -406,6 +406,9 @@ public class FileManager {
         mPreferences.put(Preferences.FILE_PATH, path);
     }
 
+    public void removeTabFile(String path) {
+        mDatabase.removeFile(path);
+    }
 
     public static class SAVE_MODE {
         static final int INTERNAL = 1;

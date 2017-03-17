@@ -19,13 +19,14 @@
             app:title=""
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Small">
 
-
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:tabGravity="fill"
             app:tabMode="scrollable"
             app:tabTextAppearance="@style/Base.TextAppearance.AppCompat.Small" />
     </android.support.design.widget.AppBarLayout>

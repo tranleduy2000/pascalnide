@@ -13,9 +13,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
+ * Uses {@link com.duy.pascal.compiler.fragments.FragmentFile} instead class
  * Created by Duy on 11-Feb-17.
  */
-
+@Deprecated
 public class FileListView extends RecyclerView {
     private static final String TAG = FileListView.class.getSimpleName();
     /**

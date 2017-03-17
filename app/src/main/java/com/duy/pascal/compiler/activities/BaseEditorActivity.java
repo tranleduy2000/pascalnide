@@ -1,10 +1,12 @@
 package com.duy.pascal.compiler.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.compiler.R;
+import com.duy.pascal.compiler.data.Preferences;
+import com.duy.pascal.compiler.data.TabFileUtils;
 import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
@@ -48,6 +52,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     ArrayList<File> listFile;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,13 +61,18 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
         setTitle("");
         setupTab();
     }
 
     protected void setupTab() {
-
-        listFile = fileManager.getListFile(FileManager.getApplicationPath());
+        listFile = TabFileUtils.getTabFiles(this);
         for (File file : listFile) {
             addTabFile(file);
         }
@@ -80,12 +90,12 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastTimeClickTab < 200) {
-                    removeTab(tab);
-                } else
-                    lastTimeClickTab = currentTime;
-                Log.d(TAG, "onTabReselected: ");
+//                long currentTime = System.currentTimeMillis();
+//                if (currentTime - lastTimeClickTab < 200) {
+//                    removeTab(tab);
+//                } else
+//                    lastTimeClickTab = currentTime;
+//                Log.d(TAG, "onTabReselected: ");
             }
         });
     }
@@ -113,15 +123,21 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
      * @param tab - tab for remove
      */
     protected void removeTab(TabLayout.Tab tab) {
+        //get position
         int position = tab.getPosition();
+        //save file and remove tab entry
         fileManager.saveFile(listFile.get(position), getCode());
+        fileManager.removeTabFile(listFile.get(position).getPath());
         listFile.remove(position);
         tabLayout.removeTab(tab);
+
+        //set last position to view
         if (position > 0) {
             loadFile(listFile.get(position - 1).getPath());
         } else if (position == 0) {
-
+            // TODO: 17-Mar-17
         }
+        //show toast
         Toast.makeText(this, "closed", Toast.LENGTH_SHORT).show();
     }
 
@@ -131,7 +147,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
         /**
          * save history for undo redo
          */
-        mCodeView.saveHistory(mFilePath);
+//        mCodeView.saveHistory(mFilePath);
         fileManager.saveFile(mFilePath, getCode());
 
         loadFile(listFile.get(tab.getPosition()).getPath());
@@ -140,8 +156,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
          * restore history undo redo of file
          */
         mCodeView.clearStackHistory();
-        mCodeView.restoreHistory(mFilePath);
-
+//        mCodeView.restoreHistory(mFilePath);
     }
 
     protected void addTabFile(File file) {
@@ -155,6 +170,27 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity {
             if (!tab.isSelected()) tab.select();
         }
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        moveToTab(mPreferences.getInt(Preferences.TAB_POSITION_FILE));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPreferences.put(Preferences.TAB_POSITION_FILE, tabLayout.getSelectedTabPosition());
+    }
+
+    class LoadTabFile extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
     }
 
     protected abstract String getCode();

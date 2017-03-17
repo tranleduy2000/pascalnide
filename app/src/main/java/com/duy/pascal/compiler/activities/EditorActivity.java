@@ -82,7 +82,7 @@ public class EditorActivity extends BaseEditorActivity
         });
         initContent();
         undoRedoSupport();
-        loadLastedFile();
+//        loadLastedFile();
     }
 
     /**
@@ -348,16 +348,12 @@ public class EditorActivity extends BaseEditorActivity
     protected void loadFile(final String filePath) {
         Log.i(TAG, "loadFile: " + filePath);
         try {
-
             File file = new File(filePath);
             String txt = fileManager.readFileAsString(file);
             setCode(txt);
             mFilePath = filePath;
             mPreferences.put(Preferences.FILE_PATH, filePath);
-
-
         } catch (Exception e) {
-            e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -404,13 +400,13 @@ public class EditorActivity extends BaseEditorActivity
             listFile.add(file);
             addTabFile(file);
             moveToTab(listFile.size() - 1);
+            fileManager.addNewPath(file.getPath());
         }
 
         //open new file
         //close drawer
         mDrawerLayout.closeDrawers();
     }
-
 
 
     @Override
@@ -528,6 +524,7 @@ public class EditorActivity extends BaseEditorActivity
                 }
                 mCodeView.clearStackHistory();
                 mDrawerLayout.closeDrawers();
+                fileManager.addNewPath(filePath);
                 alertDialog.cancel();
             }
         });

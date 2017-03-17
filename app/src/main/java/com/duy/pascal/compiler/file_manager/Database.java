@@ -18,12 +18,12 @@ import java.util.ArrayList;
 public class Database extends SQLiteOpenHelper implements Serializable {
     private static final String DATABASE_NAME = "db_manager";
     private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_FILE_HISTORY = "tbl_file_history";
+    private static final String TABLE_FILE_TAB = "tbl_file_history";
     private static final String KEY_FILE_PATH = "path";
 
 
     public static final String CREATE_TABLE_FILE_HISTORY =
-            "create table " + TABLE_FILE_HISTORY +
+            "create table " + TABLE_FILE_TAB +
                     "(" +
                     KEY_FILE_PATH + " TEXT PRIMARY KEY" +
                     ")";
@@ -46,20 +46,23 @@ public class Database extends SQLiteOpenHelper implements Serializable {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILE_HISTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILE_TAB);
         onCreate(db);
     }
 
     public ArrayList<File> getListFile() {
         ArrayList<File> files = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_FILE_HISTORY;
+        String query = "SELECT * FROM " + TABLE_FILE_TAB;
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 String result = cursor.getString(cursor.getColumnIndex(KEY_FILE_PATH));
                 File file = new File(result);
-                files.add(file);
+                if (file.isFile())
+                    files.add(file);
+                else
+                    removeFile(result);
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -71,10 +74,15 @@ public class Database extends SQLiteOpenHelper implements Serializable {
             SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(KEY_FILE_PATH, file.getPath());
-            return sqLiteDatabase.insert(TABLE_FILE_HISTORY, null, contentValues);
+            return sqLiteDatabase.insert(TABLE_FILE_TAB, null, contentValues);
         } catch (Exception e) {
             return -1;
         }
+    }
+
+    public boolean removeFile(String path) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.delete(TABLE_FILE_TAB, KEY_FILE_PATH + "=?", new String[]{path}) > 0;
     }
 
     public long addNewFile(String file) {
