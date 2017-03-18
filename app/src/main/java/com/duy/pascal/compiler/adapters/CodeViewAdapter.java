@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.alogrithm.AutoIndentCode;
-import com.duy.pascal.compiler.utils.ClipboardManager;
+import com.duy.pascal.compiler.manager.ClipboardManager;
 import com.duy.pascal.compiler.view.code_view.CodeView;
 
 import java.util.ArrayList;

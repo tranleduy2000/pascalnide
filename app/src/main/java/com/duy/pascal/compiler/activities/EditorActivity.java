@@ -26,11 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.interpreter.core.PascalCompiler;
+import com.duy.interpreter.exceptions.MainProgramNotFoundException;
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.pascal.compiler.manager.CodeManager;
-import com.duy.pascal.compiler.manager.CompileManager;
-import com.duy.pascal.compiler.manager.ExceptionManager;
 import com.duy.pascal.compiler.MenuEditor;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.alogrithm.AutoIndentCode;
@@ -38,10 +36,14 @@ import com.duy.pascal.compiler.data.CodeSample;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.file_manager.FileListener;
 import com.duy.pascal.compiler.file_manager.FileManager;
-import com.duy.pascal.compiler.utils.ClipboardManager;
+import com.duy.pascal.compiler.manager.ClipboardManager;
+import com.duy.pascal.compiler.manager.CodeManager;
+import com.duy.pascal.compiler.manager.CompileManager;
+import com.duy.pascal.compiler.manager.ExceptionManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
 import com.duy.pascal.compiler.view.code_view.CodeView;
+import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.File;
@@ -262,22 +264,9 @@ public class EditorActivity extends FileEditorActivity implements
                 break;
             }
         }
-        //space or end line
-//        while (index < raw.length() &&
-//                raw.charAt(index) == ' ' ||
-//                raw.charAt(index) == '\n') index++;
-        //index out of bound, decrease it
-//        if (index >= raw.length()) index--;
-        //set index error in exit text
-//        if (index + lineInfo.column < raw.length()) {
-//            mCodeView.setSelection(index + lineInfo.column);
-//        } else {
-//            mCodeView.setSelection(index);
-//        }
 
         mCodeView.setLineError(lineInfo.line);
         mCodeView.refresh();
-        Log.d(TAG, "showLineError: " + lineInfo.toString());
     }
 
     public String getCode() {
@@ -304,15 +293,17 @@ public class EditorActivity extends FileEditorActivity implements
     public boolean doCompile() {
         fileManager.saveFile(mFilePath, getCode());
         try {
-            new PascalCompiler(null).loadPascal(mFilePath,
+            PascalProgram pascalProgram = new PascalCompiler(null).loadPascal(mFilePath,
                     new FileReader(mFilePath),
                     new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>());
+            if (pascalProgram.main == null) {
+                showErrorDialog(new MainProgramNotFoundException());
+                return false;
+            }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             showErrorDialog(e);
             return false;
         } catch (ParsingException e) {
-            e.printStackTrace();
             showErrorDialog(e);
             showLineError(e);
             return false;
@@ -343,7 +334,6 @@ public class EditorActivity extends FileEditorActivity implements
      * @param filePath - fileName of file, do not include path
      */
     protected void loadFile(final String filePath) {
-        Log.i(TAG, "loadFile: " + filePath);
         try {
             File file = new File(filePath);
             String txt = fileManager.readFileAsString(file);

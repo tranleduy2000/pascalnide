@@ -3,8 +3,15 @@ package com.duy.pascal.compiler.manager;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.duy.interpreter.core.PascalCompiler;
+import com.duy.interpreter.exceptions.MainProgramNotFoundException;
 import com.duy.pascal.compiler.activities.EditorActivity;
 import com.duy.pascal.compiler.activities.ExecuteActivity;
+import com.js.interpreter.ast.codeunit.PascalProgram;
+import com.js.interpreter.core.ScriptSource;
+
+import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  * Created by Duy on 11-Feb-17.
@@ -37,5 +44,19 @@ public class CompileManager {
         intent.putExtra(IS_NEW, isNew);
         intent.putExtra(INITIAL_POS, 0);
         mActivity.startActivityForResult(intent, ACTIVITY_EDITOR);
+    }
+
+    public Exception doCompile(String mFilePath) {
+        try {
+            PascalProgram pascalProgram = new PascalCompiler(null).loadPascal(mFilePath,
+                    new FileReader(mFilePath),
+                    new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>());
+            if (pascalProgram.main == null) {
+                return new MainProgramNotFoundException();
+            }
+        } catch (Exception e) {
+            return e;
+        }
+        return null;
     }
 }

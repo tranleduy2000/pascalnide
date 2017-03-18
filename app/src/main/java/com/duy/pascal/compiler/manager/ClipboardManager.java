@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.utils;
+package com.duy.pascal.compiler.manager;
 
 import android.content.Context;
 import android.widget.Toast;

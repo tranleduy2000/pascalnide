@@ -10,11 +10,14 @@ import android.text.style.StyleSpan;
 
 import com.duy.interpreter.exceptions.BadFunctionCallException;
 import com.duy.interpreter.exceptions.ExpectedTokenException;
+import com.duy.interpreter.exceptions.MainProgramNotFoundException;
 import com.duy.interpreter.exceptions.MultipleDefinitionsMainException;
 import com.duy.interpreter.exceptions.NoSuchFunctionOrVariableException;
 import com.duy.interpreter.exceptions.UnrecognizedTokenException;
 import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
 import com.duy.pascal.compiler.R;
+
+import java.io.FileNotFoundException;
 
 /**
  * Created by Duy on 11-Mar-17.
@@ -40,6 +43,10 @@ public class ExceptionManager {
             return processEnumeratedGroupingException((EnumeratedGroupingException) e);
         } else if (e instanceof UnrecognizedTokenException) {
             return processUnrecognizedTokenException((UnrecognizedTokenException) e);
+        } else if (e instanceof FileNotFoundException) {
+            return new SpannableString(e.getMessage());
+        } else if (e instanceof MainProgramNotFoundException) {
+            return new SpannableString("Main program not define");
         } else {
             return new SpannableString(e.getMessage());
         }
