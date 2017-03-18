@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler;
+package com.duy.pascal.compiler.utils;
 
 import com.duy.interpreter.exceptions.ParsingException;
 

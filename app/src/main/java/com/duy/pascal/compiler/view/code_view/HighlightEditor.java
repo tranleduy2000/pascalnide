@@ -6,13 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Layout;
-import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -34,6 +32,8 @@ import android.widget.Scroller;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.editor.EditorListener;
+import com.duy.pascal.compiler.utils.CodeThemeUtils;
+import com.duy.pascal.compiler.utils.FontManager;
 import com.duy.pascal.compiler.view.EditorPreferences;
 
 import java.util.regex.Matcher;
@@ -166,8 +166,11 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 
         setBackgroundColor(typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
                 R.color.bg_editor_color));
-        setTextColor(typedArray.getInteger(R.styleable.CodeTheme_normal_text_color, R.color.normal_text_color));
-        setTypeface(Typeface.MONOSPACE);
+
+        setTextColor(typedArray.getInteger(R.styleable.CodeTheme_normal_text_color,
+                R.color.normal_text_color));
+
+        setTypeface(FontManager.getInstance(mContext));
         typedArray.recycle();
     }
 
@@ -365,9 +368,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         super.setText(text, BufferType.EDITABLE);
     }
 
-    public void extendSelection(int index) {
-        Selection.extendSelection(getText(), index);
-    }
+//    public void extendSelection(int index) {
+//        Selection.extendSelection(getText(), index);
+//    }
 
     public void setTextHighlighted(CharSequence text) {
 //        Log.d(TAG, "setTextHighlighted: " + text);

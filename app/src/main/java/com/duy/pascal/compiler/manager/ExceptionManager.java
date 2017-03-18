@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler;
+package com.duy.pascal.compiler.manager;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import com.duy.interpreter.exceptions.MultipleDefinitionsMainException;
 import com.duy.interpreter.exceptions.NoSuchFunctionOrVariableException;
 import com.duy.interpreter.exceptions.UnrecognizedTokenException;
 import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
+import com.duy.pascal.compiler.R;
 
 /**
  * Created by Duy on 11-Mar-17.

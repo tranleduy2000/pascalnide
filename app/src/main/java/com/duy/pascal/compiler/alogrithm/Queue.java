@@ -1,5 +1,7 @@
 package com.duy.pascal.compiler.alogrithm;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Duy on 10-Feb-17.
  */
@@ -13,6 +15,8 @@ public class Queue {
         data = new byte[size];
         front = 0;
         rear = 0;
+        Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_4444);
+
     }
 
     public int getFront() {

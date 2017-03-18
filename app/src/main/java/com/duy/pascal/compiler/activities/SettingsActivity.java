@@ -104,6 +104,7 @@ public class SettingsActivity extends PreferenceActivity {
         setTitle(R.string.setting);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
     }
+
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
@@ -114,6 +115,7 @@ public class SettingsActivity extends PreferenceActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -212,6 +214,7 @@ public class SettingsActivity extends PreferenceActivity {
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_font_size)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_font_size)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_code_theme)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_font_size)));
         }
     }
 }

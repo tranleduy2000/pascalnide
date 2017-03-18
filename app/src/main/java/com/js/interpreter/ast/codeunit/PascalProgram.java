@@ -19,7 +19,7 @@ import java.util.List;
 public class PascalProgram extends ExecutableCodeUnit {
     public Executable main;
 
-    public FunctionOnStack main_running;
+    public FunctionOnStack mainRunning;
 
     public PascalProgram(ListMultimap<String, AbstractFunction> functionTable) {
         super(functionTable);
@@ -27,9 +27,9 @@ public class PascalProgram extends ExecutableCodeUnit {
 
     public PascalProgram(Reader program,
                          ListMultimap<String, AbstractFunction> functionTable,
-                         String sourcename, List<ScriptSource> includeDirectories)
+                         String sourceName, List<ScriptSource> includeDirectories)
             throws ParsingException {
-        super(program, functionTable, sourcename, includeDirectories);
+        super(program, functionTable, sourceName, includeDirectories);
     }
 
     @Override

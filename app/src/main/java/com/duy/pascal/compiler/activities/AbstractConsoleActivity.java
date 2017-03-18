@@ -2,7 +2,6 @@ package com.duy.pascal.compiler.activities;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class AbstractConsoleActivity extends AbstractAppCompatActivity {
+public abstract class AbstractConsoleActivity extends AbstractAppCompatActivity {
     public final int[] fontSize = {12, 16, 20, 24};
     public int fontSizeNb = 1;
     @BindView(R.id.console)
@@ -85,8 +84,10 @@ public class AbstractConsoleActivity extends AbstractAppCompatActivity {
     }
 
     private void changeKeyBoard() {
-        startActivityForResult(
-                new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS), 0);
+        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (mgr != null) {
+            mgr.showInputMethodPicker();
+        }
     }
 
     public void showKeyBoard() {

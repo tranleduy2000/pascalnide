@@ -36,35 +36,31 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
 	public Executable instructions;
 
-	public VariableDeclaration result_definition;
+	public VariableDeclaration resultDefinition;
 
 	public LineInfo line;
 	public String[] argument_names;
 
 	public RuntimeType[] argument_types;
-	private boolean body_declared;
+	private boolean bodyDeclared;
 
 	public FunctionDeclaration(ExpressionContext parent, GrouperToken i,
-			boolean is_procedure) throws ParsingException {
+			boolean isProcedure) throws ParsingException {
 		this.declarations = new FunctionExpressionContext(parent);
 		this.line = i.peek().lineInfo;
 		name = i.next_word_value();
 
-		get_arguments_for_declaration(i, is_procedure);
+		get_arguments_for_declaration(i, isProcedure);
 		Token next = i.peek();
-		if (is_procedure == next instanceof ColonToken) {
+		if (isProcedure == next instanceof ColonToken) {
 			throw new ParsingException(next.lineInfo,
 					"Functions must have a return type, and procedures cannot have one");
 		}
-		if (!is_procedure) {
+		if (!isProcedure) {
 			i.take();
-//			result_definition = new VariableDeclaration("result",
-// i.get_next_pascal_type(declarations), line);
-
 			//define variable result of function, the name of variable same as name function
-			result_definition = new VariableDeclaration(name,
-					i.get_next_pascal_type(declarations), line);
-			this.declarations.declareVariable(result_definition);
+			resultDefinition = new VariableDeclaration(name, i.get_next_pascal_type(declarations), line);
+			this.declarations.declareVariable(resultDefinition);
 		}
 
 		i.assert_next_semicolon();
@@ -86,7 +82,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 		this.argument_types = new RuntimeType[0];
 	}
 
-	public void parse_function_body(GrouperToken i) throws ParsingException {
+	public void parseFunctionBody(GrouperToken i) throws ParsingException {
 
 		Token next = i.peek_no_EOF();
 		if (next instanceof ForwardToken) {
@@ -96,7 +92,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 			if (instructions != null) {
 				throw new OverridingFunctionException(this, i.lineInfo);
 			}
-			while (!body_declared) {
+			while (!bodyDeclared) {
 				declarations.add_next_declaration(i);
 			}
 		}
@@ -180,18 +176,18 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
 	@Override
 	public DeclaredType return_type() {
-		return result_definition == null ? null : result_definition.type;
+		return resultDefinition == null ? null : resultDefinition.type;
 	}
 
 	public boolean headerMatches(AbstractFunction other)
 			throws ParsingException {
 		if (name.equals(other.name())
 				&& Arrays.equals(argument_types, other.argumentTypes())) {
-			if (result_definition == null && other.return_type() == null) {
+			if (resultDefinition == null && other.return_type() == null) {
 				return true;
 			}
-			if (result_definition == null || other.return_type() == null
-					|| !result_definition.equals(other.return_type())) {
+			if (resultDefinition == null || other.return_type() == null
+					|| !resultDefinition.equals(other.return_type())) {
 				System.err
 						.println("Warning: Overriding previously declared return type for function "
 								+ name);
@@ -228,7 +224,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 														 GrouperToken container) throws ParsingException {
 			if (next instanceof ForwardToken) {
 				container.assert_next_semicolon();
-				body_declared = true;
+				bodyDeclared = true;
 				return true;
 			}
 			return false;
@@ -236,7 +232,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
 		@Override
 		public void handleBeginEnd(GrouperToken i) throws ParsingException {
-			body_declared = true;
+			bodyDeclared = true;
 			instructions = i.get_next_command(declarations);
 			i.assert_next_semicolon();
 		}

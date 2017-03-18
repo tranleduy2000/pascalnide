@@ -20,23 +20,14 @@ import java.util.List;
 
 public abstract class CodeUnit {
     public final ExpressionContextMixin context;
-    private String program_name;
+    private final boolean DEBUG = false;
+    private String programName;
 
-    private final boolean DEBUG = true;
     public CodeUnit(ListMultimap<String, AbstractFunction> functionTable) {
         prepareForParsing();
         this.context = getExpressionContextInstance(functionTable);
         SystemConstants.addSystemConstant(context);
         SystemConstants.addSystemType(context);
-    }
-
-    private void debug() {
-        if (DEBUG){
-            List<VariableDeclaration> unitVarDefs = context.getUnitVarDefs();
-            for (VariableDeclaration variableDeclaration: unitVarDefs){
-                System.out.println(variableDeclaration.get_name());
-            }
-        }
     }
 
     public CodeUnit(Reader program,
@@ -45,10 +36,20 @@ public abstract class CodeUnit {
             throws ParsingException {
         this(functionTable);
         NewLexer grouper = new NewLexer(program, sourcename, includeDirectories);
+//        Grouper grouper = new NewLexer(program, sourcename, includeDirectories);
 //        new Thread(grouper).start();
         grouper.parse();
         parse_tree(grouper.token_queue);
         debug();
+    }
+
+    private void debug() {
+        if (DEBUG) {
+            List<VariableDeclaration> unitVarDefs = context.getUnitVarDefs();
+            for (VariableDeclaration variableDeclaration : unitVarDefs) {
+                System.out.println(variableDeclaration.get_name());
+            }
+        }
     }
 
     protected CodeUnitExpressionContext getExpressionContextInstance(
@@ -67,6 +68,14 @@ public abstract class CodeUnit {
 
     public abstract RuntimeCodeUnit<? extends CodeUnit> run();
 
+    public String getProgramName() {
+        return programName;
+    }
+
+    public void setProgramName(String programName) {
+        this.programName = programName;
+    }
+
     protected class CodeUnitExpressionContext extends ExpressionContextMixin {
         protected CodeUnitExpressionContext(
                 ListMultimap<String, AbstractFunction> function) {
@@ -80,10 +89,10 @@ public abstract class CodeUnit {
         }
 
         @Override
-        protected boolean handleUnrecognizedDeclarationImpl(Token next,
-                                                            GrouperToken i) throws ParsingException {
+        protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken i)
+                throws ParsingException {
             if (next instanceof ProgramToken) {
-                CodeUnit.this.program_name = i.next_word_value();
+                CodeUnit.this.programName = i.next_word_value();
                 i.assert_next_semicolon();
                 return true;
             }

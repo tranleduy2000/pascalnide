@@ -30,11 +30,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.duy.pascal.compiler.R;
-import com.duy.pascal.compiler.utils.MimeTypes;
 
 import org.apache.commons.io.FilenameUtils;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -98,7 +96,7 @@ public class AdapterDetailedList extends
         final String ext = FilenameUtils.getExtension(fileName);
         if (fileDetail.isFolder()) {
             viewHolder.icon.setImageResource(R.drawable.ic_folder_white_24dp);
-        } else if (Arrays.asList(MimeTypes.MIME_CODE).contains(ext)) {
+        } else if (".pas".contains(ext)) {
             viewHolder.icon.setImageResource(R.drawable.ic_code_white_24dp);
         } else {
             viewHolder.icon.setImageResource(R.drawable.ic_insert_drive_file_white_24dp);

@@ -1,6 +1,8 @@
-package com.duy.pascal.compiler;
+package com.duy.pascal.compiler.manager;
 
 import android.util.Log;
+
+import com.duy.pascal.compiler.BuildConfig;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

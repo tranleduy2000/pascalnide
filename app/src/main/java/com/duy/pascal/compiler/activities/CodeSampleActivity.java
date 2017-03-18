@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.duy.pascal.compiler.CodeManager;
-import com.duy.pascal.compiler.CompileManager;
+import com.duy.pascal.compiler.manager.CodeManager;
+import com.duy.pascal.compiler.manager.CompileManager;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.adapters.CodeViewAdapter;
 import com.duy.pascal.compiler.file_manager.FileManager;

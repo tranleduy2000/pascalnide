@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler;
+package com.duy.pascal.compiler.manager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,7 +23,6 @@ public class CompileManager {
     public CompileManager(Activity activity) {
         this.mActivity = activity;
     }
-
 
     // Execute compiled file
     public void execute(String name) {

@@ -273,9 +273,11 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
         switch (v.getId()) {
             case R.id.action_new_file:
                 createNewFile();
+                fabMenu.close(true);
                 break;
             case R.id.action_new_folder:
                 createNewFolder();
+                fabMenu.close(true);
                 break;
         }
     }

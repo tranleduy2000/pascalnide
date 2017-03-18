@@ -25,7 +25,7 @@
             android:title="@string/show_hint" />
 
         <ListPreference
-            android:defaultValue="16"
+            android:defaultValue="13"
             android:entries="@array/font_size"
             android:entryValues="@array/font_size"
             android:icon="@drawable/ic_format_size_white_24dp"
@@ -33,10 +33,10 @@
             android:title="@string/font_z" />
 
         <ListPreference
-            android:defaultValue="1"
-            android:enabled="false"
+            android:defaultValue="@string/font.monospace"
+            android:entries="@array/fonts_arr"
+            android:entryValues="@array/fonts_arr"
             android:icon="@drawable/ic_font_download_white_24dp"
-
             android:key="@string/key_pref_font"
             android:title="@string/font" />
 

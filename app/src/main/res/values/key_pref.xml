@@ -22,4 +22,19 @@
         <item>en</item>
     </string-array>
 
+    <string-array name="fonts_arr" translatable="false">
+        <item>@string/font.Consolas</item>
+        <item>@string/font.courier_new</item>
+        <item>@string/font.lucida_sans_typewriter</item>
+        <item>@string/font.Roboto</item>
+        <item>@string/font.SourceCodePro</item>
+        <item>@string/font.monospace</item>
+    </string-array>
+
+    <string name="font.Consolas" translatable="false">Consolas</string>
+    <string name="font.courier_new" translatable="false">Courier New</string>
+    <string name="font.lucida_sans_typewriter" translatable="false">Lucida Sans Typewriter</string>
+    <string name="font.Roboto" translatable="false">Roboto</string>
+    <string name="font.SourceCodePro" translatable="false">Source Code Pro</string>
+    <string name="font.monospace" translatable="false">Monospace</string>
 </resources>

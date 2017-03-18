@@ -126,7 +126,7 @@ public abstract class ExpressionContextMixin extends
             FunctionDeclaration declaration = new FunctionDeclaration(this, i,
                     is_procedure);
             declaration = getExistingFunction(declaration);
-            declaration.parse_function_body(i);
+            declaration.parseFunctionBody(i);
         } else if (next instanceof BeginEndToken) {
             handleBeginEnd(i);
         } else if (next instanceof VarToken) {

@@ -341,14 +341,10 @@ public class Grouper implements Runnable {
                                             addInclude(tokenizer.sval);
                                             continue do_loop_break;
                                         } else {
-                                            System.err
-                                                    .println(line
-                                                            + ": $INCLUDE filename must be in single quotes");
+                                            System.err.println(line + ": $INCLUDE filename must be in single quotes");
                                         }
                                     } else {
-                                        System.err
-                                                .println(line
-                                                        + ": Warning! Unrecognized Compiler Directive!");
+                                        System.err.println(line + ": Warning! Unrecognized Compiler Directive!");
                                     }
                                 }
                         }

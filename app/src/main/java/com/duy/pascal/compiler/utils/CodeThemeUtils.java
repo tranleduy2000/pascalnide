@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.view.code_view;
+package com.duy.pascal.compiler.utils;
 
 import android.content.Context;
 

@@ -28,9 +28,9 @@ import android.widget.Toast;
 import com.duy.interpreter.core.PascalCompiler;
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.pascal.compiler.CodeManager;
-import com.duy.pascal.compiler.CompileManager;
-import com.duy.pascal.compiler.ExceptionManager;
+import com.duy.pascal.compiler.manager.CodeManager;
+import com.duy.pascal.compiler.manager.CompileManager;
+import com.duy.pascal.compiler.manager.ExceptionManager;
 import com.duy.pascal.compiler.MenuEditor;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.alogrithm.AutoIndentCode;
@@ -711,4 +711,7 @@ public class EditorActivity extends FileEditorActivity implements
                 }).create().show();
     }
 
+    public void openDrawer(int gravity) {
+        mDrawerLayout.openDrawer(gravity);
+    }
 }

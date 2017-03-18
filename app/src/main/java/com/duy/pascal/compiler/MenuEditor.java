@@ -1,6 +1,7 @@
 package com.duy.pascal.compiler;
 
 import android.content.Intent;
+import android.support.v4.view.GravityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +58,7 @@ public class MenuEditor {
             case R.id.action_rate:
                 activity.rateApp();
                 break;
-            case R.id.action_more:
+            case R.id.action_more_app:
                 activity.moreApp(null);
                 break;
             case R.id.nav_run:
@@ -101,6 +102,9 @@ public class MenuEditor {
                 break;
             case R.id.action_select_theme:
                 listener.selectTheme();
+                break;
+            case R.id.action_more_feature:
+                activity.openDrawer(GravityCompat.END);
                 break;
         }
         return true;

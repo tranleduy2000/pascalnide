@@ -1,8 +1,6 @@
 package com.duy.interpreter.core;
 
 
-import android.util.Log;
-
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.lib.ConversionLib;
 import com.duy.interpreter.lib.CrtLib;
@@ -96,14 +94,10 @@ public class PascalCompiler {
 
         ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(
                 includeSearchPath, librarySearchPath);
-
-        if (android) {
-            Log.d(TAG, "loadPascal: " + sourcename);
-        }
         return new PascalProgram(in, functiontable, sourcename, includeSearchPath);
     }
 
-    public void executeScript(String sourcename, Reader in,
+    public void executeScript(String sourceName, Reader in,
                               List<ScriptSource> includeSearchPath,
                               List<ScriptSource> librarySearchPath)
             throws ParsingException, RuntimePascalException {
@@ -111,7 +105,7 @@ public class PascalCompiler {
                 includeSearchPath, librarySearchPath);
         ExecutableCodeUnit code;
 //        long beforetime = System.currentTimeMillis();
-        code = new PascalProgram(in, functionTable, sourcename, includeSearchPath);
+        code = new PascalProgram(in, functionTable, sourceName, includeSearchPath);
 //        System.out.println("Parse time = " + (System.currentTimeMillis() - beforetime) + " ms");
         RuntimeExecutable<?> runtime = code.run();
         runtime.run();
@@ -126,20 +120,17 @@ public class PascalCompiler {
         new PascalProgram(in, functionTable, sourcename, includeSearchPath);
     }
 
-    public void loadLibraries(
-            ListMultimap<String, AbstractFunction> functionTable,
+    public void loadLibraries(ListMultimap<String, AbstractFunction> functionTable,
             List<ScriptSource> librarySearchPath,
             List<ScriptSource> includeSearchPath) throws ParsingException {
         for (ScriptSource directory : librarySearchPath) {
-            for (String sourcefile : directory.list()) {
-                Reader in = directory.read(sourcefile);
+            for (String sourceFile : directory.list()) {
+                Reader in = directory.read(sourceFile);
                 if (in != null) {
                     // Automatically adds its definitions to the function table.
-                    new Library(in, functionTable, sourcefile,
-                            includeSearchPath);
+                    new Library(in, functionTable, sourceFile, includeSearchPath);
                 } else {
-                    System.err.println("Warning, unable to read library "
-                            + sourcefile);
+                    System.err.println("Warning, unable to read library " + sourceFile);
                 }
 
             }

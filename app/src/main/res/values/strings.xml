@@ -106,5 +106,8 @@
     <string name="cant_undo">Can not undo</string>
     <string name="cant_redo">Can not redo</string>
     <string name="back_to_undo">Press back to undo</string>
+    <string name="more_feature" translatable="false">Open drawer</string>
+    <string name="cant_close_file">Can not close file</string>
+    <string name="closed">Closed</string>
 </resources>
 
