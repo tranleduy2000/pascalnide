@@ -1,6 +1,8 @@
 package com.duy.interpreter.lib;
 
+import com.duy.interpreter.exceptions.WrongArgsException;
 import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.Map;
 
@@ -76,17 +78,23 @@ public class ConversionLib implements PascalLibrary {
      * @param resultCode
      * @see {http://www.freepascal.org/docs-html/rtl/system/val.html}
      */
-    public static void val(String input, VariableBoxer<Object> output, VariableBoxer<Integer> resultCode) {
+    public static void val(String input, VariableBoxer<Object> output, VariableBoxer<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
         try {
             input = input.trim(); //remove white space in start and end postion
-            try {
+            if (output.get() instanceof Long) {
                 Long l = Long.parseLong(input);
                 output.set(l);
                 resultCode.set(1);
-            } catch (Exception e) {
+            } else if (output.get() instanceof Double) {
                 Double d = Double.parseDouble(input);
                 output.set(d);
                 resultCode.set(1);
+            } else if (output.get() instanceof Integer) {
+                Integer d = Integer.parseInt(input);
+                output.set(d);
+                resultCode.set(1);
+            } else {
+                throw new WrongArgsException("Can not call \"val(string, number, result)\"");
             }
         } catch (NumberFormatException e) {
             resultCode.set(-1);

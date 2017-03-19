@@ -26,8 +26,6 @@ public class CrtLib implements PascalLibrary {
     }
 
 
-
-
     /**
      * goto x, y procedure
      *
@@ -35,6 +33,7 @@ public class CrtLib implements PascalLibrary {
      * @param y - y coordinate of screen
      */
     public void gotoXY(int x, int y) {
+        if (activity == null) return;
         activity.getConsoleView().gotoXY(x, y);
     }
 
@@ -47,6 +46,7 @@ public class CrtLib implements PascalLibrary {
      * clear screen
      */
     public void clrscr() {
+        if (activity == null) return;
         activity.getConsoleView().clearScreen();
     }
 
@@ -56,6 +56,7 @@ public class CrtLib implements PascalLibrary {
      * @param code
      */
     public void textColor(int code) {
+        if (activity == null) return;
         int color = getColorPascal(code);
         if (color != -1) activity.setTextColor((color));
     }
@@ -64,15 +65,19 @@ public class CrtLib implements PascalLibrary {
      * set background console
      */
     public void textBackground(int code) {
+        if (activity == null) return;
         int color = getColorPascal(code);
         if (color != -1) activity.setTextBackground(color);
     }
 
     public int whereX() {
+        if (activity == null) return 0;
         return activity.getConsoleView().whereX();
     }
 
     public int whereY() {
+        if (activity == null) return 0;
+
         return activity.getConsoleView().whereY();
     }
 

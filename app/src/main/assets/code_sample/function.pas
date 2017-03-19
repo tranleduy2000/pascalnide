@@ -8,4 +8,5 @@ end;
 
 begin
 	writeln('sqrt(4) = ', square_root(4));
+	readln;
 end.

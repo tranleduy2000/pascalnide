@@ -6,5 +6,5 @@ begin
 	writeln('a in ascii is ', asc);
 	c := chr(87);
 	writeln('ascii 87 is character ', c);
-	//readln;
+	readln;
 end.

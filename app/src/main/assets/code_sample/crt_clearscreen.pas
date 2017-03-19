@@ -4,4 +4,5 @@ begin
   Readln;
   ClrScr;
   Writeln('Have fun with the cleared screen');
+  readln;
 end.

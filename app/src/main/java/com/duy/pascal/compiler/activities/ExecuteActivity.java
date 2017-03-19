@@ -12,9 +12,10 @@ import com.duy.interpreter.core.PascalCompiler;
 import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.linenumber.LineInfo;
 import com.duy.pascal.compiler.BuildConfig;
+import com.duy.pascal.compiler.R;
+import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.manager.CodeManager;
 import com.duy.pascal.compiler.manager.CompileManager;
-import com.duy.pascal.compiler.file_manager.FileManager;
 import com.duy.pascal.compiler.view.ConsoleView;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
@@ -46,7 +47,6 @@ public class ExecuteActivity extends AbstractConsoleActivity {
             exitFlag = 0;
             do {
                 c = mConsoleView.getChar();
-                Log.d(TAG, "run: " + c);
                 switch (c) {
                     case 10: // return
                         exitFlag = 1;
@@ -123,6 +123,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
         if (extras != null) {
             String filePath;
             filePath = extras.getString(CompileManager.FILE_PATH);
+            if (filePath == null || filePath.isEmpty()) return;
             File file = new File(filePath);
             if (!file.exists()) {
                 finish();
@@ -148,8 +149,8 @@ public class ExecuteActivity extends AbstractConsoleActivity {
 
     private void showDialogComplete() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Complete")
-                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.complete)
+                .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -161,7 +162,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
                         }, 100);
                     }
                 })
-                .setNegativeButton("View console", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.view_console, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -205,7 +206,6 @@ public class ExecuteActivity extends AbstractConsoleActivity {
             }
         });
         isCanRead.set(true);
-        Log.d(TAG, "startInput: ");
         new Thread(runnableInput).start();
     }
 

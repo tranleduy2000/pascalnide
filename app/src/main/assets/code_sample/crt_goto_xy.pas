@@ -6,4 +6,5 @@ begin
   GotoXY(20,20);
   Write('20,20');
   GotoXY(1,22);
+  readln;
 end.

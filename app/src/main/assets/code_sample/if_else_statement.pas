@@ -10,5 +10,5 @@ begin
         writeln('num1 < num2')
     else
         writeln('num1 > num2');
-    //readln;
+    readln;
 end.

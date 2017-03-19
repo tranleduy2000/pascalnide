@@ -46,7 +46,7 @@ public class ExceptionManager {
         } else if (e instanceof FileNotFoundException) {
             return new SpannableString(e.getMessage());
         } else if (e instanceof MainProgramNotFoundException) {
-            return new SpannableString("Main program not define");
+            return new SpannableString(context.getString(R.string.main_program_not_define));
         } else {
             return new SpannableString(e.getMessage());
         }

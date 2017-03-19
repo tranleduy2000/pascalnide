@@ -9,4 +9,5 @@ begin
      Delay(1000);
    end;
   WriteLn('BOOM!!!');
+    readln;
 end.

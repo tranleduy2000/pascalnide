@@ -5,14 +5,14 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:icon="@drawable/ic_wrap_text_white_24dp"
+
             android:key="@string/key_pref_word_wrap"
             android:summary="@string/word_wrap_desc"
             android:title="@string/word_wrap" />
 
         <SwitchPreference
             android:defaultValue="true"
-            android:icon="@drawable/ic_format_list_numbered_white_24dp"
+
             android:key="@string/key_pref_show_line_number"
             android:summary="@string/show_line_desc"
             android:title="@string/show_line" />
@@ -28,7 +28,7 @@
             android:defaultValue="13"
             android:entries="@array/font_size"
             android:entryValues="@array/font_size"
-            android:icon="@drawable/ic_format_size_white_24dp"
+
             android:key="@string/key_pref_font_size"
             android:title="@string/font_z" />
 
@@ -36,7 +36,7 @@
             android:defaultValue="@string/font.monospace"
             android:entries="@array/fonts_arr"
             android:entryValues="@array/fonts_arr"
-            android:icon="@drawable/ic_font_download_white_24dp"
+
             android:key="@string/key_pref_font"
             android:title="@string/font" />
 
@@ -44,13 +44,13 @@
             android:defaultValue="@string/default_theme"
             android:entries="@array/code_themes"
             android:entryValues="@array/code_themes"
-            android:icon="@drawable/ic_color_lens_white_24dp"
+
             android:key="@string/key_code_theme"
             android:title="@string/theme" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:icon="@drawable/ic_arrow_back_white_24dp"
+
             android:key="@string/key_back_undo"
             android:title="@string/back_to_undo" />
 
@@ -60,7 +60,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:enabled="false"
-            android:icon="@drawable/ic_local_bar_white_24dp"
+
             android:key="@string/key_pref_hide_status_bar"
             android:summary="@string/hide_status_bar_desc"
             android:title="@string/hide_status_bar" />
@@ -69,7 +69,7 @@
             android:defaultValue="@string/lang_default"
             android:entries="@array/language_entry"
             android:entryValues="@array/language_code"
-            android:icon="@drawable/ic_language_white_24dp"
+
             android:key="@string/key_pref_lang"
             android:title="@string/language" />
 

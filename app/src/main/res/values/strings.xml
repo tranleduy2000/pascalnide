@@ -109,5 +109,7 @@
     <string name="more_feature" translatable="false">Open drawer</string>
     <string name="cant_close_file">Can not close file</string>
     <string name="closed">Closed</string>
+    <string name="complete">Complete</string>
+    <string name="view_console">View console</string>
 </resources>
 

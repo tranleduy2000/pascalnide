@@ -15,5 +15,6 @@
     <string name="IOException_reading_input">Lỗi nhập xuất</string>
     <string name="Incomplete_character_literal">Incomplete character literal</string>
     <string name="token_not_belong">"Từ khóa hoặc cú pháp không tồn tại: "</string>
+    <string name="main_program_not_define">Không tìm thấy chương trình chính</string>
 
 </resources>

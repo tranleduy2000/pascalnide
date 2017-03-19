@@ -10,4 +10,5 @@ begin
         3: writeln('three');
         4: writeln('four');
     end;
+    readln;
 end.

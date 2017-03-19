@@ -5,4 +5,5 @@ const
     c = 'c';
 begin
     writeln(a, ' ', s, ' ', c);
+    readln;
 end.

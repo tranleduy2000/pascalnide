@@ -13,4 +13,5 @@ begin
 	writeln;
 	//print multi variable to console
 	writeln('name: ', n, ' age: ', a);
+	readln;
 end.

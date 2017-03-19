@@ -11,4 +11,5 @@ begin
   delay(1000);
     TextBackground(black);
   WriteLn('Back with a black background');
+  readln;
 end.

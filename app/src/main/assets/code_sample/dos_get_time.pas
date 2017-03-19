@@ -17,4 +17,5 @@ begin
     GetTime(a,b,c,d);
     WriteLn('Current time');
     WriteLn(print(a),':',print(b),':',print(c));
+    readln;
 end.

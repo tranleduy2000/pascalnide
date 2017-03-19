@@ -7,4 +7,6 @@ begin
 	str(number, s);
 	writeln('number is ', number);
 	writeln('string is ', s);
+	readln;
+
 end.

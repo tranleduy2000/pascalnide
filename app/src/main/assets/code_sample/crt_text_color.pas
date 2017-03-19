@@ -10,4 +10,5 @@ begin
   delay(1000);
     TextColor(lightBlue);
   WriteLn('This is written in Light Blue');
+  readln;
 end.

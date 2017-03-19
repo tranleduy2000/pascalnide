@@ -84,4 +84,8 @@
     <string name="home">Trang chủ</string>
     <string name="folder">Thư mục</string>
     <string name="enter_new_folder_name">Nhập tên của thư mục</string>
+    <string name="cant_close_file">Không thể đóng tệp</string>
+    <string name="closed">Đã đóng</string>
+    <string name="complete">Hoàn thành</string>
+    <string name="view_console">Xem console</string>
 </resources>

@@ -21,6 +21,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -761,12 +762,15 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 int heightVisible = getHeightVisible();
                 int offsetVertical = (int) ((y + mCharHeight) - scrollY);
 
-                int tmp = (int) (offsetVertical + getDropDownHeight() + 2 * mCharHeight);
+                int tmp = offsetVertical + getDropDownHeight() + mCharHeight;
                 if (tmp < heightVisible) {
-                    setDropDownVerticalOffset((int) (offsetVertical + mCharHeight / 2));
+                    tmp = offsetVertical + mCharHeight / 2;
+                    setDropDownVerticalOffset(tmp);
                 } else {
-                    setDropDownVerticalOffset((int) (offsetVertical - getDropDownHeight() - mCharHeight));
+                    tmp = offsetVertical - getDropDownHeight() - mCharHeight;
+                    setDropDownVerticalOffset(tmp);
                 }
+                Log.d(TAG, "showPopupSuggest: " + offsetVertical + " " + tmp + " " + scrollY);
             }
         } catch (Exception ignored) {
         }

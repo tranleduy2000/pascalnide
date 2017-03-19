@@ -497,10 +497,8 @@ public class EditorActivity extends FileEditorActivity implements
                 }
                 //create new file
                 String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + fileName);
-                mFilePath = filePath;
                 file = new File(filePath);
                 //add to view
-                mCodeView.clearStackHistory();
                 addNewFile(file, true);
 
                 //set sample code

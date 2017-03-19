@@ -17,5 +17,6 @@ begin
 end;
 
 begin
-    writeln('fibonacci 4th = ', fibonacci(4));
+    writeln('fibonacci 4th = ', fibonacci(4));     readln;
+
 end.
