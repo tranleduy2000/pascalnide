@@ -1,4 +1,4 @@
-package com.duy;
+package com.duy.pascal;
 
 import android.app.Application;
 import android.content.res.Configuration;
@@ -12,10 +12,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 
 public class DApplication extends Application {
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
 
     @Override
     public void onCreate() {
