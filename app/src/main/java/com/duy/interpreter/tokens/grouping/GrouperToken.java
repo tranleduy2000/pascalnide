@@ -159,6 +159,12 @@ public abstract class GrouperToken extends Token {
             throw new ExpectedTokenException(";", t);
         }
     }
+   public void assert_next_comma() throws ParsingException {
+        Token t = take();
+        if (!(t instanceof CommaToken)) {
+            throw new ExpectedTokenException(",", t);
+        }
+    }
 
     public DeclaredType get_next_pascal_type(ExpressionContext context) throws ParsingException {
         Token n = take();

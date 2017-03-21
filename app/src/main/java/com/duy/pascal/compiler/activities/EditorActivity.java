@@ -271,8 +271,7 @@ public class EditorActivity extends FileEditorActivity implements
      */
     public void setCode(String code) {
         code = CodeManager.localCode(code);
-        final String finalCode = code;
-        mCodeView.setTextHighlighted(finalCode);
+        mCodeView.setTextHighlighted(code);
     }
 
     /**

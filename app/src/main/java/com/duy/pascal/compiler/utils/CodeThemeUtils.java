@@ -22,6 +22,8 @@ public class CodeThemeUtils {
             return R.style.CodeTheme_Idel;
         } else if (name.equals(context.getString(R.string.KFT2))) {
             return R.style.CodeTheme_KFT2;
+        } else if (name.equals(context.getString(R.string.Modnokai_Coffee))) {
+            return R.style.CodeTheme_ModnokaiCoffee;
         } else {
             return R.style.CodeTheme;
         }

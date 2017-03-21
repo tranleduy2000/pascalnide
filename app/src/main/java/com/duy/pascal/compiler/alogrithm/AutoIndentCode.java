@@ -57,10 +57,8 @@ public class AutoIndentCode {
         //create new reader
         Reader reader = new StringReader(code);
         //create new lexer
-//        long time = System.currentTimeMillis();
         lexer = new Lexer(reader, "pascal ", new ArrayList<ScriptSource>());
         String res = parse();
-//        System.out.println("time parse = " + (System.currentTimeMillis() - time));
         return res;
     }
 

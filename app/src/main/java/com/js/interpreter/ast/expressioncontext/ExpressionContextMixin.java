@@ -14,10 +14,10 @@ import com.duy.interpreter.tokens.OperatorToken;
 import com.duy.interpreter.tokens.OperatorTypes;
 import com.duy.interpreter.tokens.Token;
 import com.duy.interpreter.tokens.WordToken;
-import com.duy.interpreter.tokens.basic.CommaToken;
 import com.duy.interpreter.tokens.basic.ConstToken;
 import com.duy.interpreter.tokens.basic.FunctionToken;
 import com.duy.interpreter.tokens.basic.ProcedureToken;
+import com.duy.interpreter.tokens.basic.SemicolonToken;
 import com.duy.interpreter.tokens.basic.TypeToken;
 import com.duy.interpreter.tokens.basic.UsesToken;
 import com.duy.interpreter.tokens.basic.VarToken;
@@ -145,15 +145,23 @@ public abstract class ExpressionContextMixin extends
             addConstDeclarations(i);
         } else if (next instanceof UsesToken) {
             i.take();
+            int count = 0;
             do {
                 next = i.take();
                 if (!(next instanceof WordToken)) {
                     throw new LibraryNotFoundException("[Library Identifier]", next);
                 }
                 listLibs.add(next.toString());
-                next = i.take();
-            } while (next instanceof CommaToken);
+                next = i.peek();
+                if (next instanceof SemicolonToken) {
+                    break;
+                } else {
+                    i.assert_next_comma();
+                }
+                count++;
+            } while (true);
             i.assert_next_semicolon();
+            System.out.println("List lib: " + listLibs.toString());
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
