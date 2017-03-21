@@ -49,7 +49,7 @@ import com.duy.interpreter.tokens.value.DoubleToken;
 import com.duy.interpreter.tokens.value.IntegerToken;
 import com.duy.interpreter.tokens.value.StringToken;
 import com.js.interpreter.core.ScriptSource;
-import com.duy.interpreter.tokens.CommentToken;
+import com.duy.interpreter.tokens.basic.UsesToken;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;
@@ -229,6 +229,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"forward" {return new ForwardToken(getLine()); }
 	"array" {return new ArrayToken(getLine()); }
 	"until" {return new UntilToken(getLine()); }
+	"uses" {return new UsesToken(getLine()); }
 	":=" {return new AssignmentToken(getLine()); }
 	"," {return new CommaToken(getLine()); }
 	":" {return new ColonToken(getLine()); }

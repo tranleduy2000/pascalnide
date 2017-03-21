@@ -146,7 +146,7 @@ public class AutoIndentCode {
     private static void processCommentToken(Token t) {
         lastToken = t;
         needTab = true;
-        result += t.toString() + "\n";
+        result += t.toString();
     }
 
     private static void processFunctionToken(Token t) {

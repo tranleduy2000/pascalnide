@@ -273,7 +273,6 @@ public class EditorActivity extends FileEditorActivity implements
         code = CodeManager.localCode(code);
         final String finalCode = code;
         mCodeView.setTextHighlighted(finalCode);
-
     }
 
     /**
@@ -533,7 +532,7 @@ public class EditorActivity extends FileEditorActivity implements
     public void formatCode() {
         String text = getCode();
         String result = AutoIndentCode.format(text);
-        mCodeView.setTextHighlighted(result);
+        setCode(result);
     }
 
     @Override

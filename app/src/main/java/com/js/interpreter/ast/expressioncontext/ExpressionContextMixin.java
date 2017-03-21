@@ -1,6 +1,7 @@
 package com.js.interpreter.ast.expressioncontext;
 
 import com.duy.interpreter.exceptions.ExpectedTokenException;
+import com.duy.interpreter.exceptions.LibraryNotFoundException;
 import com.duy.interpreter.exceptions.NoSuchFunctionOrVariableException;
 import com.duy.interpreter.exceptions.NonConstantExpressionException;
 import com.duy.interpreter.exceptions.OverridingFunctionException;
@@ -13,10 +14,12 @@ import com.duy.interpreter.tokens.OperatorToken;
 import com.duy.interpreter.tokens.OperatorTypes;
 import com.duy.interpreter.tokens.Token;
 import com.duy.interpreter.tokens.WordToken;
+import com.duy.interpreter.tokens.basic.CommaToken;
 import com.duy.interpreter.tokens.basic.ConstToken;
 import com.duy.interpreter.tokens.basic.FunctionToken;
 import com.duy.interpreter.tokens.basic.ProcedureToken;
 import com.duy.interpreter.tokens.basic.TypeToken;
+import com.duy.interpreter.tokens.basic.UsesToken;
 import com.duy.interpreter.tokens.basic.VarToken;
 import com.duy.interpreter.tokens.grouping.BeginEndToken;
 import com.duy.interpreter.tokens.grouping.GrouperToken;
@@ -45,6 +48,7 @@ public abstract class ExpressionContextMixin extends
     public List<VariableDeclaration> UnitVarDefs = new ArrayList<VariableDeclaration>();
     private Map<String, ConstantDefinition> constants = new HashMap<String, ConstantDefinition>();
     private Map<String, DeclaredType> typedefs = new HashMap<>();
+    private ArrayList<String> listLibs = new ArrayList<>();
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
         this(root, parent, (ListMultimap) ArrayListMultimap.create());
@@ -139,6 +143,17 @@ public abstract class ExpressionContextMixin extends
         } else if (next instanceof ConstToken) {
             i.take();
             addConstDeclarations(i);
+        } else if (next instanceof UsesToken) {
+            i.take();
+            do {
+                next = i.take();
+                if (!(next instanceof WordToken)) {
+                    throw new LibraryNotFoundException("[Library Identifier]", next);
+                }
+                listLibs.add(next.toString());
+                next = i.take();
+            } while (next instanceof CommaToken);
+            i.assert_next_semicolon();
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {

@@ -296,7 +296,7 @@ public abstract class GrouperToken extends Token {
                 return context.getIdentifierValue(name);
             }
         } else if (next instanceof CommentToken) {
-            //unhandled comment token
+            // TODO: 21-Mar-17 ignore comment token
             return getNextTerm(context, take());
         } else {
             throw new UnrecognizedTokenException(next);
@@ -386,8 +386,7 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public Executable get_next_command(ExpressionContext context)
-            throws ParsingException {
+    public Executable get_next_command(ExpressionContext context) throws ParsingException {
         Token next = take();
         LineInfo initialline = next.lineInfo;
         if (next instanceof IfToken) {
@@ -415,8 +414,7 @@ public abstract class GrouperToken extends Token {
             BeginEndToken cast_token = (BeginEndToken) next;
 
             while (cast_token.hasNext()) {
-                begin_end_preprocessed.add_command(cast_token
-                        .get_next_command(context));
+                begin_end_preprocessed.add_command(cast_token.get_next_command(context));
                 if (cast_token.hasNext()) {
                     cast_token.assert_next_semicolon();
                 }
@@ -465,6 +463,8 @@ public abstract class GrouperToken extends Token {
             return new CaseInstruction((CaseToken) next, context);
         } else if (next instanceof SemicolonToken) {
             return new NopInstruction(next.lineInfo);
+        } else if (next instanceof CommentToken) {
+            return get_next_command(context);
         } else {
             try {
                 return context.handleUnrecognizedStatement(next, this);

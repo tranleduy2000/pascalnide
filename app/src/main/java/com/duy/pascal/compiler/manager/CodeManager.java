@@ -3,10 +3,10 @@ package com.duy.pascal.compiler.manager;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.duy.pascal.compiler.data.KeyWordAndPattern.readln;
 import static com.duy.pascal.compiler.data.KeyWordAndPattern.uses;
+import static com.duy.pascal.compiler.data.KeyWordAndPattern.waitEnter;
 
 /**
  * Created by Duy on 28-Feb-17.
@@ -35,7 +35,8 @@ public class CodeManager {
     }
 
     public static String localCode(String code) {
-        code = code.replaceAll(Pattern.quote("waitEnter"), "readln");
+        code = code.replace(waitEnter.toString(), "readln");
+//        Log.d(TAG, "localCode: " + code);
         return code;
     }
 

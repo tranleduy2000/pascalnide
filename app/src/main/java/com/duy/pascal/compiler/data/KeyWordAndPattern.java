@@ -72,6 +72,8 @@ public class KeyWordAndPattern {
 
     public static final Pattern readln = Pattern.compile(
             "(readln)\\s+;|(readln);", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    public static final Pattern waitEnter = Pattern.compile(
+            "(waitEnter)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static String[] symbols_key = new String[]{
             ":=", ";", ".", "//", "'", "(", ")", "<", ">", "=", "<>", "<=", ">="
     };
