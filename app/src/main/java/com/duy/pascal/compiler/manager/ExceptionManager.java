@@ -16,6 +16,7 @@ import com.duy.interpreter.exceptions.NoSuchFunctionOrVariableException;
 import com.duy.interpreter.exceptions.UnrecognizedTokenException;
 import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
 import com.duy.pascal.compiler.R;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.FileNotFoundException;
 
@@ -31,24 +32,29 @@ public class ExceptionManager {
     }
 
     public Spannable getMessage(Exception e) {
-        if (e instanceof ExpectedTokenException) {
-            return processExpectedTokenException(e);
-        } else if (e instanceof NoSuchFunctionOrVariableException) {
-            return processNoSuchFunctionOrVariableException(e);
-        } else if (e instanceof BadFunctionCallException) {
-            return processBadFunctionCallException(e);
-        } else if (e instanceof MultipleDefinitionsMainException) {
-            return new SpannableString(context.getString(R.string.multi_define_main));
-        } else if (e instanceof EnumeratedGroupingException) {
-            return processEnumeratedGroupingException((EnumeratedGroupingException) e);
-        } else if (e instanceof UnrecognizedTokenException) {
-            return processUnrecognizedTokenException((UnrecognizedTokenException) e);
-        } else if (e instanceof FileNotFoundException) {
-            return new SpannableString(e.getMessage());
-        } else if (e instanceof MainProgramNotFoundException) {
-            return new SpannableString(context.getString(R.string.main_program_not_define));
-        } else {
-            return new SpannableString(e.getMessage());
+        try {
+            if (e instanceof ExpectedTokenException) {
+                return processExpectedTokenException(e);
+            } else if (e instanceof NoSuchFunctionOrVariableException) {
+                return processNoSuchFunctionOrVariableException(e);
+            } else if (e instanceof BadFunctionCallException) {
+                return processBadFunctionCallException(e);
+            } else if (e instanceof MultipleDefinitionsMainException) {
+                return new SpannableString(context.getString(R.string.multi_define_main));
+            } else if (e instanceof EnumeratedGroupingException) {
+                return processEnumeratedGroupingException((EnumeratedGroupingException) e);
+            } else if (e instanceof UnrecognizedTokenException) {
+                return processUnrecognizedTokenException((UnrecognizedTokenException) e);
+            } else if (e instanceof FileNotFoundException) {
+                return new SpannableString(e.getMessage());
+            } else if (e instanceof MainProgramNotFoundException) {
+                return new SpannableString(context.getString(R.string.main_program_not_define));
+            } else {
+                return new SpannableString(e.getMessage());
+            }
+        } catch (Exception err) {
+            FirebaseCrash.report(new Throwable("Error when get exception msg"));
+            return new SpannableString("");
         }
     }
 
