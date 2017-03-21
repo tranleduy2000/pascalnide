@@ -1,6 +1,7 @@
 package com.duy.pascal.compiler.alogrithm;
 
 import com.duy.interpreter.tokenizer.Lexer;
+import com.duy.interpreter.tokens.CommentToken;
 import com.duy.interpreter.tokens.EOF_Token;
 import com.duy.interpreter.tokens.OperatorToken;
 import com.duy.interpreter.tokens.Token;
@@ -133,11 +134,19 @@ public class AutoIndentCode {
         // TODO: 04-Mar-17 Uses, var, const every new line
         else if (t instanceof VarToken || t instanceof ConstToken || t instanceof UsesToken) {
             newLine(t);
+        } else if (t instanceof CommentToken) {
+            processCommentToken(t);
         } else {
             lastToken = t;
             result += t.toString() + " ";
         }
 
+    }
+
+    private static void processCommentToken(Token t) {
+        lastToken = t;
+        needTab = true;
+        result += t.toString() + "\n";
     }
 
     private static void processFunctionToken(Token t) {

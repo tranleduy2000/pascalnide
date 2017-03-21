@@ -297,8 +297,7 @@ public abstract class GrouperToken extends Token {
             }
         } else if (next instanceof CommentToken) {
             //unhandled comment token
-            next = peek();
-            return getNextTerm(context, next);
+            return getNextTerm(context, take());
         } else {
             throw new UnrecognizedTokenException(next);
         }

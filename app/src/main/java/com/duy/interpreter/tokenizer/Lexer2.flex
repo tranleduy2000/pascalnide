@@ -264,7 +264,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 }
 <STRINGDONE> {
 	{WhiteSpace} {}
-	{Comment} {}
+	{Comment} {return new CommentToken(getLine(), yytext());}
 	"'" {yybegin(STRING);}
 	"#" {yybegin(STRINGPOUND);}
 	.|\n {
