@@ -525,7 +525,7 @@ public class EditorActivity extends FileEditorActivity implements
                         String lineNumber = edittext.getText().toString();
                         if (lineNumber.length() > 5) {
                             mCodeView.goToLine(1);
-                        } else {
+                        } else if (!lineNumber.isEmpty()){
                             mCodeView.goToLine(Integer.parseInt(lineNumber));
                         }
                         dialog.cancel();

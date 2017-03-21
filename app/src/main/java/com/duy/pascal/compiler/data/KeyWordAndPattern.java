@@ -64,10 +64,12 @@ public class KeyWordAndPattern {
             "exp|tan)\\b");
     public static final Pattern comments = Pattern.compile("(//.*)|(/\\*(?:.|[\\n\\r])*?\\*/)" +
             "|(\\{(?:.|[\\n\\r])*?\\})");
-    public static final Pattern symbols = Pattern.compile("[\\+\\-\\*\\=\\<\\>\\/\\:\\)\\(\\]\\[;]");
+    public static final Pattern symbols = Pattern.compile("[+\\-*=<>/:)(\\]\\[;]");
     public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
+
     public static final Pattern uses = Pattern.compile(
             "(uses)(.*?);", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
     public static final Pattern readln = Pattern.compile(
             "(readln)\\s+;|(readln);", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static String[] symbols_key = new String[]{
