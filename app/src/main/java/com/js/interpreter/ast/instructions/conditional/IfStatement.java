@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.instructions.conditional;
 
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.instructions.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;

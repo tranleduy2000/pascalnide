@@ -1,7 +1,7 @@
 package com.js.interpreter.ast;
 
 
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class ConstantDefinition implements NamedEntity {
     private String name;

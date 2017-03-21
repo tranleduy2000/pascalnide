@@ -1,12 +1,12 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import com.duy.interpreter.exceptions.ConstantCalculationException;
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.exceptions.UnassignableTypeException;
-import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.interpreter.pascaltypes.ObjectType;
-import com.duy.interpreter.pascaltypes.RuntimeType;
-import com.duy.interpreter.tokens.WordToken;
+import com.duy.pascal.backend.exceptions.ConstantCalculationException;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.UnassignableTypeException;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.ObjectType;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.tokens.WordToken;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetField;

@@ -1,6 +1,6 @@
 package com.js.interpreter.runtime.exception;
 
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class PascalIndexOutOfBoundsException extends RuntimePascalException {
 	String message;

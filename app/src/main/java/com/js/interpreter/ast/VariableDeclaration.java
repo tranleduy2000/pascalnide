@@ -1,7 +1,7 @@
 package com.js.interpreter.ast;
 
-import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.interpreter.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 
 import java.util.Map;
 

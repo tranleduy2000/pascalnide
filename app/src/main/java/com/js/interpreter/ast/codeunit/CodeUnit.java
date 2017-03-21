@@ -1,12 +1,12 @@
 package com.js.interpreter.ast.codeunit;
 
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.exceptions.UnrecognizedTokenException;
-import com.duy.interpreter.pascaltypes.SystemConstants;
-import com.duy.interpreter.tokenizer.NewLexer;
-import com.duy.interpreter.tokens.Token;
-import com.duy.interpreter.tokens.basic.ProgramToken;
-import com.duy.interpreter.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
+import com.duy.pascal.backend.pascaltypes.SystemConstants;
+import com.duy.pascal.backend.tokenizer.NewLexer;
+import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.basic.ProgramToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.VariableDeclaration;

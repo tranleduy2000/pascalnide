@@ -1,15 +1,15 @@
 package com.js.interpreter.ast;
 
-import com.duy.interpreter.lib.annotations.ArrayBoundsInfo;
-import com.duy.interpreter.lib.annotations.MethodTypeData;
-import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.interpreter.pascaltypes.ArgumentType;
-import com.duy.interpreter.pascaltypes.ArrayType;
-import com.duy.interpreter.pascaltypes.BasicType;
-import com.duy.interpreter.pascaltypes.DeclaredType;
-import com.duy.interpreter.pascaltypes.RuntimeType;
-import com.duy.interpreter.pascaltypes.SubrangeType;
-import com.duy.interpreter.pascaltypes.VarargsType;
+import com.duy.pascal.backend.lib.annotations.ArrayBoundsInfo;
+import com.duy.pascal.backend.lib.annotations.MethodTypeData;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.ArgumentType;
+import com.duy.pascal.backend.pascaltypes.ArrayType;
+import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;

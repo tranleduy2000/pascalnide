@@ -1,7 +1,7 @@
 package com.js.interpreter.ast;
 
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;

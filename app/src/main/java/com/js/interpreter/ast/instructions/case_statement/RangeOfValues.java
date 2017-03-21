@@ -1,8 +1,8 @@
 package com.js.interpreter.ast.instructions.case_statement;
 
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.linenumber.LineInfo;
-import com.duy.interpreter.tokens.OperatorTypes;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.js.interpreter.ast.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.ast.codeunit.Library;
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.runtime.ScriptControl;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;

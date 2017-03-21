@@ -3,7 +3,7 @@ package com.duy;
 import android.app.Application;
 import android.content.res.Configuration;
 
-import com.duy.pascal.compiler.R;
+import com.duy.pascal.frontend.R;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 

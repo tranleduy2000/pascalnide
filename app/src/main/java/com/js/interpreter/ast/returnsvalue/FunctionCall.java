@@ -1,10 +1,10 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import com.duy.interpreter.exceptions.AmbiguousFunctionCallException;
-import com.duy.interpreter.exceptions.BadFunctionCallException;
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.exceptions.UnassignableTypeException;
-import com.duy.interpreter.tokens.WordToken;
+import com.duy.pascal.backend.exceptions.AmbiguousFunctionCallException;
+import com.duy.pascal.backend.exceptions.BadFunctionCallException;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.UnassignableTypeException;
+import com.duy.pascal.backend.tokens.WordToken;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;

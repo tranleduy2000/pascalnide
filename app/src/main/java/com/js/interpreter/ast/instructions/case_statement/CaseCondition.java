@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.instructions.case_statement;
 
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public interface CaseCondition {

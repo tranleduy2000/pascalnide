@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.instructions.case_statement;
 
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class SingleValue implements CaseCondition {
     Object value;

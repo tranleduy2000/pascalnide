@@ -1,10 +1,10 @@
 package com.js.interpreter.ast.expressioncontext;
 
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.exceptions.SameNameException;
-import com.duy.interpreter.tokens.Token;
-import com.duy.interpreter.tokens.WordToken;
-import com.duy.interpreter.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.SameNameException;
+import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.WordToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.NamedEntity;
 import com.js.interpreter.ast.VariableDeclaration;

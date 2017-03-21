@@ -68,7 +68,7 @@
             </LinearLayout>
         </FrameLayout>
 
-        <com.duy.pascal.compiler.view.code_view.CodeView
+        <com.duy.pascal.frontend.view.code_view.CodeView
             android:id="@+id/code_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

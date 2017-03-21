@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    tools:context="com.duy.pascal.compiler.activities.CodeSampleActivity">
+    tools:context="com.duy.pascal.frontend.activities.CodeSampleActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

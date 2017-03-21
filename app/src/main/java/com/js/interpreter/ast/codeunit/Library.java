@@ -1,8 +1,8 @@
 package com.js.interpreter.ast.codeunit;
 
-import com.duy.interpreter.exceptions.MisplacedDeclarationException;
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.exceptions.MisplacedDeclarationException;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.core.ScriptSource;

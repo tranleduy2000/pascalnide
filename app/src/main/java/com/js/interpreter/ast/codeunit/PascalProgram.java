@@ -1,10 +1,10 @@
 package com.js.interpreter.ast.codeunit;
 
-import com.duy.interpreter.exceptions.ExpectedTokenException;
-import com.duy.interpreter.exceptions.MultipleDefinitionsMainException;
-import com.duy.interpreter.exceptions.ParsingException;
-import com.duy.interpreter.tokens.basic.PeriodToken;
-import com.duy.interpreter.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.exceptions.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.tokens.basic.PeriodToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.instructions.Executable;

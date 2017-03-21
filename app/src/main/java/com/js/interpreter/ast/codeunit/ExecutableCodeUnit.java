@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.codeunit;
 
-import com.duy.interpreter.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.ParsingException;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.core.ScriptSource;

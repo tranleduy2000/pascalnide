@@ -106,8 +106,8 @@
 }
 
 
-#-keep class com.duy.interpreter.pascaltypes.** { *; }
--keep class com.duy.interpreter.lib.** { *; }
+#-keep class com.duy.pascal.backend.pascaltypes.** { *; }
+-keep class com.duy.pascal.backend.lib.** { *; }
 
 -keep class javax.** { *; }
 -dontwarn javax.annotation**

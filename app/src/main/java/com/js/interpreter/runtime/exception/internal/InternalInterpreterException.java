@@ -1,6 +1,6 @@
 package com.js.interpreter.runtime.exception.internal;
 
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class InternalInterpreterException extends RuntimePascalException {

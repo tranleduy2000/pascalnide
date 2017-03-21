@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.duy.pascal.compiler">
+    package="com.duy.pascal.frontend">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,11 +14,11 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.EditorActivity"
+            android:name="com.duy.pascal.frontend.activities.EditorActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
         <activity
-            android:name=".activities.ActivitySplashScreen"
+            android:name="com.duy.pascal.frontend.activities.ActivitySplashScreen"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:label="@string/app_name">
             <intent-filter>
@@ -55,31 +55,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ExecuteActivity"
+            android:name="com.duy.pascal.frontend.activities.ExecuteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_code_white_24dp"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateVisible|stateAlwaysVisible" />
         <activity
-            android:name=".activities.DocumentActivity"
+            android:name="com.duy.pascal.frontend.activities.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_info_white_24dp" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.duy.pascal.frontend.activities.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_info_white_24dp" />
         <activity
-            android:name=".activities.CodeSampleActivity"
+            android:name="com.duy.pascal.frontend.activities.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_code_white_24dp"
             android:label="@string/title_activity_code_sample" />
         <activity
-            android:name=".activities.SelectThemeActivity"
+            android:name="com.duy.pascal.frontend.activities.SelectThemeActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
 
         <activity
-            android:name=".file.SelectFileActivity"
+            android:name="com.duy.pascal.frontend.file.SelectFileActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
     </application>

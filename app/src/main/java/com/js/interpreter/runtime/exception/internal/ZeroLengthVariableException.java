@@ -1,6 +1,6 @@
 package com.js.interpreter.runtime.exception.internal;
 
-import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class ZeroLengthVariableException extends InternalInterpreterException {
 	public ZeroLengthVariableException(LineInfo line) {
