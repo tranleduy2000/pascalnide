@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.data;
+package com.duy.pascal.compiler.code;
 
 /**
  * Created by Duy on 12-Feb-17.

@@ -79,7 +79,7 @@
             android:launchMode="singleTask" />
 
         <activity
-            android:name=".file_manager.SelectFileActivity"
+            android:name=".file.SelectFileActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
     </application>

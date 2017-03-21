@@ -10,11 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.duy.pascal.compiler.manager.CodeManager;
-import com.duy.pascal.compiler.manager.CompileManager;
+import com.duy.pascal.compiler.code.CodeManager;
+import com.duy.pascal.compiler.code.CompileManager;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.adapters.CodeViewAdapter;
-import com.duy.pascal.compiler.file_manager.FileManager;
+import com.duy.pascal.compiler.file.FileManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;

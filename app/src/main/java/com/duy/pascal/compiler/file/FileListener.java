@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler.file_manager;
+package com.duy.pascal.compiler.file;
 
 import java.io.File;
 

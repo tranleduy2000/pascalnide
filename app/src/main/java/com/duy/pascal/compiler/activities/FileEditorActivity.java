@@ -18,7 +18,7 @@ import com.duy.pascal.compiler.MenuEditor;
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.data.TabFileUtils;
-import com.duy.pascal.compiler.file_manager.FileManager;
+import com.duy.pascal.compiler.file.FileManager;
 import com.duy.pascal.compiler.view.LockableScrollView;
 import com.duy.pascal.compiler.view.SymbolListView;
 import com.duy.pascal.compiler.view.code_view.CodeView;

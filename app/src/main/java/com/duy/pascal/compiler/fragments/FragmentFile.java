@@ -29,8 +29,8 @@ import android.widget.Toast;
 
 import com.duy.pascal.compiler.R;
 import com.duy.pascal.compiler.adapters.AdapterDetailedList;
-import com.duy.pascal.compiler.file_manager.FileListener;
-import com.duy.pascal.compiler.file_manager.FileManager;
+import com.duy.pascal.compiler.file.FileListener;
+import com.duy.pascal.compiler.file.FileManager;
 import com.duy.pascal.compiler.utils.AlphanumComparator;
 import com.duy.pascal.compiler.utils.Build;
 import com.duy.pascal.compiler.utils.PreferenceHelper;

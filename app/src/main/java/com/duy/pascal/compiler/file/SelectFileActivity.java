@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.duy.pascal.compiler.file_manager;
+package com.duy.pascal.compiler.file;
 
 import android.content.Intent;
 import android.net.Uri;

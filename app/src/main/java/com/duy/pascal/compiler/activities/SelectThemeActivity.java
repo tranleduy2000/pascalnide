@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.duy.pascal.compiler.R;
-import com.duy.pascal.compiler.data.CodeSample;
+import com.duy.pascal.compiler.code.CodeSample;
 import com.duy.pascal.compiler.data.Preferences;
 import com.duy.pascal.compiler.view.code_view.CodeView;
 
