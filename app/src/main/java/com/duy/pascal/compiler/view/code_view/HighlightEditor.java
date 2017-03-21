@@ -57,7 +57,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     private final Handler updateHandler = new Handler();
     public boolean showLineNumbers = true;
     public boolean syntaxHighlighting = true;
-    public float textSize = 14;
+    public float textSize = 13;
     public boolean wordWrap = true;
     public boolean flingToScroll = true;
     public OnTextChangedListener onTextChangedListener = null;
@@ -98,8 +98,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     };
     private int mOldTextlength = 0;
     private long mOldTextCrc32 = 0;
-    private boolean highlightFind = false;
-    private String findContent = "";
     private int scrollX = 0, scrollY = 0;
     private EditorPreferences mPreferences;
 
@@ -374,7 +372,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 //    }
 
     public void setTextHighlighted(CharSequence text) {
-//        Log.d(TAG, "setTextHighlighted: " + text);
         cancelUpdate();
         errorLine = -1;
         dirty = false;
@@ -390,7 +387,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     }
 
     public void refresh() {
-        highlightWithoutChange(getText());
+        setTextHighlighted(getText());
     }
 
     @Override
@@ -495,7 +492,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 return e;
             if (errorLine > -1) {
                 Matcher m = line.matcher(e);
-                int count = 0, last = 0;
+                int count = 0;
                 while (m.find()) {
                     if (count == errorLine) {
                         e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
@@ -504,7 +501,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         break;
                     }
-                    last = m.end();
                     count++;
                 }
             }
@@ -523,8 +519,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
-            //create new regex
-//            Pattern symbols = Pattern.compile("[\\+\\-\\*\\=\\<\\>\\/\\:\\)\\(\\]\\[]");
             //find it
             for (Matcher m = symbols.matcher(e); m.find(); ) {
                 //if match, you can replace text with other style
@@ -533,10 +527,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                         m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            //this is in java, in js you can use
-            //var txt = "int main(){}";
-            //txt.fontcolor("green") // replace text with color
-
 
             for (Matcher m = general_strings.matcher(e); m.find(); ) {
                 ForegroundColorSpan spans[] = e.getSpans(m.start(), m.end(), ForegroundColorSpan.class);
@@ -635,9 +625,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 
     public void insert(String delta) {
         getText().insert(getSelectionStart(), delta);
-    }
-
-    public void highlightAll(String text, boolean regex, boolean word) {
     }
 
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {
@@ -781,17 +768,15 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         // r will be populated with the coordinates of     your view
         // that area still visible.
         getWindowVisibleDisplayFrame(r);
-//        Log.d(TAG, "onTextChanged: rect  " + r.toString());
         return r.bottom - r.top;
     }
 
     /**
-     * call when scroll view scroll
+     * This method call when scroll view scroll
      */
     public void onMove(int l, int t) {
         this.scrollX = l;
         this.scrollY = t;
-//        Log.d(TAG, "onMove: " + l + " " + t);
     }
 
     @Override

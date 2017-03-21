@@ -250,23 +250,13 @@ public class EditorActivity extends FileEditorActivity implements
     }
 
     private void showLineError(ParsingException e) {
-        LineInfo lineInfo = e.line;
-        int row = lineInfo.line;
-        int col = (lineInfo.column);
-        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        String raw = getCode();
-
-        //calc line
-        int currentLine = 0;
-        for (char c : raw.toCharArray()) {
-            if (c == '\n') currentLine++;
-            if (currentLine == lineInfo.line) {
-                break;
+        if (e != null) {
+            if (e.line != null) {
+                LineInfo lineInfo = e.line;
+                mCodeView.setLineError(lineInfo.line);
+                mCodeView.refresh();
             }
         }
-
-        mCodeView.setLineError(lineInfo.line);
-        mCodeView.refresh();
     }
 
     public String getCode() {
@@ -525,7 +515,7 @@ public class EditorActivity extends FileEditorActivity implements
                         String lineNumber = edittext.getText().toString();
                         if (lineNumber.length() > 5) {
                             mCodeView.goToLine(1);
-                        } else if (!lineNumber.isEmpty()){
+                        } else if (!lineNumber.isEmpty()) {
                             mCodeView.goToLine(Integer.parseInt(lineNumber));
                         }
                         dialog.cancel();
@@ -541,14 +531,14 @@ public class EditorActivity extends FileEditorActivity implements
 
     @Override
     public void formatCode() {
-        String text = mCodeView.getText().toString();
+        String text = getCode();
         String result = AutoIndentCode.format(text);
         mCodeView.setTextHighlighted(result);
     }
 
     @Override
     public void checkUpdate() {
-
+        rateApp();
     }
 
     @Override
