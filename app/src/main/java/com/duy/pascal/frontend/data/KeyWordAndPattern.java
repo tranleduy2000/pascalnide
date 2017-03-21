@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class KeyWordAndPattern {
     public static final String[] LIST_KEY_WORD = new String[]{
-            "program", "begin", "end", "procedure", "function",
+            "program", "begin", "end", "procedure", "function", "uses",
             "integer", "real", "string", "char", "longint", "word", "byte", "extended",
             "const", "var", "type", "array",/* "record",*/
             "shl", "shr",
@@ -41,6 +41,7 @@ public class KeyWordAndPattern {
             //file
             "writelnf(", "readlnf(", "readf(", "writef(", "assign(", "close(", "reset(", "rewrite",
             "eof("
+
     };
     public static final String[] OPERATOR_BOOLEAN = new String[]{
             "and", "or", "xor", "not", "<", ">", "=", "<>", "<=", ">="
@@ -53,7 +54,7 @@ public class KeyWordAndPattern {
     public static final Pattern numbers = Pattern.compile(
             "\\b(\\d*[.]?\\d+)\\b");
     public static final Pattern keywords = Pattern.compile(
-            "\\b(const|do|for|while|if|else|in|case|" +
+            "\\b(uses|const|do|for|while|if|else|in|case|" +
                     "and|array|begin|case|div|" +
                     "downto|function|to|mod|not|of|or|" +
                     "procedure|program|repeat|until|shl|shr|string|" +

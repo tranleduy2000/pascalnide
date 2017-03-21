@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.Preferences;
-import com.duy.pascal.frontend.data.TabFileUtils;
+import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.SymbolListView;

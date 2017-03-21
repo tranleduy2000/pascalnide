@@ -34,7 +34,7 @@ public class CodeManager {
     }
 
     public static String localCode(String code) {
-        code = code.replace(waitEnter.toString(), "readln");
+        code = code.replaceAll(waitEnter.toString(), "readln");
 //        Log.d(TAG, "localCode: " + code);
         return code;
     }
