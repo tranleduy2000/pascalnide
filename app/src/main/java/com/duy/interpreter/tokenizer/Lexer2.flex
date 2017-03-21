@@ -1,20 +1,60 @@
-package com.js.com.js.interpreter.tokenizer;
+package com.duy.interpreter.tokenizer;
+
+import com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
+import com.duy.interpreter.exceptions.grouping.StrayCharacterException;
+import com.duy.interpreter.linenumber.LineInfo;
+import com.duy.interpreter.tokens.EOF_Token;
+import com.duy.interpreter.tokens.GroupingExceptionToken;
+import com.duy.interpreter.tokens.OperatorToken;
+import com.duy.interpreter.tokens.OperatorTypes;
+import com.duy.interpreter.tokens.Token;
+import com.duy.interpreter.tokens.WarningToken;
+import com.duy.interpreter.tokens.WordToken;
+import com.duy.interpreter.tokens.basic.ArrayToken;
+import com.duy.interpreter.tokens.basic.AssignmentToken;
+import com.duy.interpreter.tokens.basic.ColonToken;
+import com.duy.interpreter.tokens.basic.CommaToken;
+import com.duy.interpreter.tokens.basic.ConstToken;
+import com.duy.interpreter.tokens.basic.DoToken;
+import com.duy.interpreter.tokens.basic.DotDotToken;
+import com.duy.interpreter.tokens.basic.DowntoToken;
+import com.duy.interpreter.tokens.basic.ElseToken;
+import com.duy.interpreter.tokens.basic.ForToken;
+import com.duy.interpreter.tokens.basic.ForwardToken;
+import com.duy.interpreter.tokens.basic.FunctionToken;
+import com.duy.interpreter.tokens.basic.IfToken;
+import com.duy.interpreter.tokens.basic.OfToken;
+import com.duy.interpreter.tokens.basic.PeriodToken;
+import com.duy.interpreter.tokens.basic.ProcedureToken;
+import com.duy.interpreter.tokens.basic.ProgramToken;
+import com.duy.interpreter.tokens.basic.RepeatToken;
+import com.duy.interpreter.tokens.basic.SemicolonToken;
+import com.duy.interpreter.tokens.basic.ThenToken;
+import com.duy.interpreter.tokens.basic.ToToken;
+import com.duy.interpreter.tokens.basic.TypeToken;
+import com.duy.interpreter.tokens.basic.UntilToken;
+import com.duy.interpreter.tokens.basic.VarToken;
+import com.duy.interpreter.tokens.basic.WhileToken;
+import com.duy.interpreter.tokens.closing.EndBracketToken;
+import com.duy.interpreter.tokens.closing.EndParenToken;
+import com.duy.interpreter.tokens.closing.EndToken;
+import com.duy.interpreter.tokens.grouping.BeginEndToken;
+import com.duy.interpreter.tokens.grouping.BracketedToken;
+import com.duy.interpreter.tokens.grouping.CaseToken;
+import com.duy.interpreter.tokens.grouping.ParenthesizedToken;
+import com.duy.interpreter.tokens.grouping.RecordToken;
+import com.duy.interpreter.tokens.value.BooleanToken;
+import com.duy.interpreter.tokens.value.CharacterToken;
+import com.duy.interpreter.tokens.value.DoubleToken;
+import com.duy.interpreter.tokens.value.IntegerToken;
+import com.duy.interpreter.tokens.value.StringToken;
+import com.js.interpreter.core.ScriptSource;
+import com.duy.interpreter.tokens.CommentToken;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.List;
 import java.util.Stack;
-
-import com.js.com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException;
-import com.js.com.duy.interpreter.exceptions.grouping.EnumeratedGroupingException.grouping_exception_types;
-import com.js.com.duy.interpreter.exceptions.grouping.StrayCharacterException;
-import com.js.com.duy.interpreter.linenumber.LineInfo;
-import com.js.com.js.interpreter.startup.ScriptSource;
-import com.js.com.duy.interpreter.tokens.*;
-import com.js.com.duy.interpreter.tokens.basic.*;
-import com.js.com.duy.interpreter.tokens.closing.*;
-import com.js.com.duy.interpreter.tokens.grouping.*;
-import com.js.com.duy.interpreter.tokens.value.*;
 
 %%
 %unicode
@@ -28,7 +68,7 @@ import com.js.com.duy.interpreter.tokens.value.*;
 	Stack<String> sourcenames;
 	
 	StringBuilder literal=new StringBuilder();
-
+    private Stack zzStreams = new Stack();
 	private String tmpname;
 	private Reader tmpreader;
 	void addInclude(String name) throws FileNotFoundException {
@@ -47,7 +87,40 @@ import com.js.com.duy.interpreter.tokens.value.*;
 		sourcenames.push(tmpname);
 		yypushStream(tmpreader);
 	}
-	
+
+    public final boolean yymoreStreams() {
+        return !zzStreams.isEmpty();
+    }
+
+	public final void yypopStream() throws java.io.IOException {
+            zzReader.close();
+            ZzFlexStreamInfo s = (ZzFlexStreamInfo) zzStreams.pop();
+            zzBuffer = s.zzBuffer;
+            zzReader = s.zzReader;
+            zzEndRead = s.zzEndRead;
+            zzStartRead = s.zzStartRead;
+            zzCurrentPos = s.zzCurrentPos;
+            zzMarkedPos = s.zzMarkedPos;
+            zzAtEOF = s.zzAtEOF;
+            zzEOFDone = s.zzEOFDone;
+            yyline = s.yyline;
+            yycolumn = s.yycolumn;
+    }
+
+    public final void yypushStream(Reader reader) {
+            zzStreams.push(
+                    new ZzFlexStreamInfo(zzReader, zzEndRead, zzStartRead, zzCurrentPos,
+                            zzMarkedPos, zzBuffer, zzAtEOF,
+                            yyline, yycolumn)
+            );
+            zzAtEOF = false;
+            zzBuffer = new char[ZZ_BUFFERSIZE];
+            zzReader = reader;
+            zzEndRead = zzStartRead = 0;
+            zzCurrentPos = zzMarkedPos = 0;
+            yyline = yycolumn = 0;
+    }
+
 	LineInfo getLine() {
 		return new LineInfo(yyline,yycolumn,sourcenames.peek());
 	}
@@ -110,7 +183,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	{IncludeStatement} {yybegin(INCLUDE);}
 	{CompilerDirective} {return new WarningToken(getLine(),"Warning! Unrecognized Compiler Directive!"); }
 	
-	{Comment} {}
+	{Comment} {return new CommentToken(getLine(), yytext());}
 
 
 	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
@@ -182,11 +255,11 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"''"	{literal.append('\'');}
 	"'"		{yybegin(STRINGDONE);}
 	[^'\n\r]* {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(),grouping_exception_types.NEWLINE_IN_QUOTES);}
+	[\n\r]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
 }
 <STRINGPOUND> {
 	{Integer} {literal.append((char)Integer.parseInt(yytext())); yybegin(STRINGDONE);}
-	.|\n      { return new GroupingExceptionToken(getLine(),grouping_exception_types.INCOMPLETE_CHAR);}
+	.|\n      { return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR);}
 	
 }
 <STRINGDONE> {
@@ -213,13 +286,13 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),grouping_exception_types.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     }
-    .|\n {return new GroupingExceptionToken(getLine(),grouping_exception_types.MISSING_INCLUDE);}
+    .|\n {return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE);}
 }
 
 <INCLUDE_SNGL_QUOTE> {
@@ -228,14 +301,14 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),grouping_exception_types.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
     	} 
     	yybegin(END_INCLUDE);
     }
 	[^\n\r]+ {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(),grouping_exception_types.NEWLINE_IN_QUOTES);}
+	[\n\r]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
 }
 
 <INCLUDE_DBL_QUOTE> {
@@ -244,20 +317,20 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),grouping_exception_types.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
     	} 
     	yybegin(END_INCLUDE);
     	}
 	[^\n\r]+ {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(),grouping_exception_types.IO_EXCEPTION);}
+	[\n\r]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);}
 }
 
 <END_INCLUDE> {
 	{RestOfComment}	{yybegin(YYINITIAL); commitInclude(); }
 	.|\n {return new GroupingExceptionToken(getLine(),
-				grouping_exception_types.MISMATCHED_BRACKETS);}
+				EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BRACKETS);}
 }
 
 /* error fallback */

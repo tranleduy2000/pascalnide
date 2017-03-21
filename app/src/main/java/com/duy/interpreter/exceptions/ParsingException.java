@@ -5,7 +5,6 @@ import com.duy.interpreter.linenumber.LineInfo;
 
 public class ParsingException extends Exception {
     private static final long serialVersionUID = -5592261827134726938L;
-    public int errorID = 0;
     public LineInfo line;
 
     public ParsingException(LineInfo line, String message) {

@@ -19,6 +19,7 @@ import com.duy.interpreter.pascaltypes.DeclaredType;
 import com.duy.interpreter.pascaltypes.RecordType;
 import com.duy.interpreter.pascaltypes.RuntimeType;
 import com.duy.interpreter.pascaltypes.SubrangeType;
+import com.duy.interpreter.tokens.CommentToken;
 import com.duy.interpreter.tokens.EOF_Token;
 import com.duy.interpreter.tokens.GroupingExceptionToken;
 import com.duy.interpreter.tokens.OperatorToken;
@@ -66,10 +67,6 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class GrouperToken extends Token {
-    /**
-     *
-     */
-    private static final long serialVersionUID = -5736870403548847904L;
     LinkedBlockingQueue<Token> queue;
     Token next = null;
 
@@ -89,7 +86,7 @@ public abstract class GrouperToken extends Token {
                 break;
             }
         }
-        exceptioncheck(next);
+        exceptionCheck(next);
         return next;
     }
 
@@ -97,7 +94,7 @@ public abstract class GrouperToken extends Token {
         return !(get_next() instanceof EOF_Token);
     }
 
-    private void exceptioncheck(Token t) throws GroupingException {
+    private void exceptionCheck(Token t) throws GroupingException {
         if (t instanceof GroupingExceptionToken) {
             throw ((GroupingExceptionToken) t).exception;
         }
@@ -124,9 +121,9 @@ public abstract class GrouperToken extends Token {
         while (true) {
             try {
                 next = queue.take();
-                exceptioncheck(next);
+                exceptionCheck(next);
                 return result;
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
     }
@@ -135,8 +132,7 @@ public abstract class GrouperToken extends Token {
         return get_next();
     }
 
-    public Token peek_no_EOF() throws ExpectedAnotherTokenException,
-            GroupingException {
+    public Token peek_no_EOF() throws ExpectedAnotherTokenException, GroupingException {
         Token result = peek();
         if (result instanceof EOF_Token) {
             throw new ExpectedAnotherTokenException(result.lineInfo);
@@ -164,8 +160,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public DeclaredType get_next_pascal_type(ExpressionContext context)
-            throws ParsingException {
+    public DeclaredType get_next_pascal_type(ExpressionContext context) throws ParsingException {
         Token n = take();
         if (n instanceof ArrayToken) {
             return getArrayType(context);
@@ -182,8 +177,7 @@ public abstract class GrouperToken extends Token {
         return ((WordToken) n).to_basic_type(context);
     }
 
-    DeclaredType getArrayType(ExpressionContext context)
-            throws ParsingException {
+    private DeclaredType getArrayType(ExpressionContext context) throws ParsingException {
         Token n = peek_no_EOF();
         if (n instanceof BracketedToken) {
             BracketedToken bracket = (BracketedToken) take();
@@ -197,8 +191,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    DeclaredType getArrayType(BracketedToken bounds, ExpressionContext context)
-            throws ParsingException {
+    DeclaredType getArrayType(BracketedToken bounds, ExpressionContext context) throws ParsingException {
         SubrangeType bound = new SubrangeType(bounds, context);
         DeclaredType elementType;
         if (bounds.hasNext()) {
@@ -302,6 +295,10 @@ public abstract class GrouperToken extends Token {
             } else {
                 return context.getIdentifierValue(name);
             }
+        } else if (next instanceof CommentToken) {
+            //unhandled comment token
+            next = peek();
+            return getNextTerm(context, next);
         } else {
             throw new UnrecognizedTokenException(next);
         }
@@ -326,7 +323,7 @@ public abstract class GrouperToken extends Token {
             ExpressionContext context) throws ParsingException {
         List<VariableDeclaration> result = new ArrayList<VariableDeclaration>();
         /*
-		 * reusing it, so it is further out of scope than necessary
+         * reusing it, so it is further out of scope than necessary
 		 */
         List<WordToken> names = new ArrayList<WordToken>();
         Token next;
@@ -481,8 +478,8 @@ public abstract class GrouperToken extends Token {
                 ReturnsValue value_to_assign = getNextExpression(context);
                 DeclaredType output_type = r.get_type(context).declType;
                 DeclaredType input_type = value_to_assign.get_type(context).declType;
-				/*
-				 * Does not have to be writable to assign value to variable.
+                /*
+                 * Does not have to be writable to assign value to variable.
 				 */
                 ReturnsValue converted = output_type.convert(value_to_assign,
                         context);

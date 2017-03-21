@@ -4,7 +4,7 @@ import com.duy.interpreter.linenumber.LineInfo;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public interface CaseCondition {
-	public boolean fits(Object value) throws RuntimePascalException;
+    public boolean fits(Object value) throws RuntimePascalException;
 
-	public LineInfo getLineNumber();
+    public LineInfo getLineNumber();
 }

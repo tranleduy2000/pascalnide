@@ -8,6 +8,7 @@ import com.duy.interpreter.exceptions.ParsingException;
 import com.duy.interpreter.exceptions.SameNameException;
 import com.duy.interpreter.exceptions.UnrecognizedTokenException;
 import com.duy.interpreter.pascaltypes.DeclaredType;
+import com.duy.interpreter.tokens.CommentToken;
 import com.duy.interpreter.tokens.OperatorToken;
 import com.duy.interpreter.tokens.OperatorTypes;
 import com.duy.interpreter.tokens.Token;
@@ -149,6 +150,8 @@ public abstract class ExpressionContextMixin extends
                 typedefs.put(name, i.get_next_pascal_type(this));
                 i.assert_next_semicolon();
             }
+        } else if (next instanceof CommentToken) {
+            i.take();
         } else {
             handleUnrecognizedDeclaration(i.take(), i);
         }

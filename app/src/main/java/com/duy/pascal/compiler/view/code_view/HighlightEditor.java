@@ -224,7 +224,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 canvas.drawRect(mLineBounds, mPaintHighlight);
             }
             if (showLineNumbers) {
-                canvas.drawText("" + (i + 1), mDrawingRect.left + mPadding, baseline, mPaintNumbers);
+                canvas.drawText("" + (i), mDrawingRect.left + mPadding, baseline, mPaintNumbers);
             }
             if (showLineNumbers) {
                 canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
@@ -387,7 +387,11 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     }
 
     public void refresh() {
-        setTextHighlighted(getText());
+        cancelUpdate();
+        dirty = false;
+        modified = false;
+        highlightWithoutChange(getText());
+        modified = true;
     }
 
     @Override

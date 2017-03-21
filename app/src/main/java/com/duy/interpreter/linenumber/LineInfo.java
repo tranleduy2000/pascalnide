@@ -18,7 +18,7 @@ public class LineInfo {
 
     @Override
     public String toString() {
-        return sourcefile + ":" + line + (column >= 0 ? ":" + column : "");
+        return sourcefile + ": " + line + (column >= 0 ? ":" + column : "");
 
     }
 }

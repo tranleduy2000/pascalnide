@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.duy.interpreter.core.PascalCompiler;
 import com.duy.interpreter.exceptions.ParsingException;
@@ -250,12 +251,14 @@ public class ExecuteActivity extends AbstractConsoleActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
         //stop in put thread
         isCanRead.set(false);
         //stop program
         try {
             program.terminate();
         } catch (Exception ignored) {
+            Log.d(TAG, "onStop: Program is stopped");
         }
     }
 

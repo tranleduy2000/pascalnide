@@ -2,11 +2,12 @@ package com.duy.pascal.compiler.manager;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
+import android.util.Log;
 
 import com.duy.interpreter.exceptions.BadFunctionCallException;
 import com.duy.interpreter.exceptions.ExpectedTokenException;
@@ -25,16 +26,30 @@ import java.io.FileNotFoundException;
  */
 
 public class ExceptionManager {
+    public static final String TAG = ExceptionManager.class
+            .getSimpleName();
     private Context context;
 
     public ExceptionManager(Context context) {
         this.context = context;
     }
 
-    public Spannable getMessage(Exception e) {
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html) {
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
+    }
+
+    public Spanned getMessage(Exception e) {
+        Log.e(TAG, "getMessage: ", e);
         try {
             if (e instanceof ExpectedTokenException) {
-                return processExpectedTokenException(e);
+                return processExpectedTokenException((ExpectedTokenException) e);
             } else if (e instanceof NoSuchFunctionOrVariableException) {
                 return processNoSuchFunctionOrVariableException(e);
             } else if (e instanceof BadFunctionCallException) {
@@ -129,29 +144,37 @@ public class ExceptionManager {
         return span;
     }
 
-    private Spannable processExpectedTokenException(Exception e) {
+    private Spanned processExpectedTokenException(ExpectedTokenException e) {
         String msg1 = context.getString(R.string.expected_token) + " ";
         String msg2 = context.getString(R.string.expected_token_2) + " ";
-        String expected = ((ExpectedTokenException) e).token + "\n";
-        String current = ((ExpectedTokenException) e).instead + "\n";
-        String msg = msg1 + expected + msg2 + current;
-
-        Spannable span = new SpannableString(msg);
-        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                msg1.length(),
-                msg1.length() + expected.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new StyleSpan(Typeface.BOLD),
-                msg1.length(),
-                msg1.length() + expected.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                msg1.length() + expected.length() + msg2.length(), msg.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new StyleSpan(Typeface.BOLD),
-                msg1.length() + expected.length() + msg2.length(), msg.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return span;
+        String expected = e.token + "\n";
+        String current = e.instead + "\n";
+//        String msg = msg1 + expected + msg2 + current;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append(msg1)
+                .append("<font color=\"yellow\">").append(expected).append("</font>").append("<br>")
+                .append(msg2)
+                .append("<font color=\"yellow\">").append(current).append("</font>").append("<br>")
+                .append("<font color=\"red\">").append(e.line).append("</font>");
+        return fromHtml(stringBuilder.toString());
+//        String msg = msg1 + expected + msg2 + current;
+//        Spannable span = new SpannableString(msg);
+//        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
+//                msg1.length(),
+//                msg1.length() + expected.length(),
+//                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        span.setSpan(new StyleSpan(Typeface.BOLD),
+//                msg1.length(),
+//                msg1.length() + expected.length(),
+//                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//
+//        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
+//                msg1.length() + expected.length() + msg2.length(), msg.length(),
+//                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        span.setSpan(new StyleSpan(Typeface.BOLD),
+//                msg1.length() + expected.length() + msg2.length(), msg.length(),
+//                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        return span;
     }
 }
