@@ -646,13 +646,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 pattern = Pattern.compile(Pattern.quote(what), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
             }
         }
-        Editable e = getEditableText();
+        String clone = getText().toString();
         //replace with white space
-        Matcher m = pattern.matcher(e);
-        while (m.find()) {
-            e.replace(m.start(), m.end(), replace);
-            m = pattern.matcher(e);
-        }
+//        Matcher m = pattern.matcher(clone);
+        setText(getText().toString().replaceAll(pattern.toString(), replace));
     }
 
     /**
