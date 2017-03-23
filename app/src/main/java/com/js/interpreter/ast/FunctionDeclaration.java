@@ -59,11 +59,11 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (!isProcedure) {
             i.take();
             //define variable result of function, the name of variable same as name function
-            resultDefinition = new VariableDeclaration(name, i.get_next_pascal_type(declarations), line);
+            resultDefinition = new VariableDeclaration(name, i.getNextPascalType(declarations), line);
             this.declarations.declareVariable(resultDefinition);
         }
 
-        i.assert_next_semicolon();
+        i.assertNextSemicolon();
 
         instructions = null;
         NamedEntity n = parent.getConstantDefinition(name);
@@ -87,13 +87,13 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         Token next = i.peek_no_EOF();
         if (next instanceof ForwardToken) {
             i.take();
-            i.assert_next_semicolon();
+            i.assertNextSemicolon();
         } else {
             if (instructions != null) {
                 throw new OverridingFunctionException(this, i.lineInfo);
             }
             while (!bodyDeclared) {
-                declarations.add_next_declaration(i);
+                declarations.addNextDeclaration(i);
             }
         }
     }
@@ -144,7 +144,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
                     throw new ExpectedTokenException(":", next);
                 }
                 DeclaredType type;
-                type = arguments_token.get_next_pascal_type(declarations);
+                type = arguments_token.getNextPascalType(declarations);
 
                 while (j > 0) {
                     types_list.add(new RuntimeType(type, is_varargs));
@@ -223,7 +223,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         public boolean handleUnrecognizedDeclarationImpl(Token next,
                                                          GrouperToken container) throws ParsingException {
             if (next instanceof ForwardToken) {
-                container.assert_next_semicolon();
+                container.assertNextSemicolon();
                 bodyDeclared = true;
                 return true;
             }
@@ -234,7 +234,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             bodyDeclared = true;
             instructions = i.get_next_command(declarations);
-            i.assert_next_semicolon();
+            i.assertNextSemicolon();
         }
     }
 

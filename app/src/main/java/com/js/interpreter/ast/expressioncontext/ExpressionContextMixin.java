@@ -44,32 +44,32 @@ import java.util.Map;
 
 public abstract class ExpressionContextMixin extends
         HeirarchicalExpressionContext {
-    private final ListMultimap<String, AbstractFunction> callable_functions;
-    public List<VariableDeclaration> UnitVarDefs = new ArrayList<VariableDeclaration>();
+    private final ListMultimap<String, AbstractFunction> callableFunctions;
+    public List<VariableDeclaration> variables = new ArrayList<VariableDeclaration>();
     private Map<String, ConstantDefinition> constants = new HashMap<>();
     private Map<String, DeclaredType> typedefs = new HashMap<>();
-    private ArrayList<String> listLibs = new ArrayList<>();
+    private ArrayList<String> libraries = new ArrayList<>();
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
         this(root, parent, (ListMultimap) ArrayListMultimap.create());
     }
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent,
-                                  ListMultimap<String, AbstractFunction> callable_functions) {
+                                  ListMultimap<String, AbstractFunction> callableFunctions) {
         super(root, parent);
-        this.callable_functions = callable_functions;
+        this.callableFunctions = callableFunctions;
     }
 
-    public ListMultimap<String, AbstractFunction> getCallable_functions() {
-        return callable_functions;
+    public ListMultimap<String, AbstractFunction> getCallableFunctions() {
+        return callableFunctions;
     }
 
     public Map<String, ConstantDefinition> getConstants() {
         return constants;
     }
 
-    public List<VariableDeclaration> getUnitVarDefs() {
-        return UnitVarDefs;
+    public List<VariableDeclaration> getVariables() {
+        return variables;
     }
 
     public Map<String, DeclaredType> getTypedefs() {
@@ -78,7 +78,7 @@ public abstract class ExpressionContextMixin extends
 
     public FunctionDeclaration getExistingFunction(FunctionDeclaration f)
             throws ParsingException {
-        for (AbstractFunction g : callable_functions.get(f.name)) {
+        for (AbstractFunction g : callableFunctions.get(f.name)) {
             if (f.headerMatches(g)) {
                 if (!(g instanceof FunctionDeclaration)) {
                     throw new OverridingFunctionException(g, f);
@@ -86,7 +86,7 @@ public abstract class ExpressionContextMixin extends
                 return (FunctionDeclaration) g;
             }
         }
-        callable_functions.put(f.name, f);
+        callableFunctions.put(f.name, f);
         return f;
     }
 
@@ -123,7 +123,7 @@ public abstract class ExpressionContextMixin extends
 
     }
 
-    public void add_next_declaration(GrouperToken i) throws ParsingException {
+    public void addNextDeclaration(GrouperToken i) throws ParsingException {
         Token next = i.peek();
         if (next instanceof ProcedureToken || next instanceof FunctionToken) {
             i.take();
@@ -136,7 +136,7 @@ public abstract class ExpressionContextMixin extends
             handleBeginEnd(i);
         } else if (next instanceof VarToken) {
             i.take();
-            List<VariableDeclaration> d = i.get_variable_declarations(this);
+            List<VariableDeclaration> d = i.getVariableDeclarations(this);
             for (VariableDeclaration dec : d) {
                 declareVariable(dec);
             }
@@ -151,7 +151,7 @@ public abstract class ExpressionContextMixin extends
                 if (!(next instanceof WordToken)) {
                     throw new LibraryNotFoundException("[Library Identifier]", next);
                 }
-                listLibs.add(next.toString());
+                libraries.add(next.toString());
                 next = i.peek();
                 if (next instanceof SemicolonToken) {
                     break;
@@ -160,8 +160,8 @@ public abstract class ExpressionContextMixin extends
                 }
                 count++;
             } while (true);
-            i.assert_next_semicolon();
-            System.out.println("List lib: " + listLibs.toString());
+            i.assertNextSemicolon();
+            System.out.println("List lib: " + libraries.toString());
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
@@ -170,8 +170,8 @@ public abstract class ExpressionContextMixin extends
                 if (!(next instanceof OperatorToken && ((OperatorToken) next).type == OperatorTypes.EQUALS)) {
                     throw new ExpectedTokenException("=", next);
                 }
-                typedefs.put(name, i.get_next_pascal_type(this));
-                i.assert_next_semicolon();
+                typedefs.put(name, i.getNextPascalType(this));
+                i.assertNextSemicolon();
             }
         } else if (next instanceof CommentToken) {
             i.take();
@@ -183,7 +183,7 @@ public abstract class ExpressionContextMixin extends
     protected abstract void handleBeginEnd(GrouperToken i) throws ParsingException;
 
     public VariableDeclaration getVariableDefinitionLocal(String ident) {
-        for (VariableDeclaration v : UnitVarDefs) {
+        for (VariableDeclaration v : variables) {
             if (v.name.equals(ident)) {
                 return v;
             }
@@ -192,11 +192,11 @@ public abstract class ExpressionContextMixin extends
     }
 
     public List<AbstractFunction> getCallableFunctionsLocal(String name) {
-        return callable_functions.get(name);
+        return callableFunctions.get(name);
     }
 
     public boolean functionExistsLocal(String name) {
-        return callable_functions.containsKey(name);
+        return callableFunctions.containsKey(name);
     }
 
     public ConstantDefinition getConstantDefinitionLocal(String ident) {
@@ -212,11 +212,11 @@ public abstract class ExpressionContextMixin extends
     }
 
     public void declareVariable(VariableDeclaration v) {
-        UnitVarDefs.add(v);
+        variables.add(v);
     }
 
     public void declareFunction(FunctionDeclaration f) {
-        callable_functions.put(f.name, f);
+        callableFunctions.put(f.name, f);
     }
 
     public void declareConst(ConstantDefinition c) {
@@ -225,23 +225,22 @@ public abstract class ExpressionContextMixin extends
 
     protected void addConstDeclarations(GrouperToken i) throws ParsingException {
         while (i.peek() instanceof WordToken) {
-            WordToken constname = (WordToken) i.take();
-            String n = constname.name;
+            WordToken constName = (WordToken) i.take();
             Token equals = i.take();
             if (!(equals instanceof OperatorToken)
                     || ((OperatorToken) equals).type != OperatorTypes.EQUALS) {
-                throw new ExpectedTokenException("=", constname);
+                throw new ExpectedTokenException("=", constName);
             }
             ReturnsValue value = i.getNextExpression(this);
             Object comptimeval = value.compileTimeValue(this);
             if (comptimeval == null) {
                 throw new NonConstantExpressionException(value);
             }
-            ConstantDefinition newdef = new ConstantDefinition(constname.name,
-                    comptimeval, constname.lineInfo);
-            verifyNonConflictingSymbol(newdef);
-            this.constants.put(constname.name, newdef);
-            i.assert_next_semicolon();
+            ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
+                    comptimeval, constName.lineInfo);
+            verifyNonConflictingSymbol(constantDefinition);
+            this.constants.put(constName.name, constantDefinition);
+            i.assertNextSemicolon();
         }
     }
 

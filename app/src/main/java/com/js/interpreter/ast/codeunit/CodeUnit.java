@@ -45,7 +45,7 @@ public abstract class CodeUnit {
 
     private void debug() {
         if (DEBUG) {
-            List<VariableDeclaration> unitVarDefs = context.getUnitVarDefs();
+            List<VariableDeclaration> unitVarDefs = context.getVariables();
             for (VariableDeclaration variableDeclaration : unitVarDefs) {
                 System.out.println(variableDeclaration.get_name());
             }
@@ -59,7 +59,7 @@ public abstract class CodeUnit {
 
     void parse_tree(GrouperToken tokens) throws ParsingException {
         while (tokens.hasNext()) {
-            context.add_next_declaration(tokens);
+            context.addNextDeclaration(tokens);
         }
     }
 
@@ -93,7 +93,7 @@ public abstract class CodeUnit {
                 throws ParsingException {
             if (next instanceof ProgramToken) {
                 CodeUnit.this.programName = i.next_word_value();
-                i.assert_next_semicolon();
+                i.assertNextSemicolon();
                 return true;
             }
             return false;

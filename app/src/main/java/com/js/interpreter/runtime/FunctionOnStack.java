@@ -32,7 +32,7 @@ public class FunctionOnStack extends VariableContext {
         this.function = declaration;
         this.parentContext = parentContext;
         this.main = main;
-        for (VariableDeclaration v : function.declarations.UnitVarDefs) {
+        for (VariableDeclaration v : function.declarations.variables) {
             v.initialize(local_variables);
         }
         reference_variables = new HashMap<>();

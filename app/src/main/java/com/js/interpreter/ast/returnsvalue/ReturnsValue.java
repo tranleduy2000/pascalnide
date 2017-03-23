@@ -31,7 +31,6 @@ public interface ReturnsValue {
     /*
      * returns null if not a writable value.
      */
-    SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnassignableTypeException;
+    SetValueExecutable createSetValueInstruction(ReturnsValue r) throws UnassignableTypeException;
 
 }

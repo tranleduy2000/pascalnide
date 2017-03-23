@@ -12,13 +12,12 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import java.lang.reflect.Array;
 
 public class SetArray implements SetValueExecutable {
-    ReturnsValue container;
-    ReturnsValue index;
-    int offset;
-    ReturnsValue val;
+    private ReturnsValue container;
+    private ReturnsValue index;
+    private int offset;
+    private ReturnsValue val;
 
-    public SetArray(ReturnsValue container, ReturnsValue index, int offset,
-                    ReturnsValue val) {
+    public SetArray(ReturnsValue container, ReturnsValue index, int offset, ReturnsValue val) {
         this.container = container;
         this.index = index;
         this.offset = offset;

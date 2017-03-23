@@ -153,7 +153,7 @@ public abstract class GrouperToken extends Token {
         return take().get_word_value().name;
     }
 
-    public void assert_next_semicolon() throws ParsingException {
+    public void assertNextSemicolon() throws ParsingException {
         Token t = take();
         if (!(t instanceof SemicolonToken)) {
             throw new ExpectedTokenException(";", t);
@@ -166,7 +166,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public DeclaredType get_next_pascal_type(ExpressionContext context) throws ParsingException {
+    public DeclaredType getNextPascalType(ExpressionContext context) throws ParsingException {
         Token n = take();
         if (n instanceof ArrayToken) {
             return getArrayType(context);
@@ -174,7 +174,7 @@ public abstract class GrouperToken extends Token {
         if (n instanceof RecordToken) {
             RecordToken r = (RecordToken) n;
             RecordType result = new RecordType();
-            result.variable_types = r.get_variable_declarations(context);
+            result.variable_types = r.getVariableDeclarations(context);
             return result;
         }
         if (!(n instanceof WordToken)) {
@@ -190,7 +190,7 @@ public abstract class GrouperToken extends Token {
             return getArrayType(bracket, context);
         } else if (n instanceof OfToken) {
             take();
-            DeclaredType elementType = get_next_pascal_type(context);
+            DeclaredType elementType = getNextPascalType(context);
             return new ArrayType<DeclaredType>(elementType, new SubrangeType());
         } else {
             throw new ExpectedTokenException("of", n);
@@ -211,7 +211,7 @@ public abstract class GrouperToken extends Token {
             if (!(next instanceof OfToken)) {
                 throw new ExpectedTokenException("of", next);
             }
-            elementType = get_next_pascal_type(context);
+            elementType = getNextPascalType(context);
         }
         return new ArrayType<DeclaredType>(elementType, bound);
     }
@@ -324,7 +324,7 @@ public abstract class GrouperToken extends Token {
         return getNextExpression(context, precedence.NoPrecedence, first);
     }
 
-    public List<VariableDeclaration> get_variable_declarations(
+    public List<VariableDeclaration> getVariableDeclarations(
             ExpressionContext context) throws ParsingException {
         List<VariableDeclaration> result = new ArrayList<VariableDeclaration>();
         /*
@@ -346,7 +346,7 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException(":", next);
             }
             DeclaredType type;
-            type = get_next_pascal_type(context);
+            type = getNextPascalType(context);
 
             Object defaultValue = null;
             if (peek() instanceof OperatorToken) {
@@ -364,12 +364,11 @@ public abstract class GrouperToken extends Token {
                         throw new NonConstantExpressionException(converted);
                     }
                     if (names.size() != 1) {
-                        throw new MultipleDefaultValuesException(
-                                converted.getLineNumber());
+                        throw new MultipleDefaultValuesException(converted.getLineNumber());
                     }
                 }
             }
-            assert_next_semicolon();
+            assertNextSemicolon();
             for (WordToken s : names) {
                 VariableDeclaration v = new VariableDeclaration(s.name, type,
                         defaultValue, s.lineInfo);
@@ -422,7 +421,7 @@ public abstract class GrouperToken extends Token {
             while (cast_token.hasNext()) {
                 begin_end_preprocessed.add_command(cast_token.get_next_command(context));
                 if (cast_token.hasNext()) {
-                    cast_token.assert_next_semicolon();
+                    cast_token.assertNextSemicolon();
                 }
             }
             return begin_end_preprocessed;
@@ -456,7 +455,7 @@ public abstract class GrouperToken extends Token {
             while (!(peek_no_EOF() instanceof UntilToken)) {
                 command.add_command(get_next_command(context));
                 if (!(peek_no_EOF() instanceof UntilToken)) {
-                    assert_next_semicolon();
+                    assertNextSemicolon();
                 }
             }
             next = take();
@@ -474,8 +473,7 @@ public abstract class GrouperToken extends Token {
         } else {
             try {
                 return context.handleUnrecognizedStatement(next, this);
-            } catch (ParsingException e) {
-            }
+            } catch (ParsingException ignored) {}
             ReturnsValue r = getNextExpression(context, next);
             next = peek();
             if (next instanceof AssignmentToken) {
@@ -486,14 +484,11 @@ public abstract class GrouperToken extends Token {
                 /*
                  * Does not have to be writable to assign value to variable.
 				 */
-                ReturnsValue converted = output_type.convert(value_to_assign,
-                        context);
+                ReturnsValue converted = output_type.convert(value_to_assign, context);
                 if (converted == null) {
-                    throw new UnconvertibleTypeException(value_to_assign,
-                            input_type, output_type, true);
+                    throw new UnconvertibleTypeException(value_to_assign, input_type, output_type, true);
                 }
-                return r.createSetValueInstruction(output_type
-                        .cloneValue(converted));
+                return r.createSetValueInstruction(output_type.cloneValue(converted));
             } else if (r instanceof Executable) {
                 return (Executable) r;
             } else {

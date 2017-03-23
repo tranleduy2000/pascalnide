@@ -20,7 +20,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
 
     public RuntimeCodeUnit(parent definition) {
         this.definition = definition;
-        for (VariableDeclaration v : definition.context.UnitVarDefs) {
+        for (VariableDeclaration v : definition.context.variables) {
             v.initialize(UnitVariables);
         }
     }

@@ -144,12 +144,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder(element_type.toString());
-
-        result.append('[');
-        result.append(bounds);
-        result.append(']');
-        return result.toString();
+        return element_type.toString() + '[' + bounds + ']';
     }
 
     /**
