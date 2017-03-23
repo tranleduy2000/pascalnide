@@ -38,6 +38,7 @@ public class FileListView extends ListViewCompat {
      * @param context - android context
      */
     private void setup(Context context) {
+
     }
 
 
