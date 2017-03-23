@@ -15,7 +15,7 @@ import java.util.Map;
  */
 
 public class GraphLib implements PascalLibrary {
-    ExecuteActivity activity;
+    private ExecuteActivity activity;
 
     public GraphLib(ExecuteActivity activity) {
         this.activity = activity;
@@ -32,7 +32,8 @@ public class GraphLib implements PascalLibrary {
      * hese angles are measured counterclockwise.
      */
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
-        activity.getConsoleView().arc(x, y, stAngle, endAngle, radius);
+        if (activity != null)
+            activity.getConsoleView().arc(x, y, stAngle, endAngle, radius);
     }
 
     /**
@@ -40,7 +41,8 @@ public class GraphLib implements PascalLibrary {
      * it with the current color and fill-style.
      */
     public void bar(int x1, int y1, int x2, int y2) {
-        activity.getConsoleView().addGraphObject(new BarObject(x1, y1, x2, y2));
+        if (activity != null)
+            activity.getConsoleView().addGraphObject(new BarObject(x1, y1, x2, y2));
     }
 
     /**
@@ -77,7 +79,8 @@ public class GraphLib implements PascalLibrary {
      * Draw a rectangle on the screen
      */
     public void rectangle(int x1, int y1, int x2, int y2) {
-        activity.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
+        if (activity != null)
+            activity.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
     }
 
     /**
@@ -90,21 +93,27 @@ public class GraphLib implements PascalLibrary {
     }
 
     public void line(int x1, int y1, int x2, int y2) {
-        activity.getConsoleView().addGraphObject(new LineObject(x1, y1, x2, y2));
+        if (activity != null)
+            activity.getConsoleView().addGraphObject(new LineObject(x1, y1, x2, y2));
     }
 
     /**
      * GetY returns the Y-coordinate of the current position of the graphical pointer
      */
     public int getY() {
-        return activity.getConsoleView().getYCursorPixel();
+        if (activity != null)
+            return activity.getConsoleView().getYCursorPixel();
+        else
+            return 0;
     }
 
     /**
      * GetY returns the Y-coordinate of the current position of the graphical pointer
      */
     public int getX() {
-        return activity.getConsoleView().getXCursorPixel();
+        if (activity != null)
+            return activity.getConsoleView().getXCursorPixel();
+        else return 0;
     }
 
     /**
@@ -122,7 +131,10 @@ public class GraphLib implements PascalLibrary {
      * GetColor returns the current drawing color (the palette entry).
      */
     public int getColor() {
-        return activity.getConsoleView().getForegroundGraphColor();
+        if (activity != null)
+            return activity.getConsoleView().getForegroundGraphColor();
+        else
+            return 0;
     }
 
     /**
