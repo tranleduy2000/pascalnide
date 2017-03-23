@@ -159,7 +159,8 @@ public abstract class GrouperToken extends Token {
             throw new ExpectedTokenException(";", t);
         }
     }
-   public void assert_next_comma() throws ParsingException {
+
+    public void assert_next_comma() throws ParsingException {
         Token t = take();
         if (!(t instanceof CommaToken)) {
             throw new ExpectedTokenException(",", t);
@@ -191,13 +192,16 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof OfToken) {
             take();
             DeclaredType elementType = getNextPascalType(context);
-            return new ArrayType<DeclaredType>(elementType, new SubrangeType());
+            ArrayType<DeclaredType> declaredTypeArrayType = new ArrayType<>(elementType, new SubrangeType());
+            return declaredTypeArrayType;
         } else {
             throw new ExpectedTokenException("of", n);
         }
+
     }
 
-    DeclaredType getArrayType(BracketedToken bounds, ExpressionContext context) throws ParsingException {
+    private DeclaredType getArrayType(BracketedToken bounds, ExpressionContext context)
+            throws ParsingException {
         SubrangeType bound = new SubrangeType(bounds, context);
         DeclaredType elementType;
         if (bounds.hasNext()) {
@@ -213,7 +217,7 @@ public abstract class GrouperToken extends Token {
             }
             elementType = getNextPascalType(context);
         }
-        return new ArrayType<DeclaredType>(elementType, bound);
+        return new ArrayType<>(elementType, bound);
     }
 
     public ReturnsValue getNextExpression(ExpressionContext context,
@@ -241,8 +245,8 @@ public abstract class GrouperToken extends Token {
                 ReturnsValue nextvalue = getNextExpression(context,
                         nextOperator.type.getPrecedence());
                 OperatorTypes operationtype = ((OperatorToken) next).type;
-                DeclaredType type1 = nextTerm.get_type(context).declType;
-                DeclaredType type2 = nextvalue.get_type(context).declType;
+                DeclaredType type1 = nextTerm.getType(context).declType;
+                DeclaredType type2 = nextvalue.getType(context).declType;
                 try {
                     operationtype.verifyOperation(type1, type2);
                 } catch (BadOperationTypeException e) {
@@ -262,7 +266,7 @@ public abstract class GrouperToken extends Token {
             } else if (next instanceof BracketedToken) {
                 take();
                 BracketedToken b = (BracketedToken) next;
-                RuntimeType t = nextTerm.get_type(context);
+                RuntimeType t = nextTerm.getType(context);
                 ReturnsValue v = b.getNextExpression(context);
                 ReturnsValue converted = BasicType.Integer.convert(v, context);
                 if (converted == null) {
@@ -356,7 +360,7 @@ public abstract class GrouperToken extends Token {
                     ReturnsValue converted = type.convert(unconverted, context);
                     if (converted == null) {
                         throw new UnconvertibleTypeException(unconverted,
-                                unconverted.get_type(context).declType, type,
+                                unconverted.getType(context).declType, type,
                                 true);
                     }
                     defaultValue = converted.compileTimeValue(context);
@@ -473,14 +477,15 @@ public abstract class GrouperToken extends Token {
         } else {
             try {
                 return context.handleUnrecognizedStatement(next, this);
-            } catch (ParsingException ignored) {}
+            } catch (ParsingException ignored) {
+            }
             ReturnsValue r = getNextExpression(context, next);
             next = peek();
             if (next instanceof AssignmentToken) {
                 take();
                 ReturnsValue value_to_assign = getNextExpression(context);
-                DeclaredType output_type = r.get_type(context).declType;
-                DeclaredType input_type = value_to_assign.get_type(context).declType;
+                DeclaredType output_type = r.getType(context).declType;
+                DeclaredType input_type = value_to_assign.getType(context).declType;
                 /*
                  * Does not have to be writable to assign value to variable.
 				 */

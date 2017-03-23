@@ -1,7 +1,5 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.NonIntegerIndexException;
@@ -9,9 +7,10 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
 public class SubrangeType {
-
     public int lower;
     public int size;
 
@@ -48,6 +47,7 @@ public class SubrangeType {
         }
         size = (((Integer) max) - lower) + 1;
     }
+
     public SubrangeType(int lower, int size) {
         this.lower = lower;
         this.size = size;

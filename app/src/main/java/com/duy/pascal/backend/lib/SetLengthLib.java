@@ -44,7 +44,7 @@ public class SetLengthLib implements TemplatedPascalPlugin {
         ReturnsValue array = arguments[0];
         ReturnsValue size = arguments[1];
         @SuppressWarnings("rawtypes")
-        DeclaredType elemtype = ((ArrayType) ((PointerType) array.get_type(f).declType).pointedToType).element_type;
+        DeclaredType elemtype = ((ArrayType) ((PointerType) array.getType(f).declType).pointedToType).element_type;
         LineInfo l = line;
         return new SetLengthCall(array, size, elemtype, l);
     }
@@ -82,7 +82,7 @@ public class SetLengthLib implements TemplatedPascalPlugin {
         }
 
         @Override
-        public RuntimeType get_type(ExpressionContext f)
+        public RuntimeType getType(ExpressionContext f)
                 throws ParsingException {
             return null;
         }

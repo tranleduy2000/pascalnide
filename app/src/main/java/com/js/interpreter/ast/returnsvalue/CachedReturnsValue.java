@@ -20,8 +20,8 @@ public class CachedReturnsValue implements ReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        return other.get_type(f);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        return other.getType(f);
     }
 
     @Override

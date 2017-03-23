@@ -15,7 +15,7 @@ public interface ReturnsValue {
     Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException;
 
-    RuntimeType get_type(ExpressionContext f)
+    RuntimeType getType(ExpressionContext f)
             throws ParsingException;
 
     LineInfo getLineNumber();

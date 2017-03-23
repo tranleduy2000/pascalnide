@@ -21,7 +21,7 @@ public class RuntimeType implements ArgumentType {
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
 
-        RuntimeType other = value.get_type(f);
+        RuntimeType other = value.getType(f);
         if (writable) {
             if (this.equals(other)) {
                 return new GetAddress(value);
@@ -73,7 +73,7 @@ public class RuntimeType implements ArgumentType {
             return null;
         }
         ReturnsValue val = args.next();
-        RuntimeType other = val.get_type(e);
+        RuntimeType other = val.getType(e);
         if (this.declType.equals(other.declType)) {
             if (writable) {
                 return new GetAddress(val);

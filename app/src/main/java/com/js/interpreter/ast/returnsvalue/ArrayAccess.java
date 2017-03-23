@@ -17,9 +17,9 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import java.lang.reflect.Array;
 
 public class ArrayAccess extends DebuggableReturnsValue {
-    ReturnsValue container;
-    ReturnsValue index;
-    int offset;
+    private ReturnsValue container;
+    private ReturnsValue index;
+    private int offset;
 
     public ArrayAccess(ReturnsValue container, ReturnsValue index, int offset) {
         this.container = container;
@@ -28,10 +28,9 @@ public class ArrayAccess extends DebuggableReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        RuntimeType r = (container.get_type(f));
-        return new RuntimeType(((ArrayType<?>) r.declType).element_type,
-                r.writable);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        RuntimeType r = (container.getType(f));
+        return new RuntimeType(((ArrayType<?>) r.declType).element_type, r.writable);
     }
 
     @Override

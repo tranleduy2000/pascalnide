@@ -24,7 +24,7 @@ public class PointerType implements DeclaredType {
     @Override
     public ReturnsValue convert(ReturnsValue returnsValue, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other = returnsValue.get_type(f);
+        RuntimeType other = returnsValue.getType(f);
         if (this.equals(other)) {
             return returnsValue;
         }

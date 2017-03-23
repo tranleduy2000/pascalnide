@@ -29,7 +29,7 @@ public class StringBoxer extends DebuggableReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) {
+    public RuntimeType getType(ExpressionContext f) {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
 

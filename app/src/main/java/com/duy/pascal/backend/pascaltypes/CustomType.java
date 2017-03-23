@@ -109,7 +109,7 @@ public class CustomType extends ObjectType {
     @Override
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.get_type(f);
+        RuntimeType other_type = value.getType(f);
         if (this.equals(other_type.declType)) {
             return cloneValue(value);
         }

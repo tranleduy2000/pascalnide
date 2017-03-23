@@ -44,7 +44,7 @@ public class VariableAccess extends DebuggableReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(f.getVariableDefinition(name).type, true);
     }
 

@@ -127,7 +127,7 @@ public class TypeConverter {
         }
 
         @Override
-        public RuntimeType get_type(ExpressionContext f)
+        public RuntimeType getType(ExpressionContext f)
                 throws ParsingException {
             return new RuntimeType(BasicType.Double, false);
         }
@@ -176,7 +176,7 @@ public class TypeConverter {
         }
 
         @Override
-        public RuntimeType get_type(ExpressionContext f)
+        public RuntimeType getType(ExpressionContext f)
                 throws ParsingException {
             return new RuntimeType(BasicType.Long, false);
         }
@@ -225,7 +225,7 @@ public class TypeConverter {
         }
 
         @Override
-        public RuntimeType get_type(ExpressionContext f)
+        public RuntimeType getType(ExpressionContext f)
                 throws ParsingException {
             return new RuntimeType(BasicType.Character, false);
         }
@@ -274,7 +274,7 @@ public class TypeConverter {
         }
 
         @Override
-        public RuntimeType get_type(ExpressionContext f)
+        public RuntimeType getType(ExpressionContext f)
                 throws ParsingException {
             return new RuntimeType(BasicType.Integer, false);
         }
@@ -323,7 +323,7 @@ public class TypeConverter {
         }
 
         @Override
-        public RuntimeType get_type(ExpressionContext f)
+        public RuntimeType getType(ExpressionContext f)
                 throws ParsingException {
             return new RuntimeType(BasicType.Integer, false);
         }
@@ -371,7 +371,7 @@ public class TypeConverter {
         }
 
         @Override
-        public RuntimeType get_type(ExpressionContext f)
+        public RuntimeType getType(ExpressionContext f)
                 throws ParsingException {
             return new RuntimeType(BasicType.anew(String.class), false);
         }

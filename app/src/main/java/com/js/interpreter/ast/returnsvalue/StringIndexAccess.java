@@ -23,9 +23,9 @@ public class StringIndexAccess extends DebuggableReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(BasicType.Character,
-                container.get_type(f).writable);
+                container.getType(f).writable);
     }
 
     @Override

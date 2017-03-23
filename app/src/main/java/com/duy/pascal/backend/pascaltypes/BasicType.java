@@ -88,7 +88,7 @@ public enum BasicType implements DeclaredType {
         @Override
         public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
                 throws ParsingException {
-            RuntimeType other_type = value.get_type(f);
+            RuntimeType other_type = value.getType(f);
             if (other_type.declType instanceof BasicType) {
 
                 if (this.equals(other_type.declType)) {
@@ -256,7 +256,7 @@ public enum BasicType implements DeclaredType {
     @Override
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.get_type(f);
+        RuntimeType other_type = value.getType(f);
         if (other_type.declType instanceof BasicType) {
             if (this.equals(other_type.declType)) {
                 return cloneValue(value);

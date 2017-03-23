@@ -21,7 +21,7 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         switch (operator_type) {
             case EQUALS:
             case GREATEREQ:

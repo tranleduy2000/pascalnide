@@ -20,8 +20,8 @@ public class ArrayCloner<T> implements ReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        return r.get_type(f);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        return r.getType(f);
     }
 
     @Override

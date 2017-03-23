@@ -51,7 +51,7 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) {
+    public RuntimeType getType(ExpressionContext f) {
         return new RuntimeType(function.return_type(), false);
     }
 

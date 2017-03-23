@@ -57,8 +57,8 @@ public class UnaryOperatorEvaluation extends DebuggableReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        return operon.get_type(f);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        return operon.getType(f);
     }
 
     @Override

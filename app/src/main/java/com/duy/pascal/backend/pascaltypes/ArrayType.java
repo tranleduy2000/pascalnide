@@ -154,7 +154,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
     @Override
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other = value.get_type(f);
+        RuntimeType other = value.getType(f);
         return this.superset(other.declType) ? cloneValue(value) : null;
     }
 

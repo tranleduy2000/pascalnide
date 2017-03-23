@@ -43,8 +43,8 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
     public static BinaryOperatorEvaluation generateOp(ExpressionContext f,
                                                       ReturnsValue v1, ReturnsValue v2, OperatorTypes op_type,
                                                       LineInfo line) throws ParsingException {
-        DeclaredType t1 = v1.get_type(f).declType;
-        DeclaredType t2 = v2.get_type(f).declType;
+        DeclaredType t1 = v1.getType(f).declType;
+        DeclaredType t2 = v2.getType(f).declType;
         if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
             throw new BadOperationTypeException(line, t1, t2, v1, v2, op_type);
         }

@@ -29,8 +29,8 @@ public class GetAddress extends DebuggableReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(new PointerType(target.get_type(f).declType),
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        return new RuntimeType(new PointerType(target.getType(f).declType),
                 false);
     }
 

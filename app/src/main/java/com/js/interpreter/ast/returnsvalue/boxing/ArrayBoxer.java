@@ -34,7 +34,7 @@ public class ArrayBoxer extends DebuggableReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         throw new ParsingException(
                 line,
                 "Attempted to get type of varargs boxer. This should not happen as we are only supposed to pass varargs to plugins");

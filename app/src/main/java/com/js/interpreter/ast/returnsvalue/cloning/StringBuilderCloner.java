@@ -20,9 +20,9 @@ public class StringBuilderCloner implements ReturnsValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f)
+    public RuntimeType getType(ExpressionContext f)
             throws ParsingException {
-        return r.get_type(f);
+        return r.getType(f);
     }
 
     @Override
