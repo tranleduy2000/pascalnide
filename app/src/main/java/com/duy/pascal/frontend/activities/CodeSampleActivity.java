@@ -14,7 +14,7 @@ import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.adapters.CodeViewAdapter;
-import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class CodeSampleActivity extends AppCompatActivity implements CodeViewAda
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private CodeViewAdapter adapter;
-    private FileManager fileManager;
+    private ApplicationFileManager fileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class CodeSampleActivity extends AppCompatActivity implements CodeViewAda
         setContentView(R.layout.activity_code_sample);
         ButterKnife.bind(this);
         setTitle(R.string.title_activity_code_sample);
-        fileManager = new FileManager(this);
+        fileManager = new ApplicationFileManager(this);
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_code_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

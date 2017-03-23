@@ -14,7 +14,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.view.ConsoleView;
@@ -74,7 +74,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
     };
     private RuntimeExecutable program;
     private String programFile;
-    private FileManager mFileManager;
+    private ApplicationFileManager mFileManager;
     private Handler handler = new Handler();
     Runnable complete = new Runnable() {
         @Override
@@ -118,7 +118,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFileManager = new FileManager(this);
+        mFileManager = new ApplicationFileManager(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

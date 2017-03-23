@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.fragments;
+package com.duy.pascal.frontend.file;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,15 +22,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.adapters.AdapterDetailedList;
-import com.duy.pascal.frontend.file.FileListener;
-import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.utils.AlphanumComparator;
 import com.duy.pascal.frontend.utils.Build;
 import com.duy.pascal.frontend.utils.PreferenceHelper;
@@ -51,10 +48,10 @@ import java.util.LinkedList;
  * Created by Duy on 15-Mar-17.
  */
 
-public class FragmentFile extends Fragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener, View.OnClickListener, View.OnLongClickListener, AdapterView.OnItemLongClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class FragmentSelectFile extends Fragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener, View.OnClickListener, View.OnLongClickListener, AdapterView.OnItemLongClickListener, SwipeRefreshLayout.OnRefreshListener {
     private FileListener listener;
     private FloatingActionMenu fabMenu;
-    private ListView listFiles;
+    private FileListView listFiles;
     private Activity activity;
     private View root;
     private String currentFolder;
@@ -91,12 +88,15 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        currentFolder = FileManager.getApplicationPath();
+        currentFolder = ApplicationFileManager.getApplicationPath();
         wantAFile = true; //action == Actions.SelectFile;
-        listFiles = (ListView) root.findViewById(R.id.list_file);
+        listFiles = (FileListView) root.findViewById(R.id.list_file);
         listFiles.setOnItemClickListener(this);
         listFiles.setOnItemLongClickListener(this);
         listFiles.setTextFilterEnabled(true);
+
+        disableVerticalScroll();
+
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_view);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.key_word_color));
@@ -104,6 +104,13 @@ public class FragmentFile extends Fragment implements AdapterView.OnItemClickLis
         fabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
         fabMenu.findViewById(R.id.action_new_folder).setOnClickListener(this);
         new UpdateList().execute(currentFolder);
+    }
+
+    /**
+     * disable scroll vertical of list view when scrolling horizontal
+     */
+    private void disableVerticalScroll() {
+
     }
 
     public boolean onQueryTextChange(String newText) {

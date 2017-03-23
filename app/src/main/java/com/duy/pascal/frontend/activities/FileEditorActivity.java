@@ -18,7 +18,7 @@ import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.Preferences;
 import com.duy.pascal.frontend.file.TabFileUtils;
-import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.SymbolListView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
@@ -35,8 +35,8 @@ import butterknife.ButterKnife;
 
 public abstract class FileEditorActivity extends AbstractAppCompatActivity
         implements MenuEditor.EditorControl {
-    protected String mFilePath = FileManager.getApplicationPath() + "new_file.pas";
-    protected FileManager fileManager;
+    protected String mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
+    protected ApplicationFileManager fileManager;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -57,7 +57,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fileManager = new FileManager(this);
+        fileManager = new ApplicationFileManager(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -140,7 +140,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     private void createEmptyFile() {
         //auto create empty file
         //create new file
-        String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + "new_" +
+        String filePath = fileManager.createNewFile(ApplicationFileManager.getApplicationPath() + "new_" +
                 Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         File file = new File(filePath);
         //load to view

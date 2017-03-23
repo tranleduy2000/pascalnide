@@ -25,19 +25,19 @@ import java.util.ArrayList;
  * Created by Duy on 10-Feb-17.
  */
 
-public class FileManager {
+public class ApplicationFileManager {
     /**
      * storage path for saveFile code
      */
     private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
-    private final String TAG = FileManager.class.getSimpleName();
+    private final String TAG = ApplicationFileManager.class.getSimpleName();
     private final String FILE_TEMP_NAME = "tmp.pas";
     private int mode = SAVE_MODE.EXTERNAL;
     private Context context;
     private Database mDatabase;
     private Preferences mPreferences;
 
-    public FileManager(Context context) {
+    public ApplicationFileManager(Context context) {
         this.context = context;
         mDatabase = new Database(context);
         mPreferences = new Preferences(context);

@@ -78,7 +78,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentFolder = FileManager.getApplicationPath();
+        currentFolder = ApplicationFileManager.getApplicationPath();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_file);
         ButterKnife.bind(this);

@@ -17,14 +17,14 @@ import java.util.ArrayList;
  * Created by Duy on 11-Feb-17.
  */
 
-public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
+public class RecycleViewFileAdapter extends RecyclerView.Adapter<RecycleViewFileAdapter.ViewHolder> {
     private final Context mContext;
     private ArrayList<File> mFileList = new ArrayList<>();
     private View mEmptyView;
     private FileListener listener;
     private LayoutInflater inflater;
 
-    public FileAdapter(Context context) {
+    public RecycleViewFileAdapter(Context context) {
         this.mContext = context;
         this.inflater = LayoutInflater.from(context);
     }

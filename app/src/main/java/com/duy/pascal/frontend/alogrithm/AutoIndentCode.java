@@ -21,7 +21,6 @@ import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.ThenToken;
 import com.duy.pascal.backend.tokens.basic.TypeToken;
 import com.duy.pascal.backend.tokens.basic.UntilToken;
-import com.duy.pascal.backend.tokens.basic.UsesToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.closing.ClosingToken;
 import com.duy.pascal.backend.tokens.closing.EndParenToken;
@@ -130,7 +129,7 @@ public class AutoIndentCode {
             processFunctionToken(t);
         }
         // TODO: 04-Mar-17 Uses, var, const every new line
-        else if (t instanceof VarToken || t instanceof ConstToken || t instanceof UsesToken) {
+        else if (t instanceof VarToken || t instanceof ConstToken) {
             newLine(t);
         } else if (t instanceof CommentToken) {
             processCommentToken(t);

@@ -35,7 +35,7 @@ import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.data.Preferences;
 import com.duy.pascal.frontend.file.FileListener;
-import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.utils.ClipboardManager;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
@@ -89,7 +89,7 @@ public class EditorActivity extends FileEditorActivity implements
     private void loadLastedFile() {
         mFilePath = mPreferences.getString(Preferences.FILE_PATH);
         if (mFilePath.isEmpty()) {
-            mFilePath = FileManager.getApplicationPath() + "new_file.pas";
+            mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
         }
         Log.i(TAG, "loadLastedFile: " + mFilePath);
         loadFile(mFilePath);
@@ -478,13 +478,13 @@ public class EditorActivity extends FileEditorActivity implements
                 if (checkBoxInp.isChecked()) fileName += ".inp";
                 else if (checkBoxPas.isChecked()) fileName += ".pas";
 
-                File file = new File(FileManager.getApplicationPath() + fileName);
+                File file = new File(ApplicationFileManager.getApplicationPath() + fileName);
                 if (file.exists()) {
                     editText.setError("File is exist, please enter other name!");
                     return;
                 }
                 //create new file
-                String filePath = fileManager.createNewFile(FileManager.getApplicationPath() + fileName);
+                String filePath = fileManager.createNewFile(ApplicationFileManager.getApplicationPath() + fileName);
                 file = new File(filePath);
                 //add to view
                 addNewFile(file, true);
