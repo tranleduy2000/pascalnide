@@ -46,7 +46,7 @@ public abstract class ExpressionContextMixin extends
         HeirarchicalExpressionContext {
     private final ListMultimap<String, AbstractFunction> callable_functions;
     public List<VariableDeclaration> UnitVarDefs = new ArrayList<VariableDeclaration>();
-    private Map<String, ConstantDefinition> constants = new HashMap<String, ConstantDefinition>();
+    private Map<String, ConstantDefinition> constants = new HashMap<>();
     private Map<String, DeclaredType> typedefs = new HashMap<>();
     private ArrayList<String> listLibs = new ArrayList<>();
 

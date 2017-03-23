@@ -563,7 +563,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         else if (y > maxLines) y = maxLines;
         setCursor(x - 1, y - 1);
         makeCursorVisible();
-
         postInvalidate();
     }
 
