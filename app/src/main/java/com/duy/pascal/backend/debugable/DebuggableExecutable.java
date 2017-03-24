@@ -1,5 +1,7 @@
-package com.js.interpreter.ast.instructions;
+package com.duy.pascal.backend.debugable;
 
+import com.js.interpreter.ast.instructions.Executable;
+import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.runtime.FunctionOnStack;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;

@@ -5,7 +5,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.instructions.DebuggableExecutable;
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.SetValueExecutable;

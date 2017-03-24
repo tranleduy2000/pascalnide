@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.instructions;
 
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;

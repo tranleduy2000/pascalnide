@@ -9,7 +9,7 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.DebuggableReturnsValue;
+import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.Reference;
 import com.js.interpreter.runtime.VariableBoxer;

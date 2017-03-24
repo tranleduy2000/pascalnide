@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.instructions;
 
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.runtime.VariableContext;
