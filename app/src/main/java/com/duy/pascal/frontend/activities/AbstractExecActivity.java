@@ -33,9 +33,6 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_console);
         ButterKnife.bind(this);
@@ -67,6 +64,7 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_console, menu);
+        menu.findItem(R.id.action_next_line).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

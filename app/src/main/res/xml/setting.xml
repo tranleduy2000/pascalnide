@@ -58,10 +58,8 @@
 
     <PreferenceCategory android:title="@string/user_interface">
         <SwitchPreference
-            android:defaultValue="false"
-            android:enabled="false"
-
-            android:key="@string/key_pref_hide_status_bar"
+            android:defaultValue="true"
+            android:key="uses_full_screen"
             android:summary="@string/hide_status_bar_desc"
             android:title="@string/hide_status_bar" />
 

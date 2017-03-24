@@ -84,4 +84,9 @@ public class Preferences {
     public boolean getBoolean(String key) {
         return sharedPreferences.getBoolean(key, false);
     }
+
+
+    public boolean useFullScreen() {
+        return getBoolean("uses_full_screen");
+    }
 }

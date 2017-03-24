@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -101,7 +102,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                             new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
                             ExecuteActivity.this);
                     program = pascalProgram.run();
-                    program.enableDebug();
+//                    program.enableDebug();
                     program.run();
                     handler.post(complete);
                 } catch (RuntimePascalException | FileNotFoundException | ParsingException e) {
@@ -158,7 +159,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             public void run() {
                 runThread.start();
             }
-        }, 500);
+        }, 200);
     }
 
     private void showDialogComplete() {
@@ -348,10 +349,15 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_next_line) {
             try {
-                program.resume();
+//                program.resume();
             } catch (Exception e) {
             }
         }
