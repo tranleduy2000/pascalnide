@@ -10,6 +10,7 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.SubrangeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
+import com.duy.pascal.frontend.debug.DebugManager;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -39,6 +40,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     @Override
     public Object call(VariableContext parentContext, RuntimeExecutable<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        DebugManager.outputMethod(main.getDebugListener(), method);
         return method.invoke(parent, arguments);
     }
 

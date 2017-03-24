@@ -19,6 +19,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     private volatile boolean doneExecuting = false;
 
     private DebugListener debugListener;
+    private boolean isDebugMode = false;
 
     public RuntimeExecutable(parent definition) {
         super(definition);
@@ -26,6 +27,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     /**
      * if enable debug, uses this constructor
+     *
      * @param debugListener - callback
      */
     public RuntimeExecutable(parent definition, DebugListener debugListener) {
@@ -64,6 +66,14 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
         runmode = controlMode.paused;
     }
 
+    public void enableDebug() {
+        isDebugMode = true;
+    }
+
+    public void disableDebug() {
+        isDebugMode = false;
+    }
+
     @Override
     public void resume() {
         runmode = controlMode.running;
@@ -83,13 +93,9 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     public void scriptControlCheck(LineInfo line)
             throws ScriptTerminatedException {
         do {
-            if (runmode == controlMode.running) {
-                return;
-            }
-            if (runmode == controlMode.terminated) {
-                throw new ScriptTerminatedException(line);
-            }
-            if (runmode == controlMode.paused) {
+            if (runmode == controlMode.paused ||
+                    //pause it
+                    isDebugMode) {
                 synchronized (this) {
                     try {
                         this.wait();
@@ -97,6 +103,14 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
                     }
                 }
             }
+
+            if (runmode == controlMode.running) {
+                return;
+            }
+            if (runmode == controlMode.terminated) {
+                throw new ScriptTerminatedException(line);
+            }
+
         } while (true);
     }
 
@@ -109,6 +123,6 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     }
 
     public enum controlMode {
-        running, paused, terminated
+        running, paused, terminated, debug
     }
 }

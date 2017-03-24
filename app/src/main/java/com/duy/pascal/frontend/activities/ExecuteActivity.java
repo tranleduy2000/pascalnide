@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.core.PascalCompiler;
@@ -15,6 +16,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
@@ -32,10 +34,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.duy.pascal.frontend.activities.ExecuteActivity.InputData.MAX_INPUT;
+import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
 
-public class ExecuteActivity extends AbstractConsoleActivity implements DebugListener {
+public class ExecuteActivity extends AbstractExecActivity implements DebugListener {
     public static final boolean DEBUG = BuildConfig.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
     public String input = "";
@@ -99,6 +101,7 @@ public class ExecuteActivity extends AbstractConsoleActivity implements DebugLis
                             new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
                             ExecuteActivity.this);
                     program = pascalProgram.run();
+                    program.enableDebug();
                     program.run();
                     handler.post(complete);
                 } catch (RuntimePascalException | FileNotFoundException | ParsingException e) {
@@ -150,7 +153,12 @@ public class ExecuteActivity extends AbstractConsoleActivity implements DebugLis
         programFile = mFileManager.setContentFileTemp(code);
         mConsoleView.emitString("execute file: " + filePath + "\n");
         mConsoleView.emitString("---------------------------" + "\n");
-        runThread.start();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runThread.start();
+            }
+        }, 500);
     }
 
     private void showDialogComplete() {
@@ -248,12 +256,6 @@ public class ExecuteActivity extends AbstractConsoleActivity implements DebugLis
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
@@ -287,42 +289,74 @@ public class ExecuteActivity extends AbstractConsoleActivity implements DebugLis
     }
 
     @Override
-    public void onFunctionCall(FunctionDeclaration functionDeclaration) {
+    public void onFunctionCall(final FunctionDeclaration functionDeclaration) {
         Log.d(TAG, "onFunctionCall: " + functionDeclaration.getName());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+//                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + "Call procedure \'"
+//                        + functionDeclaration.getName() + "\'"));
+            }
+        });
     }
 
     @Override
-    public void onProcedureCall(FunctionDeclaration functionDeclaration) {
+    public void onProcedureCall(final FunctionDeclaration functionDeclaration) {
         Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+//                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + "Call function \'"
+//                        + functionDeclaration.getName() + "\'"));
+            }
+        });
     }
 
     @Override
-    public void onNewMessage(String msg) {
-        Log.d(TAG, "onNewMessage: " + msg);
-    }
-
-    public class InputData {
-        static final int MAX_INPUT = 1000;
-        public char[] data = new char[MAX_INPUT]; // the array of the caracters
-        int last;    // number of char in the input buffer
-        int first;    // index of the first character
-
-        @Override
-        public String toString() {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = first; i < last; i++) stringBuilder.append(data[i]);
-            return stringBuilder.toString();
-        }
+    public void onNewMessage(final String msg) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+//                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + msg));
+            }
+        });
     }
 
     @Override
     public void onClearDebug() {
-
+////        debugView.clear();
     }
 
     @Override
-    public void onVariableChangeValue(String name, Object value) {
-        Log.d(TAG, "onVariableChangeValue: " + name + " = " + String.valueOf(value));
+    public void onVariableChangeValue(final String name, final Object value) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+////                debugView.addLine(new DebugItem(DebugItem.TYPE_VAR, name, String.valueOf(value)));
+            }
+        });
     }
+
+    @Override
+    public void onFunctionCall(final String name) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+////                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, "> " + "Call procedure \'" + name + "\'"));
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_next_line) {
+            try {
+                program.resume();
+            } catch (Exception e) {
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
 

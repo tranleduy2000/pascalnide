@@ -31,6 +31,14 @@ public class FunctionOnStack extends VariableContext {
     public FunctionOnStack(VariableContext parentContext,
                            RuntimeExecutable<?> main, FunctionDeclaration declaration,
                            Object[] arguments) {
+        if (main.getDebugListener() != null) {
+            if (declaration.isProcedure()) {
+                main.getDebugListener().onFunctionCall(declaration);
+            } else {
+                main.getDebugListener().onProcedureCall(declaration);
+            }
+        }
+
         this.currentFunction = declaration;
         this.parentContext = parentContext;
         this.main = main;

@@ -19,13 +19,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public abstract class AbstractConsoleActivity extends AbstractAppCompatActivity {
+public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
     private final int[] fontSize = {11, 16, 20, 24};
     public int fontSizeNb = 0;
     @BindView(R.id.console)
     public ConsoleView mConsoleView;
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
+//    @BindView(R.id.list_debug_console)
+//    DebugView debugView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

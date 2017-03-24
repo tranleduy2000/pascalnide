@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
     public static final int QUEUE_SIZE = 8096; //4MB ram
     final public int cursorPaint = Color.DKGRAY;
-    public int maxLines = 100;
+    public int maxLines = 200;
     public Handler handler = new Handler();
     public int xCursorConsole;
     public int yCursorConsole;
@@ -259,14 +259,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         yCursorConsole = 0;
         firstLine = 0;
         firstIndex = 0;
-
         postInvalidate();
     }
 
     public boolean updateSize() {
         boolean invalid = false;
         getNewDim();
-
         if ((newWidth != visibleWidth) || (newHeight != visibleHeight)) {
             visibleWidth = newWidth;
             visibleHeight = newHeight;
@@ -307,7 +305,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         boolean value = newNbRows != consoleRow || newNbLines != consoleRow;
         consoleColumn = newNbLines;
         if (newNbRows != consoleRow) {
-
             int newScreenSize = maxLines * newNbRows;
             char newScreenBuffer[] = new char[newScreenSize];
 

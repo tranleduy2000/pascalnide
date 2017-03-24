@@ -1,11 +1,12 @@
 package com.js.interpreter.ast.instructions.conditional;
 
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.duy.pascal.frontend.debug.DebugManager;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
@@ -44,7 +45,9 @@ public class ForStatement extends DebuggableExecutable {
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         setfirst.execute(f, main);
         while_loop:
+
         while ((Boolean) lessthanlast.getValue(f, main)) {
+            DebugManager.outputConditionFor(main.getDebugListener(), true);
             switch (command.execute(f, main)) {
                 case RETURN:
                     return ExecutionResult.RETURN;
@@ -53,6 +56,7 @@ public class ForStatement extends DebuggableExecutable {
             }
             increment_temp.execute(f, main);
         }
+        DebugManager.outputConditionFor(main.getDebugListener(), true);
         return ExecutionResult.NONE;
     }
 

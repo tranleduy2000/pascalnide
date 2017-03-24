@@ -20,14 +20,27 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.duy.pascal.frontend.view.ConsoleView
             android:id="@+id/console"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+            android:layout_height="match_parent"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="horizontal" />
+
+        <!--<com.duy.pascal.frontend.debug.DebugView-->
+        <!--android:id="@+id/list_debug_console"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="50">-->
+
+        <!--</com.duy.pascal.frontend.debug.DebugView>-->
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

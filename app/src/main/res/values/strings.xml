@@ -113,5 +113,6 @@
     <string name="view_console">View console</string>
     <string name="title_activity_test2">TestActivity2</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="resume_program">Resume program</string>
 </resources>
 

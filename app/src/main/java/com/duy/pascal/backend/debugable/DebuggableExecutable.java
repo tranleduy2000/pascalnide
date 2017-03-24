@@ -10,6 +10,8 @@ import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
 import java.util.ArrayList;
 
+import static com.duy.pascal.backend.utils.ArrayUtils.arrayToString;
+
 /**
  * DEBUG class
  * this class can check stack size
@@ -24,7 +26,6 @@ public abstract class DebuggableExecutable implements Executable {
             if (main != null) {
                 main.scriptControlCheck(getLineNumber());
             }
-
             if (DEBUG) {
                 try {
                     printDebug(f, main);
@@ -52,7 +53,6 @@ public abstract class DebuggableExecutable implements Executable {
         /**
          * get global variables, main program
          */
-        listener.onNewMessage("List global variable: ");
         ArrayList<String> listNameVariables = main.getListNameGlobalVariables();
         for (String name : listNameVariables) {
             Object o = main.getGlobalVariable(name);
@@ -75,7 +75,6 @@ public abstract class DebuggableExecutable implements Executable {
         /**
          * get local variable if f this class is function or procedure
          */
-        listener.onNewMessage("List local variable: " + f.getClass().getSimpleName());
         if (f instanceof FunctionOnStack) {
             ArrayList<String> listNameLocalVariable = ((FunctionOnStack) f).getListNameLocalVariable();
             String nameFunction = "\t" + ((FunctionOnStack) f).getCurrentFunction().name;
@@ -103,20 +102,6 @@ public abstract class DebuggableExecutable implements Executable {
         }
     }
 
-    private String arrayToString(Object[] array) {
-        StringBuilder res = new StringBuilder();
-        res.append("[");
-        for (Object var : array) {
-            if (var instanceof Object[]) {
-                String tmp = arrayToString((Object[]) var);
-                res.append(tmp);
-            } else {
-                res.append(var.toString()).append(", ");
-            }
-        }
-        res.append("]");
-        return res.toString();
-    }
 
     public abstract ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException;

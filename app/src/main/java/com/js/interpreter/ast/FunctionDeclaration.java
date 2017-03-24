@@ -36,9 +36,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
      * name of function or procedure
      */
     public String name;
-
     public Executable instructions;
-
     /**
      * this is the store class of function
      */
@@ -46,12 +44,14 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public LineInfo line;
     public String[] argument_names;
     public RuntimeType[] argument_types;
+    private boolean isProcedure = false;
     private boolean bodyDeclared;
 
     public FunctionDeclaration(ExpressionContext parent, GrouperToken i, boolean isProcedure)
             throws ParsingException {
         this.declarations = new FunctionExpressionContext(parent);
         this.line = i.peek().lineInfo;
+        this.isProcedure = isProcedure;
         name = i.next_word_value();
 
         get_arguments_for_declaration(i, isProcedure);
@@ -213,6 +213,10 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     @Override
     public LineInfo getLineNumber() {
         return line;
+    }
+
+    public boolean isProcedure() {
+        return isProcedure;
     }
 
     private class FunctionExpressionContext extends ExpressionContextMixin {

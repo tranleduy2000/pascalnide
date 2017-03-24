@@ -2,12 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_next_line"
+        android:icon="@drawable/ic_play_arrow_white_24dp"
+        android:title="@string/resume_program"
+        app:showAsAction="always">
+
+    </item>
+    <item
         android:id="@+id/action_show_soft"
         android:icon="@drawable/ic_keyboard_white_24dp"
         android:title="@string/show_key_board"
         app:showAsAction="always">
 
-    </item><item
+    </item>
+    <item
         android:id="@+id/action_change_keyboard"
         android:icon="@drawable/ic_keyboard_hide_white_24dp"
         android:title="@string/change_key_board"

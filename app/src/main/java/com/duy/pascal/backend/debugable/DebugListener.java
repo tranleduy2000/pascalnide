@@ -21,4 +21,6 @@ public interface DebugListener {
     void onClearDebug();
 
     void onVariableChangeValue(String name, Object value);
+
+    void onFunctionCall(String name);
 }

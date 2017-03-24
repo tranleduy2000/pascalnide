@@ -1,9 +1,10 @@
 package com.js.interpreter.ast.instructions.conditional;
 
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.frontend.debug.DebugManager;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.NopInstruction;
@@ -31,6 +32,7 @@ public class WhileStatement extends DebuggableExecutable {
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         while_loop:
         while ((Boolean) condition.getValue(f, main)) {
+            DebugManager.outputConditionWhile(main.getDebugListener(), true);
             switch (command.execute(f, main)) {
                 case BREAK:
                     break while_loop;
@@ -38,6 +40,8 @@ public class WhileStatement extends DebuggableExecutable {
                     return ExecutionResult.RETURN;
             }
         }
+        DebugManager.outputConditionWhile(main.getDebugListener(), false);
+
         return ExecutionResult.NONE;
     }
 
