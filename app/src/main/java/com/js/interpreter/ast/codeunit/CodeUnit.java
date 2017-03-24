@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.codeunit;
 
+import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
@@ -22,6 +23,8 @@ public abstract class CodeUnit {
     public final ExpressionContextMixin context;
     private final boolean DEBUG = false;
     private String programName;
+    private DebugListener debugListener;
+
 
     public CodeUnit(ListMultimap<String, AbstractFunction> functionTable) {
         prepareForParsing();
@@ -30,16 +33,17 @@ public abstract class CodeUnit {
         SystemConstants.addSystemType(context);
     }
 
+
     public CodeUnit(Reader program,
                     ListMultimap<String, AbstractFunction> functionTable,
-                    String sourcename, List<ScriptSource> includeDirectories)
+                    String sourcename, List<ScriptSource> includeDirectories,
+                    DebugListener debugListener)
             throws ParsingException {
         this(functionTable);
+        this.debugListener = debugListener;
         NewLexer grouper = new NewLexer(program, sourcename, includeDirectories);
-//        Grouper grouper = new NewLexer(program, sourcename, includeDirectories);
-//        new Thread(grouper).start();
         grouper.parse();
-        parse_tree(grouper.token_queue);
+        parseTree(grouper.token_queue);
         debug();
     }
 
@@ -57,7 +61,7 @@ public abstract class CodeUnit {
         return new CodeUnitExpressionContext(ftable);
     }
 
-    void parse_tree(GrouperToken tokens) throws ParsingException {
+    void parseTree(GrouperToken tokens) throws ParsingException {
         while (tokens.hasNext()) {
             context.addNextDeclaration(tokens);
         }
@@ -83,8 +87,8 @@ public abstract class CodeUnit {
         }
 
         @Override
-        protected Executable handleUnrecognizedStatementImpl(Token next,
-                                                             GrouperToken container) throws ParsingException {
+        protected Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
+                throws ParsingException {
             throw new UnrecognizedTokenException(next);
         }
 

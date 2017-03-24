@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.core.PascalCompiler;
+import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.BuildConfig;
@@ -18,6 +19,8 @@ import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.ConsoleView;
+import com.js.interpreter.ast.FunctionDeclaration;
+import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -32,7 +35,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.duy.pascal.frontend.activities.ExecuteActivity.InputData.MAX_INPUT;
 
 
-public class ExecuteActivity extends AbstractConsoleActivity {
+public class ExecuteActivity extends AbstractConsoleActivity implements DebugListener {
     public static final boolean DEBUG = BuildConfig.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
     public String input = "";
@@ -93,7 +96,8 @@ public class ExecuteActivity extends AbstractConsoleActivity {
                     //run
                     PascalProgram pascalProgram = pascalCompiler.loadPascal(programFile,
                             new FileReader(programFile),
-                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>());
+                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
+                            ExecuteActivity.this);
                     program = pascalProgram.run();
                     program.run();
                     handler.post(complete);
@@ -271,6 +275,32 @@ public class ExecuteActivity extends AbstractConsoleActivity {
         return mConsoleView;
     }
 
+    @Override
+    public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
+        Log.d(TAG, "onGlobalVariableChangeValue: " + variableDeclaration.getName() + " = " + variableDeclaration.getInitialValue());
+    }
+
+    @Override
+    public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
+        Log.d(TAG, "onLocalVariableChangeValue: " + variableDeclaration.getName() + " = " + variableDeclaration.getInitialValue());
+
+    }
+
+    @Override
+    public void onFunctionCall(FunctionDeclaration functionDeclaration) {
+        Log.d(TAG, "onFunctionCall: " + functionDeclaration.getName());
+    }
+
+    @Override
+    public void onProcedureCall(FunctionDeclaration functionDeclaration) {
+        Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
+    }
+
+    @Override
+    public void onNewMessage(String msg) {
+        Log.d(TAG, "onNewMessage: " + msg);
+    }
+
     public class InputData {
         static final int MAX_INPUT = 1000;
         public char[] data = new char[MAX_INPUT]; // the array of the caracters
@@ -285,5 +315,14 @@ public class ExecuteActivity extends AbstractConsoleActivity {
         }
     }
 
+    @Override
+    public void onClearDebug() {
+
+    }
+
+    @Override
+    public void onVariableChangeValue(String name, Object value) {
+        Log.d(TAG, "onVariableChangeValue: " + name + " = " + String.valueOf(value));
+    }
 }
 

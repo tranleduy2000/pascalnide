@@ -1,5 +1,6 @@
 package com.js.interpreter.runtime.codeunit;
 
+import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.ast.codeunit.Library;
@@ -17,8 +18,19 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     private volatile controlMode runmode = controlMode.running;
     private volatile boolean doneExecuting = false;
 
+    private DebugListener debugListener;
+
     public RuntimeExecutable(parent definition) {
         super(definition);
+    }
+
+    /**
+     * if enable debug, uses this constructor
+     * @param debugListener - callback
+     */
+    public RuntimeExecutable(parent definition, DebugListener debugListener) {
+        super(definition);
+        this.debugListener = debugListener;
     }
 
     public RuntimeLibrary getLibrary(Library l) {
@@ -86,6 +98,14 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
                 }
             }
         } while (true);
+    }
+
+    public DebugListener getDebugListener() {
+        return debugListener;
+    }
+
+    public void setDebugListener(DebugListener debugListener) {
+        this.debugListener = debugListener;
     }
 
     public enum controlMode {

@@ -19,7 +19,7 @@ public class Library extends CodeUnit {
     public Library(Reader program, ListMultimap<String, AbstractFunction> functionTable,
                    String sourcename, List<ScriptSource> includeDirectories)
             throws ParsingException {
-        super(program, functionTable, sourcename, includeDirectories);
+        super(program, functionTable, sourcename, includeDirectories, null);
     }
 
     @Override

@@ -160,7 +160,7 @@ public class IOLib implements PascalLibrary {
      */
     public void readlnn(Object... values) throws RuntimePascalException, NumberFormatException {
         System.out.println(values.getClass().getSimpleName());
-        for (Object value: values){
+        for (Object value : values) {
             System.out.println(value.getClass().getSimpleName());
 
             VariableBoxer variableBoxer = (VariableBoxer) value;
@@ -251,9 +251,17 @@ public class IOLib implements PascalLibrary {
         }
     }
 
+    public void readln0() {
+        if (activity != null) {
+            activity.startInput();
+            while (activity.isInputting()) {
+                sleep();
+            }
+        }
+    }
+
     public void printf(String format, Object... args) {
         if (stdout != null) stdout.printf(format, args);
     }
-
 
 }

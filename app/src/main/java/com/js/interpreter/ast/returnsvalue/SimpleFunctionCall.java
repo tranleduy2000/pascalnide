@@ -20,8 +20,7 @@ public class SimpleFunctionCall extends FunctionCall {
 
     private LineInfo line;
 
-    public SimpleFunctionCall(AbstractCallableFunction function,
-                              ReturnsValue[] arguments, LineInfo line) {
+    public SimpleFunctionCall(AbstractCallableFunction function, ReturnsValue[] arguments, LineInfo line) {
         this.function = function;
         if (function == null) {
             System.err.println("Warning: Null function call");
@@ -33,7 +32,6 @@ public class SimpleFunctionCall extends FunctionCall {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-
         Object[] values = new Object[arguments.length];
         function.argumentTypes();
         for (int i = 0; i < values.length; i++) {

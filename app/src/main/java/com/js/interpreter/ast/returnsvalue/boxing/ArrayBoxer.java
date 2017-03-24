@@ -54,8 +54,7 @@ public class ArrayBoxer extends DebuggableReturnsValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object[] result = (Object[]) Array.newInstance(type.getRuntimeClass(),
-                values.length);
+        Object[] result = (Object[]) Array.newInstance(type.getRuntimeClass(), values.length);
         for (int i = 0; i < values.length; i++) {
             Object val = values[i].compileTimeValue(context);
             if (val == null) {

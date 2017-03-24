@@ -47,8 +47,9 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public String[] argument_names;
     public RuntimeType[] argument_types;
     private boolean bodyDeclared;
-    public FunctionDeclaration(ExpressionContext parent, GrouperToken i,
-                               boolean isProcedure) throws ParsingException {
+
+    public FunctionDeclaration(ExpressionContext parent, GrouperToken i, boolean isProcedure)
+            throws ParsingException {
         this.declarations = new FunctionExpressionContext(parent);
         this.line = i.peek().lineInfo;
         name = i.next_word_value();

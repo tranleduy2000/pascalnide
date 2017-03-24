@@ -47,12 +47,12 @@ public abstract class DebuggableExecutable implements Executable {
      * @param main
      */
     private void printDebug(VariableContext f, RuntimeExecutable<?> main) {
+        if (main.getDebugListener() == null) return;
+        DebugListener listener = main.getDebugListener();
         /**
          * get global variables, main program
          */
-        System.out.println(" ");
-        System.out.println("==================== DEBUG =====================");
-        System.out.println("List global variable: ");
+        listener.onNewMessage("List global variable: ");
         ArrayList<String> listNameVariables = main.getListNameGlobalVariables();
         for (String name : listNameVariables) {
             Object o = main.getGlobalVariable(name);
@@ -60,14 +60,14 @@ public abstract class DebuggableExecutable implements Executable {
                 if (o instanceof Integer ||
                         o instanceof Long || o instanceof Double || o instanceof StringBuilder ||
                         o instanceof Character) {
-                    System.out.println(name + " = " + String.valueOf(o));
+                    listener.onNewMessage(name + " = " + String.valueOf(o));
                 } else if (o.getClass().isArray()) {
                     //print array
                     Object[] array = (Object[]) o;
                     String res = name + " = " + arrayToString(array);
-                    System.out.println(res);
+                    listener.onNewMessage(res);
                 } else {
-                    System.out.println(name + " : " + o.toString()
+                    listener.onNewMessage(name + " : " + o.toString()
                             + " - " + o.getClass().getSimpleName());
                 }
             }
@@ -75,7 +75,7 @@ public abstract class DebuggableExecutable implements Executable {
         /**
          * get local variable if f this class is function or procedure
          */
-        System.out.println("List local variable: " + f.getClass().getSimpleName());
+        listener.onNewMessage("List local variable: " + f.getClass().getSimpleName());
         if (f instanceof FunctionOnStack) {
             ArrayList<String> listNameLocalVariable = ((FunctionOnStack) f).getListNameLocalVariable();
             String nameFunction = "\t" + ((FunctionOnStack) f).getCurrentFunction().name;
@@ -85,14 +85,14 @@ public abstract class DebuggableExecutable implements Executable {
                     if (o != null) {
                         if (o instanceof Integer || o instanceof Long || o instanceof Double ||
                                 o instanceof StringBuilder || o instanceof Character) {
-                            System.out.println(nameFunction + ": " + name + " = " + String.valueOf(o));
+                            listener.onNewMessage(nameFunction + ": " + name + " = " + String.valueOf(o));
                         } else if (o.getClass().isArray()) {
                             //print array
                             Object[] array = (Object[]) o;
                             String res = nameFunction + ": " + name + " = " + arrayToString(array);
-                            System.out.println(res);
+                            listener.onNewMessage(res);
                         } else {
-                            System.out.println(nameFunction + ": " + name + " : " + o.toString()
+                            listener.onNewMessage(nameFunction + ": " + name + " : " + o.toString()
                                     + " - " + o.getClass().getSimpleName());
                         }
                     }
@@ -101,7 +101,6 @@ public abstract class DebuggableExecutable implements Executable {
                 }
             }
         }
-        System.out.println(" ");
     }
 
     private String arrayToString(Object[] array) {
@@ -119,5 +118,6 @@ public abstract class DebuggableExecutable implements Executable {
         return res.toString();
     }
 
-    public abstract ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException;
+    public abstract ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException;
 }

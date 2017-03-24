@@ -13,5 +13,5 @@ public interface PascalLibrary {
      * false if it failed. The plugins will only be visible to scripts
      * if this method returns true.
      */
-    public boolean instantiate(Map<String, Object> pluginargs);
+    boolean instantiate(Map<String, Object> pluginargs);
 }

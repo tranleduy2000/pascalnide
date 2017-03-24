@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.codeunit;
 
+import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -20,6 +21,7 @@ public class PascalProgram extends ExecutableCodeUnit {
     public Executable main;
 
     public FunctionOnStack mainRunning;
+    private DebugListener debugListener;
 
     public PascalProgram(ListMultimap<String, AbstractFunction> functionTable) {
         super(functionTable);
@@ -29,7 +31,16 @@ public class PascalProgram extends ExecutableCodeUnit {
                          ListMultimap<String, AbstractFunction> functionTable,
                          String sourceName, List<ScriptSource> includeDirectories)
             throws ParsingException {
-        super(program, functionTable, sourceName, includeDirectories);
+        super(program, functionTable, sourceName, includeDirectories, null);
+    }
+
+    public PascalProgram(Reader program,
+                         ListMultimap<String, AbstractFunction> functionTable,
+                         String sourceName, List<ScriptSource> includeDirectories,
+                         DebugListener debugListener)
+            throws ParsingException {
+        super(program, functionTable, sourceName, includeDirectories, debugListener);
+        this.debugListener = debugListener;
     }
 
     @Override
@@ -40,11 +51,10 @@ public class PascalProgram extends ExecutableCodeUnit {
 
     @Override
     public RuntimeExecutable<PascalProgram> run() {
-        return new RuntimePascalProgram(this);
+        return new RuntimePascalProgram(this, debugListener);
     }
 
-    protected class PascalProgramExpressionContext extends
-            CodeUnitExpressionContext {
+    protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
         protected PascalProgramExpressionContext(
                 ListMultimap<String, AbstractFunction> f) {
             super(f);

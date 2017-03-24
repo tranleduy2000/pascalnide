@@ -11,10 +11,10 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class VariableSet extends DebuggableExecutable implements
         SetValueExecutable {
-    String name;
+    private String name;
 
-    ReturnsValue value;
-    LineInfo line;
+    private ReturnsValue value;
+    private LineInfo line;
 
     public VariableSet(String name, ReturnsValue value, LineInfo line) {
         this.name = name;
@@ -22,10 +22,28 @@ public class VariableSet extends DebuggableExecutable implements
         this.line = line;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public ReturnsValue getValue() {
+        return value;
+    }
+
+    public LineInfo getLine() {
+        return line;
+    }
+
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
-        f.setLocalVariable(name, value.getValue(f, main));
+    public ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
+        Object objValue = this.value.getValue(f, main);
+
+        //debug
+        if (main.getDebugListener() != null)
+            main.getDebugListener().onVariableChangeValue(name, objValue);
+
+        f.setLocalVariable(name, objValue);
         return ExecutionResult.NONE;
     }
 

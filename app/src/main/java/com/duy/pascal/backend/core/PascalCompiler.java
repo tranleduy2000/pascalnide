@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.core;
 
 
+import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
@@ -88,6 +89,23 @@ public class PascalCompiler {
         return functionTable;
     }
 
+    /**
+     * constructor
+     *
+     * @param sourcename    - file name
+     * @param in            - Input Reader
+     * @param debugListener - handler for variable and function
+     */
+    public PascalProgram loadPascal(String sourcename, Reader in,
+                                    List<ScriptSource> includeSearchPath,
+                                    List<ScriptSource> librarySearchPath,
+                                    DebugListener debugListener) throws ParsingException {
+
+        ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(
+                includeSearchPath, librarySearchPath);
+        return new PascalProgram(in, functiontable, sourcename, includeSearchPath, debugListener);
+    }
+
     public PascalProgram loadPascal(String sourcename, Reader in,
                                     List<ScriptSource> includeSearchPath,
                                     List<ScriptSource> librarySearchPath) throws ParsingException {
@@ -121,8 +139,8 @@ public class PascalCompiler {
     }
 
     public void loadLibraries(ListMultimap<String, AbstractFunction> functionTable,
-            List<ScriptSource> librarySearchPath,
-            List<ScriptSource> includeSearchPath) throws ParsingException {
+                              List<ScriptSource> librarySearchPath,
+                              List<ScriptSource> includeSearchPath) throws ParsingException {
         for (ScriptSource directory : librarySearchPath) {
             for (String sourceFile : directory.list()) {
                 Reader in = directory.read(sourceFile);
