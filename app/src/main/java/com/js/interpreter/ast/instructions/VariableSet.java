@@ -24,7 +24,7 @@ public class VariableSet extends DebuggableExecutable implements
     @Override
     public ExecutionResult executeImpl(VariableContext f,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
-        f.set_var(name, value.getValue(f, main));
+        f.setLocalVariable(name, value.getValue(f, main));
         return ExecutionResult.NONE;
     }
 

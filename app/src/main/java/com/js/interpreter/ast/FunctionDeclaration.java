@@ -32,18 +32,21 @@ import java.util.List;
 
 public class FunctionDeclaration extends AbstractCallableFunction {
     final public ExpressionContextMixin declarations;
+    /**
+     * name of function or procedure
+     */
     public String name;
 
     public Executable instructions;
 
+    /**
+     * this is the store class of function
+     */
     public VariableDeclaration resultDefinition;
-
     public LineInfo line;
     public String[] argument_names;
-
     public RuntimeType[] argument_types;
     private boolean bodyDeclared;
-
     public FunctionDeclaration(ExpressionContext parent, GrouperToken i,
                                boolean isProcedure) throws ParsingException {
         this.declarations = new FunctionExpressionContext(parent);
@@ -80,6 +83,10 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         this.declarations = new FunctionExpressionContext(p);
         this.argument_names = new String[0];
         this.argument_types = new RuntimeType[0];
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void parseFunctionBody(GrouperToken i) throws ParsingException {

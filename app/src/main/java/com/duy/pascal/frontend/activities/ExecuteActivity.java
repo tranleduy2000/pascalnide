@@ -14,9 +14,9 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.ConsoleView;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
@@ -36,6 +36,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
     public static final boolean DEBUG = BuildConfig.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
     public String input = "";
+    String filePath;
     private AtomicBoolean isCanRead = new AtomicBoolean(false);
     Runnable runnableInput = new Runnable() {
         @Override
@@ -119,10 +120,8 @@ public class ExecuteActivity extends AbstractConsoleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFileManager = new ApplicationFileManager(this);
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String filePath;
             filePath = extras.getString(CompileManager.FILE_PATH);
             if (filePath == null || filePath.isEmpty()) return;
             File file = new File(filePath);
@@ -145,6 +144,8 @@ public class ExecuteActivity extends AbstractConsoleActivity {
         code = CodeManager.normalCode(code);
         //clone it to internal storage
         programFile = mFileManager.setContentFileTemp(code);
+        mConsoleView.emitString("execute file: " + filePath + "\n");
+        mConsoleView.emitString("---------------------------" + "\n");
         runThread.start();
     }
 
@@ -191,7 +192,7 @@ public class ExecuteActivity extends AbstractConsoleActivity {
             LineInfo lineInfo = ((ParsingException) e).line;
             String line = String.valueOf(lineInfo.line);
             mConsoleView.emitString("Error in line " + line + "\n");
-            mConsoleView.emitString("Code: " + lineInfo.sourcefile + "\n");
+            mConsoleView.emitString("File: " + lineInfo.sourcefile + "\n");
         } else {
             mConsoleView.emitString(e.getMessage());
         }

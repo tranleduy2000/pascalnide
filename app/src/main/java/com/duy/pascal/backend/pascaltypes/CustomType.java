@@ -165,14 +165,14 @@ public class CustomType extends ObjectType {
     }
 
     /**
-     * Adds the get_var method to a specified class. This method will conform to
+     * Adds the getLocalVariable method to a specified class. This method will conform to
      * the ideas of the contains_variables interface, and will allow access to
      * all declared fields.
      *
      * @param b The class to modify.
      */
     private void add_get_var(BCClass b) {
-        BCMethod get_var = b.declareMethod("get_var", Object.class, new Class[]{String.class});
+        BCMethod get_var = b.declareMethod("getLocalVariable", Object.class, new Class[]{String.class});
         get_var.makePublic();
         Code get_var_code = get_var.getCode(true);
         get_var_code.aload().setParam(0);
@@ -215,14 +215,14 @@ public class CustomType extends ObjectType {
     }
 
     /**
-     * Adds the set_var method to a specified class. This method will conform to
+     * Adds the setLocalVariable method to a specified class. This method will conform to
      * the ideas of the contains_variables interface, and will allow access to
      * all declared fields.
      *
      * @param b The class to modify.
      */
     private void add_set_var(BCClass b) {
-        BCMethod set_var = b.declareMethod("set_var", void.class, new Class[]{String.class, Object.class});
+        BCMethod set_var = b.declareMethod("setLocalVariable", void.class, new Class[]{String.class, Object.class});
         set_var.makePublic();
         Code set_var_code = set_var.getCode(true);
         set_var_code.aload().setParam(0);

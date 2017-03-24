@@ -35,7 +35,7 @@ public class VariableAccess extends DebuggableReturnsValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        return f.get_var(name);
+        return f.getLocalVariable(name);
     }
 
     @Override

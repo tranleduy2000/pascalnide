@@ -5,21 +5,23 @@ import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FunctionOnStack extends VariableContext {
     /**
-     * list variable
+     * map variable
      */
-    private HashMap<String, Object> local_variables = new HashMap<>();
-
+    private HashMap<String, Object> mapLocalVariable = new HashMap<>();
     /**
-     * function method
+     * list name of map variable, if you want get all variable, map can not do
      */
-    private FunctionDeclaration function;
-
+    private ArrayList<String> listNameLocalVariable = new ArrayList<>();
+    /**
+     * currentFunction method
+     */
+    private FunctionDeclaration currentFunction;
     private VariableContext parentContext;
-
     private RuntimeExecutable<?> main;
     @SuppressWarnings("rawtypes")
     private
@@ -29,35 +31,57 @@ public class FunctionOnStack extends VariableContext {
     public FunctionOnStack(VariableContext parentContext,
                            RuntimeExecutable<?> main, FunctionDeclaration declaration,
                            Object[] arguments) {
-        this.function = declaration;
+        this.currentFunction = declaration;
         this.parentContext = parentContext;
         this.main = main;
-        for (VariableDeclaration v : function.declarations.variables) {
-            v.initialize(local_variables);
+        for (VariableDeclaration v : currentFunction.declarations.variables) {
+            v.initialize(mapLocalVariable);
+            listNameLocalVariable.add(v.get_name());
         }
         reference_variables = new HashMap<>();
         for (int i = 0; i < arguments.length; i++) {
-            if (function.argument_types[i].writable) {
-                reference_variables.put(function.argument_names[i], (VariableBoxer) arguments[i]);
+            if (currentFunction.argument_types[i].writable) {
+                reference_variables.put(currentFunction.argument_names[i], (VariableBoxer) arguments[i]);
             } else {
-                local_variables.put(function.argument_names[i], arguments[i]);
+                mapLocalVariable.put(currentFunction.argument_names[i], arguments[i]);
             }
         }
         this.parentContext = parentContext;
-        this.function = declaration;
+        this.currentFunction = declaration;
+    }
+
+    public HashMap<String, Object> getMapLocalVariable() {
+        return mapLocalVariable;
+    }
+
+    public FunctionDeclaration getCurrentFunction() {
+        return currentFunction;
+    }
+
+    public RuntimeExecutable<?> getMain() {
+        return main;
+    }
+
+    public HashMap<String, VariableBoxer> getReference_variables() {
+        return reference_variables;
+    }
+
+    public ArrayList<String> getListNameLocalVariable() {
+        return listNameLocalVariable;
     }
 
     public Object execute() throws RuntimePascalException {
-        function.instructions.execute(this, main);
-//		return local_variables.get("result");
-        //get result of function, name of variable is name of function
-        return local_variables.get(function.name);
+        System.out.println("Function call: " + currentFunction.getName());
+        currentFunction.instructions.execute(this, main);
+//		return mapLocalVariable.get("result");
+        //get result of currentFunction, name of variable is name of currentFunction
+        return mapLocalVariable.get(currentFunction.name);
     }
 
     @Override
-    public Object getLocalVar(String name) throws RuntimePascalException {
-        if (local_variables.containsKey(name)) {
-            return local_variables.get(name);
+    public Object getGlobalVariable(String name) throws RuntimePascalException {
+        if (mapLocalVariable.containsKey(name)) {
+            return mapLocalVariable.get(name);
         } else if (reference_variables.containsKey(name)) {
             return reference_variables.get(name).get();
         } else {
@@ -68,8 +92,8 @@ public class FunctionOnStack extends VariableContext {
     @Override
     @SuppressWarnings("unchecked")
     public boolean setLocalVar(String name, Object val) {
-        if (local_variables.containsKey(name)) {
-            local_variables.put(name, val);
+        if (mapLocalVariable.containsKey(name)) {
+            mapLocalVariable.put(name, val);
         } else if (reference_variables.containsKey(name)) {
             reference_variables.get(name).set(val);
         } else {

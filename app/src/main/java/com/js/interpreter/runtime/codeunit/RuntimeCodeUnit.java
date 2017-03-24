@@ -5,38 +5,40 @@ import com.js.interpreter.ast.codeunit.CodeUnit;
 import com.js.interpreter.ast.codeunit.RunMode;
 import com.js.interpreter.runtime.VariableContext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableContext {
     public volatile RunMode mode;
     parent definition;
-
-    public Map<String, Object> getUnitVariables() {
-        return UnitVariables;
-    }
-
-    private Map<String, Object> UnitVariables = new HashMap<String, Object>();
+    private Map<String, Object> unitVariables = new HashMap<>();
+    private ArrayList<String> listNameGlobalVariables = new ArrayList<>();
 
     public RuntimeCodeUnit(parent definition) {
         this.definition = definition;
         for (VariableDeclaration v : definition.context.variables) {
-            v.initialize(UnitVariables);
+            v.initialize(unitVariables);
+            listNameGlobalVariables.add(v.get_name());
         }
     }
 
-    public parent getDefinition() {
-        return definition;
+    public ArrayList<String> getListNameGlobalVariables() {
+        return listNameGlobalVariables;
+    }
+
+    public Map<String, Object> getMapUnitVariables() {
+        return unitVariables;
     }
 
     @Override
-    public Object getLocalVar(String name) {
-        return UnitVariables.get(name);
+    public Object getGlobalVariable(String name) {
+        return unitVariables.get(name);
     }
 
     @Override
     protected boolean setLocalVar(String name, Object val) {
-        return UnitVariables.put(name, val) != null;
+        return unitVariables.put(name, val) != null;
     }
 
 }

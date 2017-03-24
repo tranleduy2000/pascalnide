@@ -179,7 +179,7 @@ public class PascalCompiler {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
                     functionTable.put(tmp.name().toLowerCase(), tmp);
                 }
-                System.out.println("#method " + m.getName());
+//                System.out.println("#method " + m.getName());
             }
         }
     }

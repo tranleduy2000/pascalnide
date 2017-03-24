@@ -14,8 +14,9 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:layout_height="50dp"
+            android:background="?attr/colorPrimary"
+            app:titleTextAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
     </android.support.design.widget.AppBarLayout>
 

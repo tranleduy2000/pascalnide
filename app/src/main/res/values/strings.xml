@@ -111,5 +111,7 @@
     <string name="closed">Closed</string>
     <string name="complete">Complete</string>
     <string name="view_console">View console</string>
+    <string name="title_activity_test2">TestActivity2</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
 

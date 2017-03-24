@@ -27,8 +27,8 @@ import com.duy.pascal.frontend.view.graph_model.GraphObject;
 import java.util.ArrayList;
 
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
-    public static final int QUEUE_SIZE = 1000;
-    final public int CursorPaint = Color.DKGRAY;
+    public static final int QUEUE_SIZE = 8096; //4MB ram
+    final public int cursorPaint = Color.DKGRAY;
     public int maxLines = 100;
     public Handler handler = new Handler();
     public int xCursorConsole;
@@ -38,11 +38,11 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     public int firstLine;
     public boolean fullscreen = false;
     boolean cursorVisible;
-    int foreColor;
+    int foregroundColor;
     int CharHeight;
-    int CharAscent;
-    int CharDescent;
-    int CharWidth;
+    int charAscent;
+    int charDescent;
+    int charWidth;
     private Paint mBackgroundPaint;
     private Paint mTextPaint;
     private Activity activity;
@@ -59,8 +59,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     private int firstIndex;
     private char[] screenBuffer;
     private int screenSize;
-
-    Runnable checkSize = new Runnable() {
+    private Runnable checkSize = new Runnable() {
         public void run() {
             if (updateSize()) {
                 invalidate();
@@ -69,7 +68,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         }
     };
     private boolean cursorBlink;
-    Runnable Blink = new Runnable() {
+    private Runnable Blink = new Runnable() {
         public void run() {
             cursorBlink = !cursorBlink;
             invalidate();
@@ -88,17 +87,17 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
-        commonInit();
+        init();
     }
 
     public ConsoleView(Context context, AttributeSet attrs, int defStyles) {
         super(context, attrs, defStyles);
-        commonInit();
+        init();
     }
 
     public ConsoleView(Context context) {
         super(context);
-        commonInit();
+        init();
     }
 
 
@@ -211,28 +210,34 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         newLeft = visibleRect.left;
     }
 
-    private void commonInit() {
+    private void init() {
         mBackgroundPaint = new Paint();
         visibleRect = new Rect();
         gestureDetector = new GestureDetector(this);
         inputBuffer = new Queue(QUEUE_SIZE);
     }
 
+    public void showPrompt() {
+        emitString("Initialize the console screen..." + "\n");
+        emitString("Width = " + consoleColumn + " ; " + " height = " + consoleRow + "\n");
+        emitString("---------------------------" + "\n");
+    }
+
     public void initConsole(Activity a, float fontSize, int foreColor, int backColor) {
         activity = a;
-        this.foreColor = foreColor;
+        this.foregroundColor = foreColor;
         this.backgroundColor = backColor;
         mTextPaint = new Paint();
 
-//        mTextPaint.setTypeface(Typeface.createFromAsset(a.getAssets(), "fonts/courier_new_bold.ttf"));
         mTextPaint.setTypeface(Typeface.MONOSPACE);
+//        mTextPaint.setTypeface(FontManager.getFontConsole(a));
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextSize(fontSize);
 
         CharHeight = (int) Math.ceil(mTextPaint.getFontSpacing());
-        CharAscent = (int) Math.ceil(mTextPaint.ascent());
-        CharDescent = CharHeight + CharAscent;
-        CharWidth = (int) mTextPaint.measureText(new char[]{'M'}, 0, 1);
+        charAscent = (int) Math.ceil(mTextPaint.ascent());
+        charDescent = CharHeight + charAscent;
+        charWidth = (int) mTextPaint.measureText(new char[]{'M'}, 0, 1);
 
         xCursorConsole = 0;
         yCursorConsole = 0;
@@ -260,7 +265,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public boolean updateSize() {
         boolean invalid = false;
-
         getNewDim();
 
         if ((newWidth != visibleWidth) || (newHeight != visibleHeight)) {
@@ -296,7 +300,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean tUpdateSize(int newWidth, int newHeight) {
-        int newNbRows = newWidth / CharWidth;
+        int newNbRows = newWidth / charWidth;
         int i, j;
         int newFirstIndex = 0;
         int newNbLines = newHeight / CharHeight;
@@ -422,33 +426,32 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         updateSize();
     }
 
-    private void DrawCursor(Canvas canvas, int x, int y) {
+    private void drawCursor(Canvas canvas, int x, int y) {
         if (cursorBlink) {
-
-            mTextPaint.setColor(CursorPaint);
-            canvas.drawRect(x, y - 1/*+CharAscent*/, x + CharWidth, y + CharDescent, mTextPaint);
+            mTextPaint.setColor(cursorPaint);
+//            canvas.drawRect(x, y - 1, x + charWidth, y - charDescent, mTextPaint);
+            canvas.drawRect(x + 1, y - CharHeight + charDescent, x + charWidth, y + 1, mTextPaint);
         }
-
     }
 
-    private void RenderChars(Canvas canvas, int x, int y, char[] text, int start, int count) {
-        mTextPaint.setColor(foreColor);
+    private void renderChars(Canvas canvas, int x, int y, char[] text, int start, int count) {
+        mTextPaint.setColor(foregroundColor);
         canvas.drawText(text, start, count, x, y, mTextPaint);
     }
 
     public void tDraw(Canvas canvas, int x, int y) {
         int index = firstIndex + firstLine * consoleRow;
         if (index >= screenSize) index -= screenSize;
-        y -= CharAscent;
+        y -= charAscent;
         if (cursorVisible) {
-            DrawCursor(canvas, x + xCursorConsole * CharWidth, y + (yCursorConsole - firstLine) * CharHeight);
+            drawCursor(canvas, x + xCursorConsole * charWidth, y + (yCursorConsole - firstLine) * CharHeight);
         }
         for (int i = 0; i < consoleColumn; i++) {
             if (i > yCursorConsole - firstLine) break;
 
             int count = 0;
             while ((count < consoleRow) && (screenBuffer[count + index] >= ' ')) count++;
-            RenderChars(canvas,
+            renderChars(canvas,
                     x,
                     y,
                     screenBuffer,
@@ -466,8 +469,11 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         int h = getHeight();
         canvas.drawRect(leftVisible, topVisible, w, h, mBackgroundPaint);
         tDraw(canvas, leftVisible, topVisible);
-        for (GraphObject graphObject : graphObjects) {
-            graphObject.draw(canvas);
+
+        if (graphObjects != null) {
+            for (GraphObject graphObject : graphObjects) {
+                graphObject.draw(canvas);
+            }
         }
     }
 
@@ -486,7 +492,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
         scrollRemainder = 0.0f;
         onScroll(e1, e2, /* 2 * */ velocityX, -/*2 * */ velocityY);
         return true;
@@ -531,7 +536,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     //pascal
     public void setTextColor(int textColor) {
         Log.d(TAG, "setTextColor: ");
-        this.foreColor = textColor;
+        this.foregroundColor = textColor;
         invalidate();
 
     }
@@ -598,7 +603,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     //pascal
     public int getXCursorPixel() {
-        return leftVisible + xCursorConsole * CharWidth;
+        return leftVisible + xCursorConsole * charWidth;
     }
 
     //pascal

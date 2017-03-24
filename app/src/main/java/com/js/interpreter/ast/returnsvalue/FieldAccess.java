@@ -49,7 +49,7 @@ public class FieldAccess extends DebuggableReturnsValue {
         Object value = container.compileTimeValue(context);
         if (value != null) {
             try {
-                return ((ContainsVariables) value).get_var(name);
+                return ((ContainsVariables) value).getLocalVariable(name);
             } catch (RuntimePascalException e) {
                 throw new ConstantCalculationException(e);
             }
@@ -68,7 +68,7 @@ public class FieldAccess extends DebuggableReturnsValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         Object value = container.getValue(f, main);
-        return ((ContainsVariables) value).get_var(name);
+        return ((ContainsVariables) value).getLocalVariable(name);
     }
 
     @Override

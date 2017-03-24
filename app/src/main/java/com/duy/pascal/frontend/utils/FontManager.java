@@ -13,6 +13,7 @@ import com.duy.pascal.frontend.data.Preferences;
 
 public class FontManager {
     private static final String PATH_TO_FONT = "fonts/";
+    public static Typeface CONSOLE_FONT = null;
     private static Typeface font;
 
     /**
@@ -26,6 +27,13 @@ public class FontManager {
             String fontName = preferences.getString(context.getString(R.string.key_pref_font));
             return getFontFromAsset(fontName, context);
         }
+    }
+
+    public static Typeface getFontConsole(Context context) {
+        if (CONSOLE_FONT == null) {
+            CONSOLE_FONT = getFontFromAsset("Consolas.ttf", context);
+        }
+        return CONSOLE_FONT;
     }
 
     public static Typeface getFontFromAsset(String name, Context context) {

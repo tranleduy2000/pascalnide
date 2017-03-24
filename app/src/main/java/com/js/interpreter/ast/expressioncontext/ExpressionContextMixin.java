@@ -45,7 +45,7 @@ import java.util.Map;
 public abstract class ExpressionContextMixin extends
         HeirarchicalExpressionContext {
     private final ListMultimap<String, AbstractFunction> callableFunctions;
-    public List<VariableDeclaration> variables = new ArrayList<VariableDeclaration>();
+    public List<VariableDeclaration> variables = new ArrayList<>();
     private Map<String, ConstantDefinition> constants = new HashMap<>();
     private Map<String, DeclaredType> typedefs = new HashMap<>();
     private ArrayList<String> libraries = new ArrayList<>();
@@ -94,7 +94,7 @@ public abstract class ExpressionContextMixin extends
     public ReturnsValue getIdentifierValue(WordToken name)
             throws ParsingException {
         if (functionExistsLocal(name.name)) {
-            return FunctionCall.generate_function_call(name,
+            return FunctionCall.generateFunctionCall(name,
                     new ArrayList<ReturnsValue>(0), this);
         } else if (getConstantDefinitionLocal(name.name) != null) {
             return new ConstantAccess(getConstantDefinition(name.name)

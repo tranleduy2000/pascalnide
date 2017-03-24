@@ -25,8 +25,8 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         }
     }
 
-    public abstract Object getValueImpl(VariableContext f,
-                                        RuntimeExecutable<?> main) throws RuntimePascalException;
+    public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException;
 
     @Override
     public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)

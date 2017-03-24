@@ -22,8 +22,8 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
 
     ReturnsValue[] arguments;
 
-    public static ReturnsValue generate_function_call(WordToken name,
-                                                      List<ReturnsValue> arguments, ExpressionContext f)
+    public static ReturnsValue generateFunctionCall(WordToken name,
+                                                    List<ReturnsValue> arguments, ExpressionContext f)
             throws ParsingException {
         List<List<AbstractFunction>> possibilities = new ArrayList<List<AbstractFunction>>();
         f.getCallableFunctions(name.name.toLowerCase(), possibilities);

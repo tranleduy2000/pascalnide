@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.R;
@@ -18,8 +20,8 @@ import butterknife.ButterKnife;
 
 
 public abstract class AbstractConsoleActivity extends AbstractAppCompatActivity {
-    public final int[] fontSize = {12, 16, 20, 24};
-    public int fontSizeNb = 1;
+    private final int[] fontSize = {11, 16, 20, 24};
+    public int fontSizeNb = 0;
     @BindView(R.id.console)
     public ConsoleView mConsoleView;
     @BindView(R.id.toolbar)
@@ -28,6 +30,11 @@ public abstract class AbstractConsoleActivity extends AbstractAppCompatActivity 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_console);
         ButterKnife.bind(this);
         setupActionBar();
@@ -40,7 +47,7 @@ public abstract class AbstractConsoleActivity extends AbstractAppCompatActivity 
         mConsoleView.setFocusableInTouchMode(true);
         mConsoleView.requestFocus();
         mConsoleView.updateSize();
-
+        mConsoleView.showPrompt();
     }
 
     private void setupActionBar() {

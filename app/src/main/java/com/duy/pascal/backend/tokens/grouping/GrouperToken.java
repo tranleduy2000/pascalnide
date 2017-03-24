@@ -300,7 +300,7 @@ public abstract class GrouperToken extends Token {
             if (next instanceof ParenthesizedToken) {
                 List<ReturnsValue> arguments = ((ParenthesizedToken) take())
                         .get_arguments_for_call(context);
-                return FunctionCall.generate_function_call(name, arguments,
+                return FunctionCall.generateFunctionCall(name, arguments,
                         context);
             } else {
                 return context.getIdentifierValue(name);
