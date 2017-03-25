@@ -50,6 +50,7 @@ import com.duy.pascal.backend.tokens.value.IntegerToken;
 import com.duy.pascal.backend.tokens.value.StringToken;
 import com.js.interpreter.core.ScriptSource;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
+import com.duy.pascal.backend.tokens.basic.BreakToken;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;
@@ -239,6 +240,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"begin" {return new BeginEndToken(getLine());}
 	"record" {return new RecordToken(getLine());}
 	"case" {return new CaseToken(getLine());}
+	"break" {return new BreakToken(getLine());}
+	"exit" {return new ExitToken(getLine());}
 	"(" {return new ParenthesizedToken(getLine());}
 	"[" {return new BracketedToken(getLine());}
 	"end" {return new EndToken(getLine());}

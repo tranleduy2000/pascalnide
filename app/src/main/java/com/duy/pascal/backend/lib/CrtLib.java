@@ -21,7 +21,6 @@ public class CrtLib implements PascalLibrary {
      * @param activity
      */
     public CrtLib(ExecuteActivity activity) {
-        System.out.println("CrtLib activity");
         this.activity = activity;
     }
 

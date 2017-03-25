@@ -19,7 +19,6 @@ public class SystemLib implements PascalLibrary {
     private ExecuteActivity activity;
 
     public SystemLib(ExecuteActivity activity) {
-        System.out.println(this);
         this.activity = activity;
     }
 
@@ -29,8 +28,12 @@ public class SystemLib implements PascalLibrary {
     }
 
 
+    /**
+     * key pressed method
+     *
+     * @return
+     */
     public boolean keyPressed() {
-        System.out.println("Key pressed method");
         if (activity != null) {
             return activity.getConsoleView().keyPressed();
         }
@@ -49,5 +52,9 @@ public class SystemLib implements PascalLibrary {
 //            System.err.println("??? Interrupted.");
             e.printStackTrace();
         }
+    }
+
+    public int Byte(boolean b) {
+        return b ? 1 : 0;
     }
 }

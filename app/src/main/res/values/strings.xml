@@ -72,7 +72,6 @@
 
     <string name="pref_ringtone_silent" translatable="false">Silent</string>
 
-    <string name="key_pref_hide_status_bar" translatable="false">key_pref_hide_status_bar</string>
     <string name="hide_status_bar">Hide status bar</string>
     <string name="hide_status_bar_desc">Hide the status bar in every screen of the app</string>
     <string name="show_hint">Hint popup</string>
@@ -111,8 +110,9 @@
     <string name="closed">Closed</string>
     <string name="complete">Complete</string>
     <string name="view_console">View console</string>
-    <string name="title_activity_test2">TestActivity2</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="resume_program">Resume program</string>
+    <string name="help_me_translate">Help me translate app</string>
+    <string name="name">Your name</string>
+    <string name="send_to_me">Send to dev</string>
 </resources>
 

@@ -3,17 +3,16 @@ package com.duy.pascal.frontend.activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.duy.pascal.frontend.code.CodeManager;
-import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.adapters.CodeViewAdapter;
+import com.duy.pascal.frontend.code.CodeManager;
+import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 
 import java.io.BufferedReader;
@@ -23,7 +22,7 @@ import java.io.InputStreamReader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CodeSampleActivity extends AppCompatActivity implements CodeViewAdapter.OnCodeClickListener {
+public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeViewAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
     @BindView(R.id.recycler_view)
@@ -41,7 +40,6 @@ public class CodeSampleActivity extends AppCompatActivity implements CodeViewAda
         setTitle(R.string.title_activity_code_sample);
         fileManager = new ApplicationFileManager(this);
         setSupportActionBar(toolbar);
-        toolbar.setLogo(R.drawable.ic_code_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         adapter = new CodeViewAdapter(this);

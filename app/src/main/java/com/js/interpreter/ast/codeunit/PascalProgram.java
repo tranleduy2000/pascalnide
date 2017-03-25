@@ -65,7 +65,7 @@ public class PascalProgram extends ExecutableCodeUnit {
             if (main != null) {
                 throw new MultipleDefinitionsMainException(i.peek().lineInfo, "Multiple definitions of main.");
             }
-            main = i.get_next_command(this);
+            main = i.getNextCommand(this);
             if (!(i.peek() instanceof PeriodToken)) {
                 throw new ExpectedTokenException(".", i.peek());
             }

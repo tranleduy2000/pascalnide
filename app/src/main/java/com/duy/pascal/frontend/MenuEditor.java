@@ -1,10 +1,16 @@
 package com.duy.pascal.frontend;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.duy.pascal.frontend.activities.CodeSampleActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
@@ -106,8 +112,40 @@ public class MenuEditor {
             case R.id.action_more_feature:
                 activity.openDrawer(GravityCompat.END);
                 break;
+            case R.id.action_translate:
+                showPopupTranslate(activity);
+                break;
         }
         return true;
+    }
+
+    public void showPopupTranslate(final Activity activity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(R.string.help_me_translate).setView(R.layout.help_translate_dialog).setIcon(R.drawable.ic_bug_report_white_24dp);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        final EditText editTitle = (EditText) alertDialog.findViewById(R.id.edit_title);
+        final EditText editContent = (EditText) alertDialog.findViewById(R.id.edit_content);
+        final Button btnSend = (Button) alertDialog.findViewById(R.id.btn_email);
+        assert btnSend != null;
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"tranleduy1233@gmail.com"});
+                String content = editTitle.getText().toString() + "\n"
+                        + editContent.getText().toString();
+                i.putExtra(Intent.EXTRA_TEXT, content);
+                try {
+                    activity.startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (ActivityNotFoundException ex) {
+                    Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+                alertDialog.cancel();
+            }
+        });
+
     }
 
     public EditorControl getListener() {

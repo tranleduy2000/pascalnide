@@ -29,10 +29,10 @@ public interface ExpressionContext extends CompileTimeContext {
 
     public CodeUnit root();
 
-    public abstract Executable handleUnrecognizedStatement(Token next,
-                                                           GrouperToken container) throws ParsingException;
+    Executable handleUnrecognizedStatement(Token next, GrouperToken container)
+            throws ParsingException;
 
-    public abstract boolean handleUnrecognizedDeclaration(Token next,
-                                                          GrouperToken container) throws ParsingException;
+    boolean handleUnrecognizedDeclaration(Token next, GrouperToken container)
+            throws ParsingException;
 
 }

@@ -28,11 +28,13 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ArrayToken;
 import com.duy.pascal.backend.tokens.basic.AssignmentToken;
+import com.duy.pascal.backend.tokens.basic.BreakToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.basic.DowntoToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
+import com.duy.pascal.backend.tokens.basic.ExitToken;
 import com.duy.pascal.backend.tokens.basic.ForToken;
 import com.duy.pascal.backend.tokens.basic.IfToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
@@ -46,9 +48,11 @@ import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+import com.js.interpreter.ast.instructions.BreakInstruction;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
 import com.js.interpreter.ast.instructions.NopInstruction;
+import com.js.interpreter.ast.instructions.ReturnInstruction;
 import com.js.interpreter.ast.instructions.case_statement.CaseInstruction;
 import com.js.interpreter.ast.instructions.conditional.DowntoForStatement;
 import com.js.interpreter.ast.instructions.conditional.ForStatement;
@@ -289,7 +293,7 @@ public abstract class GrouperToken extends Token {
     public ReturnsValue getNextTerm(ExpressionContext context, Token next)
             throws ParsingException {
         if (next instanceof ParenthesizedToken) {
-            return ((ParenthesizedToken) next).get_single_value(context);
+            return ((ParenthesizedToken) next).getSingleValue(context);
         } else if (next instanceof ValueToken) {
             return new ConstantAccess(((ValueToken) next).getValue(),
                     next.lineInfo);
@@ -385,7 +389,7 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public ReturnsValue get_single_value(ExpressionContext context)
+    public ReturnsValue getSingleValue(ExpressionContext context)
             throws ParsingException {
         ReturnsValue result = getNextExpression(context);
         if (hasNext()) {
@@ -395,69 +399,66 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public Executable get_next_command(ExpressionContext context) throws ParsingException {
+    public Executable getNextCommand(ExpressionContext context) throws ParsingException {
         Token next = take();
         LineInfo initialline = next.lineInfo;
         if (next instanceof IfToken) {
             ReturnsValue condition = getNextExpression(context);
             next = take();
             assert (next instanceof ThenToken);
-            Executable command = get_next_command(context);
+            Executable command = getNextCommand(context);
             Executable else_command = null;
             next = peek();
             if (next instanceof ElseToken) {
                 take();
-                else_command = get_next_command(context);
+                else_command = getNextCommand(context);
             }
-            return new IfStatement(condition, command, else_command,
-                    initialline);
+            return new IfStatement(condition, command, else_command, initialline);
         } else if (next instanceof WhileToken) {
             ReturnsValue condition = getNextExpression(context);
             next = take();
             assert (next instanceof DoToken);
-            Executable command = get_next_command(context);
+            Executable command = getNextCommand(context);
             return new WhileStatement(condition, command, initialline);
         } else if (next instanceof BeginEndToken) {
-            InstructionGrouper begin_end_preprocessed = new InstructionGrouper(
-                    initialline);
-            BeginEndToken cast_token = (BeginEndToken) next;
-
-            while (cast_token.hasNext()) {
-                begin_end_preprocessed.add_command(cast_token.get_next_command(context));
-                if (cast_token.hasNext()) {
-                    cast_token.assertNextSemicolon();
+            InstructionGrouper beginEndPreprocessed = new InstructionGrouper(initialline);
+            BeginEndToken castToken = (BeginEndToken) next;
+            while (castToken.hasNext()) {
+                beginEndPreprocessed.addCommand(castToken.getNextCommand(context));
+                if (castToken.hasNext()) {
+                    castToken.assertNextSemicolon();
                 }
             }
-            return begin_end_preprocessed;
+            return beginEndPreprocessed;
         } else if (next instanceof ForToken) {
-            ReturnsValue tmp_var = getNextExpression(context);
-            next = take();
+            //for i := 1 to n do writeln(i);
+            ReturnsValue tmpVar = getNextExpression(context);              //i
+            next = take();                                                  // :=
             assert (next instanceof AssignmentToken);
-            ReturnsValue first_value = getNextExpression(context);
-            next = take();
+            ReturnsValue firstValue = getNextExpression(context);          //1
+            next = take();                                                  //to | downto
             boolean downto = false;
             if (next instanceof DowntoToken) {
                 downto = true;
             } else if (!(next instanceof ToToken)) {
                 throw new ExpectedTokenException("[To] or [Downto]", next);
             }
-            ReturnsValue last_value = getNextExpression(context);
+            ReturnsValue lastValue = getNextExpression(context);
             next = take();
             assert (next instanceof DoToken);
             Executable result;
             if (downto) { // TODO probably should merge these two types
-                result = new DowntoForStatement(context, tmp_var, first_value,
-                        last_value, get_next_command(context), initialline);
+                result = new DowntoForStatement(context, tmpVar, firstValue,
+                        lastValue, getNextCommand(context), initialline);
             } else {
-                result = new ForStatement(context, tmp_var, first_value,
-                        last_value, get_next_command(context), initialline);
+                result = new ForStatement(context, tmpVar, firstValue,
+                        lastValue, getNextCommand(context), initialline);
             }
             return result;
         } else if (next instanceof RepeatToken) {
             InstructionGrouper command = new InstructionGrouper(initialline);
-
             while (!(peek_no_EOF() instanceof UntilToken)) {
-                command.add_command(get_next_command(context));
+                command.addCommand(getNextCommand(context));
                 if (!(peek_no_EOF() instanceof UntilToken)) {
                     assertNextSemicolon();
                 }
@@ -472,8 +473,13 @@ public abstract class GrouperToken extends Token {
             return new CaseInstruction((CaseToken) next, context);
         } else if (next instanceof SemicolonToken) {
             return new NopInstruction(next.lineInfo);
+        } else if (next instanceof BreakToken) {
+            return new BreakInstruction(next.lineInfo);
+        } else if (next instanceof ExitToken) {
+            return new ReturnInstruction(next.lineInfo);
         } else if (next instanceof CommentToken) {
-            return get_next_command(context);
+            //ignore comment
+            return getNextCommand(context);
         } else {
             try {
                 return context.handleUnrecognizedStatement(next, this);

@@ -20,8 +20,8 @@ public class BreakInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
+    public ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
         return ExecutionResult.BREAK;
     }
 

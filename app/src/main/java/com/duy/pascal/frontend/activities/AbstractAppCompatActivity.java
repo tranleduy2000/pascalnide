@@ -14,8 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -55,15 +53,9 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPreferences = new Preferences(this);
-
-        if (mPreferences.useFullScreen()) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
+        setFullScreen();
         setLocale(false);
         setTheme(false);
-
     }
 
     /**
@@ -99,8 +91,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         super.onStart();
         if (mPreferences != null)
             mPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-
-
     }
 
     @Override
@@ -141,6 +131,19 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
 //            //reload type face
 //            FontManager.loadTypefaceFromAsset(this);
 //            recreate();
+//        }
+        if (s.equalsIgnoreCase("uses_full_screen")) {
+            setFullScreen();
+        }
+    }
+
+    private void setFullScreen() {
+//        if (mPreferences.useFullScreen()) {
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        } else {
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 //        }
     }
 

@@ -23,7 +23,6 @@ public class IOLib implements PascalLibrary {
      * @param activity
      */
     public IOLib(ExecuteActivity activity) {
-        System.out.println("IOLib activity");
         this.activity = activity;
         if (!PascalCompiler.android) {
             this.stdout = System.out;

@@ -75,7 +75,7 @@ public class CaseInstruction extends DebuggableExecutable {
                             i.take());
                 }
             }
-            Executable command = i.get_next_command(context);
+            Executable command = i.getNextCommand(context);
             i.assertNextSemicolon();
             possibilities.add(new CasePossibility(conditions
                     .toArray(new CaseCondition[conditions.size()]), command));
@@ -84,7 +84,7 @@ public class CaseInstruction extends DebuggableExecutable {
         if (i.peek() instanceof ElseToken) {
             i.take();
             while (i.hasNext()) {
-                otherwise.add_command(i.get_next_command(context));
+                otherwise.addCommand(i.getNextCommand(context));
                 i.assertNextSemicolon();
             }
         }

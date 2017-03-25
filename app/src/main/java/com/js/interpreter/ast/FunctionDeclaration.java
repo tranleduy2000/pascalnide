@@ -245,7 +245,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             bodyDeclared = true;
-            instructions = i.get_next_command(declarations);
+            instructions = i.getNextCommand(declarations);
             i.assertNextSemicolon();
         }
     }

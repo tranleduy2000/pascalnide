@@ -67,7 +67,6 @@
             android:defaultValue="@string/lang_default"
             android:entries="@array/language_entry"
             android:entryValues="@array/language_code"
-
             android:key="@string/key_pref_lang"
             android:title="@string/language" />
 

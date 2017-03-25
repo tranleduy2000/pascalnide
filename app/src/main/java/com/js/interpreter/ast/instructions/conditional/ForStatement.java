@@ -35,9 +35,7 @@ public class ForStatement extends DebuggableExecutable {
                 .createSetValueInstruction(BinaryOperatorEvaluation.generateOp(
                         f, temp_var, new ConstantAccess(1, this.line),
                         OperatorTypes.PLUS, this.line));
-
         this.command = command;
-
     }
 
     @Override
@@ -45,13 +43,13 @@ public class ForStatement extends DebuggableExecutable {
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         setfirst.execute(f, main);
         while_loop:
-
         while ((Boolean) lessthanlast.getValue(f, main)) {
             DebugManager.outputConditionFor(main.getDebugListener(), true);
             switch (command.execute(f, main)) {
                 case RETURN:
                     return ExecutionResult.RETURN;
                 case BREAK:
+                    System.out.println("break for");
                     break while_loop;
             }
             increment_temp.execute(f, main);
