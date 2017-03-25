@@ -259,9 +259,6 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     protected void onStop() {
         super.onStop();
-        Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
-        //stop in put thread
-        isCanRead.set(false);
         //stop program
         stopProgram();
     }
@@ -353,12 +350,11 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_next_line) {
             try {
-//                program.resume();
             } catch (Exception e) {
             }
         } else if (item.getItemId() == R.id.action_rerun) {
-            stopProgram();
-            doRun(filePath);
+            CompileManager.execute(this, filePath);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -368,8 +364,13 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      */
     private void stopProgram() {
         try {
+            //stop in put thread
+            isCanRead.set(false);
+            while (isCanRead.get()) {
+            }
             if (program.isRunning()) {
                 program.terminate();
+                Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception ignored) {
             Log.d(TAG, "onStop: Program is stopped");

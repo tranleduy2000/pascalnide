@@ -31,6 +31,12 @@ public class CompileManager {
         this.mActivity = activity;
     }
 
+    public static void execute(Activity activity, String name) {
+        Intent intent = new Intent(activity, ExecuteActivity.class);
+        intent.putExtra(FILE_PATH, name);
+        activity.startActivity(intent);
+    }
+
     // Execute compiled file
     public void execute(String name) {
         Intent intent = new Intent(mActivity, ExecuteActivity.class);

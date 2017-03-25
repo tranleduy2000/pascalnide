@@ -17,8 +17,8 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.Preferences;
-import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.SymbolListView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
@@ -80,24 +80,26 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         final TabLayout.Tab tab = tabLayout.newTab().setText(file.getName());
         tab.setCustomView(R.layout.item_tab_file);
         View root = tab.getCustomView();
-        View vClose = tab.getCustomView().findViewById(R.id.img_close);
-        vClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeTab(tab);
-            }
-        });
-        TextView txtTitle = (TextView) root.findViewById(R.id.txt_title);
-        txtTitle.setText(file.getName());
-        txtTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!tab.isSelected()) {
-                    tab.select();
-                    doSelectTab(tab, true);
+        if (root != null) {
+            View vClose = root.findViewById(R.id.img_close);
+            vClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeTab(tab);
                 }
-            }
-        });
+            });
+            TextView txtTitle = (TextView) root.findViewById(R.id.txt_title);
+            txtTitle.setText(file.getName());
+            txtTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!tab.isSelected()) {
+                        tab.select();
+                        doSelectTab(tab, true);
+                    }
+                }
+            });
+        }
         return tab;
     }
 

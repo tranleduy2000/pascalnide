@@ -59,7 +59,6 @@
             android:name=".activities.ExecuteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_code_white_24dp"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="stateVisible|stateAlwaysVisible" />
         <activity
             android:name=".activities.DocumentActivity"
