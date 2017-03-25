@@ -32,7 +32,6 @@ public abstract class DebuggableExecutable implements Executable {
                 } catch (Exception ignored) {
                 }
             }
-
             return executeImpl(f, main);
         } catch (RuntimePascalException e) {
             throw e;

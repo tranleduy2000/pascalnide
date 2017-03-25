@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 
 import com.duy.pascal.frontend.data.Preferences;
 
@@ -295,7 +294,7 @@ public class ApplicationFileManager {
     public String createNewFileInMode(String fileName) {
         String name = getCurrentPath() + fileName;
         File file = new File(name);
-        Log.i(TAG, "createNewFileInMode: " + name);
+//        Log.i(TAG, "createNewFileInMode: " + name);
         try {
             if (!file.exists()) {
                 new File(file.getParent()).mkdirs();
@@ -303,7 +302,7 @@ public class ApplicationFileManager {
             }
             return file.getPath();
         } catch (IOException e) {
-            Log.e("", "Could not create file.", e);
+//            Log.e("", "Could not create file.", e);
             return "";
         }
     }
@@ -317,7 +316,7 @@ public class ApplicationFileManager {
     public String createNewFile(String path) {
 //        if (!name.endsWith(".pas")) name += ".pas";
         File file = new File(path);
-        Log.i(TAG, "createNewFileInMode: " + path);
+//        Log.i(TAG, "createNewFileInMode: " + path);
         try {
             if (!file.exists()) {
                 new File(file.getParent()).mkdirs();
@@ -325,7 +324,7 @@ public class ApplicationFileManager {
             }
             return path;
         } catch (IOException e) {
-            Log.e("", "Could not create file.", e);
+//            Log.e("", "Could not create file.", e);
             return "";
         }
     }
@@ -345,8 +344,8 @@ public class ApplicationFileManager {
      */
     public String setContentFileTemp(String content) {
         String name = getCurrentPath(SAVE_MODE.INTERNAL) + FILE_TEMP_NAME;
-        Log.d(TAG, "setContentFileTemp: " + name);
-        Log.d(TAG, "setContentFileTemp: " + content);
+//        Log.d(TAG, "setContentFileTemp: " + name);
+//        Log.d(TAG, "setContentFileTemp: " + content);
         File file = new File(name);
         FileOutputStream outputStream;
         try {
@@ -369,7 +368,7 @@ public class ApplicationFileManager {
      */
     public File getTempFile() {
         String name = getCurrentPath(SAVE_MODE.INTERNAL) + File.separatorChar + FILE_TEMP_NAME;
-        Log.d(TAG, "getTempFile: " + name);
+//        Log.d(TAG, "getTempFile: " + name);
         File file = new File(name);
         if (!file.exists()) {
             createNewFileInMode(name);

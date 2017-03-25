@@ -483,23 +483,22 @@ public abstract class GrouperToken extends Token {
         } else {
             try {
                 return context.handleUnrecognizedStatement(next, this);
-            } catch (ParsingException ignored) {
-            }
+            } catch (ParsingException ignored) {}
             ReturnsValue r = getNextExpression(context, next);
             next = peek();
             if (next instanceof AssignmentToken) {
                 take();
-                ReturnsValue value_to_assign = getNextExpression(context);
-                DeclaredType output_type = r.getType(context).declType;
-                DeclaredType input_type = value_to_assign.getType(context).declType;
+                ReturnsValue valueToAssign = getNextExpression(context);
+                DeclaredType outputType = r.getType(context).declType;
+                DeclaredType inputType = valueToAssign.getType(context).declType;
                 /*
                  * Does not have to be writable to assign value to variable.
 				 */
-                ReturnsValue converted = output_type.convert(value_to_assign, context);
+                ReturnsValue converted = outputType.convert(valueToAssign, context);
                 if (converted == null) {
-                    throw new UnconvertibleTypeException(value_to_assign, input_type, output_type, true);
+                    throw new UnconvertibleTypeException(valueToAssign, inputType, outputType, true);
                 }
-                return r.createSetValueInstruction(output_type.cloneValue(converted));
+                return r.createSetValueInstruction(outputType.cloneValue(converted));
             } else if (r instanceof Executable) {
                 return (Executable) r;
             } else {

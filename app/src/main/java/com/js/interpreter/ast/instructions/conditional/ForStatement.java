@@ -17,6 +17,9 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
+import static com.js.interpreter.ast.instructions.ExecutionResult.NONE;
+import static com.js.interpreter.ast.instructions.ExecutionResult.RETURN;
+
 public class ForStatement extends DebuggableExecutable {
     SetValueExecutable setfirst;
     ReturnsValue lessthanlast;
@@ -39,23 +42,24 @@ public class ForStatement extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
+    public ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
         setfirst.execute(f, main);
         while_loop:
         while ((Boolean) lessthanlast.getValue(f, main)) {
             DebugManager.outputConditionFor(main.getDebugListener(), true);
-            switch (command.execute(f, main)) {
-                case RETURN:
-                    return ExecutionResult.RETURN;
+            ExecutionResult result = command.execute(f, main);
+            System.out.println(result);
+            switch (result) {
                 case BREAK:
-                    System.out.println("break for");
                     break while_loop;
+                case RETURN:
+                    return RETURN;
             }
             increment_temp.execute(f, main);
         }
         DebugManager.outputConditionFor(main.getDebugListener(), true);
-        return ExecutionResult.NONE;
+        return NONE;
     }
 
     @Override
