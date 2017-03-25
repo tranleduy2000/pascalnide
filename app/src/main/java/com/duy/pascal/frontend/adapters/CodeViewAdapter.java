@@ -13,6 +13,9 @@ import com.duy.pascal.frontend.view.code_view.CodeView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CodeViewAdapter extends RecyclerView.Adapter<CodeViewAdapter.CodeHolder> {
     private ArrayList<String> listCodes = new ArrayList<>();
     private OnCodeClickListener listener;
@@ -91,15 +94,19 @@ public class CodeViewAdapter extends RecyclerView.Adapter<CodeViewAdapter.CodeHo
     }
 
     class CodeHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.code_view)
         CodeView highlightEditor;
-        View btnPlay, btnEdit, btnCopy;
+        @BindView(R.id.img_play)
+        View btnPlay;
+        @BindView(R.id.img_edit)
+        View btnEdit;
+        @BindView(R.id.img_copy)
+        View btnCopy;
 
         CodeHolder(View itemView) {
             super(itemView);
-            highlightEditor = (CodeView) itemView.findViewById(R.id.code_view);
-            btnPlay = itemView.findViewById(R.id.img_play);
-            btnEdit = itemView.findViewById(R.id.img_edit);
-            btnCopy = itemView.findViewById(R.id.img_copy);
+            ButterKnife.bind(this, itemView);
+            highlightEditor.setCanEdit(false);
         }
     }
 }

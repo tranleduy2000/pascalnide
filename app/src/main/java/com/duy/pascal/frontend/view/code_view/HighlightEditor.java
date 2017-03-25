@@ -100,6 +100,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     private long mOldTextCrc32 = 0;
     private int scrollX = 0, scrollY = 0;
     private EditorPreferences mPreferences;
+    private boolean canEdit = true;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -117,6 +118,14 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         super(context, attrs, defStyleAttr);
         setup(context);
         init();
+    }
+
+    public boolean isCanEdit() {
+        return canEdit;
+    }
+
+    public void setCanEdit(boolean canEdit) {
+        this.canEdit = canEdit;
     }
 
     public boolean isFlingToScroll() {
@@ -261,7 +270,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     @Override
 
     public boolean onSingleTapUp(MotionEvent e) {
-        if (isEnabled()) {
+        if (canEdit) {
             ((InputMethodManager) getContext().getSystemService(
                     Context.INPUT_METHOD_SERVICE)).showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
         }
@@ -335,11 +344,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         return ArrowKeyMovementMethod.getInstance();
     }
 
-    @Override
-    public Editable getText() {
-        return super.getText();
-    }
-
 //    public void setSelection(int start, int stop) {
 //        try {
 //            Selection.setSelection(getText(), start, stop);
@@ -363,13 +367,18 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 //    }
 
     @Override
-    public void setText(CharSequence text, BufferType type) {
-        super.setText(text, BufferType.EDITABLE);
+    public Editable getText() {
+        return super.getText();
     }
 
 //    public void extendSelection(int index) {
 //        Selection.extendSelection(getText(), index);
 //    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, BufferType.EDITABLE);
+    }
 
     public void setTextHighlighted(CharSequence text) {
         cancelUpdate();

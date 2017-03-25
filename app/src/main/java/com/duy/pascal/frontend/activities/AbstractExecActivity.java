@@ -8,8 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.R;
@@ -20,7 +18,7 @@ import butterknife.ButterKnife;
 
 
 public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
-    private final int[] fontSize = {11, 16, 20, 24};
+    private final int[] fontSize = {12, 16, 20, 24};
     public int fontSizeNb = 0;
     @BindView(R.id.console)
     public ConsoleView mConsoleView;

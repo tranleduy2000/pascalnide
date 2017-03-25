@@ -4,7 +4,7 @@ var
 begin
     writeln('Enter small number: ');
     readln(n);
-    for i := n downto 1 do writeln(i);
+    for i := n downto 1 do writeln('i = ', i);
     readln;
 end.
 
