@@ -49,7 +49,6 @@ public class ForStatement extends DebuggableExecutable {
         while ((Boolean) lessthanlast.getValue(f, main)) {
             DebugManager.outputConditionFor(main.getDebugListener(), true);
             ExecutionResult result = command.execute(f, main);
-            System.out.println(result);
             switch (result) {
                 case EXIT:
                     return ExecutionResult.EXIT;

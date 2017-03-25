@@ -88,4 +88,9 @@
     <string name="closed">Đã đóng</string>
     <string name="complete">Hoàn thành</string>
     <string name="view_console">Xem console</string>
+    <string name="help_me_translate">Help me translate app</string>
+    <string name="name">Tên của bạn</string>
+    <string name="rerun">Chạy lại chương trình</string>
+    <string name="resume_program">Tiếp tục chương trình</string>
+    <string name="send_to_me">Gửi  đến nhà phát triển</string>
 </resources>

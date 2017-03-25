@@ -5,7 +5,6 @@ begin
     WriteLn('After exit');
     exit;
     WriteLn('Before exit');
-    {This line never execute}
 end;
 
 begin
