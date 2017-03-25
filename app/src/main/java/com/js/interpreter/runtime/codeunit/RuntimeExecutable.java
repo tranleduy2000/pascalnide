@@ -122,6 +122,15 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
         this.debugListener = debugListener;
     }
 
+    /**
+     * asdas das das
+     *
+     * @return
+     */
+    public boolean isRunning() {
+        return runmode == controlMode.running;
+    }
+
     public enum controlMode {
         running, paused, terminated, debug
     }

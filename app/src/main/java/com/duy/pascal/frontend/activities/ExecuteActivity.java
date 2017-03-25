@@ -263,11 +263,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         //stop in put thread
         isCanRead.set(false);
         //stop program
-        try {
-            program.terminate();
-        } catch (Exception ignored) {
-            Log.d(TAG, "onStop: Program is stopped");
-        }
+        stopProgram();
     }
 
     public String getInput() {
@@ -360,8 +356,24 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 //                program.resume();
             } catch (Exception e) {
             }
+        } else if (item.getItemId() == R.id.action_rerun) {
+            stopProgram();
+            doRun(filePath);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * force stop
+     */
+    private void stopProgram() {
+        try {
+            if (program.isRunning()) {
+                program.terminate();
+            }
+        } catch (Exception ignored) {
+            Log.d(TAG, "onStop: Program is stopped");
+        }
     }
 
 }
