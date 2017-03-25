@@ -24,7 +24,7 @@ public class ReturnInstruction extends DebuggableExecutable {
     public ExecutionResult executeImpl(VariableContext f,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         System.out.println(this.getClass().getSimpleName());
-        return ExecutionResult.RETURN;
+        return ExecutionResult.EXIT;
     }
 
     @Override

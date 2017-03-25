@@ -17,7 +17,7 @@ public class InstructionGrouper extends DebuggableExecutable {
 
     public InstructionGrouper(LineInfo line) {
         this.line = line;
-        instructions = new LinkedList<Executable>();
+        instructions = new LinkedList<>();
     }
 
     @Override
@@ -36,9 +36,12 @@ public class InstructionGrouper extends DebuggableExecutable {
         for (Executable e : instructions) {
             switch (e.execute(f, main)) {
                 case BREAK:
-                    break forloop;
-                case RETURN:
-                    return ExecutionResult.RETURN;
+//                    break forloop;
+                    return ExecutionResult.BREAK;
+                case EXIT:
+                    return ExecutionResult.EXIT;
+                case CONTINUE:
+                    return ExecutionResult.CONTINUE;
             }
         }
         return ExecutionResult.NONE;

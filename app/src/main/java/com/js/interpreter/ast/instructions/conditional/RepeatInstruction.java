@@ -38,8 +38,8 @@ public class RepeatInstruction extends DebuggableExecutable {
             switch (command.execute(f, main)) {
                 case BREAK:
                     break do_loop;
-                case RETURN:
-                    return ExecutionResult.RETURN;
+                case EXIT:
+                    return ExecutionResult.EXIT;
             }
         } while (!((Boolean) condition.getValue(f, main)));
         return ExecutionResult.NONE;

@@ -22,7 +22,7 @@ public class BreakInstruction extends DebuggableExecutable {
     @Override
     public ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        System.out.println(this.getClass().getSimpleName());
+        System.out.println(this.getClass().getSimpleName() + " " + f.getClass().getSimpleName());
         return ExecutionResult.BREAK;
     }
 

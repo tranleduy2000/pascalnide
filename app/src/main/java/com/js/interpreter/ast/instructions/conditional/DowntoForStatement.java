@@ -56,8 +56,8 @@ public class DowntoForStatement extends DebuggableExecutable {
         while_loop:
         while ((Boolean) lessthanlast.getValue(f, main)) {
             switch (command.execute(f, main)) {
-                case RETURN:
-                    return ExecutionResult.RETURN;
+                case EXIT:
+                    return ExecutionResult.EXIT;
                 case BREAK:
                     break while_loop;
             }

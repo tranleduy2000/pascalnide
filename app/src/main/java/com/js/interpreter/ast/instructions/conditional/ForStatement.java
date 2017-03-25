@@ -18,7 +18,7 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import static com.js.interpreter.ast.instructions.ExecutionResult.NONE;
-import static com.js.interpreter.ast.instructions.ExecutionResult.RETURN;
+
 
 public class ForStatement extends DebuggableExecutable {
     SetValueExecutable setfirst;
@@ -51,10 +51,10 @@ public class ForStatement extends DebuggableExecutable {
             ExecutionResult result = command.execute(f, main);
             System.out.println(result);
             switch (result) {
+                case EXIT:
+                    return ExecutionResult.EXIT;
                 case BREAK:
                     break while_loop;
-                case RETURN:
-                    return RETURN;
             }
             increment_temp.execute(f, main);
         }

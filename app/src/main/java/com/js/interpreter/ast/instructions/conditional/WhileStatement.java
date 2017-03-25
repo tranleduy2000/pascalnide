@@ -36,8 +36,8 @@ public class WhileStatement extends DebuggableExecutable {
             switch (command.execute(f, main)) {
                 case BREAK:
                     break while_loop;
-                case RETURN:
-                    return ExecutionResult.RETURN;
+                case EXIT:
+                    return ExecutionResult.EXIT;
             }
         }
         DebugManager.outputConditionWhile(main.getDebugListener(), false);
