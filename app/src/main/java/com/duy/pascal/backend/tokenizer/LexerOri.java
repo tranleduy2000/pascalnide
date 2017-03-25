@@ -946,7 +946,8 @@ public class LexerOri {
                 case 87:
                     break;
                 case 2: {
-                    return new GroupingExceptionToken(new StrayCharacterException(getLine(), yytext().charAt(0)));
+                    return new GroupingExceptionToken(
+                            new StrayCharacterException(getLine(), yytext().charAt(0)));
                 }
                 case 88:
                     break;

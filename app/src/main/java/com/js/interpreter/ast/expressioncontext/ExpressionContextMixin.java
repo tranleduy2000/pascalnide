@@ -1,5 +1,7 @@
 package com.js.interpreter.ast.expressioncontext;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
@@ -44,6 +46,7 @@ import java.util.Map;
 
 public abstract class ExpressionContextMixin extends
         HeirarchicalExpressionContext {
+    public static final String TAG = ExpressionContextMixin.class.getSimpleName();
     private final ListMultimap<String, AbstractFunction> callableFunctions;
     public List<VariableDeclaration> variables = new ArrayList<>();
     private Map<String, ConstantDefinition> constants = new HashMap<>();
@@ -125,11 +128,11 @@ public abstract class ExpressionContextMixin extends
 
     public void addNextDeclaration(GrouperToken i) throws ParsingException {
         Token next = i.peek();
+        Log.d(TAG, "addNextDeclaration: " + next.getClass().getSimpleName() + " \n" + next.toString());
         if (next instanceof ProcedureToken || next instanceof FunctionToken) {
             i.take();
             boolean is_procedure = next instanceof ProcedureToken;
-            FunctionDeclaration declaration = new FunctionDeclaration(this, i,
-                    is_procedure);
+            FunctionDeclaration declaration = new FunctionDeclaration(this, i, is_procedure);
             declaration = getExistingFunction(declaration);
             declaration.parseFunctionBody(i);
         } else if (next instanceof BeginEndToken) {
@@ -175,6 +178,8 @@ public abstract class ExpressionContextMixin extends
             }
         } else if (next instanceof CommentToken) {
             i.take();
+            //fix bug when comment in the top of the file
+            addConstDeclarations(i);
         } else {
             handleUnrecognizedDeclaration(i.take(), i);
         }

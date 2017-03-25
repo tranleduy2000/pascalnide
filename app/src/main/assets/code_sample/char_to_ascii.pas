@@ -8,3 +8,5 @@ begin
 	writeln('ascii 87 is character ', c);
 	readln;
 end.
+{if you want to improve this code, please send code to me
+tranleduy1233@gmail.com}

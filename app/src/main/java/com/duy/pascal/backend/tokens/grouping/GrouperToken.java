@@ -311,7 +311,8 @@ public abstract class GrouperToken extends Token {
             }
         } else if (next instanceof CommentToken) {
             // TODO: 21-Mar-17 ignore comment token
-            return getNextTerm(context, take());
+            take();
+            return getNextTerm(context);
         } else {
             throw new UnrecognizedTokenException(next);
         }

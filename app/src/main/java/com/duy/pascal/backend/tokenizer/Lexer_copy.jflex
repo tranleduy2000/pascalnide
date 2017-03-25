@@ -154,11 +154,11 @@ WhiteSpace = ([ \t] | {LineTerminator})+
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r|\n|]
 
-Comment = {TraditionalComment} | {EndOfLineComment}  | {PascalComment}
+Comment = {TraditionalComment} | {EndOfLineComment}  | {BracesComment}
 
 CommentStarter		 =  "(*" | "{"
 CommentEnder		 =   "*)" | "}"
-PascalComment        = "{" [^*] ~"}" | "(*" [^*] ~"*)"
+
 BracesComment		 = {CommentStarter} {RestOfComment}
 
 RestOfComment		 = ([^*] | \*[^)}])* "}"

@@ -12,7 +12,7 @@ begin
     WriteLn('Test break in for..to..do statement: ');
     for i := 1 to 10 do
     begin
-        Write(i, ' '); {write to console}
+        Write(i, ' ');
         if i = 5 then
         begin
             WriteLn('Breaked');
@@ -24,6 +24,7 @@ begin
     i := 1;
     while i < 10 do
     begin
+        Write(i, ' ');
         i := i + 1;
         if i = 5 then
         begin
@@ -35,15 +36,17 @@ begin
     WriteLn('Test break in repeat...until statement: ');
     i := 1;
     repeat
-        inc(i);
+        Write(i, ' ');
         if i = 5 then
         begin
             WriteLn('Breaked');
             break;
         end;
+        inc(i);
     until i = 10;
     {pause screen}
     WriteLn('End of test');
-    ReadLn();
-end
-.
+end.
+
+{if you want to improve this code, please send code to me
+tranleduy1233@gmail.com}
