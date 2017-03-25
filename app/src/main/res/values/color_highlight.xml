@@ -10,6 +10,7 @@
         <attr name="bg_editor_color" format="color" />
         <attr name="opt_color" format="color" />
         <attr name="normal_text_color" format="color" />
+        <attr name="can_edit" format="boolean" />
     </declare-styleable>
 
     <style name="CodeTheme.BrightYellow">

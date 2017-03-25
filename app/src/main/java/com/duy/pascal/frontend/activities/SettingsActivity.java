@@ -205,7 +205,7 @@ public class SettingsActivity extends PreferenceActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.setting);
+            addPreferencesFromResource(R.xml.setting_editor);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are

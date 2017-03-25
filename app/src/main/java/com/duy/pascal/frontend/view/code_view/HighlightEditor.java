@@ -179,6 +179,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 R.color.normal_text_color));
 
         setTypeface(FontManager.getInstance(mContext));
+        this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
     }
 

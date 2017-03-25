@@ -134,7 +134,7 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     public void findAndReplace() {
         AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
-        builder.setView(R.layout.find_and_replace_dialog);
+        builder.setView(R.layout.dialog_find_and_replace);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
         final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);

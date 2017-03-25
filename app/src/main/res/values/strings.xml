@@ -114,5 +114,6 @@
     <string name="help_me_translate">Help me translate app</string>
     <string name="name">Your name</string>
     <string name="send_to_me">Send to dev</string>
+    <string name="rerun">Rerun current program</string>
 </resources>
 

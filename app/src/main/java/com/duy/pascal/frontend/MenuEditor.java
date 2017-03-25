@@ -121,7 +121,7 @@ public class MenuEditor {
 
     public void showPopupTranslate(final Activity activity) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(R.string.help_me_translate).setView(R.layout.help_translate_dialog).setIcon(R.drawable.ic_bug_report_white_24dp);
+        builder.setTitle(R.string.help_me_translate).setView(R.layout.dialog_help_translate).setIcon(R.drawable.ic_bug_report_white_24dp);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
         final EditText editTitle = (EditText) alertDialog.findViewById(R.id.edit_title);
