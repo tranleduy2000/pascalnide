@@ -26,7 +26,6 @@ import com.duy.pascal.frontend.view.console_view.graph_model.GraphObject;
 import java.util.ArrayList;
 
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
-    public static final int QUEUE_SIZE = 8096; //4MB ram
     final public int cursorPaint = Color.DKGRAY;
     public int maxLines = 200;
     public Handler handler = new Handler();
@@ -42,15 +41,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     int charAscent;
     int charDescent;
     int charWidth;
-    private Paint mBackgroundPaint;
-    private Paint mTextPaint;
+    private Paint mBackgroundPaint = new Paint();
+    private Paint mTextPaint = new Paint();
     private Activity activity;
     private int backgroundColor;
     private int visibleWidth = 0;
     private int visibleHeight = 0;
     private int topVisible = 0;
     private int leftVisible = 0;
-    private Rect visibleRect;
+    private Rect visibleRect = new Rect();
     private int newHeight;
     private int newWidth;
     private int newTop;
@@ -67,14 +66,14 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         }
     };
     private boolean cursorBlink;
-    private Runnable Blink = new Runnable() {
+    private Runnable blink = new Runnable() {
         public void run() {
             cursorBlink = !cursorBlink;
             invalidate();
             handler.postDelayed(this, 300);
         }
     };
-    private Queue inputBuffer;
+    private Queue inputBuffer = new Queue();
 
     private float scrollRemainder;
 
@@ -113,7 +112,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         inputBuffer.putByte((byte) c);
     }
 
-    public char getChar() {
+    public char readChar() {
         return (char) inputBuffer.getByte();
     }
 
@@ -210,10 +209,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     private void init() {
-        mBackgroundPaint = new Paint();
-        visibleRect = new Rect();
         mGestureDetector = new GestureDetector(this);
-        inputBuffer = new Queue(QUEUE_SIZE);
     }
 
     public void showPrompt() {
@@ -261,6 +257,11 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         postInvalidate();
     }
 
+    /**
+     * Update text size
+     *
+     * @return
+     */
     public boolean updateSize() {
         boolean invalid = false;
         getNewDimen();
@@ -356,10 +357,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             @Override
             public boolean commitText(CharSequence text, int newCursorPosition) {
                 int n = text.length();
-                Log.d(TAG, "commitText: " + text);
-//                for (int i = 0; i < n; i++) {
-//                    inputChar(text.charAt(i));
-//                }
+                for (int i = 0; i < n; i++) {
+                    inputChar(text.charAt(i));
+                }
                 return true;
             }
 
@@ -513,12 +513,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public void onPause() {
         handler.removeCallbacks(checkSize);
-        handler.removeCallbacks(Blink);
+        handler.removeCallbacks(blink);
     }
 
     public void onResume() {
         handler.postDelayed(checkSize, 1000);
-        handler.postDelayed(Blink, 500);
+        handler.postDelayed(blink, 500);
         updateSize();
     }
 

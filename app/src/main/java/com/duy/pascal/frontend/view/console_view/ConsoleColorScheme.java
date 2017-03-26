@@ -16,12 +16,14 @@
 
 package com.duy.pascal.frontend.view.console_view;
 
+import android.graphics.Color;
+
 public class ConsoleColorScheme {
     final private static int sDefaultCursorBackColor = 0xff808080;
-    private int foreColor;
-    private int backColor;
-    private int cursorForeColor;
-    private int cursorBackColor;
+    private int foreColor = Color.BLACK;
+    private int backColor = Color.BLACK;
+    private int cursorForeColor = Color.DKGRAY;
+    private int cursorBackColor = Color.DKGRAY;
 
     /**
      * Creates a <code>ColorScheme</code> object.

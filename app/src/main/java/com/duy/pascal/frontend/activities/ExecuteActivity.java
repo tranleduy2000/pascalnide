@@ -125,7 +125,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             inputData.last = 0;
             exitFlag = 0;
             do {
-                c = mConsoleView.getChar();
+                c = mConsoleView.readChar();
                 switch (c) {
                     case 10: // return
                         exitFlag = 1;

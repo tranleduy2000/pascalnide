@@ -4,6 +4,7 @@ package com.duy.pascal.frontend.view.console_view;
  * Created by Duy on 10-Feb-17.
  */
 public class Queue {
+    public static final int QUEUE_SIZE = 8096; //4MB ram
     private byte data[];
     private int front;
     private int rear;
@@ -13,6 +14,10 @@ public class Queue {
         data = new byte[size];
         front = 0;
         rear = 0;
+    }
+
+    public Queue() {
+        this(QUEUE_SIZE);
     }
 
     public int getFront() {
