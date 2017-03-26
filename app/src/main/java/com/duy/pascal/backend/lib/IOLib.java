@@ -99,9 +99,9 @@ public class IOLib implements PascalLibrary {
     /**
      * readln procedure
      */
-    public void readln(VariableBoxer<Object> s) throws RuntimePascalException, NumberFormatException {
+    public void readln(VariableBoxer<Object> s) throws RuntimePascalException, NumberFormatException, InputStreamNotFoundException {
         if (activity == null) {
-            throw new RuntimeException("Can not define ExecuteActivity");
+            throw new InputStreamNotFoundException("Can not find InputStream");
         }
         System.out.println("readln: 1" + s.get().getClass());
         String inp = "";
@@ -263,4 +263,21 @@ public class IOLib implements PascalLibrary {
         if (stdout != null) stdout.printf(format, args);
     }
 
+    private class InputStreamNotFoundException extends Exception {
+        public InputStreamNotFoundException() {
+            super();
+        }
+
+        public InputStreamNotFoundException(String message) {
+            super(message);
+        }
+
+        public InputStreamNotFoundException(String message, Throwable cause) {
+            super(message, cause);
+        }
+
+        public InputStreamNotFoundException(Throwable cause) {
+            super(cause);
+        }
+    }
 }

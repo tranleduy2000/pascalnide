@@ -1,18 +1,17 @@
+{How to use "Readln" and "Write" procedure}
 program test_io;
 var a: integer;
 	n: string;
 begin
-	write('enter your name: ');
+	write('> Enter your name: ');
 	readln(n);
-	write('your name is ', n);
+	write('Your name is ', n);
 	
-	write('enter your age: ');
+	writeln('> Enter your age: ');
 	readln(a);
-	write('your age is ', a);
-
-	writeln;
+	writeln('Your age is ', a);
 	//print multi variable to console
-	writeln('name: ', n, ' age: ', a);
+	writeln('Name: ', n, '; Age: ', a);
 	readln;
 end.
 

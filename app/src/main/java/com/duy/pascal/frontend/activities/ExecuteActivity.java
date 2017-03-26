@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,7 +22,7 @@ import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.view.ConsoleView;
+import com.duy.pascal.frontend.view.console_view.ConsoleView;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.PascalProgram;
@@ -41,10 +42,80 @@ import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 public class ExecuteActivity extends AbstractExecActivity implements DebugListener {
     public static final boolean DEBUG = BuildConfig.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
+    private static final int NEW_INPUT = 1;
+    private static final int NEW_OUTPUT_CHAR = 2;
+    private static final int NEW_OUTPUT_STRING = 3;
+    private static final int COMPLETE = 4;
+    private static final int RUNTIME_ERROR = 5;
+    private static final int SHOW_KEYBOARD = 6;
     public String input = "";
-    String filePath;
+    private String filePath;
+    private AtomicBoolean mIsRunning = new AtomicBoolean(true);
     private AtomicBoolean isCanRead = new AtomicBoolean(false);
-    Runnable runnableInput = new Runnable() {
+    private RuntimeExecutable program;
+    private String programFile;
+    private ApplicationFileManager mFileManager;
+    private Handler mMessageHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (!mIsRunning.get()) return;
+            switch (msg.what) {
+                case RUNTIME_ERROR:
+                    onError((Exception) msg.obj);
+                    break;
+                case COMPLETE:
+                    showDialogComplete();
+                    break;
+                case SHOW_KEYBOARD:
+                    showKeyBoard();
+                    break;
+            }
+        }
+    };
+
+    Runnable runnableRunProgram = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                //compile
+                PascalCompiler pascalCompiler = new PascalCompiler(ExecuteActivity.this);
+                try {
+                    PascalProgram pascalProgram = pascalCompiler.loadPascal(programFile,
+                            new FileReader(programFile),
+                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
+                            ExecuteActivity.this);
+                    program = pascalProgram.run();
+//                    program.enableDebug();
+                    program.run();
+                    mMessageHandler.sendEmptyMessage(COMPLETE);
+                } catch (RuntimePascalException | FileNotFoundException | ParsingException e) {
+                    mMessageHandler.sendMessage(mMessageHandler.obtainMessage(RUNTIME_ERROR, e));
+                }
+            } catch (final Exception e) {
+                mMessageHandler.sendMessage(mMessageHandler.obtainMessage(RUNTIME_ERROR, e));
+            }
+        }
+    };
+    /**
+     * Handler output to screen
+     */
+    private Handler mOutputHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg == null || !mIsRunning.get())
+                return;
+            if (msg.what == NEW_OUTPUT_CHAR) {
+                char c = (char) msg.obj;
+                mConsoleView.emitChar(c);
+            } else if (msg.what == NEW_OUTPUT_STRING) {
+                String s = (String) msg.obj;
+                mConsoleView.emitString(s);
+            }
+        }
+    };
+    private Runnable runnableInput = new Runnable() {
         @Override
         public void run() {
             int exitFlag;
@@ -63,68 +134,36 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                     case KeyEvent.KEYCODE_DEL: // backspace
                         if (inputData.last > 0) {
                             inputData.last--;
-                            mConsoleView.emitChar(c);
+                            sendMsgChar(c);
                         }
                         break;
                     default:
                         if ((c >= ' ') && (inputData.last < MAX_INPUT)) {
                             inputData.data[inputData.last++] = c;
-                            mConsoleView.emitChar(c);
+                            sendMsgChar(c);
                         }
                         break;
                 }
             } while (exitFlag == 0 && isCanRead.get());
-            mConsoleView.emitChar((char) 10); // return new line
+            sendMsgChar((char) 10); // return new line
             input = inputData.toString();
             isCanRead.set(false);
         }
-    };
-    private RuntimeExecutable program;
-    private String programFile;
-    private ApplicationFileManager mFileManager;
-    private Handler handler = new Handler();
-    Runnable complete = new Runnable() {
-        @Override
-        public void run() {
-            showDialogComplete();
-        }
-    };
-    Runnable runnableRunProgram = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                //compile
-                PascalCompiler pascalCompiler = new PascalCompiler(ExecuteActivity.this);
-                try {
-                    //run
-                    PascalProgram pascalProgram = pascalCompiler.loadPascal(programFile,
-                            new FileReader(programFile),
-                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
-                            ExecuteActivity.this);
-                    program = pascalProgram.run();
-//                    program.enableDebug();
-                    program.run();
-                    handler.post(complete);
-                } catch (RuntimePascalException | FileNotFoundException | ParsingException e) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            onError(e);
-                        }
-                    });
-                }
-            } catch (final Exception e) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onError(e);
-                    }
-                });
-            }
+
+        private void sendMsgChar(char c) {
+            mOutputHandler.sendMessage(mOutputHandler.obtainMessage(NEW_OUTPUT_CHAR, c));
         }
     };
     private Thread runThread = new Thread(runnableRunProgram);
 
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mIsRunning.set(true);
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFileManager = new ApplicationFileManager(this);
@@ -138,7 +177,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                 return;
             }
             setTitle(file.getName());
-            doRun(filePath);
+            createAndRunProgram(filePath);
         }
     }
 
@@ -147,14 +186,15 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      *
      * @param path - file pas
      */
-    private void doRun(final String path) {
+    private void createAndRunProgram(final String path) {
         String code = mFileManager.readFileAsString(path);
         code = CodeManager.normalCode(code);
+
         //clone it to internal storage
         programFile = mFileManager.setContentFileTemp(code);
         mConsoleView.emitString("execute file: " + filePath + "\n");
         mConsoleView.emitString("---------------------------" + "\n");
-        handler.postDelayed(new Runnable() {
+        mMessageHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 runThread.start();
@@ -169,7 +209,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        handler.postDelayed(new Runnable() {
+                        mMessageHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 finish();
@@ -186,7 +226,6 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         try {
             builder.create().show();
         } catch (Exception ignored) {
-
         }
     }
 
@@ -214,12 +253,8 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     }
 
     public void startInput() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                showKeyBoard();
-            }
-        });
+        Log.d(TAG, "startInput: ");
+        mMessageHandler.sendEmptyMessage(SHOW_KEYBOARD);
         isCanRead.set(true);
         new Thread(runnableInput).start();
     }
@@ -259,9 +294,11 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     protected void onStop() {
         super.onStop();
+        mIsRunning.set(false);
         //stop program
         stopProgram();
     }
+
 
     public String getInput() {
         return input;
@@ -273,19 +310,16 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 
     @Override
     public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
-        Log.d(TAG, "onGlobalVariableChangeValue: " + variableDeclaration.getName() + " = " + variableDeclaration.getInitialValue());
     }
 
     @Override
     public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
-        Log.d(TAG, "onLocalVariableChangeValue: " + variableDeclaration.getName() + " = " + variableDeclaration.getInitialValue());
 
     }
 
     @Override
     public void onFunctionCall(final FunctionDeclaration functionDeclaration) {
-        Log.d(TAG, "onFunctionCall: " + functionDeclaration.getName());
-        handler.post(new Runnable() {
+        mMessageHandler.post(new Runnable() {
             @Override
             public void run() {
 //                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + "Call procedure \'"
@@ -297,7 +331,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     public void onProcedureCall(final FunctionDeclaration functionDeclaration) {
         Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
-        handler.post(new Runnable() {
+        mMessageHandler.post(new Runnable() {
             @Override
             public void run() {
 //                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + "Call function \'"
@@ -308,7 +342,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 
     @Override
     public void onNewMessage(final String msg) {
-        handler.post(new Runnable() {
+        mMessageHandler.post(new Runnable() {
             @Override
             public void run() {
 //                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + msg));
@@ -323,7 +357,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 
     @Override
     public void onVariableChangeValue(final String name, final Object value) {
-        handler.post(new Runnable() {
+        mMessageHandler.post(new Runnable() {
             @Override
             public void run() {
 ////                debugView.addLine(new DebugItem(DebugItem.TYPE_VAR, name, String.valueOf(value)));
@@ -333,7 +367,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 
     @Override
     public void onFunctionCall(final String name) {
-        handler.post(new Runnable() {
+        mMessageHandler.post(new Runnable() {
             @Override
             public void run() {
 ////                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, "> " + "Call procedure \'" + name + "\'"));
@@ -349,9 +383,6 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_next_line) {
-            try {
-            } catch (Exception e) {
-            }
         } else if (item.getItemId() == R.id.action_rerun) {
             CompileManager.execute(this, filePath);
             finish();
@@ -366,8 +397,6 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         try {
             //stop in put thread
             isCanRead.set(false);
-            while (isCanRead.get()) {
-            }
             if (program.isRunning()) {
                 program.terminate();
                 Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();

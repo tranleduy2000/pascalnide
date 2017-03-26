@@ -3,9 +3,10 @@ package com.duy.pascal.backend.lib;
 import android.graphics.Point;
 
 import com.duy.pascal.frontend.activities.ExecuteActivity;
-import com.duy.pascal.frontend.view.graph_model.BarObject;
-import com.duy.pascal.frontend.view.graph_model.LineObject;
-import com.duy.pascal.frontend.view.graph_model.RectangleObject;
+import com.duy.pascal.frontend.view.console_view.ConsoleView;
+import com.duy.pascal.frontend.view.console_view.graph_model.BarObject;
+import com.duy.pascal.frontend.view.console_view.graph_model.LineObject;
+import com.duy.pascal.frontend.view.console_view.graph_model.RectangleObject;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Map;
@@ -86,7 +87,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * @param x
      * @param y
-     * @return color in pixel x, y of {@link com.duy.pascal.frontend.view.ConsoleView}
+     * @return color in pixel x, y of {@link ConsoleView}
      */
     public int getPixel(int x, int y) {
         return activity.getConsoleView().getColorPixel(x, y);

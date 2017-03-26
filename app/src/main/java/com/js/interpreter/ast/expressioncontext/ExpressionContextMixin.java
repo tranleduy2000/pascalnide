@@ -1,7 +1,5 @@
 package com.js.interpreter.ast.expressioncontext;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
@@ -128,7 +126,6 @@ public abstract class ExpressionContextMixin extends
 
     public void addNextDeclaration(GrouperToken i) throws ParsingException {
         Token next = i.peek();
-        Log.d(TAG, "addNextDeclaration: " + next.getClass().getSimpleName() + " \n" + next.toString());
         if (next instanceof ProcedureToken || next instanceof FunctionToken) {
             i.take();
             boolean is_procedure = next instanceof ProcedureToken;

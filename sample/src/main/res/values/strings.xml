@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">sample</string>
+    <string name="entry_send">send</string>
+</resources>

@@ -1,7 +1,7 @@
 package com.duy.pascal.frontend.alogrithm;
 
 public class InputData {
-    public static final int MAX_INPUT = 1000;
+    public static final int MAX_INPUT = 4 * 1024; //4 MB
     public char[] data = new char[MAX_INPUT]; // the array of the caracters
     public int last;    // number of char in the input buffer
     public int first;    // index of the first character
@@ -11,5 +11,13 @@ public class InputData {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = first; i < last; i++) stringBuilder.append(data[i]);
         return stringBuilder.toString();
+    }
+
+    /**
+     * clear data
+     */
+    public void clear() {
+        first = 0;
+        last = 0;
     }
 }
