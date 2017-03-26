@@ -3,10 +3,10 @@ package com.duy.pascal.backend.lib;
 import android.graphics.Point;
 
 import com.duy.pascal.frontend.activities.ExecuteActivity;
-import com.duy.pascal.frontend.view.console_view.ConsoleView;
-import com.duy.pascal.frontend.view.console_view.graph_model.BarObject;
-import com.duy.pascal.frontend.view.console_view.graph_model.LineObject;
-import com.duy.pascal.frontend.view.console_view.graph_model.RectangleObject;
+import com.duy.pascal.frontend.view.screen.ConsoleView;
+import com.duy.pascal.frontend.view.screen.graph.molel.BarObject;
+import com.duy.pascal.frontend.view.screen.graph.molel.LineObject;
+import com.duy.pascal.frontend.view.screen.graph.molel.RectangleObject;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Map;

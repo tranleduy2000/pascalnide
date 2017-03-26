@@ -1,13 +1,13 @@
-package com.duy.pascal.frontend.view.console_view;
+package com.duy.pascal.frontend.view.screen.console;
 
 /**
  * Created by Duy on 10-Feb-17.
  */
 public class Queue {
     public static final int QUEUE_SIZE = 8096; //4MB ram
-    private byte data[];
-    private int front;
-    private int rear;
+    public byte data[];
+    public int front;
+    public int rear;
 
 
     public Queue(int size) {

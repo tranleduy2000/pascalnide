@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.console_view.graph_model;
+package com.duy.pascal.frontend.view.screen.graph.molel;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

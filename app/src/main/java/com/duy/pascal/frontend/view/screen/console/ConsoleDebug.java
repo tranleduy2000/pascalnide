@@ -1,10 +1,10 @@
-package com.duy.pascal.frontend.view.console_view;
+package com.duy.pascal.frontend.view.screen.console;
 
 /**
  * Created by Duy on 26-Mar-17.
  */
 
-class ConsoleDebug {
+public class ConsoleDebug {
     public static String bytesToString(byte[] data, int base, int length) {
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < length; i++) {

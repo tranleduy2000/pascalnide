@@ -7,6 +7,8 @@ import android.view.KeyEvent;
 
 import com.duy.pascal.frontend.view.console_view.utils.AndroidCompat;
 import com.duy.pascal.frontend.view.console_view.utils.KeyCharacterMapCompat;
+import com.duy.pascal.frontend.view.screen.console.ConsoleDebug;
+import com.duy.pascal.frontend.view.screen.console.TextRenderer;
 
 import java.io.IOException;
 import java.util.HashMap;

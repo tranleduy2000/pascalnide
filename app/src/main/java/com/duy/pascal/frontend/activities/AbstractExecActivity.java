@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.view.console_view.ConsoleView;
+import com.duy.pascal.frontend.view.screen.ConsoleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

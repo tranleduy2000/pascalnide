@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.console_view;
+package com.duy.pascal.frontend.view.screen.console;
 
 /**
  * A multi-thread-safe produce-consumer byte array.

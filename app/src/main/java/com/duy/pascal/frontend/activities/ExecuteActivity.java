@@ -22,7 +22,7 @@ import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.view.console_view.ConsoleView;
+import com.duy.pascal.frontend.view.screen.ConsoleView;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.PascalProgram;
@@ -106,10 +106,10 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             super.handleMessage(msg);
             if (msg == null || !mIsRunning.get())
                 return;
-            if (msg.what == NEW_OUTPUT_CHAR) {
+            if (msg.what == NEW_OUTPUT_CHAR) { //new char
                 char c = (char) msg.obj;
                 mConsoleView.emitChar(c);
-            } else if (msg.what == NEW_OUTPUT_STRING) {
+            } else if (msg.what == NEW_OUTPUT_STRING) { //new string
                 String s = (String) msg.obj;
                 mConsoleView.emitString(s);
             }
@@ -145,7 +145,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                         break;
                 }
             } while (exitFlag == 0 && isCanRead.get());
-            sendMsgChar((char) 10); // return new line
+            sendMsgChar('\n'); // return new line
             input = inputData.toString();
             isCanRead.set(false);
         }
@@ -168,6 +168,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         super.onCreate(savedInstanceState);
         mFileManager = new ApplicationFileManager(this);
         Bundle extras = getIntent().getExtras();
+
         if (extras != null) {
             filePath = extras.getString(CompileManager.FILE_PATH);
             if (filePath == null || filePath.isEmpty()) return;
@@ -178,6 +179,8 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             }
             setTitle(file.getName());
             createAndRunProgram(filePath);
+        } else {
+            finish();
         }
     }
 

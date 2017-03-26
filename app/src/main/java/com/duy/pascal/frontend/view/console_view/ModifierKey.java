@@ -1,5 +1,7 @@
 package com.duy.pascal.frontend.view.console_view;
 
+import com.duy.pascal.frontend.view.screen.console.TextRenderer;
+
 /**
  * Created by Duy on 26-Mar-17.
  */

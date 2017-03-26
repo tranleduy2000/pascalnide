@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.console_view;
+package com.duy.pascal.frontend.view.screen;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,12 +21,14 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
-import com.duy.pascal.frontend.view.console_view.graph_model.GraphObject;
+import com.duy.pascal.frontend.view.screen.console.CursorConsole;
+import com.duy.pascal.frontend.view.screen.console.Queue;
+import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
 
 import java.util.ArrayList;
 
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
-    final public int cursorPaint = Color.DKGRAY;
+    public final int cursorColor = Color.DKGRAY;
     public int maxLines = 200;
     public Handler handler = new Handler();
     public int xCursorConsole;
@@ -41,6 +43,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     int charAscent;
     int charDescent;
     int charWidth;
+    private CursorConsole mCursorConsole;
     private Paint mBackgroundPaint = new Paint();
     private Paint mTextPaint = new Paint();
     private Activity activity;
@@ -78,7 +81,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     private float scrollRemainder;
 
     private GestureDetector mGestureDetector;
-    private String TAG = "ConsoleView";
+    private String TAG = ConsoleView.class.getSimpleName();
     private ArrayList<GraphObject> graphObjects = new ArrayList<>();
     private int foregroundGraphColor = Color.WHITE;
     private Point cursorGraph = new Point(0, 0);
@@ -117,10 +120,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean keyPressed() {
-        System.out.println(inputBuffer.getRear() + " " + inputBuffer.getFront());
-        return inputBuffer.getRear() > inputBuffer.getFront();
+        return inputBuffer.rear > inputBuffer.front;
     }
 
+    /**
+     * set cursor index
+     *
+     * @param x
+     * @param y
+     */
     public void setCursor(int x, int y) {
         int index, i;
         yCursorConsole = y;
@@ -425,7 +433,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     private void drawCursor(Canvas canvas, int x, int y) {
         if (cursorBlink) {
-            mTextPaint.setColor(cursorPaint);
+            mTextPaint.setColor(cursorColor);
 //            canvas.drawRect(x, y - 1, x + charWidth, y - charDescent, mTextPaint);
             canvas.drawRect(x + 1, y - CharHeight + charDescent, x + charWidth, y + 1, mTextPaint);
         }
