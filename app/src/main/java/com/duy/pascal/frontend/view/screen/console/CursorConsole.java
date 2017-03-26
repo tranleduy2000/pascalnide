@@ -1,32 +1,43 @@
 package com.duy.pascal.frontend.view.screen.console;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
+ * Cursor in console
  * Created by Duy on 26-Mar-17.
  */
 
 public class CursorConsole {
     public int xCoordinate = 0, yCoordinate;
+    private boolean visible = true;
     private int foreColor = 0;
     private int backColor = 0;
     private Paint cursorPaint = new Paint();
     private int cursorColor = 0;
+    private boolean cursorBlink = true;
 
-    public CursorConsole(int xCoordinate, int y, int cursorColor) {
-        this.xCoordinate = xCoordinate;
+    public CursorConsole(int x, int y, int cursorColor) {
+        this.xCoordinate = x;
         this.yCoordinate = y;
         this.cursorColor = cursorColor;
+        setupPaint();
     }
 
     public CursorConsole(int foreColor, int backColor) {
         this.foreColor = foreColor;
         this.backColor = backColor;
+        setupPaint();
+
     }
 
     public CursorConsole() {
+        setupPaint();
+    }
 
-        yCoordinate = 0;
+    private void setupPaint() {
+        cursorPaint.setColor(Color.DKGRAY);
     }
 
     public int getxCoordinate() {
@@ -76,5 +87,49 @@ public class CursorConsole {
 
     public void setCursorPaint(Paint cursorPaint) {
         this.cursorPaint = cursorPaint;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    /**
+     * draw cursor into the {@link Canvas}
+     *
+     * @param canvas - canvas of view
+     * @param x      -  x coordinate of screen
+     * @param y      - y coordinate of screen
+     */
+    public void drawCursor(Canvas canvas, int x, int y, int CharHeight, int charWidth, int charDescent) {
+        if (cursorBlink && visible) {
+            canvas.drawRect(x + 1, y - CharHeight + charDescent, x + charWidth, y + 1, cursorPaint);
+        }
+    }
+
+    public boolean isCursorBlink() {
+        return cursorBlink;
+    }
+
+    public void setCursorBlink(boolean cursorBlink) {
+        this.cursorBlink = cursorBlink;
+    }
+
+    public void toggleState() {
+        cursorBlink = !cursorBlink;
+    }
+
+    /**
+     * set position of the screen
+     *
+     * @param i  - x
+     * @param i1 - y
+     */
+    public void setCoordinate(int i, int i1) {
+        this.xCoordinate = i;
+        this.yCoordinate = i1;
     }
 }

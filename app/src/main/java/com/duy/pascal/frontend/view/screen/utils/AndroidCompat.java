@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.console_view.utils;
+package com.duy.pascal.frontend.view.screen.utils;
 
 /**
  * The classes in this package take advantage of the fact that the VM does

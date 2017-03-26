@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.console_view;
+package com.duy.pascal.frontend.view.screen;
 
 import com.duy.pascal.frontend.view.screen.console.TextRenderer;
 

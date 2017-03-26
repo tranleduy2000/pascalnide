@@ -64,7 +64,7 @@ public class IOLib implements PascalLibrary {
     public void writeln(Object... values) {
         write(values);
         if (stdout != null) stdout.println();
-        if (activity != null) activity.getConsoleView().emitChar('\n');
+        if (activity != null) activity.getConsoleView().commitChar('\n');
     }
 
 
@@ -79,7 +79,7 @@ public class IOLib implements PascalLibrary {
             result.append(o);
         }
         if (stdout != null) stdout.print(result);
-        if (activity != null) activity.getConsoleView().emitString(result.toString());
+        if (activity != null) activity.getConsoleView().commitString(result.toString());
     }
 
 //    public void readln(VariableBoxer<Object> s1, VariableBoxer<Object>  s2, VariableBoxer<Object>  var3) throws RuntimePascalException, NumberFormatException {

@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.console_view.utils;
+package com.duy.pascal.frontend.view.screen.utils;
 
 /**
  * Keycode constants and modifier masks for use with keyboard event listeners.

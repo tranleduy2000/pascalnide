@@ -1,12 +1,12 @@
-package com.duy.pascal.frontend.view.console_view;
+package com.duy.pascal.frontend.view.screen;
 
 
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 
-import com.duy.pascal.frontend.view.console_view.utils.AndroidCompat;
-import com.duy.pascal.frontend.view.console_view.utils.KeyCharacterMapCompat;
+import com.duy.pascal.frontend.view.screen.utils.AndroidCompat;
+import com.duy.pascal.frontend.view.screen.utils.KeyCharacterMapCompat;
 import com.duy.pascal.frontend.view.screen.console.ConsoleDebug;
 import com.duy.pascal.frontend.view.screen.console.TextRenderer;
 

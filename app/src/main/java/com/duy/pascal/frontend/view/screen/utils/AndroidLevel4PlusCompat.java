@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.console_view.utils;
+package com.duy.pascal.frontend.view.screen.utils;
 
 /**
  * Created by Duy on 26-Mar-17.

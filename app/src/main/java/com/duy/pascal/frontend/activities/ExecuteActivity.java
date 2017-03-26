@@ -117,19 +117,19 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                     case KeyEvent.KEYCODE_DEL: // backspace
                         if (inputData.last > 0) {
                             inputData.last--;
-                           mConsoleView.emitChar(c);
+                            mConsoleView.commitChar(c);
                         }
                         break;
                     default:
                         if ((c >= ' ') && (inputData.last < MAX_INPUT)) {
                             inputData.data[inputData.last++] = c;
-                            mConsoleView.emitChar(c);
+                            mConsoleView.commitChar(c);
 
                         }
                         break;
                 }
             } while (exitFlag == 0 && isCanRead.get());
-            mConsoleView.emitChar('\n'); //return new line
+            mConsoleView.commitChar('\n'); //return new line
             input = inputData.toString();
             isCanRead.set(false);
         }
@@ -176,8 +176,8 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 
         //clone it to internal storage
         programFile = mFileManager.setContentFileTemp(code);
-        mConsoleView.emitString("execute file: " + filePath + "\n");
-        mConsoleView.emitString("---------------------------" + "\n");
+        mConsoleView.commitString("execute file: " + filePath + "\n");
+        mConsoleView.commitString("---------------------------" + "\n");
         mMessageHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -224,13 +224,13 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     public void onError(Exception e) {
         mConsoleView.setTextColor(Color.RED);
         if (e instanceof ParsingException) {
-            mConsoleView.emitString(e.getMessage() + "\n");
+            mConsoleView.commitString(e.getMessage() + "\n");
             LineInfo lineInfo = ((ParsingException) e).line;
             String line = String.valueOf(lineInfo.line);
-            mConsoleView.emitString("Error in line " + line + "\n");
-            mConsoleView.emitString("File: " + lineInfo.sourcefile + "\n");
+            mConsoleView.commitString("Error in line " + line + "\n");
+            mConsoleView.commitString("File: " + lineInfo.sourcefile + "\n");
         } else {
-            mConsoleView.emitString(e.getMessage());
+            mConsoleView.commitString(e.getMessage());
         }
         //debug
         if (DEBUG) e.printStackTrace();
@@ -253,12 +253,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      * @param textColor
      */
     public void setTextColor(final int textColor) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mConsoleView.setTextColor(textColor);
-            }
-        });
+        mConsoleView.setTextColor(textColor);
     }
 
     /**
@@ -267,12 +262,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      * @param color
      */
     public void setTextBackground(final int color) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mConsoleView.setConsoleColor(color);
-            }
-        });
+        mConsoleView.setConsoleColor(color);
     }
 
     @Override

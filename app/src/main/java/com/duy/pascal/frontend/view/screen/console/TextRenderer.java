@@ -17,12 +17,16 @@
 package com.duy.pascal.frontend.view.screen.console;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+
+import com.duy.pascal.frontend.view.screen.ScreenObject;
 
 /**
  * Text renderer interface
  */
 
-public interface TextRenderer {
+public class TextRenderer implements ScreenObject {
     public static final int MODE_OFF = 0;
     public static final int MODE_ON = 1;
     public static final int MODE_LOCKED = 2;
@@ -33,38 +37,131 @@ public interface TextRenderer {
     public static final int MODE_CTRL_SHIFT = 4;
     public static final int MODE_FN_SHIFT = 6;
 
-    void setReverseVideo(boolean reverseVideo);
+    public int charHeight;
+    public int charAscent;
+    public int charDescent;
+    public int charWidth;
 
-    float getCharacterWidth();
+    private Paint textPaint = new Paint();
+    private int textMode = MODE_ON;
+    private Typeface typeface = Typeface.MONOSPACE;
 
-    int getCharacterHeight();
+    public TextRenderer(float textSize) {
+        init(textSize);
+    }
+
+    public float getTextSize() {
+        return textPaint.getTextSize();
+    }
+
+    public void setTextSize(float textSize) {
+        textPaint.setTextSize(textSize);
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+        textPaint.setTypeface(typeface);
+    }
+
+    private void init(float textSize) {
+        textPaint.setTypeface(typeface);
+        textPaint.setAntiAlias(true);
+        textPaint.setTextSize(textSize);
+
+        charHeight = (int) Math.ceil(textPaint.getFontSpacing());
+        charAscent = (int) Math.ceil(textPaint.ascent());
+        charDescent = charHeight + charAscent;
+        charWidth = (int) textPaint.measureText(new char[]{'M'}, 0, 1);
+    }
+
+    public int getCharHeight() {
+        return charHeight;
+    }
+
+    public void setCharHeight(int charHeight) {
+        this.charHeight = charHeight;
+    }
+
+    public int getCharAscent() {
+        return charAscent;
+    }
+
+    public void setCharAscent(int charAscent) {
+        this.charAscent = charAscent;
+    }
+
+    public int getCharDescent() {
+        return charDescent;
+    }
+
+    public void setCharDescent(int charDescent) {
+        this.charDescent = charDescent;
+    }
+
+    public int getCharWidth() {
+        return charWidth;
+    }
+
+    public void setCharWidth(int charWidth) {
+        this.charWidth = charWidth;
+    }
+
+    public Paint getTextPaint() {
+        return textPaint;
+    }
+
+    public void setTextPaint(Paint textPaint) {
+        this.textPaint = textPaint;
+    }
+
+    public int getTextColor() {
+        return textPaint.getColor();
+    }
+
+    public void setTextColor(int textColor) {
+        this.textPaint.setColor(textColor);
+    }
+
+    public int getTextMode() {
+        return textMode;
+    }
+
+    public void setTextMode(int textMode) {
+        this.textMode = textMode;
+    }
+
+    void setReverseVideo(boolean reverseVideo) {
+
+    }
+
+    float getCharacterWidth() {
+        return 0;
+
+    }
+
+    int getCharacterHeight() {
+        return 0;
+
+    }
 
     /**
      * @return pixels above top row of text to avoid looking cramped.
      */
-    int getTopMargin();
+    int getTopMargin() {
 
-    /**
-     * Draw a run of text
-     *
-     * @param canvas         The canvas to draw into.
-     * @param x              Canvas coordinate of the left edge of the whole line.
-     * @param y              Canvas coordinate of the bottom edge of the whole line.
-     * @param lineOffset     The screen character offset of this text run (0..length of line)
-     * @param runWidth
-     * @param text
-     * @param index
-     * @param count
-     * @param selectionStyle True to draw the text using the "selected" style (for clipboard copy)
-     * @param textStyle
-     * @param cursorOffset   The screen character offset of the cursor (or -1 if not on this line.)
-     * @param cursorIndex    The index of the cursor in text chars.
-     * @param cursorIncr     The width of the cursor in text chars. (1 or 2)
-     * @param cursorWidth    The width of the cursor in screen columns (1 or 2)
-     * @param cursorMode     The cursor mode (used to show state of shift/control/alt/fn locks.
-     */
-    void drawTextRun(Canvas canvas, float x, float y,
-                     int lineOffset, int runWidth, char[] text,
-                     int index, int count, boolean selectionStyle, int textStyle,
-                     int cursorOffset, int cursorIndex, int cursorIncr, int cursorWidth, int cursorMode);
+        return 0;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+
+    }
+
+    public void draw(Canvas canvas, int x, int y, char[] text, int start, int count) {
+        canvas.drawText(text, start, count, x, y, textPaint);
+    }
 }

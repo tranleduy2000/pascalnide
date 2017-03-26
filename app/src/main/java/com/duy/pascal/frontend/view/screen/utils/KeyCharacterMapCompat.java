@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.console_view.utils;
+package com.duy.pascal.frontend.view.screen.utils;
 
 import android.view.KeyCharacterMap;
 

@@ -6,12 +6,12 @@ import android.graphics.Canvas;
  * Created by Duy on 02-Mar-17.
  */
 
-public class TextObject extends GraphObject {
+public class TextGraphObject extends GraphObject {
     private String text;
     private int x, y;
     private int textStyle;
 
-    public TextObject(String text, int x, int y) {
+    public TextGraphObject(String text, int x, int y) {
         this.text = text;
         this.x = x;
         this.y = y;
