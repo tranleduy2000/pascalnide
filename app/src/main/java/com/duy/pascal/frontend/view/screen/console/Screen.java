@@ -14,7 +14,7 @@ public class Screen implements ScreenObject {
     public int maxLines = 200;
 
     public int consoleColumn;
-    public int consoleRow;
+    public int row;
     public int firstLine;
     public boolean fullscreen = false;
     private boolean fullScreen = false;
@@ -49,18 +49,19 @@ public class Screen implements ScreenObject {
 
     /**
      * set screen column
+     *
      * @param consoleColumn
      */
     public void setConsoleColumn(int consoleColumn) {
         this.consoleColumn = consoleColumn;
     }
 
-    public int getConsoleRow() {
-        return consoleRow;
+    public int getRow() {
+        return row;
     }
 
-    public void setConsoleRow(int consoleRow) {
-        this.consoleRow = consoleRow;
+    public void setRow(int row) {
+        this.row = row;
     }
 
     public int getFirstLine() {

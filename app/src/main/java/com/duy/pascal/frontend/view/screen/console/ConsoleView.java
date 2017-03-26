@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -23,58 +24,48 @@ import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
 import java.util.ArrayList;
 
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
+    public static final String TAG = ConsoleView.class.getSimpleName();
     public Handler handler = new Handler();
     public int firstLine;
-
     /**
      * text style, size of console
      */
     private TextRenderer mTextRenderer;
-
     /**
      * store screen size and dimen
      */
-    private Screen mConsoleScreen = new Screen();
+    private Screen mScreen = new Screen();
     /**
      * Cursor of console
      */
-    private CursorConsole mCursorConsole;
-
+    private CursorConsole mCursor;
     /**
      * Parent mActivity
      */
     private Activity mActivity;
-
     /**
      * Data of console
      */
     private ScreenBuffer bufferData = new ScreenBuffer();
-
     private Rect visibleRect = new Rect();
-
-
     private Runnable checkSize = new Runnable() {
         public void run() {
             if (updateSize()) {
                 invalidate();
             }
-            handler.postDelayed(this, 100);
+            handler.postDelayed(this, 60);
         }
     };
-
     private Runnable blink = new Runnable() {
         public void run() {
-            mCursorConsole.toggleState();
+            mCursor.toggleState();
             invalidate();
             handler.postDelayed(this, 300);
         }
     };
     private float scrollRemainder;
-
     private GestureDetector mGestureDetector;
-
     private ArrayList<GraphObject> graphObjects = new ArrayList<>();
-
     private int foregroundGraphColor = Color.WHITE;
     private Point cursorGraph = new Point(0, 0);
 
@@ -95,7 +86,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     private void init() {
         mGestureDetector = new GestureDetector(this);
-        mCursorConsole = new CursorConsole(0, 0, Color.DKGRAY);
+        mCursor = new CursorConsole(0, 0, Color.DKGRAY);
     }
 
     public Point getCursorGraph() {
@@ -123,9 +114,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      */
     public void setCursorCoordinates(int x, int y) {
         int index, i;
-        mCursorConsole.yCoordinate = y;
-        index = bufferData.firstIndex + mCursorConsole.yCoordinate * mConsoleScreen.consoleRow;
-        if (index >= mConsoleScreen.getScreenSize()) index -= mConsoleScreen.getScreenSize();
+        mCursor.y = y;
+        index = bufferData.firstIndex + mCursor.y * mScreen.row;
+        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
         i = index;
 
         while (i - index <= x) {
@@ -137,12 +128,13 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             if (bufferData.screenBuffer[i] < ' ') bufferData.screenBuffer[i] = ' ';
             i++;
         }
-        mCursorConsole.xCoordinate = x;
+        mCursor.x = x;
     }
 
     public void commitChar(char c) {
-        int index = bufferData.firstIndex + mCursorConsole.yCoordinate * mConsoleScreen.consoleRow + mCursorConsole.xCoordinate;
-        if (index >= mConsoleScreen.getScreenSize()) index -= mConsoleScreen.getScreenSize();
+        int index = bufferData.firstIndex + mCursor.y * mScreen.row + mCursor.x;
+        Log.d(TAG, "commitChar: " + index);
+        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
         switch (c) {
             case '\n':
                 bufferData.screenBuffer[index] = '\n';
@@ -150,15 +142,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 break;
             case '\177':
             case 8:
-                if (mCursorConsole.xCoordinate > 0) {
-                    mCursorConsole.xCoordinate--;
+                if (mCursor.x > 0) {
+                    mCursor.x--;
                     bufferData.screenBuffer[index - 1] = '\0';
                 } else {
-                    if (mCursorConsole.yCoordinate > 0) {
+                    if (mCursor.y > 0) {
                         if (bufferData.screenBuffer[index - 1] >= ' ') {
                             bufferData.screenBuffer[index - 1] = '\0';
-                            mCursorConsole.xCoordinate = mConsoleScreen.consoleRow - 1;
-                            mCursorConsole.yCoordinate--;
+                            mCursor.x = mScreen.row - 1;
+                            mCursor.y--;
                             makeCursorVisible();
                         }
                     }
@@ -168,8 +160,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 makeCursorVisible();
                 if (c >= ' ') {
                     bufferData.screenBuffer[index] = c;
-                    mCursorConsole.xCoordinate++;
-                    if (mCursorConsole.xCoordinate >= mConsoleScreen.consoleRow) {
+                    mCursor.x++;
+                    if (mCursor.x >= mScreen.row) {
                         nextLine();
                     }
                 }
@@ -186,14 +178,14 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      * move cursor to new line
      */
     private void nextLine() {
-        mCursorConsole.xCoordinate = 0;
-        mCursorConsole.yCoordinate++;
-        if (mCursorConsole.yCoordinate >= mConsoleScreen.maxLines) {
-            mCursorConsole.yCoordinate = mConsoleScreen.maxLines - 1;
-            for (int i = 0; i < mConsoleScreen.consoleRow; i++)
+        mCursor.x = 0;
+        mCursor.y++;
+        if (mCursor.y >= mScreen.maxLines) {
+            mCursor.y = mScreen.maxLines - 1;
+            for (int i = 0; i < mScreen.row; i++)
                 bufferData.screenBuffer[bufferData.firstIndex + i] = '\0';
-            bufferData.firstIndex += mConsoleScreen.consoleRow;
-            if (bufferData.firstIndex >= mConsoleScreen.getScreenSize()) bufferData.firstIndex = 0;
+            bufferData.firstIndex += mScreen.row;
+            if (bufferData.firstIndex >= mScreen.getScreenSize()) bufferData.firstIndex = 0;
         }
         makeCursorVisible();
     }
@@ -201,27 +193,27 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public void showPrompt() {
         commitString("Initialize the console screen..." + "\n");
-        commitString("Width = " + mConsoleScreen.consoleColumn + " ; " + " height = " + mConsoleScreen.consoleRow + "\n");
+        commitString("Width = " + mScreen.consoleColumn + " ; " + " height = " + mScreen.row + "\n");
         commitString("---------------------------" + "\n");
     }
 
     public void initConsole(Activity a, float fontSize, int textColor, int backColor) {
         mActivity = a;
 
-        mConsoleScreen.setBackgroundColor(backColor);
+        mScreen.setBackgroundColor(backColor);
 
         mTextRenderer = new TextRenderer(fontSize);
         mTextRenderer.setTextColor(textColor);
 
-        mCursorConsole.xCoordinate = 0;
-        mCursorConsole.yCoordinate = 0;
+        mCursor.x = 0;
+        mCursor.y = 0;
 
         firstLine = 0;
         bufferData.firstIndex = 0;
         bufferData.screenBuffer = null;
 
-        mCursorConsole.setCursorBlink(true);
-        mCursorConsole.setVisible(true);
+        mCursor.setCursorBlink(true);
+        mCursor.setVisible(true);
     }
 
     /**
@@ -229,9 +221,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      * clrscr; in pascal
      */
     public void clearScreen() {
-        for (int i = 0; i < mConsoleScreen.getScreenSize(); i++)
+        for (int i = 0; i < mScreen.getScreenSize(); i++)
             bufferData.screenBuffer[i] = '\0';
-        mCursorConsole.setCoordinate(0, 0);
+        mCursor.setCoordinate(0, 0);
         firstLine = 0;
         bufferData.firstIndex = 0;
         postInvalidate();
@@ -251,7 +243,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         int newTop;
         int newLeft;
 
-        if (mConsoleScreen.isFullScreen()) {
+        if (mScreen.isFullScreen()) {
             newTop = Math.min(getTop(), visibleRect.top);
             newHeight = visibleRect.bottom - newTop;
         } else {
@@ -261,15 +253,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         newWidth = visibleRect.width();
         newLeft = visibleRect.left;
 
-        if ((newWidth != mConsoleScreen.getVisibleWidth()) || (newHeight != mConsoleScreen.getVisibleHeight())) {
-            mConsoleScreen.setVisibleWidth(newWidth);
-            mConsoleScreen.setVisibleHeight(newHeight);
-            tUpdateSize(mConsoleScreen.getVisibleWidth(), mConsoleScreen.getVisibleHeight());
+        if ((newWidth != mScreen.getVisibleWidth()) || (newHeight != mScreen.getVisibleHeight())) {
+            mScreen.setVisibleWidth(newWidth);
+            mScreen.setVisibleHeight(newHeight);
+            tUpdateSize(mScreen.getVisibleWidth(), mScreen.getVisibleHeight());
             invalid = true;
         }
-        if ((newLeft != mConsoleScreen.getLeftVisible()) || (newTop != mConsoleScreen.getTopVisible())) {
-            mConsoleScreen.setLeftVisible(newLeft);
-            mConsoleScreen.setTopVisible(newTop);
+        if ((newLeft != mScreen.getLeftVisible()) || (newTop != mScreen.getTopVisible())) {
+            mScreen.setLeftVisible(newLeft);
+            mScreen.setTopVisible(newTop);
             invalid = true;
         }
 
@@ -279,10 +271,10 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public void makeCursorVisible() {
-        if (mCursorConsole.yCoordinate - firstLine >= mConsoleScreen.consoleColumn) {
-            firstLine = mCursorConsole.yCoordinate - mConsoleScreen.consoleColumn + 1;
-        } else if (mCursorConsole.yCoordinate < firstLine) {
-            firstLine = mCursorConsole.yCoordinate;
+        if (mCursor.y - firstLine >= mScreen.consoleColumn) {
+            firstLine = mCursor.y - mScreen.consoleColumn + 1;
+        } else if (mCursor.y < firstLine) {
+            firstLine = mCursor.y;
         }
     }
 
@@ -293,48 +285,48 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean tUpdateSize(int newWidth, int newHeight) {
-        int newNbRows = newWidth / mTextRenderer.charWidth;
+        int newRow = newWidth / mTextRenderer.charWidth;
         int i, j;
         int newFirstIndex = 0;
-        int newNbLines = newHeight / mTextRenderer.charHeight;
-        boolean value = newNbRows != mConsoleScreen.consoleRow || newNbLines != mConsoleScreen.consoleRow;
-        mConsoleScreen.consoleColumn = newNbLines;
-        if (newNbRows != mConsoleScreen.consoleRow) {
-            int newScreenSize = mConsoleScreen.maxLines * newNbRows;
+        int newColumn = newHeight / mTextRenderer.charHeight;
+        boolean value = newRow != mScreen.row || newColumn != mScreen.row;
+        mScreen.consoleColumn = newColumn;
+        if (newRow != mScreen.row) {
+            int newScreenSize = mScreen.maxLines * newRow;
             char newScreenBuffer[] = new char[newScreenSize];
 
             for (i = 0; i < newScreenSize; i++) {
                 newScreenBuffer[i] = '\0';
             }
+
             if (bufferData.screenBuffer != null) {
                 i = 0;
                 int nextj = 0;
-                int endi = mCursorConsole.yCoordinate * mConsoleScreen.consoleRow + mCursorConsole.xCoordinate;
+                int endi = mCursor.y * mScreen.row
+                        + mCursor.x;
                 char c;
                 do {
-
                     j = nextj;
                     do {
-                        c = bufferData.screenBuffer[trueIndex(i++, bufferData.firstIndex, mConsoleScreen.getScreenSize())];
+                        c = bufferData.screenBuffer[trueIndex(i++, bufferData.firstIndex, mScreen.getScreenSize())];
                         newScreenBuffer[trueIndex(j++, newFirstIndex, newScreenSize)] = c;
-                        newFirstIndex = Math.max(0, j / newNbRows - mConsoleScreen.maxLines + 1) * newNbRows;
+                        newFirstIndex = Math.max(0, j / newRow - mScreen.maxLines + 1) * newRow;
                     }
                     while (c >= ' ');
                     i--;
                     j--;
 
-                    i += (mConsoleScreen.consoleRow - i % mConsoleScreen.consoleRow);
-                    nextj = j + (newNbRows - j % newNbRows);
+                    i += (mScreen.row - i % mScreen.row);
+                    nextj = j + (newRow - j % newRow);
                 }
                 while (i < endi);
                 if (c == '\n') j = nextj;
-                mCursorConsole.yCoordinate = j / newNbRows;
-                mCursorConsole.xCoordinate = j % newNbRows;
-
+                mCursor.y = j / newRow;
+                mCursor.x = j % newRow;
             }
-            mConsoleScreen.consoleRow = newNbRows;
-            mConsoleScreen.setScreenSize(newScreenSize);
-            bufferData.screenBuffer = newScreenBuffer;
+            mScreen.row = newRow;
+            mScreen.setScreenSize(newScreenSize);
+            bufferData.setScreenBuffer(newScreenBuffer);
             bufferData.firstIndex = newFirstIndex;
         }
         makeCursorVisible();
@@ -419,26 +411,26 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public void tDraw(Canvas canvas, int x, int y) {
-        int index = bufferData.firstIndex + firstLine * mConsoleScreen.consoleRow;
-        if (index >= mConsoleScreen.getScreenSize()) index -= mConsoleScreen.getScreenSize();
+        int index = bufferData.firstIndex + firstLine * mScreen.row;
+        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
         y -= mTextRenderer.charAscent;
 
         //draw cursor
-        mCursorConsole.drawCursor(canvas,
-                x + mCursorConsole.xCoordinate * mTextRenderer.charWidth,
-                y + (mCursorConsole.yCoordinate - firstLine) * mTextRenderer.charHeight,
+        mCursor.drawCursor(canvas,
+                x + mCursor.x * mTextRenderer.charWidth,
+                y + (mCursor.y - firstLine) * mTextRenderer.charHeight,
                 mTextRenderer.charHeight, mTextRenderer.charWidth, mTextRenderer.charDescent);
 
-        for (int i = 0; i < mConsoleScreen.consoleColumn; i++) {
-            if (i > mCursorConsole.yCoordinate - firstLine) break;
+        for (int i = 0; i < mScreen.consoleColumn; i++) {
+            if (i > mCursor.y - firstLine) break;
 
             int count = 0;
-            while ((count < mConsoleScreen.consoleRow) && (bufferData.screenBuffer[count + index] >= ' '))
+            while ((count < mScreen.row) && (bufferData.screenBuffer[count + index] >= ' '))
                 count++;
             mTextRenderer.draw(canvas, x, y, bufferData.screenBuffer, index, count);
             y += mTextRenderer.charHeight;
-            index += mConsoleScreen.consoleRow;
-            if (index >= mConsoleScreen.getScreenSize()) index = 0;
+            index += mScreen.row;
+            if (index >= mScreen.getScreenSize()) index = 0;
         }
     }
 
@@ -446,8 +438,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     protected void onDraw(Canvas canvas) {
         int w = getWidth();
         int h = getHeight();
-        mConsoleScreen.draw(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible(), w, h);
-        tDraw(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
+        mScreen.draw(canvas, mScreen.getLeftVisible(), mScreen.getTopVisible(), w, h);
+        tDraw(canvas, mScreen.getLeftVisible(), mScreen.getTopVisible());
         if (graphObjects != null) {
             for (GraphObject graphObject : graphObjects) {
                 graphObject.draw(canvas);
@@ -464,7 +456,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         distanceY += scrollRemainder;
         int deltaRows = (int) (distanceY / mTextRenderer.charHeight);
         scrollRemainder = distanceY - deltaRows * mTextRenderer.charHeight;
-        firstLine = Math.max(0, Math.min(firstLine + deltaRows, mCursorConsole.yCoordinate));
+        firstLine = Math.max(0, Math.min(firstLine + deltaRows, mCursor.y));
         invalidate();
         return true;
     }
@@ -519,13 +511,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     //pascal
     public void setConsoleColor(int color) {
-        mConsoleScreen.setBackgroundColor(color);
+        mScreen.setBackgroundColor(color);
         postInvalidate();
     }
 
     /**
      * Draw part of a circle
-     *
      */
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
         // TODO: 01-Mar-17 write draw arc
@@ -536,9 +527,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      */
     public void gotoXY(int x, int y) {
         if (x <= 0) x = 1;
-        else if (x > mConsoleScreen.consoleRow) x = mConsoleScreen.consoleRow;
+        else if (x > mScreen.row) x = mScreen.row;
         if (y <= 0) y = 1;
-        else if (y > mConsoleScreen.maxLines) y = mConsoleScreen.maxLines;
+        else if (y > mScreen.maxLines) y = mScreen.maxLines;
         setCursorCoordinates(x - 1, y - 1);
         makeCursorVisible();
         postInvalidate();
@@ -550,7 +541,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      * @return
      */
     public int whereX() {
-        return mCursorConsole.xCoordinate + 1;
+        return mCursor.x + 1;
     }
 
     /**
@@ -559,7 +550,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      * @return
      */
     public int whereY() {
-        return mCursorConsole.yCoordinate + 1;
+        return mCursor.y + 1;
     }
 
     //pascal
@@ -576,12 +567,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     //pascal
     public int getXCursorPixel() {
-        return mConsoleScreen.getLeftVisible() + mCursorConsole.xCoordinate * mTextRenderer.charWidth;
+        return mScreen.getLeftVisible() + mCursor.x * mTextRenderer.charWidth;
     }
 
     //pascal
     public int getYCursorPixel() {
-        return mConsoleScreen.getTopVisible() + (mCursorConsole.yCoordinate - firstLine) * mTextRenderer.charHeight;
+        return mScreen.getTopVisible() + (mCursor.y - firstLine) * mTextRenderer.charHeight;
     }
 
     /**
@@ -595,6 +586,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     /**
      * set draw {@link GraphObject} color
+     *
      * @param currentColor
      */
     public void setForegroundGraphColor(int currentColor) {

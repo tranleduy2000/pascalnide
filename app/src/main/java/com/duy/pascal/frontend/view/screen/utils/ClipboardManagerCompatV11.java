@@ -22,14 +22,14 @@ public class ClipboardManagerCompatV11 implements ClipboardManagerCompat {
     }
 
     @Override
-    public boolean hasText() {
-        return (clip.hasPrimaryClip() && clip.getPrimaryClipDescription()
-                .hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN));
-    }
-
-    @Override
     public void setText(CharSequence text) {
         ClipData clipData = ClipData.newPlainText("simple text", text);
         clip.setPrimaryClip(clipData);
+    }
+
+    @Override
+    public boolean hasText() {
+        return (clip.hasPrimaryClip() && clip.getPrimaryClipDescription()
+                .hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN));
     }
 }

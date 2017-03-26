@@ -10,7 +10,7 @@ import android.graphics.Paint;
  */
 
 public class CursorConsole {
-    public int xCoordinate = 0, yCoordinate;
+    public int x = 0, y;
     private boolean visible = true;
     private int foreColor = 0;
     private int backColor = 0;
@@ -19,8 +19,8 @@ public class CursorConsole {
     private boolean cursorBlink = true;
 
     public CursorConsole(int x, int y, int cursorColor) {
-        this.xCoordinate = x;
-        this.yCoordinate = y;
+        this.x = x;
+        this.y = y;
         this.cursorColor = cursorColor;
         setupPaint();
     }
@@ -40,20 +40,20 @@ public class CursorConsole {
         cursorPaint.setColor(Color.DKGRAY);
     }
 
-    public int getxCoordinate() {
-        return xCoordinate;
+    public int getX() {
+        return x;
     }
 
-    public void setxCoordinate(int xCoordinate) {
-        this.xCoordinate = xCoordinate;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public int getyCoordinate() {
-        return yCoordinate;
+    public int getY() {
+        return y;
     }
 
-    public void setyCoordinate(int yCoordinate) {
-        this.yCoordinate = yCoordinate;
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getForeColor() {
@@ -129,7 +129,7 @@ public class CursorConsole {
      * @param i1 - y
      */
     public void setCoordinate(int i, int i1) {
-        this.xCoordinate = i;
-        this.yCoordinate = i1;
+        this.x = i;
+        this.y = i1;
     }
 }

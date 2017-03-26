@@ -18,12 +18,12 @@ public class ClipboardManagerCompatV1 implements ClipboardManagerCompat {
     }
 
     @Override
-    public boolean hasText() {
-        return clip.hasText();
+    public void setText(CharSequence text) {
+        clip.setText(text);
     }
 
     @Override
-    public void setText(CharSequence text) {
-        clip.setText(text);
+    public boolean hasText() {
+        return clip.hasText();
     }
 }

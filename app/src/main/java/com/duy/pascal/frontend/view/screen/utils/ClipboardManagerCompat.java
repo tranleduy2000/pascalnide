@@ -1,9 +1,9 @@
 package com.duy.pascal.frontend.view.screen.utils;
 
 public interface ClipboardManagerCompat {
-	CharSequence getText();
-
-	boolean hasText();
+    CharSequence getText();
 
     void setText(CharSequence text);
+
+    boolean hasText();
 }

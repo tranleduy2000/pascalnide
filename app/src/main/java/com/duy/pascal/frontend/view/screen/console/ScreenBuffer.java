@@ -10,10 +10,26 @@ import java.io.FileOutputStream;
 public class ScreenBuffer {
     public int firstIndex;
     public char[] screenBuffer;
+    public int[] colorScreenBuffer;
     public ByteQueue inputBuffer = new ByteQueue();
-
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
+
+    public char[] getScreenBuffer() {
+        return screenBuffer;
+    }
+
+    public void setScreenBuffer(char[] screenBuffer) {
+        this.screenBuffer = screenBuffer;
+    }
+
+    public int[] getColorScreenBuffer() {
+        return colorScreenBuffer;
+    }
+
+    public void setColorScreenBuffer(int[] colorScreenBuffer) {
+        this.colorScreenBuffer = colorScreenBuffer;
+    }
 
     /**
      * save current data to file

@@ -31,16 +31,18 @@ public abstract class KeyCharacterMapCompat {
         return null;
     }
 
+    public abstract int getModifierBehaviour();
+
     private static class KeyCharacterMapApi11OrLater
-        extends KeyCharacterMapCompat {
+            extends KeyCharacterMapCompat {
         private KeyCharacterMap mMap;
+
         public KeyCharacterMapApi11OrLater(Object map) {
             mMap = (KeyCharacterMap) map;
         }
+
         public int getModifierBehaviour() {
             return mMap.getModifierBehavior();
         }
     }
-
-    public abstract int getModifierBehaviour();
 }

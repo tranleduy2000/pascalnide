@@ -26,10 +26,10 @@ public class CrtLib implements PascalLibrary {
 
 
     /**
-     * goto xCoordinate, yCoordinate procedure
+     * goto x, y procedure
      *
-     * @param x - xCoordinate coordinate of screen
-     * @param y - yCoordinate coordinate of screen
+     * @param x - x coordinate of screen
+     * @param y - y coordinate of screen
      */
     public void gotoXY(int x, int y) {
         if (activity == null) return;

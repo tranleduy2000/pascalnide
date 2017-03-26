@@ -17,6 +17,7 @@ public class TextObject implements ScreenObject {
     public int textColor = 0xfffffff; //white
     public int textBackground = 0xff00000;//back
 
+
     public TextObject(char[] text, int x, int y, int textColor, int textBackground) {
         this.text = text;
         this.x = x;
@@ -25,10 +26,12 @@ public class TextObject implements ScreenObject {
         this.textBackground = textBackground;
     }
 
-    public TextObject(char[] text, int x, int y) {
+    public TextObject(char[] text, int x, int y, TextRenderer textRenderer) {
         this.text = text;
         this.x = x;
         this.y = y;
+        this.textColor = textRenderer.getTextColor();
+        this.textBackground = textRenderer.getBackgroundColor();
     }
 
     public int getX() {

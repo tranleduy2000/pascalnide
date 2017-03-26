@@ -63,7 +63,7 @@
         <item>Нет</item>
     </string-array>
     <string-array name="entries_fontsize_preference">
-        <item>4 xCoordinate 8 пикселей</item>
+        <item>4 x 8 пикселей</item>
         <item>6 пунктов</item>
         <item>7 пунктов</item>
         <item>8 пунктов</item>

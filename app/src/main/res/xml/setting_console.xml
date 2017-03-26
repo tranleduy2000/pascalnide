@@ -23,6 +23,7 @@
             android:key="uses_full_screen"
             android:summary="@string/hide_status_bar_desc"
             android:title="@string/hide_status_bar" />
+        <!--frame-->
 
     </PreferenceCategory>
 

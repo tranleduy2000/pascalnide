@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.view.screen.console;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
@@ -41,13 +42,45 @@ public class TextRenderer implements ScreenObject {
     public int charAscent;
     public int charDescent;
     public int charWidth;
-
+    String TAG = TextRenderer.class.getSimpleName();
     private Paint textPaint = new Paint();
     private int textMode = MODE_ON;
     private Typeface typeface = Typeface.MONOSPACE;
+    private int defaultTextColor = 0xffffffff;
+    private int defaultBackgroundColor = 0xff000000;
+    private Paint backgroundPaint = new Paint();
 
     public TextRenderer(float textSize) {
         init(textSize);
+    }
+
+    private void init(float textSize) {
+        textPaint.setTypeface(typeface);
+        textPaint.setAntiAlias(true);
+        textPaint.setTextSize(textSize);
+
+        charHeight = (int) Math.ceil(textPaint.getFontSpacing());
+        charAscent = (int) Math.ceil(textPaint.ascent());
+        charDescent = charHeight + charAscent;
+        charWidth = (int) textPaint.measureText(new char[]{'M'}, 0, 1);
+
+        backgroundPaint.setColor(Color.RED);
+
+    }
+
+    /**
+     * draw text
+     *
+     * @param x     - start x
+     * @param y     - start y
+     * @param text  - input text
+     * @param start - start index of array text[]
+     */
+    public void draw(Canvas canvas, int x, int y, char[] text, int start, int count) {
+//        float width = textPaint.measureText(text, start, count);
+//        canvas.drawRect(x, y + charAscent, x + width, y + charDescent, backgroundPaint);
+
+        canvas.drawText(text, start, count, x, y, textPaint);
     }
 
     public float getTextSize() {
@@ -67,16 +100,6 @@ public class TextRenderer implements ScreenObject {
         textPaint.setTypeface(typeface);
     }
 
-    private void init(float textSize) {
-        textPaint.setTypeface(typeface);
-        textPaint.setAntiAlias(true);
-        textPaint.setTextSize(textSize);
-
-        charHeight = (int) Math.ceil(textPaint.getFontSpacing());
-        charAscent = (int) Math.ceil(textPaint.ascent());
-        charDescent = charHeight + charAscent;
-        charWidth = (int) textPaint.measureText(new char[]{'M'}, 0, 1);
-    }
 
     public int getCharHeight() {
         return charHeight;
@@ -161,7 +184,8 @@ public class TextRenderer implements ScreenObject {
 
     }
 
-    public void draw(Canvas canvas, int x, int y, char[] text, int start, int count) {
-        canvas.drawText(text, start, count, x, y, textPaint);
+
+    public int getBackgroundColor() {
+        return defaultBackgroundColor;
     }
 }

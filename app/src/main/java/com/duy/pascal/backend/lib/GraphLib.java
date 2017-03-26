@@ -87,7 +87,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * @param x
      * @param y
-     * @return color in pixel xCoordinate, yCoordinate of {@link ConsoleView}
+     * @return color in pixel x, y of {@link ConsoleView}
      */
     public int getPixel(int x, int y) {
         return activity.getConsoleView().getColorPixel(x, y);
