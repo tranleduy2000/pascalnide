@@ -10,7 +10,7 @@ public class ConsoleDebug {
         for (int i = 0; i < length; i++) {
             byte b = data[base + i];
             if (b < 32 || b > 126) {
-                buf.append(String.format("\\x%02x", b));
+                buf.append(String.format("\\xCoordinate%02x", b));
             } else {
                 buf.append((char)b);
             }

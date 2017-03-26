@@ -3,7 +3,7 @@ package com.duy.pascal.backend.lib;
 import android.graphics.Point;
 
 import com.duy.pascal.frontend.activities.ExecuteActivity;
-import com.duy.pascal.frontend.view.screen.ConsoleView;
+import com.duy.pascal.frontend.view.screen.console.ConsoleView;
 import com.duy.pascal.frontend.view.screen.graph.molel.BarObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.LineObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.RectangleObject;
@@ -87,7 +87,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * @param x
      * @param y
-     * @return color in pixel x, y of {@link ConsoleView}
+     * @return color in pixel xCoordinate, yCoordinate of {@link ConsoleView}
      */
     public int getPixel(int x, int y) {
         return activity.getConsoleView().getColorPixel(x, y);

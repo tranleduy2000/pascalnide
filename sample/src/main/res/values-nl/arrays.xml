@@ -44,7 +44,7 @@
     </string-array>
 
     <string-array name="entries_fontsize_preference">
-        <item>4 x 8 pixels</item>
+        <item>4 xCoordinate 8 pixels</item>
         <item>6 pnt.</item>
         <item>7 pnt.</item>
         <item>8 pnt.</item>

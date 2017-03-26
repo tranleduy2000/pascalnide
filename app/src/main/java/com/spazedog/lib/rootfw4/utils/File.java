@@ -65,17 +65,17 @@ public class File {
 	static {
 		oOctals.put("1:r", 400);
 		oOctals.put("2:w", 200);
-		oOctals.put("3:x", 100);
+		oOctals.put("3:xCoordinate", 100);
 		oOctals.put("3:s", 4100);
 		oOctals.put("3:S", 4000);
 		oOctals.put("4:r", 40);
 		oOctals.put("5:w", 20);
-		oOctals.put("6:x", 10);
+		oOctals.put("6:xCoordinate", 10);
 		oOctals.put("6:s", 2010);
 		oOctals.put("6:S", 2000);
 		oOctals.put("7:r", 4);
 		oOctals.put("8:w", 2);
-		oOctals.put("9:x", 1);
+		oOctals.put("9:xCoordinate", 1);
 		oOctals.put("9:t", 1001);
 		oOctals.put("9:T", 1000);
 	}
@@ -153,7 +153,7 @@ public class File {
 		
 		/** 
 		 * @return
-		 *     The files access string like (drwxrwxr-x)
+		 *     The files access string like (drwxrwxr-xCoordinate)
 		 */
 		public String access() {
 			return mAccess;
@@ -1081,7 +1081,7 @@ public class File {
 	 * 
 	 * Never use octal numbers for the permissions like '0775'. Always write it as '775', otherwise it will be converted 
 	 * and your permissions will not be changed to the expected value. The reason why this argument is an Integer, is to avoid 
-	 * things like 'a+x', '+x' and such. While this is supported in Linux normally, few Android binaries supports it as they have been 
+	 * things like 'a+xCoordinate', '+xCoordinate' and such. While this is supported in Linux normally, few Android binaries supports it as they have been
 	 * stripped down to the bare minimum. 
 	 * 
 	 * @param user
@@ -1105,7 +1105,7 @@ public class File {
 	 * 
 	 * Never use octal numbers for the permissions like '0775'. Always write it as '775', otherwise it will be converted 
 	 * and your permissions will not be changed to the expected value. The reason why this argument is an Integer, is to avoid 
-	 * things like 'a+x', '+x' and such. While this is supported in Linux normally, few Android binaries supports it as they have been 
+	 * things like 'a+xCoordinate', '+xCoordinate' and such. While this is supported in Linux normally, few Android binaries supports it as they have been
 	 * stripped down to the bare minimum. 
 	 * 
 	 * @param user

@@ -22,7 +22,7 @@ import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.view.screen.ConsoleView;
+import com.duy.pascal.frontend.view.screen.console.ConsoleView;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.PascalProgram;
@@ -97,24 +97,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             }
         }
     };
-    /**
-     * Handler output to screen
-     */
-    private Handler mOutputHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg == null || !mIsRunning.get())
-                return;
-            if (msg.what == NEW_OUTPUT_CHAR) { //new char
-                char c = (char) msg.obj;
-                mConsoleView.emitChar(c);
-            } else if (msg.what == NEW_OUTPUT_STRING) { //new string
-                String s = (String) msg.obj;
-                mConsoleView.emitString(s);
-            }
-        }
-    };
+
     private Runnable runnableInput = new Runnable() {
         @Override
         public void run() {
@@ -134,25 +117,23 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                     case KeyEvent.KEYCODE_DEL: // backspace
                         if (inputData.last > 0) {
                             inputData.last--;
-                            sendMsgChar(c);
+                           mConsoleView.emitChar(c);
                         }
                         break;
                     default:
                         if ((c >= ' ') && (inputData.last < MAX_INPUT)) {
                             inputData.data[inputData.last++] = c;
-                            sendMsgChar(c);
+                            mConsoleView.emitChar(c);
+
                         }
                         break;
                 }
             } while (exitFlag == 0 && isCanRead.get());
-            sendMsgChar('\n'); // return new line
+            mConsoleView.emitChar('\n'); //return new line
             input = inputData.toString();
             isCanRead.set(false);
         }
 
-        private void sendMsgChar(char c) {
-            mOutputHandler.sendMessage(mOutputHandler.obtainMessage(NEW_OUTPUT_CHAR, c));
-        }
     };
     private Thread runThread = new Thread(runnableRunProgram);
 
@@ -255,7 +236,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         if (DEBUG) e.printStackTrace();
     }
 
-    public void startInput() {
+    public synchronized void startInput() {
         Log.d(TAG, "startInput: ");
         mMessageHandler.sendEmptyMessage(SHOW_KEYBOARD);
         isCanRead.set(true);

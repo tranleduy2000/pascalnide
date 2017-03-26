@@ -18,7 +18,7 @@
         <item>Вертикальний бар</item>
     </string-array>
     <string-array name="entries_fontsize_preference">
-        <item>4 x 8 пікселів</item>
+        <item>4 xCoordinate 8 пікселів</item>
         <item>6 пікселів</item>
         <item>7 пікселів</item>
         <item>8 пікселів</item>

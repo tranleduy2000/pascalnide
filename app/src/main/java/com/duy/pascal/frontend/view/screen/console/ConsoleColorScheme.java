@@ -33,11 +33,11 @@ public class ConsoleColorScheme {
     /**
      * Creates a <code>ColorScheme</code> object.
      *
-     * @param foreColor       The foreground color as an ARGB hex value.
-     * @param backColor       The background color as an ARGB hex value.
+     * @param foreColor   The foreground color as an ARGB hex value.
+     * @param backColor   The background color as an ARGB hex value.
      * @param cursorColor The cursor foreground color as an ARGB hex value.
      */
-    public ConsoleColorScheme(int foreColor, int backColor,  int cursorColor) {
+    public ConsoleColorScheme(int foreColor, int backColor, int cursorColor) {
         this.foreColor = foreColor;
         this.backColor = backColor;
         this.cursorColor = cursorColor;
@@ -95,7 +95,6 @@ public class ConsoleColorScheme {
     public void setBackColor(int backColor) {
         this.backColor = backColor;
     }
-
 
 
     public int getCursorColor() {

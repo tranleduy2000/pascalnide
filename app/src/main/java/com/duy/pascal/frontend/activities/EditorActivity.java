@@ -69,7 +69,6 @@ public class EditorActivity extends FileEditorActivity implements
         mCompileManager = new CompileManager(this);
         mDrawerLayout.addDrawerListener(this);
         mKeyList.setListener(this);
-//        mFilesView.setListener(this);
         menuEditor = new MenuEditor(this, this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
