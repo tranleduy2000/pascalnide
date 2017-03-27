@@ -15,6 +15,7 @@ import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
 import com.duy.pascal.frontend.R;
@@ -64,7 +65,9 @@ public class ExceptionManager {
                 return new SpannableString(e.getMessage());
             } else if (e instanceof MainProgramNotFoundException) {
                 return new SpannableString(context.getString(R.string.main_program_not_define));
-            } else {
+            } else if (e instanceof ParsingException){
+                return new SpannableString(((ParsingException) e).line + "\n" + e.getMessage());
+            } else{
                 return new SpannableString(e.getMessage());
             }
         } catch (Exception err) {

@@ -8,7 +8,7 @@
     android:weightSum="100">
 
     <TextView
-        android:id="@+id/txt_name"
+        android:id="@+id/txt_title"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="99"

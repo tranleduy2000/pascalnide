@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.utils;
+package com.duy.pascal.frontend.theme;
 
 import android.content.Context;
 
@@ -9,6 +9,7 @@ import com.duy.pascal.frontend.R;
  */
 
 public class CodeThemeUtils {
+
     public static int getCodeTheme(Context context, String name) {
         if (name.equals(context.getString(R.string.default_theme))) {
             return R.style.CodeTheme;
@@ -24,6 +25,8 @@ public class CodeThemeUtils {
             return R.style.CodeTheme_KFT2;
         } else if (name.equals(context.getString(R.string.Modnokai_Coffee))) {
             return R.style.CodeTheme_ModnokaiCoffee;
+        } else if (name.equals("tmp")) {
+            return R.style.CodeTheme_TMP;
         } else {
             return R.style.CodeTheme;
         }

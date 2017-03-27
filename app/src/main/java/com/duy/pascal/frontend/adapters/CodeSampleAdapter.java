@@ -16,18 +16,18 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CodeViewAdapter extends RecyclerView.Adapter<CodeViewAdapter.CodeHolder> {
+public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.CodeHolder> {
     private ArrayList<String> listCodes = new ArrayList<>();
     private OnCodeClickListener listener;
     private Context context;
     private LayoutInflater inflater;
 
-    public CodeViewAdapter(Context context) {
+    public CodeSampleAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public CodeViewAdapter(ArrayList<String> listCodes, Context context) {
+    public CodeSampleAdapter(ArrayList<String> listCodes, Context context) {
         this.listCodes = listCodes;
         this.context = context;
         this.inflater = LayoutInflater.from(context);

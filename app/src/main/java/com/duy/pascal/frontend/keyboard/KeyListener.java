@@ -56,6 +56,7 @@ public class KeyListener {
      * CTRL + G: goto line z
      */
     public int keyDown(int keyCode, KeyEvent event) {
+        if (!mControlKey.isActive()) return -1;
         switch (keyCode) {
             case -99:
             case KEYCODE_CTRL_LEFT:
@@ -90,10 +91,8 @@ public class KeyListener {
                 return ACTION_FORMAT_CODE;
             case KEYCODE_F:
                 return ACTION_FIND;
-
-            default:
-                return mControlKey.isActive() ? 0 : -1;
         }
+        return -1;
 //        editText.getEditableText().insert(editText.getSelectionStart(), Character.toString((char) result));
     }
 

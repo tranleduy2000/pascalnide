@@ -1,10 +1,9 @@
-package com.duy.pascal.frontend.view;
+package com.duy.pascal.frontend;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
-import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.Preferences;
 
 /**

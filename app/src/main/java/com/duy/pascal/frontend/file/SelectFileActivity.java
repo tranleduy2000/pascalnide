@@ -43,7 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.adapters.AdapterDetailedList;
+import com.duy.pascal.frontend.adapters.FileListAdapter;
 import com.duy.pascal.frontend.utils.AlphanumComparator;
 import com.duy.pascal.frontend.utils.Build;
 import com.duy.pascal.frontend.utils.PreferenceHelper;
@@ -330,7 +330,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
         }
     }
 
-    private class UpdateList extends AsyncTask<String, Void, LinkedList<AdapterDetailedList.FileDetail>> {
+    private class UpdateList extends AsyncTask<String, Void, LinkedList<FileListAdapter.FileDetail>> {
 
         String exceptionMessage;
 
@@ -349,7 +349,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
          * {@inheritDoc}
          */
         @Override
-        protected LinkedList<AdapterDetailedList.FileDetail> doInBackground(final String... params) {
+        protected LinkedList<FileListAdapter.FileDetail> doInBackground(final String... params) {
             try {
 
                 final String path = params[0];
@@ -364,8 +364,8 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
 
                 String[] unopenableExtensions = {"apk", "mp3", "mp4", "png", "jpg", "jpeg"};
 
-                final LinkedList<AdapterDetailedList.FileDetail> fileDetails = new LinkedList<>();
-                final LinkedList<AdapterDetailedList.FileDetail> folderDetails = new LinkedList<>();
+                final LinkedList<FileListAdapter.FileDetail> fileDetails = new LinkedList<>();
+                final LinkedList<FileListAdapter.FileDetail> folderDetails = new LinkedList<>();
                 currentFolder = tempFolder.getAbsolutePath();
 
                 if (!tempFolder.canRead()) {
@@ -376,7 +376,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
                         if (stats != null) {
                             for (com.spazedog.lib.rootfw4.utils.File.FileStat stat : stats) {
                                 if (stat.type().equals("d")) {
-                                    folderDetails.add(new AdapterDetailedList.FileDetail(stat.name(),
+                                    folderDetails.add(new FileListAdapter.FileDetail(stat.name(),
                                             getString(R.string.folder),
                                             ""));
                                 } else if (!FilenameUtils.isExtension(stat.name().toLowerCase(), unopenableExtensions)
@@ -384,7 +384,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
                                     final long fileSize = stat.size();
                                     //SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
                                     //String date = format.format("");
-                                    fileDetails.add(new AdapterDetailedList.FileDetail(stat.name(),
+                                    fileDetails.add(new FileListAdapter.FileDetail(stat.name(),
                                             FileUtils.byteCountToDisplaySize(fileSize), ""));
                                 }
                             }
@@ -398,7 +398,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
                     if (files != null) {
                         for (final File f : files) {
                             if (f.isDirectory()) {
-                                folderDetails.add(new AdapterDetailedList.FileDetail(f.getName(),
+                                folderDetails.add(new FileListAdapter.FileDetail(f.getName(),
                                         getString(R.string.folder),
                                         ""));
                             } else if (f.isFile()
@@ -407,7 +407,7 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
                                 final long fileSize = f.length();
                                 SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
                                 String date = format.format(f.lastModified());
-                                fileDetails.add(new AdapterDetailedList.FileDetail(f.getName(),
+                                fileDetails.add(new FileListAdapter.FileDetail(f.getName(),
                                         FileUtils.byteCountToDisplaySize(fileSize), date));
                             }
                         }
@@ -426,10 +426,10 @@ public class SelectFileActivity extends AppCompatActivity implements SearchView.
          * {@inheritDoc}
          */
         @Override
-        protected void onPostExecute(final LinkedList<AdapterDetailedList.FileDetail> names) {
+        protected void onPostExecute(final LinkedList<FileListAdapter.FileDetail> names) {
             if (names != null) {
                 boolean isRoot = currentFolder.equals("/");
-                AdapterDetailedList mAdapter = new AdapterDetailedList(getBaseContext(), names, isRoot);
+                FileListAdapter mAdapter = new FileListAdapter(getBaseContext(), names, isRoot);
                 listFiles.setAdapter(mAdapter);
                 filter = mAdapter.getFilter();
             }

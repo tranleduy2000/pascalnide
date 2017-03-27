@@ -231,6 +231,14 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
         clipboardManager.setText(getText()
                 .subSequence(getSelectionStart(), getSelectionEnd()));
     }
+    /**
+     * insert text
+     *
+     * @param delta text for insert
+     */
+    public void insert(CharSequence delta) {
+        getText().insert(getSelectionStart(), delta, getSelectionStart(), getSelectionEnd());
+    }
 
     @Override
     public boolean onKeyUp(int zKeyCode, KeyEvent event) {

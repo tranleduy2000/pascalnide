@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:paddingLeft="4dp"
-                android:id="@+id/txt_name"
+                android:id="@+id/txt_title"
                 android:layout_gravity="center|left"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:layout_height="wrap_content" />

@@ -36,8 +36,8 @@ import org.apache.commons.io.FilenameUtils;
 import java.util.LinkedList;
 
 
-public class AdapterDetailedList extends
-        ArrayAdapter<AdapterDetailedList.FileDetail> {
+public class FileListAdapter extends
+        ArrayAdapter<FileListAdapter.FileDetail> {
 
     // Layout Inflater
     private final LayoutInflater inflater;
@@ -46,9 +46,9 @@ public class AdapterDetailedList extends
     // List of file details
     private LinkedList<FileDetail> fileDetails;
 
-    public AdapterDetailedList(final Context context,
-                               final LinkedList<FileDetail> fileDetails,
-                               final boolean isRoot) {
+    public FileListAdapter(final Context context,
+                           final LinkedList<FileDetail> fileDetails,
+                           final boolean isRoot) {
         super(context, R.layout.item_file_list, fileDetails);
         this.fileDetails = fileDetails;
         this.orig = fileDetails;

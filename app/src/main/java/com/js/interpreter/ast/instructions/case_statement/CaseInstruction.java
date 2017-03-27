@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.instructions.case_statement;
 
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
@@ -15,7 +16,6 @@ import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
@@ -71,25 +71,37 @@ public class CaseInstruction extends DebuggableExecutable {
                     i.take();
                     break;
                 } else {
-                    throw new ExpectedTokenException("[comma or colon]",
-                            i.take());
+                    throw new ExpectedTokenException("[comma or colon]", i.take());
                 }
             }
             Executable command = i.getNextCommand(context);
             i.assertNextSemicolon();
-            possibilities.add(new CasePossibility(conditions
-                    .toArray(new CaseCondition[conditions.size()]), command));
+            possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
         }
         otherwise = new InstructionGrouper(i.peek().lineInfo);
         if (i.peek() instanceof ElseToken) {
             i.take();
             while (i.hasNext()) {
                 otherwise.addCommand(i.getNextCommand(context));
+
+                // TODO: 27-Mar-17 check EOF
+                /**
+                 * case i of
+                 *  1 : writeln;
+                 *  2 : writeln;
+                 * else
+                 *  writeln  //Adding a semicolon is not necessary
+                 * end;
+                 */
+//                Token t = i.take();
+//                if (i.peek() instanceof ElseToken)
+//                if (!(t instanceof SemicolonToken)) {
+//                    throw new ExpectedTokenException(";", t);
+//                }
                 i.assertNextSemicolon();
             }
         }
-        this.possibilies = possibilities
-                .toArray(new CasePossibility[possibilities.size()]);
+        this.possibilies = possibilities.toArray(new CasePossibility[possibilities.size()]);
     }
 
     @Override

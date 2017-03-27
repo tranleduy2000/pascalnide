@@ -34,9 +34,10 @@ import android.widget.Scroller;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.EditorListener;
-import com.duy.pascal.frontend.utils.CodeThemeUtils;
+import com.duy.pascal.frontend.theme.CodeThemeUtils;
+import com.duy.pascal.frontend.theme.ThemeFromAssets;
 import com.duy.pascal.frontend.utils.FontManager;
-import com.duy.pascal.frontend.view.EditorSetting;
+import com.duy.pascal.frontend.EditorSetting;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -154,7 +155,27 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         updateFromSettings(context);
     }
 
+
+    public void setTheme(int id) {
+        ThemeFromAssets theme = ThemeFromAssets.getTheme(id, mContext);
+        setBackgroundColor(theme.getBackground());
+        setTextColor(theme.getColor(0));
+        COLOR_ERROR = theme.getColor(7);
+        COLOR_NUMBER = theme.getColor(1);
+        COLOR_KEYWORD = theme.getColor(2);
+        COLOR_COMMENT = theme.getColor(6);
+        COLOR_STRINGS = theme.getColor(3);
+        COLOR_BOOLEANS = theme.getColor(8);
+        COLOR_OPT = theme.getColor(9);
+
+        setTypeface(FontManager.getInstance(mContext));
+    }
+
     public void setTheme(String name) {
+        /**
+         * load theme from xml
+         */
+
         int style = CodeThemeUtils.getCodeTheme(mContext, name);
         TypedArray typedArray = mContext.obtainStyledAttributes(style,
                 R.styleable.CodeTheme);
@@ -174,16 +195,15 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 R.color.boolean_color);
         COLOR_OPT = typedArray.getInteger(R.styleable.CodeTheme_opt_color,
                 R.color.opt_color);
-
         setBackgroundColor(typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
                 R.color.bg_editor_color));
-
         setTextColor(typedArray.getInteger(R.styleable.CodeTheme_normal_text_color,
                 R.color.normal_text_color));
 
-        setTypeface(FontManager.getInstance(mContext));
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
+
+        setTypeface(FontManager.getInstance(mContext));
     }
 
     public void computeScroll() {
@@ -308,7 +328,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 
     public void updateFromSettings(Context c) {
         mPreferences = new EditorSetting(c);
-        setTheme(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
+//        setTheme(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
+        setTheme(1);
         setHorizontallyScrolling(!mPreferences.isWrapText());
 //        mPaintHighlight.setAlpha(48);
         setTextSize(mPreferences.getTextSize());
@@ -646,14 +667,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         return source + indent;
     }
 
-    /**
-     * insert text
-     *
-     * @param delta text for insert
-     */
-    public void insert(CharSequence delta) {
-        getText().insert(getSelectionStart(), delta, getSelectionStart(), getSelectionEnd());
-    }
 
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {
         Pattern pattern;

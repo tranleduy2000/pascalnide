@@ -94,7 +94,7 @@ public class RecycleViewFileAdapter extends RecyclerView.Adapter<RecycleViewFile
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtName = (TextView) itemView.findViewById(R.id.txt_name);
+            txtName = (TextView) itemView.findViewById(R.id.txt_title);
             txtPath = (TextView) itemView.findViewById(R.id.txt_path);
             cardView = itemView.findViewById(R.id.card_view);
             imgDelete = itemView.findViewById(R.id.img_delete);

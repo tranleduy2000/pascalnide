@@ -62,7 +62,7 @@ public class DebugMonitorAdapter extends RecyclerView.Adapter<DebugMonitorAdapte
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.txt_name)
+        @BindView(R.id.txt_title)
         TextView txtName;
         @BindView(R.id.txt_value)
         TextView txtValue;

@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.adapters.CodeViewAdapter;
+import com.duy.pascal.frontend.adapters.CodeSampleAdapter;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
@@ -22,14 +22,14 @@ import java.io.InputStreamReader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeViewAdapter.OnCodeClickListener {
+public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    private CodeViewAdapter adapter;
+    private CodeSampleAdapter adapter;
     private ApplicationFileManager fileManager;
 
     @Override
@@ -42,7 +42,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        adapter = new CodeViewAdapter(this);
+        adapter = new CodeSampleAdapter(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(false);
