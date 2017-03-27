@@ -19,4 +19,5 @@ public class CodeView extends KeyBoardFilterEditText {
     public CodeView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 }

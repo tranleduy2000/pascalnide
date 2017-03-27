@@ -1,9 +1,11 @@
-package com.duy.pascal.frontend.file;
+package com.duy.pascal.frontend.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.ListViewCompat;
 import android.util.AttributeSet;
+
+import com.duy.pascal.frontend.file.FragmentSelectFile;
 
 /**
  * This view will be inside {@link FragmentSelectFile}
@@ -40,6 +42,5 @@ public class FileListView extends ListViewCompat {
     private void setup(Context context) {
 
     }
-
 
 }

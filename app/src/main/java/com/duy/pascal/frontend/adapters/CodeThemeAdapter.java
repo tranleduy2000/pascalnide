@@ -54,7 +54,8 @@ public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.View
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPreferences.put(context.getString(R.string.key_code_theme), (String) mThemes.get(position));
+                mPreferences.put(context.getString(R.string.key_code_theme),
+                        String.valueOf(mThemes.get(position)));
                 context.finish();
             }
         });

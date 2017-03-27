@@ -168,6 +168,12 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         COLOR_BOOLEANS = theme.getColor(8);
         COLOR_OPT = theme.getColor(9);
 
+        int style = CodeThemeUtils.getCodeTheme(mContext, "");
+        TypedArray typedArray = mContext.obtainStyledAttributes(style,
+                R.styleable.CodeTheme);
+        this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
+        typedArray.recycle();
+
         setTypeface(FontManager.getInstance(mContext));
     }
 
@@ -328,8 +334,13 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 
     public void updateFromSettings(Context c) {
         mPreferences = new EditorSetting(c);
-//        setTheme(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
-        setTheme(1);
+        String name = mPreferences.getString(mContext.getString(R.string.key_code_theme));
+        try {
+            Integer id = Integer.parseInt(name);
+            setTheme(id);
+        } catch (Exception e) {
+            setTheme(name);
+        }
         setHorizontallyScrolling(!mPreferences.isWrapText());
 //        mPaintHighlight.setAlpha(48);
         setTextSize(mPreferences.getTextSize());

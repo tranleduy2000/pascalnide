@@ -22,7 +22,6 @@ public class ThemeHorizontalAdapter extends PagerAdapter {
     private Preferences mPreferences;
 
     public ThemeHorizontalAdapter(final Activity context) {
-
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mPreferences = new Preferences(context);
@@ -69,14 +68,8 @@ public class ThemeHorizontalAdapter extends PagerAdapter {
         view.findViewById(R.id.btn_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Object o = mThemes.get(position);
-                if (o instanceof String) {
-                    mPreferences.put(mContext.getString(R.string.key_code_theme),
-                            (String) mThemes.get(position));
-                } else if (o instanceof Integer) {
-                    mPreferences.put(mContext.getString(R.string.key_code_theme),
-                            (Integer) mThemes.get(position));
-                }
+                mPreferences.put(mContext.getString(R.string.key_code_theme),
+                        String.valueOf(mThemes.get(position)));
                 mContext.finish();
             }
         });

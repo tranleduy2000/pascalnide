@@ -23,14 +23,14 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
+        <com.duy.pascal.frontend.view.BaseRecycleView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
 
-        </android.support.v7.widget.RecyclerView>
+        </com.duy.pascal.frontend.view.BaseRecycleView>
 
         <!--<com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager-->
             <!--android:id="@+id/recycler_view"-->

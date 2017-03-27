@@ -78,7 +78,12 @@ public class Preferences {
     }
 
     public String getString(String key) {
-        return sharedPreferences.getString(key, "");
+        String s = "";
+        try {
+            s = sharedPreferences.getString(key, "");
+        } catch (Exception ignored) {
+        }
+        return s;
     }
 
     public boolean getBoolean(String key) {
