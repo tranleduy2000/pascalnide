@@ -69,6 +69,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     private ArrayList<GraphObject> graphObjects = new ArrayList<>();
     private int foregroundGraphColor = Color.WHITE;
     private Point cursorGraph = new Point(0, 0);
+    private boolean filterKey = false;
 
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
@@ -85,6 +86,14 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         init();
     }
 
+    public boolean isFilterKey() {
+        return filterKey;
+    }
+
+    public void setFilterKey(boolean filterKey) {
+        this.filterKey = filterKey;
+    }
+
     private void init() {
         mGestureDetector = new GestureDetector(this);
         mCursor = new CursorConsole(0, 0, Color.DKGRAY);
@@ -99,15 +108,19 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public void putChar(char c) {
-        bufferData.inputBuffer.putByte((byte) c);
+        bufferData.textBuffer.putByte((byte) c);
     }
 
     public char readChar() {
-        return (char) bufferData.inputBuffer.getByte();
+        return (char) bufferData.textBuffer.getByte();
+    }
+
+    public char readKey() {
+        return (char) bufferData.keyBuffer.getByte();
     }
 
     public boolean keyPressed() {
-        return bufferData.inputBuffer.rear > bufferData.inputBuffer.front;
+        return bufferData.textBuffer.rear > bufferData.textBuffer.front;
     }
 
     /**
@@ -190,7 +203,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         }
         makeCursorVisible();
     }
-
 
     public void showPrompt() {
         commitString("Initialize the console screen..." + "\n");
@@ -386,20 +398,32 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
-        if (keyCode == KeyEvent.KEYCODE_DEL) {
-            putChar((char) 8);
+        if (filterKey) {
+            bufferData.keyBuffer.putByte((byte) event.getUnicodeChar());
             return true;
-        }
-        char c = (char) event.getUnicodeChar();
-        if (c != '\0') {
-            putChar(c);
-            return true;
+        } else {
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                putChar((char) 8);
+                return true;
+            }
+            char c = (char) event.getUnicodeChar();
+            if (c != '\0') {
+                putChar(c);
+                return true;
+            }
         }
         return false;
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.isSystem()) {
+            return super.onKeyDown(keyCode, event);
+        }
+        if (filterKey) {
+            bufferData.keyBuffer.putByte((byte) event.getUnicodeChar());
+            return true;
+        }
         if (DLog.DEBUG) Log.d(TAG, "onKeyUp: " + event);
         return super.onKeyUp(keyCode, event);
     }
@@ -603,7 +627,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         graphObjects.clear();
         cursorGraph.set(0, 0);
         clearScreen();
-
     }
 
     //pascal
@@ -611,10 +634,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         cursorGraph.set(x, y);
     }
 
-    public int readKey() {
-        bufferData.inputBuffer.getByte();
-        return 0;
-    }
 }
 
 

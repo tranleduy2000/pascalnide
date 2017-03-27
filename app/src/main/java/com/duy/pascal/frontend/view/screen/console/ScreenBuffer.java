@@ -11,7 +11,17 @@ public class ScreenBuffer {
     public int firstIndex;
     public char[] screenBuffer;
     public int[] colorScreenBuffer;
-    public ByteQueue inputBuffer = new ByteQueue();
+
+    /**
+     * store text input
+     */
+    public ByteQueue textBuffer = new ByteQueue();
+
+    /**
+     * store key code event
+     */
+    public ByteQueue keyBuffer = new ByteQueue();
+
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
 

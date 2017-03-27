@@ -68,17 +68,6 @@ public class ByteQueue {
         notify();
     }
 
-    public synchronized void putKey(int b) {
-        keyEvent[rear] = b;
-        rear++;
-        if (rear >= text.length) rear = 0;
-        if (front == rear) {
-            front++;
-            if (front >= text.length) front = 0;
-        }
-        notify();
-    }
-
     public synchronized void eraseByte() {
         if (rear != front) {
             rear--;

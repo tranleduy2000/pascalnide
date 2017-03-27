@@ -109,6 +109,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             exitFlag = 0;
             do {
                 c = mConsoleView.readChar();
+                System.out.println(c);
                 switch (c) {
                     case 10: // return
                         exitFlag = 1;
@@ -233,6 +234,13 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         }
         //debug
         if (DEBUG) e.printStackTrace();
+    }
+
+    public char readKey() {
+        mConsoleView.setFilterKey(true);
+        char res = mConsoleView.readKey();
+        mConsoleView.setFilterKey(false);
+        return res;
     }
 
     public synchronized void startInput() {
@@ -377,6 +385,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             Log.d(TAG, "onStop: Program is stopped");
         }
     }
+
 
 }
 

@@ -44,9 +44,9 @@ public class SystemLib implements PascalLibrary {
     /**
      * procedure readkey
      */
-    public int readKey() {
+    public char readKey() {
         assert activity != null;
-        return activity.getConsoleView().readKey();
+        return activity.readKey();
     }
 
     /**
