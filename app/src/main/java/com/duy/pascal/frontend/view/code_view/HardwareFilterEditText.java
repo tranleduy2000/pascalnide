@@ -1,4 +1,4 @@
-package terminal.android.duy.com.sample;
+package com.duy.pascal.frontend.view.code_view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,17 +12,20 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.keyboard.KeyListener;
+import com.duy.pascal.frontend.keyboard.KeySettings;
+
 /**
  * Created by Duy on 26-Mar-17.
  */
 
-public class HardwareFilterEditText extends android.support.v7.widget.AppCompatEditText {
+public abstract class HardwareFilterEditText extends android.support.v7.widget.AppCompatEditText {
     private static final String TAG = HardwareFilterEditText.class.getSimpleName();
     private static final boolean LOG_KEY_EVENTS = true;
-    private TermSettings mSettings;
+    private KeySettings mSettings;
     private SharedPreferences mPrefs;
     private KeyListener mKeyListener;
-    private String mImeBuffer = "";
 
     public HardwareFilterEditText(Context context) {
         super(context);
@@ -41,13 +44,13 @@ public class HardwareFilterEditText extends android.support.v7.widget.AppCompatE
 
     public void init() {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        mSettings = new TermSettings(mPrefs);
+        mSettings = new KeySettings(mPrefs);
         mKeyListener = new KeyListener();
         updatePrefs(mSettings);
 
     }
 
-    public void updatePrefs(TermSettings settings) {
+    public void updatePrefs(KeySettings settings) {
         mSettings = settings;
     }
 
@@ -84,7 +87,7 @@ public class HardwareFilterEditText extends android.support.v7.widget.AppCompatE
      */
     @Override
     public boolean onKeyDown(int zKeyCode, KeyEvent event) {
-        if (TermDebug.LOG_IME) Log.w(TAG, "onKeyDown: " + zKeyCode + " " + event);
+        if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + zKeyCode + " " + event);
 
         //The new Key Code
         int keyCode = event.getKeyCode();

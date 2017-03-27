@@ -2,12 +2,13 @@ package com.duy.pascal.frontend.code;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
+import android.text.style.StyleSpan;
 
 import com.duy.pascal.backend.exceptions.BadFunctionCallException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
@@ -46,7 +47,6 @@ public class ExceptionManager {
     }
 
     public Spanned getMessage(Exception e) {
-        Log.e(TAG, "getMessage: ", e);
         try {
             if (e instanceof ExpectedTokenException) {
                 return processExpectedTokenException((ExpectedTokenException) e);
@@ -69,7 +69,7 @@ public class ExceptionManager {
             }
         } catch (Exception err) {
             FirebaseCrash.report(new Throwable("Error when get exception msg"));
-            return new SpannableString("");
+            return new SpannableString(err.toString());
         }
     }
 
@@ -150,31 +150,31 @@ public class ExceptionManager {
         String expected = e.token + "\n";
         String current = e.instead + "\n";
 //        String msg = msg1 + expected + msg2 + current;
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append(msg1)
-                .append("<font color=\"yellow\">").append(expected).append("</font>").append("<br>")
-                .append(msg2)
-                .append("<font color=\"yellow\">").append(current).append("</font>").append("<br>")
-                .append("<font color=\"red\">").append(e.line).append("</font>");
-        return fromHtml(stringBuilder.toString());
-//        String msg = msg1 + expected + msg2 + current;
-//        Spannable span = new SpannableString(msg);
-//        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-//                msg1.length(),
-//                msg1.length() + expected.length(),
-//                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        span.setSpan(new StyleSpan(Typeface.BOLD),
-//                msg1.length(),
-//                msg1.length() + expected.length(),
-//                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//
-//        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-//                msg1.length() + expected.length() + msg2.length(), msg.length(),
-//                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        span.setSpan(new StyleSpan(Typeface.BOLD),
-//                msg1.length() + expected.length() + msg2.length(), msg.length(),
-//                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        return span;
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder
+//                .append(msg1)
+//                .append("<font color=\"yellow\">").append(expected).append("</font>").append("<br>")
+//                .append(msg2)
+//                .append("<font color=\"yellow\">").append(current).append("</font>").append("<br>")
+//                .append("<font color=\"red\">").append(e.line).append("</font>");
+//        return fromHtml(stringBuilder.toString());
+        String msg = msg1 + expected + msg2 + current;
+        Spannable span = new SpannableString(msg);
+        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
+                msg1.length(),
+                msg1.length() + expected.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new StyleSpan(Typeface.BOLD),
+                msg1.length(),
+                msg1.length() + expected.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
+                msg1.length() + expected.length() + msg2.length(), msg.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new StyleSpan(Typeface.BOLD),
+                msg1.length() + expected.length() + msg2.length(), msg.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return span;
     }
 }
