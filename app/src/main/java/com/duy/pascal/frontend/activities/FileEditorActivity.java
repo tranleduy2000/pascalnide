@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.frontend.MenuEditor;
+import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.Preferences;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 
 public abstract class FileEditorActivity extends AbstractAppCompatActivity
         implements SymbolListView.OnKeyListener,
-        MenuEditor.EditorControl {
+        EditorControl {
     protected String mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
     protected ApplicationFileManager fileManager;
     @BindView(R.id.toolbar)
@@ -69,6 +69,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        mCodeView.setEditorControl(this);
         findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

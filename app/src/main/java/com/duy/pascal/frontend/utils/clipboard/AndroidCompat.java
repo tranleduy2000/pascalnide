@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.screen.utils;
+package com.duy.pascal.frontend.utils.clipboard;
 
 /**
  * The classes in this package take advantage of the fact that the VM does

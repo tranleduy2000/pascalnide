@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.screen.utils;
+package com.duy.pascal.frontend.utils.clipboard;
 
 public interface ClipboardManagerCompat {
     CharSequence getText();

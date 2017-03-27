@@ -36,7 +36,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.EditorListener;
 import com.duy.pascal.frontend.utils.CodeThemeUtils;
 import com.duy.pascal.frontend.utils.FontManager;
-import com.duy.pascal.frontend.view.EditorPreferences;
+import com.duy.pascal.frontend.view.EditorSetting;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,15 +45,15 @@ import java.util.zip.CRC32;
 import icepick.Icepick;
 
 import static android.graphics.Typeface.BOLD;
-import static com.duy.pascal.frontend.data.KeyWordAndPattern.comments;
-import static com.duy.pascal.frontend.data.KeyWordAndPattern.keywords;
-import static com.duy.pascal.frontend.data.KeyWordAndPattern.line;
-import static com.duy.pascal.frontend.data.KeyWordAndPattern.numbers;
-import static com.duy.pascal.frontend.data.KeyWordAndPattern.symbols;
-import static com.duy.pascal.frontend.data.KeyWordAndPattern.trailingWhiteSpace;
+import static com.duy.pascal.frontend.data.PatternUtil.comments;
+import static com.duy.pascal.frontend.data.PatternUtil.general_strings;
+import static com.duy.pascal.frontend.data.PatternUtil.keywords;
+import static com.duy.pascal.frontend.data.PatternUtil.line;
+import static com.duy.pascal.frontend.data.PatternUtil.numbers;
+import static com.duy.pascal.frontend.data.PatternUtil.symbols;
+import static com.duy.pascal.frontend.data.PatternUtil.trailingWhiteSpace;
 
 public abstract class HighlightEditor extends AutoSuggestsEditText implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
-    public static final Pattern general_strings = Pattern.compile("'(.*?)'");
     public static final String TAG = HighlightEditor.class.getSimpleName();
     private static final String INDEX_CHAR = "m";
     private static final int TAB_NUMBER = 3;
@@ -102,7 +102,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     private int mOldTextlength = 0;
     private long mOldTextCrc32 = 0;
     private int scrollX = 0, scrollY = 0;
-    private EditorPreferences mPreferences;
+    private EditorSetting mPreferences;
     private boolean canEdit = true;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
@@ -307,7 +307,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     }
 
     public void updateFromSettings(Context c) {
-        mPreferences = new EditorPreferences(c);
+        mPreferences = new EditorSetting(c);
         setTheme(mPreferences.getString(mContext.getString(R.string.key_code_theme)));
         setHorizontallyScrolling(!mPreferences.isWrapText());
 //        mPaintHighlight.setAlpha(48);
@@ -651,7 +651,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
      *
      * @param delta text for insert
      */
-    public void insert(String delta) {
+    public void insert(CharSequence delta) {
         getText().insert(getSelectionStart(), delta, getSelectionStart(), getSelectionEnd());
     }
 
@@ -804,10 +804,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         this.scrollY = t;
     }
 
-    @Override
-    public Parcelable onSaveInstanceState() {
-        return Icepick.saveInstanceState(this, super.onSaveInstanceState());
-    }
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
@@ -816,7 +812,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-        outAttrs.imeOptions = EditorInfo.IME_FLAG_NO_EXTRACT_UI;
         return super.onCreateInputConnection(outAttrs);
     }
 

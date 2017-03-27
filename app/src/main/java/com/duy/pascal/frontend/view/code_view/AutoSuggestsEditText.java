@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.data.KeyWordAndPattern;
+import com.duy.pascal.frontend.data.PatternUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +49,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     public void invalidateKeyWord(String source) {
 //        Log.d(TAG, "invalidateKeyWord: " + source);
         list.clear();
-        Collections.addAll(list, KeyWordAndPattern.LIST_KEY_WORD);
+        Collections.addAll(list, PatternUtil.LIST_KEY_WORD);
         String[] words = source.split("[^a-zA-Z']+");
         Collections.addAll(list, words);
 //        Log.d(TAG, "invalidateKeyWord: " + list.toString());

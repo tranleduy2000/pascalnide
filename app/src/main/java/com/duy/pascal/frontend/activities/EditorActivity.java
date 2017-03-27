@@ -51,7 +51,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class EditorActivity extends FileEditorActivity implements
-
         FileListener,
         DrawerLayout.DrawerListener {
 

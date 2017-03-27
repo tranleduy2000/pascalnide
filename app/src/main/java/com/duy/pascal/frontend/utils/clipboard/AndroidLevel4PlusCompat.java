@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.screen.utils;
+package com.duy.pascal.frontend.utils.clipboard;
 
 /**
  * Created by Duy on 26-Mar-17.

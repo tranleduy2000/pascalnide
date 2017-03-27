@@ -7,7 +7,7 @@ import android.util.AttributeSet;
  * Created by Duy on 15-Mar-17.
  */
 
-public class CodeView extends UndoRedoSupportEditText {
+public class CodeView extends KeyBoardFilterEditText {
     public CodeView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

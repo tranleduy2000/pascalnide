@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * Created by Duy on 11-Feb-17.
  */
 
-public class KeyWordAndPattern {
+public class PatternUtil {
     public static final String[] LIST_KEY_WORD = new String[]{
             "program", "begin", "end", "procedure", "function", "uses",
             "integer", "real", "string", "char", "longint", "word", "byte", "extended",
@@ -78,5 +78,6 @@ public class KeyWordAndPattern {
     public static String[] symbols_key = new String[]{
             ":=", ";", ".", "//", "'", "(", ")", "<", ">", "=", "<>", "<=", ">="
     };
+    public static final Pattern general_strings = Pattern.compile("'(.*?)'");
 
 }
