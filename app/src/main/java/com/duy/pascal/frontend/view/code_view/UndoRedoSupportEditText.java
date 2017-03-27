@@ -32,6 +32,7 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
         init();
     }
 
+    @Override
     public void init() {
         super.init();
         undoRedoHelper = new UndoRedoHelper(this);

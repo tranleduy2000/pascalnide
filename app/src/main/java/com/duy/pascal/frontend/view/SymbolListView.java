@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.duy.pascal.frontend.adapters.SymbolAdapter;
 import com.duy.pascal.frontend.data.KeyWordAndPattern;
@@ -57,7 +58,7 @@ public class SymbolListView extends RecyclerView {
     }
 
     public interface OnKeyListener {
-        void onKeyClick(String text);
+        void onKeyClick(View view, String text);
 
         void onKeyLongClick(String text);
     }

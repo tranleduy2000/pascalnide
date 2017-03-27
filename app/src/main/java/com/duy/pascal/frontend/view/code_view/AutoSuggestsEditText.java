@@ -35,13 +35,13 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     public AutoSuggestsEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
-
     }
 
     public AutoSuggestsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
+
 
     /**
      * slipt string in edittext and put it to list keyword

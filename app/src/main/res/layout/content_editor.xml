@@ -14,30 +14,44 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/recycler_view"
         android:fillViewport="true">
+
         <com.duy.pascal.frontend.view.code_view.CodeView
-                android:id="@+id/edit_editor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:dropDownAnchor="@+id/app_bar"
-                android:dropDownHeight="110dp"
-                android:dropDownWidth="150dp"
-                android:gravity="left|top"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:scrollbarAlwaysDrawHorizontalTrack="true"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:scrollbarSize="5.0dip"
-                android:scrollbars="horizontal|vertical"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:id="@+id/edit_editor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dropDownAnchor="@+id/app_bar"
+            android:dropDownHeight="110dp"
+            android:dropDownWidth="150dp"
+            android:gravity="left|top"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarSize="5.0dip"
+            android:scrollbars="horizontal|vertical"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
     </com.duy.pascal.frontend.view.LockableScrollView>
 
     <com.duy.pascal.frontend.view.SymbolListView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/bottom_editor_height"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_toRightOf="@+id/img_tab">
 
     </com.duy.pascal.frontend.view.SymbolListView>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/img_tab"
+        android:layout_width="@dimen/bottom_editor_height"
+        android:layout_height="@dimen/bottom_editor_height"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#651fff"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/ic_keyboard_tab_white_24dp"
+        android:contentDescription="@string/tab" />
 </RelativeLayout>

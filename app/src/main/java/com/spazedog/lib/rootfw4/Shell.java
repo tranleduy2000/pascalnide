@@ -605,7 +605,7 @@ public class Shell {
 	}
 	
 	/**
-	 * Close the shell connection using 'exit 0' if possible, or by force and release all data stored in this instance. 
+	 * Close the shell connection using 'exit 0' if possible, or by force and release all text stored in this instance.
 	 */
 	public void destroy() {
 		if (mStream != null) {

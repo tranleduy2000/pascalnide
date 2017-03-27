@@ -115,5 +115,6 @@
     <string name="name">Your name</string>
     <string name="send_to_me">Send to dev</string>
     <string name="rerun">Rerun current program</string>
+    <string name="tab">tab</string>
 </resources>
 

@@ -19,6 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
 
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         this.cursorGraph = cursorGraph;
     }
 
-    public void inputChar(char c) {
+    public void putChar(char c) {
         bufferData.inputBuffer.putByte((byte) c);
     }
 
@@ -345,7 +346,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             public boolean commitText(CharSequence text, int newCursorPosition) {
                 int n = text.length();
                 for (int i = 0; i < n; i++) {
-                    inputChar(text.charAt(i));
+                    putChar(text.charAt(i));
                 }
                 return true;
             }
@@ -353,7 +354,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             @Override
             public boolean performEditorAction(int actionCode) {
                 if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    inputChar('\n');
+                    putChar('\n');
                     return true;
                 }
                 return false;
@@ -361,28 +362,19 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
             @Override
             public boolean sendKeyEvent(KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    int keyCode = event.getKeyCode();
-                    if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        inputChar((char) 8);
-                        return true;
-                    }
-                    char c = (char) event.getUnicodeChar();
-                    if (c > 0) {
-                        inputChar(c);
-                    }
-                }
-                return true;
-            }
-
-            @Override
-            public boolean setComposingText(CharSequence text, int newCursorPosition) {
-                return true;
-            }
-
-            @Override
-            public boolean setSelection(int start, int end) {
-                return true;
+//                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+//                    int keyCode = event.getKeyCode();
+//                    if (keyCode == KeyEvent.KEYCODE_DEL) {
+//                        putChar((char) 8);
+//                        return true;
+//                    }
+//                    char c = (char) event.getUnicodeChar();
+//                    if (c > 0) {
+//                        putChar(c);
+//                    }
+//                }
+//                return true;
+                return super.sendKeyEvent(event);
             }
 
         };
@@ -390,19 +382,26 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (DLog.DEBUG) Log.d(TAG, "onKeyDown: " + event);
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
         if (keyCode == KeyEvent.KEYCODE_DEL) {
-            inputChar((char) 8);
+            putChar((char) 8);
             return true;
         }
         char c = (char) event.getUnicodeChar();
         if (c != '\0') {
-            inputChar(c);
+            putChar(c);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (DLog.DEBUG) Log.d(TAG, "onKeyUp: " + event);
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override
@@ -610,6 +609,11 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     //pascal
     public void setPointGraph(int x, int y) {
         cursorGraph.set(x, y);
+    }
+
+    public int readKey() {
+        bufferData.inputBuffer.getByte();
+        return 0;
     }
 }
 

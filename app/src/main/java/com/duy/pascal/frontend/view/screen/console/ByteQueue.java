@@ -4,14 +4,17 @@ package com.duy.pascal.frontend.view.screen.console;
  * Created by Duy on 10-Feb-17.
  */
 public class ByteQueue {
-    public static final int QUEUE_SIZE = 4 * 1024; //4MB ram
-    public byte data[];
+    public static final int QUEUE_SIZE = 2 * 1024; //2MB ram
+    public byte text[];
+    public int keyEvent[];
     public int front;
     public int rear;
-
+    private int size;
 
     public ByteQueue(int size) {
-        data = new byte[size];
+        this.size = size;
+        text = new byte[size];
+        keyEvent = new int[size];
         front = 0;
         rear = 0;
     }
@@ -28,6 +31,19 @@ public class ByteQueue {
         return rear;
     }
 
+    public synchronized int getKey() {
+        while (front == rear) {
+            try {
+                wait();
+            } catch (InterruptedException ignored) {
+            }
+        }
+        int b = keyEvent[front];
+        front++;
+        if (front >= size) front = 0;
+        return b;
+    }
+
     public synchronized byte getByte() {
         while (front == rear) {
             try {
@@ -35,19 +51,30 @@ public class ByteQueue {
             } catch (InterruptedException ignored) {
             }
         }
-        byte b = data[front];
+        byte b = text[front];
         front++;
-        if (front >= data.length) front = 0;
+        if (front >= text.length) front = 0;
         return b;
     }
 
     public synchronized void putByte(byte b) {
-        data[rear] = b;
+        text[rear] = b;
         rear++;
-        if (rear >= data.length) rear = 0;
+        if (rear >= text.length) rear = 0;
         if (front == rear) {
             front++;
-            if (front >= data.length) front = 0;
+            if (front >= text.length) front = 0;
+        }
+        notify();
+    }
+
+    public synchronized void putKey(int b) {
+        keyEvent[rear] = b;
+        rear++;
+        if (rear >= text.length) rear = 0;
+        if (front == rear) {
+            front++;
+            if (front >= text.length) front = 0;
         }
         notify();
     }

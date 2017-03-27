@@ -5,11 +5,11 @@ var
     arrayOfString: array[-3..-1] of string;
     i, j: integer;
 begin
-    //set data for simpleArray
+    //set text for simpleArray
     for i:=2 to 3 do simpleArray[i] := i * i;
     //write to console
     for i:=1 to 3 do writeln(simpleArray[i]);
-    //set data for complexArray
+    //set text for complexArray
     for i:=2 to 3 do
         for j:=1 to 2 do complexArray[i][j] := i * j;
     writeln('complex array:');

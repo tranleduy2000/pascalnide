@@ -40,6 +40,15 @@ public class SystemLib implements PascalLibrary {
         return false;
     }
 
+
+    /**
+     * procedure readkey
+     */
+    public int readKey() {
+        assert activity != null;
+        return activity.getConsoleView().readKey();
+    }
+
     /**
      * delay procedure
      *

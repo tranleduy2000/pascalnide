@@ -26,14 +26,14 @@ import java.util.List;
 import android.text.TextUtils;
 
 /**
- * This container is used to store any kind of data. All of the data is located within a String Array, where each index is considered a line. 
+ * This container is used to store any kind of text. All of the text is located within a String Array, where each index is considered a line.
  */
 @SuppressWarnings("unchecked")
 public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	protected String[] mLines;
 	
 	/**
-	 * This interface is used as the argument for the <code>sort()</code> and <code>assort()</code> methods. It can be used to create custom sorting of the data array.
+	 * This interface is used as the argument for the <code>sort()</code> and <code>assort()</code> methods. It can be used to create custom sorting of the text array.
 	 */
 	public interface DataSorting {
 		/**
@@ -42,7 +42,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 		 * Note that the <code>sort()</code> method will remove the line upon false, whereas <code>assort()</code> will remove it upon true.
 		 * 
 		 * @param input
-		 *     One line of the data array
+		 *     One line of the text array
 		 */
         Boolean test(String input);
 	}
@@ -52,10 +52,10 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	 */
 	public interface DataReplace {
 		/**
-		 * This method is used to alter the lines in the data array. Each line is parsed to this method, and whatever is returned will replace the current line.
+		 * This method is used to alter the lines in the text array. Each line is parsed to this method, and whatever is returned will replace the current line.
 		 * 
 		 * @param input
-		 *     One line of the data array
+		 *     One line of the text array
 		 */
         String replace(String input);
 	}
@@ -64,7 +64,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	 * Create a new Data instance.
 	 * 
 	 * @param lines
-	 *     An array representing the lines of the data
+	 *     An array representing the lines of the text
 	 */
 	public Data(String[] lines) {
 		mLines = lines;
@@ -113,7 +113,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to remove lines from the data array. Each line will be parsed to the custom <code>DataSorting</code> instance and then removed upon a true return.
+	 * This is used to determine whether or not to remove lines from the text array. Each line will be parsed to the custom <code>DataSorting</code> instance and then removed upon a true return.
 	 * 
 	 * @param DataSorting
 	 *     An instance of the <code>DataSorting</code> class which should determine whether or not to remove the line
@@ -138,7 +138,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to remove lines from the data array. Each line will be compared to the argument. If the line contains anything from the argument, it will be removed from the data array.
+	 * This is used to determine whether or not to remove lines from the text array. Each line will be compared to the argument. If the line contains anything from the argument, it will be removed from the text array.
 	 * 
 	 * @param contains
 	 *     A string to locate within each line to determine whether or not to remove the line
@@ -156,7 +156,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to keep lines in the data array. Each line will be parsed to the custom <code>DataSorting</code> instance and then removed upon a false return.
+	 * This is used to determine whether or not to keep lines in the text array. Each line will be parsed to the custom <code>DataSorting</code> instance and then removed upon a false return.
 	 * 
 	 * @param DataSorting
 	 *     An instance of the <code>DataSorting</code> interface which should determine whether or not to keep the line
@@ -181,7 +181,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to keep lines in the data array. Each line will be compared to the argument. If the line contains anything from the argument, it will not be removed from the data array.
+	 * This is used to determine whether or not to keep lines in the text array. Each line will be compared to the argument. If the line contains anything from the argument, it will not be removed from the text array.
 	 * 
 	 * @param contains
 	 *     A string to locate within each line to determine whether or not to remove the line
@@ -205,7 +205,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to keep lines in the data array. The method will keep each index within the <code>start</code> and <code>stop</code> indexes parsed via the arguments.
+	 * This is used to determine whether or not to keep lines in the text array. The method will keep each index within the <code>start</code> and <code>stop</code> indexes parsed via the arguments.
 	 * <br />
 	 * Note that the method will also except negative values. 
 	 * 
@@ -266,7 +266,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to remove lines from the data array. The method will remove each index within the <code>start</code> and <code>stop</code> indexes parsed via the arguments.
+	 * This is used to determine whether or not to remove lines from the text array. The method will remove each index within the <code>start</code> and <code>stop</code> indexes parsed via the arguments.
 	 * <br />
 	 * Note that the method will also except negative values. 
 	 * 
@@ -303,7 +303,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This method will remove all of the empty lines from the data array
+	 * This method will remove all of the empty lines from the text array
 	 *     
 	 * @return
 	 *     This instance
@@ -325,33 +325,33 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This will return the data array
+	 * This will return the text array
 	 *     
 	 * @return
-	 *     The data array
+	 *     The text array
 	 */
 	public String[] getArray() {
 		return mLines;
 	}
 	
 	/**
-	 * This will return a string of the data array with added line breakers
+	 * This will return a string of the text array with added line breakers
 	 *     
 	 * @return
-	 *     The data array as a string
+	 *     The text array as a string
 	 */
 	public String getString() {
 		return getString("\n");
 	}
 	
 	/**
-	 * This will return a string of the data array with custom characters used as line breakers
+	 * This will return a string of the text array with custom characters used as line breakers
 	 * 
 	 * @param start
 	 *     A separator character used to separate each line
 	 *     
 	 * @return
-	 *     The data array as a string
+	 *     The text array as a string
 	 */
 	public String getString(String separater) {
 		return mLines == null ? null : TextUtils.join(separater, Arrays.asList(mLines));
@@ -359,7 +359,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	
 	/**  
 	 * @return
-	 *     The last non-empty line of the data array
+	 *     The last non-empty line of the text array
 	 */
 	public String getLine() {
 		return getLine(-1, true);
@@ -373,7 +373,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This will return one specified line of the data array.
+	 * This will return one specified line of the text array.
 	 * <br />
 	 * Note that this also takes negative number to get a line from the end and up
 	 * 
@@ -403,7 +403,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**  
-	 * Count the lines in the data array
+	 * Count the lines in the text array
 	 * 
 	 * @return
 	 *     The number of lines

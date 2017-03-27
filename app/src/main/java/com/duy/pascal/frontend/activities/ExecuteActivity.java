@@ -124,7 +124,6 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                         if ((c >= ' ') && (inputData.last < MAX_INPUT)) {
                             inputData.data[inputData.last++] = c;
                             mConsoleView.commitChar(c);
-
                         }
                         break;
                 }
@@ -288,7 +287,6 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 
     @Override
     public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
-
     }
 
     @Override

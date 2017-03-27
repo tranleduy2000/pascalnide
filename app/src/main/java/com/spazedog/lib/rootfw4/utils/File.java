@@ -553,18 +553,18 @@ public class File {
 	}
 	
 	/**
-	 * Write data to the file. The data should be an array where each index is a line that should be written to the file. 
+	 * Write text to the file. The text should be an array where each index is a line that should be written to the file.
 	 * <br />
 	 * If the file does not already exist, it will be created. 
 	 * 
 	 * @param input
-	 *     The data that should be written to the file
+	 *     The text that should be written to the file
 	 *     
 	 * @param append
-	 *     Whether or not to append the data to the existing content in the file
+	 *     Whether or not to append the text to the existing content in the file
 	 * 
 	 * @return
-	 *     <code>True</code> if the data was successfully written to the file, <code>False</code> otherwise
+	 *     <code>True</code> if the text was successfully written to the file, <code>False</code> otherwise
 	 */
 	public Boolean write(String[] input, Boolean append) {
 		synchronized (mLock) {
@@ -1332,7 +1332,7 @@ public class File {
 	}
 	
 	/**
-	 * Extract data from an Android Assets Path (files located in /assets/) and add it to the current file location.
+	 * Extract text from an Android Assets Path (files located in /assets/) and add it to the current file location.
 	 * If the file already exist, it will be overwritten. Otherwise the file will be created. 
 	 * 
 	 * @param context
@@ -1356,7 +1356,7 @@ public class File {
 	}
 	
 	/**
-	 * Extract data from an Android resource id (files located in /res/) and add it to the current file location.
+	 * Extract text from an Android resource id (files located in /res/) and add it to the current file location.
 	 * If the file already exist, it will be overwritten. Otherwise the file will be created. 
 	 * 
 	 * @param context
@@ -1380,7 +1380,7 @@ public class File {
 	}
 	
 	/**
-	 * Extract data from an InputStream and add it to the current file location.
+	 * Extract text from an InputStream and add it to the current file location.
 	 * If the file already exist, it will be overwritten. Otherwise the file will be created. 
 	 *     
 	 * @param resource

@@ -14,7 +14,7 @@ public class InputData {
     }
 
     /**
-     * clear data
+     * clear text
      */
     public void clear() {
         first = 0;

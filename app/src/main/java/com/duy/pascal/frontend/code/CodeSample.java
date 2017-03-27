@@ -20,11 +20,11 @@ public class CodeSample {
             "\tarrayOfString: array[-3..-1] of string;\n" +
             "\ti, j: integer;\n" +
             "begin\n" +
-            "\t//set data for simpleArray\n" +
+            "\t//set text for simpleArray\n" +
             "\tfor i:=2 to 3 do simpleArray[i]:=i*i;\n" +
             "\t//write to console\n" +
             "\tfor i:=1 to 3 do writeln(simpleArray[i]);\n" +
-            "\t//set data for complexArray\n" +
+            "\t//set text for complexArray\n" +
             "\tfor i:=2 to 3 do\n" +
             "\t\tfor j:=1 to 2 do complexArray[i][j]:=i*j;\n" +
             "\twriteln('complex array:');\n" +

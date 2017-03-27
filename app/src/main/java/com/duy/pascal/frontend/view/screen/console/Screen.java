@@ -35,7 +35,7 @@ public class Screen implements ScreenObject {
     }
 
     /**
-     * number of line data
+     * number of line text
      *
      * @param maxLines
      */

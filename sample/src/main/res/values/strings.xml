@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">sample</string>
     <string name="entry_send">send</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

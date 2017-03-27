@@ -34,7 +34,8 @@ import butterknife.ButterKnife;
  */
 
 public abstract class FileEditorActivity extends AbstractAppCompatActivity
-        implements MenuEditor.EditorControl {
+        implements SymbolListView.OnKeyListener,
+        MenuEditor.EditorControl {
     protected String mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
     protected ApplicationFileManager fileManager;
     @BindView(R.id.toolbar)
@@ -68,6 +69,12 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onKeyClick(v, "\t");
+            }
+        });
         setTitle("");
         setupTab();
     }
@@ -225,7 +232,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
 
 
     /**
-     * load lasted file in database and set data to tablayout
+     * load lasted file in database and set text to tablayout
      */
     private class LoadTabFile extends AsyncTask<Void, File, Boolean> {
 

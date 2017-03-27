@@ -30,7 +30,7 @@ public class SymbolAdapter extends RecyclerView.Adapter<SymbolAdapter.ViewHolder
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null) listener.onKeyClick(((TextView) v).getText().toString());
+                if (listener != null) listener.onKeyClick(v,((TextView) v).getText().toString());
             }
         });
     }

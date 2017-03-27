@@ -31,6 +31,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Scroller;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.EditorListener;
 import com.duy.pascal.frontend.utils.CodeThemeUtils;
@@ -54,6 +55,8 @@ import static com.duy.pascal.frontend.data.KeyWordAndPattern.trailingWhiteSpace;
 public abstract class HighlightEditor extends AutoSuggestsEditText implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
     public static final Pattern general_strings = Pattern.compile("'(.*?)'");
     public static final String TAG = HighlightEditor.class.getSimpleName();
+    private static final String INDEX_CHAR = "m";
+    private static final int TAB_NUMBER = 3;
     private final Handler updateHandler = new Handler();
     public boolean showLineNumbers = true;
     public boolean syntaxHighlighting = true;
@@ -335,16 +338,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         highlightWithoutChange(getEditableText());
     }
 
-    @Override
-    protected boolean getDefaultEditable() {
-        return true;
-    }
-
-    @Override
-    protected MovementMethod getDefaultMovementMethod() {
-        return ArrowKeyMovementMethod.getInstance();
-    }
-
 //    public void setSelection(int start, int stop) {
 //        try {
 //            Selection.setSelection(getText(), start, stop);
@@ -368,13 +361,23 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 //    }
 
     @Override
-    public Editable getText() {
-        return super.getText();
+    protected boolean getDefaultEditable() {
+        return true;
     }
 
 //    public void extendSelection(int index) {
 //        Selection.extendSelection(getText(), index);
 //    }
+
+    @Override
+    protected MovementMethod getDefaultMovementMethod() {
+        return ArrowKeyMovementMethod.getInstance();
+    }
+
+    @Override
+    public Editable getText() {
+        return super.getText();
+    }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
@@ -411,10 +414,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         setFilters(new InputFilter[]{
                 new InputFilter() {
                     @Override
-                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                        if (modified &&
-                                end - start == 1 &&
-                                start < source.length() &&
+                    public CharSequence filter(CharSequence source,
+                                               int start, int end, Spanned dest, int dstart, int dend) {
+                        if (modified && end - start == 1 && start < source.length() &&
                                 dstart < dest.length()) {
                             char c = source.charAt(start);
                             if (c == '\n')
@@ -426,8 +428,12 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         });
 
         addTextChangedListener(new TextWatcher() {
+            int start = 0, end = 0;
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                this.start = start;
+                this.end = start + count;
             }
 
             @Override
@@ -441,6 +447,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 if (!modified)
                     return;
                 dirty = true;
+                applyTabWidth(e, start, end);
                 updateHandler.postDelayed(updateRunnable, updateDelay);
             }
         });
@@ -589,7 +596,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     /**
      * auto tab
      */
-    private CharSequence autoIndent(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+    private CharSequence autoIndent(CharSequence source,
+                                    int start, int end, Spanned dest, int dstart, int dend) {
+        if (DLog.DEBUG) Log.d(TAG, "autoIndent: " + source);
         String indent = "";
         int istart = dstart - 1;
         int iend = -1;
@@ -637,8 +646,13 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         return source + indent;
     }
 
+    /**
+     * insert text
+     *
+     * @param delta text for insert
+     */
     public void insert(String delta) {
-        getText().insert(getSelectionStart(), delta);
+        getText().insert(getSelectionStart(), delta, getSelectionStart(), getSelectionEnd());
     }
 
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {
@@ -804,6 +818,18 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
         outAttrs.imeOptions = EditorInfo.IME_FLAG_NO_EXTRACT_UI;
         return super.onCreateInputConnection(outAttrs);
+    }
+
+    public void applyTabWidth(Editable text, int start, int end) {
+        String str = text.toString();
+        float tabWidth = getPaint().measureText(INDEX_CHAR) * TAB_NUMBER;
+        while (start < end) {
+            int index = str.indexOf("\t", start);
+            if (index < 0)
+                break;
+            text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            start = index + 1;
+        }
     }
 
     public interface OnTextChangedListener {

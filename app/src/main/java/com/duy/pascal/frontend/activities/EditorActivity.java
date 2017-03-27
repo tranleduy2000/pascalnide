@@ -32,16 +32,15 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
-import com.duy.pascal.frontend.code.CodeSample;
-import com.duy.pascal.frontend.data.Preferences;
-import com.duy.pascal.frontend.file.FileListener;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.utils.ClipboardManager;
 import com.duy.pascal.frontend.code.CodeManager;
+import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
+import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileListener;
+import com.duy.pascal.frontend.utils.ClipboardManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
-import com.duy.pascal.frontend.view.SymbolListView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
@@ -52,7 +51,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class EditorActivity extends FileEditorActivity implements
-        SymbolListView.OnKeyListener,
+
         FileListener,
         DrawerLayout.DrawerListener {
 
@@ -108,7 +107,7 @@ public class EditorActivity extends FileEditorActivity implements
     }
 
     @Override
-    public void onKeyClick(String text) {
+    public void onKeyClick(View view, String text) {
         mCodeView.insert(text);
     }
 

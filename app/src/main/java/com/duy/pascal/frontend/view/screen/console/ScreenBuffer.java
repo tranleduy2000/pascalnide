@@ -32,21 +32,21 @@ public class ScreenBuffer {
     }
 
     /**
-     * save current data to file
+     * save current text to file
      */
     public void store() {
 // TODO: 26-Mar-17
     }
 
     /**
-     * read data from then file
+     * read text from then file
      */
     public void restore() {
 // TODO: 26-Mar-17
     }
 
     /**
-     * clear data
+     * clear text
      */
     public void clearBuffer() {
     }

@@ -187,6 +187,8 @@ public class IOLib implements PascalLibrary {
         }
         if (s == null) return;
         String inp = "";
+
+        //read string
         if (s.get() instanceof StringBuilder) {
             //read string
             activity.startInput();
@@ -195,7 +197,9 @@ public class IOLib implements PascalLibrary {
             }
             inp = activity.getInput();
             s.set(new StringBuilder(inp));
-        } else if (s.get() instanceof Double) {
+        }
+        //read double
+        else if (s.get() instanceof Double) {
             //read real
             inp = inp.replaceAll("\\s+", "");
             while (inp.trim().isEmpty()) {
@@ -206,7 +210,9 @@ public class IOLib implements PascalLibrary {
                 inp = activity.getInput();
             }
             s.set(Double.parseDouble(inp));
-        } else if (s.get() instanceof Integer) {
+        }
+        //read integer
+        else if (s.get() instanceof Integer) {
             inp = inp.replaceAll("\\s+", "");
             while (inp.trim().isEmpty()) {
                 activity.startInput();
@@ -216,7 +222,9 @@ public class IOLib implements PascalLibrary {
                 inp = activity.getInput();
             }
             s.set(Integer.parseInt(inp));
-        } else if (s.get() instanceof Long) {
+        }
+        //read longint
+        else if (s.get() instanceof Long) {
             while (inp.trim().isEmpty()) {
                 activity.startInput();
                 while (activity.isInputting()) {
@@ -225,7 +233,9 @@ public class IOLib implements PascalLibrary {
                 inp = activity.getInput();
             }
             s.set(Long.parseLong(inp));
-        } else if (s.get() instanceof Character) {
+        }
+        //read char
+        else if (s.get() instanceof Character) {
             while (inp.trim().length() < 1) {
                 activity.startInput();
                 while (activity.isInputting()) {
