@@ -53,7 +53,6 @@
 
         <menu>
 
-
             <item
                 android:id="@+id/action_report_bug"
                 android:icon="@drawable/ic_bug_report_white_24dp"
@@ -64,6 +63,11 @@
                 android:id="@+id/action_check_update"
                 android:icon="@drawable/ic_system_update_white_24dp"
                 android:title="@string/check_update" />
+
+            <item
+                android:id="@+id/action_info"
+                android:icon="@drawable/ic_info_white_24dp"
+                android:title="@string/information" />
 
             <item
                 android:id="@+id/action_rate"

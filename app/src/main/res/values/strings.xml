@@ -107,5 +107,7 @@
     <string name="send_to_me">Send to dev</string>
     <string name="rerun">Rerun current program</string>
     <string name="tab" translatable="false">tab</string>
+    <string name="translate">Translate</string>
+    <string name="license">License</string>
 </resources>
 

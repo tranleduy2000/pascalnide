@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.activities.CodeSampleActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
+import com.duy.pascal.frontend.activities.InfoActivity;
 import com.duy.pascal.frontend.activities.SettingsActivity;
 
 /**
@@ -114,6 +115,9 @@ public class MenuEditor {
                 break;
             case R.id.action_translate:
                 showPopupTranslate(activity);
+                break;
+            case R.id.action_info:
+                activity.startActivity(new Intent(activity, InfoActivity.class));
                 break;
         }
         return true;
