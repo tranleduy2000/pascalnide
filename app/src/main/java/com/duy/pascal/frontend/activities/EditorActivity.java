@@ -269,6 +269,7 @@ public class EditorActivity extends FileEditorActivity implements
     public void setCode(String code) {
         code = CodeManager.localCode(code);
         mCodeView.setTextHighlighted(code);
+        mCodeView.applyTabWidth(mCodeView.getText(), 0, mCodeView.getText().length());
     }
 
     /**
@@ -481,7 +482,8 @@ public class EditorActivity extends FileEditorActivity implements
                     return;
                 }
                 //create new file
-                String filePath = fileManager.createNewFile(ApplicationFileManager.getApplicationPath() + fileName);
+                String filePath = fileManager.createNewFile(ApplicationFileManager.getApplicationPath()
+                        + fileName);
                 file = new File(filePath);
                 //add to view
                 addNewFile(file, true);
@@ -489,7 +491,8 @@ public class EditorActivity extends FileEditorActivity implements
                 //set sample code
                 if (checkBoxPas.isChecked()) {
                     mCodeView.setTextHighlighted(CodeSample.MAIN);
-                    mCodeView.setSelection(CodeSample.DEFAULT_POSITION);
+//                    mCodeView.setSelection(CodeSample.DEFAULT_POSITION);
+                    mCodeView.selectAll();
                 }
                 mDrawerLayout.closeDrawers();
                 alertDialog.cancel();

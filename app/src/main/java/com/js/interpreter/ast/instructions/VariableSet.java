@@ -43,7 +43,7 @@ public class VariableSet extends DebuggableExecutable implements
         if (main.getDebugListener() != null)
             main.getDebugListener().onVariableChangeValue(name, objValue);
 
-        f.setLocalVariable(name, objValue);
+        f.setVariable(name, objValue);
         return ExecutionResult.NONE;
     }
 

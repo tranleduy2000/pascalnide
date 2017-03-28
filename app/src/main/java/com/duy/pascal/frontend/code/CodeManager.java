@@ -4,8 +4,8 @@ import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.regex.Matcher;
 
-import static com.duy.pascal.frontend.data.PatternUtil.readln;
-import static com.duy.pascal.frontend.data.PatternUtil.waitEnter;
+import static com.duy.pascal.frontend.data.PatternsUtils.readln;
+import static com.duy.pascal.frontend.data.PatternsUtils.waitEnter;
 
 /**
  * Created by Duy on 28-Feb-17.

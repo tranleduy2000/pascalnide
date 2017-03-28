@@ -7,7 +7,7 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 38
+        versionCode 39
         versionName "3.4.3"
     }
 
@@ -20,6 +20,7 @@ android {
         debug {
             minifyEnabled false
             debuggable true
+            defaultConfig.versionName "version debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

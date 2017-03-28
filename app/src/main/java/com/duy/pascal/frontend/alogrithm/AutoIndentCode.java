@@ -3,6 +3,7 @@ package com.duy.pascal.frontend.alogrithm;
 import com.duy.pascal.backend.tokenizer.Lexer;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOF_Token;
+import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
@@ -49,6 +50,7 @@ public class AutoIndentCode {
     private static int numberTab = 0;
     private static boolean needTab = false;
     private static Token lastToken;
+    private static int numVarToken = 0;
 
     public static String format(String code) {
         //reset number tab
@@ -78,7 +80,7 @@ public class AutoIndentCode {
     }
 
     private static void processToken(Token t) throws IOException {
-        if (t instanceof EOF_Token) {
+        if (t instanceof EOF_Token || t instanceof GroupingExceptionToken) {
             return;
         }
         //begin ... end; repeat ... until; case of ... end;
@@ -90,7 +92,6 @@ public class AutoIndentCode {
             return;
         }
 
-        result += getStringTab(numberTab);
         //? array of
         //begin ... end; repeat ... until; case of ... end; record ... end;
         if (t instanceof BeginEndToken || t instanceof RecordToken) {
@@ -104,6 +105,7 @@ public class AutoIndentCode {
         } else if (t instanceof TypeToken) {
             processTypeToken(t);
         } else if (t instanceof ParenthesizedToken || t instanceof BracketedToken) {
+            result += getStringTab(numberTab);
             result += ((GrouperToken) t).toCode();
         } else if (t instanceof DoToken || t instanceof ThenToken || t instanceof CaseToken) {
             processDoToken(t);
@@ -115,6 +117,7 @@ public class AutoIndentCode {
         } else if (t instanceof EndParenToken || t instanceof GrouperToken) {
             processEndParentToken(t);
         } else if (t instanceof CommaToken) {
+            result += getStringTab(numberTab);
             result += t.toString() + " ";
         }//dont add white space
         else if (t instanceof ValueToken) {
@@ -130,28 +133,49 @@ public class AutoIndentCode {
         }
         // TODO: 04-Mar-17 Uses, var, const every new line
         else if (t instanceof VarToken || t instanceof ConstToken) {
-            newLine(t);
+            processVarToken(t);
         } else if (t instanceof CommentToken) {
             processCommentToken(t);
         } else {
+            result += getStringTab(numberTab);
             lastToken = t;
             result += t.toString() + " ";
         }
 
     }
 
+    private static void checkVarToken() { //include const token
+        if (numVarToken > 0) {
+            numberTab--;
+            numVarToken--;
+        }
+    }
+
+    private static void processVarToken(Token t) {
+        checkVarToken();
+        result += getStringTab(numberTab);
+        result += t.toString() + "\n";
+        numVarToken++;
+        numberTab++;
+        needTab = true;
+    }
+
     private static void processCommentToken(Token t) {
+        result += getStringTab(numberTab);
         lastToken = t;
         needTab = true;
         result += t.toString();
     }
 
     private static void processFunctionToken(Token t) {
+        result += getStringTab(numberTab);
+        checkVarToken();
         result += "\n";
         result += t.toString() + " ";
     }
 
     private static void processClosingToken(Token t) throws IOException {
+        result += getStringTab(numberTab);
         Token t2 = lexer.yylex();
         if (t2 instanceof PeriodToken || t2 instanceof CommaToken
                 || t2 instanceof ClosingToken) {
@@ -162,7 +186,7 @@ public class AutoIndentCode {
     }
 
     private static void processWordToken(Token t) throws IOException {
-
+        result += getStringTab(numberTab);
         Token t2 = lexer.yylex();
         if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
                 || t2 instanceof ClosingToken
@@ -175,6 +199,7 @@ public class AutoIndentCode {
     }
 
     private static void processDotToken(Token t) {
+        result += getStringTab(numberTab);
 
         if (result.length() > 0) if (result.charAt(result.length() - 1) == ' ')
             result = result.substring(0, result.length() - 1);
@@ -184,6 +209,7 @@ public class AutoIndentCode {
     }
 
     private static void processValueToken(Token t) throws IOException {
+        result += getStringTab(numberTab);
         Token t2 = lexer.yylex();
         if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
                 || t2 instanceof ClosingToken)) {
@@ -194,6 +220,7 @@ public class AutoIndentCode {
     }
 
     private static void processEndParentToken(Token t) {
+        result += getStringTab(numberTab);
         if (result.length() > 1) {
             if (result.charAt(result.length() - 1) == ' ') {
                 result = result.substring(0, result.length() - 1);
@@ -208,11 +235,13 @@ public class AutoIndentCode {
     }
 
     private static void processElseToken(Token t) {
+        result += getStringTab(numberTab);
         result += t.toString() + " ";
         lastToken = t;
     }
 
     private static void processDoToken(Token t) throws IOException {
+        result += getStringTab(numberTab);
         if (t instanceof DoToken) result += ((DoToken) t).toCode() + " ";
         if (t instanceof ThenToken) result += ((ThenToken) t).toCode() + " ";
         if (t instanceof CaseToken) result += ((CaseToken) t).toCode() + " ";
@@ -226,6 +255,7 @@ public class AutoIndentCode {
     }
 
     private static void processSemicolonToken(Token t) {
+        result += getStringTab(numberTab);
         if (result.length() > 0) {
             if (result.charAt(result.length() - 1) == ' ') {
                 result = result.substring(0, result.length() - 1);
@@ -248,12 +278,14 @@ public class AutoIndentCode {
     }
 
     private static void processTypeToken(Token t) {
+        result += getStringTab(numberTab);
         result += "\n";
         result += t.toString() + "\n";
         lastToken = t;
     }
 
     private static void processRepeatToken(Token t) {
+        result += getStringTab(numberTab);
         result += t.toString() + "\n";
         numberTab++;
         needTab = true;
@@ -261,6 +293,7 @@ public class AutoIndentCode {
     }
 
     private static void processOptToken(Token t) {
+        result += getStringTab(numberTab);
         String opt = t.toString();
         if ("+-*/".contains(opt)) {
             result += t.toString();
@@ -271,6 +304,7 @@ public class AutoIndentCode {
     }
 
     private static void processOfToken(Token t) {
+        result += getStringTab(numberTab);
         if (lastToken instanceof WordToken) {
             result += t.toString() + "\n";
             numberTab++;
@@ -282,6 +316,9 @@ public class AutoIndentCode {
     }
 
     private static void processBeginToken(Token t) {
+        if (numVarToken > 0) result += "\n";
+        checkVarToken();
+        result += getStringTab(numberTab);
         result += ((GrouperToken) t).toCode() + "\n";
         numberTab++;
         needTab = true;
@@ -347,7 +384,7 @@ public class AutoIndentCode {
             return ""; //dont need tab
         }
         for (int i = 0; i < num; i++) {
-            res += "  ";
+            res += "\t";
         }
         needTab = false; //reset tab
         return res;
@@ -369,7 +406,7 @@ public class AutoIndentCode {
     private static void completeFor() {
     }
 
-    private static void completeParen() {
+    private static void completeParent() {
 
     }
 

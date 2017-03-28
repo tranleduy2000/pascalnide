@@ -6,9 +6,10 @@ package com.duy.pascal.frontend.code;
 public class CodeSample {
     public static final String MAIN =
             "program abc;\n" +
-                    "//uses crt; \n" +
+                    "uses crt; \n" +
                     "begin\n" +
-                    "   \n" +
+                    "\t" +
+                    "\treadln;" +
                     "end.";
 
     public static final int DEFAULT_POSITION = 33;

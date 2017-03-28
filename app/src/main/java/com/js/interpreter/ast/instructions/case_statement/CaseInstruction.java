@@ -13,7 +13,9 @@ import com.duy.pascal.backend.tokens.basic.CommaToken;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
+import com.duy.pascal.backend.tokens.closing.EndToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
@@ -43,9 +45,9 @@ public class CaseInstruction extends DebuggableExecutable {
             throw new ExpectedTokenException("of", next);
         }
         List<CasePossibility> possibilities = new ArrayList<CasePossibility>();
-        while (!(i.peek() instanceof ElseToken)
-                && !(i.peek() instanceof EOF_Token)) {
-            List<CaseCondition> conditions = new ArrayList<CaseCondition>();
+
+        while (!(i.peek() instanceof ElseToken) && !(i.peek() instanceof EOF_Token)) {
+            List<CaseCondition> conditions = new ArrayList<>();
             while (true) {
                 ReturnsValue val = i.getNextExpression(context);
                 Object v = val.compileTimeValue(context);
@@ -75,15 +77,15 @@ public class CaseInstruction extends DebuggableExecutable {
                 }
             }
             Executable command = i.getNextCommand(context);
-            i.assertNextSemicolon();
+            assertNextSemicolon(i);
             possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
         }
+
         otherwise = new InstructionGrouper(i.peek().lineInfo);
         if (i.peek() instanceof ElseToken) {
             i.take();
             while (i.hasNext()) {
                 otherwise.addCommand(i.getNextCommand(context));
-
                 // TODO: 27-Mar-17 check EOF
                 /**
                  * case i of
@@ -98,10 +100,26 @@ public class CaseInstruction extends DebuggableExecutable {
 //                if (!(t instanceof SemicolonToken)) {
 //                    throw new ExpectedTokenException(";", t);
 //                }
-                i.assertNextSemicolon();
+//                i.assertNextSemicolon();
+                if (!(i.peek() instanceof EndToken)
+                        && !(i.peek() instanceof EOF_Token)) {
+                    i.assertNextSemicolon();
+                }
             }
         }
         this.possibilies = possibilities.toArray(new CasePossibility[possibilities.size()]);
+    }
+
+    /**
+     * check semicolon symbol
+     *
+     * @param grouperToken
+     * @throws ParsingException
+     */
+    private void assertNextSemicolon(GrouperToken grouperToken) throws ParsingException {
+//        i.assertNextSemicolon();
+        if (grouperToken.peek() instanceof ElseToken) return;
+        grouperToken.assertNextSemicolon();
     }
 
     @Override

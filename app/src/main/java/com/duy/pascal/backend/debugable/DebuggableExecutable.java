@@ -46,6 +46,7 @@ public abstract class DebuggableExecutable implements Executable {
      * @param f
      * @param main
      */
+    @SuppressWarnings("DEBUG")
     private void printDebug(VariableContext f, RuntimeExecutable<?> main) {
         if (main.getDebugListener() == null) return;
         DebugListener listener = main.getDebugListener();
@@ -54,7 +55,7 @@ public abstract class DebuggableExecutable implements Executable {
          */
         ArrayList<String> listNameVariables = main.getListNameGlobalVariables();
         for (String name : listNameVariables) {
-            Object o = main.getGlobalVariable(name);
+            Object o = main.getLocalVariable(name);
             if (o != null) {
                 if (o instanceof Integer ||
                         o instanceof Long || o instanceof Double || o instanceof StringBuilder ||
@@ -79,7 +80,7 @@ public abstract class DebuggableExecutable implements Executable {
             String nameFunction = "\t" + ((FunctionOnStack) f).getCurrentFunction().name;
             for (String name : listNameLocalVariable) {
                 try {
-                    Object o = f.getGlobalVariable(name);
+                    Object o = f.getLocalVariable(name);
                     if (o != null) {
                         if (o instanceof Integer || o instanceof Long || o instanceof Double ||
                                 o instanceof StringBuilder || o instanceof Character) {

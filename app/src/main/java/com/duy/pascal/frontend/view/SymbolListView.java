@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.duy.pascal.frontend.adapters.SymbolAdapter;
-import com.duy.pascal.frontend.data.PatternUtil;
+import com.duy.pascal.frontend.data.PatternsUtils;
 
 import java.util.ArrayList;
 
@@ -49,7 +49,7 @@ public class SymbolListView extends RecyclerView {
 
     private void setup(Context context) {
         mAdapter = new SymbolAdapter();
-        mAdapter.setListKey(PatternUtil.symbols_key);
+        mAdapter.setListKey(PatternsUtils.symbols_key);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         setLayoutManager(linearLayoutManager);

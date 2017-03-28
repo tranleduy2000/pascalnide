@@ -28,7 +28,8 @@ public class ApplicationFileManager {
     /**
      * storage path for saveFile code
      */
-    private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/";
+    private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath()
+            + "/PascalCompiler/";
     private final String TAG = ApplicationFileManager.class.getSimpleName();
     private final String FILE_TEMP_NAME = "tmp.pas";
     private int mode = SAVE_MODE.EXTERNAL;
@@ -314,9 +315,7 @@ public class ApplicationFileManager {
      * @return
      */
     public String createNewFile(String path) {
-//        if (!name.endsWith(".pas")) name += ".pas";
         File file = new File(path);
-//        Log.i(TAG, "createNewFileInMode: " + path);
         try {
             if (!file.exists()) {
                 new File(file.getParent()).mkdirs();
@@ -324,7 +323,6 @@ public class ApplicationFileManager {
             }
             return path;
         } catch (IOException e) {
-//            Log.e("", "Could not create file.", e);
             return "";
         }
     }

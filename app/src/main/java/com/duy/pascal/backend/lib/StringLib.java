@@ -33,8 +33,17 @@ public class StringLib implements PascalLibrary {
         return new String(chars);
     }
 
-    public static String copy(String s, int ifrom, int count) {
-        return s.substring(ifrom, ifrom + count);
+    /**
+     * function copy in Pascal
+     *
+     * @param s     - source string
+     * @param ifrom - start index
+     * @param count - count
+     * @return
+     */
+    public static StringBuilder copy(String s, int ifrom, int count) {
+        System.out.println("copy" + s + " " + ifrom + " " + count);
+        return new StringBuilder(s.subSequence(ifrom - 1, ifrom - 1 + count));
     }
 
     public static void delete(VariableBoxer<StringBuilder> s, int ifrom, int count)
@@ -116,6 +125,7 @@ public class StringLib implements PascalLibrary {
     }
 
     public static int length(String s) {
+        System.out.println("length " + s + " " + s.length());
         return s.length();
     }
 

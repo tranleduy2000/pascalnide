@@ -14,12 +14,12 @@ public class ContainsVariablesPointer<T> implements VariableBoxer<T> {
 
 	@Override
 	public T get() throws RuntimePascalException {
-		return (T) container.getLocalVariable(index);
+		return (T) container.getVariable(index);
 	}
 
 	@Override
 	public void set(T value) {
-		container.setLocalVariable(index, value);
+		container.setVariable(index, value);
 	}
 
 	@Override

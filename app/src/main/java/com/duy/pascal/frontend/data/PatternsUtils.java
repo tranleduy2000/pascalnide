@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * Created by Duy on 11-Feb-17.
  */
 
-public class PatternUtil {
+public class PatternsUtils {
     public static final String[] LIST_KEY_WORD = new String[]{
             "program", "begin", "end", "procedure", "function", "uses",
             "integer", "real", "string", "char", "longint", "word", "byte", "extended",
@@ -63,8 +63,10 @@ public class PatternUtil {
                     "true|false|boolean)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static final Pattern functions = Pattern.compile("\\b(sin|cos|sqrt|abs|floor|ceil|length|new|random|round|" +
             "exp|tan)\\b");
+
     public static final Pattern comments = Pattern.compile("(//.*)|(/\\*(?:.|[\\n\\r])*?\\*/)" +
-            "|(\\{(?:.|[\\n\\r])*?\\})");
+            "|(\\{(?:.|[\\n\\r])*?\\})" +
+            "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))");
     public static final Pattern symbols = Pattern.compile("[+\\-*=<>/:)(\\]\\[;]");
     public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
 
@@ -75,9 +77,9 @@ public class PatternUtil {
             "(readln)\\s+;|(readln);", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static final Pattern waitEnter = Pattern.compile(
             "\\b(waitEnter)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    public static final Pattern general_strings = Pattern.compile("'(.*?)'");
     public static String[] symbols_key = new String[]{
             ":=", ";", ".", "//", "'", "(", ")", "<", ">", "=", "<>", "<=", ">="
     };
-    public static final Pattern general_strings = Pattern.compile("'(.*?)'");
 
 }

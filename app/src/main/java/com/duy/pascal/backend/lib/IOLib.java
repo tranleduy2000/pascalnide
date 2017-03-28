@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.core.PascalCompiler;
+import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -154,22 +155,6 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    /**
-     * readln procedure
-     */
-    public void readlnn(Object... values) throws RuntimePascalException, NumberFormatException {
-        System.out.println(values.getClass().getSimpleName());
-        for (Object value : values) {
-            System.out.println(value.getClass().getSimpleName());
-
-            VariableBoxer variableBoxer = (VariableBoxer) value;
-        }
-        if (activity == null) {
-            throw new RuntimeException("Can not define ExecuteActivity");
-        }
-
-    }
-
     private void sleep() {
 //        try {
 //            Thread.sleep(10);
@@ -273,21 +258,4 @@ public class IOLib implements PascalLibrary {
         if (stdout != null) stdout.printf(format, args);
     }
 
-    private class InputStreamNotFoundException extends Exception {
-        public InputStreamNotFoundException() {
-            super();
-        }
-
-        public InputStreamNotFoundException(String message) {
-            super(message);
-        }
-
-        public InputStreamNotFoundException(String message, Throwable cause) {
-            super(message, cause);
-        }
-
-        public InputStreamNotFoundException(Throwable cause) {
-            super(cause);
-        }
-    }
 }

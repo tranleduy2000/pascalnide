@@ -50,6 +50,7 @@ public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.View
         }
 
         holder.codeView.setTextHighlighted(CodeSample.DEMO_THEME);
+        holder.codeView.applyTabWidth();
         holder.txtTitle.setText(String.valueOf(mThemes.get(position)));
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override

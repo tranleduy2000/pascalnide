@@ -32,12 +32,12 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
     }
 
     @Override
-    public Object getGlobalVariable(String name) {
+    public Object getLocalVariable(String name) {
         return unitVariables.get(name);
     }
 
     @Override
-    protected boolean setLocalVar(String name, Object val) {
+    public boolean setLocalVar(String name, Object val) {
         return unitVariables.put(name, val) != null;
     }
 

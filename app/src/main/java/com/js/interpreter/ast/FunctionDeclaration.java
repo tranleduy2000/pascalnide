@@ -117,8 +117,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (this.declarations.root() instanceof Library) {
             parentContext = main.getLibrary((Library) declarations.root());
         }
-        return new FunctionOnStack(parentContext, main, this, arguments)
-                .execute();
+        return new FunctionOnStack(parentContext, main, this, arguments).execute();
     }
 
     private void get_arguments_for_declaration(GrouperToken i,

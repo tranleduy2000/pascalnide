@@ -46,13 +46,13 @@ import java.util.zip.CRC32;
 import icepick.Icepick;
 
 import static android.graphics.Typeface.BOLD;
-import static com.duy.pascal.frontend.data.PatternUtil.comments;
-import static com.duy.pascal.frontend.data.PatternUtil.general_strings;
-import static com.duy.pascal.frontend.data.PatternUtil.keywords;
-import static com.duy.pascal.frontend.data.PatternUtil.line;
-import static com.duy.pascal.frontend.data.PatternUtil.numbers;
-import static com.duy.pascal.frontend.data.PatternUtil.symbols;
-import static com.duy.pascal.frontend.data.PatternUtil.trailingWhiteSpace;
+import static com.duy.pascal.frontend.data.PatternsUtils.comments;
+import static com.duy.pascal.frontend.data.PatternsUtils.general_strings;
+import static com.duy.pascal.frontend.data.PatternsUtils.keywords;
+import static com.duy.pascal.frontend.data.PatternsUtils.line;
+import static com.duy.pascal.frontend.data.PatternsUtils.numbers;
+import static com.duy.pascal.frontend.data.PatternsUtils.symbols;
+import static com.duy.pascal.frontend.data.PatternsUtils.trailingWhiteSpace;
 
 public abstract class HighlightEditor extends AutoSuggestsEditText implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
@@ -849,6 +849,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
             text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             start = index + 1;
         }
+    }
+
+    public void applyTabWidth() {
+        applyTabWidth(getEditableText(), 0, getEditableText().length());
     }
 
     public interface OnTextChangedListener {

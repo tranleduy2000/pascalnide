@@ -25,12 +25,12 @@ public class FunctionOnStack extends VariableContext {
     private RuntimeExecutable<?> main;
     @SuppressWarnings("rawtypes")
     private
-    HashMap<String, VariableBoxer> reference_variables;
+    HashMap<String, VariableBoxer> referenceVariables;
 
     @SuppressWarnings("rawtypes")
-    public FunctionOnStack(VariableContext parentContext,
-                           RuntimeExecutable<?> main, FunctionDeclaration declaration,
-                           Object[] arguments) {
+    public FunctionOnStack(VariableContext parentContext, RuntimeExecutable<?> main,
+                           FunctionDeclaration declaration, Object[] arguments) {
+        // TODO: 27-Mar-17  debug function
         if (main.getDebugListener() != null) {
             if (declaration.isProcedure()) {
                 main.getDebugListener().onFunctionCall(declaration);
@@ -46,10 +46,10 @@ public class FunctionOnStack extends VariableContext {
             v.initialize(mapLocalVariable);
             listNameLocalVariable.add(v.get_name());
         }
-        reference_variables = new HashMap<>();
+        referenceVariables = new HashMap<>();
         for (int i = 0; i < arguments.length; i++) {
             if (currentFunction.argument_types[i].writable) {
-                reference_variables.put(currentFunction.argument_names[i], (VariableBoxer) arguments[i]);
+                referenceVariables.put(currentFunction.argument_names[i], (VariableBoxer) arguments[i]);
             } else {
                 mapLocalVariable.put(currentFunction.argument_names[i], arguments[i]);
             }
@@ -70,8 +70,8 @@ public class FunctionOnStack extends VariableContext {
         return main;
     }
 
-    public HashMap<String, VariableBoxer> getReference_variables() {
-        return reference_variables;
+    public HashMap<String, VariableBoxer> getReferenceVariables() {
+        return referenceVariables;
     }
 
     public ArrayList<String> getListNameLocalVariable() {
@@ -81,29 +81,33 @@ public class FunctionOnStack extends VariableContext {
     public Object execute() throws RuntimePascalException {
         System.out.println("Function call: " + currentFunction.getName());
         currentFunction.instructions.execute(this, main);
-//		return mapLocalVariable.get("result");
         //get result of currentFunction, name of variable is name of currentFunction
         return mapLocalVariable.get(currentFunction.name);
     }
 
+    /**
+     * Global variable of function
+     * @param name
+     * @return
+     * @throws RuntimePascalException
+     */
     @Override
-    public Object getGlobalVariable(String name) throws RuntimePascalException {
+    public Object getLocalVariable(String name) throws RuntimePascalException {
         if (mapLocalVariable.containsKey(name)) {
             return mapLocalVariable.get(name);
-        } else if (reference_variables.containsKey(name)) {
-            return reference_variables.get(name).get();
+        } else if (referenceVariables.containsKey(name)) {
+            return referenceVariables.get(name).get();
         } else {
             return null;
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public boolean setLocalVar(String name, Object val) {
         if (mapLocalVariable.containsKey(name)) {
             mapLocalVariable.put(name, val);
-        } else if (reference_variables.containsKey(name)) {
-            reference_variables.get(name).set(val);
+        } else if (referenceVariables.containsKey(name)) {
+            referenceVariables.get(name).set(val);
         } else {
             return false;
         }

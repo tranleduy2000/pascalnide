@@ -32,7 +32,7 @@ public class SetField implements SetValueExecutable {
     public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         ContainsVariables val = (ContainsVariables) container.getValue(f, main);
-        val.setLocalVariable(name, toset.getValue(f, main));
+        val.setVariable(name, toset.getValue(f, main));
         return ExecutionResult.NONE;
     }
 
