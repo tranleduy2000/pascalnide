@@ -7,9 +7,6 @@ import android.text.Selection;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.inputmethod.BaseInputConnection;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorControl;
@@ -210,7 +207,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
                     assert editorControl != null;
                     editorControl.saveAs();
                 default:
-                    return true;
+                    return super.onKeyDown(keyCode, event);
             }
             return true;
         }
@@ -253,26 +250,28 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
             // Don't intercept the system keys
             return super.onKeyUp(keyCode, event);
         }
-        mKeyListener.keyUp(keyCode);
-        return true;
+        if (mKeyListener.keyUp(keyCode) == -1)
+            return super.onKeyUp(zKeyCode, event);
+        else
+            return true;
     }
 
 
-    @Override
-    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-        return new BaseInputConnection(this, false) {
-            @Override
-            public boolean performEditorAction(int actionCode) {
-                if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED
-                        || actionCode == EditorInfo.IME_MASK_ACTION) {
-                    insert("\n");
-                    return true;
-                }
-                return false;
-            }
-
-        };
-    }
+//    @Override
+//    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+//        return new BaseInputConnection(this, false) {
+//            @Override
+//            public boolean performEditorAction(int actionCode) {
+//                if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED
+//                        || actionCode == EditorInfo.IME_MASK_ACTION) {
+//                    insert("\n");
+//                    return true;
+//                }
+//                return false;
+//            }
+//
+//        };
+//    }
 
     public EditorControl getEditorControl() {
         return editorControl;

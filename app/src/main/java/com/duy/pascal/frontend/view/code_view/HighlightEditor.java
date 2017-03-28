@@ -36,7 +36,6 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.EditorListener;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
-import com.duy.pascal.frontend.utils.FontManager;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -100,7 +99,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     private int mOldTextlength = 0;
     private long mOldTextCrc32 = 0;
     private int scrollX = 0, scrollY = 0;
-    private EditorSetting mPreferences;
+    private EditorSetting mEditorSetting;
     private boolean canEdit = true;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
@@ -149,7 +148,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
         mGestureDetector = new GestureDetector(getContext(), this);
-        updateFromSettings(context);
+        updateFromSettings();
     }
 
 
@@ -170,8 +169,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 R.styleable.CodeTheme);
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
-
-        setTypeface(FontManager.getInstance(mContext));
+//        setTypeface(FontManager.getInstance(mContext));
     }
 
     public void setTheme(String name) {
@@ -206,7 +204,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
 
-        setTypeface(FontManager.getInstance(mContext));
+//        setTypeface(FontManager.getInstance(mContext));
     }
 
     public void computeScroll() {
@@ -329,20 +327,20 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         return true;
     }
 
-    public void updateFromSettings(Context c) {
-        mPreferences = new EditorSetting(c);
-        String name = mPreferences.getString(mContext.getString(R.string.key_code_theme));
+    public void updateFromSettings() {
+        mEditorSetting = new EditorSetting(mContext);
+        String name = mEditorSetting.getString(mContext.getString(R.string.key_code_theme));
         try {
             Integer id = Integer.parseInt(name);
             setTheme(id);
         } catch (Exception e) {
             setTheme(name);
         }
-        setHorizontallyScrolling(!mPreferences.isWrapText());
-//        mPaintHighlight.setAlpha(48);
-        setTextSize(mPreferences.getTextSize());
+        setTypeface(mEditorSetting.getFont());
+        setHorizontallyScrolling(!mEditorSetting.isWrapText());
+        setTextSize(mEditorSetting.getTextSize());
         mPaintNumbers.setTextSize(getTextSize() * 0.85f);
-        showLineNumbers = mPreferences.isShowLineNumbers();
+        showLineNumbers = mEditorSetting.isShowLineNumbers();
         postInvalidate();
         refreshDrawableState();
 

@@ -101,17 +101,18 @@ public class KeyListener {
      *
      * @param keyCode the keyCode of the keyUp event
      */
-    public void keyUp(int keyCode) {
+    public int keyUp(int keyCode) {
         switch (keyCode) {
             case -99:
             case KEYCODE_CTRL_LEFT:
             case KEYCODE_CTRL_RIGHT:
                 mControlKey.onRelease();
-                break;
+                return keyCode;
             default:
                 // Ignore other keyUps
                 break;
         }
+        return -1;
     }
 
 }

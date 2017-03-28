@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.utils.FontManager;
 
 /**
  * Created by Duy on 02-Mar-17.
@@ -14,7 +15,6 @@ public class EditorSetting extends Preferences {
     public EditorSetting(Context context) {
         super(context);
     }
-
     public EditorSetting(SharedPreferences mPreferences, Context context) {
         super(mPreferences, context);
     }
@@ -32,7 +32,8 @@ public class EditorSetting extends Preferences {
     }
 
     public Typeface getFont() {
-        return Typeface.MONOSPACE;
+        return FontManager.getInstance(context);
+//        return Typeface.MONOSPACE;
     }
 
     public boolean isShowLineNumbers() {

@@ -22,12 +22,12 @@ public class FontManager {
      * in the {@link android.preference.PreferenceManager} and return this font
      */
     public static Typeface getInstance(Context context) {
-        if (font != null) return font;
-        else {
+        if (font == null) {
             Preferences preferences = new Preferences(context);
             String fontName = preferences.getString(context.getString(R.string.key_pref_font));
-            return getFontFromAsset(fontName, context);
+            font = getFontFromAsset(fontName, context);
         }
+        return font;
     }
 
     public static Typeface getFontConsole(Context context) {
@@ -54,7 +54,7 @@ public class FontManager {
                 return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "SourceCodePro-Regular.otf");
             }
         } catch (Exception e) {
-            FirebaseCrash.report(new Throwable("Can not find font"));
+            FirebaseCrash.report(new Exception("Can not find font"));
         }
         return Typeface.MONOSPACE;
     }

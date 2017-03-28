@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.firebase.firebase-crash'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -7,8 +6,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 40
-        versionName "3.4.5"
+        versionCode 41
+        versionName "3.4.6"
     }
 
     buildTypes {
@@ -44,6 +43,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.2.0'
 
     compile 'org.jetbrains:annotations-java5:15.0'
+
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 

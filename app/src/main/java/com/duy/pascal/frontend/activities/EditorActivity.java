@@ -334,7 +334,7 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        mCodeView.updateFromSettings(this);
+        mCodeView.updateFromSettings();
     }
 
     @Override

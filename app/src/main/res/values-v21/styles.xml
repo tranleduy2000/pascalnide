@@ -6,7 +6,7 @@
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">#263238</item>
         <item name="colorPrimaryDark">#212121</item>
+        <item name="android:statusBarColor">#212121</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
-
 </resources>
-

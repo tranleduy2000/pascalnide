@@ -374,17 +374,18 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
             @Override
             public boolean sendKeyEvent(KeyEvent event) {
-//                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-//                    int keyCode = event.getKeyCode();
-//                    if (keyCode == KeyEvent.KEYCODE_DEL) {
-//                        putChar((char) 8);
-//                        return true;
-//                    }
-//                    char c = (char) event.getUnicodeChar();
-//                    if (c > 0) {
-//                        putChar(c);
-//                    }
-//                }
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    int keyCode = event.getKeyCode();
+                    if (keyCode == KeyEvent.KEYCODE_DEL) {
+                        putChar((char) 8);
+                        return true;
+                    }
+                    char c = (char) event.getUnicodeChar();
+                    if (c > 0) {
+                        putChar(c);
+                        return true;
+                    }
+                }
 //                return true;
                 return super.sendKeyEvent(event);
             }
@@ -417,6 +418,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (DLog.DEBUG) Log.d(TAG, "onKeyUp: " + event);
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
@@ -424,7 +426,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             bufferData.keyBuffer.putByte((byte) event.getUnicodeChar());
             return true;
         }
-        if (DLog.DEBUG) Log.d(TAG, "onKeyUp: " + event);
         return super.onKeyUp(keyCode, event);
     }
 

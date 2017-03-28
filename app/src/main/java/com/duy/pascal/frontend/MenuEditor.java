@@ -115,6 +115,9 @@ public class MenuEditor {
             case R.id.action_translate:
                 showPopupTranslate(activity);
                 break;
+            case R.id.action_info:
+//                activity.startActivity(new Intent(activity, InfoActivity.class));
+                break;
         }
         return true;
     }

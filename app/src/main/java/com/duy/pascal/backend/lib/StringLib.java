@@ -12,6 +12,80 @@ import java.util.regex.Pattern;
 
 public class StringLib implements PascalLibrary {
 
+
+    /**
+     * lower case to upper case
+     *
+     * @param s - input
+     * @return - out with upper case
+     */
+    public static char upcase(Character s) {
+        return Character.toUpperCase(s);
+    }
+
+    public static StringBuilder concat(StringBuilder... s) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object s1 : s) stringBuilder.append(s1);
+        return stringBuilder;
+    }
+
+    /**
+     * function copy in Pascal
+     *
+     * @param s     - source string
+     * @param ifrom - start index
+     * @param count - count
+     * @return
+     */
+    public static StringBuilder copy(String s, int ifrom, int count) {
+        System.out.println("copy" + s + " " + ifrom + " " + count);
+        return new StringBuilder(s.subSequence(ifrom - 1, ifrom - 1 + count));
+    }
+
+
+    public static void delete(VariableBoxer<StringBuilder> s, int start, int count)
+            throws RuntimePascalException {
+        s.set(s.get().delete(start - 1, start + count - 1));
+    }
+
+    public static int pos(String substring, String s) {
+        return s.indexOf(substring) + 1;
+    }
+
+    public static int length(String s) {
+        System.out.println("length " + s + " " + s.length());
+        return s.length();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    public static String replace(String text, String tofind, String replacement) {
+        return text.replaceAll("\\Q" + tofind, replacement);
+    }
+
+
+    public static boolean endswith(String suffix, String tosearch) {
+        return tosearch.endsWith(suffix);
+    }
+
+    public static String findregex(String tosearch, String regex) {
+        Pattern reg = Pattern.compile(regex);
+        Matcher m = reg.matcher(tosearch);
+        if (!m.find()) {
+            return "";
+        }
+        return tosearch.substring(m.start(), m.end());
+    }
+
     public static String between(String s1, String s2, String s) {
         int startindex = s.indexOf(s1) + s1.length();
         int endindex = s.indexOf(s2, startindex);
@@ -31,37 +105,6 @@ public class StringLib implements PascalLibrary {
             }
         }
         return new String(chars);
-    }
-
-    /**
-     * function copy in Pascal
-     *
-     * @param s     - source string
-     * @param ifrom - start index
-     * @param count - count
-     * @return
-     */
-    public static StringBuilder copy(String s, int ifrom, int count) {
-        System.out.println("copy" + s + " " + ifrom + " " + count);
-        return new StringBuilder(s.subSequence(ifrom - 1, ifrom - 1 + count));
-    }
-
-    public static void delete(VariableBoxer<StringBuilder> s, int ifrom, int count)
-            throws RuntimePascalException {
-        s.set(s.get().delete(ifrom - 1, ifrom + count - 1));
-    }
-
-    public static boolean endswith(String suffix, String tosearch) {
-        return tosearch.endsWith(suffix);
-    }
-
-    public static String findregex(String tosearch, String regex) {
-        Pattern reg = Pattern.compile(regex);
-        Matcher m = reg.matcher(tosearch);
-        if (!m.find()) {
-            return "";
-        }
-        return tosearch.substring(m.start(), m.end());
     }
 
     public static String getletters(String s) {
@@ -124,10 +167,6 @@ public class StringLib implements PascalLibrary {
         return s.substring(0, count);
     }
 
-    public static int length(String s) {
-        System.out.println("length " + s + " " + s.length());
-        return s.length();
-    }
 
     public static String md5(String s) throws NoSuchAlgorithmException {
         MessageDigest digester = MessageDigest.getInstance("MD5");
@@ -166,9 +205,6 @@ public class StringLib implements PascalLibrary {
         return s.indexOf("\\Q" + tofind, startindex);
     }
 
-    public static int pos(String substring, String s) {
-        return s.indexOf(substring) + 1;
-    }
 
     public static int regexpos(String text, String regex) {
         Pattern p = Pattern.compile(regex);
@@ -186,10 +222,6 @@ public class StringLib implements PascalLibrary {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
         return m.replaceAll(replacetext);
-    }
-
-    public static String replace(String text, String tofind, String replacement) {
-        return text.replaceAll("\\Q" + tofind, replacement);
     }
 
     public static String replicate(char c, int times) {
@@ -294,22 +326,6 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
-    /**
-     * lower case to upper case
-     *
-     * @param s - input
-     * @return - out with upper case
-     */
-    public static String upcase(String s) {
-        return s.toUpperCase();
-    }
-
-
-    public static String concat(String... s) {
-        String res = "";
-        for (String s1 : s) res += s1;
-        return res;
-    }
 
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
