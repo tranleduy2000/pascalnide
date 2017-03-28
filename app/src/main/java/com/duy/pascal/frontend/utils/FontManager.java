@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.Preferences;
+import com.google.firebase.crash.FirebaseCrash;
 
 /**
  * Created by Duy on 18-Mar-17.
@@ -38,19 +39,23 @@ public class FontManager {
 
     public static Typeface getFontFromAsset(String name, Context context) {
         AssetManager assetManager = context.getAssets();
-        if (name.equalsIgnoreCase(context.getString(R.string.font_Consolas))) {
-            return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "Consolas.ttf");
-        } else if (name.equalsIgnoreCase(context.getString(R.string.font_courier_new))) {
-            return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "courier_new.ttf");
-        } else if (name.equalsIgnoreCase(context.getString(R.string.font_lucida_sans_typewriter))) {
-            return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "lucida_sans_typewriter_regular.ttf");
-        } else if (name.equalsIgnoreCase(context.getString(R.string.font_monospace))) {
-            return Typeface.MONOSPACE;
-        } else if (name.equalsIgnoreCase(context.getString(R.string.font_Roboto))) {
-            return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "Roboto-Regular.ttf");
-        } else if (name.equalsIgnoreCase(context.getString(R.string.font_SourceCodePro))) {
-            return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "SourceCodePro-Regular.otf");
+        try {
+            if (name.equalsIgnoreCase(context.getString(R.string.font_Consolas))) {
+                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "Consolas.ttf");
+            } else if (name.equalsIgnoreCase(context.getString(R.string.font_courier_new))) {
+                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "courier_new.ttf");
+            } else if (name.equalsIgnoreCase(context.getString(R.string.font_lucida_sans_typewriter))) {
+                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "lucida_sans_typewriter_regular.ttf");
+            } else if (name.equalsIgnoreCase(context.getString(R.string.font_monospace))) {
+                return Typeface.MONOSPACE;
+            } else if (name.equalsIgnoreCase(context.getString(R.string.font_Roboto))) {
+                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "Roboto-Regular.ttf");
+            } else if (name.equalsIgnoreCase(context.getString(R.string.font_SourceCodePro))) {
+                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "SourceCodePro-Regular.otf");
+            }
+        } catch (Exception e) {
+            FirebaseCrash.report(new Throwable("Can not find font"));
         }
-        return Typeface.DEFAULT;
+        return Typeface.MONOSPACE;
     }
 }

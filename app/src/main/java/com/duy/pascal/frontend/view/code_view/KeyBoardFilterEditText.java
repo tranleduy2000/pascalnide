@@ -231,6 +231,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
         clipboardManager.setText(getText()
                 .subSequence(getSelectionStart(), getSelectionEnd()));
     }
+
     /**
      * insert text
      *
@@ -259,7 +260,17 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-        return new BaseInputConnection(this, false);
+        return new BaseInputConnection(this, false) {
+            @Override
+            public boolean performEditorAction(int actionCode) {
+                if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    insert("\n");
+                    return true;
+                }
+                return false;
+            }
+
+        };
     }
 
     public EditorControl getEditorControl() {

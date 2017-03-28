@@ -78,8 +78,9 @@ public class PatternsUtils {
     public static final Pattern waitEnter = Pattern.compile(
             "\\b(waitEnter)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static final Pattern general_strings = Pattern.compile("'(.*?)'");
-    public static String[] symbols_key = new String[]{
-            ":=", ";", ".", "//", "'", "(", ")", "<", ">", "=", "<>", "<=", ">="
+
+    public static final String[] symbols_key = new String[]{
+            ":=", ";", ".", "[", "]", "'", "(", ")", "<", ">", "=", "<>", "<=", ">=", "{", "}"
     };
 
 }

@@ -5,7 +5,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-
             android:key="@string/key_pref_word_wrap"
             android:summary="@string/word_wrap_desc"
             android:title="@string/word_wrap" />

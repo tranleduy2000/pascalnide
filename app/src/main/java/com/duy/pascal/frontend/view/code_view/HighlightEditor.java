@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Layout;
@@ -32,18 +31,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Scroller;
 
 import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.EditorListener;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
 import com.duy.pascal.frontend.utils.FontManager;
-import com.duy.pascal.frontend.EditorSetting;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.CRC32;
-
-import icepick.Icepick;
 
 import static android.graphics.Typeface.BOLD;
 import static com.duy.pascal.frontend.data.PatternsUtils.comments;
@@ -828,11 +825,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         this.scrollY = t;
     }
 
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state));
-    }
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
