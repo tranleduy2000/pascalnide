@@ -32,7 +32,7 @@ public class EditorSetting extends Preferences {
     }
 
     public Typeface getFont() {
-        return null;
+        return Typeface.MONOSPACE;
     }
 
     public boolean isShowLineNumbers() {

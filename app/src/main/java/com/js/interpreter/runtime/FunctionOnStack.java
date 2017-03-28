@@ -103,6 +103,7 @@ public class FunctionOnStack extends VariableContext {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean setLocalVar(String name, Object val) {
         if (mapLocalVariable.containsKey(name)) {
             mapLocalVariable.put(name, val);

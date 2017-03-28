@@ -9,7 +9,7 @@ public class CodeSample {
                     "uses crt; \n" +
                     "begin\n" +
                     "\t" +
-                    "\treadln;" +
+                    "\treadln;\n" +
                     "end.";
 
     public static final int DEFAULT_POSITION = 33;

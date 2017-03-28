@@ -7,8 +7,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 39
-        versionName "3.4.4"
+        versionCode 40
+        versionName "3.4.5"
     }
 
     buildTypes {

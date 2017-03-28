@@ -263,7 +263,8 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
         return new BaseInputConnection(this, false) {
             @Override
             public boolean performEditorAction(int actionCode) {
-                if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED
+                        || actionCode == EditorInfo.IME_MASK_ACTION) {
                     insert("\n");
                     return true;
                 }
