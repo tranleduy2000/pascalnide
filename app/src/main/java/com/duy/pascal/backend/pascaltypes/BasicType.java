@@ -31,8 +31,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Boolean.class, "valueOf", Boolean.class,
-                    new Class[]{boolean.class});
+            c.invokestatic().setMethod(Boolean.class, "valueOf", Boolean.class, new Class[]{boolean.class});
         }
 
         @Override

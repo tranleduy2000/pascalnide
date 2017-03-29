@@ -13,7 +13,6 @@ import com.duy.pascal.backend.tokens.basic.CommaToken;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
-import com.duy.pascal.backend.tokens.closing.EndToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
@@ -61,8 +60,7 @@ public class CaseInstruction extends DebuggableExecutable {
                     if (hi == null) {
                         throw new NonConstantExpressionException(upper);
                     }
-                    conditions.add(new RangeOfValues(switch_value, v, hi, val
-                            .getLineNumber()));
+                    conditions.add(new RangeOfValues(context, switch_value, v, hi, val.getLineNumber()));
                 } else {
                     conditions.add(new SingleValue(v, val.getLineNumber()));
                 }
@@ -100,11 +98,11 @@ public class CaseInstruction extends DebuggableExecutable {
 //                if (!(t instanceof SemicolonToken)) {
 //                    throw new ExpectedTokenException(";", t);
 //                }
-//                i.assertNextSemicolon();
-                if (!(i.peek() instanceof EndToken)
-                        && !(i.peek() instanceof EOF_Token)) {
-                    i.assertNextSemicolon();
-                }
+                i.assertNextSemicolon();
+//                if (!(i.peek() instanceof EndToken)
+//                        && !(i.peek() instanceof EOF_Token)) {
+//                    i.assertNextSemicolon();
+//                }
             }
         }
         this.possibilies = possibilities.toArray(new CasePossibility[possibilities.size()]);

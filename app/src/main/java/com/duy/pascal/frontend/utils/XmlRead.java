@@ -2,7 +2,7 @@ package com.duy.pascal.frontend.utils;
 
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -15,21 +15,19 @@ public class XmlRead {
     /**
      * Reads the categories node from an input stream of a .bpc file and returns it
      */
-    public static Node getRootNode(InputStream is) throws ParserConfigurationException, SAXException, IOException, UnexpectedElementException {
+    public static NodeList getRootNode(InputStream is) throws ParserConfigurationException, SAXException, IOException, UnexpectedElementException {
         //Read document
         Document document;
-
         try {
             document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             throw e;
         }
-
         document.getDocumentElement().normalize();
 
         //Get Nodes from document
-        Node childRoot = document.getFirstChild();
-        String name = childRoot.getNodeName();
+        NodeList childRoot = document.getFirstChild().getChildNodes();
+        int name = childRoot.getLength();
         return childRoot;
     }
 }

@@ -13,7 +13,7 @@ import com.google.firebase.crash.FirebaseCrash;
  */
 
 public class FontManager {
-    private static final String PATH_TO_FONT = "fonts/";
+    private static final String PATH_TO_FONT = "/fonts/";
     public static Typeface CONSOLE_FONT = null;
     private static Typeface font;
 
@@ -40,18 +40,18 @@ public class FontManager {
     public static Typeface getFontFromAsset(String name, Context context) {
         AssetManager assetManager = context.getAssets();
         try {
-            if (name.equalsIgnoreCase(context.getString(R.string.font_Consolas))) {
-                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "Consolas.ttf");
+            if (name.equalsIgnoreCase(context.getString(R.string.font_consolas))) {
+                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "consolas.ttf");
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_courier_new))) {
                 return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "courier_new.ttf");
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_lucida_sans_typewriter))) {
                 return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "lucida_sans_typewriter_regular.ttf");
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_monospace))) {
                 return Typeface.MONOSPACE;
-            } else if (name.equalsIgnoreCase(context.getString(R.string.font_Roboto))) {
-                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "Roboto-Regular.ttf");
-            } else if (name.equalsIgnoreCase(context.getString(R.string.font_SourceCodePro))) {
-                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "SourceCodePro-Regular.otf");
+            } else if (name.equalsIgnoreCase(context.getString(R.string.font_roboto))) {
+                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "roboto.ttf");
+            } else if (name.equalsIgnoreCase(context.getString(R.string.source_code_pro))) {
+                return Typeface.createFromAsset(assetManager, PATH_TO_FONT + "source_code_pro.ttf");
             }
         } catch (Exception e) {
             FirebaseCrash.report(new Exception("Can not find font"));

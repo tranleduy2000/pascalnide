@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 
@@ -19,14 +20,16 @@ import butterknife.ButterKnife;
  * Created by Duy on 28-Mar-17.
  */
 
-public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
-    private static final String TAG = InfoAdapter.class.getSimpleName();
+public class HelpTranslateAdapter extends RecyclerView.Adapter<HelpTranslateAdapter.ViewHolder> {
+    private static final String TAG = HelpTranslateAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private ArrayList<ItemInfo> listData = new ArrayList<>();
+    private Context mContext;
 
-    public InfoAdapter(Context context, ArrayList<ItemInfo> listData) {
+    public HelpTranslateAdapter(Context context, ArrayList<ItemInfo> listData) {
         this.inflater = LayoutInflater.from(context);
         this.listData = listData;
+        this.mContext = context;
     }
 
     @Override
@@ -37,9 +40,15 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.txtTitle.setText(listData.get(position).getTitle());
-        holder.txtDesc.setText(listData.get(position).getLink());
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.bindContent(listData.get(position));
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, listData.get(position).toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -52,10 +61,18 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder> {
         TextView txtTitle;
         @BindView(R.id.txt_desc)
         TextView txtDesc;
+        @BindView(R.id.container)
+        View root;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        public void bindContent(ItemInfo itemInfo) {
+            txtTitle.setText(itemInfo.getLang());
+            String desc = itemInfo.getTitle() + (itemInfo.getLink().trim().isEmpty() ? "" : "\n" + itemInfo.getLink());
+            txtDesc.setText(desc);
         }
     }
 

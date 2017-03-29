@@ -17,20 +17,20 @@ public class DLog {
      */
     public static boolean DEBUG_PROGRAM = false;
 
-    public static void d(String msg) {
-        if (DEBUG) Log.d(TAG, msg);
+    public static void d(Object msg) {
+        if (DEBUG) Log.d(TAG, msg.toString());
     }
 
-    public static void w(String msg) {
-        if (DEBUG) Log.w(TAG, msg);
+    public static void w(Object msg) {
+        if (DEBUG) Log.w(TAG, msg.toString());
     }
 
-    public static void e(String msg) {
-        if (DEBUG) Log.e(TAG, msg);
+    public static void e(Object msg) {
+        if (DEBUG) Log.e(TAG, msg.toString());
     }
 
-    public static void i(String msg) {
-        if (DEBUG) Log.i(TAG, msg);
+    public static void i(Object msg) {
+        if (DEBUG) Log.i(TAG, msg.toString());
     }
 
     public static void reportException(Throwable e){

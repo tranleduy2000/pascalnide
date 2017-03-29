@@ -5,6 +5,15 @@ public class ItemInfo {
     private String link;
     private String imgPath;
 
+    public ItemInfo(String title, String link, String imgPath, String lang) {
+        this.title = title;
+        this.link = link;
+        this.imgPath = imgPath;
+        this.lang = lang;
+    }
+
+    private String lang;
+
     public ItemInfo(String title, String link, String imgPath) {
         this.title = title;
         this.link = link;
@@ -33,5 +42,18 @@ public class ItemInfo {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    @Override
+    public String toString() {
+        return title;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }

@@ -23,7 +23,6 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
         }
     }
 
-    public abstract Object getValueImpl(VariableContext f,
-                                        RuntimeExecutable<?> main) throws RuntimePascalException;
+    public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException;
 
 }

@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.MenuItem;
 
 import com.duy.pascal.frontend.R;
 
@@ -18,10 +18,6 @@ import butterknife.ButterKnife;
 
 public class InfoActivity extends AppCompatActivity {
     private static final String TAG = InfoActivity.class.getClass().getSimpleName();
-    @BindView(R.id.appCompatImageView)
-    ImageView img1;
-    @BindView(R.id.appCompatImageView2)
-    ImageView img2;
     @BindView(R.id.list_translate)
     RecyclerView mListTranslate;
     @BindView(R.id.list_license)
@@ -43,21 +39,31 @@ public class InfoActivity extends AppCompatActivity {
     private void setupActionBar() {
         setSupportActionBar(toolbar);
         setTitle(R.string.information);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initContent() {
         Log.d(TAG, "initContent: ");
-        ArrayList<ItemInfo> dataTranslate = InfoAppUtil.readListInfo(getResources().openRawResource(R.raw.help_translate));
+        ArrayList<ItemInfo> dataTranslate = InfoAppUtil.readListTranslate(getResources().openRawResource(R.raw.help_translate));
 
-        InfoAdapter adapterTranslate = new InfoAdapter(this, dataTranslate);
+        HelpTranslateAdapter adapterTranslate = new HelpTranslateAdapter(this, dataTranslate);
         mListTranslate.setLayoutManager(new LinearLayoutManager(this));
         mListTranslate.setHasFixedSize(true);
         mListTranslate.setAdapter(adapterTranslate);
+//        mListTranslate.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-
-        InfoAdapter adapterLicense = new InfoAdapter(this, createListDataLicense());
+        HelpTranslateAdapter adapterLicense = new HelpTranslateAdapter(this, createListDataLicense());
         mListLicense.setLayoutManager(new LinearLayoutManager(this));
         mListLicense.setHasFixedSize(true);
+//        mListLicense.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mListLicense.setAdapter(adapterLicense);
     }
 
@@ -72,16 +78,5 @@ public class InfoActivity extends AppCompatActivity {
         return result;
     }
 
-    private ArrayList<ItemInfo> createListDataTranslate() {
-        Log.d(TAG, "createListDataTranslate: ");
-        ArrayList<ItemInfo> result = new ArrayList<>();
-        result.add(new ItemInfo("duy", "adsdas", ""));
-        result.add(new ItemInfo("duy", "adsdas", ""));
-        result.add(new ItemInfo("ád", "adsdas", ""));
-        result.add(new ItemInfo("dáduy", "adsdas", ""));
-        result.add(new ItemInfo("dáduy", "adsdas", ""));
-        result.add(new ItemInfo("dadsasduy", "adsdas", ""));
-        return result;
-    }
 
 }

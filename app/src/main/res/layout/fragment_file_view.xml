@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:minWidth="300dp">
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,11 +14,11 @@
 
         <com.duy.pascal.frontend.view.FileListView
             android:id="@+id/list_file"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:cacheColorHint="@null"
             android:divider="@null"
-            android:listSelector="?selectableItemBackground"
+            android:listSelector="?attr/selectableItemBackground"
             android:smoothScrollbar="true" />
 
 
@@ -25,11 +26,11 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_menu"
-        app:menu_fab_size="normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        app:menu_fab_size="normal">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/action_new_file"

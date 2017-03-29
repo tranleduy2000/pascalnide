@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.activities.CodeSampleActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
 import com.duy.pascal.frontend.activities.SettingsActivity;
+import com.duy.pascal.frontend.info_application.InfoActivity;
 
 /**
  * Handler for menu click
@@ -116,7 +117,7 @@ public class MenuEditor {
                 showPopupTranslate(activity);
                 break;
             case R.id.action_info:
-//                activity.startActivity(new Intent(activity, InfoActivity.class));
+                activity.startActivity(new Intent(activity, InfoActivity.class));
                 break;
         }
         return true;

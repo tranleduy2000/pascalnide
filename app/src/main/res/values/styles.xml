@@ -8,5 +8,10 @@
         <item name="colorPrimaryDark">#212121</item>
     </style>
 
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
 </resources>
 

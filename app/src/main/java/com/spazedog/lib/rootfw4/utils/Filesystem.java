@@ -355,7 +355,7 @@ public class Filesystem {
 		 * or to change any mount options on a current mounted file system. 
 		 * <br />
 		 * Note that if the device parsed to the constructor {@link #Disk(Shell, String)} 
-		 * is a folder, this method will use the <code>--bind</code> option to attach it to the location. Also note that when attaching folders to a location, 
+		 * is a folder, this method will use the <code>--bindContent</code> option to attach it to the location. Also note that when attaching folders to a location,
 		 * the <code>type</code> and <code>options</code> arguments will not be used and should just be parsed as <code>NULL</code>.
 		 * 
 		 * @param location
@@ -372,7 +372,7 @@ public class Filesystem {
 		 */
 		public Boolean mount(String location, String type, String[] options) {
 			String cmd = location != null && mFile.isDirectory() ? 
-					"mount --bind '" + mFile.getAbsolutePath() + "' '" + location + "'" : 
+					"mount --bindContent '" + mFile.getAbsolutePath() + "' '" + location + "'" :
 						"mount" + (type != null ? " -t '" + type + "'" : "") + (options != null ? " -o '" + (location == null ? "remount," : "") + TextUtils.join(",", Arrays.asList(options)) + "'" : "") + " '" + mFile.getAbsolutePath() + "'" + (location != null ? " '" + location + "'" : "");
 			
 			/*

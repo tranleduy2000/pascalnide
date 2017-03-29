@@ -273,12 +273,14 @@ public abstract class GrouperToken extends Token {
                 RuntimeType t = nextTerm.getType(context);
                 ReturnsValue v = b.getNextExpression(context);
                 ReturnsValue converted = BasicType.Integer.convert(v, context);
+
                 if (converted == null) {
                     throw new NonIntegerIndexException(v);
                 }
                 if (b.hasNext()) {
                     throw new ExpectedTokenException("]", b.take());
                 }
+
                 nextTerm = t.declType.generateArrayAccess(nextTerm, converted);
             }
         }
