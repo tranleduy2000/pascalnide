@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/file_view"
         class="com.duy.pascal.frontend.file.FragmentSelectFile"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 </FrameLayout>

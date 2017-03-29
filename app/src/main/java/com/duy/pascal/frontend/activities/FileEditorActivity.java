@@ -59,7 +59,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fileManager = new ApplicationFileManager(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 

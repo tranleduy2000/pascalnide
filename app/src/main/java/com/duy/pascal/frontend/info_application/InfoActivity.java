@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.activities;
+package com.duy.pascal.frontend.info_application;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +9,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.adapters.InfoAdapter;
-import com.duy.pascal.frontend.adapters.ItemInfo;
 
 import java.util.ArrayList;
 
@@ -49,7 +47,8 @@ public class InfoActivity extends AppCompatActivity {
 
     private void initContent() {
         Log.d(TAG, "initContent: ");
-        ArrayList<ItemInfo> dataTranslate = createListDataTranslate();
+        ArrayList<ItemInfo> dataTranslate = InfoAppUtil.readListInfo(getResources().openRawResource(R.raw.help_translate));
+
         InfoAdapter adapterTranslate = new InfoAdapter(this, dataTranslate);
         mListTranslate.setLayoutManager(new LinearLayoutManager(this));
         mListTranslate.setHasFixedSize(true);

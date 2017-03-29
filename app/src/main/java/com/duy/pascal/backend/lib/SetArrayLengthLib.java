@@ -19,8 +19,7 @@ public class SetArrayLengthLib implements TemplatedPascalPlugin {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, ReturnsValue[] values,
-                                     ExpressionContext f) throws ParsingException {
+    public FunctionCall generateCall(LineInfo line, ReturnsValue[] values, ExpressionContext f) throws ParsingException {
         return a.generateCall(line, values, f);
     }
 

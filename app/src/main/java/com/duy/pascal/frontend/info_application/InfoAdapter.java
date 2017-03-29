@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.adapters;
+package com.duy.pascal.frontend.info_application;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

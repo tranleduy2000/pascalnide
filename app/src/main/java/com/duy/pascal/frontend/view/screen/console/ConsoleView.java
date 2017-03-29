@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -353,6 +354,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        outAttrs.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
         return new BaseInputConnection(this, false) {
             @Override
             public boolean commitText(CharSequence text, int newCursorPosition) {
@@ -370,6 +372,18 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                     return true;
                 }
                 return false;
+            }
+
+            @Override
+            public boolean deleteSurroundingText(int beforeLength, int afterLength) {
+                // magic: in latest Android, deleteSurroundingText(1, 0) will be called for backspace
+                if (beforeLength == 1 && afterLength == 0) {
+                    // backspace
+                    return sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
+                            && sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL));
+                }
+
+                return super.deleteSurroundingText(beforeLength, afterLength);
             }
 
             @Override
@@ -396,6 +410,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (DLog.DEBUG) Log.d(TAG, "onKeyDown: " + event);
+
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
@@ -476,6 +491,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return mGestureDetector.onTouchEvent(ev);
     }
 
+    @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         distanceY += scrollRemainder;
         int deltaRows = (int) (distanceY / mTextRenderer.charHeight);
@@ -485,6 +501,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return true;
     }
 
+    @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         scrollRemainder = 0.0f;
         onScroll(e1, e2, /* 2 * */ velocityX, -/*2 * */ velocityY);

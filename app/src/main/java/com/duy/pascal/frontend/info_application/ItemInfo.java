@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.adapters;
+package com.duy.pascal.frontend.info_application;
 
 public class ItemInfo {
     private String title;

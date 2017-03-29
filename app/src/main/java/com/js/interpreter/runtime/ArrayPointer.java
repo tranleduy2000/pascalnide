@@ -17,8 +17,7 @@ public class ArrayPointer<T> implements VariableBoxer<T> {
 	@Override
 	public T get() {
 		if (isString) {
-			return (T) (Character) ((StringBuilder) container)
-					.charAt(index - 1);
+			return (T) (Character) ((StringBuilder) container).charAt(index - 1);
 		} else {
 			return (T) Array.get(container, index);
 		}

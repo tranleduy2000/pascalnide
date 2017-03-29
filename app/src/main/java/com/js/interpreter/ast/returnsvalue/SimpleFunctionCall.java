@@ -3,6 +3,7 @@ package com.js.interpreter.ast.returnsvalue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.ast.AbstractCallableFunction;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -20,9 +21,10 @@ public class SimpleFunctionCall extends FunctionCall {
 
     private LineInfo line;
 
-    public SimpleFunctionCall(AbstractCallableFunction function, ReturnsValue[] arguments, LineInfo line) {
+    public SimpleFunctionCall(AbstractCallableFunction function,
+                              ReturnsValue[] arguments, LineInfo line) {
         this.function = function;
-        if (function == null) {
+        if (function == null && DLog.DEBUG_PROGRAM) {
             System.err.println("Warning: Null function call");
         }
         this.arguments = arguments;

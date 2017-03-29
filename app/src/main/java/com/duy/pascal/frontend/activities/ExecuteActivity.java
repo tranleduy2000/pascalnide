@@ -17,6 +17,7 @@ import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.BuildConfig;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.code.CodeManager;
@@ -244,7 +245,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     }
 
     public synchronized void startInput() {
-        Log.d(TAG, "startInput: ");
+        if (DLog.DEBUG) Log.d(TAG, "startInput: ");
         mMessageHandler.sendEmptyMessage(SHOW_KEYBOARD);
         isCanRead.set(true);
         new Thread(runnableInput).start();
@@ -310,7 +311,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 
     @Override
     public void onProcedureCall(final FunctionDeclaration functionDeclaration) {
-        Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
+        if (DLog.DEBUG) Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
         mMessageHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -363,6 +364,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_next_line) {
+            //do something
         } else if (item.getItemId() == R.id.action_rerun) {
             CompileManager.execute(this, filePath);
             finish();
@@ -382,7 +384,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                 Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception ignored) {
-            Log.d(TAG, "onStop: Program is stopped");
+            if (DLog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
         }
     }
 

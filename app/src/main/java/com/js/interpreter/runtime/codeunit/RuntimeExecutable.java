@@ -128,7 +128,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
      * @return
      */
     public boolean isRunning() {
-        return runmode == controlMode.running;
+        return doneExecuting;
     }
 
     public enum controlMode {

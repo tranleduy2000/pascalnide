@@ -21,12 +21,12 @@
             android:name=".activities.ActivitySplashScreen"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:label="@string/app_name">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
+            <!--<intent-filter>-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
 
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--</intent-filter>-->
 
 
             <intent-filter>
@@ -86,7 +86,15 @@
             android:name=".file.SelectFileActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
-        <activity android:name=".activities.InfoActivity" />
+        <activity android:name=".info_application.InfoActivity" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

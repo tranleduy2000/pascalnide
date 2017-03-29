@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.debugable;
 
+import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.runtime.FunctionOnStack;
@@ -26,7 +27,7 @@ public abstract class DebuggableExecutable implements Executable {
             if (main != null) {
                 main.scriptControlCheck(getLineNumber());
             }
-            if (DEBUG) {
+            if (DLog.DEBUG_PROGRAM) {
                 try {
                     printDebug(f, main);
                 } catch (Exception ignored) {

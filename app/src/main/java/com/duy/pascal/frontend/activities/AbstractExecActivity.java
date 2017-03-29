@@ -30,19 +30,15 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_console);
         ButterKnife.bind(this);
+
         setupActionBar();
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         mConsoleView.initConsole(this, fontSize[fontSizeNb] * metrics.density, Color.WHITE, Color.BLACK);
-        mConsoleView.setFocusable(true);
-        mConsoleView.setFocusableInTouchMode(true);
-        mConsoleView.requestFocus();
         mConsoleView.updateSize();
         mConsoleView.showPrompt();
     }
@@ -50,7 +46,6 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
     private void setupActionBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Execute");
     }
 
     @Override
@@ -88,6 +83,10 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * show dialog pick keyboard
+     */
     private void changeKeyBoard() {
         InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (mgr != null) {
@@ -95,6 +94,9 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
         }
     }
 
+    /**
+     * show soft keyboard
+     */
     public void showKeyBoard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(mConsoleView, 0);
