@@ -5,7 +5,9 @@ import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.UnconvertibleTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.EOF_Token;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
@@ -30,28 +32,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CaseInstruction extends DebuggableExecutable {
-    ReturnsValue switch_value;
-    CasePossibility[] possibilies;
-    InstructionGrouper otherwise;
-    LineInfo line;
+    private ReturnsValue mSwitchValue;
+    private CasePossibility[] possibilies;
+    private InstructionGrouper otherwise;
+    private LineInfo line;
 
     public CaseInstruction(CaseToken i, ExpressionContext context)
             throws ParsingException {
         this.line = i.lineInfo;
-        switch_value = new CachedReturnsValue(i.getNextExpression(context));
+        mSwitchValue = new CachedReturnsValue(i.getNextExpression(context));
         Token next = i.take();
         if (!(next instanceof OfToken)) {
             throw new ExpectedTokenException("of", next);
         }
+
+        //this Object used to check compare type with another element
+        DeclaredType mSwitchValueType = mSwitchValue.getType(context).declType;
         List<CasePossibility> possibilities = new ArrayList<CasePossibility>();
 
         while (!(i.peek() instanceof ElseToken) && !(i.peek() instanceof EOF_Token)) {
             List<CaseCondition> conditions = new ArrayList<>();
             while (true) {
-                ReturnsValue val = i.getNextExpression(context);
-                Object v = val.compileTimeValue(context);
+                ReturnsValue valueToSwitch = i.getNextExpression(context);
+
+
+                //check type
+                assertType(mSwitchValueType, valueToSwitch, context);
+
+                Object v = valueToSwitch.compileTimeValue(context);
                 if (v == null) {
-                    throw new NonConstantExpressionException(val);
+                    throw new NonConstantExpressionException(valueToSwitch);
                 }
                 if (i.peek() instanceof DotDotToken) {
                     i.take();
@@ -60,9 +70,9 @@ public class CaseInstruction extends DebuggableExecutable {
                     if (hi == null) {
                         throw new NonConstantExpressionException(upper);
                     }
-                    conditions.add(new RangeOfValues(context, switch_value, v, hi, val.getLineNumber()));
+                    conditions.add(new RangeOfValues(context, mSwitchValue, v, hi, valueToSwitch.getLineNumber()));
                 } else {
-                    conditions.add(new SingleValue(v, val.getLineNumber()));
+                    conditions.add(new SingleValue(v, valueToSwitch.getLineNumber()));
                 }
                 if (i.peek() instanceof CommaToken) {
                     i.take();
@@ -108,6 +118,16 @@ public class CaseInstruction extends DebuggableExecutable {
         this.possibilies = possibilities.toArray(new CasePossibility[possibilities.size()]);
     }
 
+    private void assertType(DeclaredType switchValueType, ReturnsValue val, ExpressionContext context) throws ParsingException {
+        //check type
+        DeclaredType inputType = val.getType(context).declType;
+        ReturnsValue converted = switchValueType.convert(val, context);
+        if (converted == null) {
+            throw new UnconvertibleTypeException(val, inputType, switchValueType, true);
+        }
+        // end check type
+    }
+
     /**
      * check semicolon symbol
      *
@@ -123,7 +143,7 @@ public class CaseInstruction extends DebuggableExecutable {
     @Override
     public ExecutionResult executeImpl(VariableContext f,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
-        Object value = switch_value.getValue(f, main);
+        Object value = mSwitchValue.getValue(f, main);
         for (int i = 0; i < possibilies.length; i++) {
             for (int j = 0; j < possibilies[i].conditions.length; j++) {
                 if (possibilies[i].conditions[j].fits(value)) {
@@ -142,7 +162,7 @@ public class CaseInstruction extends DebuggableExecutable {
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        Object value = switch_value.compileTimeValue(c);
+        Object value = mSwitchValue.compileTimeValue(c);
         if (value == null) {
             return this;
         }

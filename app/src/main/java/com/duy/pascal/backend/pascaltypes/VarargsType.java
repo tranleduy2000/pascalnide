@@ -12,15 +12,14 @@ import java.util.List;
 
 public class VarargsType implements ArgumentType {
 
-    RuntimeType elementType;
+    private RuntimeType elementType;
 
     public VarargsType(RuntimeType elementType) {
         this.elementType = elementType;
     }
 
     @Override
-    public ReturnsValue convertArgType(Iterator<ReturnsValue> args,
-                                       ExpressionContext f) throws ParsingException {
+    public ReturnsValue convertArgType(Iterator<ReturnsValue> args, ExpressionContext f) throws ParsingException {
         List<ReturnsValue> convertedargs = new ArrayList<ReturnsValue>();
         LineInfo line = null;
         while (args.hasNext()) {
@@ -31,8 +30,7 @@ public class VarargsType implements ArgumentType {
             line = tmp.getLineNumber();
             convertedargs.add(tmp);
         }
-        return new ArrayBoxer(convertedargs.toArray(new ReturnsValue[convertedargs.size()]),
-                elementType, line);
+        return new ArrayBoxer(convertedargs.toArray(new ReturnsValue[convertedargs.size()]), elementType, line);
     }
 
     @Override
@@ -44,7 +42,7 @@ public class VarargsType implements ArgumentType {
     public ReturnsValue perfectFit(Iterator<ReturnsValue> types,
                                    ExpressionContext e) throws ParsingException {
         LineInfo line = null;
-        List<ReturnsValue> converted = new ArrayList<ReturnsValue>();
+        List<ReturnsValue> converted = new ArrayList<>();
         while (types.hasNext()) {
             ReturnsValue fit = elementType.perfectFit(types, e);
             if (fit == null) {
@@ -55,8 +53,7 @@ public class VarargsType implements ArgumentType {
             }
             converted.add(fit);
         }
-        ReturnsValue[] convert = converted.toArray(new ReturnsValue[converted
-                .size()]);
+        ReturnsValue[] convert = converted.toArray(new ReturnsValue[converted.size()]);
         return new ArrayBoxer(convert, elementType, line);
     }
 }

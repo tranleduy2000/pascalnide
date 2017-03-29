@@ -91,10 +91,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
             Editable e = getText();
             if (onTextChangedListener != null)
                 onTextChangedListener.onTextChanged(e.toString());
-            long start = System.currentTimeMillis();
+//            long start = System.currentTimeMillis();
             highlightWithoutChange(e);
-            long end = System.currentTimeMillis();
-            DLog.d("Time " + (end - start));
+//            long end = System.currentTimeMillis();
+//            DLog.d("Time " + (end - start));
         }
     };
     private int mOldTextlength = 0;
