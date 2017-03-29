@@ -28,9 +28,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.adapters.FileListAdapter;
-import com.duy.pascal.frontend.utils.AlphanumComparator;
 import com.duy.pascal.frontend.utils.Build;
-import com.duy.pascal.frontend.utils.PreferenceHelper;
 import com.duy.pascal.frontend.view.FileListView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.spazedog.lib.rootfw4.RootFW;

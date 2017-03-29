@@ -78,4 +78,34 @@ public class InfoAppUtil {
 
         return result;
     }
+
+    public static ArrayList<ItemInfo> readListLicense(InputStream inputStream) {
+        ArrayList<ItemInfo> result = new ArrayList<>();
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(inputStream);
+            Element root = document.getDocumentElement();
+            NodeList nodeList = root.getChildNodes();
+            DLog.i(nodeList.getLength());
+            for (int index = 0; index < nodeList.getLength(); index++) {
+                Node node = nodeList.item(index);
+                if (node instanceof Element) {
+                    NodeList nameNode = ((Element) node).getElementsByTagName("name");
+                    NodeList licNode = ((Element) node).getElementsByTagName("content");
+                    String name = nameNode.item(0).getTextContent();
+                    String license = licNode.item(0).getTextContent();
+                    result.add(new ItemInfo(name, license, ""));
+                }
+            }
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

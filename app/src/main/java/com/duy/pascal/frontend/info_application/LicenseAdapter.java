@@ -19,13 +19,13 @@ import butterknife.ButterKnife;
  * Created by Duy on 28-Mar-17.
  */
 
-public class HelpTranslateAdapter extends RecyclerView.Adapter<HelpTranslateAdapter.ViewHolder> {
-    private static final String TAG = HelpTranslateAdapter.class.getSimpleName();
+public class LicenseAdapter extends RecyclerView.Adapter<LicenseAdapter.ViewHolder> {
+    private static final String TAG = LicenseAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private ArrayList<ItemInfo> listData = new ArrayList<>();
     private Context mContext;
 
-    public HelpTranslateAdapter(Context context, ArrayList<ItemInfo> listData) {
+    public LicenseAdapter(Context context, ArrayList<ItemInfo> listData) {
         this.inflater = LayoutInflater.from(context);
         this.listData = listData;
         this.mContext = context;
@@ -69,9 +69,8 @@ public class HelpTranslateAdapter extends RecyclerView.Adapter<HelpTranslateAdap
         }
 
         public void bindContent(ItemInfo itemInfo) {
-            txtTitle.setText(itemInfo.getLang());
-            String desc = itemInfo.getTitle() + (itemInfo.getLink().trim().isEmpty() ? "" : "\n" + itemInfo.getLink());
-            txtDesc.setText(desc);
+            txtTitle.setText(itemInfo.getTitle());
+            txtDesc.setText(itemInfo.getLink());
         }
     }
 

@@ -1,7 +1,9 @@
 package com.duy.pascal.frontend.info_application;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +33,7 @@ public class InfoActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: ");
 
         setContentView(R.layout.activity_info);
-        ButterKnife.bind(this);
+        ButterKnife.bind(InfoActivity.this);
         setupActionBar();
         initContent();
     }
@@ -51,32 +53,37 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     private void initContent() {
+        new TaskLoadData().execute();
         Log.d(TAG, "initContent: ");
-        ArrayList<ItemInfo> dataTranslate = InfoAppUtil.readListTranslate(getResources().openRawResource(R.raw.help_translate));
 
-        HelpTranslateAdapter adapterTranslate = new HelpTranslateAdapter(this, dataTranslate);
-        mListTranslate.setLayoutManager(new LinearLayoutManager(this));
-        mListTranslate.setHasFixedSize(true);
-        mListTranslate.setAdapter(adapterTranslate);
-//        mListTranslate.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        HelpTranslateAdapter adapterLicense = new HelpTranslateAdapter(this, createListDataLicense());
-        mListLicense.setLayoutManager(new LinearLayoutManager(this));
-        mListLicense.setHasFixedSize(true);
-//        mListLicense.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mListLicense.setAdapter(adapterLicense);
     }
 
-    private ArrayList<ItemInfo> createListDataLicense() {
-        ArrayList<ItemInfo> result = new ArrayList<>();
-        result.add(new ItemInfo("duy", "adsdas", ""));
-        result.add(new ItemInfo("duy", "adsdas", ""));
-        result.add(new ItemInfo("ád", "adsdas", ""));
-        result.add(new ItemInfo("dáduy", "adsdas", ""));
-        result.add(new ItemInfo("dáduy", "adsdas", ""));
-        result.add(new ItemInfo("dadsasduy", "adsdas", ""));
-        return result;
-    }
+    class TaskLoadData extends AsyncTask<Void, Void, Void> {
+        ArrayList<ItemInfo> dataTranslate;
+        ArrayList<ItemInfo> dataLicense;
 
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            dataTranslate = InfoAppUtil.readListTranslate(getResources().openRawResource(R.raw.help_translate));
+            dataLicense = InfoAppUtil.readListLicense(getResources().openRawResource(R.raw.license));
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            HelpTranslateAdapter adapterTranslate = new HelpTranslateAdapter(InfoActivity.this, dataTranslate);
+            mListTranslate.setLayoutManager(new LinearLayoutManager(InfoActivity.this));
+            mListTranslate.setHasFixedSize(false);
+            mListTranslate.setAdapter(adapterTranslate);
+
+            LicenseAdapter adapterLicense = new LicenseAdapter(InfoActivity.this, dataLicense);
+            mListLicense.setLayoutManager(new LinearLayoutManager(InfoActivity.this));
+            mListLicense.setHasFixedSize(false);
+            mListLicense.setAdapter(adapterLicense);
+            mListLicense.addItemDecoration(new DividerItemDecoration(InfoActivity.this, DividerItemDecoration.VERTICAL));
+        }
+    }
 
 }

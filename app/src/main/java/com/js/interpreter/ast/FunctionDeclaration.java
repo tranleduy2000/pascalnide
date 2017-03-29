@@ -54,7 +54,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         this.isProcedure = isProcedure;
         name = i.next_word_value();
 
-        get_arguments_for_declaration(i, isProcedure);
+        getArgumentsForDeclaration(i, isProcedure);
         Token next = i.peek();
         if (isProcedure == next instanceof ColonToken) {
             throw new ParsingException(next.lineInfo,
@@ -120,8 +120,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return new FunctionOnStack(parentContext, main, this, arguments).execute();
     }
 
-    private void get_arguments_for_declaration(GrouperToken i,
-                                               boolean is_procedure) throws ParsingException { // need
+    private void getArgumentsForDeclaration(GrouperToken i,
+                                            boolean is_procedure) throws ParsingException { // need
         List<WordToken> names_list = new ArrayList<WordToken>();
         List<RuntimeType> types_list = new ArrayList<RuntimeType>();
         Token next = i.peek();
