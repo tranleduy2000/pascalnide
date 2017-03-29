@@ -209,34 +209,10 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
                 default:
                     return super.onKeyDown(keyCode, event);
             }
-            return true;
         }
         return super.onKeyDown(zKeyCode, event);
     }
 
-    public void cut() {
-        clipboardManager.setText(getText()
-                .subSequence(getSelectionStart(), getSelectionEnd()));
-        getEditableText().delete(getSelectionStart(), getSelectionEnd());
-    }
-
-    public void paste() {
-        insert(clipboardManager.getText());
-    }
-
-    public void copy() {
-        clipboardManager.setText(getText()
-                .subSequence(getSelectionStart(), getSelectionEnd()));
-    }
-
-    /**
-     * insert text
-     *
-     * @param delta text for insert
-     */
-    public void insert(CharSequence delta) {
-        getText().insert(getSelectionStart(), delta, getSelectionStart(), getSelectionEnd());
-    }
 
     @Override
     public boolean onKeyUp(int zKeyCode, KeyEvent event) {
@@ -256,7 +232,27 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
             return true;
     }
 
+    public void cut() {
+        clipboardManager.setText(getText()
+                .subSequence(getSelectionStart(), getSelectionEnd()));
+        getEditableText().delete(getSelectionStart(), getSelectionEnd());
+    }
 
+    public void paste() {
+        insert(clipboardManager.getText());
+    }
+    /**
+     * insert text
+     *
+     * @param delta text for insert
+     */
+    public void insert(CharSequence delta) {
+        getText().insert(getSelectionStart(), delta, getSelectionStart(), getSelectionEnd());
+    }
+    public void copy() {
+        clipboardManager.setText(getText()
+                .subSequence(getSelectionStart(), getSelectionEnd()));
+    }
 //    @Override
 //    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
 //        return new BaseInputConnection(this, false) {

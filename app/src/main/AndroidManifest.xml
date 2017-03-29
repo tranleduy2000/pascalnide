@@ -27,15 +27,21 @@
 
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-             <intent-filter>
-             <action android:name="android.intent.action.VIEW" />
-             <category android:name="android.intent.category.DEFAULT" />
-             <category android:name="android.intent.category.BROWSABLE" />
-             <data android:scheme="file" />
-             <data android:mimeType="*/*" />
-             <data android:host="*" />
-             <data android:pathPattern=".*\\.pas" />
-             </intent-filter>
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\\.pas" />
+            </intent-filter>
+
+            <!--file filter-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -44,6 +50,8 @@
                 <data android:scheme="file" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
+
+            <!--Clip board filter-->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
