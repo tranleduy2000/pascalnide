@@ -21,10 +21,34 @@ import static com.duy.pascal.backend.utils.ArrayUtils.arrayToString;
 public abstract class DebuggableExecutable implements Executable {
     public boolean DEBUG = true;
 
+//    @Override
+//    public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
+//            throws RuntimePascalException {
+//        checkStack(f);
+//        try {
+//            if (main != null) {
+//                main.scriptControlCheck(getLineNumber());
+//            }
+//            if (DLog.DEBUG_PROGRAM) {
+//                try {
+//                    printDebug(f, main);
+//                } catch (Exception ignored) {
+//                }
+//            }
+//            ExecutionResult result = executeImpl(f, main);
+//            //decrease stack
+//            StackFunction.dec();
+//            return result;
+//        } catch (RuntimePascalException e) {
+//            throw e;
+//        } catch (Exception e) {
+//            throw new UnhandledPascalException(this.getLineNumber(), e);
+//        }
+//    }
+
     @Override
     public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        checkStack(f);
         try {
             if (main != null) {
                 main.scriptControlCheck(getLineNumber());
@@ -35,10 +59,7 @@ public abstract class DebuggableExecutable implements Executable {
                 } catch (Exception ignored) {
                 }
             }
-            ExecutionResult result = executeImpl(f, main);
-            //decrease stack
-            StackFunction.dec();
-            return result;
+            return executeImpl(f, main);
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {

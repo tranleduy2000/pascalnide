@@ -4,19 +4,20 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.AbstractFunction;
 
 public class PluginCallException extends RuntimePascalException {
-	public Throwable cause;
-	public AbstractFunction function;
+    public Throwable cause;
+    public AbstractFunction function;
 
-	public PluginCallException(LineInfo line, Throwable cause,
-			AbstractFunction function) {
-		super(line);
-		this.cause = cause;
-		this.function = function;
-	}
+    public PluginCallException(LineInfo line, Exception cause,
+                               AbstractFunction function) {
+        super(line);
+        this.cause = cause;
+        this.function = function;
+    }
 
-	@Override
-	public String getMessage() {
+    @Override
+    public String getMessage() {
         return "When calling Function or Procedure " + function.name()
-                + ", The following java exception: " + cause;
-	}
+                + ", The following java exception: " + cause + "\n" +
+                "Message: " + cause.getMessage();
+    }
 }

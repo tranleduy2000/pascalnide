@@ -86,7 +86,6 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                             ExecuteActivity.this);
                     program = pascalProgram.run();
 //                    program.enableDebug();
-
                     program.run();
                     mMessageHandler.sendEmptyMessage(COMPLETE);
                 } catch (RuntimePascalException | FileNotFoundException | ParsingException e) {
@@ -234,7 +233,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 //        }
         DialogManager.createDialog(this, "Runtime error", e.getMessage()).show();
         //debug
-//        if (DEBUG) e.printStackTrace();
+        if (DEBUG) e.printStackTrace();
     }
 
     public char readKey() {

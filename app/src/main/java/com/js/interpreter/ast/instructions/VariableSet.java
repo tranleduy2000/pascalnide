@@ -40,8 +40,8 @@ public class VariableSet extends DebuggableExecutable implements
         Object objValue = this.value.getValue(f, main);
 
         //debug
-        if (main.getDebugListener() != null)
-            main.getDebugListener().onVariableChangeValue(name, objValue);
+//        if (main.getDebugListener() != null)
+//            main.getDebugListener().onVariableChangeValue(name, objValue);
 
         f.setVariable(name, objValue);
         return ExecutionResult.NONE;

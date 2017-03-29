@@ -148,7 +148,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public void commitChar(char c) {
         int index = bufferData.firstIndex + mCursor.y * mScreen.row + mCursor.x;
-        Log.d(TAG, "commitChar: " + index);
+//        Log.d(TAG, "commitChar: " + index);
         if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
         switch (c) {
             case '\n':

@@ -6,8 +6,8 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class StackOverflowException extends RuntimePascalException {
 
-    public StackOverflowException(LineInfo lineInfo) {
-        super(lineInfo, "Stack overflow error");
+    public StackOverflowException(LineInfo lineInfo, String s) {
+        super(lineInfo, "Stack overflow error: " + s);
     }
 
 }

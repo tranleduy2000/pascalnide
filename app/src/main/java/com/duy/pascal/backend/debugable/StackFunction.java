@@ -1,7 +1,5 @@
 package com.duy.pascal.backend.debugable;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
@@ -13,13 +11,12 @@ public class StackFunction {
     /**
      * max stack size
      */
-    public static final int MAX_STACK = 500;
+    public static final int MAX_STACK = 85;
 
     /**
      * Log tag
      */
     private static final String TAG = StackFunction.class.getSimpleName();
-
     /**
      * current stack size
      */
@@ -28,10 +25,9 @@ public class StackFunction {
     public static int inc(LineInfo lineInfo) throws StackOverflowException {
         CURRENT_STACK++;
         if (CURRENT_STACK > MAX_STACK) {
-
-            throw new StackOverflowException(lineInfo);
+            throw new StackOverflowException(lineInfo, "Stack size " + CURRENT_STACK +
+                    "| Max stack size: " + MAX_STACK);
         }
-        Log.d(TAG, "inc: " + CURRENT_STACK);
         return CURRENT_STACK;
     }
 

@@ -109,5 +109,23 @@
     <string name="tab" translatable="false">tab</string>
     <string name="translate" translatable="false">Translate</string>
     <string name="license" translatable="false">License</string>
+    <string name="system">System</string>
+    <string name="console_screen">Console</string>
+    <string name="key_stack_size">key_stack_size</string>
+    <string name="key_frame_rate" >key_frame_rate</string>
+    <string name="key_max_line">key_max_line</string>
+    <string name="key_bg_console">key_bg_console</string>
+    <string name="background_console">Background console</string>
+    <string name="key_text_color_console">key_text_color_console</string>
+    <string name="text_color_console">Text color console</string>
+    <string name="console_font_size">Console font size</string>
+    <string name="key_console_font_size">key_console_font_size</string>
+    <string name="key_max_buffer_size">key_max_buffer_size</string>
+    <string name="key_console_row">key_console_row</string>
+    <string name="console_row">Console row</string>
+    <string name="key_console_column">key_console_column</string>
+    <string name="console_column">Console column</string>
+    <string name="key_full_screen_console">key_full_screen_console</string>
+    <string name="full_screen_console">Full screen console</string>
 </resources>
 

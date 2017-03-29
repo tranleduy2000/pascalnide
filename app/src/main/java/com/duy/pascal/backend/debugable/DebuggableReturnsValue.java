@@ -9,6 +9,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
 public abstract class DebuggableReturnsValue implements ReturnsValue {
+
     private void checkStack(VariableContext f) throws StackOverflowException {
         if (f instanceof FunctionOnStack) {
             StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getLineNumber());
@@ -16,8 +17,21 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
             StackFunction.inc(null);
         }
     }
-
     @Override
+    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
+        try {
+            if (main != null) {
+                main.scriptControlCheck(getLineNumber());
+            }
+            return getValueImpl(f, main);
+        } catch (RuntimePascalException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new UnhandledPascalException(this.getLineNumber(), e);
+        }
+    }
+   /* @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         checkStack(f);
@@ -25,7 +39,9 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
             if (main != null) {
                 main.scriptControlCheck(getLineNumber());
             }
+
             Object result = getValueImpl(f, main);
+
             StackFunction.dec();
             return result;
         } catch (RuntimePascalException e) {
@@ -33,8 +49,9 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
         } catch (Exception e) {
             throw new UnhandledPascalException(this.getLineNumber(), e);
         }
-    }
+    }*/
 
-    public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException;
+    public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException;
 
 }

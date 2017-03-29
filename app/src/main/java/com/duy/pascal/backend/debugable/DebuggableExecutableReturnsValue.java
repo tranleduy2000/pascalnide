@@ -21,7 +21,7 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         }
     }
 
-    @Override
+    /*@Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         checkStack(f);
@@ -29,7 +29,7 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
             if (main != null) {
                 main.scriptControlCheck(getLineNumber());
             }
-            ExecutionResult result = executeImpl(f, main);
+            Object result = executeImpl(f, main);
             //decrease stack
             StackFunction.dec();
             return result;
@@ -56,8 +56,36 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         } catch (Exception e) {
             throw new UnhandledPascalException(this.getLineNumber(), e);
         }
+    }*/
+    @Override
+    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
+        try {
+            if (main != null) {
+                main.scriptControlCheck(getLineNumber());
+            }
+            return getValueImpl(f, main);
+        } catch (RuntimePascalException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new UnhandledPascalException(this.getLineNumber(), e);
+        }
     }
 
+    public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException;
+
+    @Override
+    public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
+        try {
+            return executeImpl(f, main);
+        } catch (RuntimePascalException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new UnhandledPascalException(this.getLineNumber(), e);
+        }
+    }
     public abstract ExecutionResult executeImpl(VariableContext f,
                                                 RuntimeExecutable<?> main) throws RuntimePascalException;
 }

@@ -45,7 +45,7 @@ public class SimpleFunctionCall extends FunctionCall {
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new PluginReflectionException(line, e);
         } catch (InvocationTargetException e) {
-            throw new PluginCallException(line, e.getCause(), function);
+            throw new PluginCallException(line,e, function);
         }
         return result;
     }

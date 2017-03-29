@@ -51,5 +51,8 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'commons-io:commons-io:2.4'
     compile 'com.github.clans:fab:1.6.4'
+
+    compile 'com.rarepebble:colorpicker:2.2.0'
+    compile 'com.vanniktech:vntnumberpickerpreference:1.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
