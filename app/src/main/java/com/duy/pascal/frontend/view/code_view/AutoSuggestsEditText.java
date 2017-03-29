@@ -80,7 +80,8 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     @Override
     public void setTypeface(Typeface tf) {
         super.setTypeface(tf);
-        invalidateCharHeight();
+
+//        invalidateCharHeight();
     }
 
     @Override
