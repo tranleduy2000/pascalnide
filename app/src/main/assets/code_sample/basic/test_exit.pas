@@ -2,9 +2,9 @@ program test_exit;
 
 procedure func;
 begin
-    WriteLn('After exit');
-    exit;
     WriteLn('Before exit');
+    exit;
+    WriteLn('After exit');
 end;
 
 begin

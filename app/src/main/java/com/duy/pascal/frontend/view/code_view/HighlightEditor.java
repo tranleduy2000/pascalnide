@@ -56,7 +56,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     private static final int TAB_NUMBER = 3;
     private final Handler updateHandler = new Handler();
     public boolean showLineNumbers = true;
-    public boolean syntaxHighlighting = true;
     public float textSize = 13;
     public boolean wordWrap = true;
     public boolean flingToScroll = true;
@@ -92,8 +91,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
             Editable e = getText();
             if (onTextChangedListener != null)
                 onTextChangedListener.onTextChanged(e.toString());
-            if (syntaxHighlighting)
-                highlightWithoutChange(e);
+            long start = System.currentTimeMillis();
+            highlightWithoutChange(e);
+            long end = System.currentTimeMillis();
+            DLog.d("Time " + (end - start));
         }
     };
     private int mOldTextlength = 0;
@@ -150,7 +151,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         mGestureDetector = new GestureDetector(getContext(), this);
         updateFromSettings();
     }
-
 
     public void setTheme(int id) {
         ThemeFromAssets theme = ThemeFromAssets.getTheme(id, mContext);
@@ -365,6 +365,11 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         highlightWithoutChange(getEditableText());
     }
 
+    @Override
+    protected boolean getDefaultEditable() {
+        return true;
+    }
+
 //    public void setSelection(int start, int stop) {
 //        try {
 //            Selection.setSelection(getText(), start, stop);
@@ -388,18 +393,13 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 //    }
 
     @Override
-    protected boolean getDefaultEditable() {
-        return true;
+    protected MovementMethod getDefaultMovementMethod() {
+        return ArrowKeyMovementMethod.getInstance();
     }
 
 //    public void extendSelection(int index) {
 //        Selection.extendSelection(getText(), index);
 //    }
-
-    @Override
-    protected MovementMethod getDefaultMovementMethod() {
-        return ArrowKeyMovementMethod.getInstance();
-    }
 
     @Override
     public Editable getText() {
@@ -411,6 +411,11 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         super.setText(text, BufferType.EDITABLE);
     }
 
+    /**
+     * This method used to set text and high light text
+     *
+     * @param text
+     */
     public void setTextHighlighted(CharSequence text) {
         cancelUpdate();
         errorLine = -1;
@@ -422,16 +427,16 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
             onTextChangedListener.onTextChanged(text.toString());
     }
 
-    public String getCleanText() {
-        return trailingWhiteSpace.matcher(getText()).replaceAll("");
-    }
-
     public void refresh() {
         cancelUpdate();
         dirty = false;
         modified = false;
         highlightWithoutChange(getText());
         modified = true;
+    }
+
+    public String getCleanText() {
+        return trailingWhiteSpace.matcher(getText()).replaceAll("");
     }
 
     @Override
@@ -474,7 +479,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 if (!modified)
                     return;
                 dirty = true;
-                applyTabWidth(e, start, end);
+//                applyTabWidth(e, start, end);
                 updateHandler.postDelayed(updateRunnable, updateDelay);
             }
         });
@@ -532,20 +537,38 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         modified = true;
     }
 
+    private void highlightWithoutChange(Editable e, int start, int end) {
+        modified = false;
+        highlight(e, start, end);
+        modified = true;
+    }
+
     private Editable highlight(Editable e) {
-        long time = System.currentTimeMillis();
+        return highlight(e, 0, e.length());
+    }
+
+    /**
+     * high light text from start to end
+     *
+     * @param start - start index
+     * @param end   - end index
+     */
+    private Editable highlight(Editable e, int start, int end) {
         try {
-            clearSpans(e);
             if (e.length() == 0)
                 return e;
+            //clear spannable
+            clearSpans(e, start, end);
+            CharSequence input = e.subSequence(start, end);
+            //high light error light
             if (errorLine > -1) {
-                Matcher m = line.matcher(e);
+                Matcher m = line.matcher(input);
                 int count = 0;
                 while (m.find()) {
                     if (count == errorLine) {
                         e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
-                                m.start(),
-                                m.end(),
+                                start + m.start(),
+                                start + m.end(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         break;
                     }
@@ -553,10 +576,11 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                 }
             }
 
-            for (Matcher m = numbers.matcher(e); m.find(); ) {
+            //high light number
+            for (Matcher m = numbers.matcher(input); m.find(); ) {
                 e.setSpan(new ForegroundColorSpan(COLOR_NUMBER),
-                        m.start(),
-                        m.end(),
+                        start + m.start(),
+                        start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             for (Matcher m = keywords.matcher(e); m.find(); ) {
@@ -602,29 +626,32 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
      * remove all spanned
      */
     private void clearSpans(Editable e) {
+        clearSpans(e, 0, e.length());
+    }
+
+    /**
+     * remove span from start to end
+     */
+    private void clearSpans(Editable e, int start, int end) {
         {
-            ForegroundColorSpan spans[] = e.getSpans(0, e.length(), ForegroundColorSpan.class);
+            ForegroundColorSpan spans[] = e.getSpans(start, end, ForegroundColorSpan.class);
             for (int n = spans.length; n-- > 0; )
                 e.removeSpan(spans[n]);
         }
         {
-            BackgroundColorSpan spans[] = e.getSpans(0, e.length(), BackgroundColorSpan.class);
+            BackgroundColorSpan spans[] = e.getSpans(start, end, BackgroundColorSpan.class);
             for (int n = spans.length; n-- > 0; )
                 e.removeSpan(spans[n]);
         }
         {
-            StyleSpan[] spans = e.getSpans(0, e.length(), StyleSpan.class);
+            StyleSpan[] spans = e.getSpans(start, end, StyleSpan.class);
             for (int n = spans.length; n-- > 0; )
                 e.removeSpan(spans[n]);
         }
 
     }
 
-    /**
-     * auto tab
-     */
-    private CharSequence autoIndent(CharSequence source,
-                                    int start, int end, Spanned dest, int dstart, int dend) {
+    private CharSequence autoIndent(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         if (DLog.DEBUG) Log.d(TAG, "autoIndent: " + source);
         String indent = "";
         int istart = dstart - 1;
@@ -672,7 +699,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
             indent += "\t";
         return source + indent;
     }
-
 
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {
         Pattern pattern;
@@ -801,7 +827,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
                     tmp = offsetVertical - getDropDownHeight() - mCharHeight;
                     setDropDownVerticalOffset(tmp);
                 }
-                Log.d(TAG, "showPopupSuggest: " + offsetVertical + " " + tmp + " " + scrollY);
+//            if (DLog.DEBUG) Log.d(TAG, "showPopupSuggest: " + offsetVertical + " " + tmp + " " + scrollY);
             }
         } catch (Exception ignored) {
         }
@@ -823,7 +849,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         this.scrollY = t;
     }
 
-
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
         return super.onCreateInputConnection(outAttrs);
@@ -836,7 +861,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
             int index = str.indexOf("\t", start);
             if (index < 0)
                 break;
-            text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             start = index + 1;
         }
     }
@@ -848,4 +874,5 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     public interface OnTextChangedListener {
         void onTextChanged(String text);
     }
+
 }
