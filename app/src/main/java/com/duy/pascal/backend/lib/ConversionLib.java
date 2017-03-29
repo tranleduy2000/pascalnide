@@ -66,7 +66,7 @@ public class ConversionLib implements PascalLibrary {
      * @param s   output string
      */
     public static void str(Object num, VariableBoxer<StringBuilder> s) {
-        System.out.print(num);
+//        System.out.print(num);
         s.set(new StringBuilder(String.valueOf(num)));
     }
 

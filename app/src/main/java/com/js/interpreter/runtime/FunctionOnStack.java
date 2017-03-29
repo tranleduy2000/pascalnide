@@ -32,7 +32,7 @@ public class FunctionOnStack extends VariableContext {
     public FunctionOnStack(VariableContext parentContext, RuntimeExecutable<?> main,
                            FunctionDeclaration declaration, Object[] arguments) {
         // TODO: 27-Mar-17  debug function
-        if (main.getDebugListener() != null || DLog.DEBUG_PROGRAM) {
+        if (main.getDebugListener() != null && DLog.DEBUG_PROGRAM) {
             if (declaration.isProcedure()) {
                 main.getDebugListener().onFunctionCall(declaration);
             } else {
@@ -80,7 +80,7 @@ public class FunctionOnStack extends VariableContext {
     }
 
     public Object execute() throws RuntimePascalException {
-        System.out.println("Function call: " + currentFunction.getName());
+//        System.out.println("Function call: " + currentFunction.getName());
         currentFunction.instructions.execute(this, main);
         //get result of currentFunction, name of variable is name of currentFunction
         return mapLocalVariable.get(currentFunction.name);

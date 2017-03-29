@@ -19,7 +19,7 @@ public class FileEntry {
 
     public FileEntry(String filePath) {
         this.filePath = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/" + filePath;
-        System.out.println("File: " + this.filePath);
+//        System.out.println("File: " + this.filePath);
     }
 
 
@@ -69,25 +69,25 @@ public class FileEntry {
 
     public int readInt() throws IOException {
         int integer = mReader.nextInt();
-        System.out.println("readln integer " + integer);
+//        System.out.println("readln integer " + integer);
         return integer;
     }
 
     public long readLong() throws IOException {
         long l = mReader.nextLong();
-        System.out.println("readLong " + l);
+//        System.out.println("readLong " + l);
         return l;
     }
 
     public double readDouble() throws IOException {
         double d = mReader.nextDouble();
-        System.out.println(d);
+//        System.out.println(d);
         return d;
     }
 
     public String readString() throws IOException {
         String res = mReader.nextLine();
-        System.out.println(res);
+//        System.out.println(res);
         return res;
     }
 

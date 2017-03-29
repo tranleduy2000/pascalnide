@@ -1,6 +1,7 @@
 package com.js.interpreter.ast.instructions;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.runtime.VariableContext;
@@ -15,7 +16,7 @@ public interface Executable {
      * call.
      */
     ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
-            throws RuntimePascalException;
+            throws RuntimePascalException, StackOverflowException;
 
     Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException;
 }

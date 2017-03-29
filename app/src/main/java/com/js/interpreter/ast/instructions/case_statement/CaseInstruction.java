@@ -118,15 +118,15 @@ public class CaseInstruction extends DebuggableExecutable {
         this.possibilies = possibilities.toArray(new CasePossibility[possibilities.size()]);
     }
 
+    //check type
     private void assertType(DeclaredType switchValueType, ReturnsValue val, ExpressionContext context) throws ParsingException {
-        //check type
         DeclaredType inputType = val.getType(context).declType;
         ReturnsValue converted = switchValueType.convert(val, context);
         if (converted == null) {
             throw new UnconvertibleTypeException(val, inputType, switchValueType, true);
         }
-        // end check type
-    }
+
+    } // end check type
 
     /**
      * check semicolon symbol

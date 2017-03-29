@@ -45,9 +45,9 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
         DebugManager.outputMethod(main.getDebugListener(), method);
 
-        for (Object o: arguments){
-            System.out.println("debug + " + o.getClass().getSimpleName() + " " + o.toString());;
-        }
+//        for (Object o: arguments){
+//            System.out.println("debug + " + o.getClass().getSimpleName() + " " + o.toString());;
+//        }
 
         return method.invoke(parent, arguments);
     }

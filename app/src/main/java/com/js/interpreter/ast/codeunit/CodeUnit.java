@@ -10,7 +10,6 @@ import com.duy.pascal.backend.tokens.basic.ProgramToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
-import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.core.ScriptSource;
@@ -44,17 +43,17 @@ public abstract class CodeUnit {
         NewLexer grouper = new NewLexer(program, sourcename, includeDirectories);
         grouper.parse();
         parseTree(grouper.token_queue);
-        debug();
+
     }
 
-    private void debug() {
-        if (DEBUG) {
-            List<VariableDeclaration> unitVarDefs = context.getVariables();
-            for (VariableDeclaration variableDeclaration : unitVarDefs) {
-                System.out.println(variableDeclaration.get_name());
-            }
-        }
-    }
+//    private void debug() {
+//        if (DEBUG) {
+//            List<VariableDeclaration> unitVarDefs = context.getVariables();
+//            for (VariableDeclaration variableDeclaration : unitVarDefs) {
+//                System.out.println(variableDeclaration.get_name());
+//            }
+//        }
+//    }
 
     protected CodeUnitExpressionContext getExpressionContextInstance(
             ListMultimap<String, AbstractFunction> ftable) {

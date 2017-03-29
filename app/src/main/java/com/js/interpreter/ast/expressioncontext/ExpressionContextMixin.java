@@ -161,7 +161,7 @@ public abstract class ExpressionContextMixin extends
                 count++;
             } while (true);
             i.assertNextSemicolon();
-            System.out.println("List lib: " + libraries.toString());
+//            System.out.println("List lib: " + libraries.toString());
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {

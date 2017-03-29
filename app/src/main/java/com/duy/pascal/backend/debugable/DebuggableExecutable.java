@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.debugable;
 
+import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
@@ -23,6 +24,7 @@ public abstract class DebuggableExecutable implements Executable {
     @Override
     public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
+        checkStack(f);
         try {
             if (main != null) {
                 main.scriptControlCheck(getLineNumber());
@@ -33,11 +35,22 @@ public abstract class DebuggableExecutable implements Executable {
                 } catch (Exception ignored) {
                 }
             }
-            return executeImpl(f, main);
+            ExecutionResult result = executeImpl(f, main);
+            //decrease stack
+            StackFunction.dec();
+            return result;
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
             throw new UnhandledPascalException(this.getLineNumber(), e);
+        }
+    }
+
+    private void checkStack(VariableContext f) throws StackOverflowException {
+        if (f instanceof FunctionOnStack) {
+            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getLineNumber());
+        } else {
+            StackFunction.inc(null);
         }
     }
 

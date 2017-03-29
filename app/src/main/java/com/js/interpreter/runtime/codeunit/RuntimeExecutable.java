@@ -1,6 +1,7 @@
 package com.js.interpreter.runtime.codeunit;
 
 import com.duy.pascal.backend.debugable.DebugListener;
+import com.duy.pascal.backend.debugable.StackFunction;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.ast.codeunit.Library;
@@ -45,6 +46,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     }
 
     public void run() throws RuntimePascalException {
+        StackFunction.reset();
         try {
             runImpl();
         } catch (RuntimePascalException e) {

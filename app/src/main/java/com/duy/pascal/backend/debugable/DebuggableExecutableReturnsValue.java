@@ -1,8 +1,10 @@
 package com.duy.pascal.backend.debugable;
 
+import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.runtime.FunctionOnStack;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -11,14 +13,26 @@ import com.js.interpreter.runtime.exception.UnhandledPascalException;
 public abstract class DebuggableExecutableReturnsValue implements Executable,
         ReturnsValue {
 
+    private void checkStack(VariableContext f) throws StackOverflowException {
+        if (f instanceof FunctionOnStack) {
+            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getLineNumber());
+        } else {
+            StackFunction.inc(null);
+        }
+    }
+
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
+        checkStack(f);
         try {
             if (main != null) {
                 main.scriptControlCheck(getLineNumber());
             }
-            return getValueImpl(f, main);
+            ExecutionResult result = executeImpl(f, main);
+            //decrease stack
+            StackFunction.dec();
+            return result;
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
@@ -31,9 +45,12 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
 
     @Override
     public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
-            throws RuntimePascalException {
+            throws RuntimePascalException { checkStack(f);
         try {
-            return executeImpl(f, main);
+            ExecutionResult result = executeImpl(f, main);
+            //decrease stack
+            StackFunction.dec();
+            return result;
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {

@@ -38,7 +38,7 @@ public class StringBiOperatorEval extends BinaryOperatorEvaluation {
         CharSequence v2 = (CharSequence) value2;
         switch (operator_type) {
             case EQUALS:
-                System.out.println(v1 + " " + v2 + " " + v1.equals(v2));
+//                System.out.println(v1 + " " + v2 + " " + v1.equals(v2));
                 return v1.toString().equals(v2.toString());
             case NOTEQUAL:
                 return !v1.toString().equals(v2.toString());

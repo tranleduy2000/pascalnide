@@ -131,7 +131,7 @@ public class PascalCompiler {
                       List<ScriptSource> includeSearchPath,
                       List<ScriptSource> librarySearchPath)
             throws ParsingException, RuntimePascalException {
-        System.out.print("debug");
+//        System.out.print("debug");
         ListMultimap<String, AbstractFunction> functionTable = loadFunctionTable(includeSearchPath, librarySearchPath);
         new PascalProgram(in, functionTable, sourcename, includeSearchPath);
     }

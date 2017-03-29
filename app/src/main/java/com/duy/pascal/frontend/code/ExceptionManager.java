@@ -3,7 +3,6 @@ package com.duy.pascal.frontend.code;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -35,17 +34,17 @@ public class ExceptionManager {
     public ExceptionManager(Context context) {
         this.context = context;
     }
-
-    @SuppressWarnings("deprecation")
-    public static Spanned fromHtml(String html) {
-        Spanned result;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            result = Html.fromHtml(html);
-        }
-        return result;
-    }
+//
+//    @SuppressWarnings("deprecation")
+//    public static Spanned fromHtml(String html) {
+//        Spanned result;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+//        } else {
+//            result = Html.fromHtml(html);
+//        }
+//        return result;
+//    }
 
     public Spanned getMessage(Exception e) {
         try {
@@ -163,20 +162,15 @@ public class ExceptionManager {
 //        return fromHtml(stringBuilder.toString());
         String msg = msg1 + expected + msg2 + current;
         Spannable span = new SpannableString(msg);
-        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                msg1.length(),
-                msg1.length() + expected.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new StyleSpan(Typeface.BOLD),
-                msg1.length(),
-                msg1.length() + expected.length(),
+        span.setSpan(new ForegroundColorSpan(Color.YELLOW), msg1.length(), msg1.length() + expected.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                msg1.length() + expected.length() + msg2.length(), msg.length(),
+        span.setSpan(new StyleSpan(Typeface.BOLD), msg1.length(), msg1.length() + expected.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new StyleSpan(Typeface.BOLD),
-                msg1.length() + expected.length() + msg2.length(), msg.length(),
+
+        span.setSpan(new ForegroundColorSpan(Color.YELLOW), msg1.length() + expected.length() + msg2.length(), msg.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new StyleSpan(Typeface.BOLD), msg1.length() + expected.length() + msg2.length(), msg.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return span;
     }

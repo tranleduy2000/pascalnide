@@ -104,7 +104,7 @@ public class IOLib implements PascalLibrary {
         if (activity == null) {
             throw new InputStreamNotFoundException("Can not find InputStream");
         }
-        System.out.println("readln: 1" + s.get().getClass());
+//        System.out.println("readln: 1" + s.get().getClass());
         String inp = "";
         if (s.get() instanceof StringBuilder) {
             //read string

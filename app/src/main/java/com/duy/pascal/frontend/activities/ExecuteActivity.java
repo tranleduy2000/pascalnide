@@ -1,7 +1,6 @@
 package com.duy.pascal.frontend.activities;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,13 +14,12 @@ import android.widget.Toast;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.screen.console.ConsoleView;
 import com.js.interpreter.ast.FunctionDeclaration;
@@ -41,7 +39,7 @@ import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
 
 public class ExecuteActivity extends AbstractExecActivity implements DebugListener {
-    public static final boolean DEBUG = BuildConfig.DEBUG;
+    public static final boolean DEBUG = DLog.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
     private static final int NEW_INPUT = 1;
     private static final int NEW_OUTPUT_CHAR = 2;
@@ -88,6 +86,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                             ExecuteActivity.this);
                     program = pascalProgram.run();
 //                    program.enableDebug();
+
                     program.run();
                     mMessageHandler.sendEmptyMessage(COMPLETE);
                 } catch (RuntimePascalException | FileNotFoundException | ParsingException e) {
@@ -110,7 +109,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             exitFlag = 0;
             do {
                 c = mConsoleView.readChar();
-                System.out.println(c);
+//                System.out.println(c);
                 switch (c) {
                     case 10: // return
                         exitFlag = 1;
@@ -223,18 +222,19 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      * on error compile or runtime
      */
     public void onError(Exception e) {
-        mConsoleView.setTextColor(Color.RED);
-        if (e instanceof ParsingException) {
-            mConsoleView.commitString(e.getMessage() + "\n");
-            LineInfo lineInfo = ((ParsingException) e).line;
-            String line = String.valueOf(lineInfo.line);
-            mConsoleView.commitString("Error in line " + line + "\n");
-            mConsoleView.commitString("File: " + lineInfo.sourcefile + "\n");
-        } else {
-            mConsoleView.commitString(e.getMessage());
-        }
+//        mConsoleView.setTextColor(Color.RED);
+//        if (e instanceof ParsingException) {
+//            mConsoleView.commitString(e.getMessage() + "\n");
+//            LineInfo lineInfo = ((ParsingException) e).line;
+//            String line = String.valueOf(lineInfo.line);
+//            mConsoleView.commitString("Error in line " + line + "\n");
+//            mConsoleView.commitString("File: " + lineInfo.sourcefile + "\n");
+//        } else {
+//            mConsoleView.commitString(e.getMessage());
+//        }
+        DialogManager.createDialog(this, "Runtime error", e.getMessage()).show();
         //debug
-        if (DEBUG) e.printStackTrace();
+//        if (DEBUG) e.printStackTrace();
     }
 
     public char readKey() {
