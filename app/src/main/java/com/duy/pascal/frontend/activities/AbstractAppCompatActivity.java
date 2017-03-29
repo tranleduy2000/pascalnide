@@ -20,11 +20,9 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.data.PascalPreferences;
 
 import java.util.Locale;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 /**
@@ -37,12 +35,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public abstract class AbstractAppCompatActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String TAG = AbstractAppCompatActivity.class.getSimpleName();
-    protected Preferences mPreferences;
+    protected PascalPreferences mPascalPreferences;
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
     /**
      * set theme and init mHistoryDatabase for history
@@ -52,7 +50,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPreferences = new Preferences(this);
+        mPascalPreferences = new PascalPreferences(this);
         setFullScreen();
         setLocale(false);
         setTheme(false);
@@ -65,7 +63,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
      */
     private void setLocale(boolean create) {
         Locale locale;
-        String code = mPreferences.getSharedPreferences().getString(getString(R.string.key_pref_lang), "default_lang");
+        String code = mPascalPreferences.getSharedPreferences().getString(getString(R.string.key_pref_lang), "default_lang");
         if (code.equals("default_lang")) {
             Log.d(TAG, "setLocale: default");
             locale = Locale.getDefault();
@@ -89,8 +87,8 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        if (mPreferences != null)
-            mPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        if (mPascalPreferences != null)
+            mPascalPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -155,8 +153,8 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPreferences != null)
-            mPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        if (mPascalPreferences != null)
+            mPascalPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
     /**

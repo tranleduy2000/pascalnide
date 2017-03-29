@@ -469,13 +469,13 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
 
             @Override
             public void afterTextChanged(Editable e) {
-//                errorLine = -1;
-//                cancelUpdate();
-//                if (!modified)
-//                    return;
-//                dirty = true;
-//                applyTabWidth(e, start, end);
-//                updateHandler.postDelayed(updateRunnable, updateDelay);
+                errorLine = -1;
+                cancelUpdate();
+                if (!modified)
+                    return;
+                dirty = true;
+                applyTabWidth(e, start, end);
+                updateHandler.postDelayed(updateRunnable, updateDelay);
             }
         });
     }

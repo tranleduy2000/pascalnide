@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.data.PascalPreferences;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.view.LockableScrollView;
@@ -231,7 +231,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        mPreferences.put(Preferences.TAB_POSITION_FILE, tabLayout.getSelectedTabPosition());
+        mPascalPreferences.put(PascalPreferences.TAB_POSITION_FILE, tabLayout.getSelectedTabPosition());
     }
 
     protected abstract String getCode();
@@ -267,7 +267,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
             if (!result) {//empty file
                 createEmptyFile();
             } else {
-                int pos = (mPreferences.getInt(Preferences.TAB_POSITION_FILE));
+                int pos = (mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE));
                 Log.d(TAG, "onPostExecute: " + pos);
                 TabLayout.Tab tab = tabLayout.getTabAt((pos));
                 if (tab != null) {

@@ -28,7 +28,6 @@
         <item>@string/font.consolas</item>
         <item>@string/font.courier_new</item>
         <item>@string/font.lucida_sans_typewriter</item>
-        <item>@string/font.roboto</item>
         <item>@string/source_code_pro</item>
         <item>@string/font.monospace</item>
     </string-array>

@@ -43,7 +43,6 @@
             android:defaultValue="@string/default_theme"
             android:entries="@array/code_themes"
             android:entryValues="@array/code_themes"
-
             android:key="@string/key_code_theme"
             android:title="@string/theme" />
 

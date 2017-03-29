@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.data.PascalPreferences;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,12 +35,12 @@ public class ApplicationFileManager {
     private int mode = SAVE_MODE.EXTERNAL;
     private Context context;
     private Database mDatabase;
-    private Preferences mPreferences;
+    private PascalPreferences mPascalPreferences;
 
     public ApplicationFileManager(Context context) {
         this.context = context;
         mDatabase = new Database(context);
-        mPreferences = new Preferences(context);
+        mPascalPreferences = new PascalPreferences(context);
     }
 
     /**
@@ -400,7 +400,7 @@ public class ApplicationFileManager {
      * @param path
      */
     public void setWorkingFilePath(String path) {
-        mPreferences.put(Preferences.FILE_PATH, path);
+        mPascalPreferences.put(PascalPreferences.FILE_PATH, path);
     }
 
     public void removeTabFile(String path) {

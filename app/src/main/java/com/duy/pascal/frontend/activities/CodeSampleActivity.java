@@ -96,10 +96,10 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         protected Void doInBackground(Void... params) {
             try {
                 String[] list;
-                list = getAssets().list("code_sample");
+                list = getAssets().list("code_sample/basic");
                 for (String path : list) {
                     Log.d(TAG, "doInBackground: " + path);
-                    String content = readFile("code_sample/" + path);
+                    String content = readFile("code_sample/basic/" + path);
                     publishProgress(content);
                 }
             } catch (IOException ignored) {

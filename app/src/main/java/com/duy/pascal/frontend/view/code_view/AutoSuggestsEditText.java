@@ -1,7 +1,6 @@
 package com.duy.pascal.frontend.view.code_view;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -76,13 +75,6 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
     }
 
-
-    @Override
-    public void setTypeface(Typeface tf) {
-        super.setTypeface(tf);
-
-//        invalidateCharHeight();
-    }
 
     @Override
     public void onClick(View v) {

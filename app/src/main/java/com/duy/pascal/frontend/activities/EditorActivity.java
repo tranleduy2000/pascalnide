@@ -36,7 +36,7 @@ import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
-import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.data.PascalPreferences;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.file.FileListener;
 import com.duy.pascal.frontend.utils.ClipboardManager;
@@ -84,7 +84,7 @@ public class EditorActivity extends FileEditorActivity implements
      * load lasted file
      */
     private void loadLastedFile() {
-        mFilePath = mPreferences.getString(Preferences.FILE_PATH);
+        mFilePath = mPascalPreferences.getString(PascalPreferences.FILE_PATH);
         if (mFilePath.isEmpty()) {
             mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
         }
@@ -139,7 +139,7 @@ public class EditorActivity extends FileEditorActivity implements
         final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
         final EditText editReplace = (EditText) alertDialog.findViewById(R.id.edit_replace);
         assert editFind != null;
-        editFind.setText(mPreferences.getString(Preferences.LAST_FIND));
+        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +152,7 @@ public class EditorActivity extends FileEditorActivity implements
                         editReplace.getText().toString(),
                         ckbRegex.isChecked(),
                         ckbMatch.isChecked());
-                mPreferences.put(Preferences.LAST_FIND, editFind.getText().toString());
+                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
                 alertDialog.dismiss();
             }
         });
@@ -187,7 +187,7 @@ public class EditorActivity extends FileEditorActivity implements
         final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
         final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
         final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
-        editFind.setText(mPreferences.getString(Preferences.LAST_FIND));
+        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,7 +196,7 @@ public class EditorActivity extends FileEditorActivity implements
                         ckbRegex.isChecked(),
                         ckbWordOnly.isChecked(),
                         ckbMatch.isChecked());
-                mPreferences.put(Preferences.LAST_FIND, editFind.getText().toString());
+                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
                 alertDialog.dismiss();
             }
         });
@@ -325,7 +325,7 @@ public class EditorActivity extends FileEditorActivity implements
             String txt = fileManager.readFileAsString(file);
             setCode(txt);
             mFilePath = filePath;
-            mPreferences.put(Preferences.FILE_PATH, filePath);
+            mPascalPreferences.put(PascalPreferences.FILE_PATH, filePath);
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -358,7 +358,7 @@ public class EditorActivity extends FileEditorActivity implements
     protected void onPause() {
         super.onPause();
         fileManager.saveFile(mFilePath, getCode());
-        mPreferences.put(Preferences.FILE_PATH, mFilePath);
+        mPascalPreferences.put(PascalPreferences.FILE_PATH, mFilePath);
     }
 
     @Override
@@ -663,7 +663,7 @@ public class EditorActivity extends FileEditorActivity implements
         /**
          * check can undo
          */
-        if (mPreferences.getBoolean(getString(R.string.key_back_undo))) {
+        if (mPascalPreferences.getBoolean(getString(R.string.key_back_undo))) {
             if (mCodeView.canUndo()) {
                 undo();
                 return;

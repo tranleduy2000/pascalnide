@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
  * <p>
  * Created by Duy on 3/7/2016
  */
-public class Preferences {
+public class PascalPreferences {
     public static final String FILE_PATH = "last_file";
     public static final String LAST_FIND = "LAST_FIND";
     public static final String LAST_REPLACE = "LAST_REPLACE";
@@ -18,13 +18,13 @@ public class Preferences {
     protected Context context;
     private SharedPreferences sharedPreferences;
 
-    public Preferences(Context context) {
+    public PascalPreferences(Context context) {
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = sharedPreferences.edit();
     }
 
-    public Preferences(SharedPreferences mPreferences, Context context) {
+    public PascalPreferences(SharedPreferences mPreferences, Context context) {
         this.context = context;
         this.sharedPreferences = mPreferences;
         this.editor = sharedPreferences.edit();

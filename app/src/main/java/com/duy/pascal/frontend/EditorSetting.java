@@ -4,17 +4,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
-import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.data.PascalPreferences;
 import com.duy.pascal.frontend.utils.FontManager;
 
 /**
  * Created by Duy on 02-Mar-17.
  */
 
-public class EditorSetting extends Preferences {
+public class EditorSetting extends PascalPreferences {
     public EditorSetting(Context context) {
         super(context);
     }
+
     public EditorSetting(SharedPreferences mPreferences, Context context) {
         super(mPreferences, context);
     }
@@ -32,7 +33,7 @@ public class EditorSetting extends Preferences {
     }
 
     public Typeface getFont() {
-        return FontManager.getInstance(context);
+        return FontManager.getFontFromAsset(context, getString(context.getString(R.string.key_pref_font)));
 //        return Typeface.MONOSPACE;
     }
 

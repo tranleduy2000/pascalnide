@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
-import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.data.PascalPreferences;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.ViewHolder> {
     private ArrayList<Object> mThemes = new ArrayList<>();
     private LayoutInflater inflater;
-    private Preferences mPreferences;
+    private PascalPreferences mPascalPreferences;
     private Activity context;
 
     public CodeThemeAdapter(Activity context) {
@@ -32,7 +32,7 @@ public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.View
         }
         this.context = context;
         inflater = LayoutInflater.from(context);
-        mPreferences = new Preferences(context);
+        mPascalPreferences = new PascalPreferences(context);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.View
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPreferences.put(context.getString(R.string.key_code_theme),
+                mPascalPreferences.put(context.getString(R.string.key_code_theme),
                         String.valueOf(mThemes.get(position)));
                 context.finish();
             }

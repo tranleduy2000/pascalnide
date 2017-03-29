@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
-import com.duy.pascal.frontend.data.Preferences;
+import com.duy.pascal.frontend.data.PascalPreferences;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 
 import java.util.ArrayList;
@@ -19,12 +19,12 @@ public class ThemeHorizontalAdapter extends PagerAdapter {
     private Activity mContext;
     private LayoutInflater mLayoutInflater;
     private ArrayList<Object> mThemes = new ArrayList<>();
-    private Preferences mPreferences;
+    private PascalPreferences mPascalPreferences;
 
     public ThemeHorizontalAdapter(final Activity context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        mPreferences = new Preferences(context);
+        mPascalPreferences = new PascalPreferences(context);
         addDefaultData();
     }
 
@@ -68,7 +68,7 @@ public class ThemeHorizontalAdapter extends PagerAdapter {
         view.findViewById(R.id.btn_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPreferences.put(mContext.getString(R.string.key_code_theme),
+                mPascalPreferences.put(mContext.getString(R.string.key_code_theme),
                         String.valueOf(mThemes.get(position)));
                 mContext.finish();
             }
