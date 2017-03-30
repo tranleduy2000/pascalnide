@@ -125,11 +125,11 @@ public class CursorConsole {
     /**
      * set position of the screen
      *
-     * @param i  - x
-     * @param i1 - y
+     * @param x  - x
+     * @param y - y
      */
-    public void setCoordinate(int i, int i1) {
-        this.x = i;
-        this.y = i1;
+    public void setCoordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }

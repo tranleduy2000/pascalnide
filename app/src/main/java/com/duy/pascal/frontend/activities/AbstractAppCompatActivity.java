@@ -60,7 +60,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         Locale locale;
         String code = mPascalPreferences.getSharedPreferences().getString(getString(R.string.key_pref_lang), "default_lang");
         if (code.equals("default_lang")) {
-          if (DEBUG) Log.d(TAG, "setLocale: default");
+            if (DEBUG) Log.d(TAG, "setLocale: default");
             locale = Locale.getDefault();
         } else {
             locale = new Locale(code);
@@ -74,10 +74,23 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (mPascalPreferences != null)
             mPascalPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     /**
@@ -100,7 +113,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if (DEBUG)   Log.d(TAG, "onSharedPreferenceChanged: " + s);
+        if (DEBUG) Log.d(TAG, "onSharedPreferenceChanged: " + s);
 //        if (s.equals(getResources().getString(R.string.key_pref_theme))) {
 //            setTheme(true);
 //            DLog.i("Main: set theme ");
@@ -126,15 +139,21 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         } else {
             showStatusBar();
         }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         if (mPascalPreferences != null)
             mPascalPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
-
 
     /**
      * show dialog choose email client
@@ -225,13 +244,16 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     }
 
     public void showStatusBar() {
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     public void hideStatusBar() {
+        // TODO: 30-Mar-17
         if (android.os.Build.VERSION.SDK_INT < 26) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         } else {
             View decorView = getWindow().getDecorView();
             int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;

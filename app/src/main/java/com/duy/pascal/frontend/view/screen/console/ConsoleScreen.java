@@ -10,7 +10,7 @@ import com.duy.pascal.frontend.view.screen.ScreenObject;
  * Created by Duy on 26-Mar-17.
  */
 
-public class Screen implements ScreenObject {
+public class ConsoleScreen implements ScreenObject {
     public int maxLines = 200;
 
     public int consoleColumn;

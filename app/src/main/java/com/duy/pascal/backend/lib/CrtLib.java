@@ -28,13 +28,13 @@ public class CrtLib implements PascalLibrary {
     /**
      * goto x, y procedure
      *
-     * @param x - x coordinate of screen
-     * @param y - y coordinate of screen
+//     * @param x - x coordinate of screen
+//     * @param y - y coordinate of screen
      */
-    public void gotoXY(int x, int y) {
+    /*public void gotoXY(int x, int y) {
         if (activity == null) return;
         activity.getConsoleView().gotoXY(x, y);
-    }
+    }*/
 
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {

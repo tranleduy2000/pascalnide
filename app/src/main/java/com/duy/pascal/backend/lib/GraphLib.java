@@ -1,9 +1,8 @@
 package com.duy.pascal.backend.lib;
 
-import android.graphics.Point;
-
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.screen.console.ConsoleView;
+import com.duy.pascal.frontend.view.screen.console.CursorConsole;
 import com.duy.pascal.frontend.view.screen.graph.molel.BarObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.LineObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.RectangleObject;
@@ -157,7 +156,7 @@ public class GraphLib implements PascalLibrary {
      * @param color
      */
     public void setColor(int color) {
-        activity.getConsoleView().setForegroundGraphColor(color);
+        activity.getConsoleView().setCursorGraphColor(color);
     }
 
     /**
@@ -239,7 +238,7 @@ public class GraphLib implements PascalLibrary {
      * @param y
      */
     public void moveTo(int x, int y) {
-        activity.getConsoleView().setPointGraph(x, y);
+        activity.getConsoleView().setCursorGraphPosition(x, y);
     }
 
 
@@ -261,9 +260,9 @@ public class GraphLib implements PascalLibrary {
      * LineTo draws a line starting from the current pointer position to the point(DX,DY), relative to the current position, in the current line style and color. The Current position is set to the end of the line.
      */
     public void lineTo(int x, int y) {
-        Point point = activity.getConsoleView().getCursorGraph();
+        CursorConsole point = activity.getConsoleView().getCursorGraph();
         activity.getConsoleView().addGraphObject(new LineObject(point.x, point.y, x, y));
-        activity.getConsoleView().setCursorGraph(new Point(x, y));
+        activity.getConsoleView().setCursorGraphPosition(x, y);
     }
 
     /**
@@ -284,8 +283,8 @@ public class GraphLib implements PascalLibrary {
      * MoveRel moves the pointer to the point (DX,DY), relative to the current pointer position
      */
     public void moveRel(int dx, int dy) {
-        Point point = activity.getConsoleView().getCursorGraph();
-        activity.getConsoleView().setCursorGraph(new Point(point.x + dx, point.y + dy));
+        CursorConsole point = activity.getConsoleView().getCursorGraph();
+        activity.getConsoleView().setCursorGraphPosition(point.x + dx, point.y + dy);
     }
 
     // TODO: 02-Mar-17  empty method

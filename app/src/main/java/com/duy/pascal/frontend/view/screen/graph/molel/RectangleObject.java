@@ -1,5 +1,6 @@
 package com.duy.pascal.frontend.view.screen.graph.molel;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -22,5 +23,10 @@ public class RectangleObject extends GraphObject {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawRect(x1, y1, x2, y2, paint);
+    }
+
+    @Override
+    public void draw(Bitmap parent) {
+
     }
 }

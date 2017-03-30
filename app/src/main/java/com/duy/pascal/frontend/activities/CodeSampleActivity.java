@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.adapters.CodeSampleAdapter;
 import com.duy.pascal.frontend.code.CodeManager;
@@ -96,10 +97,12 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         protected Void doInBackground(Void... params) {
             try {
                 String[] list;
-                list = getAssets().list("code_sample/basic");
-                for (String path : list) {
-                    Log.d(TAG, "doInBackground: " + path);
-                    String content = readFile("code_sample/basic/" + path);
+                String path = "code_sample/graph/";
+//                list = getAssets().list("code_sample/basic");
+                list = getAssets().list(path);
+                for (String fileName : list) {
+                    if (DLog.DEBUG) Log.d(TAG, "doInBackground: " + fileName);
+                    String content = readFile(path + fileName);
                     publishProgress(content);
                 }
             } catch (IOException ignored) {

@@ -3,10 +3,8 @@ package com.duy.pascal.frontend.view.screen.console;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.text.InputType;
@@ -24,14 +22,15 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.data.PascalPreferences;
+import com.duy.pascal.frontend.view.screen.graph.molel.ArcObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
-
-import java.util.ArrayList;
 
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
     public static final String TAG = ConsoleView.class.getSimpleName();
     public Handler handler = new Handler();
     public int firstLine;
+    boolean graphMode = true;
+    GraphScreen mGraphScreen = new GraphScreen();
     /**
      * text style, size of console
      */
@@ -39,7 +38,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     /**
      * store screen size and dimen
      */
-    private Screen mScreen = new Screen();
+    private ConsoleScreen mScreen = new ConsoleScreen();
     /**
      * Cursor of console
      */
@@ -71,9 +70,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     };
     private float scrollRemainder;
     private GestureDetector mGestureDetector;
-    private ArrayList<GraphObject> graphObjects = new ArrayList<>();
     private int foregroundGraphColor = Color.WHITE;
-    private Point cursorGraph = new Point(0, 0);
     private boolean filterKey = false;
     private PascalPreferences mPascalPreferences;
 
@@ -106,14 +103,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         mPascalPreferences = new PascalPreferences(context);
         frameRate = mPascalPreferences.getConsoleFrameRate();
         mScreen.setMaxLines(mPascalPreferences.getConsoleMaxBuffer());
-    }
 
-    public Point getCursorGraph() {
-        return cursorGraph;
-    }
-
-    public void setCursorGraph(Point cursorGraph) {
-        this.cursorGraph = cursorGraph;
     }
 
     public void putChar(char c) {
@@ -135,7 +125,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     /**
      * set cursor index
      */
-    public void setCursorCoordinates(int x, int y) {
+    public void setConsoleCursorPosition(int x, int y) {
         int index, i;
         mCursor.y = y;
         index = bufferData.firstIndex + mCursor.y * mScreen.row;
@@ -462,6 +452,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        mGraphScreen.onSizeChange(w, h);
         updateSize();
     }
 
@@ -493,13 +484,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     protected void onDraw(Canvas canvas) {
         int w = getWidth();
         int h = getHeight();
+
+        /**
+         * draw bitmap graph
+         */
+        if (graphMode)
+            canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, null);
+
         mScreen.draw(canvas, mScreen.getLeftVisible(), mScreen.getTopVisible(), w, h);
         tDraw(canvas, mScreen.getLeftVisible(), mScreen.getTopVisible());
-        if (graphObjects != null) {
-            for (GraphObject graphObject : graphObjects) {
-                graphObject.draw(canvas);
-            }
-        }
     }
 
     @Override
@@ -558,7 +551,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    ///////////           THIS METHOD USES BY PASCAL LIBRARY         //////////////////
+    ///////////           THIS METHOD USES BY PASCAL LIBRARY      //////////////////
+    ///////////                      CRT LIB                      //////////////////
     ///////////////////////////////////////////////////////////////////////////////
     //pascal
     public void setTextColor(int textColor) {
@@ -576,7 +570,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      * Draw part of a circle
      */
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
-        // TODO: 01-Mar-17 write draw arc
+        mGraphScreen.addGraphObject(new ArcObject(x, y, stAngle, endAngle, radius));
     }
 
     /**
@@ -587,7 +581,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         else if (x > mScreen.row) x = mScreen.row;
         if (y <= 0) y = 1;
         else if (y > mScreen.maxLines) y = mScreen.maxLines;
-        setCursorCoordinates(x - 1, y - 1);
+        setConsoleCursorPosition(x - 1, y - 1);
         makeCursorVisible();
         postInvalidate();
     }
@@ -610,26 +604,28 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return mCursor.y + 1;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////           THIS METHOD USES BY PASCAL LIBRARY      //////////////////
+    ///////////                    GRAPH LIB                      //////////////////
+    ///////////////////////////////////////////////////////////////////////////////
     //pascal
     public int getColorPixel(int x, int y) {
-        Bitmap bitmap = getDrawingCache();
-        return bitmap.getPixel(x, y);
+        return mGraphScreen.getColorPixel(x, y);
     }
 
     //pascal
     public void addGraphObject(GraphObject graphObject) {
-        graphObject.setPaintColor(foregroundGraphColor);
-        graphObjects.add(graphObject);
+        mGraphScreen.addGraphObject(graphObject);
     }
 
     //pascal
     public int getXCursorPixel() {
-        return mScreen.getLeftVisible() + mCursor.x * mTextRenderer.charWidth;
+        return mGraphScreen.getXCursor();
     }
 
     //pascal
     public int getYCursorPixel() {
-        return mScreen.getTopVisible() + (mCursor.y - firstLine) * mTextRenderer.charHeight;
+        return mGraphScreen.getYCursor();
     }
 
     /**
@@ -638,7 +634,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      * @return Return current drawing color
      */
     public int getForegroundGraphColor() {
-        return foregroundGraphColor;
+        return mGraphScreen.getPaintColor();
     }
 
     /**
@@ -646,28 +642,30 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      *
      * @param currentColor
      */
-    public void setForegroundGraphColor(int currentColor) {
-        this.foregroundGraphColor = currentColor;
+    public void setCursorGraphColor(int currentColor) {
+        mGraphScreen.setPaintColor(currentColor);
     }
 
     //pascal
     public void closeGraph() {
-        graphObjects.clear();
-        invalidate();
+        mGraphScreen.closeGraph();
+        postInvalidate();
     }
 
     //pascal
     public void clearGraph() {
-        graphObjects.clear();
-        cursorGraph.set(0, 0);
+        mGraphScreen.clear();
         clearScreen();
     }
 
     //pascal
-    public void setPointGraph(int x, int y) {
-        cursorGraph.set(x, y);
+    public void setCursorGraphPosition(int x, int y) {
+        mGraphScreen.setCursorPostion(x, y);
     }
 
+    public CursorConsole getCursorGraph() {
+        return mGraphScreen.getCursor();
+    }
 }
 
 

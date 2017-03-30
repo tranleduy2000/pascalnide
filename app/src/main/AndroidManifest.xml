@@ -20,7 +20,7 @@
             android:name=".activities.EditorActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|adjustUnspecified" />
+          />
 
         <activity
             android:name=".activities.ActivitySplashScreen"

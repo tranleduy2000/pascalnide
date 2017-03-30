@@ -1,5 +1,6 @@
 package com.duy.pascal.frontend.view.screen.graph.molel;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -18,6 +19,7 @@ public abstract class GraphObject {
 
     public void setForeground(int foreground) {
         this.foreground = foreground;
+        setPaintColor(foreground);
     }
 
     public int getBackground() {
@@ -30,7 +32,14 @@ public abstract class GraphObject {
 
     public abstract void draw(Canvas canvas);
 
+    public void draw(Bitmap parent) {
+        Canvas canvas = new Canvas(parent);
+        draw(canvas);
+    }
+
+    ;
+
     public void setPaintColor(int color) {
-        this.paint.setColor(color);
+        paint.setColor(color);
     }
 }
