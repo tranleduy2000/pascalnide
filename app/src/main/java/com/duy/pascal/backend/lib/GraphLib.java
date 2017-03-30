@@ -4,6 +4,7 @@ import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.screen.console.ConsoleView;
 import com.duy.pascal.frontend.view.screen.console.CursorConsole;
 import com.duy.pascal.frontend.view.screen.graph.molel.BarObject;
+import com.duy.pascal.frontend.view.screen.graph.molel.CircleObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.LineObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.RectangleObject;
 import com.js.interpreter.runtime.VariableBoxer;
@@ -293,7 +294,12 @@ public class GraphLib implements PascalLibrary {
     }
 
     // TODO: 02-Mar-17 empty method
-    public int GraphResult() {
-        return 1;
+    public Integer graphResult() {
+        return new Integer(1);
+    }
+
+    public void circle(int x, int y, int r) {
+        if (activity != null)
+            activity.getConsoleView().addGraphObject(new CircleObject(x, y, r));
     }
 }

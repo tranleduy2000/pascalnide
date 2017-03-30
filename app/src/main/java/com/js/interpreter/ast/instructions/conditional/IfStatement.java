@@ -35,7 +35,7 @@ public class IfStatement extends DebuggableExecutable {
     @Override
     public ExecutionResult executeImpl(VariableContext f,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
-        if ((Boolean) (condition.getValue(f, null))) {
+        if ((Boolean) (condition.getValue(f, main))) {
             return instruction.execute(f, main);
         } else {
             if (else_instruction != null) {

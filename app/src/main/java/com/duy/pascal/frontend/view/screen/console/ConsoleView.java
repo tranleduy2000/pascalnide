@@ -488,11 +488,13 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         /**
          * draw bitmap graph
          */
-        if (graphMode)
-            canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, null);
 
         mScreen.draw(canvas, mScreen.getLeftVisible(), mScreen.getTopVisible(), w, h);
         tDraw(canvas, mScreen.getLeftVisible(), mScreen.getTopVisible());
+
+        if (graphMode)
+            canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, null);
+
     }
 
     @Override
@@ -614,8 +616,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     //pascal
-    public void addGraphObject(GraphObject graphObject) {
+    public synchronized void addGraphObject(GraphObject graphObject) {
         mGraphScreen.addGraphObject(graphObject);
+        postInvalidate();
     }
 
     //pascal

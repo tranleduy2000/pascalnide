@@ -96,16 +96,18 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         @Override
         protected Void doInBackground(Void... params) {
             try {
+                if (DLog.DEBUG) Log.d(TAG, "doInBackground: ");
                 String[] list;
-                String path = "code_sample/graph/";
+                String path = "code_sample/graph";
 //                list = getAssets().list("code_sample/basic");
                 list = getAssets().list(path);
                 for (String fileName : list) {
                     if (DLog.DEBUG) Log.d(TAG, "doInBackground: " + fileName);
-                    String content = readFile(path + fileName);
+                    String content = readFile(path + "/" + fileName);
                     publishProgress(content);
                 }
             } catch (IOException ignored) {
+                if (DLog.DEBUG) Log.e(TAG, "doInBackground: ", ignored);
             }
             return null;
         }

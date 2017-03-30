@@ -1,6 +1,7 @@
 package com.duy.pascal.frontend.view.screen.graph.molel;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 /**
  * Created by Duy on 02-Mar-17.
@@ -13,6 +14,8 @@ public class CircleObject extends GraphObject {
         this.x = x;
         this.y = y;
         this.r = r;
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.STROKE);
     }
 
     @Override

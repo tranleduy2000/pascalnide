@@ -2,6 +2,7 @@ package com.duy.pascal.frontend.view.screen.console;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
@@ -33,6 +34,10 @@ public class GraphScreen {
 
     private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);
 
+    public GraphScreen() {
+        mCursorPaint.setColor(Color.WHITE);
+        mBackgroundPaint.setColor(Color.BLACK);
+    }
 
     public int getBackgroundColor() {
         return mBackgroundPaint.getColor();

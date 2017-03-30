@@ -18,7 +18,7 @@ public class SystemConstants {
 
     private static void defineGraphConstant(ExpressionContextMixin context) {
         ConstantDefinition colorConst;
-        colorConst = new ConstantDefinition("grOk".toLowerCase(), 0, new LineInfo(-1, "grOk = 1;".toLowerCase()));
+        colorConst = new ConstantDefinition("grok".toLowerCase(), 1, new LineInfo(-1, "grok = 1;".toLowerCase()));
         context.declareConst(colorConst);
     }
 
