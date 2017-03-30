@@ -38,4 +38,19 @@
     <string name="font.roboto" translatable="false">Roboto</string>
     <string name="source_code_pro" translatable="false">Source Code Pro</string>
     <string name="font.monospace" translatable="false">Monospace</string>
+
+    <string name="key_stack_size" translatable="false">key_stack_size</string>
+    <string name="key_console_frame_rate" translatable="false">key_frame_rate</string>
+    <string name="key_max_line" translatable="false">key_max_line</string>
+    <string name="key_bg_console" translatable="false">key_bg_console</string>
+    <string name="key_full_screen" translatable="false">key_full_screen</string>
+
+    <string name="key_console_text_color" translatable="false">key_text_color_console</string>
+    <string name="key_console_max_buffer_size" translatable="false">key_max_buffer_size</string>
+    <string name="key_console_font_size" translatable="false">key_console_font_size</string>
+    <string name="key_console_row" translatable="false">key_console_row</string>
+    <string name="key_console_column" translatable="false">key_console_column</string>
+
+    <string name="tab" translatable="false">tab</string>
+    <string name="default_console_text_size">11</string>
 </resources>

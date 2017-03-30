@@ -28,7 +28,6 @@
             android:defaultValue="13"
             android:entries="@array/font_size"
             android:entryValues="@array/font_size"
-
             android:key="@string/key_pref_font_size"
             android:title="@string/font_z" />
 
@@ -36,7 +35,6 @@
             android:defaultValue="@string/font.monospace"
             android:entries="@array/fonts_arr"
             android:entryValues="@array/fonts_arr"
-
             android:key="@string/key_pref_font"
             android:title="@string/font" />
 
@@ -49,7 +47,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-
             android:key="@string/key_back_undo"
             android:title="@string/back_to_undo" />
 
@@ -58,7 +55,7 @@
     <PreferenceCategory android:title="@string/user_interface">
         <SwitchPreference
             android:defaultValue="true"
-            android:key="uses_full_screen"
+            android:key="@string/key_full_screen"
             android:summary="@string/hide_status_bar_desc"
             android:title="@string/hide_status_bar" />
 
@@ -69,30 +66,24 @@
             android:key="@string/key_pref_lang"
             android:title="@string/language" />
 
-
     </PreferenceCategory>
 
 
     <PreferenceCategory
-        android:enabled="false"
+        android:icon="@drawable/ic_code_white_24dp"
         android:title="@string/console_screen">
+
         <EditTextPreference
             android:defaultValue="60"
-            android:hint="Frame rate"
             android:inputType="number"
-            android:key="@string/key_frame_rate"
-            android:title="Frame rate">
-
-        </EditTextPreference>
+            android:key="@string/key_console_frame_rate"
+            android:title="@string/frame_rate" />
 
         <EditTextPreference
             android:defaultValue="200"
-            android:hint="Max buffer size"
             android:inputType="number"
-            android:key="@string/key_max_buffer_size"
-            android:title="Max line">
-
-        </EditTextPreference>
+            android:key="@string/key_console_max_buffer_size"
+            android:title="@string/max_buffer" />
 
         <com.rarepebble.colorpicker.ColorPreference
             android:defaultValue="#000"
@@ -101,43 +92,22 @@
 
         <com.rarepebble.colorpicker.ColorPreference
             android:defaultValue="#fff"
-            android:key="@string/key_text_color_console"
+            android:key="@string/key_console_text_color"
             android:title="@string/text_color_console" />
 
-        <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
-            android:defaultValue="12"
-            android:key="@string/key_console_font_size"
-            android:title="@string/console_font_size"
-            app:vnt_maxValue="25"
-            app:vnt_minValue="10"
-            app:vnt_setWrapSelectorWheel="true" />
+        <!--<ListPreference-->
+            <!--android:defaultValue="14"-->
+            <!--android:entries="@array/font_size"-->
+            <!--android:entryValues="@array/font_size"-->
+            <!--android:key="@string/key_console_font_size"-->
+            <!--android:title="@string/font_z" />-->
 
-        <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
-            android:defaultValue="12"
-            android:key="@string/key_console_column"
-            android:title="@string/console_column"
-            app:vnt_maxValue="150"
-            app:vnt_minValue="30"
-            app:vnt_setWrapSelectorWheel="true" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_full_screen_console"
-            android:summary="@string/full_screen_console"
-            android:title="@string/full_screen_console" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:enabled="false"
-        android:title="@string/system">
-
-        <com.vanniktech.vntnumberpickerpreference.VNTNumberPickerPreference
-            android:defaultValue="85"
-            android:key="@string/key_stack_size"
-            android:title="Stack size"
-            app:vnt_maxValue="300"
-            app:vnt_minValue="20"
-            app:vnt_setWrapSelectorWheel="true" />
-
+        android:title="@string/keyboard_shortcut">
 
     </PreferenceCategory>
+
 </PreferenceScreen>

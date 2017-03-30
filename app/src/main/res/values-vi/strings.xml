@@ -49,7 +49,7 @@
     <string name="describe_causes_an_error">Mô tả nguyên nhân xảy ra lỗi</string>
     <string name="word_wrap_desc">Tự động xuống dòng khi tràn màn hình</string>
     <string name="show_line_desc">Hiển thị số dòng bên trái của màn hình gõ code</string>
-    <string name="hide_status_bar_desc">Ẩn thanh trạng thái trong mọi màn hình của ứng dụng</string>
+    <string name="hide_status_bar_desc">Ẩn thanh trạng thái trong mọi màn hình của ứng dụng, bao gồm cả màn hình Console. Khởi động lại ứng dụng nếu cần thay đổi</string>
     <string name="information">Thông tin</string>
     <string name="hide_status_bar">Ẩn thanh trạng thái</string>
     <string name="format_code">Định dạng code</string>
@@ -106,4 +106,7 @@
     <string name="other">Tệp khác</string>
     <string name="pascal_for_android">Pascal cho Android</string>
     <string name="inp_file">File inp</string>
+    <string name="license">Giấy phép nguồn mở</string>
+    <string name="system">Hệ thống</string>
+    <string name="translate">Dịch thuật</string>
 </resources>

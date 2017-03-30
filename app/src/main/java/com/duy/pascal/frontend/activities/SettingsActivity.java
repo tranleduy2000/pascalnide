@@ -4,6 +4,7 @@ package com.duy.pascal.frontend.activities;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -41,6 +42,9 @@ public class SettingsActivity extends PreferenceActivity {
                         preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
 
                     } else if (preference instanceof RingtonePreference) {
+                    } else if (preference instanceof EditTextPreference) {
+                        EditTextPreference editTextPreference = (EditTextPreference) preference;
+                        editTextPreference.setSummary(editTextPreference.getText());
                     } else {
                         // For all other preferences, set the summary to the value's
                         // simple string representation.
@@ -62,6 +66,7 @@ public class SettingsActivity extends PreferenceActivity {
      * @see #sBindPreferenceSummaryToValueListener
      */
     private static void bindPreferenceSummaryToValue(Preference preference) {
+        if (preference == null) return;
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
@@ -209,6 +214,9 @@ public class SettingsActivity extends PreferenceActivity {
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_code_theme)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_font)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_lang)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_font_size)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_frame_rate)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_max_buffer_size)));
         }
     }
 }

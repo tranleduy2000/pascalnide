@@ -14,27 +14,22 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.BuildConfig;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.PascalPreferences;
 
 import java.util.Locale;
 
-
-/**
- * abstract theme for app
- * <p>
- * auto set theme when user changed theme
- * <p>
- * Created by Duy on 19/7/2016
- */
 public abstract class AbstractAppCompatActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String TAG = AbstractAppCompatActivity.class.getSimpleName();
+    private static final boolean DEBUG = DLog.DEBUG;
     protected PascalPreferences mPascalPreferences;
 
 //    @Override
@@ -42,11 +37,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
 //        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
 //    }
 
-    /**
-     * set theme and init mHistoryDatabase for history
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +44,11 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         setFullScreen();
         setLocale(false);
         setTheme(false);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -65,7 +60,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         Locale locale;
         String code = mPascalPreferences.getSharedPreferences().getString(getString(R.string.key_pref_lang), "default_lang");
         if (code.equals("default_lang")) {
-            Log.d(TAG, "setLocale: default");
+          if (DEBUG) Log.d(TAG, "setLocale: default");
             locale = Locale.getDefault();
         } else {
             locale = new Locale(code);
@@ -78,22 +73,11 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         if (create) recreate();
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mPascalPreferences != null)
-            mPascalPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
+        if (mPascalPreferences != null)
+            mPascalPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -116,6 +100,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        if (DEBUG)   Log.d(TAG, "onSharedPreferenceChanged: " + s);
 //        if (s.equals(getResources().getString(R.string.key_pref_theme))) {
 //            setTheme(true);
 //            DLog.i("Main: set theme ");
@@ -130,32 +115,26 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
 //            FontManager.loadTypefaceFromAsset(this);
 //            recreate();
 //        }
-        if (s.equalsIgnoreCase("uses_full_screen")) {
+        if (s.equalsIgnoreCase(getString(R.string.key_full_screen))) {
             setFullScreen();
         }
     }
 
     private void setFullScreen() {
-//        if (mPreferences.useFullScreen()) {
-//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        } else {
-//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-//        }
+        if (mPascalPreferences.useFullScreen()) {
+            hideStatusBar();
+        } else {
+            showStatusBar();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         if (mPascalPreferences != null)
             mPascalPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
+
 
     /**
      * show dialog choose email client
@@ -242,6 +221,21 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         } catch (ActivityNotFoundException e) {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/search?q=pub:Trần Lê Duy")));
+        }
+    }
+
+    public void showStatusBar() {
+
+    }
+
+    public void hideStatusBar() {
+        if (android.os.Build.VERSION.SDK_INT < 26) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
         }
     }
 }

@@ -2,7 +2,11 @@ package com.duy.pascal.frontend.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.utils.FontManager;
 
 /**
  * Setting for application
@@ -90,8 +94,58 @@ public class PascalPreferences {
         return sharedPreferences.getBoolean(key, false);
     }
 
-
     public boolean useFullScreen() {
-        return getBoolean("uses_full_screen");
+        return getBoolean(context.getString(R.string.key_full_screen));
+    }
+
+    public int getConsoleBackground() {
+        return getInt(context.getString(R.string.key_bg_console));
+    }
+
+    public int getConsoleTextColor() {
+        return getInt(context.getString(R.string.key_console_text_color));
+    }
+
+    public int getConsoleFontSize() {
+//        int fontsize;
+//        try {
+//            fontsize = getInt(context.getString(R.string.key_console_font_size));
+//        } catch (Exception e) {
+//            fontsize = 14;
+//        }
+//        return (fontsize >= 1 && fontsize <= 100) ? fontsize : 14;
+        return (int) getTextSize();
+    }
+
+    public int getConsoleFrameRate() {
+        int i = Integer.parseInt(sharedPreferences.getString(context.getString(R.string.key_console_frame_rate), "60"));
+        return (i > 0 && i < 1000) ? i : 60;
+    }
+
+    public int getConsoleMaxBuffer() {
+        int res = Integer.parseInt(
+                sharedPreferences.getString(context.getString(R.string.key_console_max_buffer_size), "200"));
+        return res;
+    }
+
+    public boolean isWrapText() {
+        return getBoolean(context.getString(R.string.key_pref_word_wrap));
+    }
+
+    public float getTextSize() {
+//        return TypedValue.applyDimension(
+//                TypedValue.COMPLEX_UNIT_DIP,
+//                Float.parseFloat(getString(context.getString(R.string.key_pref_font_size))),
+//                context.getResources().getDisplayMetrics());
+        return Float.parseFloat(getString(context.getString(R.string.key_pref_font_size)));
+    }
+
+    public Typeface getFont() {
+        return FontManager.getFontFromAsset(context, getString(context.getString(R.string.key_pref_font)));
+//        return Typeface.MONOSPACE;
+    }
+
+    public boolean isShowLineNumbers() {
+        return getBoolean(context.getString(R.string.key_pref_show_line_number));
     }
 }

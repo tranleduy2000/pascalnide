@@ -122,4 +122,7 @@
     <string name="pas_file">Файл Pas</string>
     <string name="pascal_for_android">Pascal для Android</string>
     <string name="inp_file">Файл Inp</string>
+    <string name="license">License</string>
+    <string name="system">System</string>
+    <string name="translate">Translate</string>
 </resources>

@@ -2,10 +2,8 @@ package com.duy.pascal.frontend.activities;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -18,8 +16,8 @@ import butterknife.ButterKnife;
 
 
 public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
-    private final int[] fontSize = {12, 16, 20, 24};
-    public int fontSizeNb = 0;
+    //    private final int[] fontSize = {12, 16, 20, 24};
+//    public int fontSizeNb = 0;
     @BindView(R.id.console)
     public ConsoleView mConsoleView;
     @BindView(R.id.toolbar)
@@ -32,13 +30,10 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_console);
         ButterKnife.bind(this);
-
         setupActionBar();
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        mConsoleView.initConsole(this, fontSize[fontSizeNb] * metrics.density, Color.WHITE, Color.BLACK);
+        mConsoleView.initConsole(this,
+                mPascalPreferences.getConsoleFontSize(),
+                mPascalPreferences.getConsoleTextColor(), mPascalPreferences.getConsoleBackground());
         mConsoleView.updateSize();
         mConsoleView.showPrompt();
     }

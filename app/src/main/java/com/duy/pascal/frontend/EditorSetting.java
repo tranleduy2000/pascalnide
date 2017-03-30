@@ -20,24 +20,5 @@ public class EditorSetting extends PascalPreferences {
         super(mPreferences, context);
     }
 
-    public boolean isWrapText() {
-        return getBoolean(context.getString(R.string.key_pref_word_wrap));
-    }
 
-    public float getTextSize() {
-//        return TypedValue.applyDimension(
-//                TypedValue.COMPLEX_UNIT_DIP,
-//                Float.parseFloat(getString(context.getString(R.string.key_pref_font_size))),
-//                context.getResources().getDisplayMetrics());
-        return Float.parseFloat(getString(context.getString(R.string.key_pref_font_size)));
-    }
-
-    public Typeface getFont() {
-        return FontManager.getFontFromAsset(context, getString(context.getString(R.string.key_pref_font)));
-//        return Typeface.MONOSPACE;
-    }
-
-    public boolean isShowLineNumbers() {
-        return getBoolean(context.getString(R.string.key_pref_show_line_number));
-    }
 }

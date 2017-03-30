@@ -21,6 +21,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.data.PascalPreferences;
 import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
 
 import java.util.ArrayList;
@@ -49,13 +50,14 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      * Data of console
      */
     private ScreenBuffer bufferData = new ScreenBuffer();
+    private int frameRate = 60;
     private Rect visibleRect = new Rect();
     private Runnable checkSize = new Runnable() {
         public void run() {
             if (updateSize()) {
                 invalidate();
             }
-            handler.postDelayed(this, 60);
+            handler.postDelayed(this, frameRate);
         }
     };
     private Runnable blink = new Runnable() {
@@ -71,20 +73,21 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     private int foregroundGraphColor = Color.WHITE;
     private Point cursorGraph = new Point(0, 0);
     private boolean filterKey = false;
+    private PascalPreferences mPascalPreferences;
 
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
-        init();
+        init(context);
     }
 
     public ConsoleView(Context context, AttributeSet attrs, int defStyles) {
         super(context, attrs, defStyles);
-        init();
+        init(context);
     }
 
     public ConsoleView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public boolean isFilterKey() {
@@ -95,9 +98,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         this.filterKey = filterKey;
     }
 
-    private void init() {
+    private void init(Context context) {
         mGestureDetector = new GestureDetector(this);
         mCursor = new CursorConsole(0, 0, Color.DKGRAY);
+        mPascalPreferences = new PascalPreferences(context);
+        frameRate = mPascalPreferences.getConsoleFrameRate();
+        mScreen.setMaxLines(mPascalPreferences.getConsoleMaxBuffer());
     }
 
     public Point getCursorGraph() {
@@ -213,9 +219,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public void initConsole(Activity a, float fontSize, int textColor, int backColor) {
         mActivity = a;
-
         mScreen.setBackgroundColor(backColor);
-
         mTextRenderer = new TextRenderer(fontSize);
         mTextRenderer.setTextColor(textColor);
 

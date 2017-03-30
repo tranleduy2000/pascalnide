@@ -64,7 +64,7 @@
 
 
     <string name="hide_status_bar">Hide status bar</string>
-    <string name="hide_status_bar_desc">Hide the status bar in every screen of the app</string>
+    <string name="hide_status_bar_desc">Hide the status bar in every screen of the app, include console. Restart app if need change.</string>
     <string name="show_hint">Hint popup</string>
     <string name="show_hint_desc">Show suggestions while typing</string>
     <string name="compile">Compile</string>
@@ -106,27 +106,23 @@
     <string name="name">Your name</string>
     <string name="send_to_me">Send to dev</string>
     <string name="rerun">Rerun current program</string>
-    <string name="tab" translatable="false">tab</string>
-    <string name="translate" translatable="false">Translate</string>
-    <string name="license" translatable="false">License</string>
-    <string name="system" translatable="false">System</string>
+
+    <string name="translate">Translate</string>
+    <string name="license">License</string>
+
     <string name="console_screen" translatable="false">Console</string>
-    <string name="key_stack_size" translatable="false">key_stack_size</string>
-    <string name="key_frame_rate" translatable="false">key_frame_rate</string>
-    <string name="key_max_line" translatable="false">key_max_line</string>
-    <string name="key_bg_console" translatable="false">key_bg_console</string>
     <string name="background_console" translatable="false">Background console</string>
-    <string name="key_text_color_console" translatable="false">key_text_color_console</string>
     <string name="text_color_console" translatable="false">Text color console</string>
     <string name="console_font_size" translatable="false">Console font size</string>
-    <string name="key_console_font_size" translatable="false">key_console_font_size</string>
-    <string name="key_max_buffer_size" translatable="false">key_max_buffer_size</string>
-    <string name="key_console_row" translatable="false">key_console_row</string>
     <string name="console_row" translatable="false">Console row</string>
-    <string name="key_console_column" translatable="false">key_console_column</string>
     <string name="console_column" translatable="false">Console column</string>
-    <string name="key_full_screen_console" translatable="false">key_full_screen_console</string>
     <string name="full_screen_console" translatable="false">Full screen console</string>
     <string name="copy_right" translatable="false">Copyright © 2016–2017 by Trần Lê Duy</string>
+    <string name="system">System</string>
+    <string name="stack_size">Stack size</string>
+    <string name="max_buffer">Max buffer size</string>
+    <string name="frame_rate">Frame rate</string>
+    <string name="keyboard_shortcut">Key board shortcut</string>
+    <string name="key_font_size_console">key_font_size_console</string>
 </resources>
 
