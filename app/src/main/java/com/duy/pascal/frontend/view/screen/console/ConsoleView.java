@@ -2,6 +2,7 @@ package com.duy.pascal.frontend.view.screen.console;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.os.Handler;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -217,10 +219,20 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         commitString("---------------------------" + "\n");
     }
 
+    public float getTextSize(int unit, float size) {
+        Context c = getContext();
+        Resources r;
+        if (c == null)
+            r = Resources.getSystem();
+        else
+            r = c.getResources();
+        return TypedValue.applyDimension(unit, size, r.getDisplayMetrics());
+    }
+
     public void initConsole(Activity a, float fontSize, int textColor, int backColor) {
         mActivity = a;
         mScreen.setBackgroundColor(backColor);
-        mTextRenderer = new TextRenderer(fontSize);
+        mTextRenderer = new TextRenderer(getTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize));
         mTextRenderer.setTextColor(textColor);
 
         mCursor.x = 0;

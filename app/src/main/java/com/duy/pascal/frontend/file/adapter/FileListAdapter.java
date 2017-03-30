@@ -17,17 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.duy.pascal.frontend.adapters;
+package com.duy.pascal.frontend.file.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
 
@@ -36,20 +32,19 @@ import org.apache.commons.io.FilenameUtils;
 import java.util.LinkedList;
 
 
-public class FileListAdapter extends
-        ArrayAdapter<FileListAdapter.FileDetail> {
-
+public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
     // Layout Inflater
     private final LayoutInflater inflater;
     private final LinkedList<FileDetail> orig;
-    private CustomFilter customFilter;
+    private FileAdapterListener fileAdapterListener;
     // List of file details
     private LinkedList<FileDetail> fileDetails;
 
     public FileListAdapter(final Context context,
                            final LinkedList<FileDetail> fileDetails,
-                           final boolean isRoot) {
-        super(context, R.layout.item_file_list, fileDetails);
+                           final boolean isRoot,
+                           FileAdapterListener fileAdapterListener) {
+        this.fileAdapterListener = fileAdapterListener;
         this.fileDetails = fileDetails;
         this.orig = fileDetails;
         this.inflater = LayoutInflater.from(context);
@@ -61,37 +56,7 @@ public class FileListAdapter extends
     }
 
 
-    @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
-        if (convertView == null) {
-            convertView = this.inflater.inflate(R.layout.item_file_list, null);
-            final ViewHolder hold = new ViewHolder();
-            hold.nameLabel = (TextView) convertView.findViewById(android.R.id.text1);
-            hold.detailLabel = (TextView) convertView.findViewById(android.R.id.text2);
-            hold.icon = (ImageView) convertView.findViewById(android.R.id.icon);
-            convertView.setTag(hold);
-            final FileDetail fileDetail = fileDetails.get(position);
-            final String fileName = fileDetail.getName();
-            setIcon(hold, fileDetail);
-            hold.nameLabel.setText(fileName);
-            hold.detailLabel.setText(fileDetail.getSize() + "\t\t" + fileDetail.getDateModified());
-        } else {
-            final ViewHolder hold = ((ViewHolder) convertView.getTag());
-            final FileDetail fileDetail = fileDetails.get(position);
-            final String fileName = fileDetail.getName();
-            setIcon(hold, fileDetail);
-            hold.nameLabel.setText(fileName);
-            hold.detailLabel.setText(fileDetail.getSize() + "\t\t" + fileDetail.getDateModified());
-        }
-        return convertView;
-    }
-
-    @Override
-    public int getCount() {
-        return fileDetails.size();
-    }
-
-    private void setIcon(final ViewHolder viewHolder, final FileDetail fileDetail) {
+    private void setIcon(final FileViewHolder viewHolder, final FileDetail fileDetail) {
         final String fileName = fileDetail.getName();
         final String ext = FilenameUtils.getExtension(fileName);
         if (fileDetail.isFolder()) {
@@ -103,57 +68,51 @@ public class FileListAdapter extends
         }
     }
 
+
     @Override
-    public Filter getFilter() {
-        if (customFilter == null) {
-            customFilter = new CustomFilter();
-        }
-        return customFilter;
+    public FileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.item_file_list, parent, false);
+        return new FileViewHolder(view);
     }
 
-    public static class ViewHolder {
+    @Override
+    public void onBindViewHolder(FileViewHolder holder, int position) {
+        final FileDetail fileDetail = fileDetails.get(position);
+        final String fileName = fileDetail.getName();
+        setIcon(holder, fileDetail);
+        holder.nameLabel.setText(fileName);
+        holder.detailLabel.setText(fileDetail.getSize() + "\t\t" + fileDetail.getDateModified());
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        // Name of the file
-        public TextView nameLabel;
+                if (fileAdapterListener != null)
+                    fileAdapterListener.onItemClick(v, fileName, FileAdapterListener.ACTION_CLICK);
+            }
+        });
+        holder.root.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
 
-        // Size of the file
-        public TextView detailLabel;
-
-        // Icon of the file
-        public ImageView icon;
+                if (fileAdapterListener != null)
+                    fileAdapterListener.onItemClick(v, fileName, FileAdapterListener.ACTION_LONG_CLICK);
+                return false;
+            }
+        });
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fileAdapterListener != null)
+                    fileAdapterListener.onRemoveClick(v, fileName, FileAdapterListener.ACTION_REMOVE);
+            }
+        });
     }
 
-    public static class FileDetail {
-        private final String name;
-        private final String size;
-        private final String dateModified;
-        private final boolean isFolder;
-
-        public FileDetail(String name, String size,
-                          String dateModified) {
-            this.name = name;
-            this.size = size;
-            this.dateModified = dateModified;
-            isFolder = TextUtils.isEmpty(dateModified);
-        }
-
-        public String getDateModified() {
-            return dateModified;
-        }
-
-        public String getSize() {
-            return size;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public boolean isFolder() {
-            return isFolder;
-        }
+    @Override
+    public int getItemCount() {
+        return fileDetails.size();
     }
-
+/*
     private class CustomFilter extends Filter {
 
         @Override
@@ -180,5 +139,5 @@ public class FileListAdapter extends
             fileDetails = (LinkedList<FileDetail>) results.values;
             notifyDataSetChanged();
         }
-    }
+    }*/
 }

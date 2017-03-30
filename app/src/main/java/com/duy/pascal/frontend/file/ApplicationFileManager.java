@@ -335,6 +335,15 @@ public class ApplicationFileManager {
         }
     }
 
+    public String removeFile(File file) {
+        try {
+            file.delete();
+            return "";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
     /**
      * set content of file pas for run, put it in internal storage
      *

@@ -12,14 +12,10 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.duy.pascal.frontend.view.FileListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/list_file"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:cacheColorHint="@null"
-            android:divider="@null"
-            android:listSelector="?attr/selectableItemBackground"
-            android:smoothScrollbar="true" />
+            android:layout_height="match_parent"/>
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
