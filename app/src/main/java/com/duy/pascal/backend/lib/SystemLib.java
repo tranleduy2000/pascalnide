@@ -1,8 +1,11 @@
 package com.duy.pascal.backend.lib;
 
+import android.util.Log;
+
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 
 import java.util.Map;
+import java.util.Random;
 
 /**
  * System lib
@@ -16,17 +19,18 @@ import java.util.Map;
 public class SystemLib implements PascalLibrary {
 
 
+    private  Random random = new Random();
     private ExecuteActivity activity;
 
     public SystemLib(ExecuteActivity activity) {
         this.activity = activity;
     }
 
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }
-
 
     /**
      * key pressed method
@@ -39,7 +43,6 @@ public class SystemLib implements PascalLibrary {
         }
         return false;
     }
-
 
     /**
      * procedure readkey
@@ -65,5 +68,14 @@ public class SystemLib implements PascalLibrary {
 
     public int Byte(boolean b) {
         return b ? 1 : 0;
+    }
+
+    public  int random(int range) {
+        Log.d("random", "random: " + range);
+        return random.nextInt(range);
+    }
+
+    public  void randomize() {
+        random = new Random(System.currentTimeMillis());
     }
 }

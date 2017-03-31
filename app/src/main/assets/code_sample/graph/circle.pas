@@ -1,8 +1,8 @@
 uses graph;
 
 var
-    gd, gm: integer; Radius: integer;
-
+    gd, gm: integer;
+    Radius: integer;
 begin
     gd := Detect;
     InitGraph(gd, gm, ' ');

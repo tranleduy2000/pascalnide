@@ -35,7 +35,7 @@ public class SimpleFunctionCall extends FunctionCall {
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         Object[] values = new Object[arguments.length];
-        function.argumentTypes();
+        function.getArgumentTypes();
         for (int i = 0; i < values.length; i++) {
             values[i] = arguments[i].getValue(f, main);
         }

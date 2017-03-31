@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Random;
 
 public class MathLib implements PascalLibrary {
-    private static Random random = new Random();
 
     public static int ceil(double d) {
         return (int) Math.ceil(d);
@@ -33,7 +32,6 @@ public class MathLib implements PascalLibrary {
     public static int round(double d) {
         return (int) Math.round(d);
     }
-
 
     public static void inc(VariableBoxer boxer) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
@@ -132,13 +130,6 @@ public class MathLib implements PascalLibrary {
 //        return result;
 //    }
 
-    public static int random(int range) {
-        return random.nextInt(range);
-    }
-
-    public static void randomize() {
-        random = new Random(System.currentTimeMillis());
-    }
 
     public static double arctan(double a) {
         return Math.atan(a);

@@ -6,7 +6,9 @@ import com.duy.pascal.frontend.view.screen.console.CursorConsole;
 import com.duy.pascal.frontend.view.screen.graph.molel.BarObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.CircleObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.LineObject;
+import com.duy.pascal.frontend.view.screen.graph.molel.PixelObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.RectangleObject;
+import com.duy.pascal.frontend.view.screen.graph.molel.TextGraphObject;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Map;
@@ -154,10 +156,10 @@ public class GraphLib implements PascalLibrary {
      * <p>
      * Sets the foreground color to Color.
      *
-     * @param color
+     * @param index
      */
-    public void setColor(int color) {
-        activity.getConsoleView().setCursorGraphColor(color);
+    public void setColor(int index) {
+        activity.getConsoleView().setCursorGraphColor(CrtLib.getColorPascal(index));
     }
 
     /**
@@ -301,5 +303,40 @@ public class GraphLib implements PascalLibrary {
     public void circle(int x, int y, int r) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new CircleObject(x, y, r));
+    }
+
+    public void SetLineStyle(int style, int pattern, int width) {
+        if (activity != null)
+            activity.getConsoleView().setCursorGraphStyle(style, pattern, width);
+    }
+
+    public int getMaxColor() {
+        return 15;
+    }
+
+    public void putPixel(int x, int y, int color) {
+        if (activity != null)
+            activity.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.getColorPascal(color)));
+    }
+
+    public void outTextXY(int x, int y, String text) {
+        if (activity != null)
+            activity.getConsoleView().addGraphObject(new TextGraphObject(text, x, y));
+    }
+
+    public void setTextStyle(int font, int direction, int size) {
+        if (activity != null) activity.getConsoleView().setGraphTextStyle(font, direction, size);
+    }
+
+    public int getBkColor() {
+        if (activity != null)
+            return activity.getConsoleView().getGraphScreen().getBackgroundColor();
+        else
+            return 0;
+    }
+
+    public void setBkColor(int color) {
+        if (activity != null)
+            activity.getConsoleView().setGraphBackground(CrtLib.getColorPascal(color));
     }
 }

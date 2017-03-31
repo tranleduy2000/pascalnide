@@ -50,7 +50,7 @@ public class CrtLib implements PascalLibrary {
     }
 
     /**
-     * set text paint color
+     * set text mPaint color
      *
      * @param code
      */
@@ -80,7 +80,7 @@ public class CrtLib implements PascalLibrary {
         return activity.getConsoleView().whereY();
     }
 
-    private int getColorPascal(int code) {
+    public static int getColorPascal(int code) {
         switch (code) {
             case 0:
                 return (Color.BLACK);
@@ -100,10 +100,8 @@ public class CrtLib implements PascalLibrary {
                 return (Color.LTGRAY);
             case 8:
                 return (Color.DKGRAY);
-
             case 9:
                 return (Color.parseColor("#add8e6"));
-
             case 10:
                 return (Color.parseColor("#98fb98"));
 
@@ -118,10 +116,8 @@ public class CrtLib implements PascalLibrary {
 
             case 14:
                 return (Color.YELLOW);
-
             case 15:
                 return (Color.WHITE);
-
         }
         return -1;
     }

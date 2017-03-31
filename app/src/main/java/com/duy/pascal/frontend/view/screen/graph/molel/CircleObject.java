@@ -14,12 +14,13 @@ public class CircleObject extends GraphObject {
         this.x = x;
         this.y = y;
         this.r = r;
-        paint.setAntiAlias(true);
-        paint.setStyle(Paint.Style.STROKE);
+
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawCircle(x, y, r, paint);
+        mPaint.setAntiAlias(true);
+        mPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawCircle(x, y, r, mPaint);
     }
 }

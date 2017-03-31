@@ -122,7 +122,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public ArgumentType[] argumentTypes() {
+    public ArgumentType[] getArgumentTypes() {
         if (argCache != null) {
             return argCache;
         }

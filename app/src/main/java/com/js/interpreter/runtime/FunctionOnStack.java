@@ -88,16 +88,17 @@ public class FunctionOnStack extends VariableContext {
 
     /**
      * Global variable of function
+     *
      * @param name
      * @return
      * @throws RuntimePascalException
      */
     @Override
     public Object getLocalVariable(String name) throws RuntimePascalException {
-        if (mapLocalVariable.containsKey(name)) {
-            return mapLocalVariable.get(name);
-        } else if (referenceVariables.containsKey(name)) {
+        if (referenceVariables.containsKey(name)) {
             return referenceVariables.get(name).get();
+        } else if (mapLocalVariable.containsKey(name)) {
+            return mapLocalVariable.get(name);
         } else {
             return null;
         }
@@ -106,10 +107,10 @@ public class FunctionOnStack extends VariableContext {
     @Override
     @SuppressWarnings("unchecked")
     public boolean setLocalVar(String name, Object val) {
-        if (mapLocalVariable.containsKey(name)) {
-            mapLocalVariable.put(name, val);
-        } else if (referenceVariables.containsKey(name)) {
+        if (referenceVariables.containsKey(name)) {
             referenceVariables.get(name).set(val);
+        } else if (mapLocalVariable.containsKey(name)) {
+            mapLocalVariable.put(name, val);
         } else {
             return false;
         }

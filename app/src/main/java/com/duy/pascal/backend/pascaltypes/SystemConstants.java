@@ -20,6 +20,20 @@ public class SystemConstants {
         ConstantDefinition colorConst;
         colorConst = new ConstantDefinition("grok".toLowerCase(), 1, new LineInfo(-1, "grok = 1;".toLowerCase()));
         context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("NormWidth".toLowerCase(), 1, new LineInfo(-1, "const NormWidth = 1;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("ThickWidth".toLowerCase(), 1, new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("SolidLn".toLowerCase(), 1, new LineInfo(-1, "const SolidLn = 0;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("SolidLn".toLowerCase(), 1, new LineInfo(-1, "const SolidLn = 0;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("DottedLn".toLowerCase(), 1, new LineInfo(-1, "const DottedLn = 1;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("CenterLn".toLowerCase(), 1, new LineInfo(-1, "const CenterLn = 2;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("DashedLn".toLowerCase(), 1, new LineInfo(-1, "const DashedLn = 3;".toLowerCase()));
+        context.declareConst(colorConst);
     }
 
     /**
@@ -72,6 +86,8 @@ public class SystemConstants {
         colorConst = new ConstantDefinition("LightMagenta".toLowerCase(), 13, new LineInfo(-1, "LightMagenta = 13".toLowerCase()));
         context.declareConst(colorConst);
         colorConst = new ConstantDefinition("Yellow".toLowerCase(), 14, new LineInfo(-1, " Yellow = 14".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("pi".toLowerCase(), Math.PI, new LineInfo(-1, " pi = 3.14159265358979323846".toLowerCase()));
         context.declareConst(colorConst);
     }
 

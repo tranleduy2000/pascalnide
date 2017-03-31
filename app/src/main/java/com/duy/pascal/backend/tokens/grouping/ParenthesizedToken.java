@@ -12,10 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParenthesizedToken extends GrouperToken {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3945938644412769985L;
 
     public ParenthesizedToken(LineInfo line) {
         super(line);

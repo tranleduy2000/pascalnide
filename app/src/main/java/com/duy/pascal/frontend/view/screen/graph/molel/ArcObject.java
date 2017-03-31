@@ -17,14 +17,14 @@ public class ArcObject extends GraphObject {
         this.stAngle = stAngle;
         this.enAngle = enAngle;
         this.radius = radius;
-        paint.setStyle(Paint.Style.STROKE);
+        mPaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
     public void draw(Canvas canvas) {
         float delta = radius / 2;
         RectF rectF = new RectF((float) x - delta, y - delta, x + delta, y + delta);
-        canvas.drawArc(rectF, 90, 45, false, paint);
+        canvas.drawArc(rectF, 90, 45, false, mPaint);
     }
 
 }

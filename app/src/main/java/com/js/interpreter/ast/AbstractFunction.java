@@ -15,7 +15,7 @@ public abstract class AbstractFunction implements NamedEntity {
     @Override
     public abstract String name();
 
-    public abstract ArgumentType[] argumentTypes();
+    public abstract ArgumentType[] getArgumentTypes();
 
     public abstract DeclaredType return_type();
 
@@ -23,7 +23,7 @@ public abstract class AbstractFunction implements NamedEntity {
     public String toString() {
         StringBuilder result = new StringBuilder(name());
         result.append('(');
-        for (ArgumentType c : argumentTypes()) {
+        for (ArgumentType c : getArgumentTypes()) {
             result.append(c);
             result.append(',');
         }
@@ -38,7 +38,7 @@ public abstract class AbstractFunction implements NamedEntity {
      */
     public ReturnsValue[] format_args(List<ReturnsValue> values,
                                       ExpressionContext f) throws ParsingException {
-        ArgumentType[] accepted_types = argumentTypes();
+        ArgumentType[] accepted_types = getArgumentTypes();
         ReturnsValue[] result = new ReturnsValue[accepted_types.length];
         Iterator<ReturnsValue> iterator = values.iterator();
         for (int i = 0; i < accepted_types.length; i++) {
@@ -57,7 +57,7 @@ public abstract class AbstractFunction implements NamedEntity {
 
     public ReturnsValue[] perfectMatch(List<ReturnsValue> args,
                                        ExpressionContext context) throws ParsingException {
-        ArgumentType[] accepted_types = argumentTypes();
+        ArgumentType[] accepted_types = getArgumentTypes();
         Iterator<ReturnsValue> iterator = args.iterator();
         ReturnsValue[] result = new ReturnsValue[accepted_types.length];
         for (int i = 0; i < accepted_types.length; i++) {

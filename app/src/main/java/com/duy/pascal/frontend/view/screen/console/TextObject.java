@@ -10,13 +10,12 @@ import com.duy.pascal.frontend.view.screen.ScreenObject;
  */
 
 public class TextObject implements ScreenObject {
-    public static Paint paint = new Paint();
+    public  Paint paint = new Paint();
 
     public char[] text;
     public int x, y;
     public int textColor = 0xfffffff; //white
     public int textBackground = 0xff00000;//back
-
 
     public TextObject(char[] text, int x, int y, int textColor, int textBackground) {
         this.text = text;

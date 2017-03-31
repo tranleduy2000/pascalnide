@@ -1,3 +1,4 @@
+/*
 package com.js.interpreter.ast;
 
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
@@ -30,16 +31,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FunctionDeclaration extends AbstractCallableFunction {
+public class FunctionDeclarationCopy extends AbstractCallableFunction {
     final public ExpressionContextMixin declarations;
-    /**
-     * name of function or procedure
-     */
+    */
+/**
+ * name of function or procedure
+ * <p>
+ * this is the store class of function
+ *//*
+
     public String name;
     public Executable instructions;
-    /**
-     * this is the store class of function
-     */
+    */
+/**
+ * this is the store class of function
+ *//*
+
     public VariableDeclaration resultDefinition;
     public LineInfo line;
     public String[] argument_names;
@@ -47,7 +54,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     private boolean isProcedure = false;
     private boolean bodyDeclared;
 
-    public FunctionDeclaration(ExpressionContext parent, GrouperToken i, boolean isProcedure)
+    public FunctionDeclarationCopy(ExpressionContext parent, GrouperToken i, boolean isProcedure)
             throws ParsingException {
         this.declarations = new FunctionExpressionContext(parent);
         this.line = i.peek().lineInfo;
@@ -80,7 +87,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         }
     }
 
-    public FunctionDeclaration(ExpressionContext p) {
+    public FunctionDeclarationCopy(ExpressionContext p) {
         this.declarations = new FunctionExpressionContext(p);
         this.argument_names = new String[0];
         this.argument_types = new RuntimeType[0];
@@ -245,3 +252,4 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
 }
+*/

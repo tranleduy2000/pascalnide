@@ -30,7 +30,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     public Handler handler = new Handler();
     public int firstLine;
     boolean graphMode = true;
-    GraphScreen mGraphScreen = new GraphScreen();
+    private GraphScreen mGraphScreen;
+
+    public GraphScreen getGraphScreen() {
+        return mGraphScreen;
+    }
+
     /**
      * text style, size of console
      */
@@ -103,7 +108,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         mPascalPreferences = new PascalPreferences(context);
         frameRate = mPascalPreferences.getConsoleFrameRate();
         mScreen.setMaxLines(mPascalPreferences.getConsoleMaxBuffer());
-
+        mGraphScreen = new GraphScreen(context);
     }
 
     public void putChar(char c) {
@@ -668,6 +673,22 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public CursorConsole getCursorGraph() {
         return mGraphScreen.getCursor();
+    }
+
+    public void setCursorGraphStyle(int style, int pattern, int width) {
+        mGraphScreen.setPaintStyle(style, pattern, width);
+    }
+
+    public void setGraphBackground(int colorPascal) {
+        mGraphScreen.setBackgroundColor(colorPascal);
+    }
+
+
+    public void setGraphTextStyle(int font, int direction, int size) {
+        mGraphScreen.setTextSize(size);
+        mGraphScreen.setTextDirection(direction);
+//        mGraphScreen.setFont(font);
+//        mGraphScreen.getCursorPaint().setDir(direction);
     }
 }
 

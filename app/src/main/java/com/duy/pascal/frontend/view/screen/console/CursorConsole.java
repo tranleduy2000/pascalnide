@@ -132,4 +132,7 @@ public class CursorConsole {
         this.x = x;
         this.y = y;
     }
+
+    public void setStyle(int style, int pattern, int width) {
+    }
 }

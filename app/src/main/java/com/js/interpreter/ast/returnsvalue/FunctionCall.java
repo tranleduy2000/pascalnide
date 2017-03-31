@@ -54,7 +54,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
                     }
                     chosen = a;
                 }
-                if (a.argumentTypes().length == arguments.size()) {
+                if (a.getArgumentTypes().length == arguments.size()) {
                     matching = true;
                 }
             }

@@ -18,6 +18,6 @@ public class LineObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawLine(x1, y1, x2, y2, paint);
+        canvas.drawLine(x1, y1, x2, y2, mPaint);
     }
 }

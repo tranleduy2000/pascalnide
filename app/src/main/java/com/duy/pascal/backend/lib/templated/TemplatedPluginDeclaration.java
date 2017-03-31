@@ -36,7 +36,7 @@ public class TemplatedPluginDeclaration extends AbstractFunction {
     }
 
     @Override
-    public ArgumentType[] argumentTypes() {
+    public ArgumentType[] getArgumentTypes() {
         return t.argumentTypes();
     }
 
