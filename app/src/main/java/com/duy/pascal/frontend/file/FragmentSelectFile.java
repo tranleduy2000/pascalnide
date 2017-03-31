@@ -314,7 +314,7 @@ public class FragmentSelectFile extends Fragment implements
     }
 
     private void doRemoveFile(final File file) {
-//        final ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
+//        final ApplicationFileManager mFileManager = new ApplicationFileManager(getContext());
 //        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 //        builder.setMessage(getString(R.string.remove_file_msg) + file.getName());
 //        builder.setTitle(R.string.delete_file);
@@ -322,7 +322,7 @@ public class FragmentSelectFile extends Fragment implements
 //            @Override
 //            public void onClick(DialogInterface dialog, int which) {
 //                String filePath = file.getParent();
-//                String msg = fileManager.removeFile(file);
+//                String msg = mFileManager.removeFile(file);
 //                if (!msg.isEmpty()) {
 //                    Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
 //

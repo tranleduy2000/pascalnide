@@ -139,5 +139,7 @@
     <string name="system">System</string>
     <string name="pin">Pin</string>
     <string name="max_buffer">Max buffer size</string>
+    <string name="about">About</string>
+    <string name="keyboard_shortcut">Key board shortcut</string>
 
 </resources>

@@ -219,7 +219,7 @@ public class EditorActivity extends FileEditorActivity implements
                     public void onClick(DialogInterface dialog, int id) {
                         String fileName = edittext.getText().toString();
                         dialog.cancel();
-                        fileManager.saveFile(fileManager.createNewFileInMode(fileName), mCodeView.getCleanText());
+                        mFileManager.saveFile(mFileManager.createNewFileInMode(fileName), mCodeView.getCleanText());
 //                        mFilesView.reload();
                     }
                 })
@@ -233,7 +233,7 @@ public class EditorActivity extends FileEditorActivity implements
 
     @Override
     public void saveFile() {
-        boolean result = fileManager.saveFile(mFilePath, getCode());
+        boolean result = mFileManager.saveFile(mFilePath, getCode());
         if (result) Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         else Toast.makeText(this, "Can not save file!", Toast.LENGTH_SHORT).show();
     }
@@ -275,7 +275,7 @@ public class EditorActivity extends FileEditorActivity implements
      */
     @Override
     public boolean doCompile() {
-        fileManager.saveFile(mFilePath, getCode());
+        mFileManager.saveFile(mFilePath, getCode());
         try {
             PascalProgram pascalProgram = new PascalCompiler(null).loadPascal(mFilePath,
                     new FileReader(mFilePath),
@@ -320,7 +320,7 @@ public class EditorActivity extends FileEditorActivity implements
     protected void loadFile(final String filePath) {
         try {
             File file = new File(filePath);
-            String txt = fileManager.readFileAsString(file);
+            String txt = mFileManager.readFileAsString(file);
             setCode(txt);
             mFilePath = filePath;
             mPascalPreferences.put(PascalPreferences.FILE_PATH, filePath);
@@ -355,7 +355,7 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        fileManager.saveFile(mFilePath, getCode());
+        mFileManager.saveFile(mFilePath, getCode());
         mPascalPreferences.put(PascalPreferences.FILE_PATH, mFilePath);
     }
 
@@ -402,7 +402,7 @@ public class EditorActivity extends FileEditorActivity implements
         txtInfo.setText(info);
         CodeView codeView = (CodeView) dialog.findViewById(R.id.code_view);
         assert codeView != null;
-        codeView.setTextHighlighted(fileManager.readFileAsString(file));
+        codeView.setTextHighlighted(mFileManager.readFileAsString(file));
         codeView.setFlingToScroll(false);
     }
 
@@ -454,7 +454,7 @@ public class EditorActivity extends FileEditorActivity implements
                     return;
                 }
                 //create new file
-                String filePath = fileManager.createNewFile(ApplicationFileManager.getApplicationPath()
+                String filePath = mFileManager.createNewFile(ApplicationFileManager.getApplicationPath()
                         + fileName);
                 file = new File(filePath);
                 //add to view
@@ -572,8 +572,8 @@ public class EditorActivity extends FileEditorActivity implements
                 // Get the path
                 String path;
                 try {
-                    path = fileManager.getPath(this, uri);
-                    fileManager.setWorkingFilePath(path);
+                    path = mFileManager.getPath(this, uri);
+                    mFileManager.setWorkingFilePath(path);
                     loadFile(path);
                 } catch (Exception e) {
                     e.printStackTrace();

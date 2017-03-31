@@ -120,5 +120,7 @@
     <string name="console_column">Số cột của màn hình console</string>
     <string name="console_font_size">Cỡ chữ console</string>
     <string name="max_buffer">Kích thức bộ nhớ đệm cho màn hình</string>
+    <string name="console_row">Số hàng của màn hình console</string>
+    <string name="keyboard_shortcut">Bàn phím</string>
 
 </resources>

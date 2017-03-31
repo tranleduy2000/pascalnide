@@ -125,5 +125,6 @@
     <string name="pin">Pin</string>
     <string name="stack_size">Stack size</string>
     <string name="system">System</string>
+    <string name="about">About</string>
 </resources>
 

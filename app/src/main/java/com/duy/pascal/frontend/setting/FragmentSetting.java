@@ -5,7 +5,8 @@ import android.preference.PreferenceFragment;
 
 import com.duy.pascal.frontend.R;
 
-import static com.duy.pascal.frontend.setting.SettingsActivity.bindPreferenceSummaryToValue;
+import static com.duy.pascal.frontend.setting.PreferencesUtil.bindPreferenceSummaryToValue;
+
 
 public class FragmentSetting extends PreferenceFragment {
     @Override

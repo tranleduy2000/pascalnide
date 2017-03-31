@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
+import icepick.State;
 
 /**
  * Created by Duy on 09-Mar-17.
@@ -43,7 +44,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         EditorControl, FileListener {
     protected final static String TAG = FileEditorActivity.class.getSimpleName();
     protected String mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
-    protected ApplicationFileManager fileManager;
+    protected ApplicationFileManager mFileManager;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -59,7 +60,9 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
+    @State
     ArrayList<File> listFile = new ArrayList<>();
+
     private Handler handler = new Handler();
 
     @Override
@@ -67,7 +70,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
 
-        fileManager = new ApplicationFileManager(this);
+        mFileManager = new ApplicationFileManager(this);
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -98,6 +101,8 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
                 TabLayout.Tab tab = tabLayout.getTabAt((pos));
                 if (tab != null) {
                     selectTab(tab, false);
+                } else {
+                    selectTab(tabLayout.getTabAt(0), false);
                 }
             }
         }
@@ -109,7 +114,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         Icepick.saveInstanceState(this, outState);
     }
 
-    protected TabLayout.Tab getTab(File file) {
+    protected TabLayout.Tab createNewTab(File file) {
         final TabLayout.Tab tab = tabLayout.newTab().setText(file.getName());
         tab.setCustomView(R.layout.item_tab_file);
         View root = tab.getCustomView();
@@ -118,7 +123,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
             vClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    removeTab(tab);
+                    removeTab(tab, true);
                 }
             });
             TextView txtTitle = (TextView) root.findViewById(R.id.txt_title);
@@ -136,12 +141,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         return tab;
     }
 
-    /**
-     * remove tab
-     *
-     * @param tab - tab for remove
-     */
-    protected void removeTab(TabLayout.Tab tab) {
+    protected void removeTab(TabLayout.Tab tab, boolean saveLastFile, boolean createNewFileIfNeed) {
         //get position
         int position = tab.getPosition();
         mCodeView.clearStackHistory();
@@ -149,40 +149,69 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         //set last position to view
         if (position > 0) {
             //save file and remove tab entry
-            fileManager.saveFile(listFile.get(position), getCode());
-            fileManager.removeTabFile(listFile.get(position).getPath());
+            if (saveLastFile)
+                mFileManager.saveFile(listFile.get(position), getCode());
+
+            mFileManager.removeTabFile(listFile.get(position).getPath());
             listFile.remove(position);
             tabLayout.removeTab(tab);
 
+            //load near tab file
             loadFile(listFile.get(position - 1).getPath());
+            //toast
             Toast.makeText(this, R.string.closed, Toast.LENGTH_SHORT).show();
         } else if (position == 0) {
             if (listFile.size() >= 2) {
                 //save file and remove tab entry
-                fileManager.saveFile(listFile.get(position), getCode());
-                fileManager.removeTabFile(listFile.get(position).getPath());
+                if (saveLastFile)
+                    mFileManager.saveFile(listFile.get(position), getCode());
+                //remove tab
+                mFileManager.removeTabFile(listFile.get(position).getPath());
                 listFile.remove(position);
                 tabLayout.removeTab(tab);
+
+                //choose tab index 0, because remove index 0
                 selectTab(tabLayout.getTabAt(0), false);
                 Toast.makeText(this, R.string.closed, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.cant_close_file, Toast.LENGTH_SHORT).show();
+            } else { //size of list = 1, position = 0
+                if (createNewFileIfNeed) {
+                    //save file
+                    if (saveLastFile)
+                        mFileManager.saveFile(listFile.get(position), getCode());
+
+                    //remove tab in position
+                    mFileManager.removeTabFile(listFile.get(position).getPath());
+                    listFile.remove(position);
+                    tabLayout.removeTab(tab);
+
+                    createEmptyFile();
+                } else//dont remove file
+                    Toast.makeText(this, R.string.cant_close_file, Toast.LENGTH_SHORT).show();
             }
         }
         //show toast
+    }
+
+    /**
+     * remove tab
+     *
+     * @param tab - tab for remove
+     */
+    protected void removeTab(TabLayout.Tab tab, boolean saveLastFile) {
+        removeTab(tab, saveLastFile, false);
     }
 
     private void createEmptyFile() {
         //auto create empty file
         //create new file
         String filePath =
-                fileManager.createNewFile(ApplicationFileManager.getApplicationPath() + "new_" +
+                mFileManager.createNewFile(ApplicationFileManager.getApplicationPath() + "new_" +
                         Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         File file = new File(filePath);
         //load to view
         addNewTab(file);
         mCodeView.clearStackHistory();
-        fileManager.addNewPath(filePath);
+        mFileManager.addNewPath(filePath);
         listFile.add(file);
         selectTab(tabLayout.getTabAt(0), false);
     }
@@ -201,7 +230,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
          * save history for undo redo
          */
 //        mCodeView.saveHistory(mFilePath);
-        if (save) fileManager.saveFile(mFilePath, getCode());
+        if (save) mFileManager.saveFile(mFilePath, getCode());
 
         loadFile(listFile.get(tab.getPosition()).getPath());
         /**
@@ -212,7 +241,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     }
 
     protected void addNewTab(File file) {
-        TabLayout.Tab tab = getTab(file);
+        TabLayout.Tab tab = createNewTab(file);
         tabLayout.addTab(tab);
     }
 
@@ -226,7 +255,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
             if (index != -1) {
                 selectTab(tabLayout.getTabAt(index), saveLastFile);
             } else {
-                fileManager.addNewPath(file.getPath());
+                mFileManager.addNewPath(file.getPath());
                 listFile.add(file);
                 addNewTab(file);
                 selectTab(tabLayout.getTabAt(listFile.size() - 1), saveLastFile);
@@ -268,11 +297,10 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int position = listFile.indexOf(file);
-                boolean success = fileManager.deleteFile(file);
+                boolean success = mFileManager.deleteFile(file);
                 if (success) {
-                    if (position > 0) {
-                        listFile.remove(position);
-                        removeTab(tabLayout.getTabAt(position));
+                    if (position >= 0) {
+                        removeTab(tabLayout.getTabAt(position), false, true);
                     }
                     Toast.makeText(getApplicationContext(), R.string.deleted, Toast.LENGTH_SHORT).show();
                 } else

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 
+import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.utils.FontManager;
 
@@ -32,6 +33,23 @@ public class PascalPreferences {
         this.context = context;
         this.sharedPreferences = mPreferences;
         this.editor = sharedPreferences.edit();
+    }
+
+    /**
+     * reset default setting
+     *
+     * @param context
+     */
+    public static void setFirstOpen(Context context) {
+        String key = "first_open";
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!sharedPreferences.getBoolean(key, false)) {
+            if (BuildConfig.VERSION_CODE <= 43) {
+                PreferenceManager.setDefaultValues(context, R.xml.setting_editor, true);
+                sharedPreferences.edit().putBoolean(key, true).apply();
+            }
+        }
+        PreferenceManager.setDefaultValues(context, R.xml.setting_editor, false);
     }
 
     public SharedPreferences getSharedPreferences() {
@@ -148,4 +166,5 @@ public class PascalPreferences {
     public boolean isShowLineNumbers() {
         return getBoolean(context.getString(R.string.key_pref_show_line_number));
     }
+
 }

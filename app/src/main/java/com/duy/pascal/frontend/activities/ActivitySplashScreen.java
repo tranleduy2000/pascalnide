@@ -15,13 +15,13 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
 
 
@@ -34,7 +34,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         // Here, this is the current activity
-        PreferenceManager.setDefaultValues(this, R.xml.setting_editor, false);
+        PascalPreferences.setFirstOpen(this);
 
         ThemeFromAssets themeFromAssets = ThemeFromAssets.getTheme(0, this);
         Log.d(TAG, "onCreate: " + themeFromAssets.toString());
