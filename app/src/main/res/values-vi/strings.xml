@@ -2,7 +2,6 @@
 <resources>
     <string name="default_">Hệ thống</string>
     <string name="app_name">Pascal N-IDE</string>
-    <string name="about">Thông tin</string>
     <string name="cancel">Trở lại</string>
     <string name="close">Đóng</string>
     <string name="code_sample">Code mẫu</string>
@@ -80,7 +79,6 @@
     <string name="cant_undo">Không thể hủy thao tác</string>
     <string name="change_key_board">Thay đổi bàn phím</string>
     <string name="new_folder">Tạo thư mục mới</string>
-    <string name="pin">Đánh dấu</string>
     <string name="home">Trang chủ</string>
     <string name="folder">Thư mục</string>
     <string name="enter_new_folder_name">Nhập tên của thư mục</string>
@@ -107,6 +105,20 @@
     <string name="pascal_for_android">Pascal cho Android</string>
     <string name="inp_file">File inp</string>
     <string name="license">Giấy phép nguồn mở</string>
-    <string name="system">Hệ thống</string>
     <string name="translate">Dịch thuật</string>
+    <string name="background_console">Màu nền console</string>
+    <string name="console_screen">Console</string>
+    <string name="frame_rate">Tốc độ cập nhật</string>
+    <string name="source_code_pro" >Source Code Pro</string>
+    <string name="text_color_console">Màu chữ của console</string>
+    <string name="write_code_here">Gõ code vào đây…</string>
+    <string name="stack_size">Kích thước ngăn xếp</string>
+    <string name="system">Hệ thống</string>
+    <string name="pin">Đánh dấu</string>
+    <string name="max_line">Số dòng tối đa</string>
+    <string name="about">Thông tin</string>
+    <string name="console_column">Số cột của màn hình console</string>
+    <string name="console_font_size">Cỡ chữ console</string>
+    <string name="max_buffer">Kích thức bộ nhớ đệm cho màn hình</string>
+
 </resources>

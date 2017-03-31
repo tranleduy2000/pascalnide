@@ -94,8 +94,7 @@ public class KeySettings {
         // mCursorBlink = readIntPref(CURSORBLINK_KEY, mCursorBlink, 1);
         mFontSize = readIntPref(FONTSIZE_KEY, mFontSize, 20);
         mColorId = readIntPref(COLOR_KEY, mColorId, COLOR_SCHEMES.length - 1);
-        mControlKeyId = readIntPref(CONTROLKEY_KEY, mControlKeyId,
-                CONTROL_KEY_SCHEMES.length - 1);
+        mControlKeyId = readIntPref(CONTROLKEY_KEY, mControlKeyId, CONTROL_KEY_SCHEMES.length - 1);
         mFnKeyId = readIntPref(FNKEY_KEY, mFnKeyId,
                 FN_KEY_SCHEMES.length - 1);
         mUseCookedIME = readIntPref(IME_KEY, mUseCookedIME, 1);

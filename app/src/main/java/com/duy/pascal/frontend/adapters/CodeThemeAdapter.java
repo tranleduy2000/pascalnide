@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
-import com.duy.pascal.frontend.data.PascalPreferences;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 
 import java.util.ArrayList;

@@ -4,9 +4,13 @@
     <style name="AppTheme" parent="Theme.AppCompat">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="colorPrimary">#263238</item>
-        <item name="colorPrimaryDark">#212121</item>
-        <item name="android:statusBarColor">#212121</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+
+        <!--<item name="android:statusBarColor">@color/status_bar_color</item>-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
+
 </resources>

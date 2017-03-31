@@ -15,13 +15,10 @@
         android:largeHeap="true"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activities.EditorActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:launchMode="singleTask"
-          />
-
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.ActivitySplashScreen"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
@@ -45,17 +42,15 @@
                 <data android:pathPattern=".*\\.pas" />
             </intent-filter>
 
-            <!--file filter-->
+            <!-- file filter -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:scheme="file" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
 
-            <!--Clip board filter-->
+            <!-- Clip board filter -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -73,10 +68,7 @@
             android:name=".activities.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_info_white_24dp" />
-        <activity
-            android:name=".activities.SettingsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:icon="@drawable/ic_info_white_24dp" />
+
         <activity
             android:name=".activities.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
@@ -86,11 +78,12 @@
             android:name=".activities.SelectThemeActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
+        <activity android:name=".info_application.InfoActivity" />
+
         <activity
-            android:name=".file.SelectFileActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:launchMode="singleTask" />
-        <activity android:name=".info_application.InfoActivity"></activity>
+            android:name=".setting.SettingActivity"
+       >
+        </activity>
     </application>
 
 </manifest>

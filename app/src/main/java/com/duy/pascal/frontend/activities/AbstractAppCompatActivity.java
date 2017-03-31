@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.data.PascalPreferences;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import java.util.Locale;
 

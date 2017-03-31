@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.data;
+package com.duy.pascal.frontend.setting;
 
 import android.content.Context;
 import android.content.SharedPreferences;

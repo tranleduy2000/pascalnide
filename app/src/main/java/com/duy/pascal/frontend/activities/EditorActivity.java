@@ -36,9 +36,8 @@ import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
-import com.duy.pascal.frontend.data.PascalPreferences;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.file.FileListener;
 import com.duy.pascal.frontend.utils.ClipboardManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
@@ -51,10 +50,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class EditorActivity extends FileEditorActivity implements
-        FileListener,
+
         DrawerLayout.DrawerListener {
 
-    private static final String TAG = EditorActivity.class.getSimpleName();
     private static final int FILE_SELECT_CODE = 1012;
 
     private CompileManager mCompileManager;
@@ -375,33 +373,7 @@ public class EditorActivity extends FileEditorActivity implements
         showFileInfo(file);
     }
 
-    // TODO: 15-Mar-17 code delete file
-    @Override
-    public boolean doRemoveFile(final File file) {
-//        showDialogDeleteFile(file);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.remove_file_msg) + file.getName());
-        builder.setTitle(R.string.delete_file);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                boolean success = fileManager.deleteFile(file);
-                if (success)
-                    Toast.makeText(EditorActivity.this, R.string.deleted, Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(EditorActivity.this, R.string.failed, Toast.LENGTH_SHORT).show();
-//                mFilesView.reload();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.create().show();
-        return false;
-    }
+
 
     /**
      * show dialog with file info

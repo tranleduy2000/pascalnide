@@ -10,7 +10,6 @@
     <string name="default_">System</string>
     <string name="language">Language</string>
 
-    <string name="about">About</string>
     <string name="run">Run</string>
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">CLose navigation</string>
@@ -89,7 +88,6 @@
     <string name="folder">Folder</string>
     <string name="home">home</string>
 
-    <string name="pin">pin</string>
     <string name="new_folder">Create new folder</string>
     <string name="enter_new_folder_name">Enter name of folder</string>
     <string name="change_key_board">Change keyboard</string>
@@ -110,19 +108,22 @@
     <string name="translate">Translate</string>
     <string name="license">License</string>
 
-    <string name="console_screen" translatable="false">Console</string>
-    <string name="background_console" translatable="false">Background console</string>
-    <string name="text_color_console" translatable="false">Text color console</string>
-    <string name="console_font_size" translatable="false">Console font size</string>
-    <string name="console_row" translatable="false">Console row</string>
-    <string name="console_column" translatable="false">Console column</string>
-    <string name="full_screen_console" translatable="false">Full screen console</string>
-    <string name="copy_right" translatable="false">Copyright © 2016–2017 by Trần Lê Duy</string>
-    <string name="system">System</string>
-    <string name="stack_size">Stack size</string>
-    <string name="max_buffer">Max buffer size</string>
+    <string name="console_screen">Console</string>
+    <string name="background_console">Background console</string>
+    <string name="text_color_console">Text color console</string>
+
     <string name="frame_rate">Frame rate</string>
+
+    <string name="max_buffer">Max buffer size</string>
     <string name="keyboard_shortcut">Key board shortcut</string>
-    <string name="key_font_size_console">key_font_size_console</string>
+
+    <string name="write_code_here">Write code here…</string>
+    <string name="console_column">Console column</string>
+    <string name="console_font_size">Console font size</string>
+    <string name="console_row">Console row</string>
+    <string name="max_line">Max lines</string>
+    <string name="pin">Pin</string>
+    <string name="stack_size">Stack size</string>
+    <string name="system">System</string>
 </resources>
 

@@ -1,5 +1,6 @@
 package com.duy.pascal.frontend.activities;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -16,8 +18,10 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.data.PascalPreferences;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileListener;
+import com.duy.pascal.frontend.file.FragmentSelectFile;
 import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.SymbolListView;
@@ -28,6 +32,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import icepick.Icepick;
 
 /**
  * Created by Duy on 09-Mar-17.
@@ -35,7 +40,8 @@ import butterknife.ButterKnife;
 
 public abstract class FileEditorActivity extends AbstractAppCompatActivity
         implements SymbolListView.OnKeyListener,
-        EditorControl {
+        EditorControl, FileListener {
+    protected final static String TAG = FileEditorActivity.class.getSimpleName();
     protected String mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
     protected ApplicationFileManager fileManager;
     @BindView(R.id.toolbar)
@@ -52,12 +58,15 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-    ArrayList<File> listFile;
+
+    ArrayList<File> listFile = new ArrayList<>();
     private Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Icepick.restoreInstanceState(this, savedInstanceState);
+
         fileManager = new ApplicationFileManager(this);
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
@@ -76,12 +85,28 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
                 onKeyClick(v, "\t");
             }
         });
+
         setTitle("");
-        setupTab();
+
+        if (savedInstanceState == null) {
+            new LoadTabFile().execute();
+        } else {
+            if (listFile.size() == 0) {//empty file
+                createEmptyFile();
+            } else {
+                int pos = (mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE));
+                TabLayout.Tab tab = tabLayout.getTabAt((pos));
+                if (tab != null) {
+                    selectTab(tab, false);
+                }
+            }
+        }
     }
 
-    protected void setupTab() {
-        new LoadTabFile().execute();
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
     }
 
     protected TabLayout.Tab getTab(File file) {
@@ -223,12 +248,6 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         mPascalPreferences.put(PascalPreferences.TAB_POSITION_FILE, tabLayout.getSelectedTabPosition());
@@ -238,6 +257,46 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
 
     protected abstract void loadFile(String path);
 
+
+    // TODO: 15-Mar-17 code delete file
+    @Override
+    public boolean doRemoveFile(final File file) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.remove_file_msg) + file.getName());
+        builder.setTitle(R.string.delete_file);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int position = listFile.indexOf(file);
+                boolean success = fileManager.deleteFile(file);
+                if (success) {
+                    if (position > 0) {
+                        listFile.remove(position);
+                        removeTab(tabLayout.getTabAt(position));
+                    }
+                    Toast.makeText(getApplicationContext(), R.string.deleted, Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(getApplicationContext(), R.string.failed, Toast.LENGTH_SHORT).show();
+
+                //reload file
+                FragmentSelectFile fragmentSelectFile =
+                        (FragmentSelectFile) getSupportFragmentManager().findFragmentByTag("fragment_file_view");
+                if (fragmentSelectFile != null) {
+                    fragmentSelectFile.refresh();
+                } else {
+                    Log.d(TAG, "onClick: Fragment file is null");
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+        return false;
+    }
 
     /**
      * load lasted file in database and set text to tablayout
@@ -268,7 +327,6 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
                 createEmptyFile();
             } else {
                 int pos = (mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE));
-                Log.d(TAG, "onPostExecute: " + pos);
                 TabLayout.Tab tab = tabLayout.getTabAt((pos));
                 if (tab != null) {
                     selectTab(tab, false);

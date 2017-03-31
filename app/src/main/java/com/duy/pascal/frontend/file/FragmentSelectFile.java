@@ -2,7 +2,6 @@ package com.duy.pascal.frontend.file;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -315,30 +314,34 @@ public class FragmentSelectFile extends Fragment implements
     }
 
     private void doRemoveFile(final File file) {
-        final ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setMessage(getString(R.string.remove_file_msg) + file.getName());
-        builder.setTitle(R.string.delete_file);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String filePath = file.getParent();
-                String msg = fileManager.removeFile(file);
-                if (!msg.isEmpty()) {
-                    Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
+//        final ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
+//        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//        builder.setMessage(getString(R.string.remove_file_msg) + file.getName());
+//        builder.setTitle(R.string.delete_file);
+//        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                String filePath = file.getParent();
+//                String msg = fileManager.removeFile(file);
+//                if (!msg.isEmpty()) {
+//                    Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
+//
+//                }
+//                new UpdateList().execute(filePath);
+//            }
+//        });
+//        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//        builder.create().show();
+        listener.doRemoveFile(file);
+    }
 
-                }
-                new UpdateList().execute(filePath);
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.create().show();
-
+    public void refresh() {
+        new UpdateList().execute(currentFolder);
     }
 
     @Override
@@ -375,7 +378,7 @@ public class FragmentSelectFile extends Fragment implements
 
     private class UpdateList extends AsyncTask<String, Void, LinkedList<FileDetail>> {
 
-        String exceptionMessage;
+        private String exceptionMessage;
 
         @Override
         protected void onPreExecute() {
@@ -385,7 +388,6 @@ public class FragmentSelectFile extends Fragment implements
                 MenuItemCompat.collapseActionView(mSearchViewMenuItem);
                 mSearchView.setQuery("", false);
             }
-
         }
 
         /**
@@ -479,12 +481,12 @@ public class FragmentSelectFile extends Fragment implements
                 Toast.makeText(activity, exceptionMessage, Toast.LENGTH_SHORT).show();
             }
             if (swipeRefreshLayout.isRefreshing()) {
-                swipeRefreshLayout.post(new Runnable() {
+                swipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                });
+                }, 500);
             }
             super.onPostExecute(names);
         }

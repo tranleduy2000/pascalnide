@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.duy.pascal.frontend.data.PascalPreferences;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import java.io.BufferedReader;
 import java.io.File;

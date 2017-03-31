@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.activities.CodeSampleActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
-import com.duy.pascal.frontend.activities.SettingsActivity;
 import com.duy.pascal.frontend.info_application.InfoActivity;
+import com.duy.pascal.frontend.setting.SettingActivity;
 
 /**
  * Handler for menu click
@@ -42,7 +42,7 @@ public class MenuEditor {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_setting:
-                activity.startActivity(new Intent(activity, SettingsActivity.class));
+                activity.startActivity(new Intent(activity, SettingActivity.class));
                 break;
             case R.id.action_find:
                 activity.showDialogFind();
@@ -125,7 +125,8 @@ public class MenuEditor {
 
     public void showPopupTranslate(final Activity activity) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(R.string.help_me_translate).setView(R.layout.dialog_help_translate).setIcon(R.drawable.ic_bug_report_white_24dp);
+        builder.setTitle(R.string.help_me_translate).setView(R.layout.dialog_help_translate)
+                .setIcon(R.drawable.ic_language_white_24dp);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
         final EditText editTitle = (EditText) alertDialog.findViewById(R.id.edit_title);

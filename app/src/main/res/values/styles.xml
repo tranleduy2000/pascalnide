@@ -13,5 +13,10 @@
         <item name="windowActionBar">false</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
+
 </resources>
+
 

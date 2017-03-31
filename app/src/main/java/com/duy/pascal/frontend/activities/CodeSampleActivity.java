@@ -39,6 +39,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         setContentView(R.layout.activity_code_sample);
         ButterKnife.bind(this);
         setTitle(R.string.title_activity_code_sample);
+
         fileManager = new ApplicationFileManager(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -98,7 +99,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
             try {
                 if (DLog.DEBUG) Log.d(TAG, "doInBackground: ");
                 String[] list;
-                String path = "code_sample/graph";
+                String path = "code_sample/basic";
 //                list = getAssets().list("code_sample/basic");
                 list = getAssets().list(path);
                 for (String fileName : list) {

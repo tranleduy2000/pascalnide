@@ -21,7 +21,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.data.PascalPreferences;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.screen.graph.molel.ArcObject;
 import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
 

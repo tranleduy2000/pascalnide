@@ -5,7 +5,6 @@
     <string name="Mismatched_begin_end">Несогласованная конструкция begin-end</string>
     <string name="Mismatched_brackets">Несогласованные скобки</string>
     <string name="Mismatched_parentheses">Несогласованные круглые скобки</string>
-    <string name="about">О Pascal N-IDE</string>
     <string name="app_name">Pascal N-IDE</string>
     <string name="auto_save">Авто сохранение</string>
     <string name="back_to_undo">Клавиша \"назад\" = отменить</string>
@@ -75,7 +74,6 @@
     <string name="ok">OK</string>
     <string name="paste">Вставить</string>
     <string name="path">"Путь: "</string>
-    <string name="pin">pin</string>
     <string name="rate">Оценить приложение</string>
     <string name="readable">"Чтение: "</string>
     <string name="redo">Повторить</string>
@@ -122,7 +120,24 @@
     <string name="pas_file">Файл Pas</string>
     <string name="pascal_for_android">Pascal для Android</string>
     <string name="inp_file">Файл Inp</string>
-    <string name="license">License</string>
+
+
+    <string name="source_code_pro">Исходный код Pro</string>
+    <string name="text_color_console">Цвет текста</string>
+    <string name="translate">Перевод</string>
+    <string name="frame_rate">Частота кадров</string>
+    <string name="max_line">Максимум строк</string>
+    <string name="stack_size">Размер стека</string>
+    <string name="console_column">Консольная колонка</string>
+    <string name="console_font_size">Размер шрифта</string>
+    <string name="console_row">Строка консоли</string>
+    <string name="background_console">Цвет фона</string>
+    <string name="console_screen">Консоль</string>
+    <string name="license">Лицензия</string>
+
+    <string name="write_code_here">Write code here…</string>
     <string name="system">System</string>
-    <string name="translate">Translate</string>
+    <string name="pin">Pin</string>
+    <string name="max_buffer">Max buffer size</string>
+
 </resources>

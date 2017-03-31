@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="max_stack">400</integer>
-    <integer name="min_stack">50</integer>
-    <integer name="default_stack">85</integer>
 
 </resources>

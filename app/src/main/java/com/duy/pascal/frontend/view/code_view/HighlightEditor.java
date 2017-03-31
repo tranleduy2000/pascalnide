@@ -28,7 +28,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Scroller;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
@@ -68,7 +67,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     protected int mPaddingDP = 4;
     protected int mPadding, mLinePadding;
     protected float mScale;
-    protected Scroller mScroller;
+//    protected Scroller mScroller;
     protected GestureDetector mGestureDetector;
     protected Point mMaxSize;
     protected int mHighlightedLine;
@@ -208,13 +207,13 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     }
 
     public void computeScroll() {
-        if (mScroller != null) {
-            if (mScroller.computeScrollOffset()) {
-                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-            }
-        } else {
+//        if (mScroller != null) {
+//            if (mScroller.computeScrollOffset()) {
+//                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+//            }
+//        } else {
             super.computeScroll();
-        }
+//        }
     }
 
     public void setLineError(int lineError) {
@@ -317,14 +316,15 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     }
 
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        if (!flingToScroll) {
+       /* if (!flingToScroll) {
             return true;
         }
         if (mScroller != null) {
             mScroller.fling(getScrollX(), getScrollY(), -(int) velocityX,
                     -(int) velocityY, 0, mMaxSize.x, 0, mMaxSize.y);
         }
-        return true;
+        return true;*/
+       return true;
     }
 
     public void updateFromSettings() {
@@ -345,10 +345,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
         refreshDrawableState();
 
         if (flingToScroll) {
-            mScroller = new Scroller(getContext());
+//            mScroller = new Scroller(getContext());
             mMaxSize = new Point();
         } else {
-            mScroller = null;
+//            mScroller = null;
             mMaxSize = null;
         }
 

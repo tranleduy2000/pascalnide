@@ -13,17 +13,17 @@
         android:layout_height="match_parent" />
 
     <include
+        layout="@layout/navigation_editor_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true" />
+
+    <include
         layout="@layout/navigation_editor_left"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:fitsSystemWindows="true" />
-
-    <include
-        layout="@layout/navigation_editor_right"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
         android:fitsSystemWindows="true" />
 
 </android.support.v4.widget.DrawerLayout>

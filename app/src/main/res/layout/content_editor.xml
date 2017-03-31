@@ -22,13 +22,14 @@
             android:dropDownAnchor="@+id/app_bar"
             android:dropDownHeight="110dp"
             android:dropDownWidth="150dp"
-            android:gravity="left|top"
-            android:inputType="textMultiLine|textNoSuggestions"
+            android:gravity="top|start"
+            android:hint="@string/write_code_here"
+            android:inputType="textMultiLine"
             android:scrollbarAlwaysDrawHorizontalTrack="true"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbarSize="5.0dip"
-            android:scrollbars="horizontal|vertical"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical|horizontal" />
 
     </com.duy.pascal.frontend.view.LockableScrollView>
 
