@@ -7,11 +7,10 @@
 
     <TextView
         android:id="@+id/txt_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
         android:text="@string/save"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:typeface="monospace" />
+        android:singleLine="true"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
 </LinearLayout>
