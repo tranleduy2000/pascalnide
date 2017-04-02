@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.screen.console;
+package com.duy.pascal.frontend.view.exec_screen.console;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
-import com.duy.pascal.frontend.view.screen.ScreenObject;
+import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 
 /**
  * Text renderer interface
@@ -79,7 +79,6 @@ public class TextRenderer implements ScreenObject {
     public void draw(Canvas canvas, int x, int y, char[] text, int start, int count) {
 //        float width = textPaint.measureText(text, start, count);
 //        canvas.drawRect(x, y + charAscent, x + width, y + charDescent, backgroundPaint);
-
         canvas.drawText(text, start, count, x, y, textPaint);
     }
 

@@ -335,14 +335,7 @@ public class EditorActivity extends FileEditorActivity implements
         mCodeView.updateFromSettings();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
-            mFilePath = intent.getStringExtra(CompileManager.FILE_PATH);
-            addNewFile(new File(mFilePath), false);
-        }
-    }
+
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {

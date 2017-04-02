@@ -108,8 +108,8 @@ public class PascalCompiler {
                                     List<ScriptSource> includeSearchPath,
                                     List<ScriptSource> librarySearchPath) throws ParsingException {
 
-        ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(
-                includeSearchPath, librarySearchPath);
+        ListMultimap<String, AbstractFunction> functiontable
+                = loadFunctionTable(includeSearchPath, librarySearchPath);
         return new PascalProgram(in, functiontable, sourcename, includeSearchPath);
     }
 
@@ -195,7 +195,11 @@ public class PascalCompiler {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
                     functionTable.put(tmp.name().toLowerCase(), tmp);
                 }
-//                System.out.println("#method " + m.getName());
+                System.out.println("#method " + m.getName());
+            }
+            List<AbstractFunction> functionList = functionTable.get("readln");
+            for (AbstractFunction abstractFunction : functionList) {
+                System.out.println("sout " + abstractFunction.name());
             }
         }
     }

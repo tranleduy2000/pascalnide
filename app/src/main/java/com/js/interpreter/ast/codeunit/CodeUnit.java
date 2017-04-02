@@ -81,8 +81,8 @@ public abstract class CodeUnit {
 
     protected class CodeUnitExpressionContext extends ExpressionContextMixin {
         protected CodeUnitExpressionContext(
-                ListMultimap<String, AbstractFunction> function) {
-            super(CodeUnit.this, null, function);
+                ListMultimap<String, AbstractFunction> functionTable) {
+            super(CodeUnit.this, null, functionTable);
         }
 
         @Override

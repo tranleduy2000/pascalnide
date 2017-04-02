@@ -80,7 +80,7 @@ public class FunctionOnStack extends VariableContext {
     }
 
     public Object execute() throws RuntimePascalException {
-//        System.out.println("Function call: " + currentFunction.getName());
+        System.out.println("Function call: " + currentFunction.getName());
         currentFunction.instructions.execute(this, main);
         //get result of currentFunction, name of variable is name of currentFunction
         return mapLocalVariable.get(currentFunction.name);

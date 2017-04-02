@@ -37,81 +37,83 @@ import static com.duy.pascal.frontend.EditorControl.ACTION_UNDO;
 
 public abstract class KeyBoardFilterEditText extends HighlightEditor {
     private static final boolean LOG_KEY_EVENTS = true;
-    private UndoRedoHelper undoRedoHelper;
+    private UndoRedoHelper mUndoRedoHelper;
     private KeySettings mSettings;
     private SharedPreferences mPrefs;
     private KeyListener mKeyListener;
-    private ClipboardManagerCompat clipboardManager;
+    private ClipboardManagerCompat mClipboardManager;
     private EditorControl editorControl;
+    private static final String TAG = KeyBoardFilterEditText.class.getSimpleName();
 
     public KeyBoardFilterEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+       // init();
     }
 
     public KeyBoardFilterEditText(Context context) {
         super(context);
-        init();
+       // init();
     }
 
     public KeyBoardFilterEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+       // init();
     }
 
     @Override
     public void init() {
         super.init();
-        undoRedoHelper = new UndoRedoHelper(this);
+        Log.i(TAG, "init: ");
+        mUndoRedoHelper = new UndoRedoHelper(this);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mSettings = new KeySettings(mPrefs);
         mKeyListener = new KeyListener();
-        clipboardManager = ClipboardManagerCompatFactory.getManager(getContext());
+        mClipboardManager = ClipboardManagerCompatFactory.getManager(getContext());
     }
 
     /**
      * undo text
      */
     public void undo() {
-        undoRedoHelper.undo();
+        mUndoRedoHelper.undo();
     }
 
     /**
      * redo text
      */
     public void redo() {
-        undoRedoHelper.redo();
+        mUndoRedoHelper.redo();
     }
 
     /**
      * @return <code>true</code> if stack not empty
      */
     public boolean canUndo() {
-        return undoRedoHelper.getCanUndo();
+        return mUndoRedoHelper.getCanUndo();
     }
 
     /**
      * @return <code>true</code> if stack not empty
      */
     public boolean canRedo() {
-        return undoRedoHelper.getCanRedo();
+        return mUndoRedoHelper.getCanRedo();
     }
 
     /**
      * clear history
      */
     public void clearStackHistory() {
-        undoRedoHelper.clearHistory();
+        mUndoRedoHelper.clearHistory();
     }
 
     public void saveHistory(String key) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-        undoRedoHelper.storePersistentState(editor, key);
+        mUndoRedoHelper.storePersistentState(editor, key);
         editor.apply();
     }
 
     public void restoreHistory(String key) {
-        undoRedoHelper.restorePersistentState(
+        mUndoRedoHelper.restorePersistentState(
                 PreferenceManager.getDefaultSharedPreferences(getContext()), key);
 
     }
@@ -233,14 +235,15 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
     }
 
     public void cut() {
-        clipboardManager.setText(getText()
+        mClipboardManager.setText(getText()
                 .subSequence(getSelectionStart(), getSelectionEnd()));
         getEditableText().delete(getSelectionStart(), getSelectionEnd());
     }
 
     public void paste() {
-        insert(clipboardManager.getText());
+        insert(mClipboardManager.getText());
     }
+
     /**
      * insert text
      *
@@ -249,8 +252,9 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
     public void insert(CharSequence delta) {
         getText().insert(getSelectionStart(), delta, getSelectionStart(), getSelectionEnd());
     }
+
     public void copy() {
-        clipboardManager.setText(getText()
+        mClipboardManager.setText(getText()
                 .subSequence(getSelectionStart(), getSelectionEnd()));
     }
 //    @Override

@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.screen.console;
+package com.duy.pascal.frontend.view.exec_screen.console;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,12 +7,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.duy.pascal.frontend.utils.FontManager;
-import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject;
 
 import java.util.ArrayList;
 
 import static android.R.attr.textSize;
-import static com.duy.pascal.frontend.view.screen.graph.molel.TextGraphObject.HORIZONTAL_DIR;
+import static com.duy.pascal.frontend.view.exec_screen.graph.molel.TextGraphObject.HORIZONTAL_DIR;
 
 /**
  * Created by Duy on 30-Mar-17.
@@ -29,7 +29,7 @@ public class GraphScreen {
     //list object to restore
     private ArrayList<GraphObject> graphObjects = new ArrayList<>();
     /**
-     * this object used to draw {@link com.duy.pascal.frontend.view.screen.graph.molel.GraphObject}
+     * this object used to draw {@link com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject}
      */
     private Bitmap mGraphBitmap;
     private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);

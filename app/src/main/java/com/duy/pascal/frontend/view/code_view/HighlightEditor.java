@@ -49,7 +49,8 @@ import static com.duy.pascal.frontend.data.PatternsUtils.numbers;
 import static com.duy.pascal.frontend.data.PatternsUtils.symbols;
 import static com.duy.pascal.frontend.data.PatternsUtils.trailingWhiteSpace;
 
-public abstract class HighlightEditor extends AutoSuggestsEditText implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
+public abstract class HighlightEditor extends AutoSuggestsEditText
+        implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
     private static final String INDEX_CHAR = "m";
     private static final int TAB_NUMBER = 3;
@@ -105,19 +106,19 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup(context);
-        init();
+      //  init();
     }
 
     public HighlightEditor(Context context) {
         super(context);
         setup(context);
-        init();
+      //  init();
     }
 
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setup(context);
-        init();
+     //   init();
     }
 
     public boolean isCanEdit() {
@@ -442,6 +443,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText implements Ed
     @Override
     public void init() {
         super.init();
+        Log.i(TAG, "init: ");
         mCRC32 = new CRC32();
         setFilters(new InputFilter[]{
                 new InputFilter() {

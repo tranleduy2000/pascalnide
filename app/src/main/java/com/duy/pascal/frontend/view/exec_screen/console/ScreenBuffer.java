@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.screen.console;
+package com.duy.pascal.frontend.view.exec_screen.console;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,13 +9,13 @@ import java.io.FileOutputStream;
 
 public class ScreenBuffer {
     public int firstIndex;
-    public char[] screenBuffer;
+    public char[] textOnScreenBuffer;
     public int[] colorScreenBuffer;
 
     /**
      * store text input
      */
-    public ByteQueue textBuffer = new ByteQueue();
+    public ByteQueue charBuffer = new ByteQueue();
 
     /**
      * store key code event
@@ -25,12 +25,12 @@ public class ScreenBuffer {
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
 
-    public char[] getScreenBuffer() {
-        return screenBuffer;
+    public char[] getTextOnScreenBuffer() {
+        return textOnScreenBuffer;
     }
 
-    public void setScreenBuffer(char[] screenBuffer) {
-        this.screenBuffer = screenBuffer;
+    public void setTextOnScreenBuffer(char[] textOnScreenBuffer) {
+        this.textOnScreenBuffer = textOnScreenBuffer;
     }
 
     public int[] getColorScreenBuffer() {

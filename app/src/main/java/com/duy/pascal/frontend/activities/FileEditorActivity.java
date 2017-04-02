@@ -1,6 +1,7 @@
 package com.duy.pascal.frontend.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,11 +19,12 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.file.FileListener;
 import com.duy.pascal.frontend.file.FragmentSelectFile;
 import com.duy.pascal.frontend.file.TabFileUtils;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.SymbolListView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
@@ -32,8 +34,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import icepick.Icepick;
-import icepick.State;
 
 /**
  * Created by Duy on 09-Mar-17.
@@ -60,7 +60,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
-    @State
+//    @State
     ArrayList<File> listFile = new ArrayList<>();
 
     private Handler handler = new Handler();
@@ -68,7 +68,6 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Icepick.restoreInstanceState(this, savedInstanceState);
 
         mFileManager = new ApplicationFileManager(this);
         setContentView(R.layout.activity_editor);
@@ -80,7 +79,6 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-
         mCodeView.setEditorControl(this);
         findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,28 +88,14 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         });
 
         setTitle("");
-
-        if (savedInstanceState == null) {
-            new LoadTabFile().execute();
-        } else {
-            if (listFile.size() == 0) {//empty file
-                createEmptyFile();
-            } else {
-                int pos = (mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE));
-                TabLayout.Tab tab = tabLayout.getTabAt((pos));
-                if (tab != null) {
-                    selectTab(tab, false);
-                } else {
-                    selectTab(tabLayout.getTabAt(0), false);
-                }
-            }
-        }
+        new LoadTabFile().execute();
     }
 
+
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Icepick.saveInstanceState(this, outState);
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
     }
 
     protected TabLayout.Tab createNewTab(File file) {
@@ -280,6 +264,15 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     protected void onPause() {
         super.onPause();
         mPascalPreferences.put(PascalPreferences.TAB_POSITION_FILE, tabLayout.getSelectedTabPosition());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
+            mFilePath = intent.getStringExtra(CompileManager.FILE_PATH);
+            addNewFile(new File(mFilePath), false);
+        }
     }
 
     protected abstract String getCode();

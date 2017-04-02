@@ -26,39 +26,35 @@ public class WordToken extends Token {
         return this;
     }
 
-    public DeclaredType to_basic_type(ExpressionContext context)
+    public DeclaredType toBasicType(ExpressionContext context)
             throws UnrecognizedTypeException {
         String s = name.toLowerCase().intern();
         if (s.equals("integer") || s.equals("byte") || s.equals("word")
                 || s.equals("shortint") || s.equals("smallint")) {
             return BasicType.Integer;
-        }
-        if (s == "string") {
+        } else if (s.equals("string")) {
             return BasicType.StringBuilder;
-        }
-        if (s == "single" || s == "extended" || s == "real" || s.equals("comp")
+        } else if (s.equals("single") || s.equals("extended") || s == "real" || s.equals("comp")
                 || s.equals("curreny")) {
             return BasicType.Double;
-        }
-        if (s == "longint" || s.equals("int64") || s.equals("qword")
+        } else if (s == "longint" || s.equals("int64") || s.equals("qword")
                 || s.equals("longword") || s.equals("dword")) {
             return BasicType.Long;
-        }
-        if (s == "boolean") {
+        } else if (s == "boolean") {
             return BasicType.Boolean;
-        }
-        if (s == "char") {
+        } else if (s == "char") {
             return BasicType.Character;
-        }
-        DeclaredType type = context.getTypedefType(s);
-        if (type != null) {
-            return type;
         } else {
-            Object constval = context.getConstantDefinition(s);
-            if (constval == null) {
-                throw new UnrecognizedTypeException(lineInfo, s);
+            DeclaredType type = context.getTypedefType(s);
+            if (type != null) {
+                return type;
+            } else {
+                Object constval = context.getConstantDefinition(s);
+                if (constval == null) {
+                    throw new UnrecognizedTypeException(lineInfo, s);
+                }
+                return BasicType.anew(constval.getClass());
             }
-            return BasicType.anew(constval.getClass());
         }
     }
 }

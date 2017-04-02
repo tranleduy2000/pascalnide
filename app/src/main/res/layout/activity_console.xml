@@ -26,7 +26,7 @@
         android:weightSum="100"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.duy.pascal.frontend.view.screen.console.ConsoleView
+        <com.duy.pascal.frontend.view.exec_screen.console.ConsoleView
             android:id="@+id/console"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

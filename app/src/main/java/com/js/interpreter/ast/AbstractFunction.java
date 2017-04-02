@@ -17,7 +17,7 @@ public abstract class AbstractFunction implements NamedEntity {
 
     public abstract ArgumentType[] getArgumentTypes();
 
-    public abstract DeclaredType return_type();
+    public abstract DeclaredType returnType();
 
     @Override
     public String toString() {

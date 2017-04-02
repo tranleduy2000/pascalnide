@@ -59,7 +59,6 @@
     <string name="goto_line">К строке</string>
     <string name="help_me_translate">Помощь с переводом</string>
     <string name="hide_status_bar">Скрыть статусбар</string>
-    <string name="hide_status_bar_desc">Скрыть статусбар на каждом экране приложения</string>
     <string name="home">Главная</string>
     <string name="information">Информация</string>
     <string name="language">Язык</string>
@@ -141,5 +140,5 @@
     <string name="max_buffer">Max buffer size</string>
     <string name="about">About</string>
     <string name="keyboard_shortcut">Key board shortcut</string>
-
+    <string name="hide_status_bar_desc">Скрывать статусбар, когда приложение запущено</string>
 </resources>

@@ -1,7 +1,6 @@
-package com.duy.pascal.backend.lib;
+package com.duy.pascal.backend.lib.templated;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.templated.TemplatedPascalPlugin;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;

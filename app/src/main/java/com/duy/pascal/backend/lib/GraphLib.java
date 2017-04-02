@@ -1,14 +1,14 @@
 package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.frontend.activities.ExecuteActivity;
-import com.duy.pascal.frontend.view.screen.console.ConsoleView;
-import com.duy.pascal.frontend.view.screen.console.CursorConsole;
-import com.duy.pascal.frontend.view.screen.graph.molel.BarObject;
-import com.duy.pascal.frontend.view.screen.graph.molel.CircleObject;
-import com.duy.pascal.frontend.view.screen.graph.molel.LineObject;
-import com.duy.pascal.frontend.view.screen.graph.molel.PixelObject;
-import com.duy.pascal.frontend.view.screen.graph.molel.RectangleObject;
-import com.duy.pascal.frontend.view.screen.graph.molel.TextGraphObject;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.BarObject;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.CircleObject;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.LineObject;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.PixelObject;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.RectangleObject;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.TextGraphObject;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Map;

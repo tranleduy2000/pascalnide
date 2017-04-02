@@ -83,20 +83,6 @@ public class IOLib implements PascalLibrary {
         if (activity != null) activity.getConsoleView().commitString(result.toString());
     }
 
-//    public void readln(VariableBoxer<Object> s1, VariableBoxer<Object>  s2, VariableBoxer<Object>  var3) throws RuntimePascalException, NumberFormatException {
-//        if (activity == null) {
-//            throw new RuntimeException("Can not define ExecuteActivity");
-//        }
-//        System.out.println("readln: 3");
-//    }
-//
-//    public void readln(VariableBoxer<Object>  s1, VariableBoxer<Object>  s3) throws RuntimePascalException, NumberFormatException {
-//        if (activity == null) {
-//            throw new RuntimeException("Can not define ExecuteActivity");
-//        }
-//        System.out.println("readln: 2");
-//    }
-
     /**
      * readln procedure
      */
@@ -245,14 +231,34 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    public void readln0() {
-        if (activity != null) {
-            activity.startInput();
-            while (activity.isInputting()) {
-                sleep();
-            }
-        }
-    }
+//    public void readln() {
+//        if (activity != null) {
+//            activity.startInput();
+//            while (activity.isInputting()) {
+//                sleep();
+//            }
+//        }
+//    }
+//
+//
+//    public void readln(VariableBoxer<Object> variableBoxer, VariableBoxer variableBoxer2) {
+//        if (activity != null) {
+//            activity.startInput();
+//            while (activity.isInputting()) {
+//                sleep();
+//            }
+//        }
+//    }
+//
+//    public void readln(VariableBoxer<Object> variableBoxer, VariableBoxer variableBoxer2, VariableBoxer variableBoxer3) {
+//        if (activity != null) {
+//            activity.startInput();
+//            while (activity.isInputting()) {
+//                sleep();
+//            }
+//        }
+//    }
+
 
     public void printf(String format, Object... args) {
         if (stdout != null) stdout.printf(format, args);

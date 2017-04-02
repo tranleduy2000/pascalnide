@@ -11,12 +11,10 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.view.screen.console.ConsoleView;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.x;
 
 
 public abstract class AbstractExecActivity extends AbstractAppCompatActivity {

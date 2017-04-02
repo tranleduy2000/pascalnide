@@ -34,7 +34,9 @@ public class SimpleFunctionCall extends FunctionCall {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
+        //clone value
         Object[] values = new Object[arguments.length];
+
         function.getArgumentTypes();
         for (int i = 0; i < values.length; i++) {
             values[i] = arguments[i].getValue(f, main);
@@ -52,7 +54,7 @@ public class SimpleFunctionCall extends FunctionCall {
 
     @Override
     public RuntimeType getType(ExpressionContext f) {
-        return new RuntimeType(function.return_type(), false);
+        return new RuntimeType(function.returnType(), false);
     }
 
     @Override

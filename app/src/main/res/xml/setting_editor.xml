@@ -12,7 +12,6 @@
 
         <SwitchPreference
             android:defaultValue="true"
-
             android:key="@string/key_pref_show_line_number"
             android:summary="@string/show_line_desc"
             android:title="@string/show_line" />
@@ -54,7 +53,7 @@
 
     <PreferenceCategory android:title="@string/user_interface">
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/key_full_screen"
             android:summary="@string/hide_status_bar_desc"
             android:title="@string/hide_status_bar" />
@@ -96,11 +95,11 @@
             android:title="@string/text_color_console" />
 
         <!--<ListPreference-->
-            <!--android:defaultValue="14"-->
-            <!--android:entries="@array/font_size"-->
-            <!--android:entryValues="@array/font_size"-->
-            <!--android:key="@string/key_console_font_size"-->
-            <!--android:title="@string/font_z" />-->
+        <!--android:defaultValue="14"-->
+        <!--android:entries="@array/font_size"-->
+        <!--android:entryValues="@array/font_size"-->
+        <!--android:key="@string/key_console_font_size"-->
+        <!--android:title="@string/font_z" />-->
 
     </PreferenceCategory>
 

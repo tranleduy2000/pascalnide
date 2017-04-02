@@ -185,7 +185,7 @@ public abstract class GrouperToken extends Token {
         if (!(n instanceof WordToken)) {
             throw new ExpectedTokenException("[Type Identifier]", n);
         }
-        return ((WordToken) n).to_basic_type(context);
+        return ((WordToken) n).toBasicType(context);
     }
 
     private DeclaredType getArrayType(ExpressionContext context) throws ParsingException {
@@ -335,8 +335,8 @@ public abstract class GrouperToken extends Token {
         return getNextExpression(context, precedence.NoPrecedence, first);
     }
 
-    public List<VariableDeclaration> getVariableDeclarations(
-            ExpressionContext context) throws ParsingException {
+    public List<VariableDeclaration> getVariableDeclarations(ExpressionContext context)
+            throws ParsingException {
         List<VariableDeclaration> result = new ArrayList<VariableDeclaration>();
         /*
          * reusing it, so it is further out of scope than necessary

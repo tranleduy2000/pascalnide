@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.screen;
+package com.duy.pascal.frontend.view.exec_screen;
 
 import android.graphics.Canvas;
 

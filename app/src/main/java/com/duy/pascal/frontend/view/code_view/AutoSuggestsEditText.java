@@ -5,11 +5,13 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.KeyWord;
+import com.duy.pascal.frontend.editor.EditorListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +22,8 @@ import java.util.Collections;
  * Created by Duy on 28-Feb-17.
  */
 
-public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView implements View.OnClickListener {
+public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView
+        implements View.OnClickListener, EditorListener {
     private static final String TAG = AutoSuggestsEditText.class.getName();
     public int mCharHeight = 0;
     private ArrayAdapter<String> mAdapter;
@@ -28,17 +31,17 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
     public AutoSuggestsEditText(Context context) {
         super(context);
-        init();
+       // init();
     }
 
     public AutoSuggestsEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+      //  init();
     }
 
     public AutoSuggestsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+       // init();
     }
 
 
@@ -65,6 +68,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     }
 
     public void init() {
+        Log.i(TAG, "init: ");
         invalidateKeyWord("");
         setTokenizer(new CodeTokenizer());
         setThreshold(1);

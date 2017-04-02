@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.screen.console;
+package com.duy.pascal.frontend.view.exec_screen.console;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,8 +22,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.view.screen.graph.molel.ArcObject;
-import com.duy.pascal.frontend.view.screen.graph.molel.GraphObject;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.ArcObject;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject;
 
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
     public static final String TAG = ConsoleView.class.getSimpleName();
@@ -112,11 +112,11 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public void putChar(char c) {
-        bufferData.textBuffer.putByte((byte) c);
+        bufferData.charBuffer.putByte((byte) c);
     }
 
     public char readChar() {
-        return (char) bufferData.textBuffer.getByte();
+        return (char) bufferData.charBuffer.getByte();
     }
 
     public char readKey() {
@@ -124,7 +124,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean keyPressed() {
-        return bufferData.textBuffer.rear > bufferData.textBuffer.front;
+        return bufferData.charBuffer.rear > bufferData.charBuffer.front;
     }
 
     /**
@@ -138,12 +138,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         i = index;
 
         while (i - index <= x) {
-            if (bufferData.screenBuffer[i] < ' ') break;
+            if (bufferData.textOnScreenBuffer[i] < ' ') break;
             i++;
         }
 
         while (i - index < x) {
-            if (bufferData.screenBuffer[i] < ' ') bufferData.screenBuffer[i] = ' ';
+            if (bufferData.textOnScreenBuffer[i] < ' ') bufferData.textOnScreenBuffer[i] = ' ';
             i++;
         }
         mCursor.x = x;
@@ -155,18 +155,18 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
         switch (c) {
             case '\n':
-                bufferData.screenBuffer[index] = '\n';
+                bufferData.textOnScreenBuffer[index] = '\n';
                 nextLine();
                 break;
             case '\177':
             case 8:
                 if (mCursor.x > 0) {
                     mCursor.x--;
-                    bufferData.screenBuffer[index - 1] = '\0';
+                    bufferData.textOnScreenBuffer[index - 1] = '\0';
                 } else {
                     if (mCursor.y > 0) {
-                        if (bufferData.screenBuffer[index - 1] >= ' ') {
-                            bufferData.screenBuffer[index - 1] = '\0';
+                        if (bufferData.textOnScreenBuffer[index - 1] >= ' ') {
+                            bufferData.textOnScreenBuffer[index - 1] = '\0';
                             mCursor.x = mScreen.row - 1;
                             mCursor.y--;
                             makeCursorVisible();
@@ -177,7 +177,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             default:
                 makeCursorVisible();
                 if (c >= ' ') {
-                    bufferData.screenBuffer[index] = c;
+                    bufferData.textOnScreenBuffer[index] = c;
                     mCursor.x++;
                     if (mCursor.x >= mScreen.row) {
                         nextLine();
@@ -201,7 +201,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         if (mCursor.y >= mScreen.maxLines) {
             mCursor.y = mScreen.maxLines - 1;
             for (int i = 0; i < mScreen.row; i++)
-                bufferData.screenBuffer[bufferData.firstIndex + i] = '\0';
+                bufferData.textOnScreenBuffer[bufferData.firstIndex + i] = '\0';
             bufferData.firstIndex += mScreen.row;
             if (bufferData.firstIndex >= mScreen.getScreenSize()) bufferData.firstIndex = 0;
         }
@@ -235,7 +235,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
         firstLine = 0;
         bufferData.firstIndex = 0;
-        bufferData.screenBuffer = null;
+        bufferData.textOnScreenBuffer = null;
 
         mCursor.setCursorBlink(true);
         mCursor.setVisible(true);
@@ -247,7 +247,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
      */
     public void clearScreen() {
         for (int i = 0; i < mScreen.getScreenSize(); i++)
-            bufferData.screenBuffer[i] = '\0';
+            bufferData.textOnScreenBuffer[i] = '\0';
         mCursor.setCoordinate(0, 0);
         firstLine = 0;
         bufferData.firstIndex = 0;
@@ -324,7 +324,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 newScreenBuffer[i] = '\0';
             }
 
-            if (bufferData.screenBuffer != null) {
+            if (bufferData.textOnScreenBuffer != null) {
                 i = 0;
                 int nextj = 0;
                 int endi = mCursor.y * mScreen.row
@@ -333,7 +333,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 do {
                     j = nextj;
                     do {
-                        c = bufferData.screenBuffer[trueIndex(i++, bufferData.firstIndex, mScreen.getScreenSize())];
+                        c = bufferData.textOnScreenBuffer[trueIndex(i++, bufferData.firstIndex, mScreen.getScreenSize())];
                         newScreenBuffer[trueIndex(j++, newFirstIndex, newScreenSize)] = c;
                         newFirstIndex = Math.max(0, j / newRow - mScreen.maxLines + 1) * newRow;
                     }
@@ -351,7 +351,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
             mScreen.row = newRow;
             mScreen.setScreenSize(newScreenSize);
-            bufferData.setScreenBuffer(newScreenBuffer);
+            bufferData.setTextOnScreenBuffer(newScreenBuffer);
             bufferData.firstIndex = newFirstIndex;
         }
         makeCursorVisible();
@@ -476,9 +476,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             if (i > mCursor.y - firstLine) break;
 
             int count = 0;
-            while ((count < mScreen.row) && (bufferData.screenBuffer[count + index] >= ' '))
+            while ((count < mScreen.row) && (bufferData.textOnScreenBuffer[count + index] >= ' '))
                 count++;
-            mTextRenderer.draw(canvas, x, y, bufferData.screenBuffer, index, count);
+            mTextRenderer.draw(canvas, x, y, bufferData.textOnScreenBuffer, index, count);
             y += mTextRenderer.charHeight;
             index += mScreen.row;
             if (index >= mScreen.getScreenSize()) index = 0;

@@ -42,12 +42,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ExpressionContextMixin extends
-        HeirarchicalExpressionContext {
+public abstract class ExpressionContextMixin extends HeirarchicalExpressionContext {
     public static final String TAG = ExpressionContextMixin.class.getSimpleName();
+
+    /**
+     * list function and procedure pascal
+     */
     private final ListMultimap<String, AbstractFunction> callableFunctions;
+
+    /**
+     * list global variable
+     */
     public List<VariableDeclaration> variables = new ArrayList<>();
+
+    /**
+     * list defined constant
+     */
     private Map<String, ConstantDefinition> constants = new HashMap<>();
+
+    /**
+     * list custom type
+     */
     private Map<String, DeclaredType> typedefs = new HashMap<>();
     private ArrayList<String> libraries = new ArrayList<>();
 
@@ -59,6 +74,7 @@ public abstract class ExpressionContextMixin extends
                                   ListMultimap<String, AbstractFunction> callableFunctions) {
         super(root, parent);
         this.callableFunctions = callableFunctions;
+
     }
 
     public ListMultimap<String, AbstractFunction> getCallableFunctions() {

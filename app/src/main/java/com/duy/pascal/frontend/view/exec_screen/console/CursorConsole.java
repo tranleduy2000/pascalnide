@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.screen.console;
+package com.duy.pascal.frontend.view.exec_screen.console;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

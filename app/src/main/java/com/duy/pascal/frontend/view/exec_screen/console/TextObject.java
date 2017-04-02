@@ -1,9 +1,9 @@
-package com.duy.pascal.frontend.view.screen.console;
+package com.duy.pascal.frontend.view.exec_screen.console;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.duy.pascal.frontend.view.screen.ScreenObject;
+import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 
 /**
  * Created by Duy on 26-Mar-17.

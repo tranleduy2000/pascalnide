@@ -41,7 +41,7 @@ public class TemplatedPluginDeclaration extends AbstractFunction {
     }
 
     @Override
-    public DeclaredType return_type() {
+    public DeclaredType returnType() {
         return t.return_type();
     }
 

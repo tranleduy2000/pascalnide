@@ -21,7 +21,7 @@ import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.view.screen.console.ConsoleView;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.PascalProgram;

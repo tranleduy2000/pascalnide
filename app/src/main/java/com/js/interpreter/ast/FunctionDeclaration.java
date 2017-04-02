@@ -80,11 +80,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         }
     }
 
-    public FunctionDeclaration(ExpressionContext p) {
-        this.declarations = new FunctionExpressionContext(p);
-        this.argument_names = new String[0];
-        this.argument_types = new RuntimeType[0];
-    }
+
 
     public String getName() {
         return name;
@@ -179,20 +175,20 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public DeclaredType return_type() {
+    public DeclaredType returnType() {
         return resultDefinition == null ? null : resultDefinition.type;
     }
 
     public boolean headerMatches(AbstractFunction other) throws ParsingException {
         if (name.equals(other.name())
                 && Arrays.equals(argument_types, other.getArgumentTypes())) {
-            if (resultDefinition == null && other.return_type() == null) {
+            if (resultDefinition == null && other.returnType() == null) {
                 return true;
             }
-            if (resultDefinition == null || other.return_type() == null
-                    || !resultDefinition.equals(other.return_type())) {
+            if (resultDefinition == null || other.returnType() == null
+                    || !resultDefinition.equals(other.returnType())) {
                 System.err.println("Warning: Overriding previously declared return type for function "
-                                + name);
+                        + name);
             }
             return true;
         }
@@ -213,7 +209,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return isProcedure;
     }
 
-    private class FunctionExpressionContext extends ExpressionContextMixin {
+    public class FunctionExpressionContext extends ExpressionContextMixin {
 
         public FunctionExpressionContext(ExpressionContext parent) {
             super(parent.root(), parent);
