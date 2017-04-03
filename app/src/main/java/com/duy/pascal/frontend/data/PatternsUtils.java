@@ -15,12 +15,12 @@ public class PatternsUtils {
             "\\b(\\d*[.]?\\d+)\\b");
     public static final Pattern keywords = Pattern.compile(
             "\\b(uses|const|do|for|while|if|else|in|case|" +
-                    "and|array|begin|case|div|" +
-                    "downto|function|to|mod|not|of|or|" +
+                    "and|array|begin|div|" +
+                    "downto|to|mod|not|of|or|" +
                     "procedure|program|repeat|until|shl|shr|string|" +
-                    "then|type|var|while|end|" +
-                    "function|var|case|array|shl|shr|" +
-                    "true|false|boolean)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+                    "then|type|var|end|function|" +
+                    "true|false|boolean" +
+                    "|integer|string|real|byte|)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static final Pattern functions = Pattern.compile("\\b(sin|cos|sqrt|abs|floor|ceil|length|new|random|round|" +
             "exp|tan)\\b");
 

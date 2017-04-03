@@ -560,7 +560,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             if (e.length() == 0)
                 return e;
             //clear spannable
-            clearSpans(e, start, end);
+//            clearSpans(e, start, end);
+            e.clearSpans();
+
             CharSequence input = e.subSequence(start, end);
             //high light error light
             if (errorLine > -1) {

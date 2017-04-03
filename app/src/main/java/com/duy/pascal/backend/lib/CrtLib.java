@@ -24,17 +24,59 @@ public class CrtLib implements PascalLibrary {
         this.activity = activity;
     }
 
+    public static int getColorPascal(int code) {
+        switch (code) {
+            case 0:
+                return (Color.BLACK);
+            case 1:
+                return (Color.BLUE);
+            case 2:
+                return (Color.GREEN);
+            case 3:
+                return (Color.CYAN);
+            case 4:
+                return (Color.RED);
+            case 5:
+                return (Color.MAGENTA);
+            case 6:
+                return (Color.parseColor("#49281E"));
+            case 7:
+                return (Color.LTGRAY);
+            case 8:
+                return (Color.DKGRAY);
+            case 9:
+                return (Color.parseColor("#add8e6"));
+            case 10:
+                return (Color.parseColor("#98fb98"));
+
+            case 11:
+                return (Color.parseColor("#e0ffff"));
+
+            case 12:
+                return (Color.parseColor("#ffa07a"));
+
+            case 13:
+                return (Color.parseColor("#ff00ff"));
+
+            case 14:
+                return (Color.YELLOW);
+            case 15:
+                return (Color.WHITE);
+        }
+        return -1;
+    }
 
     /**
      * goto x, y procedure
+     * <p>
      *
-//     * @param x - x coordinate of screen
-//     * @param y - y coordinate of screen
+     * @param x - x coordinate of screen
+     * @param y - y coordinate of screen
      */
-    /*public void gotoXY(int x, int y) {
+    public void gotoXY(int x, int y) {
         if (activity == null) return;
         activity.getConsoleView().gotoXY(x, y);
-    }*/
+    }
 
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
@@ -78,48 +120,6 @@ public class CrtLib implements PascalLibrary {
         if (activity == null) return 0;
 
         return activity.getConsoleView().whereY();
-    }
-
-    public static int getColorPascal(int code) {
-        switch (code) {
-            case 0:
-                return (Color.BLACK);
-            case 1:
-                return (Color.BLUE);
-            case 2:
-                return (Color.GREEN);
-            case 3:
-                return (Color.CYAN);
-            case 4:
-                return (Color.RED);
-            case 5:
-                return (Color.MAGENTA);
-            case 6:
-                return (Color.parseColor("#49281E"));
-            case 7:
-                return (Color.LTGRAY);
-            case 8:
-                return (Color.DKGRAY);
-            case 9:
-                return (Color.parseColor("#add8e6"));
-            case 10:
-                return (Color.parseColor("#98fb98"));
-
-            case 11:
-                return (Color.parseColor("#e0ffff"));
-
-            case 12:
-                return (Color.parseColor("#ffa07a"));
-
-            case 13:
-                return (Color.parseColor("#ff00ff"));
-
-            case 14:
-                return (Color.YELLOW);
-            case 15:
-                return (Color.WHITE);
-        }
-        return -1;
     }
 
     public void highVideo() {
