@@ -171,7 +171,6 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      */
     private void createAndRunProgram(final String path) {
         String code = mFileManager.readFileAsString(path);
-        code = CodeManager.normalCode(code);
 
         //clone it to internal storage
         programFile = mFileManager.setContentFileTemp(code);

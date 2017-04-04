@@ -33,14 +33,13 @@ public abstract class CodeUnit {
     }
 
 
-    public CodeUnit(Reader program,
-                    ListMultimap<String, AbstractFunction> functionTable,
-                    String sourcename, List<ScriptSource> includeDirectories,
+    public CodeUnit(Reader program, ListMultimap<String, AbstractFunction> functionTable,
+                    String sourceName, List<ScriptSource> includeDirectories,
                     DebugListener debugListener)
             throws ParsingException {
         this(functionTable);
         this.debugListener = debugListener;
-        NewLexer grouper = new NewLexer(program, sourcename, includeDirectories);
+        NewLexer grouper = new NewLexer(program, sourceName, includeDirectories);
         grouper.parse();
         parseTree(grouper.token_queue);
 
@@ -55,9 +54,9 @@ public abstract class CodeUnit {
 //        }
 //    }
 
-    protected CodeUnitExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> ftable) {
-        return new CodeUnitExpressionContext(ftable);
+    protected CodeUnitExpressionContext getExpressionContextInstance(ListMultimap<String,
+            AbstractFunction> functionTable) {
+        return new CodeUnitExpressionContext(functionTable);
     }
 
     void parseTree(GrouperToken tokens) throws ParsingException {
@@ -80,8 +79,7 @@ public abstract class CodeUnit {
     }
 
     protected class CodeUnitExpressionContext extends ExpressionContextMixin {
-        protected CodeUnitExpressionContext(
-                ListMultimap<String, AbstractFunction> functionTable) {
+        public CodeUnitExpressionContext(ListMultimap<String, AbstractFunction> functionTable) {
             super(CodeUnit.this, null, functionTable);
         }
 

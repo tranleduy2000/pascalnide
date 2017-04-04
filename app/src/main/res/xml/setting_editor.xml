@@ -86,11 +86,13 @@
 
         <com.rarepebble.colorpicker.ColorPreference
             android:defaultValue="#000"
+            android:enabled="false"
             android:key="@string/key_bg_console"
             android:title="@string/background_console" />
 
         <com.rarepebble.colorpicker.ColorPreference
             android:defaultValue="#fff"
+            android:enabled="false"
             android:key="@string/key_console_text_color"
             android:title="@string/text_color_console" />
 

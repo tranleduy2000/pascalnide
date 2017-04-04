@@ -126,5 +126,10 @@
     <string name="stack_size">Stack size</string>
     <string name="system">System</string>
     <string name="about">About</string>
+    <string name="can_not_save_file">Can not save file!</string>
+    <string name="saved">Saved</string>
+    <string name="file_exist">File is exist, please enter other name!</string>
+    <string name="send_mail">Send mail...</string>
+    <string name="no_mail_clients">There are no email clients installed.</string>
 </resources>
 

@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.adapters.CodeSampleAdapter;
-import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 
@@ -43,7 +42,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         fileManager = new ApplicationFileManager(this);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         adapter = new CodeSampleAdapter(this);
 
@@ -69,7 +68,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     public void onPlay(String code) {
         Log.d(TAG, "onPlay: " + code);
         //create file temp
-        fileManager.setContentFileTemp(CodeManager.normalCode(code));
+        fileManager.setContentFileTemp(code);
 
         //set file temp for run
         Intent intent = new Intent(this, ExecuteActivity.class);

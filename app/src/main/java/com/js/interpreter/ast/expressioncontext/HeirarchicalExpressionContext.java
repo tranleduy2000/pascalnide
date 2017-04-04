@@ -67,12 +67,10 @@ public abstract class HeirarchicalExpressionContext implements
         return result;
     }
 
-    protected abstract List<AbstractFunction> getCallableFunctionsLocal(
-            String name);
+    protected abstract List<AbstractFunction> getCallableFunctionsLocal(String name);
 
     @Override
-    public void getCallableFunctions(String name,
-                                     List<List<AbstractFunction>> sofar) {
+    public void getCallableFunctions(String name, List<List<AbstractFunction>> sofar) {
         List<AbstractFunction> mine = getCallableFunctionsLocal(name);
         if (mine.size() != 0) {
             sofar.add(mine);

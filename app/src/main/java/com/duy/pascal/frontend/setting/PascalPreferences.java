@@ -2,6 +2,7 @@ package com.duy.pascal.frontend.setting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 
@@ -117,11 +118,13 @@ public class PascalPreferences {
     }
 
     public int getConsoleBackground() {
-        return getInt(context.getString(R.string.key_bg_console));
+//        return getInt(context.getString(R.string.key_bg_console));
+        return Color.BLACK;
     }
 
     public int getConsoleTextColor() {
-        return getInt(context.getString(R.string.key_console_text_color));
+//        return getInt(context.getString(R.string.key_console_text_color));
+        return Color.WHITE;
     }
 
     public int getConsoleFontSize() {

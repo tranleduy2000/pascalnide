@@ -74,7 +74,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                                   ListMultimap<String, AbstractFunction> callableFunctions) {
         super(root, parent);
         this.callableFunctions = callableFunctions;
-
     }
 
     public ListMultimap<String, AbstractFunction> getCallableFunctions() {
@@ -84,14 +83,14 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     public Map<String, ConstantDefinition> getConstants() {
         return constants;
     }
+    public Map<String, DeclaredType> getTypedefs() {
+        return typedefs;
+    }
 
     public List<VariableDeclaration> getVariables() {
         return variables;
     }
 
-    public Map<String, DeclaredType> getTypedefs() {
-        return typedefs;
-    }
 
     public FunctionDeclaration getExistingFunction(FunctionDeclaration f)
             throws ParsingException {
@@ -120,24 +119,21 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             return new VariableAccess(name.name, name.lineInfo);
         }
         if (parent == null) {
-            throw new NoSuchFunctionOrVariableException(name.lineInfo,
-                    name.name);
+            throw new NoSuchFunctionOrVariableException(name.lineInfo, name.name);
         }
         return parent.getIdentifierValue(name);
     }
 
-    public void verifyNonConflictingSymbolLocal(NamedEntity ne)
+    public void verifyNonConflictingSymbolLocal(NamedEntity namedEntity)
             throws SameNameException {
-        String n = ne.name();
-        if (functionExistsLocal(n)) {
-            throw new SameNameException(getCallableFunctionsLocal(ne.name())
-                    .get(0), ne);
-        } else if (getVariableDefinitionLocal(n) != null) {
-            throw new SameNameException(getVariableDefinitionLocal(n), ne);
-        } else if (getConstantDefinitionLocal(n) != null) {
-            throw new SameNameException(getConstantDefinitionLocal(n), ne);
+        String name = namedEntity.name();
+        if (functionExistsLocal(name)) {
+            throw new SameNameException(getCallableFunctionsLocal(namedEntity.name()).get(0), namedEntity);
+        } else if (getVariableDefinitionLocal(name) != null) {
+            throw new SameNameException(getVariableDefinitionLocal(name), namedEntity);
+        } else if (getConstantDefinitionLocal(name) != null) {
+            throw new SameNameException(getConstantDefinitionLocal(name), namedEntity);
         }
-
     }
 
     public void addNextDeclaration(GrouperToken i) throws ParsingException {
@@ -268,8 +264,8 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     }
 
     @Override
-    public Executable handleUnrecognizedStatement(Token next,
-                                                  GrouperToken container) throws ParsingException {
+    public Executable handleUnrecognizedStatement(Token next, GrouperToken container)
+            throws ParsingException {
         ParsingException e;
         try {
             Executable result = handleUnrecognizedStatementImpl(next, container);
@@ -288,22 +284,22 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         return result;
     }
 
-    protected abstract Executable handleUnrecognizedStatementImpl(Token next,
-                                                                  GrouperToken container) throws ParsingException;
+    protected abstract Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
+            throws ParsingException;
+
+    protected abstract boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken container)
+            throws ParsingException;
 
     @Override
-    public boolean handleUnrecognizedDeclaration(Token next,
-                                                 GrouperToken container) throws ParsingException {
+    public boolean handleUnrecognizedDeclaration(Token next, GrouperToken container)
+            throws ParsingException {
         boolean result = handleUnrecognizedDeclarationImpl(next, container)
-                || (parent != null && parent.handleUnrecognizedDeclaration(
-                next, container));
+                || (parent != null && parent.handleUnrecognizedDeclaration(next, container));
         if (!result) {
             throw new UnrecognizedTokenException(next);
         }
         return result;
     }
 
-    protected abstract boolean handleUnrecognizedDeclarationImpl(Token next,
-                                                                 GrouperToken container) throws ParsingException;
 
 }

@@ -17,8 +17,7 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
         super(functionTable);
     }
 
-    public ExecutableCodeUnit(Reader r,
-                              ListMultimap<String, AbstractFunction> functionTable,
+    public ExecutableCodeUnit(Reader r, ListMultimap<String, AbstractFunction> functionTable,
                               String sourcename, List<ScriptSource> includeDirectories,
                               DebugListener debugListener)
             throws ParsingException {

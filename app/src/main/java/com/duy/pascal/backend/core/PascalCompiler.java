@@ -108,9 +108,9 @@ public class PascalCompiler {
                                     List<ScriptSource> includeSearchPath,
                                     List<ScriptSource> librarySearchPath) throws ParsingException {
 
-        ListMultimap<String, AbstractFunction> functiontable
+        ListMultimap<String, AbstractFunction> functionTable
                 = loadFunctionTable(includeSearchPath, librarySearchPath);
-        return new PascalProgram(in, functiontable, sourcename, includeSearchPath);
+        return new PascalProgram(in, functionTable, sourcename, includeSearchPath);
     }
 
     public void executeScript(String sourceName, Reader in,
@@ -197,10 +197,7 @@ public class PascalCompiler {
                 }
                 System.out.println("#method " + m.getName());
             }
-            List<AbstractFunction> functionList = functionTable.get("readln");
-            for (AbstractFunction abstractFunction : functionList) {
-                System.out.println("sout " + abstractFunction.name());
-            }
+
         }
     }
 }

@@ -32,7 +32,6 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
-import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
@@ -42,6 +41,7 @@ import com.duy.pascal.frontend.utils.ClipboardManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.duy.pascal.frontend.view.code_view.HighlightEditor;
+import com.duy.pascal.frontend.view.code_view.LineUtils;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
 
@@ -193,6 +193,7 @@ public class EditorActivity extends FileEditorActivity implements
         final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
         final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
         final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
+        assert editFind != null;
         editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,8 +241,8 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     public void saveFile() {
         boolean result = mFileManager.saveFile(mFilePath, getCode());
-        if (result) Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        else Toast.makeText(this, "Can not save file!", Toast.LENGTH_SHORT).show();
+        if (result) Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show();
+        else Toast.makeText(this, R.string.can_not_save_file, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -261,8 +262,7 @@ public class EditorActivity extends FileEditorActivity implements
     }
 
     public String getCode() {
-        String code = mCodeView.getCleanText();
-        return CodeManager.normalCode(code);
+        return mCodeView.getCleanText();
     }
 
     /**
@@ -271,7 +271,7 @@ public class EditorActivity extends FileEditorActivity implements
      * @param code
      */
     public void setCode(String code) {
-        code = CodeManager.localCode(code);
+//        code = CodeManager.localCode(code);
         mCodeView.setText(code);
         mCodeView.clearHistory();
         mCodeView.refresh();
@@ -446,7 +446,7 @@ public class EditorActivity extends FileEditorActivity implements
 
                 File file = new File(ApplicationFileManager.getApplicationPath() + fileName);
                 if (file.exists()) {
-                    editText.setError("File is exist, please enter other name!");
+                    editText.setError(getString(R.string.file_exist));
                     return;
                 }
                 //create new file
@@ -485,16 +485,19 @@ public class EditorActivity extends FileEditorActivity implements
 //                            mCodeView.goToLine(1);
                         } else if (!lineNumber.isEmpty()) {
                             // TODO: 03-Apr-17
-                           /* int fakeLine = mCodeView.getLineUtils().fakeLineFromRealLine(value);
-                            final int y = LineUtils.getYAtLine(mScrollView,
-                                    mCodeView.getLineCount(), fakeLine);
-
-                            mScrollView.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mScrollView.smoothScrollTo(0, y);
-                                }
-                            }, 200);*/
+                            try {
+                                int line = Integer.parseInt(edittext.getText().toString().trim());
+                                final int y = LineUtils.getYAtLine(mScrollView,
+                                        mCodeView.getLineCount(), line);
+                                mScrollView.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mScrollView.smoothScrollTo(0, y);
+                                    }
+                                }, 200);
+                            } catch (Exception ee) {
+                                showErrorDialog(ee);
+                            }
                         }
                         dialog.cancel();
                     }
@@ -542,9 +545,9 @@ public class EditorActivity extends FileEditorActivity implements
                 content += "\n ====================== \n" + mCodeView.getCleanText();
                 i.putExtra(Intent.EXTRA_TEXT, content);
                 try {
-                    startActivity(Intent.createChooser(i, "Send mail..."));
+                    startActivity(Intent.createChooser(i, getString(R.string.send_mail)));
                 } catch (ActivityNotFoundException ex) {
-                    Toast.makeText(EditorActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditorActivity.this, R.string.no_mail_clients, Toast.LENGTH_SHORT).show();
                 }
                 alertDialog.cancel();
             }

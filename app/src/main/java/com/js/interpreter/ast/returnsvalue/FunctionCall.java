@@ -26,10 +26,51 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
     public static ReturnsValue generateFunctionCall(WordToken name,
                                                     List<ReturnsValue> arguments, ExpressionContext f)
             throws ParsingException {
-        List<List<AbstractFunction>> possibilities = new ArrayList<List<AbstractFunction>>();
+        List<List<AbstractFunction>> possibilities = new ArrayList<>();
         f.getCallableFunctions(name.name.toLowerCase(), possibilities);
 
         boolean matching = false;
+        boolean perfectFit = false;
+
+        AbstractFunction chosen = null;
+        AbstractFunction ambiguous = null;
+        ReturnsValue result;
+        ReturnsValue returnsValue = null;
+
+        for (List<AbstractFunction> l : possibilities) {
+            for (AbstractFunction a : l) {
+                result = a.generatePerfectFitCall(name.lineInfo, arguments, f);
+                if (result != null) {
+                    if (perfectFit) {
+                        throw new AmbiguousFunctionCallException(name.lineInfo, chosen, a);
+                    }
+                    perfectFit = true;
+                    chosen = a;
+                    returnsValue = result;
+                    continue;
+                }
+                result = a.generateCall(name.lineInfo, arguments, f);
+                if (result != null && !perfectFit) {
+                    if (chosen != null) {
+                        ambiguous = chosen;
+                    }
+                    chosen = a;
+                    if (returnsValue == null)
+                        returnsValue = result;
+                }
+                if (a.getArgumentTypes().length == arguments.size()) {
+                    matching = true;
+                }
+            }
+        }
+        if (returnsValue == null) {
+            throw new BadFunctionCallException(name.lineInfo, name.name, !possibilities.isEmpty(), matching);
+        } else if (!perfectFit && ambiguous != null) {
+            throw new AmbiguousFunctionCallException(name.lineInfo, chosen, ambiguous);
+        } else {
+            return returnsValue;
+        }
+        /*boolean matching = false;
 
         AbstractFunction chosen = null;
         boolean perfectfit = false;
@@ -39,7 +80,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
             for (AbstractFunction a : l) {
                 result = a.generatePerfectFitCall(name.lineInfo, arguments, f);
                 if (result != null) {
-                    if (perfectfit == true) {
+                    if (perfectfit) {
                         throw new AmbiguousFunctionCallException(name.lineInfo,
                                 chosen, a);
                     }
@@ -67,7 +108,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
                     ambigous);
         } else {
             return result;
-        }
+        }*/
     }
 
     @Override

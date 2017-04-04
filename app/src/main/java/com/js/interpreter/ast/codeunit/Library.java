@@ -23,8 +23,8 @@ public class Library extends CodeUnit {
     }
 
     @Override
-    protected LibraryExpressionContext getExpressionContextInstance(ListMultimap<String, AbstractFunction> f) {
-        return new LibraryExpressionContext(f);
+    protected LibraryExpressionContext getExpressionContextInstance(ListMultimap<String, AbstractFunction> functionTable) {
+        return new LibraryExpressionContext(functionTable);
     }
 
     @Override

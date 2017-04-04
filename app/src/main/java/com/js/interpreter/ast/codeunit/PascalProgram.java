@@ -45,8 +45,8 @@ public class PascalProgram extends ExecutableCodeUnit {
 
     @Override
     protected PascalProgramExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> f) {
-        return new PascalProgramExpressionContext(f);
+            ListMultimap<String, AbstractFunction> functionTable) {
+        return new PascalProgramExpressionContext(functionTable);
     }
 
     @Override

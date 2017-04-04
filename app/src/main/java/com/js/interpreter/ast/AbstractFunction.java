@@ -4,6 +4,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
@@ -55,13 +56,26 @@ public abstract class AbstractFunction implements NamedEntity {
         return result;
     }
 
-    public ReturnsValue[] perfectMatch(List<ReturnsValue> args,
+    public ReturnsValue[] perfectMatch(List<ReturnsValue> arguments,
                                        ExpressionContext context) throws ParsingException {
-        ArgumentType[] accepted_types = getArgumentTypes();
-        Iterator<ReturnsValue> iterator = args.iterator();
-        ReturnsValue[] result = new ReturnsValue[accepted_types.length];
-        for (int i = 0; i < accepted_types.length; i++) {
-            result[i] = accepted_types[i].perfectFit(iterator, context);
+        ArgumentType[] acceptedTypes = getArgumentTypes();
+
+        //check array
+        boolean isArray = false;
+        if (acceptedTypes.length > 0) {
+            if (acceptedTypes[0] instanceof VarargsType) isArray = true;
+            System.out.println("perfectMatch: " + (acceptedTypes[0] instanceof VarargsType));
+        }
+
+        if (!isArray && (acceptedTypes.length != arguments.size())) {
+            System.out.println("return null");
+            return null;
+        }
+
+        Iterator<ReturnsValue> iterator = arguments.iterator();
+        ReturnsValue[] result = new ReturnsValue[acceptedTypes.length];
+        for (int i = 0; i < acceptedTypes.length; i++) {
+            result[i] = acceptedTypes[i].perfectFit(iterator, context);
             if (result[i] == null) {
                 return null;
             }

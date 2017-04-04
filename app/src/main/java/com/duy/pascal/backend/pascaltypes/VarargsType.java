@@ -1,10 +1,10 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.boxing.ArrayBoxer;
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ public class VarargsType implements ArgumentType {
 
     @Override
     public ReturnsValue convertArgType(Iterator<ReturnsValue> args, ExpressionContext f) throws ParsingException {
-        List<ReturnsValue> convertedargs = new ArrayList<ReturnsValue>();
+        List<ReturnsValue> convertedargs = new ArrayList<>();
         LineInfo line = null;
         while (args.hasNext()) {
             ReturnsValue tmp = elementType.convert(args.next(), f);

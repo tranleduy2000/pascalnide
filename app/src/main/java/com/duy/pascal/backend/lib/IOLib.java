@@ -231,33 +231,52 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-//    public void readln() {
-//        if (activity != null) {
-//            activity.startInput();
-//            while (activity.isInputting()) {
-//                sleep();
-//            }
-//        }
-//    }
-//
-//
-//    public void readln(VariableBoxer<Object> variableBoxer, VariableBoxer variableBoxer2) {
-//        if (activity != null) {
-//            activity.startInput();
-//            while (activity.isInputting()) {
-//                sleep();
-//            }
-//        }
-//    }
-//
-//    public void readln(VariableBoxer<Object> variableBoxer, VariableBoxer variableBoxer2, VariableBoxer variableBoxer3) {
-//        if (activity != null) {
-//            activity.startInput();
-//            while (activity.isInputting()) {
-//                sleep();
-//            }
-//        }
-//    }
+    public void method() {
+        if (activity != null)
+            activity.getConsoleView().commitString("method1");
+    }
+
+    public void method(Object o1) {
+        if (activity != null)
+            activity.getConsoleView().commitString("method2");
+    }
+
+    public void method(Object o1, Object o2) {
+        if (activity != null)
+            activity.getConsoleView().commitString("method3");
+    }
+
+    public void method(Object o1, Object o2, Object o3) {
+        if (activity != null)
+            activity.getConsoleView().commitString("method4");
+    }
+
+    public void readln() {
+        if (activity != null) {
+            activity.startInput();
+            while (activity.isInputting()) {
+                sleep();
+            }
+        }
+    }
+
+    public void readln(VariableBoxer<Object> variableBoxer, VariableBoxer variableBoxer2) {
+        if (activity != null) {
+            activity.startInput();
+            while (activity.isInputting()) {
+                sleep();
+            }
+        }
+    }
+
+    public void readln(VariableBoxer<Object> variableBoxer, VariableBoxer variableBoxer2, VariableBoxer variableBoxer3) {
+        if (activity != null) {
+            activity.startInput();
+            while (activity.isInputting()) {
+                sleep();
+            }
+        }
+    }
 
 
     public void printf(String format, Object... args) {
