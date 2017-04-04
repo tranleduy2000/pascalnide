@@ -32,7 +32,7 @@ public class WordToken extends Token {
         if (s.equals("integer") || s.equals("byte") || s.equals("word")
                 || s.equals("shortint") || s.equals("smallint")) {
             return BasicType.Integer;
-        } else if (s.equals("string")) {
+        } else if (s.equals("string") || s.equals("ansistring")) {
             return BasicType.StringBuilder;
         } else if (s.equals("single") || s.equals("extended") || s == "real" || s.equals("comp")
                 || s.equals("curreny")) {

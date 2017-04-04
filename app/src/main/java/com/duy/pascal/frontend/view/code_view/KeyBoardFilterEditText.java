@@ -37,32 +37,30 @@ import static com.duy.pascal.frontend.EditorControl.ACTION_UNDO;
 
 public abstract class KeyBoardFilterEditText extends HighlightEditor {
     private static final boolean LOG_KEY_EVENTS = true;
+    private static final String TAG = KeyBoardFilterEditText.class.getSimpleName();
     private UndoRedoHelper mUndoRedoHelper;
     private KeySettings mSettings;
     private SharedPreferences mPrefs;
     private KeyListener mKeyListener;
     private ClipboardManagerCompat mClipboardManager;
     private EditorControl editorControl;
-    private static final String TAG = KeyBoardFilterEditText.class.getSimpleName();
 
     public KeyBoardFilterEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-       // init();
+        init();
     }
 
     public KeyBoardFilterEditText(Context context) {
         super(context);
-       // init();
+        init();
     }
 
     public KeyBoardFilterEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-       // init();
+        init();
     }
 
-    @Override
-    public void init() {
-        super.init();
+    private void init() {
         Log.i(TAG, "init: ");
         mUndoRedoHelper = new UndoRedoHelper(this);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -102,7 +100,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
     /**
      * clear history
      */
-    public void clearStackHistory() {
+    public void clearHistory() {
         mUndoRedoHelper.clearHistory();
     }
 

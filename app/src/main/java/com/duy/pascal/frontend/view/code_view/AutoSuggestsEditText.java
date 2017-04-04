@@ -6,12 +6,11 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.KeyWord;
-import com.duy.pascal.frontend.editor.EditorListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,8 +21,7 @@ import java.util.Collections;
  * Created by Duy on 28-Feb-17.
  */
 
-public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView
-        implements View.OnClickListener, EditorListener {
+public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView {
     private static final String TAG = AutoSuggestsEditText.class.getName();
     public int mCharHeight = 0;
     private ArrayAdapter<String> mAdapter;
@@ -31,30 +29,27 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
     public AutoSuggestsEditText(Context context) {
         super(context);
-       // init();
+        init();
     }
 
     public AutoSuggestsEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-      //  init();
+        init();
     }
 
     public AutoSuggestsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-       // init();
+        init();
     }
-
 
     /**
      * slipt string in edittext and put it to list keyword
      */
     public void invalidateKeyWord(String source) {
-//        Log.d(TAG, "invalidateKeyWord: " + source);
         list.clear();
         Collections.addAll(list, KeyWord.LIST_KEY_WORD);
         String[] words = source.split("[^a-zA-Z']+");
         Collections.addAll(list, words);
-//        Log.d(TAG, "invalidateKeyWord: " + list.toString());
         mAdapter = new ArrayAdapter<>(getContext(), R.layout.code_hint, R.id.txt_title, list);
         setAdapter(mAdapter);
     }
@@ -67,10 +62,10 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         list.remove(key);
     }
 
-    public void init() {
+    private void init() {
         Log.i(TAG, "init: ");
         invalidateKeyWord("");
-        setTokenizer(new CodeTokenizer());
+        setTokenizer(new SymbolsTokenizer());
         setThreshold(1);
         invalidateCharHeight();
     }
@@ -79,15 +74,15 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
     }
 
-
     @Override
-    public void onClick(View v) {
-
+    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
+        super.onTextChanged(text, start, lengthBefore, lengthAfter);
+        onPopupSuggestChangeSize();
     }
 
-    public abstract void showPopupSuggest();
+    public abstract void onPopupSuggestChangeSize();
 
-    public class CodeTokenizer implements Tokenizer {
+    public class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         String token = "!@#$%^&*()_+-={}|[]:;'<>/<.?1234567890 \n\t";
 
         @Override

@@ -14,13 +14,11 @@ public class PatternsUtils {
     public static final Pattern numbers = Pattern.compile(
             "\\b(\\d*[.]?\\d+)\\b");
     public static final Pattern keywords = Pattern.compile(
-            "\\b(uses|const|do|for|while|if|else|in|case|" +
-                    "and|array|begin|div|" +
+            "\\b(uses|const|do|for|while|if|else|in|case|and|array|begin|div|" +
                     "downto|to|mod|not|of|or|" +
-                    "procedure|program|repeat|until|shl|shr|string|" +
+                    "procedure|program|repeat|until|shl|shr|" +
                     "then|type|var|end|function|" +
-                    "true|false|boolean" +
-                    "|integer|string|real|byte|)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+                    "true|false|boolean|integer|string|real|byte)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static final Pattern functions = Pattern.compile("\\b(sin|cos|sqrt|abs|floor|ceil|length|new|random|round|" +
             "exp|tan)\\b");
 
@@ -30,14 +28,14 @@ public class PatternsUtils {
     public static final Pattern symbols = Pattern.compile("[+\\-*=<>/:)(\\]\\[;]");
     public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
 
-    public static final Pattern uses = Pattern.compile(
-            "(uses)(.*?);", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+//    public static final Pattern uses = Pattern.compile(
+//            "(uses)(.*?);", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final Pattern readln = Pattern.compile(
             "(readln)\\s+;|(readln);", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static final Pattern waitEnter = Pattern.compile(
             "\\b(waitEnter)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    public static final Pattern general_strings = Pattern.compile("'(.*?)'");
+    public static final Pattern strings = Pattern.compile("'(.*?)'");
 
 
 }

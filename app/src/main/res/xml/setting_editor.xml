@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/code_editor">
 
@@ -80,6 +79,7 @@
 
         <EditTextPreference
             android:defaultValue="200"
+            android:enabled="false"
             android:inputType="number"
             android:key="@string/key_console_max_buffer_size"
             android:title="@string/max_buffer" />
@@ -103,10 +103,10 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:enabled="false"
-        android:title="@string/keyboard_shortcut">
+    <!--<PreferenceCategory-->
+        <!--android:enabled="false"-->
+        <!--android:title="@string/keyboard_shortcut">-->
 
-    </PreferenceCategory>
+    <!--</PreferenceCategory>-->
 
 </PreferenceScreen>

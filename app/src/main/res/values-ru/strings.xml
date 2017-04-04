@@ -133,6 +133,7 @@
     <string name="background_console">Цвет фона</string>
     <string name="console_screen">Консоль</string>
     <string name="license">Лицензия</string>
+    <string name="hide_status_bar_desc">Скрывать статусбар, когда приложение запущено</string>
 
     <string name="write_code_here">Write code here…</string>
     <string name="system">System</string>
@@ -140,5 +141,5 @@
     <string name="max_buffer">Max buffer size</string>
     <string name="about">About</string>
     <string name="keyboard_shortcut">Key board shortcut</string>
-    <string name="hide_status_bar_desc">Скрывать статусбар, когда приложение запущено</string>
+
 </resources>

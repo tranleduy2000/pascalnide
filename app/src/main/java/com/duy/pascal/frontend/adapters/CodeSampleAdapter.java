@@ -51,7 +51,9 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
 
     @Override
     public void onBindViewHolder(CodeHolder holder, final int position) {
-        holder.highlightEditor.setText(listCodes.get(position));
+        holder.highlightEditor.setTextHighlighted(listCodes.get(position));
+        holder.highlightEditor.setCanEdit(false);
+
         holder.btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

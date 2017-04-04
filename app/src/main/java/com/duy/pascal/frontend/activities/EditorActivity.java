@@ -36,11 +36,12 @@ import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
-import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.utils.ClipboardManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
+import com.duy.pascal.frontend.view.code_view.HighlightEditor;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
 
@@ -50,11 +51,25 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class EditorActivity extends FileEditorActivity implements
-
         DrawerLayout.DrawerListener {
 
     private static final int FILE_SELECT_CODE = 1012;
-
+    private static final long SYNTAX_DELAY_MILLIS_LONG = 2000;
+    private static final long SYNTAX_DELAY_MILLIS_SHORT = 150;
+    private final Runnable colorRunnableDuringEditing =
+            new Runnable() {
+                @Override
+                public void run() {
+                    mCodeView.replaceTextKeepCursor(null);
+                }
+            };
+    private final Runnable colorRunnableDuringScroll =
+            new Runnable() {
+                @Override
+                public void run() {
+                    mCodeView.replaceTextKeepCursor(null);
+                }
+            };
     private CompileManager mCompileManager;
     private MenuEditor menuEditor;
     private Handler handler = new Handler();
@@ -74,37 +89,29 @@ public class EditorActivity extends FileEditorActivity implements
             }
         });
         initContent();
-        undoRedoSupport();
-//        loadLastedFile();
-    }
-
-    /**
-     * load lasted file
-     */
-    private void loadLastedFile() {
-        mFilePath = mPascalPreferences.getString(PascalPreferences.FILE_PATH);
-        if (mFilePath.isEmpty()) {
-            mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
-        }
-        Log.i(TAG, "loadLastedFile: " + mFilePath);
-        loadFile(mFilePath);
-    }
-
-    private void undoRedoSupport() {
-//        mUndoRedoSupport = RunDo.Factory.getInstance(getFragmentManager());
     }
 
     public void initContent() {
+        mCodeView.setVerticalScroll(mScrollView);
         mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
             @Override
             public void onScroll(int x, int y) {
                 mCodeView.onMove(x, y);
+                mCodeView.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
             }
         });
+        findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onKeyClick(v, "\t");
+            }
+        });
+
     }
 
     @Override
     public void onKeyClick(View view, String text) {
+        Log.d(TAG, "onKeyClick: " + text);
         mCodeView.insert(text);
     }
 
@@ -150,6 +157,7 @@ public class EditorActivity extends FileEditorActivity implements
                         editReplace.getText().toString(),
                         ckbRegex.isChecked(),
                         ckbMatch.isChecked());
+                mCodeView.refresh();
                 mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
                 alertDialog.dismiss();
             }
@@ -189,7 +197,6 @@ public class EditorActivity extends FileEditorActivity implements
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 01-Mar-17 replace
                 mCodeView.find(editFind.getText().toString(),
                         ckbRegex.isChecked(),
                         ckbWordOnly.isChecked(),
@@ -206,7 +213,6 @@ public class EditorActivity extends FileEditorActivity implements
         });
     }
 
-    // TODO: 15-Mar-17 code save as
     @Override
     public void saveAs() {
         final AppCompatEditText edittext = new AppCompatEditText(this);
@@ -219,8 +225,8 @@ public class EditorActivity extends FileEditorActivity implements
                     public void onClick(DialogInterface dialog, int id) {
                         String fileName = edittext.getText().toString();
                         dialog.cancel();
-                        mFileManager.saveFile(mFileManager.createNewFileInMode(fileName), mCodeView.getCleanText());
-//                        mFilesView.reload();
+                        mFileManager.saveFile(mFileManager.createNewFileInMode(fileName),
+                                mCodeView.getCleanText());
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -255,7 +261,7 @@ public class EditorActivity extends FileEditorActivity implements
     }
 
     public String getCode() {
-        String code = mCodeView.getText().toString();
+        String code = mCodeView.getCleanText();
         return CodeManager.normalCode(code);
     }
 
@@ -266,8 +272,9 @@ public class EditorActivity extends FileEditorActivity implements
      */
     public void setCode(String code) {
         code = CodeManager.localCode(code);
-        mCodeView.setTextHighlighted(code);
-//        mCodeView.applyTabWidth(mCodeView.getText(), 0, mCodeView.getText().length());
+        mCodeView.setText(code);
+        mCodeView.clearHistory();
+        mCodeView.refresh();
     }
 
     /**
@@ -336,7 +343,6 @@ public class EditorActivity extends FileEditorActivity implements
     }
 
 
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         super.onSharedPreferenceChanged(sharedPreferences, s);
@@ -365,7 +371,6 @@ public class EditorActivity extends FileEditorActivity implements
     public void onFileLongClick(File file) {
         showFileInfo(file);
     }
-
 
 
     /**
@@ -398,8 +403,6 @@ public class EditorActivity extends FileEditorActivity implements
         codeView.setTextHighlighted(mFileManager.readFileAsString(file));
         codeView.setFlingToScroll(false);
     }
-
-    // TODO: 15-Mar-17 code new file
 
     /**
      * creat new source file
@@ -455,8 +458,10 @@ public class EditorActivity extends FileEditorActivity implements
 
                 //set sample code
                 if (checkBoxPas.isChecked()) {
-                    mCodeView.setTextHighlighted(CodeSample.MAIN);
-//                    mCodeView.setSelection(CodeSample.DEFAULT_POSITION);
+                    mCodeView.setText(CodeSample.MAIN);
+                    mCodeView.refresh();
+
+                    //select before update
                     mCodeView.selectAll();
                 }
                 mDrawerLayout.closeDrawers();
@@ -477,9 +482,19 @@ public class EditorActivity extends FileEditorActivity implements
                     public void onClick(DialogInterface dialog, int id) {
                         String lineNumber = edittext.getText().toString();
                         if (lineNumber.length() > 5) {
-                            mCodeView.goToLine(1);
+//                            mCodeView.goToLine(1);
                         } else if (!lineNumber.isEmpty()) {
-                            mCodeView.goToLine(Integer.parseInt(lineNumber));
+                            // TODO: 03-Apr-17
+                           /* int fakeLine = mCodeView.getLineUtils().fakeLineFromRealLine(value);
+                            final int y = LineUtils.getYAtLine(mScrollView,
+                                    mCodeView.getLineCount(), fakeLine);
+
+                            mScrollView.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mScrollView.smoothScrollTo(0, y);
+                                }
+                            }, 200);*/
                         }
                         dialog.cancel();
                     }
@@ -655,4 +670,5 @@ public class EditorActivity extends FileEditorActivity implements
     public void openDrawer(int gravity) {
         mDrawerLayout.openDrawer(gravity);
     }
+
 }

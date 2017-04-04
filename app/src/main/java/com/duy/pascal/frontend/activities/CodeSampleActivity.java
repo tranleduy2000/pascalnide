@@ -42,6 +42,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
         fileManager = new ApplicationFileManager(this);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null)
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         adapter = new CodeSampleAdapter(this);

@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -25,50 +26,46 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ScrollView;
 
-import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.EditorListener;
+import com.duy.pascal.frontend.file.PreferenceHelper;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.CRC32;
 
-import static android.graphics.Typeface.BOLD;
 import static com.duy.pascal.frontend.data.PatternsUtils.comments;
-import static com.duy.pascal.frontend.data.PatternsUtils.general_strings;
 import static com.duy.pascal.frontend.data.PatternsUtils.keywords;
 import static com.duy.pascal.frontend.data.PatternsUtils.line;
 import static com.duy.pascal.frontend.data.PatternsUtils.numbers;
+import static com.duy.pascal.frontend.data.PatternsUtils.strings;
 import static com.duy.pascal.frontend.data.PatternsUtils.symbols;
-import static com.duy.pascal.frontend.data.PatternsUtils.trailingWhiteSpace;
 
 public abstract class HighlightEditor extends AutoSuggestsEditText
-        implements EditorListener, View.OnKeyListener, GestureDetector.OnGestureListener {
+        implements View.OnKeyListener, GestureDetector.OnGestureListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
+    public static final int SHORT_DELAY = 500;
+    public static final int LONG_DELAY = 1000;
     private static final String INDEX_CHAR = "m";
     private static final int TAB_NUMBER = 3;
+    private static final int CHARS_TO_COLOR = 2500;
     private final Handler updateHandler = new Handler();
     public boolean showLineNumbers = true;
     public float textSize = 13;
     public boolean wordWrap = true;
     public boolean flingToScroll = true;
     public OnTextChangedListener onTextChangedListener = null;
-    public int updateDelay = 100;
     public int errorLine = -1;
-    public boolean dirty = false;
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
     protected int mPaddingDP = 4;
     protected int mPadding, mLinePadding;
     protected float mScale;
-//    protected Scroller mScroller;
+    //    protected Scroller mScroller;
     protected GestureDetector mGestureDetector;
     protected Point mMaxSize;
     protected int mHighlightedLine;
@@ -83,42 +80,40 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     protected int COLOR_BOOLEANS;
     protected int COLOR_STRINGS;
     private Context mContext;
-    private CRC32 mCRC32;
     private boolean modified = true;
+    private int scrollY = 0;
+    private EditorSetting mEditorSetting;
+    private boolean canEdit = true;
+    private LineUtils lineUtils;
+    private int lineCount, realLine, startingLine;
+    private ScrollView verticalScroll;
+    private int firstVisibleIndex;
+    private int lastVisibleIndex;
+    private int editorHeight;
+    private int firstColoredIndex;
     private final Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
-            Editable e = getText();
-            if (onTextChangedListener != null)
-                onTextChangedListener.onTextChanged(e.toString());
-//            long start = System.currentTimeMillis();
-            highlightWithoutChange(e);
-//            long end = System.currentTimeMillis();
-//            DLog.d("Time " + (end - start));
+            if (onTextChangedListener != null) {
+                onTextChangedListener.onTextChanged(getText().toString());
+            }
+            highlightWithoutChange(getEditableText());
         }
     };
-    private int mOldTextlength = 0;
-    private long mOldTextCrc32 = 0;
-    private int scrollX = 0, scrollY = 0;
-    private EditorSetting mEditorSetting;
-    private boolean canEdit = true;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup(context);
-      //  init();
     }
 
     public HighlightEditor(Context context) {
         super(context);
         setup(context);
-      //  init();
     }
 
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setup(context);
-     //   init();
     }
 
     public boolean isCanEdit() {
@@ -139,16 +134,20 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
     private void setup(Context context) {
         this.mContext = context;
+        init();
         mPaintNumbers = new Paint();
         mPaintNumbers.setColor(getResources().getColor(R.color.number_color));
         mPaintNumbers.setAntiAlias(true);
+
         mPaintHighlight = new Paint();
+
         mScale = context.getResources().getDisplayMetrics().density;
         mPadding = (int) (mPaddingDP * mScale);
         mHighlightedLine = mHighlightStart = -1;
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
         mGestureDetector = new GestureDetector(getContext(), this);
+        lineUtils = new LineUtils();
         updateFromSettings();
     }
 
@@ -213,7 +212,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 //                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 //            }
 //        } else {
-            super.computeScroll();
+        super.computeScroll();
 //        }
     }
 
@@ -221,12 +220,34 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         this.errorLine = lineError;
     }
 
+//    public void setSelection(int start, int stop) {
+//        try {
+//            Selection.setSelection(getText(), start, stop);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // TODO: 09-Mar-17 fix selection
+//        }
+//    }
+
+//    public void setSelection(int index) {
+//        try {
+//            Selection.setSelection(getText(), index);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // TODO: 09-Mar-17 fix selection
+//        }
+//    }
+
+//    public void selectAll() {
+//        Selection.selectAll(getText());
+//    }
+
     @Override
     public void onDraw(Canvas canvas) {
-        int count, lineX, baseline;
-        count = getLineCount();
+        int lineX, baseline;
+        lineCount = getLineCount();
         if (showLineNumbers) {
-            int padding = (int) (Math.floor(Math.log10(count)) + 1);
+            int padding = (int) (Math.floor(Math.log10(lineCount)) + 1);
             padding = (int) ((padding * mPaintNumbers.getTextSize())
                     + mPadding + (textSize * mScale * 0.5));
             if (mLinePadding != padding) {
@@ -238,16 +259,16 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         getDrawingRect(mDrawingRect);
         lineX = (int) (mDrawingRect.left + mLinePadding - (textSize * mScale * 0.5));
         int min = 0;
-        int max = count;
+        int max = lineCount;
         getLineBounds(0, mLineBounds);
         int startBottom = mLineBounds.bottom;
         int startTop = mLineBounds.top;
-        getLineBounds(count - 1, mLineBounds);
+        getLineBounds(lineCount - 1, mLineBounds);
         int endBottom = mLineBounds.bottom;
         int endTop = mLineBounds.top;
-        if (count > 1 && endBottom > startBottom && endTop > startTop) {
-            min = Math.max(min, ((mDrawingRect.top - startBottom) * (count - 1)) / (endBottom - startBottom));
-            max = Math.min(max, ((mDrawingRect.bottom - startTop) * (count - 1)) / (endTop - startTop) + 1);
+        if (lineCount > 1 && endBottom > startBottom && endTop > startTop) {
+            min = Math.max(min, ((mDrawingRect.top - startBottom) * (lineCount - 1)) / (endBottom - startBottom));
+            max = Math.min(max, ((mDrawingRect.bottom - startTop) * (lineCount - 1)) / (endTop - startTop) + 1);
         }
         for (int i = min; i < max; i++) {
             baseline = getLineBounds(i, mLineBounds);
@@ -264,7 +285,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
             }
         }
-        getLineBounds(count - 1, mLineBounds);
+        getLineBounds(lineCount - 1, mLineBounds);
         if (mMaxSize != null) {
             mMaxSize.y = mLineBounds.bottom;
             mMaxSize.x = Math.max(mMaxSize.x + mPadding - mDrawingRect.width(), 0);
@@ -272,6 +293,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         }
         super.onDraw(canvas);
     }
+
+//    public void extendSelection(int index) {
+//        Selection.extendSelection(getText(), index);
+//    }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -325,7 +350,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                     -(int) velocityY, 0, mMaxSize.x, 0, mMaxSize.y);
         }
         return true;*/
-       return true;
+        return true;
     }
 
     public void updateFromSettings() {
@@ -346,10 +371,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         refreshDrawableState();
 
         if (flingToScroll) {
-//            mScroller = new Scroller(getContext());
             mMaxSize = new Point();
         } else {
-//            mScroller = null;
             mMaxSize = null;
         }
 
@@ -363,7 +386,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);
         }
-        highlightWithoutChange(getEditableText());
     }
 
     @Override
@@ -371,36 +393,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         return true;
     }
 
-//    public void setSelection(int start, int stop) {
-//        try {
-//            Selection.setSelection(getText(), start, stop);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // TODO: 09-Mar-17 fix selection
-//        }
-//    }
-
-//    public void setSelection(int index) {
-//        try {
-//            Selection.setSelection(getText(), index);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // TODO: 09-Mar-17 fix selection
-//        }
-//    }
-
-//    public void selectAll() {
-//        Selection.selectAll(getText());
-//    }
-
     @Override
     protected MovementMethod getDefaultMovementMethod() {
         return ArrowKeyMovementMethod.getInstance();
     }
-
-//    public void extendSelection(int index) {
-//        Selection.extendSelection(getText(), index);
-//    }
 
     @Override
     public Editable getText() {
@@ -418,33 +414,29 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
      * @param text
      */
     public void setTextHighlighted(CharSequence text) {
-        cancelUpdate();
         errorLine = -1;
-        dirty = false;
         modified = false;
-        setText(highlight(new SpannableStringBuilder(text)));
+        setText(highlight(new SpannableStringBuilder(text), false));
         modified = true;
         if (onTextChangedListener != null)
             onTextChangedListener.onTextChanged(text.toString());
     }
 
     public void refresh() {
-        cancelUpdate();
-        dirty = false;
-        modified = false;
-        highlightWithoutChange(getText());
-        modified = true;
+        updateHighlightWithDelay(20);
+    }
+
+    public void updateHighlightWithDelay(int delay) {
+        if (!modified) return;
+        updateHandler.removeCallbacks(updateRunnable);
+        updateHandler.postDelayed(updateRunnable, delay);
     }
 
     public String getCleanText() {
-        return trailingWhiteSpace.matcher(getText()).replaceAll("");
+        return getText().toString();
     }
 
-    @Override
-    public void init() {
-        super.init();
-        Log.i(TAG, "init: ");
-        mCRC32 = new CRC32();
+    private void init() {
         setFilters(new InputFilter[]{
                 new InputFilter() {
                     @Override
@@ -462,12 +454,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         });
 
         addTextChangedListener(new TextWatcher() {
-            int start = 0, end = 0;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                this.start = start;
-                this.end = start + count;
             }
 
             @Override
@@ -476,77 +465,81 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
             @Override
             public void afterTextChanged(Editable e) {
-                errorLine = -1;
-                cancelUpdate();
-                if (!modified)
+                if (!modified || hasSelection())
                     return;
-                dirty = true;
-//                applyTabWidth(e, start, end);
-                updateHandler.postDelayed(updateRunnable, updateDelay);
+                errorLine = -1;
+                updateHighlightWithDelay(LONG_DELAY);
             }
         });
     }
 
-    @Override
-    public void show() {
-        setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hide() {
-        setVisibility(View.GONE);
-    }
-
-    @Override
-    public String getString() {
-        String text = "";
-        try {
-            text = getText().toString();
-        } catch (OutOfMemoryError ignored) {
-        }
-        return text;
-    }
-
-    @Override
-    public void updateTextFinger() {
-        mOldTextlength = getText().length();
-        byte bytes[] = getString().getBytes();
-        mCRC32.reset();
-        mCRC32.update(bytes, 0, bytes.length);
-        mOldTextCrc32 = mCRC32.getValue();
-    }
-
-    @Override
-    public boolean isTextChanged() {
-        CharSequence text = getText();
-        int hash = text.length();
-        if (mOldTextlength != hash) {
-            return true;
-        }
-        mCRC32.reset();
-        byte bytes[] = getString().getBytes();
-        mCRC32.update(bytes, 0, bytes.length);
-        return mOldTextCrc32 != mCRC32.getValue();
-    }
 
     private void cancelUpdate() {
-        updateHandler.removeCallbacks(updateRunnable);
+
     }
 
     private void highlightWithoutChange(Editable e) {
         modified = false;
-        highlight(e);
+        highlight(e, false);
         modified = true;
     }
 
-    private void highlightWithoutChange(Editable e, int start, int end) {
-        modified = false;
-        highlight(e, start, end);
-        modified = true;
+    /**
+     * Gets the first line that is visible on the screen.
+     *
+     * @return
+     */
+    public int getFirstLineIndex() {
+        int scrollY = verticalScroll.getScrollY();
+        Layout layout = getLayout();
+        if (layout != null) {
+            return layout.getLineForVertical(scrollY);
+        }
+        Log.d(TAG, "Layout is null: ");
+        return -1;
     }
 
-    private Editable highlight(Editable e) {
-        return highlight(e, 0, e.length());
+    /**
+     * Gets the last visible line number on the screen.
+     *
+     * @return last line that is visible on the screen.
+     */
+    public int getLastLineIndex() {
+        int height = verticalScroll.getHeight();
+        int scrollY = verticalScroll.getScrollY();
+        Layout layout = getLayout();
+        if (layout != null) {
+            return layout.getLineForVertical(scrollY + height);
+        }
+        return -1;
+    }
+
+    private Editable highlight(Editable editable, boolean all) {
+        if (all) {
+            return highlight(editable, 0, editable.length());
+        } else {
+            editorHeight = getHeightVisible();
+
+            if (verticalScroll != null && editorHeight > 0 && getLayout() != null) {
+                Layout layout = getLayout();
+                firstVisibleIndex = layout.getLineStart(getFirstLineIndex());
+                lastVisibleIndex = layout.getLineEnd(getLastLineIndex());
+            } else {
+                firstVisibleIndex = 0;
+                lastVisibleIndex = CHARS_TO_COLOR;
+            }
+            firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
+
+            // normalize
+            if (firstColoredIndex < 0)
+                firstColoredIndex = 0;
+            if (lastVisibleIndex > editable.length())
+                lastVisibleIndex = editable.length();
+            if (firstColoredIndex > lastVisibleIndex)
+                firstColoredIndex = lastVisibleIndex;
+            Log.d(TAG, "highlight: index " + firstColoredIndex + " " + lastVisibleIndex);
+            return highlight(editable, firstColoredIndex, lastVisibleIndex);
+        }
     }
 
     /**
@@ -560,8 +553,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             if (e.length() == 0)
                 return e;
             //clear spannable
-//            clearSpans(e, start, end);
-            e.clearSpans();
+            clearSpans(e, start, end);
 
             CharSequence input = e.subSequence(start, end);
             //high light error light
@@ -587,50 +579,51 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            for (Matcher m = keywords.matcher(e); m.find(); ) {
-                e.setSpan(new StyleSpan(BOLD), m.start(), m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            for (Matcher m = keywords.matcher(input); m.find(); ) {
+                e.setSpan(new StyleSpan(Typeface.BOLD),
+                        start + m.start(),
+                        start + m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 e.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
-                        m.start(),
-                        m.end(),
+                        start + m.start(),
+                        start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-
             //find it
-            for (Matcher m = symbols.matcher(e); m.find(); ) {
+            for (Matcher m = symbols.matcher(input); m.find(); ) {
                 //if match, you can replace text with other style
                 e.setSpan(new ForegroundColorSpan(COLOR_OPT),
-                        m.start(),
-                        m.end(),
+                        start + m.start(),
+                        start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
 
-            for (Matcher m = general_strings.matcher(e); m.find(); ) {
-                ForegroundColorSpan spans[] = e.getSpans(m.start(), m.end(), ForegroundColorSpan.class);
-                for (int n = spans.length; n-- > 0; )
-                    e.removeSpan(spans[n]);
-                e.setSpan(new ForegroundColorSpan(COLOR_STRINGS), m.start(), m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            for (Matcher m = comments.matcher(e); m.find(); ) {
-                ForegroundColorSpan spans[] = e.getSpans(m.start(), m.end(), ForegroundColorSpan.class);
+            for (Matcher m = strings.matcher(input); m.find(); ) {
+                ForegroundColorSpan spans[] = e.getSpans(start + m.start(), start + m.end(),
+                        ForegroundColorSpan.class);
+
                 for (int n = spans.length; n-- > 0; )
                     e.removeSpan(spans[n]);
+
+                e.setSpan(new ForegroundColorSpan(COLOR_STRINGS),
+                        start + m.start(),
+                        start + m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            for (Matcher m = comments.matcher(input); m.find(); ) {
+                ForegroundColorSpan spans[] = e.getSpans(start + m.start(), start + m.end(),
+                        ForegroundColorSpan.class);
+                for (int n = spans.length; n-- > 0; )
+                    e.removeSpan(spans[n]);
+
                 e.setSpan(new ForegroundColorSpan(COLOR_COMMENT),
-                        m.start(),
-                        m.end(),
+                        start + m.start(),
+                        start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         } catch (Exception ignored) {
-            ignored.printStackTrace();
+//            ignored.printStackTrace();
         }
-
         return e;
-    }
-
-    /**
-     * remove all spanned
-     */
-    private void clearSpans(Editable e) {
-        clearSpans(e, 0, e.length());
     }
 
     /**
@@ -652,11 +645,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             for (int n = spans.length; n-- > 0; )
                 e.removeSpan(spans[n]);
         }
-
     }
 
     private CharSequence autoIndent(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-        if (DLog.DEBUG) Log.d(TAG, "autoIndent: " + source);
         String indent = "";
         int istart = dstart - 1;
         int iend = -1;
@@ -704,6 +695,48 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         return source + indent;
     }
 
+    public void replaceTextKeepCursor(String textToUpdate) {
+
+        int cursorPos;
+        int cursorPosEnd;
+
+        if (textToUpdate != null) {
+            cursorPos = 0;
+            cursorPosEnd = 0;
+        } else {
+            cursorPos = getSelectionStart();
+            cursorPosEnd = getSelectionEnd();
+        }
+
+//        disableTextChangedListener();
+
+        if (PreferenceHelper.getSyntaxHighlight(getContext())) {
+            setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory
+                    .getInstance().newEditable(textToUpdate), textToUpdate != null));
+        } else {
+            setText(textToUpdate == null ? getEditableText() : textToUpdate);
+        }
+
+//        enableTextChangedListener();
+
+        int newCursorPos;
+
+        boolean cursorOnScreen = cursorPos >= firstVisibleIndex && cursorPos <= lastVisibleIndex;
+
+        if (cursorOnScreen) { // if the cursor is on screen
+            newCursorPos = cursorPos; // we dont change its position
+        } else {
+            newCursorPos = firstVisibleIndex; // else we set it to the first visible pos
+        }
+
+        if (newCursorPos > -1 && newCursorPos <= length()) {
+            if (cursorPosEnd != cursorPos)
+                setSelection(cursorPos, cursorPosEnd);
+            else
+                setSelection(newCursorPos);
+        }
+    }
+
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {
         Pattern pattern;
         if (regex) {
@@ -723,6 +756,84 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         //replace with white space
 //        Matcher m = pattern.matcher(clone);
         setText(getText().toString().replaceAll(pattern.toString(), replace));
+    }
+
+
+    /**
+     * move cursor to line
+     *
+     * @param line - line in editor, begin at 1
+     */
+    public void goToLine(int line) {
+        String text = getText().toString();
+        int c = 0;
+        int index = -1;
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == '\n') {
+                c++;
+                if (c == line) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        if (index == -1) {
+            setSelection(text.length());
+        } else {
+            setSelection(index);
+        }
+    }
+
+    @Override
+    public void onPopupSuggestChangeSize() {
+        try {
+            Layout layout = getLayout();
+            if (layout != null) {
+                int pos = getSelectionStart();
+                int line = layout.getLineForOffset(pos);
+                int baseline = layout.getLineBaseline(line);
+                int ascent = layout.getLineAscent(line);
+
+                float x = layout.getPrimaryHorizontal(pos);
+                float y = baseline + ascent;
+
+                int offsetHorizontal = (int) x + mLinePadding;
+                setDropDownHorizontalOffset(offsetHorizontal);
+
+                int heightVisible = getHeightVisible();
+                int offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
+
+                int tmp = offsetVertical + getDropDownHeight() + mCharHeight;
+                if (tmp < heightVisible) {
+                    tmp = offsetVertical + mCharHeight / 2;
+                    setDropDownVerticalOffset(tmp);
+                } else {
+                    tmp = offsetVertical - getDropDownHeight() - mCharHeight;
+                    setDropDownVerticalOffset(tmp);
+                }
+//            if (DLog.DEBUG) Log.d(TAG, "onPopupSuggestChangeSize: " + offsetVertical + " " + tmp + " " + scrollY);
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    public int getHeightVisible() {
+        Rect r = new Rect();
+        // r will be populated with the coordinates of     your view
+        // that area still visible.
+        getWindowVisibleDisplayFrame(r);
+        return r.bottom - r.top;
+    }
+
+    /**
+     * This method call when scroll view scroll
+     */
+    public void onMove(int x, int y) {
+        this.scrollY = y;
+    }
+
+    public void setVerticalScroll(ScrollView verticalScroll) {
+        this.verticalScroll = verticalScroll;
     }
 
     /**
@@ -768,111 +879,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                     m.end(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-    }
-
-    /**
-     * move cursor to line
-     *
-     * @param line - line in editor, begin at 1
-     */
-    public void goToLine(int line) {
-        String text = getText().toString();
-        int c = 0;
-        int index = -1;
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '\n') {
-                c++;
-                if (c == line) {
-                    index = i;
-                    break;
-                }
-            }
-        }
-        if (index == -1) {
-            setSelection(text.length());
-        } else {
-            setSelection(index);
-        }
-    }
-
-    /**
-     * set position for list popup of {@link android.widget.AutoCompleteTextView}
-     */
-    @Override
-    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
-        super.onTextChanged(text, start, lengthBefore, lengthAfter);
-        showPopupSuggest();
-    }
-
-    @Override
-    public void showPopupSuggest() {
-        try {
-            Layout layout = getLayout();
-            if (layout != null) {
-                int pos = getSelectionStart();
-                int line = layout.getLineForOffset(pos);
-                int baseline = layout.getLineBaseline(line);
-                int ascent = layout.getLineAscent(line);
-
-                float x = layout.getPrimaryHorizontal(pos);
-                float y = baseline + ascent;
-
-                int offsetHorizontal = (int) x + mLinePadding;
-                setDropDownHorizontalOffset(offsetHorizontal);
-
-                int heightVisible = getHeightVisible();
-                int offsetVertical = (int) ((y + mCharHeight) - scrollY);
-
-                int tmp = offsetVertical + getDropDownHeight() + mCharHeight;
-                if (tmp < heightVisible) {
-                    tmp = offsetVertical + mCharHeight / 2;
-                    setDropDownVerticalOffset(tmp);
-                } else {
-                    tmp = offsetVertical - getDropDownHeight() - mCharHeight;
-                    setDropDownVerticalOffset(tmp);
-                }
-//            if (DLog.DEBUG) Log.d(TAG, "showPopupSuggest: " + offsetVertical + " " + tmp + " " + scrollY);
-            }
-        } catch (Exception ignored) {
-        }
-    }
-
-    public int getHeightVisible() {
-        Rect r = new Rect();
-        // r will be populated with the coordinates of     your view
-        // that area still visible.
-        getWindowVisibleDisplayFrame(r);
-        return r.bottom - r.top;
-    }
-
-    /**
-     * This method call when scroll view scroll
-     */
-    public void onMove(int l, int t) {
-        this.scrollX = l;
-        this.scrollY = t;
-    }
-
-    @Override
-    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-        return super.onCreateInputConnection(outAttrs);
-    }
-
-    public void applyTabWidth(Editable text, int start, int end) {
-        String str = text.toString();
-        float tabWidth = getPaint().measureText(INDEX_CHAR) * TAB_NUMBER;
-        while (start < end) {
-            int index = str.indexOf("\t", start);
-            if (index < 0)
-                break;
-            text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            start = index + 1;
-        }
-    }
-
-    public void applyTabWidth() {
-        applyTabWidth(getEditableText(), 0, getEditableText().length());
     }
 
     public interface OnTextChangedListener {

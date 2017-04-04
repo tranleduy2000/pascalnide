@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
@@ -68,7 +69,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
         String action = intent.getAction();
         String type = intent.getType();
         final Intent intentEdit = new Intent(ActivitySplashScreen.this, EditorActivity.class);
-
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if (type.equals("text/plain"))
                 handleActionSend(intent, intentEdit);
@@ -89,6 +89,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private void handleActionView(Intent from, Intent to) {
         if (from.getData().toString().endsWith(".pas")) {
             Uri uriPath = from.getData();
+            Log.d(TAG, "handleActionView: " + uriPath.getPath());
             to.putExtra(CompileManager.FILE_PATH, uriPath.getPath());
         }
     }

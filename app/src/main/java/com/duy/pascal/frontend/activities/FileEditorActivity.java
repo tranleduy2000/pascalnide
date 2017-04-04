@@ -28,6 +28,7 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.SymbolListView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
+import com.duy.pascal.frontend.view.code_view.PageSystem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,8 +42,9 @@ import butterknife.ButterKnife;
 
 public abstract class FileEditorActivity extends AbstractAppCompatActivity
         implements SymbolListView.OnKeyListener,
-        EditorControl, FileListener {
+        EditorControl, FileListener, PageSystem.PageSystemInterface {
     protected final static String TAG = FileEditorActivity.class.getSimpleName();
+    public static PageSystem pageSystem;
     protected String mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
     protected ApplicationFileManager mFileManager;
     @BindView(R.id.toolbar)
@@ -51,7 +53,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     DrawerLayout mDrawerLayout;
     @BindView(R.id.recycler_view)
     SymbolListView mKeyList;
-    @BindView(R.id.scroll)
+    @BindView(R.id.vertical_scroll)
     LockableScrollView mScrollView;
     @BindView(R.id.edit_editor)
     CodeView mCodeView;
@@ -59,44 +61,34 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-
-//    @State
     ArrayList<File> listFile = new ArrayList<>();
-
     private Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mFileManager = new ApplicationFileManager(this);
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
+        initContent();
+
+        mFileManager = new ApplicationFileManager(this);
+        pageSystem = new PageSystem(this, this, "");
+
+        new LoadTabFile().execute();
+    }
+
+    private void initContent() {
+        //setup action bar
         setSupportActionBar(toolbar);
+        setTitle("");
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-        mCodeView.setEditorControl(this);
-        findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onKeyClick(v, "\t");
-            }
-        });
-
-        setTitle("");
-        new LoadTabFile().execute();
     }
 
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-    }
 
     protected TabLayout.Tab createNewTab(File file) {
         final TabLayout.Tab tab = tabLayout.newTab().setText(file.getName());
@@ -128,7 +120,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     protected void removeTab(TabLayout.Tab tab, boolean saveLastFile, boolean createNewFileIfNeed) {
         //get position
         int position = tab.getPosition();
-        mCodeView.clearStackHistory();
+        mCodeView.clearHistory();
 
         //set last position to view
         if (position > 0) {
@@ -194,12 +186,11 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         File file = new File(filePath);
         //load to view
         addNewTab(file);
-        mCodeView.clearStackHistory();
+        mCodeView.clearHistory();
         mFileManager.addNewPath(filePath);
         listFile.add(file);
         selectTab(tabLayout.getTabAt(0), false);
     }
-
 
     /**
      * move to tab
@@ -220,7 +211,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         /**
          * restore history undo redo of file
          */
-        mCodeView.clearStackHistory();
+        mCodeView.clearHistory();
 //        mCodeView.restoreHistory(mFilePath);
     }
 
@@ -317,6 +308,12 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         });
         builder.create().show();
         return false;
+    }
+
+    @Override
+    public void onPageChanged(int page) {
+        mCodeView.clearHistory();
+        invalidateOptionsMenu();
     }
 
     /**
