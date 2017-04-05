@@ -24,7 +24,26 @@ public class CrtLib implements PascalLibrary {
         this.activity = activity;
     }
 
+    /**
+     * Black = 0;
+     * Blue = 1;
+     * Green = 2;
+     * Cyan = 3;
+     * Red = 4;
+     * Magenta = 5;
+     * Brown = 6;
+     * LightGray = 7;
+     * DarkGray = 8;
+     * LightBlue = 9;
+     * LightGreen = 10;
+     * LightCyan = 11;
+     * LightRed = 12;
+     * LightMagenta = 13;
+     * Yellow = 14;
+     * White = 15;
+     */
     public static int getColorPascal(int code) {
+        System.out.println("get color " + code);
         switch (code) {
             case 0:
                 return (Color.BLACK);
@@ -48,16 +67,12 @@ public class CrtLib implements PascalLibrary {
                 return (Color.parseColor("#add8e6"));
             case 10:
                 return (Color.parseColor("#98fb98"));
-
             case 11:
                 return (Color.parseColor("#e0ffff"));
-
             case 12:
                 return (Color.parseColor("#ffa07a"));
-
             case 13:
                 return (Color.parseColor("#ff00ff"));
-
             case 14:
                 return (Color.YELLOW);
             case 15:
@@ -99,7 +114,7 @@ public class CrtLib implements PascalLibrary {
     public void textColor(int code) {
         if (activity == null) return;
         int color = getColorPascal(code);
-        if (color != -1) activity.setTextColor((color));
+        activity.setTextColor((color));
     }
 
     /**
@@ -108,7 +123,7 @@ public class CrtLib implements PascalLibrary {
     public void textBackground(int code) {
         if (activity == null) return;
         int color = getColorPascal(code);
-        if (color != -1) activity.setTextBackground(color);
+        activity.getConsoleView().setConsoleTextBackground(color);
     }
 
     public int whereX() {

@@ -11,10 +11,10 @@ import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
  */
 
 public class ConsoleScreen implements ScreenObject {
-    public int maxLines = 200;
-
+    private static final String TAG = ConsoleScreen.class.getSimpleName();
+    public int maxLines = 100;
     public int consoleColumn;
-    public int row;
+    public int consoleRow;
     public int firstLine;
     public boolean fullscreen = false;
     private boolean fullScreen = false;
@@ -27,7 +27,6 @@ public class ConsoleScreen implements ScreenObject {
     private int topVisible = 0;
     private int leftVisible = 0;
     private Rect visibleRect = new Rect();
-
     private int screenSize;
 
     public int getMaxLines() {
@@ -56,12 +55,12 @@ public class ConsoleScreen implements ScreenObject {
         this.consoleColumn = consoleColumn;
     }
 
-    public int getRow() {
-        return row;
+    public int getConsoleRow() {
+        return consoleRow;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setConsoleRow(int mConsoleRow) {
+        this.consoleRow = mConsoleRow;
     }
 
     public int getFirstLine() {
@@ -146,7 +145,7 @@ public class ConsoleScreen implements ScreenObject {
         this.fullScreen = fullScreen;
     }
 
-    public void draw(Canvas canvas, int leftVisible, int topVisible, int w, int h) {
+    public void drawBackground(Canvas canvas, int leftVisible, int topVisible, int w, int h) {
         canvas.drawRect(leftVisible, topVisible, w, h, mBackgroundPaint);
     }
 

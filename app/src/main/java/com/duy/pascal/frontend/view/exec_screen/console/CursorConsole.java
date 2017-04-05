@@ -98,7 +98,7 @@ public class CursorConsole {
     }
 
     /**
-     * draw cursor into the {@link Canvas}
+     * drawBackground cursor into the {@link Canvas}
      *
      * @param canvas - canvas of view
      * @param x      -  x coordinate of screen

@@ -31,7 +31,6 @@ import android.widget.ScrollView;
 
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.file.PreferenceHelper;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
 
@@ -220,28 +219,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         this.errorLine = lineError;
     }
 
-//    public void setSelection(int start, int stop) {
-//        try {
-//            Selection.setSelection(getText(), start, stop);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // TODO: 09-Mar-17 fix selection
-//        }
-//    }
-
-//    public void setSelection(int index) {
-//        try {
-//            Selection.setSelection(getText(), index);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // TODO: 09-Mar-17 fix selection
-//        }
-//    }
-
-//    public void selectAll() {
-//        Selection.selectAll(getText());
-//    }
-
     @Override
     public void onDraw(Canvas canvas) {
         int lineX, baseline;
@@ -328,18 +305,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     @Override
-    public void onShowPress(MotionEvent e) {
-    }
-
-    @Override
     public void onLongPress(MotionEvent e) {
     }
 
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-//        mScroller.setFriction(0);
-        return true;
-    }
 
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
        /* if (!flingToScroll) {
@@ -351,6 +319,16 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         }
         return true;*/
         return true;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
     }
 
     public void updateFromSettings() {
@@ -695,47 +673,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         return source + indent;
     }
 
-    public void replaceTextKeepCursor(String textToUpdate) {
-
-        int cursorPos;
-        int cursorPosEnd;
-
-        if (textToUpdate != null) {
-            cursorPos = 0;
-            cursorPosEnd = 0;
-        } else {
-            cursorPos = getSelectionStart();
-            cursorPosEnd = getSelectionEnd();
-        }
-
-//        disableTextChangedListener();
-
-        if (PreferenceHelper.getSyntaxHighlight(getContext())) {
-            setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory
-                    .getInstance().newEditable(textToUpdate), textToUpdate != null));
-        } else {
-            setText(textToUpdate == null ? getEditableText() : textToUpdate);
-        }
-
-//        enableTextChangedListener();
-
-        int newCursorPos;
-
-        boolean cursorOnScreen = cursorPos >= firstVisibleIndex && cursorPos <= lastVisibleIndex;
-
-        if (cursorOnScreen) { // if the cursor is on screen
-            newCursorPos = cursorPos; // we dont change its position
-        } else {
-            newCursorPos = firstVisibleIndex; // else we set it to the first visible pos
-        }
-
-        if (newCursorPos > -1 && newCursorPos <= length()) {
-            if (cursorPosEnd != cursorPos)
-                setSelection(cursorPos, cursorPosEnd);
-            else
-                setSelection(newCursorPos);
-        }
-    }
 
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {
         Pattern pattern;

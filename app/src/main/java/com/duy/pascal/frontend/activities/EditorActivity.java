@@ -41,7 +41,6 @@ import com.duy.pascal.frontend.utils.ClipboardManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.duy.pascal.frontend.view.code_view.HighlightEditor;
-import com.duy.pascal.frontend.view.code_view.LineUtils;
 import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
 
@@ -54,22 +53,7 @@ public class EditorActivity extends FileEditorActivity implements
         DrawerLayout.DrawerListener {
 
     private static final int FILE_SELECT_CODE = 1012;
-    private static final long SYNTAX_DELAY_MILLIS_LONG = 2000;
-    private static final long SYNTAX_DELAY_MILLIS_SHORT = 150;
-    private final Runnable colorRunnableDuringEditing =
-            new Runnable() {
-                @Override
-                public void run() {
-                    mCodeView.replaceTextKeepCursor(null);
-                }
-            };
-    private final Runnable colorRunnableDuringScroll =
-            new Runnable() {
-                @Override
-                public void run() {
-                    mCodeView.replaceTextKeepCursor(null);
-                }
-            };
+
     private CompileManager mCompileManager;
     private MenuEditor menuEditor;
     private Handler handler = new Handler();
@@ -485,19 +469,7 @@ public class EditorActivity extends FileEditorActivity implements
 //                            mCodeView.goToLine(1);
                         } else if (!lineNumber.isEmpty()) {
                             // TODO: 03-Apr-17
-                            try {
-                                int line = Integer.parseInt(edittext.getText().toString().trim());
-                                final int y = LineUtils.getYAtLine(mScrollView,
-                                        mCodeView.getLineCount(), line);
-                                mScrollView.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mScrollView.smoothScrollTo(0, y);
-                                    }
-                                }, 200);
-                            } catch (Exception ee) {
-                                showErrorDialog(ee);
-                            }
+                            mCodeView.goToLine(Integer.parseInt(lineNumber));
                         }
                         dialog.cancel();
                     }

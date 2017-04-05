@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.frontend.activities.ExecuteActivity;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
+import com.duy.pascal.frontend.view.exec_screen.graph.molel.ArcObject;
 import com.duy.pascal.frontend.view.exec_screen.graph.molel.BarObject;
 import com.duy.pascal.frontend.view.exec_screen.graph.molel.CircleObject;
 import com.duy.pascal.frontend.view.exec_screen.graph.molel.LineObject;
@@ -36,7 +36,7 @@ public class GraphLib implements PascalLibrary {
      */
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
         if (activity != null)
-            activity.getConsoleView().arc(x, y, stAngle, endAngle, radius);
+            activity.getConsoleView().addGraphObject(new ArcObject(x, y, stAngle, endAngle, radius));
     }
 
     /**
@@ -87,9 +87,7 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * @param x
-     * @param y
-     * @return color in pixel x, y of {@link ConsoleView}
+     * @return color in pixel x, y of screen
      */
     public int getPixel(int x, int y) {
         return activity.getConsoleView().getColorPixel(x, y);

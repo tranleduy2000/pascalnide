@@ -20,41 +20,33 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
+import com.duy.pascal.backend.utils.ArrayUtils;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.exec_screen.graph.molel.ArcObject;
 import com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject;
 
+import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.greaterEqual;
+import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.lessThan;
+
 public class ConsoleView extends View implements GestureDetector.OnGestureListener {
     public static final String TAG = ConsoleView.class.getSimpleName();
+    public static final String THE_DELETE_CHAR = "\u2764";
+    public static final String THE_ENTER_KEY = "\u2713";
     public Handler handler = new Handler();
     public int firstLine;
-    boolean graphMode = true;
+    boolean graphMode = false;
+    boolean isTextChange = true;
     private GraphScreen mGraphScreen;
-
-    public GraphScreen getGraphScreen() {
-        return mGraphScreen;
-    }
-
-    /**
-     * text style, size of console
-     */
+    //    text style, size of console
     private TextRenderer mTextRenderer;
-    /**
-     * store screen size and dimen
-     */
-    private ConsoleScreen mScreen = new ConsoleScreen();
-    /**
-     * Cursor of console
-     */
+    //      store screen size and dimen
+    private ConsoleScreen mConsoleScreen = new ConsoleScreen();
+    //     Cursor of console
     private CursorConsole mCursor;
-    /**
-     * Parent mActivity
-     */
+    //     Parent mActivity
     private Activity mActivity;
-    /**
-     * Data of console
-     */
+    //      Data of console
     private ScreenBuffer bufferData = new ScreenBuffer();
     private int frameRate = 60;
     private Rect visibleRect = new Rect();
@@ -63,21 +55,21 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             if (updateSize()) {
                 invalidate();
             }
-            handler.postDelayed(this, frameRate);
+            handler.postDelayed(this, 1000);
         }
     };
     private Runnable blink = new Runnable() {
         public void run() {
             mCursor.toggleState();
             invalidate();
-            handler.postDelayed(this, 300);
+            handler.postDelayed(this, 1000);
         }
     };
-    private float scrollRemainder;
+    private float mScrollRemainder;
     private GestureDetector mGestureDetector;
-    private int foregroundGraphColor = Color.WHITE;
     private boolean filterKey = false;
     private PascalPreferences mPascalPreferences;
+    private String textScreen = "";
 
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
@@ -89,17 +81,10 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         init(context);
     }
 
+
     public ConsoleView(Context context) {
         super(context);
         init(context);
-    }
-
-    public boolean isFilterKey() {
-        return filterKey;
-    }
-
-    public void setFilterKey(boolean filterKey) {
-        this.filterKey = filterKey;
     }
 
     private void init(Context context) {
@@ -107,110 +92,118 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         mCursor = new CursorConsole(0, 0, Color.DKGRAY);
         mPascalPreferences = new PascalPreferences(context);
         frameRate = mPascalPreferences.getConsoleFrameRate();
-        mScreen.setMaxLines(mPascalPreferences.getConsoleMaxBuffer());
+//        mConsoleScreen.setMaxLines(mPascalPreferences.getConsoleMaxBuffer());
+        mConsoleScreen.setMaxLines(100);
         mGraphScreen = new GraphScreen(context);
     }
 
-    public void putChar(char c) {
-        bufferData.charBuffer.putByte((byte) c);
+    public void putString(String c) {
+        bufferData.stringBuffer.putString(c);
     }
 
-    public char readChar() {
-        return (char) bufferData.charBuffer.getByte();
+    public String readString() {
+        return bufferData.stringBuffer.getString();
     }
 
     public char readKey() {
         return (char) bufferData.keyBuffer.getByte();
     }
 
-    public boolean keyPressed() {
-        return bufferData.charBuffer.rear > bufferData.charBuffer.front;
-    }
 
-    /**
-     * set cursor index
-     */
+    // move cursor to new line
+
+    //set cursor index
     public void setConsoleCursorPosition(int x, int y) {
         int index, i;
         mCursor.y = y;
-        index = bufferData.firstIndex + mCursor.y * mScreen.row;
-        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
+        index = bufferData.firstIndex + mCursor.y * mConsoleScreen.consoleRow;
+        if (index >= mConsoleScreen.getScreenSize()) index -= mConsoleScreen.getScreenSize();
         i = index;
 
         while (i - index <= x) {
-            if (bufferData.textOnScreenBuffer[i] < ' ') break;
+            if (lessThan(bufferData.textConsole[i].getSingleString(), " ")) break;
             i++;
         }
 
         while (i - index < x) {
-            if (bufferData.textOnScreenBuffer[i] < ' ') bufferData.textOnScreenBuffer[i] = ' ';
+            if (lessThan(bufferData.textConsole[i].getSingleString(), " ")) {
+                bufferData.textConsole[i].setText(" ");
+            }
             i++;
         }
         mCursor.x = x;
     }
 
-    public void commitChar(char c) {
-        int index = bufferData.firstIndex + mCursor.y * mScreen.row + mCursor.x;
-//        Log.d(TAG, "commitChar: " + index);
-        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
+    public void commitChar(String c) {
+        int index = bufferData.firstIndex + mCursor.y * mConsoleScreen.consoleRow + mCursor.x;
+        if (index >= mConsoleScreen.getScreenSize()) {
+            index -= mConsoleScreen.getScreenSize();
+        }
         switch (c) {
-            case '\n':
-                bufferData.textOnScreenBuffer[index] = '\n';
+            case "\n":
+                bufferData.textConsole[index].setText("\n");
+                bufferData.textConsole[index].setTextBackground(mTextRenderer.getBackgroundColor());
+                bufferData.textConsole[index].setTextColor(mTextRenderer.getTextColor());
                 nextLine();
                 break;
-            case '\177':
-            case 8:
-                if (mCursor.x > 0) {
-                    mCursor.x--;
-                    bufferData.textOnScreenBuffer[index - 1] = '\0';
-                } else {
-                    if (mCursor.y > 0) {
-                        if (bufferData.textOnScreenBuffer[index - 1] >= ' ') {
-                            bufferData.textOnScreenBuffer[index - 1] = '\0';
-                            mCursor.x = mScreen.row - 1;
-                            mCursor.y--;
-                            makeCursorVisible();
-                        }
-                    }
-                }
+            case "\177":
+            case THE_DELETE_CHAR:
+                deleteChar(index);
                 break;
             default:
                 makeCursorVisible();
-                if (c >= ' ') {
-                    bufferData.textOnScreenBuffer[index] = c;
+                if (greaterEqual(c, " ")) {
+                    bufferData.textConsole[index].setText(c);
+                    bufferData.textConsole[index].setTextBackground(mTextRenderer.getBackgroundColor());
+                    bufferData.textConsole[index].setTextColor(mTextRenderer.getTextColor());
                     mCursor.x++;
-                    if (mCursor.x >= mScreen.row) {
+                    if (mCursor.x >= mConsoleScreen.consoleRow) {
                         nextLine();
                     }
                 }
         }
+
         postInvalidate();
+    }
+
+    public void deleteChar(int index) {
+        if (mCursor.x > 0) {
+            mCursor.x--;
+            bufferData.textConsole[index - 1].setText("\0");
+        } else {
+            if (mCursor.y > 0) {
+                if (greaterEqual(bufferData.textConsole[index - 1].getSingleString(), " ")) {
+                    bufferData.textConsole[index - 1].setText("\0");
+                    mCursor.x = mConsoleScreen.consoleRow - 1;
+                    mCursor.y--;
+                    makeCursorVisible();
+                }
+            }
+        }
     }
 
     public void commitString(String msg) {
         for (int i = 0; i < msg.length(); i++)
-            commitChar(msg.charAt(i));
+            commitChar(msg.substring(i, i + 1));
+        textScreen = ArrayUtils.arrayToString(bufferData.textConsole);
     }
 
-    /**
-     * move cursor to new line
-     */
     private void nextLine() {
         mCursor.x = 0;
         mCursor.y++;
-        if (mCursor.y >= mScreen.maxLines) {
-            mCursor.y = mScreen.maxLines - 1;
-            for (int i = 0; i < mScreen.row; i++)
-                bufferData.textOnScreenBuffer[bufferData.firstIndex + i] = '\0';
-            bufferData.firstIndex += mScreen.row;
-            if (bufferData.firstIndex >= mScreen.getScreenSize()) bufferData.firstIndex = 0;
+        if (mCursor.y >= mConsoleScreen.maxLines) {
+            mCursor.y = mConsoleScreen.maxLines - 1;
+            for (int i = 0; i < mConsoleScreen.consoleRow; i++)
+                bufferData.textConsole[bufferData.firstIndex + i].setText("\0");
+            bufferData.firstIndex += mConsoleScreen.consoleRow;
+            if (bufferData.firstIndex >= mConsoleScreen.getScreenSize()) bufferData.firstIndex = 0;
         }
         makeCursorVisible();
     }
 
     public void showPrompt() {
         commitString("Initialize the console screen..." + "\n");
-        commitString("Width = " + mScreen.consoleColumn + " ; " + " height = " + mScreen.row + "\n");
+        commitString("Width = " + mConsoleScreen.consoleColumn + " ; " + " height = " + mConsoleScreen.consoleRow + "\n");
         commitString("---------------------------" + "\n");
     }
 
@@ -226,7 +219,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public void initConsole(Activity a, float fontSize, int textColor, int backColor) {
         mActivity = a;
-        mScreen.setBackgroundColor(backColor);
+        mConsoleScreen.setBackgroundColor(backColor);
         mTextRenderer = new TextRenderer(getTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize));
         mTextRenderer.setTextColor(textColor);
 
@@ -235,7 +228,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
         firstLine = 0;
         bufferData.firstIndex = 0;
-        bufferData.textOnScreenBuffer = null;
+        bufferData.textConsole = null;
 
         mCursor.setCursorBlink(true);
         mCursor.setVisible(true);
@@ -243,22 +236,19 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     /**
      * clear screen
-     * clrscr; in pascal
+     * clrscr command in pascal
      */
     public void clearScreen() {
-        for (int i = 0; i < mScreen.getScreenSize(); i++)
-            bufferData.textOnScreenBuffer[i] = '\0';
+        for (int i = 0; i < mConsoleScreen.getScreenSize(); i++)
+            bufferData.textConsole[i].setText("\0");
         mCursor.setCoordinate(0, 0);
         firstLine = 0;
         bufferData.firstIndex = 0;
+        mConsoleScreen.setBackgroundColor(mTextRenderer.getBackgroundColor());
         postInvalidate();
     }
 
-    /**
-     * Update text size
-     *
-     * @return
-     */
+    //  Update text size
     public boolean updateSize() {
         boolean invalid = false;
 
@@ -268,7 +258,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         int newTop;
         int newLeft;
 
-        if (mScreen.isFullScreen()) {
+        if (mConsoleScreen.isFullScreen()) {
             newTop = Math.min(getTop(), visibleRect.top);
             newHeight = visibleRect.bottom - newTop;
         } else {
@@ -278,15 +268,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         newWidth = visibleRect.width();
         newLeft = visibleRect.left;
 
-        if ((newWidth != mScreen.getVisibleWidth()) || (newHeight != mScreen.getVisibleHeight())) {
-            mScreen.setVisibleWidth(newWidth);
-            mScreen.setVisibleHeight(newHeight);
-            tUpdateSize(mScreen.getVisibleWidth(), mScreen.getVisibleHeight());
+        if ((newWidth != mConsoleScreen.getVisibleWidth()) || (newHeight != mConsoleScreen.getVisibleHeight())) {
+            mConsoleScreen.setVisibleWidth(newWidth);
+            mConsoleScreen.setVisibleHeight(newHeight);
+            tUpdateSize(mConsoleScreen.getVisibleWidth(), mConsoleScreen.getVisibleHeight());
             invalid = true;
         }
-        if ((newLeft != mScreen.getLeftVisible()) || (newTop != mScreen.getTopVisible())) {
-            mScreen.setLeftVisible(newLeft);
-            mScreen.setTopVisible(newTop);
+        if ((newLeft != mConsoleScreen.getLeftVisible()) || (newTop != mConsoleScreen.getTopVisible())) {
+            mConsoleScreen.setLeftVisible(newLeft);
+            mConsoleScreen.setTopVisible(newTop);
             invalid = true;
         }
 
@@ -296,8 +286,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public void makeCursorVisible() {
-        if (mCursor.y - firstLine >= mScreen.consoleColumn) {
-            firstLine = mCursor.y - mScreen.consoleColumn + 1;
+        if (mCursor.y - firstLine >= mConsoleScreen.consoleColumn) {
+            firstLine = mCursor.y - mConsoleScreen.consoleColumn + 1;
         } else if (mCursor.y < firstLine) {
             firstLine = mCursor.y;
         }
@@ -310,51 +300,52 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean tUpdateSize(int newWidth, int newHeight) {
+        long startTime = System.currentTimeMillis();
         int newRow = newWidth / mTextRenderer.charWidth;
         int i, j;
         int newFirstIndex = 0;
         int newColumn = newHeight / mTextRenderer.charHeight;
-        boolean value = newRow != mScreen.row || newColumn != mScreen.row;
-        mScreen.consoleColumn = newColumn;
-        if (newRow != mScreen.row) {
-            int newScreenSize = mScreen.maxLines * newRow;
-            char newScreenBuffer[] = new char[newScreenSize];
-
+        boolean value = newRow != mConsoleScreen.consoleRow || newColumn != mConsoleScreen.consoleRow;
+        mConsoleScreen.consoleColumn = newColumn;
+        if (newRow != mConsoleScreen.consoleRow) {
+            int newScreenSize = mConsoleScreen.maxLines * newRow;
+            TextConsole newScreenBuffer[] = new TextConsole[newScreenSize];
             for (i = 0; i < newScreenSize; i++) {
-                newScreenBuffer[i] = '\0';
+                newScreenBuffer[i] = new TextConsole();
+                newScreenBuffer[i].setText("\0");
             }
-
-            if (bufferData.textOnScreenBuffer != null) {
+            Log.d(TAG, "tUpdateSize: " + newScreenSize);
+            if (bufferData.textConsole != null) {
                 i = 0;
                 int nextj = 0;
-                int endi = mCursor.y * mScreen.row
-                        + mCursor.x;
-                char c;
+                int endi = mCursor.y * mConsoleScreen.consoleRow + mCursor.x;
+                String c;
                 do {
                     j = nextj;
                     do {
-                        c = bufferData.textOnScreenBuffer[trueIndex(i++, bufferData.firstIndex, mScreen.getScreenSize())];
-                        newScreenBuffer[trueIndex(j++, newFirstIndex, newScreenSize)] = c;
-                        newFirstIndex = Math.max(0, j / newRow - mScreen.maxLines + 1) * newRow;
+                        c = bufferData.textConsole[trueIndex(i++, bufferData.firstIndex, mConsoleScreen.getScreenSize())].getSingleString();
+                        newScreenBuffer[trueIndex(j++, newFirstIndex, newScreenSize)].setText(c);
+                        newFirstIndex = Math.max(0, j / newRow - mConsoleScreen.maxLines + 1) * newRow;
                     }
-                    while (c >= ' ');
+                    while (greaterEqual(c, " "));
                     i--;
                     j--;
 
-                    i += (mScreen.row - i % mScreen.row);
+                    i += (mConsoleScreen.consoleRow - i % mConsoleScreen.consoleRow);
                     nextj = j + (newRow - j % newRow);
                 }
                 while (i < endi);
-                if (c == '\n') j = nextj;
+                if (c.equals("\n")) j = nextj;
                 mCursor.y = j / newRow;
                 mCursor.x = j % newRow;
             }
-            mScreen.row = newRow;
-            mScreen.setScreenSize(newScreenSize);
-            bufferData.setTextOnScreenBuffer(newScreenBuffer);
+            mConsoleScreen.setConsoleRow(newRow);
+            mConsoleScreen.setScreenSize(newScreenSize);
+            bufferData.setTextConsole(newScreenBuffer);
             bufferData.firstIndex = newFirstIndex;
         }
         makeCursorVisible();
+        Log.d(TAG, "tUpdateSize: " + (System.currentTimeMillis() - startTime));
         return value;
     }
 
@@ -367,11 +358,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
         outAttrs.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
         return new BaseInputConnection(this, false) {
+
             @Override
             public boolean commitText(CharSequence text, int newCursorPosition) {
                 int n = text.length();
                 for (int i = 0; i < n; i++) {
-                    putChar(text.charAt(i));
+                    putString(Character.valueOf(text.charAt(i)).toString());
                 }
                 return true;
             }
@@ -379,7 +371,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             @Override
             public boolean performEditorAction(int actionCode) {
                 if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    putChar('\n');
+                    putString("\n"); //new line
+                    Log.d(TAG, "performEditorAction: new line");
                     return true;
                 }
                 return false;
@@ -402,12 +395,13 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     int keyCode = event.getKeyCode();
                     if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        putChar((char) 8);
+                        putString(THE_DELETE_CHAR);
                         return true;
                     }
-                    char c = (char) event.getUnicodeChar();
-                    if (c > 0) {
-                        putChar(c);
+
+                    String c = event.getCharacters();
+                    if (c != null) {
+                        putString(c);
                         return true;
                     }
                 }
@@ -421,21 +415,22 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (DLog.DEBUG) Log.d(TAG, "onKeyDown: " + event);
-
+        event.getKeyCode();
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
         if (filterKey) {
-            bufferData.keyBuffer.putByte((byte) event.getUnicodeChar());
+            bufferData.keyBuffer.putByte((byte) keyCode);
             return true;
         } else {
             if (keyCode == KeyEvent.KEYCODE_DEL) {
-                putChar((char) 8);
+                putString(THE_DELETE_CHAR);
                 return true;
             }
-            char c = (char) event.getUnicodeChar();
-            if (c != '\0') {
-                putChar(c);
+            String c = event.getCharacters();
+            Log.d(TAG, "onKeyDown: " + c);
+            if (c != null) {
+                putString(c);
                 return true;
             }
         }
@@ -461,28 +456,30 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         updateSize();
     }
 
-    public void tDraw(Canvas canvas, int x, int y) {
-        int index = bufferData.firstIndex + firstLine * mScreen.row;
-        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
+    public void drawText(Canvas canvas, int x, int y) {
+        int index = bufferData.firstIndex + firstLine * mConsoleScreen.consoleRow;
+        if (index >= mConsoleScreen.getScreenSize()) index -= mConsoleScreen.getScreenSize();
         y -= mTextRenderer.charAscent;
 
-        //draw cursor
+        //drawBackground cursor
         mCursor.drawCursor(canvas,
                 x + mCursor.x * mTextRenderer.charWidth,
                 y + (mCursor.y - firstLine) * mTextRenderer.charHeight,
                 mTextRenderer.charHeight, mTextRenderer.charWidth, mTextRenderer.charDescent);
 
-        for (int i = 0; i < mScreen.consoleColumn; i++) {
+        for (int i = 0; i < mConsoleScreen.consoleColumn; i++) {
             if (i > mCursor.y - firstLine) break;
 
             int count = 0;
-            while ((count < mScreen.row) && (bufferData.textOnScreenBuffer[count + index] >= ' '))
+            while ((count < mConsoleScreen.consoleRow) &&
+                    greaterEqual(bufferData.textConsole[count + index].getSingleString(), " "))
                 count++;
-            mTextRenderer.draw(canvas, x, y, bufferData.textOnScreenBuffer, index, count);
+            mTextRenderer.draw(canvas, x, y, bufferData.textConsole, index, count);
             y += mTextRenderer.charHeight;
-            index += mScreen.row;
-            if (index >= mScreen.getScreenSize()) index = 0;
+            index += mConsoleScreen.consoleRow;
+            if (index >= mConsoleScreen.getScreenSize()) index = 0;
         }
+
     }
 
     @Override
@@ -490,12 +487,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         int w = getWidth();
         int h = getHeight();
 
-        /**
-         * draw bitmap graph
-         */
-
-        mScreen.draw(canvas, mScreen.getLeftVisible(), mScreen.getTopVisible(), w, h);
-        tDraw(canvas, mScreen.getLeftVisible(), mScreen.getTopVisible());
+        // drawBackground bitmap graph
+        mConsoleScreen.drawBackground(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible(), w, h);
+        drawText(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
 
         if (graphMode)
             canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, null);
@@ -509,18 +503,20 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        distanceY += scrollRemainder;
+        distanceY += mScrollRemainder;
         int deltaRows = (int) (distanceY / mTextRenderer.charHeight);
-        scrollRemainder = distanceY - deltaRows * mTextRenderer.charHeight;
+        mScrollRemainder = distanceY - deltaRows * mTextRenderer.charHeight;
         firstLine = Math.max(0, Math.min(firstLine + deltaRows, mCursor.y));
+
         invalidate();
         return true;
     }
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        scrollRemainder = 0.0f;
-        onScroll(e1, e2, /* 2 * */ velocityX, -/*2 * */ velocityY);
+
+        mScrollRemainder = 0.0f;
+        onScroll(e1, e2, velocityX, -velocityY);
         return true;
     }
 
@@ -533,7 +529,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean onDown(MotionEvent e) {
-        scrollRemainder = 0.0f;
+        mScrollRemainder = 0.0f;
         return true;
     }
 
@@ -543,12 +539,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public void onPause() {
         handler.removeCallbacks(checkSize);
-        handler.removeCallbacks(blink);
+//        handler.removeCallbacks(blink);
     }
 
     public void onResume() {
         handler.postDelayed(checkSize, 1000);
-        handler.postDelayed(blink, 500);
+//        handler.postDelayed(blink, 500);
         updateSize();
     }
 
@@ -557,59 +553,73 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         imm.showSoftInput(this, 0);
     }
 
+    public GraphScreen getGraphScreen() {
+        return mGraphScreen;
+    }
+
+    public boolean isFilterKey() {
+        return filterKey;
+    }
+
+    public void setFilterKey(boolean filterKey) {
+        this.filterKey = filterKey;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
     ///////////           THIS METHOD USES BY PASCAL LIBRARY      //////////////////
     ///////////                      CRT LIB                      //////////////////
     ///////////////////////////////////////////////////////////////////////////////
     //pascal
-    public void setTextColor(int textColor) {
+    public void setConsoleTextColor(int textColor) {
+        Log.d(TAG, "setConsoleTextColor: " + textColor);
         mTextRenderer.setTextColor(textColor);
-        postInvalidate();
+//        postInvalidate();
     }
 
     //pascal
-    public void setConsoleColor(int color) {
-        mScreen.setBackgroundColor(color);
-        postInvalidate();
+    public void setConsoleTextBackground(int color) {
+//        mConsoleScreen.setBackgroundColor(color);
+//        mConsoleScreen.setBackgroundColor();
+        mTextRenderer.setTextBackgroundColor(color);
+//        postInvalidate();
     }
 
     /**
      * Draw part of a circle
      */
+
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
         mGraphScreen.addGraphObject(new ArcObject(x, y, stAngle, endAngle, radius));
     }
 
-    /**
-     * move cursor to (x, y)
-     */
+    // move cursor to (x, y)
     public void gotoXY(int x, int y) {
         if (x <= 0) x = 1;
-        else if (x > mScreen.row) x = mScreen.row;
+        else if (x > mConsoleScreen.consoleRow) x = mConsoleScreen.consoleRow;
         if (y <= 0) y = 1;
-        else if (y > mScreen.maxLines) y = mScreen.maxLines;
+        else if (y > mConsoleScreen.maxLines) y = mConsoleScreen.maxLines;
         setConsoleCursorPosition(x - 1, y - 1);
         makeCursorVisible();
         postInvalidate();
     }
 
-    /**
-     * return x coordinate of cursor in console
-     *
-     * @return
-     */
+    // `return x coordinate of cursor in console
     public int whereX() {
         return mCursor.x + 1;
     }
 
     /**
      * return y coordinate of cursor in console*
-     *
-     * @return
      */
     public int whereY() {
         return mCursor.y + 1;
     }
+
+
+    public boolean keyPressed() {
+        return bufferData.stringBuffer.rear > bufferData.stringBuffer.front;
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////           THIS METHOD USES BY PASCAL LIBRARY      //////////////////
@@ -646,7 +656,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     /**
-     * set draw {@link GraphObject} color
+     * set drawBackground {@link GraphObject} color
      *
      * @param currentColor
      */

@@ -2,7 +2,7 @@ package com.duy.pascal.frontend.alogrithm;
 
 public class InputData {
     public static final int MAX_INPUT = 4 * 1024; //4 MB
-    public char[] data = new char[MAX_INPUT]; // the array of the caracters
+    public String[] data = new String[MAX_INPUT]; // the array of the characters
     public int last;    // number of char in the input buffer
     public int first;    // index of the first character
 

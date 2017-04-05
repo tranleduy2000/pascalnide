@@ -29,7 +29,7 @@ public class GraphScreen {
     //list object to restore
     private ArrayList<GraphObject> graphObjects = new ArrayList<>();
     /**
-     * this object used to draw {@link com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject}
+     * this object used to drawBackground {@link com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject}
      */
     private Bitmap mGraphBitmap;
     private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);

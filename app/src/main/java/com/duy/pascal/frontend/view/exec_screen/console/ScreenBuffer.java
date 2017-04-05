@@ -9,21 +9,32 @@ import java.io.FileOutputStream;
 
 public class ScreenBuffer {
     public int firstIndex;
+    //    public TextConsole[] textOnScreenBuffer;
     public char[] textOnScreenBuffer;
+    public TextConsole[] textConsole;
     public int[] colorScreenBuffer;
-
     /**
      * store text input
      */
-    public ByteQueue charBuffer = new ByteQueue();
-
+//    public ByteQueue charBuffer = new ByteQueue();
+    /**
+     * store text input, with unicode character
+     */
+    public StringQueue stringBuffer = new StringQueue();
     /**
      * store key code event
      */
     public ByteQueue keyBuffer = new ByteQueue();
-
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
+
+    public TextConsole[] getTextConsole() {
+        return textConsole;
+    }
+
+    public void setTextConsole(TextConsole[] textConsole) {
+        this.textConsole = textConsole;
+    }
 
     public char[] getTextOnScreenBuffer() {
         return textOnScreenBuffer;
@@ -32,6 +43,14 @@ public class ScreenBuffer {
     public void setTextOnScreenBuffer(char[] textOnScreenBuffer) {
         this.textOnScreenBuffer = textOnScreenBuffer;
     }
+//
+//    public TextConsole[] getTextOnScreenBuffer() {
+//        return textOnScreenBuffer;
+//    }
+//
+//    public void setTextOnScreenBuffer(TextConsole[] textOnScreenBuffer) {
+//        this.textOnScreenBuffer = textOnScreenBuffer;
+//    }
 
     public int[] getColorScreenBuffer() {
         return colorScreenBuffer;

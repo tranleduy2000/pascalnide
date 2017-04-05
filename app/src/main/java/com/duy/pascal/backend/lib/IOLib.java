@@ -2,6 +2,7 @@ package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
+import com.duy.pascal.backend.exceptions.WrongTypeInputException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -63,9 +64,11 @@ public class IOLib implements PascalLibrary {
      * @param values - list variable
      */
     public void writeln(Object... values) {
-        write(values);
-        if (stdout != null) stdout.println();
-        if (activity != null) activity.getConsoleView().commitChar('\n');
+        StringBuilder result = new StringBuilder();
+        for (Object o : values) {
+            result.append(o);
+        }
+        if (activity != null) activity.getConsoleView().commitString(result.toString() + "\n");
     }
 
 
@@ -83,63 +86,6 @@ public class IOLib implements PascalLibrary {
         if (activity != null) activity.getConsoleView().commitString(result.toString());
     }
 
-    /**
-     * readln procedure
-     */
-    public void readln(VariableBoxer<Object> s) throws RuntimePascalException, NumberFormatException, InputStreamNotFoundException {
-        if (activity == null) {
-            throw new InputStreamNotFoundException("Can not find InputStream");
-        }
-//        System.out.println("readln: 1" + s.get().getClass());
-        String inp = "";
-        if (s.get() instanceof StringBuilder) {
-            //read string
-            activity.startInput();
-            while (activity.isInputting()) {
-                sleep();
-            }
-            inp = activity.getInput();
-            s.set(new StringBuilder(inp));
-        } else if (s.get() instanceof Double) {
-            //read real
-            inp = inp.replaceAll("\\s+", "");
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Double.parseDouble(inp));
-        } else if (s.get() instanceof Integer) {
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Integer.parseInt(inp));
-        } else if (s.get() instanceof Long) {
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Long.parseLong(inp));
-        } else if (s.get() instanceof Character) {
-            while (inp.trim().length() < 1) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-                s.set(inp.charAt(0));
-            }
-        }
-    }
 
     private void sleep() {
 //        try {
@@ -149,80 +95,8 @@ public class IOLib implements PascalLibrary {
 //        }
     }
 
-    /**
-     * read procedure
-     */
-    public void read(VariableBoxer<Object> s) throws RuntimePascalException, NumberFormatException {
-        if (activity == null) {
-            throw new RuntimeException("Can not define ExecuteActivity");
-        }
-        if (s == null) return;
-        String inp = "";
 
-        //read string
-        if (s.get() instanceof StringBuilder) {
-            //read string
-            activity.startInput();
-            while (activity.isInputting()) {
-                sleep();
-            }
-            inp = activity.getInput();
-            s.set(new StringBuilder(inp));
-        }
-        //read double
-        else if (s.get() instanceof Double) {
-            //read real
-            inp = inp.replaceAll("\\s+", "");
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Double.parseDouble(inp));
-        }
-        //read integer
-        else if (s.get() instanceof Integer) {
-            inp = inp.replaceAll("\\s+", "");
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Integer.parseInt(inp));
-        }
-        //read longint
-        else if (s.get() instanceof Long) {
-            while (inp.trim().isEmpty()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-            }
-            s.set(Long.parseLong(inp));
-        }
-        //read char
-        else if (s.get() instanceof Character) {
-            while (inp.trim().length() < 1) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                inp = activity.getInput();
-                s.set(inp.charAt(0));
-            }
-        }
-    }
-
-
-    /**
-     * readln procedure
-     */
-    public void waitEnter() {
+    public void read() {
         if (activity != null) {
             activity.startInput();
             while (activity.isInputting()) {
@@ -231,24 +105,96 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    public void method() {
-        if (activity != null)
-            activity.getConsoleView().commitString("method1");
+    /**
+     * read procedure
+     */
+    public void read(VariableBoxer<Object> a1) throws RuntimePascalException, NumberFormatException {
+        setValueForVariables(a1);
     }
 
-    public void method(Object o1) {
-        if (activity != null)
-            activity.getConsoleView().commitString("method2");
+    public void read(VariableBoxer<Object> a1, VariableBoxer a2) throws RuntimePascalException {
+        setValueForVariables(a1, a2);
     }
 
-    public void method(Object o1, Object o2) {
-        if (activity != null)
-            activity.getConsoleView().commitString("method3");
+    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3);
     }
 
-    public void method(Object o1, Object o2, Object o3) {
-        if (activity != null)
-            activity.getConsoleView().commitString("method4");
+    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+                     VariableBoxer<Object> a3, VariableBoxer<Object> a4) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3, a4);
+    }
+
+    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+                     VariableBoxer<Object> a3, VariableBoxer<Object> a4,
+                     VariableBoxer<Object> a5) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3, a4, a5);
+    }
+
+    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+                     VariableBoxer<Object> a3, VariableBoxer<Object> a4,
+                     VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3, a4, a5, a6);
+
+    }
+
+    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+                     VariableBoxer<Object> a3, VariableBoxer<Object> a4,
+                     VariableBoxer<Object> a5, VariableBoxer<Object> a6,
+                     VariableBoxer<Object> a7) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
+    }
+
+
+    private void readString(Scanner scanner, VariableBoxer<StringBuilder> variableBoxer) {
+        variableBoxer.set(new StringBuilder(scanner.nextLine()));
+    }
+
+    private void readInt(Scanner scanner, VariableBoxer<Integer> variableBoxer) {
+        variableBoxer.set(scanner.nextInt());
+    }
+
+    private void readLong(Scanner scanner, VariableBoxer<Long> variableBoxer) {
+        variableBoxer.set(scanner.nextLong());
+    }
+
+    private void readDouble(Scanner scanner, VariableBoxer<Double> variableBoxer) {
+        variableBoxer.set(scanner.nextDouble());
+    }
+
+    private void readChar(Scanner scanner, VariableBoxer<Character> variableBoxer) {
+        System.out.println("readchar " + scanner.hasNext());
+        variableBoxer.set(new Character(scanner.next().charAt(0)));
+    }
+
+    private void setValueForVariables(VariableBoxer... listVariable) throws RuntimePascalException {
+        if (activity == null)
+            throw new InputStreamNotFoundException();
+
+        Scanner scanner = new Scanner("");
+        for (VariableBoxer variableBoxer : listVariable) {
+            while (!scanner.hasNext()) {
+                activity.startInput();
+                while (activity.isInputting()) {
+                    sleep();
+                }
+                String input = activity.getInput();
+                scanner = new Scanner(input);
+            }
+            if (variableBoxer.get() instanceof Character) {
+                readChar(scanner, variableBoxer);
+            } else if (variableBoxer.get() instanceof StringBuilder) {
+                readString(scanner, variableBoxer);
+            } else if (variableBoxer.get() instanceof Integer) {
+                readInt(scanner, variableBoxer);
+            } else if (variableBoxer.get() instanceof Long) {
+                readLong(scanner, variableBoxer);
+            } else if (variableBoxer.get() instanceof Double) {
+                readDouble(scanner, variableBoxer);
+            } else {
+                throw new WrongTypeInputException();
+            }
+        }
     }
 
     public void readln() {
@@ -260,22 +206,41 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    public void readln(VariableBoxer<Object> variableBoxer, VariableBoxer variableBoxer2) {
-        if (activity != null) {
-            activity.startInput();
-            while (activity.isInputting()) {
-                sleep();
-            }
-        }
+    public void readln(VariableBoxer<Object> variableBoxer) throws NumberFormatException, RuntimePascalException {
+        setValueForVariables(variableBoxer);
     }
 
-    public void readln(VariableBoxer<Object> variableBoxer, VariableBoxer variableBoxer2, VariableBoxer variableBoxer3) {
-        if (activity != null) {
-            activity.startInput();
-            while (activity.isInputting()) {
-                sleep();
-            }
-        }
+    public void readln(VariableBoxer<Object> a1, VariableBoxer a2) throws RuntimePascalException {
+        setValueForVariables(a1, a2);
+    }
+
+    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3);
+    }
+
+    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+                       VariableBoxer<Object> a3, VariableBoxer<Object> a4) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3, a4);
+    }
+
+    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+                       VariableBoxer<Object> a3, VariableBoxer<Object> a4,
+                       VariableBoxer<Object> a5) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3, a4, a5);
+    }
+
+    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+                       VariableBoxer<Object> a3, VariableBoxer<Object> a4,
+                       VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3, a4, a5, a6);
+
+    }
+
+    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+                       VariableBoxer<Object> a3, VariableBoxer<Object> a4,
+                       VariableBoxer<Object> a5, VariableBoxer<Object> a6,
+                       VariableBoxer<Object> a7) throws RuntimePascalException {
+        setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
     }
 
 

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -17,11 +16,11 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
-import com.duy.pascal.frontend.code.CodeManager;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.duy.pascal.frontend.view.exec_screen.console.StringCompare;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.PascalProgram;
@@ -101,47 +100,40 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         @Override
         public void run() {
             int exitFlag;
-            char c;
+            String c;
             InputData inputData = new InputData();
             inputData.first = 0;
             inputData.last = 0;
             exitFlag = 0;
             do {
-                c = mConsoleView.readChar();
+                c = mConsoleView.readString();
 //                System.out.println(c);
                 switch (c) {
-                    case 10: // return
+                    case ConsoleView.THE_ENTER_KEY: // return
+                    case "\n":
                         exitFlag = 1;
                         break;
-                    case 8:
-                    case KeyEvent.KEYCODE_DEL: // backspace
+                    case ConsoleView.THE_DELETE_CHAR:
                         if (inputData.last > 0) {
                             inputData.last--;
-                            mConsoleView.commitChar(c);
+                            mConsoleView.commitString(String.valueOf(c));
                         }
                         break;
                     default:
-                        if ((c >= ' ') && (inputData.last < MAX_INPUT)) {
+                        if ((StringCompare.greaterEqual(c, " ")) && (inputData.last < MAX_INPUT)) {
                             inputData.data[inputData.last++] = c;
-                            mConsoleView.commitChar(c);
+                            mConsoleView.commitString(String.valueOf(c));
                         }
                         break;
                 }
             } while (exitFlag == 0 && isCanRead.get());
-            mConsoleView.commitChar('\n'); //return new line
+            mConsoleView.commitString("\n"); //return new line
             input = inputData.toString();
             isCanRead.set(false);
         }
 
     };
     private Thread runThread = new Thread(runnableRunProgram);
-
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        mIsRunning.set(true);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,7 +212,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      * on error compile or runtime
      */
     public void onError(Exception e) {
-//        mConsoleView.setTextColor(Color.RED);
+//        mConsoleView.setConsoleTextColor(Color.RED);
 //        if (e instanceof ParsingException) {
 //            mConsoleView.commitString(e.getMessage() + "\n");
 //            LineInfo lineInfo = ((ParsingException) e).line;
@@ -259,7 +251,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      * @param textColor
      */
     public void setTextColor(final int textColor) {
-        mConsoleView.setTextColor(textColor);
+        mConsoleView.setConsoleTextColor(textColor);
     }
 
     /**
@@ -268,7 +260,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      * @param color
      */
     public void setTextBackground(final int color) {
-        mConsoleView.setConsoleColor(color);
+        mConsoleView.setConsoleTextBackground(color);
     }
 
     @Override
@@ -374,13 +366,12 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      * force stop
      */
     private void stopProgram() {
+        Log.d(TAG, "stopProgram: ");
         try {
             //stop in put thread
             isCanRead.set(false);
-            if (program.isRunning()) {
-                program.terminate();
-                Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
-            }
+            program.terminate();
+            Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
             if (DLog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
         }

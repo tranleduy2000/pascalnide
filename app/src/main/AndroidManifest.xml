@@ -29,7 +29,6 @@
 
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -45,7 +44,9 @@
             <!-- file filter -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
@@ -68,7 +69,6 @@
             android:name=".activities.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_info_white_24dp" />
-
         <activity
             android:name=".activities.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
@@ -79,9 +79,15 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
         <activity android:name=".info_application.InfoActivity" />
-
+        <activity android:name=".setting.SettingActivity"></activity>
         <activity
-            android:name=".setting.SettingActivity">
+            android:name=".activities.TestConsoleActivity"
+            android:label="@string/title_activity_test_console">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ConsoleView" />
+    <declare-styleable name="ConsoleView2" />
 
     <declare-styleable name="NumberPickerPreferenceas">
         <attr name="max" format="integer" />

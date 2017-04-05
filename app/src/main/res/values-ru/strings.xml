@@ -42,8 +42,8 @@
     <string name="enter_new_folder_name">Имя папки</string>
     <string name="exit">Выход</string>
     <string name="exit_mgs">Выйти из приложения?</string>
-    <string name="expected_token">Ожидается появление следующего токена:</string>
-    <string name="expected_token_2">Ожидается появление следующего токена:</string>
+    <string name="expected_token">Ожидается, появление следующего токена:</string>
+    <string name="expected_token_2">Ожидается, появление следующего токена:</string>
     <string name="extension">Расширение:</string>
     <string name="extra_end_program">"У Вас есть дополнительный 'end' в программе"</string>
     <string name="failed">Ошибка</string>
@@ -69,7 +69,7 @@
     <string name="name">Ваше имя</string>
     <string name="new_file">Создать файл</string>
     <string name="new_folder">Создать папку</string>
-    <string name="not_define_msg">не является именем переменной или функции</string>
+    <string name="not_define_msg">не является именем, переменной или функции</string>
     <string name="ok">OK</string>
     <string name="paste">Вставить</string>
     <string name="path">"Путь: "</string>
@@ -91,20 +91,20 @@
     <string name="setting">Настройки</string>
     <string name="setting_editor">Настройки редактора</string>
     <string name="show_hint">Всплывающие подсказки</string>
-    <string name="show_hint_desc">Показывать предложения при наборе текста</string>
+    <string name="show_hint_desc">Показывать предложения, при наборе текста</string>
     <string name="show_key_board">Показать клавиатуру</string>
     <string name="show_line">Номера строк</string>
     <string name="show_line_desc">Показать номера строк в левой части экрана</string>
     <string name="theme">Стиль кода</string>
     <string name="title_activity_code_sample">Пример кода</string>
-    <string name="token_not_belong">"Следующий токен неуместен здесь: "</string>
+    <string name="token_not_belong">"Следующий токен, неуместен здесь: "</string>
     <string name="tool">Инструмент</string>
     <string name="undo">Отменить</string>
     <string name="user_interface">Пользовательский интерфейс</string>
     <string name="view_console">Просмотр консоли</string>
     <string name="word_only">Только Word</string>
     <string name="word_wrap">Перенос содержимого</string>
-    <string name="word_wrap_desc">Авто перенос на новую строку при переполнении</string>
+    <string name="word_wrap_desc">Авто перенос, на новую строку при переполнении</string>
     <string name="writeable">"Запись: "</string>
     <string name="BrightYellow">Ярко-жёлтый</string>
     <string name="DarkGray">Тёмно-зелёный</string>
@@ -135,11 +135,11 @@
     <string name="license">Лицензия</string>
     <string name="hide_status_bar_desc">Скрывать статусбар, когда приложение запущено</string>
 
-    <string name="write_code_here">Write code here…</string>
-    <string name="system">System</string>
-    <string name="pin">Pin</string>
-    <string name="max_buffer">Max buffer size</string>
-    <string name="about">About</string>
-    <string name="keyboard_shortcut">Key board shortcut</string>
+    <string name="write_code_here">Напишите код здесь…</string>
+    <string name="system">Система</string>
+    <string name="pin">Штырь</string>
+    <string name="max_buffer">Максимальный размер, буфера</string>
+    <string name="about">О Нас</string>
+    <string name="keyboard_shortcut">Короткая клавиатура</string>
 
 </resources>

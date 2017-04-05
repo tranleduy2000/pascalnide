@@ -71,9 +71,9 @@ public class SystemConstants {
         context.declareConst(colorConst);
         colorConst = new ConstantDefinition("Brown".toLowerCase(), 6, new LineInfo(-1, "Brown = 6".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("White".toLowerCase(), 7, new LineInfo(-1, "White = 7".toLowerCase()));
+        colorConst = new ConstantDefinition("LightGray".toLowerCase(), 7, new LineInfo(-1, "LightGray  = 7".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("Grey".toLowerCase(), 8, new LineInfo(-1, "Grey = 8".toLowerCase()));
+        colorConst = new ConstantDefinition("DarkGray".toLowerCase(), 8, new LineInfo(-1, "DarkGray = 8".toLowerCase()));
         context.declareConst(colorConst);
         colorConst = new ConstantDefinition("LightBlue".toLowerCase(), 9, new LineInfo(-1, "LightBlue = 9".toLowerCase()));
         context.declareConst(colorConst);
@@ -87,6 +87,9 @@ public class SystemConstants {
         context.declareConst(colorConst);
         colorConst = new ConstantDefinition("Yellow".toLowerCase(), 14, new LineInfo(-1, " Yellow = 14".toLowerCase()));
         context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("White".toLowerCase(), 15, new LineInfo(-1, "White = 15".toLowerCase()));
+        context.declareConst(colorConst);
+
         colorConst = new ConstantDefinition("pi".toLowerCase(), Math.PI, new LineInfo(-1, " pi = 3.14159265358979323846".toLowerCase()));
         context.declareConst(colorConst);
     }

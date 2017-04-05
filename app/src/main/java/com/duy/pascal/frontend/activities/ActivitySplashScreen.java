@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
@@ -83,7 +84,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 startActivity(intentEdit);
                 finish();
             }
-        }, 400);
+        }, (BuildConfig.DEBUG ? 0 : 400));
     }
 
     private void handleActionView(Intent from, Intent to) {

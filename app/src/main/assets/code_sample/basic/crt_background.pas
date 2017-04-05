@@ -1,17 +1,42 @@
-Program change_background;
+Program ExampleBgColor;
+
+uses Crt;
+
+{ Program to demonstrate the TextBackground function. }
+
 begin
-    TextColor(15);
     WriteLn('This is written in with the default background color');
-    delay(1000);
-    TextBackground(green);
+    TextBackground(Green);
     WriteLn('This is written in with a Green background');
-    delay(1000);
-    TextBackground(brown);
+    TextBackground(Brown);
     WriteLn('This is written in with a Brown background');
-    delay(1000);
-    TextBackground(black);
+    TextBackground(Blue);
+    WriteLn('This is written in with a Blue background');
+    TextBackground(Cyan);
+    WriteLn('This is written in with a Cyan background');
+    TextBackground(Red);
+    WriteLn('This is written in with a Red background');
+    TextBackground(Magenta);
+    WriteLn('This is written in with a Magenta background');
+    TextBackground(LightGray);
+    WriteLn('This is written in with a LightGray background');
+    TextBackground(DarkGray);
+    WriteLn('This is written in with a DarkGray background');
+    TextBackground(LightBlue);
+    WriteLn('This is written in with a LightBlue background');
+    TextBackground(LightGreen);
+    WriteLn('This is written in with a LightGreen background');
+    TextBackground(LightCyan);
+    WriteLn('This is written in with a LightCyan background');
+    TextBackground(LightRed);
+    WriteLn('This is written in with a LightRed background');
+    TextBackground(LightMagenta);
+    WriteLn('This is written in with a LightMagenta background');
+    TextBackground(Yellow);
+    WriteLn('This is written in with a Yellow background');
+    TextBackground(Black);
     WriteLn('Back with a black background');
-    readln;
+    ReadLn;
+
 end.
-{if you want to improve this code, please send code to me
-tranleduy1233@gmail.com}
+{http://www.freepascal.org/docs-html/rtl/crt/textbackground.html}
