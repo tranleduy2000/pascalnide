@@ -512,6 +512,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return true;
     }
 
+
+
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 

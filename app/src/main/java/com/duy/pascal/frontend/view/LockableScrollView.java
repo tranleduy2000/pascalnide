@@ -7,7 +7,7 @@ import android.widget.ScrollView;
 
 public class LockableScrollView extends ScrollView {
     public static final String TAG = LockableScrollView.class.getSimpleName();
-    int lastY;
+    private int lastY;
     private boolean scrollable = true;
     private ScrollListener scrollListener;
 
@@ -43,15 +43,10 @@ public class LockableScrollView extends ScrollView {
 
         if (scrollListener == null || !scrollable) return;
 
-        if (Math.abs(lastY - t) > 120) {
+        if (Math.abs(lastY - t) > 100) {
             lastY = t;
             if (scrollListener != null) scrollListener.onScroll(l, t);
         }
-    }
-
-
-    public ScrollListener getScrollListener() {
-        return scrollListener;
     }
 
     public void setScrollListener(ScrollListener scrollListener) {

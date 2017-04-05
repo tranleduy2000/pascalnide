@@ -21,7 +21,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -49,8 +48,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public static final String TAG = HighlightEditor.class.getSimpleName();
     public static final int SHORT_DELAY = 500;
     public static final int LONG_DELAY = 1000;
-    private static final String INDEX_CHAR = "m";
-    private static final int TAB_NUMBER = 3;
     private static final int CHARS_TO_COLOR = 2500;
     private final Handler updateHandler = new Handler();
     public boolean showLineNumbers = true;
@@ -80,25 +77,19 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     protected int COLOR_STRINGS;
     private Context mContext;
     private boolean modified = true;
-    private int scrollY = 0;
     private EditorSetting mEditorSetting;
     private boolean canEdit = true;
-    private LineUtils lineUtils;
-    private int lineCount, realLine, startingLine;
     private ScrollView verticalScroll;
-    private int firstVisibleIndex;
-    private int lastVisibleIndex;
-    private int editorHeight;
-    private int firstColoredIndex;
     private final Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
+            highlightWithoutChange(getText());
             if (onTextChangedListener != null) {
                 onTextChangedListener.onTextChanged(getText().toString());
             }
-            highlightWithoutChange(getEditableText());
         }
     };
+    private float lastX = 0;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -146,7 +137,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
         mGestureDetector = new GestureDetector(getContext(), this);
-        lineUtils = new LineUtils();
         updateFromSettings();
     }
 
@@ -219,10 +209,14 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         this.errorLine = lineError;
     }
 
+//    public void extendSelection(int index) {
+//        Selection.extendSelection(getText(), index);
+//    }
+
     @Override
     public void onDraw(Canvas canvas) {
         int lineX, baseline;
-        lineCount = getLineCount();
+        int lineCount = getLineCount();
         if (showLineNumbers) {
             int padding = (int) (Math.floor(Math.log10(lineCount)) + 1);
             padding = (int) ((padding * mPaintNumbers.getTextSize())
@@ -271,10 +265,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         super.onDraw(canvas);
     }
 
-//    public void extendSelection(int index) {
-//        Selection.extendSelection(getText(), index);
-//    }
-
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         return false;
@@ -283,6 +273,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            getParent().requestDisallowInterceptTouchEvent(false);
+        }
+
         if (mGestureDetector != null) {
             return mGestureDetector.onTouchEvent(event);
         }
@@ -308,7 +302,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public void onLongPress(MotionEvent e) {
     }
 
-
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
        /* if (!flingToScroll) {
             return true;
@@ -323,7 +316,17 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        if (distanceX > 20) {
+            getParent().requestDisallowInterceptTouchEvent(true);
+        } else {
+            getParent().requestDisallowInterceptTouchEvent(false);
+        }
         return false;
+    }
+
+    @Override
+    protected void onScrollChanged(int horiz, int vert, int oldHoriz, int oldVert) {
+        super.onScrollChanged(horiz, vert, oldHoriz, oldVert);
     }
 
     @Override
@@ -377,11 +380,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     @Override
-    public Editable getText() {
-        return super.getText();
-    }
-
-    @Override
     public void setText(CharSequence text, BufferType type) {
         super.setText(text, BufferType.EDITABLE);
     }
@@ -405,7 +403,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     public void updateHighlightWithDelay(int delay) {
-        if (!modified) return;
         updateHandler.removeCallbacks(updateRunnable);
         updateHandler.postDelayed(updateRunnable, delay);
     }
@@ -418,9 +415,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         setFilters(new InputFilter[]{
                 new InputFilter() {
                     @Override
-                    public CharSequence filter(CharSequence source,
-                                               int start, int end, Spanned dest, int dstart, int dend) {
-                        if (modified && end - start == 1 && start < source.length() &&
+                    public CharSequence filter(CharSequence source, int start,
+                                               int end, Spanned dest, int dstart, int dend) {
+                        if (end - start == 1 && start < source.length() &&
                                 dstart < dest.length()) {
                             char c = source.charAt(start);
                             if (c == '\n')
@@ -458,7 +455,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
     private void highlightWithoutChange(Editable e) {
         modified = false;
-        highlight(e, false);
+        highlight(e, true);
         modified = true;
     }
 
@@ -473,7 +470,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         if (layout != null) {
             return layout.getLineForVertical(scrollY);
         }
-        Log.d(TAG, "Layout is null: ");
         return -1;
     }
 
@@ -496,8 +492,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         if (all) {
             return highlight(editable, 0, editable.length());
         } else {
-            editorHeight = getHeightVisible();
-
+            int editorHeight = getHeightVisible();
+            int firstVisibleIndex;
+            int lastVisibleIndex;
             if (verticalScroll != null && editorHeight > 0 && getLayout() != null) {
                 Layout layout = getLayout();
                 firstVisibleIndex = layout.getLineStart(getFirstLineIndex());
@@ -506,7 +503,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 firstVisibleIndex = 0;
                 lastVisibleIndex = CHARS_TO_COLOR;
             }
-            firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
+            int firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
 
             // normalize
             if (firstColoredIndex < 0)
@@ -515,7 +512,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 lastVisibleIndex = editable.length();
             if (firstColoredIndex > lastVisibleIndex)
                 firstColoredIndex = lastVisibleIndex;
-            Log.d(TAG, "highlight: index " + firstColoredIndex + " " + lastVisibleIndex);
+
             return highlight(editable, firstColoredIndex, lastVisibleIndex);
         }
     }
@@ -528,8 +525,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
      */
     private Editable highlight(Editable e, int start, int end) {
         try {
-            if (e.length() == 0)
-                return e;
             //clear spannable
             clearSpans(e, start, end);
 
@@ -748,7 +743,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                     tmp = offsetVertical - getDropDownHeight() - mCharHeight;
                     setDropDownVerticalOffset(tmp);
                 }
-//            if (DLog.DEBUG) Log.d(TAG, "onPopupSuggestChangeSize: " + offsetVertical + " " + tmp + " " + scrollY);
             }
         } catch (Exception ignored) {
         }
@@ -762,12 +756,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         return r.bottom - r.top;
     }
 
-    /**
-     * This method call when scroll view scroll
-     */
-    public void onMove(int x, int y) {
-        this.scrollY = y;
-    }
 
     public void setVerticalScroll(ScrollView verticalScroll) {
         this.verticalScroll = verticalScroll;

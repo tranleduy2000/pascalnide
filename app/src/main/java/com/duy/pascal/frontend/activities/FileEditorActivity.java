@@ -28,7 +28,6 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.SymbolListView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
-import com.duy.pascal.frontend.view.code_view.PageSystem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,9 +41,9 @@ import butterknife.ButterKnife;
 
 public abstract class FileEditorActivity extends AbstractAppCompatActivity
         implements SymbolListView.OnKeyListener,
-        EditorControl, FileListener, PageSystem.PageSystemInterface {
+        EditorControl, FileListener {
     protected final static String TAG = FileEditorActivity.class.getSimpleName();
-    public static PageSystem pageSystem;
+
     protected String mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
     protected ApplicationFileManager mFileManager;
     @BindView(R.id.toolbar)
@@ -69,13 +68,30 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
-        initContent();
 
         mFileManager = new ApplicationFileManager(this);
-        pageSystem = new PageSystem(this, this, "");
 
-        new LoadTabFile().execute();
+//        new LoadTabFile().execute();
+        initContent();
+        loadTabFile();
     }
+
+    private void loadTabFile() {
+        listFile = TabFileUtils.getTabFiles(FileEditorActivity.this);
+        for (File file : listFile) {
+            addNewTab(file);
+        }
+        if (listFile.isEmpty()) {//empty file
+            createEmptyFile();
+        } else {
+            int pos = (mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE));
+            TabLayout.Tab tab = tabLayout.getTabAt((pos));
+            if (tab != null) {
+                selectTab(tab, false);
+            }
+        }
+    }
+
 
     private void initContent() {
         //setup action bar
@@ -199,6 +215,10 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
      * @param save - <code>true</code> save last file,
      */
     protected void selectTab(TabLayout.Tab tab, boolean save) {
+        if (tab == null) {
+            Log.d(TAG, "selectTab: tab is null");
+            return;
+        }
         moveToTab(tab.getPosition());
 
         /**
@@ -240,7 +260,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     }
 
     protected void moveToTab(final int i) {
-        handler.post(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 TabLayout.Tab tab = tabLayout.getTabAt(i);
@@ -248,7 +268,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
                     tab.select();
                 }
             }
-        });
+        }, 30);
     }
 
     @Override
@@ -258,8 +278,22 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
+                mFilePath = intent.getStringExtra(CompileManager.FILE_PATH);
+                addNewFile(new File(mFilePath), false);
+            }
+        }
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent: ");
         if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
             mFilePath = intent.getStringExtra(CompileManager.FILE_PATH);
             addNewFile(new File(mFilePath), false);
@@ -308,12 +342,6 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         });
         builder.create().show();
         return false;
-    }
-
-    @Override
-    public void onPageChanged(int page) {
-        mCodeView.clearHistory();
-        invalidateOptionsMenu();
     }
 
     /**

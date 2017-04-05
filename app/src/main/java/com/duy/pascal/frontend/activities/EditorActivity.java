@@ -80,10 +80,18 @@ public class EditorActivity extends FileEditorActivity implements
         mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
             @Override
             public void onScroll(int x, int y) {
-                mCodeView.onMove(x, y);
                 mCodeView.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
             }
         });
+       /* mScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (mCodeView.hasFocus()) {
+                    mCodeView.clearFocus();
+                }
+                return false;
+            }
+        });*/
         findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

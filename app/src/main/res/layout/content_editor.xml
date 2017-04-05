@@ -13,27 +13,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/recycler_view"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:focusableInTouchMode="false">
 
-        <HorizontalScrollView
-            android:id="@+id/horizontal_scroll"
+
+        <com.duy.pascal.frontend.view.code_view.CodeView
+            android:id="@+id/edit_editor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:scrollbars="horizontal">
-
-            <com.duy.pascal.frontend.view.code_view.CodeView
-                android:id="@+id/edit_editor"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:bufferType="spannable"
-                android:dropDownAnchor="@+id/app_bar"
-                android:dropDownHeight="110dp"
-                android:dropDownWidth="150dp"
-                android:gravity="top|start"
-                android:hint="@string/write_code_here"
-                android:inputType="textMultiLine|textNoSuggestions" />
-        </HorizontalScrollView>
+            android:layout_height="match_parent"
+            android:bufferType="spannable"
+            android:dropDownAnchor="@+id/app_bar"
+            android:dropDownHeight="110dp"
+            android:dropDownWidth="150dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="top|start"
+            android:hint="@string/write_code_here"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:scrollbarSize="5dip"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical" />
 
     </com.duy.pascal.frontend.view.LockableScrollView>
 
