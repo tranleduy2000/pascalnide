@@ -363,7 +363,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             public boolean commitText(CharSequence text, int newCursorPosition) {
                 int n = text.length();
                 for (int i = 0; i < n; i++) {
-                    putString(Character.valueOf(text.charAt(i)).toString());
+                    putString(text.subSequence(i, i + 1).toString());
                 }
                 return true;
             }
@@ -381,10 +381,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             @Override
             public boolean deleteSurroundingText(int beforeLength, int afterLength) {
                 // magic: in latest Android, deleteSurroundingText(1, 0) will be called for backspace
-                if (beforeLength == 1 && afterLength == 0) {
-                    // backspace
-                    return sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
-                            && sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL));
+                if (beforeLength > 0) {
+                    while (beforeLength > 0) {
+                        putString(THE_DELETE_CHAR);
+                        beforeLength--;
+                    }
+                    return true;
                 }
 
                 return super.deleteSurroundingText(beforeLength, afterLength);
@@ -511,7 +513,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         invalidate();
         return true;
     }
-
 
 
     @Override
