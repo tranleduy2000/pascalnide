@@ -10,6 +10,9 @@ import android.graphics.Paint;
  */
 
 public class CursorConsole {
+    public static final int BIG_CURSOR = 1;
+    public static final int NORMAL_CURSOR = 0;
+
     public int x = 0, y;
     private boolean visible = true;
     private int foreColor = 0;
@@ -17,6 +20,7 @@ public class CursorConsole {
     private Paint cursorPaint = new Paint();
     private int cursorColor = 0;
     private boolean cursorBlink = true;
+    private int mode = NORMAL_CURSOR;
 
     public CursorConsole(int x, int y, int cursorColor) {
         this.x = x;
@@ -125,7 +129,7 @@ public class CursorConsole {
     /**
      * set position of the screen
      *
-     * @param x  - x
+     * @param x - x
      * @param y - y
      */
     public void setCoordinate(int x, int y) {
@@ -134,5 +138,13 @@ public class CursorConsole {
     }
 
     public void setStyle(int style, int pattern, int width) {
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 }

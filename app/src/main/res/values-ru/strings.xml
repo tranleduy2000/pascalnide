@@ -125,21 +125,17 @@
     <string name="text_color_console">Цвет текста</string>
     <string name="translate">Перевод</string>
     <string name="frame_rate">Частота кадров</string>
-    <string name="max_line">Максимум строк</string>
-    <string name="stack_size">Размер стека</string>
-    <string name="console_column">Консольная колонка</string>
-    <string name="console_font_size">Размер шрифта</string>
-    <string name="console_row">Строка консоли</string>
     <string name="background_console">Цвет фона</string>
     <string name="console_screen">Консоль</string>
     <string name="license">Лицензия</string>
     <string name="hide_status_bar_desc">Скрывать статусбар, когда приложение запущено</string>
 
-    <string name="write_code_here">Напишите код здесь…</string>
-    <string name="system">Система</string>
-    <string name="pin">Штырь</string>
     <string name="max_buffer">Максимальный размер, буфера</string>
-    <string name="about">О Нас</string>
-    <string name="keyboard_shortcut">Короткая клавиатура</string>
+    <string name="write_code_here">Напишите код здесь…</string>
 
+    <string name="can_not_save_file">Не удаётся сохранить файл!</string>
+    <string name="saved">Сохранено</string>
+    <string name="file_exist">Файл с таким именем уже существует!</string>
+    <string name="send_mail">Отправить письмо…</string>
+    <string name="no_mail_clients">Нет установленных почтовых клиентов.</string>
 </resources>

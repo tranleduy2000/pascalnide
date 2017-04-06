@@ -13,7 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:supportsRtl="false"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.EditorActivity"
@@ -64,7 +64,7 @@
             android:name=".activities.ExecuteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_code_white_24dp"
-            android:windowSoftInputMode="stateVisible|stateAlwaysVisible" />
+       />
         <activity
             android:name=".activities.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
@@ -79,16 +79,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
         <activity android:name=".info_application.InfoActivity" />
-        <activity android:name=".setting.SettingActivity"></activity>
-        <activity
-            android:name=".activities.TestConsoleActivity"
-            android:label="@string/title_activity_test_console">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".setting.SettingActivity" />
     </application>
 
 </manifest>

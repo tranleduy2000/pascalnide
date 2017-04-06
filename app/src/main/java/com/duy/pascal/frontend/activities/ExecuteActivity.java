@@ -113,7 +113,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                     case "\n":
                         exitFlag = 1;
                         break;
-                    case ConsoleView.THE_DELETE_CHAR:
+                    case ConsoleView.THE_DELETE_COMMAND:
                         if (inputData.last > 0) {
                             inputData.last--;
                             mConsoleView.commitString(String.valueOf(c));
@@ -208,6 +208,14 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         super.onResume();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsRunning.set(false);
+        //stop program
+        stopProgram();
+    }
+
     /**
      * on error compile or runtime
      */
@@ -266,9 +274,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     protected void onStop() {
         super.onStop();
-        mIsRunning.set(false);
-        //stop program
-        stopProgram();
+
     }
 
 

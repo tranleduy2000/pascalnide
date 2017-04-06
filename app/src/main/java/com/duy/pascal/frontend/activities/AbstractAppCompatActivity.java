@@ -140,7 +140,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         } else {
             showStatusBar();
         }
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION);
     }
 
     @Override

@@ -6,7 +6,7 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 45
+        versionCode 46
         versionName "3.5.0"
         vectorDrawables.useSupportLibrary = true
     }
@@ -31,7 +31,7 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile project(':toneplayer')
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-annotations:25.3.1'
@@ -53,5 +53,6 @@ dependencies {
     compile 'com.rarepebble:colorpicker:2.2.0'
     compile 'com.android.support:support-vector-drawable:25.3.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
 }
 apply plugin: 'com.google.gms.google-services'

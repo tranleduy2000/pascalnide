@@ -31,6 +31,13 @@ public class TextRenderer implements ScreenObject {
 
     public static final String TAG = TextRenderer.class.getSimpleName();
 
+    /**
+     * mode text, low-high-normal
+     */
+    public static final int NORMAL_TEXT_ALPHA = 200;
+    public static final int LOW_TEXT_ALPHA = 150;
+    public static final int HIGH_TEXT_ALPHA = 255;
+
     public int charHeight;
     public int charAscent;
     public int charDescent;
@@ -44,6 +51,8 @@ public class TextRenderer implements ScreenObject {
 
     private int textColor = Color.WHITE;
     private int textBackgroundColor = Color.BLACK;
+    private int alpha = NORMAL_TEXT_ALPHA;
+    private int textWidth = 2;
 
     public TextRenderer(float textSize) {
         init(textSize);
@@ -94,6 +103,7 @@ public class TextRenderer implements ScreenObject {
             canvas.drawRect(x, y + charAscent, x + width, y + charDescent, backgroundPaint);
 
             mTextPaint.setColor(text[i].getTextColor());
+            mTextPaint.setAlpha(text[i].getAlpha());
             canvas.drawText(text[i].getSingleString(), x, y, mTextPaint);
             x += width;
         }
@@ -186,5 +196,13 @@ public class TextRenderer implements ScreenObject {
 
     public int getBackgroundColor() {
         return textBackgroundColor;
+    }
+
+    public int getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(int alpha) {
+        this.alpha = alpha;
     }
 }

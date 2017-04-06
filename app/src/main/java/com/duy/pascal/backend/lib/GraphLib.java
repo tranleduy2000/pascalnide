@@ -76,6 +76,9 @@ public class GraphLib implements PascalLibrary {
      */
     public void initGraph(int driver, int mode, String pathToDriver) {
         // TODO: 01-Mar-17  do something
+        if (activity != null) {
+            activity.getConsoleView().setGraphMode(true);
+        }
     }
 
     /**

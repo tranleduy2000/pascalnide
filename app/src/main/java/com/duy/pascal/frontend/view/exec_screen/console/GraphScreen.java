@@ -89,8 +89,8 @@ public class GraphScreen {
     }
 
     public void setWidth(int visibleWidth) {
+        if (width < 1) width = 1;
         this.width = visibleWidth;
-        invalidateBitmap();
     }
 
     public int getHeight() {
@@ -98,13 +98,13 @@ public class GraphScreen {
     }
 
     public void setHeight(int visibleHeight) {
+        if (height < 1) height = 1;
         this.height = visibleHeight;
-        invalidateBitmap();
     }
 
     public void onSizeChange(int width, int height) {
-        this.width = width;
-        this.height = height;
+        setWidth(width);
+        setHeight(height);
         invalidateBitmap();
     }
 
@@ -156,13 +156,14 @@ public class GraphScreen {
     }
 
     public void closeGraph() {
-        graphObjects.clear();
-        invalidateBitmap();
+        graphObjects.clear(); //GC
+//        invalidateBitmap();
     }
 
     public void clear() {
         graphObjects.clear();
         mCursor.setCoordinate(0, 0);
+        invalidateBitmap();
     }
 
     public void setCursorPostion(int x, int y) {

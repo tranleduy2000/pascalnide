@@ -273,10 +273,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            getParent().requestDisallowInterceptTouchEvent(false);
-        }
-
         if (mGestureDetector != null) {
             return mGestureDetector.onTouchEvent(event);
         }

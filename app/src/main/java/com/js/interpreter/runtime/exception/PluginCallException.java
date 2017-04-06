@@ -7,7 +7,7 @@ public class PluginCallException extends RuntimePascalException {
     public Throwable cause;
     public AbstractFunction function;
 
-    public PluginCallException(LineInfo line, Exception cause,
+    public PluginCallException(LineInfo line, Throwable cause,
                                AbstractFunction function) {
         super(line);
         this.cause = cause;
@@ -16,8 +16,8 @@ public class PluginCallException extends RuntimePascalException {
 
     @Override
     public String getMessage() {
-        return "When calling Function or Procedure " + function.name()
-                + ", The following java exception: " + cause + "\n" +
-                "Message: " + cause.getMessage();
+        return "> When calling Function or Procedure " + function.name()
+                + ", The following java exception: \"" + cause + "\"\n" +
+                "> Message: " + (cause != null ? cause.getMessage() : "");
     }
 }

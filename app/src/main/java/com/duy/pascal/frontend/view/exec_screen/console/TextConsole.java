@@ -13,13 +13,28 @@ public class TextConsole implements ScreenObject {
     public String text = "";
     public int textColor = Color.WHITE; //white
     public int textBackground = Color.BLACK;//back
+    public int alpha = 255;
 
     public TextConsole(String text, int textBackground) {
         this.text = text;
         this.textBackground = textBackground;
     }
 
+    public TextConsole(String text, int textBackground, int textColor) {
+        this.text = text;
+        this.textBackground = textBackground;
+        this.textColor = textColor;
+    }
+
     public TextConsole() {
+    }
+
+    public int getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(int alpha) {
+        this.alpha = alpha;
     }
 
     public String getSingleString() {

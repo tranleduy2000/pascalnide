@@ -119,7 +119,7 @@
 //    public void setConsoleCursorPosition(int x, int y) {
 //        int index, i;
 //        mCursor.y = y;
-//        index = bufferData.firstIndex + mCursor.y * mScreen.consoleRow;
+//        index = bufferData.firstIndex + mCursor.y * mScreen.consoleColumn;
 //        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
 //        i = index;
 //
@@ -138,7 +138,7 @@
 //    }
 //
 //    public void commitChar(char c) {
-//        int index = bufferData.firstIndex + mCursor.y * mScreen.consoleRow + mCursor.x;
+//        int index = bufferData.firstIndex + mCursor.y * mScreen.consoleColumn + mCursor.x;
 //        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
 //        switch (c) {
 //            case '\n':
@@ -154,7 +154,7 @@
 //                    if (mCursor.y > 0) {
 //                        if (bufferData.textOnScreenBuffer[index - 1] >= ' ') {
 //                            bufferData.textOnScreenBuffer[index - 1] = '\0';
-//                            mCursor.x = mScreen.consoleRow - 1;
+//                            mCursor.x = mScreen.consoleColumn - 1;
 //                            mCursor.y--;
 //                            makeCursorVisible();
 //                        }
@@ -166,7 +166,7 @@
 //                if (c >= ' ') {
 //                    bufferData.textOnScreenBuffer[index] = c;
 //                    mCursor.x++;
-//                    if (mCursor.x >= mScreen.consoleRow) {
+//                    if (mCursor.x >= mScreen.consoleColumn) {
 //                        nextLine();
 //                    }
 //                }
@@ -188,9 +188,9 @@
 //        mCursor.y++;
 //        if (mCursor.y >= mScreen.maxLines) {
 //            mCursor.y = mScreen.maxLines - 1;
-//            for (int i = 0; i < mScreen.consoleRow; i++)
+//            for (int i = 0; i < mScreen.consoleColumn; i++)
 //                bufferData.textOnScreenBuffer[bufferData.firstIndex + i] = '\0';
-//            bufferData.firstIndex += mScreen.consoleRow;
+//            bufferData.firstIndex += mScreen.consoleColumn;
 //            if (bufferData.firstIndex >= mScreen.getScreenSize()) bufferData.firstIndex = 0;
 //        }
 //        makeCursorVisible();
@@ -198,7 +198,7 @@
 //
 //    public void showPrompt() {
 //        commitString("Initialize the console screen..." + "\n");
-//        commitString("Width = " + mScreen.consoleColumn + " ; " + " height = " + mScreen.consoleRow + "\n");
+//        commitString("Width = " + mScreen.consoleRow + " ; " + " height = " + mScreen.consoleColumn + "\n");
 //        commitString("---------------------------" + "\n");
 //    }
 //
@@ -287,8 +287,8 @@
 //    }
 //
 //    public void makeCursorVisible() {
-//        if (mCursor.y - firstLine >= mScreen.consoleColumn) {
-//            firstLine = mCursor.y - mScreen.consoleColumn + 1;
+//        if (mCursor.y - firstLine >= mScreen.consoleRow) {
+//            firstLine = mCursor.y - mScreen.consoleRow + 1;
 //        } else if (mCursor.y < firstLine) {
 //            firstLine = mCursor.y;
 //        }
@@ -305,9 +305,9 @@
 //        int i, j;
 //        int newFirstIndex = 0;
 //        int newColumn = newHeight / mTextRenderer.charHeight;
-//        boolean value = newRow != mScreen.consoleRow || newColumn != mScreen.consoleRow;
-//        mScreen.consoleColumn = newColumn;
-//        if (newRow != mScreen.consoleRow) {
+//        boolean value = newRow != mScreen.consoleColumn || newColumn != mScreen.consoleColumn;
+//        mScreen.consoleRow = newColumn;
+//        if (newRow != mScreen.consoleColumn) {
 //            int newScreenSize = mScreen.maxLines * newRow;
 //            char newScreenBuffer[] = new char[newScreenSize];
 //
@@ -318,7 +318,7 @@
 //            if (bufferData.textOnScreenBuffer != null) {
 //                i = 0;
 //                int nextj = 0;
-//                int endi = mCursor.y * mScreen.consoleRow
+//                int endi = mCursor.y * mScreen.consoleColumn
 //                        + mCursor.x;
 //                char c;
 //                do {
@@ -332,7 +332,7 @@
 //                    i--;
 //                    j--;
 //
-//                    i += (mScreen.consoleRow - i % mScreen.consoleRow);
+//                    i += (mScreen.consoleColumn - i % mScreen.consoleColumn);
 //                    nextj = j + (newRow - j % newRow);
 //                }
 //                while (i < endi);
@@ -340,7 +340,7 @@
 //                mCursor.y = j / newRow;
 //                mCursor.x = j % newRow;
 //            }
-//            mScreen.consoleRow = newRow;
+//            mScreen.consoleColumn = newRow;
 //            mScreen.setScreenSize(newScreenSize);
 //            bufferData.setTextOnScreenBuffer(newScreenBuffer);
 //            bufferData.firstIndex = newFirstIndex;
@@ -453,7 +453,7 @@
 //    }
 //
 //    public void tDraw(Canvas canvas, int x, int y) {
-//        int index = bufferData.firstIndex + firstLine * mScreen.consoleRow;
+//        int index = bufferData.firstIndex + firstLine * mScreen.consoleColumn;
 //        if (index >= mScreen.getScreenSize()) index -= mScreen.getScreenSize();
 //        y -= mTextRenderer.charAscent;
 //
@@ -463,15 +463,15 @@
 //                y + (mCursor.y - firstLine) * mTextRenderer.charHeight,
 //                mTextRenderer.charHeight, mTextRenderer.charWidth, mTextRenderer.charDescent);
 //
-//        for (int i = 0; i < mScreen.consoleColumn; i++) {
+//        for (int i = 0; i < mScreen.consoleRow; i++) {
 //            if (i > mCursor.y - firstLine) break;
 //
 //            int count = 0;
-//            while ((count < mScreen.consoleRow) && (bufferData.textOnScreenBuffer[count + index] >= ' '))
+//            while ((count < mScreen.consoleColumn) && (bufferData.textOnScreenBuffer[count + index] >= ' '))
 //                count++;
 //            mTextRenderer.draw(canvas, x, y, bufferData.textOnScreenBuffer, index, count);
 //            y += mTextRenderer.charHeight;
-//            index += mScreen.consoleRow;
+//            index += mScreen.consoleColumn;
 //            if (index >= mScreen.getScreenSize()) index = 0;
 //        }
 //    }
@@ -576,7 +576,7 @@
 //
 //    public void gotoXY(int x, int y) {
 //        if (x <= 0) x = 1;
-//        else if (x > mScreen.consoleRow) x = mScreen.consoleRow;
+//        else if (x > mScreen.consoleColumn) x = mScreen.consoleColumn;
 //        if (y <= 0) y = 1;
 //        else if (y > mScreen.maxLines) y = mScreen.maxLines;
 //        setConsoleCursorPosition(x - 1, y - 1);

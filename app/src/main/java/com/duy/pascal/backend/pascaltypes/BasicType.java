@@ -13,6 +13,7 @@ import com.js.interpreter.ast.returnsvalue.boxing.StringBoxer;
 import com.js.interpreter.ast.returnsvalue.cloning.StringBuilderCloner;
 import com.ncsa.common.util.TypeUtils;
 
+import java.io.File;
 import java.util.List;
 
 import serp.bytecode.Code;
@@ -172,6 +173,27 @@ public enum BasicType implements DeclaredType {
         @Override
         public String toString() {
             return "Integer";
+        }
+
+        @Override
+        public void convertStackToStorageType(Code c) {
+//            c.invokestatic().setMethod(File.class, "valueOf", Integer.class, new Class[]{int.class});
+        }
+
+        @Override
+        public void arrayStoreOperation(Code c) {
+            c.iastore();
+        }
+    },
+    Text(File.class) {
+        @Override
+        Object getDefaultValue() {
+            return 0;
+        }
+
+        @Override
+        public String toString() {
+            return "File";
         }
 
         @Override

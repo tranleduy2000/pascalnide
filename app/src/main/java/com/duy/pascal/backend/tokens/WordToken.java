@@ -29,31 +29,41 @@ public class WordToken extends Token {
     public DeclaredType toBasicType(ExpressionContext context)
             throws UnrecognizedTypeException {
         String s = name.toLowerCase().intern();
-        if (s.equals("integer") || s.equals("byte") || s.equals("word")
-                || s.equals("shortint") || s.equals("smallint")) {
+        if (s.equalsIgnoreCase("integer")
+                || s.equalsIgnoreCase("byte")
+                || s.equalsIgnoreCase("word")
+                || s.equalsIgnoreCase("shortint")
+                || s.equalsIgnoreCase("smallint")) {
             return BasicType.Integer;
-        } else if (s.equals("string") || s.equals("ansistring")) {
+        } else if (s.equalsIgnoreCase("string")
+                || s.equalsIgnoreCase("ansistring")) {
             return BasicType.StringBuilder;
-        } else if (s.equals("single") || s.equals("extended") || s == "real" || s.equals("comp")
-                || s.equals("curreny")) {
+        } else if (s.equalsIgnoreCase("single")
+                || s.equalsIgnoreCase("extended")
+                || s.equalsIgnoreCase("real")
+                || s.equalsIgnoreCase("comp")
+                || s.equalsIgnoreCase("curreny")) {
             return BasicType.Double;
-        } else if (s == "longint" || s.equals("int64") || s.equals("qword")
-                || s.equals("longword") || s.equals("dword")) {
+        } else if (s.equalsIgnoreCase("longint")
+                || s.equalsIgnoreCase("int64")
+                || s.equalsIgnoreCase("qword")
+                || s.equalsIgnoreCase("longword")
+                || s.equalsIgnoreCase("dword")) {
             return BasicType.Long;
-        } else if (s == "boolean") {
+        } else if (s.equalsIgnoreCase("boolean")) {
             return BasicType.Boolean;
-        } else if (s == "char") {
+        } else if (s.equalsIgnoreCase("char")) {
             return BasicType.Character;
         } else {
             DeclaredType type = context.getTypedefType(s);
             if (type != null) {
                 return type;
             } else {
-                Object constval = context.getConstantDefinition(s);
-                if (constval == null) {
+                Object constVal = context.getConstantDefinition(s);
+                if (constVal == null) {
                     throw new UnrecognizedTypeException(lineInfo, s);
                 }
-                return BasicType.anew(constval.getClass());
+                return BasicType.anew(constVal.getClass());
             }
         }
     }

@@ -110,7 +110,11 @@ public class PascalPreferences {
     }
 
     public boolean getBoolean(String key) {
-        return sharedPreferences.getBoolean(key, false);
+        try {
+            return sharedPreferences.getBoolean(key, false);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean useFullScreen() {
@@ -139,7 +143,12 @@ public class PascalPreferences {
     }
 
     public int getConsoleFrameRate() {
-        int i = Integer.parseInt(sharedPreferences.getString(context.getString(R.string.key_console_frame_rate), "60"));
+        int i;
+        try {
+            i = Integer.parseInt(sharedPreferences.getString(context.getString(R.string.key_console_frame_rate), "60"));
+        } catch (Exception e) {
+            i = 60;
+        }
         return (i > 0 && i < 1000) ? i : 60;
     }
 

@@ -99,5 +99,5 @@
         android:id="@+id/action_more_feature"
         android:icon="@drawable/ic_more_vert_white_24dp"
         android:title="@string/more_feature"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

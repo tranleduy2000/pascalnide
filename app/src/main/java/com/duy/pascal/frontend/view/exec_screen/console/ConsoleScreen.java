@@ -13,8 +13,8 @@ import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 public class ConsoleScreen implements ScreenObject {
     private static final String TAG = ConsoleScreen.class.getSimpleName();
     public int maxLines = 100;
-    public int consoleColumn;
     public int consoleRow;
+    public int consoleColumn;
     public int firstLine;
     public boolean fullscreen = false;
     private boolean fullScreen = false;
@@ -42,25 +42,25 @@ public class ConsoleScreen implements ScreenObject {
         this.maxLines = maxLines;
     }
 
-    public int getConsoleColumn() {
-        return consoleColumn;
+    public int getConsoleRow() {
+        return consoleRow;
     }
 
     /**
      * set screen column
      *
-     * @param consoleColumn
+     * @param consoleRow
      */
-    public void setConsoleColumn(int consoleColumn) {
-        this.consoleColumn = consoleColumn;
+    public void setConsoleRow(int consoleRow) {
+        this.consoleRow = consoleRow;
     }
 
-    public int getConsoleRow() {
-        return consoleRow;
+    public int getConsoleColumn() {
+        return consoleColumn;
     }
 
-    public void setConsoleRow(int mConsoleRow) {
-        this.consoleRow = mConsoleRow;
+    public void setConsoleColumn(int mConsoleRow) {
+        this.consoleColumn = mConsoleRow;
     }
 
     public int getFirstLine() {

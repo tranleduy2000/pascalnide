@@ -1,10 +1,17 @@
 package com.duy.pascal.backend.lib;
 
 import android.graphics.Color;
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioTrack;
 
+import com.duy.pascal.backend.exceptions.WrongArgsException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
+import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by Duy on 28-Feb-17.
@@ -14,6 +21,22 @@ public class CrtLib implements PascalLibrary {
 
     public static final String TAG = CrtLib.class.getSimpleName();
     private ExecuteActivity activity;
+    private AtomicBoolean canPlaySound = new AtomicBoolean(false);
+    private long finalFrequency;
+    private Runnable soundRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (canPlaySound.get()) {
+                playSound(finalFrequency, 44100);
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+    private Thread soundThread;
 
     /**
      * constructor call by {@link ClassLoader} in {@link com.duy.pascal.backend.core.PascalCompiler}
@@ -133,12 +156,98 @@ public class CrtLib implements PascalLibrary {
 
     public int whereY() {
         if (activity == null) return 0;
-
         return activity.getConsoleView().whereY();
     }
 
-    public void highVideo() {
-        // TODO: 08-Mar-17  do something
+    private void assertActivityNotNull() {
+        if (activity == null) throw new RuntimeException("Can not define screen");
+    }
+
+    public void NormVideo() {
+        assertActivityNotNull();
+        activity.getConsoleView().getTextRenderer().setAlpha(TextRenderer.NORMAL_TEXT_ALPHA);
+    }
+
+    public void HighVideo() {
+        assertActivityNotNull();
+        activity.getConsoleView().getTextRenderer().setAlpha(TextRenderer.HIGH_TEXT_ALPHA);
+    }
+
+    public void LowVideo() {
+        assertActivityNotNull();
+        activity.getConsoleView().getTextRenderer().setAlpha(TextRenderer.LOW_TEXT_ALPHA);
+    }
+
+    /**
+     * Show big cursor
+     */
+    public void cursorBig() {
+        assertActivityNotNull();
+        activity.getConsoleView().getCursorConsole().setMode(CursorConsole.BIG_CURSOR);
+    }
+
+    /**
+     * Hide cursor
+     */
+    public void cursorOff() {
+        assertActivityNotNull();
+        activity.getConsoleView().getCursorConsole().setVisible(false);
+    }
+
+    /**
+     * Display cursor
+     */
+    public void cursorOn() {
+        assertActivityNotNull();
+        activity.getConsoleView().getCursorConsole().setVisible(true);
+    }
+
+    public void sound(Object frequency) throws WrongArgsException {
+        if (frequency instanceof Long) {
+            this.finalFrequency = (long) frequency;
+        } else if (frequency instanceof Integer) {
+            this.finalFrequency = (long) frequency;
+        } else {
+            throw new WrongArgsException("method sound");
+        }
+        if (soundThread == null) {
+            soundThread = new Thread(soundRunnable);
+            canPlaySound.set(true);
+            soundThread.start();
+        }
+    }
+
+
+    public void noSound() {
+        canPlaySound.set(false);
+    }
+
+    private void playSound(double frequency, int duration) {
+
+        // AudioTrack definition
+        int mBufferSize = AudioTrack.getMinBufferSize(44100,
+                AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_8BIT);
+
+        AudioTrack mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100,
+                AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
+                mBufferSize, AudioTrack.MODE_STREAM);
+
+        // Sine wave
+        double[] mSound = new double[4410];
+        short[] mBuffer = new short[duration];
+        for (int i = 0; i < mSound.length; i++) {
+            mSound[i] = Math.sin((2.0 * Math.PI * i / (44100 / frequency)));
+            mBuffer[i] = (short) (mSound[i] * Short.MAX_VALUE);
+        }
+
+        mAudioTrack.setStereoVolume(AudioTrack.getMaxVolume(), AudioTrack.getMaxVolume());
+        mAudioTrack.play();
+
+        mAudioTrack.write(mBuffer, 0, mSound.length);
+        mAudioTrack.stop();
+        mAudioTrack.release();
+
     }
 
 }
