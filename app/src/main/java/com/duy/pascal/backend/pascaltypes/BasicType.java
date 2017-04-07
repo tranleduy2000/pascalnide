@@ -188,7 +188,7 @@ public enum BasicType implements DeclaredType {
     Text(File.class) {
         @Override
         Object getDefaultValue() {
-            return 0;
+            return null;
         }
 
         @Override
@@ -198,7 +198,8 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Integer.class, "valueOf", Integer.class, new Class[]{int.class});
+            c.invokestatic().setMethod(Integer.class,
+                    "valueOf", Integer.class, new Class[]{int.class});
         }
 
         @Override

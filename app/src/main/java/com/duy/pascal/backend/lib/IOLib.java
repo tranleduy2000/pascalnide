@@ -110,37 +110,37 @@ public class IOLib implements PascalLibrary {
     /**
      * read procedure
      */
-    public void read(VariableBoxer<Object> a1) throws RuntimePascalException, NumberFormatException {
+    public void read(VariableBoxer<Integer> a1) throws RuntimePascalException, NumberFormatException {
         setValueForVariables(a1);
     }
 
-    public void read(VariableBoxer<Object> a1, VariableBoxer a2) throws RuntimePascalException {
+    public void read(VariableBoxer<Integer> a1, VariableBoxer a2) throws RuntimePascalException {
         setValueForVariables(a1, a2);
     }
 
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
+    public void read(VariableBoxer<Integer> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3);
     }
 
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+    public void read(VariableBoxer<Integer> a1, VariableBoxer<Object> a2,
                      VariableBoxer<Object> a3, VariableBoxer<Object> a4) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4);
     }
 
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+    public void read(VariableBoxer<Integer> a1, VariableBoxer<Object> a2,
                      VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                      VariableBoxer<Object> a5) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5);
     }
 
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+    public void read(VariableBoxer<Integer> a1, VariableBoxer<Object> a2,
                      VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                      VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6);
 
     }
 
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+    public void read(VariableBoxer<Integer> a1, VariableBoxer<Object> a2,
                      VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                      VariableBoxer<Object> a5, VariableBoxer<Object> a6,
                      VariableBoxer<Object> a7) throws RuntimePascalException {
@@ -222,36 +222,36 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    public void readln(VariableBoxer<Object> variableBoxer) throws NumberFormatException, RuntimePascalException {
+    public void readln(VariableBoxer<Integer> variableBoxer) throws NumberFormatException, RuntimePascalException {
         setValueForVariables(variableBoxer);
     }
 
-    public void readln(VariableBoxer<Object> a1, VariableBoxer a2) throws RuntimePascalException {
+    public void readln(VariableBoxer<Integer> a1, VariableBoxer a2) throws RuntimePascalException {
         setValueForVariables(a1, a2);
     }
 
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
+    public void readln(VariableBoxer<Integer> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3);
     }
 
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+    public void readln(VariableBoxer<Integer> a1, VariableBoxer<Object> a2,
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4);
     }
 
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+    public void readln(VariableBoxer<Integer> a1, VariableBoxer<Object> a2,
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                        VariableBoxer<Object> a5) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5);
     }
 
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+    public void readln(VariableBoxer<Integer> a1, VariableBoxer<Object> a2,
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                        VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6);
     }
 
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
+    public void readln(VariableBoxer<Integer> a1, VariableBoxer<Object> a2,
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                        VariableBoxer<Object> a5, VariableBoxer<Object> a6,
                        VariableBoxer<Object> a7) throws RuntimePascalException {

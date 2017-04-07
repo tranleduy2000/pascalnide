@@ -2,6 +2,8 @@ package com.duy.pascal.backend.lib.file_lib;
 
 import android.os.Environment;
 
+import com.duy.pascal.backend.lib.file_lib.exceptions.DiskReadErrorException;
+import com.duy.pascal.backend.lib.file_lib.exceptions.FileNotOpenException;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 
 import java.io.BufferedWriter;
@@ -16,40 +18,40 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class FileEntry {
-    private String filePath = "";
+    private String mFilePath = "";
     private BufferedWriter mWriter;
     private Scanner mReader;
     private boolean opened = false;
     private File file;
 
-    public FileEntry(String filePath) {
-        this.filePath = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/" + filePath;
-        this.file = new File(filePath);
-//        System.out.println("File: " + this.filePath);
+    public FileEntry(String mFilePath) {
+        this.mFilePath = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/" + mFilePath;
+        this.file = new File(this.mFilePath);
+//        System.out.println("File: " + this.mFilePath);
     }
 
 
     public String getFileName(String fileName) {
-        return filePath;
+        return mFilePath;
     }
 
     public void setFileName(String filePath) {
-        this.filePath = filePath;
+        this.mFilePath = filePath;
     }
 
     /**
      * open file
      *
-     * @throws IOException
+     * @throws FileNotFoundException
      */
     public void reset() throws FileNotFoundException {
-        mReader = new Scanner(new FileReader(filePath));
+        mReader = new Scanner(new FileReader(mFilePath));
         mReader.useLocale(Locale.ENGLISH);
         setOpened(true);
     }
 
     public void append() throws IOException {
-        File f = new File(filePath);
+        File f = new File(mFilePath);
         if (!f.exists()) {
             f.createNewFile();
         }
@@ -70,10 +72,10 @@ public class FileEntry {
         randomAccessFile.setLength(0);
         randomAccessFile.close();
         mWriter = new BufferedWriter(new FileWriter(file));
-
+        setOpened(true);
     }
 
-    public int readInt() throws InvalidNumericFormatException, DiskReadErrorException {
+    public int readInteger() throws InvalidNumericFormatException, DiskReadErrorException {
         assertNotEndOfFile();
 
         int integer;
@@ -127,6 +129,7 @@ public class FileEntry {
     /**
      * An error occurred when reading from disk. Typically happens when you try to
      * read past the end of a file.
+     *
      * @throws DiskReadErrorException
      */
     private void assertNotEndOfFile() throws DiskReadErrorException {
@@ -153,6 +156,7 @@ public class FileEntry {
         if (mWriter != null) {
             mWriter.close();
         }
+        setOpened(false);
     }
 
 

@@ -15,11 +15,11 @@ import java.util.NoSuchElementException;
  */
 public class TypeUtils {
     public static final Class[] primitiveAssignable = {
-                    String.class, Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
-                    Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
-                    Boolean.class, Byte.class, Character.class, Double.class,
-                    Float.class, Integer.class, Long.class, Short.class, File.class, URI.class
-            };
+            String.class, Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
+            Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
+            Boolean.class, Byte.class, Character.class, Double.class,
+            Float.class, Integer.class, Long.class, Short.class, File.class, URI.class
+    };
 
     private static HashMap typeMap = null;
     private static HashMap wrappers = null;
@@ -371,38 +371,38 @@ public class TypeUtils {
         try {
             if (type.equals(Boolean.class)
                     || type.equals(Boolean.TYPE)) {
-                return new Boolean(s);
+                return Boolean.valueOf(s);
             } else if (type.equals(Byte.class)
                     || type.equals(Byte.TYPE)) {
-                return new Byte(s);
+                return Byte.valueOf(s);
             } else if (type.equals(Character.class)
                     || type.equals(Character.TYPE)) {
-                return new Character(s.charAt(0));
+                return s.charAt(0);
             } else if (type.equals(Double.class)
                     || type.equals(Double.TYPE)) {
-                return new Double(s);
+                return Double.valueOf(s);
             } else if (type.equals(Float.class)
                     || type.equals(Float.TYPE)) {
-                return new Float(s);
+                return Float.valueOf(s);
             } else if (type.equals(Integer.class)
                     || type.equals(Integer.TYPE)) {
                 try {
                     s = s.substring(0, s.indexOf("."));
                 } catch (IndexOutOfBoundsException ioobe) {
                 }
-                return new Integer(s);
+                return Integer.valueOf(s);
             } else if (type.equals(Long.class)
                     || type.equals(Long.TYPE)) {
                 try {
                     s = s.substring(0, s.indexOf("."));
-                } catch (IndexOutOfBoundsException ioobe) {
+                } catch (IndexOutOfBoundsException ignored) {
                 }
-                return new Long(s);
+                return Long.valueOf(s);
             } else if (type.equals(Short.class)
                     || type.equals(Short.TYPE)) {
                 try {
                     s = s.substring(0, s.indexOf("."));
-                } catch (IndexOutOfBoundsException ioobe) {
+                } catch (IndexOutOfBoundsException ignored) {
                 }
                 return new Short(s);
             } else if (type.equals(File.class)) {

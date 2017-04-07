@@ -58,6 +58,8 @@ public class WordToken extends Token {
             return BasicType.Boolean;
         } else if (s.equalsIgnoreCase("char")) {
             return BasicType.Character;
+        } else if (s.equalsIgnoreCase("text")) {
+            return BasicType.Text;
         } else {
             DeclaredType type = context.getTypedefType(s);
             if (type != null) {

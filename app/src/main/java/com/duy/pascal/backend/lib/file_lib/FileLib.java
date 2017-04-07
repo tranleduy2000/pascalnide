@@ -1,6 +1,12 @@
 package com.duy.pascal.backend.lib.file_lib;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.lib.PascalLibrary;
+import com.duy.pascal.backend.lib.file_lib.exceptions.FileNotAssignException;
+import com.duy.pascal.backend.lib.file_lib.exceptions.FileNotOpenException;
+import com.duy.pascal.backend.lib.file_lib.exceptions.FileNotOpenForInputException;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
@@ -12,46 +18,51 @@ import java.util.Map;
 
 public class FileLib implements PascalLibrary {
 
-    private HashMap<Integer, FileEntry> filesMap = new HashMap<>();
-
-    private int numberFiles = 0;
+    public static final String TAG = FileLib.class.getSimpleName();
 
     /**
-     * add new file to map file
-     *
-     * @param fileID - id to store address of file
-     * @param name   - file path
+     * map file
+     * key is the path of file
      */
-    public void assign(VariableBoxer<Integer> fileID, String name) {
-        //assign(f, 'file.inp');
-        numberFiles++;
-        fileID.set(numberFiles);
+    private HashMap<String, FileEntry> filesMap = new HashMap<>();
+    private int numberFiles = 0;
+
+
+    public void assign(VariableBoxer<File> fileVariable, String name) throws RuntimePascalException {
+        Log.d(TAG, "assign: " + name);
+        String path = ApplicationFileManager.getApplicationPath() + name;
+        fileVariable.set(new File(path));
+
+        //put to map
         FileEntry fileEntry = new FileEntry(name);
-        filesMap.put(numberFiles, fileEntry);
-
+        filesMap.put(path, fileEntry);
     }
 
-    public void reset(int fileID) throws FileNotFoundException, FileNotAssignException {
-        assertFileAssigned(fileID);
-
+    public void reset(VariableBoxer<File> fileVariable) throws
+            FileNotFoundException, RuntimePascalException {
+        Log.d(TAG, "reset: " + fileVariable.get().getName());
+        assertFileAssigned(fileVariable);
         //throw file not found exception
-        filesMap.get(fileID).reset();
+        filesMap.get(fileVariable.get().getPath()).reset();
     }
 
-    public void rename(int fileID) throws FileNotAssignException {
-        assertFileAssigned(fileID);
+    public void rename(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+        assertFileAssigned(fileVariable);
+        Log.d(TAG, "rename: " + fileVariable.get().getName());
         // TODO: 07-Apr-17
     }
 
-    public void erase(int fileID) throws FileNotAssignException {
-        assertFileAssigned(fileID);
+    public void erase(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+        assertFileAssigned(fileVariable);
+        Log.d(TAG, "erase: " + fileVariable.get().getName());
         // TODO: 07-Apr-17
     }
 
 
-    public void rewrite(int fileID) throws IOException, FileNotAssignException {
-        assertFileAssigned(fileID);
-        filesMap.get(fileID).rewrite();
+    public void rewrite(VariableBoxer<File> fileVariable) throws IOException, RuntimePascalException {
+        assertFileAssigned(fileVariable);
+        Log.d(TAG, "rewrite: " + fileVariable.get().getName());
+        filesMap.get(fileVariable.get().getPath()).rewrite();
     }
 
 
@@ -60,8 +71,15 @@ public class FileLib implements PascalLibrary {
      * This is reported by Reset, Rewrite, Append, Rename and Erase,
      * if you call them with an unassigned file as a parameter.
      */
-    private void assertFileAssigned(int fileID) throws FileNotAssignException {
-        if (filesMap.get(fileID) == null) {
+    private void assertFileAssigned(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+        assertFileAssigned(fileVariable.get());
+    }
+
+    private void assertFileAssigned(File fileVariable) throws RuntimePascalException {
+        if (fileVariable == null) {
+            throw new FileNotAssignException();
+        }
+        if (filesMap.get(fileVariable.getPath()) == null) {
             throw new FileNotAssignException();
         }
     }
@@ -72,70 +90,62 @@ public class FileLib implements PascalLibrary {
      * Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite
      * if the file is not open.
      *
-     * @param fileID - file id in map file
      * @throws FileNotOpenException
      * @throws FileNotAssignException
      */
-    private void assertFileOpened(int fileID) throws FileNotOpenException, FileNotAssignException {
-        assertFileAssigned(fileID);
-        if (!filesMap.get(fileID).isOpened()) {
+    private void assertFileOpened(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+        assertFileOpened(fileVariable.get());
+    }
+
+    private void assertFileOpened(File fileVariable) throws RuntimePascalException {
+        assertFileAssigned(fileVariable);
+        if (!filesMap.get(fileVariable.getPath()).isOpened()) {
             throw new FileNotOpenException();
         }
     }
 
     /**
      * close file
-     *
-     * @param fileID
      */
-    public void close(int fileID) throws IOException, FileNotOpenException, FileNotAssignException {
-        assertFileOpened(fileID);
-        filesMap.get(fileID).close();
+    public void close(VariableBoxer<File> fileVariable) throws IOException, RuntimePascalException {
+        assertFileOpened(fileVariable);
+        filesMap.get(fileVariable.get().getPath()).close();
     }
 
-    public boolean eof(int fileID) throws IOException,
-            FileNotAssignException, FileNotOpenForInputException, FileNotOpenException {
-        assertFileOpened(fileID);
-        assertFileOpenForInput(fileID);
-        return filesMap.get(fileID).isEof();
+    public boolean eof(VariableBoxer<File> fileVariable) throws IOException,
+            RuntimePascalException {
+        assertFileOpened(fileVariable);
+        assertFileOpenForInput(fileVariable);
+        return filesMap.get(fileVariable.get().getPath()).isEof();
     }
 
-    public void seekEof(int fileID) throws FileNotAssignException,
-            FileNotOpenForInputException, FileNotOpenException {
-        assertFileOpenForInput(fileID);
+    public void seekEof(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+        assertFileOpenForInput(fileVariable);
     }
 
-    public void seekEofLn(int fileID) throws FileNotAssignException,
-            FileNotOpenForInputException, FileNotOpenException {
-        assertFileOpenForInput(fileID);
+    public void seekEofLn(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+        assertFileOpenForInput(fileVariable);
     }
 
-    public void blockRead(int fileID) throws FileNotAssignException,
-            FileNotOpenForInputException, FileNotOpenException {
-        assertFileOpenForInput(fileID);
+    public void blockRead(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+        assertFileOpenForInput(fileVariable);
     }
 
-    public void append(int fileID) throws FileNotAssignException {
-        assertFileAssigned(fileID);
+    public void append(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+        assertFileAssigned(fileVariable);
         // TODO: 07-Apr-17
     }
 
 
-    /**
-     * read file
-     *
-     * @param fileID
-     * @param out
-     * @return
-     */
-    public void readf(int fileID, VariableBoxer<Object> out) throws RuntimePascalException {
+    public void read(File fileVariable,
+                     VariableBoxer<Object> out) throws RuntimePascalException {
+        System.out.println("readf " + fileVariable + " " + out.get().getClass().getSimpleName());
         //check error
-        assertFileOpened(fileID);
-        assertFileOpenForInput(fileID);
+        assertFileOpenForInput(fileVariable);
 
-        FileEntry file = filesMap.get(fileID);
+        FileEntry file = filesMap.get(fileVariable.getPath());
         if (out.get() instanceof Integer) {
-            Integer integer = file.readInt();
+            Integer integer = file.readInteger();
             out.set(integer);
         } else if (out.get() instanceof Long) {
             long value = file.readLong();
@@ -156,28 +166,30 @@ public class FileLib implements PascalLibrary {
      * 04 File not open for input
      * Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.
      */
-    private void assertFileOpenForInput(int fileID) throws FileNotOpenException,
-            FileNotAssignException, FileNotOpenForInputException {
-        assertFileOpened(fileID);
-        if (!filesMap.get(fileID).isOpened()) {
+    private void assertFileOpenForInput(VariableBoxer<File> fileVariable)
+            throws RuntimePascalException {
+        assertFileOpenForInput(fileVariable.get());
+    }
+
+    private void assertFileOpenForInput(File fileVariable)
+            throws RuntimePascalException {
+        assertFileOpened(fileVariable);
+        if (!filesMap.get(fileVariable.getPath()).isOpened()) {
             throw new FileNotOpenForInputException();
         }
     }
 
     /**
      * read file and  move cursor to new line
-     *
-     * @param fileID
-     * @param out
      */
-    public void readlnF(int fileID, VariableBoxer<Object> out) throws IOException, RuntimePascalException {
+    public void readln(File fileVariable, VariableBoxer<Object> out) throws IOException, RuntimePascalException {
         //check error
-        assertFileOpened(fileID);
+        assertFileOpened(fileVariable);
 
-        FileEntry f = filesMap.get(fileID);
+        FileEntry f = filesMap.get(fileVariable.getPath());
         Object value = null;
         if (out.get() instanceof Integer) {
-            value = f.readInt();
+            value = f.readInteger();
             out.set(value);
             f.nextLine();
         } else if (out.get() instanceof Long) {
@@ -202,57 +214,33 @@ public class FileLib implements PascalLibrary {
     /**
      * write file
      *
-     * @param fileID
      * @param objects
      * @return
      */
-    public void writeF(int fileID, Object... objects) throws IOException, FileNotOpenException, FileNotAssignException {
+    public void writeF(VariableBoxer<File> fileVariable, Object... objects) throws IOException, RuntimePascalException {
         //check error
-        assertFileOpened(fileID);
-        FileEntry f = filesMap.get(fileID);
+        assertFileOpened(fileVariable);
+        FileEntry f = filesMap.get(fileVariable.get().getPath());
         f.write(objects);
     }
 
     /**
      * write file and append new line
      *
-     * @param fileID
      * @param objects
      */
-    public void writelnF(int fileID, Object... objects) throws
-            IOException, FileNotOpenException, FileNotAssignException {
+    public void writelnF(VariableBoxer<File> fileVariable, Object objects) throws
+            IOException, RuntimePascalException {
         //check error
-        assertFileOpened(fileID);
+//        assertFileOpened(file);
 
-        writeF(fileID, objects);
-        writeF(fileID, "\n");
+        writeF(fileVariable, objects);
+        writeF(fileVariable, "\n");
     }
 
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }
-
-    /////////////////////////////////////////////////
-    //////////// NON_FUNCTION_PASCAL ////////////////
-    /////////////////////////////////////////////////
-
-    public boolean fileExists(String s) {
-        File f = new File(s);
-        return f.exists() && !f.isDirectory();
-    }
-
-    public boolean directoryExists(String DirectoryName) {
-        File f = new File(DirectoryName);
-        return f.exists() && f.isDirectory();
-    }
-
-    private void checkFile(int fileID) throws IOException {
-        FileEntry fileEntry = filesMap.get(fileID);
-        if (fileEntry == null) {
-            throw new IOException("File not found");
-        }
-    }
-
 
 }
