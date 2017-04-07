@@ -162,12 +162,18 @@ public class PascalCompiler {
         classes.add(StringLib.class);
 //        classes.add(SetArrayLengthLib.class);
 //        classes.add(SetLengthLib.class);
-        classes.add(ioLib.getClass());
+        classes.add(systemLib.getClass());
         classes.add(crtLib.getClass());
         classes.add(DosLib.class);
         classes.add(graphLib.getClass());
-        classes.add(systemLib.getClass());
+
+        /**
+         * Important: load file library before io lib. Because
+         * method readln(file, ...) in {@link FileLib} will be override method readln(object...) in {@link IOLib}
+         */
         classes.add(fileLib.getClass());
+        classes.add(ioLib.getClass());
+
 
         for (Class pascalPlugin : classes) {
             Object o;

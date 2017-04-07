@@ -1,5 +1,7 @@
 package com.js.interpreter.ast;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
@@ -12,6 +14,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class AbstractFunction implements NamedEntity {
+
+    public static final String TAG = AbstractFunction.class.getSimpleName();
 
     @Override
     public abstract String name();
@@ -59,7 +63,11 @@ public abstract class AbstractFunction implements NamedEntity {
     public ReturnsValue[] perfectMatch(List<ReturnsValue> arguments,
                                        ExpressionContext context) throws ParsingException {
         ArgumentType[] acceptedTypes = getArgumentTypes();
-
+        StringBuilder stringBuilder = new StringBuilder();
+        for (ArgumentType argumentType : acceptedTypes) {
+            stringBuilder.append(argumentType.getRuntimeClass().getSimpleName()).append(" ");
+        }
+        Log.d(TAG, "perfectMatch: " + stringBuilder.toString());
         //check array
         boolean isArray = false;
         if (acceptedTypes.length > 0

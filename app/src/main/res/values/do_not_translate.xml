@@ -15,6 +15,7 @@
         <item>English</item>
         <item>Pусский</item>
         <item>Tiếng Việt</item>
+        <item>Spanish</item>
     </string-array>
 
     <string-array name="language_code" translatable="false">
@@ -22,6 +23,7 @@
         <item>en</item>
         <item>ru</item>
         <item>vi</item>
+        <item>es</item>
     </string-array>
 
     <string-array name="fonts_arr" translatable="false">

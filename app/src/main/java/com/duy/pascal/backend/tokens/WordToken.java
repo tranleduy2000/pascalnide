@@ -10,15 +10,16 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 
 public class WordToken extends Token {
     public String name;
-
+    public String orginalName;
     public WordToken(LineInfo line, String s) {
         super(line);
-        this.name = s;
+        this.name = s.toLowerCase();
+        this.orginalName = s;
     }
 
     @Override
     public String toString() {
-        return name.toLowerCase();
+        return name;
     }
 
     public String getCode() {

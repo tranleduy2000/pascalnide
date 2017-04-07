@@ -16,42 +16,42 @@
     <string name="Incomplete_character_literal">Incomplete character literal</string>
     <string name="token_not_belong">"The following token doesn\'t belong here: "</string>
     <string name="main_program_not_define">Main program not found</string>
-    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
+    <string name="BadOperationTypeException" translatable="false">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the other has type \"%5$s\"</string>
-    <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
-    <string name="ConstantCalculationException">Error while computing constant value: %1$s</string>
-    <string name="DivisionByZeroException">Division by zero</string>
-    <string name="ExpectedAnotherTokenException">Another token is expected before the end of this construct.</string>
-    <string name="ExpectedTokenException">Expected the following token to appear: %1$s instead.\nThere was the following token: %2$s</string>
-    <string name="IncompatableFunctionDeclaration">Function declaration declares conflicting return type %1$s. It previously was defined as %2$s</string>
-    <string name="InputStreamNotFoundException">Input stream not found exception</string>
-    <string name="LibraryNotFoundException">Can not find library %1%s</string>
-    <string name="MainProgramNotFoundException">Main program not found</string>
-    <string name="MisplacedDeclarationException">Definition of %1$s is not appropriate here: %2$s</string>
-    <string name="MultipleDefaultValuesException">Default Values can only be used when declaring variables one at a time.</string>
-    <string name="MultipleDefinitionsMainException">Too many main programs are defined</string>
-    <string name="NonArrayIndexed">Tried to do indexed access on something which wasn\'t an array or a string. It was a %1$s</string>
-    <string name="NonConstantExpressionException">The expression %1$s is not constant.</string>
-    <string name="NonIntegerIndexException">Array indexes must be integers: %1$s</string>
-    <string name="NoSuchFunctionOrVariableException">%1$s is not a variable or function name</string>
-    <string name="NotAStatementException">%1$s is not an instruction by itself.</string>
-    <string name="OperationNotSupportedException">OperationNotSupportedException</string>
-    <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
-    <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
-    <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
-    <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
-    <string name="UnconvertibleTypeException" formatted="false">The expression or variable %1%s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
-    <string name="UnrecognizedTokenException">The following token doesn\'t belong here: %1$s</string>
-    <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
-    <string name="WrongArgsException">WrongArgsException</string>
-    <string name="WrongTypeInputException">WrongTypeInputException</string>
-    <string name="PascalArithmeticException">Arithmetic Exception: %1%s</string>
-    <string name="UnhandledPascalException">PascalArithmeticException</string>
-    <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
-    <string name="PluginCallException">PascalArithmeticException</string>
-    <string name="RuntimePascalException">PascalArithmeticException</string>
-    <string name="ScriptTerminatedException">Script was manually terminated before it could finish executing</string>
-    <string name="InternalInterpreterException">InternalInterpreterException</string>
-    <string name="PluginReflectionException">Attempting to use reflection when: %1$s</string>
-    <string name="ZeroLengthVariableException">ZeroLengthVariableException</string>
+    <string name="BadOperationTypeException2" translatable="false">Operator \"%1$s\" is not a unary operator</string>
+    <string name="ConstantCalculationException" translatable="false">Error while computing constant value: %1$s</string>
+    <string name="DivisionByZeroException" translatable="false">Division by zero</string>
+    <string name="ExpectedAnotherTokenException" translatable="false">Another token is expected before the end of this construct.</string>
+    <string name="ExpectedTokenException" translatable="false">Expected the following token to appear: %1$s instead.\nThere was the following token: %2$s</string>
+    <string name="IncompatableFunctionDeclaration" translatable="false">Function declaration declares conflicting return type %1$s. It previously was defined as %2$s</string>
+    <string name="InputStreamNotFoundException" translatable="false">Input stream not found exception</string>
+    <string name="LibraryNotFoundException" translatable="false">Can not find library %1%s</string>
+    <string name="MainProgramNotFoundException" translatable="false">Main program not found</string>
+    <string name="MisplacedDeclarationException" translatable="false">Definition of %1$s is not appropriate here: %2$s</string>
+    <string name="MultipleDefaultValuesException" translatable="false">Default Values can only be used when declaring variables one at a time.</string>
+    <string name="MultipleDefinitionsMainException" translatable="false">Too many main programs are defined</string>
+    <string name="NonArrayIndexed" translatable="false">Tried to do indexed access on something which wasn\'t an array or a string. It was a %1$s</string>
+    <string name="NonConstantExpressionException" translatable="false">The expression %1$s is not constant.</string>
+    <string name="NonIntegerIndexException" translatable="false">Array indexes must be integers: %1$s</string>
+    <string name="NoSuchFunctionOrVariableException" translatable="false">%1$s is not a variable or function name</string>
+    <string name="NotAStatementException" translatable="false">%1$s is not an instruction by itself.</string>
+    <string name="OperationNotSupportedException" translatable="false">OperationNotSupportedException</string>
+    <string name="OrdinalExpressionExpectedException" translatable="false">OrdinalExpressionExpectedException</string>
+    <string name="OverridingFunctionException" translatable="false">Redefining function body for %1$s, which was previous define at %1$s</string>
+    <string name="SameNameException" translatable="false">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
+    <string name="UnAssignableTypeException" translatable="false">The expression %1$s cannot have a value assigned to it.</string>
+    <string name="UnconvertibleTypeException" formatted="false" translatable="false">The expression or variable %1%s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
+    <string name="UnrecognizedTokenException" translatable="false">The following token doesn\'t belong here: %1$s</string>
+    <string name="UnrecognizedTypeException" translatable="false">Type %1$s is not defined.</string>
+    <string name="WrongArgsException" translatable="false">WrongArgsException</string>
+    <string name="WrongTypeInputException" translatable="false">WrongTypeInputException</string>
+    <string name="PascalArithmeticException" translatable="false">Arithmetic Exception: %1%s</string>
+    <string name="UnhandledPascalException" translatable="false">PascalArithmeticException</string>
+    <string name="PascalIndexOutOfBoundsException" translatable="false">PascalArithmeticException</string>
+    <string name="PluginCallException" translatable="false">PascalArithmeticException</string>
+    <string name="RuntimePascalException" translatable="false">PascalArithmeticException</string>
+    <string name="ScriptTerminatedException" translatable="false">Script was manually terminated before it could finish executing</string>
+    <string name="InternalInterpreterException" translatable="false">InternalInterpreterException</string>
+    <string name="PluginReflectionException" translatable="false">Attempting to use reflection when: %1$s</string>
+    <string name="ZeroLengthVariableException" translatable="false">ZeroLengthVariableException</string>
 </resources>

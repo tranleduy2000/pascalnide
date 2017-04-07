@@ -47,7 +47,8 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
                     perfectFit = true;
                     chosen = a;
                     returnsValue = result;
-                    continue;
+//                    continue;
+                    break;
                 }
                 result = a.generateCall(name.lineInfo, arguments, f);
                 if (result != null && !perfectFit) {
