@@ -99,7 +99,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
             try {
                 if (DLog.DEBUG) Log.d(TAG, "doInBackground: ");
                 String[] list;
-                String path = "code_sample/crt";
+                String path = "code_sample/basic";
 //                list = getAssets().list("code_sample/basic");
                 list = getAssets().list(path);
                 for (String fileName : list) {
