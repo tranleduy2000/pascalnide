@@ -5,13 +5,8 @@ import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,14 +31,56 @@ public class FileLib implements PascalLibrary {
 
     }
 
-    public void rewrite(int fileID) throws IOException {
-        checkFile(fileID);
+    public void reset(int fileID) throws FileNotFoundException, FileNotAssignException {
+        assertFileAssigned(fileID);
+
+        //throw file not found exception
+        filesMap.get(fileID).reset();
+    }
+
+    public void rename(int fileID) throws FileNotAssignException {
+        assertFileAssigned(fileID);
+        // TODO: 07-Apr-17
+    }
+
+    public void erase(int fileID) throws FileNotAssignException {
+        assertFileAssigned(fileID);
+        // TODO: 07-Apr-17
+    }
+
+
+    public void rewrite(int fileID) throws IOException, FileNotAssignException {
+        assertFileAssigned(fileID);
         filesMap.get(fileID).rewrite();
     }
 
-    public void reset(int fileID) throws IOException {
-        checkFile(fileID);
-        filesMap.get(fileID).reset();
+
+    /**
+     * 102 File not assigned
+     * This is reported by Reset, Rewrite, Append, Rename and Erase,
+     * if you call them with an unassigned file as a parameter.
+     */
+    private void assertFileAssigned(int fileID) throws FileNotAssignException {
+        if (filesMap.get(fileID) == null) {
+            throw new FileNotAssignException();
+        }
+    }
+
+    /**
+     * 103 File not open
+     * Reported by the following functions : Close, Read, Write,
+     * Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite
+     * if the file is not open.
+     *
+     * @param fileID - file id in map file
+     * @throws FileNotOpenException
+     * @throws FileNotAssignException
+     */
+    private void assertFileOpened(int fileID) throws FileNotOpenException, FileNotAssignException {
+        assertFileAssigned(fileID);
+        if (!filesMap.get(fileID).isOpened()) {
+            throw new FileNotOpenException();
+        }
     }
 
     /**
@@ -51,14 +88,36 @@ public class FileLib implements PascalLibrary {
      *
      * @param fileID
      */
-    public void close(int fileID) throws IOException {
-        checkFile(fileID);
+    public void close(int fileID) throws IOException, FileNotOpenException, FileNotAssignException {
+        assertFileOpened(fileID);
         filesMap.get(fileID).close();
     }
 
-    public boolean eof(int fileID) throws IOException {
-        checkFile(fileID);
+    public boolean eof(int fileID) throws IOException,
+            FileNotAssignException, FileNotOpenForInputException, FileNotOpenException {
+        assertFileOpened(fileID);
+        assertFileOpenForInput(fileID);
         return filesMap.get(fileID).isEof();
+    }
+
+    public void seekEof(int fileID) throws FileNotAssignException,
+            FileNotOpenForInputException, FileNotOpenException {
+        assertFileOpenForInput(fileID);
+    }
+
+    public void seekEofLn(int fileID) throws FileNotAssignException,
+            FileNotOpenForInputException, FileNotOpenException {
+        assertFileOpenForInput(fileID);
+    }
+
+    public void blockRead(int fileID) throws FileNotAssignException,
+            FileNotOpenForInputException, FileNotOpenException {
+        assertFileOpenForInput(fileID);
+    }
+
+    public void append(int fileID) throws FileNotAssignException {
+        assertFileAssigned(fileID);
+        // TODO: 07-Apr-17
     }
 
 
@@ -69,24 +128,39 @@ public class FileLib implements PascalLibrary {
      * @param out
      * @return
      */
-    public void readf(int fileID, VariableBoxer<Object> out) throws IOException, RuntimePascalException {
-        checkFile(fileID);
-        FileEntry f = filesMap.get(fileID);
+    public void readf(int fileID, VariableBoxer<Object> out) throws RuntimePascalException {
+        //check error
+        assertFileOpened(fileID);
+        assertFileOpenForInput(fileID);
+
+        FileEntry file = filesMap.get(fileID);
         if (out.get() instanceof Integer) {
-            Integer integer = f.readInt();
+            Integer integer = file.readInt();
             out.set(integer);
         } else if (out.get() instanceof Long) {
-            long value = f.readLong();
+            long value = file.readLong();
             out.set(value);
         } else if (out.get() instanceof Double) {
-            double value = f.readDouble();
+            double value = file.readDouble();
             out.set(value);
         } else if (out.get() instanceof Character) {
-            char value = f.readChar();
+            char value = file.readChar();
             out.set(value);
         } else if (out.get() instanceof String) {
-            String value = f.readString();
+            String value = file.readString();
             out.set(value);
+        }
+    }
+
+    /**
+     * 04 File not open for input
+     * Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.
+     */
+    private void assertFileOpenForInput(int fileID) throws FileNotOpenException,
+            FileNotAssignException, FileNotOpenForInputException {
+        assertFileOpened(fileID);
+        if (!filesMap.get(fileID).isOpened()) {
+            throw new FileNotOpenForInputException();
         }
     }
 
@@ -97,8 +171,9 @@ public class FileLib implements PascalLibrary {
      * @param out
      */
     public void readlnF(int fileID, VariableBoxer<Object> out) throws IOException, RuntimePascalException {
-        System.out.println("readlnF " + out.get().getClass().getSimpleName());
-        checkFile(fileID);
+        //check error
+        assertFileOpened(fileID);
+
         FileEntry f = filesMap.get(fileID);
         Object value = null;
         if (out.get() instanceof Integer) {
@@ -131,8 +206,9 @@ public class FileLib implements PascalLibrary {
      * @param objects
      * @return
      */
-    public void writeF(int fileID, Object... objects) throws IOException {
-        checkFile(fileID);
+    public void writeF(int fileID, Object... objects) throws IOException, FileNotOpenException, FileNotAssignException {
+        //check error
+        assertFileOpened(fileID);
         FileEntry f = filesMap.get(fileID);
         f.write(objects);
     }
@@ -143,7 +219,11 @@ public class FileLib implements PascalLibrary {
      * @param fileID
      * @param objects
      */
-    public void writelnF(int fileID, Object... objects) throws IOException {
+    public void writelnF(int fileID, Object... objects) throws
+            IOException, FileNotOpenException, FileNotAssignException {
+        //check error
+        assertFileOpened(fileID);
+
         writeF(fileID, objects);
         writeF(fileID, "\n");
     }
@@ -168,54 +248,11 @@ public class FileLib implements PascalLibrary {
     }
 
     private void checkFile(int fileID) throws IOException {
-        if (filesMap.get(fileID) == null) {
+        FileEntry fileEntry = filesMap.get(fileID);
+        if (fileEntry == null) {
             throw new IOException("File not found");
         }
     }
-
-    public String extractFileName(String name) {
-        return new File(name).getName();
-    }
-
-    public String extractPathName(String name) {
-        return new File(name).getParent();
-    }
-
-    public String extractFileExt(String name) {
-        return name.substring(name.lastIndexOf('.') + 1);
-    }
-
-    public String MD5FromFile(String filename) {
-        MessageDigest digest;
-        DigestInputStream is = null;
-        try {
-            try {
-                digest = MessageDigest.getInstance("MD5");
-                try {
-                    is = new DigestInputStream(new FileInputStream(filename), digest);
-                    while (is.available() > 0) {
-                        is.read();
-                    }
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return new BigInteger(1, digest.digest()).toString(16);
-            } catch (NoSuchAlgorithmException e2) {
-                e2.printStackTrace();
-            }
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        System.err.println("Some sort of error trying to md5sum a file");
-        return null;
-    }
-
 
 
 }

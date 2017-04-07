@@ -18,6 +18,10 @@ public class WordToken extends Token {
 
     @Override
     public String toString() {
+        return name.toLowerCase();
+    }
+
+    public String getCode() {
         return name;
     }
 

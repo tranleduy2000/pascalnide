@@ -4,7 +4,7 @@ import com.duy.pascal.backend.debugable.DebuggableExecutableReturnsValue;
 import com.duy.pascal.backend.exceptions.AmbiguousFunctionCallException;
 import com.duy.pascal.backend.exceptions.BadFunctionCallException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnassignableTypeException;
+import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
@@ -127,8 +127,8 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
 
     @Override
     public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnassignableTypeException {
-        throw new UnassignableTypeException(r);
+            throws UnAssignableTypeException {
+        throw new UnAssignableTypeException(r);
     }
 
     @Override

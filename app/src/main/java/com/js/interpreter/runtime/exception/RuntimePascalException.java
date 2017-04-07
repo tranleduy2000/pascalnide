@@ -12,6 +12,5 @@ public class RuntimePascalException extends Exception {
     public RuntimePascalException(LineInfo line, String mes) {
         super(mes);
         this.line = line;
-
     }
 }

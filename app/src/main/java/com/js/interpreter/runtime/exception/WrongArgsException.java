@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.exceptions;
+package com.js.interpreter.runtime.exception;
 
 /**
  * Created by Duy on 13-Mar-17.

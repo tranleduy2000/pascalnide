@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.lib;
 
-import com.duy.pascal.backend.exceptions.WrongArgsException;
+import com.js.interpreter.runtime.exception.WrongArgsException;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 

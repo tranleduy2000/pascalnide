@@ -3,7 +3,7 @@ package com.duy.pascal.backend.lib;
 import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.OrdinalExpressionExpectedException;
-import com.duy.pascal.backend.exceptions.WrongArgsException;
+import com.js.interpreter.runtime.exception.WrongArgsException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;

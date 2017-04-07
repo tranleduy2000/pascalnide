@@ -231,6 +231,9 @@ public enum BasicType implements DeclaredType {
         if (c == Boolean.class) {
             return Boolean;
         }
+        if (c == File.class) {
+            return Text;
+        }
         return new JavaClassBasedType(c);
     }
 

@@ -123,7 +123,7 @@ public class AutoIndentCode {
         } else if (t instanceof DotDotToken) {
             processDotToken(t);
         } else if (t instanceof WordToken) {
-            processWordToken(t);
+            processWordToken((WordToken) t);
         } else if (t instanceof ClosingToken) {
             processClosingToken(t);
         } else if (t instanceof FunctionToken || t instanceof ProcedureToken) {
@@ -183,16 +183,16 @@ public class AutoIndentCode {
         processToken(t2);
     }
 
-    private static void processWordToken(Token t) throws IOException {
+    private static void processWordToken(WordToken wordToken) throws IOException {
         result += getStringTab(numberTab);
         Token t2 = lexer.yylex();
         if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
                 || t2 instanceof ClosingToken
                 || t2 instanceof DotDotToken || t2 instanceof PeriodToken
                 || t2 instanceof ColonToken)) {
-            result += t.toString() + " ";
-        } else result += t.toString();
-        lastToken = t;
+            result += wordToken.getCode() + " ";
+        } else result += wordToken.getCode();
+        lastToken = wordToken;
         processToken(t2);
     }
 

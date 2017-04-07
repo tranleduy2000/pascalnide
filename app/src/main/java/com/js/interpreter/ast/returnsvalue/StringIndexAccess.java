@@ -2,7 +2,7 @@ package com.js.interpreter.ast.returnsvalue;
 
 import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnassignableTypeException;
+import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
@@ -48,7 +48,7 @@ public class StringIndexAccess extends DebuggableReturnsValue {
 
     @Override
     public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnassignableTypeException {
+            throws UnAssignableTypeException {
         return new SetCharAt(container, index, r);
     }
 

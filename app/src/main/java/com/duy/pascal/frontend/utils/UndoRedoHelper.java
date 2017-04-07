@@ -249,10 +249,7 @@ public class UndoRedoHelper {
 
         @Override
         public String toString() {
-            return "EditItem{" +
-                    "mmStart=" + mmStart +
-                    ", mmBefore=" + mmBefore +
-                    ", mmAfter=" + mmAfter +
+            return "EditItem{" + "mmStart=" + mmStart + ", mmBefore=" + mmBefore + ", mmAfter=" + mmAfter +
                     '}';
         }
     }
@@ -275,7 +272,6 @@ public class UndoRedoHelper {
             if (mIsUndoOrRedo) {
                 return;
             }
-
             mAfterChange = s.subSequence(start, start + count);
             makeBatch(start);
         }
@@ -283,14 +279,17 @@ public class UndoRedoHelper {
         private void makeBatch(int start) {
             ActionType at = getActionType();
             EditItem editItem = mEditHistory.getCurrent();
-            if ((lastActionType != at || ActionType.PASTE == at || System.currentTimeMillis() - lastActionTime > 1000) || editItem == null) {
+            if ((lastActionType != at || ActionType.PASTE == at ||
+                    System.currentTimeMillis() - lastActionTime > 1000) || editItem == null) {
                 mEditHistory.add(new EditItem(start, mBeforeChange, mAfterChange));
             } else {
                 if (at == ActionType.DELETE) {
                     editItem.mmStart = start;
-                    editItem.mmBefore = TextUtils.concat(mBeforeChange, editItem.mmBefore);
+//                    editItem.mmBefore = TextUtils.concat(mBeforeChange, editItem.mmBefore);
+                    editItem.mmBefore = mBeforeChange.toString() + editItem.mmBefore.toString();
                 } else {
-                    editItem.mmAfter = TextUtils.concat(editItem.mmAfter, mAfterChange);
+//                    editItem.mmAfter = TextUtils.concat(editItem.mmAfter, mAfterChange);
+                    editItem.mmAfter = editItem.mmAfter.toString() + mAfterChange.toString();
                 }
             }
             lastActionType = at;

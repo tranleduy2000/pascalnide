@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.returnsvalue;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnassignableTypeException;
+import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
@@ -31,6 +31,6 @@ public interface ReturnsValue {
     /*
      * returns null if not a writable value.
      */
-    SetValueExecutable createSetValueInstruction(ReturnsValue r) throws UnassignableTypeException;
+    SetValueExecutable createSetValueInstruction(ReturnsValue r) throws UnAssignableTypeException;
 
 }

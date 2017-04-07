@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.lib.templated;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnassignableTypeException;
+import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
@@ -45,8 +45,8 @@ class SetLengthCall extends FunctionCall {
 
     @Override
     public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnassignableTypeException {
-        throw new UnassignableTypeException(this);
+            throws UnAssignableTypeException {
+        throw new UnAssignableTypeException(this);
     }
 
     @Override

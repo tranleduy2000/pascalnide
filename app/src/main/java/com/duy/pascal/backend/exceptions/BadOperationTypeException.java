@@ -6,6 +6,10 @@ import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
 public class BadOperationTypeException extends ParsingException {
+    public DeclaredType declaredType, declaredType1;
+    public ReturnsValue value1, value2;
+    public OperatorTypes operatorTypes;
+
     public BadOperationTypeException() {
         super(new LineInfo(-1, "Unknown"));
     }
@@ -17,6 +21,9 @@ public class BadOperationTypeException extends ParsingException {
                 + " cannot be applied to arguments '" + v1 + "' and '" + v2
                 + "'.  One has type " + t1 + " and the other has type " + t2
                 + ".");
+        this.value1 = v1;
+        this.value2 = v2;
+        this.operatorTypes = operation;
     }
 
     public BadOperationTypeException(LineInfo line, OperatorTypes operator) {

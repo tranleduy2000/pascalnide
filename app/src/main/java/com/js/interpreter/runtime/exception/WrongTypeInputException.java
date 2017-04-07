@@ -1,6 +1,4 @@
-package com.duy.pascal.backend.exceptions;
-
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+package com.js.interpreter.runtime.exception;
 
 public class WrongTypeInputException extends RuntimePascalException {
     public WrongTypeInputException() {

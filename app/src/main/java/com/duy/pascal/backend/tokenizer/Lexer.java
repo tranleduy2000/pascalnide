@@ -1193,7 +1193,8 @@ public class Lexer {
                 case 135:
                     break;
                 case 3: {
-                    return new WordToken(getLine(), yytext().toLowerCase());
+//                    return new WordToken(getLine(), yytext().toLowerCase());
+                    return new WordToken(getLine(), yytext());
                 }
                 case 136:
                     break;

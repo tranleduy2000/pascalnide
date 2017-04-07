@@ -2,12 +2,14 @@ package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
-import com.duy.pascal.backend.exceptions.WrongTypeInputException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.exception.WrongTypeInputException;
 
 import java.io.PrintStream;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -150,21 +152,35 @@ public class IOLib implements PascalLibrary {
         variableBoxer.set(new StringBuilder(scanner.nextLine()));
     }
 
-    private void readInt(Scanner scanner, VariableBoxer<Integer> variableBoxer) {
-        variableBoxer.set(scanner.nextInt());
+    private void readInt(Scanner scanner, VariableBoxer<Integer> variableBoxer)
+            throws InvalidNumericFormatException {
+        try {
+            variableBoxer.set(scanner.nextInt());
+        } catch (InputMismatchException e) {
+            throw new InvalidNumericFormatException();
+        }
     }
 
-    private void readLong(Scanner scanner, VariableBoxer<Long> variableBoxer) {
-        variableBoxer.set(scanner.nextLong());
+    private void readLong(Scanner scanner, VariableBoxer<Long> variableBoxer)
+            throws InvalidNumericFormatException {
+        try {
+            variableBoxer.set(scanner.nextLong());
+        } catch (InputMismatchException e) {
+            throw new InvalidNumericFormatException();
+        }
     }
 
-    private void readDouble(Scanner scanner, VariableBoxer<Double> variableBoxer) {
-        variableBoxer.set(scanner.nextDouble());
+    private void readDouble(Scanner scanner, VariableBoxer<Double> variableBoxer) throws InvalidNumericFormatException {
+        try {
+            variableBoxer.set(scanner.nextDouble());
+        } catch (InputMismatchException e) {
+            throw new InvalidNumericFormatException();
+        }
     }
 
     private void readChar(Scanner scanner, VariableBoxer<Character> variableBoxer) {
         System.out.println("readchar " + scanner.hasNext());
-        variableBoxer.set(new Character(scanner.next().charAt(0)));
+        variableBoxer.set(scanner.next().charAt(0));
     }
 
     private void setValueForVariables(VariableBoxer... listVariable) throws RuntimePascalException {
@@ -233,7 +249,6 @@ public class IOLib implements PascalLibrary {
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                        VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6);
-
     }
 
     public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,

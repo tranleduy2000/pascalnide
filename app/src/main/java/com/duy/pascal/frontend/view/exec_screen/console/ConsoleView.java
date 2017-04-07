@@ -42,20 +42,10 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     boolean isTextChange = true;
     private boolean graphMode = false;
     private GraphScreen mGraphScreen;
-
-    public TextRenderer getTextRenderer() {
-        return mTextRenderer;
-    }
-
     //    text style, size of console
     private TextRenderer mTextRenderer;
     //      store screen size and dimen
     private ConsoleScreen mConsoleScreen = new ConsoleScreen();
-
-    public CursorConsole getCursorConsole() {
-        return mCursor;
-    }
-
     //     Cursor of console
     private CursorConsole mCursor;
     //     Parent mActivity
@@ -86,19 +76,28 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     //    private String textScreen = "";
     private String mImeBuffer = "";
     private TextConsole[] textImeBuffer;
+
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
         init(context);
     }
+
     public ConsoleView(Context context, AttributeSet attrs, int defStyles) {
         super(context, attrs, defStyles);
         init(context);
     }
 
-
     public ConsoleView(Context context) {
         super(context);
         init(context);
+    }
+
+    public TextRenderer getTextRenderer() {
+        return mTextRenderer;
+    }
+
+    public CursorConsole getCursorConsole() {
+        return mCursor;
     }
 
     public boolean isGraphMode() {
@@ -111,12 +110,27 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     private void init(Context context) {
         mGestureDetector = new GestureDetector(this);
-        mCursor = new CursorConsole(0, 0, Color.DKGRAY);
         mPascalPreferences = new PascalPreferences(context);
         frameRate = mPascalPreferences.getConsoleFrameRate();
 //        mConsoleScreen.setMaxLines(mPascalPreferences.getConsoleMaxBuffer());
-        mConsoleScreen.setMaxLines(100);
+
         mGraphScreen = new GraphScreen(context);
+
+        mConsoleScreen.setBackgroundColor(Color.BLACK);
+        mConsoleScreen.setMaxLines(100);
+
+        mTextRenderer = new TextRenderer(getTextSize(TypedValue.COMPLEX_UNIT_SP,
+                mPascalPreferences.getConsoleFontSize()));
+        mTextRenderer.setTextColor(Color.WHITE);
+
+        firstLine = 0;
+        bufferData.firstIndex = 0;
+        bufferData.textConsole = null;
+
+        mCursor = new CursorConsole(0, 0, Color.DKGRAY);
+        mCursor.setCoordinate(0, 0);
+        mCursor.setCursorBlink(true);
+        mCursor.setVisible(true);
     }
 
     public void putString(String c) {
@@ -228,8 +242,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public void showPrompt() {
         commitString("Initialize the console screen..." + "\n");
-        commitString("Width = " + mConsoleScreen.consoleRow + " ;"
-                + " height = " + mConsoleScreen.consoleColumn + "\n");
+        commitString("Size: " + mConsoleScreen.consoleRow + "x" + mConsoleScreen.consoleColumn + "\n");
         commitString("---------------------------" + "\n");
     }
 
@@ -243,21 +256,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return TypedValue.applyDimension(unit, size, r.getDisplayMetrics());
     }
 
-    public void initConsole(Activity a, float fontSize, int textColor, int backColor) {
+    public void initConsole(Activity a) {
         mActivity = a;
-        mConsoleScreen.setBackgroundColor(backColor);
-        mTextRenderer = new TextRenderer(getTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize));
-        mTextRenderer.setTextColor(textColor);
 
-        mCursor.x = 0;
-        mCursor.y = 0;
-
-        firstLine = 0;
-        bufferData.firstIndex = 0;
-        bufferData.textConsole = null;
-
-        mCursor.setCursorBlink(true);
-        mCursor.setVisible(true);
     }
 
     /**

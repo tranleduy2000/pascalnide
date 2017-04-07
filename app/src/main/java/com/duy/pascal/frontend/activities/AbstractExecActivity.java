@@ -2,10 +2,8 @@ package com.duy.pascal.frontend.activities;
 
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -33,22 +31,13 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
         setContentView(R.layout.activity_console);
         ButterKnife.bind(this);
         setupActionBar();
-        mConsoleView.initConsole(this,
-                mPascalPreferences.getConsoleFontSize(),
-                mPascalPreferences.getConsoleTextColor(), mPascalPreferences.getConsoleBackground());
+
+        mConsoleView.initConsole(this);
         mConsoleView.updateSize();
         mConsoleView.showPrompt();
     }
 
-    public float getTextSize(int unit, float size) {
-        Context c = getApplicationContext();
-        Resources r;
-        if (c == null)
-            r = Resources.getSystem();
-        else
-            r = c.getResources();
-        return TypedValue.applyDimension(unit, size, r.getDisplayMetrics());
-    }
+
 
     private void setupActionBar() {
         setSupportActionBar(toolbar);

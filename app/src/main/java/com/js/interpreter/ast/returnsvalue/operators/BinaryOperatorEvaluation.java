@@ -4,7 +4,7 @@ package com.js.interpreter.ast.returnsvalue.operators;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnassignableTypeException;
+import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -151,7 +151,7 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
 
     @Override
     public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnassignableTypeException {
-        throw new UnassignableTypeException(r);
+            throws UnAssignableTypeException {
+        throw new UnAssignableTypeException(r);
     }
 }

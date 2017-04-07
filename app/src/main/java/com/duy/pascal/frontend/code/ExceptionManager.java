@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
 import com.duy.pascal.backend.exceptions.BadFunctionCallException;
+import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
@@ -64,15 +65,29 @@ public class ExceptionManager {
                 return new SpannableString(e.getMessage());
             } else if (e instanceof MainProgramNotFoundException) {
                 return new SpannableString(context.getString(R.string.main_program_not_define));
-            } else if (e instanceof ParsingException){
+            } else if (e instanceof BadOperationTypeException) {
+                return processBadOperationTypeException((BadOperationTypeException) e);
+            } else if (e instanceof ParsingException) {
                 return new SpannableString(((ParsingException) e).line + "\n" + e.getMessage());
-            } else{
+            } else {
                 return new SpannableString(e.getMessage());
             }
         } catch (Exception err) {
             FirebaseCrash.report(new Throwable("Error when get exception msg"));
             return new SpannableString(err.toString());
         }
+    }
+
+    private Spannable processBadOperationTypeException(BadOperationTypeException e) {
+        String source;
+        if (e.value1 == null) {
+            source = String.format(context.getString(R.string.BadOperationTypeException2),
+                    e.operatorTypes);
+        } else {
+            source = String.format(context.getString(R.string.BadOperationTypeException),
+                    e.operatorTypes, e.value1, e.value2, e.declaredType, e.declaredType1);
+        }
+        return new SpannableString(source);
     }
 
     private Spannable processUnrecognizedTokenException(UnrecognizedTokenException e) {

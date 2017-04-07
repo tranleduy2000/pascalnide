@@ -5,7 +5,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import com.duy.pascal.backend.exceptions.WrongArgsException;
+import com.js.interpreter.runtime.exception.WrongArgsException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
