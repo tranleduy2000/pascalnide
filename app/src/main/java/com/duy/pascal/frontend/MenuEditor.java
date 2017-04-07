@@ -139,13 +139,15 @@ public class MenuEditor {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                 i.putExtra(Intent.EXTRA_EMAIL, new String[]{"tranleduy1233@gmail.com"});
-                String content = editTitle.getText().toString() + "\n"
+                assert editTitle != null;
+                assert editContent != null;
+                String content = "Help translate: \n" + editTitle.getText().toString() + "\n"
                         + editContent.getText().toString();
                 i.putExtra(Intent.EXTRA_TEXT, content);
                 try {
-                    activity.startActivity(Intent.createChooser(i, "Send mail..."));
+                    activity.startActivity(Intent.createChooser(i, activity.getString(R.string.send_mail)));
                 } catch (ActivityNotFoundException ex) {
-                    Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.no_mail_clients, Toast.LENGTH_SHORT).show();
                 }
                 alertDialog.cancel();
             }

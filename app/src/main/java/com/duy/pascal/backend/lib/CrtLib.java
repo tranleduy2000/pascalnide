@@ -5,10 +5,10 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import com.js.interpreter.runtime.exception.WrongArgsException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
+import com.js.interpreter.runtime.exception.WrongArgsException;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -202,11 +202,9 @@ public class CrtLib implements PascalLibrary {
         activity.getConsoleView().getCursorConsole().setVisible(true);
     }
 
-    public void sound(Object frequency) throws WrongArgsException {
-        if (frequency instanceof Long) {
-            this.finalFrequency = (long) frequency;
-        } else if (frequency instanceof Integer) {
-            this.finalFrequency = (long) frequency;
+    public void sound(Long frequency) throws WrongArgsException {
+        if (frequency != null) {
+            this.finalFrequency = frequency;
         } else {
             throw new WrongArgsException("method sound");
         }
@@ -215,6 +213,10 @@ public class CrtLib implements PascalLibrary {
             canPlaySound.set(true);
             soundThread.start();
         }
+    }
+
+    public void sound(Integer frequency) throws WrongArgsException {
+        sound(Long.valueOf(frequency));
     }
 
 

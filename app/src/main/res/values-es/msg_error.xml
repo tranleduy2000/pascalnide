@@ -16,7 +16,6 @@
     <string name="Incomplete_character_literal">Incomplete character literal</string>
     <string name="token_not_belong">"The following token doesn\'t belong here: "</string>
     <string name="main_program_not_define">Main program not found</string>
-
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the other has type \"%5$s\"</string>
     <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>

@@ -5,12 +5,9 @@
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>
     <string name="ok">Aceptar</string>
-
     <string name="new_file">Nuevo archivo</string>
-
     <string name="default_">Por defecto</string>
     <string name="language">Idioma</string>
-
     <string name="run">Ejecutar</string>
     <string name="navigation_drawer_open">Abrir navegador</string>
     <string name="navigation_drawer_close">Cerrar navegador</string>
@@ -61,8 +58,6 @@
     <string name="bug">Bug</string>
     <string name="word_wrap_desc">Baja una línea automaticamente cuando se sobrepase</string>
     <string name="show_line_desc">Muestra los numeros de línea a la izquierda del editor</string>
-
-
     <string name="hide_status_bar">Ocultar barra de estado</string>
     <string name="hide_status_bar_desc">Oculta la barra de estado en todas las ventanas de la aplicación, incluida la consola. Reinicie la aplicación si necesita cambiarlo.</string>
     <string name="show_hint">Sugerencias automaticas</string>
@@ -105,24 +100,27 @@
     <string name="name">Tu nombre</string>
     <string name="send_to_me">Enviar al desarrollador</string>
     <string name="rerun">Volver a ejecutar programa actual</string>
-
     <string name="translate">Traducir</string>
     <string name="license">Licensia</string>
-
     <string name="console_screen">Consola</string>
     <string name="background_console">Consola de fondo</string>
     <string name="text_color_console">Color del texto de la consola</string>
-
     <string name="frame_rate">Ratio de fotogramas</string>
-
     <string name="max_buffer">Tamaño máximo de buffer</string>
-
     <string name="write_code_here">Escribe el codigo aquí…</string>
     <string name="can_not_save_file">No se puede guardar el archivo!</string>
     <string name="saved">Guardado</string>
     <string name="file_exist">Ese archivo ya existe, por favor introduzca otro nombre!</string>
     <string name="send_mail">Enviar correo…</string>
     <string name="no_mail_clients">No existen clientes de email instalados.</string>
+    <string name="KFT2">KFT2</string>
+    <string name="Idel">Idel</string>
+    <string name="EspressoLibre">Espresso Libre</string>
+    <string name="DarkGray">Dark Gray</string>
+    <string name="BrightYellow">Bright Yellow</string>
+    <string name="Modnokai_Coffee">Modnokai Coffee</string>
+    <string name="source_code_pro">Source Code Pro</string>
+    <string name="your_languague">Your language</string>
 </resources>
 
 

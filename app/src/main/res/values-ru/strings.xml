@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="IOException_reading_input">IOException при чтении входных данных</string>
-    <string name="Incomplete_character_literal">Неполный символьный литерал</string>
-    <string name="Mismatched_begin_end">Несогласованная конструкция begin-end</string>
-    <string name="Mismatched_brackets">Несогласованные скобки</string>
-    <string name="Mismatched_parentheses">Несогласованные круглые скобки</string>
+
     <string name="app_name">Pascal N-IDE</string>
     <string name="auto_save">Авто сохранение</string>
     <string name="back_to_undo">Клавиша \"назад\" = отменить</string>
-    <string name="bad_function_msg1">Один или несколько аргументов имеют неправильный тип при вызове функции</string>
-    <string name="bad_function_msg2">Слишком мало или слишком много аргументов передаются функции</string>
     <string name="bug">Ошибка</string>
-    <string name="can_not_call_func">Невозможно вызвать функцию</string>
     <string name="cancel">Отмена</string>
     <string name="cant_close_file">Невозможно закрыть файл</string>
     <string name="cant_redo">Невозможно повторить</string>
@@ -42,10 +35,8 @@
     <string name="enter_new_folder_name">Имя папки</string>
     <string name="exit">Выход</string>
     <string name="exit_mgs">Выйти из приложения?</string>
-    <string name="expected_token">Ожидается, появление следующего токена:</string>
-    <string name="expected_token_2">Ожидается, появление следующего токена:</string>
+
     <string name="extension">Расширение:</string>
-    <string name="extra_end_program">"У Вас есть дополнительный 'end' в программе"</string>
     <string name="failed">Ошибка</string>
     <string name="file">Файл</string>
     <string name="find">Искать</string>
@@ -55,21 +46,17 @@
     <string name="font">Шрифт</string>
     <string name="font_z">Размер шрифта</string>
     <string name="format_code">Форматировать код</string>
-    <string name="func_not_define">" , который не определен."</string>
     <string name="goto_line">К строке</string>
     <string name="help_me_translate">Помощь с переводом</string>
     <string name="hide_status_bar">Скрыть статусбар</string>
     <string name="home">Главная</string>
     <string name="information">Информация</string>
     <string name="language">Язык</string>
-    <string name="main_program_not_define">Основная программа не найдена</string>
     <string name="match_case">Учитывать регистр</string>
     <string name="more_app">Ещё приложения</string>
-    <string name="multi_define_main">Несколько основных определений</string>
     <string name="name">Ваше имя</string>
     <string name="new_file">Создать файл</string>
     <string name="new_folder">Создать папку</string>
-    <string name="not_define_msg">не является именем, переменной или функции</string>
     <string name="ok">OK</string>
     <string name="paste">Вставить</string>
     <string name="path">"Путь: "</string>
@@ -97,7 +84,6 @@
     <string name="show_line_desc">Показать номера строк в левой части экрана</string>
     <string name="theme">Стиль кода</string>
     <string name="title_activity_code_sample">Пример кода</string>
-    <string name="token_not_belong">"Следующий токен, неуместен здесь: "</string>
     <string name="tool">Инструмент</string>
     <string name="undo">Отменить</string>
     <string name="user_interface">Пользовательский интерфейс</string>
@@ -138,4 +124,5 @@
     <string name="file_exist">Файл с таким именем уже существует!</string>
     <string name="send_mail">Отправить письмо…</string>
     <string name="no_mail_clients">Нет установленных почтовых клиентов.</string>
+    <string name="your_languague">Your language</string>
 </resources>
