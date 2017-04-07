@@ -149,7 +149,7 @@ public class TypeUtils {
      * Checks to see if the type string designates a primitive, java.lang.String
      * or java.io.File.
      *
-     * @param s fully qualified or primitive name.
+     * @param s  fully qualified or primitive name.
      * @return true if one of the above types.
      */
     public static boolean isPrimVal(String s) {
