@@ -1,4 +1,4 @@
-Program line;
+Program lineNumber;
 Uses Crt,Graph;
 Var
     GraphicsDriver, GraphicsMode,
@@ -13,7 +13,7 @@ Begin
     SetColor(Random(15) + 1); {Set text colour}
     for i := 1 to getMaxY do
     begin
-        line(10, i, 100, i);
+        lineNumber(10, i, 100, i);
     end;
     ReadLn;
     CloseGraph;

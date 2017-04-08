@@ -145,7 +145,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
      * CTRL + F find
      * CTRL + H find and replace
      * CTRL + L format code
-     * CTRL + G: goto line
+     * CTRL + G: goto lineNumber
      */
     @Override
     public boolean onKeyDown(int zKeyCode, KeyEvent event) {

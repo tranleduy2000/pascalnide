@@ -35,9 +35,11 @@ import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
+import com.duy.pascal.frontend.dialog.DialogFragmentErrorMsg;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.utils.ClipboardManager;
+import com.duy.pascal.frontend.utils.LineUtils;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.duy.pascal.frontend.view.code_view.HighlightEditor;
@@ -243,12 +245,19 @@ public class EditorActivity extends FileEditorActivity implements
         startActivity(intent);
     }
 
-    private void showLineError(ParsingException e) {
+    private void showLineError(final ParsingException e) {
         if (e != null) {
             if (e.line != null) {
                 LineInfo lineInfo = e.line;
-                mCodeView.setLineError(lineInfo.line);
+                mCodeView.setLineError(lineInfo.lineNumber);
                 mCodeView.refresh();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
+                                mCodeView.getLineCount(), e.line.lineNumber));
+                    }
+                }, 100);
             }
         }
     }
@@ -300,21 +309,16 @@ public class EditorActivity extends FileEditorActivity implements
 
     private void showErrorDialog(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(exceptionManager.getMessage(e))
-                .setCancelable(false)
-                .setTitle(R.string.compile_error)
-                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        builder.create().show();
+        DialogFragmentErrorMsg dialogFragmentErrorMsg = DialogFragmentErrorMsg
+                .newInstance(exceptionManager.getMessage(e), "");
+        dialogFragmentErrorMsg.show(getSupportFragmentManager(), DialogFragmentErrorMsg.TAG);
+
     }
 
     /**
      * load file and set text to editor
      *
-     * @param filePath - fileName of file, do not include path
+     * @param filePath - filePath of file, do not include path
      */
     protected void loadFile(final String filePath) {
         try {
@@ -367,7 +371,7 @@ public class EditorActivity extends FileEditorActivity implements
 
     /**
      * show dialog with file info
-     * fileName, path, size, extension ...
+     * filePath, path, size, extension ...
      *
      * @param file - file to show info
      */

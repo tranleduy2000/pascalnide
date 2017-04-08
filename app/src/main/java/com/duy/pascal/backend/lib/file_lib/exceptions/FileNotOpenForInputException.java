@@ -1,6 +1,5 @@
 package com.duy.pascal.backend.lib.file_lib.exceptions;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 /**
@@ -9,15 +8,11 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * Created by Duy on 07-Apr-17.
  */
 public class FileNotOpenForInputException extends RuntimePascalException {
-    public FileNotOpenForInputException(LineInfo line) {
-        super(line);
-    }
+    public String filePath;
 
-    public FileNotOpenForInputException() {
+    public FileNotOpenForInputException(String filePath) {
         super(null);
+        this.filePath = filePath;
     }
 
-    public FileNotOpenForInputException(LineInfo line, String mes) {
-        super(line, mes);
-    }
 }

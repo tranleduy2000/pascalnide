@@ -49,7 +49,7 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
                 }
                 return v1 / v2;
             case DIVIDE:
-//                throw new DivisionOperatorIntegerException(line);
+//                throw new DivisionOperatorIntegerException(lineNumber);
                 if (v2 == 0) {
                     throw new DivisionByZeroException(line);
                 }

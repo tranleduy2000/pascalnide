@@ -1,6 +1,5 @@
 package com.duy.pascal.backend.lib.file_lib.exceptions;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 /**
@@ -10,15 +9,12 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * Created by Duy on 07-Apr-17.
  */
 public class FileNotAssignException extends RuntimePascalException {
-    public FileNotAssignException(LineInfo line) {
-        super(line);
-    }
+    public String filePath;
 
-    public FileNotAssignException() {
+
+    public FileNotAssignException(String filePath) {
         super(null);
+        this.filePath = filePath;
     }
 
-    public FileNotAssignException(LineInfo line, String mes) {
-        super(line, mes);
-    }
 }

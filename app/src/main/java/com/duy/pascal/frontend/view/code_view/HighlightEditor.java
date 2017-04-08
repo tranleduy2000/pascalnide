@@ -456,7 +456,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     /**
-     * Gets the first line that is visible on the screen.
+     * Gets the first lineNumber that is visible on the screen.
      *
      * @return
      */
@@ -470,9 +470,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     /**
-     * Gets the last visible line number on the screen.
+     * Gets the last visible lineNumber number on the screen.
      *
-     * @return last line that is visible on the screen.
+     * @return last lineNumber that is visible on the screen.
      */
     public int getLastLineIndex() {
         int height = verticalScroll.getHeight();
@@ -688,9 +688,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
 
     /**
-     * move cursor to line
+     * move cursor to lineNumber
      *
-     * @param line - line in editor, begin at 1
+     * @param line - lineNumber in editor, begin at 1
      */
     public void goToLine(int line) {
         String text = getText().toString();

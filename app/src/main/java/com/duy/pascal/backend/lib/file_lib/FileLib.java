@@ -95,10 +95,10 @@ public class FileLib implements PascalLibrary {
 
     private void assertFileAssigned(File fileVariable) throws RuntimePascalException {
         if (fileVariable == null) {
-            throw new FileNotAssignException();
+            throw new FileNotAssignException(null);
         }
         if (filesMap.get(fileVariable.getPath()) == null) {
-            throw new FileNotAssignException();
+            throw new FileNotAssignException(fileVariable.getPath());
         }
     }
 
@@ -118,7 +118,7 @@ public class FileLib implements PascalLibrary {
     private void assertFileOpened(File fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
         if (!filesMap.get(fileVariable.getPath()).isOpened()) {
-            throw new FileNotOpenException();
+            throw new FileNotOpenException(fileVariable.getPath());
         }
     }
 
@@ -191,7 +191,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * move cursor to next line
+     * move cursor to next lineNumber
      */
     public void read(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
@@ -208,35 +208,35 @@ public class FileLib implements PascalLibrary {
     }
 
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
-                       VariableBoxer<Object> o3)
+                     VariableBoxer<Object> o3)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3);
     }
 
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
-                       VariableBoxer<Object> o3, VariableBoxer<Object> o4)
+                     VariableBoxer<Object> o3, VariableBoxer<Object> o4)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3, o4);
     }
 
 
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
-                       VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
+                     VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
     }
 
 
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
-                       VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5,
-                       VariableBoxer<Object> o6)
+                     VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5,
+                     VariableBoxer<Object> o6)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
     }
 
 
     /**
-     * move cursor to next line
+     * move cursor to next lineNumber
      */
     public void readln(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
@@ -244,7 +244,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineNumber
      */
     public void readln(File fileVariable, VariableBoxer<Object> out)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -253,7 +253,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineNumber
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -262,7 +262,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineNumber
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3)
@@ -272,7 +272,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineNumber
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4)
@@ -282,7 +282,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineNumber
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
@@ -292,7 +292,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineNumber
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5,
@@ -315,7 +315,7 @@ public class FileLib implements PascalLibrary {
             throws RuntimePascalException {
         assertFileOpened(fileVariable);
         if (!filesMap.get(fileVariable.getPath()).isOpened()) {
-            throw new FileNotOpenForInputException();
+            throw new FileNotOpenForInputException(fileVariable.getPath());
         }
     }
 

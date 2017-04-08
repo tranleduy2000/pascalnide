@@ -11,6 +11,8 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  */
 
 public class DiskReadErrorException extends RuntimePascalException {
+    public String filePath;
+
     public DiskReadErrorException(LineInfo line) {
         super(line);
     }
@@ -19,7 +21,13 @@ public class DiskReadErrorException extends RuntimePascalException {
         super(line, mes);
     }
 
-    public DiskReadErrorException() {
+    public DiskReadErrorException(String file) {
         super(null);
+        this.filePath = file;
+    }
+
+    @Override
+    public String getMessage() {
+        return "Disk read error";
     }
 }

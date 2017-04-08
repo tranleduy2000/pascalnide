@@ -32,7 +32,7 @@ public class EnumeratedGroupingException extends GroupingException {
         IO_EXCEPTION("IOException occured while reading the input"),
         INCOMPLETE_CHAR("Incomplete character literal"),
         MISSING_INCLUDE("Missing file to include"),
-        NEWLINE_IN_QUOTES("You must close your quotes before starting a new line");
+        NEWLINE_IN_QUOTES("You must close your quotes before starting a new lineNumber");
         public String message;
 
         GroupingExceptionTypes(String message) {

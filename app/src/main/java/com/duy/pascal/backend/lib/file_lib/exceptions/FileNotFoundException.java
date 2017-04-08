@@ -11,9 +11,11 @@ public class FileNotFoundException extends RuntimePascalException {
     public FileNotFoundException(LineInfo line) {
         super(line);
     }
+    public String filePath;
 
-    public FileNotFoundException() {
+    public FileNotFoundException(String filePath) {
         super(null);
+        this.filePath = filePath;
     }
 
     public FileNotFoundException(LineInfo line, String mes) {

@@ -134,7 +134,7 @@ class FileEntry {
      */
     private void assertNotEndOfFile() throws DiskReadErrorException {
         if (!mReader.hasNext()) {
-            throw new DiskReadErrorException();
+            throw new DiskReadErrorException(mFilePath);
         }
     }
 

@@ -7,6 +7,7 @@ import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.OverridingFunctionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
+import com.duy.pascal.backend.exceptions.UnconvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.CommentToken;
@@ -14,6 +15,7 @@ import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
+import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.ConstToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
@@ -83,6 +85,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     public Map<String, ConstantDefinition> getConstants() {
         return constants;
     }
+
     public Map<String, DeclaredType> getTypedefs() {
         return typedefs;
     }
@@ -238,24 +241,74 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     }
 
     protected void addConstDeclarations(GrouperToken i) throws ParsingException {
+        Token next;
         while (i.peek() instanceof WordToken) {
-            WordToken constName = (WordToken) i.take();
-            Token equals = i.take();
-            if (!(equals instanceof OperatorToken)
-                    || ((OperatorToken) equals).type != OperatorTypes.EQUALS) {
+            WordToken constName = (WordToken) i.take(); //const a : integer = 2; const a = 2;
+            next = i.take();
+            if (next instanceof ColonToken) {
+                DeclaredType type = i.getNextPascalType(this);
+                Object defaultValue = null;
+
+                if (i.peek() instanceof OperatorToken) {
+                    if (((OperatorToken) i.peek()).type == OperatorTypes.EQUALS) {
+                        i.take(); //ignore equal token
+                        ReturnsValue unconverted = i.getNextExpression(this);
+                        ReturnsValue converted = type.convert(unconverted, this);
+                        if (converted == null) {
+                            throw new UnconvertibleTypeException(unconverted,
+                                    unconverted.getType(this).declType, type,
+                                    true);
+                        }
+                        defaultValue = converted.compileTimeValue(this);
+                        if (defaultValue == null) {
+                            throw new NonConstantExpressionException(converted);
+                        }
+
+                        ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
+                                type, defaultValue, constName.lineInfo);
+                        this.constants.put(constantDefinition.name(), constantDefinition);
+                        i.assertNextSemicolon();
+                    }
+                } else {
+                    // TODO: 08-Apr-17
+                }
+            } else if (next instanceof OperatorToken) {
+                if (((OperatorToken) next).type != OperatorTypes.EQUALS) {
+                    throw new ExpectedTokenException("=", constName);
+                }
+                ReturnsValue value = i.getNextExpression(this);
+                Object compileVal = value.compileTimeValue(this);
+                if (compileVal == null) {
+                    throw new NonConstantExpressionException(value);
+                }
+                ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
+                        compileVal, constName.lineInfo);
+                this.constants.put(constantDefinition.name(), constantDefinition);
+                i.assertNextSemicolon();
+            } else {
                 throw new ExpectedTokenException("=", constName);
             }
-            ReturnsValue value = i.getNextExpression(this);
-            Object comptimeval = value.compileTimeValue(this);
-            if (comptimeval == null) {
-                throw new NonConstantExpressionException(value);
-            }
-            ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
-                    comptimeval, constName.lineInfo);
-            verifyNonConflictingSymbol(constantDefinition);
-            this.constants.put(constName.name, constantDefinition);
-            i.assertNextSemicolon();
         }
+
+//        while (i.peek() instanceof WordToken) {
+//            WordToken constName = (WordToken) i.take();
+//            Token equals = i.take();
+//            if (!(equals instanceof OperatorToken)
+//                    || ((OperatorToken) equals).type != OperatorTypes.EQUALS) {
+//                throw new ExpectedTokenException("=", constName);
+//            }
+//            ReturnsValue value = i.getNextExpression(this);
+//            Object compileVal = value.compileTimeValue(this);
+//            if (compileVal == null) {
+//                throw new NonConstantExpressionException(value);
+//            }
+//
+//            ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
+//                    compileVal, constName.lineInfo);
+//            verifyNonConflictingSymbol(constantDefinition);
+//            this.constants.put(constName.name, constantDefinition);
+//            i.assertNextSemicolon();
+//        }
     }
 
     @Override

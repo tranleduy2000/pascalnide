@@ -16,24 +16,24 @@ public class CodeSample {
 
     public static final String DEMO_THEME = "program array_example;\n" +
             "var\n" +
-            "\tsimpleArray: array[1..3] of integer;\n" +
-            "\tcomplexArray: array[1..3, 1..3] of integer;\n" +
-            "\tarrayOfString: array[-3..-1] of string;\n" +
-            "\ti, j: integer;\n" +
+            "    simpleArray: array[1..3] of integer;\n" +
+            "    complexArray: array[1..3, 1..3] of integer;\n" +
+            "    arrayOfString: array[-3..-1] of string;\n" +
+            "    i, j: integer;\n" +
             "begin\n" +
-            "\t//set text for simpleArray\n" +
-            "\tfor i:=2 to 3 do simpleArray[i]:=i*i;\n" +
-            "\t//write to console\n" +
-            "\tfor i:=1 to 3 do writeln(simpleArray[i]);\n" +
-            "\t//set text for complexArray\n" +
-            "\tfor i:=2 to 3 do\n" +
-            "\t\tfor j:=1 to 2 do complexArray[i][j]:=i*j;\n" +
-            "\twriteln('complex array:');\n" +
-            "\t//write to console\n" +
-            "\tfor i:=1 to 3 do for j:=1 to 3 do writeln('[',i,',',j,']=',complexArray[i][j]);\n" +
+            "    {set text for simpleArray}\n" +
+            "    for i:=2 to 3 do simpleArray[i] := i * i;\n" +
+            "    {write to console}\n" +
+            "    for i:=1 to 3 do writeln(simpleArray[i]);\n" +
+            "    {set text for complexArray}\n" +
+            "    for i:=2 to 3 do\n" +
+            "        for j:=1 to 2 do complexArray[i][j] := i * j;\n" +
+            "    writeln('complex array:');\n" +
+            "    {write to console}\n" +
+            "    for i:=1 to 3 do for j:=1 to 3 do writeln('[',i,',',j,']=',complexArray[i][j]);\n" +
             "\n" +
-            "\tarrayOfString[-2]:='hello pascal';\n" +
-            "\twriteln(arrayOfString[-3],arrayOfString[-2]);\n" +
-            "\t//readln;\n" +
+            "    arrayOfString[-2] := 'hello pascal';\n" +
+            "    writeln(arrayOfString[-3],arrayOfString[-2]);\n" +
+            "    readln;\n" +
             "end.";
 }

@@ -127,7 +127,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                         break;
                 }
             } while (exitFlag == 0 && isCanRead.get());
-            mConsoleView.commitString("\n"); //return new line
+            mConsoleView.commitString("\n"); //return new lineNumber
             input = inputData.toString();
             isCanRead.set(false);
         }
@@ -223,9 +223,9 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 //        mConsoleView.setConsoleTextColor(Color.RED);
 //        if (e instanceof ParsingException) {
 //            mConsoleView.commitString(e.getMessage() + "\n");
-//            LineInfo lineInfo = ((ParsingException) e).line;
-//            String line = String.valueOf(lineInfo.line);
-//            mConsoleView.commitString("Error in line " + line + "\n");
+//            LineInfo lineInfo = ((ParsingException) e).lineNumber;
+//            String lineNumber = String.valueOf(lineInfo.lineNumber);
+//            mConsoleView.commitString("Error in lineNumber " + lineNumber + "\n");
 //            mConsoleView.commitString("File: " + lineInfo.sourcefile + "\n");
 //        } else {
 //            mConsoleView.commitString(e.getMessage());

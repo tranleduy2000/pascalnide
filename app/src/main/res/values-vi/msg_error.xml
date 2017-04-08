@@ -54,9 +54,8 @@
     <string name="ScriptTerminatedException">Script was manually terminated before it could finish executing</string>
     <string name="InternalInterpreterException">InternalInterpreterException</string>
     <string name="PluginReflectionException">Attempting to use reflection when: %1$s</string>
-    <string name="ZeroLengthVariableException">ZeroLengthVariableException</string>
 
-
+    <string name="ZeroLengthVariableException">Zero Length Variable Exception</string>
     <string name="DiskReadErrorException">Disk Read Error Exception</string>
     <string name="FileNotAssignException">File Not Assign Exception</string>
     <string name="FileNotFoundException">File Not Found Exception</string>

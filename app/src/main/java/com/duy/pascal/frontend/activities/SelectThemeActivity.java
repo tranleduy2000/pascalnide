@@ -23,7 +23,7 @@ public class SelectThemeActivity extends AbstractAppCompatActivity {
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
     @BindView(R.id.recycler_view)
-    RecyclerView infiniteCycleViewPager;
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,11 +33,11 @@ public class SelectThemeActivity extends AbstractAppCompatActivity {
         setupActionBar();
 
         CodeThemeAdapter codeThemeAdapter = new CodeThemeAdapter(this);
-        infiniteCycleViewPager.setLayoutManager(new LinearLayoutManager(this));
-        infiniteCycleViewPager.setAdapter(codeThemeAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(codeThemeAdapter);
 //        ThemeHorizontalAdapter adapter = new ThemeHorizontalAdapter(this);
-//        infiniteCycleViewPager.setAdapter(adapter);
-//        infiniteCycleViewPager.setScrollDuration(500);
+//        mRecyclerView.setAdapter(adapter);
+//        mRecyclerView.setScrollDuration(500);
     }
 
     private void setupActionBar() {

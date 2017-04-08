@@ -261,7 +261,7 @@ public class GraphLib implements PascalLibrary {
      * );
      * Description
      * <p>
-     * LineTo draws a line starting from the current pointer position to the point(DX,DY), relative to the current position, in the current line style and color. The Current position is set to the end of the line.
+     * LineTo draws a lineNumber starting from the current pointer position to the point(DX,DY), relative to the current position, in the current lineNumber style and color. The Current position is set to the end of the lineNumber.
      */
     public void lineTo(int x, int y) {
         CursorConsole point = activity.getConsoleView().getCursorGraph();

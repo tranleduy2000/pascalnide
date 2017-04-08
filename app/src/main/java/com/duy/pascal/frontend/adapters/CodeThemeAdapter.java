@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 
@@ -49,6 +50,7 @@ public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.View
         }
 
 //        holder.codeView.applyTabWidth();
+        holder.codeView.setTextHighlighted(CodeSample.DEMO_THEME);
         holder.txtTitle.setText(String.valueOf(mThemes.get(position)));
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override

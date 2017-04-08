@@ -10,15 +10,10 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * Created by Duy on 07-Apr-17.
  */
 public class FileNotOpenException extends RuntimePascalException {
-    public FileNotOpenException(LineInfo line) {
-        super(line);
-    }
+    public String filePath;
 
-    public FileNotOpenException(LineInfo line, String mes) {
-        super(line, mes);
-    }
-
-    public FileNotOpenException() {
+    public FileNotOpenException(String filePath) {
         super(new LineInfo(-1, "unknow"));
+        this.filePath = filePath;
     }
 }
