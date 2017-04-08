@@ -311,7 +311,7 @@ public abstract class GrouperToken extends Token {
                 return context.getIdentifierValue(name);
             }
         } else if (next instanceof CommentToken) {
-            // TODO: 21-Mar-17 ignore comment token
+            // TODO: 21-Mar-17 ignore comment name
             take();
             peek_no_EOF();
             return getNextTerm(context);

@@ -5,7 +5,7 @@ var a: integer;
 begin
 	write('> Enter your name: ');
 	readln(n);
-	write('Your name is ', n);
+	writeln('Your name is ', n);
 	
 	writeln('> Enter your age: ');
 	readln(a);

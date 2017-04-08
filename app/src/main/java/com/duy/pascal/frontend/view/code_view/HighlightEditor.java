@@ -9,7 +9,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -408,21 +407,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     private void init() {
-        setFilters(new InputFilter[]{
-                new InputFilter() {
-                    @Override
-                    public CharSequence filter(CharSequence source, int start,
-                                               int end, Spanned dest, int dstart, int dend) {
-                        if (end - start == 1 && start < source.length() &&
-                                dstart < dest.length()) {
-                            char c = source.charAt(start);
-                            if (c == '\n')
-                                return autoIndent(source, start, end, dest, dstart, dend);
-                        }
-                        return source;
-                    }
-                }
-        });
+
 
         addTextChangedListener(new TextWatcher() {
 
@@ -616,53 +601,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         }
     }
 
-    private CharSequence autoIndent(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-        String indent = "";
-        int istart = dstart - 1;
-        int iend = -1;
-        boolean dataBefore = false;
-        int pt = 0;
-
-        for (; istart > -1; --istart) {
-            char c = dest.charAt(istart);
-            if (c == '\n')
-                break;
-            if (c != ' ' && c != '\t') {
-                if (!dataBefore) {
-                    if (c == '{' ||
-                            c == '+' ||
-                            c == '-' ||
-                            c == '*' ||
-                            c == '/' ||
-                            c == '%' ||
-                            c == '^' ||
-                            c == '=')
-                        --pt;
-                    dataBefore = true;
-                }
-                if (c == '(')
-                    --pt;
-                else if (c == ')')
-                    ++pt;
-            }
-        }
-        if (istart > -1) {
-            char charAtCursor = dest.charAt(dstart);
-            for (iend = ++istart; iend < dend; ++iend) {
-                char c = dest.charAt(iend);
-                if (charAtCursor != '\n' && c == '/' && iend + 1 < dend && dest.charAt(iend) == c) {
-                    iend += 2;
-                    break;
-                }
-                if (c != ' ' && c != '\t')
-                    break;
-            }
-            indent += dest.subSequence(istart, iend);
-        }
-        if (pt < 0)
-            indent += "\t";
-        return source + indent;
-    }
 
 
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {

@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.tokens;
 
-import com.duy.pascal.backend.exceptions.OperationNotSupportedException;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
+import com.duy.pascal.backend.exceptions.OperationNotSupportedException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.Token.precedence;
@@ -734,8 +734,7 @@ public enum OperatorTypes {
 
     public Object operate(String s1, String s2)
             throws OperationNotSupportedException {
-        throw new OperationNotSupportedException(this
-                + " does not support operating on Strings");
+        throw new OperationNotSupportedException(this + " does not support operating on Strings");
 
     }
 

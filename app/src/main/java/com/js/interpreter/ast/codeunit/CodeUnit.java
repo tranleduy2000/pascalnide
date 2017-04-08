@@ -1,13 +1,12 @@
 package com.js.interpreter.ast.codeunit;
 
-import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.pascaltypes.SystemConstants;
 import com.duy.pascal.backend.tokenizer.NewLexer;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ProgramToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
@@ -22,27 +21,23 @@ public abstract class CodeUnit {
     public final ExpressionContextMixin context;
     private final boolean DEBUG = false;
     private String programName;
-    private DebugListener debugListener;
+    private ExecuteActivity executeActivity;
 
-
-    public CodeUnit(ListMultimap<String, AbstractFunction> functionTable) {
-        prepareForParsing();
-        this.context = getExpressionContextInstance(functionTable);
-        SystemConstants.addSystemConstant(context);
-        SystemConstants.addSystemType(context);
+    public CodeUnit(ListMultimap<String, AbstractFunction> functionTable,
+                    ExecuteActivity executeActivity) {
+        this.context = getExpressionContextInstance(functionTable, executeActivity);
     }
 
 
     public CodeUnit(Reader program, ListMultimap<String, AbstractFunction> functionTable,
                     String sourceName, List<ScriptSource> includeDirectories,
-                    DebugListener debugListener)
+                    ExecuteActivity executeActivity)
             throws ParsingException {
-        this(functionTable);
-        this.debugListener = debugListener;
+        this(functionTable, executeActivity);
+        this.executeActivity = executeActivity;
         NewLexer grouper = new NewLexer(program, sourceName, includeDirectories);
         grouper.parse();
         parseTree(grouper.token_queue);
-
     }
 
 //    private void debug() {
@@ -54,18 +49,15 @@ public abstract class CodeUnit {
 //        }
 //    }
 
-    protected CodeUnitExpressionContext getExpressionContextInstance(ListMultimap<String,
-            AbstractFunction> functionTable) {
-        return new CodeUnitExpressionContext(functionTable);
+    protected CodeUnitExpressionContext getExpressionContextInstance(
+            ListMultimap<String, AbstractFunction> functionTable, ExecuteActivity executeActivity) {
+        return new CodeUnitExpressionContext(functionTable, executeActivity);
     }
 
     void parseTree(GrouperToken tokens) throws ParsingException {
         while (tokens.hasNext()) {
             context.addNextDeclaration(tokens);
         }
-    }
-
-    private void prepareForParsing() {
     }
 
     public abstract RuntimeCodeUnit<? extends CodeUnit> run();
@@ -79,8 +71,9 @@ public abstract class CodeUnit {
     }
 
     protected class CodeUnitExpressionContext extends ExpressionContextMixin {
-        public CodeUnitExpressionContext(ListMultimap<String, AbstractFunction> functionTable) {
-            super(CodeUnit.this, null, functionTable);
+        public CodeUnitExpressionContext(ListMultimap<String, AbstractFunction> functionTable,
+                                         ExecuteActivity executeActivity) {
+            super(CodeUnit.this, null, functionTable, executeActivity);
         }
 
         @Override

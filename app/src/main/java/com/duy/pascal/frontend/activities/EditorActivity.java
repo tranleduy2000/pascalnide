@@ -285,9 +285,11 @@ public class EditorActivity extends FileEditorActivity implements
     public boolean doCompile() {
         mFileManager.saveFile(mFilePath, getCode());
         try {
-            PascalProgram pascalProgram = new PascalCompiler(null).loadPascal(mFilePath,
+            PascalProgram pascalProgram = new PascalCompiler(null)
+                    .loadPascal(mFilePath,
                     new FileReader(mFilePath),
-                    new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>());
+                    new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>() , null);
+
             if (pascalProgram.main == null) {
                 showErrorDialog(new MainProgramNotFoundException());
                 return false;

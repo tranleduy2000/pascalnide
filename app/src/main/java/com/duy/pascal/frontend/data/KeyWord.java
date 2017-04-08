@@ -20,7 +20,7 @@ public class KeyWord {
             "dec(", "inc(",
 
             //io
-            "writeln", "readln", "write(", "read",
+            "writeln", "readln", "write", "read",
 
             //convert
             "str(", "val(", "chr(", "ord(",
@@ -38,7 +38,7 @@ public class KeyWord {
             //string
             "concat(", "insert(", "pos(", "upcase(", "delete(",
             //file
-            "writelnf(", "readlnf(", "readf(", "writef(", "assign(", "close(", "reset(", "rewrite",
+            "assign(", "close(", "reset(", "rewrite",
             "eof("
 
     };
@@ -51,7 +51,7 @@ public class KeyWord {
     };
 
     public static final String[] SYMBOL_KEY = new String[]{
-            ":=", ";", ".", "[", "]", "'", "(", ")", "<", ">", "=", "<>", "<=", ">=", "{", "}"
+            ":=", ";", ".", "[", "]", ":", "'", "(", ")", "<", ">", "=", "<>", "<=", ">=", "{", "}"
     };
 
 }

@@ -17,43 +17,44 @@
     <string name="token_not_belong">"Следующий токен, неуместен здесь: "</string>
     <string name="extra_end_program">"У Вас есть дополнительный 'end' в программе"</string>
 
-    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
-    One has type \"%4$s\" and the other has type \"%5$s\"</string>
-    <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
-    <string name="ConstantCalculationException">Error while computing constant value: %1$s</string>
-    <string name="DivisionByZeroException">Division by zero</string>
-    <string name="ExpectedAnotherTokenException">Another token is expected before the end of this construct.</string>
-    <string name="ExpectedTokenException">Expected the following token to appear: %1$s instead.\nThere was the following token: %2$s</string>
-    <string name="IncompatableFunctionDeclaration">Function declaration declares conflicting return type %1$s. It previously was defined as %2$s</string>
-    <string name="InputStreamNotFoundException">Input stream not found exception</string>
-    <string name="LibraryNotFoundException">Can not find library %1%s</string>
-    <string name="MainProgramNotFoundException">Main program not found</string>
-    <string name="MisplacedDeclarationException">Definition of %1$s is not appropriate here: %2$s</string>
-    <string name="MultipleDefaultValuesException">Default Values can only be used when declaring variables one at a time.</string>
-    <string name="MultipleDefinitionsMainException">Too many main programs are defined</string>
-    <string name="NonArrayIndexed">Tried to do indexed access on something which wasn\'t an array or a string. It was a %1$s</string>
-    <string name="NonConstantExpressionException">The expression %1$s is not constant.</string>
-    <string name="NonIntegerIndexException">Array indexes must be integers: %1$s</string>
-    <string name="NoSuchFunctionOrVariableException">%1$s is not a variable or function name</string>
-    <string name="NotAStatementException">%1$s is not an instruction by itself.</string>
+
+    <string name="BadOperationTypeException">Оператор \"%1$s\" не может применяться к аргументам \"%2$s\" и \"%3$s\".\n
+    У одного тип \"%4$s\", а у другого \"%5$s\"</string>
+    <string name="BadOperationTypeException2">Оператор \"%1$s\" не является унарным оператором</string>
+    <string name="ConstantCalculationException">Ошибка при вычислении постоянного значения: %1$s</string>
+    <string name="DivisionByZeroException">Деление на ноль</string>
+    <string name="ExpectedAnotherTokenException">Другой токен ожидается до конца этой конструкции.</string>
+    <string name="ExpectedTokenException">Ожидается появление следующего токена: %1$s.\Использовался следующий токен: %2$s</string>
+    <string name="IncompatableFunctionDeclaration">Объявление функции объявляет конфликтный тип возвращаемого значения %1$s. Ранее он был определен как %2$s</string>
+    <string name="InputStreamNotFoundException">Исключение входящего потока не найдено</string>
+    <string name="LibraryNotFoundException">Не удается найти библиотеку %1%s</string>
+    <string name="MainProgramNotFoundException">Основная программа не найдена</string>
+    <string name="MisplacedDeclarationException">Определение %1$s не подходит здесь: %2$s</string>
+    <string name="MultipleDefaultValuesException">Значения по умолчанию могут использоваться только при объявлении переменных (один за раз).</string>
+    <string name="MultipleDefinitionsMainException">Слишком много основных программ.</string>
+    <string name="NonArrayIndexed">Пытался сделать индексированный доступ на том, что не было массивом или строкой. Это %1$s</string>
+    <string name="NonConstantExpressionException">Выражение %1$s не является константой.</string>
+    <string name="NonIntegerIndexException">Индексы массивов должны быть целыми: %1$s</string>
+    <string name="NoSuchFunctionOrVariableException">%1$s не является именем переменной или функции</string>
+    <string name="NotAStatementException">%1$s не является инструкцией.</string>
     <string name="OperationNotSupportedException">OperationNotSupportedException</string>
     <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
-    <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
-    <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
-    <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
-    <string name="UnconvertibleTypeException" formatted="false">The expression or variable %1%s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
-    <string name="UnrecognizedTokenException">The following token doesn\'t belong here: %1$s</string>
-    <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
+    <string name="OverridingFunctionException">Переопределение тела функции для %1$s, которое было ранее определено в %1$s</string>
+    <string name="SameNameException">%1$s %2$s конфликтуют с ранее определённым %3$s с тем же именем, определённым в %4$s</string>
+    <string name="UnAssignableTypeException">Выражение %1$s не может иметь назначенного ему значения.</string>
+    <string name="UnconvertibleTypeException" formatted="false">Выражение или переменная %1%s имеет тип %2$s, который не может быть %3$s конвертирован в %4$s </string>
+    <string name="UnrecognizedTokenException">Следующий токен не должен быть здесь: %1$s</string>
+    <string name="UnrecognizedTypeException">Тип %1$s не определён.</string>
     <string name="WrongArgsException">WrongArgsException</string>
     <string name="WrongTypeInputException">WrongTypeInputException</string>
-    <string name="PascalArithmeticException">Arithmetic Exception: %1%s</string>
+    <string name="PascalArithmeticException">Арифметическое исключение: %1%s</string>
     <string name="UnhandledPascalException">PascalArithmeticException</string>
     <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
     <string name="PluginCallException">PascalArithmeticException</string>
     <string name="RuntimePascalException">PascalArithmeticException</string>
-    <string name="ScriptTerminatedException">Script was manually terminated before it could finish executing</string>
+    <string name="ScriptTerminatedException">Скрипт был остановлен вручную, прежде чем  завершил своё выполнение</string>
     <string name="InternalInterpreterException">InternalInterpreterException</string>
-    <string name="PluginReflectionException">Attempting to use reflection when: %1$s</string>
+    <string name="PluginReflectionException">Попытка использовать отражение, когда: %1$s</string>
     <string name="ZeroLengthVariableException">ZeroLengthVariableException</string>
 
     <string name="DiskReadErrorException">Disk Read Error Exception</string>

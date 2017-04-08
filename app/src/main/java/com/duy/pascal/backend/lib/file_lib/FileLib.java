@@ -174,6 +174,9 @@ public class FileLib implements PascalLibrary {
                 out.set(value);
             } else if (out.get() instanceof StringBuilder) {
                 String value = file.readString();
+                out.set(new StringBuilder(value));
+            } else if (out.get() instanceof String) {
+                String value = file.readString();
                 out.set(value);
             } else if (out.get() instanceof Integer) {
                 Integer integer = file.readInteger();
@@ -240,7 +243,9 @@ public class FileLib implements PascalLibrary {
      */
     public void readln(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
+
         filesMap.get(fileVariable.getPath()).nextLine();
+
     }
 
     /**
@@ -249,7 +254,10 @@ public class FileLib implements PascalLibrary {
     public void readln(File fileVariable, VariableBoxer<Object> out)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, out);
-        filesMap.get(fileVariable.getPath()).nextLine();
+        if (!(out.get() instanceof StringBuilder)
+                && !(out.get() instanceof String)) {
+            filesMap.get(fileVariable.getPath()).nextLine();
+        }
     }
 
     /**
@@ -258,7 +266,10 @@ public class FileLib implements PascalLibrary {
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2);
-        filesMap.get(fileVariable.getPath()).nextLine();
+        if (!(o2.get() instanceof StringBuilder)
+                && !(o2.get() instanceof String)) {
+            filesMap.get(fileVariable.getPath()).nextLine();
+        }
     }
 
     /**
@@ -268,7 +279,10 @@ public class FileLib implements PascalLibrary {
                        VariableBoxer<Object> o3)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3);
-        filesMap.get(fileVariable.getPath()).nextLine();
+        if (!(o3.get() instanceof StringBuilder)
+                && !(o3.get() instanceof String)) {
+            filesMap.get(fileVariable.getPath()).nextLine();
+        }
     }
 
     /**
@@ -278,7 +292,10 @@ public class FileLib implements PascalLibrary {
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3, o4);
-        filesMap.get(fileVariable.getPath()).nextLine();
+        if (!(o4.get() instanceof StringBuilder)
+                && !(o4.get() instanceof String)) {
+            filesMap.get(fileVariable.getPath()).nextLine();
+        }
     }
 
     /**
@@ -288,7 +305,10 @@ public class FileLib implements PascalLibrary {
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
-        filesMap.get(fileVariable.getPath()).nextLine();
+        if (!(o5.get() instanceof StringBuilder)
+                && !(o5.get() instanceof String)) {
+            filesMap.get(fileVariable.getPath()).nextLine();
+        }
     }
 
     /**
@@ -299,7 +319,10 @@ public class FileLib implements PascalLibrary {
                        VariableBoxer<Object> o6)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
-        filesMap.get(fileVariable.getPath()).nextLine();
+        if (!(o6.get() instanceof StringBuilder)
+                && !(o6.get() instanceof String)) {
+            filesMap.get(fileVariable.getPath()).nextLine();
+        }
     }
 
     /**

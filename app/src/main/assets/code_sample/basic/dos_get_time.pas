@@ -1,4 +1,5 @@
 program test_time;
+uses dos;
 var
     a, b, c, d : integer;
 

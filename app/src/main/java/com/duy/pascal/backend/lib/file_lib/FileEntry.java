@@ -178,7 +178,7 @@ class FileEntry {
 
     private void assertFileOpen() throws FileNotOpenException {
         if (!isOpened()) {
-            throw new FileNotOpenException();
+            throw new FileNotOpenException(mFilePath);
         }
     }
 }

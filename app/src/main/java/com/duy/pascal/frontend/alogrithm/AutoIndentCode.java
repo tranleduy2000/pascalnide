@@ -142,7 +142,7 @@ public class AutoIndentCode {
 
     }
 
-    private static void checkVarToken() { //include const token
+    private static void checkVarToken() { //include const name
         if (numVarToken > 0) {
             numberTab--;
             numVarToken--;
@@ -345,7 +345,7 @@ public class AutoIndentCode {
         }
         //tab
         result += getStringTab(numberTab) + t.toString();
-        //check some token
+        //check some name
         Token t2 = lexer.yylex();
         if (!(t2 instanceof SemicolonToken || t2 instanceof PeriodToken)) {
             result += "\n";

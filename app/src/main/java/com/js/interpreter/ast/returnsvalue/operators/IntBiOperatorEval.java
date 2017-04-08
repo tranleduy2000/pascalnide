@@ -53,7 +53,7 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
                 if (v2 == 0) {
                     throw new DivisionByZeroException(line);
                 }
-                return v1 / v2;
+                return (double) v1 / (double) v2;
             case EQUALS:
                 return v1 == v2;
             case GREATEREQ:

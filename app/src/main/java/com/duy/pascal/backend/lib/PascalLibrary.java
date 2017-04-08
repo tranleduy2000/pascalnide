@@ -3,6 +3,8 @@ package com.duy.pascal.backend.lib;
 import java.util.Map;
 
 public interface PascalLibrary {
+
+
     /**
      * This is guaranteed to be called on the plugins instantiation. It is
      * effectively the constructor, because java ServiceLoaders will only call

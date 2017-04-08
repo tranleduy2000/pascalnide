@@ -148,7 +148,11 @@ public class IOLib implements PascalLibrary {
     }
 
 
-    private void readString(Scanner scanner, VariableBoxer<StringBuilder> variableBoxer) {
+    private void readString(Scanner scanner, VariableBoxer<String> variableBoxer) {
+        variableBoxer.set(scanner.nextLine());
+
+    }
+    private void readStringBuilder(Scanner scanner, VariableBoxer<StringBuilder> variableBoxer) {
         variableBoxer.set(new StringBuilder(scanner.nextLine()));
     }
 
@@ -200,6 +204,8 @@ public class IOLib implements PascalLibrary {
             if (variableBoxer.get() instanceof Character) {
                 readChar(scanner, variableBoxer);
             } else if (variableBoxer.get() instanceof StringBuilder) {
+                readStringBuilder(scanner, variableBoxer);
+            }else if (variableBoxer.get() instanceof String) {
                 readString(scanner, variableBoxer);
             } else if (variableBoxer.get() instanceof Integer) {
                 readInt(scanner, variableBoxer);
@@ -212,6 +218,8 @@ public class IOLib implements PascalLibrary {
             }
         }
     }
+
+
 
     public void readln() {
         if (activity != null) {

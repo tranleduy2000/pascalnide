@@ -1,11 +1,11 @@
 package com.js.interpreter.ast.codeunit;
 
-import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.instructions.Executable;
@@ -21,43 +21,40 @@ public class PascalProgram extends ExecutableCodeUnit {
     public Executable main;
 
     public FunctionOnStack mainRunning;
-    private DebugListener debugListener;
+    private ExecuteActivity executeActivity;
 
-    public PascalProgram(ListMultimap<String, AbstractFunction> functionTable) {
-        super(functionTable);
-    }
-
-    public PascalProgram(Reader program,
+    /*public PascalProgram(Reader reader,
                          ListMultimap<String, AbstractFunction> functionTable,
-                         String sourceName, List<ScriptSource> includeDirectories)
+                         String sourceName,
+                         List<ScriptSource> includeDirectories)
             throws ParsingException {
-        super(program, functionTable, sourceName, includeDirectories, null);
-    }
+        super(reader, functionTable, sourceName, includeDirectories, null);
+    }*/
 
     public PascalProgram(Reader program,
                          ListMultimap<String, AbstractFunction> functionTable,
                          String sourceName, List<ScriptSource> includeDirectories,
-                         DebugListener debugListener)
+                         ExecuteActivity executeActivity)
             throws ParsingException {
-        super(program, functionTable, sourceName, includeDirectories, debugListener);
-        this.debugListener = debugListener;
+        super(program, functionTable, sourceName, includeDirectories, executeActivity);
+        this.executeActivity = executeActivity;
     }
 
     @Override
     protected PascalProgramExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable) {
-        return new PascalProgramExpressionContext(functionTable);
+            ListMultimap<String, AbstractFunction> functionTable, ExecuteActivity executeActivity) {
+        return new PascalProgramExpressionContext(functionTable, executeActivity);
     }
 
     @Override
     public RuntimeExecutable<PascalProgram> run() {
-        return new RuntimePascalProgram(this, debugListener);
+        return new RuntimePascalProgram(this, executeActivity);
     }
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
         protected PascalProgramExpressionContext(
-                ListMultimap<String, AbstractFunction> f) {
-            super(f);
+                ListMultimap<String, AbstractFunction> f, ExecuteActivity executeActivity) {
+            super(f, executeActivity);
         }
 
         @Override

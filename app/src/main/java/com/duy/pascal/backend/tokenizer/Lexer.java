@@ -786,7 +786,7 @@ public class Lexer {
      * Resumes scanning until the next regular expression is matched,
      * the end of input is encountered or an I/O-Error occurs.
      *
-     * @return the next token
+     * @return the next name
      * @throws java.io.IOException if any I/O-Error occurs
      */
     public Token yylex() throws java.io.IOException {

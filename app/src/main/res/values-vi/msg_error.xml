@@ -22,8 +22,8 @@
     <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
     <string name="ConstantCalculationException">Error while computing constant value: %1$s</string>
     <string name="DivisionByZeroException">Division by zero</string>
-    <string name="ExpectedAnotherTokenException">Another token is expected before the end of this construct.</string>
-    <string name="ExpectedTokenException">Expected the following token to appear: %1$s instead.\nThere was the following token: %2$s</string>
+    <string name="ExpectedAnotherTokenException">Another name is expected before the end of this construct.</string>
+    <string name="ExpectedTokenException">Expected the following name to appear: %1$s instead.\nThere was the following name: %2$s</string>
     <string name="IncompatableFunctionDeclaration">Function declaration declares conflicting return type %1$s. It previously was defined as %2$s</string>
     <string name="InputStreamNotFoundException">Input stream not found exception</string>
     <string name="LibraryNotFoundException">Can not find library %1%s</string>
@@ -42,7 +42,7 @@
     <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
     <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
     <string name="UnconvertibleTypeException" formatted="false">The expression or variable %1%s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
-    <string name="UnrecognizedTokenException">The following token doesn\'t belong here: %1$s</string>
+    <string name="UnrecognizedTokenException">The following name doesn\'t belong here: %1$s</string>
     <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
     <string name="WrongArgsException">WrongArgsException</string>
     <string name="WrongTypeInputException">WrongTypeInputException</string>

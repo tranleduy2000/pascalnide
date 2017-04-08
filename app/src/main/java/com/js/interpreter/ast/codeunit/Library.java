@@ -3,6 +3,7 @@ package com.js.interpreter.ast.codeunit;
 import com.duy.pascal.backend.exceptions.MisplacedDeclarationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.core.ScriptSource;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class Library extends CodeUnit {
     public Library(ListMultimap<String, AbstractFunction> functionTable) throws ParsingException {
-        super(functionTable);
+        super(functionTable, null);
     }
 
     public Library(Reader program, ListMultimap<String, AbstractFunction> functionTable,
@@ -23,8 +24,9 @@ public class Library extends CodeUnit {
     }
 
     @Override
-    protected LibraryExpressionContext getExpressionContextInstance(ListMultimap<String, AbstractFunction> functionTable) {
-        return new LibraryExpressionContext(functionTable);
+    protected LibraryExpressionContext getExpressionContextInstance(
+            ListMultimap<String, AbstractFunction> functionTable, ExecuteActivity executeActivity) {
+        return new LibraryExpressionContext(functionTable, executeActivity);
     }
 
     @Override
@@ -34,13 +36,15 @@ public class Library extends CodeUnit {
 
     protected class LibraryExpressionContext extends CodeUnitExpressionContext {
 
-        protected LibraryExpressionContext(ListMultimap<String, AbstractFunction> function) {
-            super(function);
+        protected LibraryExpressionContext(ListMultimap<String, AbstractFunction> function,
+                                           ExecuteActivity executeActivity) {
+            super(function, executeActivity);
         }
 
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
-            throw new MisplacedDeclarationException(i.peek().lineInfo, "main function", Library.this.context);
+            throw new MisplacedDeclarationException(i.peek().lineInfo,
+                    "main function", Library.this.context);
         }
     }
 

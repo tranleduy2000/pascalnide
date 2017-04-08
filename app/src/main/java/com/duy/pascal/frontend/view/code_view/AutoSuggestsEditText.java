@@ -1,9 +1,12 @@
 package com.duy.pascal.frontend.view.code_view;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -24,6 +27,8 @@ import java.util.Collections;
 public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView {
     private static final String TAG = AutoSuggestsEditText.class.getName();
     public int mCharHeight = 0;
+    private ArrayList<Character> openBracketList = new ArrayList<>();
+    private ArrayList<String> closeBracketList = new ArrayList<>();
     private ArrayAdapter<String> mAdapter;
     private ArrayList<String> list = new ArrayList<>();
 
@@ -68,6 +73,125 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         setTokenizer(new SymbolsTokenizer());
         setThreshold(1);
         invalidateCharHeight();
+
+        openBracketList = new ArrayList<>();
+        Collections.addAll(openBracketList, '[', '{', '\'', '(');
+        Collections.addAll(closeBracketList, "]", "}", "'", ")");
+        setFilters(new InputFilter[]{
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start,
+                                               int end, Spanned dest, int dstart, int dend) {
+                        if (end - start == 1 && start < source.length() &&
+                                dstart < dest.length()) {
+                            Character c = source.charAt(start);
+                            if (c == '\n')
+                                return autoIndent(source, start, end, dest, dstart, dend);
+                        }
+                        return source;
+                    }
+                }
+        });
+
+        //auto add bracket
+        addTextChangedListener(new TextWatcher() {
+            private int start, end, count;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d(TAG, " start = " + start + ", before = " + before + ", count = " + count);
+                this.start = start;
+                this.count = count;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d(TAG, "afterTextChanged: " + start + " " + count);
+                if (s.length() > start
+                        && count == 1 && openBracketList.contains(s.charAt(start))) {
+                    CharSequence textToInsert = getBracket(s, start);
+                    try {
+                        s.insert(start + 1, textToInsert);
+                        setSelection(start);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    private CharSequence getBracket(CharSequence source, int index) {
+        if (source.charAt(index) == '\'') {
+            if (source.length() > index) {
+                if (source.charAt(index - 1) == '\'') {
+                    return "";
+                }else {
+                    return "'";
+                }
+            }
+        } else {
+            Character character = source.charAt(index);
+            if (openBracketList.contains(character)) {
+                return closeBracketList.get(openBracketList.indexOf(character));
+            }
+        }
+        return "";
+    }
+
+    private CharSequence autoIndent(CharSequence source,
+                                    int start, int end, Spanned dest, int dstart, int dend) {
+        String indent = "";
+        int indexStart = dstart - 1;
+        int indexEnd = -1;
+        boolean dataBefore = false;
+        int parenthesesCount = 0;
+
+        for (; indexStart > -1; --indexStart) {
+            char c = dest.charAt(indexStart);
+            if (c == '\n')
+                break;
+            if (c != ' ' && c != '\t') {
+                if (!dataBefore) {
+                    if (c == '{' ||
+                            c == '+' ||
+                            c == '-' ||
+                            c == '*' ||
+                            c == '/' ||
+                            c == '%' ||
+                            c == '^' ||
+                            c == '=')
+                        --parenthesesCount;
+                    dataBefore = true;
+                }
+                if (c == '(')
+                    --parenthesesCount;
+                else if (c == ')')
+                    ++parenthesesCount;
+            }
+        }
+        if (indexStart > -1) {
+            char charAtCursor = dest.charAt(dstart);
+            for (indexEnd = ++indexStart; indexEnd < dend; ++indexEnd) {
+                char c = dest.charAt(indexEnd);
+                if (charAtCursor != '\n' && c == '/' && indexEnd + 1 < dend && dest.charAt(indexEnd) == c) {
+                    indexEnd += 2;
+                    break;
+                }
+                if (c != ' ' && c != '\t')
+                    break;
+            }
+            indent += dest.subSequence(indexStart, indexEnd);
+        }
+        if (parenthesesCount < 0)
+            indent += "\t";
+        return source + indent;
     }
 
     private void invalidateCharHeight() {

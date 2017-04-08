@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="expected_token">Expected the following token to appear:</string>
-    <string name="expected_token_2">Expected the following token to appear:</string>
+    <string name="expected_token">Expected the following name to appear:</string>
+    <string name="expected_token_2">Expected the following name to appear:</string>
     <string name="not_define_msg">is not a variable or function name</string>
     <string name="bad_function_msg1">"One or more arguments has an incorrect type when calling function "</string>
     <string name="bad_function_msg2">"Either too few or two many arguments are being passed to function "</string>
@@ -14,15 +14,15 @@
     <string name="extra_end_program">You have an extra \'end\' in your program</string>
     <string name="IOException_reading_input">IOException occurred while reading the input</string>
     <string name="Incomplete_character_literal">Incomplete character literal</string>
-    <string name="token_not_belong">"The following token doesn\'t belong here: "</string>
+    <string name="token_not_belong">"The following name doesn\'t belong here: "</string>
     <string name="main_program_not_define">Main program not found</string>
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the other has type \"%5$s\"</string>
     <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
     <string name="ConstantCalculationException">Error while computing constant value: %1$s</string>
     <string name="DivisionByZeroException">Division by zero</string>
-    <string name="ExpectedAnotherTokenException">Another token is expected before the end of this construct.</string>
-    <string name="ExpectedTokenException">Expected the following token to appear: %1$s instead.\nThere was the following token: %2$s</string>
+    <string name="ExpectedAnotherTokenException">Another name is expected before the end of this construct.</string>
+    <string name="ExpectedTokenException">Expected the following name to appear: %1$s instead.\nThere was the following name: %2$s</string>
     <string name="IncompatableFunctionDeclaration">Function declaration declares conflicting return type %1$s. It previously was defined as %2$s</string>
     <string name="InputStreamNotFoundException">Input stream not found exception</string>
     <string name="LibraryNotFoundException">Can not find library %1%s</string>
@@ -41,7 +41,7 @@
     <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
     <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
     <string name="UnconvertibleTypeException" formatted="false">The expression or variable %1%s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
-    <string name="UnrecognizedTokenException">The following token doesn\'t belong here: %1$s</string>
+    <string name="UnrecognizedTokenException">The following name doesn\'t belong here: %1$s</string>
     <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
     <string name="WrongArgsException">WrongArgsException</string>
     <string name="WrongTypeInputException">WrongTypeInputException</string>

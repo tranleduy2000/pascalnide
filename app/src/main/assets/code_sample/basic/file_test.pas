@@ -28,17 +28,17 @@ begin
 
     {read string in file}
     readln(f1, s);
-    writeln('read lineNumber string: ', s);
+    writeln('read string: ', s);
     writeln(f2, s);
 
     {read integer value and store it to variable i}
     ReadLn(f1, i);
-    writeln('read lineNumber integer: ', i);
+    writeln('read integer: ', i);
     writeln(f2, i);
 
     {read real value and store it to variable d}
     ReadLn(f1, d);
-    writeln('read lineNumber real: ', d);
+    writeln('read real: ', d);
     writeln(f2, d);
 
     {read char value and store it to variable c}
