@@ -6,9 +6,11 @@ import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.file_lib.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file_lib.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file_lib.exceptions.FileNotOpenForInputException;
+import com.duy.pascal.backend.lib.io.CanNotReadVariableException;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.exception.WrongArgsException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,7 +29,9 @@ public class FileLib implements PascalLibrary {
     private HashMap<String, FileEntry> filesMap = new HashMap<>();
     private int numberFiles = 0;
 
-
+    /**
+     * assign file,
+     */
     public void assign(VariableBoxer<File> fileVariable, String name) throws RuntimePascalException {
         Log.d(TAG, "assign: " + name);
         String path = ApplicationFileManager.getApplicationPath() + name;
@@ -38,6 +42,9 @@ public class FileLib implements PascalLibrary {
         filesMap.put(path, fileEntry);
     }
 
+    /**
+     * open file for read
+     */
     public void reset(VariableBoxer<File> fileVariable) throws
             FileNotFoundException, RuntimePascalException {
         Log.d(TAG, "reset: " + fileVariable.get().getName());
@@ -46,19 +53,30 @@ public class FileLib implements PascalLibrary {
         filesMap.get(fileVariable.get().getPath()).reset();
     }
 
+    /**
+     * rename file
+     */
     public void rename(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
         Log.d(TAG, "rename: " + fileVariable.get().getName());
         // TODO: 07-Apr-17
     }
 
+    /**
+     * erase file
+     */
     public void erase(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
         Log.d(TAG, "erase: " + fileVariable.get().getName());
         // TODO: 07-Apr-17
     }
 
-
+    /**
+     * open file, clear file for write
+     *
+     * @throws IOException            - can not assess file
+     * @throws RuntimePascalException
+     */
     public void rewrite(VariableBoxer<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileAssigned(fileVariable);
         Log.d(TAG, "rewrite: " + fileVariable.get().getName());
@@ -110,8 +128,17 @@ public class FileLib implements PascalLibrary {
     public void close(VariableBoxer<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileOpened(fileVariable);
         filesMap.get(fileVariable.get().getPath()).close();
+        filesMap.remove(fileVariable.get().getPath());
     }
 
+    /**
+     * check end of file
+     *
+     * @param fileVariable
+     * @return <code>true</code> if the cursor position in the end of the fileVariable, otherwise
+     * return <code>false</code>
+     * @throws RuntimePascalException - file not open for output
+     */
     public boolean eof(VariableBoxer<File> fileVariable) throws IOException,
             RuntimePascalException {
         assertFileOpened(fileVariable);
@@ -119,47 +146,160 @@ public class FileLib implements PascalLibrary {
         return filesMap.get(fileVariable.get().getPath()).isEof();
     }
 
-    public void seekEof(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+    private void seekEof(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
     }
 
-    public void seekEofLn(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+    private void seekEofLn(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
     }
 
-    public void blockRead(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+    private void blockRead(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
     }
 
-    public void append(VariableBoxer<File> fileVariable) throws RuntimePascalException {
+    public void append(VariableBoxer<File> fileVariable) throws RuntimePascalException,
+            IOException {
         assertFileAssigned(fileVariable);
-        // TODO: 07-Apr-17
+        filesMap.get(fileVariable.get().getPath()).append();
+    }
+
+    @SafeVarargs
+    private final void setValueForVariables(File fileVariable, VariableBoxer<Object>... listVariable) throws RuntimePascalException {
+        assertFileOpenForInput(fileVariable);
+        FileEntry file = filesMap.get(fileVariable.getPath());
+        for (VariableBoxer<Object> out : listVariable) {
+            if (out.get() instanceof Character) {
+                char value = file.readChar();
+                out.set(value);
+            } else if (out.get() instanceof StringBuilder) {
+                String value = file.readString();
+                out.set(value);
+            } else if (out.get() instanceof Integer) {
+                Integer integer = file.readInteger();
+                out.set(integer);
+            } else if (out.get() instanceof Long) {
+                long value = file.readLong();
+                out.set(value);
+            } else if (out.get() instanceof Double) {
+                double value = file.readDouble();
+                out.set(value);
+            } else {
+                throw new CanNotReadVariableException(out);
+            }
+        }
+    }
+
+    /**
+     * move cursor to next line
+     */
+    public void read(File fileVariable) throws RuntimePascalException {
+        assertFileOpenForInput(fileVariable);
+    }
+
+    public void read(File fileVariable, VariableBoxer<Object> out)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, out);
+    }
+
+    public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2);
+    }
+
+    public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
+                       VariableBoxer<Object> o3)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2, o3);
+    }
+
+    public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
+                       VariableBoxer<Object> o3, VariableBoxer<Object> o4)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2, o3, o4);
     }
 
 
-    public void read(File fileVariable,
-                     VariableBoxer<Object> out) throws RuntimePascalException {
-        System.out.println("readf " + fileVariable + " " + out.get().getClass().getSimpleName());
-        //check error
-        assertFileOpenForInput(fileVariable);
+    public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
+                       VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
+    }
 
-        FileEntry file = filesMap.get(fileVariable.getPath());
-        if (out.get() instanceof Integer) {
-            Integer integer = file.readInteger();
-            out.set(integer);
-        } else if (out.get() instanceof Long) {
-            long value = file.readLong();
-            out.set(value);
-        } else if (out.get() instanceof Double) {
-            double value = file.readDouble();
-            out.set(value);
-        } else if (out.get() instanceof Character) {
-            char value = file.readChar();
-            out.set(value);
-        } else if (out.get() instanceof String) {
-            String value = file.readString();
-            out.set(value);
-        }
+
+    public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
+                       VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5,
+                       VariableBoxer<Object> o6)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
+    }
+
+
+    /**
+     * move cursor to next line
+     */
+    public void readln(File fileVariable) throws RuntimePascalException {
+        assertFileOpenForInput(fileVariable);
+        filesMap.get(fileVariable.getPath()).nextLine();
+    }
+
+    /**
+     * read file and  move cursor to new line
+     */
+    public void readln(File fileVariable, VariableBoxer<Object> out)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, out);
+        filesMap.get(fileVariable.getPath()).nextLine();
+    }
+
+    /**
+     * read file and  move cursor to new line
+     */
+    public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2);
+        filesMap.get(fileVariable.getPath()).nextLine();
+    }
+
+    /**
+     * read file and  move cursor to new line
+     */
+    public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
+                       VariableBoxer<Object> o3)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2, o3);
+        filesMap.get(fileVariable.getPath()).nextLine();
+    }
+
+    /**
+     * read file and  move cursor to new line
+     */
+    public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
+                       VariableBoxer<Object> o3, VariableBoxer<Object> o4)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2, o3, o4);
+        filesMap.get(fileVariable.getPath()).nextLine();
+    }
+
+    /**
+     * read file and  move cursor to new line
+     */
+    public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
+                       VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
+        filesMap.get(fileVariable.getPath()).nextLine();
+    }
+
+    /**
+     * read file and  move cursor to new line
+     */
+    public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
+                       VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5,
+                       VariableBoxer<Object> o6)
+            throws IOException, RuntimePascalException, WrongArgsException {
+        setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
+        filesMap.get(fileVariable.getPath()).nextLine();
     }
 
     /**
@@ -179,63 +319,118 @@ public class FileLib implements PascalLibrary {
         }
     }
 
+
     /**
-     * read file and  move cursor to new line
+     * writeS file
      */
-    public void readln(File fileVariable, VariableBoxer<Object> out) throws IOException, RuntimePascalException {
+    private void writeFile(File fileVariable, Object... objects) throws IOException, RuntimePascalException {
         //check error
         assertFileOpened(fileVariable);
-
-        FileEntry f = filesMap.get(fileVariable.getPath());
-        Object value = null;
-        if (out.get() instanceof Integer) {
-            value = f.readInteger();
-            out.set(value);
-            f.nextLine();
-        } else if (out.get() instanceof Long) {
-            value = f.readLong();
-            out.set(value);
-            f.nextLine();
-        } else if (out.get() instanceof Double) {
-            value = f.readDouble();
-            f.nextLine();
-            out.set(value);
-        } else if (out.get() instanceof Character) {
-            value = f.readChar();
-            f.nextLine();
-            out.set(value);
-        } else if (out.get() instanceof StringBuilder) {
-            value = f.readString();
-            out.set(new StringBuilder((String) value));
-        }
-        System.out.println("readlnF 2 " + value.toString());
+        FileEntry file = filesMap.get(fileVariable.getPath());
+        file.writeString(objects);
     }
 
-    /**
-     * write file
-     *
-     * @param objects
-     * @return
-     */
-    public void writeF(VariableBoxer<File> fileVariable, Object... objects) throws IOException, RuntimePascalException {
-        //check error
-        assertFileOpened(fileVariable);
-        FileEntry f = filesMap.get(fileVariable.get().getPath());
-        f.write(objects);
+    public void write(File file) throws IOException, RuntimePascalException {
+//        writeFile(file, "\n");
     }
 
-    /**
-     * write file and append new line
-     *
-     * @param objects
-     */
-    public void writelnF(VariableBoxer<File> fileVariable, Object objects) throws
+    public void write(File fileVariable, Object o1) throws
             IOException, RuntimePascalException {
-        //check error
-//        assertFileOpened(file);
+        writeFile(fileVariable, o1);
+    }
 
-        writeF(fileVariable, objects);
-        writeF(fileVariable, "\n");
+    public void write(File fileVariable, Object o1, Object o2) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2);
+    }
+
+    public void write(File fileVariable, Object o1, Object o2, Object o3) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3);
+    }
+
+    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4);
+    }
+
+    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4, o5);
+    }
+
+    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
+                      Object o6) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4, o5, o6);
+    }
+
+    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
+                      Object o6, Object o7) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7);
+    }
+
+    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
+                      Object o6, Object o7, Object o8) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7, o8);
+
+    }
+
+    public void writeln(File file) throws IOException, RuntimePascalException {
+        writeFile(file, "\n");
+    }
+
+    public void writeln(File fileVariable, Object o1) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1);
+        writeFile(fileVariable, "\n");
+    }
+
+    public void writeln(File fileVariable, Object o1, Object o2) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2);
+        writeFile(fileVariable, "\n");
+    }
+
+    public void writeln(File fileVariable, Object o1, Object o2, Object o3) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3);
+        writeFile(fileVariable, "\n");
+    }
+
+    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4);
+        writeFile(fileVariable, "\n");
+    }
+
+    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4, o5);
+        writeFile(fileVariable, "\n");
+    }
+
+    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
+                        Object o6) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4, o5, o6);
+        writeFile(fileVariable, "\n");
+    }
+
+    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
+                        Object o6, Object o7) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7);
+        writeFile(fileVariable, "\n");
+    }
+
+    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
+                        Object o6, Object o7, Object o8) throws
+            IOException, RuntimePascalException {
+        writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7, o8);
+        writeFile(fileVariable, "\n");
     }
 
     @Override

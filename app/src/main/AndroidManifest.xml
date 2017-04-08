@@ -63,8 +63,8 @@
         <activity
             android:name=".activities.ExecuteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:icon="@drawable/ic_code_white_24dp"
-       />
+            android:windowSoftInputMode="adjustPan"
+            android:icon="@drawable/ic_code_white_24dp" />
         <activity
             android:name=".activities.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"

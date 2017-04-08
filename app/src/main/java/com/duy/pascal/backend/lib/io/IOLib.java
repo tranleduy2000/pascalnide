@@ -1,7 +1,8 @@
-package com.duy.pascal.backend.lib;
+package com.duy.pascal.backend.lib.io;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
@@ -17,14 +18,13 @@ public class IOLib implements PascalLibrary {
 
     public static final String TAG = IOLib.class.getSimpleName();
 
-    PrintStream stdout;
-    Scanner stdin;
-    ExecuteActivity activity;
+    private PrintStream stdout;
+    private Scanner stdin;
+    private ExecuteActivity activity;
 
     /**
      * constructor call by {@link ClassLoader} in {@link PascalCompiler}
      *
-     * @param activity
      */
     public IOLib(ExecuteActivity activity) {
         this.activity = activity;
@@ -75,7 +75,7 @@ public class IOLib implements PascalLibrary {
 
 
     /**
-     * write procedure
+     * writeString procedure
      *
      * @param values - list variable
      */

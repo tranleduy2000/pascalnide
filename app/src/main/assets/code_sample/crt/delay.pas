@@ -9,7 +9,8 @@ begin
     for i:=10 downto 1 do
     begin
         WriteLn(i);
-        Delay(1000); {Wait one second}
+        {Wait one second}
+        Delay(1000);
     end;
     WriteLn('BOOM!!!');
 end.

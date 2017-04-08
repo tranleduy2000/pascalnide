@@ -1079,7 +1079,7 @@ public class File {
 	/**
 	 * Change ownership (user and group) and permissions on a file or directory.<br /><br />
 	 * 
-	 * Never use octal numbers for the permissions like '0775'. Always write it as '775', otherwise it will be converted 
+	 * Never use octal numbers for the permissions like '0775'. Always writeString it as '775', otherwise it will be converted
 	 * and your permissions will not be changed to the expected value. The reason why this argument is an Integer, is to avoid 
 	 * things like 'a+x', '+x' and such. While this is supported in Linux normally, few Android binaries supports it as they have been
 	 * stripped down to the bare minimum. 
@@ -1103,7 +1103,7 @@ public class File {
 	/**
 	 * Change ownership (user and group) and permissions on a file or directory. <br /><br />
 	 * 
-	 * Never use octal numbers for the permissions like '0775'. Always write it as '775', otherwise it will be converted 
+	 * Never use octal numbers for the permissions like '0775'. Always writeString it as '775', otherwise it will be converted
 	 * and your permissions will not be changed to the expected value. The reason why this argument is an Integer, is to avoid 
 	 * things like 'a+x', '+x' and such. While this is supported in Linux normally, few Android binaries supports it as they have been
 	 * stripped down to the bare minimum. 

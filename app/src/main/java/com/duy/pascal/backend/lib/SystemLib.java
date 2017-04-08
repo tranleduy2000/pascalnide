@@ -3,10 +3,11 @@ package com.duy.pascal.backend.lib;
 import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.OrdinalExpressionExpectedException;
-import com.js.interpreter.runtime.exception.WrongArgsException;
+import com.duy.pascal.backend.lib.exceptions.RangeCheckError;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.exception.WrongArgsException;
 
 import java.util.Map;
 import java.util.Random;
@@ -121,9 +122,15 @@ public class SystemLib implements PascalLibrary {
             Character character = (Character) boxer.get();
             Character newChar = (char) (character + count);
             boxer.set(newChar);
+        } else if (boxer.get() instanceof Boolean) {
+            if ((Boolean) boxer.get()) {
+                throw new RangeCheckError(boxer);
+            } else {
+                boxer.set(true);
+            }
         } else {
             //throw exception
-            throw new WrongArgsException("wrong arg inc()");
+            throw new WrongArgsException("inc");
 //            boxer.set((long) boxer.get() - 1);
         }
     }
@@ -166,9 +173,15 @@ public class SystemLib implements PascalLibrary {
             Character character = (Character) boxer.get();
             Character newChar = (char) (character - count);
             boxer.set(newChar);
+        } else if (boxer.get() instanceof Boolean) {
+            if (!(Boolean) boxer.get()) {
+                throw new RangeCheckError(boxer);
+            } else {
+                boxer.set(false);
+            }
         } else {
             //throw exception
-            throw new WrongArgsException("wrong arg inc()");
+            throw new WrongArgsException("dec");
 //            boxer.set((long) boxer.get() - 1);
         }
     }
@@ -210,7 +223,17 @@ public class SystemLib implements PascalLibrary {
         return d * d;
     }
 
-    public double sqrt(double d) {
+    /**
+     * square root
+     *
+     * @param d
+     * @return
+     * @throws InvalidFloatingPointOperation
+     */
+    public double sqrt(double d) throws InvalidFloatingPointOperation {
+        if (d < 0) {
+            throw new InvalidFloatingPointOperation(d);
+        }
         return Math.sqrt(d);
     }
 
@@ -222,24 +245,33 @@ public class SystemLib implements PascalLibrary {
         return d + 1;
     }
 
-    public double ln(double d) {
+    /**
+     * logarithm function
+     *
+     * @param d
+     * @return
+     */
+    public double ln(double d) throws InvalidFloatingPointOperation {
+        if (d < 0) {
+            throw new InvalidFloatingPointOperation(d);
+        }
         return Math.log(d);
     }
 
-    public  double arctan(double a) {
+    public double arctan(double a) {
         return Math.atan(a);
     }
 
-    public  double exp(double a) {
+    public double exp(double a) {
         return Math.exp(a);
     }
 
 
-    public  int Int(double x) {
+    public int Int(double x) {
         return (int) x;
     }
 
-    public  boolean odd(long x) {
+    public boolean odd(long x) {
         return x % 2 == 0;
     }
 

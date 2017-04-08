@@ -7,12 +7,12 @@ import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
 import com.duy.pascal.backend.lib.GraphLib;
-import com.duy.pascal.backend.lib.IOLib;
 import com.duy.pascal.backend.lib.MathLib;
 import com.duy.pascal.backend.lib.MiscLib;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file_lib.FileLib;
+import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -41,7 +41,7 @@ import java.util.List;
 public class PascalCompiler {
     public static final String TAG = PascalCompiler.class.getSimpleName();
     public static final boolean android = true;
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public ExecuteActivity activity;
 
@@ -65,7 +65,7 @@ public class PascalCompiler {
             List<ScriptSource> libraries = new ArrayList<ScriptSource>();
             List<ScriptSource> includes = new ArrayList<ScriptSource>();
             String fileName = "C:\\Users\\Duy\\Downloads\\tests\\compare\\test_function.pas";
-            String program = "var a, b: integer; begin a := 1; b := 2; write(a); write(b); end.";
+            String program = "var a, b: integer; begin a := 1; b := 2; writeString(a); writeString(b); end.";
             Reader reader = new FileReader(new File(fileName));
             debug(fileName, new StringReader(program), includes, libraries);
         } catch (ParsingException e) {
@@ -201,7 +201,8 @@ public class PascalCompiler {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
                     functionTable.put(tmp.name().toLowerCase(), tmp);
                 }
-                System.out.println("#method " + m.getName());
+                if (DEBUG)
+                    System.out.println("#method " + m.getName());
             }
 
         }

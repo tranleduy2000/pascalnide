@@ -1,5 +1,7 @@
 package com.js.interpreter.ast.returnsvalue;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.debugable.DebuggableExecutableReturnsValue;
 import com.duy.pascal.backend.exceptions.AmbiguousFunctionCallException;
 import com.duy.pascal.backend.exceptions.BadFunctionCallException;
@@ -21,6 +23,8 @@ import java.util.List;
 
 public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
 
+    private static final String TAG = FunctionCall.class.getSimpleName();
+
     ReturnsValue[] arguments;
 
     public static ReturnsValue generateFunctionCall(WordToken name,
@@ -38,7 +42,9 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
         ReturnsValue returnsValue = null;
 
         for (List<AbstractFunction> l : possibilities) {
+            Log.d(TAG, "List<AbstractFunction> l: " + l.toString());
             for (AbstractFunction a : l) {
+
                 result = a.generatePerfectFitCall(name.lineInfo, arguments, f);
                 if (result != null) {
                     if (perfectFit) {
@@ -47,6 +53,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
                     perfectFit = true;
                     chosen = a;
                     returnsValue = result;
+                    Log.d(TAG, "generateFunctionCall: " + a.toString());
 //                    continue;
                     break;
                 }

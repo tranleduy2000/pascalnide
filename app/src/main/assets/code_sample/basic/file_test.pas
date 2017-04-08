@@ -27,31 +27,31 @@ begin
     Rewrite(f2);
 
     {read string in file}
-    readlnf(f1, s);
+    readln(f1, s);
     writeln('read line string: ', s);
-    writelnf(f2, s);
+    writeln(f2, s);
 
     {read integer value and store it to variable i}
-    ReadLnf(f1, i);
+    ReadLn(f1, i);
     writeln('read line integer: ', i);
-    writelnf(f2, s);
+    writeln(f2, i);
 
     {read real value and store it to variable d}
-    ReadLnf(f1, d);
+    ReadLn(f1, d);
     writeln('read line real: ', d);
-    writelnf(f2, d);
+    writeln(f2, d);
 
     {read char value and store it to variable c}
-    readlnf(f1, c);
+    readln(f1, c);
     writeln('read char: ', c);
-    writelnf(f2, c);
+    writeln(f2, c);
 
-    readlnf(f1, n);
+    readln(f1, n);
     for i := 1 to n do
     begin
-        readf(f1, tmp);
+        read(f1, tmp);
         writeln(tmp);
-        writef(f2, tmp, ' ');
+        write(f2, tmp, ' ');
     end;
 
     close(f1);

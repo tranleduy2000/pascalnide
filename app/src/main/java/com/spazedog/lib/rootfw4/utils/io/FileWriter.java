@@ -31,8 +31,8 @@ import com.spazedog.lib.rootfw4.Common;
 import com.spazedog.lib.rootfw4.Shell;
 
 /**
- * This class is used to write to a file. Unlike {@link java.io.FileWriter}, this class 
- * will fallback on a SuperUser shell stream whenever a write action is not allowed by the application. 
+ * This class is used to writeString to a file. Unlike {@link java.io.FileWriter}, this class
+ * will fallback on a SuperUser shell stream whenever a writeString action is not allowed by the application.
  */
 public class FileWriter extends Writer {
 	public static final String TAG = Common.TAG + ".FileReader";

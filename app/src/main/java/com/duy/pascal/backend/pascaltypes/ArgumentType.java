@@ -9,13 +9,13 @@ import java.util.Iterator;
 
 public interface ArgumentType {
 
-    public ReturnsValue convertArgType(Iterator<ReturnsValue> args,
-                                       ExpressionContext f) throws ParsingException;
+    ReturnsValue convertArgType(Iterator<ReturnsValue> args,
+                                ExpressionContext f) throws ParsingException;
 
-    public ReturnsValue perfectFit(Iterator<ReturnsValue> types,
-                                   ExpressionContext e) throws ParsingException;
+    ReturnsValue perfectFit(Iterator<ReturnsValue> types,
+                            ExpressionContext e) throws ParsingException;
 
     @SuppressWarnings("rawtypes")
-    public Class getRuntimeClass();
+    Class getRuntimeClass();
 
 }

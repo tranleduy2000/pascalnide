@@ -5,11 +5,14 @@ package com.js.interpreter.runtime.exception;
  */
 
 public class WrongArgsException extends Exception {
+    private String method;
+
     public WrongArgsException() {
     }
 
     public WrongArgsException(String message) {
         super(message);
+        this.method = message;
     }
 
     public WrongArgsException(String message, Throwable cause) {

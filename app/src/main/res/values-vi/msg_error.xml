@@ -55,4 +55,14 @@
     <string name="InternalInterpreterException">InternalInterpreterException</string>
     <string name="PluginReflectionException">Attempting to use reflection when: %1$s</string>
     <string name="ZeroLengthVariableException">ZeroLengthVariableException</string>
+
+
+    <string name="DiskReadErrorException">Disk Read Error Exception</string>
+    <string name="FileNotAssignException">File Not Assign Exception</string>
+    <string name="FileNotFoundException">File Not Found Exception</string>
+    <string name="FileNotOpenException">File Not Open Exception</string>
+    <string name="FileNotOpenForInputException">File Not Open For Input Exception</string>
+    <string name="CanNotReadVariableException">Can not read variable of this type</string>
+    <string name="RangeCheckError">1. An array was accessed with an index outside its declared range.\n
+        2. Trying to assign a value to a variable outside its range (for instance an enumerated type).</string>
 </resources>

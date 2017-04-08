@@ -7,13 +7,14 @@ var
     i : longint;
 begin
     WriteLn('You will hear some tones from your speaker');
-    while (i<15000) do
+    while (i < 15000) do
     begin
         inc(i,500);
         Sound(i);
         Delay(100);
     end;
     WriteLn('Quiet now!');
-    NoSound; {Stop noise}
+    {Stop noise}
+    NoSound;
 end.
 {http://www.freepascal.org/docs-html/rtl/crt/nosound.html}

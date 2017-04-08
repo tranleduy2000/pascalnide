@@ -16,7 +16,6 @@
     <string name="Incomplete_character_literal">Incomplete character literal</string>
     <string name="token_not_belong">"The following token doesn\'t belong here: "</string>
     <string name="main_program_not_define">Main program not found</string>
-
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the other has type \"%5$s\"</string>
     <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
@@ -36,23 +35,33 @@
     <string name="NonIntegerIndexException">Array indexes must be integers: %1$s</string>
     <string name="NoSuchFunctionOrVariableException">%1$s is not a variable or function name</string>
     <string name="NotAStatementException">%1$s is not an instruction by itself.</string>
-    <string name="OperationNotSupportedException">OperationNotSupportedException</string>
-    <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
     <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
     <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
     <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
     <string name="UnconvertibleTypeException" formatted="false">The expression or variable %1%s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
     <string name="UnrecognizedTokenException">The following token doesn\'t belong here: %1$s</string>
     <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
-    <string name="WrongArgsException">WrongArgsException</string>
-    <string name="WrongTypeInputException">WrongTypeInputException</string>
     <string name="PascalArithmeticException">Arithmetic Exception: %1%s</string>
-    <string name="UnhandledPascalException">PascalArithmeticException</string>
-    <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
-    <string name="PluginCallException">PascalArithmeticException</string>
-    <string name="RuntimePascalException">PascalArithmeticException</string>
     <string name="ScriptTerminatedException">Script was manually terminated before it could finish executing</string>
+
+    <string name="WrongArgsException">Wrong Args Exception</string>
+    <string name="WrongTypeInputException">Wrong Type Input Exception</string>
+    <string name="UnhandledPascalException">Pascal Arithmetic Exception</string>
+    <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
+    <string name="PluginCallException">Pascal Arithmetic Exception</string>
+    <string name="RuntimePascalException">Pascal Arithmetic Exception</string>
     <string name="InternalInterpreterException">InternalInterpreterException</string>
     <string name="PluginReflectionException">Attempting to use reflection when: %1$s</string>
-    <string name="ZeroLengthVariableException">ZeroLengthVariableException</string>
+    <string name="ZeroLengthVariableException">Zero Length Variable Exception</string>
+    <string name="OperationNotSupportedException">OperationNotSupportedException</string>
+    <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
+
+    <string name="DiskReadErrorException">Disk Read Error Exception</string>
+    <string name="FileNotAssignException">File Not Assign Exception</string>
+    <string name="FileNotFoundException">File Not Found Exception</string>
+    <string name="FileNotOpenException">File Not Open Exception</string>
+    <string name="FileNotOpenForInputException">File Not Open For Input Exception</string>
+    <string name="CanNotReadVariableException">Can not read variable of this type</string>
+    <string name="RangeCheckError">1. An array was accessed with an index outside its declared range.\n
+        2. Trying to assign a value to a variable outside its range (for instance an enumerated type).</string>
 </resources>

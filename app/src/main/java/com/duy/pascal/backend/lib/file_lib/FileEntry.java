@@ -17,14 +17,14 @@ import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class FileEntry {
+class FileEntry {
     private String mFilePath = "";
     private BufferedWriter mWriter;
     private Scanner mReader;
     private boolean opened = false;
     private File file;
 
-    public FileEntry(String mFilePath) {
+    FileEntry(String mFilePath) {
         this.mFilePath = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/" + mFilePath;
         this.file = new File(this.mFilePath);
 //        System.out.println("File: " + this.mFilePath);
@@ -138,7 +138,7 @@ public class FileEntry {
         }
     }
 
-    public void write(Object[] objects) throws IOException {
+    public void writeString(Object[] objects) throws IOException {
         for (Object o : objects) {
             mWriter.write(o.toString());
         }

@@ -297,8 +297,7 @@ public abstract class GrouperToken extends Token {
         if (next instanceof ParenthesizedToken) {
             return ((ParenthesizedToken) next).getSingleValue(context);
         } else if (next instanceof ValueToken) {
-            return new ConstantAccess(((ValueToken) next).getValue(),
-                    next.lineInfo);
+            return new ConstantAccess(((ValueToken) next).getValue(), next.lineInfo);
         } else if (next instanceof WordToken) {
             WordToken name = ((WordToken) next);
             next = peek();
@@ -314,6 +313,7 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof CommentToken) {
             // TODO: 21-Mar-17 ignore comment token
             take();
+            peek_no_EOF();
             return getNextTerm(context);
         } else {
             throw new UnrecognizedTokenException(next);

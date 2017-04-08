@@ -20,10 +20,6 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
      *
      * @param parentContext The program context.
      * @return The return value of the called function.
-     * @throws RuntimePascalException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     * @throws IllegalArgumentException
      */
     public abstract Object call(VariableContext parentContext,
                                 RuntimeExecutable<?> main, Object[] arguments)

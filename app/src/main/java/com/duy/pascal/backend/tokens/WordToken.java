@@ -23,7 +23,7 @@ public class WordToken extends Token {
     }
 
     public String getCode() {
-        return name;
+        return orginalName;
     }
 
     @Override
