@@ -37,6 +37,7 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.dialog.DialogFragmentErrorMsg;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.sample.DocumentActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.utils.ClipboardManager;
 import com.duy.pascal.frontend.utils.LineUtils;

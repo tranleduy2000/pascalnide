@@ -1,14 +1,21 @@
-package com.duy.pascal.frontend.adapters;
+package com.duy.pascal.frontend.sample;
 
 /**
- * Created by Duy on 04-Mar-17.
+ * Created by Duy on 08-Apr-17.
  */
 
-class CodeEntry {
+public class CodeSampleEntry {
+    /**
+     * name of file code
+     */
     private String name;
+
+    /**
+     * code
+     */
     private String content;
 
-    public CodeEntry(String name, String content) {
+    public CodeSampleEntry(String name, String content) {
         this.name = name;
         this.content = content;
     }

@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.duy.pascal.frontend.activities.CodeSampleActivity;
+import com.duy.pascal.frontend.sample.CodeSampleActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
 import com.duy.pascal.frontend.info_application.InfoActivity;
 import com.duy.pascal.frontend.setting.SettingActivity;

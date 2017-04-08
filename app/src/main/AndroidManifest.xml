@@ -66,11 +66,11 @@
             android:windowSoftInputMode="adjustPan"
             android:icon="@drawable/ic_code_white_24dp" />
         <activity
-            android:name=".activities.DocumentActivity"
+            android:name=".sample.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_info_white_24dp" />
         <activity
-            android:name=".activities.CodeSampleActivity"
+            android:name=".sample.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_code_white_24dp"
             android:label="@string/title_activity_code_sample" />
