@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.view.exec_screen.console;
+package com.duy.pascal.backend.lib.graph;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,15 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 
-import com.duy.pascal.backend.lib.graph.ViewPort;
-import com.duy.pascal.frontend.utils.FontManager;
-import com.duy.pascal.backend.lib.graph.molel.GraphObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
+import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 
 import java.util.ArrayList;
 
 import static android.R.attr.textSize;
-import static com.duy.pascal.backend.lib.graph.molel.TextGraphObject.HORIZONTAL_DIR;
+import static com.duy.pascal.backend.lib.graph.text.TextDirection.HORIZONTAL_DIR;
 
 /**
  * Created by Duy on 30-Mar-17.
@@ -29,13 +29,15 @@ public class GraphScreen {
 
     //background
     private Paint mBackgroundPaint = new Paint();
+
     //cursor
     private Paint mForegroundPaint = new Paint();
 
     //list object to restore
     private ArrayList<GraphObject> graphObjects = new ArrayList<>();
+
     /**
-     * this object used to drawBackground {@link com.duy.pascal.backend.lib.graph.molel.GraphObject}
+     * this object used to drawBackground {@link GraphObject}
      */
     private Bitmap mGraphBitmap;
     private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);
@@ -46,13 +48,11 @@ public class GraphScreen {
         this.context = context;
         //setup cursor paint
         mForegroundPaint.setColor(Color.WHITE);
-        mForegroundPaint.setTextSize(14f);
-//        mForegroundPaint.setTypeface(Typeface.SANS_SERIF);
+        mForegroundPaint.setTextSize(16f);
         mForegroundPaint.setAntiAlias(true);
-        mForegroundPaint.setTypeface(FontManager.getFontFromAsset(context, "triplex.ttf"));
+        mForegroundPaint.setTypeface(Typeface.MONOSPACE);
 
         mBackgroundPaint.setColor(Color.BLACK);
-        mBackgroundPaint.setAlpha(255);
     }
 
     public int getTextDirection() {

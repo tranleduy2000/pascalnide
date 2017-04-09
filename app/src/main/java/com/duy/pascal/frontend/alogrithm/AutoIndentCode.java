@@ -129,7 +129,6 @@ public class AutoIndentCode {
         } else if (t instanceof FunctionToken || t instanceof ProcedureToken) {
             processFunctionToken(t);
         }
-        // TODO: 04-Mar-17 Uses, var, const every new line
        /* else if (t instanceof VarToken || t instanceof ConstToken) {
             processVarToken(t);
         }*/ else if (t instanceof CommentToken) {

@@ -25,8 +25,9 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputContentInfo;
 import android.view.inputmethod.InputMethodManager;
 
-import com.duy.pascal.backend.lib.graph.molel.ArcObject;
-import com.duy.pascal.backend.lib.graph.molel.GraphObject;
+import com.duy.pascal.backend.lib.graph.GraphScreen;
+import com.duy.pascal.backend.lib.graph.graphic_model.ArcObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
@@ -944,6 +945,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     //pascal
     public synchronized void addGraphObject(GraphObject graphObject) {
         mGraphScreen.addGraphObject(graphObject);
+
         postInvalidate();
     }
 

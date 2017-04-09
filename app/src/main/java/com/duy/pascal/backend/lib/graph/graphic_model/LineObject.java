@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.graph.molel;
+package com.duy.pascal.backend.lib.graph.graphic_model;
 
 import android.graphics.Canvas;
 

@@ -88,11 +88,18 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.code_view_item, null);
         }
-        CodeView highlightEditor = (CodeView) convertView.findViewById(R.id.code_view);
         final CodeSampleEntry codeSampleEntry = (CodeSampleEntry) getChild(groupPosition, childPosition);
+
+        //set code
+        CodeView highlightEditor = (CodeView) convertView.findViewById(R.id.code_view);
         highlightEditor.setTextHighlighted(codeSampleEntry.getContent());
         highlightEditor.setCanEdit(false);
 
+        //set title
+        TextView txtTitle = (TextView) convertView.findViewById(R.id.txt_title);
+        txtTitle.setText(codeSampleEntry.getName());
+
+        //set event click
         View btnPlay = convertView.findViewById(R.id.img_play);
         View btnEdit = convertView.findViewById(R.id.img_edit);
         View btnCopy = convertView.findViewById(R.id.img_copy);

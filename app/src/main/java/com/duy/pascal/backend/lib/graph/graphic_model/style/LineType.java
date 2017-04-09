@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.graph;
+package com.duy.pascal.backend.lib.graph.graphic_model.style;
 
 /**
  * Created by Duy on 08-Apr-17.

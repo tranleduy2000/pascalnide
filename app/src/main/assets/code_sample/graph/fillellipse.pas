@@ -1,4 +1,4 @@
-Program ellipse;
+Program draw_fill_ellipse;
 Uses Crt,Graph;
 Var
     graphicsDriver, graphicsMode,
@@ -12,9 +12,7 @@ Begin
     Randomize;
     SetColor(Random(15) + 1); {Set paint color}
 
-
-    {Draw bar}
-    ellipse(200, 200, 0, 270, 200, 100);
+    fillEllipse(200, 200, 150, 50);
 
     ReadLn;
     CloseGraph;

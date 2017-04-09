@@ -311,9 +311,7 @@ public abstract class GrouperToken extends Token {
                 return context.getIdentifierValue(name);
             }
         } else if (next instanceof CommentToken) {
-            // TODO: 21-Mar-17 ignore comment name
             take();
-            peek_no_EOF();
             return getNextTerm(context);
         } else {
             throw new UnrecognizedTokenException(next);
@@ -450,7 +448,7 @@ public abstract class GrouperToken extends Token {
             next = take();
             assert (next instanceof DoToken);
             Executable result;
-            if (downto) { // TODO probably should merge these two types
+            if (downto) {
                 result = new DowntoForStatement(context, tmpVar, firstValue,
                         lastValue, getNextCommand(context), initialline);
             } else {

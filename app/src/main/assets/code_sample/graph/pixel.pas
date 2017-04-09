@@ -1,4 +1,4 @@
-program  pixel;
+program draw_pixel;
 Uses Crt,Graph;
 Var
     graphicsDriver, graphicsMode,

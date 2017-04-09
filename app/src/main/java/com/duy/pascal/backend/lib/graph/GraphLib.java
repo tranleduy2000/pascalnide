@@ -1,17 +1,21 @@
 package com.duy.pascal.backend.lib.graph;
 
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.graph.molel.ArcObject;
-import com.duy.pascal.backend.lib.graph.molel.BarObject;
-import com.duy.pascal.backend.lib.graph.molel.CircleObject;
-import com.duy.pascal.backend.lib.graph.molel.EllipseObject;
-import com.duy.pascal.backend.lib.graph.molel.LineObject;
-import com.duy.pascal.backend.lib.graph.molel.PixelObject;
-import com.duy.pascal.backend.lib.graph.molel.RectangleObject;
-import com.duy.pascal.backend.lib.graph.molel.TextGraphObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.ArcEllipseObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.ArcObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.BarObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.CircleObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.EllipseObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.LineObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.PieSliceObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.PixelObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.RectangleObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.SectorObject;
+import com.duy.pascal.backend.lib.graph.text.TextGraphObject;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.js.interpreter.runtime.VariableBoxer;
@@ -80,7 +84,6 @@ public class GraphLib implements PascalLibrary {
      * @param pathToDriver
      */
     public void initGraph(int driver, int mode, String pathToDriver) {
-        // TODO: 01-Mar-17  do something
         if (activity != null) {
             activity.getConsoleView().setGraphMode(true);
         }
@@ -94,12 +97,7 @@ public class GraphLib implements PascalLibrary {
             activity.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
     }
 
-    /**
-     * @return color in pixel x, y of screen
-     */
-    public int getPixel(int x, int y) {
-        return activity.getConsoleView().getColorPixel(x, y);
-    }
+    private String errorMsg = "";
 
     public void line(int x1, int y1, int x2, int y2) {
         if (activity != null)
@@ -126,13 +124,11 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * GetColor returns the current drawing color (the palette entry).
+     * @return color in pixel x, y of screen
      */
-    public int getColor() {
-        if (activity != null)
-            return activity.getConsoleView().getForegroundGraphColor();
-        else
-            return 0;
+    public int getPixel(int x, int y) {
+        // TODO: 09-Apr-17
+        return activity.getConsoleView().getColorPixel(x, y);
     }
 
     /**
@@ -153,14 +149,13 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-
-     * DetectGraph checks the hardware in the PC and determines the driver and screen-modus
-     * to be used. These are returned in Driver and Modus, and can be fed to InitGraph. See
-     * the InitGraph for a list of drivers and module.
+     * GetColor returns the current drawing color (the palette entry).
      */
-    public void detectGraph(VariableBoxer<Integer> driver, VariableBoxer<Integer> mode) {
-        driver.set(0);
-        driver.set(0);
+    public int getColor() {
+        if (activity != null)
+            return activity.getConsoleView().getForegroundGraphColor();
+        else
+            return 0; //black
     }
 
     /**
@@ -177,18 +172,17 @@ public class GraphLib implements PascalLibrary {
         activity.getConsoleView().setCursorGraphPosition(x, y);
     }
 
-
     /**
 
-     * LineTo draws a line starting from the current pointer position to the point(DX,DY),
-     * relative to the current position, in the current line style and color. The Current
-     * position is set to the end of the line.
+     * DetectGraph checks the hardware in the PC and determines the driver and screen-modus
+     * to be used. These are returned in Driver and Modus, and can be fed to InitGraph. See
+     * the InitGraph for a list of drivers and module.
      */
-    public void lineTo(int x, int y) {
-        CursorConsole point = activity.getConsoleView().getCursorGraph();
-        activity.getConsoleView().addGraphObject(new LineObject(point.x, point.y, x, y));
-        activity.getConsoleView().setCursorGraphPosition(x, y);
+    public void detectGraph(VariableBoxer<Integer> driver, VariableBoxer<Integer> mode) {
+        driver.set(0);
+        mode.set(0);
     }
+
 
     /**
      * MoveRel moves the pointer to the point (DX,DY), relative to the current pointer position
@@ -198,14 +192,12 @@ public class GraphLib implements PascalLibrary {
         activity.getConsoleView().setCursorGraphPosition(point.x + dx, point.y + dy);
     }
 
-    // TODO: 02-Mar-17  empty method
     public int detect() {
         return 1;
     }
 
-    // TODO: 02-Mar-17 empty method
     public Integer graphResult() {
-        return new Integer(1);
+        return 1;
     }
 
     public void circle(int x, int y, int r) {
@@ -213,14 +205,27 @@ public class GraphLib implements PascalLibrary {
             activity.getConsoleView().addGraphObject(new CircleObject(x, y, r));
     }
 
-    public void ellipse(int x, int y, int start, int end, int rx, int ry) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new EllipseObject(x, y, start, end, rx, ry));
+    /**
+     * LineTo draws a line starting from the current pointer position to the point(DX,DY),
+     * relative to the current position, in the current line style and color. The Current
+     * position is set to the end of the line.
+     */
+    public void lineTo(int x, int y) {
+        if (activity != null) {
+            CursorConsole point = activity.getConsoleView().getCursorGraph();
+            activity.getConsoleView().addGraphObject(new LineObject(point.x, point.y, x, y));
+            activity.getConsoleView().setCursorGraphPosition(x, y);
+        }
     }
 
-    public void SetLineStyle(int style, int pattern, int width) {
+    public void ellipse(int x, int y, int start, int end, int rx, int ry) {
         if (activity != null)
-            activity.getConsoleView().setCursorGraphStyle(style, pattern, width);
+            activity.getConsoleView().addGraphObject(new ArcEllipseObject(x, y, start, end, rx, ry));
+    }
+
+    public void fillEllipse(int x, int y, int rx, int ry) {
+        if (activity != null)
+            activity.getConsoleView().addGraphObject(new EllipseObject(x, y, rx, ry));
     }
 
     public int getMaxColor() {
@@ -232,13 +237,23 @@ public class GraphLib implements PascalLibrary {
             activity.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.getColorPascal(color)));
     }
 
-    public void outTextXY(int x, int y, String text) {
+    public void setLineStyle(int style, int pattern, int width) {
         if (activity != null)
-            activity.getConsoleView().addGraphObject(new TextGraphObject(text, x, y));
+            activity.getConsoleView().setCursorGraphStyle(style, pattern, width);
     }
 
-    public void setTextStyle(int font, int direction, int size) {
-        if (activity != null) activity.getConsoleView().setGraphTextStyle(font, direction, size);
+    public void outTextXY(int x, int y, String text) {
+        if (activity != null) {
+            activity.getConsoleView().addGraphObject(new TextGraphObject(text, x, y));
+            //get current paint
+            Paint textPaint = activity.getConsoleView().getGraphScreen().getTextPaint();
+            //get width of text
+            int width = (int) textPaint.measureText(text);
+            //move cursor to the end of the text (bottom-right)
+            CursorConsole cursorGraph = activity.getConsoleView().getCursorGraph();
+            activity.getConsoleView().setCursorGraphPosition(cursorGraph.getX(),
+                    cursorGraph.getY() + width);
+        }
     }
 
     public int getBkColor() {
@@ -288,7 +303,69 @@ public class GraphLib implements PascalLibrary {
         return 0;
     }
 
-    private void setFileType(int pattern, int color) {
+    public void setTextStyle(int font, int direction, int size) {
+        // TODO: 09-Apr-17
+        if (activity != null) activity.getConsoleView().setGraphTextStyle(font, direction, size);
+    }
 
+    private void setFileType(int pattern, int color) {
+        // TODO: 09-Apr-17
+    }
+
+    public void setDirectVideo(boolean assess) {
+        // TODO: 09-Apr-17
+    }
+
+    /**
+     * Procedure Sector(X, Y : Integer; StAngle, EndAngle, XRadius, YRadius : Word)
+     */
+    public void sector(int x, int y, int start, int end, int rx, int ry) {
+        if (activity != null) {
+            activity.getConsoleView().addGraphObject(new SectorObject(x, y, start, end, rx, ry));
+        }
+    }
+
+    /**
+     * PieSlice draws and fills a sector of a circle with center (X,Y) and radius Radius,
+     * starting at angle Start and ending at angle Stop.
+     */
+    public void pieSlice(int x, int y, int start, int end, int radius) {
+        if (activity != null) {
+            activity.getConsoleView().addGraphObject(new PieSliceObject(x, y, start, end, radius));
+        }
+    }
+
+    public String graphErrorMsg() {
+        // TODO: 09-Apr-17
+        return errorMsg;
+    }
+
+    public void graphDefaults() {
+        //// TODO: 09-Apr-17
+    }
+
+    public void getFillPattern() {
+
+    }
+
+    /**
+     * GetAspectRatio determines the effective resolution of the screen. The aspect ration can then
+     * be calculated as Xasp/Yasp.
+     */
+    public void getAspectRatio(VariableBoxer<Integer> x, VariableBoxer<Integer> y) {
+        x.set(getMaxX());
+        y.set(getMaxY());
+    }
+
+    public int getGraphMode() {
+        return 1;
+    }
+
+    public String getModeName(int mode) {
+        return "android_graphics";
+    }
+
+    public int getMaxMode() {
+        return 1;
     }
 }

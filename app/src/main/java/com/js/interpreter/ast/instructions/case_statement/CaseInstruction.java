@@ -94,7 +94,6 @@ public class CaseInstruction extends DebuggableExecutable {
             i.take();
             while (i.hasNext()) {
                 otherwise.addCommand(i.getNextCommand(context));
-                // TODO: 27-Mar-17 check EOF
                 /**
                  * case i of
                  *  1 : writeln;

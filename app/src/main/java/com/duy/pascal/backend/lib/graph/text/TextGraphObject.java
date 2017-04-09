@@ -1,16 +1,15 @@
-package com.duy.pascal.backend.lib.graph.molel;
+package com.duy.pascal.backend.lib.graph.text;
 
 import android.graphics.Canvas;
 import android.util.Log;
+
+import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 
 /**
  * Created by Duy on 02-Mar-17.
  */
 
 public class TextGraphObject extends GraphObject {
-    public static final int HORIZONTAL_DIR = 0;
-    public static final int VERTICAL_DIR = 1;
-
     private String text;
     private int x, y;
     private int textStyle;
@@ -24,9 +23,9 @@ public class TextGraphObject extends GraphObject {
     @Override
     public void draw(Canvas canvas) {
         Log.d(TAG, "drawBackground: " + mForegroundPaint.getColor());
-        if (textDirection == HORIZONTAL_DIR) {
+        if (textDirection == TextDirection.HORIZONTAL_DIR) {
             canvas.drawText(text, x, y, mForegroundPaint);
-        } else {
+        } else { //vertical
             canvas.save();
             canvas.rotate(90f, 50, 50);
             canvas.drawText(text, x, y, mForegroundPaint);
