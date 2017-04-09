@@ -2,6 +2,7 @@ package com.duy.pascal.backend.lib.graph.graphic_model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 
 /**
@@ -24,8 +25,8 @@ public class SectorObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        float dx = rx / 2;
-        float dy = ry / 2;
+        float dx = rx ;
+        float dy = ry;
 
         //bound
         RectF rectF = new RectF(x - dx, y - dy, x + dx, y + dy);
@@ -37,5 +38,7 @@ public class SectorObject extends GraphObject {
         canvas.scale(-1, 1, x, y);
         canvas.drawArc(rectF, startAngel, endAngle, true, foregroundPaint);
         canvas.restore();
+
+        Path path = new Path();
     }
 }

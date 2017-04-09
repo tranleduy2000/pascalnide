@@ -61,6 +61,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:hardwareAccelerated="false"
             android:name=".activities.ExecuteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:windowSoftInputMode="adjustPan"

@@ -237,9 +237,13 @@ public class GraphLib implements PascalLibrary {
             activity.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.getColorPascal(color)));
     }
 
-    public void setLineStyle(int style, int pattern, int width) {
-        if (activity != null)
-            activity.getConsoleView().setCursorGraphStyle(style, pattern, width);
+    public void setLineStyle(int style, int fillPattern, int width) {
+        if (activity != null) {
+            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+            graphScreen.setFillStyle(style);
+            graphScreen.setFillPattern(fillPattern);
+            graphScreen.setLineWidth(width);
+        }
     }
 
     public void outTextXY(int x, int y, String text) {
@@ -256,6 +260,22 @@ public class GraphLib implements PascalLibrary {
         }
     }
 
+    public void outText(String text) {
+        CursorConsole cursorGraph = activity.getConsoleView().getCursorGraph();
+        activity.getConsoleView().addGraphObject(new TextGraphObject(text, cursorGraph.getX(),
+                cursorGraph.getY()));
+        //get current paint
+        Paint textPaint = activity.getConsoleView().getGraphScreen().getTextPaint();
+        //get width of text
+        int width = (int) textPaint.measureText(text);
+        //move cursor to the end of the text (bottom-right)
+        activity.getConsoleView().setCursorGraphPosition(cursorGraph.getX(),
+                cursorGraph.getY() + width);
+    }
+
+    public void installUserFont(String path) {
+        // TODO: 09-Apr-17
+    }
     public int getBkColor() {
         if (activity != null)
             return activity.getConsoleView().getGraphScreen().getBackgroundColor();

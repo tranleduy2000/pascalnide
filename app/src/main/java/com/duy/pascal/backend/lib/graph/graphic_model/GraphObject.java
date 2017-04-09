@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 
 import com.duy.pascal.backend.lib.graph.graphic_model.style.FillType;
-import com.duy.pascal.backend.lib.graph.graphic_model.style.LineType;
+import com.duy.pascal.backend.lib.graph.graphic_model.style.LineStyle;
 import com.duy.pascal.backend.lib.graph.graphic_model.style.LineWidth;
 import com.duy.pascal.backend.lib.graph.text.TextDirection;
 import com.duy.pascal.backend.lib.graph.text.TextJustify;
@@ -36,7 +36,7 @@ public abstract class GraphObject {
     protected Typeface textFont = null;
     protected int textDirection = TextDirection.HORIZONTAL_DIR;
     protected int lineWidth = LineWidth.NormWidth;
-    protected int lineStyle = LineType.Centerln;
+    protected int lineStyle = LineStyle.Centerln;
     protected int fillStyle = FillType.EmptyFill;
     protected int fillColor = -1; //white
 

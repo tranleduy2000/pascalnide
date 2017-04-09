@@ -2,6 +2,7 @@ package com.duy.pascal.backend.lib.graph.graphic_model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 
 /**
@@ -30,6 +31,7 @@ public class ArcObject extends GraphObject {
         canvas.rotate(-90, x, y);
         canvas.drawArc(rectF, stAngle, enAngle, false, foregroundPaint);
         canvas.restore();
+        Path path;
     }
 
 }
