@@ -1,14 +1,18 @@
-package com.duy.pascal.backend.lib;
+package com.duy.pascal.backend.lib.graph;
 
+import android.graphics.Rect;
+
+import com.duy.pascal.backend.lib.CrtLib;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.ArcObject;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.BarObject;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.CircleObject;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.LineObject;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.PixelObject;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.RectangleObject;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.TextGraphObject;
+import com.duy.pascal.backend.lib.graph.molel.ArcObject;
+import com.duy.pascal.backend.lib.graph.molel.BarObject;
+import com.duy.pascal.backend.lib.graph.molel.CircleObject;
+import com.duy.pascal.backend.lib.graph.molel.LineObject;
+import com.duy.pascal.backend.lib.graph.molel.PixelObject;
+import com.duy.pascal.backend.lib.graph.molel.RectangleObject;
+import com.duy.pascal.backend.lib.graph.molel.TextGraphObject;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Map;
@@ -339,5 +343,44 @@ public class GraphLib implements PascalLibrary {
     public void setBkColor(int color) {
         if (activity != null)
             activity.getConsoleView().setGraphBackground(CrtLib.getColorPascal(color));
+    }
+
+    /**
+     * return width of the text (pixel) in the current font size
+     */
+    public int textWidth(String text) {
+        if (activity != null) {
+            Rect rect = new Rect();
+            activity.getConsoleView().getGraphScreen().getTextBound(text, rect);
+            return rect.width();
+        }
+        return 0;
+    }
+
+    /**
+     * Set the current graphic viewport to the retangle define by then top-left (x1, y1) and then
+     * bottom-right (x2, y2). If clip
+     */
+    public void setViewPort(int x1, int y1, int x2, int y2, boolean clip) {
+        if (activity != null) {
+            activity.getConsoleView().getGraphScreen().setViewPort(x1, y1, x2, y2, clip);
+        }
+    }
+
+
+    /**
+     * return height of the text (in pixel) in the current font size
+     */
+    public int textHeight(String text) {
+        if (activity != null) {
+            Rect rect = new Rect();
+            activity.getConsoleView().getGraphScreen().getTextBound(text, rect);
+            return rect.height();
+        }
+        return 0;
+    }
+
+    private void setFileType(int pattern, int color) {
+
     }
 }

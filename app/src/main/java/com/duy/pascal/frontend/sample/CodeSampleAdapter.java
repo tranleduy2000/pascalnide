@@ -1,6 +1,7 @@
 package com.duy.pascal.frontend.sample;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  */
 
 public class CodeSampleAdapter extends BaseExpandableListAdapter {
+    private static final String TAG = CodeSampleAdapter.class.getSimpleName();
     private ArrayList<CodeCategory> codeCategories = new ArrayList<>();
     private Context context;
     private LayoutInflater inflater;
@@ -30,11 +32,13 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
+        Log.d(TAG, "getGroupCount: " + codeCategories.size());
         return codeCategories.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
+        Log.d(TAG, "getChildrenCount: " + codeCategories.get(groupPosition).getCodeSize());
         return codeCategories.get(groupPosition).getCodeSize();
     }
 
@@ -45,6 +49,7 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
+        Log.d(TAG, "getChild: group " + groupPosition + " child " + childPosition);
         return codeCategories.get(groupPosition).getCode(childPosition);
     }
 
@@ -67,7 +72,7 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         CodeCategory headerTitle = (CodeCategory) getGroup(groupPosition);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.header_code_sample_category, parent, false);
+            convertView = inflater.inflate(R.layout.header_code_sample_category, null);
         }
         TextView txtTitle = (TextView) convertView.findViewById(R.id.txt_title);
         txtTitle.setText(headerTitle.getTitle());
@@ -81,7 +86,7 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.code_view_item, parent, false);
+            convertView = inflater.inflate(R.layout.code_view_item, null);
         }
         CodeView highlightEditor = (CodeView) convertView.findViewById(R.id.code_view);
         final CodeSampleEntry codeSampleEntry = (CodeSampleEntry) getChild(groupPosition, childPosition);
@@ -115,7 +120,7 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 
     public void setListener(OnCodeClickListener listener) {

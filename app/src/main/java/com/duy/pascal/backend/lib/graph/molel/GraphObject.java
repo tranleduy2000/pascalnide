@@ -1,10 +1,10 @@
-package com.duy.pascal.frontend.view.exec_screen.graph.molel;
+package com.duy.pascal.backend.lib.graph.molel;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import static com.duy.pascal.frontend.view.exec_screen.graph.molel.TextGraphObject.HORIZONTAL_DIR;
+import static com.duy.pascal.backend.lib.graph.molel.TextGraphObject.HORIZONTAL_DIR;
 
 /**
  * Created by Duy on 02-Mar-17.

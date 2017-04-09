@@ -5,7 +5,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
-import com.duy.pascal.backend.lib.GraphLib;
+import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.MathLib;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;

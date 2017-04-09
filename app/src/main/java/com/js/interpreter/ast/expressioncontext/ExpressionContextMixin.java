@@ -14,6 +14,7 @@ import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
+import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.LibraryUtils;
 import com.duy.pascal.backend.lib.MathLib;
 import com.duy.pascal.backend.lib.StringLib;
@@ -291,6 +292,8 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 classes.add(DosLib.class);
             } else if (name.equalsIgnoreCase("math")) {
                 classes.add(MathLib.class);
+            } else if (name.equalsIgnoreCase("graph")) {
+                classes.add(GraphLib.class);
             }
         }
 

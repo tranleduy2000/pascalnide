@@ -5,14 +5,16 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
+import com.duy.pascal.backend.lib.graph.ViewPort;
 import com.duy.pascal.frontend.utils.FontManager;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject;
+import com.duy.pascal.backend.lib.graph.molel.GraphObject;
 
 import java.util.ArrayList;
 
 import static android.R.attr.textSize;
-import static com.duy.pascal.frontend.view.exec_screen.graph.molel.TextGraphObject.HORIZONTAL_DIR;
+import static com.duy.pascal.backend.lib.graph.molel.TextGraphObject.HORIZONTAL_DIR;
 
 /**
  * Created by Duy on 30-Mar-17.
@@ -22,14 +24,20 @@ public class GraphScreen {
     private final Context context;
     private int width = 1;
     private int height = 1;
+
+    private ViewPort viewPort = new ViewPort(0, 0, width, height);
+
     //background
     private Paint mBackgroundPaint = new Paint();
     //cursor
     private Paint mCursorPaint = new Paint();
+
+    private Paint mTextPaint = new Paint();
+    private Paint mLinePaint = new Paint();
     //list object to restore
     private ArrayList<GraphObject> graphObjects = new ArrayList<>();
     /**
-     * this object used to drawBackground {@link com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject}
+     * this object used to drawBackground {@link com.duy.pascal.backend.lib.graph.molel.GraphObject}
      */
     private Bitmap mGraphBitmap;
     private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);
@@ -46,6 +54,7 @@ public class GraphScreen {
         mCursorPaint.setTypeface(FontManager.getFontFromAsset(context, "triplex.ttf"));
 
         mBackgroundPaint.setColor(Color.BLACK);
+        mBackgroundPaint.setAlpha(255);
     }
 
     public int getTextDirection() {
@@ -105,8 +114,12 @@ public class GraphScreen {
     public void onSizeChange(int width, int height) {
         setWidth(width);
         setHeight(height);
+        //set view port
+        viewPort.set(0, 0, width, height);
+
         invalidateBitmap();
     }
+
 
     private void invalidateBitmap() {
         mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
@@ -178,5 +191,38 @@ public class GraphScreen {
         mCursorPaint.setStrokeWidth(width);
 //        mCursor
 //        mCursorPaint.set
+    }
+
+    public Paint getBackgroundPaint() {
+        return mBackgroundPaint;
+    }
+
+    public void getTextBound(String text, Rect store) {
+        mTextPaint.getTextBounds(text, 0, text.length(), store);
+    }
+
+    public Paint getTextPaint() {
+        return mTextPaint;
+    }
+
+    public void setTextPaint(Paint mTextPaint) {
+        this.mTextPaint = mTextPaint;
+    }
+
+    public Paint getLinePaint() {
+        return mLinePaint;
+    }
+
+    public void setLinePaint(Paint mLinePaint) {
+        this.mLinePaint = mLinePaint;
+    }
+
+
+    /**
+     * Set the current graphic viewport to the retangle define by then top-left (x1, y1) and then
+     * bottom-right (x2, y2). If clip
+     */
+    public void setViewPort(int x1, int y1, int x2, int y2, boolean clip) {
+        viewPort.setViewPort(x1, y1, x2, y2, clip);
     }
 }

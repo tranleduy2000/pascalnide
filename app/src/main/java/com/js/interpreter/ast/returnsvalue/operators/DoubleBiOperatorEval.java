@@ -39,8 +39,8 @@ public class DoubleBiOperatorEval extends BinaryOperatorEvaluation {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        double v1 = (Double) value1;
-        double v2 = (Double) value2;
+        double v1 = Double.valueOf(String.valueOf(value1));
+        double v2 = Double.valueOf(String.valueOf(value2));
         switch (operator_type) {
             case DIVIDE:
                 if (Math.abs(v2) == 0d) {

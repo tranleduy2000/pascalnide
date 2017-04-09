@@ -1,4 +1,4 @@
-Program Example14;
+Program high_low_text;
 uses Crt;
 
 { Program to demonstrate the LowVideo, HighVideo, NormVideo functions. }

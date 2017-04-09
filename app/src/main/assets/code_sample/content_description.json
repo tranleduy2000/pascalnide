@@ -1,0 +1,6 @@
+{
+  "crt": "CRT - Pascal screen and keyboard handling unit.",
+  "graph": "TP compatible unit to handle screen graphics.",
+  "basic": "Examples of basic commands in pascal.",
+  "dos": "DOS - Turbo Pascal MS-DOS interface."
+}

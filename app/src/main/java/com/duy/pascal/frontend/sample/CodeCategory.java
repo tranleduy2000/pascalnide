@@ -11,9 +11,7 @@ class CodeCategory {
     private String description;
     private String imagePath;
 
-
     private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
-
 
     public CodeCategory(String title, String description) {
         this.title = title;

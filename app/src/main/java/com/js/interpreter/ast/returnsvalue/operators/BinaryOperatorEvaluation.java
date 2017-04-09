@@ -1,6 +1,7 @@
 package com.js.interpreter.ast.returnsvalue.operators;
 
 
+import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -14,7 +15,6 @@ import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -40,11 +40,12 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
     }
 
     /* Boy, templates or macros like C++ sure would be useful now... */
-    public static BinaryOperatorEvaluation generateOp(ExpressionContext f,
-                                                      ReturnsValue v1, ReturnsValue v2, OperatorTypes op_type,
+    public static BinaryOperatorEvaluation generateOp(ExpressionContext main,
+                                                      ReturnsValue v1,
+                                                      ReturnsValue v2, OperatorTypes op_type,
                                                       LineInfo line) throws ParsingException {
-        DeclaredType t1 = v1.getType(f).declType;
-        DeclaredType t2 = v2.getType(f).declType;
+        DeclaredType t1 = v1.getType(main).declType;
+        DeclaredType t2 = v2.getType(main).declType;
         if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
             throw new BadOperationTypeException(line, t1, t2, v1, v2, op_type);
         }
@@ -58,8 +59,8 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
                 v2 = new TypeConverter.AnyToString(v2);
                 return new StringBiOperatorEval(v1, v2, op_type, line);
             } else {
-                v1 = BasicType.StringBuilder.convert(v1, f);
-                v2 = BasicType.StringBuilder.convert(v2, f);
+                v1 = BasicType.StringBuilder.convert(v1, main);
+                v2 = BasicType.StringBuilder.convert(v2, main);
                 if (v1 != null && v2 != null) {
                     return new StringBiOperatorEval(v1, v2, op_type, line);
                 } else {
@@ -76,10 +77,8 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
             return new DoubleBiOperatorEval(v1, v2, op_type, line);
         }
         if (t1 == BasicType.Long || t2 == BasicType.Long) {
-            v1 = TypeConverter.forceConvertRequired(BasicType.Long,
-                    v1, (BasicType) t1);
-            v2 = TypeConverter.forceConvertRequired(BasicType.Long,
-                    v2, (BasicType) t2);
+            v1 = TypeConverter.forceConvertRequired(BasicType.Long, v1, (BasicType) t1);
+            v2 = TypeConverter.forceConvertRequired(BasicType.Long, v2, (BasicType) t2);
             return new LongBiOperatorEval(v1, v2, op_type, line);
         }
         if (t1 == BasicType.Integer

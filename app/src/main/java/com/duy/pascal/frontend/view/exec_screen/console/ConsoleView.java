@@ -27,8 +27,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.ArcObject;
-import com.duy.pascal.frontend.view.exec_screen.graph.molel.GraphObject;
+import com.duy.pascal.backend.lib.graph.molel.ArcObject;
+import com.duy.pascal.backend.lib.graph.molel.GraphObject;
 
 import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.greaterEqual;
 import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.lessThan;
@@ -755,7 +755,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 top + (mCursor.y - firstLine) * mTextRenderer.charHeight,
                 mTextRenderer.charHeight, mTextRenderer.charWidth, mTextRenderer.charDescent);
 
-        Log.d(TAG, "drawText: " + mConsoleScreen.consoleRow + " row = " + mConsoleScreen.consoleColumn);
+//        Log.d(TAG, "drawText: " + mConsoleScreen.consoleRow + " row = " + mConsoleScreen.consoleColumn);
         int count = 0;
         for (int row = 0; row < mConsoleScreen.consoleRow; row++) {
             if (row > mCursor.y - firstLine) break;
@@ -800,7 +800,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         drawText(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
 
         if (graphMode)
-            canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, null);
+            canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, mGraphScreen.getBackgroundPaint());
 
     }
 

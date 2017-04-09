@@ -1,12 +1,9 @@
 package com.js.interpreter.ast;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
@@ -66,15 +63,15 @@ public abstract class AbstractFunction implements NamedEntity {
         ArgumentType[] acceptedTypes = getArgumentTypes();
 
         //print to console
-        StringBuilder stringBuilder = new StringBuilder();
-        for (ArgumentType argumentType : acceptedTypes) {
-            stringBuilder.append(argumentType.getRuntimeClass().getSimpleName()).append(" ");
-        }
-        Log.d(TAG, "perfectMatch: name: " + name() + "  " + stringBuilder.toString());
-        if (arguments.size() > 0) {
-            RuntimeType runtimeType = arguments.get(0).getType(context);
-            runtimeType.getRuntimeClass().getSimpleName();
-        }
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (ArgumentType argumentType : acceptedTypes) {
+//            stringBuilder.append(argumentType.getRuntimeClass().getSimpleName()).append(" ");
+//        }
+//        Log.d(TAG, "perfectMatch: name: " + name() + "  " + stringBuilder.toString());
+//        if (arguments.size() > 0) {
+//            RuntimeType runtimeType = arguments.get(0).getType(context);
+//            runtimeType.getRuntimeClass().getSimpleName();
+//        }
         //end print
 
         //check array

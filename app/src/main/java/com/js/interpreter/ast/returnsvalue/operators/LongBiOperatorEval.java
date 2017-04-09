@@ -37,8 +37,10 @@ public class LongBiOperatorEval extends BinaryOperatorEvaluation {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException {
-        long v1 = (Long) value1;
-        long v2 = (Long) value2;
+//        long v1 = (long) value1;
+        long v1 = Long.parseLong(String.valueOf(value1));
+//        long v2 = (long) value2;
+        long v2 = Long.parseLong(String.valueOf(value2));
         switch (operator_type) {
             case AND:
                 return v1 & v2;

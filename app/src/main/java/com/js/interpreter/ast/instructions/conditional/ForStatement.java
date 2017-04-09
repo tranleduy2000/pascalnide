@@ -4,7 +4,6 @@ import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.OperatorTypes;
-import com.duy.pascal.frontend.debug.DebugManager;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
@@ -47,7 +46,7 @@ public class ForStatement extends DebuggableExecutable {
         setfirst.execute(f, main);
         while_loop:
         while ((Boolean) lessthanlast.getValue(f, main)) {
-            DebugManager.outputConditionFor(main.getDebugListener(), true);
+//            DebugManager.outputConditionFor(main.getDebugListener(), true);
             ExecutionResult result = command.execute(f, main);
             switch (result) {
                 case EXIT:
@@ -57,7 +56,7 @@ public class ForStatement extends DebuggableExecutable {
             }
             increment_temp.execute(f, main);
         }
-        DebugManager.outputConditionFor(main.getDebugListener(), true);
+//        DebugManager.outputConditionFor(main.getDebugListener(), true);
         return NONE;
     }
 

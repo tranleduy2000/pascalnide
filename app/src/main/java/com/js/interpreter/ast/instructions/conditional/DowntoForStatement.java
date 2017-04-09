@@ -1,11 +1,11 @@
 package com.js.interpreter.ast.instructions.conditional;
 
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
@@ -17,22 +17,24 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class DowntoForStatement extends DebuggableExecutable {
-    SetValueExecutable setfirst;
-    ReturnsValue lessthanlast;
-    SetValueExecutable incrementTemp;
-    Executable command;
-    LineInfo line;
+    private SetValueExecutable setfirst;
+    private ReturnsValue lessthanlast;
+    private SetValueExecutable incrementTemp;
+    private Executable command;
+    private LineInfo line;
 
-    public DowntoForStatement(ExpressionContext f, ReturnsValue temp_var,
-                              ReturnsValue first, ReturnsValue last, Executable command,
+    public DowntoForStatement(ExpressionContext main,
+                              ReturnsValue tempVariable,
+                              ReturnsValue firstValue, ReturnsValue lastValue, Executable command,
                               LineInfo line) throws ParsingException {
         this.line = line;
-        setfirst = temp_var.createSetValueInstruction(first);
-        lessthanlast = BinaryOperatorEvaluation.generateOp(f, temp_var, last,
+        setfirst = tempVariable.createSetValueInstruction(firstValue);
+        lessthanlast = BinaryOperatorEvaluation.generateOp(main, tempVariable, lastValue,
                 OperatorTypes.GREATEREQ, this.line);
-        incrementTemp = temp_var
+
+        incrementTemp = tempVariable
                 .createSetValueInstruction(BinaryOperatorEvaluation.generateOp(
-                        f, temp_var, new ConstantAccess(1, this.line),
+                        main, tempVariable, new ConstantAccess(1, this.line),
                         OperatorTypes.MINUS, this.line));
 
         this.command = command;

@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
-    private final String[] categories = new String[]{"BASIC", "CRT", "DOS", "GRAPH"};
+    private final String[] categories = new String[]{"Basic", "Crt", "Dos", "Graph"};
     @BindView(R.id.expand_listview)
     ExpandableListView expandableListView;
     @BindView(R.id.toolbar)
@@ -50,6 +50,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         adapter = new CodeSampleAdapter(this);
         adapter.setListener(this);
         expandableListView.setAdapter(adapter);
+
         new LoadCodeTask().execute();
     }
 
@@ -98,24 +99,27 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         @Override
         protected ArrayList<CodeCategory> doInBackground(Object... params) {
             listCodeCategories = new ArrayList<>();
-            try {
-                for (int i = 0; i < categories.length; i++) {
-                    CodeCategory codeCategory = new CodeCategory(categories[i], "");
-                    if (DLog.DEBUG) Log.d(TAG, "doInBackground: ");
-                    String[] list;
-                    String path = "code_sample/" + categories[i];
+
+            for (int i = 0; i < categories.length; i++) {
+                CodeCategory codeCategory = new CodeCategory(categories[i], "");
+                if (DLog.DEBUG) Log.d(TAG, "doInBackground: ");
+                String[] list;
+                String path = "code_sample/" + categories[i].toLowerCase();
+                try {
                     list = getAssets().list(path);
                     for (String fileName : list) {
                         if (DLog.DEBUG)
                             Log.d(TAG, "doInBackground: " + fileName);
                         String content = readFile(path + "/" + fileName);
                         codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
+                        Log.d(TAG, "doInBackground: " + content);
                     }
-                    listCodeCategories.add(codeCategory);
+                } catch (IOException ignored) {
+                    if (DLog.DEBUG) Log.e(TAG, "doInBackground: ", ignored);
                 }
-            } catch (IOException ignored) {
-                if (DLog.DEBUG) Log.e(TAG, "doInBackground: ", ignored);
+                listCodeCategories.add(codeCategory);
             }
+
             return listCodeCategories;
         }
 
@@ -123,7 +127,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
             String result = "";
             BufferedReader reader = null;
             try {
-                reader = new BufferedReader(new InputStreamReader(getAssets().open(path), "UTF-8"));
+                reader = new BufferedReader(new InputStreamReader(getAssets().open(path)));
                 String mLine;
                 while ((mLine = reader.readLine()) != null) {
                     result += mLine + "\n";
@@ -146,8 +150,8 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         @Override
         protected void onPostExecute(ArrayList<CodeCategory> aVoid) {
             super.onPostExecute(aVoid);
-            adapter.addCodes(listCodeCategories);
             adapter.notifyDataSetChanged();
+            adapter.addCodes(listCodeCategories);
         }
     }
 

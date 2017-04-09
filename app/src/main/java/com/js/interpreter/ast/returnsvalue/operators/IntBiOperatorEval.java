@@ -38,8 +38,8 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        int v1 = (Integer) value1;
-        int v2 = (Integer) value2;
+        int v1 = Integer.parseInt(String.valueOf(value1));
+        int v2 = Integer.parseInt(String.valueOf(value2));
         switch (operator_type) {
             case AND:
                 return v1 & v2;

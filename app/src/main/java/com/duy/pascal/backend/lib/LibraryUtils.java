@@ -14,5 +14,6 @@ public class LibraryUtils {
         SUPPORT_LIB.add("crt");
         SUPPORT_LIB.add("dos");
         SUPPORT_LIB.add("math");
+        SUPPORT_LIB.add("graph");
     }
 }

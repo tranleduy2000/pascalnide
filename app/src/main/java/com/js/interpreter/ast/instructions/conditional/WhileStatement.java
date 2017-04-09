@@ -40,7 +40,7 @@ public class WhileStatement extends DebuggableExecutable {
                     return ExecutionResult.EXIT;
             }
         }
-        DebugManager.outputConditionWhile(main.getDebugListener(), false);
+//        DebugManager.outputConditionWhile(main.getDebugListener(), false);
 
         return ExecutionResult.NONE;
     }

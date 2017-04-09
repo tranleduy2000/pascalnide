@@ -19,7 +19,15 @@
     <ExpandableListView
         android:id="@+id/expand_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:alwaysDrawnWithCache="true"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        android:childDivider="@null"
+        android:divider="@null"
+        android:fadingEdge="horizontal|vertical"
+        android:fastScrollAlwaysVisible="false"
+        android:fastScrollEnabled="false">
 
     </ExpandableListView>
 </LinearLayout>
