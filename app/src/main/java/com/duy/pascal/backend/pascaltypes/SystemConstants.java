@@ -34,6 +34,46 @@ public class SystemConstants {
         context.declareConst(colorConst);
         colorConst = new ConstantDefinition("DashedLn".toLowerCase(), 1, new LineInfo(-1, "const DashedLn = 3;".toLowerCase()));
         context.declareConst(colorConst);
+//Font number: Normal font
+        colorConst = new ConstantDefinition("DefaultFont".toLowerCase(), 0,
+                new LineInfo(-1, "const DefaultFont = 0;".toLowerCase()));
+        context.declareConst(colorConst);
+//        Font number: Triplex font
+        colorConst = new ConstantDefinition("TriplexFont".toLowerCase(), 1,
+                new LineInfo(-1, "const TriplexFont = 1;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        colorConst = new ConstantDefinition("SmallFont".toLowerCase(), 2,
+                new LineInfo(-1, "const SmallFont = 2;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        colorConst = new ConstantDefinition("SansSerifFont".toLowerCase(), 3,
+                new LineInfo(-1, "const SansSerifFont = 3;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        colorConst = new ConstantDefinition("GothicFont".toLowerCase(), 4,
+                new LineInfo(-1, "const GothicFont = 4;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        colorConst = new ConstantDefinition("ScriptFont".toLowerCase(), 5,
+                new LineInfo(-1, "const ScriptFont = 5;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("SimpleFont".toLowerCase(), 6,
+                new LineInfo(-1, "const SimpleFont = 6;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("TSCRFont".toLowerCase(), 7,
+                new LineInfo(-1, "const TSCRFont = 7;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        colorConst = new ConstantDefinition("LCOMFont".toLowerCase(), 8,
+                new LineInfo(-1, "const LCOMFont = 8;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        colorConst = new ConstantDefinition("EuroFont".toLowerCase(), 9,
+                new LineInfo(-1, "const EuroFont  = 9;".toLowerCase()));
+        context.declareConst(colorConst);
+
+
     }
 
     /**
