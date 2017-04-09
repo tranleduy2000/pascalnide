@@ -35,8 +35,8 @@ public class ArrayAccess extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return index.getLineNumber();
+    public LineInfo getline() {
+        return index.getline();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ArrayAccess extends DebuggableReturnsValue {
         try {
             return Array.get(cont, ind - offset);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new PascalIndexOutOfBoundsException(this.getLineNumber(),
+            throw new PascalIndexOutOfBoundsException(this.getline(),
                     ind, offset, offset + ((Object[]) cont).length - 1);
         }
     }

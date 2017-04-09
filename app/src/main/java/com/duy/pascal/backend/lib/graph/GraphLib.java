@@ -4,15 +4,16 @@ import android.graphics.Rect;
 
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
-import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.duy.pascal.backend.lib.graph.molel.ArcObject;
 import com.duy.pascal.backend.lib.graph.molel.BarObject;
 import com.duy.pascal.backend.lib.graph.molel.CircleObject;
+import com.duy.pascal.backend.lib.graph.molel.EllipseObject;
 import com.duy.pascal.backend.lib.graph.molel.LineObject;
 import com.duy.pascal.backend.lib.graph.molel.PixelObject;
 import com.duy.pascal.backend.lib.graph.molel.RectangleObject;
 import com.duy.pascal.backend.lib.graph.molel.TextGraphObject;
+import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Map;
@@ -125,17 +126,6 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * GetColor
-     * <p>
-     * Return current drawing color
-     * <p>
-     * Declaration
-     * <p>
-     * Source position: graphh.inc line 772
-     * <p>
-     * function GetColor: Word;
-     * Description
-     * <p>
      * GetColor returns the current drawing color (the palette entry).
      */
     public int getColor() {
@@ -146,61 +136,27 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * SetColor
-     * <p>
      * Set foreground drawing color
-     * <p>
-     * Declaration
-     * <p>
-     * Source position: graphh.inc line 773
-     * <p>
-     * procedure SetColor(
-     * Color: Word
-     * );
-     * Description
-     * <p>
-     * Sets the foreground color to Color.
-     *
      * @param index
      */
     public void setColor(int index) {
-        activity.getConsoleView().setCursorGraphColor(CrtLib.getColorPascal(index));
+        activity.getConsoleView().setPaintGraphColor(CrtLib.getColorPascal(index));
     }
 
     /**
-     * Closegraph
-     * <p>
-     * Close graphical system.
-     * <p>
-     * Declaration
-     * <p>
-     * Source position: graphh.inc line 736
-     * <p>
-     * procedure Closegraph;
-     * Description
-     * <p>
-     * Closes the graphical system, and restores the screen modus which was active before the graphical modus was activated.
+
+     * Closes the graphical system, and restores the screen modus which was active before
+     * the graphical modus was activated.
      */
     public void closeGraph() {
         activity.getConsoleView().closeGraph();
     }
 
     /**
-     * DetectGraph
-     * <p>
-     * Detect correct graphical driver to use
-     * <p>
-     * Declaration
-     * <p>
-     * Source position: graphh.inc line 759
-     * <p>
-     * procedure DetectGraph(
-     * var GraphDriver: SmallInt;
-     * var GraphMode: SmallInt
-     * );
-     * Description
-     * <p>
-     * DetectGraph checks the hardware in the PC and determines the driver and screen-modus to be used. These are returned in Driver and Modus, and can be fed to InitGraph. See the InitGraph for a list of drivers and modi.
+
+     * DetectGraph checks the hardware in the PC and determines the driver and screen-modus
+     * to be used. These are returned in Driver and Modus, and can be fed to InitGraph. See
+     * the InitGraph for a list of drivers and module.
      */
     public void detectGraph(VariableBoxer<Integer> driver, VariableBoxer<Integer> mode) {
         driver.set(0);
@@ -208,17 +164,6 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * ClearDevice
-     * <p>
-     * Clear the complete screen
-     * <p>
-     * Declaration
-     * <p>
-     * Source position: graphh.inc line 752
-     * <p>
-     * procedure ClearDevice;
-     * Description
-     * <p>
      * Clears the graphical screen (with the current background color), and sets the pointer at (0,0).
      */
     public void clearDevice() {
@@ -226,24 +171,7 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * MoveTo
-     * <p>
-     * Move cursor to absolute position.
-     * <p>
-     * Declaration
-     * <p>
-     * Source position: graphh.inc line 766
-     * <p>
-     * procedure MoveTo(
-     * X: SmallInt;
-     * Y: SmallInt
-     * );
-     * Description
-     * <p>
      * MoveTo moves the pointer to the point (X,Y).
-     *
-     * @param x
-     * @param y
      */
     public void moveTo(int x, int y) {
         activity.getConsoleView().setCursorGraphPosition(x, y);
@@ -251,21 +179,10 @@ public class GraphLib implements PascalLibrary {
 
 
     /**
-     * LineTo
-     * <p>
-     * Draw a line starting from current position to a given point
-     * <p>
-     * Declaration
-     * <p>
-     * Source position: graphh.inc line 789
-     * <p>
-     * procedure LineTo(
-     * X: SmallInt;
-     * Y: SmallInt
-     * );
-     * Description
-     * <p>
-     * LineTo draws a lineNumber starting from the current pointer position to the point(DX,DY), relative to the current position, in the current lineNumber style and color. The Current position is set to the end of the lineNumber.
+
+     * LineTo draws a line starting from the current pointer position to the point(DX,DY),
+     * relative to the current position, in the current line style and color. The Current
+     * position is set to the end of the line.
      */
     public void lineTo(int x, int y) {
         CursorConsole point = activity.getConsoleView().getCursorGraph();
@@ -274,20 +191,6 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * MoveRel
-     * <p>
-     * Move cursor relative to current position
-     * <p>
-     * Declaration
-     * <p>
-     * Source position: graphh.inc line 765
-     * <p>
-     * procedure MoveRel(
-     * Dx: SmallInt;
-     * Dy: SmallInt
-     * );
-     * Description
-     * <p>
      * MoveRel moves the pointer to the point (DX,DY), relative to the current pointer position
      */
     public void moveRel(int dx, int dy) {
@@ -308,6 +211,11 @@ public class GraphLib implements PascalLibrary {
     public void circle(int x, int y, int r) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new CircleObject(x, y, r));
+    }
+
+    public void ellipse(int x, int y, int start, int end, int rx, int ry) {
+        if (activity != null)
+            activity.getConsoleView().addGraphObject(new EllipseObject(x, y, start, end, rx, ry));
     }
 
     public void SetLineStyle(int style, int pattern, int width) {

@@ -175,7 +175,7 @@ public class PascalPreferences {
 //        return Typeface.MONOSPACE;
     }
 
-    public boolean isShowLineNumbers() {
+    public boolean isShowlines() {
         return getBoolean(context.getString(R.string.key_pref_show_line_number));
     }
 

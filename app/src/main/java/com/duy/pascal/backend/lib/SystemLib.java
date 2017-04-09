@@ -7,6 +7,7 @@ import com.duy.pascal.backend.lib.exceptions.RangeCheckError;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
 import java.util.Map;
@@ -275,4 +276,20 @@ public class SystemLib implements PascalLibrary {
         return x % 2 == 0;
     }
 
+    /**
+     * exit program
+     * @param value - exitcode
+     * @throws ScriptTerminatedException
+     */
+    public void halt(int value) throws ScriptTerminatedException {
+        throw new ScriptTerminatedException(null);
+    }
+
+    /**
+     * exit program
+     * @throws ScriptTerminatedException
+     */
+    public void halt() throws ScriptTerminatedException {
+        throw new ScriptTerminatedException(null);
+    }
 }

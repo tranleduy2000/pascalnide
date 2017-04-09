@@ -7,7 +7,7 @@ public class NonIntegerIndexException extends com.duy.pascal.backend.exceptions.
     ReturnsValue value;
 
     public NonIntegerIndexException(ReturnsValue value) {
-        super(value.getLineNumber());
+        super(value.getline());
         this.value = value;
     }
 

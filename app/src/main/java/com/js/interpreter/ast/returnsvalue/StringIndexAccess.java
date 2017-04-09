@@ -30,8 +30,8 @@ public class StringIndexAccess extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return container.getLineNumber();
+    public LineInfo getline() {
+        return container.getline();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class StringIndexAccess extends DebuggableReturnsValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, container.getLineNumber());
+            return new ConstantAccess(val, container.getline());
         } else {
             return new StringIndexAccess(
                     container.compileTimeExpressionFold(context),

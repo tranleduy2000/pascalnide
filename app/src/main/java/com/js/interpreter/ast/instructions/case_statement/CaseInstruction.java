@@ -70,9 +70,9 @@ public class CaseInstruction extends DebuggableExecutable {
                     if (hi == null) {
                         throw new NonConstantExpressionException(upper);
                     }
-                    conditions.add(new RangeOfValues(context, mSwitchValue, v, hi, valueToSwitch.getLineNumber()));
+                    conditions.add(new RangeOfValues(context, mSwitchValue, v, hi, valueToSwitch.getline()));
                 } else {
-                    conditions.add(new SingleValue(v, valueToSwitch.getLineNumber()));
+                    conditions.add(new SingleValue(v, valueToSwitch.getline()));
                 }
                 if (i.peek() instanceof CommaToken) {
                     i.take();
@@ -155,7 +155,7 @@ public class CaseInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return line;
     }
 

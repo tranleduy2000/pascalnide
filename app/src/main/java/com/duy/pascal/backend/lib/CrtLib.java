@@ -130,7 +130,7 @@ public class CrtLib implements PascalLibrary {
     }
 
     /**
-     * set text mPaint color
+     * set text mForegroundPaint color
      *
      * @param code
      */

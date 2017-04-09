@@ -18,7 +18,7 @@ public interface ReturnsValue {
     RuntimeType getType(ExpressionContext f)
             throws ParsingException;
 
-    LineInfo getLineNumber();
+    LineInfo getline();
 
     /*
      * returns null if not a compile-time constant.

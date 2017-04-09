@@ -49,7 +49,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public static final int LONG_DELAY = 1000;
     private static final int CHARS_TO_COLOR = 2500;
     private final Handler updateHandler = new Handler();
-    public boolean showLineNumbers = true;
+    public boolean showlines = true;
     public float textSize = 13;
     public boolean wordWrap = true;
     public boolean flingToScroll = true;
@@ -216,7 +216,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public void onDraw(Canvas canvas) {
         int lineX, baseline;
         int lineCount = getLineCount();
-        if (showLineNumbers) {
+        if (showlines) {
             int padding = (int) (Math.floor(Math.log10(lineCount)) + 1);
             padding = (int) ((padding * mPaintNumbers.getTextSize())
                     + mPadding + (textSize * mScale * 0.5));
@@ -248,10 +248,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             if ((i == mHighlightedLine) && (!wordWrap)) {
                 canvas.drawRect(mLineBounds, mPaintHighlight);
             }
-            if (showLineNumbers) {
+            if (showlines) {
                 canvas.drawText("" + (i), mDrawingRect.left + mPadding, baseline, mPaintNumbers);
             }
-            if (showLineNumbers) {
+            if (showlines) {
                 canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
             }
         }
@@ -342,7 +342,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setTextSize(mEditorSetting.getTextSize());
         mPaintNumbers.setTextSize(getTextSize() * 0.85f);
-        showLineNumbers = mEditorSetting.isShowLineNumbers();
+        showlines = mEditorSetting.isShowlines();
         postInvalidate();
         refreshDrawableState();
 
@@ -354,7 +354,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
         mLinePadding = mPadding;
         int count = getLineCount();
-        if (showLineNumbers) {
+        if (showlines) {
             mLinePadding = (int) (Math.floor(Math.log10(count)) + 1);
             mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize())
                     + mPadding + (textSize * mScale * 0.5));
@@ -441,7 +441,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     /**
-     * Gets the first lineNumber that is visible on the screen.
+     * Gets the first line that is visible on the screen.
      *
      * @return
      */
@@ -455,9 +455,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     /**
-     * Gets the last visible lineNumber number on the screen.
+     * Gets the last visible line number on the screen.
      *
-     * @return last lineNumber that is visible on the screen.
+     * @return last line that is visible on the screen.
      */
     public int getLastLineIndex() {
         int height = verticalScroll.getHeight();
@@ -626,9 +626,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
 
     /**
-     * move cursor to lineNumber
+     * move cursor to line
      *
-     * @param line - lineNumber in editor, begin at 1
+     * @param line - line in editor, begin at 1
      */
     public void goToLine(int line) {
         String text = getText().toString();

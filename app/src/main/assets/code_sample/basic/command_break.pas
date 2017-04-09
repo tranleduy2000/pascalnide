@@ -5,7 +5,7 @@ Used in loops, include:
     while...do...
     repeat...until...
 }
-program test_break;
+program break;
 var
     i: Integer;
 begin

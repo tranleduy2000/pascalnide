@@ -608,7 +608,7 @@ public class Filesystem {
 				Result result = mShell.createAttempts(command).execute();
 
 				if (result != null && result.wasSuccessful() && result.size() > 1) {
-					/* Depending on how long the lineNumber is, the df command some times breaks a lineNumber into two */
+					/* Depending on how long the line is, the df command some times breaks a line into two */
 					String[] parts = oPatternSpaceSearch.split(result.sort(1).trim().getString(" ").trim());
 					
 					/*

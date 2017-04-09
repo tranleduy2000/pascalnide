@@ -34,8 +34,8 @@ public class CloneableObjectCloner implements ReturnsValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return r.getLineNumber();
+    public LineInfo getline() {
+        return r.getline();
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.js.interpreter.ast.codeunit.PascalProgram;
 import com.js.interpreter.core.ScriptSource;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -87,6 +88,8 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 //                    program.enableDebug();
                     program.run();
                     mMessageHandler.sendEmptyMessage(COMPLETE);
+                } catch (ScriptTerminatedException e) {
+                    mMessageHandler.sendEmptyMessage(COMPLETE);
                 } catch (RuntimePascalException | FileNotFoundException | ParsingException e) {
                     mMessageHandler.sendMessage(mMessageHandler.obtainMessage(RUNTIME_ERROR, e));
                 }
@@ -127,7 +130,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                         break;
                 }
             } while (exitFlag == 0 && isCanRead.get());
-            mConsoleView.commitString("\n"); //return new lineNumber
+            mConsoleView.commitString("\n"); //return new line
             input = inputData.toString();
             isCanRead.set(false);
         }
@@ -223,9 +226,9 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
 //        mConsoleView.setConsoleTextColor(Color.RED);
 //        if (e instanceof ParsingException) {
 //            mConsoleView.commitString(e.getMessage() + "\n");
-//            LineInfo lineInfo = ((ParsingException) e).lineNumber;
-//            String lineNumber = String.valueOf(lineInfo.lineNumber);
-//            mConsoleView.commitString("Error in lineNumber " + lineNumber + "\n");
+//            LineInfo lineInfo = ((ParsingException) e).line;
+//            String line = String.valueOf(lineInfo.line);
+//            mConsoleView.commitString("Error in line " + line + "\n");
 //            mConsoleView.commitString("File: " + lineInfo.sourcefile + "\n");
 //        } else {
 //            mConsoleView.commitString(e.getMessage());

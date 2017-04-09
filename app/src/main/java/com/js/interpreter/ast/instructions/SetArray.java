@@ -25,8 +25,8 @@ public class SetArray implements SetValueExecutable {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return index.getLineNumber();
+    public LineInfo getline() {
+        return index.getline();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class SetArray implements SetValueExecutable {
         try {
             Array.set(cont, ind - offset, v);
         } catch (IndexOutOfBoundsException e) {
-            throw new PascalIndexOutOfBoundsException(this.getLineNumber(),
+            throw new PascalIndexOutOfBoundsException(this.getline(),
                     ind, offset, offset + ((Object[]) cont).length + offset - 1);
         }
         return ExecutionResult.NONE;

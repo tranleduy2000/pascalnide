@@ -24,7 +24,7 @@ public class SetField implements SetValueExecutable {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return line;
     }
 

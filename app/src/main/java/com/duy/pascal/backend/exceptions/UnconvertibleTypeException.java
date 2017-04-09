@@ -7,7 +7,7 @@ public class UnconvertibleTypeException extends com.duy.pascal.backend.exception
 
     public UnconvertibleTypeException(ReturnsValue obj,
                                       DeclaredType out, DeclaredType in, boolean implicit) {
-        super(obj.getLineNumber(),
+        super(obj.getline(),
                 "The expression or variable \"" + obj + "\" is of type \"" + out + "\""
                         + ", which cannot be " + (implicit ? "implicitly " : "")
                         + "converted to to the type \"" + in + "\"");

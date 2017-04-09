@@ -173,7 +173,7 @@ public class ExceptionManager {
 //                .append("<font color=\"yellow\">").append(expected).append("</font>").append("<br>")
 //                .append(msg2)
 //                .append("<font color=\"yellow\">").append(current).append("</font>").append("<br>")
-//                .append("<font color=\"red\">").append(e.lineNumber).append("</font>");
+//                .append("<font color=\"red\">").append(e.line).append("</font>");
 //        return fromHtml(stringBuilder.toString());
         String msg = msg1 + expected + msg2 + current;
         Spannable span = new SpannableString(msg);

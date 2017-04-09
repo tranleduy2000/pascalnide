@@ -107,7 +107,7 @@ public class AutoIndentCode {
             result += ((GrouperToken) t).toCode();
         } else if (t instanceof DoToken || t instanceof ThenToken || t instanceof CaseToken) {
             processDoToken(t);
-        } else if (t instanceof SemicolonToken || t instanceof PeriodToken) { //new lineNumber
+        } else if (t instanceof SemicolonToken || t instanceof PeriodToken) { //new line
             processSemicolonToken(t);
         } //dont add white space, remove last space char
         else if (t instanceof ElseToken) {
@@ -129,7 +129,7 @@ public class AutoIndentCode {
         } else if (t instanceof FunctionToken || t instanceof ProcedureToken) {
             processFunctionToken(t);
         }
-        // TODO: 04-Mar-17 Uses, var, const every new lineNumber
+        // TODO: 04-Mar-17 Uses, var, const every new line
        /* else if (t instanceof VarToken || t instanceof ConstToken) {
             processVarToken(t);
         }*/ else if (t instanceof CommentToken) {
@@ -326,7 +326,7 @@ public class AutoIndentCode {
     private static void completeUntil(Token t) {
         if (numberTab > 0)
             numberTab--;
-        //new lineNumber
+        //new line
         if (result.length() > 0) {
             if (result.charAt(result.length() - 1) != '\n')
                 result += "\n";
@@ -338,7 +338,7 @@ public class AutoIndentCode {
     private static void processEnd(Token t) throws IOException {
         if (numberTab > 0)
             numberTab--;
-        //new lineNumber
+        //new line
         if (result.length() > 0) {
             if (result.charAt(result.length() - 1) != '\n')
                 result += "\n";

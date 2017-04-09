@@ -333,7 +333,7 @@ public class CustomType extends ObjectType {
     @Override
     public ReturnsValue generateArrayAccess(ReturnsValue array,
                                             ReturnsValue index) throws NonArrayIndexed {
-        throw new NonArrayIndexed(array.getLineNumber(), this);
+        throw new NonArrayIndexed(array.getline(), this);
     }
 
     @Override

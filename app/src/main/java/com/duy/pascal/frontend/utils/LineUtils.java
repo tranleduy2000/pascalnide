@@ -13,7 +13,7 @@ public class LineUtils {
     }
 
     /**
-     * Gets the lineNumber from the index of the letter in the text
+     * Gets the line from the index of the letter in the text
      *
      * @param index
      * @param lineCount

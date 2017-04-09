@@ -29,7 +29,7 @@ public class VariableAccess extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return line;
     }
 

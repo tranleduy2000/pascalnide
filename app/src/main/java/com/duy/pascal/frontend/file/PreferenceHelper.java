@@ -57,7 +57,7 @@ public final class PreferenceHelper {
         return getPrefs(context).getBoolean("storage_access_framework", false);
     }
 
-    public static boolean getLineNumbers(Context context) {
+    public static boolean getlines(Context context) {
 //        return getPrefs(context).getBoolean("editor_line_numbers", true);
         return true;
     }
@@ -169,7 +169,7 @@ public final class PreferenceHelper {
         getEditor(context).putBoolean("storage_access_framework", value).commit();
     }
 
-    public static void setLineNumbers(Context context, boolean value) {
+    public static void setlines(Context context, boolean value) {
         getEditor(context).putBoolean("editor_line_numbers", value).commit();
     }
 

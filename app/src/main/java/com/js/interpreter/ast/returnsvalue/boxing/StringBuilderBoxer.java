@@ -28,8 +28,8 @@ public class StringBuilderBoxer extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return value.getLineNumber();
+    public LineInfo getline() {
+        return value.getline();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class StringBuilderBoxer extends DebuggableReturnsValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, value.getLineNumber());
+            return new ConstantAccess(val, value.getline());
         } else {
             return new StringBuilderBoxer(
                     value.compileTimeExpressionFold(context));

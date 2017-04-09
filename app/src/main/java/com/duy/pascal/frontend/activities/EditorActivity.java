@@ -250,13 +250,13 @@ public class EditorActivity extends FileEditorActivity implements
         if (e != null) {
             if (e.line != null) {
                 LineInfo lineInfo = e.line;
-                mCodeView.setLineError(lineInfo.lineNumber);
+                mCodeView.setLineError(lineInfo.line);
                 mCodeView.refresh();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                                mCodeView.getLineCount(), e.line.lineNumber));
+                                mCodeView.getLineCount(), e.line.line));
                     }
                 }, 100);
             }
@@ -479,12 +479,12 @@ public class EditorActivity extends FileEditorActivity implements
                 .setView(edittext)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String lineNumber = edittext.getText().toString();
-                        if (lineNumber.length() > 5) {
+                        String line = edittext.getText().toString();
+                        if (line.length() > 5) {
 //                            mCodeView.goToLine(1);
-                        } else if (!lineNumber.isEmpty()) {
+                        } else if (!line.isEmpty()) {
                             // TODO: 03-Apr-17
-                            mCodeView.goToLine(Integer.parseInt(lineNumber));
+                            mCodeView.goToLine(Integer.parseInt(line));
                         }
                         dialog.cancel();
                     }

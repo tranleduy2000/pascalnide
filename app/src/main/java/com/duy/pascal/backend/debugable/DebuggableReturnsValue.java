@@ -12,7 +12,7 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
 
     private void checkStack(VariableContext f) throws StackOverflowException {
         if (f instanceof FunctionOnStack) {
-            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getLineNumber());
+            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getline());
         } else {
             StackFunction.inc(null);
         }
@@ -22,13 +22,13 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
             throws RuntimePascalException {
         try {
             if (main != null) {
-                main.scriptControlCheck(getLineNumber());
+                main.scriptControlCheck(getline());
             }
             return getValueImpl(f, main);
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLineNumber(), e);
+            throw new UnhandledPascalException(this.getline(), e);
         }
     }
    /* @Override
@@ -37,7 +37,7 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
         checkStack(f);
         try {
             if (main != null) {
-                main.scriptControlCheck(getLineNumber());
+                main.scriptControlCheck(getline());
             }
 
             Object result = getValueImpl(f, main);
@@ -47,7 +47,7 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLineNumber(), e);
+            throw new UnhandledPascalException(this.getline(), e);
         }
     }*/
 

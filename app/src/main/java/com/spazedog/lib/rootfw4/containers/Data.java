@@ -52,7 +52,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	 */
 	public interface DataReplace {
 		/**
-		 * This method is used to alter the lines in the text array. Each lineNumber is parsed to this method, and whatever is returned will replace the current lineNumber.
+		 * This method is used to alter the lines in the text array. Each line is parsed to this method, and whatever is returned will replace the current line.
 		 * 
 		 * @param input
 		 *     One line of the text array
@@ -71,7 +71,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This can be used to replace part of a lineNumber, or the whole lineNumber. It uses the replace() method in the DataSorting interface where custom replacement of a lineNumber can be done. It parses the original lineNumber as an argument, and requires the new lineNumber to be returned.
+	 * This can be used to replace part of a line, or the whole line. It uses the replace() method in the DataSorting interface where custom replacement of a line can be done. It parses the original line as an argument, and requires the new line to be returned.
 	 * 
 	 * @param DataSorting
 	 *     An instance of the <code>DataSorting</code> class which should handle the line replacement
@@ -138,10 +138,10 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to remove lines from the text array. Each lineNumber will be compared to the argument. If the lineNumber contains anything from the argument, it will be removed from the text array.
+	 * This is used to determine whether or not to remove lines from the text array. Each line will be compared to the argument. If the line contains anything from the argument, it will be removed from the text array.
 	 * 
 	 * @param contains
-	 *     A string to locate within each lineNumber to determine whether or not to remove the lineNumber
+	 *     A string to locate within each line to determine whether or not to remove the line
 	 *     
 	 * @return
 	 *     This instance
@@ -181,10 +181,10 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to keep lines in the text array. Each lineNumber will be compared to the argument. If the lineNumber contains anything from the argument, it will not be removed from the text array.
+	 * This is used to determine whether or not to keep lines in the text array. Each line will be compared to the argument. If the line contains anything from the argument, it will not be removed from the text array.
 	 * 
 	 * @param contains
-	 *     A string to locate within each lineNumber to determine whether or not to remove the lineNumber
+	 *     A string to locate within each line to determine whether or not to remove the line
 	 *     
 	 * @return
 	 *     This instance
@@ -368,8 +368,8 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	/**  
 	 * @see Data#getLine(Integer, Boolean)
 	 */
-	public String getLine(Integer aLineNumber) {
-		return getLine(aLineNumber, false);
+	public String getLine(Integer aline) {
+		return getLine(aline, false);
 	}
 	
 	/**
@@ -377,7 +377,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	 * <br />
 	 * Note that this also takes negative number to get a line from the end and up
 	 * 
-	 * @param aLineNumber
+	 * @param aline
 	 *     The line number to return
 	 *     
 	 * @param aSkipEmpty
@@ -386,16 +386,16 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	 * @return
 	 *     The specified line
 	 */
-	public String getLine(Integer aLineNumber, Boolean aSkipEmpty) {
+	public String getLine(Integer aline, Boolean aSkipEmpty) {
 		if (size() > 0) {
-			Integer count = aLineNumber < 0 ? (mLines.length + aLineNumber) : aLineNumber;
+			Integer count = aline < 0 ? (mLines.length + aline) : aline;
 			
 			while(count >= 0 && count < mLines.length) {
 				if (!aSkipEmpty || mLines[count].trim().length() > 0) {
 					return mLines[count].trim();
 				}
 				
-				count = aLineNumber < 0 ? (count - 1) : (count + 1);
+				count = aline < 0 ? (count - 1) : (count + 1);
 			}
 		}
 		

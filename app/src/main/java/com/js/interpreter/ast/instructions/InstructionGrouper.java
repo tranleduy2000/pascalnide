@@ -21,7 +21,7 @@ public class InstructionGrouper extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return line;
     }
 

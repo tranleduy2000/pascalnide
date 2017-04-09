@@ -1,6 +1,6 @@
 program while_statement;
 var
-    i:integer;
+    i: integer;
     sum: integer;
 BEGIN
     i := 1;

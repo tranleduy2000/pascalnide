@@ -1,6 +1,6 @@
 program repeat_until_statement;
 var
-    i:integer;
+    i: integer;
     sum: integer;
 BEGIN
     i := 1;
@@ -8,7 +8,7 @@ BEGIN
     writeln('Sum of 1 to 100 is: ');
     repeat
         sum := sum + i;
-         i := i + 1;
+        i := i + 1;
     until i = 100;
     writeln(sum);
     readln;

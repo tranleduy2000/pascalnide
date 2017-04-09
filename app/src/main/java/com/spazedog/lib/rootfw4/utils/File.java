@@ -396,10 +396,10 @@ public class File {
 	}
 	
 	/**
-	 * Extract the first lineNumber of the file.
+	 * Extract the first line of the file.
 	 * 
 	 * @return
-	 *     The first lineNumber of the file as a string
+	 *     The first line of the file as a string
 	 */
 	public String readOneLine() {
 		synchronized (mLock) {
@@ -464,7 +464,7 @@ public class File {
 	}
 	
 	/**
-	 * Search the file lineNumber by lineNumber to find a match for a specific word or sentence and return all of the matched lines or the ones not matching.
+	 * Search the file line by line to find a match for a specific word or sentence and return all of the matched lines or the ones not matching.
 	 * 
 	 * @param match
 	 *     Word or sentence to match
@@ -553,7 +553,7 @@ public class File {
 	}
 	
 	/**
-	 * Write text to the file. The text should be an array where each index is a lineNumber that should be written to the file.
+	 * Write text to the file. The text should be an array where each index is a line that should be written to the file.
 	 * <br />
 	 * If the file does not already exist, it will be created. 
 	 * 
@@ -1267,9 +1267,9 @@ public class File {
 	 * 
 	 * @param args
 	 *     Arguments which will be parsed to the recovery package. 
-	 *     Each argument equels one prop lineNumber.
+	 *     Each argument equels one prop line.
 	 *     <br />
-	 *     Each prop lineNumber is added to /cache/recovery/rootfw.prop and named (argument[argument number] = [value]).
+	 *     Each prop line is added to /cache/recovery/rootfw.prop and named (argument[argument number] = [value]).
 	 *     For an example, if first argument is "test", it will be written to rootfw.prop as (argument1 = test).
 	 * 
 	 * @return

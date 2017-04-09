@@ -1,28 +1,24 @@
-Program draw_line;
+program  pixel;
 Uses Crt,Graph;
 Var
     graphicsDriver, graphicsMode,
-    errCode, i, x, y, maxColor,
-    color: Integer;
+    errCode, color, maxColor, x, y: Integer;
 Begin
     Writeln('Initialising Graphics, please wait...');
     graphicsDriver := Detect;
     InitGraph(graphicsDriver, graphicsMode,'');
-    If GraphResult <> grOK then exit;
+    If GraphResult <> grOK then exit;{ <> means 'not equal to' }
 
-    Randomize;
     x := getMaxX();
     y := getMaxY();
     maxColor := getMaxColor();
 
+    randomize;
     While (not keypressed) do
     Begin
         delay(50);
         color := random(maxColor) + 1;
-        setColor(color);
-        line(random(x), random(y), random(x), random(y));
+        putPixel(random(x),random(y), color);
     end;
-
-    ReadLn;
-    CloseGraph;
+    Closegraph;
 End.

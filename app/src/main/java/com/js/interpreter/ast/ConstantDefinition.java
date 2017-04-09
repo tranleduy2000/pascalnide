@@ -27,7 +27,7 @@ public class ConstantDefinition implements NamedEntity {
         return value;
     }
 
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return line;
     }
 

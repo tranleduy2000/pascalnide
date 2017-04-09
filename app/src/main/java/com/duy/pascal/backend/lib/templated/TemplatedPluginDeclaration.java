@@ -21,7 +21,7 @@ public class TemplatedPluginDeclaration extends AbstractFunction {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return new LineInfo(-1, t.getClass().getCanonicalName());
     }
 

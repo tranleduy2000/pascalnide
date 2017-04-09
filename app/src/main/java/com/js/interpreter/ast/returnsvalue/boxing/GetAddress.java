@@ -35,8 +35,8 @@ public class GetAddress extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return target.getLineNumber();
+    public LineInfo getline() {
+        return target.getline();
     }
 
     @Override

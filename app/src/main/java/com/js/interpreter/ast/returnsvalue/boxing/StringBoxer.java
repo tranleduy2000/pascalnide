@@ -24,8 +24,8 @@ public class StringBoxer extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return s.getLineNumber();
+    public LineInfo getline() {
+        return s.getline();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class StringBoxer extends DebuggableReturnsValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, s.getLineNumber());
+            return new ConstantAccess(val, s.getline());
         } else {
             return new StringBoxer(s.compileTimeExpressionFold(context));
         }

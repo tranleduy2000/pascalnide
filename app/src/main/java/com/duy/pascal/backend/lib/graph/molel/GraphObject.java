@@ -12,22 +12,21 @@ import static com.duy.pascal.backend.lib.graph.molel.TextGraphObject.HORIZONTAL_
 
 public abstract class GraphObject {
     protected final String TAG = GraphObject.class.getSimpleName();
-    public Paint mPaint = new Paint();
+    public Paint mForegroundPaint = new Paint();
     protected int background;
     protected int textStyle;
     protected int textDirection = HORIZONTAL_DIR;
     protected Paint mBackgroundPaint = new Paint();
 
     public GraphObject() {
-
     }
 
     public float getTextSize() {
-        return mPaint.getTextSize();
+        return mForegroundPaint.getTextSize();
     }
 
     public void setTextSize(float textSize) {
-        mPaint.setTextSize(textSize);
+        mForegroundPaint.setTextSize(textSize);
     }
 
     public int getTextStyle() {
@@ -47,18 +46,18 @@ public abstract class GraphObject {
     }
 
     public int getForeground() {
-     return    mPaint.getColor();
+        return mForegroundPaint.getColor();
     }
 
-    public void setForeground(int foreground) {
-        mPaint.setColor(foreground);
+    public void setForegroundColor(int foreground) {
+        mForegroundPaint.setColor(foreground);
     }
 
     public int getBackground() {
         return background;
     }
 
-    public void setBackground(int background) {
+    public void setBackgroundColor(int background) {
         this.background = background;
     }
 
@@ -70,7 +69,7 @@ public abstract class GraphObject {
     }
 
     public void setPaint(Paint mPaint) {
-        this.mPaint = mPaint;
+        this.mForegroundPaint = mPaint;
     }
 
     public Paint getBackgroundPaint() {

@@ -201,7 +201,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return line;
     }
 

@@ -194,7 +194,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * move cursor to next lineNumber
+     * move cursor to next line
      */
     public void read(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
@@ -239,7 +239,7 @@ public class FileLib implements PascalLibrary {
 
 
     /**
-     * move cursor to next lineNumber
+     * move cursor to next line
      */
     public void readln(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
@@ -249,7 +249,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineNumber
+     * read file and  move cursor to new line
      */
     public void readln(File fileVariable, VariableBoxer<Object> out)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -261,7 +261,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineNumber
+     * read file and  move cursor to new line
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -273,7 +273,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineNumber
+     * read file and  move cursor to new line
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3)
@@ -286,7 +286,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineNumber
+     * read file and  move cursor to new line
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4)
@@ -299,7 +299,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineNumber
+     * read file and  move cursor to new line
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
@@ -312,7 +312,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineNumber
+     * read file and  move cursor to new line
      */
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5,

@@ -23,7 +23,7 @@ public class DialogFragmentErrorMsg extends DialogFragment {
 
     public static DialogFragmentErrorMsg newInstance(CharSequence lineError, CharSequence msg) {
         Bundle bundle = new Bundle();
-        bundle.putCharSequence("lineNumber", lineError);
+        bundle.putCharSequence("line", lineError);
         bundle.putCharSequence("msg", msg);
         DialogFragmentErrorMsg dialogFragmentErrorMsg = new DialogFragmentErrorMsg();
         dialogFragmentErrorMsg.setArguments(bundle);
@@ -52,7 +52,7 @@ public class DialogFragmentErrorMsg extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView txtLine = (TextView) view.findViewById(R.id.txt_line);
-        txtLine.setText(getArguments().getCharSequence("lineNumber"));
+        txtLine.setText(getArguments().getCharSequence("line"));
 
         TextView txtMsg = (TextView) view.findViewById(R.id.txt_message);
         txtMsg.setText(getArguments().getCharSequence("msg"));

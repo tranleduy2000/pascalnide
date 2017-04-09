@@ -59,7 +59,7 @@ import java.util.Stack;
 
 %%
 %unicode
-%lineNumber
+%line
 %column
 %ignorecase
 

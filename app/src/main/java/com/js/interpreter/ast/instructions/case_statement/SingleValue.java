@@ -17,7 +17,7 @@ public class SingleValue implements CaseCondition {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return line;
     }
 

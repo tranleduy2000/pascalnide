@@ -8,7 +8,7 @@ public class LineWidth {
     public static final int NormWidth = 1;
     //    Normal line width
 
-    public static final int ThickWidth = 2;
+    public static final int ThickWidth = 3;
     //    Double line width
 }
 

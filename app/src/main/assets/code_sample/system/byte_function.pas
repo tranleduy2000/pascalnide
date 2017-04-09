@@ -2,7 +2,7 @@
     function byte(<condition>)
     return 1 if <condition> is true, else return 0
 }
-program test_byte_function;
+program byte_function;
 var
     b: Boolean;
 begin

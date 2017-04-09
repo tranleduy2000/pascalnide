@@ -1,4 +1,4 @@
-program for_statement;
+program for_to_statement;
 var
     i, n: integer;
 begin

@@ -6,7 +6,7 @@ import com.duy.pascal.backend.exceptions.*;
 public class NonConstantExpressionException extends com.duy.pascal.backend.exceptions.ParsingException {
 
     public NonConstantExpressionException(ReturnsValue value) {
-        super(value.getLineNumber(), "The expression \"" + value
+        super(value.getline(), "The expression \"" + value
                 + "\" is not constant.");
     }
 }

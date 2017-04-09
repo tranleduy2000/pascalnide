@@ -25,10 +25,10 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputContentInfo;
 import android.view.inputmethod.InputMethodManager;
 
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.backend.lib.graph.molel.ArcObject;
 import com.duy.pascal.backend.lib.graph.molel.GraphObject;
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.greaterEqual;
 import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.lessThan;
@@ -794,13 +794,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         int w = getWidth();
         int h = getHeight();
 
-        // drawBackground bitmap graph
-        mConsoleScreen.drawBackground(canvas, mConsoleScreen.getLeftVisible(),
-                mConsoleScreen.getTopVisible(), w, h);
-        drawText(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
 
-        if (graphMode)
+        if (graphMode) {
             canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, mGraphScreen.getBackgroundPaint());
+        } else {
+            // drawBackground bitmap graph
+            mConsoleScreen.drawBackground(canvas, mConsoleScreen.getLeftVisible(),
+                    mConsoleScreen.getTopVisible(), w, h);
+            drawText(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
+        }
 
     }
 
@@ -966,11 +968,10 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     /**
      * set drawBackground {@link GraphObject} color
-     *
-     * @param currentColor
+     * @param color
      */
-    public void setCursorGraphColor(int currentColor) {
-        mGraphScreen.setPaintColor(currentColor);
+    public void setPaintGraphColor(int color) {
+        mGraphScreen.setPaintColor(color);
     }
 
     //pascal
@@ -983,7 +984,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     //pascal
     public void clearGraph() {
         mGraphScreen.clear();
-        clearScreen();
+//        clearScreen();
     }
 
     //pascal

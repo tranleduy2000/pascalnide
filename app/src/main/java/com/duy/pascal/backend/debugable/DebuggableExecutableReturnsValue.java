@@ -15,7 +15,7 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
 
     private void checkStack(VariableContext f) throws StackOverflowException {
         if (f instanceof FunctionOnStack) {
-            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getLineNumber());
+            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getline());
         } else {
             StackFunction.inc(null);
         }
@@ -27,7 +27,7 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         checkStack(f);
         try {
             if (main != null) {
-                main.scriptControlCheck(getLineNumber());
+                main.scriptControlCheck(getline());
             }
             Object result = executeImpl(f, main);
             //decrease stack
@@ -36,7 +36,7 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLineNumber(), e);
+            throw new UnhandledPascalException(this.getline(), e);
         }
     }
 
@@ -54,7 +54,7 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLineNumber(), e);
+            throw new UnhandledPascalException(this.getline(), e);
         }
     }*/
     @Override
@@ -62,13 +62,13 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
             throws RuntimePascalException {
         try {
             if (main != null) {
-                main.scriptControlCheck(getLineNumber());
+                main.scriptControlCheck(getline());
             }
             return getValueImpl(f, main);
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLineNumber(), e);
+            throw new UnhandledPascalException(this.getline(), e);
         }
     }
 
@@ -83,7 +83,7 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLineNumber(), e);
+            throw new UnhandledPascalException(this.getline(), e);
         }
     }
     public abstract ExecutionResult executeImpl(VariableContext f,

@@ -23,13 +23,13 @@ public class TextGraphObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        Log.d(TAG, "drawBackground: " + mPaint.getColor());
+        Log.d(TAG, "drawBackground: " + mForegroundPaint.getColor());
         if (textDirection == HORIZONTAL_DIR) {
-            canvas.drawText(text, x, y, mPaint);
+            canvas.drawText(text, x, y, mForegroundPaint);
         } else {
             canvas.save();
             canvas.rotate(90f, 50, 50);
-            canvas.drawText(text, x, y, mPaint);
+            canvas.drawText(text, x, y, mForegroundPaint);
             canvas.restore();
         }
     }

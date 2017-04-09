@@ -9,12 +9,12 @@ public class OverridingFunctionException extends com.duy.pascal.backend.exceptio
 
     public OverridingFunctionException(FunctionDeclaration old, LineInfo line) {
         super(line, "Redefining function body for " + old.toString()
-                + ", which was previous define at " + old.getLineNumber());
+                + ", which was previous define at " + old.getline());
     }
 
     public OverridingFunctionException(AbstractFunction old,
                                        FunctionDeclaration news) {
-        super(news.getLineNumber(), "Attempting to override plugin definition"
+        super(news.getline(), "Attempting to override plugin definition"
                 + old.toString());
     }
 }

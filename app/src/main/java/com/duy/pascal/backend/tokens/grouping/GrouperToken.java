@@ -375,7 +375,7 @@ public abstract class GrouperToken extends Token {
                         throw new NonConstantExpressionException(converted);
                     }
                     if (names.size() != 1) {
-                        throw new MultipleDefaultValuesException(converted.getLineNumber());
+                        throw new MultipleDefaultValuesException(converted.getline());
                     }
                 }
             }

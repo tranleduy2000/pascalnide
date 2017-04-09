@@ -1,5 +1,5 @@
+program draw_circle;
 uses graph;
-
 var
     gd, gm: integer;
     Radius: integer;
@@ -12,8 +12,9 @@ begin
     for Radius:=1 to 23 do Circle(320,240,Radius * 10);
 
     readln;
-    ClearDevice;
-    SetColor(LightMagenta);
+    ClearDevice; {clear screen}
+
+    SetColor(LightMagenta);     {set paint color}
 
     for Radius:=1 to 23 do Arc(320,240,0,280,Radius * 10);
 

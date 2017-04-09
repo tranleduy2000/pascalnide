@@ -19,8 +19,8 @@ public class CircleObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        mPaint.setAntiAlias(true);
-        mPaint.setStyle(Paint.Style.STROKE);
-        canvas.drawCircle(x, y, r, mPaint);
+        mForegroundPaint.setAntiAlias(true);
+        mForegroundPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawCircle(x, y, r, mForegroundPaint);
     }
 }

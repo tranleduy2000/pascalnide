@@ -22,7 +22,7 @@ public class NopInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return line;
     }
 

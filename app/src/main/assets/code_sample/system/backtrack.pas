@@ -9,7 +9,7 @@ begin
 end;
 
 begin
-	write('10! = ', factorial(10));
+    write('10! = ', factorial(10));
     readln;
 end.
 

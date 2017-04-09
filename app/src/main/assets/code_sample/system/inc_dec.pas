@@ -1,5 +1,6 @@
 program inc_dec;
-var a: integer;
+var
+    a: integer;
 begin
     a := 1;
     inc(a);

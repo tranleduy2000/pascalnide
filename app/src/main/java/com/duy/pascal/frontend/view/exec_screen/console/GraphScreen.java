@@ -30,10 +30,8 @@ public class GraphScreen {
     //background
     private Paint mBackgroundPaint = new Paint();
     //cursor
-    private Paint mCursorPaint = new Paint();
+    private Paint mForegroundPaint = new Paint();
 
-    private Paint mTextPaint = new Paint();
-    private Paint mLinePaint = new Paint();
     //list object to restore
     private ArrayList<GraphObject> graphObjects = new ArrayList<>();
     /**
@@ -47,11 +45,11 @@ public class GraphScreen {
     public GraphScreen(Context context) {
         this.context = context;
         //setup cursor paint
-        mCursorPaint.setColor(Color.WHITE);
-        mCursorPaint.setTextSize(14f);
-//        mCursorPaint.setTypeface(Typeface.SANS_SERIF);
-        mCursorPaint.setAntiAlias(true);
-        mCursorPaint.setTypeface(FontManager.getFontFromAsset(context, "triplex.ttf"));
+        mForegroundPaint.setColor(Color.WHITE);
+        mForegroundPaint.setTextSize(14f);
+//        mForegroundPaint.setTypeface(Typeface.SANS_SERIF);
+        mForegroundPaint.setAntiAlias(true);
+        mForegroundPaint.setTypeface(FontManager.getFontFromAsset(context, "triplex.ttf"));
 
         mBackgroundPaint.setColor(Color.BLACK);
         mBackgroundPaint.setAlpha(255);
@@ -70,7 +68,7 @@ public class GraphScreen {
     }
 
     public void setTextSize(int textSize) {
-        mCursorPaint.setTextSize(textSize);
+        mForegroundPaint.setTextSize(textSize);
     }
 
     public int getTextFontIndex() {
@@ -82,7 +80,7 @@ public class GraphScreen {
     }
 
     public Paint getCursorPaint() {
-        return mCursorPaint;
+        return mForegroundPaint;
     }
 
     public int getBackgroundColor() {
@@ -122,7 +120,7 @@ public class GraphScreen {
 
 
     private void invalidateBitmap() {
-        mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
+        mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(mGraphBitmap);
         for (GraphObject object : graphObjects) {
             object.draw(canvas);
@@ -135,16 +133,15 @@ public class GraphScreen {
 
     public void addGraphObject(GraphObject graphObject) {
         // TODO: 30-Mar-17
-        graphObject.setBackground(mBackgroundPaint.getColor());
-        graphObject.setForeground(mCursorPaint.getColor());
-        //end
-        graphObject.setPaint(new Paint(mCursorPaint));
-        graphObject.setBackgroundPaint(new Paint(mBackgroundPaint));
+        graphObject.setBackgroundColor(mBackgroundPaint.getColor());
+        graphObject.setForegroundColor(mForegroundPaint.getColor());
         graphObject.setTextDirection(textDirection);
+        //end
 
         //save to list
         graphObjects.add(graphObject);
 
+        //add to screen
         graphObject.draw(mGraphBitmap);
     }
 
@@ -161,11 +158,11 @@ public class GraphScreen {
     }
 
     public int getPaintColor() {
-        return mCursorPaint.getColor();
+        return mForegroundPaint.getColor();
     }
 
     public void setPaintColor(int paintColor) {
-        this.mCursorPaint.setColor(paintColor);
+        this.mForegroundPaint.setColor(paintColor);
     }
 
     public void closeGraph() {
@@ -188,9 +185,9 @@ public class GraphScreen {
     }
 
     public void setPaintStyle(int style, int pattern, int width) {
-        mCursorPaint.setStrokeWidth(width);
+        mForegroundPaint.setStrokeWidth(width);
 //        mCursor
-//        mCursorPaint.set
+//        mForegroundPaint.set
     }
 
     public Paint getBackgroundPaint() {
@@ -198,25 +195,12 @@ public class GraphScreen {
     }
 
     public void getTextBound(String text, Rect store) {
-        mTextPaint.getTextBounds(text, 0, text.length(), store);
+        mForegroundPaint.getTextBounds(text, 0, text.length(), store);
     }
 
     public Paint getTextPaint() {
-        return mTextPaint;
+        return mForegroundPaint;
     }
-
-    public void setTextPaint(Paint mTextPaint) {
-        this.mTextPaint = mTextPaint;
-    }
-
-    public Paint getLinePaint() {
-        return mLinePaint;
-    }
-
-    public void setLinePaint(Paint mLinePaint) {
-        this.mLinePaint = mLinePaint;
-    }
-
 
     /**
      * Set the current graphic viewport to the retangle define by then top-left (x1, y1) and then

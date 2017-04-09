@@ -21,8 +21,8 @@ public class SetCharAt implements SetValueExecutable {
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return container.getLineNumber();
+    public LineInfo getline() {
+        return container.getline();
     }
 
     @Override

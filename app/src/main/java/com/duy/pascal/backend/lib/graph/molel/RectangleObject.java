@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.lib.graph.molel;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 /**
  * Created by Duy on 02-Mar-17.
@@ -17,16 +17,12 @@ public class RectangleObject extends GraphObject {
         this.x2 = x2;
         this.y2 = y2;
         // border
-        mPaint.setStyle(Paint.Style.STROKE);
+        mForegroundPaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawRect(x1, y1, x2, y2, mPaint);
-    }
-
-    @Override
-    public void draw(Bitmap parent) {
-
+        Log.d(TAG, "RectangleObject: (" + x1 + "," + y1 + ") (" + x2 + "," + y2 + ")");
+        canvas.drawRect(x1, y1, x2, y2, mForegroundPaint);
     }
 }

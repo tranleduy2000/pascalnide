@@ -53,7 +53,7 @@ public class VariableSet extends DebuggableExecutable implements
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return this.line;
     }
 

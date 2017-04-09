@@ -168,7 +168,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public LineInfo getLineNumber() {
+    public LineInfo getline() {
         return new LineInfo(-1, parent.getClass().getCanonicalName());
     }
 
