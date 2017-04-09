@@ -1,73 +1,23 @@
-Program program16;
-{Author: Rao S Lakkaraju}
-
-uses crt,graph;
+Uses Graph, CRT;
 var
-    grmode, grdriver : integer;
-    x, y : integer;
-
-Procedure graphicpics;
-Begin
-{Now give instructions to do graphics}
-
-    randomize;
-    settextstyle(triplexfont,horizdir,1);
-    for x := 1 to 200 do begin
-        putpixel(49 + x,500,(random(15)));
-    end;
-
-    setcolor(Lightgreen);
-
-    settextstyle(triplexfont,horizdir,3);
-    OutTextXY(50,30,'Graphics With Pascal');
-    settextstyle(triplexfont,horizdir,1);
-    OutTextXY(50,300,'Screen Coordinates');
-    OutTextXY(50,350,'Top left corner (x,y): 0,0');
-    OutTextXY(50,400,'Bottom right corner (x,y): ' + getMaxX + ',' + getMaxY + ' Pixels');
-    writeln('max x = ', getmaxx,' max y = ', getmaxy);
-
-    setfillstyle(1,red);
-    bar(100,100,250,250);
-    setfillstyle(2,green);
-    bar(0,0,23,19);
-    bar(getMaxX - 100,getMaxY - 100,getMaxX,getMaxY);
-
-    setcolor(red);
-{line(x1,y1,x2,y2)}
-    line(0,0,0,23);
-    line(0,0,23,0);
-    for x := getMaxX - 100 to getMaxX do putpixel(x,getMaxY,red);
-    for y := getMaxY - 100 to getMaxY do putpixel(getMaxX,y,red);
-    for x := 800 to 850 do putpixel(x,500,red);
-    for y := 450 to 500 do putpixel(850,y,red);
-    setcolor(cyan);
-{rectangle(x1,y1,x2,y2);}
-    Rectangle(50,150,80,250);
-
-{circle(x1,y1,radius); x1,y1 center of the circle}
-    circle(80,180,50);
-
-{ellipse(x1,y1,degreesfrom,degrees to,hr,vr)}
-    ellipse(150,200,0,360,30,40);
-
-{arc(x,y,p,q,radius)}
-    arc(180,250,0,90,60);
-
-{pieslice(x,y,p,q,radius)}
-    pieslice(150,150,20,95,100);
-End;
-
-
+    d, r, e, k, j, x, y: Integer;
 begin
-{First we have to initialize the graphics mode}
+    d := Detect;
+    InitGraph(d, r, ' ') ;
+    e := GraphResult;
+    if e <> grOk then Halt();
 
-    clrscr;
-    grdriver := DETECT;
-    initgraph(grdriver,grmode, ' ' );
+    x := GetMaxX div 6;
+    y := GetMaxY div 5;
+    for j := 0 to 2 do
+        for k := 0 to 3 do
+        begin
+            Rectangle((k + 1) * x,(j + 1) * y,(k + 2) * x,(j + 2) * y);
+            SetFillStyle(k + j * 4,j + 1);
+            Bar((k + 1) * x + 1,(j + 1) * y + 1,(k + 2) * x - 1,(j + 2) * y - 1)
+        end;
 
-    graphicpics;
-
-    Writeln('**** My Sixteenth Pascal Program ****');
     readln;
     CloseGraph;
 end.
+{http://codingrus.ru/readarticle.php?article_id=2555}

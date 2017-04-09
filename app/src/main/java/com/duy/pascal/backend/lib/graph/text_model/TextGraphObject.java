@@ -1,7 +1,8 @@
 package com.duy.pascal.backend.lib.graph.text_model;
 
 import android.graphics.Canvas;
-import android.graphics.Typeface;
+import android.graphics.Paint;
+import android.graphics.Rect;
 
 import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 
@@ -21,11 +22,43 @@ public class TextGraphObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        if (textFont == null) textFont = Typeface.MONOSPACE;
-        foregroundPaint.setTypeface(textFont);
+
+
+        switch (textJustify.getHorizontal()) {
+            case TextJustify.HORIZONTAL_STYLE.CenterText:
+//                deltaX = -bounds.width() * 0.5f;
+                foregroundPaint.setTextAlign(Paint.Align.CENTER);
+                break;
+            case TextJustify.HORIZONTAL_STYLE.LeftText:
+//                deltaX = 0;
+                foregroundPaint.setTextAlign(Paint.Align.LEFT);
+                break;
+            case TextJustify.HORIZONTAL_STYLE.RightText:
+//                deltaX = -bounds.width();
+                foregroundPaint.setTextAlign(Paint.Align.RIGHT);
+                break;
+            default:
+                foregroundPaint.setTextAlign(Paint.Align.LEFT);
+                break;
+        }
+
+        Rect bounds = new Rect();
+        foregroundPaint.getTextBounds(text, 0, text.length(), bounds);
+        float deltaY = 0;
+        switch (textJustify.getVertical()) {
+            case TextJustify.VERTICAL_STYLE.CenterText:
+                deltaY = -bounds.height() / 2f;
+                break;
+            case TextJustify.VERTICAL_STYLE.BottomText:
+                deltaY = -bounds.height();
+                break;
+            case TextJustify.VERTICAL_STYLE.TopText:
+                deltaY = 0;
+                break;
+        }
 
         if (textDirection == TextDirection.HORIZONTAL_DIR) {
-            canvas.drawText(text, x, y, foregroundPaint);
+            canvas.drawText(text, x, y + deltaY, foregroundPaint);
         } else { //vertical
             canvas.save();
             canvas.rotate(90f, 50, 50);

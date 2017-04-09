@@ -3,7 +3,7 @@ package com.duy.pascal.backend.lib.graph.graphic_model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.duy.pascal.backend.lib.graph.line_style.FillType;
+import com.duy.pascal.backend.lib.graph.style.FillType;
 
 /**
  * Created by Duy on 02-Mar-17.
@@ -31,7 +31,8 @@ public class BarObject extends GraphObject {
             foregroundPaint.setColor(fillColor);
             canvas.drawRect(x1, y1, x2, y2, foregroundPaint);
         } else {
-            foregroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            foregroundPaint.setShader(bitmapShader);
+//            foregroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
             canvas.drawRect(x1, y1, x2, y2, foregroundPaint);
         }
     }

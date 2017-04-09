@@ -26,7 +26,6 @@ import android.view.inputmethod.InputContentInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.backend.lib.graph.GraphScreen;
-import com.duy.pascal.backend.lib.graph.graphic_model.ArcObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
@@ -34,7 +33,7 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.greaterEqual;
 import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.lessThan;
 
-public class ConsoleView extends View implements GestureDetector.OnGestureListener {
+public class ConsoleView extends View implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
     public static final String TAG = ConsoleView.class.getSimpleName();
     public static final String THE_DELETE_COMMAND = "\u2764";
     public static final String THE_ENTER_KEY = "\u2713";
@@ -111,6 +110,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     private void init(Context context) {
         mGestureDetector = new GestureDetector(this);
+        mGestureDetector.setOnDoubleTapListener(this);
         mPascalPreferences = new PascalPreferences(context);
         frameRate = mPascalPreferences.getConsoleFrameRate();
 //        mConsoleScreen.setMaxLines(mPascalPreferences.getConsoleMaxBuffer());
@@ -739,6 +739,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        Log.d(TAG, "onSizeChanged: ");
         mGraphScreen.onSizeChange(w, h);
         updateSize();
     }
@@ -836,9 +837,10 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     public boolean onSingleTapUp(MotionEvent e) {
-        doShowSoftKeyboard();
+//        doShowSoftKeyboard();
         return true;
     }
+
 
     public boolean onDown(MotionEvent e) {
         mScrollRemainder = 0.0f;
@@ -896,13 +898,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 //        postInvalidate();
     }
 
-    /**
-     * Draw part of a circle
-     */
-
-    public void arc(int x, int y, int stAngle, int endAngle, int radius) {
-        mGraphScreen.addGraphObject(new ArcObject(x, y, stAngle, endAngle, radius));
-    }
 
     // move cursor to (x, y)
     public void gotoXY(int x, int y) {
@@ -931,7 +926,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     public boolean keyPressed() {
         return bufferData.stringBuffer.rear > bufferData.stringBuffer.front;
     }
-
 
     ///////////////////////////////////////////////////////////////////////////////
 ///////////           THIS METHOD USES BY PASCAL LIBRARY      //////////////////
@@ -970,6 +964,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     /**
      * set drawBackground {@link GraphObject} color
+     *
      * @param color
      */
     public void setPaintGraphColor(int color) {
@@ -1012,6 +1007,22 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         mGraphScreen.setTextDirection(direction);
         mGraphScreen.setFont(fontID);
 
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        doShowSoftKeyboard();
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        return false;
     }
 }
 

@@ -8,6 +8,22 @@ public class TextJustify {
     private int horizontal = HORIZONTAL_STYLE.LeftText;
     private int vertical = VERTICAL_STYLE.BottomText;
 
+    public int getVertical() {
+        return vertical;
+    }
+
+    public void setVertical(int vertical) {
+        this.vertical = vertical;
+    }
+
+    public int getHorizontal() {
+        return horizontal;
+    }
+
+    public void setHorizontal(int horizontal) {
+        this.horizontal = horizontal;
+    }
+
     public static final class HORIZONTAL_STYLE {
         //        Text is set left of the pointer.
         public static final int LeftText = 0;

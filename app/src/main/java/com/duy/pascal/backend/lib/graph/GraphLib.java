@@ -16,6 +16,7 @@ import com.duy.pascal.backend.lib.graph.graphic_model.PixelObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.RectangleObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.SectorObject;
 import com.duy.pascal.backend.lib.graph.text_model.TextGraphObject;
+import com.duy.pascal.backend.lib.graph.text_model.TextJustify;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.js.interpreter.runtime.VariableBoxer;
@@ -28,6 +29,7 @@ import java.util.Map;
 
 public class GraphLib implements PascalLibrary {
     private ExecuteActivity activity;
+    private String errorMsg = "";
 
     public GraphLib(ExecuteActivity activity) {
         this.activity = activity;
@@ -97,8 +99,6 @@ public class GraphLib implements PascalLibrary {
             activity.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
     }
 
-    private String errorMsg = "";
-
     public void line(int x1, int y1, int x2, int y2) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new LineObject(x1, y1, x2, y2));
@@ -132,15 +132,6 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * Set foreground drawing color
-     * @param index
-     */
-    public void setColor(int index) {
-        activity.getConsoleView().setPaintGraphColor(CrtLib.getColorPascal(index));
-    }
-
-    /**
-
      * Closes the graphical system, and restores the screen modus which was active before
      * the graphical modus was activated.
      */
@@ -159,6 +150,15 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
+     * Set foreground drawing color
+     *
+     * @param index
+     */
+    public void setColor(int index) {
+        activity.getConsoleView().setPaintGraphColor(CrtLib.getColorPascal(index));
+    }
+
+    /**
      * Clears the graphical screen (with the current background color), and sets the pointer at (0,0).
      */
     public void clearDevice() {
@@ -173,7 +173,6 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-
      * DetectGraph checks the hardware in the PC and determines the driver and screen-modus
      * to be used. These are returned in Driver and Modus, and can be fed to InitGraph. See
      * the InitGraph for a list of drivers and module.
@@ -276,6 +275,7 @@ public class GraphLib implements PascalLibrary {
     public void installUserFont(String path) {
         // TODO: 09-Apr-17
     }
+
     public int getBkColor() {
         if (activity != null)
             return activity.getConsoleView().getGraphScreen().getBackgroundColor();
@@ -361,7 +361,7 @@ public class GraphLib implements PascalLibrary {
         }
     }
 
-    public String graphErrorMsg() {
+    public String graphErrorMsg(int errorCode) {
         // TODO: 09-Apr-17
         return errorMsg;
     }
@@ -393,5 +393,13 @@ public class GraphLib implements PascalLibrary {
 
     public int getMaxMode() {
         return 1;
+    }
+
+    public void setTextJustify(int horizontal, int vertical) {
+        if (activity != null) {
+            TextJustify textJustify = activity.getConsoleView().getGraphScreen().getTextJustify();
+            textJustify.setHorizontal(horizontal);
+            textJustify.setVertical(vertical);
+        }
     }
 }

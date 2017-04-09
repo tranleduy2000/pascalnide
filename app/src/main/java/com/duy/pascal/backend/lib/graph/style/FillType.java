@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.graph.line_style;
+package com.duy.pascal.backend.lib.graph.style;
 
 /**
  * Created by Duy on 09-Apr-17.
@@ -13,10 +13,13 @@ public class FillType {
 
     public static final int LineFill = 2;
     //    Fills with horizontal lines.
+
     public static final int ltSlashFill = 3;
     //    Fills with lines from left-under to top-right.
+
     public static final int SlashFill = 4;
     //    Idem as previous, thick lines.
+
     public static final int BkSlashFill = 5;
     //    Fills with thick lines from left-Top to bottom-right.
     public static final int LtBkSlashFill = 6;

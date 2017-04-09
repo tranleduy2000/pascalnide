@@ -1,10 +1,11 @@
 package com.duy.pascal.backend.pascaltypes;
 
 
-import com.duy.pascal.backend.lib.graph.line_style.LineStyle;
-import com.duy.pascal.backend.lib.graph.line_style.LineWidth;
+import com.duy.pascal.backend.lib.graph.style.LineStyle;
+import com.duy.pascal.backend.lib.graph.style.LineWidth;
 import com.duy.pascal.backend.lib.graph.text_model.TextDirection;
 import com.duy.pascal.backend.lib.graph.text_model.TextFont;
+import com.duy.pascal.backend.lib.graph.text_model.TextJustify;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.ConstantDefinition;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
@@ -35,13 +36,13 @@ public class SystemConstants {
         colorConst = new ConstantDefinition("SolidLn".toLowerCase(), LineStyle.SolidLn,
                 new LineInfo(-1, "const SolidLn = 0;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("DottedLn".toLowerCase(), LineStyle.DottedLn ,
+        colorConst = new ConstantDefinition("DottedLn".toLowerCase(), LineStyle.DottedLn,
                 new LineInfo(-1, "const DottedLn = 1;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("CenterLn".toLowerCase(), LineStyle.CenterLn ,
+        colorConst = new ConstantDefinition("CenterLn".toLowerCase(), LineStyle.CenterLn,
                 new LineInfo(-1, "const CenterLn = 2;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("DashedLn".toLowerCase(), LineStyle.DashedLn ,
+        colorConst = new ConstantDefinition("DashedLn".toLowerCase(), LineStyle.DashedLn,
                 new LineInfo(-1, "const DashedLn = 3;".toLowerCase()));
         context.declareConst(colorConst);
 
@@ -95,6 +96,26 @@ public class SystemConstants {
 
         colorConst = new ConstantDefinition("VertDir".toLowerCase(), TextDirection.VERTICAL_DIR,
                 new LineInfo(-1, "const VertDir   = 1;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("HorizDir".toLowerCase(), TextDirection.HORIZONTAL_DIR,
+                new LineInfo(-1, "const HorizDir = 0;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        ///////////////////////////
+        colorConst = new ConstantDefinition("LeftText".toLowerCase(), TextJustify.HORIZONTAL_STYLE.LeftText,
+                new LineInfo(-1, "const LeftText   = 0;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("CenterText".toLowerCase(), TextJustify.HORIZONTAL_STYLE.CenterText,
+                new LineInfo(-1, "const CenterText   = 1;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("RightText".toLowerCase(), TextJustify.HORIZONTAL_STYLE.RightText,
+                new LineInfo(-1, "const RightText   = 2;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("BottomText".toLowerCase(), TextJustify.VERTICAL_STYLE.BottomText,
+                new LineInfo(-1, "const BottomText   = 0;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("TopText".toLowerCase(), TextJustify.VERTICAL_STYLE.TopText,
+                new LineInfo(-1, "const TopText   = 2;".toLowerCase()));
         context.declareConst(colorConst);
 
 

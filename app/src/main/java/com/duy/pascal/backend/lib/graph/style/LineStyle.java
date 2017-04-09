@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.graph.line_style;
+package com.duy.pascal.backend.lib.graph.style;
 
 import android.graphics.DashPathEffect;
 
