@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 /**
+ *
  * Created by Duy on 09-Apr-17.
  */
 
@@ -17,13 +18,13 @@ public class PieSliceObject extends GraphObject {
         this.radius = radius;
         this.startAngel = startAngel;
         this.endAngle = endAngle;
-        mForegroundPaint.setStyle(Paint.Style.STROKE);
+        foregroundPaint.setStyle(Paint.Style.STROKE);
     }
 
 
     @Override
     public void draw(Canvas canvas) {
-        float dx = radius / 2;
+        float dx = radius;
         //bound
         RectF rectF = new RectF(x - dx, y - dx, x + dx, y + dx);
 
@@ -32,7 +33,7 @@ public class PieSliceObject extends GraphObject {
         canvas.rotate(-180, x, y);
         //reverse canvas
         canvas.scale(-1, 1, x, y);
-        canvas.drawArc(rectF, startAngel, endAngle, true, mForegroundPaint);
+        canvas.drawArc(rectF, startAngel, endAngle - startAngel, true, foregroundPaint);
         canvas.restore();
     }
 }

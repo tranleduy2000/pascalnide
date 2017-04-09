@@ -11,19 +11,26 @@ import android.graphics.RectF;
 public class EllipseObject extends GraphObject {
     private int x, y, rx, ry;
 
+    /**
+     *
+     * @param x - x coordinate
+     * @param y - y coordinate
+     * @param rx - horizontal radius
+     * @param ry - vertical radius
+     */
     public EllipseObject(int x, int y, int rx, int ry) {
         this.x = x;
         this.y = y;
         this.rx = rx;
         this.ry = ry;
-        mForegroundPaint.setStyle(Paint.Style.STROKE);
+        foregroundPaint.setStyle(Paint.Style.STROKE);
     }
 
 
     @Override
     public void draw(Canvas canvas) {
-        float dx = rx / 2;
-        float dy = ry / 2;
+        float dx = rx;
+        float dy = ry;
 
         //bound
         RectF rectF = new RectF(x - dx, y - dy, x + dx, y + dy);
@@ -33,7 +40,7 @@ public class EllipseObject extends GraphObject {
 //        canvas.rotate(-180, x, y);
 //        reverse canvas
 //        canvas.scale(-1, 1, x, y);
-        canvas.drawOval(rectF, mForegroundPaint);
+        canvas.drawOval(rectF, foregroundPaint);
 //        canvas.restore();
     }
 }

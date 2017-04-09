@@ -17,12 +17,12 @@ public class RectangleObject extends GraphObject {
         this.x2 = x2;
         this.y2 = y2;
         // border
-        mForegroundPaint.setStyle(Paint.Style.STROKE);
+        foregroundPaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
     public void draw(Canvas canvas) {
         Log.d(TAG, "RectangleObject: (" + x1 + "," + y1 + ") (" + x2 + "," + y2 + ")");
-        canvas.drawRect(x1, y1, x2, y2, mForegroundPaint);
+        canvas.drawRect(x1, y1, x2, y2, foregroundPaint);
     }
 }

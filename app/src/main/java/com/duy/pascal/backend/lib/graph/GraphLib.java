@@ -308,8 +308,14 @@ public class GraphLib implements PascalLibrary {
         if (activity != null) activity.getConsoleView().setGraphTextStyle(font, direction, size);
     }
 
-    private void setFileType(int pattern, int color) {
+    public void setFillStyle(int pattern, int color) {
         // TODO: 09-Apr-17
+        if (activity != null) {
+            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+            graphScreen.setFillStyle(pattern);
+            graphScreen.setFillColor(CrtLib.getColorPascal(color));
+        }
+
     }
 
     public void setDirectVideo(boolean assess) {

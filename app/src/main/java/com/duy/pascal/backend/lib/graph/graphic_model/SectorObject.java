@@ -18,7 +18,7 @@ public class SectorObject extends GraphObject {
         this.ry = ry;
         this.startAngel = startAngel;
         this.endAngle = endAngle;
-        mForegroundPaint.setStyle(Paint.Style.STROKE);
+        foregroundPaint.setStyle(Paint.Style.STROKE);
     }
 
 
@@ -35,7 +35,7 @@ public class SectorObject extends GraphObject {
         canvas.rotate(-180, x, y);
         //reverse canvas
         canvas.scale(-1, 1, x, y);
-        canvas.drawArc(rectF, startAngel, endAngle, true, mForegroundPaint);
+        canvas.drawArc(rectF, startAngel, endAngle, true, foregroundPaint);
         canvas.restore();
     }
 }

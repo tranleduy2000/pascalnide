@@ -4,7 +4,7 @@ package com.duy.pascal.backend.lib.graph.text;
  * Created by Duy on 09-Apr-17.
  */
 
-public class TextStyle {
+public class TextFont {
     public static final int DefaultFont = 0;
     //    The default font
     public static final int TriplexFont = 1;

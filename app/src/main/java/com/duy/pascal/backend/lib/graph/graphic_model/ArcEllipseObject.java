@@ -18,14 +18,14 @@ public class ArcEllipseObject extends GraphObject {
         this.ry = ry;
         this.startAngel = startAngel;
         this.endAngle = endAngle;
-        mForegroundPaint.setStyle(Paint.Style.STROKE);
+        foregroundPaint.setStyle(Paint.Style.STROKE);
     }
 
 
     @Override
     public void draw(Canvas canvas) {
-        float dx = rx / 2;
-        float dy = ry / 2;
+        float dx = rx;
+        float dy = ry;
 
         //bound
         RectF rectF = new RectF(x - dx, y - dy, x + dx, y + dy);
@@ -35,7 +35,7 @@ public class ArcEllipseObject extends GraphObject {
         canvas.rotate(-180, x, y);
         //reverse canvas
         canvas.scale(-1, 1, x, y);
-        canvas.drawArc(rectF, startAngel, endAngle, false, mForegroundPaint);
+        canvas.drawArc(rectF, startAngel, endAngle, false, foregroundPaint);
         canvas.restore();
     }
 }

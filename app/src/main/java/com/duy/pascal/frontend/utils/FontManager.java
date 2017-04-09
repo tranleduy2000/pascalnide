@@ -16,8 +16,7 @@ import java.util.Hashtable;
 public class FontManager {
     private static final String PATH_TO_FONT = "fonts/";
     private static final String TAG = "Typefaces";
-    private static final Hashtable<String, Typeface> cache = new Hashtable<String, Typeface>();
-
+    private static final Hashtable<String, Typeface> cache = new Hashtable<>();
 
     private static Typeface get(Context c, String assetPath) throws IOException {
         synchronized (cache) {
@@ -26,14 +25,15 @@ public class FontManager {
                     Typeface t = Typeface.createFromAsset(c.getAssets(), assetPath);
                     cache.put(assetPath, t);
                 } catch (Exception e) {
-                    throw new IOException("Could not get typeface '" + assetPath + "' because " + e.getMessage());
+                    throw new IOException("Could not get typeface '" +
+                            assetPath + "' because " + e.getMessage());
                 }
             }
             return cache.get(assetPath);
         }
     }
 
-    public static Typeface getFontFromAsset(Context context, String name) {
+    public synchronized static Typeface getFontFromAsset(Context context, String name) {
         try {
             if (name.equalsIgnoreCase(context.getString(R.string.font_consolas))) {
                 return get(context, PATH_TO_FONT + "consolas.ttf");
@@ -47,6 +47,18 @@ public class FontManager {
                 return get(context, PATH_TO_FONT + "roboto.ttf");
             } else if (name.equalsIgnoreCase(context.getString(R.string.source_code_pro))) {
                 return get(context, PATH_TO_FONT + "source_code_pro.ttf");
+            } else if (name.equalsIgnoreCase("triple_bold.ttf")) {
+                return get(context, PATH_TO_FONT + "triple_bold.ttf");
+            } else if (name.equalsIgnoreCase("triplex.ttf")) {
+                return get(context, PATH_TO_FONT + "triplex.ttf");
+            } else if (name.equalsIgnoreCase("graph_script.ttf")) {
+                return get(context, PATH_TO_FONT + "graph_script.ttf");
+            } else if (name.equalsIgnoreCase("graph_euro.ttf")) {
+                return get(context, PATH_TO_FONT + "graph_euro.ttf");
+            } else if (name.equalsIgnoreCase("triplex.ttf")) {
+                return get(context, PATH_TO_FONT + "triplex.ttf");
+            } else if (name.equalsIgnoreCase("gothic.ttf")) {
+                return get(context, PATH_TO_FONT + "gothic.ttf");
             }
         } catch (Exception e) {
             FirebaseCrash.report(e);

@@ -9,12 +9,18 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 
 import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.style.FillType;
+import com.duy.pascal.backend.lib.graph.graphic_model.style.LineType;
+import com.duy.pascal.backend.lib.graph.graphic_model.style.LineWidth;
+import com.duy.pascal.backend.lib.graph.text.TextDirection;
+import com.duy.pascal.backend.lib.graph.text.TextJustify;
+import com.duy.pascal.backend.lib.graph.text.TextFont;
+import com.duy.pascal.frontend.utils.FontManager;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 
 import java.util.ArrayList;
 
 import static android.R.attr.textSize;
-import static com.duy.pascal.backend.lib.graph.text.TextDirection.HORIZONTAL_DIR;
 
 /**
  * Created by Duy on 30-Mar-17.
@@ -41,8 +47,15 @@ public class GraphScreen {
      */
     private Bitmap mGraphBitmap;
     private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);
-    private int textDirection = HORIZONTAL_DIR;
-    private int textFontIndex = 0;
+
+    private static final String TAG = GraphScreen.class.getSimpleName();
+    protected int textStyle = TextFont.DefaultFont;
+    protected int textDirection = TextDirection.HORIZONTAL_DIR;
+    protected int lineWidth = LineWidth.NormWidth;
+    protected int lineStyle = LineType.Centerln;
+    protected int fillStyle = FillType.EmptyFill;
+    protected int fillColor = -1;//white
+
 
     public GraphScreen(Context context) {
         this.context = context;
@@ -71,13 +84,6 @@ public class GraphScreen {
         mForegroundPaint.setTextSize(textSize);
     }
 
-    public int getTextFontIndex() {
-        return textFontIndex;
-    }
-
-    public void setTextFontIndex(int textFontIndex) {
-        this.textFontIndex = textFontIndex;
-    }
 
     public Paint getCursorPaint() {
         return mForegroundPaint;
@@ -131,19 +137,8 @@ public class GraphScreen {
         return mGraphBitmap;
     }
 
-    public void addGraphObject(GraphObject graphObject) {
-        // TODO: 30-Mar-17
-        graphObject.setBackgroundColor(mBackgroundPaint.getColor());
-        graphObject.setForegroundColor(mForegroundPaint.getColor());
-        graphObject.setTextDirection(textDirection);
-        //end
-
-        //save to list
-        graphObjects.add(graphObject);
-
-        //add to screen
-        graphObject.draw(mGraphBitmap);
-    }
+    protected TextJustify textJustify = new TextJustify();
+    private Typeface currentFont;
 
     public int getColorPixel(int x, int y) {
         return mGraphBitmap.getPixel(x, y);
@@ -184,10 +179,26 @@ public class GraphScreen {
         return mCursor;
     }
 
-    public void setPaintStyle(int style, int pattern, int width) {
-        mForegroundPaint.setStrokeWidth(width);
-//        mCursor
-//        mForegroundPaint.set
+    public void addGraphObject(GraphObject graphObject) {
+        // TODO: 30-Mar-17
+        graphObject.setBackgroundColor(mBackgroundPaint.getColor());
+        graphObject.setForegroundColor(mForegroundPaint.getColor());
+        graphObject.setTextDirection(textDirection);
+        graphObject.setFillStyle(fillStyle);
+        graphObject.setFillColor(fillColor);
+        graphObject.setLineWidth(lineWidth);
+        graphObject.setLineStyle(lineStyle);
+        graphObject.setTextDirection(textDirection);
+        graphObject.setTextStyle(textStyle);
+        graphObject.setTextFont(currentFont);
+
+        //end
+
+        //save to list
+        graphObjects.add(graphObject);
+
+        //add to screen
+        graphObject.draw(mGraphBitmap);
     }
 
     public Paint getBackgroundPaint() {
@@ -208,5 +219,50 @@ public class GraphScreen {
      */
     public void setViewPort(int x1, int y1, int x2, int y2, boolean clip) {
         viewPort.setViewPort(x1, y1, x2, y2, clip);
+    }
+
+    public void setPaintStyle(int style, int pattern, int width) {
+        mForegroundPaint.setStrokeWidth(width);
+//        mCursor
+//        foregroundPaint.set
+    }
+
+    public void setFillColor(int fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    public void setFillStyle(int fillStyle) {
+        this.fillStyle = fillStyle;
+    }
+
+    public void setFont(int font) {
+        this.textStyle = font;
+        switch (font) {
+            case TextFont.DefaultFont:
+                currentFont = Typeface.MONOSPACE;
+                break;
+            case TextFont.SansSerifFont:
+                currentFont = Typeface.SANS_SERIF;
+                break;
+            case TextFont.TriplexFont:
+                currentFont = FontManager.getFontFromAsset(context, "triple.ttf");
+                break;
+            case TextFont.EuroFont:
+                currentFont = FontManager.getFontFromAsset(context, "graph_euro.ttf");
+                break;
+            case TextFont.ScriptFont:
+                currentFont = FontManager.getFontFromAsset(context, "graph_script.ttf");
+                break;
+            case TextFont.BoldFont:
+                currentFont = Typeface.DEFAULT_BOLD;
+                break;
+            case TextFont.GothicFont:
+                currentFont = FontManager.getFontFromAsset(context, "gothic.ttf");
+                break;
+            default:
+                currentFont = Typeface.DEFAULT;
+                break;
+        }
+
     }
 }

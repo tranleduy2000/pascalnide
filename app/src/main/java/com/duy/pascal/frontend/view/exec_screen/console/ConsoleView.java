@@ -1007,11 +1007,11 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
 
-    public void setGraphTextStyle(int font, int direction, int size) {
+    public void setGraphTextStyle(int fontID, int direction, int size) {
         mGraphScreen.setTextSize(size);
         mGraphScreen.setTextDirection(direction);
-//        mGraphScreen.setFont(font);
-//        mGraphScreen.getCursorPaint().setDir(direction);
+        mGraphScreen.setFont(fontID);
+
     }
 }
 

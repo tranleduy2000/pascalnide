@@ -3,29 +3,49 @@ package com.duy.pascal.backend.lib.graph.graphic_model;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 
 import com.duy.pascal.backend.lib.graph.graphic_model.style.FillType;
 import com.duy.pascal.backend.lib.graph.graphic_model.style.LineType;
 import com.duy.pascal.backend.lib.graph.graphic_model.style.LineWidth;
 import com.duy.pascal.backend.lib.graph.text.TextDirection;
 import com.duy.pascal.backend.lib.graph.text.TextJustify;
-import com.duy.pascal.backend.lib.graph.text.TextStyle;
+import com.duy.pascal.backend.lib.graph.text.TextFont;
 
 /**
+ *
+ *
  * Created by Duy on 02-Mar-17.
  */
 
 public abstract class GraphObject {
     protected final String TAG = GraphObject.class.getSimpleName();
-    public Paint mForegroundPaint = new Paint();
+    protected Paint foregroundPaint = new Paint();
     protected int background;
 
-    protected int textStyle = TextStyle.DefaultFont;
+    protected int textStyle = TextFont.DefaultFont;
+
+    public Typeface getTextFont() {
+        return textFont;
+    }
+
+    public void setTextFont(Typeface textFont) {
+        this.textFont = textFont;
+    }
+
+    protected Typeface textFont = null;
     protected int textDirection = TextDirection.HORIZONTAL_DIR;
     protected int lineWidth = LineWidth.NormWidth;
     protected int lineStyle = LineType.Centerln;
     protected int fillStyle = FillType.EmptyFill;
+    protected int fillColor = -1; //white
+
     protected TextJustify textJustify = new TextJustify();
+    protected Paint backgroundPaint = new Paint();
+
+    public GraphObject() {
+        foregroundPaint.setTextSize(25f);
+    }
 
     public int getLineWidth() {
         return lineWidth;
@@ -59,17 +79,12 @@ public abstract class GraphObject {
         this.textJustify = textJustify;
     }
 
-    protected Paint mBackgroundPaint = new Paint();
-
-    public GraphObject() {
-    }
-
     public float getTextSize() {
-        return mForegroundPaint.getTextSize();
+        return foregroundPaint.getTextSize();
     }
 
     public void setTextSize(float textSize) {
-        mForegroundPaint.setTextSize(textSize);
+        foregroundPaint.setTextSize(textSize);
     }
 
     public int getTextStyle() {
@@ -89,11 +104,11 @@ public abstract class GraphObject {
     }
 
     public int getForeground() {
-        return mForegroundPaint.getColor();
+        return foregroundPaint.getColor();
     }
 
     public void setForegroundColor(int foreground) {
-        mForegroundPaint.setColor(foreground);
+        foregroundPaint.setColor(foreground);
     }
 
     public int getBackground() {
@@ -112,14 +127,18 @@ public abstract class GraphObject {
     }
 
     public void setPaint(Paint mPaint) {
-        this.mForegroundPaint = mPaint;
+        this.foregroundPaint = mPaint;
     }
 
     public Paint getBackgroundPaint() {
-        return mBackgroundPaint;
+        return backgroundPaint;
     }
 
     public void setBackgroundPaint(Paint mBackgroundPaint) {
-        this.mBackgroundPaint = mBackgroundPaint;
+        this.backgroundPaint = mBackgroundPaint;
+    }
+
+    public void setFillColor(int fillColor) {
+        this.fillColor = fillColor;
     }
 }

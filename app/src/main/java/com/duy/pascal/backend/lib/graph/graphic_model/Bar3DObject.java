@@ -12,7 +12,7 @@ public class Bar3DObject extends RectangleObject {
     public Bar3DObject(int x1, int y1, int x2, int y2) {
         super(x1, y1, x2, y2);
         // fill
-        mForegroundPaint.setStyle(Paint.Style.FILL);
+        foregroundPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override

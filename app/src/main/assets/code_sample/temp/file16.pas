@@ -1,6 +1,5 @@
 Program program16;
 {Author: Rao S Lakkaraju}
-{* Basic Graphics Program *}
 
 uses crt,graph;
 var
@@ -24,21 +23,21 @@ Begin
     settextstyle(triplexfont,horizdir,1);
     OutTextXY(50,300,'Screen Coordinates');
     OutTextXY(50,350,'Top left corner (x,y): 0,0');
-    OutTextXY(50,400,'Bottom right corner (x,y): 1023,711 Pixels');
+    OutTextXY(50,400,'Bottom right corner (x,y): ' + getMaxX + ',' + getMaxY + ' Pixels');
     writeln('max x = ', getmaxx,' max y = ', getmaxy);
 
     setfillstyle(1,red);
     bar(100,100,250,250);
     setfillstyle(2,green);
     bar(0,0,23,19);
-    bar(1000,690,1023,711);
+    bar(getMaxX - 100,getMaxY - 100,getMaxX,getMaxY);
 
     setcolor(red);
 {line(x1,y1,x2,y2)}
     line(0,0,0,23);
     line(0,0,23,0);
-    for x := 1000 to 1023 do putpixel(x,711,red);
-    for y := 690 to 711 do putpixel(1023,y,red);
+    for x := getMaxX - 100 to getMaxX do putpixel(x,getMaxY,red);
+    for y := getMaxY - 100 to getMaxY do putpixel(getMaxX,y,red);
     for x := 800 to 850 do putpixel(x,500,red);
     for y := 450 to 500 do putpixel(850,y,red);
     setcolor(cyan);

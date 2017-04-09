@@ -7,8 +7,10 @@ package com.duy.pascal.backend.lib.graph.graphic_model.style;
 public class FillType {
     public static final int EmptyFill = 0;
     //    Uses backgroundcolor.
+
     public static final int SolidFill = 1;
     //    Uses filling color
+
     public static final int LineFill = 2;
     //    Fills with horizontal lines.
     public static final int ltSlashFill = 3;

@@ -1,6 +1,8 @@
 package com.duy.pascal.backend.pascaltypes;
 
 
+import com.duy.pascal.backend.lib.graph.text.TextDirection;
+import com.duy.pascal.backend.lib.graph.text.TextFont;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.ConstantDefinition;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
@@ -34,43 +36,57 @@ public class SystemConstants {
         context.declareConst(colorConst);
         colorConst = new ConstantDefinition("DashedLn".toLowerCase(), 1, new LineInfo(-1, "const DashedLn = 3;".toLowerCase()));
         context.declareConst(colorConst);
-//Font number: Normal font
-        colorConst = new ConstantDefinition("DefaultFont".toLowerCase(), 0,
+
+        //Font number: Normal font
+        colorConst = new ConstantDefinition("DefaultFont".toLowerCase(), TextFont.TriplexFont,
                 new LineInfo(-1, "const DefaultFont = 0;".toLowerCase()));
         context.declareConst(colorConst);
-//        Font number: Triplex font
-        colorConst = new ConstantDefinition("TriplexFont".toLowerCase(), 1,
+
+        //        Font number: Triplex font
+        colorConst = new ConstantDefinition("TriplexFont".toLowerCase(), TextFont.TriplexFont,
                 new LineInfo(-1, "const TriplexFont = 1;".toLowerCase()));
         context.declareConst(colorConst);
 
-        colorConst = new ConstantDefinition("SmallFont".toLowerCase(), 2,
+        colorConst = new ConstantDefinition("SmallFont".toLowerCase(), TextFont.SmallFont,
                 new LineInfo(-1, "const SmallFont = 2;".toLowerCase()));
         context.declareConst(colorConst);
 
-        colorConst = new ConstantDefinition("SansSerifFont".toLowerCase(), 3,
+        colorConst = new ConstantDefinition("SansSerifFont".toLowerCase(), TextFont.SansSerifFont,
                 new LineInfo(-1, "const SansSerifFont = 3;".toLowerCase()));
         context.declareConst(colorConst);
 
-        colorConst = new ConstantDefinition("GothicFont".toLowerCase(), 4,
+        colorConst = new ConstantDefinition("GothicFont".toLowerCase(), TextFont.GothicFont,
                 new LineInfo(-1, "const GothicFont = 4;".toLowerCase()));
         context.declareConst(colorConst);
 
-        colorConst = new ConstantDefinition("ScriptFont".toLowerCase(), 5,
+        colorConst = new ConstantDefinition("ScriptFont".toLowerCase(), TextFont.ScriptFont,
                 new LineInfo(-1, "const ScriptFont = 5;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("SimpleFont".toLowerCase(), 6,
+        colorConst = new ConstantDefinition("SimpleFont".toLowerCase(), TextFont.SimpleFont,
                 new LineInfo(-1, "const SimpleFont = 6;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("TSCRFont".toLowerCase(), 7,
+        colorConst = new ConstantDefinition("TSCRFont".toLowerCase(), TextFont.TSCRFont,
                 new LineInfo(-1, "const TSCRFont = 7;".toLowerCase()));
         context.declareConst(colorConst);
 
-        colorConst = new ConstantDefinition("LCOMFont".toLowerCase(), 8,
+        colorConst = new ConstantDefinition("LCOMFont".toLowerCase(), TextFont.LCOMFont,
                 new LineInfo(-1, "const LCOMFont = 8;".toLowerCase()));
         context.declareConst(colorConst);
 
-        colorConst = new ConstantDefinition("EuroFont".toLowerCase(), 9,
+        colorConst = new ConstantDefinition("EuroFont".toLowerCase(), TextFont.EuroFont,
                 new LineInfo(-1, "const EuroFont  = 9;".toLowerCase()));
+        context.declareConst(colorConst);
+        colorConst = new ConstantDefinition("BoldFont".toLowerCase(), TextFont.BoldFont,
+                new LineInfo(-1, "const EuroFont  = 10;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        //text direction
+        colorConst = new ConstantDefinition("HorizDir".toLowerCase(), TextDirection.HORIZONTAL_DIR,
+                new LineInfo(-1, "const HorizDir = 0;".toLowerCase()));
+        context.declareConst(colorConst);
+
+        colorConst = new ConstantDefinition("VertDir".toLowerCase(), TextDirection.VERTICAL_DIR,
+                new LineInfo(-1, "const VertDir   = 1;".toLowerCase()));
         context.declareConst(colorConst);
 
 

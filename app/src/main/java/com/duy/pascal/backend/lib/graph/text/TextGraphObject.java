@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.lib.graph.text;
 
 import android.graphics.Canvas;
-import android.util.Log;
+import android.graphics.Typeface;
 
 import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 
@@ -12,7 +12,6 @@ import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 public class TextGraphObject extends GraphObject {
     private String text;
     private int x, y;
-    private int textStyle;
 
     public TextGraphObject(String text, int x, int y) {
         this.text = text;
@@ -22,22 +21,17 @@ public class TextGraphObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        Log.d(TAG, "drawBackground: " + mForegroundPaint.getColor());
+        if (textFont == null) textFont = Typeface.MONOSPACE;
+        foregroundPaint.setTypeface(textFont);
+
         if (textDirection == TextDirection.HORIZONTAL_DIR) {
-            canvas.drawText(text, x, y, mForegroundPaint);
+            canvas.drawText(text, x, y, foregroundPaint);
         } else { //vertical
             canvas.save();
             canvas.rotate(90f, 50, 50);
-            canvas.drawText(text, x, y, mForegroundPaint);
+            canvas.drawText(text, x, y, foregroundPaint);
             canvas.restore();
         }
     }
 
-    public int getTextStyle() {
-        return textStyle;
-    }
-
-    public void setTextStyle(int textStyle) {
-        this.textStyle = textStyle;
-    }
 }
