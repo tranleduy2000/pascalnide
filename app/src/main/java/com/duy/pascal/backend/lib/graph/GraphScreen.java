@@ -9,12 +9,12 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 
 import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
-import com.duy.pascal.backend.lib.graph.graphic_model.style.FillType;
-import com.duy.pascal.backend.lib.graph.graphic_model.style.LineStyle;
-import com.duy.pascal.backend.lib.graph.graphic_model.style.LineWidth;
-import com.duy.pascal.backend.lib.graph.text.TextDirection;
-import com.duy.pascal.backend.lib.graph.text.TextFont;
-import com.duy.pascal.backend.lib.graph.text.TextJustify;
+import com.duy.pascal.backend.lib.graph.line_style.FillType;
+import com.duy.pascal.backend.lib.graph.line_style.LineStyle;
+import com.duy.pascal.backend.lib.graph.line_style.LineWidth;
+import com.duy.pascal.backend.lib.graph.text_model.TextDirection;
+import com.duy.pascal.backend.lib.graph.text_model.TextFont;
+import com.duy.pascal.backend.lib.graph.text_model.TextJustify;
 import com.duy.pascal.frontend.utils.FontManager;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 
@@ -52,7 +52,7 @@ public class GraphScreen {
     private int textStyle = TextFont.DefaultFont;
     private int textDirection = TextDirection.HORIZONTAL_DIR;
     private int lineWidth = LineWidth.NormWidth;
-    private int lineStyle = LineStyle.Centerln;
+    private int lineStyle = LineStyle.SolidLn;
     private int fillStyle = FillType.EmptyFill;
     private int fillPattern;
 

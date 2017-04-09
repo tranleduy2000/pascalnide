@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.graph.graphic_model.style;
+package com.duy.pascal.backend.lib.graph.line_style;
 
 import android.graphics.DashPathEffect;
 
@@ -8,22 +8,22 @@ import android.graphics.DashPathEffect;
 
 public class LineStyle {
     //    draws a solid line.
-    public static final int Solidln = 0;
+    public static final int SolidLn = 0;
 
     //    Draws a dotted line.
-    public static final int Dottedln = 1;
+    public static final int DottedLn = 1;
 
     //    draws a non-broken centered line.
-    public static final int Centerln = 3;
+    public static final int CenterLn = 3;
 
     //    draws a dashed line.
-    public static final int Dashedln = 4;
+    public static final int DashedLn = 4;
 
     //2 - 2
     public static DashPathEffect dottedPath = new DashPathEffect(new float[]{10, 20}, 0);
 
     //3 - 2
-    public static DashPathEffect ashedPath = new DashPathEffect(new float[]{10, 20}, 0);
+    public static DashPathEffect dashedPath = new DashPathEffect(new float[]{10, 20}, 0);
 
 
 }

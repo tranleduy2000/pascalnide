@@ -1,8 +1,10 @@
 package com.duy.pascal.backend.pascaltypes;
 
 
-import com.duy.pascal.backend.lib.graph.text.TextDirection;
-import com.duy.pascal.backend.lib.graph.text.TextFont;
+import com.duy.pascal.backend.lib.graph.line_style.LineStyle;
+import com.duy.pascal.backend.lib.graph.line_style.LineWidth;
+import com.duy.pascal.backend.lib.graph.text_model.TextDirection;
+import com.duy.pascal.backend.lib.graph.text_model.TextFont;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.ConstantDefinition;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
@@ -22,19 +24,25 @@ public class SystemConstants {
         ConstantDefinition colorConst;
         colorConst = new ConstantDefinition("grok".toLowerCase(), 1, new LineInfo(-1, "grok = 1;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("NormWidth".toLowerCase(), 1, new LineInfo(-1, "const NormWidth = 1;".toLowerCase()));
+
+        colorConst = new ConstantDefinition("NormWidth".toLowerCase(), LineWidth.NormWidth,
+                new LineInfo(-1, "const NormWidth = 1;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("ThickWidth".toLowerCase(), 1, new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        colorConst = new ConstantDefinition("ThickWidth".toLowerCase(), LineWidth.ThickWidth,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("SolidLn".toLowerCase(), 1, new LineInfo(-1, "const SolidLn = 0;".toLowerCase()));
+
+        colorConst = new ConstantDefinition("SolidLn".toLowerCase(), LineStyle.SolidLn,
+                new LineInfo(-1, "const SolidLn = 0;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("SolidLn".toLowerCase(), 1, new LineInfo(-1, "const SolidLn = 0;".toLowerCase()));
+        colorConst = new ConstantDefinition("DottedLn".toLowerCase(), LineStyle.DottedLn ,
+                new LineInfo(-1, "const DottedLn = 1;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("DottedLn".toLowerCase(), 1, new LineInfo(-1, "const DottedLn = 1;".toLowerCase()));
+        colorConst = new ConstantDefinition("CenterLn".toLowerCase(), LineStyle.CenterLn ,
+                new LineInfo(-1, "const CenterLn = 2;".toLowerCase()));
         context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("CenterLn".toLowerCase(), 1, new LineInfo(-1, "const CenterLn = 2;".toLowerCase()));
-        context.declareConst(colorConst);
-        colorConst = new ConstantDefinition("DashedLn".toLowerCase(), 1, new LineInfo(-1, "const DashedLn = 3;".toLowerCase()));
+        colorConst = new ConstantDefinition("DashedLn".toLowerCase(), LineStyle.DashedLn ,
+                new LineInfo(-1, "const DashedLn = 3;".toLowerCase()));
         context.declareConst(colorConst);
 
         //Font number: Normal font

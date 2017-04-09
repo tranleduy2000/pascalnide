@@ -3,7 +3,7 @@ package com.duy.pascal.backend.lib.graph.graphic_model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.duy.pascal.backend.lib.graph.graphic_model.style.FillType;
+import com.duy.pascal.backend.lib.graph.line_style.FillType;
 
 /**
  * Created by Duy on 02-Mar-17.

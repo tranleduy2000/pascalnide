@@ -15,7 +15,7 @@ import com.duy.pascal.backend.lib.graph.graphic_model.PieSliceObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.PixelObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.RectangleObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.SectorObject;
-import com.duy.pascal.backend.lib.graph.text.TextGraphObject;
+import com.duy.pascal.backend.lib.graph.text_model.TextGraphObject;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.js.interpreter.runtime.VariableBoxer;
@@ -240,7 +240,7 @@ public class GraphLib implements PascalLibrary {
     public void setLineStyle(int style, int fillPattern, int width) {
         if (activity != null) {
             GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
-            graphScreen.setFillStyle(style);
+            graphScreen.setLineStyle(style);
             graphScreen.setFillPattern(fillPattern);
             graphScreen.setLineWidth(width);
         }

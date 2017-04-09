@@ -2,19 +2,18 @@ package com.duy.pascal.backend.lib.graph.graphic_model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
-import com.duy.pascal.backend.lib.graph.graphic_model.style.FillType;
-import com.duy.pascal.backend.lib.graph.graphic_model.style.LineStyle;
-import com.duy.pascal.backend.lib.graph.graphic_model.style.LineWidth;
-import com.duy.pascal.backend.lib.graph.text.TextDirection;
-import com.duy.pascal.backend.lib.graph.text.TextJustify;
-import com.duy.pascal.backend.lib.graph.text.TextFont;
+import com.duy.pascal.backend.lib.graph.line_style.FillType;
+import com.duy.pascal.backend.lib.graph.line_style.LineStyle;
+import com.duy.pascal.backend.lib.graph.line_style.LineWidth;
+import com.duy.pascal.backend.lib.graph.text_model.TextDirection;
+import com.duy.pascal.backend.lib.graph.text_model.TextFont;
+import com.duy.pascal.backend.lib.graph.text_model.TextJustify;
 
 /**
- *
- *
  * Created by Duy on 02-Mar-17.
  */
 
@@ -23,44 +22,41 @@ public abstract class GraphObject {
     protected Paint foregroundPaint = new Paint();
     protected int background;
 
-    protected int textStyle = TextFont.DefaultFont;
-
-    public Typeface getTextFont() {
-        return textFont;
-    }
-
-    public void setTextFont(Typeface textFont) {
-        this.textFont = textFont;
-    }
-
+    private int textStyle = TextFont.DefaultFont;
     protected Typeface textFont = null;
     protected int textDirection = TextDirection.HORIZONTAL_DIR;
-    protected int lineWidth = LineWidth.NormWidth;
-    protected int lineStyle = LineStyle.Centerln;
     protected int fillStyle = FillType.EmptyFill;
     protected int fillColor = -1; //white
-
     protected TextJustify textJustify = new TextJustify();
     protected Paint backgroundPaint = new Paint();
 
     public GraphObject() {
         foregroundPaint.setTextSize(25f);
-    }
-
-    public int getLineWidth() {
-        return lineWidth;
+        foregroundPaint.setStrokeWidth(LineWidth.NormWidth);
     }
 
     public void setLineWidth(int lineWidth) {
-        this.lineWidth = lineWidth;
-    }
-
-    public int getLineStyle() {
-        return lineStyle;
+        foregroundPaint.setStrokeWidth(lineWidth);
     }
 
     public void setLineStyle(int lineStyle) {
-        this.lineStyle = lineStyle;
+        switch (lineStyle) {
+            case LineStyle.DottedLn:
+                DashPathEffect dottedPathEffect = new DashPathEffect(new float[]{4, 4}, 0);
+                foregroundPaint.setPathEffect(dottedPathEffect);
+                break;
+            case LineStyle.CenterLn:
+                DashPathEffect centerLnPathEffect = new DashPathEffect(new float[]{6, 4, 4, 4}, 0);
+                foregroundPaint.setPathEffect(centerLnPathEffect);
+                break;
+            case LineStyle.DashedLn:
+                DashPathEffect dashPathEffect = new DashPathEffect(new float[]{6, 4}, 0);
+                foregroundPaint.setPathEffect(dashPathEffect);
+                break;
+            case LineStyle.SolidLn:
+                //don't working
+                break;
+        }
     }
 
     public int getFillStyle() {
@@ -126,19 +122,20 @@ public abstract class GraphObject {
         draw(canvas);
     }
 
-    public void setPaint(Paint mPaint) {
-        this.foregroundPaint = mPaint;
-    }
-
     public Paint getBackgroundPaint() {
         return backgroundPaint;
-    }
-
-    public void setBackgroundPaint(Paint mBackgroundPaint) {
-        this.backgroundPaint = mBackgroundPaint;
     }
 
     public void setFillColor(int fillColor) {
         this.fillColor = fillColor;
     }
+
+    public Typeface getTextFont() {
+        return textFont;
+    }
+
+    public void setTextFont(Typeface textFont) {
+        this.textFont = textFont;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.graph.text;
+package com.duy.pascal.backend.lib.graph.text_model;
 
 import android.graphics.Canvas;
 import android.graphics.Typeface;
