@@ -41,71 +41,61 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
 
     /* Boy, templates or macros like C++ sure would be useful now... */
     public static BinaryOperatorEvaluation generateOp(ExpressionContext main,
-                                                      ReturnsValue v1,
-                                                      ReturnsValue v2, OperatorTypes op_type,
+                                                      ReturnsValue value1,
+                                                      ReturnsValue value2, OperatorTypes operateType,
                                                       LineInfo line) throws ParsingException {
-        DeclaredType t1 = v1.getType(main).declType;
-        DeclaredType t2 = v2.getType(main).declType;
-        if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
-            throw new BadOperationTypeException(line, t1, t2, v1, v2, op_type);
+        DeclaredType type1 = value1.getType(main).declType;
+        DeclaredType type2 = value2.getType(main).declType;
+
+        if (!(type1 instanceof BasicType || type1 instanceof JavaClassBasedType)) {
+            throw new BadOperationTypeException(line, type1, type2, value1, value2, operateType);
         }
-        if (!(t2 instanceof BasicType || t2 instanceof JavaClassBasedType)) {
-            throw new BadOperationTypeException(line, t1, t2, v1, v2, op_type);
+
+        if (!(type2 instanceof BasicType || type2 instanceof JavaClassBasedType)) {
+            throw new BadOperationTypeException(line, type1, type2, value1, value2, operateType);
         }
-        if (t1 == BasicType.StringBuilder
-                || t2 == BasicType.StringBuilder) {
-            if (op_type == OperatorTypes.PLUS) {
-                v1 = new TypeConverter.AnyToString(v1);
-                v2 = new TypeConverter.AnyToString(v2);
-                return new StringBiOperatorEval(v1, v2, op_type, line);
+
+        if (type1 == BasicType.StringBuilder || type2 == BasicType.StringBuilder) {
+            if (operateType == OperatorTypes.PLUS) {
+                value1 = new TypeConverter.AnyToString(value1);
+                value2 = new TypeConverter.AnyToString(value2);
+                return new StringBiOperatorEval(value1, value2, operateType, line);
             } else {
-                v1 = BasicType.StringBuilder.convert(v1, main);
-                v2 = BasicType.StringBuilder.convert(v2, main);
-                if (v1 != null && v2 != null) {
-                    return new StringBiOperatorEval(v1, v2, op_type, line);
+                value1 = BasicType.StringBuilder.convert(value1, main);
+                value2 = BasicType.StringBuilder.convert(value2, main);
+                if (value1 != null && value2 != null) {
+                    return new StringBiOperatorEval(value1, value2, operateType, line);
                 } else {
-                    throw new BadOperationTypeException(line, t1, t2, v1, v2,
-                            op_type);
+                    throw new BadOperationTypeException(line, type1, type2, value1, value2, operateType);
                 }
             }
         }
-        if (t1 == BasicType.Double || t2 == BasicType.Double) {
-            v1 = TypeConverter.forceConvertRequired(BasicType.Double,
-                    v1, (BasicType) t1);
-            v2 = TypeConverter.forceConvertRequired(BasicType.Double,
-                    v2, (BasicType) t2);
-            return new DoubleBiOperatorEval(v1, v2, op_type, line);
+        if (type1 == BasicType.Double || type2 == BasicType.Double) {
+            value1 = TypeConverter.forceConvertRequired(BasicType.Double, value1, (BasicType) type1);
+            value2 = TypeConverter.forceConvertRequired(BasicType.Double, value2, (BasicType) type2);
+            return new DoubleBiOperatorEval(value1, value2, operateType, line);
         }
-        if (t1 == BasicType.Long || t2 == BasicType.Long) {
-            v1 = TypeConverter.forceConvertRequired(BasicType.Long, v1, (BasicType) t1);
-            v2 = TypeConverter.forceConvertRequired(BasicType.Long, v2, (BasicType) t2);
-            return new LongBiOperatorEval(v1, v2, op_type, line);
+        if (type1 == BasicType.Long || type2 == BasicType.Long) {
+            value1 = TypeConverter.forceConvertRequired(BasicType.Long, value1, (BasicType) type1);
+            value2 = TypeConverter.forceConvertRequired(BasicType.Long, value2, (BasicType) type2);
+            return new LongBiOperatorEval(value1, value2, operateType, line);
         }
-        if (t1 == BasicType.Integer
-                || t2 == BasicType.Integer) {
-            v1 = TypeConverter.forceConvertRequired(BasicType.Integer,
-                    v1, (BasicType) t1);
-            v2 = TypeConverter.forceConvertRequired(BasicType.Integer,
-                    v2, (BasicType) t2);
-            return new IntBiOperatorEval(v1, v2, op_type, line);
+        if (type1 == BasicType.Integer || type2 == BasicType.Integer) {
+            value1 = TypeConverter.forceConvertRequired(BasicType.Integer, value1, (BasicType) type1);
+            value2 = TypeConverter.forceConvertRequired(BasicType.Integer, value2, (BasicType) type2);
+            return new IntBiOperatorEval(value1, value2, operateType, line);
         }
-        if (t1 == BasicType.Character
-                || t2 == BasicType.Character) {
-            v1 = TypeConverter.forceConvertRequired(
-                    BasicType.Character, v1, (BasicType) t1);
-            v2 = TypeConverter.forceConvertRequired(
-                    BasicType.Character, v2, (BasicType) t2);
-            return new CharBiOperatorEval(v1, v2, op_type, line);
+        if (type1 == BasicType.Character || type2 == BasicType.Character) {
+            value1 = TypeConverter.forceConvertRequired(BasicType.Character, value1, (BasicType) type1);
+            value2 = TypeConverter.forceConvertRequired(BasicType.Character, value2, (BasicType) type2);
+            return new CharBiOperatorEval(value1, value2, operateType, line);
         }
-        if (t1 == BasicType.Boolean
-                || t2 == BasicType.Boolean) {
-            v1 = TypeConverter.forceConvertRequired(BasicType.Boolean,
-                    v1, (BasicType) t1);
-            v2 = TypeConverter.forceConvertRequired(BasicType.Boolean,
-                    v2, (BasicType) t2);
-            return new BoolBiOperatorEval(v1, v2, op_type, line);
+        if (type1 == BasicType.Boolean || type2 == BasicType.Boolean) {
+            value1 = TypeConverter.forceConvertRequired(BasicType.Boolean, value1, (BasicType) type1);
+            value2 = TypeConverter.forceConvertRequired(BasicType.Boolean, value2, (BasicType) type2);
+            return new BoolBiOperatorEval(value1, value2, operateType, line);
         }
-        throw new BadOperationTypeException(line, t1, t2, v1, v2, op_type);
+        throw new BadOperationTypeException(line, type1, type2, value1, value2, operateType);
     }
 
 

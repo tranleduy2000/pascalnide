@@ -51,8 +51,8 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.BreakInstruction;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
-import com.js.interpreter.ast.instructions.NopInstruction;
-import com.js.interpreter.ast.instructions.ReturnInstruction;
+import com.js.interpreter.ast.instructions.NoneInstruction;
+import com.js.interpreter.ast.instructions.ExitInstruction;
 import com.js.interpreter.ast.instructions.case_statement.CaseInstruction;
 import com.js.interpreter.ast.instructions.conditional.DowntoForStatement;
 import com.js.interpreter.ast.instructions.conditional.ForStatement;
@@ -474,11 +474,11 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof CaseToken) {
             return new CaseInstruction((CaseToken) next, context);
         } else if (next instanceof SemicolonToken) {
-            return new NopInstruction(next.lineInfo);
+            return new NoneInstruction(next.lineInfo);
         } else if (next instanceof BreakToken) {
             return new BreakInstruction(next.lineInfo);
         } else if (next instanceof ExitToken) {
-            return new ReturnInstruction(next.lineInfo);
+            return new ExitInstruction(next.lineInfo);
         } else if (next instanceof CommentToken) {
             //ignore comment
             return getNextCommand(context);

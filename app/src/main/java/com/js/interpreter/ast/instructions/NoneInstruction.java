@@ -8,11 +8,17 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class ReturnInstruction extends DebuggableExecutable {
+public class NoneInstruction extends DebuggableExecutable {
     LineInfo line;
 
-    public ReturnInstruction(LineInfo line) {
+    public NoneInstruction(LineInfo line) {
         this.line = line;
+    }
+
+    @Override
+    public ExecutionResult executeImpl(VariableContext f,
+                                       RuntimeExecutable<?> main) throws RuntimePascalException {
+        return ExecutionResult.NONE;
     }
 
     @Override
@@ -21,17 +27,9 @@ public class ReturnInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
-//        System.out.println(this.getClass().getSimpleName());
-        return ExecutionResult.EXIT;
-    }
-
-    @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
         return this;
     }
-
 
 }

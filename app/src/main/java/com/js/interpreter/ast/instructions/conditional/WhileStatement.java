@@ -7,7 +7,7 @@ import com.duy.pascal.frontend.debug.DebugManager;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
-import com.js.interpreter.ast.instructions.NopInstruction;
+import com.js.interpreter.ast.instructions.NoneInstruction;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.VariableContext;
@@ -62,7 +62,7 @@ public class WhileStatement extends DebuggableExecutable {
         Object cond = condition.compileTimeValue(c);
         if (cond != null) {
             if (!((Boolean) cond)) {
-                return new NopInstruction(line);
+                return new NoneInstruction(line);
             } else {
                 return new WhileStatement(new ConstantAccess(cond,
                         condition.getline()), comm, line);

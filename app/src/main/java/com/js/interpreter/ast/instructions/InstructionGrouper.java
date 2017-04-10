@@ -64,14 +64,14 @@ public class InstructionGrouper extends DebuggableExecutable {
             Executable transformed = e.compileTimeConstantTransform(c);
             if (transformed == null) {
                 nig.instructions.add(e);
-            } else if (transformed instanceof NopInstruction) {
+            } else if (transformed instanceof NoneInstruction) {
                 continue;
             } else {
                 nig.instructions.add(transformed);
             }
         }
         if (nig.instructions.size() == 0) {
-            return new NopInstruction(line);
+            return new NoneInstruction(line);
         } else {
             return nig;
         }

@@ -30,6 +30,8 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
             case LESSTHAN:
             case NOTEQUAL:
                 return new RuntimeType(BasicType.Boolean, false);
+            case DIVIDE:
+                return new RuntimeType(BasicType.Double, false);
             default:
                 return new RuntimeType(BasicType.Integer, false);
         }
@@ -49,8 +51,7 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
                 }
                 return v1 / v2;
             case DIVIDE:
-//                throw new DivisionOperatorIntegerException(line);
-                if (v2 == 0) {
+                if (Math.abs(v2) == 0) {
                     throw new DivisionByZeroException(line);
                 }
                 return (double) v1 / (double) v2;
