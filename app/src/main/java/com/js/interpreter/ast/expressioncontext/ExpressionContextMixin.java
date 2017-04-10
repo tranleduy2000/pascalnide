@@ -19,7 +19,7 @@ import com.duy.pascal.backend.lib.LibraryUtils;
 import com.duy.pascal.backend.lib.MathLib;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
-import com.duy.pascal.backend.lib.file_lib.FileLib;
+import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;

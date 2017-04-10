@@ -93,15 +93,17 @@ public class CustomType extends ObjectType {
         }
         Project p = new Project();
         BCClass c = p.loadClass(name);
+
         c.setDeclaredInterfaces(new Class[]{ContainsVariables.class});
         for (VariableDeclaration v : variableTypes) {
             Class type = v.type.getStorageClass();
             c.declareField(v.name, type);
         }
-        add_constructor(c);
-        add_get_var(c);
-        add_set_var(c);
-        add_clone(c);
+
+        addConstructor(c);
+        addGetVar(c);
+        addSetVar(c);
+        addClone(c);
         cachedClass = bcl.loadThisClass(c.toByteArray());
         return cachedClass;
     }
@@ -137,7 +139,7 @@ public class CustomType extends ObjectType {
         }
     }
 
-    private void add_constructor(BCClass b) {
+    private void addConstructor(BCClass b) {
         BCMethod constructor = b.addDefaultConstructor();
         constructor.removeCode();
         Code constructor_code = constructor.getCode(true);
@@ -145,8 +147,7 @@ public class CustomType extends ObjectType {
         RegisterAllocator ra = new SimpleRegisterAllocator(1);
         constructor_code.aload().setThis();
         try {
-            constructor_code.invokespecial().setMethod(
-                    Object.class.getDeclaredConstructor());
+            constructor_code.invokespecial().setMethod(Object.class.getDeclaredConstructor());
         } catch (SecurityException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -154,10 +155,8 @@ public class CustomType extends ObjectType {
         }
         for (VariableDeclaration v : variableTypes) {
             constructor_code.aload().setThis();
-            v.type.pushDefaultValue(constructor_code,
-                    new ScopedRegisterAllocator(ra));
-            constructor_code.putfield().setField(v.get_name(),
-                    v.type.getStorageClass());
+            v.type.pushDefaultValue(constructor_code, new ScopedRegisterAllocator(ra));
+            constructor_code.putfield().setField(v.get_name(), v.type.getStorageClass());
         }
         constructor_code.vreturn();
         constructor_code.calculateMaxLocals();
@@ -171,47 +170,47 @@ public class CustomType extends ObjectType {
      *
      * @param b The class to modify.
      */
-    private void add_get_var(BCClass b) {
+    private void addGetVar(BCClass b) {
         BCMethod get_var = b.declareMethod("getVariable", Object.class, new Class[]{String.class});
         get_var.makePublic();
-        Code get_var_code = get_var.getCode(true);
-        get_var_code.aload().setParam(0);
-        get_var_code.invokevirtual().setMethod(String.class, "intern", String.class, new Class[]{});
-        get_var_code.astore().setParam(0);
-        JumpInstruction previous_if = null;
+        Code getVarCode = get_var.getCode(true);
+        getVarCode.aload().setParam(0);
+        getVarCode.invokevirtual().setMethod(String.class, "intern", String.class, new Class[]{});
+        getVarCode.astore().setParam(0);
+        JumpInstruction previousIf = null;
         for (BCField f : b.getFields()) {
-            Instruction code_block = get_var_code.constant().setValue(f.getName());
-            if (previous_if != null) {
-                previous_if.setTarget(code_block);
+            Instruction codeBlock = getVarCode.constant().setValue(f.getName());
+            if (previousIf != null) {
+                previousIf.setTarget(codeBlock);
             }
-            get_var_code.aload().setParam(0);
-            previous_if = get_var_code.ifacmpne();
-            get_var_code.aload().setThis();
-            get_var_code.getfield().setField(f);
+            getVarCode.aload().setParam(0);
+            previousIf = getVarCode.ifacmpne();
+            getVarCode.aload().setThis();
+            getVarCode.getfield().setField(f);
             Class return_type = f.getType();
             if (return_type == int.class) {
-                get_var_code.invokestatic().setMethod(Integer.class, "valueOf",
+                getVarCode.invokestatic().setMethod(Integer.class, "valueOf",
                         Integer.class, new Class[]{int.class});
             } else if (return_type == double.class) {
-                get_var_code.invokestatic().setMethod(Double.class,
+                getVarCode.invokestatic().setMethod(Double.class,
                         "valueOf", Double.class,
                         new Class[]{double.class});
             } else if (return_type == char.class) {
-                get_var_code.invokestatic().setMethod(Character.class,
+                getVarCode.invokestatic().setMethod(Character.class,
                         "valueOf", Character.class, new Class[]{char.class});
             } else if (return_type == boolean.class) {
-                get_var_code.invokestatic().setMethod(Boolean.class, "valueOf",
+                getVarCode.invokestatic().setMethod(Boolean.class, "valueOf",
                         Boolean.class, new Class[]{boolean.class});
             }
-            get_var_code.areturn();
+            getVarCode.areturn();
         }
-        Instruction i = get_var_code.constant().setNull();
-        if (previous_if != null) {
-            previous_if.setTarget(i);
+        Instruction i = getVarCode.constant().setNull();
+        if (previousIf != null) {
+            previousIf.setTarget(i);
         }
-        get_var_code.areturn();
-        get_var_code.calculateMaxLocals();
-        get_var_code.calculateMaxStack();
+        getVarCode.areturn();
+        getVarCode.calculateMaxLocals();
+        getVarCode.calculateMaxStack();
     }
 
     /**
@@ -221,7 +220,7 @@ public class CustomType extends ObjectType {
      *
      * @param b The class to modify.
      */
-    private void add_set_var(BCClass b) {
+    private void addSetVar(BCClass b) {
         BCMethod set_var = b.declareMethod("setVariable", void.class, new Class[]{String.class, Object.class});
         set_var.makePublic();
         Code set_var_code = set_var.getCode(true);
@@ -268,7 +267,7 @@ public class CustomType extends ObjectType {
         set_var_code.calculateMaxStack();
     }
 
-    private void add_clone(BCClass b) {
+    private void addClone(BCClass b) {
         BCMethod clone_method = b.declareMethod("clone",
                 ContainsVariables.class, new Class[0]);
         clone_method.makePublic();

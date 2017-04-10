@@ -160,7 +160,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public void pushDefaultValue(Code code, RegisterAllocator ra) {
-        ArrayList<SubrangeType> ranges = new ArrayList<SubrangeType>();
+        ArrayList<SubrangeType> ranges = new ArrayList<>();
         ranges.add(bounds);
         element_type.pushArrayOfType(code, ra, ranges);
     }

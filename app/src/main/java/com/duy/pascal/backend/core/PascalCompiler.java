@@ -9,7 +9,7 @@ import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.MathLib;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
-import com.duy.pascal.backend.lib.file_lib.FileLib;
+import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.google.common.collect.ArrayListMultimap;

@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.file_lib.exceptions;
+package com.duy.pascal.backend.lib.file.exceptions;
 
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 

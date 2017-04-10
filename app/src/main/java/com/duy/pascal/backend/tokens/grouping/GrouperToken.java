@@ -196,7 +196,8 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof OfToken) {
             take();
             DeclaredType elementType = getNextPascalType(context);
-            ArrayType<DeclaredType> declaredTypeArrayType = new ArrayType<>(elementType, new SubrangeType());
+            ArrayType<DeclaredType> declaredTypeArrayType =
+                    new ArrayType<>(elementType, new SubrangeType());
             return declaredTypeArrayType;
         } else {
             throw new ExpectedTokenException("of", n);
@@ -239,6 +240,7 @@ public abstract class GrouperToken extends Token {
         } else {
             nextTerm = getNextTerm(context, next);
         }
+
         while ((next = peek()).getOperatorPrecedence() != null) {
             if (next instanceof OperatorToken) {
                 OperatorToken nextOperator = (OperatorToken) next;
@@ -269,20 +271,21 @@ public abstract class GrouperToken extends Token {
                 nextTerm = new FieldAccess(nextTerm, (WordToken) next);
             } else if (next instanceof BracketedToken) {
                 take(); //comma token
-                BracketedToken b = (BracketedToken) next;
-                RuntimeType t = nextTerm.getType(context);
-                ReturnsValue v = b.getNextExpression(context);
-                ReturnsValue converted = BasicType.Integer.convert(v, context);
+                BracketedToken bracketedToken = (BracketedToken) next;
+                RuntimeType runtimeType = nextTerm.getType(context);
+                ReturnsValue unconverted = bracketedToken.getNextExpression(context);
+//                ReturnsValue converted = BasicType.Long.convert(unconverted, context);
+                ReturnsValue converted = BasicType.Integer.convert(unconverted, context);
 
                 if (converted == null) {
-                    throw new NonIntegerIndexException(v);
+                    throw new NonIntegerIndexException(unconverted);
                 }
 
-                if (b.hasNext()) {
-                    throw new ExpectedTokenException("]", b.take());
+                if (bracketedToken.hasNext()) {
+                    throw new ExpectedTokenException("]", bracketedToken.take());
                 }
 
-                nextTerm = t.declType.generateArrayAccess(nextTerm, converted);
+                nextTerm = runtimeType.declType.generateArrayAccess(nextTerm, converted);
             }
         }
         return nextTerm;

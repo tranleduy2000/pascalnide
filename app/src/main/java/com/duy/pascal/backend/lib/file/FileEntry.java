@@ -1,9 +1,9 @@
-package com.duy.pascal.backend.lib.file_lib;
+package com.duy.pascal.backend.lib.file;
 
 import android.os.Environment;
 
-import com.duy.pascal.backend.lib.file_lib.exceptions.DiskReadErrorException;
-import com.duy.pascal.backend.lib.file_lib.exceptions.FileNotOpenException;
+import com.duy.pascal.backend.lib.file.exceptions.DiskReadErrorException;
+import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 
 import java.io.BufferedWriter;
