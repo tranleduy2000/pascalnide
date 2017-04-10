@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.widget.ExpandableListView;
 
 import com.duy.pascal.frontend.DLog;
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
 public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
-    private final String[] categories = new String[]{"Basic", "Crt", "Dos", "Graph", "Temp"};
+    private final String[] categories = new String[]{"Basic", "Crt", "Dos", "Graph"/*, "Temp"*/};
     @BindView(R.id.expand_listview)
     ExpandableListView expandableListView;
     @BindView(R.id.toolbar)
@@ -50,6 +51,15 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         adapter = new CodeSampleAdapter(this);
         adapter.setListener(this);
         expandableListView.setAdapter(adapter);
+
+        ViewTreeObserver vto = expandableListView.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new      ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                expandableListView.setIndicatorBounds(expandableListView.getMeasuredWidth() - 80,
+                        expandableListView.getMeasuredWidth());
+            }
+        });
 
         new LoadCodeTask().execute();
     }

@@ -27,7 +27,8 @@
         android:divider="@null"
         android:fadingEdge="horizontal|vertical"
         android:fastScrollAlwaysVisible="false"
-        android:fastScrollEnabled="false">
+        android:fastScrollEnabled="false"
+       >
 
     </ExpandableListView>
 </LinearLayout>

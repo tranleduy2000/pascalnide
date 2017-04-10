@@ -27,7 +27,7 @@ public class WordToken extends Token {
     }
 
     @Override
-    public WordToken get_word_value() throws ParsingException {
+    public WordToken getWordValue() throws ParsingException {
         return this;
     }
 

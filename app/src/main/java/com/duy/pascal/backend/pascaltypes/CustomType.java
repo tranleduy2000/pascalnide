@@ -28,7 +28,7 @@ public class CustomType extends ObjectType {
     /**
      * This is a list of the defined variables in the custom type.
      */
-    public List<VariableDeclaration> variable_types;
+    public List<VariableDeclaration> variableTypes;
     /**
      * This class represents a declaration of a new type in pascal.
      */
@@ -36,7 +36,7 @@ public class CustomType extends ObjectType {
     private Class cachedClass = null;
 
     public CustomType() {
-        variable_types = new ArrayList<>();
+        variableTypes = new ArrayList<>();
     }
 
     /**
@@ -45,7 +45,7 @@ public class CustomType extends ObjectType {
      * @param v The name and type of the variable to add.
      */
     public void add_variable_declaration(VariableDeclaration v) {
-        variable_types.add(v);
+        variableTypes.add(v);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class CustomType extends ObjectType {
 
     @Override
     public int hashCode() {
-        return variable_types.hashCode();
+        return variableTypes.hashCode();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CustomType extends ObjectType {
             return false;
         }
         CustomType other = (CustomType) obj;
-        return variable_types.equals(other.variable_types);
+        return variableTypes.equals(other.variableTypes);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class CustomType extends ObjectType {
         Project p = new Project();
         BCClass c = p.loadClass(name);
         c.setDeclaredInterfaces(new Class[]{ContainsVariables.class});
-        for (VariableDeclaration v : variable_types) {
+        for (VariableDeclaration v : variableTypes) {
             Class type = v.type.getStorageClass();
             c.declareField(v.name, type);
         }
@@ -118,7 +118,7 @@ public class CustomType extends ObjectType {
 
     @Override
     public DeclaredType getMemberType(String name) {
-        for (VariableDeclaration v : variable_types) {
+        for (VariableDeclaration v : variableTypes) {
             if (v.name.equals(name)) {
                 return v.type;
             }
@@ -152,7 +152,7 @@ public class CustomType extends ObjectType {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
-        for (VariableDeclaration v : variable_types) {
+        for (VariableDeclaration v : variableTypes) {
             constructor_code.aload().setThis();
             v.type.pushDefaultValue(constructor_code,
                     new ScopedRegisterAllocator(ra));

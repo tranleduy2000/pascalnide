@@ -154,7 +154,7 @@ public abstract class GrouperToken extends Token {
     }
 
     public String next_word_value() throws ParsingException {
-        return take().get_word_value().name;
+        return take().getWordValue().name;
     }
 
     public void assertNextSemicolon() throws ParsingException {
@@ -179,7 +179,7 @@ public abstract class GrouperToken extends Token {
         if (n instanceof RecordToken) {
             RecordToken r = (RecordToken) n;
             RecordType result = new RecordType();
-            result.variable_types = r.getVariableDeclarations(context);
+            result.variableTypes = r.getVariableDeclarations(context);
             return result;
         }
         if (!(n instanceof WordToken)) {
@@ -268,7 +268,7 @@ public abstract class GrouperToken extends Token {
                 }
                 nextTerm = new FieldAccess(nextTerm, (WordToken) next);
             } else if (next instanceof BracketedToken) {
-                take();
+                take(); //comma token
                 BracketedToken b = (BracketedToken) next;
                 RuntimeType t = nextTerm.getType(context);
                 ReturnsValue v = b.getNextExpression(context);
@@ -277,6 +277,7 @@ public abstract class GrouperToken extends Token {
                 if (converted == null) {
                     throw new NonIntegerIndexException(v);
                 }
+
                 if (b.hasNext()) {
                     throw new ExpectedTokenException("]", b.take());
                 }

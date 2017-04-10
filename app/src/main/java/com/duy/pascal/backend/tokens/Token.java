@@ -12,7 +12,7 @@ public abstract class Token {
 		this.lineInfo = line;
 	}
 
-	public WordToken get_word_value() throws ParsingException {
+	public WordToken getWordValue() throws ParsingException {
 		throw new ExpectedTokenException("[Identifier]", this);
 	}
 
@@ -26,6 +26,6 @@ public abstract class Token {
 	}
 
 	public enum precedence {
-		Dereferencing, Negation, Multiplicative, Additive, Relational, NoPrecedence
+		Dereferences, Negation, Multiplicative, Additive, Relational, NoPrecedence
 	};
 }
