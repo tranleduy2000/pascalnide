@@ -1,4 +1,4 @@
-program command_exitp;
+program command_exit;
 
 procedure func;
 begin

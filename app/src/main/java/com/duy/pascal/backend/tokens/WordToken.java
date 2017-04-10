@@ -11,6 +11,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 public class WordToken extends Token {
     public String name;
     public String orginalName;
+
     public WordToken(LineInfo line, String s) {
         super(line);
         this.name = s.toLowerCase();
@@ -38,7 +39,8 @@ public class WordToken extends Token {
                 || s.equalsIgnoreCase("byte")
                 || s.equalsIgnoreCase("word")
                 || s.equalsIgnoreCase("shortint")
-                || s.equalsIgnoreCase("smallint")) {
+                || s.equalsIgnoreCase("smallint")
+                || s.equalsIgnoreCase("cardinal")) {
             return BasicType.Integer;
         } else if (s.equalsIgnoreCase("string")
                 || s.equalsIgnoreCase("ansistring")) {
