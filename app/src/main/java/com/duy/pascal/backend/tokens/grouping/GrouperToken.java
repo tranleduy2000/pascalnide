@@ -310,7 +310,7 @@ public abstract class GrouperToken extends Token {
 
             if (next instanceof ParenthesizedToken) {
                 List<ReturnsValue> arguments;
-                if (name.name.equals("writeln")) {
+                if (name.name.equalsIgnoreCase("writeln") || name.name.equalsIgnoreCase("write")) {
                     arguments = ((ParenthesizedToken) take()).getArgumentsForOutput(context);
                 } else {
                     arguments = ((ParenthesizedToken) take()).getArgumentsForCall(context);

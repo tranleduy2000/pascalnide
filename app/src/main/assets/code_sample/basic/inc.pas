@@ -2,7 +2,7 @@ Program Example32;
 
 { Program to demonstrate the Inc function. }
 
-Const
+var
     C : Cardinal = 1;
     L : Longint = 1;
     I : Integer = 1;

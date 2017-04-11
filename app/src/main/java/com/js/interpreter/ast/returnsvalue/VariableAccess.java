@@ -16,7 +16,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class VariableAccess extends DebuggableReturnsValue {
     public String name;
-    LineInfo line;
+    private LineInfo line;
 
     public VariableAccess(WordToken t) {
         this.name = t.name;
@@ -26,6 +26,16 @@ public class VariableAccess extends DebuggableReturnsValue {
     public VariableAccess(String name, LineInfo line) {
         this.name = name;
         this.line = line;
+    }
+
+    @Override
+    public ReturnsValue[] getOutputFormat() {
+        return super.getOutputFormat();
+    }
+
+    @Override
+    public void setOutputFormat(ReturnsValue[] formatInfo) {
+        super.setOutputFormat(formatInfo);
     }
 
     @Override
@@ -43,9 +53,6 @@ public class VariableAccess extends DebuggableReturnsValue {
     public String toString() {
         return name;
     }
-
-
-
 
 
     @Override

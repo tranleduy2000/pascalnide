@@ -14,16 +14,16 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class StringBuilderWithRangeType implements ReturnsValue {
+    protected ReturnsValue[] outputFormat;
     private ReturnsValue value;
     private ReturnsValue length;
+
 
     public StringBuilderWithRangeType(ReturnsValue value, ReturnsValue length) {
         this.value = value;
         this.length = length;
+        this.outputFormat = value.getOutputFormat();
     }
-
-
-    protected ReturnsValue[] outputFormat;
 
     @Override
     public ReturnsValue[] getOutputFormat() {
@@ -40,7 +40,7 @@ public class StringBuilderWithRangeType implements ReturnsValue {
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         if (length == null)
-            return  new StringBuilder(value.getValue(f, main).toString());
+            return new StringBuilder(value.getValue(f, main).toString());
 
         String original = value.getValue(f, main).toString();
         Integer len = (Integer) length.getValue(f, main);

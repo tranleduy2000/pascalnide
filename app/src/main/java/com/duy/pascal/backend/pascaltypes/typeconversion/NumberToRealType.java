@@ -14,14 +14,14 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class NumberToRealType implements ReturnsValue {
-    ReturnsValue other;
+    private ReturnsValue[] outputFormat;
+    private ReturnsValue other;
+
 
     public NumberToRealType(ReturnsValue other) {
         this.other = other;
+        this.outputFormat = other.getOutputFormat();
     }
-
-
-    protected ReturnsValue[] outputFormat;
 
     @Override
     public ReturnsValue[] getOutputFormat() {

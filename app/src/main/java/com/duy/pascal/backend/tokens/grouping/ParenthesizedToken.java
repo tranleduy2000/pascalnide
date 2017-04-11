@@ -73,7 +73,6 @@ public class ParenthesizedToken extends GrouperToken {
                         next = take();
                         if (next instanceof ColonToken) {
                             if (runtimeType.canOutputWithFormat(2)) {
-                                take();
                                 lengthFloatingPoint = getNextExpression(context);
                             } else {
                                 throw new ExpectedTokenException(",", next);

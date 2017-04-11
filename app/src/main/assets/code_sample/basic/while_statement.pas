@@ -10,7 +10,7 @@ BEGIN
         sum := sum + i;
         i := i + 1;
     end;
-    writeln('Sum of 1 to 1000 is: ');
+    write('Sum of 1 to 1000 is: ');
     write(sum);
     readln;
 END.

@@ -68,7 +68,7 @@ public class IOLib implements PascalLibrary {
         if (activity == null) return;
         StringBuilder result = new StringBuilder();
         for (Object o : args) {
-            result.append(o);
+            result.append(o.toString());
         }
         activity.getConsoleView().commitString(result.toString());
     }
@@ -122,37 +122,37 @@ public class IOLib implements PascalLibrary {
     }
 
     public void write(Object values) {
-        println(values);
+        print(values);
     }
 
     public void write(Object o1, Object o2) {
-        println(o1, o2);
+        print(o1, o2);
     }
 
     public void write(Object o1, Object o2, Object o3) {
-        println(o1, o2, o3);
+        print(o1, o2, o3);
     }
 
     public void write(Object o1, Object o2, Object o3, Object o4) {
-        println(o1, o2, o3, o4);
+        print(o1, o2, o3, o4);
     }
 
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5) {
-        println(o1, o2, o3, o4, o5);
+        print(o1, o2, o3, o4, o5);
     }
 
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6) {
-        println(o1, o2, o3, o4, o5, o6);
+        print(o1, o2, o3, o4, o5, o6);
     }
 
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                       Object o7) {
-        println(o1, o2, o3, o4, o5, o6, o7);
+        print(o1, o2, o3, o4, o5, o6, o7);
     }
 
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                       Object o7, Object o8) {
-        println(o1, o2, o3, o4, o5, o6, o7, o8);
+        print(o1, o2, o3, o4, o5, o6, o7, o8);
     }
 
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,

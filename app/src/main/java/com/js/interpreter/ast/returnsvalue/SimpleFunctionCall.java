@@ -21,6 +21,8 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class SimpleFunctionCall extends FunctionCall {
     private AbstractCallableFunction function;
@@ -65,6 +67,7 @@ public class SimpleFunctionCall extends FunctionCall {
                             StringBuilder round = new StringBuilder();
                             for (int j = 0; j < sizeOfReal; j++) round.append("#");
                             DecimalFormat decimalFormat = new DecimalFormat("#." + round.toString());
+                            decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
                             decimalFormat.setRoundingMode(RoundingMode.CEILING);
                             Double d = Double.parseDouble(object.toString());
                             object = new StringBuilder(decimalFormat.format(d));

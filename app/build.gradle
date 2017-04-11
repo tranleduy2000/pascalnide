@@ -6,8 +6,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 52
-        versionName "3.5.6"
+        versionCode 53
+        versionName "3.5.7"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -31,7 +31,6 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':toneplayer')
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-annotations:25.3.1'
