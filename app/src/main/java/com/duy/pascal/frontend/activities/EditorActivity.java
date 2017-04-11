@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +34,8 @@ import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
+import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentErrorMsg;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.sample.DocumentActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.utils.ClipboardManager;
@@ -288,8 +287,8 @@ public class EditorActivity extends FileEditorActivity implements
         try {
             PascalProgram pascalProgram = new PascalCompiler(null)
                     .loadPascal(mFilePath,
-                    new FileReader(mFilePath),
-                    new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>() , null);
+                            new FileReader(mFilePath),
+                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
 
             if (pascalProgram.main == null) {
                 showErrorDialog(new MainProgramNotFoundException());
@@ -410,64 +409,27 @@ public class EditorActivity extends FileEditorActivity implements
      */
     @Override
     public void createNewSourceFile(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.new_file);
-        builder.setView(R.layout.dialog_new_file);
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        final EditText editText = (EditText) alertDialog.findViewById(R.id.edit_file_name);
-        Button btnOK = (Button) alertDialog.findViewById(R.id.btn_ok);
-        Button btnCancel = (Button) alertDialog.findViewById(R.id.btn_cancel);
-        assert btnCancel != null;
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.cancel();
-            }
-        });
-        assert btnOK != null;
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                //get string path of in edit text
-                String fileName = editText.getText().toString();
-                if (fileName.isEmpty()) {
-                    editText.setError(getString(R.string.enter_new_file_name));
-                    return;
-                }
+        DialogCreateNewFile dialogCreateNewFile = DialogCreateNewFile.getInstance();
+        dialogCreateNewFile.show(getSupportFragmentManager(), DialogCreateNewFile.TAG);
+        dialogCreateNewFile.setListener(new DialogCreateNewFile.OnCreateNewFileListener() {
+            @Override
+            public void onFileCreated(File file) {
                 saveFile();
-                RadioButton checkBoxPas = (RadioButton) alertDialog.findViewById(R.id.rad_pas);
-                RadioButton checkBoxInp = (RadioButton) alertDialog.findViewById(R.id.rad_inp);
-
-                if (checkBoxInp.isChecked()) fileName += ".inp";
-                else if (checkBoxPas.isChecked()) fileName += ".pas";
-
-                File file = new File(ApplicationFileManager.getApplicationPath() + fileName);
-                if (file.exists()) {
-                    editText.setError(getString(R.string.file_exist));
-                    return;
-                }
-                //create new file
-                String filePath = mFileManager.createNewFile(ApplicationFileManager.getApplicationPath()
-                        + fileName);
-                file = new File(filePath);
                 //add to view
                 addNewFile(file, true);
-
-                //set sample code
-                if (checkBoxPas.isChecked()) {
-                    mCodeView.setText(CodeSample.MAIN);
-                    mCodeView.refresh();
-
-                    //select before update
-                    mCodeView.selectAll();
-                }
+                mCodeView.setText(CodeSample.MAIN);
+                mCodeView.refresh();
+                //select before update
+                mCodeView.selectAll();
                 mDrawerLayout.closeDrawers();
-                alertDialog.cancel();
+            }
+
+            @Override
+            public void onCancel() {
+
             }
         });
-
     }
 
     @Override

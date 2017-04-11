@@ -23,8 +23,8 @@ public class CharacterBoxer extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getline() {
-        return c.getline();
+    public LineInfo getLine() {
+        return c.getLine();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CharacterBoxer extends DebuggableReturnsValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, c.getline());
+            return new ConstantAccess(val, c.getLine());
         } else {
             return new CharacterBoxer(c.compileTimeExpressionFold(context));
         }

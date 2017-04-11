@@ -1,7 +1,6 @@
 package com.duy.pascal.backend.lib.io;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 /**
@@ -23,12 +22,7 @@ public class CanNotReadVariableException extends RuntimePascalException {
         super(new LineInfo(-1, "unknow"));
     }
 
-    public CanNotReadVariableException(VariableBoxer<Object> out) {
-        try {
-            this.object = out.get();
-        } catch (RuntimePascalException e) {
-//            e.printStackTrace();
-            this.object = null;
-        }
+    public CanNotReadVariableException(Object o) {
+            this.object = o;
     }
 }

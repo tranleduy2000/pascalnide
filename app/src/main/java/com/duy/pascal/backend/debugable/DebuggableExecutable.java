@@ -27,7 +27,7 @@ public abstract class DebuggableExecutable implements Executable {
 //        checkStack(f);
 //        try {
 //            if (main != null) {
-//                main.scriptControlCheck(getline());
+//                main.scriptControlCheck(getLine());
 //            }
 //            if (DLog.DEBUG_PROGRAM) {
 //                try {
@@ -42,7 +42,7 @@ public abstract class DebuggableExecutable implements Executable {
 //        } catch (RuntimePascalException e) {
 //            throw e;
 //        } catch (Exception e) {
-//            throw new UnhandledPascalException(this.getline(), e);
+//            throw new UnhandledPascalException(this.getLine(), e);
 //        }
 //    }
 
@@ -51,7 +51,7 @@ public abstract class DebuggableExecutable implements Executable {
             throws RuntimePascalException {
         try {
             if (main != null) {
-                main.scriptControlCheck(getline());
+                main.scriptControlCheck(getLine());
             }
             if (DLog.DEBUG_PROGRAM) {
                 try {
@@ -63,13 +63,13 @@ public abstract class DebuggableExecutable implements Executable {
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getline(), e);
+            throw new UnhandledPascalException(this.getLine(), e);
         }
     }
 
     private void checkStack(VariableContext f) throws StackOverflowException {
         if (f instanceof FunctionOnStack) {
-            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getline());
+            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getLine());
         } else {
             StackFunction.inc(null);
         }

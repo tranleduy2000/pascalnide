@@ -52,10 +52,6 @@ public class VariableSet extends DebuggableExecutable implements
         return name + " := " + value;
     }
 
-    @Override
-    public LineInfo getline() {
-        return this.line;
-    }
 
     @Override
     public void setAssignedValue(ReturnsValue value) {

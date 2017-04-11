@@ -1,4 +1,4 @@
-package com.js.interpreter.ast.returnsvalue.boxing;
+package com.duy.pascal.backend.pascaltypes.typeconversion;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
@@ -8,23 +8,39 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringBuilderBoxer extends DebuggableReturnsValue {
-    ReturnsValue value;
+public class StringBuilderWithRangeType implements ReturnsValue {
+    private ReturnsValue value;
+    private ReturnsValue length;
 
-    public StringBuilderBoxer(ReturnsValue value) {
+    public StringBuilderWithRangeType(ReturnsValue value, ReturnsValue length) {
         this.value = value;
+        this.length = length;
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(BasicType.anew(String.class), false);
+    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
+        if (length == null)
+            return  new StringBuilder(value.getValue(f, main).toString());
+
+        String original = value.getValue(f, main).toString();
+        Integer len = (Integer) length.getValue(f, main);
+        if (len > original.length()) {
+            return new StringBuilder(original);
+        } else {
+            return new StringBuilder(original.substring(0, len));
+        }
+    }
+
+    @Override
+    public RuntimeType getType(ExpressionContext f)
+            throws ParsingException {
+        return new RuntimeType(BasicType.anew(StringBuilder.class), false);
     }
 
     @Override
@@ -35,18 +51,12 @@ public class StringBuilderBoxer extends DebuggableReturnsValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object other = value.compileTimeValue(context);
-        if (other != null) {
-            return other.toString();
+        Object o = value.compileTimeValue(context);
+        if (o != null) {
+            return new StringBuilder(o.toString());
+        } else {
+            return null;
         }
-        return null;
-    }
-
-    @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
-            throws RuntimePascalException {
-        Object other = value.getValue(f, main);
-        return other.toString();
     }
 
     @Override
@@ -58,12 +68,6 @@ public class StringBuilderBoxer extends DebuggableReturnsValue {
     @Override
     public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        Object val = this.compileTimeValue(context);
-        if (val != null) {
-            return new ConstantAccess(val, value.getLine());
-        } else {
-            return new StringBuilderBoxer(
-                    value.compileTimeExpressionFold(context));
-        }
+        return new StringBuilderWithRangeType(value.compileTimeExpressionFold(context), length);
     }
 }

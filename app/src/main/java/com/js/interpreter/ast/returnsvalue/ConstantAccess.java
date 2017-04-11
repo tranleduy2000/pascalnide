@@ -22,7 +22,7 @@ public class ConstantAccess extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

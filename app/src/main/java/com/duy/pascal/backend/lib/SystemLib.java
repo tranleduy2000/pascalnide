@@ -278,6 +278,7 @@ public class SystemLib implements PascalLibrary {
 
     /**
      * exit program
+     *
      * @param value - exitcode
      * @throws ScriptTerminatedException
      */
@@ -287,9 +288,19 @@ public class SystemLib implements PascalLibrary {
 
     /**
      * exit program
+     *
      * @throws ScriptTerminatedException
      */
     public void halt() throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
+
+    public boolean odd(Integer i) {
+        return i % 2 == 1;
+    }
+
+    public boolean odd(Long i) {
+        return i % 2 == 1;
+    }
+
 }

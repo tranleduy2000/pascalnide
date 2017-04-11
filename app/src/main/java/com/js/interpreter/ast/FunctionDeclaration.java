@@ -164,7 +164,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         for (int j = 0; j < argument_names.length; j++) {
             WordToken n = names_list.get(j);
             argument_names[j] = n.name;
-            declarations.declareVariable(new VariableDeclaration(n.name, argument_types[j].declType, n.lineInfo));
+            declarations.declareVariable(new VariableDeclaration(n.name, argument_types[j].declaredType, n.lineInfo));
         }
 
     }
@@ -201,7 +201,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

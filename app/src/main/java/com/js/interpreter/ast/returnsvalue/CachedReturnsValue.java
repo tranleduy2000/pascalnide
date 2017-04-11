@@ -25,8 +25,8 @@ public class CachedReturnsValue implements ReturnsValue {
     }
 
     @Override
-    public LineInfo getline() {
-        return other.getline();
+    public LineInfo getLine() {
+        return other.getLine();
     }
 
     @Override

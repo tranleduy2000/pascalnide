@@ -133,7 +133,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
             RuntimeType argType =
                     deducePascalTypeFromJavaTypeAndAnnotations(types[i], typeData == null ? null : typeData[i]);
             if (i == types.length - 1 && method.isVarArgs()) {
-                ArrayType<?> lastArgType = (ArrayType<?>) argType.declType;
+                ArrayType<?> lastArgType = (ArrayType<?>) argType.declaredType;
                 result[i] = new VarargsType(new RuntimeType(lastArgType.element_type, argType.writable));
             } else {
                 result[i] = argType;
@@ -167,7 +167,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return new LineInfo(-1, parent.getClass().getCanonicalName());
     }
 

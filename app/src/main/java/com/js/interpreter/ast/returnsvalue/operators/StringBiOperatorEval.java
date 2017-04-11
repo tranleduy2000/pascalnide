@@ -34,14 +34,14 @@ public class StringBiOperatorEval extends BinaryOperatorEvaluation {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        CharSequence v1 = (CharSequence) value1;
-        CharSequence v2 = (CharSequence) value2;
+        String v1 = value1.toString();
+        String v2 = value2.toString();
         switch (operator_type) {
             case EQUALS:
 //                System.out.println(v1 + " " + v2 + " " + v1.equals(v2));
-                return v1.toString().equals(v2.toString());
+                return v1.equals(v2);
             case NOTEQUAL:
-                return !v1.toString().equals(v2.toString());
+                return !v1.equals(v2);
             case PLUS:
                 return new StringBuilder(v1).append(v2);
             default:
@@ -58,7 +58,8 @@ public class StringBiOperatorEval extends BinaryOperatorEvaluation {
         } else {
             return new StringBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context), operator_type,
+                    operon2.compileTimeExpressionFold(context),
+                    operator_type,
                     line);
         }
     }

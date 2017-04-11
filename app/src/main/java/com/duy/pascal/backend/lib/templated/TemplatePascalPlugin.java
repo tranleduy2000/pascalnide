@@ -9,14 +9,15 @@ import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
 
-public interface TemplatedPascalPlugin {
+public interface TemplatePascalPlugin {
     public String name();
 
     public FunctionCall generateCall(LineInfo line, ReturnsValue[] values,
                                      ExpressionContext f) throws ParsingException;
 
     public FunctionCall generatePerfectFitCall(LineInfo line,
-                                               ReturnsValue[] values, ExpressionContext f) throws ParsingException;
+                                               ReturnsValue[] values, ExpressionContext f)
+            throws ParsingException;
 
     public ArgumentType[] argumentTypes();
 

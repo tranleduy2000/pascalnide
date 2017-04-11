@@ -27,7 +27,7 @@ public class VarargsType implements ArgumentType {
             if (tmp == null) {
                 return null;
             }
-            line = tmp.getline();
+            line = tmp.getLine();
             convertedargs.add(tmp);
         }
         return new ArrayBoxer(convertedargs.toArray(new ReturnsValue[convertedargs.size()]), elementType, line);
@@ -49,7 +49,7 @@ public class VarargsType implements ArgumentType {
                 return null;
             }
             if (line == null) {
-                line = fit.getline();
+                line = fit.getLine();
             }
             converted.add(fit);
         }

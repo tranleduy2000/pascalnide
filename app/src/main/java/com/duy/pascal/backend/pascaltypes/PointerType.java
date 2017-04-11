@@ -75,7 +75,7 @@ public class PointerType implements DeclaredType {
     @Override
     public ReturnsValue generateArrayAccess(ReturnsValue array,
                                             ReturnsValue index) throws NonArrayIndexed {
-        throw new NonArrayIndexed(array.getline(), this);
+        throw new NonArrayIndexed(array.getLine(), this);
     }
 
     @Override

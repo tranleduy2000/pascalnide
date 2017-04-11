@@ -74,9 +74,9 @@ import java.util.Stack;
 	private Reader tmpreader;
 	void addInclude(String name) throws FileNotFoundException {
 		for (ScriptSource s : searchDirectories) {
-			Reader r = s.read(name);
-			if (r != null) {
-				this.tmpreader=r;
+			Reader returnsValue = s.read(name);
+			if (returnsValue != null) {
+				this.tmpreader=returnsValue;
 				this.tmpname=name;
 				return;
 			}
@@ -151,8 +151,8 @@ Integer = {Digit}+
 Float	= {Digit}+ "." {Digit}+
 WhiteSpace = ([ \t] | {LineTerminator})+
 
-LineTerminator = \r|\n|\r\n
-InputCharacter = [^\r|\n|]
+LineTerminator = \returnsValue|\n|\returnsValue\n
+InputCharacter = [^\returnsValue|\n|]
 
 Comment = {TraditionalComment} | {EndOfLineComment}  | {BracesComment}
 
@@ -258,8 +258,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 <STRING> {
 	"''"	{literal.append('\'');}
 	"'"		{yybegin(STRINGDONE);}
-	[^'\n\r]* {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
+	[^'\n\returnsValue]* {literal.append(yytext());}
+	[\n\returnsValue]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
 }
 <STRINGPOUND> {
 	{Integer} {literal.append((char)Integer.parseInt(yytext())); yybegin(STRINGDONE);}
@@ -286,7 +286,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	{WhiteSpace} {} 
 	"'" {literal.setLength(0); yybegin(INCLUDE_SNGL_QUOTE);}
     "\"" {literal.setLength(0); yybegin(INCLUDE_DBL_QUOTE);}
-    [^ \r\n*)}]+ {
+    [^ \returnsValue\n*)}]+ {
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
@@ -311,8 +311,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	} 
     	yybegin(END_INCLUDE);
     }
-	[^\n\r]+ {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
+	[^\n\returnsValue]+ {literal.append(yytext());}
+	[\n\returnsValue]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
 }
 
 <INCLUDE_DBL_QUOTE> {
@@ -327,8 +327,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	} 
     	yybegin(END_INCLUDE);
     	}
-	[^\n\r]+ {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);}
+	[^\n\returnsValue]+ {literal.append(yytext());}
+	[\n\returnsValue]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);}
 }
 
 <END_INCLUDE> {

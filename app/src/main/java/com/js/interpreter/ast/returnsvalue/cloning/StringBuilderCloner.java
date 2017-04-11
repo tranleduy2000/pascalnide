@@ -13,28 +13,28 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class StringBuilderCloner implements ReturnsValue {
-    ReturnsValue r;
+    ReturnsValue returnsValue;
 
-    public StringBuilderCloner(ReturnsValue r) {
-        this.r = r;
+    public StringBuilderCloner(ReturnsValue returnsValue) {
+        this.returnsValue = returnsValue;
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f)
             throws ParsingException {
-        return r.getType(f);
+        return returnsValue.getType(f);
     }
 
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        StringBuilder other = (StringBuilder) r.getValue(f, main);
-        return new StringBuilder(other);
+        Object result = returnsValue.getValue(f, main);
+        return new StringBuilder(result.toString());
     }
 
     @Override
-    public LineInfo getline() {
-        return r.getline();
+    public LineInfo getLine() {
+        return returnsValue.getLine();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class StringBuilderCloner implements ReturnsValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object val = r.compileTimeValue(context);
+        Object val = returnsValue.compileTimeValue(context);
         if (val != null) {
             return new StringBuilder((StringBuilder) val);
         }
@@ -56,6 +56,6 @@ public class StringBuilderCloner implements ReturnsValue {
     @Override
     public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new StringBuilderCloner(r);
+        return new StringBuilderCloner(returnsValue);
     }
 }

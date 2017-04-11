@@ -78,7 +78,6 @@
     <string name="cloud_database">Base de datos en la nube</string>
     <string name="pas_file">Archivo Pas</string>
     <string name="inp_file">Archivo Inp</string>
-    <string name="other">Otro</string>
     <string name="theme">Estilo del codigo</string>
     <string name="select">Seleccionar</string>
     <string name="folder">Carpeta</string>
@@ -121,6 +120,7 @@
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
     <string name="source_code_pro">Source Code Pro</string>
     <string name="your_languague">Your language</string>
+    <string name="other">Otro</string>
 </resources>
 
 

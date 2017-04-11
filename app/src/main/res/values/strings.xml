@@ -82,7 +82,6 @@
     <string name="cloud_database">Cloud database</string>
     <string name="pas_file">Pas file</string>
     <string name="inp_file">Inp file</string>
-    <string name="other">Other</string>
     <string name="theme">Code style</string>
     <string name="select">Select</string>
     <string name="folder">Folder</string>
@@ -114,14 +113,15 @@
 
     <string name="frame_rate">Frame rate</string>
 
-    <string name="max_buffer">Max buffer size</string>
+    <string name="max_buffer">Max buffer length</string>
 
     <string name="write_code_here">Write code here…</string>
     <string name="can_not_save_file">Can not save file!</string>
     <string name="saved">Saved</string>
-    <string name="file_exist">File is exist, please enter other name!</string>
+    <string name="file_exist">File is exist, please enter value name!</string>
     <string name="send_mail">Send mail…</string>
     <string name="no_mail_clients">There are no email clients installed.</string>
     <string name="your_languague">Your language</string>
+    <string name="other">Other</string>
 </resources>
 

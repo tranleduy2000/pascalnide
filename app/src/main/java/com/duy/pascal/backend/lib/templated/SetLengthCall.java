@@ -18,7 +18,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
 
-class SetLengthCall extends FunctionCall {
+public class SetLengthCall extends FunctionCall {
 
     ReturnsValue array;
     ReturnsValue size;
@@ -39,7 +39,7 @@ class SetLengthCall extends FunctionCall {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

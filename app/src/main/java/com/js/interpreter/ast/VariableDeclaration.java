@@ -59,10 +59,7 @@ public class VariableDeclaration implements NamedEntity {
         return "variable";
     }
 
-    @Override
-    public LineInfo getline() {
-        return line;
-    }
+
 
     @Override
     public String name() {

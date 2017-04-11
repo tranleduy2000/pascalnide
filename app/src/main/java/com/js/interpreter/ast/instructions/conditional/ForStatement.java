@@ -61,7 +61,7 @@ public class ForStatement extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 
@@ -77,7 +77,7 @@ public class ForStatement extends DebuggableExecutable {
             if (((Boolean) val)) {
                 return first;
             } else {
-                comp = new ConstantAccess(val, lessthanlast.getline());
+                comp = new ConstantAccess(val, lessthanlast.getLine());
             }
         }
         return new DowntoForStatement(first, comp, inc, comm, line);

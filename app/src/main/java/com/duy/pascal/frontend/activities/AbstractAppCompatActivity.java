@@ -33,11 +33,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     private static final boolean DEBUG = DLog.DEBUG;
     protected PascalPreferences mPascalPreferences;
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-//    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +54,15 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
      */
     private void setLocale(boolean create) {
         Locale locale;
-        String code = mPascalPreferences.getSharedPreferences().getString(getString(R.string.key_pref_lang), "default_lang");
+        String code = mPascalPreferences.getSharedPreferences().
+                getString(getString(R.string.key_pref_lang), "default_lang");
         if (code.equals("default_lang")) {
             if (DEBUG) Log.d(TAG, "setLocale: default");
-            locale = Locale.getDefault();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = Resources.getSystem().getConfiguration().getLocales().get(0);
+            } else {
+                locale = Resources.getSystem().getConfiguration().locale;
+            }
         } else {
             locale = new Locale(code);
         }
@@ -115,21 +115,10 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         if (DEBUG) Log.d(TAG, "onSharedPreferenceChanged: " + s);
-//        if (s.equals(getResources().getString(R.string.key_pref_theme))) {
-//            setTheme(true);
-//            DLog.i("Main: set theme ");
-//        } else
         if (s.equals(getString(R.string.key_pref_lang))) {
             setLocale(true);
             Toast.makeText(this, getString(R.string.change_lang_msg), Toast.LENGTH_SHORT).show();
-        }
-// else if (s.equals(getString(R.string.key_pref_font))) {
-//
-//            //reload type face
-//            FontManager.loadTypefaceFromAsset(this);
-//            recreate();
-//        }
-        if (s.equalsIgnoreCase(getString(R.string.key_full_screen))) {
+        } else if (s.equalsIgnoreCase(getString(R.string.key_full_screen))) {
             setFullScreen();
         }
     }
@@ -145,26 +134,14 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onStop: ");
         if (mPascalPreferences != null)
             mPascalPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    /**
-     * show dialog choose email client
-     * send mail
-     */
-    protected void sendMail() {
-//        Intent email = new Intent(Intent.ACTION_SEND);
-//        email.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.dev_mail)});
-//        email.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback));
-//        email.setType("message/rfc822");
-//        startActivity(Intent.createChooser(email, "Choose an Email client :"));
     }
 
     /**
@@ -204,7 +181,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     protected void showDialog(String msg) {
         this.showDialog("", msg);
     }
-
 
     public void rateApp() {
         Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);

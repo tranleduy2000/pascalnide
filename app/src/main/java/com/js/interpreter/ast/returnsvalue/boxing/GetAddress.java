@@ -30,13 +30,13 @@ public class GetAddress extends DebuggableReturnsValue {
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(new PointerType(target.getType(f).declType),
+        return new RuntimeType(new PointerType(target.getType(f).declaredType),
                 false);
     }
 
     @Override
-    public LineInfo getline() {
-        return target.getline();
+    public LineInfo getLine() {
+        return target.getLine();
     }
 
     @Override

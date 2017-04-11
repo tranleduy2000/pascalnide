@@ -1,12 +1,11 @@
 package com.duy.pascal.backend.exceptions;
 
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
-import com.duy.pascal.backend.exceptions.*;
 
 public class NotAStatementException extends com.duy.pascal.backend.exceptions.ParsingException {
 
     public NotAStatementException(ReturnsValue r) {
-        super(r.getline(), r + " is not an instruction by itself.");
+        super(r.getLine(), r + " is not an instruction by itself.");
     }
 
 }

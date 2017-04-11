@@ -10,11 +10,11 @@ import java.util.Iterator;
 
 public class RuntimeType implements ArgumentType {
 
-    public final DeclaredType declType;
+    public final DeclaredType declaredType;
     public final boolean writable;
 
-    public RuntimeType(DeclaredType declType, boolean writable) {
-        this.declType = declType;
+    public RuntimeType(DeclaredType declaredType, boolean writable) {
+        this.declaredType = declaredType;
         this.writable = writable;
     }
 
@@ -29,7 +29,7 @@ public class RuntimeType implements ArgumentType {
                 return null;
             }
         }
-        return declType.convert(value, f);
+        return declaredType.convert(value, f);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RuntimeType implements ArgumentType {
         if (obj instanceof RuntimeType) {
             RuntimeType other = (RuntimeType) obj;
             return other.writable == this.writable
-                    && this.declType.equals(other.declType);
+                    && this.declaredType.equals(other.declaredType);
         } else {
             return false;
         }
@@ -45,7 +45,7 @@ public class RuntimeType implements ArgumentType {
 
     @Override
     public String toString() {
-        return (writable ? "" : "non-") + "writable " + declType.toString();
+        return (writable ? "" : "non-") + "writable " + declaredType.toString();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class RuntimeType implements ArgumentType {
         if (writable) {
             return VariableBoxer.class;
         } else {
-            return declType.getTransferClass();
+            return declaredType.getTransferClass();
         }
     }
 
@@ -74,11 +74,11 @@ public class RuntimeType implements ArgumentType {
         }
         ReturnsValue val = args.next();
         RuntimeType other = val.getType(e);
-        if (this.declType.equals(other.declType)) {
+        if (this.declaredType.equals(other.declaredType)) {
             if (writable) {
                 return new GetAddress(val);
             } else {
-                return other.declType.cloneValue(val);
+                return other.declaredType.cloneValue(val);
             }
         } else {
             return null;

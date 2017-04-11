@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
+import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -9,7 +10,6 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -24,8 +24,8 @@ public class StringBoxer extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getline() {
-        return s.getline();
+    public LineInfo getLine() {
+        return s.getLine();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class StringBoxer extends DebuggableReturnsValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, s.getline());
+            return new ConstantAccess(val, s.getLine());
         } else {
             return new StringBoxer(s.compileTimeExpressionFold(context));
         }

@@ -31,7 +31,7 @@ public class UnaryOperatorEvaluation extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

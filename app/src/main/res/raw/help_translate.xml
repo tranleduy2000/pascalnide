@@ -4,16 +4,20 @@
         name="Trần Lê Duy"
         image=""
         lang="Tiếng Việt"
-        link="https://www.facebook.com/leduycs" />
+        link="https://www.facebook.com/leduycs"
+        mail="tranleduy1233@gmail.com" />
 
     <user
         name="Nikita Merkuryev"
         image=""
         lang="Russia"
-        link="https://vk.com/n1k1ta13" />
+        link="https://vk.com/n1k1ta13"
+        mail="bagbooms@gmail.com" />
+
     <user
         name="Franco Rossi"
         image=""
         lang="Spanish"
-        link="" />
+        link=""
+        mail="francorossia@gmail.com" />
 </help_translate>

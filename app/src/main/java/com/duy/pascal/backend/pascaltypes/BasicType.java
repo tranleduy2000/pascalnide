@@ -4,6 +4,7 @@ import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
+import com.duy.pascal.backend.pascaltypes.typeconversion.StringBuilderWithRangeType;
 import com.duy.pascal.backend.pascaltypes.typeconversion.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
@@ -23,6 +24,16 @@ public enum BasicType implements DeclaredType {
         @Override
         Object getDefaultValue() {
             return false;
+        }
+
+        @Override
+        public void setLength(ReturnsValue length) {
+
+        }
+
+        @Override
+        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
+            return null;
         }
 
         @Override
@@ -47,6 +58,17 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
+        public void setLength(ReturnsValue length) {
+
+        }
+
+        @Override
+        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
+            return null;
+
+        }
+
+        @Override
         public String toString() {
             return "Character";
         }
@@ -63,9 +85,21 @@ public enum BasicType implements DeclaredType {
         }
     },
     StringBuilder(StringBuilder.class) {
+        private ReturnsValue length; //max size
+
         @Override
         Object getDefaultValue() {
             return new StringBuilder();
+        }
+
+        @Override
+        public void setLength(ReturnsValue length) {
+            this.length = length;
+        }
+
+        @Override
+        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
+            return null;
         }
 
         @Override
@@ -73,8 +107,7 @@ public enum BasicType implements DeclaredType {
             constructor_code.anew().setType(StringBuilder.class);
             constructor_code.dup();
             try {
-                constructor_code.invokespecial().setMethod(
-                        StringBuilder.class.getConstructor());
+                constructor_code.invokespecial().setMethod(StringBuilder.class.getConstructor());
             } catch (SecurityException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
@@ -86,23 +119,22 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
+        public ReturnsValue convert(ReturnsValue valueToAssign, ExpressionContext f)
                 throws ParsingException {
-            RuntimeType other_type = value.getType(f);
-            if (other_type.declType instanceof BasicType) {
+            RuntimeType otherType = valueToAssign.getType(f);
 
-                if (this.equals(other_type.declType)) {
-                    return value;
+            if (otherType.declaredType instanceof BasicType) {
+                if (this.equals(otherType.declaredType)) {
+                    return new StringBuilderWithRangeType(valueToAssign, length);
+//                    return valueToAssign;
                 }
-                if (other_type.declType == BasicType.Character) {
-                    return new CharacterBoxer(value);
+                if (otherType.declaredType == BasicType.Character) {
+                    return new CharacterBoxer(valueToAssign);
                 }
-                if (((BasicType) other_type.declType).c == String.class) {
-                    return new StringBoxer(value);
+                if (((BasicType) otherType.declaredType).storeClass == String.class) {
+                    return new StringBoxer(valueToAssign);
                 }
-
-                return TypeConverter.autoConvert(this, value,
-                        (BasicType) other_type.declType);
+                return TypeConverter.autoConvert(this, valueToAssign, (BasicType) otherType.declaredType);
             }
             return null;
         }
@@ -130,11 +162,23 @@ public enum BasicType implements DeclaredType {
                 e.printStackTrace();
             }
         }
+
     },
     Long(Long.class) {
         @Override
         Object getDefaultValue() {
             return 0L;
+        }
+
+        @Override
+        public void setLength(ReturnsValue length) {
+
+        }
+
+        @Override
+        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
+            return null;
+
         }
 
         @Override
@@ -146,6 +190,17 @@ public enum BasicType implements DeclaredType {
         @Override
         Object getDefaultValue() {
             return 0.0D;
+        }
+
+        @Override
+        public void setLength(ReturnsValue length) {
+
+        }
+
+        @Override
+        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
+            return null;
+
         }
 
         @Override
@@ -171,6 +226,16 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
+        public void setLength(ReturnsValue length) {
+
+        }
+
+        @Override
+        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
+            return null;
+        }
+
+        @Override
         public String toString() {
             return "Integer";
         }
@@ -192,13 +257,23 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
+        public void setLength(ReturnsValue length) {
+
+        }
+
+        @Override
+        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
+            return null;
+        }
+
+        @Override
         public String toString() {
             return "File";
         }
 
         @Override
         public void convertStackToStorageType(Code c) {
-//            c.invokestatic().setMethod(Integer.class,
+//            storeClass.invokestatic().setMethod(Integer.class,
 //                    "valueOf", Integer.class, new Class[]{int.class});
         }
 
@@ -207,10 +282,11 @@ public enum BasicType implements DeclaredType {
             c.iastore();
         }
     };
-    private Class c;
+
+    private Class storeClass;
 
     BasicType(Class name) {
-        c = name;
+        storeClass = name;
     }
 
     public static DeclaredType anew(Class c) {
@@ -247,7 +323,7 @@ public enum BasicType implements DeclaredType {
         }
         if (obj instanceof JavaClassBasedType) {
             Class other = ((JavaClassBasedType) obj).c;
-            return c == other || c == Object.class || other == Object.class;
+            return storeClass == other || storeClass == Object.class || other == Object.class;
         }
         return false;
     }
@@ -259,20 +335,28 @@ public enum BasicType implements DeclaredType {
             return result;
         } else {
             try {
-                return c.newInstance();
+                return storeClass.newInstance();
             } catch (InstantiationException e) {
-//                e.printStackTrace();
+                e.printStackTrace();
             } catch (IllegalAccessException e) {
-//                e.printStackTrace();
+                e.printStackTrace();
             }
-
             return null;
         }
     }
 
+    /**
+     * set length of string type
+     *
+     * @param length
+     */
+    public abstract void setLength(ReturnsValue length);
+
+    public abstract ReturnsValue getStringWithLength(StringBuilder stringBuilder);
+
     @Override
     public Class getTransferClass() {
-        return c;
+        return storeClass;
     }
 
     @Override
@@ -282,12 +366,12 @@ public enum BasicType implements DeclaredType {
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType other_type = value.getType(f);
-        if (other_type.declType instanceof BasicType) {
-            if (this.equals(other_type.declType)) {
+        if (other_type.declaredType instanceof BasicType) {
+            if (this.equals(other_type.declaredType)) {
                 return cloneValue(value);
             }
             return TypeConverter.autoConvert(this, value,
-                    (BasicType) other_type.declType);
+                    (BasicType) other_type.declaredType);
         }
         return null;
     }
@@ -310,13 +394,13 @@ public enum BasicType implements DeclaredType {
     @Override
     public ReturnsValue generateArrayAccess(ReturnsValue array,
                                             ReturnsValue index) throws NonArrayIndexed {
-        throw new NonArrayIndexed(array.getline(), this);
+        throw new NonArrayIndexed(array.getLine(), this);
     }
 
     @Override
     public Class<?> getStorageClass() {
-        Class c2 = TypeUtils.getTypeForClass(c);
-        return c2 == null ? c : c2;
+        Class c2 = TypeUtils.getTypeForClass(storeClass);
+        return c2 == null ? storeClass : c2;
     }
 
     @Override

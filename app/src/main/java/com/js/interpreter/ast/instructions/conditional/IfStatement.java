@@ -28,7 +28,7 @@ public class IfStatement extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

@@ -32,8 +32,8 @@ public class ArrayCloner<T> implements ReturnsValue {
     }
 
     @Override
-    public LineInfo getline() {
-        return r.getline();
+    public LineInfo getLine() {
+        return r.getLine();
     }
 
     @Override

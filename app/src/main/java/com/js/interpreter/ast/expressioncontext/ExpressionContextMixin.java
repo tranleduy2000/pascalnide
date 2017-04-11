@@ -388,7 +388,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                         ReturnsValue converted = type.convert(unconverted, this);
                         if (converted == null) {
                             throw new UnconvertibleTypeException(unconverted,
-                                    unconverted.getType(this).declType, type,
+                                    unconverted.getType(this).declaredType, type,
                                     true);
                         }
                         defaultValue = converted.compileTimeValue(this);

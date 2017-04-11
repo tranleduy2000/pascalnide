@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
-    private final String[] categories = new String[]{"Basic", "Crt", "Dos", "Graph"/*, "Temp"*/};
+    private final String[] categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph"/*, "Temp"*/};
     @BindView(R.id.expand_listview)
     ExpandableListView expandableListView;
     @BindView(R.id.toolbar)
@@ -53,7 +53,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         expandableListView.setAdapter(adapter);
 
         ViewTreeObserver vto = expandableListView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new      ViewTreeObserver.OnGlobalLayoutListener() {
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 expandableListView.setIndicatorBounds(expandableListView.getMeasuredWidth() - 80,

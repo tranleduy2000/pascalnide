@@ -112,7 +112,7 @@ public class CustomType extends ObjectType {
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType other_type = value.getType(f);
-        if (this.equals(other_type.declType)) {
+        if (this.equals(other_type.declaredType)) {
             return cloneValue(value);
         }
         return null;
@@ -332,7 +332,7 @@ public class CustomType extends ObjectType {
     @Override
     public ReturnsValue generateArrayAccess(ReturnsValue array,
                                             ReturnsValue index) throws NonArrayIndexed {
-        throw new NonArrayIndexed(array.getline(), this);
+        throw new NonArrayIndexed(array.getLine(), this);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ArrayBoxer extends DebuggableReturnsValue {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

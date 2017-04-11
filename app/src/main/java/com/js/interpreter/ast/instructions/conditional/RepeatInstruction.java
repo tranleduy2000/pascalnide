@@ -26,7 +26,7 @@ public class RepeatInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 
@@ -56,7 +56,7 @@ public class RepeatInstruction extends DebuggableExecutable {
             } else {
                 return new RepeatInstruction(
                         command.compileTimeConstantTransform(c),
-                        new ConstantAccess(b, condition.getline()), line);
+                        new ConstantAccess(b, condition.getLine()), line);
             }
 
         }

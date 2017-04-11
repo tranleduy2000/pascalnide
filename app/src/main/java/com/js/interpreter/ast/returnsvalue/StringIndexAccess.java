@@ -25,13 +25,12 @@ public class StringIndexAccess extends DebuggableReturnsValue {
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(BasicType.Character,
-                container.getType(f).writable);
+        return new RuntimeType(BasicType.Character, container.getType(f).writable);
     }
 
     @Override
-    public LineInfo getline() {
-        return container.getline();
+    public LineInfo getLine() {
+        return container.getLine();
     }
 
     @Override
@@ -65,7 +64,7 @@ public class StringIndexAccess extends DebuggableReturnsValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, container.getline());
+            return new ConstantAccess(val, container.getLine());
         } else {
             return new StringIndexAccess(
                     container.compileTimeExpressionFold(context),

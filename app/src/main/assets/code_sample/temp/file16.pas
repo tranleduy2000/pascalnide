@@ -1,9 +1,9 @@
 Uses Graph, CRT;
 var
-    d, r, e, k, j, x, y: Integer;
+    d, returnsValue, e, k, j, x, y: Integer;
 begin
     d := Detect;
-    InitGraph(d, r, ' ') ;
+    InitGraph(d, returnsValue, ' ') ;
     e := GraphResult;
     if e <> grOk then Halt();
 

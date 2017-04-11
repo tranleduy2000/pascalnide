@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.keyboard.KeyListener;
 import com.duy.pascal.frontend.keyboard.KeySettings;
@@ -149,7 +148,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
      */
     @Override
     public boolean onKeyDown(int zKeyCode, KeyEvent event) {
-        if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + zKeyCode + " " + event);
+//        if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + zKeyCode + " " + event);
 
         //The new Key Code
         int keyCode = event.getKeyCode();
@@ -216,7 +215,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
 
     @Override
     public boolean onKeyUp(int zKeyCode, KeyEvent event) {
-        if (LOG_KEY_EVENTS) Log.w(TAG, "onKeyUp " + zKeyCode);
+//        if (LOG_KEY_EVENTS) Log.w(TAG, "onKeyUp " + zKeyCode);
 
         //The new Key Code
         int keyCode = event.getKeyCode();

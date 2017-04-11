@@ -18,7 +18,7 @@
     <string name="main_program_not_define">Không tìm thấy chương trình chính</string>
 
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
-    One has type \"%4$s\" and the other has type \"%5$s\"</string>
+    One has type \"%4$s\" and the value has type \"%5$s\"</string>
     <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
     <string name="ConstantCalculationException">Error while computing constant value: %1$s</string>
     <string name="DivisionByZeroException">Division by zero</string>

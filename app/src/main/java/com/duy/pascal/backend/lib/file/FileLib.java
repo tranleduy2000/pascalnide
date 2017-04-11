@@ -188,7 +188,7 @@ public class FileLib implements PascalLibrary {
                 double value = file.readDouble();
                 out.set(value);
             } else {
-                throw new CanNotReadVariableException(out);
+                throw new CanNotReadVariableException(out.get());
             }
         }
     }

@@ -47,7 +47,7 @@ public class CaseInstruction extends DebuggableExecutable {
         }
 
         //this Object used to check compare type with another element
-        DeclaredType mSwitchValueType = mSwitchValue.getType(context).declType;
+        DeclaredType mSwitchValueType = mSwitchValue.getType(context).declaredType;
         List<CasePossibility> possibilities = new ArrayList<CasePossibility>();
 
         while (!(i.peek() instanceof ElseToken) && !(i.peek() instanceof EOF_Token)) {
@@ -70,9 +70,9 @@ public class CaseInstruction extends DebuggableExecutable {
                     if (hi == null) {
                         throw new NonConstantExpressionException(upper);
                     }
-                    conditions.add(new RangeOfValues(context, mSwitchValue, v, hi, valueToSwitch.getline()));
+                    conditions.add(new RangeOfValues(context, mSwitchValue, v, hi, valueToSwitch.getLine()));
                 } else {
-                    conditions.add(new SingleValue(v, valueToSwitch.getline()));
+                    conditions.add(new SingleValue(v, valueToSwitch.getLine()));
                 }
                 if (i.peek() instanceof CommaToken) {
                     i.take();
@@ -119,7 +119,7 @@ public class CaseInstruction extends DebuggableExecutable {
 
     //check type
     private void assertType(DeclaredType switchValueType, ReturnsValue val, ExpressionContext context) throws ParsingException {
-        DeclaredType inputType = val.getType(context).declType;
+        DeclaredType inputType = val.getType(context).declaredType;
         ReturnsValue converted = switchValueType.convert(val, context);
         if (converted == null) {
             throw new UnconvertibleTypeException(val, inputType, switchValueType, true);
@@ -154,7 +154,7 @@ public class CaseInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

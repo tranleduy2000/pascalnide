@@ -8,7 +8,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class SetArrayLengthLib implements TemplatedPascalPlugin {
+public class SetArrayLength implements TemplatePascalPlugin {
 
     SetLengthLib a = new SetLengthLib();
 

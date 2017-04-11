@@ -14,12 +14,12 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class SetLengthLib implements TemplatedPascalPlugin {
+public class SetLengthLib implements TemplatePascalPlugin {
 
-    static ArgumentType[] _argumentTypes = {
-            new RuntimeType(new ArrayType<>(
+    private ArgumentType[] argumentTypes = {new RuntimeType(new ArrayType<>(
                     BasicType.anew(Object.class), new SubrangeType(0, 0)), true),
-            new RuntimeType(BasicType.Integer, false)};
+            new RuntimeType(BasicType.Integer, false)
+    };
 
     @Override
     public String name() {
@@ -32,7 +32,7 @@ public class SetLengthLib implements TemplatedPascalPlugin {
         ReturnsValue array = arguments[0];
         ReturnsValue size = arguments[1];
         @SuppressWarnings("rawtypes")
-        DeclaredType elemtype = ((ArrayType) ((PointerType) array.getType(f).declType).pointedToType).element_type;
+        DeclaredType elemtype = ((ArrayType) ((PointerType) array.getType(f).declaredType).pointedToType).element_type;
         LineInfo l = line;
         return new SetLengthCall(array, size, elemtype, l);
     }
@@ -44,7 +44,7 @@ public class SetLengthLib implements TemplatedPascalPlugin {
 
     @Override
     public ArgumentType[] argumentTypes() {
-        return _argumentTypes;
+        return argumentTypes;
     }
 
     @Override

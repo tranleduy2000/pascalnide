@@ -43,16 +43,16 @@ public class JavaClassBasedType implements DeclaredType {
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType other_type = value.getType(f);
-        if (other_type.declType instanceof BasicType) {
-            if (this.equals(other_type.declType)) {
+        if (other_type.declaredType instanceof BasicType) {
+            if (this.equals(other_type.declaredType)) {
                 return cloneValue(value);
             }
             if (this.c == String.class
-                    && other_type.declType == BasicType.StringBuilder) {
+                    && other_type.declaredType == BasicType.StringBuilder) {
                 return new StringBuilderBoxer(value);
             }
             if (this.c == String.class
-                    && other_type.declType == BasicType.Character) {
+                    && other_type.declaredType == BasicType.Character) {
                 return new StringBuilderBoxer(new CharacterBoxer(value));
             }
 

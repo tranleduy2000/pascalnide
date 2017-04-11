@@ -43,14 +43,7 @@ public class PascalPreferences {
      */
     public static void setFirstOpen(Context context) {
         String key = "first_open";
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!sharedPreferences.getBoolean(key, false)) {
-            if (BuildConfig.VERSION_CODE <= 43) {
-                PreferenceManager.setDefaultValues(context, R.xml.setting_editor, true);
-                sharedPreferences.edit().putBoolean(key, true).apply();
-            }
-        }
-        PreferenceManager.setDefaultValues(context, R.xml.setting_editor, false);
+
     }
 
     public SharedPreferences getSharedPreferences() {

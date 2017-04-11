@@ -58,7 +58,7 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

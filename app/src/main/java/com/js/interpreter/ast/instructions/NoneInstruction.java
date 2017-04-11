@@ -22,7 +22,7 @@ public class NoneInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

@@ -10,6 +10,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
+import com.duy.pascal.backend.pascaltypes.typeconversion.AnyToStringType;
 import com.duy.pascal.backend.pascaltypes.typeconversion.TypeConverter;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
@@ -44,8 +45,8 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
                                                       ReturnsValue value1,
                                                       ReturnsValue value2, OperatorTypes operateType,
                                                       LineInfo line) throws ParsingException {
-        DeclaredType type1 = value1.getType(main).declType;
-        DeclaredType type2 = value2.getType(main).declType;
+        DeclaredType type1 = value1.getType(main).declaredType;
+        DeclaredType type2 = value2.getType(main).declaredType;
 
         if (!(type1 instanceof BasicType || type1 instanceof JavaClassBasedType)) {
             throw new BadOperationTypeException(line, type1, type2, value1, value2, operateType);
@@ -57,8 +58,8 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
 
         if (type1 == BasicType.StringBuilder || type2 == BasicType.StringBuilder) {
             if (operateType == OperatorTypes.PLUS) {
-                value1 = new TypeConverter.AnyToString(value1);
-                value2 = new TypeConverter.AnyToString(value2);
+                value1 = new AnyToStringType(value1);
+                value2 = new AnyToStringType(value2);
                 return new StringBiOperatorEval(value1, value2, operateType, line);
             } else {
                 value1 = BasicType.StringBuilder.convert(value1, main);
@@ -100,7 +101,7 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
 
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 

@@ -31,12 +31,12 @@ public class ArrayAccess extends DebuggableReturnsValue {
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         RuntimeType r = (container.getType(f));
-        return new RuntimeType(((ArrayType<?>) r.declType).element_type, r.writable);
+        return new RuntimeType(((ArrayType<?>) r.declaredType).element_type, r.writable);
     }
 
     @Override
-    public LineInfo getline() {
-        return index.getline();
+    public LineInfo getLine() {
+        return index.getLine();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ArrayAccess extends DebuggableReturnsValue {
         try {
             return Array.get(cont, ind - offset);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new PascalIndexOutOfBoundsException(this.getline(),
+            throw new PascalIndexOutOfBoundsException(this.getLine(),
                     ind, offset, offset + ((Object[]) cont).length - 1);
         }
     }

@@ -12,22 +12,22 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
 import java.util.List;
 
-public class TemplatedPluginDeclaration extends AbstractFunction {
+public class TemplatePluginDeclaration extends AbstractFunction {
 
-    TemplatedPascalPlugin t;
+    TemplatePascalPlugin t;
 
-    public TemplatedPluginDeclaration(TemplatedPascalPlugin t) {
+    public TemplatePluginDeclaration(TemplatePascalPlugin t) {
         this.t = t;
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return new LineInfo(-1, t.getClass().getCanonicalName());
     }
 
     @Override
     public String getEntityType() {
-        return "Templated Plugin";
+        return "Template Plugin";
     }
 
     @Override

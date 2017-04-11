@@ -51,7 +51,7 @@ public class WhileStatement extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 
@@ -65,7 +65,7 @@ public class WhileStatement extends DebuggableExecutable {
                 return new NoneInstruction(line);
             } else {
                 return new WhileStatement(new ConstantAccess(cond,
-                        condition.getline()), comm, line);
+                        condition.getLine()), comm, line);
             }
         }
         return new WhileStatement(condition, comm, line);
