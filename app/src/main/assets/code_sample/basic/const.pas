@@ -2,9 +2,9 @@ program constant;
 const
     a = 10;
     s = 'pascal';
-    c = 'c';
+    charValue = 'charValue';
 begin
-    writeln(a, ' ', s, ' ', c);
+    writeln(a, ' ', s, ' ', charValue);
     readln;
 end.
 {if you want to improve this code, please send code to me

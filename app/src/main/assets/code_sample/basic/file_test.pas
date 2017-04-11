@@ -17,7 +17,7 @@ var
     s: string;
     i, tmp, n: integer;
     d: real;
-    c: char;
+    charValue: char;
 
 begin
     Assign(f1, 'input.in');
@@ -41,10 +41,10 @@ begin
     writeln('read real: ', d);
     writeln(f2, d);
 
-    {read char value and store it to variable c}
-    readln(f1, c);
-    writeln('read char: ', c);
-    writeln(f2, c);
+    {read char value and store it to variable charValue}
+    readln(f1, charValue);
+    writeln('read char: ', charValue);
+    writeln(f2, charValue);
 
     readln(f1, n);
     for i := 1 to n do

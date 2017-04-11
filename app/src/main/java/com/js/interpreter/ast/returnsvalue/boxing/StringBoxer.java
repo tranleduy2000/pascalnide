@@ -17,17 +17,17 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class StringBoxer extends DebuggableReturnsValue {
 
-    final ReturnsValue s;
+    final ReturnsValue value;
 
     public StringBoxer(ReturnsValue tobox) {
-        this.s = tobox;
+        this.value = tobox;
+        this.outputFormat = value.getOutputFormat();
     }
 
     @Override
     public LineInfo getLine() {
-        return s.getLine();
+        return value.getLine();
     }
-
 
 
     @Override
@@ -38,13 +38,13 @@ public class StringBoxer extends DebuggableReturnsValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        return new StringBuilder(s.getValue(f, main).toString());
+        return new StringBuilder(value.getValue(f, main).toString());
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object o = s.compileTimeValue(context);
+        Object o = value.compileTimeValue(context);
         if (o != null) {
             return new StringBuilder(o.toString());
         } else {
@@ -63,9 +63,9 @@ public class StringBoxer extends DebuggableReturnsValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, s.getLine());
+            return new ConstantAccess(val, value.getLine());
         } else {
-            return new StringBoxer(s.compileTimeExpressionFold(context));
+            return new StringBoxer(value.compileTimeExpressionFold(context));
         }
     }
 

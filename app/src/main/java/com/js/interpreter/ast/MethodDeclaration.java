@@ -116,14 +116,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         if (argCache != null) {
             return argCache;
         }
-
         Type[] types = method.getGenericParameterTypes();
-
-        String log = "";
-        for (Type type : types) {
-            log += type.getClass().toString() + " ;";
-        }
-
         ArgumentType[] result = new ArgumentType[types.length];
         MethodTypeData tmp = method.getAnnotation(MethodTypeData.class);
         ArrayBoundsInfo[] typeData = tmp == null ? null : tmp.info();
@@ -161,7 +154,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public String getEntityType() {
-        return "plugin";
+        return "function";
     }
 
     @Override

@@ -59,7 +59,6 @@ public class ParenthesizedToken extends GrouperToken {
         List<ReturnsValue> result = new ArrayList<>();
         while (hasNext()) {
             ReturnsValue returnsValue = getNextExpression(context);
-            result.add(returnsValue);
             RuntimeType runtimeType = returnsValue.getType(context);
             if (hasNext()) {
                 Token next = take();
@@ -71,7 +70,7 @@ public class ParenthesizedToken extends GrouperToken {
                     ReturnsValue column = getNextExpression(context);
                     ReturnsValue lengthFloatingPoint = null;
                     if (hasNext()) {
-                        next = peek();
+                        next = take();
                         if (next instanceof ColonToken) {
                             if (runtimeType.canOutputWithFormat(2)) {
                                 take();
@@ -79,19 +78,18 @@ public class ParenthesizedToken extends GrouperToken {
                             } else {
                                 throw new ExpectedTokenException(",", next);
                             }
+                        } else if (!(next instanceof CommaToken)) {
+                            throw new ExpectedTokenException(",", next);
                         }
                     }
                     infoOutput[0] = column;
                     infoOutput[1] = lengthFloatingPoint;
                     returnsValue.setOutputFormat(infoOutput);
-                }
-            }
-            if (hasNext()) {
-                Token next = take();
-                if (!(next instanceof CommaToken)) {
+                } else if (!(next instanceof CommaToken)) {
                     throw new ExpectedTokenException(",", next);
                 }
             }
+            result.add(returnsValue);
         }
         return result;
     }

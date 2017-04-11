@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
+import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -9,24 +10,23 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class CharacterBoxer extends DebuggableReturnsValue {
-    ReturnsValue c;
+    private ReturnsValue charValue;
 
-    public CharacterBoxer(ReturnsValue c) {
-        this.c = c;
+    public CharacterBoxer(ReturnsValue charValue) {
+        this.charValue = charValue;
+        this.outputFormat = charValue.getOutputFormat();
     }
 
     @Override
     public LineInfo getLine() {
-        return c.getLine();
+        return charValue.getLine();
     }
-
 
 
     @Override
@@ -37,13 +37,13 @@ public class CharacterBoxer extends DebuggableReturnsValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        return new StringBuilder(c.getValue(f, main).toString());
+        return new StringBuilder(charValue.getValue(f, main).toString());
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object val = c.compileTimeValue(context);
+        Object val = charValue.compileTimeValue(context);
         if (val != null) {
             return new StringBuilder(val.toString());
         } else {
@@ -62,9 +62,9 @@ public class CharacterBoxer extends DebuggableReturnsValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, c.getLine());
+            return new ConstantAccess(val, charValue.getLine());
         } else {
-            return new CharacterBoxer(c.compileTimeExpressionFold(context));
+            return new CharacterBoxer(charValue.compileTimeExpressionFold(context));
         }
     }
 

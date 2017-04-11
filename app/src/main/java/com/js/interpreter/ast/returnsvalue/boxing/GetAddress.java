@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
+import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -9,7 +10,6 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.Reference;
 import com.js.interpreter.runtime.VariableBoxer;
@@ -26,9 +26,8 @@ public class GetAddress extends DebuggableReturnsValue {
     public GetAddress(ReturnsValue target) throws UnAssignableTypeException {
         this.target = target;
         setTarget = target.createSetValueInstruction(target);
+        this.outputFormat = target.getOutputFormat();
     }
-
-
 
 
     @Override

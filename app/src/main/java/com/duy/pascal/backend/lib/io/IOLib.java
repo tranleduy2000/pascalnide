@@ -24,7 +24,6 @@ public class IOLib implements PascalLibrary {
 
     /**
      * constructor call by {@link ClassLoader} in {@link PascalCompiler}
-     *
      */
     public IOLib(ExecuteActivity activity) {
         this.activity = activity;
@@ -60,32 +59,110 @@ public class IOLib implements PascalLibrary {
         return true;
     }
 
-    /**
-     * Writeln procedure
-     *
-     * @param values - list variable
-     */
-    public void writeln(Object... values) {
+    private void println(Object... args) {
+        print(args);
+        print("\n");
+    }
+
+    private void print(Object... args) {
+        if (activity == null) return;
         StringBuilder result = new StringBuilder();
-        for (Object o : values) {
+        for (Object o : args) {
             result.append(o);
         }
-        if (activity != null) activity.getConsoleView().commitString(result.toString() + "\n");
+        activity.getConsoleView().commitString(result.toString());
+    }
+
+    public void writeln() {
+        println();
+    }
+
+    public void writeln(Object values) {
+        println(values);
+    }
+
+    public void writeln(Object o1, Object o2) {
+        println(o1, o2);
+    }
+
+    public void writeln(Object o1, Object o2, Object o3) {
+        println(o1, o2, o3);
+    }
+
+    public void writeln(Object o1, Object o2, Object o3, Object o4) {
+        println(o1, o2, o3, o4);
+    }
+
+    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5) {
+        println(o1, o2, o3, o4, o5);
+    }
+
+    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6) {
+        println(o1, o2, o3, o4, o5, o6);
+    }
+
+    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
+                        Object o7) {
+        println(o1, o2, o3, o4, o5, o6, o7);
+    }
+
+    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
+                        Object o7, Object o8) {
+        println(o1, o2, o3, o4, o5, o6, o7, o8);
+    }
+
+    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
+                        Object o7, Object o8, Object o9, Object o10) {
+        println(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
     }
 
 
-    /**
-     * writeString procedure
-     *
-     * @param values - list variable
-     */
-    public void write(Object... values) {
-        StringBuilder result = new StringBuilder();
-        for (Object o : values) {
-            result.append(o);
-        }
-        if (stdout != null) stdout.print(result);
-        if (activity != null) activity.getConsoleView().commitString(result.toString());
+    public void write() {
+
+    }
+
+    public void write(Object values) {
+        println(values);
+    }
+
+    public void write(Object o1, Object o2) {
+        println(o1, o2);
+    }
+
+    public void write(Object o1, Object o2, Object o3) {
+        println(o1, o2, o3);
+    }
+
+    public void write(Object o1, Object o2, Object o3, Object o4) {
+        println(o1, o2, o3, o4);
+    }
+
+    public void write(Object o1, Object o2, Object o3, Object o4, Object o5) {
+        println(o1, o2, o3, o4, o5);
+    }
+
+    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6) {
+        println(o1, o2, o3, o4, o5, o6);
+    }
+
+    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
+                      Object o7) {
+        println(o1, o2, o3, o4, o5, o6, o7);
+    }
+
+    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
+                      Object o7, Object o8) {
+        println(o1, o2, o3, o4, o5, o6, o7, o8);
+    }
+
+    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
+                      Object o7, Object o8, Object o9) {
+        print(o1, o2, o3, o4, o5, o6, o7, o8, o9);
+    }
+
+    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
+                      Object o7, Object o8, Object o9, Object o10) {
+        print(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
     }
 
 
@@ -152,6 +229,7 @@ public class IOLib implements PascalLibrary {
         variableBoxer.set(scanner.nextLine());
 
     }
+
     private void readStringBuilder(Scanner scanner, VariableBoxer<StringBuilder> variableBoxer) {
         variableBoxer.set(new StringBuilder(scanner.nextLine()));
     }
@@ -205,7 +283,7 @@ public class IOLib implements PascalLibrary {
                 readChar(scanner, variableBoxer);
             } else if (variableBoxer.get() instanceof StringBuilder) {
                 readStringBuilder(scanner, variableBoxer);
-            }else if (variableBoxer.get() instanceof String) {
+            } else if (variableBoxer.get() instanceof String) {
                 readString(scanner, variableBoxer);
             } else if (variableBoxer.get() instanceof Integer) {
                 readInt(scanner, variableBoxer);
@@ -218,7 +296,6 @@ public class IOLib implements PascalLibrary {
             }
         }
     }
-
 
 
     public void readln() {

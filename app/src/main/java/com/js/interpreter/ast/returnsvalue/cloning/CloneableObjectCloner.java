@@ -14,21 +14,19 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
 public class CloneableObjectCloner implements ReturnsValue {
-    ReturnsValue r;
+    protected ReturnsValue[] outputFormat;
+    private ReturnsValue value;
 
-    public CloneableObjectCloner(ReturnsValue r) {
-        this.r = r;
+    public CloneableObjectCloner(ReturnsValue value) {
+        this.value = value;
+        this.outputFormat = value.getOutputFormat();
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f)
             throws ParsingException {
-        return r.getType(f);
+        return value.getType(f);
     }
-
-
-
-    protected ReturnsValue[] outputFormat;
 
     @Override
     public ReturnsValue[] getOutputFormat() {
@@ -44,19 +42,19 @@ public class CloneableObjectCloner implements ReturnsValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        ContainsVariables c = (ContainsVariables) r.getValue(f, main);
+        ContainsVariables c = (ContainsVariables) value.getValue(f, main);
         return c.clone();
     }
 
     @Override
     public LineInfo getLine() {
-        return r.getLine();
+        return value.getLine();
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        ContainsVariables c = (ContainsVariables) r
+        ContainsVariables c = (ContainsVariables) value
                 .compileTimeValue(context);
         return c.clone();
     }
@@ -70,6 +68,6 @@ public class CloneableObjectCloner implements ReturnsValue {
     @Override
     public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new CloneableObjectCloner(r.compileTimeExpressionFold(context));
+        return new CloneableObjectCloner(value.compileTimeExpressionFold(context));
     }
 }

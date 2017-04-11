@@ -18,6 +18,7 @@ public class ArrayCloner<T> implements ReturnsValue {
 
     public ArrayCloner(ReturnsValue r2) {
         this.returnsValue = r2;
+        this.outputFormat = returnsValue.getOutputFormat();
     }
 
     @Override

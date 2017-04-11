@@ -1,7 +1,7 @@
 program test_time;
 uses dos;
 var
-    a, b, c, d : integer;
+    a, b, charValue, d : integer;
 
 function print(w: integer): string;
 var
@@ -15,9 +15,9 @@ begin
 end;
 
 begin
-    GetTime(a,b,c,d);
+    GetTime(a,b,charValue,d);
     WriteLn('Current time');
-    WriteLn(print(a),':',print(b),':',print(c));
+    WriteLn(print(a),':',print(b),':',print(charValue));
     readln;
 end.
 {if you want to improve this code, please send code to me

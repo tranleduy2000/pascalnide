@@ -13,10 +13,12 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class StringBuilderCloner implements ReturnsValue {
+    protected ReturnsValue[] outputFormat;
     ReturnsValue returnsValue;
 
     public StringBuilderCloner(ReturnsValue returnsValue) {
         this.returnsValue = returnsValue;
+        this.outputFormat = returnsValue.getOutputFormat();
     }
 
     @Override
@@ -24,8 +26,6 @@ public class StringBuilderCloner implements ReturnsValue {
             throws ParsingException {
         return returnsValue.getType(f);
     }
-
-    protected ReturnsValue[] outputFormat;
 
     @Override
     public ReturnsValue[] getOutputFormat() {

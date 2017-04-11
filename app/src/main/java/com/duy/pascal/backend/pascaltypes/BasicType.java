@@ -145,8 +145,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public ReturnsValue cloneValue(ReturnsValue r) {
-            return new StringBuilderCloner(r);
+        public ReturnsValue cloneValue(ReturnsValue value) {
+            return new StringBuilderCloner(value);
         }
 
         @Override

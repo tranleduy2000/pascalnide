@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
+import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -8,7 +9,6 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -21,9 +21,9 @@ public class ArrayBoxer extends DebuggableReturnsValue {
     public ArgumentType type;
     public LineInfo line;
 
-    public ArrayBoxer(ReturnsValue[] value, ArgumentType elementType,
+    public ArrayBoxer(ReturnsValue[] array, ArgumentType elementType,
                       LineInfo line) {
-        this.values = value;
+        this.values = array;
         this.type = elementType;
         this.line = line;
     }

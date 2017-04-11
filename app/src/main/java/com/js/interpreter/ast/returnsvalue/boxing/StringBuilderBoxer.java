@@ -1,5 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
+import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -9,19 +10,18 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class StringBuilderBoxer extends DebuggableReturnsValue {
-    ReturnsValue value;
+    private ReturnsValue value;
 
     public StringBuilderBoxer(ReturnsValue value) {
         this.value = value;
+        this.outputFormat = value.getOutputFormat();
     }
-
 
 
     @Override
