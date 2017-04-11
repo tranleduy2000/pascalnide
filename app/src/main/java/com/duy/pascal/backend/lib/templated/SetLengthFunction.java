@@ -2,6 +2,7 @@ package com.duy.pascal.backend.lib.templated;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalPlugin;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
@@ -14,10 +15,10 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class SetLengthLib implements TemplatePascalPlugin {
+public class SetLengthFunction implements TemplatePascalPlugin {
 
-    private ArgumentType[] argumentTypes = {new RuntimeType(new ArrayType<>(
-                    BasicType.anew(Object.class), new SubrangeType(0, 0)), true),
+    private ArgumentType[] argumentTypes =
+            {new RuntimeType(new ArrayType<>(BasicType.anew(Object.class), new SubrangeType(0, 0)), true),
             new RuntimeType(BasicType.Integer, false)
     };
 

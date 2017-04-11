@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.templated;
+package com.duy.pascal.backend.lib.templated.abstract_class;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -59,7 +59,7 @@ public class TemplatePluginDeclaration extends AbstractFunction {
     @Override
     public FunctionCall generateCall(LineInfo line, List<ReturnsValue> values,
                                      ExpressionContext f) throws ParsingException {
-        ReturnsValue[] args = this.format_args(values, f);
+        ReturnsValue[] args = this.formatArgs(values, f);
         if (args == null) {
             return null;
         }

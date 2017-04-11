@@ -309,10 +309,13 @@ public abstract class GrouperToken extends Token {
             next = peek();
 
             if (next instanceof ParenthesizedToken) {
-                List<ReturnsValue> arguments = ((ParenthesizedToken) take())
-                        .get_arguments_for_call(context);
-                return FunctionCall.generateFunctionCall(name, arguments,
-                        context);
+                List<ReturnsValue> arguments;
+                if (name.name.equals("writeln")) {
+                    arguments = ((ParenthesizedToken) take()).getArgumentsForOutput(context);
+                } else {
+                    arguments = ((ParenthesizedToken) take()).getArgumentsForCall(context);
+                }
+                return FunctionCall.generateFunctionCall(name, arguments, context);
             } else {
                 return context.getIdentifierValue(name);
             }
@@ -512,7 +515,8 @@ public abstract class GrouperToken extends Token {
             //variable
             try {
                 return context.handleUnrecognizedStatement(next, this);
-            } catch (ParsingException ignored) {}
+            } catch (ParsingException ignored) {
+            }
 
             ReturnsValue variable = getNextExpression(context, next);
             next = peek();

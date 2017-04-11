@@ -36,11 +36,9 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public Object call(VariableContext parentContext, RuntimeExecutable<?> main, Object[] arguments)
+    public Object call(VariableContext parentContext,
+                       RuntimeExecutable<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-
-//        DebugManager.outputMethod(main.getDebugListener(), method);
-
         return method.invoke(parent, arguments);
     }
 

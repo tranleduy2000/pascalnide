@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.lib.templated;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalPlugin;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -8,9 +9,9 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class SetArrayLength implements TemplatePascalPlugin {
+public class SetArrayLengthFunction implements TemplatePascalPlugin {
 
-    SetLengthLib a = new SetLengthLib();
+    SetLengthFunction a = new SetLengthFunction();
 
     @Override
     public String name() {

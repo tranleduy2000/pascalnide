@@ -33,6 +33,7 @@ public class SetLengthCall extends FunctionCall {
         this.line = line;
     }
 
+
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return null;

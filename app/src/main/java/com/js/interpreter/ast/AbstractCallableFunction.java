@@ -40,7 +40,7 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
     @Override
     public FunctionCall generateCall(LineInfo line, List<ReturnsValue> values,
                                      ExpressionContext f) throws ParsingException {
-        ReturnsValue[] args = format_args(values, f);
+        ReturnsValue[] args = formatArgs(values, f);
         if (args == null) {
             return null;
         }

@@ -32,6 +32,7 @@ public class FieldAccess extends DebuggableReturnsValue {
         this(container, name.name, name.lineInfo);
     }
 
+
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         RuntimeType r = container.getType(f);

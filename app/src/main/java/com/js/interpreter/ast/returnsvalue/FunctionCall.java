@@ -22,16 +22,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
-
-    private static final String TAG = FunctionCall.class.getSimpleName();
-
+    protected static final String TAG = FunctionCall.class.getSimpleName();
+    protected ReturnsValue[] outputFormat;
     ReturnsValue[] arguments;
 
-    public static ReturnsValue generateFunctionCall(WordToken name,
-                                                    List<ReturnsValue> arguments, ExpressionContext f)
+    public static ReturnsValue generateFunctionCall(WordToken name, List<ReturnsValue> arguments,
+                                                    ExpressionContext expressionContext)
             throws ParsingException {
         List<List<AbstractFunction>> possibilities = new ArrayList<>();
-        f.getCallableFunctions(name.name.toLowerCase(), possibilities);
+        expressionContext.getCallableFunctions(name.name.toLowerCase(), possibilities);
 
         boolean matching = false;
         boolean perfectFit = false;
@@ -43,30 +42,30 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
 
         for (List<AbstractFunction> l : possibilities) {
             Log.d(TAG, "List<AbstractFunction> l: " + l.toString());
-            for (AbstractFunction a : l) {
+            for (AbstractFunction function : l) {
 
-                result = a.generatePerfectFitCall(name.lineInfo, arguments, f);
+                result = function.generatePerfectFitCall(name.lineInfo, arguments, expressionContext);
                 if (result != null) {
                     if (perfectFit) {
-                        throw new AmbiguousFunctionCallException(name.lineInfo, chosen, a);
+                        throw new AmbiguousFunctionCallException(name.lineInfo, chosen, function);
                     }
                     perfectFit = true;
-                    chosen = a;
+                    chosen = function;
                     returnsValue = result;
-                    Log.d(TAG, "generateFunctionCall: " + a.toString());
+                    Log.d(TAG, "generateFunctionCall: " + function.toString());
 //                    continue;
                     break;
                 }
-                result = a.generateCall(name.lineInfo, arguments, f);
+                result = function.generateCall(name.lineInfo, arguments, expressionContext);
                 if (result != null && !perfectFit) {
                     if (chosen != null) {
                         ambiguous = chosen;
                     }
-                    chosen = a;
+                    chosen = function;
                     if (returnsValue == null)
                         returnsValue = result;
                 }
-                if (a.getArgumentTypes().length == arguments.size()) {
+                if (function.getArgumentTypes().length == arguments.size()) {
                     matching = true;
                 }
             }
@@ -138,6 +137,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
             throws UnAssignableTypeException {
         throw new UnAssignableTypeException(r);
     }
+
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)

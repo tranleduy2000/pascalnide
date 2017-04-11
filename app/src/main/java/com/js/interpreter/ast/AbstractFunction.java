@@ -39,16 +39,15 @@ public abstract class AbstractFunction implements NamedEntity {
      * @return converted arguments, or null, if they do not fit.
      * @throws ParsingException
      */
-    public ReturnsValue[] format_args(List<ReturnsValue> values,
-                                      ExpressionContext f) throws ParsingException {
-        ArgumentType[] accepted_types = getArgumentTypes();
-        ReturnsValue[] result = new ReturnsValue[accepted_types.length];
+    public ReturnsValue[] formatArgs(List<ReturnsValue> values,
+                                     ExpressionContext expressionContext) throws ParsingException {
+        ArgumentType[] acceptedTypes = getArgumentTypes();
+        ReturnsValue[] result = new ReturnsValue[acceptedTypes.length];
         Iterator<ReturnsValue> iterator = values.iterator();
-        for (int i = 0; i < accepted_types.length; i++) {
-            result[i] = accepted_types[i].convertArgType(iterator, f);
-            if (result[i] == null) {/*
-                                     * This indicates that it cannot fit.
-									 */
+        for (int i = 0; i < acceptedTypes.length; i++) {
+            result[i] = acceptedTypes[i].convertArgType(iterator, expressionContext);
+            if (result[i] == null) {
+                //This indicates that it cannot fit.
                 return null;
             }
         }

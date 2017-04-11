@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.templated;
+package com.duy.pascal.backend.lib.templated.abstract_class;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;

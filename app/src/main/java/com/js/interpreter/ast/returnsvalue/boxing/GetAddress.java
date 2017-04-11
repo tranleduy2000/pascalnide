@@ -28,6 +28,9 @@ public class GetAddress extends DebuggableReturnsValue {
         setTarget = target.createSetValueInstruction(target);
     }
 
+
+
+
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(new PointerType(target.getType(f).declaredType),

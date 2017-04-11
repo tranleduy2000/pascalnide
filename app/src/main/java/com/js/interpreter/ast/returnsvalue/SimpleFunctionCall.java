@@ -1,5 +1,7 @@
 package com.js.interpreter.ast.returnsvalue;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
@@ -36,11 +38,33 @@ public class SimpleFunctionCall extends FunctionCall {
             throws RuntimePascalException {
         //clone value
         Object[] values = new Object[arguments.length];
-
         function.getArgumentTypes();
-        for (int i = 0; i < values.length; i++) {
-            values[i] = arguments[i].getValue(f, main);
+
+        //convert to string object
+        if (getFunctionName().equals("writeln")
+                || getFunctionName().equals("write")) {
+            Log.d(TAG, "getValueImpl: writeln");
+            for (int i = 0; i < values.length; i++) {
+                ReturnsValue rawValue = arguments[i];
+                ReturnsValue[] outputFormat = rawValue.getOutputFormat();
+                if (outputFormat != null) {
+                    Log.d(TAG, "getValueImpl: length" + outputFormat.length);
+                    if (outputFormat.length == 1) {
+                        if (outputFormat[0] != null) {
+                            Log.d(TAG, "getValueImpl: outputFormat[0]" + outputFormat[0].getValue(f, main));
+                        }
+                    } else if (outputFormat.length == 2) {
+
+                    }
+                }
+                values[i] = rawValue.getValue(f, main);
+            }
+        } else {
+            for (int i = 0; i < values.length; i++) {
+                values[i] = arguments[i].getValue(f, main);
+            }
         }
+
         Object result;
         try {
             result = function.call(f, main, values);
@@ -70,14 +94,12 @@ public class SimpleFunctionCall extends FunctionCall {
     @Override
     public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new SimpleFunctionCall(function,
-                compileTimeExpressionFoldArguments(context), line);
+        return new SimpleFunctionCall(function, compileTimeExpressionFoldArguments(context), line);
     }
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        return new SimpleFunctionCall(function,
-                compileTimeExpressionFoldArguments(c), line);
+        return new SimpleFunctionCall(function, compileTimeExpressionFoldArguments(c), line);
     }
 }

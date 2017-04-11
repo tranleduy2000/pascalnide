@@ -13,6 +13,7 @@ import com.js.interpreter.runtime.exception.UnhandledPascalException;
 public abstract class DebuggableExecutableReturnsValue implements Executable,
         ReturnsValue {
 
+    protected ReturnsValue[] outputFormat;
     private void checkStack(VariableContext f) throws StackOverflowException {
         if (f instanceof FunctionOnStack) {
             StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getLine());
@@ -21,42 +22,53 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         }
     }
 
-    /*@Override
-    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
-            throws RuntimePascalException {
-        checkStack(f);
-        try {
-            if (main != null) {
-                main.scriptControlCheck(getLine());
-            }
-            Object result = executeImpl(f, main);
-            //decrease stack
-            StackFunction.dec();
-            return result;
-        } catch (RuntimePascalException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLine(), e);
-        }
-    }
-
-    public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
-            throws RuntimePascalException;
 
     @Override
-    public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
-            throws RuntimePascalException { checkStack(f);
-        try {
-            ExecutionResult result = executeImpl(f, main);
-            //decrease stack
-            StackFunction.dec();
-            return result;
-        } catch (RuntimePascalException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLine(), e);
-        }
-    }*/
+    public void setOutputFormat(ReturnsValue[] formatInfo) {
+        this.outputFormat = formatInfo;
+    }
+
+    @Override
+    public ReturnsValue[] getOutputFormat() {
+       return outputFormat;
+    }
+
+    /*@Override
+            public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+                    throws RuntimePascalException {
+                checkStack(f);
+                try {
+                    if (main != null) {
+                        main.scriptControlCheck(getLine());
+                    }
+                    Object result = executeImpl(f, main);
+                    //decrease stack
+                    StackFunction.dec();
+                    return result;
+                } catch (RuntimePascalException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new UnhandledPascalException(this.getLine(), e);
+                }
+            }
+
+            public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+                    throws RuntimePascalException;
+
+            @Override
+            public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
+                    throws RuntimePascalException { checkStack(f);
+                try {
+                    ExecutionResult result = executeImpl(f, main);
+                    //decrease stack
+                    StackFunction.dec();
+                    return result;
+                } catch (RuntimePascalException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new UnhandledPascalException(this.getLine(), e);
+                }
+            }*/
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {

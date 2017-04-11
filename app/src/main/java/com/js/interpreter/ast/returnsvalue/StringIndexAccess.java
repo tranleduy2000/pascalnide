@@ -23,6 +23,7 @@ public class StringIndexAccess extends DebuggableReturnsValue {
         this.index = index;
     }
 
+
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(BasicType.Character, container.getType(f).writable);

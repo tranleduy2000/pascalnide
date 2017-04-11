@@ -19,6 +19,7 @@ public class CharBiOperatorEval extends BinaryOperatorEvaluation {
         super(operon1, operon2, operator, line);
     }
 
+
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         switch (operator_type) {

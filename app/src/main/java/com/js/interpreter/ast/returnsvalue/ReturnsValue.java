@@ -12,6 +12,16 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public interface ReturnsValue {
+    ReturnsValue[] getOutputFormat();
+
+    /**
+     * uses for output to console
+     *
+     * @param formatInfo formatInfo[0] : number column for display in the screen
+     *                   formatInfo[1] :  length of floating point if this variable is double
+     */
+    void setOutputFormat(ReturnsValue[] formatInfo);
+
     Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException;
 

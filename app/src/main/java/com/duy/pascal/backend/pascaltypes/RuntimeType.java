@@ -1,9 +1,9 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.boxing.GetAddress;
-import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Iterator;
@@ -36,11 +36,28 @@ public class RuntimeType implements ArgumentType {
     public boolean equals(Object obj) {
         if (obj instanceof RuntimeType) {
             RuntimeType other = (RuntimeType) obj;
-            return other.writable == this.writable
-                    && this.declaredType.equals(other.declaredType);
+            return other.writable == this.writable && this.declaredType.equals(other.declaredType);
         } else {
             return false;
         }
+    }
+
+    /**
+     * return <code>true</code> if this return string, integer, long, double, char
+     * otherwise return false
+     */
+    public boolean canOutputWithFormat(int index) {
+        if (index == 1) {
+            return declaredType.equals(BasicType.StringBuilder)
+                    || declaredType.equals(BasicType.Integer)
+                    || declaredType.equals(BasicType.Long)
+                    || declaredType.equals(BasicType.Character)
+                    || declaredType.equals(BasicType.Double);
+        } else if (index == 2) {
+            return declaredType.equals(BasicType.Double);
+        }
+        return false;
+
     }
 
     @Override

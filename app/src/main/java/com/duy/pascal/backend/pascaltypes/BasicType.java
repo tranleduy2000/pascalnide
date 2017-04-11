@@ -126,7 +126,6 @@ public enum BasicType implements DeclaredType {
             if (otherType.declaredType instanceof BasicType) {
                 if (this.equals(otherType.declaredType)) {
                     return new StringBuilderWithRangeType(valueToAssign, length);
-//                    return valueToAssign;
                 }
                 if (otherType.declaredType == BasicType.Character) {
                     return new CharacterBoxer(valueToAssign);

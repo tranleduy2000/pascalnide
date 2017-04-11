@@ -34,6 +34,7 @@ public class BoolBiOperatorEval extends BinaryOperatorEvaluation {
         return operate(value1, value2);
     }
 
+
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(BasicType.Boolean, false);

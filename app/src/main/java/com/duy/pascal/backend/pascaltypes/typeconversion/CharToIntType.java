@@ -20,6 +20,17 @@ public class CharToIntType implements ReturnsValue {
         this.other = other;
     }
 
+
+    @Override
+    public void setOutputFormat(ReturnsValue[] formatInfo) {
+
+    }
+
+    @Override
+    public ReturnsValue[] getOutputFormat() {
+        return new ReturnsValue[0];
+    }
+
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {

@@ -36,6 +36,8 @@ public class ConstantAccess extends DebuggableReturnsValue {
         return constant_value.toString();
     }
 
+
+
     @Override
     public RuntimeType getType(ExpressionContext f) {
         return new RuntimeType(BasicType.anew(constant_value.getClass()), false);

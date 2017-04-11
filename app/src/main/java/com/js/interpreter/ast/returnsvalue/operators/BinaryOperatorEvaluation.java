@@ -100,6 +100,7 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
     }
 
 
+
     @Override
     public LineInfo getLine() {
         return line;

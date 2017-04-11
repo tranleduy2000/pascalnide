@@ -27,6 +27,8 @@ public class CharacterBoxer extends DebuggableReturnsValue {
         return c.getLine();
     }
 
+
+
     @Override
     public RuntimeType getType(ExpressionContext f) {
         return new RuntimeType(BasicType.StringBuilder, false);

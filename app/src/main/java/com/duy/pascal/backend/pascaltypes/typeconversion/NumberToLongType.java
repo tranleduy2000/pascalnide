@@ -20,6 +20,20 @@ public class NumberToLongType implements ReturnsValue {
         this.other = other;
     }
 
+
+    protected ReturnsValue[] outputFormat;
+
+    @Override
+    public ReturnsValue[] getOutputFormat() {
+        return outputFormat;
+    }
+
+    @Override
+    public void setOutputFormat(ReturnsValue[] formatInfo) {
+        this.outputFormat = formatInfo;
+    }
+
+
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {

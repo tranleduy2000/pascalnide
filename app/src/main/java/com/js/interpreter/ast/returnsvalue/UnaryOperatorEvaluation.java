@@ -57,6 +57,9 @@ public class UnaryOperatorEvaluation extends DebuggableReturnsValue {
         return "operator [" + type + "] on [" + operon + ']';
     }
 
+
+
+
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return operon.getType(f);
