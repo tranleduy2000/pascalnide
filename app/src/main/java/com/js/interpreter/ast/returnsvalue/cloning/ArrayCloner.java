@@ -57,6 +57,10 @@ public class ArrayCloner<T> implements ReturnsValue {
     }
 
     @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+    @Override
     public SetValueExecutable createSetValueInstruction(ReturnsValue r)
             throws UnAssignableTypeException {
         throw new UnAssignableTypeException(this);

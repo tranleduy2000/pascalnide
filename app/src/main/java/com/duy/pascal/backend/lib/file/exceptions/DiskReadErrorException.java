@@ -22,7 +22,6 @@ public class DiskReadErrorException extends RuntimePascalException {
     }
 
     public DiskReadErrorException(String file) {
-        super(null);
         this.filePath = file;
     }
 

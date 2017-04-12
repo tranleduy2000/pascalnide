@@ -15,5 +15,7 @@ public class LibraryUtils {
         SUPPORT_LIB.add("dos");
         SUPPORT_LIB.add("math");
         SUPPORT_LIB.add("graph");
+        SUPPORT_LIB.add("strutils");
+        SUPPORT_LIB.add("sysutils");
     }
 }

@@ -13,6 +13,10 @@ public class RuntimePascalException extends Exception {
         this.line = line;
     }
 
+    public RuntimePascalException(String ms) {
+        super(ms);
+    }
+
     public RuntimePascalException(LineInfo line, String mes) {
         super(mes);
         this.line = line;

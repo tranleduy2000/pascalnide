@@ -14,14 +14,13 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class NumberToCharType implements ReturnsValue {
+    protected ReturnsValue[] outputFormat;
     ReturnsValue other;
+
 
     public NumberToCharType(ReturnsValue other) {
         this.other = other;
     }
-
-
-    protected ReturnsValue[] outputFormat;
 
     @Override
     public ReturnsValue[] getOutputFormat() {
@@ -73,5 +72,10 @@ public class NumberToCharType implements ReturnsValue {
     public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new NumberToCharType(other.compileTimeExpressionFold(context));
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
 }

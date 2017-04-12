@@ -13,7 +13,6 @@ public class FileNotAssignException extends RuntimePascalException {
 
 
     public FileNotAssignException(String filePath) {
-        super(null);
         this.filePath = filePath;
     }
 

@@ -46,6 +46,11 @@ public class StringBuilderCloner implements ReturnsValue {
     }
 
     @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+
+    @Override
     public LineInfo getLine() {
         return returnsValue.getLine();
     }

@@ -22,6 +22,10 @@ public class NumberToIntType implements ReturnsValue {
 
 
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
     protected ReturnsValue[] outputFormat;
 
     @Override

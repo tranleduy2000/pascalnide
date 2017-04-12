@@ -11,7 +11,6 @@ public class FileNotOpenForInputException extends RuntimePascalException {
     public String filePath;
 
     public FileNotOpenForInputException(String filePath) {
-        super(null);
         this.filePath = filePath;
     }
 

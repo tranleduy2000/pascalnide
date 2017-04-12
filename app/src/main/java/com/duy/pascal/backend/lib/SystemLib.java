@@ -204,9 +204,19 @@ public class SystemLib implements PascalLibrary {
         return (int) Math.floor(d);
     }
 
+
+    public int abs(int d) {
+        return Math.abs(d);
+    }
+
+    public long abs(long d) {
+        return Math.abs(d);
+    }
+
     public double abs(double d) {
         return Math.abs(d);
     }
+
 
     public int round(double d) {
         return (int) Math.round(d);

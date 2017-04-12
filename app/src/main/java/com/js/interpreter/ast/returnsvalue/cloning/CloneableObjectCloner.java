@@ -38,6 +38,10 @@ public class CloneableObjectCloner implements ReturnsValue {
         this.outputFormat = formatInfo;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)

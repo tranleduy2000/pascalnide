@@ -6,7 +6,7 @@ import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
-import com.duy.pascal.backend.lib.MathLib;
+import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;

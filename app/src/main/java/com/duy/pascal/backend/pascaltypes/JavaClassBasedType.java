@@ -1,14 +1,14 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import com.duy.pascal.backend.exceptions.NonArrayIndexed;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
+import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
 import com.js.interpreter.ast.returnsvalue.boxing.StringBuilderBoxer;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
-import com.duy.pascal.backend.exceptions.NonArrayIndexed;
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
-import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
 
 import java.util.List;
 
@@ -32,6 +32,11 @@ public class JavaClassBasedType implements DeclaredType {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return c.getSimpleName();
     }
 
     @Override

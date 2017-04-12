@@ -40,6 +40,10 @@ public class AnyToStringType implements ReturnsValue {
     }
 
     @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+    @Override
     public RuntimeType getType(ExpressionContext f)
             throws ParsingException {
         return new RuntimeType(BasicType.anew(String.class), false);

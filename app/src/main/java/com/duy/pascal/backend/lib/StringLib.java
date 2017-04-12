@@ -29,25 +29,6 @@ public class StringLib implements PascalLibrary {
         return stringBuilder;
     }
 
-    /**
-     * function copy in Pascal
-     *
-     * @param s     - source string
-     * @param ifrom - start index
-     * @param count - count
-     * @return
-     */
-    public static StringBuilder copy(String s, int ifrom, int count) {
-        System.out.println("copy" + s + " " + ifrom + " " + count);
-        return new StringBuilder(s.subSequence(ifrom - 1, ifrom - 1 + count));
-    }
-
-
-    public static void delete(VariableBoxer<StringBuilder> s, int start, int count)
-            throws RuntimePascalException {
-        s.set(s.get().delete(start - 1, start + count - 1));
-    }
-
     public static int pos(String substring, String s) {
         return s.indexOf(substring) + 1;
     }
@@ -57,25 +38,24 @@ public class StringLib implements PascalLibrary {
         return s.length();
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
     public static String replace(String text, String tofind, String replacement) {
         return text.replaceAll("\\Q" + tofind, replacement);
     }
 
-
     public static boolean endswith(String suffix, String tosearch) {
         return tosearch.endsWith(suffix);
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 
     public static String findregex(String tosearch, String regex) {
         Pattern reg = Pattern.compile(regex);
@@ -167,7 +147,6 @@ public class StringLib implements PascalLibrary {
         return s.substring(0, count);
     }
 
-
     public static String md5(String s) throws NoSuchAlgorithmException {
         MessageDigest digester = MessageDigest.getInstance("MD5");
         digester.update(s.getBytes());
@@ -204,7 +183,6 @@ public class StringLib implements PascalLibrary {
     public static int posex(String tofind, String s, int startindex) {
         return s.indexOf("\\Q" + tofind, startindex);
     }
-
 
     public static int regexpos(String text, String regex) {
         Pattern p = Pattern.compile(regex);
@@ -326,6 +304,22 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    /**
+     * function copy in Pascal
+     *
+     * @param s     - source string
+     * @param ifrom - start index
+     * @param count - count
+     * @return
+     */
+    public static StringBuilder copy(String s, int ifrom, int count) {
+        return new StringBuilder(s.substring(ifrom - 1, ifrom - 1 + count));
+    }
+
+    public static void delete(VariableBoxer<StringBuilder> s, int start, int count)
+            throws RuntimePascalException {
+        s.set(s.get().delete(start - 1, start + count - 1));
+    }
 
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {

@@ -24,6 +24,10 @@ public class NumberToRealType implements ReturnsValue {
     }
 
     @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+    @Override
     public ReturnsValue[] getOutputFormat() {
         return outputFormat;
     }

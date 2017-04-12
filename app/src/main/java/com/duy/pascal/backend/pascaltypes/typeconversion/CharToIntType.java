@@ -27,6 +27,10 @@ public class CharToIntType implements ReturnsValue {
     }
 
     @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+    @Override
     public ReturnsValue[] getOutputFormat() {
         return new ReturnsValue[0];
     }

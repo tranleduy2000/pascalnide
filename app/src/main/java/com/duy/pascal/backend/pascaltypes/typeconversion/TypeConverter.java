@@ -16,6 +16,10 @@ public class TypeConverter {
         precedence.put(Double.class, 3);
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
     public static ReturnsValue autoConvert(BasicType outtype,
                                            ReturnsValue target, BasicType intype) {
         if (intype == outtype) {

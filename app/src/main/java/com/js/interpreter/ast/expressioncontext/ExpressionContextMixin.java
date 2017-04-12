@@ -14,12 +14,14 @@ import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
-import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.LibraryUtils;
-import com.duy.pascal.backend.lib.MathLib;
+import com.duy.pascal.backend.lib.math.MathLib;
+import com.duy.pascal.backend.lib.StrUtilsLibrary;
 import com.duy.pascal.backend.lib.StringLib;
+import com.duy.pascal.backend.lib.SysUtilsLibrary;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
+import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
@@ -195,7 +197,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         } else if (next instanceof UsesToken) {
             i.take();
             ArrayList<String> listLib = new ArrayList<>();
-            int count = 0;
             do {
                 next = i.take();
                 if (!(next instanceof WordToken)) {
@@ -212,7 +213,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 } else {
                     i.assert_next_comma();
                 }
-                count++;
             } while (true);
             i.assertNextSemicolon();
             loadLibrary(listLib);
@@ -294,6 +294,12 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 classes.add(MathLib.class);
             } else if (name.equalsIgnoreCase("graph")) {
                 classes.add(GraphLib.class);
+            } else if (name.equalsIgnoreCase("graph")) {
+                classes.add(GraphLib.class);
+            } else if (name.equalsIgnoreCase("strutils")) {
+                classes.add(StrUtilsLibrary.class);
+            } else if (name.equalsIgnoreCase("sysutils")) {
+                classes.add(SysUtilsLibrary.class);
             }
         }
 
