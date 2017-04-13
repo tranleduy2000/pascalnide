@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="expected_token">Bol oèakávaný tento názov:</string>
-    <string name="expected_token_2">Bol oèakávaný tento názov:</string>
-    <string name="not_define_msg">nie je premenná alebo názov funkcie</string>
     <string name="bad_function_msg1">"Jeden alebo viac argumentov má pri volaní funkcie nesprávny typ "</string>
     <string name="bad_function_msg2">"Funkcii bolo odovzdaných príliš málo alebo príliš ve¾a argumentov "</string>
     <string name="can_not_call_func">Nemožno vola  funkciu</string>
     <string name="func_not_define">" , ktorá nie je definovaná."</string>
     <string name="multi_define_main">Viacero definícii hlavnej</string>
-    <string name="MISMATCHED_PARENTHESES">Nesprávne zadané okrúhle zátvorky</string>
-    <string name="MISMATCHED_BRACKETS">Nesprávne zadané zátvorky</string>
-    <string name="MISMATCHED_BEGIN_END">Nesprávne zadaná konštrukcia begin - end </string>
+
     <string name="EXTRA_END">Vo Vašom programe sa nachádza jedno prebytoèné \'end\' </string>
     <string name="IO_EXCEPTION">Pri èítaní vstupu sa vyskytla IOException </string>
     <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
@@ -20,16 +16,8 @@
     Prvý argument je typu \"%4$s\" a druhý je typu \"%5$s\"</string>
     <string name="BadOperationTypeException2">Operácia \"%1$s\" nie je unárna operácia</string>
     <string name="ConstantCalculationException">Chyba pri vypoèítavaní konštantnej hodnoty: %1$s</string>
-    <string name="DivisionByZeroException">Delenie nulou</string>
-    <string name="ExpectedAnotherTokenException">Oèakáva sa da¾ší názov pred ukonèením tejto konštrukcie.</string>
-    <string name="ExpectedTokenException">Oèakával sa tento názov: %1$s .\nNamiesto toho tam bol tento názov: %2$s</string>
-    <string name="IncompatableFunctionDeclaration">Deklarácia funkcie deklaruje konfliktný typ výstupu %1$s. Predtým bol definovaný ako %2$s</string>
-    <string name="InputStreamNotFoundException">Vstupný prúd nebol nájdený exception</string>
     <string name="LibraryNotFoundException">Nemožno nájs  knižnicu %1$s</string>
-    <string name="MainProgramNotFoundException">Hlavný program nenájdený.</string>
-    <string name="MisplacedDeclarationException">Definícia %1$s tu nie je vhodná: %2$s</string>
     <string name="MultipleDefaultValuesException">Východiskové hodnoty môžu by  použité len pri deklarácii jednej premennej naraz.</string>
-    <string name="MultipleDefinitionsMainException">Je definovaných príliš ve¾a hlavných programov</string>
     <string name="NonArrayIndexed">Pokus použi  indexy na nieèom, èo nie je array ani string, ale %1$s</string>
     <string name="NonConstantExpressionException">Výraz %1$s nie je konštantný.</string>
     <string name="NonIntegerIndexException">Indexy po¾a musia by  typu integer: %1$s</string>
@@ -38,30 +26,29 @@
     <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
     <string name="SameNameException">%1$s %2$s je v rozpore s predtým definovanou %3$s s rovnakým názvom definovaným na %4$s</string>
     <string name="UnAssignableTypeException">Výraz %1$s nemôže ma  priradenú hodnotu.</string>
-    <string name="UnconvertibleTypeException" formatted="false">Výraz alebo premenná %1$s je typu %2$s ktorý nemôže by  %3$s konvertovaný na typ %4$s </string>
-    <string name="UnrecognizedTokenException">Nasledujúci názov sem nepatrí: %1$s</string>
     <string name="UnrecognizedTypeException">Typ %1$s nie je definovaný.</string>
     <string name="PascalArithmeticException">Arithmetic Exception: %1$s</string>
-    <string name="ScriptTerminatedException">Program bol manuálne ukonèený skôr ako sa mohol vykona </string>
 
-    <string name="WrongArgsException">Wrong Args Exception</string>
-    <string name="WrongTypeInputException">Nesprávny typ vstupu</string>
-    <string name="UnhandledPascalException">Pascal aritmetická chyba</string>
-    <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
     <string name="PluginCallException">Pascal aritmetická chyba</string>
-    <string name="RuntimePascalException">Pascal aritmetická chyba</string>
-    <string name="InternalInterpreterException">InternalInterpreterException</string>
-    <string name="PluginReflectionException">Pokus použi  reflexiu pri: %1$s</string>
-    <string name="ZeroLengthVariableException">Nulová dåžka premennej</string>
-    <string name="OperationNotSupportedException">Operácia nepodporovaná</string>
-    <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
 
-    <string name="DiskReadErrorException">Chyba pri èítaní disku</string>
-    <string name="FileNotAssignException">Súbor nepriradený</string>
-    <string name="FileNotFoundException">Súbor nenájdený</string>
-    <string name="FileNotOpenException">Súbor neotvorený</string>
-    <string name="FileNotOpenForInputException">Súbor neotvorený kvôli chybe vo vstupe</string>
-    <string name="CanNotReadVariableException">Nemožno preèíta  premennú tohoto typu</string>
-    <string name="RangeCheckError">1. Pole bolo dosiahnuté indexom mimo jeho definovaného rozsahu.\n
-        2. Pokus priradi  hodnotu premennej mimo jeho rozsahu (napríklad pri vymenovanom type).</string>
+    <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
+    <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
+    <string name="FileNotFoundException">Reported when trying to erase, rename or open a non-existent file.</string>
+    <string name="FileNotOpenException">Reported by the following functions : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite if the file is not open.</string>
+    <string name="FileNotOpenForInputException">Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.</string>
+
+    <string name="DivisionByZeroException">The application attempted to divide a number by zero.</string>
+
+    <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
+    <string name="NonIntegerException">Value must be integers: %1$s</string>
+    <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
+
+    <string name="UNFINISHED_BEGIN_END">Unfinished begin - end construct</string>
+    <string name="UNFINISHED_PARENTHESES">You forgot to close your parentheses</string>
+    <string name="UNFINISHED_BRACKETS">You forgot to close your brackets</string>
+    <string name="MISSING_INCLUDE">Missing file to include</string>
+    <string name="NEWLINE_IN_QUOTES">You must close your quotes before starting a new line</string>
+    <string name="MISMATCHED_PARENTHESES">Nesprávne zadané okrúhle zátvorky</string>
+    <string name="MISMATCHED_BRACKETS">Nesprávne zadané zátvorky</string>
+    <string name="MISMATCHED_BEGIN_END">Nesprávne zadaná konštrukcia begin - end </string>
 </resources>

@@ -3,11 +3,11 @@ package com.duy.pascal.backend.lib.io;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
+import com.duy.pascal.backend.lib.exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.exception.WrongTypeInputException;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
@@ -239,7 +239,7 @@ public class IOLib implements PascalLibrary {
         try {
             variableBoxer.set(scanner.nextInt());
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException();
+            throw new InvalidNumericFormatException("read variable");
         }
     }
 
@@ -248,7 +248,7 @@ public class IOLib implements PascalLibrary {
         try {
             variableBoxer.set(scanner.nextLong());
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException();
+            throw new InvalidNumericFormatException("read variable");
         }
     }
 
@@ -256,7 +256,7 @@ public class IOLib implements PascalLibrary {
         try {
             variableBoxer.set(scanner.nextDouble());
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException();
+            throw new InvalidNumericFormatException("read variable");
         }
     }
 
@@ -292,7 +292,7 @@ public class IOLib implements PascalLibrary {
             } else if (variableBoxer.get() instanceof Double) {
                 readDouble(scanner, variableBoxer);
             } else {
-                throw new WrongTypeInputException();
+                throw new CanNotReadVariableException();
             }
         }
     }

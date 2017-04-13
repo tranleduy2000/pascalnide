@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="IO_EXCEPTION">IOException при чтении входных данных</string>
-    <string name="INCOMPLETE_CHAR">Неполный символьный литерал</string>
     <string name="MISMATCHED_BEGIN_END">Несогласованная конструкция begin-end</string>
     <string name="MISMATCHED_BRACKETS">Несогласованные скобки</string>
     <string name="MISMATCHED_PARENTHESES">Несогласованные круглые скобки</string>
@@ -11,58 +10,46 @@
     <string name="func_not_define">" , который не определен."</string>
     <string name="multi_define_main">Несколько основных определений</string>
     <string name="main_program_not_define">Основная программа не найдена</string>
-    <string name="not_define_msg">не является именем, переменной или функции</string>
     <string name="expected_token">Ожидается, появление следующего токена:</string>
     <string name="expected_token_2">Ожидается, появление следующего токена:</string>
     <string name="token_not_belong">"Следующий токен, неуместен здесь: "</string>
-    <string name="EXTRA_END">"У Вас есть дополнительный 'end' в программе"</string>
-
 
     <string name="BadOperationTypeException">Оператор \"%1$s\" не может применяться к аргументам \"%2$s\" и \"%3$s\".\n
     У одного тип \"%4$s\", а у другого \"%5$s\"</string>
     <string name="BadOperationTypeException2">Оператор \"%1$s\" не является унарным оператором</string>
     <string name="ConstantCalculationException">Ошибка при вычислении постоянного значения: %1$s</string>
-    <string name="DivisionByZeroException">Деление на ноль</string>
-    <string name="ExpectedAnotherTokenException">Другой токен ожидается до конца этой конструкции.</string>
-    <string name="ExpectedTokenException">Ожидается появление следующего токена: %1$s.\Использовался следующий токен: %2$s</string>
-    <string name="IncompatableFunctionDeclaration">Объявление функции объявляет конфликтный тип возвращаемого значения %1$s. Ранее он был определен как %2$s</string>
-    <string name="InputStreamNotFoundException">Исключение входящего потока не найдено</string>
     <string name="LibraryNotFoundException">Не удается найти библиотеку %1$s</string>
-    <string name="MainProgramNotFoundException">Основная программа не найдена</string>
-    <string name="MisplacedDeclarationException">Определение %1$s не подходит здесь: %2$s</string>
     <string name="MultipleDefaultValuesException">Значения по умолчанию могут использоваться только при объявлении переменных (один за раз).</string>
-    <string name="MultipleDefinitionsMainException">Слишком много основных программ.</string>
     <string name="NonArrayIndexed">Пытался сделать индексированный доступ на том, что не было массивом или строкой. Это %1$s</string>
     <string name="NonConstantExpressionException">Выражение %1$s не является константой.</string>
     <string name="NonIntegerIndexException">Индексы массивов должны быть целыми: %1$s</string>
     <string name="NoSuchFunctionOrVariableException">%1$s не является именем переменной или функции</string>
     <string name="NotAStatementException">%1$s не является инструкцией.</string>
-    <string name="OperationNotSupportedException">OperationNotSupportedException</string>
-    <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
     <string name="OverridingFunctionException">Переопределение тела функции для %1$s, которое было ранее определено в %1$s</string>
     <string name="SameNameException">%1$s %2$s конфликтуют с ранее определённым %3$s с тем же именем, определённым в %4$s</string>
     <string name="UnAssignableTypeException">Выражение %1$s не может иметь назначенного ему значения.</string>
-    <string name="UnconvertibleTypeException" formatted="false">Выражение или переменная %1$s имеет тип %2$s, который не может быть %3$s конвертирован в %4$s </string>
-    <string name="UnrecognizedTokenException">Следующий токен не должен быть здесь: %1$s</string>
     <string name="UnrecognizedTypeException">Тип %1$s не определён.</string>
-    <string name="WrongArgsException">WrongArgsException</string>
-    <string name="WrongTypeInputException">WrongTypeInputException</string>
     <string name="PascalArithmeticException">Арифметическое исключение: %1$s</string>
-    <string name="UnhandledPascalException">PascalArithmeticException</string>
-    <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
     <string name="PluginCallException">PascalArithmeticException</string>
-    <string name="RuntimePascalException">PascalArithmeticException</string>
-    <string name="ScriptTerminatedException">Скрипт был остановлен вручную, прежде чем  завершил своё выполнение</string>
-    <string name="InternalInterpreterException">InternalInterpreterException</string>
-    <string name="PluginReflectionException">Попытка использовать отражение, когда: %1$s</string>
-    <string name="ZeroLengthVariableException">ZeroLengthVariableException</string>
 
-    <string name="DiskReadErrorException">Disk Read Error Exception</string>
-    <string name="FileNotAssignException">File Not Assign Exception</string>
-    <string name="FileNotFoundException">File Not Found Exception</string>
-    <string name="FileNotOpenException">File Not Open Exception</string>
-    <string name="FileNotOpenForInputException">File Not Open For Input Exception</string>
-    <string name="CanNotReadVariableException">Can not read variable of this type</string>
-    <string name="RangeCheckError">1. An array was accessed with an index outside its declared range.\n
-        2. Trying to assign a value to a variable outside its range (for instance an enumerated type).</string>
+    <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
+    <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
+    <string name="FileNotFoundException">Reported when trying to erase, rename or open a non-existent file.</string>
+    <string name="FileNotOpenException">Reported by the following functions : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite if the file is not open.</string>
+    <string name="FileNotOpenForInputException">Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.</string>
+
+    <string name="DivisionByZeroException">The application attempted to divide a number by zero.</string>
+
+    <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
+    <string name="NonIntegerException">Value must be integers: %1$s</string>
+    <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
+    <string name="EXTRA_END">У Вас есть дополнительный \'end\' в программе</string>
+
+    <string name="UNFINISHED_BEGIN_END">Unfinished begin - end construct</string>
+    <string name="UNFINISHED_PARENTHESES">You forgot to close your parentheses</string>
+    <string name="UNFINISHED_BRACKETS">You forgot to close your brackets</string>
+    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
+    <string name="MISSING_INCLUDE">Missing file to include</string>
+    <string name="NEWLINE_IN_QUOTES">You must close your quotes before starting a new line</string>
+
 </resources>

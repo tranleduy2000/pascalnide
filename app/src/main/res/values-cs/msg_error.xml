@@ -1,67 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="expected_token">Byl o�ek�v�n tento n�zev:</string>
-    <string name="expected_token_2">Byl o�ek�v�n tento n�zev:</string>
-    <string name="not_define_msg">nen� prom�nn� nebo n�zev funkce</string>
-    <string name="bad_function_msg1">"Jeden nebo v�ce argument� m� p�i vol�n� funkce nespr�vn� typ "</string>
-    <string name="bad_function_msg2">"Funkcii bylo odevzdan�ch p��li� m�lo nebo p��li� mnoho argument�"</string>
+    <string name="expected_token">Byl očekáván tento název:</string>
+
+    <string name="bad_function_msg1">"Jeden nebo více argumentů má při volání funkce nesprávný typ "</string>
+    <string name="bad_function_msg2">"Funkcii bylo odevzdaných příliš málo nebo příliš mnoho argumentů"</string>
     <string name="can_not_call_func">Nelze volat funkcii</string>
-    <string name="func_not_define">" , kter� nen� definovan�."</string>
-    <string name="multi_define_main">V�ce definic� hlavn�</string>
-    <string name="MISMATCHED_PARENTHESES">Nespr�vn� zadan� kulat� z�vorky</string>
-    <string name="MISMATCHED_BRACKETS">Nespr�vn� zadan� z�vorky</string>
-    <string name="MISMATCHED_BEGIN_END">Nespr�vn� zadan� konstrukce begin - end </string>
-    <string name="EXTRA_END">Ve Va�em programu se nach�z� jedno p�ebyte�n� \'end\' </string>
-    <string name="IO_EXCEPTION">P�i �ten� vstupu se vyskytla IOException </string>
-    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
-    <string name="token_not_belong">"Nasleduj�c� n�zev sem nepat��: "</string>
-    <string name="main_program_not_define">Hlavn� program nenalezen</string>
-    <string name="BadOperationTypeException">Operace \"%1$s\" nem��e b�t aplikovan� argumentem \"%2$s\" a \"%3$s\".\n
-    Prvn� argument je typu \"%4$s\" a druh� je typu \"%5$s\"</string>
-    <string name="BadOperationTypeException2">Operace \"%1$s\" nen� un�rn� operace</string>
-    <string name="ConstantCalculationException">Chyba p�i v�po�tu konstantn� hodnoty: %1$s</string>
-    <string name="DivisionByZeroException">D�len� nulou</string>
-    <string name="ExpectedAnotherTokenException">O�ek�va se dal�� n�zev p�ed ukon�en�m t�to konstrukce.</string>
-    <string name="ExpectedTokenException">O�ek�val se tento n�zev: %1$s .\nNam�sto toho tam byl tento n�zev: %2$s</string>
-    <string name="IncompatableFunctionDeclaration">Deklarace funkce deklaruje konfliktn� typ v�stupu %1$s. P�edt�m byl definov�n jako %2$s</string>
-    <string name="InputStreamNotFoundException">Vstupn� proud nebyl nalezen exception</string>
-    <string name="LibraryNotFoundException">Nelze naj�t knihovnu %1$s</string>
-    <string name="MainProgramNotFoundException">Hlavn� program nenalezen.</string>
-    <string name="MisplacedDeclarationException">Definice %1$s tady nen� vhodn�: %2$s</string>
-    <string name="MultipleDefaultValuesException">V�chodiskov� hodnoty mohou b�t pou�it� jen p�i deklaraci jedn� promn�nn� najednou.</string>
-    <string name="MultipleDefinitionsMainException">Je definovan�ch p��li� mnoho hlavn�ch program�</string>
-    <string name="NonArrayIndexed">Pokus pou��t indexy na n��em, co nen� array ani string, ale %1$s</string>
-    <string name="NonConstantExpressionException">V�raz %1$s nen� konstantn�.</string>
-    <string name="NonIntegerIndexException">Indexy pole mus� b�t typu integer: %1$s</string>
-    <string name="NoSuchFunctionOrVariableException">%1$s nen� prom�nn� ani n�zev funkce</string>
-    <string name="NotAStatementException">%1$s nen� samostatn� p��kaz.</string>
+    <string name="func_not_define">" , která není definovaná."</string>
+    <string name="multi_define_main">Více definicí hlavní</string>
+    <string name="token_not_belong">"Nasledující název sem nepatří: "</string>
+    <string name="main_program_not_define">Hlavní program nenalezen</string>
+    <string name="BadOperationTypeException">Operace \"%1$s\" nemůže být aplikovaná argumentem \"%2$s\" a \"%3$s\".\n
+    První argument je typu \"%4$s\" a druhý je typu \"%5$s\"</string>
+    <string name="BadOperationTypeException2">Operace \"%1$s\" není unární operace</string>
+    <string name="ConstantCalculationException">Chyba při výpočtu konstantní hodnoty: %1$s</string>
+    <string name="LibraryNotFoundException">Nelze najít knihovnu %1%s</string>
+    <string name="MultipleDefaultValuesException">Východiskové hodnoty mohou být použité jen při deklaraci jedné promněnné najednou.</string>
+    <string name="NonArrayIndexed">Pokus použít indexy na něčem, co není array ani string, ale %1$s</string>
+    <string name="NonConstantExpressionException">Výraz %1$s není konstantní.</string>
+    <string name="NonIntegerIndexException">Indexy pole musí být typu integer: %1$s</string>
+    <string name="NoSuchFunctionOrVariableException">%1$s není proměnná ani název funkce</string>
+    <string name="NotAStatementException">%1$s není samostatní příkaz.</string>
     <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
-    <string name="SameNameException">%1$s %2$s je v rozporu s p�edt�m definovanou %3$s s rovnak�m n�zvem definovan�m na %4$s</string>
-    <string name="UnAssignableTypeException">V�raz %1$s nem��e m�t p�i�azenou hodnotu.</string>
-    <string name="UnconvertibleTypeException" formatted="false">V�raz nebo prom�nn� %1$s je typu %2$s kter� nem��e b�t %3$s konvertovan� na typ %4$s </string>
-    <string name="UnrecognizedTokenException">Nasleduj�c� n�zev sem nepat��: %1$s</string>
-    <string name="UnrecognizedTypeException">Typ %1$s nen� definov�n.</string>
-    <string name="PascalArithmeticException">Arithmetic Exception: %1$s</string>
-    <string name="ScriptTerminatedException">Program byl manu�lne ukon�en d��v ne� se mohl vykonat</string>
+    <string name="SameNameException">%1$s %2$s je v rozporu s předtím definovanou %3$s s rovnakým názvem definovaným na %4$s</string>
+    <string name="UnAssignableTypeException">Výraz %1$s nemůže mít přiřazenou hodnotu.</string>
+    <string name="UnrecognizedTypeException">Typ %1$s není definován.</string>
+    <string name="PascalArithmeticException">Arithmetic Exception: %1%s</string>
 
-    <string name="WrongArgsException">Wrong Args Exception</string>
-    <string name="WrongTypeInputException">Nespr�vn� typ vstupu</string>
-    <string name="UnhandledPascalException">Pascal aritmetick� chyba</string>
-    <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
-    <string name="PluginCallException">Pascal aritmetick� chyba</string>
-    <string name="RuntimePascalException">>Pascal Arithmetic Exception</string>Pascal aritmetick� chyba/string>
-    <string name="InternalInterpreterException">InternalInterpreterException</string>
-    <string name="PluginReflectionException">Pokus pou��t reflexi p�i: %1$s</string>
-    <string name="ZeroLengthVariableException">Nulov� d�lka prom�nn�</string>
-    <string name="OperationNotSupportedException">Operace nepodporov�na</string>
-    <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
+    <string name="PluginCallException">Pascal aritmetická chyba</string>
 
-    <string name="DiskReadErrorException">Chyba p�i �ten� disku</string>
-    <string name="FileNotAssignException">Soubor nep�i�azen�</string>
-    <string name="FileNotFoundException">Soubor nenalezen</string>
-    <string name="FileNotOpenException">Soubor neotev�en</string>
-    <string name="FileNotOpenForInputException">Soubor neotev�en kv�li chyb� ve vstupu</string>
-    <string name="CanNotReadVariableException">Nemo�no p�e��st prom�nnou tohoto typu</string>
-    <string name="RangeCheckError">1. Pole bylo dos�hnuto indexem mimo jeho definovan�ho rozsahu.\n
-        2. Pokus p�i�adit hodnotu prom�nn� mimo jeho rozsahu (nap��klad p�i v��tov�m typu).</string>
+    <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
+    <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
+    <string name="FileNotFoundException">Reported when trying to erase, rename or open a non-existent file.</string>
+    <string name="FileNotOpenException">Reported by the following functions : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite if the file is not open.</string>
+    <string name="FileNotOpenForInputException">Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.</string>
+
+    <string name="DivisionByZeroException">The application attempted to divide a number by zero.</string>
+
+    <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
+    <string name="NonIntegerException">Value must be integers: %1$s</string>
+    <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
+
+    <string name="MISMATCHED_PARENTHESES">Mismatched parentheses</string>
+    <string name="MISMATCHED_BRACKETS">Mismatched brackets</string>
+    <string name="MISMATCHED_BEGIN_END">Mismatched begin - end construct</string>
+    <string name="UNFINISHED_BEGIN_END">Unfinished begin - end construct</string>
+    <string name="UNFINISHED_PARENTHESES">You forgot to close your parentheses</string>
+    <string name="UNFINISHED_BRACKETS">You forgot to close your brackets</string>
+    <string name="EXTRA_END">You have an extra \'end\' in your program</string>
+    <string name="IO_EXCEPTION">IOException occurred while reading the input</string>
+    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
+    <string name="MISSING_INCLUDE">Missing file to include</string>
+    <string name="NEWLINE_IN_QUOTES">You must close your quotes before starting a new line</string>
 </resources>

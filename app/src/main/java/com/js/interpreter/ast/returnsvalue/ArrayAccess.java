@@ -12,7 +12,7 @@ import com.js.interpreter.ast.instructions.SetArray;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
-import com.js.interpreter.runtime.exception.PascalIndexOutOfBoundsException;
+import com.js.interpreter.runtime.exception.IndexOutOfBoundsException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
@@ -65,7 +65,7 @@ public class ArrayAccess extends DebuggableReturnsValue {
         try {
             return Array.get(cont, ind - offset);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new PascalIndexOutOfBoundsException(this.getLine(),
+            throw new IndexOutOfBoundsException(this.getLine(),
                     ind, offset, offset + ((Object[]) cont).length - 1);
         }
     }

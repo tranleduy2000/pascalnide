@@ -129,6 +129,7 @@
     <string name="Idel">Idel</string>
     <string name="KFT2">KFT2</string>
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
-    <string name="source_code_pro">Source Code Pro</string>
+    <string name="expected_token_2">" There was the following name:"</string>
+
 </resources>
 

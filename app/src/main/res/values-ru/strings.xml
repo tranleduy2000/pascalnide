@@ -107,7 +107,6 @@
     <string name="inp_file">Файл Inp</string>
 
 
-    <string name="source_code_pro">Исходный код Pro</string>
     <string name="text_color_console">Цвет текста</string>
     <string name="translate">Перевод</string>
     <string name="frame_rate">Частота кадров</string>
@@ -125,4 +124,5 @@
     <string name="send_mail">Отправить письмо…</string>
     <string name="no_mail_clients">Нет установленных почтовых клиентов.</string>
     <string name="your_languague">Твой язык</string>
+
 </resources>

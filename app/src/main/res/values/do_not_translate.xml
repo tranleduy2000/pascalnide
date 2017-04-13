@@ -54,6 +54,5 @@
     <string name="key_console_font_size" translatable="false">key_console_font_size</string>
 
     <string name="tab" translatable="false">tab</string>
-
     <string name="copy_right" translatable="false">Copyright © 2016–2017 by Trần Lê Duy\nAll right reserver</string>
 </resources>

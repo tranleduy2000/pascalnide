@@ -6,7 +6,7 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
-import com.js.interpreter.runtime.exception.PascalIndexOutOfBoundsException;
+import com.js.interpreter.runtime.exception.IndexOutOfBoundsException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
@@ -37,8 +37,8 @@ public class SetArray implements SetValueExecutable {
         Object v = val.getValue(f, main);
         try {
             Array.set(cont, ind - offset, v);
-        } catch (IndexOutOfBoundsException e) {
-            throw new PascalIndexOutOfBoundsException(this.getLine(),
+        } catch (java.lang.IndexOutOfBoundsException e) {
+            throw new IndexOutOfBoundsException(this.getLine(),
                     ind, offset, offset + ((Object[]) cont).length + offset - 1);
         }
         return ExecutionResult.NONE;

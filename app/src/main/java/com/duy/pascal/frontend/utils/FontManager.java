@@ -45,7 +45,7 @@ public class FontManager {
                 return Typeface.MONOSPACE;
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_roboto))) {
                 return get(context, PATH_TO_FONT + "roboto.ttf");
-            } else if (name.equalsIgnoreCase(context.getString(R.string.source_code_pro))) {
+            } else if (name.equalsIgnoreCase(context.getString(R.string.font_source_code_pro))) {
                 return get(context, PATH_TO_FONT + "source_code_pro.ttf");
             } else if (name.equalsIgnoreCase("triple_bold.ttf")) {
                 return get(context, PATH_TO_FONT + "triple_bold.ttf");

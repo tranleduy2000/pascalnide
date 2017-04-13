@@ -4,7 +4,7 @@ import com.js.interpreter.ast.NamedEntity;
 
 public class SameNameException extends com.duy.pascal.backend.exceptions.ParsingException {
     public String type, name;
-    public String preType, preName;
+    public String preType, preLine;
 
     public SameNameException(NamedEntity previous, NamedEntity current) {
         super(current.getLine(), current.getEntityType() + " " + current.name()
@@ -14,6 +14,6 @@ public class SameNameException extends com.duy.pascal.backend.exceptions.Parsing
         this.type = current.getEntityType();
         this.name = current.name();
         this.preType = previous.getEntityType();
-        this.preName = previous.name();
+        this.preLine = previous.getLine().toString();
     }
 }

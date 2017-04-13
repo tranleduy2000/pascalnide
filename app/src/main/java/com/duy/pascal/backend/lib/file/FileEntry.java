@@ -83,7 +83,7 @@ class FileEntry {
         try {
             integer = scanner.nextInt();
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException();
+            throw new InvalidNumericFormatException("read file");
         }
 //        System.out.println("readln integer " + integer);
         return integer;
@@ -96,9 +96,8 @@ class FileEntry {
         try {
             l = scanner.nextLong();
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException();
+            throw new InvalidNumericFormatException("read file");
         }
-//        System.out.println("readLong " + l);
         return l;
     }
 
@@ -109,7 +108,7 @@ class FileEntry {
         try {
             d = scanner.nextDouble();
         } catch (InputMismatchException e) {
-            throw new InvalidNumericFormatException();
+            throw new InvalidNumericFormatException("read file");
         }
 //        System.out.println(d);
         return d;

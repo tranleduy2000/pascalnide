@@ -38,8 +38,11 @@ import com.duy.pascal.backend.lib.file.exceptions.FileException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
+import com.duy.pascal.backend.lib.exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.R;
 import com.google.firebase.crash.FirebaseCrash;
+import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
+import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.PluginCallException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
@@ -132,7 +135,7 @@ public class ExceptionManager {
             if (e instanceof SameNameException) {
                 SameNameException exception = (SameNameException) e;
                 return getMessageResource(e, R.string.SameNameException, exception.type,
-                        exception.name, exception.preType, exception.preName);
+                        exception.name, exception.preType, exception.preLine);
             }
             if (e instanceof UnAssignableTypeException) {
                 return getMessageResource(e, R.string.UnAssignableTypeException,
@@ -141,6 +144,15 @@ public class ExceptionManager {
             if (e instanceof UnrecognizedTypeException) {
                 return getMessageResource(e, R.string.UnrecognizedTypeException,
                         ((UnrecognizedTypeException) e).type);
+            }
+            if (e instanceof InvalidNumericFormatException) {
+                return getMessageResource(e, R.string.InvalidNumericFormatException);
+            }
+            if (e instanceof PascalArithmeticException) {
+                return getMessageResource(e, R.string.PascalArithmeticException, ((PascalArithmeticException) e).error.getMessage());
+            }
+            if (e instanceof CanNotReadVariableException) {
+                return getMessageResource(e, R.string.CanNotReadVariableException);
             }
             if (e instanceof OverridingFunctionException) {
                 if (!((OverridingFunctionException) e).isMethod) {
@@ -153,7 +165,7 @@ public class ExceptionManager {
             }
 
             if (e instanceof ParsingException) {
-                return new SpannableString(((ParsingException) e).line + "\n" + e.getMessage());
+                return new SpannableString(((ParsingException) e).line + "\n\n" + e.getMessage());
             }
 
             if (e instanceof DivisionByZeroException) {
