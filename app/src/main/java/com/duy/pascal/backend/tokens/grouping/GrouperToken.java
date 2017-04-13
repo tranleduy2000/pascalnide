@@ -10,6 +10,7 @@ import com.duy.pascal.backend.exceptions.NonIntegerException;
 import com.duy.pascal.backend.exceptions.NonIntegerIndexException;
 import com.duy.pascal.backend.exceptions.NotAStatementException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
@@ -409,13 +410,21 @@ public abstract class GrouperToken extends Token {
             for (WordToken s : names) {
                 VariableDeclaration v = new VariableDeclaration(s.name, type,
                         defaultValue, s.lineInfo);
-                context.verifyNonConflictingSymbol(v);
+                verifyNonConflictingSymbol(result, v);
                 result.add(v);
             }
             names.clear(); // reusing the list object
             next = peek();
         } while (next instanceof WordToken);
         return result;
+    }
+
+    private void verifyNonConflictingSymbol(List<VariableDeclaration> result, VariableDeclaration variable) throws SameNameException {
+        for (VariableDeclaration variableDeclaration : result) {
+            if (variableDeclaration.getName().equalsIgnoreCase(variable.getName())) {
+                throw new SameNameException(variableDeclaration, variable);
+            }
+        }
     }
 
     public ReturnsValue getSingleValue(ExpressionContext context)
