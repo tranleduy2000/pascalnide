@@ -239,9 +239,7 @@ public class FileLib implements PascalLibrary {
      */
     public void readln(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
-
         filesMap.get(fileVariable.getPath()).nextLine();
-
     }
 
     /**

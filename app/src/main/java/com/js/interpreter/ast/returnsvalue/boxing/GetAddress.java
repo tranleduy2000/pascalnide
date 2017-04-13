@@ -1,6 +1,7 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
 import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
+import com.duy.pascal.backend.exceptions.ChangeValueConstantException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -18,14 +19,18 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class GetAddress extends DebuggableReturnsValue {
-    final ReturnsValue target;
+    private final ReturnsValue target;
+    private final SetValueExecutable setTarget;
+    private LineInfo line;
 
-    final SetValueExecutable setTarget;
-    LineInfo line;
-
-    public GetAddress(ReturnsValue target) throws UnAssignableTypeException {
+    public GetAddress(ReturnsValue target) throws UnAssignableTypeException, ChangeValueConstantException {
         this.target = target;
-        setTarget = target.createSetValueInstruction(target);
+        try {
+            setTarget = target.createSetValueInstruction(target);
+        } catch (ChangeValueConstantException e) {
+            e.name = target.toString();
+            throw e;
+        }
         this.outputFormat = target.getOutputFormat();
     }
 
@@ -64,7 +69,7 @@ public class GetAddress extends DebuggableReturnsValue {
 
             @Override
             public void set(Object value) {
-                ca.constant_value = value;
+                ca.constantValue = value;
                 try {
                     setTarget.execute(ff, fmain);
                 } catch (RuntimePascalException e) {

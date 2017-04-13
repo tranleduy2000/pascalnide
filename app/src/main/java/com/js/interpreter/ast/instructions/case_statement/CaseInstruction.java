@@ -5,7 +5,7 @@ import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnconvertibleTypeException;
+import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.EOF_Token;
@@ -122,7 +122,7 @@ public class CaseInstruction extends DebuggableExecutable {
         DeclaredType inputType = val.getType(context).declaredType;
         ReturnsValue converted = switchValueType.convert(val, context);
         if (converted == null) {
-            throw new UnconvertibleTypeException(val, inputType, switchValueType, true);
+            throw new UnConvertibleTypeException(val, inputType, switchValueType, true);
         }
 
     } // end check type

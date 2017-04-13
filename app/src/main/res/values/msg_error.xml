@@ -7,15 +7,23 @@
     <string name="bad_function_msg2">"Either too few or two many arguments are being passed to function "</string>
     <string name="can_not_call_func">Can not call function</string>
     <string name="func_not_define">" , which is not defined."</string>
+
+    <string name="MISMATCHED_PARENTHESES">Mismatched parentheses</string>
+    <string name="MISMATCHED_BRACKETS">Mismatched brackets</string>
+    <string name="MISMATCHED_BEGIN_END">Mismatched begin - end construct</string>
+    <string name="UNFINISHED_BEGIN_END">Unfinished begin - end construct</string>
+    <string name="UNFINISHED_CONSTRUCT">You forgot to complete the structure you started here</string>
+    <string name="UNFINISHED_PARENTHESES">You forgot to close your parentheses</string>
+    <string name="UNFINISHED_BRACKETS">You forgot to close your brackets</string>
+    <string name="EXTRA_END">You have an extra \'end\' in your program</string>
+    <string name="IO_EXCEPTION">IOException occurred while reading the input</string>
+    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
+    <string name="MISSING_INCLUDE">Missing file to include</string>
+    <string name="NEWLINE_IN_QUOTES">You must close your quotes before starting a new line</string>
+
     <string name="multi_define_main">Multiple definitions of main</string>
-    <string name="Mismatched_parentheses">Mismatched parentheses</string>
-    <string name="Mismatched_brackets">Mismatched brackets</string>
-    <string name="Mismatched_begin_end">Mismatched begin - end construct</string>
-    <string name="extra_end_program">You have an extra \'end\' in your program</string>
-    <string name="IOException_reading_input">IOException occurred while reading the input</string>
-    <string name="Incomplete_character_literal">Incomplete character literal</string>
-    <string name="token_not_belong">"The following name doesn\'t belong here: "</string>
     <string name="main_program_not_define">Main program not found</string>
+
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the value has type \"%5$s\"</string>
     <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
@@ -31,7 +39,7 @@
     <string name="MultipleDefinitionsMainException">Too many main programs are defined</string>
     <string name="NonArrayIndexed">Tried to do indexed access on something which wasn\'t an array or a string. It was a %1$s</string>
     <string name="NonConstantExpressionException">The expression %1$s is not constant.</string>
-    <string name="NonIntegerIndexException">Array indexes must be integers: %1$s</string>
+    <string name="NonIntegerIndexException">Array index must be integers: %1$s</string>
     <string name="NoSuchFunctionOrVariableException">%1$s is not a variable or function name</string>
     <string name="NotAStatementException">%1$s is not an instruction by itself.</string>
     <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
@@ -52,7 +60,6 @@
     <string name="InternalInterpreterException">InternalInterpreterException</string>
     <string name="PluginReflectionException">Attempting to use reflection when: %1$s</string>
     <string name="ZeroLengthVariableException">Zero Length Variable Exception</string>
-    <string name="OperationNotSupportedException">OperationNotSupportedException</string>
     <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
     <string name="CanNotReadVariableException">Can not read variable of this type</string>
     <string name="RangeCheckError">1. An array was accessed with an index outside its declared range.\n
@@ -81,4 +88,9 @@ Permission to access the file is denied. This error might be caused by one of se
     <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
     <string name="StackOverflowError">The stack has grown beyond its maximum size (in which case the size of local variables should be reduced to avoid this error), or the stack has become corrupt.</string>
     <string name="InvalidFloatingPointOperation">Can occur if you try to calculate the square root or logarithm of a negative number.</string>
+    <string name="NonIntegerException">Value must be integers: %1$s</string>
+    <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
+    <string name="OperationNotSupportedException">Operation not support</string>
+    <string name="StrayCharacterException">Stray character in program: %1$s\nChar code: %2$i</string>
+
 </resources>

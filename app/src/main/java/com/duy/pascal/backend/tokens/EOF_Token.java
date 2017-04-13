@@ -24,7 +24,7 @@ public class EOF_Token extends ClosingToken {
 	public GroupingException getClosingException(GrouperToken t) {
 		if (t instanceof ParenthesizedToken) {
 			return new EnumeratedGroupingException(t.lineInfo,
-					GroupingExceptionTypes.UNFINISHED_PARENS);
+					GroupingExceptionTypes.UNFINISHED_PARENTHESES);
 		} else if (t instanceof BeginEndToken) {
 			return new EnumeratedGroupingException(t.lineInfo,
 					GroupingExceptionTypes.UNFINISHED_BEGIN_END);

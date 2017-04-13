@@ -1,4 +1,4 @@
-program loop;
+program factorial;
 
 function factorial(i: integer): integer;
 begin

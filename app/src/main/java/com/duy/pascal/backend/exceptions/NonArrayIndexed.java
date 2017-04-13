@@ -5,7 +5,7 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 
 public class NonArrayIndexed extends ParsingException {
 
-    DeclaredType t;
+    public DeclaredType t;
 
     public NonArrayIndexed(LineInfo line, DeclaredType t) {
         super(line);

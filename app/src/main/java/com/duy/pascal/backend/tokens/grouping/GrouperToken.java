@@ -1,17 +1,16 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.MultipleDefaultValuesException;
 import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
+import com.duy.pascal.backend.exceptions.NonIntegerException;
 import com.duy.pascal.backend.exceptions.NonIntegerIndexException;
 import com.duy.pascal.backend.exceptions.NotAStatementException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnconvertibleTypeException;
+import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -367,7 +366,6 @@ public abstract class GrouperToken extends Token {
 
             //process string with define length
             if (type.equals(BasicType.StringBuilder)) {
-                Log.d(TAG, "getVariableDeclarations: StringBuilder");
                 if (peek() instanceof BracketedToken) {
                     BracketedToken bracketedToken = (BracketedToken) take();
 
@@ -375,7 +373,7 @@ public abstract class GrouperToken extends Token {
                     ReturnsValue converted = BasicType.Integer.convert(unconverted, context);
 
                     if (converted == null) {
-                        throw new NonIntegerIndexException(unconverted);
+                        throw new NonIntegerException(unconverted);
                     }
 
                     if (bracketedToken.hasNext()) {
@@ -393,7 +391,7 @@ public abstract class GrouperToken extends Token {
                     ReturnsValue unconverted = getNextExpression(context);
                     ReturnsValue converted = type.convert(unconverted, context);
                     if (converted == null) {
-                        throw new UnconvertibleTypeException(unconverted,
+                        throw new UnConvertibleTypeException(unconverted,
                                 unconverted.getType(context).declaredType, type,
                                 true);
                     }
@@ -530,7 +528,7 @@ public abstract class GrouperToken extends Token {
 				 */
                 ReturnsValue converted = variableType.convert(valueToAssign, context);
                 if (converted == null) {
-                    throw new UnconvertibleTypeException(valueToAssign, assignType, variableType, true);
+                    throw new UnConvertibleTypeException(valueToAssign, assignType, variableType, true);
                 }
                 return variable.createSetValueInstruction(variableType.cloneValue(converted));
             } else if (variable instanceof Executable) {

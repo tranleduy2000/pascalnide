@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="IOException_reading_input">IOException при чтении входных данных</string>
-    <string name="Incomplete_character_literal">Неполный символьный литерал</string>
-    <string name="Mismatched_begin_end">Несогласованная конструкция begin-end</string>
-    <string name="Mismatched_brackets">Несогласованные скобки</string>
-    <string name="Mismatched_parentheses">Несогласованные круглые скобки</string>
+    <string name="IO_EXCEPTION">IOException при чтении входных данных</string>
+    <string name="INCOMPLETE_CHAR">Неполный символьный литерал</string>
+    <string name="MISMATCHED_BEGIN_END">Несогласованная конструкция begin-end</string>
+    <string name="MISMATCHED_BRACKETS">Несогласованные скобки</string>
+    <string name="MISMATCHED_PARENTHESES">Несогласованные круглые скобки</string>
     <string name="bad_function_msg1">Один или несколько аргументов имеют неправильный тип при вызове функции</string>
     <string name="bad_function_msg2">Слишком мало или слишком много аргументов передаются функции</string>
     <string name="can_not_call_func">Невозможно вызвать функцию</string>
@@ -15,7 +15,7 @@
     <string name="expected_token">Ожидается, появление следующего токена:</string>
     <string name="expected_token_2">Ожидается, появление следующего токена:</string>
     <string name="token_not_belong">"Следующий токен, неуместен здесь: "</string>
-    <string name="extra_end_program">"У Вас есть дополнительный 'end' в программе"</string>
+    <string name="EXTRA_END">"У Вас есть дополнительный 'end' в программе"</string>
 
 
     <string name="BadOperationTypeException">Оператор \"%1$s\" не может применяться к аргументам \"%2$s\" и \"%3$s\".\n

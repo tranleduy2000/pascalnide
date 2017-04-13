@@ -1,6 +1,7 @@
 package com.js.interpreter.ast.returnsvalue;
 
 import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
+import com.duy.pascal.backend.exceptions.ChangeValueConstantException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -13,11 +14,11 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 
 public class ConstantAccess extends DebuggableReturnsValue {
-    final LineInfo line;
-    public Object constant_value;
+    public Object constantValue;
+    private LineInfo line;
 
     public ConstantAccess(Object o, LineInfo line) {
-        this.constant_value = o;
+        this.constantValue = o;
         this.line = line;
     }
 
@@ -28,30 +29,29 @@ public class ConstantAccess extends DebuggableReturnsValue {
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main) {
-        return constant_value;
+        return constantValue;
     }
 
     @Override
     public String toString() {
-        return constant_value.toString();
+        return constantValue.toString();
     }
-
 
 
     @Override
     public RuntimeType getType(ExpressionContext f) {
-        return new RuntimeType(BasicType.anew(constant_value.getClass()), false);
+        return new RuntimeType(BasicType.anew(constantValue.getClass()), false);
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context) {
-        return constant_value;
+        return constantValue;
     }
 
     @Override
     public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
+            throws UnAssignableTypeException, ChangeValueConstantException {
+        throw new ChangeValueConstantException(line, constantValue.toString(), "", constantValue);
     }
 
     @Override

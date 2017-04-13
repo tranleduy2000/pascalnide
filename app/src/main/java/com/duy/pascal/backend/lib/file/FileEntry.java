@@ -20,7 +20,8 @@ import java.util.Scanner;
 class FileEntry {
     private String mFilePath = "";
     private BufferedWriter mWriter;
-    private Scanner mReader;
+    private String bufferReader = "";
+    private Scanner scanner;
     private boolean opened = false;
     private File file;
 
@@ -45,8 +46,8 @@ class FileEntry {
      * @throws FileNotFoundException
      */
     public void reset() throws FileNotFoundException {
-        mReader = new Scanner(new FileReader(mFilePath));
-        mReader.useLocale(Locale.ENGLISH);
+        scanner = new Scanner(new FileReader(mFilePath));
+        scanner.useLocale(Locale.ENGLISH);
         setOpened(true);
     }
 
@@ -80,7 +81,7 @@ class FileEntry {
 
         int integer;
         try {
-            integer = mReader.nextInt();
+            integer = scanner.nextInt();
         } catch (InputMismatchException e) {
             throw new InvalidNumericFormatException();
         }
@@ -93,7 +94,7 @@ class FileEntry {
 
         long l;
         try {
-            l = mReader.nextLong();
+            l = scanner.nextLong();
         } catch (InputMismatchException e) {
             throw new InvalidNumericFormatException();
         }
@@ -106,7 +107,7 @@ class FileEntry {
 
         double d;
         try {
-            d = mReader.nextDouble();
+            d = scanner.nextDouble();
         } catch (InputMismatchException e) {
             throw new InvalidNumericFormatException();
         }
@@ -116,14 +117,14 @@ class FileEntry {
 
     public String readString() throws DiskReadErrorException {
         assertNotEndOfFile();
-        String res = mReader.nextLine();
+        String res = scanner.nextLine();
 //        System.out.println(res);
         return res;
     }
 
     public char readChar() throws DiskReadErrorException {
         assertNotEndOfFile();
-        return mReader.next().charAt(0);
+        return scanner.next().charAt(0);
     }
 
     /**
@@ -133,7 +134,7 @@ class FileEntry {
      * @throws DiskReadErrorException
      */
     private void assertNotEndOfFile() throws DiskReadErrorException {
-        if (!mReader.hasNext()) {
+        if (!scanner.hasNext()) {
             throw new DiskReadErrorException(mFilePath);
         }
     }
@@ -150,8 +151,8 @@ class FileEntry {
      * @throws IOException
      */
     public void close() throws IOException {
-        if (mReader != null) {
-            mReader.close();
+        if (scanner != null) {
+            scanner.close();
         }
         if (mWriter != null) {
             mWriter.close();
@@ -161,11 +162,12 @@ class FileEntry {
 
 
     public boolean isEof() {
-        return mReader.hasNext();
+        return scanner.hasNext();
     }
 
     public void nextLine() {
-        mReader.nextLine();
+        if (scanner.hasNext())
+            scanner.nextLine();
     }
 
     public boolean isOpened() {
@@ -180,5 +182,8 @@ class FileEntry {
         if (!isOpened()) {
             throw new FileNotOpenException(mFilePath);
         }
+    }
+
+    public void isEndOfLine() {
     }
 }

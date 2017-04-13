@@ -120,7 +120,7 @@ public class Grouper implements Runnable {
                                 if (top_of_stack instanceof ParenthesizedToken) {
                                     TossException(new GroupingExceptionToken(
                                             top_of_stack.lineInfo,
-                                            GroupingExceptionTypes.UNFINISHED_PARENS));
+                                            GroupingExceptionTypes.UNFINISHED_PARENTHESES));
                                 } else if (top_of_stack instanceof BeginEndToken) {
                                     TossException(new GroupingExceptionToken(
                                             top_of_stack.lineInfo,
@@ -259,7 +259,7 @@ public class Grouper implements Runnable {
                     case ')':
                         if (!(groupers.pop() instanceof ParenthesizedToken)) {
                             TossException(new GroupingExceptionToken(line,
-                                    GroupingExceptionTypes.MISMATCHED_PARENS));
+                                    GroupingExceptionTypes.MISMATCHED_PARENTHESES));
                             return;
 
                         }

@@ -2,17 +2,17 @@ package com.duy.pascal.backend.exceptions;
 
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class NonIntegerIndexException extends com.duy.pascal.backend.exceptions.ParsingException {
+public class NonIntegerException extends ParsingException {
 
     public ReturnsValue value;
 
-    public NonIntegerIndexException(ReturnsValue value) {
+    public NonIntegerException(ReturnsValue value) {
         super(value.getLine());
         this.value = value;
     }
 
     @Override
     public String getMessage() {
-        return "Array indexes must be integers: " + value;
+        return "Value must be integers: " + value;
     }
 }

@@ -8,12 +8,12 @@
     <string name="can_not_call_func">"Không thể gọi hàm "</string>
     <string name="func_not_define">" , hàm chưa được khai báo."</string>
     <string name="multi_define_main">Quá nhiều chương trình chính được định nghĩa</string>
-    <string name="extra_end_program">Dư từ khóa \'end\' trong chương trình của bạn</string>
-    <string name="Mismatched_parentheses">Cặp ngoặc đơn không khớp nhau</string>
-    <string name="Mismatched_brackets">Cặp ngoặc vuông không khớp nhau</string>
-    <string name="Mismatched_begin_end">Cấu trúc begin - end không phù hợp, dư từ khóa begin hoặc end</string>
-    <string name="IOException_reading_input">Lỗi nhập xuất</string>
-    <string name="Incomplete_character_literal">Incomplete character literal</string>
+    <string name="EXTRA_END">Dư từ khóa \'end\' trong chương trình của bạn</string>
+    <string name="MISMATCHED_PARENTHESES">Cặp ngoặc đơn không khớp nhau</string>
+    <string name="MISMATCHED_BRACKETS">Cặp ngoặc vuông không khớp nhau</string>
+    <string name="MISMATCHED_BEGIN_END">Cấu trúc begin - end không phù hợp, dư từ khóa begin hoặc end</string>
+    <string name="IO_EXCEPTION">Lỗi nhập xuất</string>
+    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
     <string name="token_not_belong">"Từ khóa hoặc cú pháp không tồn tại: "</string>
     <string name="main_program_not_define">Không tìm thấy chương trình chính</string>
 
@@ -41,7 +41,7 @@
     <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
     <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
     <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
-    <string name="UnconvertibleTypeException" formatted="false">The expression or variable %1$s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
+    <string name="UnconvertibleTypeException">The expression or variable %1$s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
     <string name="UnrecognizedTokenException">The following name doesn\'t belong here: %1$s</string>
     <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
     <string name="WrongArgsException">WrongArgsException</string>

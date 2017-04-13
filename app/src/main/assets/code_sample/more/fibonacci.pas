@@ -1,4 +1,4 @@
-program nested_function;
+program fibonacci;
 
 function fibonacci(n: integer) : integer;
 var
@@ -19,7 +19,6 @@ end;
 begin
     writeln('fibonacci 4th = ', fibonacci(4));
     readln;
-
 end.
 
 {if you want to improve this code, please send code to me

@@ -12,13 +12,13 @@ import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.method.ArrowKeyMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -516,7 +516,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 int count = 0;
                 while (m.find()) {
                     if (count == errorLine) {
-                        e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                        e.setSpan(new UnderlineSpan(),
                                 start + m.start(),
                                 start + m.end(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -600,7 +600,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 e.removeSpan(spans[n]);
         }
     }
-
 
 
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {

@@ -20,4 +20,16 @@
         lang="Spanish"
         link=""
         mail="francorossia@gmail.com" />
+    <user
+        name="Marek Michalovič"
+        image=""
+        lang="Čeština"
+        link=""
+        mail="marek14michalovic@gmail.com" />
+    <user
+        name="Marek Michalovič"
+        image=""
+        lang="Slovenčina"
+        link=""
+        mail="marek14michalovic@gmail.comm" />
 </help_translate>

@@ -9,13 +9,12 @@ import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.OverridingFunctionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
-import com.duy.pascal.backend.exceptions.UnconvertibleTypeException;
+import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
 import com.duy.pascal.backend.lib.LibraryUtils;
-import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.lib.StrUtilsLibrary;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SysUtilsLibrary;
@@ -23,6 +22,7 @@ import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
+import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
 import com.duy.pascal.backend.tokens.CommentToken;
@@ -204,7 +204,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 }
                 //check library not found
                 if (!LibraryUtils.SUPPORT_LIB.contains(((WordToken) next).name)) {
-                    throw new LibraryNotFoundException(((WordToken) next).name, next);
+                    throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
                 }
                 listLib.add(next.toString());
                 next = i.peek();
@@ -339,7 +339,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
     public VariableDeclaration getVariableDefinitionLocal(String ident) {
         for (VariableDeclaration v : variables) {
-            if (v.name.equals(ident)) {
+            if (v.name.equalsIgnoreCase(ident)) {
                 return v;
             }
         }
@@ -393,7 +393,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                         ReturnsValue unconverted = i.getNextExpression(this);
                         ReturnsValue converted = type.convert(unconverted, this);
                         if (converted == null) {
-                            throw new UnconvertibleTypeException(unconverted,
+                            throw new UnConvertibleTypeException(unconverted,
                                     unconverted.getType(this).declaredType, type,
                                     true);
                         }

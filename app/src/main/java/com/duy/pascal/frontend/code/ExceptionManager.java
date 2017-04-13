@@ -12,12 +12,26 @@ import android.text.style.StyleSpan;
 
 import com.duy.pascal.backend.exceptions.BadFunctionCallException;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
+import com.duy.pascal.backend.exceptions.ChangeValueConstantException;
+import com.duy.pascal.backend.exceptions.ConstantCalculationException;
+import com.duy.pascal.backend.exceptions.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
+import com.duy.pascal.backend.exceptions.MultipleDefaultValuesException;
 import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.exceptions.NonArrayIndexed;
+import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
+import com.duy.pascal.backend.exceptions.NonIntegerException;
+import com.duy.pascal.backend.exceptions.NonIntegerIndexException;
+import com.duy.pascal.backend.exceptions.NotAStatementException;
+import com.duy.pascal.backend.exceptions.OverridingFunctionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.SameNameException;
+import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
+import com.duy.pascal.backend.exceptions.UnrecognizedTypeException;
 import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
 import com.duy.pascal.backend.lib.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.backend.lib.file.exceptions.FileException;
@@ -59,7 +73,7 @@ public class ExceptionManager {
                 return getExpectedTokenException((ExpectedTokenException) e);
             }
             if (e instanceof NoSuchFunctionOrVariableException) {
-                return getNoSuchFunctionOrVariableException(e);
+                return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).name);
             }
             if (e instanceof BadFunctionCallException) {
                 return getBadFunctionCallException(e);
@@ -85,17 +99,129 @@ public class ExceptionManager {
             if (e instanceof PluginCallException) {
                 return getPluginCallException(e);
             }
-            if (e instanceof RuntimePascalException) {
-                return new SpannableString(e.getMessage());
+            if (e instanceof NonIntegerIndexException) {
+                return getNonIntegerIndexException(e);
             }
+            if (e instanceof NonIntegerException) {
+                return getNonIntegerException(e);
+            }
+            if (e instanceof ConstantCalculationException) {
+                return getConstantCalculationException(e);
+            }
+            if (e instanceof ChangeValueConstantException) {
+                return getMessageResource(e, R.string.ChangeValueConstantException);
+            }
+
+            if (e instanceof LibraryNotFoundException) {
+                return getMessageResource(e, R.string.LibraryNotFoundException,
+                        ((LibraryNotFoundException) e).name);
+            }
+            if (e instanceof MultipleDefaultValuesException) {
+                return getMessageResource(e, R.string.MultipleDefaultValuesException);
+            }
+            if (e instanceof NonArrayIndexed) {
+                return getMessageResource(e, R.string.NonArrayIndexed, ((NonArrayIndexed) e).t.toString());
+            }
+            if (e instanceof NonConstantExpressionException) {
+                return getMessageResource(e, R.string.NonConstantExpressionException);
+            }
+            if (e instanceof NotAStatementException) {
+                return getMessageResource(e, R.string.NotAStatementException,
+                        ((NotAStatementException) e).returnsValue.toString());
+            }
+            if (e instanceof SameNameException) {
+                SameNameException exception = (SameNameException) e;
+                return getMessageResource(e, R.string.SameNameException, exception.type,
+                        exception.name, exception.preType, exception.preName);
+            }
+            if (e instanceof UnAssignableTypeException) {
+                return getMessageResource(e, R.string.UnAssignableTypeException,
+                        ((UnAssignableTypeException) e).returnsValue.toString());
+            }
+            if (e instanceof UnrecognizedTypeException) {
+                return getMessageResource(e, R.string.UnrecognizedTypeException,
+                        ((UnrecognizedTypeException) e).type);
+            }
+            if (e instanceof OverridingFunctionException) {
+                if (!((OverridingFunctionException) e).isMethod) {
+                    return getMessageResource(e, R.string.OverridingFunctionException,
+                            ((OverridingFunctionException) e).functionDeclaration.name(),
+                            ((OverridingFunctionException) e).functionDeclaration.getLine());
+                } else {
+                    return getMessageResource(e, R.string.OverridingFunctionException);
+                }
+            }
+
             if (e instanceof ParsingException) {
                 return new SpannableString(((ParsingException) e).line + "\n" + e.getMessage());
+            }
+
+            if (e instanceof DivisionByZeroException) {
+                return getMessageResource(e, R.string.DivisionByZeroException);
             }
             return new SpannableString(e.getMessage());
         } catch (Exception err) {
             FirebaseCrash.report(new Throwable("Error when get exception msg"));
             return new SpannableString(err.toString());
         }
+    }
+
+    private Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
+        if (e instanceof ParsingException) {
+            SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+            stringBuilder.append(((ParsingException) e).line.toString());
+            stringBuilder.append("\n").append("\n");
+            String format = String.format(context.getString(resourceID), arg);
+            stringBuilder.append(format);
+            return stringBuilder;
+        } else if (e instanceof RuntimePascalException) {
+            SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+            stringBuilder.append(((RuntimePascalException) e).line.toString());
+            stringBuilder.append("\n").append("\n");
+            String format = String.format(context.getString(resourceID), arg);
+            stringBuilder.append(format);
+            return stringBuilder;
+        }
+        return new SpannableString(e.getMessage());
+    }
+
+
+    private Spanned getConstantCalculationException(Throwable e) {
+        ConstantCalculationException exception = (ConstantCalculationException) e;
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+        stringBuilder.append(exception.line.toString());
+        stringBuilder.append("\n").append("\n");
+        String format = String.format(
+                context.getString(R.string.ConstantCalculationException),
+                exception.e.getMessage());
+        stringBuilder.append(format);
+        return stringBuilder;
+
+    }
+
+
+    private Spanned getNonIntegerException(Throwable e) {
+        NonIntegerIndexException exception = (NonIntegerIndexException) e;
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+        stringBuilder.append(exception.line.toString());
+        stringBuilder.append("\n").append("\n");
+        String format = String.format(
+                context.getString(R.string.NonIntegerException),
+                exception.value.toString());
+        stringBuilder.append(format);
+        return stringBuilder;
+    }
+
+    private Spanned getNonIntegerIndexException(Throwable e) {
+        NonIntegerIndexException exception = (NonIntegerIndexException) e;
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+        stringBuilder.append(exception.line.toString());
+        stringBuilder.append("\n").append("\n");
+        String format = String.format(
+                context.getString(R.string.NonIntegerIndexException),
+                exception.value.toString());
+        stringBuilder.append(format);
+        return stringBuilder;
     }
 
     private Spanned getPluginCallException(Throwable e) {
@@ -156,24 +282,33 @@ public class ExceptionManager {
         span.setSpan(new ForegroundColorSpan(Color.YELLOW),
                 msg.length(), msg.length() + e.token.toString().length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         return span;
     }
 
     private Spannable getEnumeratedGroupingException(EnumeratedGroupingException e) {
         EnumeratedGroupingException.GroupingExceptionTypes exceptionTypes = e.exceptionTypes;
         if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION) {
-            return new SpannableString(context.getString(R.string.IOException_reading_input));
+            return new SpannableString(context.getString(R.string.IO_EXCEPTION));
         } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.EXTRA_END) {
-            return new SpannableString(context.getString(R.string.extra_end_program));
+            return new SpannableString(context.getString(R.string.EXTRA_END));
         } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR) {
-            return new SpannableString(context.getString(R.string.Incomplete_character_literal));
+            return new SpannableString(context.getString(R.string.INCOMPLETE_CHAR));
         } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BEGIN_END) {
-            return new SpannableString(context.getString(R.string.Mismatched_begin_end));
+            return new SpannableString(context.getString(R.string.MISMATCHED_BEGIN_END));
         } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BRACKETS) {
-            return new SpannableString(context.getString(R.string.Mismatched_brackets));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_PARENS) {
-            return new SpannableString(context.getString(R.string.Mismatched_parentheses));
+            return new SpannableString(context.getString(R.string.MISMATCHED_BRACKETS));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_PARENTHESES) {
+            return new SpannableString(context.getString(R.string.MISMATCHED_PARENTHESES));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.UNFINISHED_BEGIN_END) {
+            return new SpannableString(context.getString(R.string.UNFINISHED_BEGIN_END));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.UNFINISHED_PARENTHESES) {
+            return new SpannableString(context.getString(R.string.UNFINISHED_PARENTHESES));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.UNFINISHED_BRACKETS) {
+            return new SpannableString(context.getString(R.string.UNFINISHED_BRACKETS));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE) {
+            return new SpannableString(context.getString(R.string.MISSING_INCLUDE));
+        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES) {
+            return new SpannableString(context.getString(R.string.NEWLINE_IN_QUOTES));
         }
         return new SpannableString(e.getMessage());
     }
@@ -209,17 +344,6 @@ public class ExceptionManager {
         }
     }
 
-    private Spannable getNoSuchFunctionOrVariableException(Throwable e) {
-        String name = ((NoSuchFunctionOrVariableException) e).name;
-        String msg = context.getString(R.string.not_define_msg);
-
-        Spannable span = new SpannableString(name + msg);
-        span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                0, name.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        return span;
-    }
 
     private Spanned getExpectedTokenException(ExpectedTokenException e) {
         String msg1 = context.getString(R.string.expected_token) + " ";

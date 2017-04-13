@@ -1,4 +1,4 @@
-program while_statement;
+program while_do_statement;
 var
     i: integer;
     sum: integer;

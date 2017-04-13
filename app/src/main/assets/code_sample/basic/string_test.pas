@@ -24,6 +24,7 @@ begin
     begin
         if name[i] = ' ' then name[i + 1] := upcase(name[i + 1]);
     end;
+
     {print to console}
     writeln(name);
     readln;

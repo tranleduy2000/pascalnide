@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.pascaltypes.typeconversion;
 
-import com.duy.pascal.backend.exceptions.UnconvertibleTypeException;
+import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
@@ -40,20 +40,20 @@ public class TypeConverter {
 
     public static ReturnsValue autoConvertRequired(BasicType outtype,
                                                    ReturnsValue target, BasicType intype)
-            throws UnconvertibleTypeException {
+            throws UnConvertibleTypeException {
         ReturnsValue result = autoConvert(outtype, target, intype);
         if (result == null) {
-            throw new UnconvertibleTypeException(target, outtype, intype, true);
+            throw new UnConvertibleTypeException(target, outtype, intype, true);
         }
         return result;
     }
 
     public static ReturnsValue forceConvertRequired(BasicType outtype,
                                                     ReturnsValue target, BasicType intype)
-            throws UnconvertibleTypeException {
+            throws UnConvertibleTypeException {
         ReturnsValue result = forceConvert(outtype, target, intype);
         if (result == null) {
-            throw new UnconvertibleTypeException(target, outtype, intype, false);
+            throw new UnConvertibleTypeException(target, outtype, intype, false);
         }
         return result;
     }

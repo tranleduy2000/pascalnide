@@ -8,7 +8,6 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  */
 
 public class OrdinalExpressionExpectedException extends RuntimePascalException {
-    String msg = "Error: ordinal expression expected";
 
     public OrdinalExpressionExpectedException(LineInfo line) {
         super(line);
