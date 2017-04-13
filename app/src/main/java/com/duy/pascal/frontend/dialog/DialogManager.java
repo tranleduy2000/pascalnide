@@ -11,10 +11,28 @@ import com.duy.pascal.frontend.R;
  */
 
 public class DialogManager {
-    public static android.support.v7.app.AlertDialog createDialog(final Activity activity, String title, String msg) {
+    public static android.support.v7.app.AlertDialog createDialog(final Activity activity,
+                                                                  CharSequence title, CharSequence msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);
         builder.setMessage(msg);
+        builder.setPositiveButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                activity.finish();
+            }
+        });
+        return builder.create();
+
+    }
+
+    public static android.support.v7.app.AlertDialog createDialog(final Activity activity,
+                                                                  CharSequence title, CharSequence msg, int resourceIcon) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setIcon(resourceIcon);
         builder.setPositiveButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pascal N-IDE</string>
+    <string name="cancel">Zrušit</string>
+    <string name="save">Uložit</string>
+    <string name="ok">OK</string>
+
+    <string name="new_file">Nový zdrojový soubor</string>
+
+    <string name="default_">Systém</string>
+    <string name="language">Jazyk</string>
+
+    <string name="run">Spustit</string>
+    <string name="navigation_drawer_open">Otevřít navigaci</string>
+    <string name="navigation_drawer_close">Zavřít navigaci</string>
+    <string name="close">Zavřít</string>
+    <string name="rate">Ohodnotit aplikaci</string>
+    <string name="more_app">Další aplikace</string>
+    <string name="compile_error">Chyba při kompilaci</string>
+    <string name="setting">Nastavení</string>
+    <string name="document">Zobrazit dokument</string>
+    <string name="code_sample">Ukázky kódu</string>
+    <string name="title_activity_code_sample">Ukázky kódu</string>
+    <string name="edit">Upravit</string>
+    <string name="copy">Kopírovat</string>
+    <string name="save_as">Uložit jako</string>
+    <string name="enter_new_file_name">Zadejte název nového souboru</string>
+    <string name="path">"Cesta: "</string>
+    <string name="extension">Extension:</string>
+    <string name="readable">"Čitelné: "</string>
+    <string name="writeable">"Zapisovatelné: "</string>
+    <string name="remove_file_msg">"Chcete odstranit soubor "</string>
+    <string name="delete_file">Odstranit soubor</string>
+    <string name="deleted">Odstraněno</string>
+    <string name="failed">Neúspěšné</string>
+    <string name="compile_ok">Kompilace úspěšná</string>
+    <string name="code_editor">Editor kódu</string>
+    <string name="word_wrap">Wrap content</string>
+    <string name="font_z">Velikost písma</string>
+    <string name="font">Písmo</string>
+    <string name="user_interface">Uživatelské rozhraní</string>
+    <string name="show_line">Zobrazit číslo řádku</string>
+    <string name="find">Najít</string>
+    <string name="find_replace">Najít a nahradit</string>
+    <string name="tool">Nástroj</string>
+    <string name="find_what">Co najít?</string>
+    <string name="replace_with">Nahradit čím</string>
+    <string name="replace">Nahradit</string>
+    <string name="match_case">Match case</string>
+    <string name="regex">Regulární výraz</string>
+    <string name="word_only">Jen slovo</string>
+    <string name="auto_save">Automatické uložení</string>
+    <string name="goto_line">Jet na řádek</string>
+    <string name="format_code">Formátovat kód</string>
+    <string name="information">Informace</string>
+    <string name="report_bug">Nahlásit bug</string>
+    <string name="check_update">Vyhledať aktualizace</string>
+    <string name="email">Email</string>
+    <string name="describe_causes_an_error">Opište důvody chyby (v Anglickém jazyce prosím)</string>
+    <string name="bug">Bug</string>
+    <string name="word_wrap_desc">Automatic screen down the line when overflow</string>
+    <string name="show_line_desc">Zobrazovat čísla řádků nalevo od editora kódu</string>
+
+
+    <string name="hide_status_bar">Skrýt stavový řádek</string>
+    <string name="hide_status_bar_desc">Skrýt stavový řádek v celé aplikaci včetně konzole. Když toto nastavení potřebujete změniť, restartujte aplikaci.</string>
+    <string name="show_hint">Zobrazovat návrhy</string>
+    <string name="show_hint_desc">Zobrazovat návrhy při psaní</string>
+    <string name="compile">Kompilovat</string>
+    <string name="file">soubor</string>
+    <string name="change_lang_msg">Pro změnu jazyka restartujte aplikaci.</string>
+    <string name="data">Dáta</string>
+    <string name="show_key_board">Zobrazit klávesnici</string>
+    <string name="undo">Vrátit spěť</string>
+    <string name="redo">Znova vykonat</string>
+    <string name="paste">Vložit</string>
+    <string name="copy_all">Skopírovat všechno</string>
+    <string name="pascal_for_android">Pascal pro Android</string>
+    <string name="exit">Opustit</string>
+    <string name="exit_mgs">Opravdu chcete opustit aplikaci?</string>
+    <string name="setting_editor">Úprava nastavení</string>
+    <string name="cloud_database">Cloud databáze</string>
+    <string name="pas_file">soubor Pas</string>
+    <string name="inp_file">soubor Inp</string>
+    <string name="other">Jiné</string>
+    <string name="theme">Stýl kódu</string>
+    <string name="select">Vybrat</string>
+    <string name="folder">Složka</string>
+    <string name="home">domů</string>
+
+    <string name="new_folder">Nová složka</string>
+    <string name="enter_new_folder_name">Název složky</string>
+    <string name="change_key_board">Změnit klávesnici</string>
+    <string name="cant_undo">Nelze vrátit spět</string>
+    <string name="cant_redo">Nelze znova vykonat</string>
+    <string name="back_to_undo">Stiskněte spět pro vrácení úpravy spět</string>
+    <string name="more_feature">Zobrazit více</string>
+    <string name="cant_close_file">Nelze zavřít soubor</string>
+    <string name="closed">Zavřeno</string>
+    <string name="complete">Dokončeno</string>
+    <string name="view_console">Zobrazit konzoli</string>
+    <string name="resume_program">Obnovit program</string>
+    <string name="help_me_translate">Pomůžte mi přeložit aplikaci</string>
+    <string name="name">Vaše jméno</string>
+    <string name="send_to_me">Odeslat vývojáři</string>
+    <string name="rerun">Znova spustit program</string>
+
+    <string name="translate">Přeložit</string>
+    <string name="license">Licence</string>
+
+    <string name="console_screen">Konzole</string>
+    <string name="background_console">Pozadí konzole</string>
+    <string name="text_color_console">Farba textu v konzole</string>
+
+    <string name="frame_rate">Snímky za vteřinu</string>
+
+    <string name="max_buffer">Maximální velikost vyrovnávací paměti</string>
+
+    <string name="write_code_here">Sem můžete psát kód…</string>
+    <string name="can_not_save_file">Nelze uložit soubor!</string>
+    <string name="saved">Uloženo</string>
+    <string name="file_exist">Soubor již existuje, zadejte prosím jiný název!</string>
+    <string name="send_mail">Poslat mail…</string>
+    <string name="no_mail_clients">Není nainstalován žádný e-mailový klient.</string>
+    <string name="your_languague">Váš jazyk</string>
+    <string name="BrightYellow">Bright Yellow</string>
+    <string name="DarkGray">Dark Gray</string>
+    <string name="EspressoLibre">Espresso Libre</string>
+    <string name="Idel">Idel</string>
+    <string name="KFT2">KFT2</string>
+    <string name="Modnokai_Coffee">Modnokai Coffee</string>
+    <string name="source_code_pro">Source Code Pro</string>
+</resources>
+

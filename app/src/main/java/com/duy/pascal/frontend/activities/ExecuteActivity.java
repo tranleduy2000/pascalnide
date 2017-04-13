@@ -17,6 +17,7 @@ import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
@@ -30,7 +31,6 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -90,7 +90,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                     mMessageHandler.sendEmptyMessage(COMPLETE);
                 } catch (ScriptTerminatedException e) {
                     mMessageHandler.sendEmptyMessage(COMPLETE);
-                } catch (RuntimePascalException | FileNotFoundException | ParsingException e) {
+                } catch (RuntimePascalException | ParsingException e) {
                     mMessageHandler.sendMessage(mMessageHandler.obtainMessage(RUNTIME_ERROR, e));
                 }
             } catch (final Exception e) {
@@ -223,17 +223,8 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
      * on error compile or runtime
      */
     public void onError(Exception e) {
-//        mConsoleView.setConsoleTextColor(Color.RED);
-//        if (e instanceof ParsingException) {
-//            mConsoleView.commitString(e.getMessage() + "\n");
-//            LineInfo lineInfo = ((ParsingException) e).line;
-//            String line = String.valueOf(lineInfo.line);
-//            mConsoleView.commitString("Error in line " + line + "\n");
-//            mConsoleView.commitString("File: " + lineInfo.sourcefile + "\n");
-//        } else {
-//            mConsoleView.commitString(e.getMessage());
-//        }
-        DialogManager.createDialog(this, "Runtime error", e.getMessage()).show();
+        ExceptionManager exceptionManager = new ExceptionManager(this);
+        DialogManager.createDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
         //debug
         if (DEBUG) e.printStackTrace();
     }

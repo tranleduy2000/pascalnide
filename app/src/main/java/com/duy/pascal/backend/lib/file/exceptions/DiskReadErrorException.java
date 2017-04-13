@@ -1,8 +1,5 @@
 package com.duy.pascal.backend.lib.file.exceptions;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-
 /**
  * An error occurred when reading from disk.
  * Typically happens when you try to read past the end of a file.
@@ -10,23 +7,14 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * Created by Duy on 07-Apr-17.
  */
 
-public class DiskReadErrorException extends RuntimePascalException {
-    public String filePath;
-
-    public DiskReadErrorException(LineInfo line) {
-        super(line);
-    }
-
-    public DiskReadErrorException(LineInfo line, String mes) {
-        super(line, mes);
-    }
+public class DiskReadErrorException extends FileException {
 
     public DiskReadErrorException(String file) {
-        this.filePath = file;
+        super(file);
     }
 
     @Override
     public String getMessage() {
-        return "Disk read error";
+        return "Disk read error: " + filePath;
     }
 }

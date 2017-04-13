@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.lib.file.exceptions;
 
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+
+import java.io.File;
 
 /**
  * This is reported by Reset, Rewrite, Append, Rename and Erase,
@@ -8,12 +9,14 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * <p>
  * Created by Duy on 07-Apr-17.
  */
-public class FileNotAssignException extends RuntimePascalException {
-    public String filePath;
-
+public class FileNotAssignException extends FileException {
 
     public FileNotAssignException(String filePath) {
-        this.filePath = filePath;
+        super(filePath);
+    }
+
+    public FileNotAssignException(File filePath) {
+        super(filePath);
     }
 
 }

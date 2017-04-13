@@ -1,7 +1,5 @@
 package com.duy.pascal.backend.lib.file;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
@@ -33,7 +31,6 @@ public class FileLib implements PascalLibrary {
      * assign file,
      */
     public void assign(VariableBoxer<File> fileVariable, String name) throws RuntimePascalException {
-        Log.d(TAG, "assign: " + name);
         String path = ApplicationFileManager.getApplicationPath() + name;
         fileVariable.set(new File(path));
 
@@ -47,7 +44,6 @@ public class FileLib implements PascalLibrary {
      */
     public void reset(VariableBoxer<File> fileVariable) throws
             FileNotFoundException, RuntimePascalException {
-        Log.d(TAG, "reset: " + fileVariable.get().getName());
         assertFileAssigned(fileVariable);
         //throw file not found exception
         filesMap.get(fileVariable.get().getPath()).reset();
@@ -58,7 +54,7 @@ public class FileLib implements PascalLibrary {
      */
     public void rename(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
-        Log.d(TAG, "rename: " + fileVariable.get().getName());
+
         // TODO: 07-Apr-17
     }
 
@@ -67,7 +63,7 @@ public class FileLib implements PascalLibrary {
      */
     public void erase(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
-        Log.d(TAG, "erase: " + fileVariable.get().getName());
+
         // TODO: 07-Apr-17
     }
 
@@ -79,7 +75,7 @@ public class FileLib implements PascalLibrary {
      */
     public void rewrite(VariableBoxer<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileAssigned(fileVariable);
-        Log.d(TAG, "rewrite: " + fileVariable.get().getName());
+
         filesMap.get(fileVariable.get().getPath()).rewrite();
     }
 
@@ -93,9 +89,9 @@ public class FileLib implements PascalLibrary {
         assertFileAssigned(fileVariable.get());
     }
 
-    private void assertFileAssigned(File fileVariable) throws RuntimePascalException {
+    private void assertFileAssigned(File fileVariable) throws FileNotAssignException {
         if (fileVariable == null) {
-            throw new FileNotAssignException(null);
+            throw new FileNotAssignException("");
         }
         if (filesMap.get(fileVariable.getPath()) == null) {
             throw new FileNotAssignException(fileVariable.getPath());

@@ -27,7 +27,7 @@
     <string name="ExpectedTokenException">Ожидается появление следующего токена: %1$s.\Использовался следующий токен: %2$s</string>
     <string name="IncompatableFunctionDeclaration">Объявление функции объявляет конфликтный тип возвращаемого значения %1$s. Ранее он был определен как %2$s</string>
     <string name="InputStreamNotFoundException">Исключение входящего потока не найдено</string>
-    <string name="LibraryNotFoundException">Не удается найти библиотеку %1%s</string>
+    <string name="LibraryNotFoundException">Не удается найти библиотеку %1$s</string>
     <string name="MainProgramNotFoundException">Основная программа не найдена</string>
     <string name="MisplacedDeclarationException">Определение %1$s не подходит здесь: %2$s</string>
     <string name="MultipleDefaultValuesException">Значения по умолчанию могут использоваться только при объявлении переменных (один за раз).</string>
@@ -42,12 +42,12 @@
     <string name="OverridingFunctionException">Переопределение тела функции для %1$s, которое было ранее определено в %1$s</string>
     <string name="SameNameException">%1$s %2$s конфликтуют с ранее определённым %3$s с тем же именем, определённым в %4$s</string>
     <string name="UnAssignableTypeException">Выражение %1$s не может иметь назначенного ему значения.</string>
-    <string name="UnconvertibleTypeException" formatted="false">Выражение или переменная %1%s имеет тип %2$s, который не может быть %3$s конвертирован в %4$s </string>
+    <string name="UnconvertibleTypeException" formatted="false">Выражение или переменная %1$s имеет тип %2$s, который не может быть %3$s конвертирован в %4$s </string>
     <string name="UnrecognizedTokenException">Следующий токен не должен быть здесь: %1$s</string>
     <string name="UnrecognizedTypeException">Тип %1$s не определён.</string>
     <string name="WrongArgsException">WrongArgsException</string>
     <string name="WrongTypeInputException">WrongTypeInputException</string>
-    <string name="PascalArithmeticException">Арифметическое исключение: %1%s</string>
+    <string name="PascalArithmeticException">Арифметическое исключение: %1$s</string>
     <string name="UnhandledPascalException">PascalArithmeticException</string>
     <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
     <string name="PluginCallException">PascalArithmeticException</string>

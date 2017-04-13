@@ -6,7 +6,6 @@ public class RuntimePascalException extends Exception {
     public LineInfo line;
 
     public RuntimePascalException() {
-
     }
 
     public RuntimePascalException(LineInfo line) {

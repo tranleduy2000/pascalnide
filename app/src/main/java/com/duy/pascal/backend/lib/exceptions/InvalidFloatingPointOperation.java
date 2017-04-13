@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib;
+package com.duy.pascal.backend.lib.exceptions;
 
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
@@ -8,7 +8,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * Created by Duy on 08-Apr-17.
  */
 
-class InvalidFloatingPointOperation extends RuntimePascalException {
+public  class InvalidFloatingPointOperation extends RuntimePascalException {
     private Object object;
 
     public InvalidFloatingPointOperation(Object d) {

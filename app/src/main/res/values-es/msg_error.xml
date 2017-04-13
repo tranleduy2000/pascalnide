@@ -25,7 +25,7 @@
     <string name="ExpectedTokenException">Se esperaba el siguiente simbolo: %1$s en cambio.\nSe encontro el siguiente: %2$s</string>
     <string name="IncompatableFunctionDeclaration">La declaracion de una función genera un conflicto tipo %1$s. Ya que fue definido previamente como %2$s</string>
     <string name="InputStreamNotFoundException">No se encontro un flujo de entrada</string>
-    <string name="LibraryNotFoundException">No se puede encontrar la libreria %1%s</string>
+    <string name="LibraryNotFoundException">No se puede encontrar la libreria %1$s</string>
     <string name="MainProgramNotFoundException">Programa principal no encontrado</string>
     <string name="MisplacedDeclarationException">La definición de %1$s no es apropiada en: %2$s</string>
     <string name="MultipleDefaultValuesException">Los valores por defecto solo pueden ser usados si se declara una variable a la vez.</string>
@@ -40,12 +40,12 @@
     <string name="OverridingFunctionException">Reedifiniendo función a %1$s, que previamente estaba definida a %1$s</string>
     <string name="SameNameException">%1$s %2$s conflictos con %3$s previamente definida con el mismo nombre que %4$s</string>
     <string name="UnAssignableTypeException">La expreción %1$s no puede tener un valor asignada.</string>
-    <string name="UnconvertibleTypeException" formatted="false">La expreción o variable %1%s es de tipo %2$s que no puede ser %3$s convertir a tipo %4$s </string>
+    <string name="UnconvertibleTypeException" formatted="false">La expreción o variable %1$s es de tipo %2$s que no puede ser %3$s convertir a tipo %4$s </string>
     <string name="UnrecognizedTokenException">El siguiente simbolo no pertenece aquí: %1$s</string>
     <string name="UnrecognizedTypeException">El tipo %1$s no esta definido.</string>
     <string name="WrongArgsException">Excepción de argumentos erroneos</string>
     <string name="WrongTypeInputException">Excepción tipo de entrada erroneo</string>
-    <string name="PascalArithmeticException">Expreción aritmetica: %1%s</string>
+    <string name="PascalArithmeticException">Expreción aritmetica: %1$s</string>
     <string name="UnhandledPascalException">Excepción no controlada de Pascal</string>
     <string name="PascalIndexOutOfBoundsException">Excepción de índice fuera de los limites</string>
     <string name="PluginCallException">Excepción de llamada de plugin</string>

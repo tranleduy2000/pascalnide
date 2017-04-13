@@ -45,7 +45,6 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     }
 
     public void run() throws RuntimePascalException {
-//        StackFunction.reset();
         try {
             runImpl();
         } catch (RuntimePascalException e) {

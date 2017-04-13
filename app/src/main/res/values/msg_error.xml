@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="expected_token">Expected the following name to appear:</string>
-    <string name="expected_token_2">Expected the following name to appear:</string>
+    <string name="expected_token_2">There was the following name:</string>
     <string name="not_define_msg">is not a variable or function name</string>
     <string name="bad_function_msg1">"One or more arguments has an incorrect type when calling function "</string>
     <string name="bad_function_msg2">"Either too few or two many arguments are being passed to function "</string>
@@ -20,12 +20,11 @@
     One has type \"%4$s\" and the value has type \"%5$s\"</string>
     <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
     <string name="ConstantCalculationException">Error while computing constant value: %1$s</string>
-    <string name="DivisionByZeroException">Division by zero</string>
     <string name="ExpectedAnotherTokenException">Another name is expected before the end of this construct.</string>
     <string name="ExpectedTokenException">Expected the following name to appear: %1$s instead.\nThere was the following name: %2$s</string>
     <string name="IncompatableFunctionDeclaration">Function declaration declares conflicting return type %1$s. It previously was defined as %2$s</string>
     <string name="InputStreamNotFoundException">Input stream not found exception</string>
-    <string name="LibraryNotFoundException">Can not find library %1%s</string>
+    <string name="LibraryNotFoundException">Can not find library %1$s</string>
     <string name="MainProgramNotFoundException">Main program not found</string>
     <string name="MisplacedDeclarationException">Definition of %1$s is not appropriate here: %2$s</string>
     <string name="MultipleDefaultValuesException">Default Values can only be used when declaring variables one at a time.</string>
@@ -38,30 +37,48 @@
     <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
     <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
     <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
-    <string name="UnconvertibleTypeException" formatted="false">The expression or variable %1%s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
+    <string name="UnconvertibleTypeException">The expression or variable %1$s is of type %2$s which cannot be %3$s converted to the type %4$s </string>
     <string name="UnrecognizedTokenException">The following name doesn\'t belong here: %1$s</string>
     <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
-    <string name="PascalArithmeticException">Arithmetic Exception: %1%s</string>
+    <string name="PascalArithmeticException">Arithmetic Exception: %1$s</string>
     <string name="ScriptTerminatedException">Script was manually terminated before it could finish executing</string>
 
     <string name="WrongArgsException">Wrong Args Exception</string>
     <string name="WrongTypeInputException">Wrong Type Input Exception</string>
     <string name="UnhandledPascalException">Pascal Arithmetic Exception</string>
     <string name="PascalIndexOutOfBoundsException">PascalArithmeticException</string>
-    <string name="PluginCallException">Pascal Arithmetic Exception</string>
+    <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
     <string name="RuntimePascalException">Pascal Arithmetic Exception</string>
     <string name="InternalInterpreterException">InternalInterpreterException</string>
     <string name="PluginReflectionException">Attempting to use reflection when: %1$s</string>
     <string name="ZeroLengthVariableException">Zero Length Variable Exception</string>
     <string name="OperationNotSupportedException">OperationNotSupportedException</string>
     <string name="OrdinalExpressionExpectedException">OrdinalExpressionExpectedException</string>
-
-    <string name="DiskReadErrorException">Disk Read Error Exception</string>
-    <string name="FileNotAssignException">File Not Assign Exception</string>
-    <string name="FileNotFoundException">File Not Found Exception</string>
-    <string name="FileNotOpenException">File Not Open Exception</string>
-    <string name="FileNotOpenForInputException">File Not Open For Input Exception</string>
     <string name="CanNotReadVariableException">Can not read variable of this type</string>
     <string name="RangeCheckError">1. An array was accessed with an index outside its declared range.\n
         2. Trying to assign a value to a variable outside its range (for instance an enumerated type).</string>
+
+    <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
+    <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
+    <string name="FileNotFoundException">Reported when trying to erase, rename or open a non-existent file.</string>
+    <string name="FileNotOpenException">Reported by the following functions : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite if the file is not open.</string>
+    <string name="FileNotOpenForInputException">Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.</string>
+
+    <string name="DivisionByZeroException">The application attempted to divide a number by zero.</string>
+    <string name="PathNotFoundException">Reported by the directory handling routines when a path does not exist or is invalid. Also reported when trying to access a non-existent file.</string>
+    <string name="TooManyOpenFileException">The maximum number of files currently opened by your process has been reached. Certain operating systems limit the number of files which can be opened concurrently, and this error can occur when this limit has been reached.</string>
+    <string name="FileAccessDeniedException"><![CDATA[
+Permission to access the file is denied. This error might be caused by one of several reasons:
+- Trying to open for writing a file which is read-only, or which is actually a directory.
+- File is currently locked or used by another process.
+- Trying to create a new file, or directory while a file or directory of the same name already exists.
+- Trying to read from a file which was opened in write-only mode.
+- Trying to write from a file which was opened in read-only mode.
+- Trying to remove a directory or file while it is not possible.
+- No permission to access the file or directory.
+    ]]></string>
+
+    <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
+    <string name="StackOverflowError">The stack has grown beyond its maximum size (in which case the size of local variables should be reduced to avoid this error), or the stack has become corrupt.</string>
+    <string name="InvalidFloatingPointOperation">Can occur if you try to calculate the square root or logarithm of a negative number.</string>
 </resources>
