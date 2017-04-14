@@ -56,4 +56,5 @@
         Current lower is %1$s and upper is %2$s</string>
     <string name="MissingSemicolonTokenException">Missing semicolon (;) token near line %1$s</string>
     <string name="MissingCommaTokenException">Missing comma (,) token near line %1$s</string>
+    <string name="StrayCharacterException">Stray character in program: %1$s</string>
 </resources>
