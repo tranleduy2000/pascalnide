@@ -27,11 +27,12 @@ public class RangeOfValues implements CaseCondition {
 
     @Override
     public boolean fits(Object value) throws RuntimePascalException {
-        return (Boolean) greater_than_lower.getValue(null, null) && (Boolean) less_than_higher.getValue(null, null);
+        return (Boolean) greater_than_lower.getValue(null, null)
+                && (Boolean) less_than_higher.getValue(null, null);
     }
 
     @Override
-    public LineInfo getline() {
+    public LineInfo getLine() {
         return line;
     }
 }

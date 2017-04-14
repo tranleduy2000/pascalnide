@@ -6,6 +6,7 @@ import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
+import com.duy.pascal.backend.exceptions.NonIntegerException;
 import com.duy.pascal.backend.exceptions.OverridingFunctionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
@@ -23,6 +24,7 @@ import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.math.MathLib;
+import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
 import com.duy.pascal.backend.tokens.CommentToken;
@@ -39,6 +41,7 @@ import com.duy.pascal.backend.tokens.basic.TypeToken;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
+import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.google.common.collect.ArrayListMultimap;
@@ -224,7 +227,30 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 if (!(next instanceof OperatorToken && ((OperatorToken) next).type == OperatorTypes.EQUALS)) {
                     throw new ExpectedTokenException("=", next);
                 }
-                typedefs.put(name, i.getNextPascalType(this));
+
+                DeclaredType type = i.getNextPascalType(this);
+
+                //process string with define length
+                if (type.equals(BasicType.StringBuilder)) {
+                    if (i.peek() instanceof BracketedToken) {
+                        BracketedToken bracketedToken = (BracketedToken) i.take();
+
+                        ReturnsValue unconverted = bracketedToken.getNextExpression(this);
+                        ReturnsValue converted = BasicType.Integer.convert(unconverted, this);
+
+                        if (converted == null) {
+                            throw new NonIntegerException(unconverted);
+                        }
+
+                        if (bracketedToken.hasNext()) {
+                            throw new ExpectedTokenException("]", bracketedToken.take());
+                        }
+                        ((BasicType) type).setLength(converted);
+                    }
+                }
+
+
+                typedefs.put(name, type);
                 i.assertNextSemicolon();
             }
         } else if (next instanceof CommentToken) {

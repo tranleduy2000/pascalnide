@@ -6,5 +6,5 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 public interface CaseCondition {
     public boolean fits(Object value) throws RuntimePascalException;
 
-    public LineInfo getline();
+    public LineInfo getLine();
 }

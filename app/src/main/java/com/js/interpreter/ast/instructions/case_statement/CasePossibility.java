@@ -36,13 +36,12 @@ public class CasePossibility extends DebuggableExecutable {
 
     @Override
     public LineInfo getLine() {
-        return conditions[0].getline();
+        return conditions[0].getLine();
     }
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        return new CasePossibility(conditions,
-                commands.compileTimeConstantTransform(c));
+        return new CasePossibility(conditions, commands.compileTimeConstantTransform(c));
     }
 }

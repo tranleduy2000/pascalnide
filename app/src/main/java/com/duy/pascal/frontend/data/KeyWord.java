@@ -20,7 +20,7 @@ public class KeyWord {
             "dec(", "inc(",
 
             //io
-            "writeln", "readln", "write", "read",
+            "writeln()", "readln()", "write()", "read()",
 
             //convert
             "str(", "val(", "chr(", "ord(",
