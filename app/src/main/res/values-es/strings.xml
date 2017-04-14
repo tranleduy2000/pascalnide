@@ -118,8 +118,9 @@
     <string name="DarkGray">Dark Gray</string>
     <string name="BrightYellow">Bright Yellow</string>
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
-    <string name="your_languague">Your language</string>
+    <string name="your_language">Your language</string>
     <string name="other">Otro</string>
+    <string name="logo">Logo</string>
 
 </resources>
 

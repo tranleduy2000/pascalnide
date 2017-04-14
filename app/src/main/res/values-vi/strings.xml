@@ -86,7 +86,7 @@
     <string name="closed">Đã đóng</string>
     <string name="complete">Hoàn thành</string>
     <string name="view_console">Xem console</string>
-    <string name="help_me_translate">Help me translate app</string>
+    <string name="help_me_translate">Giúp nhà phát triển dịch ứng dụng</string>
     <string name="name">Tên của bạn</string>
     <string name="rerun">Chạy lại chương trình</string>
     <string name="resume_program">Tiếp tục chương trình</string>
@@ -102,7 +102,7 @@
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="pas_file">Tệp pas</string>
     <string name="pascal_for_android">Pascal cho Android</string>
-    <string name="inp_file">File inp</string>
+    <string name="inp_file">Tệp input (*.inp)</string>
     <string name="license">Giấy phép nguồn mở</string>
     <string name="translate">Dịch thuật</string>
     <string name="background_console">Màu nền console</string>
@@ -117,7 +117,8 @@
     <string name="file_exist">Tệp đã tồn tại, vui lòng nhập tên khác!</string>
     <string name="send_mail">Gửi mail…</string>
     <string name="no_mail_clients">Hiện tại không có ứng dụng email nào được cài đặt.</string>
-    <string name="your_languague">Your language</string>
+    <string name="your_language">Ngôn ngữ của bạn</string>
     <string name="other">Tệp khác</string>
+    <string name="logo">Biểu tượng</string>
 
 </resources>

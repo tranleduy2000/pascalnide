@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
+    android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:clickable="true"
     app:cardUseCompatPadding="true">
 
     <LinearLayout

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="expected_token">Se esperaba el siguiente simbolo:</string>
+    <string name="ExpectedTokenException">Se esperaba el siguiente simbolo:</string>
     <string name="bad_function_msg1">"Uno o mas argumentos tienen un tipo incorrecto cuando se llama a la función "</string>
     <string name="bad_function_msg2">"Muy pocos ó muchos argumentos están siendo pasados a función "</string>
     <string name="can_not_call_func">No se puede llamar a la funcón</string>
     <string name="func_not_define">" , no esta definido."</string>
     <string name="multi_define_main">Multiples definiciones de main</string>
-      <string name="INCOMPLETE_CHAR">Carácter literal incompleto</string>
+    <string name="INCOMPLETE_CHAR">Carácter literal incompleto</string>
     <string name="token_not_belong">"El siguiente simbolo no pertenece aquí: "</string>
     <string name="main_program_not_define">Programa principal no encontrado</string>
-    <string name="BadOperationTypeException">El operador \"%1$s\" no puede ser aplicado a los argumentos \"%2$s\" y \"%3$s\".\n
-    Uno es de tipo \"%4$s\" y el otro es \"%5$s\"</string>
+
     <string name="BadOperationTypeException2">El operador \"%1$s\" no es un operador unario</string>
     <string name="ConstantCalculationException">Ocurrio un error mientras se computaba el valor de la constante: %1$s</string>
     <string name="LibraryNotFoundException">No se puede encontrar la libreria %1$s</string>
@@ -25,7 +24,6 @@
     <string name="UnAssignableTypeException">La expreción %1$s no puede tener un valor asignada.</string>
     <string name="UnrecognizedTypeException">El tipo %1$s no esta definido.</string>
     <string name="PascalArithmeticException">Expreción aritmetica: %1$s</string>
-    <string name="PluginCallException">Excepción de llamada de plugin</string>
 
     <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
     <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
@@ -49,6 +47,10 @@
     <string name="MISMATCHED_BEGIN_END">Error en la construcción de la estructura begin - end.</string>
     <string name="EXTRA_END">Tienens un \'end\' extra en tu programa</string>
     <string name="IO_EXCEPTION">Ocurrio un problema IOException mientras se leía la entrada</string>
-    <string name="expected_token_2">There was the following name:</string>
+    <string name="ExpectedTokenException_2">There was the following name:</string>
+    <string name="CanNotReadVariableException">Can not read variable of this type</string>
+    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
+    One has type \"%4$s\" and the other has type \"%5$s\"</string>
+    <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
 
 </resources>

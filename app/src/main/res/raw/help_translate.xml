@@ -2,6 +2,7 @@
 <help_translate>
     <user
         name="Trần Lê Duy"
+        code="vi"
         image=""
         lang="Tiếng Việt"
         link="https://www.facebook.com/leduycs"
@@ -9,6 +10,7 @@
 
     <user
         name="Nikita Merkuryev"
+        code="ru"
         image=""
         lang="Russia"
         link="https://vk.com/n1k1ta13"
@@ -16,20 +18,23 @@
 
     <user
         name="Franco Rossi"
+        code="es"
         image=""
         lang="Spanish"
         link=""
         mail="francorossia@gmail.com" />
     <user
         name="Marek Michalovič"
+        code="cs"
         image=""
         lang="Čeština"
         link=""
         mail="marek14michalovic@gmail.com" />
     <user
         name="Marek Michalovič"
+        code="sk"
         image=""
         lang="Slovenčina"
         link=""
-        mail="marek14michalovic@gmail.comm" />
+        mail="marek14michalovic@gmail.com" />
 </help_translate>

@@ -1,55 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="expected_token">Mã được đề nghị:</string>
-    <string name="expected_token_2">Mã hiện tại là:</string>
+    <string name="ExpectedTokenException">Mã được đề nghị:</string>
+    <string name="ExpectedTokenException_2">Mã hiện tại là:</string>
     <string name="bad_function_msg1">"Một hoặc nhiều tham số không đúng kiểu dữ liệu khi gọi hàm "</string>
     <string name="bad_function_msg2">"Có quá ít hoặc quá nhiều tham số khi gọi hàm "</string>
     <string name="can_not_call_func">"Không thể gọi hàm "</string>
     <string name="func_not_define">" , hàm chưa được khai báo."</string>
     <string name="multi_define_main">Quá nhiều chương trình chính được định nghĩa</string>
     <string name="EXTRA_END">Dư từ khóa \'end\' trong chương trình của bạn</string>
-   <string name="token_not_belong">"Từ khóa hoặc cú pháp không tồn tại: "</string>
+    <string name="token_not_belong">"Từ khóa hoặc cú pháp không tồn tại: "</string>
     <string name="main_program_not_define">Không tìm thấy chương trình chính</string>
 
-    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
-    One has type \"%4$s\" and the value has type \"%5$s\"</string>
-    <string name="BadOperationTypeException2">Operator \"%1$s\" is not a unary operator</string>
-    <string name="ConstantCalculationException">Error while computing constant value: %1$s</string>
-    <string name="LibraryNotFoundException">Can not find library %1$s</string>
-    <string name="MultipleDefaultValuesException">Default Values can only be used when declaring variables one at a time.</string>
-    <string name="NonArrayIndexed">Tried to do indexed access on something which wasn\'t an array or a string. It was a %1$s</string>
-    <string name="NonConstantExpressionException">The expression %1$s is not constant.</string>
-    <string name="NonIntegerIndexException">Array indexes must be integers: %1$s</string>
-    <string name="NoSuchFunctionOrVariableException">%1$s is not a variable or function name</string>
-    <string name="NotAStatementException">%1$s is not an instruction by itself.</string>
-    <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
+    <string name="BadOperationTypeException">Phép toán \"%1$s\" không thể áp dụng cho tham số \"%2$s\" và \"%3$s\".\n
+    Một tham số có kiểu \"%4$s\" và một tham số có kiểu \"%5$s\"</string>
+
+    <string name="BadOperationTypeException2">Phép toán \"%1$s\" không phải là toán tử</string>
+    <string name="ConstantCalculationException">Lỗi khi tính toán với hằng số: %1$s</string>
+    <string name="LibraryNotFoundException">Không tìm thấy thư viện %1$s</string>
+    <string name="MultipleDefaultValuesException">Có quá nhiều giá trị mặc định, giá trị mặc định chỉ có thể gán cho biến một lần duy nhất.</string>
+    <string name="NonArrayIndexed">Đã cố gắng truy cập được lập vào vị trí của một cái gì đó không phải là một mảng hoặc một chuỗi. Đó là %1$s</string>
+    <string name="NonConstantExpressionException">Biểu thức %1$s không phải là một hằng</string>
+    <string name="NonIntegerIndexException">Chỉ số mảng phải là số nguyên: %1$s</string>
+    <string name="NoSuchFunctionOrVariableException">%1$s không phải là biến hoặc hàm (vui lòng khai báo nếu bị thiếu)</string>
+    <string name="NotAStatementException">%1$s không phải là một chỉ dẫn của chính nó.</string>
+    <string name="OverridingFunctionException">Lỗi khi định nghĩa lại phần thân của hàm %1$s, nó đã được định nghĩa ở dòng %1$s</string>
     <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
-    <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
-    <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
-    <string name="PascalArithmeticException">Arithmetic Exception: %1$s</string>
-    <string name="PluginCallException">PascalArithmeticException</string>
+    <string name="UnAssignableTypeException">Biểu thức %1$s không thể có giá trị được gán cho nó.</string>
+    <string name="UnrecognizedTypeException">Kiểu %1$s chưa được khai báo.</string>
+    <string name="PascalArithmeticException">Lỗi khi tính toán: %1$s</string>
 
-    <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
-    <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
-    <string name="FileNotFoundException">Reported when trying to erase, rename or open a non-existent file.</string>
-    <string name="FileNotOpenException">Reported by the following functions : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite if the file is not open.</string>
-    <string name="FileNotOpenForInputException">Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.</string>
+    <string name="DiskReadErrorException">Xảy ra lỗi khi đọc từ tệp. Lỗi này thường xảy ra khi bạn cố đọc phần cuối của một tập tin (khi không còn dữ liệu để đọc).</string>
+    <string name="FileNotAssignException">Tệp chưa được chỉ định (cần gọi hàm ASSIGN trước khi khi gọi các hàm Reset, Rewrite, Append, Rename và Erase)</string>
+    <string name="FileNotFoundException">Lỗi khi cố gắng xóa, đổi tên hoặc mở tệp không tồn tại.</string>
+    <string name="FileNotOpenException">Tệp chưa được mở, cần mở file trước khi gọi các hàm: Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, và BlockWrite.</string>
+    <string name="FileNotOpenForInputException">Tệp không được mở bằng hàm RESET. Lỗi này xảy ra khi dùng các hàm Read, BlockRead, Eof, Eoln, SeekEof hoặc SeekEoln mà chưa mở file</string>
 
-    <string name="DivisionByZeroException">The application attempted to divide a number by zero.</string>
+    <string name="DivisionByZeroException">Lỗi khi cố gắng chia một số cho 0</string>
 
-    <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
-    <string name="NonIntegerException">Value must be integers: %1$s</string>
-    <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
+    <string name="InvalidNumericFormatException">Lỗi khi đọc dữ liệu từ file, biến được đọc là số nhưng dữ liệu không phải là số</string>
+    <string name="NonIntegerException">Giá trị phải là số nguyên: %1$s</string>
+    <string name="ChangeValueConstantException">Giá trị lưu trong hằng không thể bị thay đổi</string>
 
-    <string name="UNFINISHED_BEGIN_END">Unfinished begin - end construct</string>
-    <string name="UNFINISHED_PARENTHESES">You forgot to close your parentheses</string>
-    <string name="UNFINISHED_BRACKETS">You forgot to close your brackets</string>
-    <string name="MISSING_INCLUDE">Missing file to include</string>
-    <string name="NEWLINE_IN_QUOTES">You must close your quotes before starting a new line</string>
+    <string name="UNFINISHED_BEGIN_END">Chưa kết thúc cấu trúc begin-end</string>
+    <string name="UNFINISHED_PARENTHESES">Bạn quên đóng dấu ngoặc tròn</string>
+    <string name="UNFINISHED_BRACKETS">Bạn quên đóng dấu ngoặc vuông</string>
+    <string name="MISSING_INCLUDE">Không tìm thấy tệp</string>
+    <string name="NEWLINE_IN_QUOTES">Bạn phải đóng dấu \\\' trước khi bắt đầu một dòng mới (lỗi có thể xảy ra khi gõ một chuỗi).</string>
     <string name="MISMATCHED_PARENTHESES">Cặp ngoặc đơn không khớp nhau</string>
     <string name="MISMATCHED_BRACKETS">Cặp ngoặc vuông không khớp nhau</string>
     <string name="MISMATCHED_BEGIN_END">Cấu trúc begin - end không phù hợp, dư từ khóa begin hoặc end</string>
     <string name="IO_EXCEPTION">Lỗi nhập xuất</string>
-    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
+    <string name="INCOMPLETE_CHAR">Ký tự chữ (char) không đầy đủ</string>
+    <string name="CanNotReadVariableException">Không thể nhập dữ liệu vào biến này</string>
+    <string name="PluginCallException">Lỗi khi gọi hàm %1$s. Lỗi Java: %2$s</string>
 
 </resources>

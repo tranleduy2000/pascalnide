@@ -106,8 +106,8 @@
     </PreferenceCategory>
 
     <!--<PreferenceCategory-->
-        <!--android:enabled="false"-->
-        <!--android:title="@string/keyboard_shortcut">-->
+    <!--android:enabled="false"-->
+    <!--android:title="@string/keyboard_shortcut">-->
 
     <!--</PreferenceCategory>-->
 

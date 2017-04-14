@@ -121,7 +121,8 @@
     <string name="file_exist">File is exist, please enter value name!</string>
     <string name="send_mail">Send mail…</string>
     <string name="no_mail_clients">There are no email clients installed.</string>
-    <string name="your_languague">Your language</string>
+    <string name="your_language">Your language</string>
     <string name="other">Other</string>
+    <string name="logo">Logo</string>
 </resources>
 

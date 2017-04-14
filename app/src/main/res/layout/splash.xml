@@ -9,6 +9,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
+        android:contentDescription="@string/logo"
         android:src="@mipmap/icon" />
 
     <TextView
@@ -17,14 +18,14 @@
         android:padding="16dp"
         android:text="@string/pascal_for_android"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@color/key_word_color"
+        android:textColor="@color/color.key_word_color"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nguyen Binh Khiem High School"
-        android:textColor="@color/key_word_color" />
+        android:textColor="@color/color.key_word_color" />
 
 
 </LinearLayout>

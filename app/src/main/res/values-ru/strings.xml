@@ -123,6 +123,7 @@
     <string name="file_exist">Файл с таким именем уже существует!</string>
     <string name="send_mail">Отправить письмо…</string>
     <string name="no_mail_clients">Нет установленных почтовых клиентов.</string>
-    <string name="your_languague">Твой язык</string>
+    <string name="your_language">Твой язык</string>
+    <string name="logo">Logo</string>
 
 </resources>

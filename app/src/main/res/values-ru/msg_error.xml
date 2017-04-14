@@ -7,15 +7,14 @@
     <string name="bad_function_msg1">Один или несколько аргументов имеют неправильный тип при вызове функции</string>
     <string name="bad_function_msg2">Слишком мало или слишком много аргументов передаются функции</string>
     <string name="can_not_call_func">Невозможно вызвать функцию</string>
-    <string name="func_not_define">" , который не определен."</string>
+    <string name="func_not_define">" , который не определён."</string>
     <string name="multi_define_main">Несколько основных определений</string>
     <string name="main_program_not_define">Основная программа не найдена</string>
-    <string name="expected_token">Ожидается, появление следующего токена:</string>
-    <string name="expected_token_2">Ожидается, появление следующего токена:</string>
+    <string name="ExpectedTokenException">Ожидается, появление следующего токена:</string>
+    <string name="ExpectedTokenException_2">Ожидается, появление следующего токена:</string>
     <string name="token_not_belong">"Следующий токен, неуместен здесь: "</string>
 
-    <string name="BadOperationTypeException">Оператор \"%1$s\" не может применяться к аргументам \"%2$s\" и \"%3$s\".\n
-    У одного тип \"%4$s\", а у другого \"%5$s\"</string>
+
     <string name="BadOperationTypeException2">Оператор \"%1$s\" не является унарным оператором</string>
     <string name="ConstantCalculationException">Ошибка при вычислении постоянного значения: %1$s</string>
     <string name="LibraryNotFoundException">Не удается найти библиотеку %1$s</string>
@@ -30,26 +29,29 @@
     <string name="UnAssignableTypeException">Выражение %1$s не может иметь назначенного ему значения.</string>
     <string name="UnrecognizedTypeException">Тип %1$s не определён.</string>
     <string name="PascalArithmeticException">Арифметическое исключение: %1$s</string>
-    <string name="PluginCallException">PascalArithmeticException</string>
 
-    <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
-    <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
-    <string name="FileNotFoundException">Reported when trying to erase, rename or open a non-existent file.</string>
-    <string name="FileNotOpenException">Reported by the following functions : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite if the file is not open.</string>
-    <string name="FileNotOpenForInputException">Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.</string>
+    <string name="DiskReadErrorException">Произошла ошибка при чтении с диска.</string>
+    <string name="FileNotAssignException">Об этом сообщает Reset, Rewrite, Append, Rename и Erase, если вы вызываете их с неназначенным файлом в качестве параметра.</string>
+    <string name="FileNotFoundException">Сообщается при попытке удалить, переименовать или открыть несуществующий файл.</string>
+    <string name="FileNotOpenException">Сообщается по следующим функциям: Закрыть, Чтение, Запись, Поиск, EOf, FilePos, FileSize, Flush, BlockRead и BlockWrite, если файл не открыт.</string>
+    <string name="FileNotOpenForInputException">Сообщается Read, BlockRead, Eof, Eoln, SeekEof или SeekEoln, если файл не открывается с помощью Reset.</string>
 
-    <string name="DivisionByZeroException">The application attempted to divide a number by zero.</string>
+    <string name="DivisionByZeroException">Приложение попыталось разделить число на ноль.</string>
 
-    <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
-    <string name="NonIntegerException">Value must be integers: %1$s</string>
-    <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
+    <string name="InvalidNumericFormatException">Сообщается, когда нечисловое значение считывается из текстового файла, и ожидается числовое значение.</string>
+    <string name="NonIntegerException">Значение должно быть целым числом: %1$s</string>
+    <string name="ChangeValueConstantException">Значение, сохраненное в константе, не может быть изменено.</string>
     <string name="EXTRA_END">У Вас есть дополнительный \'end\' в программе</string>
 
-    <string name="UNFINISHED_BEGIN_END">Unfinished begin - end construct</string>
-    <string name="UNFINISHED_PARENTHESES">You forgot to close your parentheses</string>
-    <string name="UNFINISHED_BRACKETS">You forgot to close your brackets</string>
-    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
-    <string name="MISSING_INCLUDE">Missing file to include</string>
-    <string name="NEWLINE_IN_QUOTES">You must close your quotes before starting a new line</string>
+    <string name="UNFINISHED_BEGIN_END">Незаконченная конструкция begin - end</string>
+    <string name="UNFINISHED_PARENTHESES">Вы не закрыли круглые скобки</string>
+    <string name="UNFINISHED_BRACKETS">Вы не закрыли свои скобки</string>
+    <string name="INCOMPLETE_CHAR">Неполный символьный литерал</string>
+    <string name="MISSING_INCLUDE">Отсутствует файл, который нужно включить.</string>
+    <string name="NEWLINE_IN_QUOTES">Закройте свои цитаты перед началом новой строки</string>
+    <string name="CanNotReadVariableException">Can not read variable of this type</string>
+    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
+    One has type \"%4$s\" and the other has type \"%5$s\"</string>
+    <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
 
 </resources>

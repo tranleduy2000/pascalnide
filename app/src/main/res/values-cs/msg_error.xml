@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="expected_token">Byl očekáván tento název:</string>
+    <string name="ExpectedTokenException">Byl očekáván tento název:</string>
 
     <string name="bad_function_msg1">"Jeden nebo více argumentů má při volání funkce nesprávný typ "</string>
     <string name="bad_function_msg2">"Funkcii bylo odevzdaných příliš málo nebo příliš mnoho argumentů"</string>
@@ -9,8 +9,7 @@
     <string name="multi_define_main">Více definicí hlavní</string>
     <string name="token_not_belong">"Nasledující název sem nepatří: "</string>
     <string name="main_program_not_define">Hlavní program nenalezen</string>
-    <string name="BadOperationTypeException">Operace \"%1$s\" nemůže být aplikovaná argumentem \"%2$s\" a \"%3$s\".\n
-    První argument je typu \"%4$s\" a druhý je typu \"%5$s\"</string>
+
     <string name="BadOperationTypeException2">Operace \"%1$s\" není unární operace</string>
     <string name="ConstantCalculationException">Chyba při výpočtu konstantní hodnoty: %1$s</string>
     <string name="LibraryNotFoundException">Nelze najít knihovnu %1%s</string>
@@ -26,7 +25,6 @@
     <string name="UnrecognizedTypeException">Typ %1$s není definován.</string>
     <string name="PascalArithmeticException">Arithmetic Exception: %1%s</string>
 
-    <string name="PluginCallException">Pascal aritmetická chyba</string>
 
     <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
     <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
@@ -51,4 +49,8 @@
     <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
     <string name="MISSING_INCLUDE">Missing file to include</string>
     <string name="NEWLINE_IN_QUOTES">You must close your quotes before starting a new line</string>
+    <string name="CanNotReadVariableException">Can not read variable of this type</string>
+    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
+    One has type \"%4$s\" and the other has type \"%5$s\"</string>
+    <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
 </resources>

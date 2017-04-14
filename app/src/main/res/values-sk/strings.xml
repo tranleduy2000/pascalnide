@@ -122,14 +122,15 @@
     <string name="file_exist">Súbor už existuje, zadajte prosím iný názov!</string>
     <string name="send_mail">Poslať mail…</string>
     <string name="no_mail_clients">Nie je nainštalovaný žiaden e-mailový klient.</string>
-    <string name="your_languague">Váš jazyk</string>
+    <string name="your_language">Váš jazyk</string>
     <string name="EspressoLibre">Espresso Libre</string>
     <string name="Idel">Idel</string>
     <string name="KFT2">KFT2</string>
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
     <string name="BrightYellow">Bright Yellow</string>
     <string name="DarkGray">Dark Gray</string>
-    <string name="expected_token_2">There was the following name:</string>
+    <string name="ExpectedTokenException_2">There was the following name:</string>
+    <string name="logo">Logo</string>
 
 </resources>
 

@@ -11,10 +11,10 @@
     android:paddingStart="8dp">
 
     <RelativeLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/img_delete"
-        android:id="@+id/container"
         android:layout_toStartOf="@+id/img_delete"
         android:gravity="center_vertical|start"
         android:minHeight="50dp">

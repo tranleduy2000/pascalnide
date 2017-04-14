@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="expected_token">Bol oèakávaný tento názov:</string>
+    <string name="ExpectedTokenException">Bol oèakávaný tento názov:</string>
     <string name="bad_function_msg1">"Jeden alebo viac argumentov má pri volaní funkcie nesprávny typ "</string>
     <string name="bad_function_msg2">"Funkcii bolo odovzdaných príliš málo alebo príliš ve¾a argumentov "</string>
     <string name="can_not_call_func">Nemožno vola  funkciu</string>
@@ -12,8 +12,7 @@
     <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
     <string name="token_not_belong">"Nasledujúci názov sem nepatrí: "</string>
     <string name="main_program_not_define">Hlavný program nenájdený</string>
-    <string name="BadOperationTypeException">Operácia \"%1$s\" nemôže by  aplikovaná argumentom \"%2$s\" a \"%3$s\".\n
-    Prvý argument je typu \"%4$s\" a druhý je typu \"%5$s\"</string>
+
     <string name="BadOperationTypeException2">Operácia \"%1$s\" nie je unárna operácia</string>
     <string name="ConstantCalculationException">Chyba pri vypoèítavaní konštantnej hodnoty: %1$s</string>
     <string name="LibraryNotFoundException">Nemožno nájs  knižnicu %1$s</string>
@@ -29,7 +28,6 @@
     <string name="UnrecognizedTypeException">Typ %1$s nie je definovaný.</string>
     <string name="PascalArithmeticException">Arithmetic Exception: %1$s</string>
 
-    <string name="PluginCallException">Pascal aritmetická chyba</string>
 
     <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
     <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
@@ -51,4 +49,9 @@
     <string name="MISMATCHED_PARENTHESES">Nesprávne zadané okrúhle zátvorky</string>
     <string name="MISMATCHED_BRACKETS">Nesprávne zadané zátvorky</string>
     <string name="MISMATCHED_BEGIN_END">Nesprávne zadaná konštrukcia begin - end </string>
+    <string name="CanNotReadVariableException">Can not read variable of this type</string>
+    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
+    One has type \"%4$s\" and the other has type \"%5$s\"</string>
+    <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
+
 </resources>

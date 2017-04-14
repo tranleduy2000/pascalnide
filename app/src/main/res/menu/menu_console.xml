@@ -5,8 +5,7 @@
         android:id="@+id/action_next_line"
         android:icon="@drawable/ic_play_arrow_white_24dp"
         android:title="@string/resume_program"
-        app:showAsAction="always">
-    </item>
+        app:showAsAction="always"></item>
     <item
         android:id="@+id/action_show_soft"
         android:icon="@drawable/ic_keyboard_white_24dp"

@@ -100,5 +100,5 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 </android.support.design.widget.CoordinatorLayout>
