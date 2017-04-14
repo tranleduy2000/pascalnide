@@ -125,5 +125,7 @@
     <string name="no_mail_clients">Нет установленных почтовых клиентов.</string>
     <string name="your_language">Твой язык</string>
     <string name="logo">Logo</string>
+    <string name="auto_compile">Auto compile</string>
+    <string name="auto_compile_summary">Automatically compile while typing. The performance of the application will be decrease if using this feature, however, which will help us to report the error faster.</string>
 
 </resources>

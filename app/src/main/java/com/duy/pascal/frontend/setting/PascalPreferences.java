@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 
-import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.utils.FontManager;
 
@@ -172,4 +171,7 @@ public class PascalPreferences {
         return getBoolean(context.getString(R.string.key_pref_show_line_number));
     }
 
+    public boolean isAutoCompile() {
+        return getBoolean(context.getString(R.string.key_pref_auto_compile));
+    }
 }

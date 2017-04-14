@@ -55,4 +55,6 @@
 
     <string name="tab" translatable="false">tab</string>
     <string name="copy_right" translatable="false">Copyright © 2016–2017 by Trần Lê Duy\nAll right reserver</string>
+    <string name="key_pref_auto_compile" translatable="false">key_pref_auto_compile</string>
+k
 </resources>

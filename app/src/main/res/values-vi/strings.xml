@@ -120,5 +120,7 @@
     <string name="your_language">Ngôn ngữ của bạn</string>
     <string name="other">Tệp khác</string>
     <string name="logo">Biểu tượng</string>
+    <string name="auto_compile">Tự động biên dịch</string>
+    <string name="auto_compile_summary">Tự động biên dịch trong khi gõ. Hiệu năng của ứng dụng sẽ bị giảm nếu sử dụng tính năng này, tuy nhiên giúp chúng ta báo lỗi nhanh hơn.</string>
 
 </resources>

@@ -472,8 +472,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     private void startCompile(int longDelay) {
-        updateHandler.removeCallbacks(compileProgram);
-        updateHandler.postDelayed(compileProgram, longDelay);
+        if (mEditorSetting.isAutoCompile()) {
+            updateHandler.removeCallbacks(compileProgram);
+            updateHandler.postDelayed(compileProgram, longDelay);
+        }
     }
 
 
