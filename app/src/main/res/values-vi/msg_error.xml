@@ -53,5 +53,8 @@
     <string name="INCOMPLETE_CHAR">Ký tự chữ (char) không đầy đủ</string>
     <string name="CanNotReadVariableException">Không thể nhập dữ liệu vào biến này</string>
     <string name="PluginCallException">Lỗi khi gọi hàm %1$s. Lỗi Java: %2$s</string>
-
+    <string name="SubRangeException">Upper bound of range is less than lower bound.\n
+        Current lower is %1$s and upper is %2$s</string>
+    <string name="MissingSemicolonTokenException">Missing semicolon (;) token near line %1$s</string>
+    <string name="MissingCommaTokenException">Missing comma (,) token near line %1$s</string>
 </resources>

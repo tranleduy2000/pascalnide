@@ -40,21 +40,12 @@ public abstract class CodeUnit {
         parseTree(grouper.token_queue);
     }
 
-//    private void debug() {
-//        if (DEBUG) {
-//            List<VariableDeclaration> unitVarDefs = context.getVariables();
-//            for (VariableDeclaration variableDeclaration : unitVarDefs) {
-//                System.out.println(variableDeclaration.get_name());
-//            }
-//        }
-//    }
-
     protected CodeUnitExpressionContext getExpressionContextInstance(
             ListMultimap<String, AbstractFunction> functionTable, ExecuteActivity executeActivity) {
         return new CodeUnitExpressionContext(functionTable, executeActivity);
     }
 
-    void parseTree(GrouperToken tokens) throws ParsingException {
+    private void parseTree(GrouperToken tokens) throws ParsingException {
         while (tokens.hasNext()) {
             context.addNextDeclaration(tokens);
         }
@@ -64,10 +55,6 @@ public abstract class CodeUnit {
 
     public String getProgramName() {
         return programName;
-    }
-
-    public void setProgramName(String programName) {
-        this.programName = programName;
     }
 
     protected class CodeUnitExpressionContext extends ExpressionContextMixin {

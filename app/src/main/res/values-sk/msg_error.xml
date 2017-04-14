@@ -53,5 +53,8 @@
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the other has type \"%5$s\"</string>
     <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
-
+    <string name="SubRangeException">Upper bound of range is less than lower bound.\n
+        Current lower is %1$s and upper is %2$s</string>
+    <string name="MissingSemicolonTokenException">Missing semicolon (;) token near line %1$s</string>
+    <string name="MissingCommaTokenException">Missing comma (,) token near line %1$s</string>
 </resources>

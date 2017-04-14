@@ -79,8 +79,7 @@ public class NewLexer implements Runnable {
                     groupers.push((GrouperToken) t);
                 }
             } catch (IOException e) {
-                EnumeratedGroupingException g = new EnumeratedGroupingException(
-                        top_of_stack.lineInfo,
+                EnumeratedGroupingException g = new EnumeratedGroupingException(top_of_stack.lineInfo,
                         EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
                 g.caused = e;
                 TossException(g);

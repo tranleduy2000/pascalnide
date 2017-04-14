@@ -4,6 +4,8 @@ package com.duy.pascal.backend.tokens.grouping;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.MissingCommaTokenException;
+import com.duy.pascal.backend.exceptions.MissingSemicolonTokenException;
 import com.duy.pascal.backend.exceptions.MultipleDefaultValuesException;
 import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.NonIntegerException;
@@ -163,14 +165,14 @@ public abstract class GrouperToken extends Token {
     public void assertNextSemicolon() throws ParsingException {
         Token t = take();
         if (!(t instanceof SemicolonToken)) {
-            throw new ExpectedTokenException(";", t);
+            throw new MissingSemicolonTokenException(t);
         }
     }
 
-    public void assert_next_comma() throws ParsingException {
+    public void assertNextComma() throws ParsingException {
         Token t = take();
         if (!(t instanceof CommaToken)) {
-            throw new ExpectedTokenException(",", t);
+            throw new MissingCommaTokenException(t);
         }
     }
 

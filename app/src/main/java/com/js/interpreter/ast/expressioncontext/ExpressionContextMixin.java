@@ -214,7 +214,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 if (next instanceof SemicolonToken) {
                     break;
                 } else {
-                    i.assert_next_comma();
+                    i.assertNextComma();
                 }
             } while (true);
             i.assertNextSemicolon();

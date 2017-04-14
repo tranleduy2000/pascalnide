@@ -18,6 +18,8 @@ import com.duy.pascal.backend.exceptions.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
+import com.duy.pascal.backend.exceptions.MissingCommaTokenException;
+import com.duy.pascal.backend.exceptions.MissingSemicolonTokenException;
 import com.duy.pascal.backend.exceptions.MultipleDefaultValuesException;
 import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
@@ -34,6 +36,7 @@ import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTypeException;
 import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
+import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
 import com.duy.pascal.backend.lib.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.backend.lib.file.exceptions.FileException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
@@ -75,6 +78,17 @@ public class ExceptionManager {
         try {
             if (e instanceof ExpectedTokenException) {
                 return getExpectedTokenException((ExpectedTokenException) e);
+            }
+            if (e instanceof MissingSemicolonTokenException) {
+                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.line);
+            }
+            if (e instanceof MissingCommaTokenException) {
+                return getMessageResource(e, R.string.MissingCommaTokenException,
+                        ((MissingCommaTokenException) e).line.line);
+            }
+            if (e instanceof StrayCharacterException) {
+                return getMessageResource(e, R.string.StrayCharacterException,
+                        ((StrayCharacterException) e).charCode);
             }
             if (e instanceof NoSuchFunctionOrVariableException) {
                 return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).name);

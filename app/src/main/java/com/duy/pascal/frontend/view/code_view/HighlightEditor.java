@@ -18,6 +18,7 @@ import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -26,15 +27,21 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 
+import com.duy.pascal.backend.core.PascalCompiler;
+import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
+import com.js.interpreter.core.ScriptSource;
 
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.duy.pascal.frontend.data.PatternsUtils.comments;
+import static com.duy.pascal.frontend.data.PatternsUtils.functions;
 import static com.duy.pascal.frontend.data.PatternsUtils.keywords;
 import static com.duy.pascal.frontend.data.PatternsUtils.line;
 import static com.duy.pascal.frontend.data.PatternsUtils.numbers;
@@ -50,12 +57,33 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     private static final String INDEX_CHAR = "m";
     private static final int TAB_NUMBER = 3;
     private final Handler updateHandler = new Handler();
+    private final Object objectThread = new Object();
     public boolean showlines = true;
     public float textSize = 13;
     public boolean wordWrap = true;
     public boolean flingToScroll = true;
     public OnTextChangedListener onTextChangedListener = null;
     public int errorLine = -1;
+    private final Runnable compileProgram = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                new PascalCompiler(null).loadPascal("temp",
+                        new StringReader(getCleanText()),
+                        new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
+                errorLine = -1;
+            } catch (ParsingException e) {
+                if (e.line != null) {
+                    synchronized (objectThread) {
+                        errorLine = e.line.line;
+                    }
+                }
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
     protected int mPaddingDP = 4;
@@ -140,6 +168,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         updateFromSettings();
     }
 
+
     public void setTheme(int id) {
         ThemeFromAssets theme = ThemeFromAssets.getTheme(id, mContext);
         setBackgroundColor(theme.getBackground());
@@ -159,6 +188,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         typedArray.recycle();
 //        setTypeface(FontManager.getInstance(mContext));
     }
+
+//    public void extendSelection(int index) {
+//        Selection.extendSelection(getText(), index);
+//    }
 
     public void setTheme(String name) {
         /**
@@ -194,10 +227,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
 //        setTypeface(FontManager.getInstance(mContext));
     }
-
-//    public void extendSelection(int index) {
-//        Selection.extendSelection(getText(), index);
-//    }
 
     public void computeScroll() {
 //        if (mScroller != null) {
@@ -263,6 +292,12 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             mMaxSize.y = Math.max(mMaxSize.y + mPadding - mDrawingRect.height(), 0);
         }
         super.onDraw(canvas);
+    }
+
+    @Override
+    public void setText(CharSequence text, boolean filter) {
+        super.setText(text, filter);
+        errorLine = -1;
     }
 
     @Override
@@ -428,12 +463,19 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             public void afterTextChanged(Editable e) {
                 if (!modified || hasSelection())
                     return;
-                errorLine = -1;
+//                errorLine = -1;
                 applyTabWidth(e, start, end);
                 updateHighlightWithDelay(LONG_DELAY);
+                startCompile(200);
             }
         });
     }
+
+    private void startCompile(int longDelay) {
+        updateHandler.removeCallbacks(compileProgram);
+        updateHandler.postDelayed(compileProgram, longDelay);
+    }
+
 
     public void applyTabWidth(Editable text, int start, int end) {
         String str = text.toString();
@@ -525,7 +567,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
             CharSequence input = e.subSequence(start, end);
 
-
             //high light number
             for (Matcher m = numbers.matcher(input); m.find(); ) {
                 e.setSpan(new ForegroundColorSpan(COLOR_NUMBER),
@@ -538,6 +579,12 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                e.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
+                        start + m.start(),
+                        start + m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            for (Matcher m = functions.matcher(input); m.find(); ) {
                 e.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
                         start + m.start(),
                         start + m.end(),
@@ -581,7 +628,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 int count = 0;
                 while (m.find()) {
                     if (count == errorLine) {
-                        e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                        e.setSpan(new UnderlineSpan(),
                                 start + m.start(),
                                 start + m.end(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -612,6 +659,11 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         }
         {
             StyleSpan[] spans = e.getSpans(start, end, StyleSpan.class);
+            for (int n = spans.length; n-- > 0; )
+                e.removeSpan(spans[n]);
+        }
+        {
+            UnderlineSpan[] spans = e.getSpans(start, end, UnderlineSpan.class);
             for (int n = spans.length; n-- > 0; )
                 e.removeSpan(spans[n]);
         }
