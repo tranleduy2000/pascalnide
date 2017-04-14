@@ -54,4 +54,6 @@
     <string name="NonIntegerException">Value must be integers: %1$s</string>
     <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
     <string name="token_not_belong">The following name doesn\'t belong here: </string>
+    <string name="SubRangeException">Upper bound of range is less than lower bound.\n
+        Current lower is %1$s and upper is %2$s</string>
 </resources>

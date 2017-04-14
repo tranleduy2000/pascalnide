@@ -4,7 +4,7 @@ import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
-import com.duy.pascal.backend.lib.exceptions.CanNotReadVariableException;
+import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;

@@ -125,7 +125,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         this.mContext = context;
         init();
         mPaintNumbers = new Paint();
-        mPaintNumbers.setColor(getResources().getColor(R.color.number_color));
+        mPaintNumbers.setColor(getResources().getColor(R.color.color_number_color));
         mPaintNumbers.setAntiAlias(true);
 
         mPaintHighlight = new Paint();
@@ -168,25 +168,25 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         TypedArray typedArray = mContext.obtainStyledAttributes(style,
                 R.styleable.CodeTheme);
         typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
-                R.color.bg_editor_color);
+                R.color.color_bg_editor_color);
         COLOR_ERROR = typedArray.getInteger(R.styleable.CodeTheme_error_color,
-                R.color.error_color);
+                R.color.color_error_color);
         COLOR_NUMBER = typedArray.getInteger(R.styleable.CodeTheme_number_color,
-                R.color.number_color);
+                R.color.color_number_color);
         COLOR_KEYWORD = typedArray.getInteger(R.styleable.CodeTheme_key_word_color,
-                R.color.key_word_color);
+                R.color.color_key_word_color);
         COLOR_COMMENT = typedArray.getInteger(R.styleable.CodeTheme_comment_color,
-                R.color.comment_color);
+                R.color.color_comment_color);
         COLOR_STRINGS = typedArray.getInteger(R.styleable.CodeTheme_string_color,
-                R.color.string_color);
+                R.color.color_string_color);
         COLOR_BOOLEANS = typedArray.getInteger(R.styleable.CodeTheme_boolean_color,
-                R.color.boolean_color);
+                R.color.color_boolean_color);
         COLOR_OPT = typedArray.getInteger(R.styleable.CodeTheme_opt_color,
-                R.color.opt_color);
+                R.color.color_opt_color);
         setBackgroundColor(typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
-                R.color.bg_editor_color));
+                R.color.color_bg_editor_color));
         setTextColor(typedArray.getInteger(R.styleable.CodeTheme_normal_text_color,
-                R.color.normal_text_color));
+                R.color.color_normal_text_color));
 
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();

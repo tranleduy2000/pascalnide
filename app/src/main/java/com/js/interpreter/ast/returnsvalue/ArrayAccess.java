@@ -47,7 +47,7 @@ public class ArrayAccess extends DebuggableReturnsValue {
         if (ind == null || cont == null) {
             return null;
         } else {
-            return Array.get(cont, ((Integer) ind) - offset);
+            return Array.get(cont, ((int) ind) - offset);
         }
     }
 
@@ -61,7 +61,7 @@ public class ArrayAccess extends DebuggableReturnsValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         Object cont = container.getValue(f, main);
-        Integer ind = (Integer) index.getValue(f, main);
+        int ind = (int) index.getValue(f, main);
         try {
             return Array.get(cont, ind - offset);
         } catch (ArrayIndexOutOfBoundsException e) {

@@ -4,6 +4,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.ScopedRegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ArrayAccess;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
@@ -22,16 +23,16 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     public final T element_type;
 
-    public SubrangeType bounds;
+    public IntegerSubrangeType bounds;
 
-    public ArrayType(T element_class, SubrangeType bounds) {
+    public ArrayType(T element_class, IntegerSubrangeType bounds) {
         this.element_type = element_class;
         this.bounds = bounds;
     }
 
     public static void pushArrayOfNonArrayType(DeclaredType type, Code code,
-                                               RegisterAllocator ra, List<SubrangeType> ranges) {
-        for (SubrangeType i : ranges) {
+                                               RegisterAllocator ra, List<IntegerSubrangeType> ranges) {
+        for (IntegerSubrangeType i : ranges) {
             code.constant().setValue(i.size);
         }
         // For now we are storing as array of objects always
@@ -160,7 +161,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public void pushDefaultValue(Code code, RegisterAllocator ra) {
-        ArrayList<SubrangeType> ranges = new ArrayList<>();
+        ArrayList<IntegerSubrangeType> ranges = new ArrayList<>();
         ranges.add(bounds);
         element_type.pushArrayOfType(code, ra, ranges);
     }
@@ -259,7 +260,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
     }
 
     public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<SubrangeType> ranges) {
+                                List<IntegerSubrangeType> ranges) {
         ranges.add(bounds);
         element_type.pushArrayOfType(code, ra, ranges);
     }

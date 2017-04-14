@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.lib;
 
-import com.duy.pascal.backend.lib.exceptions.EConvertError;
+import com.duy.pascal.backend.lib.runtime_exceptions.EConvertError;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 

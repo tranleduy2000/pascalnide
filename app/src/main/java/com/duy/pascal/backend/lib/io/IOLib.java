@@ -3,7 +3,7 @@ package com.duy.pascal.backend.lib.io;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.exceptions.CanNotReadVariableException;
+import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;

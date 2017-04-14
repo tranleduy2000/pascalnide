@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
@@ -35,6 +36,6 @@ public interface DeclaredType {
 
     void convertStackToStorageType(Code c);
 
-    void pushArrayOfType(Code code, RegisterAllocator ra, List<SubrangeType> ranges);
+    void pushArrayOfType(Code code, RegisterAllocator ra, List<IntegerSubrangeType> ranges);
 
 }

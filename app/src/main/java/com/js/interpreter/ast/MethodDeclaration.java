@@ -8,7 +8,7 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.VariableContext;
@@ -59,15 +59,15 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return BasicType.anew(type.isPrimitive() ? TypeUtils.getClassForType(type) : type);
     }
 
-    private DeclaredType convertArrayType(Type javatype, Iterator<SubrangeType> arraysizes) {
+    private DeclaredType convertArrayType(Type javatype, Iterator<IntegerSubrangeType> arraysizes) {
         Type subtype;
-        SubrangeType arrayInfo;
+        IntegerSubrangeType arrayInfo;
         if (javatype instanceof GenericArrayType) {
             subtype = ((GenericArrayType) javatype).getGenericComponentType();
-            arrayInfo = new SubrangeType();
+            arrayInfo = new IntegerSubrangeType();
         } else if (javatype instanceof Class<?> && ((Class<?>) javatype).isArray()) {
             subtype = ((Class<?>) javatype).getComponentType();
-            arrayInfo = new SubrangeType();
+            arrayInfo = new IntegerSubrangeType();
         } else {
             subtype = Object.class;
             arrayInfo = null;
@@ -87,19 +87,19 @@ public class MethodDeclaration extends AbstractCallableFunction {
     private RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(Type javaType,
                                                                    ArrayBoundsInfo annotation) {
 
-        List<SubrangeType> arrayInfo = new ArrayList<SubrangeType>();
+        List<IntegerSubrangeType> arrayInfo = new ArrayList<>();
         if (annotation != null && annotation.starts().length > 0) {
             int[] starts = annotation.starts();
             int[] lengths = annotation.lengths();
             for (int i = 0; i < starts.length; i++) {
-                arrayInfo.add(new SubrangeType(starts[i], lengths[i]));
+                arrayInfo.add(new IntegerSubrangeType(starts[i], lengths[i]));
             }
         }
-        Iterator<SubrangeType> iterator = arrayInfo.iterator();
+        Iterator<IntegerSubrangeType> iterator = arrayInfo.iterator();
         return convertReferenceType(javaType, iterator);
     }
 
-    private RuntimeType convertReferenceType(Type javatype, Iterator<SubrangeType> arraysizes) {
+    private RuntimeType convertReferenceType(Type javatype, Iterator<IntegerSubrangeType> arraysizes) {
         Type subtype = javatype;
         boolean pointer = javatype == VariableBoxer.class ||
                 (javatype instanceof ParameterizedType &&

@@ -1,56 +1,61 @@
-package com.duy.pascal.backend.pascaltypes;
+package com.duy.pascal.backend.pascaltypes.rangetype;
 
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.NonIntegerIndexException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.SubRangeException;
+import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class SubrangeType {
+public class IntegerSubrangeType {
     public int lower;
     public int size;
 
-    public SubrangeType() {
+    public IntegerSubrangeType() {
         this.lower = 0;
         this.size = 0;
     }
 
-    public SubrangeType(GrouperToken i, ExpressionContext context)
+    public IntegerSubrangeType(GrouperToken i, ExpressionContext context)
             throws ParsingException {
-        ReturnsValue l = i.getNextExpression(context);
-//        ReturnsValue low = BasicType.Long.convert(l, context);
-        ReturnsValue low = BasicType.Integer.convert(l, context);
+        ReturnsValue firstValue = i.getNextExpression(context);
+        ReturnsValue low = BasicType.Integer.convert(firstValue, context);
         if (low == null) {
-            throw new NonIntegerIndexException(l);
+            throw new NonIntegerIndexException(firstValue);
         }
+
         Object min = low.compileTimeValue(context);
         if (min == null) {
             throw new NonConstantExpressionException(low);
         }
-        lower = (Integer) min;
+        lower = (int) min;
 
         Token t = i.take();
         if (!(t instanceof DotDotToken)) {
             throw new ExpectedTokenException("..", t);
         }
-        ReturnsValue h = i.getNextExpression(context);
-//        ReturnsValue high = BasicType.Long.convert(h, context);
-        ReturnsValue high = BasicType.Integer.convert(h, context);
+
+        ReturnsValue secondValue = i.getNextExpression(context);
+        ReturnsValue high = BasicType.Integer.convert(secondValue, context);
         if (high == null) {
-            throw new NonIntegerIndexException(h);
+            throw new NonIntegerIndexException(secondValue);
         }
         Object max = high.compileTimeValue(context);
         if (max == null) {
             throw new NonConstantExpressionException(high);
         }
-        size = (((Integer) max) - lower) + 1;
+        if ((int) max < lower) {
+            throw new SubRangeException(lower, (int) max, i.lineInfo);
+        }
+        size = (((int) max) - lower) + 1;
     }
 
-    public SubrangeType(int lower, int size) {
+    public IntegerSubrangeType(int lower, int size) {
         this.lower = lower;
         this.size = size;
     }
@@ -72,10 +77,10 @@ public class SubrangeType {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof SubrangeType)) {
+        if (!(obj instanceof IntegerSubrangeType)) {
             return false;
         }
-        SubrangeType other = (SubrangeType) obj;
+        IntegerSubrangeType other = (IntegerSubrangeType) obj;
         return lower == other.lower && size == other.size;
     }
 
@@ -86,10 +91,10 @@ public class SubrangeType {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof SubrangeType)) {
+        if (!(obj instanceof IntegerSubrangeType)) {
             return false;
         }
-        SubrangeType other = (SubrangeType) obj;
+        IntegerSubrangeType other = (IntegerSubrangeType) obj;
         return lower <= other.lower
                 && (lower + size) >= (other.lower + other.size);
     }

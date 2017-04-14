@@ -99,7 +99,7 @@ public class FragmentSelectFile extends Fragment implements
 
         swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_view);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.key_word_color));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_key_word_color));
 
         fabMenu = (FloatingActionMenu) root.findViewById(R.id.fab_menu);
         fabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);

@@ -6,6 +6,7 @@ import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.ScopedRegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.SimpleRegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
@@ -357,7 +358,7 @@ public class CustomType extends ObjectType {
 
     @Override
     public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<SubrangeType> ranges) {
+                                List<IntegerSubrangeType> ranges) {
         //Because I cannot mix this method into DeclaredType (no multiple inheritance) I have to duplicate it.
         ArrayType.pushArrayOfNonArrayType(this, code, ra, ranges);
 

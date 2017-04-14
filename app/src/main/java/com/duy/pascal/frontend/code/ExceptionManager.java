@@ -29,6 +29,7 @@ import com.duy.pascal.backend.exceptions.NotAStatementException;
 import com.duy.pascal.backend.exceptions.OverridingFunctionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
+import com.duy.pascal.backend.exceptions.SubRangeException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTypeException;
@@ -38,7 +39,7 @@ import com.duy.pascal.backend.lib.file.exceptions.FileException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
-import com.duy.pascal.backend.lib.exceptions.CanNotReadVariableException;
+import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.R;
 import com.google.firebase.crash.FirebaseCrash;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
@@ -153,6 +154,10 @@ public class ExceptionManager {
             }
             if (e instanceof CanNotReadVariableException) {
                 return getMessageResource(e, R.string.CanNotReadVariableException);
+            }
+            if (e instanceof SubRangeException) {
+                return getMessageResource(e, R.string.SubRangeException,
+                        ((SubRangeException) e).high, ((SubRangeException) e).low);
             }
             if (e instanceof OverridingFunctionException) {
                 if (!((OverridingFunctionException) e).isMethod) {
@@ -358,19 +363,10 @@ public class ExceptionManager {
 
 
     private Spanned getExpectedTokenException(ExpectedTokenException e) {
-        String msg1 = context.getString(R.string.expected_token) + " ";
-        String msg2 = context.getString(R.string.expected_token_2) + " ";
+        String msg1 = context.getString(R.string.ExpectedTokenException) + " ";
+        String msg2 = context.getString(R.string.ExpectedTokenException_2) + " ";
         String expected = e.token + "\n";
         String current = e.instead + "\n";
-//        String msg = msg1 + expected + msg2 + current;
-//        StringBuilder stringBuilder = new StringBuilder();
-//        stringBuilder
-//                .append(msg1)
-//                .append("<font color=\"yellow\">").append(expected).append("</font>").append("<br>")
-//                .append(msg2)
-//                .append("<font color=\"yellow\">").append(current).append("</font>").append("<br>")
-//                .append("<font color=\"red\">").append(e.line).append("</font>");
-//        return fromHtml(stringBuilder.toString());
         String msg = msg1 + expected + msg2 + current;
         Spannable span = new SpannableString(msg);
         span.setSpan(new ForegroundColorSpan(Color.YELLOW), msg1.length(), msg1.length() + expected.length(),

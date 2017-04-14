@@ -10,7 +10,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
@@ -18,7 +18,7 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 public class SetLengthFunction implements TemplatePascalPlugin {
 
     private ArgumentType[] argumentTypes =
-            {new RuntimeType(new ArrayType<>(BasicType.anew(Object.class), new SubrangeType(0, 0)), true),
+            {new RuntimeType(new ArrayType<>(BasicType.anew(Object.class), new IntegerSubrangeType(0, 0)), true),
             new RuntimeType(BasicType.Integer, false)
     };
 

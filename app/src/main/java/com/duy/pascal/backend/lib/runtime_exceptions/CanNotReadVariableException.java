@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.exceptions;
+package com.duy.pascal.backend.lib.runtime_exceptions;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.runtime.exception.RuntimePascalException;

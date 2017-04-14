@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.lib.exceptions;
+package com.duy.pascal.backend.lib.runtime_exceptions;
 
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;

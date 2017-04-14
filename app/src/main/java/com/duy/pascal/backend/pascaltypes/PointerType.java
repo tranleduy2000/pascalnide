@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
@@ -95,7 +96,7 @@ public class PointerType implements DeclaredType {
 
     @Override
     public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<SubrangeType> ranges) {
+                                List<IntegerSubrangeType> ranges) {
         //Because I cannot mix this method into DeclaredType (no multiple inheritance) I have to duplicate it.
         ArrayType.pushArrayOfNonArrayType(this, code, ra, ranges);
 

@@ -20,7 +20,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOF_Token;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
@@ -200,7 +200,7 @@ public abstract class GrouperToken extends Token {
             take();
             DeclaredType elementType = getNextPascalType(context);
             ArrayType<DeclaredType> declaredTypeArrayType =
-                    new ArrayType<>(elementType, new SubrangeType());
+                    new ArrayType<>(elementType, new IntegerSubrangeType());
             return declaredTypeArrayType;
         } else {
             throw new ExpectedTokenException("of", n);
@@ -210,7 +210,7 @@ public abstract class GrouperToken extends Token {
 
     private DeclaredType getArrayType(BracketedToken bounds, ExpressionContext context)
             throws ParsingException {
-        SubrangeType bound = new SubrangeType(bounds, context);
+        IntegerSubrangeType bound = new IntegerSubrangeType(bounds, context);
         DeclaredType elementType;
         if (bounds.hasNext()) {
             Token t = bounds.take();

@@ -4,6 +4,7 @@ import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
@@ -120,7 +121,7 @@ public class JavaClassBasedType implements DeclaredType {
 
     @Override
     public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<SubrangeType> ranges) {
+                                List<IntegerSubrangeType> ranges) {
         ArrayType.pushArrayOfNonArrayType(this, code, ra, ranges);
     }
 
