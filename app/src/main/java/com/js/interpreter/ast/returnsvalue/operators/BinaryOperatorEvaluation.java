@@ -43,7 +43,8 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
     /* Boy, templates or macros like C++ sure would be useful now... */
     public static BinaryOperatorEvaluation generateOp(ExpressionContext main,
                                                       ReturnsValue value1,
-                                                      ReturnsValue value2, OperatorTypes operateType,
+                                                      ReturnsValue value2,
+                                                      OperatorTypes operateType,
                                                       LineInfo line) throws ParsingException {
         DeclaredType type1 = value1.getType(main).declaredType;
         DeclaredType type2 = value2.getType(main).declaredType;
@@ -81,16 +82,17 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
             value2 = TypeConverter.forceConvertRequired(BasicType.Long, value2, (BasicType) type2);
             return new LongBiOperatorEval(value1, value2, operateType, line);
         }
-        if (type1 == BasicType.Integer || type2 == BasicType.Integer) {
-            value1 = TypeConverter.forceConvertRequired(BasicType.Integer, value1, (BasicType) type1);
-            value2 = TypeConverter.forceConvertRequired(BasicType.Integer, value2, (BasicType) type2);
-            return new IntBiOperatorEval(value1, value2, operateType, line);
-        }
         if (type1 == BasicType.Character || type2 == BasicType.Character) {
             value1 = TypeConverter.forceConvertRequired(BasicType.Character, value1, (BasicType) type1);
             value2 = TypeConverter.forceConvertRequired(BasicType.Character, value2, (BasicType) type2);
             return new CharBiOperatorEval(value1, value2, operateType, line);
         }
+        if (type1 == BasicType.Integer || type2 == BasicType.Integer) {
+            value1 = TypeConverter.forceConvertRequired(BasicType.Integer, value1, (BasicType) type1);
+            value2 = TypeConverter.forceConvertRequired(BasicType.Integer, value2, (BasicType) type2);
+            return new IntBiOperatorEval(value1, value2, operateType, line);
+        }
+
         if (type1 == BasicType.Boolean || type2 == BasicType.Boolean) {
             value1 = TypeConverter.forceConvertRequired(BasicType.Boolean, value1, (BasicType) type1);
             value2 = TypeConverter.forceConvertRequired(BasicType.Boolean, value2, (BasicType) type2);

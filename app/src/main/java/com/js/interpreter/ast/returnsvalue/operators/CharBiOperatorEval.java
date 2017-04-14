@@ -38,8 +38,8 @@ public class CharBiOperatorEval extends BinaryOperatorEvaluation {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        char v1 = (Character) value1;
-        char v2 = (Character) value2;
+        char v1 = (char) value1;
+        char v2 = (char) value2;
         switch (operator_type) {
             case AND:
                 return v1 & v2;
@@ -66,7 +66,7 @@ public class CharBiOperatorEval extends BinaryOperatorEvaluation {
             case OR:
                 return v1 | v2;
             case PLUS:
-                return v1 + v2;
+                return (char) (v1 + v2);
             case SHIFTLEFT:
                 return v1 << v2;
             case SHIFTRIGHT:

@@ -36,6 +36,7 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
             if (main != null) {
                 main.scriptControlCheck(getLine());
             }
+
             return getValueImpl(f, main);
         } catch (RuntimePascalException e) {
             throw e;
