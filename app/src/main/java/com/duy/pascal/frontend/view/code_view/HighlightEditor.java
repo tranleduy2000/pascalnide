@@ -18,7 +18,6 @@ import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -48,6 +47,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public static final int SHORT_DELAY = 500;
     public static final int LONG_DELAY = 1000;
     private static final int CHARS_TO_COLOR = 2500;
+    private static final String INDEX_CHAR = "m";
+    private static final int TAB_NUMBER = 3;
     private final Handler updateHandler = new Handler();
     public boolean showlines = true;
     public float textSize = 13;
@@ -194,6 +195,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 //        setTypeface(FontManager.getInstance(mContext));
     }
 
+//    public void extendSelection(int index) {
+//        Selection.extendSelection(getText(), index);
+//    }
+
     public void computeScroll() {
 //        if (mScroller != null) {
 //            if (mScroller.computeScrollOffset()) {
@@ -207,10 +212,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public void setLineError(int lineError) {
         this.errorLine = lineError;
     }
-
-//    public void extendSelection(int index) {
-//        Selection.extendSelection(getText(), index);
-//    }
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -410,13 +411,17 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
 
         addTextChangedListener(new TextWatcher() {
+            int start = 0, end = 0;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                this.start = start;
+                this.end = start + count;
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
@@ -424,14 +429,23 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 if (!modified || hasSelection())
                     return;
                 errorLine = -1;
+                applyTabWidth(e, start, end);
                 updateHighlightWithDelay(LONG_DELAY);
             }
         });
     }
 
-
-    private void cancelUpdate() {
-
+    public void applyTabWidth(Editable text, int start, int end) {
+        String str = text.toString();
+        float tabWidth = getPaint().measureText(INDEX_CHAR) * TAB_NUMBER;
+        while (start < end) {
+            int index = str.indexOf("\t", start);
+            if (index < 0)
+                break;
+            text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            start = index + 1;
+        }
     }
 
     private void highlightWithoutChange(Editable e) {
@@ -510,21 +524,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             clearSpans(e, start, end);
 
             CharSequence input = e.subSequence(start, end);
-            //high light error light
-            if (errorLine > -1) {
-                Matcher m = line.matcher(input);
-                int count = 0;
-                while (m.find()) {
-                    if (count == errorLine) {
-                        e.setSpan(new UnderlineSpan(),
-                                start + m.start(),
-                                start + m.end(),
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        break;
-                    }
-                    count++;
-                }
-            }
+
 
             //high light number
             for (Matcher m = numbers.matcher(input); m.find(); ) {
@@ -573,6 +573,22 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            //high light error light
+            if (errorLine > -1) {
+                Matcher m = line.matcher(input);
+                int count = 0;
+                while (m.find()) {
+                    if (count == errorLine) {
+                        e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                                start + m.start(),
+                                start + m.end(),
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        break;
+                    }
+                    count++;
+                }
             }
         } catch (Exception ignored) {
 //            ignored.printStackTrace();

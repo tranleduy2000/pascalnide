@@ -26,7 +26,9 @@ public class DLog {
     }
 
     public static void e(Object msg) {
-        if (DEBUG) Log.e(TAG, msg.toString());
+        if (msg instanceof Exception) {
+            ((Exception) msg).printStackTrace();
+        } else if (DEBUG) Log.e(TAG, msg.toString());
     }
 
     public static void i(Object msg) {

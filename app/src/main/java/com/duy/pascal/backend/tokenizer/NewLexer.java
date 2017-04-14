@@ -52,15 +52,13 @@ public class NewLexer implements Runnable {
                 Token t = lexer.yylex();
                 if (t instanceof EOF_Token) {
                     if (groupers.size() != 1) {
-                        TossException(((EOF_Token) t)
-                                .getClosingException(top_of_stack));
+                        TossException(((EOF_Token) t).getClosingException(top_of_stack));
                     } else {
                         top_of_stack.put(t);
                     }
                     return;
                 } else if (t instanceof ClosingToken) {
-                    GroupingException g = ((ClosingToken) t)
-                            .getClosingException(top_of_stack);
+                    GroupingException g = ((ClosingToken) t).getClosingException(top_of_stack);
                     if (g == null) {
                         top_of_stack.put(new EOF_Token(t.lineInfo));
                         groupers.pop();

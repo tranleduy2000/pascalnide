@@ -54,4 +54,30 @@ public class KeyWord {
             ":=", ";", ".", "[", "]", ":", "'", "(", ")", "<", ">", "=", "<>", "<=", ">=", "{", "}"
     };
 
+    public KeyWord() {
+        initKeyWord();
+    }
+
+    private void initKeyWord() {
+
+    }
+
+    public class SuggestItem {
+        private int defaultPos;
+        private String key;
+
+        public SuggestItem(int defaultPos, String key) {
+            this.defaultPos = defaultPos;
+            this.key = key;
+        }
+
+        public int getDefaultPos() {
+            return defaultPos;
+        }
+
+        public String getKey() {
+            return key;
+        }
+    }
+
 }
