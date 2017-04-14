@@ -31,11 +31,6 @@ public class PatternsUtils {
 
     public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
 
-//    public static final Pattern uses = Pattern.compile(
-//            "(uses)(.*?);", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
-    public static final Pattern waitEnter = Pattern.compile(
-            "\\b(waitEnter)\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     public static final Pattern strings = Pattern.compile("('(.*?)')|('.*?)");
 
 
