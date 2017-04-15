@@ -3,7 +3,7 @@ package com.duy.pascal.backend.tokenizer;
 import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
 import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.EOF_Token;
+import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.OperatorTypes;

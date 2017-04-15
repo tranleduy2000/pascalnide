@@ -6,7 +6,7 @@ import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
 import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.CommentToken;
-import com.duy.pascal.backend.tokens.EOF_Token;
+import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.OperatorTypes;
@@ -1355,7 +1355,7 @@ public class Lexer {
                         zzAtEOF = true;
                         {
                             if (!yymoreStreams()) {
-                                return new EOF_Token(getLine());
+                                return new EOFToken(getLine());
                             }
                             sourcenames.pop();
                             yypopStream();

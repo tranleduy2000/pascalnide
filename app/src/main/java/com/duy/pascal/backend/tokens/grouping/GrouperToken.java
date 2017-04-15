@@ -24,7 +24,7 @@ import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.tokens.CommentToken;
-import com.duy.pascal.backend.tokens.EOF_Token;
+import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.OperatorTypes;
@@ -100,7 +100,7 @@ public abstract class GrouperToken extends Token {
     }
 
     public boolean hasNext() throws GroupingException {
-        return !(get_next() instanceof EOF_Token);
+        return !(get_next() instanceof EOFToken);
     }
 
     private void exceptionCheck(Token t) throws GroupingException {
@@ -124,7 +124,7 @@ public abstract class GrouperToken extends Token {
 
     public Token take() throws ExpectedAnotherTokenException, GroupingException {
         Token result = get_next();
-        if (result instanceof EOF_Token) {
+        if (result instanceof EOFToken) {
             throw new ExpectedAnotherTokenException(result.lineInfo);
         }
         while (true) {
@@ -143,7 +143,7 @@ public abstract class GrouperToken extends Token {
 
     public Token peek_no_EOF() throws ExpectedAnotherTokenException, GroupingException {
         Token result = peek();
-        if (result instanceof EOF_Token) {
+        if (result instanceof EOFToken) {
             throw new ExpectedAnotherTokenException(result.lineInfo);
         }
         return result;

@@ -250,7 +250,7 @@ public class EditorActivity extends FileEditorActivity implements
         if (e != null) {
             if (e.line != null) {
                 LineInfo lineInfo = e.line;
-                mCodeView.setLineError(lineInfo.line);
+                mCodeView.setLineError(lineInfo);
                 mCodeView.refresh();
                 handler.postDelayed(new Runnable() {
                     @Override

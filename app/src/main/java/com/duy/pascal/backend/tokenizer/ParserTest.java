@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.tokenizer;
 
-import com.duy.pascal.backend.tokens.EOF_Token;
+import com.duy.pascal.backend.tokens.EOFToken;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class ParserTest {
             try {
                 Object t = lexer.yylex();
                 System.out.println(t.getClass().getSimpleName());
-                if (t instanceof EOF_Token) {
+                if (t instanceof EOFToken) {
                     return;
                 }
             } catch (IOException e) {

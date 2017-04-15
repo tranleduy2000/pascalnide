@@ -38,7 +38,7 @@ public class PatternsUtils {
                     "|(\\{(?:.|[\\n\\r])*?\\})" +
                     "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))");
 
-    public static final Pattern symbols = Pattern.compile("[+\\-*=<>/:)(\\]\\[;]");
+    public static final Pattern symbols = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;]");
 
     public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
 

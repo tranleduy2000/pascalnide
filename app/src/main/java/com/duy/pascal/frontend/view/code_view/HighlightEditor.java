@@ -20,6 +20,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -29,6 +30,7 @@ import android.widget.ScrollView;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
@@ -43,7 +45,6 @@ import java.util.regex.Pattern;
 import static com.duy.pascal.frontend.data.PatternsUtils.comments;
 import static com.duy.pascal.frontend.data.PatternsUtils.functions;
 import static com.duy.pascal.frontend.data.PatternsUtils.keywords;
-import static com.duy.pascal.frontend.data.PatternsUtils.line;
 import static com.duy.pascal.frontend.data.PatternsUtils.numbers;
 import static com.duy.pascal.frontend.data.PatternsUtils.strings;
 import static com.duy.pascal.frontend.data.PatternsUtils.symbols;
@@ -63,18 +64,18 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public boolean wordWrap = true;
     public boolean flingToScroll = true;
     public OnTextChangedListener onTextChangedListener = null;
-    public int lineError = -1;
+    public LineInfo lineError = null;
     private final Runnable compileProgram = new Runnable() {
         @Override
         public void run() {
             try {
                 new PascalCompiler(null).loadPascal("temp", new StringReader(getCleanText()),
                         new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
-                lineError = -1;
+                lineError = null;
             } catch (ParsingException e) {
                 if (e.line != null) {
                     synchronized (objectThread) {
-                        lineError = e.line.line;
+                        lineError = e.line;
                     }
                 }
                 e.printStackTrace();
@@ -246,7 +247,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 //        }
     }
 
-    public void setLineError(int lineError) {
+    public void setLineError(LineInfo lineError) {
         this.lineError = lineError;
     }
 
@@ -305,7 +306,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     @Override
     public void setText(CharSequence text, boolean filter) {
         super.setText(text, filter);
-        lineError = -1;
+        lineError = null;
     }
 
     @Override
@@ -431,7 +432,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
      * @param text
      */
     public void setTextHighlighted(CharSequence text) {
-        lineError = -1;
+        lineError = null;
         modified = false;
         setText(highlight(new SpannableStringBuilder(text), false));
         modified = true;
@@ -474,7 +475,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 if (!modified || hasSelection())
                     return;
                 if (!autoCompile) {
-                    lineError = -1;
+                    lineError = null;
                 }
                 applyTabWidth(e, start, end);
                 updateHighlightWithDelay(LONG_DELAY);
@@ -637,22 +638,23 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             }
 
             //high light error light
-            if (lineError > -1) {
-                Matcher m = line.matcher(input);
-                int count = 0;
-                while (m.find()) {
-                    if (count == lineError) {
-                        e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
-                                start + m.start(),
-                                start + m.end(),
+            if (lineError != null) {
+                if (getLayout() != null) {
+                    int lineStart = getLayout().getLineStart(lineError.line);
+                    int lineEnd = getLayout().getLineEnd(lineError.line);
+                    lineStart += lineError.column;
+                    if (lineStart < lineEnd) {
+                        Log.d(TAG, "highlight: " + lineStart + "," + lineEnd);
+                        e.setSpan(new UnderlineSpan(),
+                                lineStart,
+                                lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        break;
                     }
-                    count++;
+
                 }
             }
         } catch (Exception ignored) {
-//            ignored.printStackTrace();
+            ignored.printStackTrace();
         }
         return e;
     }

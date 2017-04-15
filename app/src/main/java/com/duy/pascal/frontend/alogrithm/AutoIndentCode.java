@@ -2,7 +2,7 @@ package com.duy.pascal.frontend.alogrithm;
 
 import com.duy.pascal.backend.tokenizer.Lexer;
 import com.duy.pascal.backend.tokens.CommentToken;
-import com.duy.pascal.backend.tokens.EOF_Token;
+import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.Token;
@@ -66,7 +66,7 @@ public class AutoIndentCode {
         while (true) {
             try {
                 Token t = lexer.yylex();
-                if (t instanceof EOF_Token) {
+                if (t instanceof EOFToken) {
                     return result;
                 }
                 processToken(t);
@@ -78,7 +78,7 @@ public class AutoIndentCode {
     }
 
     private static void processToken(Token t) throws IOException {
-        if (t instanceof EOF_Token || t instanceof GroupingExceptionToken) {
+        if (t instanceof EOFToken || t instanceof GroupingExceptionToken) {
             return;
         }
         //begin ... end; repeat ... until; case of ... end;

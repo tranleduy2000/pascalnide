@@ -5,7 +5,7 @@ import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
 import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.EOF_Token;
+import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.OperatorTypes;
@@ -132,7 +132,7 @@ public class Grouper implements Runnable {
                                 }
                                 return;
                             } else {
-                                top_of_stack.put(new EOF_Token(line));
+                                top_of_stack.put(new EOFToken(line));
                             }
                             return;
                         } else {
@@ -154,7 +154,7 @@ public class Grouper implements Runnable {
                             if (groupers.peek() instanceof BeginEndToken
                                     || groupers.peek() instanceof RecordToken
                                     || groupers.peek() instanceof CaseToken) {
-                                top_of_stack.put(new EOF_Token(line));
+                                top_of_stack.put(new EOFToken(line));
                                 groupers.pop();
                                 continue do_loop_break;
                             } else {
@@ -263,7 +263,7 @@ public class Grouper implements Runnable {
                             return;
 
                         }
-                        top_of_stack.put(new EOF_Token(line));
+                        top_of_stack.put(new EOFToken(line));
                         continue do_loop_break;
                     case '=':
                         temp_type = OperatorTypes.EQUALS;
@@ -325,7 +325,7 @@ public class Grouper implements Runnable {
                                     GroupingExceptionTypes.MISMATCHED_BRACKETS));
                             return;
                         }
-                        top_of_stack.put(new EOF_Token(line));
+                        top_of_stack.put(new EOFToken(line));
                         continue do_loop_break;
                     case '{':
                         int firstToken = tokenizer.nextToken();

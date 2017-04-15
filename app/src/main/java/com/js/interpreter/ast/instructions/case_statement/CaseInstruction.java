@@ -8,7 +8,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.tokens.EOF_Token;
+import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
@@ -50,7 +50,7 @@ public class CaseInstruction extends DebuggableExecutable {
         DeclaredType mSwitchValueType = mSwitchValue.getType(context).declaredType;
         List<CasePossibility> possibilities = new ArrayList<CasePossibility>();
 
-        while (!(i.peek() instanceof ElseToken) && !(i.peek() instanceof EOF_Token)) {
+        while (!(i.peek() instanceof ElseToken) && !(i.peek() instanceof EOFToken)) {
             List<CaseCondition> conditions = new ArrayList<>();
             while (true) {
                 ReturnsValue valueToSwitch = i.getNextExpression(context);
@@ -109,7 +109,7 @@ public class CaseInstruction extends DebuggableExecutable {
 //                }
                 i.assertNextSemicolon();
 //                if (!(i.peek() instanceof EndToken)
-//                        && !(i.peek() instanceof EOF_Token)) {
+//                        && !(i.peek() instanceof EOFToken)) {
 //                    i.assertNextSemicolon();
 //                }
             }

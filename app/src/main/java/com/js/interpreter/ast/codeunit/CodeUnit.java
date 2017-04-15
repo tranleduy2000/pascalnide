@@ -37,7 +37,7 @@ public abstract class CodeUnit {
         this.executeActivity = executeActivity;
         NewLexer grouper = new NewLexer(program, sourceName, includeDirectories);
         grouper.parse();
-        parseTree(grouper.token_queue);
+        parseTree(grouper.tokenQueue);
     }
 
     protected CodeUnitExpressionContext getExpressionContextInstance(

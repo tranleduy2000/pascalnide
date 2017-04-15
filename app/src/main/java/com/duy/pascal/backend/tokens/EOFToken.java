@@ -10,8 +10,8 @@ import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 
-public class EOF_Token extends ClosingToken {
-	public EOF_Token(LineInfo line) {
+public class EOFToken extends ClosingToken {
+	public EOFToken(LineInfo line) {
 		super(line);
 	}
 
