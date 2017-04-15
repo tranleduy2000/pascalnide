@@ -9,7 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.utils.ClipboardManager;
+import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 
 import java.util.ArrayList;

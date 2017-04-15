@@ -1,9 +1,9 @@
 package com.duy.pascal.frontend.theme;
 
-public class Color {
+public class ForegroundColor {
     private int foreground;
 
-    public Color(int foreground) {
+    public ForegroundColor(int foreground) {
         this.foreground = foreground;
     }
 

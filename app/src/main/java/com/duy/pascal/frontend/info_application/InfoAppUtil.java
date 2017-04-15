@@ -32,7 +32,7 @@ public class InfoAppUtil {
           } else {
               inputStream = new FileInputStream(filePath);
           }
-          Node root = XmlRead.getRootNode(inputStream);
+          Node root = XmlReader.getRootNode(inputStream);
           Node child = root.getFirstChild();
           while (child != null) {
               NamedNodeMap attr = child.getAttributes();

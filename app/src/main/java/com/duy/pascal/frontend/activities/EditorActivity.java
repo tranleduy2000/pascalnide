@@ -39,7 +39,7 @@ import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentErrorMsg;
 import com.duy.pascal.frontend.sample.DocumentActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.utils.ClipboardManager;
+import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
 import com.duy.pascal.frontend.utils.LineUtils;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;

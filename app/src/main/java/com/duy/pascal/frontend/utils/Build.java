@@ -20,14 +20,10 @@
 package com.duy.pascal.frontend.utils;
 
 
-import com.duy.pascal.frontend.BuildConfig;
-
 /**
  * Created by Artem on 30.12.13.
  */
 public final class Build {
-
-    public static final boolean DEBUG = BuildConfig.DEBUG;
 
     public static final int MAX_FILE_SIZE = 20_000;
 

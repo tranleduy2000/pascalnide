@@ -1,12 +1,13 @@
-package com.duy.pascal.frontend.utils;
+package com.duy.pascal.frontend.utils.clipboard;
 
 import android.content.Context;
 import android.widget.Toast;
 
 /**
  * Created by DUy on 04-Nov-16.
+ * Uses {@link ClipboardManagerCompat}
  */
-
+@Deprecated
 public class ClipboardManager {
     private Context context;
 

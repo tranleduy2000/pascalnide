@@ -13,11 +13,11 @@ import java.util.Set;
 
 public class ThemeFromAssets {
     private static ArrayList<ThemeFromAssets> customThemeFromAssetses;
-    private static ArrayList<ThemeFromAssets> themeFromAssetses;
+    private static ArrayList<ThemeFromAssets> themeFromAssets;
     private final boolean builtin;
     private int bg_editor_color;
     private String id;
-    private ArrayList<Color> colors;
+    private ArrayList<ForegroundColor> colors;
 
     public ThemeFromAssets(String id, boolean builtin) {
         this.colors = new ArrayList<>();
@@ -26,39 +26,39 @@ public class ThemeFromAssets {
     }
 
     public static ThemeFromAssets getTheme(int themeId, Context context) {
-        if (themeFromAssetses == null) {
+        if (themeFromAssets == null) {
             loadThemes(context);
         }
         if (customThemeFromAssetses == null) {
             loadCustomThemes(context);
         }
-        if (themeId < themeFromAssetses.size()) {
+        if (themeId < themeFromAssets.size()) {
             return getBuiltinTheme(themeId, context);
         }
-        if (themeId - themeFromAssetses.size() < customThemeFromAssetses.size()) {
-            return getCustomTheme(themeId - themeFromAssetses.size(), context);
+        if (themeId - themeFromAssets.size() < customThemeFromAssetses.size()) {
+            return getCustomTheme(themeId - themeFromAssets.size(), context);
         }
         return getBuiltinTheme(0, context);
     }
 
     private static ThemeFromAssets getBuiltinTheme(int themeId, Context ctx) {
-        if (themeFromAssetses == null) {
+        if (themeFromAssets == null) {
             loadThemes(ctx);
         }
         if (customThemeFromAssetses == null) {
             loadCustomThemes(ctx);
         }
-        return themeFromAssetses.get(themeId);
+        return themeFromAssets.get(themeId);
     }
 
     static ThemeFromAssets getCustomTheme(int themeId, Context ctx) {
-        if (themeFromAssetses == null) {
+        if (themeFromAssets == null) {
             loadThemes(ctx);
         }
         if (customThemeFromAssetses == null) {
             loadCustomThemes(ctx);
         }
-        return (ThemeFromAssets) customThemeFromAssetses.get(themeId);
+        return customThemeFromAssetses.get(themeId);
     }
 
     private static void loadCustomThemes(Context ctx) {
@@ -100,8 +100,8 @@ public class ThemeFromAssets {
         }
     }
 
-    private static Color loadCustomStyle(SharedPreferences prefs, String id, String name) {
-        return new Color(android.graphics.Color.parseColor(prefs.getString("theme." + id + "." + name, "#FFFFFFFF").trim()));
+    private static ForegroundColor loadCustomStyle(SharedPreferences prefs, String id, String name) {
+        return new ForegroundColor(android.graphics.Color.parseColor(prefs.getString("theme." + id + "." + name, "#FFFFFFFF").trim()));
     }
 
     private static int loadCustomColor(SharedPreferences prefs, String id, String name) {
@@ -109,7 +109,7 @@ public class ThemeFromAssets {
     }
 
     private static void loadThemes(Context ctx) {
-        themeFromAssetses = new ArrayList();
+        themeFromAssets = new ArrayList();
         try {
             InputStream is = ctx.getAssets().open("themes/themes.properties");
             Properties properties = new Properties();
@@ -129,7 +129,7 @@ public class ThemeFromAssets {
                     themeFromAssets.addStyle(loadStyle(properties, themeid, "error_color"));//8
                     themeFromAssets.addStyle(loadStyle(properties, themeid, "function_color"));//9
                     themeFromAssets.addStyle(loadStyle(properties, themeid, "opt_color"));//10
-                    themeFromAssetses.add(themeFromAssets);
+                    ThemeFromAssets.themeFromAssets.add(themeFromAssets);
                     themeid++;
                 } catch (Exception e) {
                     return;
@@ -139,7 +139,7 @@ public class ThemeFromAssets {
         }
     }
 
-    private static Color loadStyle(Properties properties, int themeid, String name) {
+    private static ForegroundColor loadStyle(Properties properties, int themeid, String name) {
         String line = properties.getProperty("theme." + themeid + "." + name);
         if (line == null && name.equals("function_color")) {
             line = properties.getProperty("theme." + themeid + ".string_color");
@@ -147,7 +147,7 @@ public class ThemeFromAssets {
         if (line == null && name.equals("opt_color")) {
             line = properties.getProperty("theme." + themeid + ".string_color");
         }
-        return new Color(android.graphics.Color.parseColor(line.trim()));
+        return new ForegroundColor(android.graphics.Color.parseColor(line.trim()));
     }
 
     private static int loadColor(Properties properties, int themeid, String name) {
@@ -163,24 +163,24 @@ public class ThemeFromAssets {
 
     public static CharSequence[] getThemes(Context ctx) {
         int i;
-        if (themeFromAssetses == null) {
+        if (themeFromAssets == null) {
             loadThemes(ctx);
         }
         if (customThemeFromAssetses == null) {
             loadCustomThemes(ctx);
         }
-        CharSequence[] ret = new CharSequence[(themeFromAssetses.size() + customThemeFromAssetses.size())];
-        for (i = 0; i < themeFromAssetses.size(); i++) {
+        CharSequence[] ret = new CharSequence[(themeFromAssets.size() + customThemeFromAssetses.size())];
+        for (i = 0; i < themeFromAssets.size(); i++) {
             ret[i] = Integer.valueOf(i).toString();
         }
         for (i = 0; i < customThemeFromAssetses.size(); i++) {
-            ret[themeFromAssetses.size() + i] = Integer.valueOf(themeFromAssetses.size() + i).toString();
+            ret[themeFromAssets.size() + i] = Integer.valueOf(themeFromAssets.size() + i).toString();
         }
         return ret;
     }
 
     public static CharSequence[] getCustomThemes(Context ctx) {
-        if (themeFromAssetses == null) {
+        if (themeFromAssets == null) {
             loadThemes(ctx);
         }
         if (customThemeFromAssetses == null) {
@@ -188,7 +188,7 @@ public class ThemeFromAssets {
         }
         CharSequence[] ret = new CharSequence[customThemeFromAssetses.size()];
         for (int i = 0; i < customThemeFromAssetses.size(); i++) {
-            ret[i] = Integer.valueOf(themeFromAssetses.size() + i).toString();
+            ret[i] = Integer.valueOf(themeFromAssets.size() + i).toString();
         }
         return ret;
     }
@@ -214,16 +214,16 @@ public class ThemeFromAssets {
         return this.builtin;
     }
 
-    private void addStyle(Color color) {
+    private void addStyle(ForegroundColor color) {
         this.colors.add(color);
     }
 
-    public Color getDefaultStyle() {
-        return (Color) this.colors.get(0);
+    public ForegroundColor getDefaultStyle() {
+        return (ForegroundColor) this.colors.get(0);
     }
 
-    public Color getStyle(int id) {
-        Color color = (Color) this.colors.get(id);
+    public ForegroundColor getStyle(int id) {
+        ForegroundColor color = (ForegroundColor) this.colors.get(id);
         if (color.getForeground() == getDefaultStyle().getForeground()) {
             return null;
         }
@@ -231,11 +231,11 @@ public class ThemeFromAssets {
     }
 
     public int getColor(int id) {
-        return ((Color) this.colors.get(id)).getForeground();
+        return ((ForegroundColor) this.colors.get(id)).getForeground();
     }
 
 
-    public ArrayList<Color> getColors() {
+    public ArrayList<ForegroundColor> getColors() {
         return this.colors;
     }
 
@@ -249,13 +249,5 @@ public class ThemeFromAssets {
 
     public void setColor(int style, int foreground) {
         this.colors.get(style).setForeground(foreground);
-    }
-
-    public String getBackgroundHex() {
-        return "#FF" + Integer.toHexString(getBackground()).substring(2).toUpperCase();
-    }
-
-    public String getColorHex(int style) {
-        return "#FF" + Integer.toHexString(getColor(style)).substring(2).toUpperCase();
     }
 }

@@ -4,7 +4,7 @@ package com.duy.pascal.frontend.view.exec_screen.console;
  * Created by Duy on 10-Feb-17.
  */
 public class StringQueue {
-    public static final int QUEUE_SIZE = 2 * 1024; //2MB ram
+    public static final int QUEUE_SIZE = 2 * 1024;
 
     /**
      * this array store text of screen, include unicode character

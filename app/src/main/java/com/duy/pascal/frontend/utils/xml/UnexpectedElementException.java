@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.utils;
+package com.duy.pascal.frontend.utils.xml;
 
 /**
  * Created by Daniel Hoogen on 19/02/2016.

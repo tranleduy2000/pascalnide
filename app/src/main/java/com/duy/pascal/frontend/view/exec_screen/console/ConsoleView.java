@@ -695,7 +695,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 //        textScreen = ArrayUtils.arrayToString(bufferData.textConsole);
 //        textImeBuffer = new TextConsole[mImeBuffer.length()];
 //        for (int i = 0; i < textImeBuffer.length; i++) {
-//            textImeBuffer[i] = new TextConsole(mImeBuffer.substring(i, i + 1), Color.DKGRAY,
+//            textImeBuffer[i] = new TextConsole(mImeBuffer.substring(i, i + 1), ForegroundColor.DKGRAY,
 //                    mTextRenderer.getTextColor());
 //        }
 //        invalidate();
@@ -779,7 +779,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
          */
         /*TextConsole[] textImeBuffer = new TextConsole[mImeBuffer.length()];
         for (int i = 0; i < textImeBuffer.length; i++) {
-            textImeBuffer[i] = new TextConsole(mImeBuffer.substring(i, i + 1), Color.DKGRAY,
+            textImeBuffer[i] = new TextConsole(mImeBuffer.substring(i, i + 1), ForegroundColor.DKGRAY,
                     mTextRenderer.getTextColor());
         }
 */

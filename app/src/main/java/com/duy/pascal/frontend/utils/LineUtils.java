@@ -23,14 +23,12 @@ public class LineUtils {
     public static int getLineFromIndex(int index, int lineCount, Layout layout) {
         int line;
         int currentIndex = 0;
-
         for (line = 0; line < lineCount; line++) {
             currentIndex += layout.getLineEnd(line) - layout.getLineStart(line);
             if (currentIndex > index) {
                 break;
             }
         }
-
         return line;
     }
 

@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.utils;
+package com.duy.pascal.frontend.utils.xml;
 
 
 import org.w3c.dom.Document;
@@ -11,7 +11,7 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class XmlRead {
+public class XmlReader {
     /**
      * Reads the categories node from an input stream of a .bpc file and returns it
      */

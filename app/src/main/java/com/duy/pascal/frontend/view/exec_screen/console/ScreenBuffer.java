@@ -13,10 +13,7 @@ public class ScreenBuffer {
     public char[] textOnScreenBuffer;
     public TextConsole[] textConsole;
     public int[] colorScreenBuffer;
-    /**
-     * store text input
-     */
-//    public ByteQueue charBuffer = new ByteQueue();
+
     /**
      * store text input, with unicode character
      */
@@ -43,15 +40,6 @@ public class ScreenBuffer {
     public void setTextOnScreenBuffer(char[] textOnScreenBuffer) {
         this.textOnScreenBuffer = textOnScreenBuffer;
     }
-//
-//    public TextConsole[] getTextOnScreenBuffer() {
-//        return textOnScreenBuffer;
-//    }
-//
-//    public void setTextOnScreenBuffer(TextConsole[] textOnScreenBuffer) {
-//        this.textOnScreenBuffer = textOnScreenBuffer;
-//    }
-
     public int[] getColorScreenBuffer() {
         return colorScreenBuffer;
     }
