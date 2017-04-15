@@ -59,7 +59,6 @@
     <string name="EXTRA_END">Tienens un \'end\' extra en tu programa</string>
     <string name="IO_EXCEPTION">Ocurrio un problema IOException mientras se leía la entrada</string>
     <string name="expected_token_2">Se encontro el siguiente nombre:</string>
-
     <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
 
 </resources>
