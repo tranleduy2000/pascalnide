@@ -109,10 +109,13 @@
 
     </PreferenceCategory>
 
-    <!--<PreferenceCategory-->
-    <!--android:enabled="false"-->
-    <!--android:title="@string/keyboard_shortcut">-->
-
-    <!--</PreferenceCategory>-->
+    <PreferenceCategory android:title="@string/keyboard_shortcut">
+        <ListPreference
+            android:key="@string/key_pref_control"
+            android:defaultValue="@string/volume_down"
+            android:entries="@array/control_key"
+            android:entryValues="@array/control_key"
+            android:title="Ctrl Key" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

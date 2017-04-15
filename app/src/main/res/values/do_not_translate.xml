@@ -54,7 +54,20 @@
     <string name="key_console_font_size" translatable="false">key_console_font_size</string>
 
     <string name="tab" translatable="false">tab</string>
-    <string name="copy_right" translatable="false">Copyright © 2016–2017 by Trần Lê Duy\nAll right reserver</string>
+    <string name="copy_right" translatable="false">Copyright © 2016–2017 by Trần Lê Duy\nAll right reserve</string>
     <string name="key_pref_auto_compile" translatable="false">key_pref_auto_compile</string>
-k
+    <string name="key_pref_control" translatable="false">key_pref_control</string>
+
+
+    <string name="volume_down" translatable="false">Volume down (-)</string>
+    <string name="volume_up" translatable="false">Volume up (+)</string>
+    <string name="camera" translatable="false">Camera</string>
+    <string name="none" translatable="false">None</string>
+    <string-array name="control_key">
+        <item>@string/volume_down</item>
+        <item>@string/volume_up</item>
+        <item>@string/camera</item>
+        <item>@string/none</item>
+    </string-array>
+
 </resources>

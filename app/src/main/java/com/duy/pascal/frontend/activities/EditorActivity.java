@@ -79,6 +79,7 @@ public class EditorActivity extends FileEditorActivity implements
     }
 
     public void initContent() {
+        mCodeView.setEditorControl(this);
         mCodeView.setVerticalScroll(mScrollView);
         mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
             @Override
@@ -207,30 +208,6 @@ public class EditorActivity extends FileEditorActivity implements
                 alertDialog.dismiss();
             }
         });
-    }
-
-    @Override
-    public void saveAs() {
-        final AppCompatEditText edittext = new AppCompatEditText(this);
-        edittext.setHint(R.string.enter_new_file_name);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.save_as)
-                .setView(edittext)
-                .setIcon(R.drawable.ic_create_new_folder_white_24dp)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String fileName = edittext.getText().toString();
-                        dialog.cancel();
-                        mFileManager.saveFile(mFileManager.createNewFileInMode(fileName),
-                                mCodeView.getCleanText());
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        builder.create().show();
     }
 
     @Override

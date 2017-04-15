@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -342,6 +343,40 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         });
         builder.create().show();
         return false;
+    }
+
+    protected File getCurrentFile() {
+        return listFile.get(tabLayout.getSelectedTabPosition());
+    }
+
+    @Override
+    public void saveAs() {
+        final AppCompatEditText edittext = new AppCompatEditText(this);
+        edittext.setHint(R.string.enter_new_file_name);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.save_as)
+                .setView(edittext)
+                .setIcon(R.drawable.ic_create_new_folder_white_24dp)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String fileName = edittext.getText().toString();
+                        dialog.cancel();
+                        File currentFile = getCurrentFile();
+                        if (currentFile != null) {
+                            mFileManager.saveFile(getCurrentFile().getParent() + "/" + fileName,
+                                    mCodeView.getCleanText());
+                        } else {
+                            mFileManager.saveFile(mFileManager.createNewFileInMode(fileName),
+                                    mCodeView.getCleanText());
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder.create().show();
     }
 
     /**

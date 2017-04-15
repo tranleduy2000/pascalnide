@@ -3,11 +3,14 @@ package com.duy.pascal.frontend.view.code_view;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.Selection;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.keyboard.KeyListener;
 import com.duy.pascal.frontend.keyboard.KeySettings;
@@ -15,18 +18,18 @@ import com.duy.pascal.frontend.utils.UndoRedoHelper;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
 
-import static com.duy.pascal.frontend.EditorControl.ACTION_COMPILE;
-import static com.duy.pascal.frontend.EditorControl.ACTION_COPY;
-import static com.duy.pascal.frontend.EditorControl.ACTION_CUT;
-import static com.duy.pascal.frontend.EditorControl.ACTION_FORMAT_CODE;
-import static com.duy.pascal.frontend.EditorControl.ACTION_GOTO_LINE;
-import static com.duy.pascal.frontend.EditorControl.ACTION_PASTE;
-import static com.duy.pascal.frontend.EditorControl.ACTION_REDO;
-import static com.duy.pascal.frontend.EditorControl.ACTION_RUN;
-import static com.duy.pascal.frontend.EditorControl.ACTION_SAVE;
-import static com.duy.pascal.frontend.EditorControl.ACTION_SAVE_AS;
-import static com.duy.pascal.frontend.EditorControl.ACTION_SELECT_ALL;
-import static com.duy.pascal.frontend.EditorControl.ACTION_UNDO;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_COMPILE;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_COPY;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_CUT;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_FORMAT_CODE;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_GOTO_LINE;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_PASTE;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_REDO;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_RUN;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_SAVE;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_SAVE_AS;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_SELECT_ALL;
+import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_UNDO;
 
 /**
  * EditText with undo and redo support
@@ -39,7 +42,6 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
     private static final String TAG = KeyBoardFilterEditText.class.getSimpleName();
     private UndoRedoHelper mUndoRedoHelper;
     private KeySettings mSettings;
-    private SharedPreferences mPrefs;
     private KeyListener mKeyListener;
     private ClipboardManagerCompat mClipboardManager;
     private EditorControl editorControl;
@@ -62,8 +64,8 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
     private void init() {
         Log.i(TAG, "init: ");
         mUndoRedoHelper = new UndoRedoHelper(this);
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        mSettings = new KeySettings(mPrefs);
+        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        mSettings = new KeySettings(mPrefs, getContext());
         mKeyListener = new KeyListener();
         mClipboardManager = ClipboardManagerCompatFactory.getManager(getContext());
     }
@@ -148,16 +150,12 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
      */
     @Override
     public boolean onKeyDown(int zKeyCode, KeyEvent event) {
-//        if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + zKeyCode + " " + event);
+        if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + zKeyCode + " " + event);
 
         //The new Key Code
         int keyCode = event.getKeyCode();
-
         if (handleControlKey(keyCode, true)) {
             return true;
-        } else if (event.isSystem()) {
-            // Don't intercept the system keys And the HOME /END / PGUP / PGDOWN KEYS
-            return super.onKeyDown(keyCode, event);
         }
 
         int state = mKeyListener.keyDown(keyCode, event);
@@ -165,46 +163,47 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
             Log.d(TAG, "onKeyDown: " + state);
             switch (state) {
                 case ACTION_SELECT_ALL:
-                    Selection.selectAll(getText());
-                    break;
+                    selectAll();
+                    return true;
                 case ACTION_COPY:
                     copy();
-                    break;
+                    return true;
                 case ACTION_PASTE:
                     paste();
-                    break;
+                    return true;
                 case ACTION_CUT:
                     cut();
-                    break;
+                    return true;
                 case ACTION_RUN:
-                    assert editorControl != null;
-                    editorControl.runProgram();
-                    break;
+                    if (editorControl != null)
+                        editorControl.runProgram();
+                    return true;
                 case ACTION_COMPILE:
-                    assert editorControl != null;
-                    editorControl.doCompile();
-                    break;
+                    if (editorControl != null)
+                        editorControl.doCompile();
+                    return true;
                 case ACTION_GOTO_LINE:
-                    assert editorControl != null;
-                    editorControl.goToLine();
-                    break;
+                    if (editorControl != null)
+                        editorControl.goToLine();
+                    return true;
                 case ACTION_FORMAT_CODE:
-                    assert editorControl != null;
-                    editorControl.formatCode();
-                    break;
+                    if (editorControl != null)
+                        editorControl.formatCode();
+                    return true;
                 case ACTION_UNDO:
                     if (canUndo()) undo();
-                    break;
+                    return true;
                 case ACTION_REDO:
                     if (canRedo()) redo();
-                    break;
+                    return true;
                 case ACTION_SAVE:
-                    assert editorControl != null;
-                    editorControl.saveFile();
-                    break;
+                    if (editorControl != null)
+                        editorControl.saveFile();
+                    return true;
                 case ACTION_SAVE_AS:
-                    assert editorControl != null;
-                    editorControl.saveAs();
+                    if (editorControl != null)
+                        editorControl.saveAs();
+                    return true;
                 default:
                     return super.onKeyDown(keyCode, event);
             }
@@ -215,15 +214,12 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
 
     @Override
     public boolean onKeyUp(int zKeyCode, KeyEvent event) {
-//        if (LOG_KEY_EVENTS) Log.w(TAG, "onKeyUp " + zKeyCode);
+        if (LOG_KEY_EVENTS) Log.w(TAG, "onKeyUp " + zKeyCode);
 
         //The new Key Code
         int keyCode = event.getKeyCode();
         if (handleControlKey(keyCode, false)) {
             return true;
-        } else if (event.isSystem()) {
-            // Don't intercept the system keys
-            return super.onKeyUp(keyCode, event);
         }
         if (mKeyListener.keyUp(keyCode) == -1)
             return super.onKeyUp(zKeyCode, event);
@@ -238,7 +234,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
     }
 
     public void paste() {
-        insert(mClipboardManager.getText());
+        insert(mClipboardManager.getText().toString());
     }
 
     /**
@@ -247,28 +243,19 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
      * @param delta text for insert
      */
     public void insert(CharSequence delta) {
-        getText().insert(getSelectionStart(), delta, getSelectionStart(), getSelectionEnd());
+//        setSelection(getSelectionStart());
+//        getText().insert(getSelectionStart(), delta);
+        getText().replace(getSelectionStart(), getSelectionEnd(), delta);
     }
 
     public void copy() {
-        mClipboardManager.setText(getText()
-                .subSequence(getSelectionStart(), getSelectionEnd()));
+        mClipboardManager.setText(getText().subSequence(getSelectionStart(), getSelectionEnd()));
     }
-//    @Override
-//    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-//        return new BaseInputConnection(this, false) {
-//            @Override
-//            public boolean performEditorAction(int actionCode) {
-//                if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED
-//                        || actionCode == EditorInfo.IME_MASK_ACTION) {
-//                    insert("\n");
-//                    return true;
-//                }
-//                return false;
-//            }
-//
-//        };
-//    }
+
+    @Override
+    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        return new BaseInputConnection(this, false);
+    }
 
     public EditorControl getEditorControl() {
         return editorControl;

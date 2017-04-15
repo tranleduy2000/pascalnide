@@ -13,7 +13,7 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-import android.text.method.ArrowKeyMovementMethod;
+import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
@@ -418,7 +418,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
     @Override
     protected MovementMethod getDefaultMovementMethod() {
-        return ArrowKeyMovementMethod.getInstance();
+        return LinkMovementMethod.getInstance();
     }
 
     @Override
@@ -650,8 +650,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        setSelection(lineStart);
                     }
-
                 }
             }
         } catch (Exception ignored) {

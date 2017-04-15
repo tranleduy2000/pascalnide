@@ -17,10 +17,6 @@ import static android.view.KeyEvent.KEYCODE_V;
 import static android.view.KeyEvent.KEYCODE_X;
 import static android.view.KeyEvent.KEYCODE_Y;
 import static android.view.KeyEvent.KEYCODE_Z;
-import static com.duy.pascal.frontend.EditorControl.*;
-import static com.duy.pascal.frontend.EditorControl.ACTION_CUT;
-import static com.duy.pascal.frontend.EditorControl.ACTION_PASTE;
-import static com.duy.pascal.frontend.EditorControl.ACTION_SELECT_ALL;
 
 /**
  * An ASCII key listener. Supports control characters and escape. Keeps track of
@@ -28,6 +24,21 @@ import static com.duy.pascal.frontend.EditorControl.ACTION_SELECT_ALL;
  */
 public class KeyListener {
 
+    public static final int ACTION_COPY = 1;
+    public static final int ACTION_CUT = 2;
+    public static final int ACTION_PASTE = 3;
+    public static final int ACTION_SELECT_ALL = 4;
+    public static final int ACTION_RUN = 5;
+    public static final int ACTION_COMPILE = 6;
+    public static final int ACTION_SAVE = 7;
+    public static final int ACTION_SAVE_AS = 8;
+    public static final int ACTION_GOTO_LINE = 9;
+    public static final int ACTION_FORMAT_CODE = 10;
+    public static final int ACTION_UNDO = 11;
+    public static final int ACTION_REDO = 12;
+    public static final int ACTION_FIND_AND_REPLACE = 13;
+    public static final int ACTION_OPEN = 14;
+    public static final int ACTION_FIND = 15;
 
     private ModifierKey mControlKey = new ModifierKey();
 
