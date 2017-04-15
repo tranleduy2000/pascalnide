@@ -63,19 +63,18 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public boolean wordWrap = true;
     public boolean flingToScroll = true;
     public OnTextChangedListener onTextChangedListener = null;
-    public int errorLine = -1;
+    public int lineError = -1;
     private final Runnable compileProgram = new Runnable() {
         @Override
         public void run() {
             try {
-                new PascalCompiler(null).loadPascal("temp",
-                        new StringReader(getCleanText()),
+                new PascalCompiler(null).loadPascal("temp", new StringReader(getCleanText()),
                         new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
-                errorLine = -1;
+                lineError = -1;
             } catch (ParsingException e) {
                 if (e.line != null) {
                     synchronized (objectThread) {
-                        errorLine = e.line.line;
+                        lineError = e.line.line;
                     }
                 }
                 e.printStackTrace();
@@ -248,7 +247,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     public void setLineError(int lineError) {
-        this.errorLine = lineError;
+        this.lineError = lineError;
     }
 
     @Override
@@ -306,7 +305,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     @Override
     public void setText(CharSequence text, boolean filter) {
         super.setText(text, filter);
-        errorLine = -1;
+        lineError = -1;
     }
 
     @Override
@@ -432,7 +431,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
      * @param text
      */
     public void setTextHighlighted(CharSequence text) {
-        errorLine = -1;
+        lineError = -1;
         modified = false;
         setText(highlight(new SpannableStringBuilder(text), false));
         modified = true;
@@ -475,7 +474,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 if (!modified || hasSelection())
                     return;
                 if (!autoCompile) {
-                    errorLine = -1;
+                    lineError = -1;
                 }
                 applyTabWidth(e, start, end);
                 updateHighlightWithDelay(LONG_DELAY);
@@ -638,11 +637,11 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             }
 
             //high light error light
-            if (errorLine > -1) {
+            if (lineError > -1) {
                 Matcher m = line.matcher(input);
                 int count = 0;
                 while (m.find()) {
-                    if (count == errorLine) {
+                    if (count == lineError) {
                         e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
                                 start + m.start(),
                                 start + m.end(),
