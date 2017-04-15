@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import com.android.dx.DexMaker;
+import com.android.dx.TypeId;
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
@@ -13,6 +15,7 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +25,8 @@ import serp.bytecode.BCMethod;
 import serp.bytecode.Code;
 import serp.bytecode.Instruction;
 import serp.bytecode.JumpInstruction;
-import serp.bytecode.Project;
 
-public class CustomType extends ObjectType {
+public class CustomTypeTemp extends ObjectType {
 
     /**
      * This is a list of the defined variables in the custom type.
@@ -36,7 +38,7 @@ public class CustomType extends ObjectType {
     private ByteClassLoader bcl = new ByteClassLoader();
     private Class cachedClass = null;
 
-    public CustomType() {
+    public CustomTypeTemp() {
         variableTypes = new ArrayList<>();
     }
 
@@ -68,10 +70,10 @@ public class CustomType extends ObjectType {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof CustomType)) {
+        if (!(obj instanceof CustomTypeTemp)) {
             return false;
         }
-        CustomType other = (CustomType) obj;
+        CustomTypeTemp other = (CustomTypeTemp) obj;
         return variableTypes.equals(other.variableTypes);
     }
 
@@ -85,16 +87,20 @@ public class CustomType extends ObjectType {
         if (cachedClass != null) {
             return cachedClass;
         }
-        String name = "com.duy.interpreter.custom_types." + Integer.toHexString(hashCode());
+        String name =Integer.toHexString(hashCode());
         try {
             cachedClass = bcl.loadClass(name);
             return cachedClass;
         } catch (ClassNotFoundException ignored) {
             ignored.printStackTrace();
         }
-        Project p = new Project();
-        BCClass c = p.loadClass(name);
 
+        //cretew new class with name
+        DexMaker dexMaker = new DexMaker();
+        TypeId<?> recordType = TypeId.get("L" + name + ";");
+        dexMaker.declare(recordType, name + ".generated", Modifier.PUBLIC, TypeId.OBJECT);
+
+        //add declared interface
         c.setDeclaredInterfaces(new Class[]{ContainsVariables.class});
         for (VariableDeclaration v : variableTypes) {
             Class type = v.type.getStorageClass();
