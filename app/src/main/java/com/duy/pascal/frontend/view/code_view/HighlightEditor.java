@@ -103,6 +103,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     protected int COLOR_OPT;
     protected int COLOR_BOOLEANS;
     protected int COLOR_STRINGS;
+    private boolean autoCompile = false;
     private Context mContext;
     private boolean modified = true;
     private EditorSetting mEditorSetting;
@@ -132,6 +133,14 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setup(context);
+    }
+
+    public boolean isAutoCompile() {
+        return autoCompile;
+    }
+
+    public void setAutoCompile(boolean autoCompile) {
+        this.autoCompile = autoCompile;
     }
 
     public boolean isCanEdit() {
@@ -398,6 +407,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);
         }
+
+        autoCompile = mEditorSetting.isAutoCompile();
     }
 
     @Override
@@ -463,7 +474,9 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             public void afterTextChanged(Editable e) {
                 if (!modified || hasSelection())
                     return;
-//                errorLine = -1;
+                if (!autoCompile) {
+                    errorLine = -1;
+                }
                 applyTabWidth(e, start, end);
                 updateHighlightWithDelay(LONG_DELAY);
                 startCompile(200);
@@ -472,7 +485,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     private void startCompile(int longDelay) {
-        if (mEditorSetting.isAutoCompile()) {
+        if (isAutoCompile()) {
             updateHandler.removeCallbacks(compileProgram);
             updateHandler.postDelayed(compileProgram, longDelay);
         }
@@ -630,7 +643,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 int count = 0;
                 while (m.find()) {
                     if (count == errorLine) {
-                        e.setSpan(new UnderlineSpan(),
+                        e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
                                 start + m.start(),
                                 start + m.end(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
