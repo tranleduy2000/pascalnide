@@ -24,7 +24,7 @@ public class DosLib implements PascalLibrary {
 
     /**
      * return system time
-     */
+     */@SuppressWarnings("unused")
     public static void getTime(VariableBoxer<Object> hour,
                         VariableBoxer<Object> minute,
                         VariableBoxer<Object> second,
@@ -38,7 +38,7 @@ public class DosLib implements PascalLibrary {
 
     /**
      * return system date
-     */
+     */@SuppressWarnings("unused")
     public static void getDate(VariableBoxer<Object> year,
                         VariableBoxer<Object> month,
                         VariableBoxer<Object> mday,
@@ -49,7 +49,7 @@ public class DosLib implements PascalLibrary {
         mday.set(date.getDate());
         wday.set(date.getDay());
     }
-
+    @SuppressWarnings("unused")
     public int dosVersion() {
         return Build.VERSION.SDK_INT;
     }

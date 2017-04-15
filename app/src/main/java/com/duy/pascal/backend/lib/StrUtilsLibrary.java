@@ -26,6 +26,7 @@ public class StrUtilsLibrary implements PascalLibrary {
      *
      * @return
      */
+    @SuppressWarnings("unused")
     public StringBuilder addChar(char c, StringBuilder s, int index) {
         if (index < s.length()) return s;
         while (s.length() < index) {
@@ -45,6 +46,7 @@ public class StrUtilsLibrary implements PascalLibrary {
      * @param index
      * @return
      */
+    @SuppressWarnings("unused")
     public StringBuilder addCharR(char c, StringBuilder s, int index) {
         if (index < s.length()) return s;
         while (s.length() < index) {
@@ -61,6 +63,7 @@ public class StrUtilsLibrary implements PascalLibrary {
      * @param s2
      * @return
      */
+    @SuppressWarnings("unused")
     public boolean AnsiContainsStr(StringBuilder s1, StringBuilder s2) {
         return s1.toString().contains(s2.toString());
 
@@ -71,6 +74,7 @@ public class StrUtilsLibrary implements PascalLibrary {
      * False if not. The check is performed case-sensitive. Basically, it checks whether the
      * position of ASubText equals the length of AText minus the length of ASubText plus one.
      */
+    @SuppressWarnings("unused")
     public boolean AnsiEndsStr(StringBuilder sub, StringBuilder text) {
         return text.toString().endsWith(sub.toString());
     }
@@ -78,6 +82,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     /**
      * Check whether a string ends with a certain substring, ignoring case.
      */
+    @SuppressWarnings("unused")
     public boolean AnsiEndsText(String sub, String text) {
         return text.toLowerCase().endsWith(sub.toLowerCase());
     }
@@ -85,6 +90,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     /**
      * Searches, observing case, for a string in an array of strings.
      */
+    @SuppressWarnings("unused")
     public int AnsiIndexStr(String find, String... array) {
         return Arrays.asList(array).indexOf(find);
     }
@@ -96,6 +102,7 @@ public class StrUtilsLibrary implements PascalLibrary {
      * @param array
      * @return
      */
+    @SuppressWarnings("unused")
     public int AnsiIndexText(String find, String... array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = array[i].toLowerCase();
@@ -104,6 +111,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Copies a number of characters starting at the left of a string
+    @SuppressWarnings("unused")
     public String AnsiLeftStr(String text, int count) {
         try {
             return text.substring(0, count - 1);
@@ -112,10 +120,12 @@ public class StrUtilsLibrary implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public boolean AnsiMatchStr(String find, String... array) {
         return Arrays.asList(array).contains(find);
     }
 
+    @SuppressWarnings("unused")
     public boolean AnsiMatchText(String find, String... array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = array[i].toLowerCase();
@@ -124,11 +134,13 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Returns a number of characters copied from a given location in a string
+    @SuppressWarnings("unused")
     public String AnsiMidStr(String find, int start, int count) {
         return find.substring(start + 1, start + count);
     }
 
     //Pretty-Print a string: make lowercase and capitalize first letters of words
+    @SuppressWarnings("unused")
     public String AnsiProperCase(String input, char word) {
         input = input.toLowerCase();
         StringBuilder stringBuilder = new StringBuilder(input);
@@ -144,41 +156,49 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Search and replace all occurrences of a string, case sensitive.
+    @SuppressWarnings("unused")
     public String AnsiReplaceStr(String original, String from, String to) {
         return original.replace(from, to);
     }
 
+    @SuppressWarnings("unused")
     public String ReplaceStr(String original, String from, String to) {
         return original.replace(from, to);
     }
 
     //Search and replace all occurrences of a string, case insensitive.
+    @SuppressWarnings("unused")
     public String AnsiReplaceText(String original, String from, String to) {
         Pattern pattern = Pattern.compile(from, Pattern.CASE_INSENSITIVE);
         return original.replaceAll(pattern.toString(), to);
     }
 
+    @SuppressWarnings("unused")
     public String ReplaceText(String original, String from, String to) {
         Pattern pattern = Pattern.compile(from, Pattern.CASE_INSENSITIVE);
         return original.replaceAll(pattern.toString(), to);
     }
 
 
+    @SuppressWarnings("unused")
     public boolean AnsiResemblesText(String s1, String s2) {
         return s1.equals(s2);
     }
 
     //Reverse the letters in a string.
+    @SuppressWarnings("unused")
     public StringBuilder AnsiReverseString(StringBuilder in) {
         return new StringBuilder(in).reverse();
     }
 
+    @SuppressWarnings("unused")
     public StringBuilder ReverseString(StringBuilder in) {
         return new StringBuilder(in).reverse();
     }
 
 
     //Copies a number of characters starting at the right of a string
+    @SuppressWarnings("unused")
     public StringBuilder AnsiRightStr(StringBuilder text, int count) {
         try {
             if (count > text.length()) return text;
@@ -188,6 +208,7 @@ public class StrUtilsLibrary implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public StringBuilder RightStr(StringBuilder text, int count) {
         try {
             if (count > text.length()) return text;
@@ -197,6 +218,7 @@ public class StrUtilsLibrary implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public StringBuilder RightBStr(StringBuilder text, int count) {
         try {
             if (count > text.length()) return text;
@@ -207,16 +229,19 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Check whether a string starts with a given substring, observing case
+    @SuppressWarnings("unused")
     public boolean AnsiStartsStr(String sub, String text) {
         return text.startsWith(sub);
     }
 
     //Check whether a string starts with a given substring, observing case
+    @SuppressWarnings("unused")
     public boolean AnsiStartsText(String sub, String text) {
         return text.toLowerCase().startsWith(sub.toLowerCase());
     }
 
     //Returns all characters in a string till the first space character (not included).
+    @SuppressWarnings("unused")
     public String Copy2Space(String text) {
         int index = text.indexOf(" ");
         if (index > 0) {
@@ -227,6 +252,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Deletes and returns all characters in a string till the first space character (not included).
+    @SuppressWarnings("unused")
     public String Copy2SpaceDel(VariableBoxer<StringBuilder> variableBoxer) throws RuntimePascalException {
         StringBuilder stringBuilder = variableBoxer.get();
         int index = stringBuilder.indexOf(" ");
@@ -237,11 +263,13 @@ public class StrUtilsLibrary implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public int indexStr(String text, String... array) {
         return Arrays.asList(array).indexOf(text);
     }
 
     //Returns all characters in a string till a given character (not included).
+    @SuppressWarnings("unused")
     public String Copy2Symb(String text, char separator) {
         int index = text.indexOf(separator);
         if (index > 0) {
@@ -252,6 +280,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Deletes and returns all characters in a string till a given character (not included).
+    @SuppressWarnings("unused")
     public String Copy2SymbDel(VariableBoxer<StringBuilder> variableBoxer, char separator) throws RuntimePascalException {
         StringBuilder stringBuilder = variableBoxer.get();
         int index = stringBuilder.indexOf(Character.toString(separator));
@@ -263,6 +292,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Convert a decimal number to a string representation, using given a base.
+    @SuppressWarnings("unused")
     public String Dec2Numb(long num, byte length, byte base) {
         Long number = num;
         String s = Long.toString(num, base);
@@ -273,16 +303,19 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Delete all occurrences of a given character from a string.
+    @SuppressWarnings("unused")
     public String DelChars(String source, char charToDel) {
         return source.replace(Character.toString(charToDel), "");
     }
 
     //Delete all occurrences of a space from a string.
+    @SuppressWarnings("unused")
     public String DelSpace(String source) {
         return source.replace(" ", "");
     }
 
     //Reduces sequences of space characters to 1 space character.
+    @SuppressWarnings("unused")
     public String DelSpace1(String source) {
         while (source.contains("  ")) {
             source = source.replace("  ", " ");
@@ -291,6 +324,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Creates and concatenates N copies of a string
+    @SuppressWarnings("unused")
     public StringBuilder DupeString(String text, int count) {
         StringBuilder stringBuilder = new StringBuilder();
         while (count > 0) {
@@ -301,6 +335,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Converts a hexadecimal string to a decimal value
+    @SuppressWarnings("unused")
     public long hex2Dec(String hex) throws EConvertError {
         try {
             return Long.parseLong(hex, 16);
@@ -326,6 +361,7 @@ public class StrUtilsLibrary implements PascalLibrary {
      * Digits: Integer
      * ):string;
      */
+    @SuppressWarnings("unused")
     public StringBuilder intToBin(long value, int digits, int space) {
         StringBuilder stringBuilder = new StringBuilder(Long.toBinaryString(value));
         while (stringBuilder.length() > digits) {
@@ -347,6 +383,7 @@ public class StrUtilsLibrary implements PascalLibrary {
         return stringBuilder;
     }
 
+    @SuppressWarnings("unused")
     public StringBuilder intToBin(long value, int digits) {
         StringBuilder stringBuilder = new StringBuilder(Long.toBinaryString(value));
         while (stringBuilder.length() > digits) {
@@ -363,11 +400,13 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Count the number of words in a string.
+    @SuppressWarnings("unused")
     public int WordCount(StringBuilder s, char separator) {
         return s.toString().split(Character.toString(separator)).length;
     }
 
     //Search position of Nth word in a string.
+    @SuppressWarnings("unused")
     public int WordPosition(int n, StringBuilder s, char separator) {
         String[] split = s.toString().split(Character.toString(separator));
         if (split.length < n) {
@@ -383,6 +422,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Convert tab characters to a number of spaces
+    @SuppressWarnings("unused")
     public StringBuilder Tab2Space(StringBuilder s, byte size) {
         String space = "";
         for (byte i = 0; i < size; i++) {
@@ -392,6 +432,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     //Replace part of a string with another string.
+    @SuppressWarnings("unused")
     public StringBuilder StuffString(StringBuilder text, int start, int count, String replace) {
         return text.replace(start - 1, start - 1 + count, replace);
     }

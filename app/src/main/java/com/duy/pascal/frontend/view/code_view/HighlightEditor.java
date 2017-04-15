@@ -638,7 +638,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
-            //high light error light
+            //high light error line
             if (lineError != null) {
                 if (getLayout() != null) {
                     int lineStart = getLayout().getLineStart(lineError.line);
@@ -650,7 +650,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        setSelection(lineStart);
+                        if (!isAutoCompile()) setSelection(lineStart);
                     }
                 }
             }

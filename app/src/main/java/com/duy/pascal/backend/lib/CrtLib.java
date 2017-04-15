@@ -111,6 +111,7 @@ public class CrtLib implements PascalLibrary {
      * @param x - x coordinate of screen
      * @param y - y coordinate of screen
      */
+    @SuppressWarnings("unused")
     public void gotoXY(int x, int y) {
         if (activity == null) return;
         activity.getConsoleView().gotoXY(x, y);
@@ -124,6 +125,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * clear screen
      */
+    @SuppressWarnings("unused")
     public void clrscr() {
         if (activity == null) return;
         activity.getConsoleView().clearScreen();
@@ -132,8 +134,8 @@ public class CrtLib implements PascalLibrary {
     /**
      * set text foregroundPaint color
      *
-     * @param code
      */
+    @SuppressWarnings("unused")
     public void textColor(int code) {
         if (activity == null) return;
         int color = getColorPascal(code);
@@ -143,17 +145,20 @@ public class CrtLib implements PascalLibrary {
     /**
      * set background console
      */
+    @SuppressWarnings("unused")
     public void textBackground(int code) {
         if (activity == null) return;
         int color = getColorPascal(code);
         activity.getConsoleView().setConsoleTextBackground(color);
     }
 
+    @SuppressWarnings("unused")
     public int whereX() {
         if (activity == null) return 0;
         return activity.getConsoleView().whereX();
     }
 
+    @SuppressWarnings("unused")
     public int whereY() {
         if (activity == null) return 0;
         return activity.getConsoleView().whereY();
@@ -163,16 +168,19 @@ public class CrtLib implements PascalLibrary {
         if (activity == null) throw new RuntimeException("Can not define screen");
     }
 
+    @SuppressWarnings("unused")
     public void NormVideo() {
         assertActivityNotNull();
         activity.getConsoleView().getTextRenderer().setAlpha(TextRenderer.NORMAL_TEXT_ALPHA);
     }
 
+    @SuppressWarnings("unused")
     public void HighVideo() {
         assertActivityNotNull();
         activity.getConsoleView().getTextRenderer().setAlpha(TextRenderer.HIGH_TEXT_ALPHA);
     }
 
+    @SuppressWarnings("unused")
     public void LowVideo() {
         assertActivityNotNull();
         activity.getConsoleView().getTextRenderer().setAlpha(TextRenderer.LOW_TEXT_ALPHA);
@@ -181,6 +189,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * Show big cursor
      */
+    @SuppressWarnings("unused")
     public void cursorBig() {
         assertActivityNotNull();
         activity.getConsoleView().getCursorConsole().setMode(CursorConsole.BIG_CURSOR);
@@ -189,6 +198,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * Hide cursor
      */
+    @SuppressWarnings("unused")
     public void cursorOff() {
         assertActivityNotNull();
         activity.getConsoleView().getCursorConsole().setVisible(false);
@@ -197,11 +207,13 @@ public class CrtLib implements PascalLibrary {
     /**
      * Display cursor
      */
+    @SuppressWarnings("unused")
     public void cursorOn() {
         assertActivityNotNull();
         activity.getConsoleView().getCursorConsole().setVisible(true);
     }
 
+    @SuppressWarnings("unused")
     public void sound(Long frequency) throws WrongArgsException {
         if (frequency != null) {
             this.finalFrequency = frequency;
@@ -215,11 +227,12 @@ public class CrtLib implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public void sound(Integer frequency) throws WrongArgsException {
-        sound(Long.valueOf(frequency));
+        this.sound(Long.valueOf(frequency));
     }
 
-
+    @SuppressWarnings("unused")
     public void noSound() {
         canPlaySound.set(false);
     }

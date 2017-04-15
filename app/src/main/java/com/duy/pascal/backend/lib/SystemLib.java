@@ -41,9 +41,8 @@ public class SystemLib implements PascalLibrary {
 
     /**
      * key pressed method
-     *
-     * @return
      */
+    @SuppressWarnings("unused")
     public boolean keyPressed() {
         if (activity != null) {
             return activity.getConsoleView().keyPressed();
@@ -54,6 +53,7 @@ public class SystemLib implements PascalLibrary {
     /**
      * procedure readkey
      */
+    @SuppressWarnings("unused")
     public char readKey() {
         assert activity != null;
         return activity.readKey();
@@ -61,9 +61,9 @@ public class SystemLib implements PascalLibrary {
 
     /**
      * delay procedure
-     *
      * @param ms - time
      */
+    @SuppressWarnings("unused")
     public void delay(long ms) {
         try {
             Thread.sleep(ms);
@@ -73,23 +73,28 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public int Byte(boolean b) {
         return b ? 1 : 0;
     }
 
+    @SuppressWarnings("unused")
     public int random(int range) {
         Log.d("random", "random: " + range);
         return random.nextInt(range);
     }
 
+    @SuppressWarnings("unused")
     public void randomize() {
         random = new Random(System.currentTimeMillis());
     }
 
+    @SuppressWarnings("unused")
     public void inc(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
         inc(boxer, 1);
     }
 
+    @SuppressWarnings("unused")
     public void inc(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
             long count;
@@ -137,10 +142,12 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public void dec(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
         dec(boxer, 1);
     }
 
+    @SuppressWarnings("unused")
     public void dec(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
             long count;
@@ -189,59 +196,67 @@ public class SystemLib implements PascalLibrary {
     }
 
 
+    @SuppressWarnings("unused")
     public int ceil(double d) {
         return (int) Math.ceil(d);
     }
 
+    @SuppressWarnings("unused")
     public int trunc(double d) {
         return floor(d);
     }
 
+    @SuppressWarnings("unused")
     public double frac(double d) {
         return d - floor(d);
     }
 
+    @SuppressWarnings("unused")
     public int floor(double d) {
         return (int) Math.floor(d);
     }
 
 
+    @SuppressWarnings("unused")
     public int abs(int d) {
         return Math.abs(d);
     }
 
+    @SuppressWarnings("unused")
     public long abs(long d) {
         return Math.abs(d);
     }
 
+    @SuppressWarnings("unused")
     public double abs(double d) {
         return Math.abs(d);
     }
 
 
+    @SuppressWarnings("unused")
     public int round(double d) {
         return (int) Math.round(d);
     }
 
+    @SuppressWarnings("unused")
     public double sin(double d) {
         return Math.sin(d);
     }
 
+    @SuppressWarnings("unused")
     public double cos(double d) {
         return Math.cos(d);
     }
 
+    @SuppressWarnings("unused")
     public double sqr(double d) {
         return d * d;
     }
 
     /**
      * square root
-     *
-     * @param d
-     * @return
-     * @throws InvalidFloatingPointOperation
      */
+    @SuppressWarnings("unused")
     public double sqrt(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
             throw new InvalidFloatingPointOperation(d);
@@ -249,10 +264,12 @@ public class SystemLib implements PascalLibrary {
         return Math.sqrt(d);
     }
 
+    @SuppressWarnings("unused")
     public int pred(int d) {
         return d - 1;
     }
 
+    @SuppressWarnings("unused")
     public int succ(int d) {
         return d + 1;
     }
@@ -260,9 +277,8 @@ public class SystemLib implements PascalLibrary {
     /**
      * logarithm function
      *
-     * @param d
-     * @return
      */
+    @SuppressWarnings("unused")
     public double ln(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
             throw new InvalidFloatingPointOperation(d);
@@ -270,29 +286,31 @@ public class SystemLib implements PascalLibrary {
         return Math.log(d);
     }
 
+    @SuppressWarnings("unused")
     public double arctan(double a) {
         return Math.atan(a);
     }
 
+    @SuppressWarnings("unused")
     public double exp(double a) {
         return Math.exp(a);
     }
 
 
+    @SuppressWarnings("unused")
     public int Int(double x) {
         return (int) x;
     }
 
+    @SuppressWarnings("unused")
     public boolean odd(long x) {
         return x % 2 == 0;
     }
 
     /**
      * exit program
-     *
-     * @param value - exitcode
-     * @throws ScriptTerminatedException
      */
+    @SuppressWarnings("unused")
     public void halt(int value) throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
@@ -300,16 +318,18 @@ public class SystemLib implements PascalLibrary {
     /**
      * exit program
      *
-     * @throws ScriptTerminatedException
      */
+    @SuppressWarnings("unused")
     public void halt() throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
 
+    @SuppressWarnings("unused")
     public boolean odd(Integer i) {
         return i % 2 == 1;
     }
 
+    @SuppressWarnings("unused")
     public boolean odd(Long i) {
         return i % 2 == 1;
     }

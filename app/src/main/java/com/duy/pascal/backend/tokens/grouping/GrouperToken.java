@@ -356,8 +356,7 @@ public abstract class GrouperToken extends Token {
             do {
                 next = take();
                 if (!(next instanceof WordToken)) {
-                    throw new ExpectedTokenException("[Variable Identifier]",
-                            next);
+                    throw new ExpectedTokenException("[Variable Identifier]", next);
                 }
                 names.add((WordToken) next);
                 next = take();
@@ -409,9 +408,9 @@ public abstract class GrouperToken extends Token {
             }
 
             assertNextSemicolon();
-            for (WordToken s : names) {
-                VariableDeclaration v = new VariableDeclaration(s.name, type,
-                        defaultValue, s.lineInfo);
+            for (WordToken word : names) {
+                VariableDeclaration v = new VariableDeclaration(word.name, type, defaultValue,
+                        word.lineInfo);
                 verifyNonConflictingSymbol(result, v);
                 result.add(v);
             }

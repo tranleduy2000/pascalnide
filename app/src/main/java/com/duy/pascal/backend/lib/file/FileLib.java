@@ -30,6 +30,7 @@ public class FileLib implements PascalLibrary {
     /**
      * assign file,
      */
+    @SuppressWarnings("unused")
     public void assign(VariableBoxer<File> fileVariable, String name) throws RuntimePascalException {
         String path = ApplicationFileManager.getApplicationPath() + name;
         fileVariable.set(new File(path));
@@ -42,6 +43,7 @@ public class FileLib implements PascalLibrary {
     /**
      * open file for read
      */
+    @SuppressWarnings("unused")
     public void reset(VariableBoxer<File> fileVariable) throws
             FileNotFoundException, RuntimePascalException {
         assertFileAssigned(fileVariable);
@@ -52,6 +54,7 @@ public class FileLib implements PascalLibrary {
     /**
      * rename file
      */
+    @SuppressWarnings("unused")
     public void rename(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
 
@@ -61,6 +64,7 @@ public class FileLib implements PascalLibrary {
     /**
      * erase file
      */
+    @SuppressWarnings("unused")
     public void erase(VariableBoxer<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
 
@@ -73,6 +77,7 @@ public class FileLib implements PascalLibrary {
      * @throws IOException            - can not assess file
      * @throws RuntimePascalException
      */
+    @SuppressWarnings("unused")
     public void rewrite(VariableBoxer<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileAssigned(fileVariable);
 
@@ -121,6 +126,7 @@ public class FileLib implements PascalLibrary {
     /**
      * close file
      */
+    @SuppressWarnings("unused")
     public void close(VariableBoxer<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileOpened(fileVariable);
         filesMap.get(fileVariable.get().getPath()).close();
@@ -135,6 +141,7 @@ public class FileLib implements PascalLibrary {
      * return <code>false</code>
      * @throws RuntimePascalException - file not open for output
      */
+    @SuppressWarnings("unused")
     public boolean eof(VariableBoxer<File> fileVariable) throws IOException,
             RuntimePascalException {
         assertFileOpened(fileVariable);
@@ -154,6 +161,7 @@ public class FileLib implements PascalLibrary {
         assertFileOpenForInput(fileVariable);
     }
 
+    @SuppressWarnings("unused")
     public void append(VariableBoxer<File> fileVariable) throws RuntimePascalException,
             IOException {
         assertFileAssigned(fileVariable);
@@ -192,26 +200,31 @@ public class FileLib implements PascalLibrary {
     /**
      * move cursor to next line
      */
+    @SuppressWarnings("unused")
     public void read(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
     }
 
+    @SuppressWarnings("unused")
     public void read(File fileVariable, VariableBoxer<Object> out)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, out);
     }
 
+    @SuppressWarnings("unused")
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2);
     }
 
+    @SuppressWarnings("unused")
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                      VariableBoxer<Object> o3)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3);
     }
 
+    @SuppressWarnings("unused")
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                      VariableBoxer<Object> o3, VariableBoxer<Object> o4)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -219,6 +232,7 @@ public class FileLib implements PascalLibrary {
     }
 
 
+    @SuppressWarnings("unused")
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                      VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -226,6 +240,7 @@ public class FileLib implements PascalLibrary {
     }
 
 
+    @SuppressWarnings("unused")
     public void read(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                      VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5,
                      VariableBoxer<Object> o6)
@@ -237,6 +252,7 @@ public class FileLib implements PascalLibrary {
     /**
      * move cursor to next line
      */
+    @SuppressWarnings("unused")
     public void readln(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
         filesMap.get(fileVariable.getPath()).nextLine();
@@ -245,6 +261,7 @@ public class FileLib implements PascalLibrary {
     /**
      * read file and  move cursor to new line
      */
+    @SuppressWarnings("unused")
     public void readln(File fileVariable, VariableBoxer<Object> out)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, out);
@@ -257,6 +274,7 @@ public class FileLib implements PascalLibrary {
     /**
      * read file and  move cursor to new line
      */
+    @SuppressWarnings("unused")
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2);
@@ -269,6 +287,7 @@ public class FileLib implements PascalLibrary {
     /**
      * read file and  move cursor to new line
      */
+    @SuppressWarnings("unused")
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -282,6 +301,7 @@ public class FileLib implements PascalLibrary {
     /**
      * read file and  move cursor to new line
      */
+    @SuppressWarnings("unused")
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -295,6 +315,7 @@ public class FileLib implements PascalLibrary {
     /**
      * read file and  move cursor to new line
      */
+    @SuppressWarnings("unused")
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -308,6 +329,7 @@ public class FileLib implements PascalLibrary {
     /**
      * read file and  move cursor to new line
      */
+    @SuppressWarnings("unused")
     public void readln(File fileVariable, VariableBoxer<Object> o1, VariableBoxer<Object> o2,
                        VariableBoxer<Object> o3, VariableBoxer<Object> o4, VariableBoxer<Object> o5,
                        VariableBoxer<Object> o6)
@@ -347,47 +369,56 @@ public class FileLib implements PascalLibrary {
         file.writeString(objects);
     }
 
+    @SuppressWarnings("unused")
     public void write(File file) throws IOException, RuntimePascalException {
 //        writeFile(file, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void write(File fileVariable, Object o1) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1);
     }
 
+    @SuppressWarnings("unused")
     public void write(File fileVariable, Object o1, Object o2) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2);
     }
 
+    @SuppressWarnings("unused")
     public void write(File fileVariable, Object o1, Object o2, Object o3) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3);
     }
 
+    @SuppressWarnings("unused")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4);
     }
 
+    @SuppressWarnings("unused")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4, o5);
     }
 
+    @SuppressWarnings("unused")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                       Object o6) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4, o5, o6);
     }
 
+    @SuppressWarnings("unused")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                       Object o6, Object o7) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7);
     }
 
+    @SuppressWarnings("unused")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                       Object o6, Object o7, Object o8) throws
             IOException, RuntimePascalException {
@@ -395,40 +426,47 @@ public class FileLib implements PascalLibrary {
 
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File file) throws IOException, RuntimePascalException {
         writeFile(file, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File fileVariable, Object o1) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1);
         writeFile(fileVariable, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File fileVariable, Object o1, Object o2) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2);
         writeFile(fileVariable, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3);
         writeFile(fileVariable, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4);
         writeFile(fileVariable, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4, o5);
         writeFile(fileVariable, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                         Object o6) throws
             IOException, RuntimePascalException {
@@ -436,6 +474,7 @@ public class FileLib implements PascalLibrary {
         writeFile(fileVariable, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                         Object o6, Object o7) throws
             IOException, RuntimePascalException {
@@ -443,6 +482,7 @@ public class FileLib implements PascalLibrary {
         writeFile(fileVariable, "\n");
     }
 
+    @SuppressWarnings("unused")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                         Object o6, Object o7, Object o8) throws
             IOException, RuntimePascalException {

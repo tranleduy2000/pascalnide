@@ -45,6 +45,7 @@ public class GraphLib implements PascalLibrary {
      * radius radius, starting from angle start, stopping at angle stop. T
      * hese angles are measured counterclockwise.
      */
+    @SuppressWarnings("unused")
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new ArcObject(x, y, stAngle, endAngle, radius));
@@ -54,6 +55,7 @@ public class GraphLib implements PascalLibrary {
      * Draws a rectangle with corners at (X1,Y1) and (X2,Y2) and fills
      * it with the current color and fill-style.
      */
+    @SuppressWarnings("unused")
     public void bar(int x1, int y1, int x2, int y2) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new BarObject(x1, y1, x2, y2));
@@ -61,18 +63,16 @@ public class GraphLib implements PascalLibrary {
 
     /**
      * Return maximal X coordinate
-     *
-     * @return
      */
+    @SuppressWarnings("unused")
     public int getMaxX() {
         return activity.getConsoleView().getWidth();
     }
 
     /**
      * * Return maximal Y coordinate
-     *
-     * @return
      */
+    @SuppressWarnings("unused")
     public int getMaxY() {
         return activity.getConsoleView().getHeight();
     }
@@ -80,11 +80,8 @@ public class GraphLib implements PascalLibrary {
     /**
      * Initialize grpahical system
      * this method never execute in android
-     *
-     * @param driver
-     * @param mode
-     * @param pathToDriver
      */
+    @SuppressWarnings("unused")
     public void initGraph(int driver, int mode, String pathToDriver) {
         if (activity != null) {
             activity.getConsoleView().setGraphMode(true);
@@ -94,11 +91,13 @@ public class GraphLib implements PascalLibrary {
     /**
      * Draw a rectangle on the screen
      */
+    @SuppressWarnings("unused")
     public void rectangle(int x1, int y1, int x2, int y2) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
     }
 
+    @SuppressWarnings("unused")
     public void line(int x1, int y1, int x2, int y2) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new LineObject(x1, y1, x2, y2));
@@ -107,6 +106,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * GetY returns the Y-coordinate of the current position of the graphical pointer
      */
+    @SuppressWarnings("unused")
     public int getY() {
         if (activity != null)
             return activity.getConsoleView().getYCursorPixel();
@@ -117,6 +117,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * GetY returns the Y-coordinate of the current position of the graphical pointer
      */
+    @SuppressWarnings("unused")
     public int getX() {
         if (activity != null)
             return activity.getConsoleView().getXCursorPixel();
@@ -126,6 +127,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * @return color in pixel x, y of screen
      */
+    @SuppressWarnings("unused")
     public int getPixel(int x, int y) {
         // TODO: 09-Apr-17
         return activity.getConsoleView().getColorPixel(x, y);
@@ -135,6 +137,7 @@ public class GraphLib implements PascalLibrary {
      * Closes the graphical system, and restores the screen modus which was active before
      * the graphical modus was activated.
      */
+    @SuppressWarnings("unused")
     public void closeGraph() {
         activity.getConsoleView().closeGraph();
     }
@@ -142,6 +145,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * GetColor returns the current drawing color (the palette entry).
      */
+    @SuppressWarnings("unused")
     public int getColor() {
         if (activity != null)
             return activity.getConsoleView().getForegroundGraphColor();
@@ -151,9 +155,8 @@ public class GraphLib implements PascalLibrary {
 
     /**
      * Set foreground drawing color
-     *
-     * @param index
      */
+    @SuppressWarnings("unused")
     public void setColor(int index) {
         activity.getConsoleView().setPaintGraphColor(CrtLib.getColorPascal(index));
     }
@@ -161,6 +164,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * Clears the graphical screen (with the current background color), and sets the pointer at (0,0).
      */
+    @SuppressWarnings("unused")
     public void clearDevice() {
         activity.getConsoleView().clearGraph();
     }
@@ -168,6 +172,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * MoveTo moves the pointer to the point (X,Y).
      */
+    @SuppressWarnings("unused")
     public void moveTo(int x, int y) {
         activity.getConsoleView().setCursorGraphPosition(x, y);
     }
@@ -177,6 +182,7 @@ public class GraphLib implements PascalLibrary {
      * to be used. These are returned in Driver and Modus, and can be fed to InitGraph. See
      * the InitGraph for a list of drivers and module.
      */
+    @SuppressWarnings("unused")
     public void detectGraph(VariableBoxer<Integer> driver, VariableBoxer<Integer> mode) {
         driver.set(0);
         mode.set(0);
@@ -186,19 +192,23 @@ public class GraphLib implements PascalLibrary {
     /**
      * MoveRel moves the pointer to the point (DX,DY), relative to the current pointer position
      */
+    @SuppressWarnings("unused")
     public void moveRel(int dx, int dy) {
         CursorConsole point = activity.getConsoleView().getCursorGraph();
         activity.getConsoleView().setCursorGraphPosition(point.x + dx, point.y + dy);
     }
 
+    @SuppressWarnings("unused")
     public int detect() {
         return 1;
     }
 
+    @SuppressWarnings("unused")
     public Integer graphResult() {
         return 1;
     }
 
+    @SuppressWarnings("unused")
     public void circle(int x, int y, int r) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new CircleObject(x, y, r));
@@ -209,6 +219,7 @@ public class GraphLib implements PascalLibrary {
      * relative to the current position, in the current line style and color. The Current
      * position is set to the end of the line.
      */
+    @SuppressWarnings("unused")
     public void lineTo(int x, int y) {
         if (activity != null) {
             CursorConsole point = activity.getConsoleView().getCursorGraph();
@@ -217,25 +228,30 @@ public class GraphLib implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public void ellipse(int x, int y, int start, int end, int rx, int ry) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new ArcEllipseObject(x, y, start, end, rx, ry));
     }
 
+    @SuppressWarnings("unused")
     public void fillEllipse(int x, int y, int rx, int ry) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new EllipseObject(x, y, rx, ry));
     }
 
+    @SuppressWarnings("unused")
     public int getMaxColor() {
         return 15;
     }
 
+    @SuppressWarnings("unused")
     public void putPixel(int x, int y, int color) {
         if (activity != null)
             activity.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.getColorPascal(color)));
     }
 
+    @SuppressWarnings("unused")
     public void setLineStyle(int style, int fillPattern, int width) {
         if (activity != null) {
             GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
@@ -245,6 +261,7 @@ public class GraphLib implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public void outTextXY(int x, int y, String text) {
         if (activity != null) {
             activity.getConsoleView().addGraphObject(new TextGraphObject(text, x, y));
@@ -259,6 +276,7 @@ public class GraphLib implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public void outText(String text) {
         CursorConsole cursorGraph = activity.getConsoleView().getCursorGraph();
         activity.getConsoleView().addGraphObject(new TextGraphObject(text, cursorGraph.getX(),
@@ -272,10 +290,12 @@ public class GraphLib implements PascalLibrary {
                 cursorGraph.getY() + width);
     }
 
+    @SuppressWarnings("unused")
     public void installUserFont(String path) {
         // TODO: 09-Apr-17
     }
 
+    @SuppressWarnings("unused")
     public int getBkColor() {
         if (activity != null)
             return activity.getConsoleView().getGraphScreen().getBackgroundColor();
@@ -283,6 +303,7 @@ public class GraphLib implements PascalLibrary {
             return 0;
     }
 
+    @SuppressWarnings("unused")
     public void setBkColor(int color) {
         if (activity != null)
             activity.getConsoleView().setGraphBackground(CrtLib.getColorPascal(color));
@@ -291,6 +312,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * return width of the text (pixel) in the current font size
      */
+    @SuppressWarnings("unused")
     public int textWidth(String text) {
         if (activity != null) {
             Rect rect = new Rect();
@@ -304,6 +326,7 @@ public class GraphLib implements PascalLibrary {
      * Set the current graphic viewport to the retangle define by then top-left (x1, y1) and then
      * bottom-right (x2, y2). If clip
      */
+    @SuppressWarnings("unused")
     public void setViewPort(int x1, int y1, int x2, int y2, boolean clip) {
         if (activity != null) {
             activity.getConsoleView().getGraphScreen().setViewPort(x1, y1, x2, y2, clip);
@@ -314,6 +337,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * return height of the text (in pixel) in the current font size
      */
+    @SuppressWarnings("unused")
     public int textHeight(String text) {
         if (activity != null) {
             Rect rect = new Rect();
@@ -323,11 +347,13 @@ public class GraphLib implements PascalLibrary {
         return 0;
     }
 
+    @SuppressWarnings("unused")
     public void setTextStyle(int font, int direction, int size) {
         // TODO: 09-Apr-17
         if (activity != null) activity.getConsoleView().setGraphTextStyle(font, direction, size);
     }
 
+    @SuppressWarnings("unused")
     public void setFillStyle(int pattern, int color) {
         // TODO: 09-Apr-17
         if (activity != null) {
@@ -338,6 +364,7 @@ public class GraphLib implements PascalLibrary {
 
     }
 
+    @SuppressWarnings("unused")
     public void setDirectVideo(boolean assess) {
         // TODO: 09-Apr-17
     }
@@ -345,6 +372,7 @@ public class GraphLib implements PascalLibrary {
     /**
      * Procedure Sector(X, Y : Integer; StAngle, EndAngle, XRadius, YRadius : Word)
      */
+    @SuppressWarnings("unused")
     public void sector(int x, int y, int start, int end, int rx, int ry) {
         if (activity != null) {
             activity.getConsoleView().addGraphObject(new SectorObject(x, y, start, end, rx, ry));
@@ -355,21 +383,25 @@ public class GraphLib implements PascalLibrary {
      * PieSlice draws and fills a sector of a circle with center (X,Y) and radius Radius,
      * starting at angle Start and ending at angle Stop.
      */
+    @SuppressWarnings("unused")
     public void pieSlice(int x, int y, int start, int end, int radius) {
         if (activity != null) {
             activity.getConsoleView().addGraphObject(new PieSliceObject(x, y, start, end, radius));
         }
     }
 
+    @SuppressWarnings("unused")
     public String graphErrorMsg(int errorCode) {
         // TODO: 09-Apr-17
         return errorMsg;
     }
 
+    @SuppressWarnings("unused")
     public void graphDefaults() {
         //// TODO: 09-Apr-17
     }
 
+    @SuppressWarnings("unused")
     public void getFillPattern() {
 
     }
@@ -378,23 +410,28 @@ public class GraphLib implements PascalLibrary {
      * GetAspectRatio determines the effective resolution of the screen. The aspect ration can then
      * be calculated as Xasp/Yasp.
      */
+    @SuppressWarnings("unused")
     public void getAspectRatio(VariableBoxer<Integer> x, VariableBoxer<Integer> y) {
         x.set(getMaxX());
         y.set(getMaxY());
     }
 
+    @SuppressWarnings("unused")
     public int getGraphMode() {
         return 1;
     }
 
+    @SuppressWarnings("unused")
     public String getModeName(int mode) {
         return "android_graphics";
     }
 
+    @SuppressWarnings("unused")
     public int getMaxMode() {
         return 1;
     }
 
+    @SuppressWarnings("unused")
     public void setTextJustify(int horizontal, int vertical) {
         if (activity != null) {
             TextJustify textJustify = activity.getConsoleView().getGraphScreen().getTextJustify();

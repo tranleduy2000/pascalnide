@@ -19,29 +19,35 @@ public class StringLib implements PascalLibrary {
      * @param s - input
      * @return - out with upper case
      */
+    @SuppressWarnings("unused")
     public static char upcase(Character s) {
         return Character.toUpperCase(s);
     }
 
+    @SuppressWarnings("unused")
     public static StringBuilder concat(StringBuilder... s) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Object s1 : s) stringBuilder.append(s1);
         return stringBuilder;
     }
 
+    @SuppressWarnings("unused")
     public static int pos(String substring, String s) {
         return s.indexOf(substring) + 1;
     }
 
+    @SuppressWarnings("unused")
     public static int length(String s) {
         System.out.println("length " + s + " " + s.length());
         return s.length();
     }
 
+    @SuppressWarnings("unused")
     public static String replace(String text, String tofind, String replacement) {
         return text.replaceAll("\\Q" + tofind, replacement);
     }
 
+    @SuppressWarnings("unused")
     public static boolean endswith(String suffix, String tosearch) {
         return tosearch.endsWith(suffix);
     }
@@ -56,7 +62,7 @@ public class StringLib implements PascalLibrary {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-
+    @SuppressWarnings("unused")
     public static String findregex(String tosearch, String regex) {
         Pattern reg = Pattern.compile(regex);
         Matcher m = reg.matcher(tosearch);
@@ -66,12 +72,14 @@ public class StringLib implements PascalLibrary {
         return tosearch.substring(m.start(), m.end());
     }
 
+    @SuppressWarnings("unused")
     public static String between(String s1, String s2, String s) {
         int startindex = s.indexOf(s1) + s1.length();
         int endindex = s.indexOf(s2, startindex);
         return s.substring(startindex, endindex);
     }
 
+    @SuppressWarnings("unused")
     public static String capitalize(String s) {
         boolean lastSpace = true;
         char[] chars = s.toCharArray();
@@ -87,6 +95,7 @@ public class StringLib implements PascalLibrary {
         return new String(chars);
     }
 
+    @SuppressWarnings("unused")
     public static String getletters(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -98,6 +107,7 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static String getnumbers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -109,6 +119,7 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static String getothers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -120,6 +131,7 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static boolean InStrArr(String Str, String[] Arr,
                                    boolean casesensitive) {
         for (String s : Arr) {
@@ -130,29 +142,35 @@ public class StringLib implements PascalLibrary {
         return false;
     }
 
+    @SuppressWarnings("unused")
     public static void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
             throws RuntimePascalException {
         s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
     }
 
+    @SuppressWarnings("unused")
     public static int LastPosEx(String tofind, String findin, int from) {
         return findin.lastIndexOf(tofind, from);
     }
 
+    @SuppressWarnings("unused")
     public static int LastPos(String tofind, String findin) {
         return findin.lastIndexOf(tofind);
     }
 
+    @SuppressWarnings("unused")
     public static String Left(String s, int count) {
         return s.substring(0, count);
     }
 
+    @SuppressWarnings("unused")
     public static String md5(String s) throws NoSuchAlgorithmException {
         MessageDigest digester = MessageDigest.getInstance("MD5");
         digester.update(s.getBytes());
         return new BigInteger(1, digester.digest()).toString(16);
     }
 
+    @SuppressWarnings("unused")
     public static String padl(String topad, int size) {
         StringBuilder result = new StringBuilder(size);
         for (int i = topad.length(); i < size; i++) {
@@ -162,6 +180,7 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static String padr(String topad, int size) {
         StringBuilder result = new StringBuilder(size);
         result.append(topad);
@@ -171,6 +190,7 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static String padz(String topad, int size) {
         StringBuilder result = new StringBuilder(size);
         for (int i = topad.length(); i < size; i++) {
@@ -180,10 +200,12 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static int posex(String tofind, String s, int startindex) {
         return s.indexOf("\\Q" + tofind, startindex);
     }
 
+    @SuppressWarnings("unused")
     public static int regexpos(String text, String regex) {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
@@ -195,6 +217,7 @@ public class StringLib implements PascalLibrary {
         return i;
     }
 
+    @SuppressWarnings("unused")
     public static String replaceregex(String text, String regex,
                                       String replacetext) {
         Pattern p = Pattern.compile(regex);
@@ -202,6 +225,7 @@ public class StringLib implements PascalLibrary {
         return m.replaceAll(replacetext);
     }
 
+    @SuppressWarnings("unused")
     public static String replicate(char c, int times) {
         StringBuilder result = new StringBuilder(times);
         for (int i = 0; i < times; i++) {
@@ -210,10 +234,12 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static String right(String s, int length) {
         return s.substring(s.length() - length, s.length());
     }
 
+    @SuppressWarnings("unused")
     public static void setlength(VariableBoxer<StringBuilder> s, int length)
             throws RuntimePascalException {
         String filler = "!@#$%";
@@ -234,15 +260,18 @@ public class StringLib implements PascalLibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     public static boolean startswith(String prefix, String s) {
         return s.startsWith(prefix);
     }
 
+    @SuppressWarnings("unused")
     public static char strget(VariableBoxer<StringBuilder> s, int index)
             throws RuntimePascalException {
         return s.get().charAt(index);
     }
 
+    @SuppressWarnings("unused")
     public static void strset(char c, int index, VariableBoxer<StringBuilder> s)
             throws RuntimePascalException {
 
@@ -250,10 +279,12 @@ public class StringLib implements PascalLibrary {
         s.set(s.get());
     }
 
+    @SuppressWarnings("unused")
     public static String stringofchar(char c, int times) {
         return replicate(c, times);
     }
 
+    @SuppressWarnings("unused")
     public static String trimex(String delimeter, String s) {
         int beginningindex = 0;
         while (s.startsWith(delimeter, beginningindex)) {
@@ -267,10 +298,12 @@ public class StringLib implements PascalLibrary {
         return s.substring(beginningindex, endindex);
     }
 
+    @SuppressWarnings("unused")
     public static String trim(String s) {
         return s.trim();
     }
 
+    @SuppressWarnings("unused")
     public static String trimletters(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -282,6 +315,7 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static String trimnumbers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -293,6 +327,7 @@ public class StringLib implements PascalLibrary {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
     public static String trimothers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -312,10 +347,12 @@ public class StringLib implements PascalLibrary {
      * @param count - count
      * @return
      */
+    @SuppressWarnings("unused")
     public static StringBuilder copy(String s, int ifrom, int count) {
         return new StringBuilder(s.substring(ifrom - 1, ifrom - 1 + count));
     }
 
+    @SuppressWarnings("unused")
     public static void delete(VariableBoxer<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
         s.set(s.get().delete(start - 1, start + count - 1));
