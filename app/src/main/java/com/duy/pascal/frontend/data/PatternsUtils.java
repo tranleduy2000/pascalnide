@@ -42,7 +42,7 @@ public class PatternsUtils {
 
     public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
 
-    public static final Pattern strings = Pattern.compile("('(.*)')");
+    public static final Pattern strings = Pattern.compile("('(.*?)')|('(.*?)\\n$)");
 
 
 }

@@ -624,6 +624,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                 e.setSpan(new ForegroundColorSpan(COLOR_STRINGS),
                         start + m.start(),
                         start + m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Log.d(TAG, "highlight: match string");
             }
             for (Matcher m = comments.matcher(input); m.find(); ) {
                 ForegroundColorSpan spans[] = e.getSpans(start + m.start(), start + m.end(),
