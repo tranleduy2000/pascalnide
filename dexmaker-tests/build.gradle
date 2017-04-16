@@ -1,0 +1,28 @@
+apply plugin: 'com.android.application'
+
+repositories {
+    jcenter()
+}
+targetCompatibility = '1.7'
+sourceCompatibility = '1.7'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+
+    defaultConfig {
+        applicationId "com.linkedin.dexmaker"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    compile project(":dexmaker")
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'junit:junit:4.12'
+}

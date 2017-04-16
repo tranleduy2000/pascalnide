@@ -1,0 +1,33 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml:16:1-23:12
+	package
+		ADDED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml:16:11-42
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml:17:11-69
+	android:versionCode
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml:19:5-80
+	android:name
+		ADDED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml:19:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml:20:5-79
+	android:name
+		ADDED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml:20:22-77
+application
+ADDED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml:22:5-19
+uses-sdk
+INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml reason: use-sdk injection requested
+	android:targetSdkVersion
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
+		INJECTED from C:\Git\pascal_ide\dexmaker-tests\src\main\AndroidManifest.xml
