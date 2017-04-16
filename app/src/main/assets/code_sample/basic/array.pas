@@ -11,10 +11,10 @@ begin
     for i:=1 to 3 do writeln(simpleArray[i]);
     {set text for complexArray}
     for i:=2 to 3 do
-        for j:=1 to 2 do complexArray[i][j] := i * j;
+        for j:=1 to 2 do complexArray[i,j] := i * j;
     writeln('complex array:');
     {write to console}
-    for i:=1 to 3 do for j:=1 to 3 do writeln('[',i,',',j,']=',complexArray[i][j]);
+    for i:=1 to 3 do for j:=1 to 3 do writeln('[',i,',',j,']=',complexArray[i,j]);
 
     arrayOfString[-2] := 'hello pascal';
     writeln(arrayOfString[-3],arrayOfString[-2]);
