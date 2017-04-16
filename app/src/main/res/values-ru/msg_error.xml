@@ -49,13 +49,13 @@
     <string name="INCOMPLETE_CHAR">Неполный символьный литерал</string>
     <string name="MISSING_INCLUDE">Отсутствует файл, который нужно включить.</string>
     <string name="NEWLINE_IN_QUOTES">Закройте свои цитаты перед началом новой строки</string>
-    <string name="CanNotReadVariableException">Can not read variable of this type</string>
-    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
-    One has type \"%4$s\" and the other has type \"%5$s\"</string>
-    <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
-    <string name="SubRangeException">Upper bound of range is less than lower bound.\n
-        Current lower is %1$s and upper is %2$s</string>
-    <string name="MissingSemicolonTokenException">Missing semicolon token near line %1$s</string>
-    <string name="MissingCommaTokenException">Missing comma (,) token near line %1$s</string>
-    <string name="StrayCharacterException">Stray character in program: %1$s</string>
+    <string name="CanNotReadVariableException">Невозможно прочитать переменную этого типа</string>
+    <string name="BadOperationTypeException">Оператор \"%1$s\" не может применяться к аргументам \"%2$s\" и \"%3$s\".\n
+    У одного тип \"%4$s\", а у другого \"%5$s\"</string>
+    <string name="PluginCallException">При вызове функции или процедуры %1$s, произошло следующее исключение java: %2$s</string>
+    <string name="SubRangeException">Верхняя граница диапазона меньше нижней.\n
+        Нижний предел %1$s, а верхний %2$s</string>
+    <string name="MissingSemicolonTokenException">Отсутствует токен с запятой в строке %1$s</string>
+    <string name="MissingCommaTokenException">Отсутствует запятая (,) в строке %1$s</string>
+    <string name="StrayCharacterException">Неверный знак в программе: %1$s</string>
 </resources>
