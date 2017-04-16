@@ -1,7 +1,6 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.android.dx.DexMaker;
-import com.android.dx.TypeId;
+import com.android.dx.stock.ProxyBuilder;
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
@@ -15,7 +14,9 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
-import java.lang.reflect.Modifier;
+import java.io.File;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,24 +96,55 @@ public class CustomTypeTemp extends ObjectType {
             ignored.printStackTrace();
         }
 
-        //cretew new class with name
-        DexMaker dexMaker = new DexMaker();
-        TypeId<?> recordType = TypeId.get("L" + name + ";");
-        dexMaker.declare(recordType, name + ".generated", Modifier.PUBLIC, TypeId.OBJECT);
+        try {
+            InvocationHandler handler = new InvocationHandler() {
+                public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
+                    if (method.getReturnType() == void.class) {
+                        return null;
+                    } else if (method.getReturnType() == String.class) {
+                        return "X";
+                    } else if (method.getReturnType() == int.class) {
+                        return 3;
+                    } else {
+                        return null;
+                    }
+                }
+            };
 
-        //add declared interface
-        c.setDeclaredInterfaces(new Class[]{ContainsVariables.class});
-        for (VariableDeclaration v : variableTypes) {
-            Class type = v.type.getStorageClass();
-            c.declareField(v.name, type);
+            Object o = proxyFor(Object.class)
+                    .implementing(ContainsVariables.class)
+                    .handler(handler)
+                    .build();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        addConstructor(c);
-        addGetVar(c);
-        addSetVar(c);
-        addClone(c);
-        cachedClass = bcl.loadThisClass(c.toByteArray());
         return cachedClass;
+    }
+
+    /** Simple helper to add the most common args for this test to the proxy builder. */
+    private <T> ProxyBuilder<T> proxyFor(Class<T> clazz) throws Exception {
+        return ProxyBuilder.forClass(clazz)
+                .handler(fakeHandler)
+                .dexCache(CustomTypeTemp.getDataDirectory());
+    }
+    private FakeInvocationHandler fakeHandler = new FakeInvocationHandler();
+    public static File getDataDirectory() {
+//        String dataDir = InstrumentationRegistry.getTargetContext().getApplicationInfo().dataDir;
+//        return new File(dataDir);
+        return new File(".");
+    }
+    private static class FakeInvocationHandler implements InvocationHandler {
+        private Object fakeResult = "fake result";
+
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            return fakeResult;
+        }
+
+        public void setFakeResult(Object result) {
+            fakeResult = result;
+        }
     }
 
     @Override

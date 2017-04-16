@@ -14,13 +14,13 @@ import com.duy.pascal.backend.exceptions.NotAStatementException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
+import com.duy.pascal.backend.exceptions.UnSupportTokenException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.tokens.CommentToken;
@@ -182,10 +182,11 @@ public abstract class GrouperToken extends Token {
             return getArrayType(context);
         }
         if (n instanceof RecordToken) {
-            RecordToken r = (RecordToken) n;
-            RecordType result = new RecordType();
-            result.variableTypes = r.getVariableDeclarations(context);
-            return result;
+            throw new UnSupportTokenException(n.lineInfo, n);
+//            RecordToken r = (RecordToken) n;
+//            RecordType result = new RecordType();
+//            result.variableTypes = r.getVariableDeclarations(context);
+//            return result;
         }
         if (!(n instanceof WordToken)) {
             throw new ExpectedTokenException("[Type Identifier]", n);
@@ -230,18 +231,17 @@ public abstract class GrouperToken extends Token {
         return new ArrayType<>(elementType, bound);
     }
 
-    public ReturnsValue getNextExpression(ExpressionContext context,
-                                          precedence precedence, Token next) throws ParsingException {
+    public ReturnsValue getNextExpression(ExpressionContext context, precedence precedence, Token next)
+            throws ParsingException {
+
         ReturnsValue nextTerm;
         if (next instanceof OperatorToken) {
             OperatorToken nextOperator = (OperatorToken) next;
             if (!nextOperator.can_be_unary()) {
-                throw new BadOperationTypeException(next.lineInfo,
-                        nextOperator.type);
+                throw new BadOperationTypeException(next.lineInfo, nextOperator.type);
             }
             nextTerm = new UnaryOperatorEvaluation(getNextExpression(context,
-                    nextOperator.type.getPrecedence()), nextOperator.type,
-                    nextOperator.lineInfo);
+                    nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.lineInfo);
         } else {
             nextTerm = getNextTerm(context, next);
         }
@@ -253,8 +253,7 @@ public abstract class GrouperToken extends Token {
                     break;
                 }
                 take();
-                ReturnsValue nextvalue = getNextExpression(context,
-                        nextOperator.type.getPrecedence());
+                ReturnsValue nextvalue = getNextExpression(context, nextOperator.type.getPrecedence());
                 OperatorTypes operationtype = ((OperatorToken) next).type;
                 DeclaredType type1 = nextTerm.getType(context).declaredType;
                 DeclaredType type2 = nextvalue.getType(context).declaredType;
@@ -277,19 +276,33 @@ public abstract class GrouperToken extends Token {
             } else if (next instanceof BracketedToken) {
                 take(); //comma token
                 BracketedToken bracketedToken = (BracketedToken) next;
-                RuntimeType runtimeType = nextTerm.getType(context);
-                ReturnsValue unconverted = bracketedToken.getNextExpression(context);
-                ReturnsValue converted = BasicType.Integer.convert(unconverted, context);
 
-                if (converted == null) {
-                    throw new NonIntegerIndexException(unconverted);
+                RuntimeType mRuntimeType = nextTerm.getType(context);
+                ReturnsValue mUnConverted = bracketedToken.getNextExpression(context);
+                ReturnsValue mConverted = BasicType.Integer.convert(mUnConverted, context);
+
+                if (mConverted == null) {
+                    throw new NonIntegerIndexException(mUnConverted);
                 }
 
-                if (bracketedToken.hasNext()) {
-                    throw new ExpectedTokenException("]", bracketedToken.take());
+                nextTerm = mRuntimeType.declaredType.generateArrayAccess(nextTerm, mConverted);
+
+                while (bracketedToken.hasNext()) {
+                    next = bracketedToken.take();
+                    if (!(next instanceof CommaToken)) {
+                        throw new ExpectedTokenException("]", next);
+                    }
+                    RuntimeType type = nextTerm.getType(context);
+                    ReturnsValue unconvert = bracketedToken.getNextExpression(context);
+                    ReturnsValue convert = BasicType.Integer.convert(unconvert, context);
+
+                    if (convert == null) {
+                        throw new NonIntegerIndexException(unconvert);
+                    }
+                    nextTerm = type.declaredType.generateArrayAccess(nextTerm, convert);
                 }
 
-                nextTerm = runtimeType.declaredType.generateArrayAccess(nextTerm, converted);
+
             }
         }
         return nextTerm;
@@ -300,8 +313,7 @@ public abstract class GrouperToken extends Token {
         return getNextExpression(context, precedence, take());
     }
 
-    public ReturnsValue getNextTerm(ExpressionContext context, Token next)
-            throws ParsingException {
+    public ReturnsValue getNextTerm(ExpressionContext context, Token next) throws ParsingException {
         if (next instanceof ParenthesizedToken) {
             return ((ParenthesizedToken) next).getSingleValue(context);
         } else if (next instanceof ValueToken) {
