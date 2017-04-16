@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="output"><source path="C:\Users\Duy\.android\build-cache\9f72cedc6fcc029b05312202ec2bfc443c4bba62\output\assets"/></dataSet><dataSet config="output"><source path="C:\Users\Duy\.android\build-cache\a00bc7ee3c71dba29dd8940aad42d5065b9e3ed2\output\assets"/></dataSet><dataSet config="main"><source path="C:\Git\pascal_ide\dexmaker-tests\src\androidTest\assets"/><source path="C:\Git\pascal_ide\dexmaker-tests\build\generated\assets\shaders\androidTest\debug"/></dataSet></merger>

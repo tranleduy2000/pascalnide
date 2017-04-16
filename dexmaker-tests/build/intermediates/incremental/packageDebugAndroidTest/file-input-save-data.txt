@@ -1,0 +1,18 @@
+#Internal package file, do not edit.
+#Sun Apr 16 10:31:16 ICT 2017
+1.base=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\transforms\\mergeJavaRes\\androidTest\\debug\\jars\\2\\1f\\main.jar
+4.file=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\res\\resources-debug-androidTest.ap_\\AndroidManifest.xml
+1.file=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\transforms\\mergeJavaRes\\androidTest\\debug\\jars\\2\\1f\\main.jar\\junit\\runner\\logo.gif
+4.set=ANDROID_RESOURCE
+2.base=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\transforms\\mergeJavaRes\\androidTest\\debug\\jars\\2\\1f\\main.jar
+3.set=JAVA_RESOURCE
+2.set=JAVA_RESOURCE
+2.file=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\transforms\\mergeJavaRes\\androidTest\\debug\\jars\\2\\1f\\main.jar\\LICENSE-junit.txt
+count=5
+1.set=JAVA_RESOURCE
+3.base=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\transforms\\mergeJavaRes\\androidTest\\debug\\jars\\2\\1f\\main.jar
+0.set=DEX
+0.base=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\transforms\\dex\\androidTest\\debug\\folders\\1000\\1f\\main
+3.file=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\transforms\\mergeJavaRes\\androidTest\\debug\\jars\\2\\1f\\main.jar\\junit\\runner\\smalllogo.gif
+0.file=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\transforms\\dex\\androidTest\\debug\\folders\\1000\\1f\\main\\classes.dex
+4.base=C\:\\Git\\pascal_ide\\dexmaker-tests\\build\\intermediates\\res\\resources-debug-androidTest.ap_
