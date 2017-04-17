@@ -2,7 +2,7 @@ package com.duy.pascal.frontend.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +21,7 @@ import java.io.File;
  * Created by Duy on 10-Apr-17.
  */
 
-public class DialogCreateNewFile extends DialogFragment {
+public class DialogCreateNewFile extends AppCompatDialogFragment {
     public static final String TAG = DialogCreateNewFile.class.getSimpleName();
     private EditText mEditFileName;
     private Button btnOK, btnCancel;

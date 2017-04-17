@@ -37,20 +37,31 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentErrorMsg;
+import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
+import com.duy.pascal.frontend.program_structure.viewholder.StructureItem;
+import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.sample.DocumentActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
 import com.duy.pascal.frontend.utils.LineUtils;
+import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.duy.pascal.frontend.view.code_view.HighlightEditor;
+import com.google.common.collect.ListMultimap;
+import com.js.interpreter.ast.AbstractFunction;
+import com.js.interpreter.ast.ConstantDefinition;
+import com.js.interpreter.ast.FunctionDeclaration;
+import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.PascalProgram;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class EditorActivity extends FileEditorActivity implements
         DrawerLayout.DrawerListener {
@@ -601,4 +612,75 @@ public class EditorActivity extends FileEditorActivity implements
         mDrawerLayout.openDrawer(gravity);
     }
 
+    public void showProgramStructure() {
+        saveFile();
+
+        try {
+            PascalProgram pascalProgram = new PascalCompiler(null)
+                    .loadPascal(mFilePath,
+                            new FileReader(mFilePath),
+                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
+
+            if (pascalProgram.main == null) {
+                showErrorDialog(new MainProgramNotFoundException());
+            }
+            ExpressionContextMixin program = pascalProgram.getProgram();
+
+            StructureItem node = getNode(program, pascalProgram.getProgramName(), StructureType.TYPE_PROGRAM, 0);
+
+            DialogProgramStructure dialog = DialogProgramStructure.newInstance(node);
+            dialog.show(getSupportFragmentManager(), DialogProgramStructure.TAG);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private StructureItem getNode(ExpressionContextMixin context, String nameOfNode, int type, int depth) {
+        StructureItem node = new StructureItem(type, nameOfNode);
+        String tab = "";
+        for (int i = 0; i < depth; i++) tab += "\t";
+        Map<String, ConstantDefinition> constants = context.getConstants();
+        ArrayList<String> listNameConstants = context.getListNameConstants();
+        for (String name : listNameConstants) {
+            Log.d(TAG, tab + "showProgramStructure: const " +
+                    constants.get(name).name() + " = " + constants.get(name).getValue());
+            node.addNode(new StructureItem(StructureType.TYPE_CONST,
+                    name + " = " + constants.get(name).getValue()));
+        }
+
+        ArrayList<String> libraries = context.getLibraries();
+        for (String name : libraries) {
+            Log.d(TAG, tab + "showProgramStructure: library " + name);
+            node.addNode(new StructureItem(StructureType.TYPE_LIBRARY, name));
+        }
+
+        List<VariableDeclaration> variables = context.getVariables();
+        for (VariableDeclaration variableDeclaration : variables) {
+            Log.d(TAG, tab + "showProgramStructure: var " + variableDeclaration.getName() + " = "
+                    + variableDeclaration.getInitialValue() + " " + variableDeclaration.getType());
+            node.addNode(new StructureItem(StructureType.TYPE_VARIABLE,
+                    variableDeclaration.getName() + ": " + variableDeclaration.getType()));
+        }
+
+        ListMultimap<String, AbstractFunction> callableFunctions = context.getCallableFunctions();
+        ArrayList<String> listNameFunctions = context.getListNameFunctions();
+        for (String name : listNameFunctions) {
+            List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
+            for (AbstractFunction function : abstractFunctions) {
+                if (function instanceof FunctionDeclaration) {
+                    FunctionDeclaration functionInPascal = (FunctionDeclaration) function;
+                    Log.d(TAG, tab + "FUNC: " + functionInPascal.name + ": " + functionInPascal.returnType().toString());
+
+                    StructureItem child = getNode(
+                            functionInPascal.declarations,
+                            ((FunctionDeclaration) function).name,
+                            functionInPascal.isProcedure() ? StructureType.TYPE_PROCEDURE : StructureType.TYPE_FUNCTION,
+                            depth + 1);
+                    node.addNode(child);
+                }
+            }
+        }
+        return node;
+    }
 }

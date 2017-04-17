@@ -17,6 +17,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
+    <style name="TreeNodeStyleCustom">
+        <item name="android:paddingLeft">20dp</item>
+        <!--<item name="android:showDividers">middle</item>-->
+        <!--<item name="android:divider">@android:drawable/divider_horizontal_bright</item>-->
+    </style>
 
 </resources>
 

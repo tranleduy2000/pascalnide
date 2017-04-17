@@ -82,19 +82,27 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
      * list function and procedure pascal
      */
     private ListMultimap<String, AbstractFunction> callableFunctions = ArrayListMultimap.create();
+    //name of function in map callableFunctions, uses for get all function
+    private ArrayList<String> listNameFunctions = new ArrayList<>();
+
     /**
      * list defined constant
      */
     private Map<String, ConstantDefinition> constants = new HashMap<>();
+    //list name of constant map,  use for get all constants
+    private ArrayList<String> listNameConstants = new ArrayList<>();
+
     /**
      * list custom type
      */
     private Map<String, DeclaredType> typedefs = new HashMap<>();
-
+    //uses for get all type in map typedefs
+    private ArrayList<String> listNameTypes = new ArrayList<>();
     /**
      * list library
      */
-//    private ArrayList<String> libraries = new ArrayList<>();
+    private ArrayList<String> libraries = new ArrayList<>();
+
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
         super(root, parent);
     }
@@ -113,8 +121,12 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         //load system function
         loadSystemLibrary();
         //add constants
-        SystemConstants.addSystemConstant(this);
+        SystemConstants.addSystemConstant(constants);
         SystemConstants.addSystemType(this);
+    }
+
+    public ArrayList<String> getLibraries() {
+        return libraries;
     }
 
     public ListMultimap<String, AbstractFunction> getCallableFunctions() {
@@ -145,6 +157,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             }
         }
         callableFunctions.put(f.name, f);
+        listNameFunctions.add(f.name);
         return f;
     }
 
@@ -222,7 +235,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
-                String name = i.next_word_value();
+                String name = i.nextWordValue();
                 next = i.take();
                 if (!(next instanceof OperatorToken && ((OperatorToken) next).type == OperatorTypes.EQUALS)) {
                     throw new ExpectedTokenException("=", next);
@@ -251,6 +264,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
 
                 typedefs.put(name, type);
+                this.listNameTypes.add(name);
                 i.assertNextSemicolon();
             }
         } else if (next instanceof CommentToken) {
@@ -310,6 +324,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     }
 
     protected void loadLibrary(ArrayList<String> libraries) {
+        this.libraries.addAll(libraries);
         ArrayList<Class> classes = new ArrayList<>();
         for (String name : libraries) {
             if (name.equalsIgnoreCase("crt")) {
@@ -354,7 +369,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 if (Modifier.isPublic(m.getModifiers())) {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
                     callableFunctions.put(tmp.name().toLowerCase(), tmp);
-                    Log.d(TAG, "loadSystemLibrary: " + m.getName());
                 }
             }
 
@@ -390,6 +404,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
     public void declareTypedef(String name, DeclaredType type) {
         typedefs.put(name, type);
+        listNameTypes.add(name);
     }
 
     public void declareVariable(VariableDeclaration v) {
@@ -398,10 +413,12 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
     public void declareFunction(FunctionDeclaration f) {
         callableFunctions.put(f.name, f);
+        listNameFunctions.add(f.name);
     }
 
     public void declareConst(ConstantDefinition c) {
         constants.put(c.name(), c);
+        listNameConstants.add(c.name());
     }
 
     public void addConstDeclarations(GrouperToken i) throws ParsingException {
@@ -411,7 +428,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             next = i.take();
             if (next instanceof ColonToken) {
                 DeclaredType type = i.getNextPascalType(this);
-                Object defaultValue = null;
+                Object defaultValue;
 
                 if (i.peek() instanceof OperatorToken) {
                     if (((OperatorToken) i.peek()).type == OperatorTypes.EQUALS) {
@@ -431,6 +448,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                         ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
                                 type, defaultValue, constName.lineInfo);
                         this.constants.put(constantDefinition.name(), constantDefinition);
+                        this.listNameConstants.add(constantDefinition.name());
                         i.assertNextSemicolon();
                     }
                 } else {
@@ -454,25 +472,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             }
         }
 
-//        while (i.peek() instanceof WordToken) {
-//            WordToken constName = (WordToken) i.take();
-//            Token equals = i.take();
-//            if (!(equals instanceof OperatorToken)
-//                    || ((OperatorToken) equals).type != OperatorTypes.EQUALS) {
-//                throw new ExpectedTokenException("=", constName);
-//            }
-//            ReturnsValue value = i.getNextExpression(this);
-//            Object compileVal = value.compileTimeValue(this);
-//            if (compileVal == null) {
-//                throw new NonConstantExpressionException(value);
-//            }
-//
-//            ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
-//                    compileVal, constName.lineInfo);
-//            verifyNonConflictingSymbol(constantDefinition);
-//            this.constants.put(constName.name, constantDefinition);
-//            i.assertNextSemicolon();
-//        }
     }
 
     @Override
@@ -519,4 +518,15 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     }
 
 
+    public ArrayList<String> getListNameFunctions() {
+        return listNameFunctions;
+    }
+
+    public ArrayList<String> getListNameConstants() {
+        return listNameConstants;
+    }
+
+    public ArrayList<String> getListNameTypes() {
+        return listNameTypes;
+    }
 }

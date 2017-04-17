@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,7 @@ import com.duy.pascal.frontend.R;
  * Created by Duy on 08-Apr-17.
  */
 
-public class DialogFragmentErrorMsg extends DialogFragment {
+public class DialogFragmentErrorMsg extends AppCompatDialogFragment {
     public static final String TAG = DialogFragmentErrorMsg.class.getSimpleName();
 
     public static DialogFragmentErrorMsg newInstance(CharSequence lineError, CharSequence msg) {

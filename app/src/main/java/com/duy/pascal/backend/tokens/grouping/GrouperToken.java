@@ -158,7 +158,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public String next_word_value() throws ParsingException {
+    public String nextWordValue() throws ParsingException {
         return take().getWordValue().name;
     }
 

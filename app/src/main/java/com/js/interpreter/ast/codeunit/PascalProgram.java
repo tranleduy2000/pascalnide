@@ -20,16 +20,8 @@ import java.util.List;
 public class PascalProgram extends ExecutableCodeUnit {
     public Executable main;
 
-    public FunctionOnStack mainRunning;
+    private FunctionOnStack mainRunning;
     private ExecuteActivity executeActivity;
-
-    /*public PascalProgram(Reader reader,
-                         ListMultimap<String, AbstractFunction> functionTable,
-                         String sourceName,
-                         List<ScriptSource> includeDirectories)
-            throws ParsingException {
-        super(reader, functionTable, sourceName, includeDirectories, null);
-    }*/
 
     public PascalProgram(Reader program,
                          ListMultimap<String, AbstractFunction> functionTable,

@@ -35,9 +35,7 @@ public abstract class AbstractFunction implements NamedEntity {
     }
 
     /**
-     * @param values
      * @return converted arguments, or null, if they do not fit.
-     * @throws ParsingException
      */
     public ReturnsValue[] formatArgs(List<ReturnsValue> values,
                                      ExpressionContext expressionContext) throws ParsingException {
@@ -60,18 +58,6 @@ public abstract class AbstractFunction implements NamedEntity {
     public ReturnsValue[] perfectMatch(List<ReturnsValue> arguments,
                                        ExpressionContext context) throws ParsingException {
         ArgumentType[] acceptedTypes = getArgumentTypes();
-
-        //print to console
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (ArgumentType argumentType : acceptedTypes) {
-//            stringBuilder.append(argumentType.getRuntimeClass().getSimpleName()).append(" ");
-//        }
-//        Log.d(TAG, "perfectMatch: name: " + name() + "  " + stringBuilder.toString());
-//        if (arguments.size() > 0) {
-//            RuntimeType runtimeType = arguments.get(0).getType(context);
-//            runtimeType.getRuntimeClass().getSimpleName();
-//        }
-        //end print
 
         //check array
         boolean isArray = false;

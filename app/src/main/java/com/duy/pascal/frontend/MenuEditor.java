@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.duy.pascal.frontend.sample.CodeSampleActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
 import com.duy.pascal.frontend.info_application.InfoActivity;
+import com.duy.pascal.frontend.sample.CodeSampleActivity;
 import com.duy.pascal.frontend.setting.SettingActivity;
 
 /**
@@ -118,6 +118,8 @@ public class MenuEditor {
                 break;
             case R.id.action_info:
                 activity.startActivity(new Intent(activity, InfoActivity.class));
+            case R.id.action_program_structure:
+                activity.showProgramStructure();
                 break;
         }
         return true;

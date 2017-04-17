@@ -27,6 +27,9 @@ android {
 }
 repositories {
     maven { url "https://clojars.org/repo/" }
+    maven {
+        url 'http://dl.bintray.com/amulyakhare/maven'
+    }
 }
 
 dependencies {
@@ -53,5 +56,8 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:25.3.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile 'com.github.bmelnychuk:atv:1.2.9'
+    compile 'com.github.johnkil.print:print:1.2.2'
 }
 apply plugin: 'com.google.gms.google-services'

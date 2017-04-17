@@ -18,8 +18,11 @@ import java.io.Reader;
 import java.util.List;
 
 public abstract class CodeUnit {
+    public ExpressionContextMixin getProgram() {
+        return context;
+    }
+
     public final ExpressionContextMixin context;
-    private final boolean DEBUG = false;
     private String programName;
     private ExecuteActivity executeActivity;
 
@@ -70,11 +73,11 @@ public abstract class CodeUnit {
         }
 
         @Override
-        protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken i)
+        protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken grouperToken)
                 throws ParsingException {
             if (next instanceof ProgramToken) {
-                CodeUnit.this.programName = i.next_word_value();
-                i.assertNextSemicolon();
+                CodeUnit.this.programName = grouperToken.nextWordValue();
+                grouperToken.assertNextSemicolon();
                 return true;
             }
             return false;

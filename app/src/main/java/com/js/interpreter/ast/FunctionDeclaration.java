@@ -52,7 +52,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         this.declarations = new FunctionExpressionContext(parent);
         this.line = i.peek().lineInfo;
         this.isProcedure = isProcedure;
-        name = i.next_word_value();
+        name = i.nextWordValue();
 
         getArgumentsForDeclaration(i, isProcedure);
         Token next = i.peek();
