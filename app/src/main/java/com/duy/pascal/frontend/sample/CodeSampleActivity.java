@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
-    private final String[] categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More"};
+    private final String[] categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More", "Temp"};
     @BindView(R.id.expand_listview)
     ExpandableListView expandableListView;
     @BindView(R.id.toolbar)

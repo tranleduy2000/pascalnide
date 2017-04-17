@@ -14,13 +14,13 @@ import com.duy.pascal.backend.exceptions.NotAStatementException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
-import com.duy.pascal.backend.exceptions.UnSupportTokenException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.tokens.CommentToken;
@@ -182,11 +182,11 @@ public abstract class GrouperToken extends Token {
             return getArrayType(context);
         }
         if (n instanceof RecordToken) {
-            throw new UnSupportTokenException(n.lineInfo, n);
-//            RecordToken r = (RecordToken) n;
-//            RecordType result = new RecordType();
-//            result.variableTypes = r.getVariableDeclarations(context);
-//            return result;
+//            throw new UnSupportTokenException(n.lineInfo, n);
+            RecordToken r = (RecordToken) n;
+            RecordType result = new RecordType();
+            result.variableTypes = r.getVariableDeclarations(context);
+            return result;
         }
         if (!(n instanceof WordToken)) {
             throw new ExpectedTokenException("[Type Identifier]", n);

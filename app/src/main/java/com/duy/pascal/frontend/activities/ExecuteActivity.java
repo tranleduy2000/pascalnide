@@ -207,20 +207,15 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         mIsRunning.set(false);
         //stop program
         stopProgram();
     }
 
     /**
-     * on error compile or runtime
+     * show error compile or runtime
      */
     public void onError(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);

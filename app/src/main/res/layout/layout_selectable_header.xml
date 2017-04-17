@@ -6,7 +6,7 @@
     android:background="?android:attr/selectableItemBackground"
     android:gravity="center|start"
     android:orientation="horizontal"
-    android:padding="10dp">
+ >
 
     <LinearLayout
         android:layout_width="30dp"

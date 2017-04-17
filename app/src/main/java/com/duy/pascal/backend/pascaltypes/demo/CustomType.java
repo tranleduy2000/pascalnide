@@ -1,8 +1,11 @@
-package com.duy.pascal.backend.pascaltypes;
+package com.duy.pascal.backend.pascaltypes.demo;
 
-import com.android.dx.stock.ProxyBuilder;
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.pascaltypes.ArrayType;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.ObjectType;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.ScopedRegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.SimpleRegisterAllocator;
@@ -14,9 +17,6 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
-import java.io.File;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,20 +27,16 @@ import serp.bytecode.Code;
 import serp.bytecode.Instruction;
 import serp.bytecode.JumpInstruction;
 
-public class CustomTypeTemp extends ObjectType {
+public class CustomType extends ObjectType {
 
     /**
      * This is a list of the defined variables in the custom type.
      */
-    public List<VariableDeclaration> variableTypes;
-    /**
-     * This class represents a declaration of a new type in pascal.
-     */
-    private ByteClassLoader bcl = new ByteClassLoader();
-    private Class cachedClass = null;
+    public List<VariableDeclaration> variableTypes = new ArrayList<>();
 
-    public CustomTypeTemp() {
-        variableTypes = new ArrayList<>();
+    private CustomVariable customVariable;
+
+    public CustomType() {
     }
 
     /**
@@ -48,20 +44,14 @@ public class CustomTypeTemp extends ObjectType {
      *
      * @param v The name and type of the variable to add.
      */
-    public void add_variable_declaration(VariableDeclaration v) {
+    public void addVariableDeclaration(VariableDeclaration v) {
         variableTypes.add(v);
     }
 
     @Override
     public Object initialize() {
-        try {
-            return getTransferClass().newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+        customVariable = new CustomVariable(variableTypes);
+        return customVariable;
     }
 
     @Override
@@ -71,10 +61,10 @@ public class CustomTypeTemp extends ObjectType {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof CustomTypeTemp)) {
+        if (!(obj instanceof CustomType)) {
             return false;
         }
-        CustomTypeTemp other = (CustomTypeTemp) obj;
+        CustomType other = (CustomType) obj;
         return variableTypes.equals(other.variableTypes);
     }
 
@@ -85,66 +75,10 @@ public class CustomTypeTemp extends ObjectType {
 
     @Override
     public Class getTransferClass() {
-        if (cachedClass != null) {
-            return cachedClass;
+        if (customVariable != null) {
+            return customVariable.getClass();
         }
-        String name =Integer.toHexString(hashCode());
-        try {
-            cachedClass = bcl.loadClass(name);
-            return cachedClass;
-        } catch (ClassNotFoundException ignored) {
-            ignored.printStackTrace();
-        }
-
-        try {
-            InvocationHandler handler = new InvocationHandler() {
-                public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
-                    if (method.getReturnType() == void.class) {
-                        return null;
-                    } else if (method.getReturnType() == String.class) {
-                        return "X";
-                    } else if (method.getReturnType() == int.class) {
-                        return 3;
-                    } else {
-                        return null;
-                    }
-                }
-            };
-
-            Object o = proxyFor(Object.class)
-                    .implementing(ContainsVariables.class)
-                    .handler(handler)
-                    .build();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return cachedClass;
-    }
-
-    /** Simple helper to add the most common args for this test to the proxy builder. */
-    private <T> ProxyBuilder<T> proxyFor(Class<T> clazz) throws Exception {
-        return ProxyBuilder.forClass(clazz)
-                .handler(fakeHandler)
-                .dexCache(CustomTypeTemp.getDataDirectory());
-    }
-    private FakeInvocationHandler fakeHandler = new FakeInvocationHandler();
-    public static File getDataDirectory() {
-//        String dataDir = InstrumentationRegistry.getTargetContext().getApplicationInfo().dataDir;
-//        return new File(dataDir);
-        return new File(".");
-    }
-    private static class FakeInvocationHandler implements InvocationHandler {
-        private Object fakeResult = "fake result";
-
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            return fakeResult;
-        }
-
-        public void setFakeResult(Object result) {
-            fakeResult = result;
-        }
+        return null;
     }
 
     @Override
@@ -176,9 +110,6 @@ public class CustomTypeTemp extends ObjectType {
         } catch (SecurityException | NoSuchMethodException e) {
             e.printStackTrace();
         }
-    }
-
-    private void addConstructor() {
     }
 
     private void addConstructor(BCClass b) {

@@ -1,7 +1,5 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.debugable.DebuggableExecutableReturnsValue;
 import com.duy.pascal.backend.exceptions.AmbiguousFunctionCallException;
 import com.duy.pascal.backend.exceptions.BadFunctionCallException;
@@ -41,7 +39,6 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
         ReturnsValue returnsValue = null;
 
         for (List<AbstractFunction> l : possibilities) {
-            Log.d(TAG, "List<AbstractFunction> l: " + l.toString());
             for (AbstractFunction function : l) {
 
                 result = function.generatePerfectFitCall(name.lineInfo, arguments, expressionContext);
@@ -52,7 +49,6 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
                     perfectFit = true;
                     chosen = function;
                     returnsValue = result;
-                    Log.d(TAG, "generateFunctionCall: " + function.toString());
 //                    continue;
                     break;
                 }

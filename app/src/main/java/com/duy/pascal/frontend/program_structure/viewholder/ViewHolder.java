@@ -35,7 +35,6 @@ public class ViewHolder extends TreeNode.BaseNodeViewHolder<StructureItem> {
         TextDrawable drawable = TextDrawable.builder()
                 .beginConfig()
                 .textColor(StructureType.COLORS_FOREGROUND[value.type]).bold()
-                .withBorder(3)
                 .endConfig()
                 .buildRound(prefix, StructureType.COLORS_BACKGROUND[value.type]);
         iconView.setImageDrawable(drawable);

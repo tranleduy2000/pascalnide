@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.lib.io;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
@@ -297,9 +299,10 @@ public class IOLib implements PascalLibrary {
     private void setValueForVariables(VariableBoxer... listVariable) throws RuntimePascalException {
         if (activity == null)
             throw new InputStreamNotFoundException();
-
         Scanner scanner = new Scanner("");
         for (VariableBoxer variableBoxer : listVariable) {
+            Object o = variableBoxer.get();
+            Log.d(TAG, "setValueForVariables: ");
             while (!scanner.hasNext()) {
                 activity.startInput();
                 while (activity.isInputting()) {
@@ -321,7 +324,7 @@ public class IOLib implements PascalLibrary {
             } else if (variableBoxer.get() instanceof Double) {
                 readDouble(scanner, variableBoxer);
             } else {
-                throw new CanNotReadVariableException();
+                throw new CanNotReadVariableException(variableBoxer.get());
             }
         }
     }

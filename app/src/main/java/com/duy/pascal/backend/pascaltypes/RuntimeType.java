@@ -18,6 +18,27 @@ public class RuntimeType implements ArgumentType {
         this.writable = writable;
     }
 
+    /**
+     * return <code>true</code> if this return string, integer, long, double, char
+     * otherwise return false
+     */
+    public static boolean canOutputWithFormat(Class<?> runtimeClass, int index) {
+        if (index == 1) {
+            return runtimeClass == double.class || runtimeClass == int.class
+                    || runtimeClass == boolean.class || runtimeClass == long.class
+                    || runtimeClass == char.class || runtimeClass == String.class
+                    || runtimeClass == StringBuilder.class
+                    || runtimeClass == Boolean.class || runtimeClass == Byte.class
+                    || runtimeClass == Character.class
+                    || runtimeClass == Double.class || runtimeClass == Float.class
+                    || runtimeClass == Integer.class || runtimeClass == Long.class;
+        } else if (index == 2) {
+            return runtimeClass == double.class || runtimeClass == Double.class ||
+                    runtimeClass == Float.class || runtimeClass == float.class;
+        }
+        return false;
+    }
+
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
 
@@ -40,24 +61,6 @@ public class RuntimeType implements ArgumentType {
         } else {
             return false;
         }
-    }
-
-    /**
-     * return <code>true</code> if this return string, integer, long, double, char
-     * otherwise return false
-     */
-    public boolean canOutputWithFormat(int index) {
-        if (index == 1) {
-            return declaredType.equals(BasicType.StringBuilder)
-                    || declaredType.equals(BasicType.Integer)
-                    || declaredType.equals(BasicType.Long)
-                    || declaredType.equals(BasicType.Character)
-                    || declaredType.equals(BasicType.Double);
-        } else if (index == 2) {
-            return declaredType.equals(BasicType.Double);
-        }
-        return false;
-
     }
 
     @Override
@@ -101,5 +104,6 @@ public class RuntimeType implements ArgumentType {
             return null;
         }
     }
+
 
 }

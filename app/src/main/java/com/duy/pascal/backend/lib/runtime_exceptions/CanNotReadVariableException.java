@@ -14,10 +14,6 @@ public class CanNotReadVariableException extends RuntimePascalException {
         super(line);
     }
 
-    public CanNotReadVariableException(LineInfo line, String mes) {
-        super(line, mes);
-    }
-
     public CanNotReadVariableException() {
     }
 

@@ -36,8 +36,7 @@ public class FieldAccess extends DebuggableReturnsValue {
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         RuntimeType r = container.getType(f);
-        return new RuntimeType(((ObjectType) (r.declaredType)).getMemberType(name),
-                r.writable);
+        return new RuntimeType(((ObjectType) (r.declaredType)).getMemberType(name), r.writable);
     }
 
     @Override
@@ -80,8 +79,7 @@ public class FieldAccess extends DebuggableReturnsValue {
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new FieldAccess(
-                    container.compileTimeExpressionFold(context), name, line);
+            return new FieldAccess(container.compileTimeExpressionFold(context), name, line);
         }
     }
 }

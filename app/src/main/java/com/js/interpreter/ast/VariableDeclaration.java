@@ -59,7 +59,10 @@ public class VariableDeclaration implements NamedEntity {
         return "variable";
     }
 
-
+    @Override
+    public String toString() {
+        return "var " + name + " = " + initialValue;
+    }
 
     @Override
     public String name() {
