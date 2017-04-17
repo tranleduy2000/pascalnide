@@ -451,7 +451,8 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     public void formatCode() {
         String text = getCode();
-        String result = AutoIndentCode.format(text);
+        AutoIndentCode autoIndentCode = new AutoIndentCode();
+        String result = autoIndentCode.format(text);
         setCode(result);
     }
 

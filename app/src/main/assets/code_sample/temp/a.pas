@@ -43,5 +43,5 @@ begin
         end;
         writeln('Apgriezta koda: ',ap);
     end;
-    waitEnter;
+    ReadLn();
 end.

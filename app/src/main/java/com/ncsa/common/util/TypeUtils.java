@@ -101,6 +101,7 @@ public class TypeUtils {
      * Static utility class; cannot be constructed.
      */
     private TypeUtils() {
+
     }
 
     /**

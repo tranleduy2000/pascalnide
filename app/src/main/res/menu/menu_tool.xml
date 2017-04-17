@@ -62,7 +62,7 @@
     <item
         android:icon="@drawable/ic_build_white_24dp"
         android:title="@string/tool"
-        app:showAsAction="always">
+        app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@+id/action_find"
@@ -104,5 +104,6 @@
         android:id="@+id/action_program_structure"
         android:icon="@drawable/ic_format_list_bulleted_white_24dp"
         android:title="@string/program_structure"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>

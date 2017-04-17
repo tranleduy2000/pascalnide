@@ -9,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 
@@ -24,6 +25,7 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
     private Context context;
     private LayoutInflater inflater;
     private OnCodeClickListener listener;
+    private AutoIndentCode autoIndentCode = new AutoIndentCode();
 
     public CodeSampleAdapter(Context context) {
         this.context = context;
@@ -91,9 +93,10 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
         final CodeSampleEntry codeSampleEntry = (CodeSampleEntry) getChild(groupPosition, childPosition);
 
         //set code
-        CodeView highlightEditor = (CodeView) convertView.findViewById(R.id.code_view);
-        highlightEditor.setTextHighlighted(codeSampleEntry.getContent());
-        highlightEditor.setCanEdit(false);
+        CodeView codeView = (CodeView) convertView.findViewById(R.id.code_view);
+        codeView.setTextHighlighted(autoIndentCode.format(codeSampleEntry.getContent()));
+        codeView.applyTabWidth(codeView.getText(), 0, codeView.length());
+        codeView.setCanEdit(false);
 
         //set title
         TextView txtTitle = (TextView) convertView.findViewById(R.id.txt_title);
