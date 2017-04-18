@@ -127,6 +127,6 @@
     <string name="auto_compile_summary">Automatically compile while typing. The performance of the application will be decrease if using this feature, however, which will help us to report the error faster.</string>
     <string name="auto_compile">Auto compile</string>
     <string name="keyboard_shortcut" translatable="false">Key board shortcut</string>
-    <string name="program_structure">Show program structure</string>
+    <string name="program_structure" translatable="false">Show program structure</string>
 </resources>
 

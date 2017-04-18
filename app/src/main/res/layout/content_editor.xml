@@ -18,7 +18,7 @@
 
 
         <com.duy.pascal.frontend.view.code_view.CodeView
-            android:id="@+id/edit_editor"
+            android:id="@+id/code_editor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:bufferType="spannable"

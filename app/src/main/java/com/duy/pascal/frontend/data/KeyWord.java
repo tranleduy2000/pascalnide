@@ -9,7 +9,7 @@ public class KeyWord {
     public static final String[] LIST_KEY_WORD = new String[]{
             "program  ;\n\nbegin\n\t\nend.", "begin\n\t\nend;", "end", "procedure", "function", "uses",
             "integer;", "real;", "string;", "char;", "longint;", "word;", "byte;", "extended;",
-            "const", "var", "type", "array",/* "record",*/
+            "const", "var", "type", "array", "record",
             "shl", "shr",
             "if  then ;", "then", "else",
             "for  to  do ;", "to", "do", "downto",

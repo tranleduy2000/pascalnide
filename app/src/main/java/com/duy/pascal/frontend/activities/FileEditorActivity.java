@@ -1,10 +1,12 @@
 package com.duy.pascal.frontend.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -15,6 +17,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +58,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     SymbolListView mKeyList;
     @BindView(R.id.vertical_scroll)
     LockableScrollView mScrollView;
-    @BindView(R.id.edit_editor)
+    @BindView(R.id.code_editor)
     CodeView mCodeView;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
@@ -377,6 +380,28 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
                     }
                 });
         builder.create().show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        closeKeyBoard();
+    }
+
+    // closes the soft keyboard
+    private void closeKeyBoard() throws NullPointerException {
+        // Central system API to the overall input method framework (IMF) architecture
+        InputMethodManager inputManager =
+                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // Base interface for a remotable object
+        IBinder windowToken = getCurrentFocus().getWindowToken();
+
+        // Hide type
+        int hideType = InputMethodManager.HIDE_NOT_ALWAYS;
+
+        // Hide the KeyBoard
+        inputManager.hideSoftInputFromWindow(windowToken, hideType);
     }
 
     /**

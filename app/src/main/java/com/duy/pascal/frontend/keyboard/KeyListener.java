@@ -40,7 +40,7 @@ public class KeyListener {
     public static final int ACTION_OPEN = 14;
     public static final int ACTION_FIND = 15;
 
-    private ModifierKey mControlKey = new ModifierKey();
+    public ModifierKey mControlKey = new ModifierKey();
 
     public void handleControlKey(boolean down) {
         if (down) {
