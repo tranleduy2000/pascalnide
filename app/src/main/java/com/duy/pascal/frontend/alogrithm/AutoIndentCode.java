@@ -14,6 +14,7 @@ import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
+import com.duy.pascal.backend.tokens.basic.IfToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
@@ -52,6 +53,115 @@ public class AutoIndentCode {
     private Token lastToken;
     private int numVarToken = 0;
 
+    public static void main(String[] args) {
+        String code = "var\n" +
+                "  f: text;\n" +
+                "  n: longint;\n" +
+                "  a, b: array[1..10000] of longint;\n" +
+                "\n" +
+                "procedure readf;\n" +
+                "var\n" +
+                "  i: longint;\n" +
+                "begin\n" +
+                "  assign(f, 'file.inp');\n" +
+                "  reset(f);\n" +
+                "  readln(f, n);\n" +
+                "  for i := 1 to n do read(f, a[i]);\n" +
+                "  for i := 1 to n do read(f, b[i]);\n" +
+                "  close(f);\n" +
+                "end;\n" +
+                "\n" +
+                "procedure sorta(d, c: longint);\n" +
+                "var\n" +
+                "  i, j, key, tmp: longint;\n" +
+                "begin\n" +
+                "  i := d;\n" +
+                "  j := c;\n" +
+                "  key := a[(d + c) div 2];\n" +
+                "  repeat\n" +
+                "    while a[i] < key do inc(i);\n" +
+                "    while a[j] > key do dec(j);\n" +
+                "    if i <= j then\n" +
+                "    begin\n" +
+                "      if i < j then\n" +
+                "      begin\n" +
+                "        tmp := a[i];\n" +
+                "        a[i] := a[j];\n" +
+                "        a[j] := tmp;\n" +
+                "      end;\n" +
+                "      inc(i);\n" +
+                "      dec(j);\n" +
+                "    end;\n" +
+                "  until i > j;\n" +
+                "\n" +
+                "  if (i < c) then sorta(i, c);\n" +
+                "  if (d < j) then sorta(d, j);\n" +
+                "end;\n" +
+                "\n" +
+                "procedure sortb(d, c: longint);\n" +
+                "var\n" +
+                "  i, j, key, tmp: longint;\n" +
+                "begin\n" +
+                "  i := d;\n" +
+                "  j := c;\n" +
+                "  key := b[(d + c) div 2];\n" +
+                "  repeat\n" +
+                "    while b[i] < key do inc(i);\n" +
+                "    while b[j] > key do         dec(j);\n" +
+                "    if i <= j then\n" +
+                "    begin\n" +
+                "      if i < j then\n" +
+                "      begin\n" +
+                "        tmp := b[i];\n" +
+                "       b[i] :=b[j];\n" +
+                "        b[j] := tmp;\n" +
+                "      end;\n" +
+                "      inc(i);\n" +
+                "      dec(j);\n" +
+                "    end;\n" +
+                "  until i > j;\n" +
+                "  if (i < c) then sortb(i, c);\n" +
+                "  if (d < j) then sortb(d, j);\n" +
+                "end;\n" +
+                "\n" +
+                "function getmax(a, b: longint): longint;\n" +
+                "begin\n" +
+                "  if a > b then getmax := a else getmax := b;\n" +
+                "end;\n" +
+                "\n" +
+                "\n" +
+                "procedure process;\n" +
+                "var\n" +
+                "  count , i, j, max: longint;\n" +
+                "begin\n" +
+                "  sorta(1, n);\n" +
+                "  sortb(1, n);\n" +
+                "  i := 1;\n" +
+                "  j := 1;\n" +
+                "  count := 1;\n" +
+                "  max := getmax(a[1], b[1]);\n" +
+                "  while (i <= n) and (j <= n) do\n" +
+                "  begin\n" +
+                "    while (a[i] <= max) and (i <= n) do inc(i);\n" +
+                "    while (b[j] <= max) and (j <= n) do inc(j);\n" +
+                "    if (i > n) or (j > n) then break;\n" +
+                "    inc(count);\n" +
+                "    max := getmax(a[i], b[j]);\n" +
+                "  end;\n" +
+                "  write(count);\n" +
+                "  readln;\n" +
+                "end;\n" +
+                "\n" +
+                "begin\n" +
+                "  readf;\n" +
+                "  process;\n" +
+                "end.\n" +
+                "\n";
+        AutoIndentCode autoIndentCode = new AutoIndentCode();
+        String format = autoIndentCode.format(code);
+        System.out.println(format);
+    }
+
     public String format(String code) {
         //reset number tab
         numberTab = 0;
@@ -71,73 +181,75 @@ public class AutoIndentCode {
                     return result.toString();
                 }
                 processToken(t);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 return result.toString();
             }
         }
 
     }
 
-    private void processToken(Token t) throws IOException {
-        if (t instanceof EOFToken || t instanceof GroupingExceptionToken) {
+    private void processToken(Token token) throws IOException {
+        if (token instanceof EOFToken || token instanceof GroupingExceptionToken) {
             return;
         }
         //begin ... end; repeat ... until; case of ... end;
-        if (t instanceof EndToken) {
-            processEnd(t);
+        if (token instanceof EndToken) {
+            processEnd(token);
             return;
-        } else if (t instanceof UntilToken) {
-            completeUntil(t);
+        } else if (token instanceof UntilToken) {
+            completeUntil(token);
             return;
         }
 
         //? array of
         //begin ... end; repeat ... until; case of ... end; record ... end;
-        if (t instanceof BeginEndToken || t instanceof RecordToken) {
-            processBeginToken(t);
-        } else if (t instanceof OfToken) {
-            processOfToken(t);
-        } else if (t instanceof OperatorToken) {
-            processOptToken(t);
-        } else if (t instanceof RepeatToken) {
-            processRepeatToken(t);
-        } else if (t instanceof ParenthesizedToken || t instanceof BracketedToken) {
-            result.append(getStringTab(numberTab));
-            result.append(((GrouperToken) t).toCode());
-        } else if (t instanceof DoToken || t instanceof ThenToken || t instanceof CaseToken) {
-            processDoToken(t);
-        } else if (t instanceof PeriodToken) {
-            processPeriodToken(t);
-        } else if (t instanceof SemicolonToken) { //new line
-            processSemicolonToken(t);
+        if (token instanceof BeginEndToken || token instanceof RecordToken) {
+            processBeginToken(token);
+        } else if (token instanceof OfToken) {
+            processOfToken(token);
+        } else if (token instanceof OperatorToken) {
+            processOptToken(token);
+        } else if (token instanceof RepeatToken) {
+            processRepeatToken(token);
+        } else if (token instanceof ParenthesizedToken || token instanceof BracketedToken) {
+            result.append(getTab(numberTab));
+            result.append(((GrouperToken) token).toCode());
+        } else if (token instanceof DoToken || token instanceof CaseToken) {
+            processDoToken(token);
+        } else if (token instanceof ThenToken) {
+            processThenToken((ThenToken) token);
+        } else if (token instanceof PeriodToken) {
+            processPeriodToken(token);
+        } else if (token instanceof SemicolonToken) { //new line
+            processSemicolonToken(token);
         } //dont add white space, remove last space char
-        else if (t instanceof ElseToken) {
-            processElseToken(t);
-        } else if (t instanceof EndParenToken || t instanceof GrouperToken) {
-            processEndParentToken(t);
-        } else if (t instanceof CommaToken) {
-            result.append(getStringTab(numberTab));
-            result.append(t.toString()).append(" ");
-        }//dont add white space
-        else if (t instanceof ValueToken) {
-            processValueToken(t);
-        } else if (t instanceof DotDotToken) {
-            processDotToken(t);
-        } else if (t instanceof WordToken) {
-            processWordToken((WordToken) t);
-        } else if (t instanceof ClosingToken) {
-            processClosingToken(t);
-        } else if (t instanceof FunctionToken || t instanceof ProcedureToken) {
-            processFunctionToken(t);
-        } else if (t instanceof VarToken || t instanceof ConstToken ||
-                t instanceof TypeToken) {
-            processVarToken(t);
-        } else if (t instanceof CommentToken) {
-            processCommentToken(t);
+        else if (token instanceof ElseToken) {
+            processElseToken((ElseToken) token);
+        } else if (token instanceof EndParenToken || token instanceof GrouperToken) {
+            processEndParentToken(token);
+        } else if (token instanceof CommaToken) {
+            result.append(getTab(numberTab));
+            result.append(token.toString()).append(" ");
+        }//don't add white space
+        else if (token instanceof ValueToken) {
+            processValueToken(token);
+        } else if (token instanceof DotDotToken) {
+            processDotToken(token);
+        } else if (token instanceof WordToken) {
+            processWordToken((WordToken) token);
+        } else if (token instanceof ClosingToken) {
+            processClosingToken(token);
+        } else if (token instanceof FunctionToken || token instanceof ProcedureToken) {
+            processFunctionToken(token);
+        } else if (token instanceof VarToken || token instanceof ConstToken ||
+                token instanceof TypeToken) {
+            processVarToken(token);
+        } else if (token instanceof CommentToken) {
+            processCommentToken(token);
         } else {
-            result.append(getStringTab(numberTab));
-            lastToken = t;
-            result.append(t.toString()).append(" ");
+            result.append(getTab(numberTab));
+            lastToken = token;
+            result.append(token.toString()).append(" ");
         }
 
     }
@@ -151,7 +263,7 @@ public class AutoIndentCode {
 
     private void processVarToken(Token t) {
         checkVarToken();
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         result.append(t.toString()).append("\n");
         numVarToken++;
         numberTab++;
@@ -159,21 +271,21 @@ public class AutoIndentCode {
     }
 
     private void processCommentToken(Token t) {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         lastToken = t;
         needTab = true;
         result.append(t.toString());
     }
 
     private void processFunctionToken(Token t) {
-        result.append(getStringTab(numberTab));
         checkVarToken();
+        result.append(getTab(numberTab));
         result.append("\n");
         result.append(t.toString()).append(" ");
     }
 
     private void processClosingToken(Token t) throws IOException {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         Token t2 = lexer.yylex();
         if (t2 instanceof PeriodToken || t2 instanceof CommaToken
                 || t2 instanceof ClosingToken) {
@@ -186,7 +298,7 @@ public class AutoIndentCode {
     }
 
     private void processWordToken(WordToken wordToken) throws IOException {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         Token t2 = lexer.yylex();
         if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
                 || t2 instanceof ClosingToken
@@ -201,7 +313,7 @@ public class AutoIndentCode {
     }
 
     private void processDotToken(Token t) {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
 
         if (result.length() > 0) if (result.charAt(result.length() - 1) == ' ')
             result.deleteCharAt(result.length() - 1);
@@ -211,7 +323,7 @@ public class AutoIndentCode {
     }
 
     private void processValueToken(Token t) throws IOException {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         Token t2 = lexer.yylex();
         if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
                 || t2 instanceof ClosingToken)) {
@@ -224,7 +336,7 @@ public class AutoIndentCode {
     }
 
     private void processEndParentToken(Token t) {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         if (result.length() > 1) {
             if (result.charAt(result.length() - 1) == ' ') {
                 result.deleteCharAt(result.length() - 1);
@@ -238,16 +350,75 @@ public class AutoIndentCode {
         lastToken = t;
     }
 
-    private void processElseToken(Token t) {
-        result.append(getStringTab(numberTab));
+    private void processElseToken(ElseToken t) throws IOException {
+        needTab = true;
+        if (numberTab > 0) {
+            numberTab--;
+        }
+        if (result.length() > 0 && result.charAt(result.length() - 1) != '\n') {
+            result.append("\n");
+        }
+        result.append(getTab(numberTab));
         result.append(t.toString()).append(" ");
-        lastToken = t;
+        Token child = lexer.yylex();
+        if (child instanceof IfToken) {
+            processToken(child);
+        } else {
+            result.append("\n");//new line
+            needTab = true;
+            numberTab++;
+            processToken(child);
+        }
+    }
+
+    private void processThenToken(ThenToken thenToken) throws IOException {
+        result.append(getTab(numberTab));
+        result.append(thenToken.toCode()).append(" ");
+
+        /*
+          if 1 < 2 then
+          begin
+              writeln();
+              write();
+          end
+          else
+          begin
+              writeln();
+              write();
+          end;
+          */
+        Token child = lexer.yylex(); //check begin token
+        if (child instanceof BeginEndToken) {
+            result.append("\n"); //new line
+
+            needTab = true;
+            result.append(getTab(numberTab));
+
+            result.append(((BeginEndToken) child).toCode()); //append begin
+            result.append("\n"); //new line
+
+            needTab = true;
+            numberTab++;
+            lastToken = child;
+        } else {
+            if (child instanceof WordToken) {
+                result.append("\n"); //new line
+
+                needTab = true;
+                numberTab++;
+                result.append(getTab(numberTab));
+
+                result.append(((WordToken) child).orginalName); //append begin
+                lastToken = child;
+            } else {
+                processToken(child);
+            }
+        }
     }
 
     private void processDoToken(Token t) throws IOException {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         if (t instanceof DoToken) result.append(((DoToken) t).toCode()).append(" ");
-        if (t instanceof ThenToken) result.append(((ThenToken) t).toCode()).append(" ");
         if (t instanceof CaseToken) result.append(((CaseToken) t).toCode()).append(" ");
         lastToken = t;
         Token t2 = lexer.yylex();
@@ -259,7 +430,7 @@ public class AutoIndentCode {
     }
 
     private void processSemicolonToken(Token t) {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         if (result.length() > 0) {
             if (result.charAt(result.length() - 1) == ' ') {
                 result.deleteCharAt(result.length() - 1);
@@ -287,14 +458,14 @@ public class AutoIndentCode {
     }
 
     private void processTypeToken(Token t) {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         result.append("\n");
         result.append(t.toString()).append("\n");
         lastToken = t;
     }
 
     private void processRepeatToken(Token t) {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         result.append(t.toString()).append("\n");
         numberTab++;
         needTab = true;
@@ -302,7 +473,7 @@ public class AutoIndentCode {
     }
 
     private void processOptToken(Token t) {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         String opt = t.toString();
         if ("+-*/".contains(opt)) {
             result.append(t.toString());
@@ -313,7 +484,7 @@ public class AutoIndentCode {
     }
 
     private void processOfToken(Token t) {
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         if (lastToken instanceof WordToken) {
             result.append(t.toString()).append("\n");
             numberTab++;
@@ -327,7 +498,7 @@ public class AutoIndentCode {
     private void processBeginToken(Token t) {
         if (numVarToken > 0) result.append("\n");
         checkVarToken();
-        result.append(getStringTab(numberTab));
+        result.append(getTab(numberTab));
         result.append(((GrouperToken) t).toCode()).append("\n");
         numberTab++;
         needTab = true;
@@ -343,7 +514,7 @@ public class AutoIndentCode {
                 result.append("\n");
         }
         //tab
-        result.append(getStringTab(numberTab) + t.toString() + " ");
+        result.append(getTab(numberTab) + t.toString() + " ");
     }
 
     private void processEnd(Token t) throws IOException {
@@ -355,7 +526,7 @@ public class AutoIndentCode {
                 result.append("\n");
         }
         //tab
-        result.append(getStringTab(numberTab) + t.toString());
+        result.append(getTab(numberTab) + t.toString());
         //check some name
         Token t2 = lexer.yylex();
         if (!(t2 instanceof SemicolonToken || t2 instanceof PeriodToken)) {
@@ -387,7 +558,7 @@ public class AutoIndentCode {
         result.append(token.toString() + " ");
     }
 
-    private StringBuilder getStringTab(int num) {
+    private StringBuilder getTab(int num) {
         StringBuilder res = new StringBuilder("");
         if (!needTab) {
             return res;

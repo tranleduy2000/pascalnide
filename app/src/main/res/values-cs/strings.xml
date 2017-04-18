@@ -104,18 +104,13 @@
     <string name="name">Vaše jméno</string>
     <string name="send_to_me">Odeslat vývojáři</string>
     <string name="rerun">Znova spustit program</string>
-
     <string name="translate">Přeložit</string>
     <string name="license">Licence</string>
-
     <string name="console_screen">Konzole</string>
     <string name="background_console">Pozadí konzole</string>
     <string name="text_color_console">Farba textu v konzole</string>
-
     <string name="frame_rate">Snímky za vteřinu</string>
-
     <string name="max_buffer">Maximální velikost vyrovnávací paměti</string>
-
     <string name="write_code_here">Sem můžete psát kód…</string>
     <string name="can_not_save_file">Nelze uložit soubor!</string>
     <string name="saved">Uloženo</string>
@@ -129,7 +124,8 @@
     <string name="Idel">Idel</string>
     <string name="KFT2">KFT2</string>
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
-    <string name="ExpectedTokenException_2">" There was the following name:"</string>
+    <string name="ExpectedTokenException_2">" Byl tam nasledující název: "</string>
+
     <string name="logo">Logo</string>
     <string name="auto_compile">Auto compile</string>
     <string name="auto_compile_summary">Automatically compile while typing. The performance of the application will be decrease if using this feature, however, which will help us to report the error faster.</string>

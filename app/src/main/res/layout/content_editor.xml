@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/recycler_view"
-        android:fillViewport="true"
-     >
+        android:fillViewport="true">
 
 
         <com.duy.pascal.frontend.view.code_view.CodeView
@@ -25,6 +24,8 @@
             android:dropDownAnchor="@+id/app_bar"
             android:dropDownHeight="110dp"
             android:dropDownWidth="150dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="top|start"
             android:hint="@string/write_code_here"
             android:inputType="textMultiLine|textNoSuggestions"

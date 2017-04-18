@@ -291,7 +291,6 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
         int selectionEnd = getSelectionEnd();
         selectionStart = Math.max(0, selectionStart);
         selectionEnd = Math.max(0, selectionEnd);
-        if (selectionEnd > getText().length()) selectionEnd = getText().length() - 1;
         getText().replace(selectionStart, selectionEnd, delta);
     }
 

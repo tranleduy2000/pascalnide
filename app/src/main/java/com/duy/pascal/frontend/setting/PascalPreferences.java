@@ -145,8 +145,13 @@ public class PascalPreferences {
     }
 
     public int getConsoleMaxBuffer() {
-        int res = Integer.parseInt(
-                sharedPreferences.getString(context.getString(R.string.key_console_max_buffer_size), "200"));
+        int res;
+        try {
+            res = Integer.parseInt(
+                    sharedPreferences.getString(context.getString(R.string.key_console_max_buffer_size), "200"));
+        } catch (Exception e){
+            res = 100;
+        }
         return res;
     }
 
@@ -155,16 +160,15 @@ public class PascalPreferences {
     }
 
     public float getTextSize() {
-//        return TypedValue.applyDimension(
-//                TypedValue.COMPLEX_UNIT_DIP,
-//                Float.parseFloat(getString(context.getString(R.string.key_pref_font_size))),
-//                context.getResources().getDisplayMetrics());
-        return Float.parseFloat(getString(context.getString(R.string.key_pref_font_size)));
+        try {
+            return Float.parseFloat(getString(context.getString(R.string.key_pref_font_size)));
+        }catch (Exception e){
+            return 14f;
+        }
     }
 
     public Typeface getFont() {
         return FontManager.getFontFromAsset(context, getString(context.getString(R.string.key_pref_font)));
-//        return Typeface.MONOSPACE;
     }
 
     public boolean isShowlines() {

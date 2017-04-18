@@ -111,7 +111,6 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d(TAG, "afterTextChanged: " + start + " " + count);
                 if (s.length() > start
                         && count == 1 && openBracketList.contains(s.charAt(start))) {
                     CharSequence textToInsert = getBracket(s, start);
@@ -129,10 +128,10 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
     private CharSequence getBracket(CharSequence source, int index) {
         if (source.charAt(index) == '\'') {
-            if (source.length() > index) {
+            if (index > 0 && index < source.length()) {
                 if (source.charAt(index - 1) == '\'') {
                     return "";
-                }else {
+                } else {
                     return "'";
                 }
             }

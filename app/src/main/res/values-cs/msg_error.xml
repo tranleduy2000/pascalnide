@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ExpectedTokenException">Byl očekáván tento název:</string>
-
     <string name="bad_function_msg1">"Jeden nebo více argumentů má při volání funkce nesprávný typ "</string>
     <string name="bad_function_msg2">"Funkcii bylo odevzdaných příliš málo nebo příliš mnoho argumentů"</string>
     <string name="can_not_call_func">Nelze volat funkcii</string>
@@ -9,7 +8,6 @@
     <string name="multi_define_main">Více definicí hlavní</string>
     <string name="token_not_belong">"Nasledující název sem nepatří: "</string>
     <string name="main_program_not_define">Hlavní program nenalezen</string>
-
     <string name="BadOperationTypeException2">Operace \"%1$s\" není unární operace</string>
     <string name="ConstantCalculationException">Chyba při výpočtu konstantní hodnoty: %1$s</string>
     <string name="LibraryNotFoundException">Nelze najít knihovnu %1%s</string>
@@ -23,32 +21,28 @@
     <string name="SameNameException">%1$s %2$s je v rozporu s předtím definovanou %3$s s rovnakým názvem definovaným na %4$s</string>
     <string name="UnAssignableTypeException">Výraz %1$s nemůže mít přiřazenou hodnotu.</string>
     <string name="UnrecognizedTypeException">Typ %1$s není definován.</string>
-    <string name="PascalArithmeticException">Arithmetic Exception: %1%s</string>
-
-
-    <string name="DiskReadErrorException">An error occurred when reading from disk. Typically happens when you try to read past the end of a file.</string>
-    <string name="FileNotAssignException">This is reported by Reset, Rewrite, Append, Rename and Erase, if you call them with an unassigned file as a parameter.</string>
-    <string name="FileNotFoundException">Reported when trying to erase, rename or open a non-existent file.</string>
-    <string name="FileNotOpenException">Reported by the following functions : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, and BlockWrite if the file is not open.</string>
-    <string name="FileNotOpenForInputException">Reported by Read, BlockRead, Eof, Eoln, SeekEof or SeekEoln if the file is not opened with Reset.</string>
-
-    <string name="DivisionByZeroException">The application attempted to divide a number by zero.</string>
-
-    <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
-    <string name="NonIntegerException">Value must be integers: %1$s</string>
-    <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
-
-    <string name="MISMATCHED_PARENTHESES">Mismatched parentheses</string>
-    <string name="MISMATCHED_BRACKETS">Mismatched brackets</string>
-    <string name="MISMATCHED_BEGIN_END">Mismatched begin - end construct</string>
-    <string name="UNFINISHED_BEGIN_END">Unfinished begin - end construct</string>
-    <string name="UNFINISHED_PARENTHESES">You forgot to close your parentheses</string>
-    <string name="UNFINISHED_BRACKETS">You forgot to close your brackets</string>
-    <string name="EXTRA_END">You have an extra \'end\' in your program</string>
-    <string name="IO_EXCEPTION">IOException occurred while reading the input</string>
-    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
+    <string name="PascalArithmeticException">Aritmetická chyba: %1$s</string>
+    <string name="DiskReadErrorException">Při čtení z disku nastala chyba. Většinou nastává při pokusu číst za koncem souboru.</string>
+    <string name="FileNotAssignException">Toto nahlásí Reset, Rewrite, Append, Rename a Erase při pokusu volat je s nepřiděleným souborem jako s parametrem.</string>
+    <string name="FileNotFoundException">Nahlásené při pokusu zmazat, prějmenovat nebo otevřít neexistující soubor.</string>
+    <string name="FileNotOpenException">Nahlásené nasledujícími funkcemi : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead, a BlockWrite ak soubor není otevřený.</string>
+    <string name="FileNotOpenForInputException">Nahlásí Read, BlockRead, Eof, Eoln, SeekEof nebo SeekEoln ak soubor není otevřený pomocí Reset.</string>
+    <string name="DivisionByZeroException">Aplikace se pokusila vydělit číslo nulou.</string>
+    <string name="InvalidNumericFormatException">Nahlásené, ak byla z textového souboru přečtená nečíslná hodnota a byla očekávána číselná hodnota.</string>
+    <string name="NonIntegerException">Hodnota musí být celočíselná: %1$s</string>
+    <string name="ChangeValueConstantException">Hodnota uchovávána v konstantní nemůže být změnená.</string>
+    <string name="UNFINISHED_BEGIN_END">Nedokončená konstrukce begin - end </string>
+    <string name="UNFINISHED_PARENTHESES">Zapomněli jste zavřít kulaté závorky</string>
+    <string name="UNFINISHED_BRACKETS">Zapomněli jste zavřít závorky</string>
     <string name="MISSING_INCLUDE">Missing file to include</string>
-    <string name="NEWLINE_IN_QUOTES">You must close your quotes before starting a new line</string>
+    <string name="NEWLINE_IN_QUOTES">Musíte zavřít uvozovky před začátkem nového řádku</string>
+    <string name="MISMATCHED_PARENTHESES">Nesprávně zadané kulaté závorky</string>
+    <string name="MISMATCHED_BRACKETS">Nesprávně zadané závorky</string>
+    <string name="MISMATCHED_BEGIN_END">Nesprávně zadaná kontrukce begin - end </string>
+    <string name="EXTRA_END">Ve Vašem programu se nachází jedno přebytečné \'end\' </string>
+    <string name="IO_EXCEPTION">Při čtení vstupu se vyskytla IOException </string>
+
+    <string name="INCOMPLETE_CHAR">Incomplete character literal</string>
     <string name="CanNotReadVariableException">Can not read variable of this type</string>
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the other has type \"%5$s\"</string>

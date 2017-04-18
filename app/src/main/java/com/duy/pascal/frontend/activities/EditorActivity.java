@@ -15,7 +15,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -493,33 +492,6 @@ public class EditorActivity extends FileEditorActivity implements
             }
         });
 
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            onBackPressed();
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return false;
-        } else {
-            if (mCodeView == null)
-                mCodeView = (CodeView) findViewById(R.id.code_editor);
-
-            // this will happen on first key pressed on hard-keyboard only. Once myInputField
-            // gets the focus again, it will automatically receive further key presses.
-
-            try {
-                if (mCodeView != null && !mCodeView.hasFocus()) {
-                    mCodeView.requestFocus();
-                    mCodeView.onKeyDown(keyCode, event);
-                    return true;
-                }
-            } catch (NullPointerException ignored) {
-
-            }
-        }
-        return false;
     }
 
     @Override

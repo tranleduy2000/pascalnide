@@ -4,12 +4,9 @@
     <string name="cancel">Zrušiť</string>
     <string name="save">Uložiť</string>
     <string name="ok">OK</string>
-
     <string name="new_file">Nový zdrojový súbor</string>
-
     <string name="default_">Systém</string>
     <string name="language">Jazyk</string>
-
     <string name="run">Spustiť</string>
     <string name="navigation_drawer_open">Otvoriť navigáciu</string>
     <string name="navigation_drawer_close">Zatvoriť navigáciu</string>
@@ -60,8 +57,6 @@
     <string name="bug">Bug</string>
     <string name="word_wrap_desc">Automatic screen down the line when overflow</string>
     <string name="show_line_desc">Zobrazovať čísla riadkov naľavo od editora kódu</string>
-
-
     <string name="hide_status_bar">Skryť stavový riadok</string>
     <string name="hide_status_bar_desc">Skryť stavový riadok v celej aplikácii vrátane konzole. Ak toto nastavenie potrebujete zmeniť, reštartujte aplikáciu.</string>
     <string name="show_hint">Zobrazovať návrhy</string>
@@ -82,12 +77,10 @@
     <string name="cloud_database">Cloud databáza</string>
     <string name="pas_file">Súbor Pas</string>
     <string name="inp_file">Súbor Inp</string>
-    <string name="other">Iné</string>
     <string name="theme">Štýl kódu</string>
     <string name="select">Vybrať</string>
     <string name="folder">Priečinok</string>
     <string name="home">domov</string>
-
     <string name="new_folder">Nový priečinok</string>
     <string name="enter_new_folder_name">Názov priečinku</string>
     <string name="change_key_board">Zmeniť klávesnicu</string>
@@ -104,18 +97,13 @@
     <string name="name">Vaše meno</string>
     <string name="send_to_me">Odoslať vývojárovi</string>
     <string name="rerun">Znova spustiť program</string>
-
     <string name="translate">Preložiť</string>
     <string name="license">Licencia</string>
-
     <string name="console_screen">Konzola</string>
     <string name="background_console">Pozadie konzole</string>
     <string name="text_color_console">Farba textu v konzole</string>
-
     <string name="frame_rate">Snímky za sekundu</string>
-
     <string name="max_buffer">Maximálna veľkosť vyrovnávacej pamäte</string>
-
     <string name="write_code_here">Sem môžete písať kód…</string>
     <string name="can_not_save_file">Nie je možné uložiť súbor!</string>
     <string name="saved">Uložené</string>
@@ -129,10 +117,11 @@
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
     <string name="BrightYellow">Bright Yellow</string>
     <string name="DarkGray">Dark Gray</string>
-    <string name="ExpectedTokenException_2">There was the following name:</string>
+    <string name="other">Ostatné</string>
     <string name="logo">Logo</string>
+    <string name="ExpectedTokenException_2">Bol tam nasledujúci názov: </string>
+
     <string name="auto_compile">Auto compile</string>
     <string name="auto_compile_summary">Automatically compile while typing. The performance of the application will be decrease if using this feature, however, which will help us to report the error faster.</string>
-
 </resources>
 
