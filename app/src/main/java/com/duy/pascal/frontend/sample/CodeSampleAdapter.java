@@ -74,7 +74,7 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         CodeCategory headerTitle = (CodeCategory) getGroup(groupPosition);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.header_code_sample_category, null);
+            convertView = inflater.inflate(R.layout.header_code_sample_category, parent, false);
         }
         TextView txtTitle = (TextView) convertView.findViewById(R.id.txt_title);
         txtTitle.setText(headerTitle.getTitle());
@@ -88,7 +88,7 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.code_view_item, null);
+            convertView = inflater.inflate(R.layout.code_view_item, parent, false);
         }
         final CodeSampleEntry codeSampleEntry = (CodeSampleEntry) getChild(groupPosition, childPosition);
 

@@ -27,8 +27,8 @@ begin
     mPoint2.x := 3;
     mPoint2.y := 5.2;
 
-    mLine.p1 = mPoint1;
-    mLine.p2 = mPoint2;
+    mLine.p1 := mPoint1;
+    mLine.p2 := mPoint2;
 
     WriteLn(getLength(mLine));
 
