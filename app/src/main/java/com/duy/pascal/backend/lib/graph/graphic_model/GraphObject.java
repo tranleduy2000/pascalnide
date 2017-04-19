@@ -7,13 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.Typeface;
 
+import com.duy.pascal.backend.imageprocessing.ImageUtils;
 import com.duy.pascal.backend.lib.graph.style.FillType;
 import com.duy.pascal.backend.lib.graph.style.LineStyle;
 import com.duy.pascal.backend.lib.graph.style.LineWidth;
@@ -82,32 +81,6 @@ public abstract class GraphObject {
         return fillStyle;
     }
 
-    private Bitmap replaceColor(Bitmap bitmap, int colorToReplace) {
-
-        int red = Color.red(colorToReplace);
-        int green = Color.green(colorToReplace);
-        int blue = Color.blue(colorToReplace);
-
-        float[] colorTransform = {
-                0, red, 0, 0, 0,
-                0, 0, green, 0, 0,
-                0, 0, 0, blue, 0,
-                0, 0, 0, 1f, 0};
-
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0f); //Remove Colour
-        colorMatrix.set(colorTransform); //Apply the Red
-
-        ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(colorMatrix);
-        Paint paint = new Paint();
-        paint.setColorFilter(colorFilter);
-
-        Bitmap resultBitmap = Bitmap.createBitmap(bitmap);
-        Canvas canvas = new Canvas(resultBitmap);
-        canvas.drawBitmap(resultBitmap, 0, 0, paint);
-        return resultBitmap;
-    }
-
     public void setFillStyle(Context context, int fillStyle, int color) {
         this.fillStyle = fillStyle;
         this.fillColor = color;
@@ -118,23 +91,43 @@ public abstract class GraphObject {
                 switch (fillStyle) {
                     case FillType.LineFill:
                         sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_line_fill);
-                        sourceBitmap = replaceColor(sourceBitmap, Color.parseColor("#00A8A8"), color);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#00A8A8"), color);
                         break;
                     case FillType.ltSlashFill:
                         sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_it_slash);
-                        sourceBitmap = replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
                         break;
                     case FillType.SlashFill:
                         sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_slash_fill);
-                        sourceBitmap = replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
                         break;
                     case FillType.BkSlashFill:
                         sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_bk_slash);
-                        sourceBitmap = replaceColor(sourceBitmap,Color.parseColor("#0000A8"), color);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
                         break;
                     case FillType.LtBkSlashFill:
                         sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_lt_bk_slash);
-                        sourceBitmap = replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                        break;
+                    case FillType.HatchFill:
+                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_hatch_fill);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                        break;
+                    case FillType.XHatchFill:
+                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_xhatch_fill);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                        break;
+                    case FillType.InterLeaveFill:
+                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_inter_leave_fill);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                        break;
+                    case FillType.WideDotFill:
+                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_wide_dot_fill);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                        break;
+                    case FillType.CloseDotFill:
+                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_close_dot_fill);
+                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
                         break;
                     default:
                         break;
@@ -149,27 +142,6 @@ public abstract class GraphObject {
         }
     }
 
-    public Bitmap replaceColor(Bitmap src, int fromColor, int targetColor) {
-        if (src == null) {
-            return null;
-        }
-        // Source image size
-        int width = src.getWidth();
-        int height = src.getHeight();
-        int[] pixels = new int[width * height];
-        //get pixels
-        src.getPixels(pixels, 0, width, 0, 0, width, height);
-
-        for (int x = 0; x < pixels.length; ++x) {
-            pixels[x] = (pixels[x] == fromColor) ? targetColor : pixels[x];
-        }
-        // create result bitmap output
-        Bitmap result = Bitmap.createBitmap(width, height, src.getConfig());
-        //set pixels
-        result.setPixels(pixels, 0, width, 0, 0, width, height);
-
-        return result;
-    }
 
     public TextJustify getTextJustify() {
         return textJustify;
