@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/dexmaker" />
             <option value="$PROJECT_DIR$/dexmaker-mockito" />
             <option value="$PROJECT_DIR$/dexmaker-tests" />
+            <option value="$PROJECT_DIR$/testapplication" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

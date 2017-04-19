@@ -27,14 +27,14 @@
 
 
     <string name="DiskReadErrorException">Ocurrio un error mientras se leeía desde el disco. Normalmente sucede cuando intentas leer pasado el final del archivo.</string>
-    <string name="FileNotAssignException">Esto se informa por Reset, Rewritten, Append, Rename y Erase, si los llamas con un archivo sin asignación como parametro.</string>
+    <string name="FileNotAssignException">Esto se informa por Reset, Rewritten, Append, Rename startY Erase, si los llamas con un archivo sin asignación como parametro.</string>
     <string name="FileNotFoundException">Se informa cuando se intenta Erase, Rename o Open con un archivo inexistente.</string>
-    <string name="FileNotOpenException">Informado por las siguientes funciones : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead y BlockWrite si el archivo no esta abierto.</string>
+    <string name="FileNotOpenException">Informado por las siguientes funciones : Close, Read, Write, Seek, EOf, FilePos, FileSize, Flush, BlockRead startY BlockWrite si el archivo no esta abierto.</string>
     <string name="FileNotOpenForInputException">Informado por Read, BlockRead, Eof, Eoln, SeekEof o SeekEoln si el archivo no esta abierto con Reset.</string>
 
     <string name="DivisionByZeroException">La aplicación intento dividir un numero por cero.</string>
 
-    <string name="InvalidNumericFormatException">Informado cuando un valor no-numerico se intenta leer desde un archivo de texto, y se esperaba un valor numerico.</string>
+    <string name="InvalidNumericFormatException">Informado cuando un valor no-numerico se intenta leer desde un archivo de texto, startY se esperaba un valor numerico.</string>
     <string name="NonIntegerException">El valor debe ser integer: %1$s</string>
     <string name="ChangeValueConstantException">El valor guardado en una constante no puede ser cambiado.</string>
 

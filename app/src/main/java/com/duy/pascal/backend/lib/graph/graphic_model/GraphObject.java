@@ -117,8 +117,7 @@ public abstract class GraphObject {
                 Bitmap sourceBitmap = null;
                 switch (fillStyle) {
                     case FillType.LineFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources,
-                                R.drawable.graph_line_fill);
+                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_line_fill);
                         sourceBitmap = replaceColor(sourceBitmap, Color.parseColor("#00A8A8"), color);
                         break;
                     case FillType.ltSlashFill:

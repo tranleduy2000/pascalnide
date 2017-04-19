@@ -1,10 +1,10 @@
 type
     point = record
-        x, y: longint;
+        startX, startY: longint;
     end;
 var
     p: point;
 begin
-    p.x := 1;
-    p.y := 2;
+    p.startX := 1;
+    p.startY := 2;
 end.

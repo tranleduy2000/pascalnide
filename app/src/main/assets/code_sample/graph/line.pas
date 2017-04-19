@@ -2,7 +2,7 @@ Program draw_line;
 Uses Crt,Graph;
 Var
     graphicsDriver, graphicsMode,
-    errCode, i, x, y, maxColor,
+    errCode, i, startX, startY, maxColor,
     color: Integer;
 Begin
     Writeln('Initialising Graphics, please wait...');
@@ -11,8 +11,8 @@ Begin
     If GraphResult <> grOK then exit;
 
     Randomize;
-    x := getMaxX();
-    y := getMaxY();
+    startX := getMaxX();
+    startY := getMaxY();
     maxColor := getMaxColor();
 
     While (not keypressed) do
@@ -20,7 +20,7 @@ Begin
         delay(50);
         color := random(maxColor) + 1;
         setColor(color);
-        line(random(x), random(y), random(x), random(y));
+        line(random(startX), random(startY), random(startX), random(startY));
     end;
 
     ReadLn;

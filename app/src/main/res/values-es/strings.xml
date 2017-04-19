@@ -39,7 +39,7 @@
     <string name="user_interface">Interfaz de usuario</string>
     <string name="show_line">Mostrar numero de línea</string>
     <string name="find">Buscar</string>
-    <string name="find_replace">Buscar y reemplazar</string>
+    <string name="find_replace">Buscar startY reemplazar</string>
     <string name="tool">Herramienta</string>
     <string name="find_what">Que deseas buscar?</string>
     <string name="replace_with">Reemplazar con</string>
