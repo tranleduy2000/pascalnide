@@ -203,8 +203,8 @@ public class MathLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    public double power(double base, Number exponent) {
-        return Math.pow(base, exponent.doubleValue());
+    public double power(double base, double exponent) {
+        return Math.pow(base, exponent);
     }
 
     @SuppressWarnings("unused")

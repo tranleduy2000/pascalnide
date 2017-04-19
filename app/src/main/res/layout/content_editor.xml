@@ -12,7 +12,7 @@
         android:id="@+id/vertical_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/recycler_view"
+        android:layout_above="@+id/container_symbol"
         android:fillViewport="true">
 
 
@@ -31,30 +31,43 @@
             android:inputType="textMultiLine|textNoSuggestions"
             android:scrollbarSize="5dip"
             android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical">
+
+            <requestFocus />
+        </com.duy.pascal.frontend.view.code_view.CodeView>
 
     </com.duy.pascal.frontend.view.LockableScrollView>
 
-    <com.duy.pascal.frontend.view.SymbolListView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_editor_height"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/img_tab">
-
-    </com.duy.pascal.frontend.view.SymbolListView>
-
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/img_tab"
-        android:layout_width="@dimen/bottom_editor_height"
-        android:layout_height="@dimen/bottom_editor_height"
+    <LinearLayout
+        android:id="@+id/container_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#651fff"
-        android:clickable="true"
-        android:contentDescription="@string/tab"
-        android:foreground="?attr/selectableItemBackground"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/ic_keyboard_tab_white_24dp" />
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_tab"
+            android:layout_width="@dimen/bottom_editor_height"
+            android:layout_height="@dimen/bottom_editor_height"
+
+            android:background="#651fff"
+            android:clickable="true"
+            android:contentDescription="@string/tab"
+            android:foreground="?attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_keyboard_tab_white_24dp" />
+
+        <com.duy.pascal.frontend.view.SymbolListView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_editor_height"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/img_tab">
+
+        </com.duy.pascal.frontend.view.SymbolListView>
+
+    </LinearLayout>
+
 </RelativeLayout>

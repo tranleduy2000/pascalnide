@@ -63,6 +63,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.OnClick;
+
 public class EditorActivity extends FileEditorActivity implements
         DrawerLayout.DrawerListener {
 
@@ -77,7 +79,7 @@ public class EditorActivity extends FileEditorActivity implements
         super.onCreate(savedInstanceState);
         mCompileManager = new CompileManager(this);
         mDrawerLayout.addDrawerListener(this);
-        mKeyList.setListener(this);
+
         menuEditor = new MenuEditor(this, this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -98,22 +100,11 @@ public class EditorActivity extends FileEditorActivity implements
                 mCodeView.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
             }
         });
-       /* mScrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (mCodeView.hasFocus()) {
-                    mCodeView.clearFocus();
-                }
-                return false;
-            }
-        });*/
-        findViewById(R.id.img_tab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onKeyClick(v, "\t");
-            }
-        });
+    }
 
+    @OnClick(R.id.img_tab)
+    void insertTab(View v){
+        onKeyClick(v, "\t");
     }
 
     @Override
@@ -261,7 +252,6 @@ public class EditorActivity extends FileEditorActivity implements
      * @param code
      */
     public void setCode(String code) {
-//        code = CodeManager.localCode(code);
         mCodeView.setText(code);
         mCodeView.clearHistory();
         mCodeView.refresh();
@@ -326,6 +316,12 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        if (mPascalPreferences.showListSymbol()) {
+            mKeyList.setListener(this);
+            mContainerSymbol.setVisibility(View.VISIBLE);
+        } else {
+            mContainerSymbol.setVisibility(View.GONE);
+        }
         mCodeView.updateFromSettings();
     }
 

@@ -108,6 +108,13 @@ public class PascalPreferences {
             return false;
         }
     }
+ public boolean getBoolean(String key, boolean def) {
+        try {
+            return sharedPreferences.getBoolean(key, def);
+        } catch (Exception e) {
+            return def;
+        }
+    }
 
     public boolean useFullScreen() {
         return getBoolean(context.getString(R.string.key_full_screen));
@@ -149,7 +156,7 @@ public class PascalPreferences {
         try {
             res = Integer.parseInt(
                     sharedPreferences.getString(context.getString(R.string.key_console_max_buffer_size), "200"));
-        } catch (Exception e){
+        } catch (Exception e) {
             res = 100;
         }
         return res;
@@ -162,7 +169,7 @@ public class PascalPreferences {
     public float getTextSize() {
         try {
             return Float.parseFloat(getString(context.getString(R.string.key_pref_font_size)));
-        }catch (Exception e){
+        } catch (Exception e) {
             return 14f;
         }
     }
@@ -177,5 +184,9 @@ public class PascalPreferences {
 
     public boolean isAutoCompile() {
         return getBoolean(context.getString(R.string.key_pref_auto_compile));
+    }
+
+    public boolean showListSymbol() {
+        return getBoolean(context.getString(R.string.key_show_symbol), true);
     }
 }

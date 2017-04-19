@@ -65,6 +65,8 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     ArrayList<File> listFile = new ArrayList<>();
+    @BindView(R.id.container_symbol)
+    View mContainerSymbol;
     private Handler handler = new Handler();
 
     @Override

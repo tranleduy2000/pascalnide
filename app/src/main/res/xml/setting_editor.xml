@@ -21,6 +21,12 @@
 
         <SwitchPreference
             android:defaultValue="true"
+            android:key="@string/key_show_symbol"
+            android:summary="@string/show_symbol_decs"
+            android:title="@string/show_symbol" />
+
+        <SwitchPreference
+            android:defaultValue="true"
             android:enabled="false"
             android:key="@string/key_show_hint"
             android:summary="@string/show_hint_desc"

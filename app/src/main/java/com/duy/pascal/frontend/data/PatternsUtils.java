@@ -24,7 +24,8 @@ public class PatternsUtils {
                     "|single|real|extended|comp|curreny" +
                     "|longint|int64|qword|longword|dword" +
                     "|boolean" +
-                    "|char|text)\\b",
+                    "|char|text" +
+                    "|record)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final Pattern functions = Pattern.compile(

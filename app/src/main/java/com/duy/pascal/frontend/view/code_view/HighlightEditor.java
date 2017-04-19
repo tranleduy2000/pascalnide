@@ -20,7 +20,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -454,8 +453,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     }
 
     private void init() {
-
-
         addTextChangedListener(new TextWatcher() {
             int start = 0, end = 0;
 
@@ -507,7 +504,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
     private void highlightWithoutChange(Editable e) {
         modified = false;
-        highlight(e, true);
+        highlight(e, false);
         modified = true;
     }
 
@@ -713,21 +710,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
      * @param line - line in editor, begin at 1
      */
     public void goToLine(int line) {
-        String text = getText().toString();
-        int c = 0;
-        int index = -1;
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '\n') {
-                c++;
-                if (c == line) {
-                    index = i;
-                    break;
-                }
-            }
-        }
-        if (index == -1) {
-            setSelection(text.length());
-        } else {
+        Layout layout = getLayout();
+        if (layout != null) {
+            int index = layout.getLineEnd(line - 1);
+            index = Math.min(index, getText().length() - 1);
             setSelection(index);
         }
     }
