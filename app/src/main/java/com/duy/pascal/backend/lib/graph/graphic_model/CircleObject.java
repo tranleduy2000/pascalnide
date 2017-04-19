@@ -1,7 +1,6 @@
 package com.duy.pascal.backend.lib.graph.graphic_model;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 /**
  * Created by Duy on 02-Mar-17.
@@ -19,8 +18,6 @@ public class CircleObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        foregroundPaint.setAntiAlias(true);
-        foregroundPaint.setStyle(Paint.Style.STROKE);
-        canvas.drawCircle(x, y, r, foregroundPaint);
+        canvas.drawCircle(x, y, r, linePaint);
     }
 }

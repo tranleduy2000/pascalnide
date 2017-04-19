@@ -15,7 +15,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
         implements ScriptControl {
 
     private Map<Library, RuntimeLibrary> RuntimeLibs = new HashMap<Library, RuntimeLibrary>();
-    private volatile controlMode runmode = controlMode.running;
+    private volatile controlMode runmode = controlMode.RUNNING;
     private volatile boolean doneExecuting = false;
 
     private DebugListener debugListener;
@@ -63,7 +63,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void pause() {
-        runmode = controlMode.paused;
+        runmode = controlMode.PAUSED;
     }
 
     public void enableDebug() {
@@ -76,7 +76,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void resume() {
-        runmode = controlMode.running;
+        runmode = controlMode.RUNNING;
         synchronized (this) {
             this.notifyAll();
         }
@@ -84,7 +84,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void terminate() {
-        runmode = controlMode.terminated;
+        runmode = controlMode.TERMINATED;
         synchronized (this) {
             this.notifyAll();
         }
@@ -93,21 +93,21 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     public void scriptControlCheck(LineInfo line)
             throws ScriptTerminatedException {
         do {
-            if (runmode == controlMode.paused ||
+            if (runmode == controlMode.PAUSED ||
                     //pause it
                     isDebugMode) {
                 synchronized (this) {
                     try {
                         this.wait();
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException ignored) {
                     }
                 }
             }
 
-            if (runmode == controlMode.running) {
+            if (runmode == controlMode.RUNNING) {
                 return;
             }
-            if (runmode == controlMode.terminated) {
+            if (runmode == controlMode.TERMINATED) {
                 throw new ScriptTerminatedException(line);
             }
 
@@ -132,6 +132,6 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     }
 
     public enum controlMode {
-        running, paused, terminated, debug
+        RUNNING, PAUSED, TERMINATED, debug
     }
 }

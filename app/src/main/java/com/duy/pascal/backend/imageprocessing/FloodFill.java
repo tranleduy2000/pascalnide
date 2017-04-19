@@ -71,7 +71,7 @@ public class FloodFill {
      * @param imageToFill The imagePixels used for filling.
      */
     public FloodFill(Bitmap imageToFill) {
-        this(imageToFill, null);
+        this(imageToFill, (Bitmap) null);
     }
 
     /**
@@ -85,7 +85,7 @@ public class FloodFill {
         setImagePixels(imageToFill);
 
         // sets the mask
-        setPattern(imageToFill, pattern);
+        setPattern(pattern);
     }
 
 
@@ -116,15 +116,12 @@ public class FloodFill {
     /**
      * Sets the mask imagePixels which contains the borders.
      *
-     * @param sourceBitmap - source imagePixels
-     * @param pattern      The mask imagePixels to set. If null, the imagePixels to fill is used as
+     * @param pattern The mask imagePixels to set. If null, the imagePixels to fill is used as
      */
-    public void setPattern(Bitmap sourceBitmap, Bitmap pattern) {
-        Bitmap bufferedMaskImage = Bitmap.createBitmap(width, height, sourceBitmap.getConfig());
+    public void setPattern(Bitmap pattern) {
+        Bitmap bufferedMaskImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bufferedMaskImage);
-        if (pattern == null) {
-
-        } else {
+        if (pattern != null) {
 
             // if mask, use it
             Paint fillPaint = new Paint();
@@ -134,7 +131,22 @@ public class FloodFill {
             fillPaint.setShader(bitmapShader);
 
             canvas.drawRect(0, 0, width, height, fillPaint);
+        }
+        this.colorToFill = new int[width * height];
 
+        if (pattern != null) {
+            bufferedMaskImage.getPixels(this.colorToFill, 0, width, 0, 0, width, height);
+            usePattern = true;
+        }
+
+        bufferedMaskImage.recycle();
+    }
+
+    public void setPattern(Bitmap sourceBitmap, Paint pattern) {
+        Bitmap bufferedMaskImage = Bitmap.createBitmap(width, height, sourceBitmap.getConfig());
+        Canvas canvas = new Canvas(bufferedMaskImage);
+        if (pattern != null) {
+            canvas.drawRect(0, 0, width, height, pattern);
         }
         this.colorToFill = new int[width * height];
 
@@ -153,7 +165,7 @@ public class FloodFill {
      * @param y     The y coordinate to start filling.
      * @param color The new fill color.
      */
-    public void fill(int x, int y, int color) {
+    public void fill(int x, int y, int color, int borderColor) {
         this.startX = x;
         this.startY = y;
 
@@ -261,4 +273,10 @@ public class FloodFill {
     }
 
 
+    //this method recycle bitmap
+    public void gc() {
+        linearNRTodo.clear();
+        imagePixels = null;
+        colorToFill = null;
+    }
 }

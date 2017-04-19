@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.PathEffect;
 import android.graphics.Shader;
 import android.graphics.Typeface;
 
@@ -27,7 +28,13 @@ import com.duy.pascal.frontend.R;
 
 public abstract class GraphObject {
     protected final String TAG = GraphObject.class.getSimpleName();
-    protected Paint foregroundPaint = new Paint();
+    protected Paint linePaint = new Paint();
+
+    public Paint getFillPaint() {
+        return fillPaint;
+    }
+
+    protected Paint fillPaint = new Paint();
     protected int background;
     protected int textDirection = TextDirection.HORIZONTAL_DIR;
     protected int fillStyle = FillType.EmptyFill;
@@ -35,12 +42,16 @@ public abstract class GraphObject {
     protected TextJustify textJustify = new TextJustify();
     protected Paint backgroundPaint = new Paint();
     protected BitmapShader bitmapShader;
+    protected PathEffect pathEffect;
     private int textStyle = TextFont.DefaultFont;
 
     public GraphObject() {
-        foregroundPaint.setTextSize(25f);
-        foregroundPaint.setStrokeWidth(LineWidth.NormWidth);
+        linePaint.setTextSize(25f);
+        linePaint.setStrokeWidth(LineWidth.NormWidth);
+        linePaint.setStyle(Paint.Style.STROKE);
+        linePaint.setAntiAlias(true);
 
+        fillPaint.setStyle(Paint.Style.FILL);
     }
 
     public BitmapShader getBitmapShader() {
@@ -52,22 +63,22 @@ public abstract class GraphObject {
     }
 
     public void setLineWidth(int lineWidth) {
-        foregroundPaint.setStrokeWidth(lineWidth);
+        linePaint.setStrokeWidth(lineWidth);
     }
 
     public void setLineStyle(int lineStyle) {
         switch (lineStyle) {
             case LineStyle.DottedLn:
-                DashPathEffect dottedPathEffect = new DashPathEffect(new float[]{4, 4}, 0);
-                foregroundPaint.setPathEffect(dottedPathEffect);
+                pathEffect = new DashPathEffect(new float[]{4, 4}, 0);
+                linePaint.setPathEffect(pathEffect);
                 break;
             case LineStyle.CenterLn:
-                DashPathEffect centerLnPathEffect = new DashPathEffect(new float[]{6, 4, 4, 4}, 0);
-                foregroundPaint.setPathEffect(centerLnPathEffect);
+                pathEffect = new DashPathEffect(new float[]{6, 4, 4, 4}, 0);
+                linePaint.setPathEffect(pathEffect);
                 break;
             case LineStyle.DashedLn:
-                DashPathEffect dashPathEffect = new DashPathEffect(new float[]{6, 4}, 0);
-                foregroundPaint.setPathEffect(dashPathEffect);
+                pathEffect = new DashPathEffect(new float[]{6, 4}, 0);
+                linePaint.setPathEffect(pathEffect);
                 break;
             case LineStyle.SolidLn:
                 //don't working
@@ -84,61 +95,66 @@ public abstract class GraphObject {
     public void setFillStyle(Context context, int fillStyle, int color) {
         this.fillStyle = fillStyle;
         this.fillColor = color;
-        if (fillStyle != FillType.EmptyFill && fillStyle != FillType.SolidFill) {
-            try {
-                Resources resources = context.getResources();
-                Bitmap sourceBitmap = null;
-                switch (fillStyle) {
-                    case FillType.LineFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_line_fill);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#00A8A8"), color);
-                        break;
-                    case FillType.ltSlashFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_it_slash);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    case FillType.SlashFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_slash_fill);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    case FillType.BkSlashFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_bk_slash);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    case FillType.LtBkSlashFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_lt_bk_slash);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    case FillType.HatchFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_hatch_fill);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    case FillType.XHatchFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_xhatch_fill);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    case FillType.InterLeaveFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_inter_leave_fill);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    case FillType.WideDotFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_wide_dot_fill);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    case FillType.CloseDotFill:
-                        sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_close_dot_fill);
-                        sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
-                        break;
-                    default:
-                        break;
-                }
-                if (sourceBitmap != null) {
-                    this.bitmapShader = new BitmapShader(sourceBitmap, Shader.TileMode.REPEAT,
-                            Shader.TileMode.REPEAT);
-                }
-            } catch (Exception ignored) {
-                // TODO: 09-Apr-17
+        try {
+            Resources resources = context.getResources();
+            Bitmap sourceBitmap = null;
+            switch (fillStyle) {
+                case FillType.LineFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_line_fill);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#00A8A8"), color);
+                    break;
+                case FillType.ltSlashFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_it_slash);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.SlashFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_slash_fill);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.BkSlashFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_bk_slash);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.LtBkSlashFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_lt_bk_slash);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.HatchFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_hatch_fill);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.XHatchFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_xhatch_fill);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.InterLeaveFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_inter_leave_fill);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.WideDotFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_wide_dot_fill);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.CloseDotFill:
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_close_dot_fill);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    break;
+                case FillType.EmptyFill:
+                    break;
+                case FillType.SolidFill:
+                    fillPaint.setStyle(Paint.Style.FILL);
+                    fillPaint.setColor(fillColor);
+                    break;
+                default:
+                    break;
             }
+            if (sourceBitmap != null) {
+                this.bitmapShader = new BitmapShader(sourceBitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+                fillPaint.setShader(this.bitmapShader);
+            }
+
+        } catch (Exception ignored) {
+            // TODO: 09-Apr-17
         }
     }
 
@@ -152,11 +168,11 @@ public abstract class GraphObject {
     }
 
     public float getTextSize() {
-        return foregroundPaint.getTextSize();
+        return linePaint.getTextSize();
     }
 
     public void setTextSize(float textSize) {
-        foregroundPaint.setTextSize(textSize);
+        linePaint.setTextSize(textSize);
     }
 
     public int getTextStyle() {
@@ -176,11 +192,11 @@ public abstract class GraphObject {
     }
 
     public int getForeground() {
-        return foregroundPaint.getColor();
+        return linePaint.getColor();
     }
 
-    public void setForegroundColor(int foreground) {
-        foregroundPaint.setColor(foreground);
+    public void setLineColor(int foreground) {
+        linePaint.setColor(foreground);
     }
 
     public int getBackground() {
@@ -207,11 +223,11 @@ public abstract class GraphObject {
     }
 
     public Typeface getTextFont() {
-        return foregroundPaint.getTypeface();
+        return linePaint.getTypeface();
     }
 
     public void setTextFont(Typeface textFont) {
-        foregroundPaint.setTypeface(textFont);
+        linePaint.setTypeface(textFont);
     }
 
 }

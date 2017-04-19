@@ -23,7 +23,6 @@ public class EllipseObject extends GraphObject {
         this.y = y;
         this.rx = rx;
         this.ry = ry;
-        foregroundPaint.setStyle(Paint.Style.STROKE);
     }
 
 
@@ -34,13 +33,6 @@ public class EllipseObject extends GraphObject {
 
         //bound
         RectF rectF = new RectF(x - dx, y - dy, x + dx, y + dy);
-
-//        canvas.save();
-        //rotate canvas by 180 degree
-//        canvas.rotate(-180, x, y);
-//        reverse canvas
-//        canvas.scale(-1, 1, x, y);
-        canvas.drawOval(rectF, foregroundPaint);
-//        canvas.restore();
+        canvas.drawOval(rectF, linePaint);
     }
 }

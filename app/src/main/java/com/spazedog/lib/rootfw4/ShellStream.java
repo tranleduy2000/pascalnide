@@ -332,7 +332,7 @@ public class ShellStream {
 	/**
 	 * Close the shell connection. <br /><br />
 	 * 
-	 * This will force close the connection. Use this only when running a consistent command (if {@link ShellStream#isRunning()} returns true). 
+	 * This will force close the connection. Use this only when RUNNING a consistent command (if {@link ShellStream#isRunning()} returns true).
 	 * When possible, sending the 'exit' command to the shell is a better choice. <br /><br />
 	 * 
 	 * This method is executed asynchronous.

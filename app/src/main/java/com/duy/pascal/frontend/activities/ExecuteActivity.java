@@ -209,9 +209,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mIsRunning.set(false);
-        //stop program
-        stopProgram();
+
     }
 
     /**
@@ -263,7 +261,9 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     protected void onStop() {
         super.onStop();
-
+        mIsRunning.set(false);
+        //stop program
+        stopProgram();
     }
 
 
@@ -367,6 +367,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             isCanRead.set(false);
             program.terminate();
             Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
+            System.gc();
         } catch (Exception ignored) {
             if (DLog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
         }

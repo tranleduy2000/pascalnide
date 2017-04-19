@@ -27,30 +27,33 @@ public class GraphScreen {
     private static final String TAG = GraphScreen.class.getSimpleName();
     private final Context context;
     protected int fillColor = -1;//white
+    protected GraphObject lastObject;
     private int width = 1;
     private int height = 1;
     private ViewPort viewPort = new ViewPort(0, 0, width, height);
     //background
     private Paint mBackgroundPaint = new Paint();
+
     //cursor
     private Paint mForegroundPaint = new Paint();
-
-    //list object to restore
-//    private ArrayList<GraphObject> graphObjects = new ArrayList<>();
-
     /**
      * this object used to drawBackground {@link GraphObject}
      */
     private Bitmap mGraphBitmap;
     private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);
+
     private int textStyle = TextFont.DefaultFont;
     private int textDirection = TextDirection.HORIZONTAL_DIR;
+    private Typeface currentFont;
+    private TextJustify textJustify = new TextJustify();
+
     private int lineWidth = LineWidth.NormWidth;
     private int lineStyle = LineStyle.SolidLn;
-    private int fillStyle = FillType.EmptyFill;
-    private TextJustify textJustify = new TextJustify();
-    private int fillPattern;
-    private Typeface currentFont;
+    private int linePattern;
+
+    private int fillPattern = FillType.EmptyFill;
+    private Paint fillPaint = new Paint();
+
 
     public GraphScreen(Context context) {
         this.context = context;
@@ -61,6 +64,8 @@ public class GraphScreen {
         mForegroundPaint.setTypeface(Typeface.MONOSPACE);
 
         mBackgroundPaint.setColor(Color.BLACK);
+
+        fillPaint.setStyle(Paint.Style.FILL);
     }
 
     public int getTextStyle() {
@@ -87,12 +92,12 @@ public class GraphScreen {
         this.lineStyle = lineStyle;
     }
 
-    public int getFillStyle() {
-        return fillStyle;
+    public int getFillPattern() {
+        return fillPattern;
     }
 
-    public void setFillStyle(int fillStyle) {
-        this.fillStyle = fillStyle;
+    public void setFillPattern(int fillPattern) {
+        this.fillPattern = fillPattern;
     }
 
     public int getFillColor() {
@@ -166,7 +171,7 @@ public class GraphScreen {
 //        }
     }
 
-    public Bitmap getGraphBitmap() {
+    public synchronized Bitmap getGraphBitmap() {
         return mGraphBitmap;
     }
 
@@ -212,11 +217,13 @@ public class GraphScreen {
     public void addGraphObject(GraphObject graphObject) {
         // TODO: 30-Mar-17
         graphObject.setBackgroundColor(mBackgroundPaint.getColor());
-        graphObject.setForegroundColor(mForegroundPaint.getColor());
-        graphObject.setTextDirection(textDirection);
-        graphObject.setFillStyle(context, fillStyle, fillColor);
+
+        graphObject.setFillStyle(context, fillPattern, fillColor);
+
         graphObject.setLineWidth(lineWidth);
         graphObject.setLineStyle(lineStyle);
+        graphObject.setLineColor(mForegroundPaint.getColor());
+
         graphObject.setTextDirection(textDirection);
         graphObject.setTextStyle(textStyle);
         graphObject.setTextFont(currentFont);
@@ -229,6 +236,7 @@ public class GraphScreen {
 
         //add to screen
         graphObject.draw(mGraphBitmap);
+        this.lastObject = graphObject;
     }
 
     public Paint getBackgroundPaint() {
@@ -253,8 +261,7 @@ public class GraphScreen {
 
     public void setPaintStyle(int style, int pattern, int width) {
         mForegroundPaint.setStrokeWidth(width);
-//        mCursor
-//        foregroundPaint.set
+
     }
 
     public void setFont(int font) {
@@ -288,9 +295,6 @@ public class GraphScreen {
 
     }
 
-    public void setFillPattern(int fillPattern) {
-        this.fillPattern = fillPattern;
-    }
 
     public TextJustify getTextJustify() {
         return textJustify;
@@ -298,5 +302,21 @@ public class GraphScreen {
 
     public void setTextJustify(TextJustify textJustify) {
         this.textJustify = textJustify;
+    }
+
+//    public Paint getFillPaint() {
+//        return FillType.createPaintFill(context, fillPattern, fillColor);
+//    }
+
+    public void setLinePattern(int linePattern) {
+        this.linePattern = linePattern;
+    }
+
+    public Paint getFillPaint() {
+        return FillType.createPaintFill(context, fillPattern, fillColor);
+    }
+
+    public Bitmap getFillBitmap() {
+        return FillType.createFillBitmap(context, fillPattern, fillColor);
     }
 }

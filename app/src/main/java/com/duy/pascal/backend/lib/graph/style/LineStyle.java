@@ -14,10 +14,10 @@ public class LineStyle {
     public static final int DottedLn = 1;
 
     //    draws a non-broken centered line.
-    public static final int CenterLn = 3;
+    public static final int CenterLn = 2;
 
     //    draws a dashed line.
-    public static final int DashedLn = 4;
+    public static final int DashedLn = 3;
 
     //2 - 2
     public static DashPathEffect dottedPath = new DashPathEffect(new float[]{10, 20}, 0);

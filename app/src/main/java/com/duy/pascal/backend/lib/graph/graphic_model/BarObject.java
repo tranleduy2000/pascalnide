@@ -1,7 +1,6 @@
 package com.duy.pascal.backend.lib.graph.graphic_model;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import com.duy.pascal.backend.lib.graph.style.FillType;
 
@@ -17,23 +16,13 @@ public class BarObject extends GraphObject {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-
-        foregroundPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        if (fillStyle == FillType.EmptyFill) {
-            foregroundPaint.setStyle(Paint.Style.STROKE);
-            canvas.drawRect(x1, y1, x2, y2, foregroundPaint);
-        } else if (fillStyle == FillType.SolidFill) {
-            foregroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            foregroundPaint.setColor(fillColor);
-            canvas.drawRect(x1, y1, x2, y2, foregroundPaint);
-        } else {
-            foregroundPaint.setShader(bitmapShader);
-//            foregroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawRect(x1, y1, x2, y2, foregroundPaint);
+        if (fillStyle != FillType.EmptyFill) {
+            canvas.drawRect(x1, y1, x2, y2, fillPaint);
         }
+        canvas.drawRect(x1, y1, x2, y2, linePaint);
     }
 }

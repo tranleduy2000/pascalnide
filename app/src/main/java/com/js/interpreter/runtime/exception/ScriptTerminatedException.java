@@ -10,6 +10,6 @@ public class ScriptTerminatedException extends RuntimePascalException {
 
 	@Override
 	public String getMessage() {
-		return "Script was manually terminated before it could finish executing";
+		return "Script was manually TERMINATED before it could finish executing";
 	}
 }

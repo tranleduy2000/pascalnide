@@ -1,6 +1,5 @@
 package com.duy.pascal.frontend.view.exec_screen.console;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -48,8 +47,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     private ConsoleScreen mConsoleScreen = new ConsoleScreen();
     //     Cursor of console
     private CursorConsole mCursor;
-    //     Parent mActivity
-    private Activity mActivity;
+    private Context mContext;
     //      Data of console
     private ScreenBuffer bufferData = new ScreenBuffer();
     private int frameRate = 60;
@@ -109,6 +107,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     private void init(Context context) {
+        mContext = context;
         mGestureDetector = new GestureDetector(this);
         mGestureDetector.setOnDoubleTapListener(this);
         mPascalPreferences = new PascalPreferences(context);
@@ -257,10 +256,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return TypedValue.applyDimension(unit, size, r.getDisplayMetrics());
     }
 
-    public void initConsole(Activity a) {
-        mActivity = a;
-
-    }
 
     /**
      * clear screen
@@ -863,7 +858,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     private void doShowSoftKeyboard() {
-        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(this, 0);
     }
 

@@ -18,7 +18,7 @@ public class ArcObject extends GraphObject {
         this.stAngle = stAngle;
         this.enAngle = enAngle;
         this.radius = radius;
-        foregroundPaint.setStyle(Paint.Style.STROKE);
+        linePaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ArcObject extends GraphObject {
         //rotate
         canvas.save();
         canvas.rotate(-90, x, y);
-        canvas.drawArc(rectF, stAngle, enAngle, false, foregroundPaint);
+        canvas.drawArc(rectF, stAngle, enAngle, false, linePaint);
         canvas.restore();
         Path path;
     }

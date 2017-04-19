@@ -9,9 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/dexmaker" />
-            <option value="$PROJECT_DIR$/dexmaker-mockito" />
-            <option value="$PROJECT_DIR$/dexmaker-tests" />
             <option value="$PROJECT_DIR$/testapplication" />
           </set>
         </option>

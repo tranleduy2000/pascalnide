@@ -1,15 +1,21 @@
 package com.duy.pascal.backend.lib.graph;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
+import com.duy.pascal.backend.imageprocessing.FloodFill;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.graph.graphic_model.ArcEllipseObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.ArcObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.Bar3DObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.BarObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.CircleObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.EllipseObject;
+import com.duy.pascal.backend.lib.graph.graphic_model.FillEllipseObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.LineObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.PieSliceObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.PixelObject;
@@ -28,6 +34,7 @@ import java.util.Map;
  */
 
 public class GraphLib implements PascalLibrary {
+    private static final String TAG = "GraphLib";
     private ExecuteActivity activity;
     private String errorMsg = "";
 
@@ -188,7 +195,6 @@ public class GraphLib implements PascalLibrary {
         mode.set(0);
     }
 
-
     /**
      * MoveRel moves the pointer to the point (DX,DY), relative to the current pointer position
      */
@@ -252,11 +258,11 @@ public class GraphLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    public void setLineStyle(int style, int fillPattern, int width) {
+    public void setLineStyle(int style, int linePattern, int width) {
         if (activity != null) {
             GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
             graphScreen.setLineStyle(style);
-            graphScreen.setFillPattern(fillPattern);
+            graphScreen.setLinePattern(linePattern);
             graphScreen.setLineWidth(width);
         }
     }
@@ -333,7 +339,6 @@ public class GraphLib implements PascalLibrary {
         }
     }
 
-
     /**
      * return height of the text (in pixel) in the current font size
      */
@@ -355,10 +360,11 @@ public class GraphLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     public void setFillStyle(int pattern, int color) {
+        Log.d(TAG, "setFillPattern: " + pattern + " " + color);
         // TODO: 09-Apr-17
         if (activity != null) {
             GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
-            graphScreen.setFillStyle(pattern);
+            graphScreen.setFillPattern(pattern);
             graphScreen.setFillColor(CrtLib.getColorPascal(color));
         }
 
@@ -439,4 +445,42 @@ public class GraphLib implements PascalLibrary {
             textJustify.setVertical(vertical);
         }
     }
+
+    @SuppressWarnings("unused")
+    public void Bar3D(int x1, int y1, int x2, int y2, int depth, boolean topOn) {
+        if (activity != null) {
+            activity.getConsoleView().addGraphObject(new Bar3DObject(x1, y1, x2, y2, depth, topOn));
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void FillEllipse(int x, int y, int rx, int ry) {
+        Log.d(TAG, "FillEllipse: ");
+        if (activity != null) {
+            activity.getConsoleView().addGraphObject(new FillEllipseObject(x, y, rx, ry));
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public  void FloodFill(int x, int y, int borderColorIndex) {
+        Log.d(TAG, "FloodFill: ");
+        if (activity != null) {
+            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+            Bitmap graphBitmap = graphScreen.getGraphBitmap();
+
+            Bitmap fillBitmap = graphScreen.getFillBitmap();
+
+            FloodFill floodFill = new FloodFill(graphBitmap, fillBitmap);
+            floodFill.fill(x, y, Color.BLUE, CrtLib.getColorPascal(borderColorIndex));
+
+            int[] imagePixels = floodFill.getImagePixels();
+
+            graphBitmap.setPixels(imagePixels.clone(), 0, graphBitmap.getWidth(), 0, 0, graphBitmap.getWidth(),
+                    graphBitmap.getHeight());
+//            activity.getConsoleView().postInvalidate();
+            floodFill.gc();
+            fillBitmap.recycle();
+        }
+    }
+
 }

@@ -27,23 +27,23 @@ public class TextGraphObject extends GraphObject {
         switch (textJustify.getHorizontal()) {
             case TextJustify.HORIZONTAL_STYLE.CenterText:
 //                deltaX = -bounds.width() * 0.5f;
-                foregroundPaint.setTextAlign(Paint.Align.CENTER);
+                linePaint.setTextAlign(Paint.Align.CENTER);
                 break;
             case TextJustify.HORIZONTAL_STYLE.LeftText:
 //                deltaX = 0;
-                foregroundPaint.setTextAlign(Paint.Align.LEFT);
+                linePaint.setTextAlign(Paint.Align.LEFT);
                 break;
             case TextJustify.HORIZONTAL_STYLE.RightText:
 //                deltaX = -bounds.width();
-                foregroundPaint.setTextAlign(Paint.Align.RIGHT);
+                linePaint.setTextAlign(Paint.Align.RIGHT);
                 break;
             default:
-                foregroundPaint.setTextAlign(Paint.Align.LEFT);
+                linePaint.setTextAlign(Paint.Align.LEFT);
                 break;
         }
 
         Rect bounds = new Rect();
-        foregroundPaint.getTextBounds(text, 0, text.length(), bounds);
+        linePaint.getTextBounds(text, 0, text.length(), bounds);
         float deltaY = 0;
         switch (textJustify.getVertical()) {
             case TextJustify.VERTICAL_STYLE.CenterText:
@@ -58,11 +58,11 @@ public class TextGraphObject extends GraphObject {
         }
 
         if (textDirection == TextDirection.HORIZONTAL_DIR) {
-            canvas.drawText(text, x, y + deltaY, foregroundPaint);
+            canvas.drawText(text, x, y + deltaY, linePaint);
         } else { //vertical
             canvas.save();
             canvas.rotate(90f, 50, 50);
-            canvas.drawText(text, x, y, foregroundPaint);
+            canvas.drawText(text, x, y, linePaint);
             canvas.restore();
         }
     }

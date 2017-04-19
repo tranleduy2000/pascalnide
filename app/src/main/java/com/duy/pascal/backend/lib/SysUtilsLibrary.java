@@ -155,7 +155,7 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
 
-    //Convert null-terminated string to all-uppercase
+    //Convert null-TERMINATED string to all-uppercase
     @SuppressWarnings("unused")
     public StringBuilder strupper(StringBuilder stringBuilder) {
         return new StringBuilder(stringBuilder.toString().toUpperCase());

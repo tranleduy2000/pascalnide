@@ -168,6 +168,13 @@ public class SystemConstants {
                 new LineInfo(-1, "const TopText   = 2;".toLowerCase()));
         constants.put(constant.name(), constant);
 
+        constant = new ConstantDefinition("topoff".toLowerCase(), false,
+                new LineInfo(-1, "const TopText   = 2;".toLowerCase()));
+        constants.put(constant.name(), constant);
+        constant = new ConstantDefinition("topon".toLowerCase(), true,
+                new LineInfo(-1, "const TopText   = 2;".toLowerCase()));
+        constants.put(constant.name(), constant);
+
 
     }
 

@@ -30,7 +30,7 @@ import android.os.Build;
 public class Device {
 
     /**
-     * @return {@code true} if device is running
+     * @return {@code true} if device is RUNNING
      * {@link Build.VERSION_CODES#KITKAT KitKat} {@code false} otherwise.
      */
     public static boolean isKitKatApi() {

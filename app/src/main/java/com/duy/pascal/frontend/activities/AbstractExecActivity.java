@@ -32,7 +32,6 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
         ButterKnife.bind(this);
         setupActionBar();
 
-        mConsoleView.initConsole(this);
         mConsoleView.updateSize();
         mConsoleView.showPrompt();
     }

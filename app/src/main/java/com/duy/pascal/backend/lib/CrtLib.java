@@ -65,9 +65,9 @@ public class CrtLib implements PascalLibrary {
      * Yellow = 14;
      * White = 15;
      */
-    public static int getColorPascal(int code) {
-        System.out.println("get color " + code);
-        switch (code) {
+    public static int getColorPascal(int index) {
+        System.out.println("get color " + index);
+        switch (index) {
             case 0:
                 return (Color.BLACK);
             case 1:
@@ -132,7 +132,7 @@ public class CrtLib implements PascalLibrary {
     }
 
     /**
-     * set text foregroundPaint color
+     * set text linePaint color
      *
      */
     @SuppressWarnings("unused")
