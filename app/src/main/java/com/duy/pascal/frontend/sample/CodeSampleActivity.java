@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.ExpandableListView;
 
+import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
@@ -28,13 +29,22 @@ import butterknife.ButterKnife;
 public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
-    private final String[] categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More"};
+
+    private final String[] categories;
     @BindView(R.id.expand_listview)
     ExpandableListView expandableListView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private CodeSampleAdapter adapter;
     private ApplicationFileManager fileManager;
+
+    {
+        if (BuildConfig.DEBUG) {
+            categories = new String[]{"Temp"};
+        } else {
+            categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More"};
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

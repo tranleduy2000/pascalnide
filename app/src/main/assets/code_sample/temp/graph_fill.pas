@@ -2,7 +2,7 @@ Uses Graph, CRT;
 var
     d, r, e, k, j, x, y: Integer;
 begin
-{Инициируем графику}
+
     d := Detect;
     InitGraph(d, r, ' ') ;
     e := GraphResult;
@@ -16,10 +16,10 @@ begin
             for k := 0 to 3 do{По четыре квадрата}
             begin
                 Rectangle((k + 1) * x,(j + 1) * y,(k + 2) * x,(j + 2) * y);
-                SetFillStyle(CloseDotFill,j + 1);
+                SetFillStyle(k + j * 4,j + 1);
                 Bar((k + 1) * x + 1,(j + 1) * y + 1,(k + 2) * x - 1,(j + 2) * y - 1)
             end;
-        readln;
+        ReadLn();
         CloseGraph;
     end
 end.

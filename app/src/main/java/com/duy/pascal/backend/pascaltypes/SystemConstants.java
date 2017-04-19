@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.pascaltypes;
 
 
+import com.duy.pascal.backend.lib.graph.style.FillType;
 import com.duy.pascal.backend.lib.graph.style.LineStyle;
 import com.duy.pascal.backend.lib.graph.style.LineWidth;
 import com.duy.pascal.backend.lib.graph.text_model.TextDirection;
@@ -21,6 +22,53 @@ public class SystemConstants {
     public static void addSystemConstant(Map<String, ConstantDefinition> constantDefinitionMap) {
         defineColorCode(constantDefinitionMap);
         defineGraphConstant(constantDefinitionMap);
+        defineFillStyleGraphConstant(constantDefinitionMap);
+    }
+
+    private static void defineFillStyleGraphConstant(Map<String, ConstantDefinition> constants) {
+        ConstantDefinition constant;
+        constant = new ConstantDefinition("EmptyFill".toLowerCase(), FillType.EmptyFill,
+                new LineInfo(-1, "grok = 1;".toLowerCase()));
+        constants.put(constant.name(), constant);
+
+        constant = new ConstantDefinition("SolidFill".toLowerCase(), FillType.SolidFill,
+                new LineInfo(-1, "const NormWidth = 1;".toLowerCase()));
+        constants.put(constant.name(), constant);
+
+        constant = new ConstantDefinition("LineFill".toLowerCase(), FillType.LineFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+        constant = new ConstantDefinition("ltSlashFill".toLowerCase(), FillType.ltSlashFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+        constant = new ConstantDefinition("SlashFill".toLowerCase(), FillType.SlashFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+        constant = new ConstantDefinition("BkSlashFill".toLowerCase(), FillType.BkSlashFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+        constant = new ConstantDefinition("LtBkSlashFill".toLowerCase(), FillType.LtBkSlashFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+        constant = new ConstantDefinition("HatchFill".toLowerCase(), FillType.HatchFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+
+        constant = new ConstantDefinition("XHatchFill".toLowerCase(), FillType.XHatchFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+
+        constant = new ConstantDefinition("InterLeaveFill".toLowerCase(), FillType.InterLeaveFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+
+        constant = new ConstantDefinition("WideDotFill".toLowerCase(), FillType.WideDotFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
+
+        constant = new ConstantDefinition("CloseDotFill".toLowerCase(), FillType.CloseDotFill,
+                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+        constants.put(constant.name(), constant);
     }
 
     private static void defineGraphConstant(Map<String, ConstantDefinition> constants) {
@@ -141,6 +189,7 @@ public class SystemConstants {
      * 13    Light Magenta
      * 14    Yellow
      * 15    High-intensity white
+     *
      * @param context
      */
     private static void defineColorCode(Map<String, ConstantDefinition> context) {
