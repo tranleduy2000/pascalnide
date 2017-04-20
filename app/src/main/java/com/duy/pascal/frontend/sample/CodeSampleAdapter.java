@@ -1,31 +1,26 @@
 package com.duy.pascal.frontend.sample;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
-import com.duy.pascal.frontend.view.code_view.CodeView;
 
 import java.util.ArrayList;
 
 /**
+ * Adapter for list sample code
+ * <p>
  * Created by Duy on 08-Apr-17.
  */
-
-public class CodeSampleAdapter extends BaseExpandableListAdapter {
-    private static final String TAG = CodeSampleAdapter.class.getSimpleName();
-    private ArrayList<CodeCategory> codeCategories = new ArrayList<>();
+public class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
+    private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
     private Context context;
     private LayoutInflater inflater;
     private OnCodeClickListener listener;
-    private AutoIndentCode autoIndentCode = new AutoIndentCode();
 
     public CodeSampleAdapter(Context context) {
         this.context = context;
@@ -33,114 +28,52 @@ public class CodeSampleAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getGroupCount() {
-        Log.d(TAG, "getGroupCount: " + codeCategories.size());
-        return codeCategories.size();
+    public CodeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.code_view_item, parent, false);
+        return new CodeHolder(view);
     }
 
     @Override
-    public int getChildrenCount(int groupPosition) {
-        Log.d(TAG, "getChildrenCount: " + codeCategories.get(groupPosition).getCodeSize());
-        return codeCategories.get(groupPosition).getCodeSize();
-    }
-
-    @Override
-    public Object getGroup(int groupPosition) {
-        return codeCategories.get(groupPosition);
-    }
-
-    @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        Log.d(TAG, "getChild: group " + groupPosition + " child " + childPosition);
-        return codeCategories.get(groupPosition).getCode(childPosition);
-    }
-
-    @Override
-    public long getGroupId(int groupPosition) {
-        return groupPosition;
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        CodeCategory headerTitle = (CodeCategory) getGroup(groupPosition);
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.header_code_sample_category, parent, false);
-        }
-        TextView txtTitle = (TextView) convertView.findViewById(R.id.txt_title);
-        txtTitle.setText(headerTitle.getTitle());
-
-        TextView txtDesc = (TextView) convertView.findViewById(R.id.txt_summary);
-        txtDesc.setText(headerTitle.getDescription());
-        return convertView;
-    }
-
-    @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
-                             View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.code_view_item, parent, false);
-        }
-        final CodeSampleEntry codeSampleEntry = (CodeSampleEntry) getChild(groupPosition, childPosition);
-
+    public void onBindViewHolder(final CodeHolder holder, int position) {
+        final CodeSampleEntry codeSampleEntry = codeSampleEntries.get(position);
         //set code
-        CodeView codeView = (CodeView) convertView.findViewById(R.id.code_view);
-        codeView.setTextHighlighted(autoIndentCode.format(codeSampleEntry.getContent()));
-        codeView.applyTabWidth(codeView.getText(), 0, codeView.length());
-        codeView.setCanEdit(false);
+        holder.codeView.setTextHighlighted(codeSampleEntry.getContent());
+        holder.codeView.setCanEdit(false);
 
-        //set title
-        TextView txtTitle = (TextView) convertView.findViewById(R.id.txt_title);
-        txtTitle.setText(codeSampleEntry.getName());
+        holder.txtTitle.setText(codeSampleEntry.getName());
 
-        //set event click
-        View btnPlay = convertView.findViewById(R.id.img_play);
-        View btnEdit = convertView.findViewById(R.id.img_edit);
-        View btnCopy = convertView.findViewById(R.id.img_copy);
-
-        btnPlay.setOnClickListener(new View.OnClickListener() {
+        holder.btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) listener.onPlay(codeSampleEntry.getContent());
             }
         });
-        btnEdit.setOnClickListener(new View.OnClickListener() {
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) listener.onEdit(codeSampleEntry.getContent());
             }
         });
-        btnCopy.setOnClickListener(new View.OnClickListener() {
+        holder.btnCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ClipboardManager.setClipboard(context, codeSampleEntry.getContent());
             }
         });
-        return convertView;
-    }
-
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
     }
 
     public void setListener(OnCodeClickListener listener) {
         this.listener = listener;
     }
 
-    public void addCodes(ArrayList<CodeCategory> listCodeCategories) {
-        this.codeCategories.addAll(listCodeCategories);
+    public void addCodes(ArrayList<CodeSampleEntry> listCodeCategories) {
+        this.codeSampleEntries.addAll(listCodeCategories);
     }
 
+    @Override
+    public int getItemCount() {
+        return codeSampleEntries.size();
+    }
 
     public interface OnCodeClickListener {
         void onPlay(String code);

@@ -3,13 +3,12 @@ package com.duy.pascal.frontend.sample;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.ViewTreeObserver;
-import android.widget.ExpandableListView;
 
-import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
@@ -18,9 +17,7 @@ import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -30,21 +27,13 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
     final String TAG = getClass().getSimpleName();
 
-    private final String[] categories;
-    @BindView(R.id.expand_listview)
-    ExpandableListView expandableListView;
+    private final String[] categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More"};
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private CodeSampleAdapter adapter;
     private ApplicationFileManager fileManager;
-
-    {
-        if (BuildConfig.DEBUG) {
-            categories = new String[]{"Temp"};
-        } else {
-            categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More"};
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +49,9 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
         adapter = new CodeSampleAdapter(this);
         adapter.setListener(this);
-        expandableListView.setAdapter(adapter);
-
-        ViewTreeObserver vto = expandableListView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                expandableListView.setIndicatorBounds(expandableListView.getMeasuredWidth() - 80,
-                        expandableListView.getMeasuredWidth());
-            }
-        });
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(false);
 
         new LoadCodeTask().execute();
     }
@@ -113,65 +95,37 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     }
 
 
-    public class LoadCodeTask extends AsyncTask<Object, Object, ArrayList<CodeCategory>> {
-        private ArrayList<CodeCategory> listCodeCategories;
+    public class LoadCodeTask extends AsyncTask<Object, Object, ArrayList<CodeSampleEntry>> {
+        private ArrayList<CodeSampleEntry> codeSampleEntries;
 
         @Override
-        protected ArrayList<CodeCategory> doInBackground(Object... params) {
-            listCodeCategories = new ArrayList<>();
-
-            for (int i = 0; i < categories.length; i++) {
-                CodeCategory codeCategory = new CodeCategory(categories[i], "");
-                if (DLog.DEBUG) Log.d(TAG, "doInBackground: ");
+        protected ArrayList<CodeSampleEntry> doInBackground(Object... params) {
+            codeSampleEntries = new ArrayList<>();
+            for (String category : categories) {
+                CodeCategory codeCategory = new CodeCategory(category, "");
                 String[] list;
-                String path = "code_sample/" + categories[i].toLowerCase();
+                String path = "code_sample/" + category.toLowerCase();
                 try {
                     list = getAssets().list(path);
                     for (String fileName : list) {
-                        if (DLog.DEBUG)
-                            Log.d(TAG, "doInBackground: " + fileName);
-                        String content = readFile(path + "/" + fileName);
+                        String content =
+                                ApplicationFileManager.streamToString(getAssets().open(path + "/" + fileName));
                         codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
-                        Log.d(TAG, "doInBackground: " + content);
                     }
                 } catch (IOException ignored) {
                     if (DLog.DEBUG) Log.e(TAG, "doInBackground: ", ignored);
                 }
-                listCodeCategories.add(codeCategory);
+                codeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
             }
-
-            return listCodeCategories;
-        }
-
-        public String readFile(String path) {
-            String result = "";
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new InputStreamReader(getAssets().open(path)));
-                String mLine;
-                while ((mLine = reader.readLine()) != null) {
-                    result += mLine + "\n";
-                }
-            } catch (IOException e) {
-                //log the exception
-            } finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        //log the exception
-                    }
-                }
-            }
-            return result;
+            return codeSampleEntries;
         }
 
 
         @Override
-        protected void onPostExecute(ArrayList<CodeCategory> aVoid) {
+        protected void onPostExecute(ArrayList<CodeSampleEntry> aVoid) {
             super.onPostExecute(aVoid);
+            adapter.addCodes(codeSampleEntries);
             adapter.notifyDataSetChanged();
-            adapter.addCodes(listCodeCategories);
         }
     }
 

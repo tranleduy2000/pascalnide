@@ -11,6 +11,10 @@ class CodeCategory {
     private String description;
     private String imagePath;
 
+    public ArrayList<CodeSampleEntry> getCodeSampleEntries() {
+        return codeSampleEntries;
+    }
+
     private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
 
     public CodeCategory(String title, String description) {

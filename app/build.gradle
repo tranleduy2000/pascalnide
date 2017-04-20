@@ -6,8 +6,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 61
-        versionName "3.6.4"
+        versionCode 62
+        versionName "3.6.5"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -72,5 +72,7 @@ dependencies {
     androidTestCompile ('com.android.support.test:rules:0.5', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'

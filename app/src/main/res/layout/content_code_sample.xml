@@ -8,26 +8,13 @@
     tools:context="com.duy.pascal.frontend.sample.CodeSampleActivity"
     tools:showIn="@layout/activity_code_sample">
 
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/recycler_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:paddingLeft="8dp"-->
-    <!--android:paddingRight="8dp">-->
-
-    <!--</android.support.v7.widget.RecyclerView>-->
-    <ExpandableListView
-        android:id="@+id/expand_listview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alwaysDrawnWithCache="true"
-        android:animateLayoutChanges="true"
-        android:animationCache="true"
-        android:childDivider="@null"
-        android:divider="@null"
-        android:fadingEdge="horizontal|vertical"
-        android:fastScrollAlwaysVisible="false"
-        android:fastScrollEnabled="false">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
-    </ExpandableListView>
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>
