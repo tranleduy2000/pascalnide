@@ -205,7 +205,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
     public abstract void onPopupSuggestChangeSize();
 
-    public class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
+    private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         String token = "!@#$%^&*()_+-={}|[]:;'<>/<.?1234567890 \n\t";
 
         @Override
