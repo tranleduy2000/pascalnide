@@ -34,6 +34,7 @@ import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
+import com.duy.pascal.frontend.view.code_view.custom_spans.CustomTabWidthSpan;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.StringReader;
@@ -248,6 +249,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
     public void setLineError(LineInfo lineError) {
         this.lineError = lineError;
+        int lineStart = getLayout().getLineStart(lineError.line);
+        setSelection(lineStart);
     }
 
     @Override
@@ -810,6 +813,21 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
     public interface OnTextChangedListener {
         void onTextChanged(String text);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        // FIXME simple workaround to https://code.google.com/p/android/issues/detail?id=191430
+        int startSelection = getSelectionStart();
+        int endSelection = getSelectionEnd();
+        if (startSelection != endSelection) {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                final CharSequence text = getText();
+                setText(null);
+                setText(text);
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
 }

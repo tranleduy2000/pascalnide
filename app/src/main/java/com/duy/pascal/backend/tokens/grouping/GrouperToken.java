@@ -1,6 +1,8 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 
+import android.util.Log;
+
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
@@ -124,6 +126,8 @@ public abstract class GrouperToken extends Token {
 
     public Token take() throws ExpectedAnotherTokenException, GroupingException {
         Token result = get_next();
+        Log.d(TAG, "take: " + result.getClass().getSimpleName() + "  " + result.toString());
+
         if (result instanceof EOFToken) {
             throw new ExpectedAnotherTokenException(result.lineInfo);
         }
@@ -131,7 +135,11 @@ public abstract class GrouperToken extends Token {
             try {
                 next = queue.take();
                 exceptionCheck(next);
-                return result;
+                if (result instanceof CommentToken) {
+                    return take();
+                } else {
+                    return result;
+                }
             } catch (InterruptedException ignored) {
             }
         }
@@ -333,8 +341,8 @@ public abstract class GrouperToken extends Token {
             } else {
                 return context.getIdentifierValue(name);
             }
+
         } else if (next instanceof CommentToken) {
-            take();
             return getNextTerm(context);
         } else {
             throw new UnrecognizedTokenException(next);
@@ -358,7 +366,7 @@ public abstract class GrouperToken extends Token {
 
     public List<VariableDeclaration> getVariableDeclarations(ExpressionContext context)
             throws ParsingException {
-        List<VariableDeclaration> result = new ArrayList<VariableDeclaration>();
+        List<VariableDeclaration> result = new ArrayList<>();
         /*
          * reusing it, so it is further out of scope than necessary
 		 */

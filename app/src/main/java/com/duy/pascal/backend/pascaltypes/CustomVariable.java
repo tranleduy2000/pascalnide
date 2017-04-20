@@ -1,7 +1,5 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import android.util.Log;
-
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
@@ -15,7 +13,6 @@ import java.util.Map;
  * Created by Duy on 17-Apr-17.
  */
 public class CustomVariable implements ContainsVariables {
-    private static final String TAG = "CustomVariable";
     private Map<String, Object> variableMap = new HashMap<>();
     private List<VariableDeclaration> variableList;
 

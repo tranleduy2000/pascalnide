@@ -17,12 +17,6 @@ import com.duy.pascal.frontend.utils.UndoRedoHelper;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
 
-import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_COMPILE;
-import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_FORMAT_CODE;
-import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_GOTO_LINE;
-import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_RUN;
-import static com.duy.pascal.frontend.keyboard.KeyListener.ACTION_SAVE_AS;
-
 /**
  * EditText with undo and redo support
  * <p>
@@ -183,19 +177,19 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
                     return onTextContextMenuItem(ID_COPY);
                 case KeyEvent.KEYCODE_V:
                     return onTextContextMenuItem(ID_PASTE);
-                case ACTION_RUN:
+                case KeyEvent.KEYCODE_R:
                     if (editorControl != null)
                         editorControl.runProgram();
                     return true;
-                case ACTION_COMPILE:
+                case KeyEvent.KEYCODE_B:
                     if (editorControl != null)
                         editorControl.doCompile();
                     return true;
-                case ACTION_GOTO_LINE:
+                case KeyEvent.KEYCODE_G:
                     if (editorControl != null)
                         editorControl.goToLine();
                     return true;
-                case ACTION_FORMAT_CODE:
+                case KeyEvent.KEYCODE_L:
                     if (editorControl != null)
                         editorControl.formatCode();
                     return true;
@@ -211,7 +205,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
                     if (editorControl != null)
                         editorControl.saveFile();
                     return true;
-                case ACTION_SAVE_AS:
+                case KeyEvent.KEYCODE_N:
                     if (editorControl != null)
                         editorControl.saveAs();
                     return true;
