@@ -72,7 +72,5 @@ dependencies {
     androidTestCompile ('com.android.support.test:rules:0.5', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    compile 'com.ramotion.foldingcell:folding-cell:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'

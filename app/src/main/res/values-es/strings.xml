@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~  Copyright 2017 Tran Le Duy
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <resources>
     <string name="app_name">Pascal N-IDE</string>
     <string name="cancel">Cancelar</string>
@@ -123,6 +139,10 @@
     <string name="logo">Logo</string>
     <string name="auto_compile">Auto compile</string>
     <string name="auto_compile_summary">Automatically compile while typing. The performance of the application will be decrease if using this feature, however, which will help us to report the error faster.</string>
+    <string name="keyboard_shortcut">Key board shortcut</string>
+    <string name="program_structure">Show program structure</string>
+    <string name="show_symbol">List symbols</string>
+    <string name="show_symbol_decs">Show list symbol below the editor.</string>
 
 </resources>
 
