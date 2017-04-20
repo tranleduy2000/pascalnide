@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.pascaltypes.demo;
+package com.duy.pascal.backend.pascaltypes;
 
 import android.util.Log;
 
@@ -20,11 +20,9 @@ public class CustomVariable implements ContainsVariables {
     private List<VariableDeclaration> variableList;
 
     public CustomVariable(List<VariableDeclaration> variableList) {
-        Log.d(TAG, "CustomVariable: ");
         this.variableList = variableList;
         for (VariableDeclaration declaration : variableList) {
             Class returnType = declaration.getType().getTransferClass();
-            Log.d(TAG, "CustomVariable: clazz " + returnType.getSimpleName() + " " + declaration.toString());
             if (declaration.initialValue != null) {
                 variableMap.put(declaration.name.toLowerCase(), declaration.initialValue);
             } else {
@@ -49,19 +47,16 @@ public class CustomVariable implements ContainsVariables {
 
     @Override
     public Object getVariable(String name) throws RuntimePascalException {
-        Log.d(TAG, "getVariable: " + name);
         return variableMap.get(name.toLowerCase());
     }
 
     @Override
     public void setVariable(String name, Object val) {
-        Log.d(TAG, "setVariable: " + name + " " + val);
         variableMap.put(name.toLowerCase(), val);
     }
 
     @Override
     public ContainsVariables clone() {
-        Log.d(TAG, "clone: ");
         List<VariableDeclaration> listVariable = new ArrayList<>();
         for (VariableDeclaration variable : variableList) {
             VariableDeclaration variableDeclaration = new VariableDeclaration(variable.name(),

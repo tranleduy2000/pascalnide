@@ -1,11 +1,7 @@
-package com.duy.pascal.backend.pascaltypes.demo;
+package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.ObjectType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.ScopedRegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.SimpleRegisterAllocator;

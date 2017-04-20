@@ -1,6 +1,5 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.duy.pascal.backend.pascaltypes.demo.CustomType;
 import com.js.interpreter.ast.VariableDeclaration;
 
 public class RecordType extends CustomType {
