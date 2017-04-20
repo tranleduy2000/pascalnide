@@ -412,14 +412,17 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         InputMethodManager inputManager =
                 (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        // Base interface for a remotable object
-        IBinder windowToken = getCurrentFocus().getWindowToken();
+        View currentFocus = getCurrentFocus();
+        if (currentFocus != null) {
+            // Base interface for a remotable object
+            IBinder windowToken = currentFocus.getWindowToken();
 
-        // Hide type
-        int hideType = InputMethodManager.HIDE_NOT_ALWAYS;
+            // Hide type
+            int hideType = InputMethodManager.HIDE_NOT_ALWAYS;
 
-        // Hide the KeyBoard
-        inputManager.hideSoftInputFromWindow(windowToken, hideType);
+            // Hide the KeyBoard
+            inputManager.hideSoftInputFromWindow(windowToken, hideType);
+        }
     }
 
     /**

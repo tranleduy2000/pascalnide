@@ -125,7 +125,6 @@ public class EditorActivity extends FileEditorActivity implements
 
     @Override
     public void onKeyClick(View view, String text) {
-        Log.d(TAG, "onKeyClick: " + text);
         mCodeView.insert(text);
     }
 
@@ -567,7 +566,7 @@ public class EditorActivity extends FileEditorActivity implements
     @Override
     public void paste() {
         String text = ClipboardManager.getClipboard(this);
-        mCodeView.insert(text);
+        mCodeView.paste();
     }
 
     @Override
