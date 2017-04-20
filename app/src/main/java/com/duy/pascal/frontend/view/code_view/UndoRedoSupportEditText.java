@@ -32,6 +32,7 @@ import com.duy.pascal.frontend.keyboard.KeySettings;
 import com.duy.pascal.frontend.utils.UndoRedoHelper;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
+import com.google.firebase.crash.FirebaseCrash;
 
 /**
  * EditText with undo and redo support
@@ -39,38 +40,39 @@ import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
  * Created by Duy on 15-Mar-17.
  */
 
-public abstract class KeyBoardFilterEditText extends HighlightEditor {
+public abstract class UndoRedoSupportEditText extends HighlightEditor {
     public static final int ID_SELECT_ALL = android.R.id.selectAll;
     public static final int ID_CUT = android.R.id.cut;
     public static final int ID_COPY = android.R.id.copy;
     public static final int ID_PASTE = android.R.id.paste;
-    private static final boolean LOG_KEY_EVENTS = true;
-    private static final String TAG = KeyBoardFilterEditText.class.getSimpleName();
-    private static final int ID_UNDO = R.id.action_undo;
-    private static final int ID_REDO = R.id.action_redo;
+    public static final int ID_UNDO = R.id.action_undo;
+    public static final int ID_REDO = R.id.action_redo;
+
+    private static final boolean DEBUG = true;
+    private static final String TAG = UndoRedoSupportEditText.class.getSimpleName();
+
     private UndoRedoHelper mUndoRedoHelper;
     private KeySettings mSettings;
     private KeyListener mKeyListener;
     private ClipboardManagerCompat mClipboardManager;
     private EditorControl editorControl;
 
-    public KeyBoardFilterEditText(Context context, AttributeSet attrs) {
+    public UndoRedoSupportEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public KeyBoardFilterEditText(Context context) {
+    public UndoRedoSupportEditText(Context context) {
         super(context);
         init();
     }
 
-    public KeyBoardFilterEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public UndoRedoSupportEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     private void init() {
-        Log.i(TAG, "init: ");
         mUndoRedoHelper = new UndoRedoHelper(this);
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mSettings = new KeySettings(mPrefs, getContext());
@@ -186,13 +188,18 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
         if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_A:
-                    return onTextContextMenuItem(ID_SELECT_ALL);
+                    selectAll();
+                    return true;
                 case KeyEvent.KEYCODE_X:
-                    return onTextContextMenuItem(ID_CUT);
+                    cut();
+                    return true;
                 case KeyEvent.KEYCODE_C:
-                    return onTextContextMenuItem(ID_COPY);
+                    copy();
+                    return true;
                 case KeyEvent.KEYCODE_V:
-                    return onTextContextMenuItem(ID_PASTE);
+                    paste();
+                    return true;
+
                 case KeyEvent.KEYCODE_R:
                     if (editorControl != null)
                         editorControl.runProgram();
@@ -211,11 +218,11 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
                     return true;
                 case KeyEvent.KEYCODE_Z:
                     if (canUndo()) {
-                        return onTextContextMenuItem(ID_UNDO);
+                        undo();
                     }
                 case KeyEvent.KEYCODE_Y:
                     if (canRedo()) {
-                        return onTextContextMenuItem(ID_REDO);
+                        redo();
                     }
                 case KeyEvent.KEYCODE_S:
                     if (editorControl != null)
@@ -246,7 +253,7 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
 
     @Override
     public boolean onKeyUp(int zKeyCode, KeyEvent event) {
-        if (LOG_KEY_EVENTS) Log.w(TAG, "onKeyUp " + zKeyCode);
+        if (DEBUG) Log.w(TAG, "onKeyUp " + zKeyCode);
 
         //The new Key Code
         int keyCode = event.getKeyCode();
@@ -262,6 +269,9 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
                 case KeyEvent.KEYCODE_Z:
                 case KeyEvent.KEYCODE_Y:
                 case KeyEvent.KEYCODE_S:
+                case KeyEvent.KEYCODE_R:
+                case KeyEvent.KEYCODE_F:
+                case KeyEvent.KEYCODE_L:
                     return true;
                 default:
                     return false;
@@ -281,8 +291,14 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
         int selectionEnd = getSelectionEnd();
         selectionStart = Math.max(0, selectionStart);
         selectionEnd = Math.max(0, selectionEnd);
-        mClipboardManager.setText(getText().subSequence(selectionStart, selectionEnd));
-        getEditableText().delete(selectionStart, selectionEnd);
+        selectionStart = Math.min(selectionStart, getText().length() - 1);
+        selectionEnd = Math.min(selectionEnd, getText().length() - 1);
+        try {
+            mClipboardManager.setText(getText().subSequence(selectionStart, selectionEnd));
+            getEditableText().delete(selectionStart, selectionEnd);
+        } catch (Exception e) {
+            FirebaseCrash.report(e);
+        }
     }
 
     public void paste() {
@@ -291,17 +307,21 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
 
     /**
      * insert text
-     *
-     * @param delta text for insert
      */
     public void insert(CharSequence delta) {
-//        setSelection(getSelectionStart());
-//        getText().insert(getSelectionStart(), delta);
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
-        selectionStart = Math.max(0, selectionStart);
-        selectionEnd = Math.max(0, selectionEnd);
-        getText().replace(selectionStart, selectionEnd, delta);
+        selectionStart = Math.min(selectionStart, getText().length() - 1);
+        selectionEnd = Math.min(selectionEnd, getText().length() - 1);
+
+        try {
+            selectionStart = Math.max(0, selectionStart);
+            selectionEnd = Math.max(0, selectionEnd);
+            getText().delete(selectionStart, selectionEnd);
+            getText().insert(selectionStart, delta);
+        } catch (Exception ignored) {
+            FirebaseCrash.report(ignored);
+        }
     }
 
     public void copy() {
@@ -309,7 +329,13 @@ public abstract class KeyBoardFilterEditText extends HighlightEditor {
         int selectionEnd = getSelectionEnd();
         selectionStart = Math.max(0, selectionStart);
         selectionEnd = Math.max(0, selectionEnd);
-        mClipboardManager.setText(getText().subSequence(selectionStart, selectionEnd));
+        selectionStart = Math.min(selectionStart, getText().length() - 1);
+        selectionEnd = Math.min(selectionEnd, getText().length() - 1);
+        try {
+            mClipboardManager.setText(getText().subSequence(selectionStart, selectionEnd));
+        } catch (Exception ignored) {
+            FirebaseCrash.report(ignored);
+        }
     }
 
     public void setEditorControl(EditorControl editorControl) {

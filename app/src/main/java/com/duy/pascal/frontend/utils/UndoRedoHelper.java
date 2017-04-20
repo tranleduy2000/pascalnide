@@ -1,26 +1,6 @@
-/*
- *  Copyright 2017 Tran Le Duy
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.duy.pascal.frontend.utils;/*
- * THIS CLASS IS PROVIDED TO THE PUBLIC DOMAIN FOR FREE WITHOUT ANY
- * RESTRICTIONS OR ANY WARRANTY.
- */
+package com.duy.pascal.frontend.utils;
 
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -40,12 +20,16 @@ public class UndoRedoHelper {
 
     private TextView mTextView;
 
+    // =================================================================== //
+
     public UndoRedoHelper(TextView textView) {
         mTextView = textView;
         mEditHistory = new EditHistory();
         mChangeListener = new EditTextChangeListener();
         mTextView.addTextChangedListener(mChangeListener);
     }
+
+    // =================================================================== //
 
     public void disconnect() {
         mTextView.removeTextChangedListener(mChangeListener);
@@ -112,10 +96,11 @@ public class UndoRedoHelper {
                 : (start + edit.mmAfter.length()));
     }
 
-    public void storePersistentState(Editor editor, String prefix) {
+    public void storePersistentState(SharedPreferences.Editor editor, String prefix) {
         // Store hash code of text in the editor so that we can check if the
         // editor contents has changed.
-        editor.putString(prefix + ".hash", String.valueOf(mTextView.getText().toString().hashCode()));
+        editor.putString(prefix + ".hash",
+                String.valueOf(mTextView.getText().toString().hashCode()));
         editor.putInt(prefix + ".maxSize", mEditHistory.mmMaxHistorySize);
         editor.putInt(prefix + ".position", mEditHistory.mmPosition);
         editor.putInt(prefix + ".size", mEditHistory.mmHistory.size());
@@ -139,6 +124,7 @@ public class UndoRedoHelper {
         if (!ok) {
             mEditHistory.clear();
         }
+
         return ok;
     }
 
@@ -182,7 +168,9 @@ public class UndoRedoHelper {
         return true;
     }
 
-    private enum ActionType {
+    // =================================================================== //
+
+    enum ActionType {
         INSERT, DELETE, PASTE, NOT_DEF;
     }
 
@@ -265,7 +253,10 @@ public class UndoRedoHelper {
 
         @Override
         public String toString() {
-            return "EditItem{" + "mmStart=" + mmStart + ", mmBefore=" + mmBefore + ", mmAfter=" + mmAfter +
+            return "EditItem{" +
+                    "mmStart=" + mmStart +
+                    ", mmBefore=" + mmBefore +
+                    ", mmAfter=" + mmAfter +
                     '}';
         }
     }
@@ -288,6 +279,7 @@ public class UndoRedoHelper {
             if (mIsUndoOrRedo) {
                 return;
             }
+
             mAfterChange = s.subSequence(start, start + count);
             makeBatch(start);
         }
@@ -295,17 +287,14 @@ public class UndoRedoHelper {
         private void makeBatch(int start) {
             ActionType at = getActionType();
             EditItem editItem = mEditHistory.getCurrent();
-            if ((lastActionType != at || ActionType.PASTE == at ||
-                    System.currentTimeMillis() - lastActionTime > 1000) || editItem == null) {
+            if ((lastActionType != at || ActionType.PASTE == at || System.currentTimeMillis() - lastActionTime > 1000) || editItem == null) {
                 mEditHistory.add(new EditItem(start, mBeforeChange, mAfterChange));
             } else {
                 if (at == ActionType.DELETE) {
                     editItem.mmStart = start;
-//                    editItem.mmBefore = TextUtils.concat(mBeforeChange, editItem.mmBefore);
-                    editItem.mmBefore = mBeforeChange.toString() + editItem.mmBefore.toString();
+                    editItem.mmBefore = TextUtils.concat(mBeforeChange, editItem.mmBefore);
                 } else {
-//                    editItem.mmAfter = TextUtils.concat(editItem.mmAfter, mAfterChange);
-                    editItem.mmAfter = editItem.mmAfter.toString() + mAfterChange.toString();
+                    editItem.mmAfter = TextUtils.concat(editItem.mmAfter, mAfterChange);
                 }
             }
             lastActionType = at;

@@ -23,7 +23,7 @@ import android.util.AttributeSet;
  * Created by Duy on 15-Mar-17.
  */
 
-public class CodeView extends KeyBoardFilterEditText {
+public class CodeView extends UndoRedoSupportEditText {
     private static final String TAG = CodeView.class.getSimpleName();
 
     public CodeView(Context context, AttributeSet attrs) {
