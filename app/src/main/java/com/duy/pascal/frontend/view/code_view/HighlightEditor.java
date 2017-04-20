@@ -174,6 +174,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
         mGestureDetector = new GestureDetector(getContext(), this);
+
+        setMovementMethod(LinkMovementMethod.getInstance());
+        setTextIsSelectable(true);
+
         updateFromSettings();
     }
 
@@ -818,15 +822,15 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         // FIXME simple workaround to https://code.google.com/p/android/issues/detail?id=191430
-        int startSelection = getSelectionStart();
-        int endSelection = getSelectionEnd();
-        if (startSelection != endSelection) {
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                final CharSequence text = getText();
-                setText(null);
-                setText(text);
-            }
-        }
+//        int startSelection = getSelectionStart();
+//        int endSelection = getSelectionEnd();
+//        if (startSelection != endSelection) {
+//            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+//                final CharSequence text = getText();
+//                setText(null);
+//                setText(text);
+//            }
+//        }
         return super.dispatchTouchEvent(event);
     }
 

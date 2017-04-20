@@ -104,7 +104,6 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d(TAG, " start = " + start + ", before = " + before + ", count = " + count);
                 this.start = start;
                 this.count = count;
             }
@@ -117,7 +116,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
                     try {
                         s.insert(start + 1, textToInsert);
                         setSelection(start);
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
 
                     }
                 }
