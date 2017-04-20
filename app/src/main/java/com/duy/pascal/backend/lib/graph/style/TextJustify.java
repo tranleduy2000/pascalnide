@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.graph.text_model;
+package com.duy.pascal.backend.lib.graph.style;
 
 /**
  * Created by Duy on 09-Apr-17.
@@ -23,6 +23,27 @@ package com.duy.pascal.backend.lib.graph.text_model;
 public class TextJustify {
     private int horizontal = HORIZONTAL_STYLE.LeftText;
     private int vertical = VERTICAL_STYLE.BottomText;
+
+    public TextJustify(int horizontal, int vertical) {
+        this.horizontal = horizontal;
+        this.vertical = vertical;
+    }
+
+    public TextJustify() {
+
+    }
+
+    /**
+     * clone new text justify
+     *
+     * @return
+     */
+    public TextJustify clone() {
+        TextJustify textJustify = new TextJustify();
+        textJustify.setHorizontal(horizontal);
+        textJustify.setVertical(vertical);
+        return textJustify;
+    }
 
     public int getVertical() {
         return vertical;

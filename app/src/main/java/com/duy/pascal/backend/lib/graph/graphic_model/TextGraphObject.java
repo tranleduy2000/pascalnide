@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.graph.text_model;
+package com.duy.pascal.backend.lib.graph.graphic_model;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
+import com.duy.pascal.backend.lib.graph.style.TextDirection;
+import com.duy.pascal.backend.lib.graph.style.TextJustify;
 
 /**
  * Created by Duy on 02-Mar-17.
@@ -38,47 +38,33 @@ public class TextGraphObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-
-
-        switch (textJustify.getHorizontal()) {
-            case TextJustify.HORIZONTAL_STYLE.CenterText:
-//                deltaX = -bounds.width() * 0.5f;
-                linePaint.setTextAlign(Paint.Align.CENTER);
-                break;
-            case TextJustify.HORIZONTAL_STYLE.LeftText:
-//                deltaX = 0;
-                linePaint.setTextAlign(Paint.Align.LEFT);
-                break;
-            case TextJustify.HORIZONTAL_STYLE.RightText:
-//                deltaX = -bounds.width();
-                linePaint.setTextAlign(Paint.Align.RIGHT);
-                break;
-            default:
-                linePaint.setTextAlign(Paint.Align.LEFT);
-                break;
-        }
-
         Rect bounds = new Rect();
-        linePaint.getTextBounds(text, 0, text.length(), bounds);
+        textPaint.getTextBounds(text, 0, text.length(), bounds);
+
+        //y coordinate in Pascal different y coordinate in Android
+        y = bounds.height() + y; //add height of text
+
+        //align text
+
         float deltaY = 0;
-        switch (textJustify.getVertical()) {
+        switch (textPaint.getVertical()) {
             case TextJustify.VERTICAL_STYLE.CenterText:
                 deltaY = -bounds.height() / 2f;
                 break;
             case TextJustify.VERTICAL_STYLE.BottomText:
-                deltaY = -bounds.height();
-                break;
-            case TextJustify.VERTICAL_STYLE.TopText:
                 deltaY = 0;
                 break;
+            case TextJustify.VERTICAL_STYLE.TopText:
+                deltaY = -bounds.height();
+                break;
         }
-
-        if (textDirection == TextDirection.HORIZONTAL_DIR) {
-            canvas.drawText(text, x, y + deltaY, linePaint);
+        y = (int) (y + deltaY);
+        if (textPaint.getTextDirection() == TextDirection.HORIZONTAL_DIR) {
+            canvas.drawText(text, x, y, textPaint);
         } else { //vertical
             canvas.save();
-            canvas.rotate(90f, 50, 50);
-            canvas.drawText(text, x, y, linePaint);
+            canvas.rotate(90f, x, y);
+            canvas.drawText(text, x, y, textPaint);
             canvas.restore();
         }
     }

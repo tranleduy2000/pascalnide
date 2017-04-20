@@ -75,6 +75,8 @@ public class FontManager {
                 return get(context, PATH_TO_FONT + "triplex.ttf");
             } else if (name.equalsIgnoreCase("gothic.ttf")) {
                 return get(context, PATH_TO_FONT + "gothic.ttf");
+            } else if (name.equalsIgnoreCase("lcd_solid.ttf")) {
+                return get(context, PATH_TO_FONT + "lcd_solid.ttf");
             }
         } catch (Exception e) {
             FirebaseCrash.report(e);

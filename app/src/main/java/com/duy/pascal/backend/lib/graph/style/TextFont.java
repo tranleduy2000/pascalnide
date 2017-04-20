@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.graph.text_model;
+package com.duy.pascal.backend.lib.graph.style;
 
 /**
  * Created by Duy on 09-Apr-17.

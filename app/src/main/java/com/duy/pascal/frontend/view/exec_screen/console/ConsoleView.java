@@ -90,6 +90,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     //    private String textScreen = "";
     private String mImeBuffer = "";
     private TextConsole[] textImeBuffer;
+    private boolean stop;
 
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
@@ -149,12 +150,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         mCursor.setVisible(true);
     }
 
+
+    // move cursor to new line
+
     public void putString(String c) {
         bufferData.stringBuffer.putString(c);
     }
-
-
-    // move cursor to new line
 
     public String readString() {
         return bufferData.stringBuffer.getString();
@@ -271,7 +272,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             r = c.getResources();
         return TypedValue.applyDimension(unit, size, r.getDisplayMetrics());
     }
-
 
     /**
      * clear screen
@@ -804,10 +804,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     protected void onDraw(Canvas canvas) {
+        if (stop) return;
         int w = getWidth();
         int h = getHeight();
-
-
         if (graphMode) {
             canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, mGraphScreen.getBackgroundPaint());
         } else {
@@ -816,7 +815,13 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                     mConsoleScreen.getTopVisible(), w, h);
             drawText(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
         }
+    }
 
+    /**
+     * clear data
+     */
+    public void onStop() {
+        mGraphScreen.gc();
     }
 
     @Override
@@ -1012,13 +1017,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         mGraphScreen.setBackgroundColor(colorPascal);
     }
 
-
-    public void setGraphTextStyle(int fontID, int direction, int size) {
-        mGraphScreen.setTextSize(size);
-        mGraphScreen.setTextDirection(direction);
-        mGraphScreen.setFont(fontID);
-
-    }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {

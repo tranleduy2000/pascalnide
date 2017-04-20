@@ -21,7 +21,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 /**
- *
  * Created by Duy on 09-Apr-17.
  */
 
@@ -49,6 +48,7 @@ public class PieSliceObject extends GraphObject {
         canvas.rotate(-180, x, y);
         //reverse canvas
         canvas.scale(-1, 1, x, y);
+        canvas.drawArc(rectF, startAngel, endAngle - startAngel, true, fillPaint);
         canvas.drawArc(rectF, startAngel, endAngle - startAngel, true, linePaint);
         canvas.restore();
     }

@@ -37,8 +37,9 @@ import com.duy.pascal.backend.lib.graph.graphic_model.PieSliceObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.PixelObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.RectangleObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.SectorObject;
-import com.duy.pascal.backend.lib.graph.text_model.TextGraphObject;
-import com.duy.pascal.backend.lib.graph.text_model.TextJustify;
+import com.duy.pascal.backend.lib.graph.graphic_model.TextGraphObject;
+import com.duy.pascal.backend.lib.graph.paint.TextPaint;
+import com.duy.pascal.backend.lib.graph.style.TextJustify;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.js.interpreter.runtime.VariableBoxer;
@@ -287,14 +288,14 @@ public class GraphLib implements PascalLibrary {
     public void outTextXY(int x, int y, String text) {
         if (activity != null) {
             activity.getConsoleView().addGraphObject(new TextGraphObject(text, x, y));
-            //get current paint
+           /* //get current paint
             Paint textPaint = activity.getConsoleView().getGraphScreen().getTextPaint();
             //get width of text
             int width = (int) textPaint.measureText(text);
             //move cursor to the end of the text (bottom-right)
             CursorConsole cursorGraph = activity.getConsoleView().getCursorGraph();
             activity.getConsoleView().setCursorGraphPosition(cursorGraph.getX(),
-                    cursorGraph.getY() + width);
+                    cursorGraph.getY() + width);*/
         }
     }
 
@@ -369,9 +370,14 @@ public class GraphLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    public void setTextStyle(int font, int direction, int size) {
+    public synchronized void setTextStyle(int fontID, int direction, int size) {
         // TODO: 09-Apr-17
-        if (activity != null) activity.getConsoleView().setGraphTextStyle(font, direction, size);
+        if (activity != null) {
+            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+            graphScreen.setTextSize(size);
+            graphScreen.setTextDirection(direction);
+            graphScreen.setFontID(fontID);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -478,7 +484,7 @@ public class GraphLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    public  void FloodFill(int x, int y, int borderColorIndex) {
+    public void FloodFill(int x, int y, int borderColorIndex) {
         Log.d(TAG, "FloodFill: ");
         if (activity != null) {
             GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
@@ -496,6 +502,15 @@ public class GraphLib implements PascalLibrary {
 //            activity.getConsoleView().postInvalidate();
             floodFill.gc();
             fillBitmap.recycle();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void SetTextJustify(int horizontal, int vertical) {
+        if (activity != null) {
+            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+            TextPaint textPaint = graphScreen.getTextPaint();
+            textPaint.setTextJustify(new TextJustify(horizontal, vertical));
         }
     }
 

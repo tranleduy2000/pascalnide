@@ -41,7 +41,7 @@ public class SectorObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        float dx = rx ;
+        float dx = rx;
         float dy = ry;
 
         //bound
@@ -52,6 +52,7 @@ public class SectorObject extends GraphObject {
         canvas.rotate(-180, x, y);
         //reverse canvas
         canvas.scale(-1, 1, x, y);
+        canvas.drawArc(rectF, startAngel, endAngle, true, fillPaint);
         canvas.drawArc(rectF, startAngel, endAngle, true, linePaint);
         canvas.restore();
 

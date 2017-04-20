@@ -27,15 +27,12 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.graphics.Shader;
-import android.graphics.Typeface;
 
 import com.duy.pascal.backend.imageprocessing.ImageUtils;
+import com.duy.pascal.backend.lib.graph.paint.TextPaint;
 import com.duy.pascal.backend.lib.graph.style.FillType;
 import com.duy.pascal.backend.lib.graph.style.LineStyle;
 import com.duy.pascal.backend.lib.graph.style.LineWidth;
-import com.duy.pascal.backend.lib.graph.text_model.TextDirection;
-import com.duy.pascal.backend.lib.graph.text_model.TextFont;
-import com.duy.pascal.backend.lib.graph.text_model.TextJustify;
 import com.duy.pascal.frontend.R;
 
 /**
@@ -44,38 +41,26 @@ import com.duy.pascal.frontend.R;
 
 public abstract class GraphObject {
     protected final String TAG = GraphObject.class.getSimpleName();
+
     protected Paint linePaint = new Paint();
-
-    public Paint getFillPaint() {
-        return fillPaint;
-    }
-
     protected Paint fillPaint = new Paint();
-    protected int background;
-    protected int textDirection = TextDirection.HORIZONTAL_DIR;
+    protected TextPaint textPaint = new TextPaint();
+
+    //fill attributes
     protected int fillStyle = FillType.EmptyFill;
     protected int fillColor = -1; //white
-    protected TextJustify textJustify = new TextJustify();
-    protected Paint backgroundPaint = new Paint();
     protected BitmapShader bitmapShader;
+    //end
+
+    //line attributes
     protected PathEffect pathEffect;
-    private int textStyle = TextFont.DefaultFont;
+
 
     public GraphObject() {
-        linePaint.setTextSize(25f);
         linePaint.setStrokeWidth(LineWidth.NormWidth);
         linePaint.setStyle(Paint.Style.STROKE);
-        linePaint.setAntiAlias(true);
 
         fillPaint.setStyle(Paint.Style.FILL);
-    }
-
-    public BitmapShader getBitmapShader() {
-        return bitmapShader;
-    }
-
-    public void setBitmapShader(BitmapShader bitmapShader) {
-        this.bitmapShader = bitmapShader;
     }
 
     public void setLineWidth(int lineWidth) {
@@ -101,11 +86,11 @@ public abstract class GraphObject {
                 break;
         }
 
-
     }
 
-    public int getFillStyle() {
-        return fillStyle;
+    public void setLineColor(int color) {
+        linePaint.setColor(color);
+        textPaint.setColor(color);
     }
 
     public void setFillStyle(Context context, int fillStyle, int color) {
@@ -174,55 +159,6 @@ public abstract class GraphObject {
         }
     }
 
-
-    public TextJustify getTextJustify() {
-        return textJustify;
-    }
-
-    public void setTextJustify(TextJustify textJustify) {
-        this.textJustify = textJustify;
-    }
-
-    public float getTextSize() {
-        return linePaint.getTextSize();
-    }
-
-    public void setTextSize(float textSize) {
-        linePaint.setTextSize(textSize);
-    }
-
-    public int getTextStyle() {
-        return textStyle;
-    }
-
-    public void setTextStyle(int textStyle) {
-        this.textStyle = textStyle;
-    }
-
-    public int getTextDirection() {
-        return textDirection;
-    }
-
-    public void setTextDirection(int textDirection) {
-        this.textDirection = textDirection;
-    }
-
-    public int getForeground() {
-        return linePaint.getColor();
-    }
-
-    public void setLineColor(int foreground) {
-        linePaint.setColor(foreground);
-    }
-
-    public int getBackground() {
-        return background;
-    }
-
-    public void setBackgroundColor(int background) {
-        this.background = background;
-    }
-
     public abstract void draw(Canvas canvas);
 
     public void draw(Bitmap parent) {
@@ -230,20 +166,7 @@ public abstract class GraphObject {
         draw(canvas);
     }
 
-    public Paint getBackgroundPaint() {
-        return backgroundPaint;
+    public void setTextPaint(TextPaint textPaint) {
+        this.textPaint = textPaint;
     }
-
-    public void setFillColor(int fillColor) {
-        this.fillColor = fillColor;
-    }
-
-    public Typeface getTextFont() {
-        return linePaint.getTypeface();
-    }
-
-    public void setTextFont(Typeface textFont) {
-        linePaint.setTypeface(textFont);
-    }
-
 }

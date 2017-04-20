@@ -278,6 +278,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     protected void onStop() {
         super.onStop();
         mIsRunning.set(false);
+        mConsoleView.onStop();
         //stop program
         stopProgram();
     }

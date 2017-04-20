@@ -24,16 +24,16 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 
 import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
+import com.duy.pascal.backend.lib.graph.paint.FillPaint;
+import com.duy.pascal.backend.lib.graph.paint.LinePaint;
+import com.duy.pascal.backend.lib.graph.paint.TextPaint;
 import com.duy.pascal.backend.lib.graph.style.FillType;
 import com.duy.pascal.backend.lib.graph.style.LineStyle;
 import com.duy.pascal.backend.lib.graph.style.LineWidth;
-import com.duy.pascal.backend.lib.graph.text_model.TextDirection;
-import com.duy.pascal.backend.lib.graph.text_model.TextFont;
-import com.duy.pascal.backend.lib.graph.text_model.TextJustify;
+import com.duy.pascal.backend.lib.graph.style.TextFont;
+import com.duy.pascal.backend.lib.graph.style.TextJustify;
 import com.duy.pascal.frontend.utils.FontManager;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
-
-import static android.R.attr.textSize;
 
 /**
  * Created by Duy on 30-Mar-17.
@@ -42,106 +42,65 @@ import static android.R.attr.textSize;
 public class GraphScreen {
     private static final String TAG = GraphScreen.class.getSimpleName();
     private final Context context;
-    protected int fillColor = -1;//white
     protected GraphObject lastObject;
+    protected int fillPattern = FillType.EmptyFill;
+    protected int fillColor = -1;//white
     private int width = 1;
     private int height = 1;
     private ViewPort viewPort = new ViewPort(0, 0, width, height);
     //background
     private Paint mBackgroundPaint = new Paint();
+    private TextPaint textPaint = new TextPaint();
+    private LinePaint linePaint = new LinePaint();
+    private FillPaint fillPaint = new FillPaint();
 
-    //cursor
-    private Paint mForegroundPaint = new Paint();
+//    private int textStyle = TextFont.DefaultFont;
+//    private int textDirection = TextDirection.HORIZONTAL_DIR;
+//    private Typeface currentFont;
+//    private TextJustify textJustify = new TextJustify();
     /**
-     * this object used to drawBackground {@link GraphObject}
+     * this object used to draw {@link GraphObject}
      */
     private Bitmap mGraphBitmap;
     private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);
-
-    private int textStyle = TextFont.DefaultFont;
-    private int textDirection = TextDirection.HORIZONTAL_DIR;
-    private Typeface currentFont;
-    private TextJustify textJustify = new TextJustify();
-
     private int lineWidth = LineWidth.NormWidth;
     private int lineStyle = LineStyle.SolidLn;
     private int linePattern;
-
-    private int fillPattern = FillType.EmptyFill;
-    private Paint fillPaint = new Paint();
 
 
     public GraphScreen(Context context) {
         this.context = context;
         //setup cursor paint
-        mForegroundPaint.setColor(Color.WHITE);
-        mForegroundPaint.setTextSize(16f);
-        mForegroundPaint.setAntiAlias(true);
-        mForegroundPaint.setTypeface(Typeface.MONOSPACE);
-
         mBackgroundPaint.setColor(Color.BLACK);
-
         fillPaint.setStyle(Paint.Style.FILL);
     }
 
-    public int getTextStyle() {
-        return textStyle;
-    }
-
     public void setTextStyle(int textStyle) {
-        this.textStyle = textStyle;
-    }
-
-    public int getLineWidth() {
-        return lineWidth;
+        this.textPaint.setTextStyle(textStyle);
     }
 
     public void setLineWidth(int lineWidth) {
         this.lineWidth = lineWidth;
     }
 
-    public int getLineStyle() {
-        return lineStyle;
-    }
-
     public void setLineStyle(int lineStyle) {
         this.lineStyle = lineStyle;
-    }
-
-    public int getFillPattern() {
-        return fillPattern;
     }
 
     public void setFillPattern(int fillPattern) {
         this.fillPattern = fillPattern;
     }
 
-    public int getFillColor() {
-        return fillColor;
-    }
-
     public void setFillColor(int fillColor) {
         this.fillColor = fillColor;
     }
 
-    public int getTextDirection() {
-        return textDirection;
-    }
-
     public void setTextDirection(int textDirection) {
-        this.textDirection = textDirection;
-    }
-
-    public int getTextSize() {
-        return textSize;
+        this.textPaint.setTextDirection(textDirection);
     }
 
     public void setTextSize(int textSize) {
-        mForegroundPaint.setTextSize(textSize);
-    }
-
-    public Paint getCursorPaint() {
-        return mForegroundPaint;
+        textPaint.setTextSize(textSize * TextPaint.DEF_TEXT_SIZE);
     }
 
     public int getBackgroundColor() {
@@ -179,7 +138,7 @@ public class GraphScreen {
         invalidateBitmap();
     }
 
-    private void invalidateBitmap() {
+    private synchronized void invalidateBitmap() {
         mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 //        Canvas canvas = new Canvas(mGraphBitmap);
 //        for (GraphObject object : graphObjects) {
@@ -204,11 +163,11 @@ public class GraphScreen {
     }
 
     public int getPaintColor() {
-        return mForegroundPaint.getColor();
+        return textPaint.getColor();
     }
 
     public void setPaintColor(int paintColor) {
-        this.mForegroundPaint.setColor(paintColor);
+        this.textPaint.setColor(paintColor);
     }
 
     public void closeGraph() {
@@ -232,25 +191,19 @@ public class GraphScreen {
 
     public void addGraphObject(GraphObject graphObject) {
         // TODO: 30-Mar-17
-        graphObject.setBackgroundColor(mBackgroundPaint.getColor());
-
         graphObject.setFillStyle(context, fillPattern, fillColor);
 
         graphObject.setLineWidth(lineWidth);
         graphObject.setLineStyle(lineStyle);
-        graphObject.setLineColor(mForegroundPaint.getColor());
+        graphObject.setLineColor(textPaint.getColor());
 
-        graphObject.setTextDirection(textDirection);
-        graphObject.setTextStyle(textStyle);
-        graphObject.setTextFont(currentFont);
-        graphObject.setTextJustify(textJustify);
+//        graphObject.setTextDirection(textDirection);
+//        graphObject.setTextStyle(textStyle);
+//        graphObject.setTextFont(currentFont);
+//        graphObject.setTextJustify(textJustify);
 
-        //end
+        graphObject.setTextPaint(textPaint.clonePaint());
 
-        //save to list
-//        graphObjects.add(graphObject);
-
-        //add to screen
         graphObject.draw(mGraphBitmap);
         this.lastObject = graphObject;
     }
@@ -260,11 +213,11 @@ public class GraphScreen {
     }
 
     public void getTextBound(String text, Rect store) {
-        mForegroundPaint.getTextBounds(text, 0, text.length(), store);
+        textPaint.getTextBounds(text, 0, text.length(), store);
     }
 
-    public Paint getTextPaint() {
-        return mForegroundPaint;
+    public TextPaint getTextPaint() {
+        return textPaint;
     }
 
     /**
@@ -276,63 +229,60 @@ public class GraphScreen {
     }
 
     public void setPaintStyle(int style, int pattern, int width) {
-        mForegroundPaint.setStrokeWidth(width);
+        textPaint.setStrokeWidth(width);
 
     }
 
-    public void setFont(int font) {
-        this.textStyle = font;
-        switch (font) {
+    public synchronized void setFontID(int fontID) {
+        this.textPaint.setTextFontID(fontID);
+        Typeface font;
+        switch (fontID) {
             case TextFont.DefaultFont:
-                currentFont = Typeface.MONOSPACE;
+                font = Typeface.MONOSPACE;
                 break;
             case TextFont.SansSerifFont:
-                currentFont = Typeface.SANS_SERIF;
+                font = Typeface.SANS_SERIF;
                 break;
             case TextFont.TriplexFont:
-                currentFont = FontManager.getFontFromAsset(context, "triple.ttf");
+                font = FontManager.getFontFromAsset(context, "lcd_solid.ttf");
                 break;
             case TextFont.EuroFont:
-                currentFont = FontManager.getFontFromAsset(context, "graph_euro.ttf");
+                font = FontManager.getFontFromAsset(context, "graph_euro.ttf");
                 break;
             case TextFont.ScriptFont:
-                currentFont = FontManager.getFontFromAsset(context, "graph_script.ttf");
+                font = FontManager.getFontFromAsset(context, "graph_script.ttf");
                 break;
             case TextFont.BoldFont:
-                currentFont = Typeface.DEFAULT_BOLD;
+                font = Typeface.DEFAULT_BOLD;
                 break;
             case TextFont.GothicFont:
-                currentFont = FontManager.getFontFromAsset(context, "gothic.ttf");
+                font = FontManager.getFontFromAsset(context, "gothic.ttf");
                 break;
             default:
-                currentFont = Typeface.DEFAULT;
+                font = Typeface.DEFAULT;
                 break;
         }
-
+        textPaint.setTextFont(font);
     }
 
 
     public TextJustify getTextJustify() {
-        return textJustify;
+        return textPaint.getTextJustify();
     }
 
     public void setTextJustify(TextJustify textJustify) {
-        this.textJustify = textJustify;
+        this.textPaint.setTextJustify(textJustify);
     }
-
-//    public Paint getFillPaint() {
-//        return FillType.createPaintFill(context, fillPattern, fillColor);
-//    }
 
     public void setLinePattern(int linePattern) {
         this.linePattern = linePattern;
     }
 
-    public Paint getFillPaint() {
-        return FillType.createPaintFill(context, fillPattern, fillColor);
-    }
-
     public Bitmap getFillBitmap() {
         return FillType.createFillBitmap(context, fillPattern, fillColor);
+    }
+
+    public void gc() {
+        mGraphBitmap.recycle();
     }
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     tools:context="com.duy.pascal.frontend.sample.CodeSampleActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -31,15 +31,14 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="?attr/colorPrimary"
+            android:fitsSystemWindows="false"
             app:titleTextAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="100"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.duy.pascal.frontend.view.exec_screen.console.ConsoleView
@@ -47,17 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollbarAlwaysDrawHorizontalTrack="true"
-            android:scrollbarStyle="insideOverlay"
-            android:scrollbars="horizontal" />
+            android:focusableInTouchMode="true" />
 
-        <!--<com.duy.pascal.frontend.debug.DebugView-->
-        <!--android:id="@+id/list_debug_console"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="50">-->
-
-        <!--</com.duy.pascal.frontend.debug.DebugView>-->
-    </LinearLayout>
+         </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -1,4 +1,3 @@
-
 /*
  *  Copyright 2017 Tran Le Duy
  *
@@ -26,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
@@ -44,13 +44,21 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
     final String TAG = getClass().getSimpleName();
 
-    private final String[] categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More"};
+    private final String[] categories;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private CodeSampleAdapter adapter;
     private ApplicationFileManager fileManager;
+
+    public CodeSampleActivity() {
+        if (!BuildConfig.DEBUG) {
+            categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More"};
+        } else {
+            categories = new String[]{"Temp"};
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
