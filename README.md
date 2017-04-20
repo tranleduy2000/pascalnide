@@ -1,65 +1,44 @@
-**Phần mềm lập trình Pascal trên Android**
+**PASCAL COMPILER FOR ANDROID**
 
-Bạn muốn viết chương trình pascal nhưng không phải lúc nào cũng mạng máy tính theo bên mình, ứng dụng Pascal N-IDE sẽ giúp bạn thực hiện điều đó. Bạn có thể viết các chương trình Pascal đơn giản với phần mềm này.
+See app on Google Play Store 
 
-**CÁC TÍNH NĂNG IDE HỖ TRỢ**
+[![Play Store](https://bitbucket.org/repo/KyEbE7/images/1934149677-en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=com.duy.pascal.compiler)
 
-- Biên dịch và thực thi chương trình.
-- Báo lỗi khi biên dịch
-- Editor mạnh mẽ với nhiều tính năng thông minh:
-Highlight code: làm nổi bật các từ khóa
-Auto suggest: hiển thị cửa sổ nhỏ gợi ý các từ trùng với từ đang gõ
-Undo/redo: Hỗ trợ undo, redo khi gõ.
-Auto format: tự động định dạng lại code để dễ nhìn hơn.
-Find/Find and replace: tìm kiếm và thay thế, có hỗ trợ regex.
+The application is a Pascal interpreter on Android. This application is confusing for everyone to learn Pascal on the mobile without a computer, so that we can practice anytime, anywhere.
 
-=================================
+The application is currently in working order, but it is still being actively developed. This is an interpreter so it will not be the same and will not provide all of Pascal's functionality. Do not worry, the application still fully supports most of Pascal's functions and the missing features will not matter (type cursor, for..in loop, with..do .. statement, ...)
 
-Các hàm và phương thức được hỗ trợ giống như Turbo pascal. Tuy nhiên cần một số lưu ý như sau:
-- FUNCTION: để gán giá trị cho hàm cần dùng từ khóa 
-result, không dùng tên hàm để gán
-- USES: không sử dụng từ khóa này vào chương trình, IDE sẽ tự động thêm các thư viện CRT, MATH, DOS, SYSTEM, GRAPH.
-- READLN: chỉ hỗ trợ nhập vào 1 biến
+1. The main features of the IDE:
+	- Compile Pascal programs and run them without Internet.
+	- Error when compiling
+	- Powerful editor with many smart features: 
+		★ File menu: create a new program file, open, save,automatically save file
+		★ Menu edit: Undo, redo, copy, paste.
+		★ Auto suggest: Display a small popup window that suggests words that coincide with the word being typed
+		★ Auto format: automatically reformat the code for easier viewing.
+		★ Find / Find and replace: Regular Expression support.
+		★ Goto line: Move the cursor to a line.
+		★ Highlight code: highlight the keywords.
+		★ Code style: many interface for the editor.
+		★ Font size, font, word wrap.
 
+2. Shortcuts: (currently developing)
+	- Ctrl-C, Ctrl-V, Ctrl-X for Copy, Paste and Cut
+	- Ctrl-S, Ctrl-O for File Save / Open
+	- Ctrl-B to compile, check for errors
+	- Ctrl-R to run the program
+	- Ctrl-D to duplicate the current line.
+	- Ctrl-Z, Ctrl-Y for Undo / Redo.
+	- Ctrl-L for "go to line"
+	- Ctrl-F to Find
+	- Ctrl-A to select all
 
-=================================
-
-**KEY WORD**
-program, begin, end, procedure, function
-
-**DECLARE KEY WORD**
-
-const, var, type, array, record
-
-**SUPPORT SOME FUNCTION**
-
-readln(single variable); {important, "readln" only support single variable}
-
-**BASIC VARIABLE TYPE**
-
-char, integer, real, boolean, string, longint, byte, word, extended
-
-**BOOLEAN OPERATOR**
-
-and, or, xor, not
-
-**RELATION OPERATORS**
-
-<, >, =, <>, <=, >=
-
-**ARTHMETIC OPERATOR**
-
-+, -, *, /, div, mod, shl, shr
-
-**LOOP**
-
-while ... do ...
-for ... to ... do ...
-for ... downto ... do ...
-repeat ... until ...
-case ...
-
-**DECISION MARKING**
-
-if ... then ...
-if ... then ... else ...
+3. Features that the interpreter is missing
+	- Pointers and record
+	- Exceptions
+	- Non integer subrange types
+	- Set, and Variant types
+	- for ... in ... do loops
+	- with ... do statements
+	- Declare array constant
+	- goto, label (it will never supported)
