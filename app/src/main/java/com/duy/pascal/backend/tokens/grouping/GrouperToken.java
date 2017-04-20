@@ -1,8 +1,6 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
@@ -98,6 +96,10 @@ public abstract class GrouperToken extends Token {
             }
         }
         exceptionCheck(next);
+        if (next instanceof CommentToken) {
+            next = null;
+            return get_next();
+        }
         return next;
     }
 
@@ -126,7 +128,6 @@ public abstract class GrouperToken extends Token {
 
     public Token take() throws ExpectedAnotherTokenException, GroupingException {
         Token result = get_next();
-        Log.d(TAG, "take: " + result.getClass().getSimpleName() + "  " + result.toString());
 
         if (result instanceof EOFToken) {
             throw new ExpectedAnotherTokenException(result.lineInfo);
@@ -135,11 +136,9 @@ public abstract class GrouperToken extends Token {
             try {
                 next = queue.take();
                 exceptionCheck(next);
-                if (result instanceof CommentToken) {
-                    return take();
-                } else {
-                    return result;
-                }
+
+                return result;
+
             } catch (InterruptedException ignored) {
             }
         }
@@ -342,9 +341,9 @@ public abstract class GrouperToken extends Token {
                 return context.getIdentifierValue(name);
             }
 
-        } else if (next instanceof CommentToken) {
+        }/* else if (next instanceof CommentToken) {
             return getNextTerm(context);
-        } else {
+        } */ else {
             throw new UnrecognizedTokenException(next);
         }
     }
@@ -536,10 +535,10 @@ public abstract class GrouperToken extends Token {
             return new BreakInstruction(next.lineInfo);
         } else if (next instanceof ExitToken) {
             return new ExitInstruction(next.lineInfo);
-        } else if (next instanceof CommentToken) {
+        } /*else if (next instanceof CommentToken) {
             //ignore comment
             return getNextCommand(context);
-        } else {
+        }*/ else {
             //variable
             try {
                 return context.handleUnrecognizedStatement(next, this);

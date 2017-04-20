@@ -27,7 +27,6 @@ import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
-import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
@@ -267,11 +266,11 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 this.listNameTypes.add(name);
                 i.assertNextSemicolon();
             }
-        } else if (next instanceof CommentToken) {
+        } /*else if (next instanceof CommentToken) {
             i.take();
             //fix bug when comment in the top of the file
             addConstDeclarations(i);
-        } else {
+        } */else {
             handleUnrecognizedDeclaration(i.take(), i);
         }
     }
