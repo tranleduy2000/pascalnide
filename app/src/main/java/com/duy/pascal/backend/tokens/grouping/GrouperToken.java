@@ -237,11 +237,12 @@ public abstract class GrouperToken extends Token {
         ReturnsValue nextTerm;
         if (next instanceof OperatorToken) {
             OperatorToken nextOperator = (OperatorToken) next;
-            if (!nextOperator.can_be_unary()) {
+            if (!nextOperator.canBeUnary()) {
                 throw new BadOperationTypeException(next.lineInfo, nextOperator.type);
             }
-            nextTerm = new UnaryOperatorEvaluation(getNextExpression(context,
-                    nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.lineInfo);
+            nextTerm = new UnaryOperatorEvaluation(
+                    getNextExpression(context, nextOperator.type.getPrecedence()),
+                    nextOperator.type, nextOperator.lineInfo);
         } else {
             nextTerm = getNextTerm(context, next);
         }
@@ -264,8 +265,7 @@ public abstract class GrouperToken extends Token {
                             type2, nextTerm, nextvalue, operationtype);
                 }
                 nextTerm = BinaryOperatorEvaluation.generateOp(context,
-                        nextTerm, nextvalue, operationtype,
-                        nextOperator.lineInfo);
+                        nextTerm, nextvalue, operationtype, nextOperator.lineInfo);
             } else if (next instanceof PeriodToken) {
                 take();
                 next = take();
