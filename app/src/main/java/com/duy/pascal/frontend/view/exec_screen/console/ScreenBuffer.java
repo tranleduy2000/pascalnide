@@ -37,7 +37,7 @@ public class ScreenBuffer {
     /**
      * store key code event
      */
-    public ByteQueue keyBuffer = new ByteQueue();
+    public CharBuffer keyBuffer = new CharBuffer();
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
 

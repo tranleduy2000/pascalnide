@@ -19,23 +19,21 @@ package com.duy.pascal.frontend.view.exec_screen.console;
 /**
  * Created by Duy on 10-Feb-17.
  */
-public class ByteQueue {
+public class CharBuffer {
     public static final int QUEUE_SIZE = 2 * 1024; //2MB ram
-    public byte text[];
-    public int keyEvent[];
+    public char text[];
     public int front;
     public int rear;
     private int size;
 
-    public ByteQueue(int size) {
+    public CharBuffer(int size) {
         this.size = size;
-        text = new byte[size];
-        keyEvent = new int[size];
+        text = new char[size];
         front = 0;
         rear = 0;
     }
 
-    public ByteQueue() {
+    public CharBuffer() {
         this(QUEUE_SIZE);
     }
 
@@ -47,47 +45,26 @@ public class ByteQueue {
         return rear;
     }
 
-    public synchronized int getKey() {
+    public synchronized char getChar() {
         while (front == rear) {
             try {
                 wait();
             } catch (InterruptedException ignored) {
             }
         }
-        int b = keyEvent[front];
-        front++;
-        if (front >= size) front = 0;
-        return b;
-    }
-
-    public synchronized byte getByte() {
-        while (front == rear) {
-            try {
-                wait();
-            } catch (InterruptedException ignored) {
-            }
-        }
-        byte b = text[front];
+        char b = text[front];
         front++;
         if (front >= text.length) front = 0;
         return b;
     }
 
-    public synchronized void putByte(byte b) {
+    public synchronized void putChar(char b) {
         text[rear] = b;
         rear++;
         if (rear >= text.length) rear = 0;
         if (front == rear) {
             front++;
             if (front >= text.length) front = 0;
-        }
-        notify();
-    }
-
-    public synchronized void eraseByte() {
-        if (rear != front) {
-            rear--;
-            if (rear < 0) rear = 0;
         }
         notify();
     }

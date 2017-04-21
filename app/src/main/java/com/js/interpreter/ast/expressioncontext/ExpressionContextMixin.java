@@ -1,7 +1,5 @@
 package com.js.interpreter.ast.expressioncontext;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
@@ -315,7 +313,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 if (Modifier.isPublic(m.getModifiers())) {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
                     callableFunctions.put(tmp.name().toLowerCase(), tmp);
-                    if (executeActivity != null) Log.d(TAG, "loadSystemLibrary: " + m.getName());
                 }
             }
 

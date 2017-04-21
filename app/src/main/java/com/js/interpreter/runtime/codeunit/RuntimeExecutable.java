@@ -1,7 +1,5 @@
 package com.js.interpreter.runtime.codeunit;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -22,7 +20,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     private static final String TAG = "RuntimeExecutable";
     private long stack = 0;
     private Map<Library, RuntimeLibrary> RuntimeLibs = new HashMap<>();
-    private volatile controlMode runmode = controlMode.RUNNING;
+    private volatile ControlMode runmode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
     private DebugListener debugListener;
     private boolean isDebugMode = false;
@@ -69,7 +67,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void pause() {
-        runmode = controlMode.PAUSED;
+        runmode = ControlMode.PAUSED;
     }
 
     public void enableDebug() {
@@ -82,7 +80,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void resume() {
-        runmode = controlMode.RUNNING;
+        runmode = ControlMode.RUNNING;
         synchronized (this) {
             this.notifyAll();
         }
@@ -90,7 +88,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void terminate() {
-        runmode = controlMode.TERMINATED;
+        runmode = ControlMode.TERMINATED;
         synchronized (this) {
             this.notifyAll();
         }
@@ -99,7 +97,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     public void scriptControlCheck(LineInfo line)
             throws ScriptTerminatedException {
         do {
-            if (runmode == controlMode.PAUSED ||
+            if (runmode == ControlMode.PAUSED ||
                     //pause it
                     isDebugMode) {
                 synchronized (this) {
@@ -110,10 +108,10 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
                 }
             }
 
-            if (runmode == controlMode.RUNNING) {
+            if (runmode == ControlMode.RUNNING) {
                 return;
             }
-            if (runmode == controlMode.TERMINATED) {
+            if (runmode == ControlMode.TERMINATED) {
                 throw new ScriptTerminatedException(line);
             }
 
@@ -149,7 +147,6 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
         stack--;
     }
 
-    public enum controlMode {
-        RUNNING, PAUSED, TERMINATED, debug
+    public enum ControlMode {RUNNING, PAUSED, TERMINATED, debug
     }
 }

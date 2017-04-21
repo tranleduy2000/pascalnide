@@ -45,8 +45,8 @@ import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
-import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.greaterEqual;
-import static com.duy.pascal.frontend.view.exec_screen.console.StringCompare.lessThan;
+import static com.duy.pascal.frontend.utils.StringCompare.greaterEqual;
+import static com.duy.pascal.frontend.utils.StringCompare.lessThan;
 
 public class ConsoleView extends View implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
     public static final String TAG = ConsoleView.class.getSimpleName();
@@ -157,37 +157,15 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         bufferData.stringBuffer.putString(c);
     }
 
-    public String readString() {
+    public synchronized String readString() {
         return bufferData.stringBuffer.getString();
     }
 
-    public char readKey() {
-        return (char) bufferData.keyBuffer.getByte();
+    public synchronized char readKey() {
+        return bufferData.keyBuffer.getChar();
     }
 
-    //set cursor index
-    public void setConsoleCursorPosition(int x, int y) {
-        int index, i;
-        mCursor.y = y;
-        index = bufferData.firstIndex + mCursor.y * mConsoleScreen.consoleColumn;
-        if (index >= mConsoleScreen.getScreenSize()) index -= mConsoleScreen.getScreenSize();
-        i = index;
-
-        while (i - index <= x) {
-            if (lessThan(bufferData.textConsole[i].getSingleString(), " ")) break;
-            i++;
-        }
-
-        while (i - index < x) {
-            if (lessThan(bufferData.textConsole[i].getSingleString(), " ")) {
-                bufferData.textConsole[i].setText(" ");
-            }
-            i++;
-        }
-        mCursor.x = x;
-    }
-
-    public synchronized void commitChar(String c, boolean isMaskBuffer) {
+    public void commitChar(String c, boolean isMaskBuffer) {
         int index = bufferData.firstIndex + mCursor.y * mConsoleScreen.consoleColumn + mCursor.x;
         if (index >= mConsoleScreen.getScreenSize()) {
             index -= mConsoleScreen.getScreenSize();
@@ -222,6 +200,28 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         postInvalidate();
     }
 
+    //set cursor index
+    public void setConsoleCursorPosition(int x, int y) {
+        int index, i;
+        mCursor.y = y;
+        index = bufferData.firstIndex + mCursor.y * mConsoleScreen.consoleColumn;
+        if (index >= mConsoleScreen.getScreenSize()) index -= mConsoleScreen.getScreenSize();
+        i = index;
+
+        while (i - index <= x) {
+            if (lessThan(bufferData.textConsole[i].getSingleString(), " ")) break;
+            i++;
+        }
+
+        while (i - index < x) {
+            if (lessThan(bufferData.textConsole[i].getSingleString(), " ")) {
+                bufferData.textConsole[i].setText(" ");
+            }
+            i++;
+        }
+        mCursor.x = x;
+    }
+
     public void deleteChar(int index) {
         if (mCursor.x > 0) {
             mCursor.x--;
@@ -238,7 +238,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         }
     }
 
-    public synchronized void commitString(String msg) {
+    public void commitString(String msg) {
         for (int i = 0; i < msg.length(); i++)
             commitChar(msg.substring(i, i + 1), false);
 //        textScreen = ArrayUtils.arrayToString(bufferData.textConsole);
@@ -422,12 +422,11 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             @Override
             public boolean performEditorAction(int actionCode) {
                 Log.d(TAG, "performEditorAction: " + actionCode);
-                /*if (actionCode == EditorInfo.IME_ACTION_DONE
+                if (actionCode == EditorInfo.IME_ACTION_DONE
                         || actionCode == EditorInfo.IME_ACTION_GO
                         || actionCode == EditorInfo.IME_ACTION_NEXT
                         || actionCode == EditorInfo.IME_ACTION_SEND
-                        || actionCode == EditorInfo.IME_ACTION_UNSPECIFIED) {*/
-                if (actionCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                        || actionCode == EditorInfo.IME_ACTION_UNSPECIFIED) {
                     sendText("\n");
                     return true;
                 }
@@ -634,6 +633,13 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 if (DLog.DEBUG) {
                     Log.w(TAG, "setComposingText(\"" + text + "\", " + newCursorPosition + ")");
                 }
+                if (filterKey) {
+                    if (text.length() >= 1) {
+                        bufferData.keyBuffer.putChar((char) 0);
+                        bufferData.keyBuffer.putChar(text.charAt(text.length() - 1));
+                    }
+                    return true;
+                }
                 setImeBuffer(mImeBuffer.substring(0, mComposingTextStart) +
                         text + mImeBuffer.substring(mComposingTextEnd));
                 mComposingTextEnd = mComposingTextStart + text.length();
@@ -671,7 +677,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public CharSequence getSelectedText(int flags) {
-
                 try {
 
                     if (DLog.DEBUG) {
@@ -719,7 +724,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             return super.onKeyDown(keyCode, event);
         }
         if (filterKey) {
-            bufferData.keyBuffer.putByte((byte) keyCode);
+            bufferData.keyBuffer.putChar((char) 0);
+            bufferData.keyBuffer.putChar((char) event.getUnicodeChar()); //scan code
             return true;
         } else {
             if (keyCode == KeyEvent.KEYCODE_DEL) {
@@ -741,10 +747,10 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         if (event.isSystem()) {
             return super.onKeyUp(keyCode, event);
         }
-        if (filterKey) {
-            bufferData.keyBuffer.putByte((byte) event.getUnicodeChar());
-            return true;
-        }
+//        if (filterKey) {
+//            bufferData.keyBuffer.putChar((char) event.getUnicodeChar());
+//            return true;
+//        }
         return super.onKeyUp(keyCode, event);
     }
 
@@ -939,23 +945,19 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
 
-    public boolean keyPressed() {
-        return bufferData.stringBuffer.rear > bufferData.stringBuffer.front;
+    public boolean isKeyPressed() {
+        return (bufferData.stringBuffer.rear > bufferData.stringBuffer.front)
+                || mImeBuffer.length() > 0;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////
-///////////           THIS METHOD USES BY PASCAL LIBRARY      //////////////////
-///////////                    GRAPH LIB                      //////////////////
-///////////////////////////////////////////////////////////////////////////////
 //pascal
     public int getColorPixel(int x, int y) {
         return mGraphScreen.getColorPixel(x, y);
     }
 
     //pascal
-    public synchronized void addGraphObject(GraphObject graphObject) {
+    public void addGraphObject(GraphObject graphObject) {
         mGraphScreen.addGraphObject(graphObject);
-
         postInvalidate();
     }
 

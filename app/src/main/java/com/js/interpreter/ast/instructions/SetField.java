@@ -10,10 +10,10 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
 public class SetField implements SetValueExecutable {
-    ReturnsValue container;
-    String name;
-    ReturnsValue toset;
-    LineInfo line;
+    private ReturnsValue container;
+    private String name;
+    private ReturnsValue toset;
+    private LineInfo line;
 
     public SetField(ReturnsValue container, String name, LineInfo line,
                     ReturnsValue toset) {

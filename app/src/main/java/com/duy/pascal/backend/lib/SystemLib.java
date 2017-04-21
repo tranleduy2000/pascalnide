@@ -55,25 +55,8 @@ public class SystemLib implements PascalLibrary {
         return false;
     }
 
-    /**
-     * key pressed method
-     */
-    @SuppressWarnings("unused")
-    public boolean keyPressed() {
-        if (activity != null) {
-            return activity.getConsoleView().keyPressed();
-        }
-        return false;
-    }
 
-    /**
-     * procedure readkey
-     */
-    @SuppressWarnings("unused")
-    public char readKey() {
-        assert activity != null;
-        return activity.readKey();
-    }
+
 
     /**
      * delay procedure

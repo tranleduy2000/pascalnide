@@ -55,7 +55,6 @@ public class CaseInstruction extends DebuggableExecutable {
             while (true) {
                 ReturnsValue valueToSwitch = i.getNextExpression(context);
 
-
                 //check type
                 assertType(mSwitchValueType, valueToSwitch, context);
 

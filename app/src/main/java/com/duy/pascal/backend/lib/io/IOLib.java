@@ -23,7 +23,9 @@ import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.activities.InOutListener;
 import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
@@ -38,29 +40,30 @@ public class IOLib implements PascalLibrary {
 
     private PrintStream stdout;
     private Scanner stdin;
-    private ExecuteActivity activity;
+    private InOutListener listener;
+    private RuntimeExecutable.ControlMode state = RuntimeExecutable.ControlMode.PAUSED;
 
     /**
-     * constructor call by {@link ClassLoader} in {@link PascalCompiler}
+     * default constructor
      */
-    public IOLib(ExecuteActivity activity) {
-        this.activity = activity;
+    public IOLib() {
         if (!PascalCompiler.android) {
             this.stdout = System.out;
             this.stdin = new Scanner(System.in);
         }
     }
 
-//    /**
-//     * default constructor
-//     */
-//     @SuppressWarnings("unused")public IOLib() {
-//        if (!PascalCompiler.android) {
-//            this.stdout = System.out;
-//            this.stdin = new Scanner(System.in);
-//        }
-//    }
 
+    /**
+     * constructor call by {@link ClassLoader} in {@link PascalCompiler}
+     */
+    public IOLib(ExecuteActivity listener) {
+        this.listener = listener;
+        if (!PascalCompiler.android) {
+            this.stdout = System.out;
+            this.stdin = new Scanner(System.in);
+        }
+    }
 
     @Override
     public boolean instantiate(Map<String, Object> arguments) {
@@ -83,12 +86,12 @@ public class IOLib implements PascalLibrary {
     }
 
     private void print(Object... args) {
-        if (activity == null) return;
+        if (listener == null) return;
         StringBuilder result = new StringBuilder();
         for (Object o : args) {
             result.append(o.toString());
         }
-        activity.getConsoleView().commitString(result.toString());
+        listener.print(result.toString());
     }
 
     @SuppressWarnings("unused")
@@ -143,7 +146,6 @@ public class IOLib implements PascalLibrary {
                         Object o7, Object o8, Object o9, Object o10) {
         println(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
     }
-
 
     @SuppressWarnings("unused")
     public void write() {
@@ -204,7 +206,6 @@ public class IOLib implements PascalLibrary {
         print(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
     }
 
-
     private void sleep() {
 //        try {
 //            Thread.sleep(10);
@@ -213,14 +214,11 @@ public class IOLib implements PascalLibrary {
 //        }
     }
 
-
     @SuppressWarnings("unused")
     public void read() {
-        if (activity != null) {
-            activity.startInput();
-            while (activity.isInputting()) {
-                sleep();
-            }
+        if (listener != null) {
+            listener.startInput(this);
+            pause(); //wait for press enter
         }
     }
 
@@ -271,7 +269,6 @@ public class IOLib implements PascalLibrary {
         setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
     }
 
-
     private void readString(Scanner scanner, VariableBoxer<String> variableBoxer) {
         variableBoxer.set(scanner.nextLine());
 
@@ -313,18 +310,15 @@ public class IOLib implements PascalLibrary {
     }
 
     private void setValueForVariables(VariableBoxer... listVariable) throws RuntimePascalException {
-        if (activity == null)
+        if (listener == null)
             throw new InputStreamNotFoundException();
         Scanner scanner = new Scanner("");
         for (VariableBoxer variableBoxer : listVariable) {
-            Object o = variableBoxer.get();
             Log.d(TAG, "setValueForVariables: ");
             while (!scanner.hasNext()) {
-                activity.startInput();
-                while (activity.isInputting()) {
-                    sleep();
-                }
-                String input = activity.getInput();
+                listener.startInput(this);
+                pause();
+                String input = listener.getInput();
                 scanner = new Scanner(input);
             }
             if (variableBoxer.get() instanceof Character) {
@@ -345,14 +339,11 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-
     @SuppressWarnings("unused")
     public void readln() {
-        if (activity != null) {
-            activity.startInput();
-            while (activity.isInputting()) {
-                sleep();
-            }
+        if (listener != null) {
+            listener.startInput(this);
+            pause();
         }
     }
 
@@ -399,10 +390,65 @@ public class IOLib implements PascalLibrary {
         setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
     }
 
-
     @SuppressWarnings("unused")
     public void printf(String format, Object... args) {
         if (stdout != null) stdout.printf(format, args);
+    }
+
+    /**
+     * resume when input user press enter key
+     */
+    public void resume() {
+        this.state = RuntimeExecutable.ControlMode.PAUSED;
+        synchronized (this) {
+            notify();
+        }
+    }
+
+    /**
+     * pause this object, wait for user input data
+     */
+    public void pause() {
+        this.state = RuntimeExecutable.ControlMode.RUNNING;
+        synchronized (this) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public RuntimeExecutable.ControlMode getState() {
+        return state;
+    }
+
+    public boolean isRunning() {
+        return state == RuntimeExecutable.ControlMode.RUNNING;
+    }
+
+    /**
+     * procedure readkey
+     */
+    @SuppressWarnings("unused")
+    public char readKey() {
+        if (listener != null) {
+            synchronized (this) {
+                listener.startReadKey(this);
+            }
+            char keyCode = listener.getKeyCode();
+            Log.d(TAG, "readKey: " + keyCode);
+            return keyCode;
+        }
+        return 0;
+    }
+
+    /**
+     * key pressed method
+     */
+    @SuppressWarnings("unused")
+    public boolean keyPressed() {
+        return listener != null && listener.keyPressed();
     }
 
 }

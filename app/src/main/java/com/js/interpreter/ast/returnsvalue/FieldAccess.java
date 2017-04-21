@@ -18,9 +18,9 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
 public class FieldAccess extends DebuggableReturnsValue {
-    ReturnsValue container;
-    String name;
-    LineInfo line;
+    private ReturnsValue container;
+    private String name;
+    private LineInfo line;
 
     public FieldAccess(ReturnsValue container, String name, LineInfo line) {
         this.container = container;

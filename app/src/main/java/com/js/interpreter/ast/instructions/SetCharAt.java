@@ -9,9 +9,9 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class SetCharAt implements SetValueExecutable {
-    ReturnsValue container;
-    ReturnsValue index;
-    ReturnsValue value;
+    private ReturnsValue container;
+    private ReturnsValue index;
+    private ReturnsValue value;
 
     public SetCharAt(ReturnsValue container, ReturnsValue index,
                      ReturnsValue value) {

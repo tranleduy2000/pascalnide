@@ -16,7 +16,7 @@ public interface ReturnsValue {
     ReturnsValue[] getOutputFormat();
 
     /**
-     * uses for output to console
+     * used for output to console
      *
      * @param formatInfo formatInfo[0] : number column for display in the screen
      *                   formatInfo[1] :  length of floating point if this variable is double
