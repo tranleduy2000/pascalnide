@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.alogrithm;
+package com.duy.pascal.backend.tokenizer;
 
-import com.duy.pascal.backend.tokenizer.Lexer;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;

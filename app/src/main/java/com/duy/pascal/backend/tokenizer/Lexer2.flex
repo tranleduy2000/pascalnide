@@ -72,18 +72,18 @@ import java.util.Stack;
     private Stack zzStreams = new Stack();
 	private String tmpname;
 	private Reader tmpreader;
-	void addInclude(String name) throws FileNotFoundException {
-		for (ScriptSource s : searchDirectories) {
-			Reader returnsValue = s.read(name);
-			if (returnsValue != null) {
-				this.tmpreader=returnsValue;
-				this.tmpname=name;
-				return;
-			}
-		}
-		throw new FileNotFoundException("Cannot find the $INCLUDE file " + name);
-	}
-	
+		void addInclude(String name) throws FileNotFoundException {
+    		for (ScriptSource s : searchDirectories) {
+    			Reader r = s.read(name);
+    			if (r != null) {
+    				this.tmpreader=r;
+    				this.tmpname=name;
+    				return;
+    			}
+    		}
+    		throw new FileNotFoundException("Cannot find the $INCLUDE file " + name);
+    	}
+
 	void commitInclude() {
 		sourcenames.push(tmpname);
 		yypushStream(tmpreader);
@@ -259,24 +259,25 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 <STRING> {
 	"''"	{literal.append('\'');}
 	"'"		{yybegin(STRINGDONE);}
-	[^'\n\returnsValue]* {literal.append(yytext());}
-	[\n\returnsValue]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
+	[^'\n\r]* {literal.append(yytext());}
+	[\n\r]	{return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
 }
 <STRINGPOUND> {
 	{Integer} {literal.append((char)Integer.parseInt(yytext())); yybegin(STRINGDONE);}
-	.|\n      { return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR);}
+	.|\n      { return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR);}
 	
 }
 <STRINGDONE> {
 	{WhiteSpace} {}
 	{Comment} {return new CommentToken(getLine(), yytext());}
 	"'" {yybegin(STRING);}
-	"#" {yybegin(STRINGPOUND);}
+	//"#" {yybegin(STRINGPOUND);}
 	.|\n {
 			yypushback(1);
 			yybegin(YYINITIAL); 
 			if(literal.length()==1) {
 				return new CharacterToken(getLine(),literal.toString().charAt(0));
+				//return new CharacterToken(getLine(),literal.toString());
 			} else {
 				return new StringToken(getLine(),literal.toString());
 			}
@@ -287,17 +288,17 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	{WhiteSpace} {} 
 	"'" {literal.setLength(0); yybegin(INCLUDE_SNGL_QUOTE);}
     "\"" {literal.setLength(0); yybegin(INCLUDE_DBL_QUOTE);}
-    [^ \returnsValue\n*)}]+ {
+    [^ \r\n*)}]+ {
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     }
-    .|\n {return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE);}
+    .|\n {return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE);}
 }
 
 <INCLUDE_SNGL_QUOTE> {
@@ -306,30 +307,29 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
-    	} 
+    	}
     	yybegin(END_INCLUDE);
     }
-	[^\n\returnsValue]+ {literal.append(yytext());}
-	[\n\returnsValue]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
+	[^\n\r]+ {literal.append(yytext());}
+	[\n\r]	{return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
 }
-
 <INCLUDE_DBL_QUOTE> {
 	"\"\""	{literal.append('\"');}
 	"\""		{
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
-    	} 
+    	}
     	yybegin(END_INCLUDE);
     	}
-	[^\n\returnsValue]+ {literal.append(yytext());}
-	[\n\returnsValue]	{return new GroupingExceptionToken(getLine(),EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);}
+	[^\n\r]+ {literal.append(yytext());}
+	[\n\r]	{return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);}
 }
 
 <END_INCLUDE> {
