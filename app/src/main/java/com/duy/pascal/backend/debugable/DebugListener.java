@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.debugable;
 
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 
@@ -23,4 +24,6 @@ public interface DebugListener {
     void onVariableChangeValue(String name, Object value);
 
     void onFunctionCall(String name);
+
+    void onLine(LineInfo lineInfo);
 }

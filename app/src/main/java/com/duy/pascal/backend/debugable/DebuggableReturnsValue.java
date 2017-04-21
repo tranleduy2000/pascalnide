@@ -24,11 +24,13 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         try {
+            System.out.println(getClass().getSimpleName() + " " + getLine());
             if (main != null) {
-                main.incStack(getLine());
-            }
-            if (main != null) {
+                if (main.getDebugListener() != null && main.isDebugMode()) {
+                    main.getDebugListener().onLine(getLine());
+                }      main.incStack(getLine());
                 main.scriptControlCheck(getLine());
+
             }
             Object valueImpl = getValueImpl(f, main);
             if (main != null) {

@@ -23,7 +23,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     private volatile ControlMode runmode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
     private DebugListener debugListener;
-    private boolean isDebugMode = false;
+    private boolean debugMode = false;
 
     public RuntimeExecutable(parent definition) {
         super(definition);
@@ -37,6 +37,14 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     public RuntimeExecutable(parent definition, DebugListener debugListener) {
         super(definition);
         this.debugListener = debugListener;
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 
     public RuntimeLibrary getLibrary(Library l) {
@@ -71,11 +79,11 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     }
 
     public void enableDebug() {
-        isDebugMode = true;
+        debugMode = true;
     }
 
     public void disableDebug() {
-        isDebugMode = false;
+        debugMode = false;
     }
 
     @Override
@@ -99,7 +107,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
         do {
             if (runmode == ControlMode.PAUSED ||
                     //pause it
-                    isDebugMode) {
+                    debugMode) {
                 synchronized (this) {
                     try {
                         this.wait();
@@ -147,6 +155,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
         stack--;
     }
 
-    public enum ControlMode {RUNNING, PAUSED, TERMINATED, debug
+    public enum ControlMode {
+        RUNNING, PAUSED, TERMINATED, debug
     }
 }

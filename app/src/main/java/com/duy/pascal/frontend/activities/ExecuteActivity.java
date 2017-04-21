@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.io.IOLib;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
@@ -54,7 +55,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
 
-public class ExecuteActivity extends AbstractExecActivity  {
+public class ExecuteActivity extends AbstractExecActivity {
     public static final boolean DEBUG = DLog.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
     private static final int COMPLETE = 4;
@@ -360,6 +361,11 @@ public class ExecuteActivity extends AbstractExecActivity  {
 ////                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, "> " + "Call procedure \'" + name + "\'"));
             }
         });
+    }
+
+    @Override
+    public void onLine(LineInfo lineInfo) {
+        Log.d(TAG, "onLine: " + lineInfo);
     }
 
     @Override

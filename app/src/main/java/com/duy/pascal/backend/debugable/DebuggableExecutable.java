@@ -17,9 +17,15 @@ public abstract class DebuggableExecutable implements Executable {
     public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         try {
+            System.out.println(getClass().getSimpleName() + " " + getLine());
+
             if (main != null) {
+                if (main.getDebugListener() != null && main.isDebugMode()) {
+                    main.getDebugListener().onLine(getLine());
+                }
                 main.incStack(getLine());
                 main.scriptControlCheck(getLine());
+
             }
             ExecutionResult result = executeImpl(f, main);
             if (main != null) {
