@@ -83,6 +83,7 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 Log.d(TAG, "onKey: " + event);
                 return false;
+
             }
         });
     }
@@ -149,19 +150,6 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
         return false;
     }
 
-    @Override
-    public boolean onTextContextMenuItem(int id) {
-        if (id == ID_UNDO) {
-            undo();
-            return true;
-        } else if (id == ID_REDO) {
-            redo();
-            return true;
-        } else {
-            return super.onTextContextMenuItem(id);
-        }
-
-    }
 
     /**
      * CTRL + C copy
@@ -182,10 +170,10 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + keyCode + " " + event);
-        if (handleControlKey(keyCode, event, true)) {
-            return true;
-        }
-        if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
+//        if (handleControlKey(keyCode, event, true)) {
+//            return true;
+//        }
+        if (event.isCtrlPressed()/* || mKeyListener.mControlKey.isActive()*/) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_A:
                     selectAll();
@@ -199,7 +187,6 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
                 case KeyEvent.KEYCODE_V:
                     paste();
                     return true;
-
                 case KeyEvent.KEYCODE_R:
                     if (editorControl != null)
                         editorControl.runProgram();
@@ -257,10 +244,10 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
 
         //The new Key Code
         int keyCode = event.getKeyCode();
-        if (handleControlKey(keyCode, event, false)) {
+       /* if (handleControlKey(keyCode, event, false)) {
             return true;
-        }
-        if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
+        }*/
+        if (event.isCtrlPressed()/* || mKeyListener.mControlKey.isActive()*/) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_A:
                 case KeyEvent.KEYCODE_X:

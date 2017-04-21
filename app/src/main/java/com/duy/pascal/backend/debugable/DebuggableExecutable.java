@@ -18,9 +18,14 @@ public abstract class DebuggableExecutable implements Executable {
             throws RuntimePascalException {
         try {
             if (main != null) {
+                main.incStack(getLine());
                 main.scriptControlCheck(getLine());
             }
-            return executeImpl(f, main);
+            ExecutionResult result = executeImpl(f, main);
+            if (main != null) {
+                main.decStack();
+            }
+            return result;
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {

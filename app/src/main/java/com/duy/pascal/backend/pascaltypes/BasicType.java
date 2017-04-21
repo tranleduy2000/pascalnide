@@ -365,7 +365,6 @@ public enum BasicType implements DeclaredType {
     @Override
     public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
             throws ParsingException {
-        Integer a;
         RuntimeType other_type = value.getType(f);
         if (other_type.declaredType instanceof BasicType) {
             if (this.equals(other_type.declaredType)) {

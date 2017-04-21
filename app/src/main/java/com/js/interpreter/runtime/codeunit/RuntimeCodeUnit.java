@@ -13,22 +13,12 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
     public volatile RunMode mode;
     parent definition;
     private Map<String, Object> unitVariables = new HashMap<>();
-    private ArrayList<String> listNameGlobalVariables = new ArrayList<>();
 
     public RuntimeCodeUnit(parent definition) {
         this.definition = definition;
         for (VariableDeclaration v : definition.context.variables) {
             v.initialize(unitVariables);
-            listNameGlobalVariables.add(v.get_name());
         }
-    }
-
-    public ArrayList<String> getListNameGlobalVariables() {
-        return listNameGlobalVariables;
-    }
-
-    public Map<String, Object> getMapUnitVariables() {
-        return unitVariables;
     }
 
     @Override
@@ -40,5 +30,6 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
     public boolean setLocalVar(String name, Object val) {
         return unitVariables.put(name, val) != null;
     }
+
 
 }

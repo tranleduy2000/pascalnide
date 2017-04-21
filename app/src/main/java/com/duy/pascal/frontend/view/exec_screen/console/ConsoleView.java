@@ -187,7 +187,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         mCursor.x = x;
     }
 
-    public void commitChar(String c, boolean isMaskBuffer) {
+    public synchronized void commitChar(String c, boolean isMaskBuffer) {
         int index = bufferData.firstIndex + mCursor.y * mConsoleScreen.consoleColumn + mCursor.x;
         if (index >= mConsoleScreen.getScreenSize()) {
             index -= mConsoleScreen.getScreenSize();
@@ -238,7 +238,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         }
     }
 
-    public void commitString(String msg) {
+    public synchronized void commitString(String msg) {
         for (int i = 0; i < msg.length(); i++)
             commitChar(msg.substring(i, i + 1), false);
 //        textScreen = ArrayUtils.arrayToString(bufferData.textConsole);

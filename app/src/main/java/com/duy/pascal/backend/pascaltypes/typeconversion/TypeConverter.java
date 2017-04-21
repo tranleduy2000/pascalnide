@@ -7,19 +7,22 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import java.util.HashMap;
 
 public class TypeConverter {
-    private static HashMap<Class, Integer> precedence = new HashMap<Class, Integer>();
+    private static HashMap<Class, Integer> precedence = new HashMap<>();
 
     static {
-        precedence.put(Character.class, 0);
+        precedence.put(Character.class, 1);
+        precedence.put(char.class, 1);
+
         precedence.put(Integer.class, 1);
-        precedence.put(Long.class, 2);
-        precedence.put(Double.class, 3);
+        precedence.put(int.class, 1);
+
+        precedence.put(Long.class, 1);
+        precedence.put(long.class, 1);
+
+        precedence.put(Double.class, 2);
+        precedence.put(double.class, 2);
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName();
-    }
     public static ReturnsValue autoConvert(BasicType outtype,
                                            ReturnsValue target, BasicType intype) {
         if (intype == outtype) {
@@ -28,7 +31,7 @@ public class TypeConverter {
         Integer inprecedence = precedence.get(intype.getTransferClass());
         Integer outprecedence = precedence.get(outtype.getTransferClass());
         if (inprecedence != null && outprecedence != null) {
-            if (inprecedence < outprecedence) {
+            if (inprecedence <= outprecedence) {
                 return forceConvert(outtype, target, intype);
             }
         }
@@ -104,6 +107,11 @@ public class TypeConverter {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
 
 }

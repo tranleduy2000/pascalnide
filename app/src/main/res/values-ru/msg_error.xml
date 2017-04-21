@@ -73,5 +73,6 @@
         Нижний предел %1$s, а верхний %2$s</string>
     <string name="MissingSemicolonTokenException">Отсутствует токен с запятой в строке %1$s</string>
     <string name="MissingCommaTokenException">Отсутствует запятая (,) в строке %1$s</string>
-    <string name="StrayCharacterException">Неверный знак в программе: %1$s</string>
+    <string name="StrayCharacterException">Неверный знак в программе: %1$s</string>    <string name="StackOverflowException">Stack overflow error.</string>
+
 </resources>

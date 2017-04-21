@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions;
+package com.duy.pascal.compiler;
 
+import android.util.Log;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import org.junit.Test;
 
-public class StackOverflowException extends RuntimePascalException {
+/**
+ * Created by Duy on 20-Apr-17.
+ */
 
-    public StackOverflowException(LineInfo lineInfo, String s) {
-        super(lineInfo, "Stack overflow error: " + s);
+public class StackTest {
+    private static final String TAG = "StackTest";
+
+    @Test
+    public void test1() {
+        testStack(1);
     }
 
-    public StackOverflowException(LineInfo lineInfo) {
-        super(lineInfo, "Stack overflow error");
-    }
-
+    public void testStack(int depth) {
+        Log.d(TAG, "testStack: " + depth);
+        testStack(depth + 1);
+    } //21793
 }

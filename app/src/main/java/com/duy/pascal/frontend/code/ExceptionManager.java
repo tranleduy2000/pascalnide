@@ -47,6 +47,7 @@ import com.duy.pascal.backend.exceptions.NotAStatementException;
 import com.duy.pascal.backend.exceptions.OverridingFunctionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
+import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.exceptions.SubRangeException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
@@ -94,6 +95,9 @@ public class ExceptionManager {
         try {
             if (e instanceof ExpectedTokenException) {
                 return getExpectedTokenException((ExpectedTokenException) e);
+            }
+            if (e instanceof StackOverflowException) {
+                return getMessageResource(e, R.string.StackOverflowException);
             }
             if (e instanceof MissingSemicolonTokenException) {
                 return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.line);

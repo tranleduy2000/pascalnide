@@ -74,4 +74,6 @@
     <string name="MissingSemicolonTokenException">Có thể thiếu chấm phẩy (;) gần dòng %1$s</string>
     <string name="MissingCommaTokenException">Có thể thiếu dấu phẩy (,) gần dòng %1$s</string>
     <string name="StrayCharacterException">Kí tự không xác định trong chương trình: %1$s</string>
+    <string name="StackOverflowException">Stack overflow error.</string>
+
 </resources>

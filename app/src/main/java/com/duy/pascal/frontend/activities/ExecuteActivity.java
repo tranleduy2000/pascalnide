@@ -89,7 +89,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         }
     };
 
-    Runnable runnableRunProgram = new Runnable() {
+    Runnable runProgram = new Runnable() {
         @Override
         public void run() {
             try {
@@ -152,7 +152,7 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         }
 
     };
-    private Thread runThread = new Thread(runnableRunProgram);
+//    private Thread runThread = new Thread(runProgram);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,7 +190,9 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         mMessageHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                runThread.start();
+                ThreadGroup group = new ThreadGroup("threadGroup");
+                new Thread(group, runProgram, path, 2000000).start();
+//                runThread.start();
             }
         }, 200);
     }

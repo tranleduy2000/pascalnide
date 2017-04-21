@@ -1,8 +1,6 @@
 package com.duy.pascal.backend.debugable;
 
-import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
-import com.js.interpreter.runtime.FunctionOnStack;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -10,13 +8,6 @@ import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
 public abstract class DebuggableReturnsValue implements ReturnsValue {
 
-    private void checkStack(VariableContext f) throws StackOverflowException {
-        if (f instanceof FunctionOnStack) {
-            StackFunction.inc(((FunctionOnStack) f).getCurrentFunction().getLine());
-        } else {
-            StackFunction.inc(null);
-        }
-    }
     protected ReturnsValue[] outputFormat;
 
     @Override
@@ -34,10 +25,16 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
             throws RuntimePascalException {
         try {
             if (main != null) {
+                main.incStack(getLine());
+            }
+            if (main != null) {
                 main.scriptControlCheck(getLine());
             }
-
-            return getValueImpl(f, main);
+            Object valueImpl = getValueImpl(f, main);
+            if (main != null) {
+                main.decStack();
+            }
+            return valueImpl;
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {

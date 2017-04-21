@@ -149,7 +149,6 @@ public class CrtLib implements PascalLibrary {
 
     /**
      * set text linePaint color
-     *
      */
     @SuppressWarnings("unused")
     public void textColor(int code) {
@@ -254,31 +253,33 @@ public class CrtLib implements PascalLibrary {
     }
 
     private void playSound(double frequency, int duration) {
+        try {
+            // AudioTrack definition
+            int mBufferSize = AudioTrack.getMinBufferSize(44100,
+                    AudioFormat.CHANNEL_OUT_MONO,
+                    AudioFormat.ENCODING_PCM_8BIT);
 
-        // AudioTrack definition
-        int mBufferSize = AudioTrack.getMinBufferSize(44100,
-                AudioFormat.CHANNEL_OUT_MONO,
-                AudioFormat.ENCODING_PCM_8BIT);
+            AudioTrack mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100,
+                    AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
+                    mBufferSize, AudioTrack.MODE_STREAM);
 
-        AudioTrack mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100,
-                AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
-                mBufferSize, AudioTrack.MODE_STREAM);
+            // Sine wave
+            double[] mSound = new double[4410];
+            short[] mBuffer = new short[duration];
+            for (int i = 0; i < mSound.length; i++) {
+                mSound[i] = Math.sin((2.0 * Math.PI * i / (44100 / frequency)));
+                mBuffer[i] = (short) (mSound[i] * Short.MAX_VALUE);
+            }
 
-        // Sine wave
-        double[] mSound = new double[4410];
-        short[] mBuffer = new short[duration];
-        for (int i = 0; i < mSound.length; i++) {
-            mSound[i] = Math.sin((2.0 * Math.PI * i / (44100 / frequency)));
-            mBuffer[i] = (short) (mSound[i] * Short.MAX_VALUE);
+            mAudioTrack.setStereoVolume(AudioTrack.getMaxVolume(), AudioTrack.getMaxVolume());
+            mAudioTrack.play();
+
+            mAudioTrack.write(mBuffer, 0, mSound.length);
+            mAudioTrack.stop();
+            mAudioTrack.release();
+        } catch (Exception ignored) {
+
         }
-
-        mAudioTrack.setStereoVolume(AudioTrack.getMaxVolume(), AudioTrack.getMaxVolume());
-        mAudioTrack.play();
-
-        mAudioTrack.write(mBuffer, 0, mSound.length);
-        mAudioTrack.stop();
-        mAudioTrack.release();
-
     }
 
 }
