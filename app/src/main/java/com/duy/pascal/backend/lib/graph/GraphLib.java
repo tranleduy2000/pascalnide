@@ -40,7 +40,7 @@ import com.duy.pascal.backend.lib.graph.graphic_model.SectorObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.TextGraphObject;
 import com.duy.pascal.backend.lib.graph.paint.TextPaint;
 import com.duy.pascal.backend.lib.graph.style.TextJustify;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.js.interpreter.runtime.VariableBoxer;
 
@@ -49,14 +49,12 @@ import java.util.Map;
 /**
  * Created by Duy on 01-Mar-17.
  */
-
 public class GraphLib implements PascalLibrary {
     private static final String TAG = "GraphLib";
-    private ExecuteActivity activity;
-    private String errorMsg = "";
+    private ExecHandler handler;
 
-    public GraphLib(ExecuteActivity activity) {
-        this.activity = activity;
+    public GraphLib(ExecHandler handler) {
+        this.handler = handler;
     }
 
     @Override
@@ -71,8 +69,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new ArcObject(x, y, stAngle, endAngle, radius));
+        if (handler != null)
+            handler.getConsoleView().addGraphObject(new ArcObject(x, y, stAngle, endAngle, radius));
     }
 
     /**
@@ -81,8 +79,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void bar(int x1, int y1, int x2, int y2) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new BarObject(x1, y1, x2, y2));
+        if (handler != null)
+            handler.getConsoleView().addGraphObject(new BarObject(x1, y1, x2, y2));
     }
 
     /**
@@ -90,7 +88,7 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public int getMaxX() {
-        return activity.getConsoleView().getWidth();
+        return handler.getConsoleView().getWidth();
     }
 
     /**
@@ -98,7 +96,7 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public int getMaxY() {
-        return activity.getConsoleView().getHeight();
+        return handler.getConsoleView().getHeight();
     }
 
     /**
@@ -107,8 +105,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void initGraph(int driver, int mode, String pathToDriver) {
-        if (activity != null) {
-            activity.getConsoleView().setGraphMode(true);
+        if (handler != null) {
+            handler.getConsoleView().setGraphMode(true);
         }
     }
 
@@ -117,14 +115,14 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void rectangle(int x1, int y1, int x2, int y2) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
+        if (handler != null)
+            handler.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
     }
 
     @SuppressWarnings("unused")
     public void line(int x1, int y1, int x2, int y2) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new LineObject(x1, y1, x2, y2));
+        if (handler != null)
+            handler.getConsoleView().addGraphObject(new LineObject(x1, y1, x2, y2));
     }
 
     /**
@@ -132,8 +130,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public int getY() {
-        if (activity != null)
-            return activity.getConsoleView().getYCursorPixel();
+        if (handler != null)
+            return handler.getConsoleView().getYCursorPixel();
         else
             return 0;
     }
@@ -143,8 +141,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public int getX() {
-        if (activity != null)
-            return activity.getConsoleView().getXCursorPixel();
+        if (handler != null)
+            return handler.getConsoleView().getXCursorPixel();
         else return 0;
     }
 
@@ -154,7 +152,7 @@ public class GraphLib implements PascalLibrary {
     @SuppressWarnings("unused")
     public int getPixel(int x, int y) {
         // TODO: 09-Apr-17
-        return activity.getConsoleView().getColorPixel(x, y);
+        return handler.getConsoleView().getColorPixel(x, y);
     }
 
     /**
@@ -163,7 +161,7 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void closeGraph() {
-        activity.getConsoleView().closeGraph();
+        handler.getConsoleView().closeGraph();
     }
 
     /**
@@ -171,8 +169,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public int getColor() {
-        if (activity != null)
-            return activity.getConsoleView().getForegroundGraphColor();
+        if (handler != null)
+            return handler.getConsoleView().getForegroundGraphColor();
         else
             return 0; //black
     }
@@ -182,7 +180,7 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void setColor(int index) {
-        activity.getConsoleView().setPaintGraphColor(CrtLib.getColorPascal(index));
+        handler.getConsoleView().setPaintGraphColor(CrtLib.getColorPascal(index));
     }
 
     /**
@@ -190,7 +188,7 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void clearDevice() {
-        activity.getConsoleView().clearGraph();
+        handler.getConsoleView().clearGraph();
     }
 
     /**
@@ -198,7 +196,7 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void moveTo(int x, int y) {
-        activity.getConsoleView().setCursorGraphPosition(x, y);
+        handler.getConsoleView().setCursorGraphPosition(x, y);
     }
 
     /**
@@ -217,8 +215,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void moveRel(int dx, int dy) {
-        CursorConsole point = activity.getConsoleView().getCursorGraph();
-        activity.getConsoleView().setCursorGraphPosition(point.x + dx, point.y + dy);
+        CursorConsole point = handler.getConsoleView().getCursorGraph();
+        handler.getConsoleView().setCursorGraphPosition(point.x + dx, point.y + dy);
     }
 
     @SuppressWarnings("unused")
@@ -233,8 +231,8 @@ public class GraphLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     public void circle(int x, int y, int r) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new CircleObject(x, y, r));
+        if (handler != null)
+            handler.getConsoleView().addGraphObject(new CircleObject(x, y, r));
     }
 
     /**
@@ -244,23 +242,23 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void lineTo(int x, int y) {
-        if (activity != null) {
-            CursorConsole point = activity.getConsoleView().getCursorGraph();
-            activity.getConsoleView().addGraphObject(new LineObject(point.x, point.y, x, y));
-            activity.getConsoleView().setCursorGraphPosition(x, y);
+        if (handler != null) {
+            CursorConsole point = handler.getConsoleView().getCursorGraph();
+            handler.getConsoleView().addGraphObject(new LineObject(point.x, point.y, x, y));
+            handler.getConsoleView().setCursorGraphPosition(x, y);
         }
     }
 
     @SuppressWarnings("unused")
     public void ellipse(int x, int y, int start, int end, int rx, int ry) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new ArcEllipseObject(x, y, start, end, rx, ry));
+        if (handler != null)
+            handler.getConsoleView().addGraphObject(new ArcEllipseObject(x, y, start, end, rx, ry));
     }
 
     @SuppressWarnings("unused")
     public void fillEllipse(int x, int y, int rx, int ry) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new EllipseObject(x, y, rx, ry));
+        if (handler != null)
+            handler.getConsoleView().addGraphObject(new EllipseObject(x, y, rx, ry));
     }
 
     @SuppressWarnings("unused")
@@ -270,14 +268,14 @@ public class GraphLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     public void putPixel(int x, int y, int color) {
-        if (activity != null)
-            activity.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.getColorPascal(color)));
+        if (handler != null)
+            handler.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.getColorPascal(color)));
     }
 
     @SuppressWarnings("unused")
     public void setLineStyle(int style, int linePattern, int width) {
-        if (activity != null) {
-            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+        if (handler != null) {
+            GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
             graphScreen.setLineStyle(style);
             graphScreen.setLinePattern(linePattern);
             graphScreen.setLineWidth(width);
@@ -286,30 +284,30 @@ public class GraphLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     public void outTextXY(int x, int y, String text) {
-        if (activity != null) {
-            activity.getConsoleView().addGraphObject(new TextGraphObject(text, x, y));
+        if (handler != null) {
+            handler.getConsoleView().addGraphObject(new TextGraphObject(text, x, y));
            /* //get current paint
-            Paint textPaint = activity.getConsoleView().getGraphScreen().getTextPaint();
+            Paint textPaint = handler.getConsoleView().getGraphScreen().getTextPaint();
             //get width of text
             int width = (int) textPaint.measureText(text);
             //move cursor to the end of the text (bottom-right)
-            CursorConsole cursorGraph = activity.getConsoleView().getCursorGraph();
-            activity.getConsoleView().setCursorGraphPosition(cursorGraph.getX(),
+            CursorConsole cursorGraph = handler.getConsoleView().getCursorGraph();
+            handler.getConsoleView().setCursorGraphPosition(cursorGraph.getX(),
                     cursorGraph.getY() + width);*/
         }
     }
 
     @SuppressWarnings("unused")
     public void outText(String text) {
-        CursorConsole cursorGraph = activity.getConsoleView().getCursorGraph();
-        activity.getConsoleView().addGraphObject(new TextGraphObject(text, cursorGraph.getX(),
+        CursorConsole cursorGraph = handler.getConsoleView().getCursorGraph();
+        handler.getConsoleView().addGraphObject(new TextGraphObject(text, cursorGraph.getX(),
                 cursorGraph.getY()));
         //get current paint
-        Paint textPaint = activity.getConsoleView().getGraphScreen().getTextPaint();
+        Paint textPaint = handler.getConsoleView().getGraphScreen().getTextPaint();
         //get width of text
         int width = (int) textPaint.measureText(text);
         //move cursor to the end of the text (bottom-right)
-        activity.getConsoleView().setCursorGraphPosition(cursorGraph.getX(),
+        handler.getConsoleView().setCursorGraphPosition(cursorGraph.getX(),
                 cursorGraph.getY() + width);
     }
 
@@ -320,16 +318,16 @@ public class GraphLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     public int getBkColor() {
-        if (activity != null)
-            return activity.getConsoleView().getGraphScreen().getBackgroundColor();
+        if (handler != null)
+            return handler.getConsoleView().getGraphScreen().getBackgroundColor();
         else
             return 0;
     }
 
     @SuppressWarnings("unused")
     public void setBkColor(int color) {
-        if (activity != null)
-            activity.getConsoleView().setGraphBackground(CrtLib.getColorPascal(color));
+        if (handler != null)
+            handler.getConsoleView().setGraphBackground(CrtLib.getColorPascal(color));
     }
 
     /**
@@ -337,9 +335,9 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public int textWidth(String text) {
-        if (activity != null) {
+        if (handler != null) {
             Rect rect = new Rect();
-            activity.getConsoleView().getGraphScreen().getTextBound(text, rect);
+            handler.getConsoleView().getGraphScreen().getTextBound(text, rect);
             return rect.width();
         }
         return 0;
@@ -351,8 +349,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void setViewPort(int x1, int y1, int x2, int y2, boolean clip) {
-        if (activity != null) {
-            activity.getConsoleView().getGraphScreen().setViewPort(x1, y1, x2, y2, clip);
+        if (handler != null) {
+            handler.getConsoleView().getGraphScreen().setViewPort(x1, y1, x2, y2, clip);
         }
     }
 
@@ -361,9 +359,9 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public int textHeight(String text) {
-        if (activity != null) {
+        if (handler != null) {
             Rect rect = new Rect();
-            activity.getConsoleView().getGraphScreen().getTextBound(text, rect);
+            handler.getConsoleView().getGraphScreen().getTextBound(text, rect);
             return rect.height();
         }
         return 0;
@@ -372,8 +370,8 @@ public class GraphLib implements PascalLibrary {
     @SuppressWarnings("unused")
     public synchronized void setTextStyle(int fontID, int direction, int size) {
         // TODO: 09-Apr-17
-        if (activity != null) {
-            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+        if (handler != null) {
+            GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
             graphScreen.setTextSize(size);
             graphScreen.setTextDirection(direction);
             graphScreen.setFontID(fontID);
@@ -384,8 +382,8 @@ public class GraphLib implements PascalLibrary {
     public void setFillStyle(int pattern, int color) {
         Log.d(TAG, "setFillPattern: " + pattern + " " + color);
         // TODO: 09-Apr-17
-        if (activity != null) {
-            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+        if (handler != null) {
+            GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
             graphScreen.setFillPattern(pattern);
             graphScreen.setFillColor(CrtLib.getColorPascal(color));
         }
@@ -402,8 +400,8 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void sector(int x, int y, int start, int end, int rx, int ry) {
-        if (activity != null) {
-            activity.getConsoleView().addGraphObject(new SectorObject(x, y, start, end, rx, ry));
+        if (handler != null) {
+            handler.getConsoleView().addGraphObject(new SectorObject(x, y, start, end, rx, ry));
         }
     }
 
@@ -413,14 +411,15 @@ public class GraphLib implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     public void pieSlice(int x, int y, int start, int end, int radius) {
-        if (activity != null) {
-            activity.getConsoleView().addGraphObject(new PieSliceObject(x, y, start, end, radius));
+        if (handler != null) {
+            handler.getConsoleView().addGraphObject(new PieSliceObject(x, y, start, end, radius));
         }
     }
 
     @SuppressWarnings("unused")
     public String graphErrorMsg(int errorCode) {
         // TODO: 09-Apr-17
+        String errorMsg = "";
         return errorMsg;
     }
 
@@ -461,8 +460,8 @@ public class GraphLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     public void setTextJustify(int horizontal, int vertical) {
-        if (activity != null) {
-            TextJustify textJustify = activity.getConsoleView().getGraphScreen().getTextJustify();
+        if (handler != null) {
+            TextJustify textJustify = handler.getConsoleView().getGraphScreen().getTextJustify();
             textJustify.setHorizontal(horizontal);
             textJustify.setVertical(vertical);
         }
@@ -470,24 +469,24 @@ public class GraphLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     public void Bar3D(int x1, int y1, int x2, int y2, int depth, boolean topOn) {
-        if (activity != null) {
-            activity.getConsoleView().addGraphObject(new Bar3DObject(x1, y1, x2, y2, depth, topOn));
+        if (handler != null) {
+            handler.getConsoleView().addGraphObject(new Bar3DObject(x1, y1, x2, y2, depth, topOn));
         }
     }
 
     @SuppressWarnings("unused")
     public void FillEllipse(int x, int y, int rx, int ry) {
         Log.d(TAG, "FillEllipse: ");
-        if (activity != null) {
-            activity.getConsoleView().addGraphObject(new FillEllipseObject(x, y, rx, ry));
+        if (handler != null) {
+            handler.getConsoleView().addGraphObject(new FillEllipseObject(x, y, rx, ry));
         }
     }
 
     @SuppressWarnings("unused")
     public void FloodFill(int x, int y, int borderColorIndex) {
         Log.d(TAG, "FloodFill: ");
-        if (activity != null) {
-            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+        if (handler != null) {
+            GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
             Bitmap graphBitmap = graphScreen.getGraphBitmap();
 
             Bitmap fillBitmap = graphScreen.getFillBitmap();
@@ -499,7 +498,7 @@ public class GraphLib implements PascalLibrary {
 
             graphBitmap.setPixels(imagePixels.clone(), 0, graphBitmap.getWidth(), 0, 0, graphBitmap.getWidth(),
                     graphBitmap.getHeight());
-//            activity.getConsoleView().postInvalidate();
+//            handler.getConsoleView().postInvalidate();
             floodFill.gc();
             fillBitmap.recycle();
         }
@@ -507,8 +506,8 @@ public class GraphLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     public void SetTextJustify(int horizontal, int vertical) {
-        if (activity != null) {
-            GraphScreen graphScreen = activity.getConsoleView().getGraphScreen();
+        if (handler != null) {
+            GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
             TextPaint textPaint = graphScreen.getTextPaint();
             textPaint.setTextJustify(new TextJustify(horizontal, vertical));
         }

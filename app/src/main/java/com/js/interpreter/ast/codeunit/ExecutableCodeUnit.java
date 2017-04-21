@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.codeunit;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.core.ScriptSource;
@@ -18,9 +18,9 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
 
     public ExecutableCodeUnit(Reader r, ListMultimap<String, AbstractFunction> functionTable,
                               String sourcename, List<ScriptSource> includeDirectories,
-                              ExecuteActivity executeActivity)
+                              RunnableActivity handler)
             throws ParsingException {
-        super(r, functionTable, sourcename, includeDirectories, executeActivity);
+        super(r, functionTable, sourcename, includeDirectories, handler);
     }
 
     @Override

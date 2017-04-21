@@ -27,8 +27,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
@@ -36,8 +36,8 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.utils.StringCompare;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.frontend.view.exec_screen.console.StringCompare;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.PascalProgram;
@@ -54,16 +54,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
 
-public class ExecuteActivity extends AbstractExecActivity implements DebugListener {
+public class ExecuteActivity extends AbstractExecActivity  {
     public static final boolean DEBUG = DLog.DEBUG;
     private static final String TAG = ExecuteActivity.class.getSimpleName();
-    private static final int NEW_INPUT = 1;
-    private static final int NEW_OUTPUT_CHAR = 2;
-    private static final int NEW_OUTPUT_STRING = 3;
     private static final int COMPLETE = 4;
     private static final int RUNTIME_ERROR = 5;
     private static final int SHOW_KEYBOARD = 6;
-    public String input = "";
+    private String input = "";
     private String filePath;
     private AtomicBoolean mIsRunning = new AtomicBoolean(true);
     private AtomicBoolean isCanRead = new AtomicBoolean(false);
@@ -114,20 +111,20 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             }
         }
     };
-
+    //    private Thread runThread = new Thread(runProgram);
+    private IOLib mLock;
     private Runnable runnableInput = new Runnable() {
         @Override
         public void run() {
             int exitFlag;
-            String c;
+            String str;
             InputData inputData = new InputData();
             inputData.first = 0;
             inputData.last = 0;
             exitFlag = 0;
             do {
-                c = mConsoleView.readString();
-//                System.out.println(c);
-                switch (c) {
+                str = mConsoleView.readString();
+                switch (str) {
                     case ConsoleView.THE_ENTER_KEY: // return
                     case "\n":
                         exitFlag = 1;
@@ -135,13 +132,13 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
                     case ConsoleView.THE_DELETE_COMMAND:
                         if (inputData.last > 0) {
                             inputData.last--;
-                            mConsoleView.commitString(String.valueOf(c));
+                            mConsoleView.commitString(String.valueOf(str));
                         }
                         break;
                     default:
-                        if ((StringCompare.greaterEqual(c, " ")) && (inputData.last < MAX_INPUT)) {
-                            inputData.data[inputData.last++] = c;
-                            mConsoleView.commitString(String.valueOf(c));
+                        if ((StringCompare.greaterEqual(str, " ")) && (inputData.last < MAX_INPUT)) {
+                            inputData.data[inputData.last++] = str;
+                            mConsoleView.commitString(String.valueOf(str));
                         }
                         break;
                 }
@@ -149,10 +146,13 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
             mConsoleView.commitString("\n"); //return new line
             input = inputData.toString();
             isCanRead.set(false);
+            if (mLock != null) {
+                mLock.resume();
+            }
         }
 
     };
-//    private Thread runThread = new Thread(runProgram);
+    private char keyCodeBuffer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,31 +240,10 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
         if (DEBUG) e.printStackTrace();
     }
 
-    public char readKey() {
+    @Override
+    public void startReadKey(IOLib lock) {
         mConsoleView.setFilterKey(true);
-        char res = mConsoleView.readKey();
-        mConsoleView.setFilterKey(false);
-        return res;
-    }
-
-    public synchronized void startInput() {
-        if (DLog.DEBUG) Log.d(TAG, "startInput: ");
-        mMessageHandler.sendEmptyMessage(SHOW_KEYBOARD);
-        isCanRead.set(true);
-        new Thread(runnableInput).start();
-    }
-
-    public boolean isInputting() {
-        return isCanRead.get();
-    }
-
-    /**
-     * set text console color
-     *
-     * @param textColor
-     */
-    public void setTextColor(final int textColor) {
-        mConsoleView.setConsoleTextColor(textColor);
+        this.mLock = lock;
     }
 
     /**
@@ -279,17 +258,40 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     @Override
     protected void onStop() {
         super.onStop();
-        mIsRunning.set(false);
+        stopInput();
         mConsoleView.onStop();
         //stop program
         stopProgram();
     }
 
-
     public String getInput() {
         return input;
     }
 
+    @Override
+    public void print(CharSequence charSequence) {
+        mConsoleView.commitString(charSequence.toString());
+    }
+
+    @Override
+    public void println(CharSequence charSequence) {
+        mConsoleView.commitString(charSequence.toString());
+        mConsoleView.commitString("\n");
+    }
+
+
+    @Override
+    public char getKeyCode() {
+        keyCodeBuffer = mConsoleView.readKey();
+        return keyCodeBuffer;
+    }
+
+    @Override
+    public boolean keyPressed() {
+        return mConsoleView.isKeyPressed();
+    }
+
+    @Override
     public ConsoleView getConsoleView() {
         return mConsoleView;
     }
@@ -382,16 +384,26 @@ public class ExecuteActivity extends AbstractExecActivity implements DebugListen
     private void stopProgram() {
         Log.d(TAG, "stopProgram: ");
         try {
-            //stop in put thread
-            isCanRead.set(false);
             program.terminate();
             Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
-            System.gc();
         } catch (Exception ignored) {
             if (DLog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
         }
     }
 
+    @Override
+    public synchronized void startInput(IOLib lock) {
+        this.mLock = lock;
+        if (DLog.DEBUG) Log.d(TAG, "startInput: ");
+        mMessageHandler.sendEmptyMessage(SHOW_KEYBOARD);
+        isCanRead.set(true);
+        new Thread(runnableInput).start();
+    }
 
+    @Override
+    public void stopInput() {
+        //stop in put thread
+        isCanRead.set(false);
+    }
 }
 

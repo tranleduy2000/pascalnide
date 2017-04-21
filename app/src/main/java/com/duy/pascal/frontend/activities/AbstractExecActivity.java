@@ -31,15 +31,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
-    //    private final int[] fontSize = {12, 16, 20, 24};
-//    public int fontSizeNb = 0;
+public abstract class AbstractExecActivity extends RunnableActivity {
     @BindView(R.id.console)
     public ConsoleView mConsoleView;
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
-//    @BindView(R.id.list_debug_console)
-//    DebugView debugView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +43,9 @@ public abstract class AbstractExecActivity extends AbstractAppCompatActivity {
         setContentView(R.layout.activity_console);
         ButterKnife.bind(this);
         setupActionBar();
-
         mConsoleView.updateSize();
         mConsoleView.showPrompt();
     }
-
-
 
     private void setupActionBar() {
         setSupportActionBar(toolbar);

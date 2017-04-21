@@ -5,7 +5,7 @@ import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.instructions.Executable;
@@ -21,32 +21,32 @@ public class PascalProgram extends ExecutableCodeUnit {
     public Executable main;
 
     private FunctionOnStack mainRunning;
-    private ExecuteActivity executeActivity;
+    private RunnableActivity handler;
 
     public PascalProgram(Reader program,
                          ListMultimap<String, AbstractFunction> functionTable,
                          String sourceName, List<ScriptSource> includeDirectories,
-                         ExecuteActivity executeActivity)
+                         RunnableActivity handler)
             throws ParsingException {
-        super(program, functionTable, sourceName, includeDirectories, executeActivity);
-        this.executeActivity = executeActivity;
+        super(program, functionTable, sourceName, includeDirectories, handler);
+        this.handler = handler;
     }
 
     @Override
     protected PascalProgramExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, ExecuteActivity executeActivity) {
-        return new PascalProgramExpressionContext(functionTable, executeActivity);
+            ListMultimap<String, AbstractFunction> functionTable, RunnableActivity handler) {
+        return new PascalProgramExpressionContext(functionTable, handler);
     }
 
     @Override
     public RuntimeExecutable<PascalProgram> run() {
-        return new RuntimePascalProgram(this, executeActivity);
+        return new RuntimePascalProgram(this, handler);
     }
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
         protected PascalProgramExpressionContext(
-                ListMultimap<String, AbstractFunction> f, ExecuteActivity executeActivity) {
-            super(f, executeActivity);
+                ListMultimap<String, AbstractFunction> f, RunnableActivity handler) {
+            super(f, handler);
         }
 
         @Override

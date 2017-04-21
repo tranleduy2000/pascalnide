@@ -1,6 +1,6 @@
 package com.duy.pascal.compiler;
 
-import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
+import com.duy.pascal.backend.tokenizer.AutoIndentCode;
 
 import org.junit.Before;
 

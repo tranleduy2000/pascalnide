@@ -21,7 +21,6 @@ import android.util.Log;
 import com.duy.pascal.backend.exceptions.OrdinalExpressionExpectedException;
 import com.duy.pascal.backend.lib.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.backend.lib.runtime_exceptions.RangeCheckError;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
@@ -43,11 +42,7 @@ public class SystemLib implements PascalLibrary {
 
 
     private Random random = new Random();
-    private ExecuteActivity activity;
 
-    public SystemLib(ExecuteActivity activity) {
-        this.activity = activity;
-    }
 
 
     @Override
@@ -56,10 +51,9 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-
-
     /**
      * delay procedure
+     *
      * @param ms - time
      */
     @SuppressWarnings("unused")
@@ -275,7 +269,6 @@ public class SystemLib implements PascalLibrary {
 
     /**
      * logarithm function
-     *
      */
     @SuppressWarnings("unused")
     public double ln(double d) throws InvalidFloatingPointOperation {
@@ -316,7 +309,6 @@ public class SystemLib implements PascalLibrary {
 
     /**
      * exit program
-     *
      */
     @SuppressWarnings("unused")
     public void halt() throws ScriptTerminatedException {

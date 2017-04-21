@@ -6,7 +6,7 @@ import com.duy.pascal.backend.tokenizer.NewLexer;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ProgramToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
@@ -24,28 +24,28 @@ public abstract class CodeUnit {
 
     public final ExpressionContextMixin context;
     private String programName;
-    private ExecuteActivity executeActivity;
+    private RunnableActivity handler;
 
     public CodeUnit(ListMultimap<String, AbstractFunction> functionTable,
-                    ExecuteActivity executeActivity) {
-        this.context = getExpressionContextInstance(functionTable, executeActivity);
+                    RunnableActivity handler) {
+        this.context = getExpressionContextInstance(functionTable, handler);
     }
 
 
     public CodeUnit(Reader program, ListMultimap<String, AbstractFunction> functionTable,
                     String sourceName, List<ScriptSource> includeDirectories,
-                    ExecuteActivity executeActivity)
+                    RunnableActivity handler)
             throws ParsingException {
-        this(functionTable, executeActivity);
-        this.executeActivity = executeActivity;
+        this(functionTable, handler);
+        this.handler = handler;
         NewLexer grouper = new NewLexer(program, sourceName, includeDirectories);
         grouper.parse();
         parseTree(grouper.tokenQueue);
     }
 
     protected CodeUnitExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, ExecuteActivity executeActivity) {
-        return new CodeUnitExpressionContext(functionTable, executeActivity);
+            ListMultimap<String, AbstractFunction> functionTable, RunnableActivity handler) {
+        return new CodeUnitExpressionContext(functionTable, handler);
     }
 
     private void parseTree(GrouperToken tokens) throws ParsingException {
@@ -62,8 +62,8 @@ public abstract class CodeUnit {
 
     protected class CodeUnitExpressionContext extends ExpressionContextMixin {
         public CodeUnitExpressionContext(ListMultimap<String, AbstractFunction> functionTable,
-                                         ExecuteActivity executeActivity) {
-            super(CodeUnit.this, null, functionTable, executeActivity);
+                                         RunnableActivity handler) {
+            super(CodeUnit.this, null, functionTable, handler);
         }
 
         @Override

@@ -22,8 +22,6 @@ import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
-import com.duy.pascal.frontend.activities.InOutListener;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
@@ -57,7 +55,7 @@ public class IOLib implements PascalLibrary {
     /**
      * constructor call by {@link ClassLoader} in {@link PascalCompiler}
      */
-    public IOLib(ExecuteActivity listener) {
+    public IOLib(InOutListener listener) {
         this.listener = listener;
         if (!PascalCompiler.android) {
             this.stdout = System.out;

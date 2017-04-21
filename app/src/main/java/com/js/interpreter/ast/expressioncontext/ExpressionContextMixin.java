@@ -21,6 +21,7 @@ import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
+import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -40,7 +41,8 @@ import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.activities.ExecHandler;
+import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
@@ -57,7 +59,6 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.VariableAccess;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     /**
      * activity target, uses for input and output
      */
-    private ExecuteActivity executeActivity;
+    private RunnableActivity handler;
     /**
      * list function and procedure pascal
      */
@@ -106,14 +107,14 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent,
                                   ListMultimap<String, AbstractFunction> callableFunctions,
-                                  ExecuteActivity executeActivity) {
+                                  RunnableActivity handler) {
         super(root, parent);
 //        this.callableFunctions = callableFunctions;
         if (callableFunctions != null)
             this.callableFunctions.putAll(callableFunctions);
 
-        if (executeActivity != null)
-            this.executeActivity = executeActivity;
+        if (handler != null)
+            this.handler = handler;
 
         //load system function
         loadSystemLibrary();
@@ -268,7 +269,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             i.take();
             //fix bug when comment in the top of the file
             addConstDeclarations(i);
-        } */else {
+        } */ else {
             handleUnrecognizedDeclaration(i.take(), i);
         }
     }
@@ -284,31 +285,43 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
          */
         classes.add(FileLib.class);
         classes.add(IOLib.class);
+
         classes.add(StringLib.class);
         classes.add(ConversionLib.class);
         classes.add(SystemLib.class);
+        addMethodFromClass(classes, Modifier.PUBLIC);
+    }
 
+    /**
+     * get method of class, call by java reflect
+     *
+     * @param classes  - list class
+     * @param modifier - allow method modifier
+     */
+    public void addMethodFromClass(ArrayList<Class> classes, int modifier) {
         for (Class pascalPlugin : classes) {
-            Object o;
+            Object o = null;
             try {
-                Constructor constructor = pascalPlugin.getConstructor(ExecuteActivity.class);
-                o = constructor.newInstance(executeActivity);
-            } catch (NoSuchMethodException
-                    | IllegalArgumentException |
-                    IllegalAccessException | InvocationTargetException |
-                    InstantiationException e) {
-                o = null;
+                Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
+                o = constructor.newInstance(handler);
+            } catch (Exception ignored) {
+            }
+            if (o == null) {
                 try {
-                    Constructor constructor = pascalPlugin.getConstructor();
-                    o = constructor.newInstance();
-                } catch (NoSuchMethodException
-                        | IllegalArgumentException |
-                        IllegalAccessException | InvocationTargetException |
-                        InstantiationException e1) {
-                    e1.printStackTrace();
+                    Constructor constructor;
+                    constructor = pascalPlugin.getConstructor(ExecHandler.class);
+                    o = constructor.newInstance(handler);
+                } catch (Exception ignored) {
                 }
             }
-
+            if (o == null) {
+                try {
+                    Constructor constructor;
+                    constructor = pascalPlugin.getConstructor();
+                    o = constructor.newInstance();
+                } catch (Exception ignored) {
+                }
+            }
             for (Method m : pascalPlugin.getDeclaredMethods()) {
                 if (Modifier.isPublic(m.getModifiers())) {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
@@ -339,36 +352,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 classes.add(SysUtilsLibrary.class);
             }
         }
-
-        for (Class pascalPlugin : classes) {
-            Object o;
-            try {
-                Constructor constructor = pascalPlugin.getConstructor(ExecuteActivity.class);
-                o = constructor.newInstance(executeActivity);
-            } catch (NoSuchMethodException
-                    | IllegalArgumentException |
-                    IllegalAccessException | InvocationTargetException |
-                    InstantiationException e) {
-                o = null;
-                try {
-                    Constructor constructor = pascalPlugin.getConstructor();
-                    o = constructor.newInstance();
-                } catch (NoSuchMethodException
-                        | IllegalArgumentException |
-                        IllegalAccessException | InvocationTargetException |
-                        InstantiationException e1) {
-                    e1.printStackTrace();
-                }
-            }
-
-            for (Method m : pascalPlugin.getDeclaredMethods()) {
-                if (Modifier.isPublic(m.getModifiers())) {
-                    MethodDeclaration tmp = new MethodDeclaration(o, m);
-                    callableFunctions.put(tmp.name().toLowerCase(), tmp);
-                }
-            }
-
-        }
+        addMethodFromClass(classes, Modifier.PUBLIC);
     }
 
     protected abstract void handleBeginEnd(GrouperToken i) throws ParsingException;

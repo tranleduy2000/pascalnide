@@ -3,7 +3,7 @@ package com.js.interpreter.ast.codeunit;
 import com.duy.pascal.backend.exceptions.MisplacedDeclarationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.core.ScriptSource;
@@ -25,8 +25,8 @@ public class Library extends CodeUnit {
 
     @Override
     protected LibraryExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, ExecuteActivity executeActivity) {
-        return new LibraryExpressionContext(functionTable, executeActivity);
+            ListMultimap<String, AbstractFunction> functionTable, RunnableActivity handler) {
+        return new LibraryExpressionContext(functionTable, handler);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class Library extends CodeUnit {
     protected class LibraryExpressionContext extends CodeUnitExpressionContext {
 
         protected LibraryExpressionContext(ListMultimap<String, AbstractFunction> function,
-                                           ExecuteActivity executeActivity) {
-            super(function, executeActivity);
+                                           RunnableActivity handler) {
+            super(function, handler);
         }
 
         @Override

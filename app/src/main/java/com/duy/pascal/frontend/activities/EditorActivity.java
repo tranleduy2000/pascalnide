@@ -47,7 +47,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.alogrithm.AutoIndentCode;
+import com.duy.pascal.backend.tokenizer.AutoIndentCode;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
@@ -119,7 +119,7 @@ public class EditorActivity extends FileEditorActivity implements
     }
 
     @OnClick(R.id.img_tab)
-    void insertTab(View v){
+    void insertTab(View v) {
         onKeyClick(v, "\t");
     }
 
@@ -436,15 +436,14 @@ public class EditorActivity extends FileEditorActivity implements
     public void goToLine() {
         final AppCompatEditText edittext = new AppCompatEditText(this);
         edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+        edittext.setMaxEms(5);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.goto_line)
                 .setView(edittext)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String line = edittext.getText().toString();
-                        if (line.length() > 5) {
-//                            mCodeView.goToLine(1);
-                        } else if (!line.isEmpty()) {
+                        if (!line.isEmpty()) {
                             // TODO: 03-Apr-17
                             mCodeView.goToLine(Integer.parseInt(line));
                         }

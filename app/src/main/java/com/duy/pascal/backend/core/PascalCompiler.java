@@ -5,13 +5,15 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
-import com.duy.pascal.backend.lib.graph.GraphLib;
-import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
+import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
-import com.duy.pascal.frontend.activities.ExecuteActivity;
+import com.duy.pascal.backend.lib.io.InOutListener;
+import com.duy.pascal.backend.lib.math.MathLib;
+import com.duy.pascal.frontend.activities.ExecHandler;
+import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
@@ -22,7 +24,6 @@ import com.js.interpreter.core.ScriptSource;
 
 import java.io.Reader;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -34,16 +35,16 @@ public class PascalCompiler {
     public static final boolean android = true;
     public static final boolean DEBUG = false;
 
-    public ExecuteActivity activity;
+    public RunnableActivity handler;
 
-    private SystemLib systemLib = new SystemLib(null);
+    private SystemLib systemLib = new SystemLib();
     private IOLib ioLib = new IOLib(null);
     private CrtLib crtLib = new CrtLib(null);
     private GraphLib graphLib = new GraphLib(null);
     private FileLib fileLib = new FileLib();
 
-    public PascalCompiler(ExecuteActivity activity) {
-        this.activity = activity;
+    public PascalCompiler(RunnableActivity handler) {
+        this.handler = handler;
     }
 
     public ListMultimap<String, AbstractFunction> loadFunctionTable(
@@ -59,18 +60,18 @@ public class PascalCompiler {
     /**
      * constructor
      *
-     * @param sourcename      - file name
-     * @param in              - Input Reader
-     * @param executeActivity - handler for variable and function
+     * @param sourcename - file name
+     * @param in         - Input Reader
+     * @param handler    - handler for variable and function, debug, input and output to screen, ....
      */
     public PascalProgram loadPascal(String sourcename, Reader in,
                                     List<ScriptSource> includeSearchPath,
                                     List<ScriptSource> librarySearchPath,
-                                    ExecuteActivity executeActivity) throws ParsingException {
+                                    RunnableActivity handler) throws ParsingException {
 
         ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(
                 includeSearchPath, librarySearchPath);
-        return new PascalProgram(in, functiontable, sourcename, includeSearchPath, executeActivity);
+        return new PascalProgram(in, functiontable, sourcename, includeSearchPath, handler);
     }
 
 
@@ -104,31 +105,32 @@ public class PascalCompiler {
         classes.add(graphLib.getClass());
 
         /**
-         * Important: load file library before io lib. Because
-         * method readln(file, ...) in {@link FileLib} will be override method readln(object...) in {@link IOLib}
+         * Important: load file library before io lib. Because method readln(file, ...)
+         * in {@link FileLib} will be override method readln(object...) in {@link IOLib}
          */
         classes.add(fileLib.getClass());
         classes.add(ioLib.getClass());
-
-
         for (Class pascalPlugin : classes) {
-            Object o;
+            Object o = null;
             try {
-                Constructor constructor = pascalPlugin.getConstructor(ExecuteActivity.class);
-                o = constructor.newInstance(activity);
-            } catch (NoSuchMethodException
-                    | IllegalArgumentException |
-                    IllegalAccessException | InvocationTargetException |
-                    InstantiationException e) {
-                o = null;
+                Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
+                o = constructor.newInstance(handler);
+            } catch (Exception ignored) {
+            }
+            if (o == null) {
                 try {
-                    Constructor constructor = pascalPlugin.getConstructor();
+                    Constructor constructor;
+                    constructor = pascalPlugin.getConstructor(ExecHandler.class);
+                    o = constructor.newInstance(handler);
+                } catch (Exception ignored) {
+                }
+            }
+            if (o == null) {
+                try {
+                    Constructor constructor;
+                    constructor = pascalPlugin.getConstructor();
                     o = constructor.newInstance();
-                } catch (NoSuchMethodException
-                        | IllegalArgumentException |
-                        IllegalAccessException | InvocationTargetException |
-                        InstantiationException e1) {
-                    e1.printStackTrace();
+                } catch (Exception ignored) {
                 }
             }
 
