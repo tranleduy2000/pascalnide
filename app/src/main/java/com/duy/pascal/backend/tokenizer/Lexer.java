@@ -1081,7 +1081,7 @@ public class Lexer {
                 case 114:
                     break;
                 case 4: {
-                    return new IntegerToken(getLine(), Integer.parseInt(yytext()));
+                    return new IntegerToken(getLine(), (int) Long.parseLong(yytext()));
                 }
                 case 115:
                     break;
