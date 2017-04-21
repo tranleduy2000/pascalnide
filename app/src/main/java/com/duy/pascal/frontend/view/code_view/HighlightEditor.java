@@ -659,7 +659,8 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 
             //high light error line
             if (lineError != null) {
-                if (getLayout() != null) {
+                Layout layout = getLayout();
+                if (layout != null && lineError.line < getLineCount()) {
                     int lineStart = getLayout().getLineStart(lineError.line);
                     int lineEnd = getLayout().getLineEnd(lineError.line);
                     lineStart += lineError.column;
@@ -668,7 +669,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        if (!isAutoCompile()) setSelection(lineStart);
+                        if (!isAutoCompile()) {
+                            lineStart = Math.max(0, lineStart);
+                            setSelection(lineStart);
+                        }
                     }
                 }
             }
@@ -730,12 +734,13 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     /**
      * move cursor to line
      *
-     * @param line - line in editor, begin at 1
+     * @param line - line in editor, start at 0
      */
     public void goToLine(int line) {
         Layout layout = getLayout();
+        line = Math.min(line, getLineCount() - 1);
         if (layout != null) {
-            int index = layout.getLineEnd(line - 1);
+            int index = layout.getLineEnd(line);
             index = Math.min(index, getText().length() - 1);
             setSelection(index);
         }
@@ -831,10 +836,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         }
     }
 
-    public interface OnTextChangedListener {
-        void onTextChanged(String text);
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         // FIXME simple workaround to https://code.google.com/p/android/issues/detail?id=191430
@@ -848,6 +849,10 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 //            }
 //        }
         return super.dispatchTouchEvent(event);
+    }
+
+    public interface OnTextChangedListener {
+        void onTextChanged(String text);
     }
 
 }
