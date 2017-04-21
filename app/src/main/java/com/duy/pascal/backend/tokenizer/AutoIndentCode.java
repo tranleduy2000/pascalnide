@@ -484,7 +484,6 @@ public class AutoIndentCode {
     }
 
     private void processEnd(Token t) throws IOException {
-
         //new line
         if (result.length() > 0) {
             if (result.charAt(result.length() - 1) != '\n')
@@ -492,8 +491,9 @@ public class AutoIndentCode {
         }
         if (!getInCaseInstruction()) {
             decreaseTab();
+            decreaseCaseInstruction();
         }
-        decreaseCaseInstruction();
+        decreaseTab();
         //tab
         result.append(getTab(numberTab)).append(t.toString());
         //check some name
