@@ -139,7 +139,7 @@ import java.util.Stack;
 
 %eofval{
 	if (!yymoreStreams()) {
-		return new EOF_Token(getLine());
+		return new EOFToken(getLine());
 	}
 	sourcenames.pop();
 	yypopStream();
@@ -147,12 +147,13 @@ import java.util.Stack;
 
 Identifier = [a-zA-Z_] [a-zA-Z_0-9]*
 Digit = [0-9]
+Char = "#" {Digit}+
 Integer = {Digit}+
 Float	= {Digit}+ "." {Digit}+
 WhiteSpace = ([ \t] | {LineTerminator})+
 
-LineTerminator = \returnsValue|\n|\returnsValue\n
-InputCharacter = [^\returnsValue|\n|]
+LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r|\n|]
 
 Comment = {TraditionalComment} | {EndOfLineComment}  | {PascalComment}
 
@@ -186,9 +187,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	
 	{Comment} {return new CommentToken(getLine(), yytext());}
 
-
+    {Char} {return new CharacterToken(getLine(),yytext());}
 	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
-	{Integer} {return new IntegerToken(getLine(),Integer.parseInt(yytext()));}
+	{Integer} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext()));}
 	
 	"and" {return new OperatorToken(getLine(),OperatorTypes.AND); }
 	"not" {return new OperatorToken(getLine(),OperatorTypes.NOT); }
