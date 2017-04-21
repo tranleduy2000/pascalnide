@@ -45,7 +45,11 @@ public class LockableScrollView extends ScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return scrollable && super.onInterceptTouchEvent(ev);
+        try {
+            return scrollable && super.onInterceptTouchEvent(ev);
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     @Override

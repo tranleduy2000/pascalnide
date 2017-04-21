@@ -741,7 +741,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         line = Math.min(line, getLineCount() - 1);
         if (layout != null) {
             int index = layout.getLineEnd(line);
-            index = Math.min(index, getText().length() - 1);
             setSelection(index);
         }
     }
