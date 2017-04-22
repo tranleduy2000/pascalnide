@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.code;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.duy.pascal.frontend.activities.DebugActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 
@@ -31,7 +32,6 @@ public class CompileManager {
     public static final String FILE_PATH = "file_name";     // extras indicators
     public static final String IS_NEW = "is_new";
     public static final String INITIAL_POS = "initial_pos";
-    public static final String ERROR_MSG = "error_msg";
     public static final int ACTIVITY_EDITOR = 1001;
     public static final String MODE = "run_mode";
     private final Activity mActivity;
@@ -53,6 +53,12 @@ public class CompileManager {
         mActivity.startActivity(intent);
     }
 
+    public void debug(String name) {
+        Intent intent = new Intent(mActivity, DebugActivity.class);
+        intent.putExtra(FILE_PATH, name);
+        mActivity.startActivity(intent);
+    }
+
     public void edit(String fileName, Boolean isNew) {
         Intent intent = new Intent(mActivity, EditorActivity.class);
         intent.putExtra(FILE_PATH, fileName);
@@ -60,18 +66,5 @@ public class CompileManager {
         intent.putExtra(INITIAL_POS, 0);
         mActivity.startActivityForResult(intent, ACTIVITY_EDITOR);
     }
-/*
-    public Exception doCompile(String mFilePath) {
-        try {
-            PascalProgram pascalProgram = new PascalCompiler(null).loadPascal(mFilePath,
-                    new FileReader(mFilePath),
-                    new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>());
-            if (pascalProgram.main == null) {
-                return new MainProgramNotFoundException();
-            }
-        } catch (Exception e) {
-            return e;
-        }
-        return null;
-    }*/
+
 }

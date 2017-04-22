@@ -38,12 +38,10 @@ public class VariableSet extends DebuggableExecutable implements
     public ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         Object objValue = this.value.getValue(f, main);
-
-        //debug
-//        if (main.getDebugListener() != null)
-//            main.getDebugListener().onVariableChangeValue(name, objValue);
-
         f.setVariable(name, objValue);
+        if (main.isDebugMode()) {
+            main.getDebugListener().onVariableChangeValue(name, null, objValue);
+        }
         return ExecutionResult.NONE;
     }
 

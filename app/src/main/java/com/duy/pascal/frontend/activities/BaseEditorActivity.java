@@ -19,7 +19,6 @@ package com.duy.pascal.frontend.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -59,10 +58,10 @@ import butterknife.ButterKnife;
  * Created by Duy on 09-Mar-17.
  */
 
-public abstract class FileEditorActivity extends AbstractAppCompatActivity
+public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for debug
         implements SymbolListView.OnKeyListener,
         EditorControl, FileListener {
-    protected final static String TAG = FileEditorActivity.class.getSimpleName();
+    protected final static String TAG = BaseEditorActivity.class.getSimpleName();
 
     protected String mFilePath = ApplicationFileManager.getApplicationPath() + "new_file.pas";
     protected ApplicationFileManager mFileManager;
@@ -83,6 +82,7 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
     ArrayList<File> listFile = new ArrayList<>();
     @BindView(R.id.container_symbol)
     View mContainerSymbol;
+
     private Handler handler = new Handler();
 
     @Override
@@ -96,10 +96,11 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
 //        new LoadTabFile().execute();
         initContent();
         loadTabFile();
+
     }
 
     private void loadTabFile() {
-        listFile = TabFileUtils.getTabFiles(FileEditorActivity.this);
+        listFile = TabFileUtils.getTabFiles(BaseEditorActivity.this);
         for (File file : listFile) {
             addNewTab(file);
         }
@@ -425,41 +426,6 @@ public abstract class FileEditorActivity extends AbstractAppCompatActivity
         }
     }
 
-    /**
-     * load lasted file in database and set text to tablayout
-     */
-    private class LoadTabFile extends AsyncTask<Void, File, Boolean> {
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            listFile = TabFileUtils.getTabFiles(FileEditorActivity.this);
-            boolean result = false;
-            for (File file : listFile) {
-                publishProgress(file);
-                result = true;
-            }
-            return result;
-        }
-
-        @Override
-        protected void onProgressUpdate(File... values) {
-            super.onProgressUpdate(values);
-            addNewTab(values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if (!result) {//empty file
-                createEmptyFile();
-            } else {
-                int pos = (mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE));
-                TabLayout.Tab tab = tabLayout.getTabAt((pos));
-                if (tab != null) {
-                    selectTab(tab, false);
-                }
-            }
-        }
-    }
 
 }

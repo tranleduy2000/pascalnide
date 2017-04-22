@@ -30,17 +30,17 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DebugMonitorAdapter extends RecyclerView.Adapter<DebugMonitorAdapter.ViewHolder> {
+public class DebugAdapter extends RecyclerView.Adapter<DebugAdapter.ViewHolder> {
     private ArrayList<DebugItem> listData = new ArrayList<>();
     private Context context;
     private LayoutInflater inflater;
 
-    public DebugMonitorAdapter(Context context) {
+    public DebugAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public DebugMonitorAdapter(ArrayList<DebugItem> listData, Context context) {
+    public DebugAdapter(ArrayList<DebugItem> listData, Context context) {
         this.listData = listData;
         this.context = context;
         this.inflater = LayoutInflater.from(context);

@@ -38,9 +38,7 @@ import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 
 import com.duy.pascal.backend.core.PascalCompiler;
@@ -65,8 +63,8 @@ import static com.duy.pascal.frontend.data.PatternsUtils.numbers;
 import static com.duy.pascal.frontend.data.PatternsUtils.strings;
 import static com.duy.pascal.frontend.data.PatternsUtils.symbols;
 
-public abstract class HighlightEditor extends AutoSuggestsEditText
-        implements View.OnKeyListener, GestureDetector.OnGestureListener {
+public class HighlightEditor extends AutoSuggestsEditText
+        implements View.OnKeyListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
     public static final int SHORT_DELAY = 500;
     public static final int LONG_DELAY = 1000;
@@ -135,6 +133,7 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         }
     };
     private float lastX = 0;
+    private int lastPinLine = -1;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -189,14 +188,14 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         mHighlightedLine = mHighlightStart = -1;
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
-        mGestureDetector = new GestureDetector(getContext(), this);
 
         setMovementMethod(LinkMovementMethod.getInstance());
-        setTextIsSelectable(true);
-
         updateFromSettings();
     }
 
+//    public void extendSelection(int index) {
+//        Selection.extendSelection(getText(), index);
+//    }
 
     public void setTheme(int id) {
         ThemeFromAssets theme = ThemeFromAssets.getTheme(id, mContext);
@@ -217,10 +216,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         typedArray.recycle();
 //        setTypeface(FontManager.getInstance(mContext));
     }
-
-//    public void extendSelection(int index) {
-//        Selection.extendSelection(getText(), index);
-//    }
 
     public void setTheme(String name) {
         /**
@@ -334,66 +329,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         return false;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        super.onTouchEvent(event);
-        if (mGestureDetector != null) {
-            return mGestureDetector.onTouchEvent(event);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return true;
-    }
-
-    @Override
-
-    public boolean onSingleTapUp(MotionEvent e) {
-        if (canEdit) {
-            ((InputMethodManager) getContext().getSystemService(
-                    Context.INPUT_METHOD_SERVICE)).showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
-        }
-        return true;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-    }
-
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-       /* if (!flingToScroll) {
-            return true;
-        }
-        if (mScroller != null) {
-            mScroller.fling(getScrollX(), getScrollY(), -(int) velocityX,
-                    -(int) velocityY, 0, mMaxSize.x, 0, mMaxSize.y);
-        }
-        return true;*/
-        return true;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        if (distanceX > 20) {
-            getParent().requestDisallowInterceptTouchEvent(true);
-        } else {
-            getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @Override
-    protected void onScrollChanged(int horiz, int vert, int oldHoriz, int oldVert) {
-        super.onScrollChanged(horiz, vert, oldHoriz, oldVert);
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-
     }
 
     public void updateFromSettings() {
@@ -510,7 +445,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
             updateHandler.postDelayed(compileProgram, longDelay);
         }
     }
-
 
     public void applyTabWidth(Editable text, int start, int end) {
         String str = text.toString();
@@ -708,7 +642,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         }
     }
 
-
     public void replaceAll(String what, String replace, boolean regex, boolean matchCase) {
         Pattern pattern;
         if (regex) {
@@ -729,7 +662,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
 //        Matcher m = pattern.matcher(clone);
         setText(getText().toString().replaceAll(pattern.toString(), replace));
     }
-
 
     /**
      * move cursor to line
@@ -785,7 +717,6 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         return r.bottom - r.top;
     }
 
-
     public void setVerticalScroll(ScrollView verticalScroll) {
         this.verticalScroll = verticalScroll;
     }
@@ -835,19 +766,31 @@ public abstract class HighlightEditor extends AutoSuggestsEditText
         }
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        // FIXME simple workaround to https://code.google.com/p/android/issues/detail?id=191430
-//        int startSelection = getSelectionStart();
-//        int endSelection = getSelectionEnd();
-//        if (startSelection != endSelection) {
-//            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-//                final CharSequence text = getText();
-//                setText(null);
-//                setText(text);
-//            }
-//        }
-        return super.dispatchTouchEvent(event);
+    public void pinLine(LineInfo lineInfo) {
+        if (lineInfo == null) return;
+        Layout layout = getLayout();
+        Editable e = getEditableText();
+        if (layout != null && lineInfo.line < getLineCount()) {
+            if (lastPinLine < getLineCount() && lastPinLine >= 0) {
+                int lineStart = getLayout().getLineStart(lastPinLine);
+                int lineEnd = getLayout().getLineEnd(lastPinLine);
+                BackgroundColorSpan[] backgroundColorSpan = e.getSpans(lineStart, lineEnd,
+                        BackgroundColorSpan.class);
+                for (BackgroundColorSpan colorSpan : backgroundColorSpan) {
+                    e.removeSpan(colorSpan);
+                }
+            }
+
+            int lineStart = getLayout().getLineStart(lineInfo.line);
+            int lineEnd = getLayout().getLineEnd(lineInfo.line);
+            if (lineStart < lineEnd) {
+                e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                        lineStart,
+                        lineEnd,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            lastPinLine = lineInfo.line;
+        }
     }
 
     public interface OnTextChangedListener {

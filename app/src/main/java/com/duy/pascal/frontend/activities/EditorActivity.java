@@ -44,10 +44,10 @@ import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokenizer.AutoIndentCode;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.backend.tokenizer.AutoIndentCode;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
@@ -81,7 +81,7 @@ import java.util.Map;
 
 import butterknife.OnClick;
 
-public class EditorActivity extends FileEditorActivity implements
+public class EditorActivity extends BaseEditorActivity implements
         DrawerLayout.DrawerListener {
 
     private static final int FILE_SELECT_CODE = 1012;
@@ -105,6 +105,11 @@ public class EditorActivity extends FileEditorActivity implements
             }
         });
         initContent();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return menuEditor.onOptionsItemSelected(item);
     }
 
     public void initContent() {
@@ -138,10 +143,6 @@ public class EditorActivity extends FileEditorActivity implements
         return menuEditor.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return menuEditor.onOptionsItemSelected(item);
-    }
 
     /**
      * create dialog find and replace
@@ -181,7 +182,6 @@ public class EditorActivity extends FileEditorActivity implements
                 alertDialog.dismiss();
             }
         });
-
     }
 
     @Override
@@ -327,6 +327,7 @@ public class EditorActivity extends FileEditorActivity implements
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     protected void onResume() {
@@ -693,5 +694,9 @@ public class EditorActivity extends FileEditorActivity implements
             }
         }
         return node;
+    }
+
+    public void startDebug() {
+        if (doCompile()) mCompileManager.debug(mFilePath);
     }
 }

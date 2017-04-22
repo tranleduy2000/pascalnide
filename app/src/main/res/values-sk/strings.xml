@@ -110,7 +110,7 @@
     <string name="view_console">Zobraziť konzolu</string>
     <string name="resume_program">Obnoviť program</string>
     <string name="help_me_translate">Pomôžte mi preložiť aplikáciu</string>
-    <string name="name">Vaše meno</string>
+    <string name="your_name">Vaše meno</string>
     <string name="send_to_me">Odoslať vývojárovi</string>
     <string name="rerun">Znova spustiť program</string>
     <string name="translate">Preložiť</string>

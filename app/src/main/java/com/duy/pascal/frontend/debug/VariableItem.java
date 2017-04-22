@@ -14,16 +14,38 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.activities;
-
-import com.duy.pascal.backend.debugable.DebugListener;
-import com.duy.pascal.backend.lib.io.InOutListener;
+package com.duy.pascal.frontend.debug;
 
 /**
- * Created by Duy on 21-Apr-17.
+ * Created by Duy on 22-Apr-17.
  */
 
-public abstract class RunnableActivity extends AbstractAppCompatActivity implements
-        ExecHandler, InOutListener, DebugListener {
+public class VariableItem {
+    private String name;
+    private Object value;
 
+    public VariableItem(String name, Object value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    public VariableItem(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
 }

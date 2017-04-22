@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -116,7 +115,7 @@
     <string name="view_console">View console</string>
     <string name="resume_program">Resume program</string>
     <string name="help_me_translate">Help me translate app</string>
-    <string name="name">Your name</string>
+    <string name="your_name">Your name</string>
     <string name="send_to_me">Send to dev</string>
     <string name="rerun">Rerun current program</string>
 
@@ -146,5 +145,9 @@
     <string name="program_structure">Show program structure</string>
     <string name="show_symbol">List symbols</string>
     <string name="show_symbol_decs">Show list symbol below the editor.</string>
+    <string name="debug">Debug program</string>
+    <string name="title_activity_debug">DebugActivity</string>
+    <string name="add_watch">Add watch</string>
+    <string name="var_name">Variable name</string>
 </resources>
 

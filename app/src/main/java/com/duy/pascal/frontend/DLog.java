@@ -26,12 +26,7 @@ import com.google.firebase.crash.FirebaseCrash;
 
 public class DLog {
     public static final String TAG = DLog.class.getSimpleName();
-    public static final boolean DEBUG = true;
-
-    /**
-     * Set <code>true</code> if enable debug program
-     */
-    public static boolean DEBUG_PROGRAM = false;
+    public static final boolean DEBUG = false;
 
     public static void d(Object msg) {
         if (DEBUG) Log.d(TAG, msg.toString());

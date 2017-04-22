@@ -32,8 +32,8 @@ public class PatternsUtils {
             "\\b(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
                     "|downto|to|mod|of" +
                     "|procedure|program|repeat|until|shl|shr" +
-                    "|then|type|var|end|function|" +
-                    "true|false|" +
+                    "|then|type|var|end|function" +
+                    "|true|false" +
                     "|and|or|xor|not|break|exit" +
                     "|integer|byte|word|shortint|smallint|cardinal" +
                     "|string|ansistring" +

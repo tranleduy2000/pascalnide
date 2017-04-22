@@ -30,11 +30,11 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
             System.out.println(getClass().getSimpleName() + " " + getLine());
             if (main != null) {
                 if (main.getDebugListener() != null && main.isDebugMode()) {
-                    main.getDebugListener().onLine(getLine());
+
+                        main.getDebugListener().onLine(getLine());
                 }
                 main.incStack(getLine());
                 main.scriptControlCheck(getLine());
-
             }
             Object valueImpl = getValueImpl(f, main);
             if (main != null) {
@@ -57,6 +57,9 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
         try {
             System.out.println(getClass().getSimpleName() + " " + getLine());
             if (main != null) {
+                if (main.getDebugListener() != null && main.isDebugMode()) {
+                    main.getDebugListener().onLine(getLine());
+                }
                 main.incStack(getLine());
             }
             ExecutionResult result = executeImpl(f, main);

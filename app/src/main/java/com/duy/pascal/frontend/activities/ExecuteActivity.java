@@ -16,151 +16,43 @@
 
 package com.duy.pascal.frontend.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
 
-import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.io.IOLib;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.dialog.DialogManager;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.utils.StringCompare;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.js.interpreter.ast.FunctionDeclaration;
-import com.js.interpreter.ast.VariableDeclaration;
-import com.js.interpreter.ast.codeunit.PascalProgram;
-import com.js.interpreter.core.ScriptSource;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 
 import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class ExecuteActivity extends AbstractExecActivity {
-    public static final boolean DEBUG = DLog.DEBUG;
-    private static final String TAG = ExecuteActivity.class.getSimpleName();
-    private static final int COMPLETE = 4;
-    private static final int RUNTIME_ERROR = 5;
-    private static final int SHOW_KEYBOARD = 6;
-    private String input = "";
-    private String filePath;
-    private AtomicBoolean mIsRunning = new AtomicBoolean(true);
-    private AtomicBoolean isCanRead = new AtomicBoolean(false);
-    private RuntimeExecutable program;
-    private String programFile;
-    private ApplicationFileManager mFileManager;
-    private Handler mMessageHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (!mIsRunning.get()) return;
-            switch (msg.what) {
-                case RUNTIME_ERROR:
-                    onError((Exception) msg.obj);
-                    break;
-                case COMPLETE:
-                    showDialogComplete();
-                    break;
-                case SHOW_KEYBOARD:
-                    showKeyBoard();
-                    break;
-            }
-        }
-    };
-
-    Runnable runProgram = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                //compile
-                PascalCompiler pascalCompiler = new PascalCompiler(ExecuteActivity.this);
-                try {
-                    PascalProgram pascalProgram = pascalCompiler.loadPascal(programFile,
-                            new FileReader(programFile),
-                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
-                            ExecuteActivity.this);
-                    program = pascalProgram.run();
-//                    program.enableDebug();
-                    program.run();
-                    mMessageHandler.sendEmptyMessage(COMPLETE);
-                } catch (ScriptTerminatedException e) {
-                    mMessageHandler.sendEmptyMessage(COMPLETE);
-                } catch (RuntimePascalException | ParsingException e) {
-                    mMessageHandler.sendMessage(mMessageHandler.obtainMessage(RUNTIME_ERROR, e));
-                }
-            } catch (final Exception e) {
-                mMessageHandler.sendMessage(mMessageHandler.obtainMessage(RUNTIME_ERROR, e));
-            }
-        }
-    };
-    //    private Thread runThread = new Thread(runProgram);
-    private IOLib mLock;
-    private Runnable runnableInput = new Runnable() {
-        @Override
-        public void run() {
-            int exitFlag;
-            String str;
-            InputData inputData = new InputData();
-            inputData.first = 0;
-            inputData.last = 0;
-            exitFlag = 0;
-            do {
-                str = mConsoleView.readString();
-                switch (str) {
-                    case ConsoleView.THE_ENTER_KEY: // return
-                    case "\n":
-                        exitFlag = 1;
-                        break;
-                    case ConsoleView.THE_DELETE_COMMAND:
-                        if (inputData.last > 0) {
-                            inputData.last--;
-                            mConsoleView.commitString(String.valueOf(str));
-                        }
-                        break;
-                    default:
-                        if ((StringCompare.greaterEqual(str, " ")) && (inputData.last < MAX_INPUT)) {
-                            inputData.data[inputData.last++] = str;
-                            mConsoleView.commitString(String.valueOf(str));
-                        }
-                        break;
-                }
-            } while (exitFlag == 0 && isCanRead.get());
-            mConsoleView.commitString("\n"); //return new line
-            input = inputData.toString();
-            isCanRead.set(false);
-            if (mLock != null) {
-                mLock.resume();
-            }
-        }
-
-    };
-    private char keyCodeBuffer;
+    @BindView(R.id.console)
+    public ConsoleView mConsoleView;
+    @BindView(R.id.toolbar)
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFileManager = new ApplicationFileManager(this);
-        Bundle extras = getIntent().getExtras();
+        setContentView(R.layout.activity_console);
+        ButterKnife.bind(this);
+        setupActionBar();
+        getConsoleView().updateSize();
+        getConsoleView().showPrompt();
 
+        Bundle extras = getIntent().getExtras();
         if (extras != null) {
             filePath = extras.getString(CompileManager.FILE_PATH);
             if (filePath == null || filePath.isEmpty()) return;
@@ -170,35 +62,80 @@ public class ExecuteActivity extends AbstractExecActivity {
                 return;
             }
             setTitle(file.getName());
-            createAndRunProgram(filePath);
+            setEnableDebug(false); //disable debug
+            createAndRunProgram(filePath); //execute file
         } else {
             finish();
         }
     }
 
-    /**
-     * exec program, run program in internal memory
-     *
-     * @param path - file pas
-     */
-    private void createAndRunProgram(final String path) {
-        String code = mFileManager.readFileAsString(path);
+    @Override
+    public void debugProgram() {
 
-        //clone it to internal storage
-        programFile = mFileManager.setContentFileTemp(code);
-        mConsoleView.commitString("execute file: " + filePath + "\n");
-        mConsoleView.commitString("---------------------------" + "\n");
-        mMessageHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ThreadGroup group = new ThreadGroup("threadGroup");
-                new Thread(group, runProgram, path, 2000000).start();
-//                runThread.start();
-            }
-        }, 200);
     }
 
-    private void showDialogComplete() {
+
+    private void setupActionBar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_console, menu);
+//        menu.findItem(R.id.action_next_line).setVisible(false);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_show_soft:
+                showKeyBoard();
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_change_keyboard:
+                changeKeyBoard();
+                break;
+            case R.id.action_next_line:
+                program.resume();
+                break;
+            case R.id.action_rerun:
+                CompileManager.execute(this, filePath);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * show dialog pick keyboard
+     */
+    private void changeKeyBoard() {
+        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (mgr != null) {
+            mgr.showInputMethodPicker();
+        }
+    }
+
+    /**
+     * show soft keyboard
+     */
+    public void showKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(getConsoleView(), 0);
+    }
+
+    public void toggleSoftInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null) return;
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    @Override
+    public void showDialogComplete() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.complete)
                 .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
@@ -225,15 +162,10 @@ public class ExecuteActivity extends AbstractExecActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
-
     /**
      * show error compile or runtime
      */
+    @Override
     public void onError(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
         DialogManager.createDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
@@ -241,175 +173,10 @@ public class ExecuteActivity extends AbstractExecActivity {
         if (DEBUG) e.printStackTrace();
     }
 
-    @Override
-    public void startReadKey(IOLib lock) {
-        mConsoleView.setFilterKey(true);
-        this.mLock = lock;
-    }
-
-    /**
-     * set background console
-     *
-     * @param color
-     */
-    public void setTextBackground(final int color) {
-        mConsoleView.setConsoleTextBackground(color);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopInput();
-        mConsoleView.onStop();
-        //stop program
-        stopProgram();
-    }
-
-    public String getInput() {
-        return input;
-    }
-
-    @Override
-    public void print(CharSequence charSequence) {
-        mConsoleView.commitString(charSequence.toString());
-    }
-
-    @Override
-    public void println(CharSequence charSequence) {
-        mConsoleView.commitString(charSequence.toString());
-        mConsoleView.commitString("\n");
-    }
-
-
-    @Override
-    public char getKeyCode() {
-        keyCodeBuffer = mConsoleView.readKey();
-        return keyCodeBuffer;
-    }
-
-    @Override
-    public boolean keyPressed() {
-        return mConsoleView.isKeyPressed();
-    }
 
     @Override
     public ConsoleView getConsoleView() {
         return mConsoleView;
-    }
-
-    @Override
-    public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
-    }
-
-    @Override
-    public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
-    }
-
-    @Override
-    public void onFunctionCall(final FunctionDeclaration functionDeclaration) {
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-//                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + "Call procedure \'"
-//                        + functionDeclaration.getName() + "\'"));
-            }
-        });
-    }
-
-    @Override
-    public void onProcedureCall(final FunctionDeclaration functionDeclaration) {
-        if (DLog.DEBUG) Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-//                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + "Call function \'"
-//                        + functionDeclaration.getName() + "\'"));
-            }
-        });
-    }
-
-    @Override
-    public void onNewMessage(final String msg) {
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-//                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, ">_ " + msg));
-            }
-        });
-    }
-
-    @Override
-    public void onClearDebug() {
-////        debugView.clear();
-    }
-
-    @Override
-    public void onVariableChangeValue(final String name, final Object value) {
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-////                debugView.addLine(new DebugItem(DebugItem.TYPE_VAR, name, String.valueOf(value)));
-            }
-        });
-    }
-
-    @Override
-    public void onFunctionCall(final String name) {
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-////                debugView.addLine(new DebugItem(DebugItem.TYPE_MSG, "> " + "Call procedure \'" + name + "\'"));
-            }
-        });
-    }
-
-    @Override
-    public void onLine(LineInfo lineInfo) {
-        Log.d(TAG, "onLine: " + lineInfo);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_next_line) {
-            //do something
-        } else if (item.getItemId() == R.id.action_rerun) {
-            CompileManager.execute(this, filePath);
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * force stop
-     */
-    private void stopProgram() {
-        Log.d(TAG, "stopProgram: ");
-        try {
-            program.terminate();
-            Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
-        } catch (Exception ignored) {
-            if (DLog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
-        }
-    }
-
-    @Override
-    public synchronized void startInput(IOLib lock) {
-        this.mLock = lock;
-        if (DLog.DEBUG) Log.d(TAG, "startInput: ");
-        mMessageHandler.sendEmptyMessage(SHOW_KEYBOARD);
-        isCanRead.set(true);
-        new Thread(runnableInput).start();
-    }
-
-    @Override
-    public void stopInput() {
-        //stop in put thread
-        isCanRead.set(false);
     }
 }
 

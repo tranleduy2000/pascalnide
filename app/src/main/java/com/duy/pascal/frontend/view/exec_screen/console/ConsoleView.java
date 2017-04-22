@@ -756,7 +756,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        Log.d(TAG, "onSizeChanged: ");
+        Log.d(TAG, "onSizeChanged: " + w + " " + h + " " + oldw + " " + oldh);
         mGraphScreen.onSizeChange(w, h);
         updateSize();
     }
@@ -950,7 +950,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 || mImeBuffer.length() > 0;
     }
 
-//pascal
+    //pascal
     public int getColorPixel(int x, int y) {
         return mGraphScreen.getColorPixel(x, y);
     }
@@ -1027,8 +1027,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
+        Log.d(TAG, "onDoubleTap: ");
         doShowSoftKeyboard();
-        return false;
+        return true;
     }
 
     @Override

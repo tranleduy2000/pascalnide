@@ -134,8 +134,12 @@ public class MenuEditor {
                 break;
             case R.id.action_info:
                 activity.startActivity(new Intent(activity, InfoActivity.class));
+                break;
             case R.id.action_program_structure:
                 activity.showProgramStructure();
+                break;
+            case R.id.action_debug:
+                activity.startDebug();
                 break;
         }
         return true;

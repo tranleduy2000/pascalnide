@@ -6,7 +6,6 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.ast.AbstractCallableFunction;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -32,7 +31,7 @@ public class SimpleFunctionCall extends FunctionCall {
     public SimpleFunctionCall(AbstractCallableFunction function,
                               ReturnsValue[] arguments, LineInfo line) {
         this.function = function;
-        if (function == null && DLog.DEBUG_PROGRAM) {
+        if (function == null) {
             System.err.println("Warning: Null function call");
         }
         this.arguments = arguments;
@@ -46,11 +45,6 @@ public class SimpleFunctionCall extends FunctionCall {
         Object[] values = new Object[arguments.length];
         ArgumentType[] argumentTypes = function.getArgumentTypes();
 
-        StringBuilder log = new StringBuilder();
-        for (ArgumentType argumentType : argumentTypes) {
-            log.append(argumentType).append(";");
-        }
-
         //convert to string object for print console or write to file
         if (getFunctionName().equals("writeln") || getFunctionName().equals("write")) {
             for (int i = 0; i < values.length; i++) {
@@ -60,7 +54,7 @@ public class SimpleFunctionCall extends FunctionCall {
                     ReturnsValue rawValue = arguments[i];
                     ReturnsValue[] outputFormat = rawValue.getOutputFormat();
                     StringBuilder object = new StringBuilder(String.valueOf(rawValue.getValue(f, main)));
-                    Log.d(TAG, "getValueImpl: obj " + object);
+
                     if (outputFormat != null) {
                         if (outputFormat[1] != null) {
                             int sizeOfReal = (int) outputFormat[1].getValue(f, main);

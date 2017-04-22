@@ -101,8 +101,6 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnsValue {
         throw new BadOperationTypeException(line, type1, type2, value1, value2, operateType);
     }
 
-
-
     @Override
     public LineInfo getLine() {
         return line;

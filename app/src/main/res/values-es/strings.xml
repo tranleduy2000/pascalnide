@@ -112,7 +112,7 @@
     <string name="view_console">Ver consola</string>
     <string name="resume_program">Reanudar programa</string>
     <string name="help_me_translate">Ayudame a traducir la aplicación</string>
-    <string name="name">Tu nombre</string>
+    <string name="your_name">Tu nombre</string>
     <string name="send_to_me">Enviar al desarrollador</string>
     <string name="rerun">Volver a ejecutar programa actual</string>
     <string name="translate">Traducir</string>

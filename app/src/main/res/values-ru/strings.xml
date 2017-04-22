@@ -70,7 +70,7 @@
     <string name="language">Язык</string>
     <string name="match_case">Учитывать регистр</string>
     <string name="more_app">Ещё приложения</string>
-    <string name="name">Ваше имя</string>
+    <string name="your_name">Ваше имя</string>
     <string name="new_file">Создать файл</string>
     <string name="new_folder">Создать папку</string>
     <string name="ok">OK</string>

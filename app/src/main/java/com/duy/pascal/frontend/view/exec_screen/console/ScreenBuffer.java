@@ -41,6 +41,7 @@ public class ScreenBuffer {
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
 
+
     public TextConsole[] getTextConsole() {
         return textConsole;
     }
@@ -56,6 +57,7 @@ public class ScreenBuffer {
     public void setTextOnScreenBuffer(char[] textOnScreenBuffer) {
         this.textOnScreenBuffer = textOnScreenBuffer;
     }
+
     public int[] getColorScreenBuffer() {
         return colorScreenBuffer;
     }

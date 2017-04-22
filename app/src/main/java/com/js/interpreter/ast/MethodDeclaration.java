@@ -1,5 +1,6 @@
 package com.js.interpreter.ast;
 
+import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.lib.annotations.ArrayBoundsInfo;
 import com.duy.pascal.backend.lib.annotations.MethodTypeData;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -13,6 +14,7 @@ import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.GenericArrayType;
@@ -38,7 +40,8 @@ public class MethodDeclaration extends AbstractCallableFunction {
     @Override
     public Object call(VariableContext parentContext,
                        RuntimeExecutable<?> main, Object[] arguments)
-            throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+            throws IllegalArgumentException, IllegalAccessException, InvocationTargetException,
+            StackOverflowException, ScriptTerminatedException {
         return method.invoke(parent, arguments);
     }
 

@@ -41,12 +41,6 @@ import com.google.firebase.crash.FirebaseCrash;
  */
 
 public abstract class UndoRedoSupportEditText extends HighlightEditor {
-    public static final int ID_SELECT_ALL = android.R.id.selectAll;
-    public static final int ID_CUT = android.R.id.cut;
-    public static final int ID_COPY = android.R.id.copy;
-    public static final int ID_PASTE = android.R.id.paste;
-    public static final int ID_UNDO = R.id.action_undo;
-    public static final int ID_REDO = R.id.action_redo;
 
     private static final boolean DEBUG = true;
     private static final String TAG = UndoRedoSupportEditText.class.getSimpleName();

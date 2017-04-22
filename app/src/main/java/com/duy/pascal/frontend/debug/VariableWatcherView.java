@@ -23,32 +23,33 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 /**
- * Created by Duy on 11-Feb-17.
+ * Created by Duy on 22-Apr-17.
  */
 
-public class DebugView extends RecyclerView {
-    private DebugAdapter mAdapter;
+public class VariableWatcherView extends RecyclerView {
+    private VariableWatcherAdapter mAdapter;
 
-    public DebugView(Context context) {
+    public VariableWatcherView(Context context) {
         super(context);
         setup(context);
     }
 
-    public DebugView(Context context, @Nullable AttributeSet attrs) {
+    public VariableWatcherView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setup(context);
 
     }
 
-    public DebugView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public VariableWatcherView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setup(context);
-
     }
 
     private void setup(Context context) {
-        mAdapter = new DebugAdapter(context);
+        mAdapter = new VariableWatcherAdapter(context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
         setLayoutManager(linearLayoutManager);
         setHasFixedSize(false);
         setAdapter(mAdapter);
@@ -61,8 +62,10 @@ public class DebugView extends RecyclerView {
         mAdapter.clear();
     }
 
-    public void addLine(DebugItem debugItem) {
-        mAdapter.addLine(debugItem);
+    public void addVariable(VariableItem variableItem) {
+        mAdapter.addVariable(variableItem);
         scrollToPosition(mAdapter.getItemCount() - 1);
     }
+
+
 }

@@ -1,6 +1,5 @@
 package com.js.interpreter.runtime;
 
-import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -32,7 +31,7 @@ public class FunctionOnStack extends VariableContext {
     public FunctionOnStack(VariableContext parentContext, RuntimeExecutable<?> main,
                            FunctionDeclaration declaration, Object[] arguments) {
         // TODO: 27-Mar-17  debug function
-        if (main.getDebugListener() != null && DLog.DEBUG_PROGRAM) {
+        if (main.isDebugMode()) {
             if (declaration.isProcedure()) {
                 main.getDebugListener().onFunctionCall(declaration);
             } else {

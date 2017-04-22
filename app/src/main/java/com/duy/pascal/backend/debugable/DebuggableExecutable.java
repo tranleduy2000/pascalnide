@@ -18,10 +18,9 @@ public abstract class DebuggableExecutable implements Executable {
             throws RuntimePascalException {
         try {
             System.out.println(getClass().getSimpleName() + " " + getLine());
-
             if (main != null) {
                 if (main.getDebugListener() != null && main.isDebugMode()) {
-                    main.getDebugListener().onLine(getLine());
+                        main.getDebugListener().onLine(getLine());
                 }
                 main.incStack(getLine());
                 main.scriptControlCheck(getLine());
