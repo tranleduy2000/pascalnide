@@ -26,6 +26,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -59,16 +60,20 @@ public class DebugActivity extends AbstractExecActivity {
     LockableScrollView mScrollView;
     @BindView(R.id.watcher)
     VariableWatcherView variableWatcherView;
+    @BindView(R.id.empty_view)
+    View emptyView;
     private Handler handler = new Handler();
     private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideStatusBar();
         setContentView(R.layout.activity_debug);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
+        variableWatcherView.setEmptyView(emptyView);
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
         getConsoleView().commitString("enable debug mode");
@@ -179,6 +184,14 @@ public class DebugActivity extends AbstractExecActivity {
             case R.id.action_add_watch:
                 addWatchVariable();
                 break;
+            case R.id.action_show_soft:
+                showKeyBoard();
+                break;
+            case R.id.action_rerun:
+                CompileManager.debug(this, filePath);
+                finish();
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }

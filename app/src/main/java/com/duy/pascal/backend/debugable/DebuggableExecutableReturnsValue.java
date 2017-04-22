@@ -27,19 +27,18 @@ public abstract class DebuggableExecutableReturnsValue implements Executable,
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         try {
-
-            if (main != null) {
-                if (main.isDebugMode()) {
-                    main.getDebugListener().onLine(getLine());
-                    System.out.println(getClass().getSimpleName() + " " + getLine());
-                }
-                main.incStack(getLine());
-                main.scriptControlCheck(getLine());
-            }
+//            if (main != null) {
+//                if (main.isDebugMode()) {
+//                    main.getDebugListener().onLine(getLine());
+//                    System.out.println(getClass().getSimpleName() + " " + getLine());
+//                }
+//                main.incStack(getLine());
+//                main.scriptControlCheck(getLine());
+//            }
             Object valueImpl = getValueImpl(f, main);
-            if (main != null) {
-                main.decStack();
-            }
+//            if (main != null) {
+//                main.decStack();
+//            }
             return valueImpl;
         } catch (RuntimePascalException e) {
             throw e;

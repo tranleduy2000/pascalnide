@@ -16,17 +16,22 @@
 
 package com.duy.pascal.frontend.info_application;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -34,7 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class InfoActivity extends AppCompatActivity {
+public class InfoActivity extends AbstractAppCompatActivity {
     private static final String TAG = InfoActivity.class.getClass().getSimpleName();
     @BindView(R.id.list_translate)
     RecyclerView mListTranslate;
@@ -74,6 +79,38 @@ public class InfoActivity extends AppCompatActivity {
 
     }
 
+    public void gotoNcalcApp(View view) {
+        Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)));
+        }
+    }
+
+    public void gotoSortApp(View view) {
+        Uri uri = Uri.parse("market://details?id=com.duy.sortalgorithm.free");
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=com.duy.sortalgorithm.free")));
+        }
+    }
+
     class TaskLoadData extends AsyncTask<Void, Void, Void> {
         ArrayList<ItemInfo> dataTranslate;
         ArrayList<ItemInfo> dataLicense;
@@ -93,12 +130,14 @@ public class InfoActivity extends AppCompatActivity {
             mListTranslate.setLayoutManager(new LinearLayoutManager(InfoActivity.this));
             mListTranslate.setHasFixedSize(false);
             mListTranslate.setAdapter(adapterTranslate);
+            mListTranslate.setNestedScrollingEnabled(false);
 
             LicenseAdapter adapterLicense = new LicenseAdapter(InfoActivity.this, dataLicense);
             mListLicense.setLayoutManager(new LinearLayoutManager(InfoActivity.this));
             mListLicense.setHasFixedSize(false);
             mListLicense.setAdapter(adapterLicense);
             mListLicense.addItemDecoration(new DividerItemDecoration(InfoActivity.this, DividerItemDecoration.VERTICAL));
+            mListLicense.setNestedScrollingEnabled(false);
         }
     }
 

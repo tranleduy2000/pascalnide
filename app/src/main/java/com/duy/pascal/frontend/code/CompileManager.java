@@ -46,6 +46,12 @@ public class CompileManager {
         activity.startActivity(intent);
     }
 
+    public static void debug(Activity mActivity, String name) {
+        Intent intent = new Intent(mActivity, DebugActivity.class);
+        intent.putExtra(FILE_PATH, name);
+        mActivity.startActivity(intent);
+    }
+
     // Execute compiled file
     public void execute(String name) {
         Intent intent = new Intent(mActivity, ExecuteActivity.class);

@@ -139,7 +139,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         }
     }
 
-    private void setFullScreen() {
+    public void setFullScreen() {
         if (mPascalPreferences.useFullScreen()) {
             hideStatusBar();
         } else {
@@ -199,6 +199,10 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     }
 
     public void rateApp() {
+        this.rateApp(null);
+    }
+
+    public void rateApp(View view) {
         Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,

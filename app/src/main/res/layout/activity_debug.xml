@@ -49,19 +49,25 @@
             android:layout_weight="50"
             android:fillViewport="true">
 
-            <com.duy.pascal.frontend.view.code_view.HighlightEditor
-                android:id="@+id/code_editor"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:editable="false"
-                android:focusable="false"
-                android:gravity="top|start"
-                android:inputType="none|textMultiLine"
-                android:scrollbarSize="5dip"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical">
+                android:fillViewport="true">
 
-            </com.duy.pascal.frontend.view.code_view.HighlightEditor>
+                <com.duy.pascal.frontend.view.code_view.HighlightEditor
+                    android:id="@+id/code_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:gravity="top|start"
+                    android:inputType="none|textMultiLine"
+                    android:scrollbarSize="5dip"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical">
+
+                </com.duy.pascal.frontend.view.code_view.HighlightEditor>
+            </HorizontalScrollView>
 
         </com.duy.pascal.frontend.view.LockableScrollView>
 
@@ -77,7 +83,7 @@
                 android:id="@+id/console"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="500"
+                android:layout_weight="600"
                 android:background="#000"
                 android:focusable="true"
                 android:focusableInTouchMode="true" />
@@ -87,11 +93,26 @@
                 android:layout_height="match_parent"
                 android:background="?colorAccent" />
 
-            <com.duy.pascal.frontend.debug.VariableWatcherView
-                android:id="@+id/watcher"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="500" />
+                android:layout_weight="400">
+
+                <com.duy.pascal.frontend.debug.VariableWatcherView
+                    android:id="@+id/watcher"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/empty_view"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Add variable here..."
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </FrameLayout>
+
         </LinearLayout>
 
     </LinearLayout>

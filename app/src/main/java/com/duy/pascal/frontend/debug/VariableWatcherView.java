@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * Created by Duy on 22-Apr-17.
@@ -28,6 +29,7 @@ import android.util.AttributeSet;
 
 public class VariableWatcherView extends RecyclerView {
     private VariableWatcherAdapter mAdapter;
+    private View emptyView;
 
     public VariableWatcherView(Context context) {
         super(context);
@@ -48,7 +50,6 @@ public class VariableWatcherView extends RecyclerView {
     private void setup(Context context) {
         mAdapter = new VariableWatcherAdapter(context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setSmoothScrollbarEnabled(true);
         setLayoutManager(linearLayoutManager);
         setHasFixedSize(false);
@@ -64,8 +65,12 @@ public class VariableWatcherView extends RecyclerView {
 
     public void addVariable(VariableItem variableItem) {
         mAdapter.addVariable(variableItem);
+        if (emptyView != null) emptyView.setVisibility(GONE);
         scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
 
+    public void setEmptyView(View emptyView) {
+        this.emptyView = emptyView;
+    }
 }

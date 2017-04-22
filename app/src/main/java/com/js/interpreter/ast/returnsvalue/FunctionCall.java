@@ -73,45 +73,6 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
         } else {
             return returnsValue;
         }
-        /*boolean matching = false;
-
-        AbstractFunction chosen = null;
-        boolean perfectfit = false;
-        AbstractFunction ambigous = null;
-        ReturnsValue result = null;
-        for (List<AbstractFunction> l : possibilities) {
-            for (AbstractFunction a : l) {
-                result = a.generatePerfectFitCall(name.lineInfo, arguments, f);
-                if (result != null) {
-                    if (perfectfit) {
-                        throw new AmbiguousFunctionCallException(name.lineInfo,
-                                chosen, a);
-                    }
-                    perfectfit = true;
-                    chosen = a;
-                    continue;
-                }
-                result = a.generateCall(name.lineInfo, arguments, f);
-                if (result != null && !perfectfit) {
-                    if (chosen != null) {
-                        ambigous = chosen;
-                    }
-                    chosen = a;
-                }
-                if (a.getArgumentTypes().length == arguments.size()) {
-                    matching = true;
-                }
-            }
-        }
-        if (result == null) {
-            throw new BadFunctionCallException(name.lineInfo, name.name,
-                    !possibilities.isEmpty(), matching);
-        } else if (!perfectfit && ambigous != null) {
-            throw new AmbiguousFunctionCallException(name.lineInfo, chosen,
-                    ambigous);
-        } else {
-            return result;
-        }*/
     }
 
     @Override

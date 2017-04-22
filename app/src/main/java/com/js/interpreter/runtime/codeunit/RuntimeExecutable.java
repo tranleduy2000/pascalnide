@@ -124,6 +124,28 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
         } while (true);
     }
 
+    public void scriptControlCheck(LineInfo line, boolean debug)
+            throws ScriptTerminatedException {
+        do {
+            if (runMode == ControlMode.PAUSED || debug) {
+                synchronized (this) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+            }
+
+            if (runMode == ControlMode.RUNNING) {
+                return;
+            }
+            if (runMode == ControlMode.TERMINATED) {
+                throw new ScriptTerminatedException(line);
+            }
+
+        } while (true);
+    }
+
     public DebugListener getDebugListener() {
         return debugListener;
     }

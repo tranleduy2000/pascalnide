@@ -44,10 +44,14 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
                             || this instanceof CharacterBoxer)) {
                         System.out.println(getClass().getSimpleName() + " " + getLine());
                         main.getDebugListener().onLine(getLine());
+                        main.scriptControlCheck(getLine(), true);
+                    } else {
+                        main.scriptControlCheck(getLine(), false);
                     }
+                } else {
+                    main.scriptControlCheck(getLine());
                 }
                 main.incStack(getLine());
-                main.scriptControlCheck(getLine());
             }
             Object valueImpl = getValueImpl(f, main);
             if (main != null) {

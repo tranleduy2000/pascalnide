@@ -101,7 +101,7 @@ public class VariableWatcherAdapter extends RecyclerView.Adapter<VariableWatcher
             txtName.setText(variableItem.getName() +
                     (variableItem.getValue() != null
                             ? " = " + variableItem.getValue().toString()
-                            : ""));
+                            : " = null"));
         }
     }
 }

@@ -42,6 +42,7 @@ public class SimpleFunctionCall extends FunctionCall {
         if (main != null) {
             if (main.isDebugMode()) {
                 main.getDebugListener().onLine(getLine());
+                System.out.println(getClass().getSimpleName() + " " + getLine());
             }
             main.incStack(getLine());
             main.scriptControlCheck(getLine());

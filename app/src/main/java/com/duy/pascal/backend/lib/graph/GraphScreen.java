@@ -23,6 +23,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
+import com.duy.pascal.backend.imageprocessing.ImageUtils;
 import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 import com.duy.pascal.backend.lib.graph.paint.FillPaint;
 import com.duy.pascal.backend.lib.graph.paint.LinePaint;
@@ -139,7 +140,11 @@ public class GraphScreen {
     }
 
     private synchronized void invalidateBitmap() {
-        mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        if (mGraphBitmap == null) {
+            mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        } else {
+            mGraphBitmap = ImageUtils.getResizedBitmap(mGraphBitmap, width, height);
+        }
 //        Canvas canvas = new Canvas(mGraphBitmap);
 //        for (GraphObject object : graphObjects) {
 //            object.draw(canvas);

@@ -18,9 +18,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/nav_run"
-        android:icon="@drawable/ic_play_circle_outline_white_24dp"
-        android:title="@string/run"
+        android:id="@+id/action_rerun"
+        android:icon="@drawable/ic_replay_white_24dp"
+        android:title="@string/rerun"
         app:showAsAction="always" />
 
     <item
@@ -40,4 +40,9 @@
         android:title="@string/program_structure"
         android:visible="false"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_show_soft"
+        android:icon="@drawable/ic_keyboard_white_24dp"
+        android:title="@string/show_key_board"
+        app:showAsAction="ifRoom" />
 </menu>
