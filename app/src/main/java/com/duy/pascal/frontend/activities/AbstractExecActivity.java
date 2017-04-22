@@ -29,6 +29,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.utils.StringCompare;
@@ -307,7 +308,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         Log.d(TAG, "stopProgram: ");
         try {
             program.terminate();
-            Toast.makeText(this, "Program is stopped", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
             if (DLog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
         }

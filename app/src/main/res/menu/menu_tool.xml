@@ -74,6 +74,23 @@
                 android:title="@string/copy_all" />
         </menu>
     </item>
+
+
+    <item
+        android:id="@+id/action_compile"
+        android:icon="@drawable/ic_check_circle_white_24dp"
+        android:title="@string/compile"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_run"
+        android:icon="@drawable/ic_play_arrow_white_24dp"
+        android:title="@string/run"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_debug"
+        android:icon="@drawable/ic_bug_report_white_24dp"
+        android:title="@string/debug"
+        app:showAsAction="ifRoom" />
     <item
         android:icon="@drawable/ic_build_white_24dp"
         android:title="@string/tool"
@@ -99,24 +116,6 @@
                 android:title="@string/format_code" />
         </menu>
     </item>
-
-    <item
-        android:id="@+id/action_compile"
-        android:icon="@drawable/ic_check_circle_white_24dp"
-        android:title="@string/compile"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/nav_run"
-        android:icon="@drawable/ic_play_arrow_white_24dp"
-        android:title="@string/run"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_debug"
-        android:icon="@drawable/ic_bug_report_white_24dp"
-        android:title="@string/debug"
-        app:showAsAction="always" />
-
-
     <item
         android:id="@+id/action_more_feature"
         android:icon="@drawable/ic_more_vert_white_24dp"
