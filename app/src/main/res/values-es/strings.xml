@@ -143,7 +143,9 @@
     <string name="program_structure">Show program structure</string>
     <string name="show_symbol">List symbols</string>
     <string name="show_symbol_decs">Show list symbol below the editor.</string>
-
+    <string name="add_watch">Add watch</string>
+    <string name="debug">Debug program</string>
+    <string name="var_name">Variable name</string>
 </resources>
 
 

@@ -139,7 +139,7 @@
     <string name="file_exist">Файл с таким именем уже существует!</string>
     <string name="send_mail">Отправить письмо…</string>
     <string name="no_mail_clients">Нет установленных почтовых клиентов.</string>
-    <string name="your_language">Твой язык</string>
+     <string name="your_language">Ваш язык</string>
     <string name="logo">Логотип</string>
     <string name="auto_compile">Авто компиляция</string>
     <string name="auto_compile_summary">Автоматическая компиляция во время набора текста. Однако производительность приложения снизится!</string>
@@ -147,4 +147,7 @@
     <string name="program_structure">Show program structure</string>
     <string name="show_symbol">List symbols</string>
     <string name="show_symbol_decs">Show list symbol below the editor.</string>
+    <string name="add_watch">Add watch</string>
+    <string name="debug">Debug program</string>
+    <string name="var_name">Variable name</string>
 </resources>
