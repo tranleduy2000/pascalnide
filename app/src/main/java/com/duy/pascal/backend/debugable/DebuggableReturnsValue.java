@@ -6,6 +6,9 @@ import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.StringIndexAccess;
 import com.js.interpreter.ast.returnsvalue.VariableAccess;
+import com.js.interpreter.ast.returnsvalue.boxing.ArrayBoxer;
+import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
+import com.js.interpreter.ast.returnsvalue.boxing.StringBuilderBoxer;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -29,23 +32,22 @@ public abstract class DebuggableReturnsValue implements ReturnsValue {
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         try {
-            System.out.println(getClass().getSimpleName() + " " + getLine());
             if (main != null) {
-                boolean debugMode = main.isDebugMode();
-                if (main.getDebugListener() != null && main.isDebugMode()) {
+                if (main.isDebugMode()) {
                     if (!(this instanceof VariableAccess
                             || this instanceof ArrayAccess
                             || this instanceof ConstantAccess
                             || this instanceof FieldAccess
-                            || this instanceof StringIndexAccess)) {
+                            || this instanceof StringBuilderBoxer
+                            || this instanceof StringIndexAccess
+                            || this instanceof ArrayBoxer
+                            || this instanceof CharacterBoxer)) {
+                        System.out.println(getClass().getSimpleName() + " " + getLine());
                         main.getDebugListener().onLine(getLine());
-                    } else {
-                        main.setDebugMode(false);
                     }
                 }
                 main.incStack(getLine());
                 main.scriptControlCheck(getLine());
-                main.setDebugMode(debugMode);
             }
             Object valueImpl = getValueImpl(f, main);
             if (main != null) {

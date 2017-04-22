@@ -19,12 +19,11 @@ public abstract class DebuggableExecutable implements Executable {
         try {
             System.out.println(getClass().getSimpleName() + " " + getLine());
             if (main != null) {
-                if (main.getDebugListener() != null && main.isDebugMode()) {
-                        main.getDebugListener().onLine(getLine());
+                if (main.isDebugMode()) {
+                    main.getDebugListener().onLine(getLine());
                 }
                 main.incStack(getLine());
                 main.scriptControlCheck(getLine());
-
             }
             ExecutionResult result = executeImpl(f, main);
             if (main != null) {

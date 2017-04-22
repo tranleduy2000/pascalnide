@@ -1,7 +1,5 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
@@ -41,8 +39,17 @@ public class SimpleFunctionCall extends FunctionCall {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        //clone value
+        if (main != null) {
+            if (main.isDebugMode()) {
+                main.getDebugListener().onLine(getLine());
+            }
+            main.incStack(getLine());
+            main.scriptControlCheck(getLine());
+        }
+
+        //array store clone value
         Object[] values = new Object[arguments.length];
+        //list type of list variable
         ArgumentType[] argumentTypes = function.getArgumentTypes();
 
         //convert to string object for print console or write to file
@@ -91,6 +98,8 @@ public class SimpleFunctionCall extends FunctionCall {
         } catch (InvocationTargetException e) {
             throw new PluginCallException(line, e.getTargetException(), function);
         }
+        if (main != null)
+            main.decStack();
         return result;
     }
 

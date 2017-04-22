@@ -783,6 +783,7 @@ public class HighlightEditor extends AutoSuggestsEditText
 
             int lineStart = getLayout().getLineStart(lineInfo.line);
             int lineEnd = getLayout().getLineEnd(lineInfo.line);
+            lineStart = lineEnd + lineInfo.column;
             if (lineStart < lineEnd) {
                 e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
                         lineStart,

@@ -20,7 +20,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     private static final String TAG = "RuntimeExecutable";
     private long stack = 0;
     private Map<Library, RuntimeLibrary> RuntimeLibs = new HashMap<>();
-    private volatile ControlMode runmode = ControlMode.RUNNING;
+    private volatile ControlMode runMode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
     private DebugListener debugListener;
     private boolean debugMode = false;
@@ -75,7 +75,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void pause() {
-        runmode = ControlMode.PAUSED;
+        runMode = ControlMode.PAUSED;
     }
 
     public void enableDebug() {
@@ -88,7 +88,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void resume() {
-        runmode = ControlMode.RUNNING;
+        runMode = ControlMode.RUNNING;
         synchronized (this) {
             this.notifyAll();
         }
@@ -96,7 +96,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     @Override
     public void terminate() {
-        runmode = ControlMode.TERMINATED;
+        runMode = ControlMode.TERMINATED;
         synchronized (this) {
             this.notifyAll();
         }
@@ -105,9 +105,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     public void scriptControlCheck(LineInfo line)
             throws ScriptTerminatedException {
         do {
-            if (runmode == ControlMode.PAUSED ||
-                    //pause it
-                    debugMode) {
+            if (runMode == ControlMode.PAUSED || debugMode) {
                 synchronized (this) {
                     try {
                         this.wait();
@@ -116,10 +114,10 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
                 }
             }
 
-            if (runmode == ControlMode.RUNNING) {
+            if (runMode == ControlMode.RUNNING) {
                 return;
             }
-            if (runmode == ControlMode.TERMINATED) {
+            if (runMode == ControlMode.TERMINATED) {
                 throw new ScriptTerminatedException(line);
             }
 

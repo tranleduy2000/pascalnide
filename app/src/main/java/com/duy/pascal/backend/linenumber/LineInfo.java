@@ -2,23 +2,23 @@ package com.duy.pascal.backend.linenumber;
 
 public class LineInfo {
     public int line;
-    public int column = -1;
-    public String sourcefile;
+    public int column = 0;
+    public String sourceFile;
 
-    public LineInfo(int line, String sourcefile) {
+    public LineInfo(int line, String sourceFile) {
         this.line = line;
-        this.sourcefile = sourcefile;
+        this.sourceFile = sourceFile;
     }
 
-    public LineInfo(int line, int column, String sourcefile) {
+    public LineInfo(int line, int column, String sourceFile) {
         this.line = line;
         this.column = column;
-        this.sourcefile = sourcefile;
+        this.sourceFile = sourceFile;
     }
 
     @Override
     public String toString() {
-        return "Line " + line + (column >= 0 ? ":" + column : "") + " " + sourcefile;
+        return "Line " + line + (column >= 0 ? ":" + column : "") + " " + sourceFile;
 
     }
 }
