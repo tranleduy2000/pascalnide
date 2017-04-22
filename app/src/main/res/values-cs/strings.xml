@@ -147,5 +147,6 @@
     <string name="add_watch">Add watch</string>
     <string name="debug">Debug program</string>
     <string name="var_name">Variable name</string>
+    <string name="program_stopped">Program is stopped</string>
 </resources>
 

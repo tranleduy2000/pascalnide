@@ -145,4 +145,5 @@
     <string name="add_watch">Add watch</string>
     <string name="debug">Debug program</string>
     <string name="var_name">Tên biến</string>
+    <string name="program_stopped">Chương trình đã dừng</string>
 </resources>
