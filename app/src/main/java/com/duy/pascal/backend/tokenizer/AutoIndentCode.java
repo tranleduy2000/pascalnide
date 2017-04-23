@@ -144,7 +144,7 @@ public class AutoIndentCode {
             result.append(getTab(numberTab));
             result.append(((GrouperToken) token).toCode());
         } else if (token instanceof DoToken) {
-            processDoToken(token);
+            processThenToken(token);
         } else if (token instanceof CaseToken) {
             processCaseToken(token);
         } else if (token instanceof ThenToken) {
@@ -315,9 +315,9 @@ public class AutoIndentCode {
         }
     }
 
-    private void processThenToken(ThenToken thenToken) throws IOException {
+    private void processThenToken(Token thenToken) throws IOException {
         result.append(getTab(numberTab));
-        result.append(thenToken.toCode()).append(" ");
+        result.append(thenToken.toString()).append(" ");
 
         /*
           if 1 < 2 then
