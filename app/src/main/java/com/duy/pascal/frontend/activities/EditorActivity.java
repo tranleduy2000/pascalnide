@@ -661,7 +661,7 @@ public class EditorActivity extends BaseEditorActivity implements
                     name + " = " + constants.get(name).getValue()));
         }
 
-        ArrayList<String> libraries = context.getLibraries();
+        ArrayList<String> libraries = context.getLibrarieNames();
         for (String name : libraries) {
             Log.d(TAG, tab + "showProgramStructure: library " + name);
             node.addNode(new StructureItem(StructureType.TYPE_LIBRARY, name));

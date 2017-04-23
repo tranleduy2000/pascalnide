@@ -11,18 +11,11 @@ import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.lib.ConversionLib;
-import com.duy.pascal.backend.lib.CrtLib;
-import com.duy.pascal.backend.lib.DosLib;
 import com.duy.pascal.backend.lib.LibraryUtils;
-import com.duy.pascal.backend.lib.StrUtilsLibrary;
 import com.duy.pascal.backend.lib.StringLib;
-import com.duy.pascal.backend.lib.SysUtilsLibrary;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
-import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
-import com.duy.pascal.backend.lib.io.InOutListener;
-import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.lib.templated.SetLengthFunction;
 import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePluginDeclaration;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -43,14 +36,12 @@ import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.ConstantDefinition;
 import com.js.interpreter.ast.FunctionDeclaration;
-import com.js.interpreter.ast.MethodDeclaration;
 import com.js.interpreter.ast.NamedEntity;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.CodeUnit;
@@ -60,8 +51,6 @@ import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.VariableAccess;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,7 +90,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     /**
      * list library
      */
-    private ArrayList<String> libraries = new ArrayList<>();
+    private ArrayList<String> librarieNames = new ArrayList<>();
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
         super(root, parent);
@@ -125,8 +114,9 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         SystemConstants.addSystemType(this);
     }
 
-    public ArrayList<String> getLibraries() {
-        return libraries;
+
+    public ArrayList<String> getLibrarieNames() {
+        return librarieNames;
     }
 
     public ListMultimap<String, AbstractFunction> getCallableFunctions() {
@@ -144,7 +134,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     public List<VariableDeclaration> getVariables() {
         return variables;
     }
-
 
     public FunctionDeclaration getExistingFunction(FunctionDeclaration f)
             throws ParsingException {
@@ -231,7 +220,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 }
             } while (true);
             i.assertNextSemicolon();
-            loadLibrary(listLib);
+            LibraryUtils.loadLibrary(librarieNames, listLib, handler, callableFunctions);
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
@@ -291,74 +280,12 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         classes.add(StringLib.class);
         classes.add(ConversionLib.class);
         classes.add(SystemLib.class);
-        addMethodFromClass(classes, Modifier.PUBLIC);
+        LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
 
         SetLengthFunction setLength = new SetLengthFunction();
         callableFunctions.put(setLength.name(), new TemplatePluginDeclaration(setLength));
     }
 
-    /**
-     * get method of class, call by java reflect
-     *
-     * @param classes  - list class
-     * @param modifier - allow method modifier
-     */
-    public void addMethodFromClass(ArrayList<Class> classes, int modifier) {
-        for (Class pascalPlugin : classes) {
-            Object o = null;
-            try {
-                Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
-                o = constructor.newInstance(handler);
-            } catch (Exception ignored) {
-            }
-            if (o == null) {
-                try {
-                    Constructor constructor;
-                    constructor = pascalPlugin.getConstructor(ExecHandler.class);
-                    o = constructor.newInstance(handler);
-                } catch (Exception ignored) {
-                }
-            }
-            if (o == null) {
-                try {
-                    Constructor constructor;
-                    constructor = pascalPlugin.getConstructor();
-                    o = constructor.newInstance();
-                } catch (Exception ignored) {
-                }
-            }
-            for (Method m : pascalPlugin.getDeclaredMethods()) {
-                if (Modifier.isPublic(m.getModifiers())) {
-                    MethodDeclaration tmp = new MethodDeclaration(o, m);
-                    callableFunctions.put(tmp.name().toLowerCase(), tmp);
-                }
-            }
-
-        }
-    }
-
-    protected void loadLibrary(ArrayList<String> libraries) {
-        this.libraries.addAll(libraries);
-        ArrayList<Class> classes = new ArrayList<>();
-        for (String name : libraries) {
-            if (name.equalsIgnoreCase("crt")) {
-                classes.add(CrtLib.class);
-            } else if (name.equalsIgnoreCase("dos")) {
-                classes.add(DosLib.class);
-            } else if (name.equalsIgnoreCase("math")) {
-                classes.add(MathLib.class);
-            } else if (name.equalsIgnoreCase("graph")) {
-                classes.add(GraphLib.class);
-            } else if (name.equalsIgnoreCase("graph")) {
-                classes.add(GraphLib.class);
-            } else if (name.equalsIgnoreCase("strutils")) {
-                classes.add(StrUtilsLibrary.class);
-            } else if (name.equalsIgnoreCase("sysutils")) {
-                classes.add(SysUtilsLibrary.class);
-            }
-        }
-        addMethodFromClass(classes, Modifier.PUBLIC);
-    }
 
     protected abstract void handleBeginEnd(GrouperToken i) throws ParsingException;
 
