@@ -23,6 +23,8 @@ import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
+import com.duy.pascal.backend.lib.templated.SetLengthFunction;
+import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePluginDeclaration;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
@@ -290,6 +292,9 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         classes.add(ConversionLib.class);
         classes.add(SystemLib.class);
         addMethodFromClass(classes, Modifier.PUBLIC);
+
+        SetLengthFunction setLength = new SetLengthFunction();
+        callableFunctions.put(setLength.name(), new TemplatePluginDeclaration(setLength));
     }
 
     /**

@@ -20,6 +20,7 @@ import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +54,14 @@ public class CustomVariable implements ContainsVariables {
                     variableMap.put(declaration.name.toLowerCase(), new StringBuilder(""));
                 } else if (returnType == String.class) {
                     variableMap.put(declaration.name.toLowerCase(), "");
+                } else if (returnType == Array.class) {
+                    variableMap.put(declaration.name, new Object[0]);
+                } else if (declaration.type instanceof ArrayType) {
+                    variableMap.put(declaration.name, new Object[0]);
                 }
             }
         }
+
     }
 
     @Override

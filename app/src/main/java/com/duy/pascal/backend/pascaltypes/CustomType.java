@@ -74,7 +74,8 @@ public class CustomType extends ObjectType {
         if (customVariable != null) {
             return customVariable.getClass();
         }
-        return null;
+        customVariable = new CustomVariable(variableTypes);
+        return customVariable.getClass();
     }
 
     @Override

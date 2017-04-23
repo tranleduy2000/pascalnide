@@ -119,8 +119,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
      */
     @Override
     public Object initialize() {
-        Object result = Array.newInstance(element_type.getTransferClass(),
-                bounds.size);
+        Object result = Array.newInstance(element_type.getTransferClass(), bounds.size);
         for (int i = 0; i < bounds.size; i++) {
             Array.set(result, i, element_type.initialize());
         }
