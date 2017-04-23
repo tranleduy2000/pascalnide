@@ -19,7 +19,7 @@ begin
         end;
         #113 : WriteLn('quit');
         end;
-    until ch = #113 {Esc}
+    until ch = #113 {quit}
 end.
 
 {More information: https://en.wikipedia.org/wiki/ASCII}

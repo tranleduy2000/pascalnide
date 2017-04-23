@@ -43,7 +43,8 @@ public class WordToken extends Token {
                 || s.equalsIgnoreCase("cardinal")) {
             return BasicType.Integer;
         } else if (s.equalsIgnoreCase("string")
-                || s.equalsIgnoreCase("ansistring")) {
+                || s.equalsIgnoreCase("ansistring")
+                || s.equalsIgnoreCase("shortstring")) {
             return BasicType.StringBuilder;
         } else if (s.equalsIgnoreCase("single")
                 || s.equalsIgnoreCase("extended")
