@@ -99,8 +99,8 @@
     <string name="show_line">Номера строк</string>
     <string name="show_line_desc">Показать номера строк в левой части экрана</string>
     <string name="theme">Стиль кода</string>
-    <string name="title_activity_code_sample">Пример кода</string>
-    <string name="tool">Инструмент</string>
+    <string name="title_activity_code_sample">Примеры кода</string>
+    <string name="tool">Инструменты</string>
     <string name="undo">Отменить</string>
     <string name="user_interface">Пользовательский интерфейс</string>
     <string name="view_console">Просмотр консоли</string>
@@ -121,8 +121,6 @@
     <string name="pas_file">Файл Pas</string>
     <string name="pascal_for_android">Pascal для Android</string>
     <string name="inp_file">Файл Inp</string>
-
-
     <string name="text_color_console">Цвет текста</string>
     <string name="translate">Перевод</string>
     <string name="frame_rate">Частота кадров</string>
@@ -130,25 +128,23 @@
     <string name="console_screen">Консоль</string>
     <string name="license">Лицензия</string>
     <string name="hide_status_bar_desc">Скрывать статусбар, когда приложение запущено</string>
-
     <string name="max_buffer">Максимальный размер, буфера</string>
     <string name="write_code_here">Напишите код здесь…</string>
-
     <string name="can_not_save_file">Не удаётся сохранить файл!</string>
     <string name="saved">Сохранено</string>
     <string name="file_exist">Файл с таким именем уже существует!</string>
     <string name="send_mail">Отправить письмо…</string>
     <string name="no_mail_clients">Нет установленных почтовых клиентов.</string>
-     <string name="your_language">Ваш язык</string>
+    <string name="your_language">Ваш язык</string>
     <string name="logo">Логотип</string>
     <string name="auto_compile">Авто компиляция</string>
     <string name="auto_compile_summary">Автоматическая компиляция во время набора текста. Однако производительность приложения снизится!</string>
-    <string name="keyboard_shortcut">Key board shortcut</string>
-    <string name="program_structure">Show program structure</string>
-    <string name="show_symbol">List symbols</string>
-    <string name="show_symbol_decs">Show list symbol below the editor.</string>
-    <string name="add_watch">Add watch</string>
-    <string name="debug">Debug program</string>
-    <string name="var_name">Variable name</string>
+    <string name="keyboard_shortcut">Сочетание клавиш</string>
+    <string name="program_structure">Показать структуру программы</string>
+    <string name="show_symbol">Список символов</string>
+    <string name="show_symbol_decs">Скрыть список символов в редакторе</string>
+    <string name="add_watch">Добавить часы</string>
+    <string name="debug">Программа отладки</string>
+    <string name="var_name">Имя переменной</string>
     <string name="program_stopped">Program is stopped</string>
 </resources>
