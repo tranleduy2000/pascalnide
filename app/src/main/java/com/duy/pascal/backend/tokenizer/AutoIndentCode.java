@@ -120,7 +120,7 @@ public class AutoIndentCode {
         }
         //begin ... end; repeat ... until; case of ... end;
         if (token instanceof EndToken) {
-            processEnd(token);
+            processEndToken(token);
             return;
         } else if (token instanceof UntilToken) {
             completeUntil(token);
@@ -139,7 +139,8 @@ public class AutoIndentCode {
             processOptToken(token);
         } else if (token instanceof RepeatToken) {
             processRepeatToken(token);
-        } else if (token instanceof ParenthesizedToken || token instanceof BracketedToken) {
+        } else if (token instanceof ParenthesizedToken
+                || token instanceof BracketedToken) {
             result.append(getTab(numberTab));
             result.append(((GrouperToken) token).toCode());
         } else if (token instanceof DoToken) {
@@ -377,6 +378,7 @@ public class AutoIndentCode {
     private void processCaseToken(Token t) throws IOException {
         result.append(getTab(numberTab));
         result.append(((CaseToken) t).toCode()).append(" ");
+
         lastToken = t;
         increaseCaseInstruction();
         Token child = lexer.yylex();
@@ -483,17 +485,19 @@ public class AutoIndentCode {
         result.append(getTab(numberTab)).append(t.toString()).append(" ");
     }
 
-    private void processEnd(Token t) throws IOException {
+    private void processEndToken(Token t) throws IOException {
         //new line
         if (result.length() > 0) {
             if (result.charAt(result.length() - 1) != '\n')
                 result.append("\n");
         }
-        if (!getInCaseInstruction()) {
+        if (getInCaseInstruction()) {
             decreaseTab();
             decreaseCaseInstruction();
         }
+
         decreaseTab();
+
         //tab
         result.append(getTab(numberTab)).append(t.toString());
         //check some name
