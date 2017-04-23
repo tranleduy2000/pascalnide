@@ -26,10 +26,11 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.Layout;
+import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
+import android.text.method.ArrowKeyMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
@@ -189,13 +190,19 @@ public class HighlightEditor extends AutoSuggestsEditText
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
 
-        setMovementMethod(LinkMovementMethod.getInstance());
         updateFromSettings();
     }
 
-//    public void extendSelection(int index) {
-//        Selection.extendSelection(getText(), index);
-//    }
+
+
+    public void extendSelection(int index) {
+        Selection.extendSelection(getText(), index);
+    }
+
+    @Override
+    public void selectAll() {
+        super.selectAll();
+    }
 
     public void setTheme(int id) {
         ThemeFromAssets theme = ThemeFromAssets.getTheme(id, mContext);
@@ -375,13 +382,9 @@ public class HighlightEditor extends AutoSuggestsEditText
 
     @Override
     protected MovementMethod getDefaultMovementMethod() {
-        return LinkMovementMethod.getInstance();
+        return ArrowKeyMovementMethod.getInstance();
     }
 
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        super.setText(text, BufferType.EDITABLE);
-    }
 
     /**
      * This method used to set text and high light text

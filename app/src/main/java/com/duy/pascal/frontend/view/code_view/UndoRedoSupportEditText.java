@@ -26,7 +26,6 @@ import android.view.View;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorControl;
-import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.keyboard.KeyListener;
 import com.duy.pascal.frontend.keyboard.KeySettings;
 import com.duy.pascal.frontend.utils.UndoRedoHelper;
@@ -292,12 +291,12 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
     public void insert(CharSequence delta) {
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
-        selectionStart = Math.min(selectionStart, getText().length() - 1);
-        selectionEnd = Math.min(selectionEnd, getText().length() - 1);
-
+        selectionStart = Math.max(0, selectionStart);
+        selectionEnd = Math.max(0, selectionEnd);
+        selectionStart = Math.min(selectionStart, selectionEnd);
+        selectionEnd = Math.max(selectionStart, selectionEnd);
         try {
-            selectionStart = Math.max(0, selectionStart);
-            selectionEnd = Math.max(0, selectionEnd);
+
             getText().delete(selectionStart, selectionEnd);
             getText().insert(selectionStart, delta);
         } catch (Exception ignored) {
