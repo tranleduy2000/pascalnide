@@ -281,6 +281,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         classes.add(ConversionLib.class);
         classes.add(SystemLib.class);
         LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
+        LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
 
         SetLengthFunction setLength = new SetLengthFunction();
         callableFunctions.put(setLength.name(), new TemplatePluginDeclaration(setLength));

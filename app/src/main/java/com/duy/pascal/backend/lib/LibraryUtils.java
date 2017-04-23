@@ -87,6 +87,37 @@ public class LibraryUtils {
         }
     }
 
+    public static void addMethodFromClass(Class<?> pascalPlugin, int modifier, RunnableActivity handler, ListMultimap<String, AbstractFunction> callableFunctions) {
+        Object o = null;
+        try {
+            Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
+            o = constructor.newInstance(handler);
+        } catch (Exception ignored) {
+        }
+        if (o == null) {
+            try {
+                Constructor constructor;
+                constructor = pascalPlugin.getConstructor(ExecHandler.class);
+                o = constructor.newInstance(handler);
+            } catch (Exception ignored) {
+            }
+        }
+        if (o == null) {
+            try {
+                Constructor constructor;
+                constructor = pascalPlugin.getConstructor();
+                o = constructor.newInstance();
+            } catch (Exception ignored) {
+            }
+        }
+        for (Method m : pascalPlugin.getDeclaredMethods()) {
+            if (Modifier.isPublic(m.getModifiers())) {
+                MethodDeclaration tmp = new MethodDeclaration(o, m);
+                callableFunctions.put(tmp.name().toLowerCase(), tmp);
+            }
+        }
+    }
+
     /**
      * load library
      *

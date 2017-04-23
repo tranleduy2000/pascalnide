@@ -141,6 +141,8 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
     }
 
+
+
     private CharSequence getBracket(CharSequence source, int index) {
         if (source.charAt(index) == '\'') {
             if (index > 0 && index < source.length()) {
