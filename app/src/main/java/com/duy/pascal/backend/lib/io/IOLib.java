@@ -21,6 +21,7 @@ import android.util.Log;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -93,112 +94,133 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln() {
         println();
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object values) {
         println(values);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object o1, Object o2) {
         println(o1, o2);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object o1, Object o2, Object o3) {
         println(o1, o2, o3);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object o1, Object o2, Object o3, Object o4) {
         println(o1, o2, o3, o4);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5) {
         println(o1, o2, o3, o4, o5);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6) {
         println(o1, o2, o3, o4, o5, o6);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                         Object o7) {
         println(o1, o2, o3, o4, o5, o6, o7);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                         Object o7, Object o8) {
         println(o1, o2, o3, o4, o5, o6, o7, o8);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                         Object o7, Object o8, Object o9, Object o10) {
         println(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write() {
 
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object values) {
         print(values);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2) {
         print(o1, o2);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2, Object o3) {
         print(o1, o2, o3);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2, Object o3, Object o4) {
         print(o1, o2, o3, o4);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5) {
         print(o1, o2, o3, o4, o5);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6) {
         print(o1, o2, o3, o4, o5, o6);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                       Object o7) {
         print(o1, o2, o3, o4, o5, o6, o7);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                       Object o7, Object o8) {
         print(o1, o2, o3, o4, o5, o6, o7, o8);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                       Object o7, Object o8, Object o9) {
         print(o1, o2, o3, o4, o5, o6, o7, o8, o9);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
                       Object o7, Object o8, Object o9, Object o10) {
         print(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
@@ -213,6 +235,7 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void read() {
         if (listener != null) {
             listener.startInput(this);
@@ -224,27 +247,32 @@ public class IOLib implements PascalLibrary {
      * read procedure
      */
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void read(VariableBoxer<Object> a1) throws RuntimePascalException, NumberFormatException {
         setValueForVariables(a1);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void read(VariableBoxer<Object> a1, VariableBoxer a2) throws RuntimePascalException {
         setValueForVariables(a1, a2);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
                      VariableBoxer<Object> a3, VariableBoxer<Object> a4) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
                      VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                      VariableBoxer<Object> a5) throws RuntimePascalException {
@@ -252,6 +280,7 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
                      VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                      VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
@@ -260,6 +289,7 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
                      VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                      VariableBoxer<Object> a5, VariableBoxer<Object> a6,
@@ -338,6 +368,7 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void readln() {
         if (listener != null) {
             listener.startInput(this);
@@ -346,27 +377,32 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void readln(VariableBoxer<Object> variableBoxer) throws NumberFormatException, RuntimePascalException {
         setValueForVariables(variableBoxer);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void readln(VariableBoxer<Object> a1, VariableBoxer a2) throws RuntimePascalException {
         setValueForVariables(a1, a2);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4);
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                        VariableBoxer<Object> a5) throws RuntimePascalException {
@@ -374,6 +410,7 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                        VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
@@ -381,6 +418,7 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
                        VariableBoxer<Object> a3, VariableBoxer<Object> a4,
                        VariableBoxer<Object> a5, VariableBoxer<Object> a6,
@@ -389,6 +427,7 @@ public class IOLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public void printf(String format, Object... args) {
         if (stdout != null) stdout.printf(format, args);
     }
@@ -429,6 +468,7 @@ public class IOLib implements PascalLibrary {
      * procedure readkey
      */
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public char readKey() {
         if (listener != null) {
             synchronized (this) {
@@ -445,6 +485,7 @@ public class IOLib implements PascalLibrary {
      * key pressed method
      */
     @SuppressWarnings("unused")
+    @PascalMethod(description = "system library", returns = "void")
     public boolean keyPressed() {
         return listener != null && listener.keyPressed();
     }

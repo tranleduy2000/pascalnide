@@ -10,7 +10,6 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.LibraryUtils;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
@@ -278,7 +277,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         classes.add(IOLib.class);
 
         classes.add(StringLib.class);
-        classes.add(ConversionLib.class);
         classes.add(SystemLib.class);
         LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
         LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);

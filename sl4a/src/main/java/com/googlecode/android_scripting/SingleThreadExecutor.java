@@ -22,14 +22,14 @@ import java.util.concurrent.TimeUnit;
 
 public class SingleThreadExecutor extends ThreadPoolExecutor {
 
-  public SingleThreadExecutor() {
-    super(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
-  }
-
-  @Override
-  protected void afterExecute(Runnable r, Throwable t) {
-    if (t != null) {
-      throw new RuntimeException(t);
+    public SingleThreadExecutor() {
+        super(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
     }
-  }
+
+    @Override
+    protected void afterExecute(Runnable r, Throwable t) {
+        if (t != null) {
+            throw new RuntimeException(t);
+        }
+    }
 }

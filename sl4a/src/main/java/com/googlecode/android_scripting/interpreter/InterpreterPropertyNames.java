@@ -18,44 +18,44 @@ package com.googlecode.android_scripting.interpreter;
 
 /**
  * A collection of {@link String} keys for querying an InterpreterProvider.
- * 
+ *
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
 public interface InterpreterPropertyNames {
 
-  /**
-   * Unique name of the interpreter.
-   */
-  public static final String NAME = "name";
+    /**
+     * Unique name of the interpreter.
+     */
+    public static final String NAME = "name";
 
-  /**
-   * Display name of the interpreter.
-   */
-  public static final String NICE_NAME = "niceName";
+    /**
+     * Display name of the interpreter.
+     */
+    public static final String NICE_NAME = "niceName";
 
-  /**
-   * Supported script file extension.
-   */
-  public static final String EXTENSION = "extension";
+    /**
+     * Supported script file extension.
+     */
+    public static final String EXTENSION = "extension";
 
-  /**
-   * Absolute path of the interpreter executable.
-   */
-  public static final String BINARY = "binary";
+    /**
+     * Absolute path of the interpreter executable.
+     */
+    public static final String BINARY = "binary";
 
-  /**
-   * Final argument to interpreter binary when running the interpreter interactively.
-   */
-  public static final String INTERACTIVE_COMMAND = "interactiveCommand";
+    /**
+     * Final argument to interpreter binary when running the interpreter interactively.
+     */
+    public static final String INTERACTIVE_COMMAND = "interactiveCommand";
 
-  /**
-   * Final argument to interpreter binary when running a script.
-   */
-  public static final String SCRIPT_COMMAND = "scriptCommand";
+    /**
+     * Final argument to interpreter binary when running a script.
+     */
+    public static final String SCRIPT_COMMAND = "scriptCommand";
 
-  /**
-   * Interpreter interactive mode flag.
-   */
-  public static final String HAS_INTERACTIVE_MODE = "hasInteractiveMode";
+    /**
+     * Interpreter interactive mode flag.
+     */
+    public static final String HAS_INTERACTIVE_MODE = "hasInteractiveMode";
 
 }

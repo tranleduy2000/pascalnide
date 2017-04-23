@@ -19,6 +19,7 @@ package com.duy.pascal.backend.lib;
 import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.OrdinalExpressionExpectedException;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.backend.lib.runtime_exceptions.RangeCheckError;
 import com.js.interpreter.runtime.VariableBoxer;
@@ -37,12 +38,10 @@ import java.util.Random;
  * <p>
  * Created by Duy on 07-Mar-17.
  */
-
 public class SystemLib implements PascalLibrary {
 
 
     private Random random = new Random();
-
 
 
     @Override
@@ -56,6 +55,7 @@ public class SystemLib implements PascalLibrary {
      *
      * @param ms - time
      */
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void delay(long ms) {
         try {
@@ -66,27 +66,32 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int Byte(boolean b) {
         return b ? 1 : 0;
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int random(int range) {
         Log.d("random", "random: " + range);
         return random.nextInt(range);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void randomize() {
         random = new Random(System.currentTimeMillis());
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void inc(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
         inc(boxer, 1);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void inc(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
@@ -135,11 +140,13 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void dec(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
         dec(boxer, 1);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void dec(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
@@ -189,58 +196,69 @@ public class SystemLib implements PascalLibrary {
     }
 
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int ceil(double d) {
         return (int) Math.ceil(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int trunc(double d) {
         return floor(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double frac(double d) {
         return d - floor(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int floor(double d) {
         return (int) Math.floor(d);
     }
 
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int abs(int d) {
         return Math.abs(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public long abs(long d) {
         return Math.abs(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double abs(double d) {
         return Math.abs(d);
     }
 
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int round(double d) {
         return (int) Math.round(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double sin(double d) {
         return Math.sin(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double cos(double d) {
         return Math.cos(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double sqr(double d) {
         return d * d;
@@ -249,6 +267,7 @@ public class SystemLib implements PascalLibrary {
     /**
      * square root
      */
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double sqrt(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
@@ -257,11 +276,13 @@ public class SystemLib implements PascalLibrary {
         return Math.sqrt(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int pred(int d) {
         return d - 1;
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int succ(int d) {
         return d + 1;
@@ -270,6 +291,7 @@ public class SystemLib implements PascalLibrary {
     /**
      * logarithm function
      */
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double ln(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
@@ -278,22 +300,26 @@ public class SystemLib implements PascalLibrary {
         return Math.log(d);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double arctan(double a) {
         return Math.atan(a);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double exp(double a) {
         return Math.exp(a);
     }
 
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public int Int(double x) {
         return (int) x;
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public boolean odd(long x) {
         return x % 2 == 0;
@@ -302,6 +328,7 @@ public class SystemLib implements PascalLibrary {
     /**
      * exit program
      */
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void halt(int value) throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
@@ -310,19 +337,89 @@ public class SystemLib implements PascalLibrary {
     /**
      * exit program
      */
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void halt() throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public boolean odd(Integer i) {
         return i % 2 == 1;
     }
 
+    @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public boolean odd(Long i) {
         return i % 2 == 1;
+    }
+
+    /**
+     * ascii to character
+     *
+     * @param i - ascii code
+     * @return character
+     */
+    @PascalMethod(description = "system lib", returns = "null")
+    @SuppressWarnings("unused")
+    public char chr(int i) {
+        return (char) i;
+    }
+
+    /**
+     * character to ascii code
+     *
+     * @param c - input char
+     * @return ascii code
+     */
+    @PascalMethod(description = "system lib", returns = "null")
+    @SuppressWarnings("unused")
+    public int ord(char c) {
+        return (int) c;
+    }
+
+    /**
+     * convert number to string
+     *
+     * @param num input number
+     * @param s   output string
+     */
+    @PascalMethod(description = "Convert number to string", returns = "null")
+    @SuppressWarnings("unused")
+    public void str(Object num, VariableBoxer<StringBuilder> s) {
+//        System.out.print(num);
+        s.set(new StringBuilder(String.valueOf(num)));
+    }
+
+    /**
+     * Calculate numerical/enumerated value of a string.
+     *
+     * @see {http://www.freepascal.org/docs-html/rtl/system/val.html}
+     */
+    @PascalMethod(description = "system lib", returns = "null")
+    @SuppressWarnings("unused")
+    public void val(String input, VariableBoxer<Object> output, VariableBoxer<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
+        try {
+            input = input.trim(); //remove white space in start and end postion
+            if (output.get() instanceof Long) {
+                Long l = Long.parseLong(input);
+                output.set(l);
+                resultCode.set(1);
+            } else if (output.get() instanceof Double) {
+                Double d = Double.parseDouble(input);
+                output.set(d);
+                resultCode.set(1);
+            } else if (output.get() instanceof Integer) {
+                Integer d = Integer.parseInt(input);
+                output.set(d);
+                resultCode.set(1);
+            } else {
+                throw new WrongArgsException("Can not call \"val(string, number, result)\"");
+            }
+        } catch (NumberFormatException e) {
+            resultCode.set(-1);
+        }
     }
 
 }

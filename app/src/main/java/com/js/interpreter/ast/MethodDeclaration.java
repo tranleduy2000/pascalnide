@@ -9,8 +9,8 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.runtime.VariableBoxer;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -57,32 +57,32 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return parameters[0];
     }
 
-    private DeclaredType convertBasicType(Type javatype) {
-        Class<?> type = (Class<?>) javatype;
+    private DeclaredType convertBasicType(Type javaType) {
+        Class<?> type = (Class<?>) javaType;
         return BasicType.anew(type.isPrimitive() ? TypeUtils.getClassForType(type) : type);
     }
 
-    private DeclaredType convertArrayType(Type javatype, Iterator<IntegerSubrangeType> arraysizes) {
+    private DeclaredType convertArrayType(Type javaType, Iterator<IntegerSubrangeType> arraySize) {
         Type subtype;
         IntegerSubrangeType arrayInfo;
-        if (javatype instanceof GenericArrayType) {
-            subtype = ((GenericArrayType) javatype).getGenericComponentType();
+        if (javaType instanceof GenericArrayType) {
+            subtype = ((GenericArrayType) javaType).getGenericComponentType();
             arrayInfo = new IntegerSubrangeType();
-        } else if (javatype instanceof Class<?> && ((Class<?>) javatype).isArray()) {
-            subtype = ((Class<?>) javatype).getComponentType();
+        } else if (javaType instanceof Class<?> && ((Class<?>) javaType).isArray()) {
+            subtype = ((Class<?>) javaType).getComponentType();
             arrayInfo = new IntegerSubrangeType();
         } else {
             subtype = Object.class;
             arrayInfo = null;
         }
 
-        if (arraysizes.hasNext()) {
-            arrayInfo = arraysizes.next();
+        if (arraySize.hasNext()) {
+            arrayInfo = arraySize.next();
         }
         if (arrayInfo == null) {
-            return convertBasicType(javatype);
+            return convertBasicType(javaType);
         } else {
-            return new ArrayType<>(convertArrayType(subtype, arraysizes), arrayInfo);
+            return new ArrayType<>(convertArrayType(subtype, arraySize), arrayInfo);
         }
     }
 
@@ -102,15 +102,15 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return convertReferenceType(javaType, iterator);
     }
 
-    private RuntimeType convertReferenceType(Type javatype, Iterator<IntegerSubrangeType> arraysizes) {
-        Type subtype = javatype;
-        boolean pointer = javatype == VariableBoxer.class ||
-                (javatype instanceof ParameterizedType &&
-                        ((ParameterizedType) javatype).getRawType() == VariableBoxer.class);
+    private RuntimeType convertReferenceType(Type javaType, Iterator<IntegerSubrangeType> arraySize) {
+        Type subtype = javaType;
+        boolean pointer = javaType == VariableBoxer.class ||
+                (javaType instanceof ParameterizedType &&
+                        ((ParameterizedType) javaType).getRawType() == VariableBoxer.class);
         if (pointer) {
-            subtype = getFirstGenericType(javatype);
+            subtype = getFirstGenericType(javaType);
         }
-        DeclaredType arrayType = convertArrayType(subtype, arraysizes);
+        DeclaredType arrayType = convertArrayType(subtype, arraySize);
         return new RuntimeType(arrayType, pointer);
     }
 
@@ -124,8 +124,8 @@ public class MethodDeclaration extends AbstractCallableFunction {
         MethodTypeData tmp = method.getAnnotation(MethodTypeData.class);
         ArrayBoundsInfo[] typeData = tmp == null ? null : tmp.info();
         for (int i = 0; i < types.length; i++) {
-            RuntimeType argType =
-                    deducePascalTypeFromJavaTypeAndAnnotations(types[i], typeData == null ? null : typeData[i]);
+            RuntimeType argType = deducePascalTypeFromJavaTypeAndAnnotations(types[i],
+                    typeData == null ? null : typeData[i]);
             if (i == types.length - 1 && method.isVarArgs()) {
                 ArrayType<?> lastArgType = (ArrayType<?>) argType.declaredType;
                 result[i] = new VarargsType(new RuntimeType(lastArgType.element_type, argType.writable));

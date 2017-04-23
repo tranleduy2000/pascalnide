@@ -19,16 +19,16 @@ package com.googlecode.android_scripting.exception;
 @SuppressWarnings("serial")
 public class Sl4aException extends Exception {
 
-  public Sl4aException(Exception e) {
-    super(e);
-  }
+    public Sl4aException(Exception e) {
+        super(e);
+    }
 
-  public Sl4aException(String message) {
-    super(message);
-  }
+    public Sl4aException(String message) {
+        super(message);
+    }
 
-  public Sl4aException(String message, Exception e) {
-    super(message, e);
-  }
+    public Sl4aException(String message, Exception e) {
+        super(message, e);
+    }
 
 }

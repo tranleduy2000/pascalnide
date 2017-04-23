@@ -17,7 +17,7 @@
 package com.googlecode.android_scripting.activity;
 
 import android.app.AlarmManager;
-import android.app.Notification;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
@@ -25,9 +25,7 @@ import android.os.IBinder;
 
 import com.google.common.base.Preconditions;
 import com.googlecode.android_scripting.BaseApplication;
-import com.googlecode.android_scripting.ForegroundService;
 import com.googlecode.android_scripting.IntentBuilders;
-import com.googlecode.android_scripting.NotificationIdFactory;
 import com.googlecode.android_scripting.event.Event;
 import com.googlecode.android_scripting.facade.EventFacade;
 import com.googlecode.android_scripting.facade.EventFacade.EventObserver;
@@ -52,23 +50,16 @@ import com.googlecode.android_scripting.trigger.TriggerRepository.TriggerReposit
  * @author Felix Arends (felix.arends@gmail.com)
  * @author Damon Kohler (damonkohler@gmail.com)
  */
-public class TriggerService extends ForegroundService {
-    private static final int NOTIFICATION_ID = NotificationIdFactory.create();
+public class TriggerService extends Service {
     private static final long PING_MILLIS = 10 * 1000 * 60;
 
-    private final IBinder mBinder;
     private TriggerRepository mTriggerRepository;
     private FacadeManager mFacadeManager;
     private EventFacade mEventFacade;
 
-    public TriggerService() {
-        super(NOTIFICATION_ID);
-        mBinder = new LocalBinder();
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
-        return mBinder;
+        return new LocalBinder();
     }
 
     @Override
@@ -76,7 +67,7 @@ public class TriggerService extends ForegroundService {
         super.onCreate();
 
         mFacadeManager = new FacadeManager(FacadeConfiguration.getSdkLevel(), this, null,
-                        FacadeConfiguration.getFacadeClasses());
+                FacadeConfiguration.getFacadeClasses());
         mEventFacade = mFacadeManager.getReceiver(EventFacade.class);
 
         mTriggerRepository = ((BaseApplication) getApplication()).getTriggerRepository();
@@ -91,24 +82,6 @@ public class TriggerService extends ForegroundService {
             stopSelfResult(startId);
             return;
         }
-    }
-
-    /**
-     * Returns the notification to display whenever the service is running.
-     */
-    @Override
-    protected Notification createNotification() {
-//        Notification notification =
-//                new Notification(R.drawable.sl4a_logo_48, "SL4A Trigger Service started.",
-//                        System.currentTimeMillis());
-//        Intent notificationIntent = new Intent(this, TriggerManager.class);
-//        // TODO: 23-Apr-17
-////    notification.setLatestEventInfo(this, "SL4A Trigger Service", "Tap to view triggers",
-////        PendingIntent.getActivity(this, 0, notificationIntent, 0));
-//        notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-//        return notification;
-
-        return null;
     }
 
     private void installAlarm() {
@@ -127,6 +100,7 @@ public class TriggerService extends ForegroundService {
         super.onDestroy();
         uninstallAlarm();
     }
+
 
     public class LocalBinder extends Binder {
         public TriggerService getService() {

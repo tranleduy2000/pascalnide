@@ -18,6 +18,7 @@ package com.duy.pascal.backend.lib;
 
 import android.os.Build;
 
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.js.interpreter.runtime.VariableBoxer;
 
 import java.util.Date;
@@ -33,18 +34,15 @@ public class DosLib implements PascalLibrary {
 
     }
 
-    @Override
-    public boolean instantiate(Map<String, Object> pluginargs) {
-        return true;
-    }
-
     /**
      * return system time
-     */@SuppressWarnings("unused")
+     */
+    @PascalMethod(description = "Dos library", returns = "void")
+    @SuppressWarnings("unused")
     public static void getTime(VariableBoxer<Object> hour,
-                        VariableBoxer<Object> minute,
-                        VariableBoxer<Object> second,
-                        VariableBoxer<Object> sec100) {
+                               VariableBoxer<Object> minute,
+                               VariableBoxer<Object> second,
+                               VariableBoxer<Object> sec100) {
         Date date = new Date();
         hour.set(date.getHours());
         minute.set(date.getMinutes());
@@ -54,17 +52,26 @@ public class DosLib implements PascalLibrary {
 
     /**
      * return system date
-     */@SuppressWarnings("unused")
+     */
+    @PascalMethod(description = "Dos library", returns = "void")
+    @SuppressWarnings("unused")
     public static void getDate(VariableBoxer<Object> year,
-                        VariableBoxer<Object> month,
-                        VariableBoxer<Object> mday,
-                        VariableBoxer<Object> wday) {
+                               VariableBoxer<Object> month,
+                               VariableBoxer<Object> mday,
+                               VariableBoxer<Object> wday) {
         Date date = new Date();
         year.set(date.getYear());
         month.set(date.getMonth());
         mday.set(date.getDate());
         wday.set(date.getDay());
     }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return true;
+    }
+
+    @PascalMethod(description = "Dos library", returns = "void")
     @SuppressWarnings("unused")
     public int dosVersion() {
         return Build.VERSION.SDK_INT;

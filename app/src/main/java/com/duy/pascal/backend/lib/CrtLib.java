@@ -21,6 +21,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
@@ -127,6 +128,7 @@ public class CrtLib implements PascalLibrary {
      * @param x - x coordinate of screen
      * @param y - y coordinate of screen
      */
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void gotoXY(int x, int y) {
         if (handler == null) return;
@@ -141,6 +143,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * clear screen
      */
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void clrscr() {
         if (handler == null) return;
@@ -150,6 +153,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * set text linePaint color
      */
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void textColor(int code) {
         if (handler == null) return;
@@ -160,6 +164,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * set background console
      */
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void textBackground(int code) {
         if (handler == null) return;
@@ -167,12 +172,14 @@ public class CrtLib implements PascalLibrary {
         handler.getConsoleView().setConsoleTextBackground(color);
     }
 
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public int whereX() {
         if (handler == null) return 0;
         return handler.getConsoleView().whereX();
     }
 
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public int whereY() {
         if (handler == null) return 0;
@@ -183,18 +190,21 @@ public class CrtLib implements PascalLibrary {
         if (handler == null) throw new RuntimeException("Can not define screen");
     }
 
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void NormVideo() {
         assertActivityNotNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.NORMAL_TEXT_ALPHA);
     }
 
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void HighVideo() {
         assertActivityNotNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.HIGH_TEXT_ALPHA);
     }
 
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void LowVideo() {
         assertActivityNotNull();
@@ -204,6 +214,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * Show big cursor
      */
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void cursorBig() {
         assertActivityNotNull();
@@ -213,6 +224,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * Hide cursor
      */
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void cursorOff() {
         assertActivityNotNull();
@@ -222,12 +234,14 @@ public class CrtLib implements PascalLibrary {
     /**
      * Display cursor
      */
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void cursorOn() {
         assertActivityNotNull();
         handler.getConsoleView().getCursorConsole().setVisible(true);
     }
 
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void sound(Long frequency) throws WrongArgsException {
         if (frequency != null) {
@@ -242,11 +256,13 @@ public class CrtLib implements PascalLibrary {
         }
     }
 
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void sound(Integer frequency) throws WrongArgsException {
         this.sound(Long.valueOf(frequency));
     }
 
+    @PascalMethod(description = "crt library", returns = "void")
     @SuppressWarnings("unused")
     public void noSound() {
         canPlaySound.set(false);

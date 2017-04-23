@@ -22,15 +22,15 @@ import java.io.File;
 
 public class InterpreterUtils {
 
-  private InterpreterUtils() {
-    // Utility class
-  }
+    private InterpreterUtils() {
+        // Utility class
+    }
 
-  public static File getInterpreterRoot(Context context) {
-    return context.getFilesDir();
-  }
+    public static File getInterpreterRoot(Context context) {
+        return context.getFilesDir();
+    }
 
-  public static File getInterpreterRoot(Context context, String interpreterName) {
-    return new File(getInterpreterRoot(context), interpreterName);
-  }
+    public static File getInterpreterRoot(Context context, String interpreterName) {
+        return new File(getInterpreterRoot(context), interpreterName);
+    }
 }

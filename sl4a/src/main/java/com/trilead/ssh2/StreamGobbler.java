@@ -1,3 +1,19 @@
+/*
+ *  Copyright 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.trilead.ssh2;
 
 import com.googlecode.android_scripting.Log;
@@ -28,202 +44,198 @@ import java.io.InputStream;
  * <p>
  * The term "StreamGobbler" was taken from an article called "When Runtime.exec() won't", see
  * http://www.javaworld.com/javaworld/jw-12-2000/jw-1229-traps.html.
- * 
+ *
  * @author Christian Plattner, plattner@trilead.com
  * @version $Id: StreamGobbler.java,v 1.1 2007/10/15 12:49:56 cplattne Exp $
  */
 
 public class StreamGobbler extends InputStream {
-  class GobblerThread extends Thread {
-    @Override
-    public void run() {
-
-      while (true) {
+    private final FileOutputStream mLogStream;
+    private final int mBufferSize;
+    private InputStream is;
+    private GobblerThread t;
+    private Object synchronizer = new Object();
+    private boolean isEOF = false;
+    private boolean isClosed = false;
+    private IOException exception = null;
+    private byte[] buffer;
+    private int read_pos = 0;
+    private int write_pos = 0;
+    public StreamGobbler(InputStream is, File log, int buffer_size) {
+        this.is = is;
+        mBufferSize = buffer_size;
+        FileOutputStream out = null;
         try {
-          byte[] saveBuffer = null;
-
-          int avail = is.read(buffer, write_pos, buffer.length - write_pos);
-
-          synchronized (synchronizer) {
-            if (avail <= 0) {
-              isEOF = true;
-              synchronizer.notifyAll();
-              break;
-            }
-            write_pos += avail;
-
-            int space_available = buffer.length - write_pos;
-
-            if (space_available == 0) {
-              if (read_pos > 0) {
-                saveBuffer = new byte[read_pos];
-                System.arraycopy(buffer, 0, saveBuffer, 0, read_pos);
-                System.arraycopy(buffer, read_pos, buffer, 0, buffer.length - read_pos);
-                write_pos -= read_pos;
-                read_pos = 0;
-              } else {
-                write_pos = 0;
-                saveBuffer = buffer;
-              }
-            }
-
-            synchronizer.notifyAll();
-          }
-
-          writeToFile(saveBuffer);
-
+            out = new FileOutputStream(log, false);
         } catch (IOException e) {
-          synchronized (synchronizer) {
-            exception = e;
+            Log.e(e);
+        }
+        mLogStream = out;
+        buffer = new byte[mBufferSize];
+        t = new GobblerThread();
+        t.setDaemon(true);
+        t.start();
+    }
+
+    public void writeToFile(byte[] buffer) {
+        if (mLogStream != null && buffer != null) {
+            try {
+                mLogStream.write(buffer);
+            } catch (IOException e) {
+                Log.e(e);
+            }
+        }
+    }
+
+    @Override
+    public int read() throws IOException {
+        synchronized (synchronizer) {
+            if (isClosed) {
+                throw new IOException("This StreamGobbler is closed.");
+            }
+
+            while (read_pos == write_pos) {
+                if (exception != null) {
+                    throw exception;
+                }
+
+                if (isEOF) {
+                    return -1;
+                }
+
+                try {
+                    synchronizer.wait();
+                } catch (InterruptedException e) {
+                }
+            }
+
+            int b = buffer[read_pos++] & 0xff;
+
+            return b;
+        }
+    }
+
+    @Override
+    public int available() throws IOException {
+        synchronized (synchronizer) {
+            if (isClosed) {
+                throw new IOException("This StreamGobbler is closed.");
+            }
+
+            return write_pos - read_pos;
+        }
+    }
+
+    @Override
+    public int read(byte[] b) throws IOException {
+        return read(b, 0, b.length);
+    }
+
+    @Override
+    public void close() throws IOException {
+        synchronized (synchronizer) {
+            if (isClosed) {
+                return;
+            }
+            isClosed = true;
+            isEOF = true;
             synchronizer.notifyAll();
-            break;
-          }
+            is.close();
         }
-      }
     }
-  }
 
-  private InputStream is;
-  private GobblerThread t;
-
-  private Object synchronizer = new Object();
-
-  private boolean isEOF = false;
-  private boolean isClosed = false;
-  private IOException exception = null;
-
-  private byte[] buffer;
-  private int read_pos = 0;
-  private int write_pos = 0;
-  private final FileOutputStream mLogStream;
-  private final int mBufferSize;
-
-  public StreamGobbler(InputStream is, File log, int buffer_size) {
-    this.is = is;
-    mBufferSize = buffer_size;
-    FileOutputStream out = null;
-    try {
-      out = new FileOutputStream(log, false);
-    } catch (IOException e) {
-      Log.e(e);
-    }
-    mLogStream = out;
-    buffer = new byte[mBufferSize];
-    t = new GobblerThread();
-    t.setDaemon(true);
-    t.start();
-  }
-
-  public void writeToFile(byte[] buffer) {
-    if (mLogStream != null && buffer != null) {
-      try {
-        mLogStream.write(buffer);
-      } catch (IOException e) {
-        Log.e(e);
-      }
-    }
-  }
-
-  @Override
-  public int read() throws IOException {
-    synchronized (synchronizer) {
-      if (isClosed) {
-        throw new IOException("This StreamGobbler is closed.");
-      }
-
-      while (read_pos == write_pos) {
-        if (exception != null) {
-          throw exception;
+    @Override
+    public int read(byte[] b, int off, int len) throws IOException {
+        if (b == null) {
+            throw new NullPointerException();
         }
 
-        if (isEOF) {
-          return -1;
+        if ((off < 0) || (len < 0) || ((off + len) > b.length) || ((off + len) < 0) || (off > b.length)) {
+            throw new IndexOutOfBoundsException();
         }
 
-        try {
-          synchronizer.wait();
-        } catch (InterruptedException e) {
-        }
-      }
-
-      int b = buffer[read_pos++] & 0xff;
-
-      return b;
-    }
-  }
-
-  @Override
-  public int available() throws IOException {
-    synchronized (synchronizer) {
-      if (isClosed) {
-        throw new IOException("This StreamGobbler is closed.");
-      }
-
-      return write_pos - read_pos;
-    }
-  }
-
-  @Override
-  public int read(byte[] b) throws IOException {
-    return read(b, 0, b.length);
-  }
-
-  @Override
-  public void close() throws IOException {
-    synchronized (synchronizer) {
-      if (isClosed) {
-        return;
-      }
-      isClosed = true;
-      isEOF = true;
-      synchronizer.notifyAll();
-      is.close();
-    }
-  }
-
-  @Override
-  public int read(byte[] b, int off, int len) throws IOException {
-    if (b == null) {
-      throw new NullPointerException();
-    }
-
-    if ((off < 0) || (len < 0) || ((off + len) > b.length) || ((off + len) < 0) || (off > b.length)) {
-      throw new IndexOutOfBoundsException();
-    }
-
-    if (len == 0) {
-      return 0;
-    }
-
-    synchronized (synchronizer) {
-      if (isClosed) {
-        throw new IOException("This StreamGobbler is closed.");
-      }
-
-      while (read_pos == write_pos) {
-        if (exception != null) {
-          throw exception;
+        if (len == 0) {
+            return 0;
         }
 
-        if (isEOF) {
-          return -1;
+        synchronized (synchronizer) {
+            if (isClosed) {
+                throw new IOException("This StreamGobbler is closed.");
+            }
+
+            while (read_pos == write_pos) {
+                if (exception != null) {
+                    throw exception;
+                }
+
+                if (isEOF) {
+                    return -1;
+                }
+
+                try {
+                    synchronizer.wait();
+                } catch (InterruptedException e) {
+                }
+            }
+
+            int avail = write_pos - read_pos;
+
+            avail = (avail > len) ? len : avail;
+
+            System.arraycopy(buffer, read_pos, b, off, avail);
+
+            read_pos += avail;
+
+            return avail;
         }
-
-        try {
-          synchronizer.wait();
-        } catch (InterruptedException e) {
-        }
-      }
-
-      int avail = write_pos - read_pos;
-
-      avail = (avail > len) ? len : avail;
-
-      System.arraycopy(buffer, read_pos, b, off, avail);
-
-      read_pos += avail;
-
-      return avail;
     }
-  }
+
+    class GobblerThread extends Thread {
+        @Override
+        public void run() {
+
+            while (true) {
+                try {
+                    byte[] saveBuffer = null;
+
+                    int avail = is.read(buffer, write_pos, buffer.length - write_pos);
+
+                    synchronized (synchronizer) {
+                        if (avail <= 0) {
+                            isEOF = true;
+                            synchronizer.notifyAll();
+                            break;
+                        }
+                        write_pos += avail;
+
+                        int space_available = buffer.length - write_pos;
+
+                        if (space_available == 0) {
+                            if (read_pos > 0) {
+                                saveBuffer = new byte[read_pos];
+                                System.arraycopy(buffer, 0, saveBuffer, 0, read_pos);
+                                System.arraycopy(buffer, read_pos, buffer, 0, buffer.length - read_pos);
+                                write_pos -= read_pos;
+                                read_pos = 0;
+                            } else {
+                                write_pos = 0;
+                                saveBuffer = buffer;
+                            }
+                        }
+
+                        synchronizer.notifyAll();
+                    }
+
+                    writeToFile(saveBuffer);
+
+                } catch (IOException e) {
+                    synchronized (synchronizer) {
+                        exception = e;
+                        synchronizer.notifyAll();
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

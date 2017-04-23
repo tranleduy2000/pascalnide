@@ -19,6 +19,7 @@ package com.googlecode.android_scripting.activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,7 +57,9 @@ import com.googlecode.android_scripting.ScriptListAdapter;
 import com.googlecode.android_scripting.ScriptStorageAdapter;
 import com.googlecode.android_scripting.dialog.Help;
 import com.googlecode.android_scripting.dialog.UsageTrackingConfirmation;
+import com.googlecode.android_scripting.facade.AndroidFacade;
 import com.googlecode.android_scripting.facade.FacadeConfiguration;
+import com.googlecode.android_scripting.facade.FacadeManager;
 import com.googlecode.android_scripting.interpreter.Interpreter;
 import com.googlecode.android_scripting.interpreter.InterpreterConfiguration;
 import com.googlecode.android_scripting.interpreter.InterpreterConfiguration.ConfigurationObserver;
@@ -99,6 +102,11 @@ public class ScriptManager extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.script_manager);
+        Service service = new TriggerService();
+        FacadeManager facadeManager = new FacadeManager(25, service, new Intent(), null);
+        AndroidFacade androidFacade = new AndroidFacade(facadeManager);
+        androidFacade.makeToast("Hello");
+
         if (FileUtils.externalStorageMounted()) {
             File sl4a = mBaseDir.getParentFile();
             if (!sl4a.exists()) {

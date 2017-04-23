@@ -2,7 +2,6 @@ package com.duy.pascal.backend.core;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.ConversionLib;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
 import com.duy.pascal.backend.lib.StringLib;
@@ -95,7 +94,6 @@ public class PascalCompiler {
     private void loadPluginsPascal(ListMultimap<String, AbstractFunction> functionTable) {
 
         ArrayList<Class> classes = new ArrayList<>();
-        classes.add(ConversionLib.class);
         classes.add(MathLib.class);
 //        classes.add(MiscLib.class);
         classes.add(StringLib.class);

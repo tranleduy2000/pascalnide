@@ -36,6 +36,7 @@ public abstract class RpcReceiverManager {
 
     public RpcReceiverManager(Collection<Class<? extends RpcReceiver>> classList) {
         mReceivers = new HashMap<>();
+        if (classList == null) return;
         for (Class<? extends RpcReceiver> receiverClass : classList) {
             mReceivers.put(receiverClass, null);
             Collection<MethodDescriptor> methodList = MethodDescriptor.collectFrom(receiverClass);
