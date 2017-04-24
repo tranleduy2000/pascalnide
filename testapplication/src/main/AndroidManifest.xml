@@ -3,7 +3,7 @@
     package="com.duy.testapplication">
 
     <application
-        android:name="com.googlecode.android_scripting.BaseApplication"
+        android:name="com.googlecode.sl4a.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.googlecode.android_scripting.activity.ScriptEditor" />
+                android:value="com.googlecode.sl4a.activity.ScriptEditor" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

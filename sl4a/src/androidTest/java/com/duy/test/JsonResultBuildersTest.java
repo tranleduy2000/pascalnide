@@ -18,7 +18,7 @@ package com.duy.test;
 
 import android.content.Intent;
 
-import com.googlecode.android_scripting.jsonrpc.JsonBuilder;
+import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 
 import junit.framework.TestCase;
 

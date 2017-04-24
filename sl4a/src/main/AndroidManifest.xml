@@ -15,7 +15,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.googlecode.android_scripting">
+    package="com.googlecode.sl4a">
 
     <!--<uses-permission android:name="android.permission.RECEIVE_SMS" />-->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
@@ -43,8 +43,8 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application>
-        <activity android:name=".activity.BluetoothDeviceList" />
-        <activity android:name=".activity.FutureActivity" />
+        <activity android:name="com.googlecode.sl4a.activity.BluetoothDeviceList" />
+        <activity android:name="com.googlecode.sl4a.activity.FutureActivity" />
     </application>
 
 </manifest>

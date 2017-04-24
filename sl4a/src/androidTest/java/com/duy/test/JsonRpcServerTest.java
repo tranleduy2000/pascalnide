@@ -17,7 +17,7 @@
 package com.duy.test;
 
 import com.google.common.collect.Lists;
-import com.googlecode.android_scripting.jsonrpc.JsonRpcServer;
+import com.googlecode.sl4a.jsonrpc.JsonRpcServer;
 
 import junit.framework.TestCase;
 

@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.googlecode.android_scripting.facade.FacadeConfiguration;
-import com.googlecode.android_scripting.facade.FacadeManager;
-import com.googlecode.android_scripting.rpc.MethodDescriptor;
+import com.googlecode.sl4a.facade.FacadeConfiguration;
+import com.googlecode.sl4a.facade.FacadeManager;
+import com.googlecode.sl4a.rpc.MethodDescriptor;
 
 import org.json.JSONArray;
 

@@ -16,7 +16,7 @@
 
 package com.duy.test;
 
-import com.googlecode.android_scripting.facade.SensorManagerFacade.RollingAverage;
+import com.googlecode.sl4a.facade.SensorManagerFacade.RollingAverage;
 
 import junit.framework.TestCase;
 

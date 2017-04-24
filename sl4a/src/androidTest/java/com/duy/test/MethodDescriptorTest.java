@@ -16,14 +16,14 @@
 
 package com.duy.test;
 
-import com.googlecode.android_scripting.jsonrpc.RpcReceiver;
-import com.googlecode.android_scripting.rpc.Converter;
-import com.googlecode.android_scripting.rpc.MethodDescriptor;
-import com.googlecode.android_scripting.rpc.PascalMethod;
-import com.googlecode.android_scripting.rpc.RpcDefault;
-import com.googlecode.android_scripting.rpc.RpcError;
-import com.googlecode.android_scripting.rpc.RpcOptional;
-import com.googlecode.android_scripting.rpc.RpcParameter;
+import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.rpc.Converter;
+import com.googlecode.sl4a.rpc.MethodDescriptor;
+import com.googlecode.sl4a.rpc.PascalMethod;
+import com.googlecode.sl4a.rpc.RpcDefault;
+import com.googlecode.sl4a.rpc.RpcError;
+import com.googlecode.sl4a.rpc.RpcOptional;
+import com.googlecode.sl4a.rpc.RpcParameter;
 
 import junit.framework.TestCase;
 

@@ -18,8 +18,8 @@ package com.duy.test;
 
 import android.content.Intent;
 
-import com.googlecode.android_scripting.Constants;
-import com.googlecode.android_scripting.IntentBuilders;
+import com.googlecode.sl4a.Constants;
+import com.googlecode.sl4a.IntentBuilders;
 
 import junit.framework.TestCase;
 
