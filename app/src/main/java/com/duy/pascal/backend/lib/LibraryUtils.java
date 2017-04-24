@@ -16,6 +16,15 @@
 
 package com.duy.pascal.backend.lib;
 
+import com.duy.pascal.backend.lib.android.AndroidBatteryLib;
+import com.duy.pascal.backend.lib.android.AndroidBluetoothLib;
+import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
+import com.duy.pascal.backend.lib.android.AndroidSensorLib;
+import com.duy.pascal.backend.lib.android.AndroidSettingLib;
+import com.duy.pascal.backend.lib.android.AndroidTextToSpeakLib;
+import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.AndroidWifiLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
@@ -58,7 +67,6 @@ public class LibraryUtils {
         for (Class pascalPlugin : classes) {
             Object o = null;
             try {
-
                 Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
                 o = constructor.newInstance(handler);
             } catch (Exception ignored) {
@@ -141,10 +149,26 @@ public class LibraryUtils {
                 classes.add(GraphLib.class);
             } else if (name.equalsIgnoreCase("graph")) {
                 classes.add(GraphLib.class);
-            } else if (name.equalsIgnoreCase("strutils")) {
+            } else if (name.equalsIgnoreCase("strUtils")) {
                 classes.add(StrUtilsLibrary.class);
-            } else if (name.equalsIgnoreCase("sysutils")) {
-                classes.add(SysUtilsLibrary.class);
+            } else if (name.equalsIgnoreCase("ABattery")) {
+                classes.add(AndroidBatteryLib.class);
+            } else if (name.equalsIgnoreCase("AMediaPlayer")) {
+                classes.add(AndroidMediaPlayerLib.class);
+            } else if (name.equalsIgnoreCase("ASensor")) {
+                classes.add(AndroidSensorLib.class);
+            } else if (name.equalsIgnoreCase("AUtils")) {
+                classes.add(AndroidUtilsLib.class);
+            } else if (name.equalsIgnoreCase("AToneGenerator")) {
+                classes.add(AndroidToneGeneratorLib.class);
+            } else if (name.equalsIgnoreCase("ATextToSpeak")) {
+                classes.add(AndroidTextToSpeakLib.class);
+            } else if (name.equalsIgnoreCase("AWifi")) {
+                classes.add(AndroidWifiLib.class);
+            } else if (name.equalsIgnoreCase("ASetting")) {
+                classes.add(AndroidSettingLib.class);
+            } else if (name.equalsIgnoreCase("ABluetooth")) {
+                classes.add(AndroidBluetoothLib.class);
             }
         }
         LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);

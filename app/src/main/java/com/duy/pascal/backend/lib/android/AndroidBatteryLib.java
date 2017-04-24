@@ -27,7 +27,7 @@ import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.facade.EventFacade;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
-import com.googlecode.sl4a.rpc.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 

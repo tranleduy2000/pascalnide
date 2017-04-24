@@ -18,29 +18,30 @@ package com.duy.pascal.backend.lib.android.utils;
 
 import android.os.Build;
 
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.AndroidApplicationManagerLib;
+import com.duy.pascal.backend.lib.android.AndroidBatteryLib;
+import com.duy.pascal.backend.lib.android.AndroidBluetoothLib;
+import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.AndroidSensorLib;
+import com.duy.pascal.backend.lib.android.AndroidSettingLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeakLib;
+import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.AndroidWifiLib;
 import com.google.common.collect.Maps;
 import com.googlecode.sl4a.facade.ActivityResultFacade;
-import com.duy.pascal.backend.lib.android.AndroidApplicationManagerLib;
 import com.googlecode.sl4a.facade.BatteryManagerFacade;
-import com.duy.pascal.backend.lib.android.AndroidBluetoothLib;
 import com.googlecode.sl4a.facade.CameraFacade;
 import com.googlecode.sl4a.facade.CommonIntentsFacade;
 import com.googlecode.sl4a.facade.ContactsFacade;
 import com.googlecode.sl4a.facade.EventFacade;
 import com.googlecode.sl4a.facade.LocationFacade;
-import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
 import com.googlecode.sl4a.facade.MediaRecorderFacade;
 import com.googlecode.sl4a.facade.PhoneFacade;
 import com.googlecode.sl4a.facade.PreferencesFacade;
-import com.duy.pascal.backend.lib.android.AndroidSettingLib;
 import com.googlecode.sl4a.facade.SignalStrengthFacade;
 import com.googlecode.sl4a.facade.SmsFacade;
 import com.googlecode.sl4a.facade.SpeechRecognitionFacade;
-import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
 import com.googlecode.sl4a.facade.WakeLockFacade;
 import com.googlecode.sl4a.facade.WebCamFacade;
 import com.googlecode.sl4a.facade.ui.UiFacade;
@@ -94,12 +95,10 @@ public class AndroidLibraryUtils {
         sFacadeClassList.add(ActivityResultFacade.class);
         sFacadeClassList.add(AndroidMediaPlayerLib.class);
         sFacadeClassList.add(PreferencesFacade.class);
-
         sFacadeClassList.add(AndroidTextToSpeakLib.class);
-
         sFacadeClassList.add(AndroidBluetoothLib.class);
-
         sFacadeClassList.add(SignalStrengthFacade.class);
+        sFacadeClassList.add(AndroidBatteryLib.class);
         sFacadeClassList.add(WebCamFacade.class);
         for (Class<? extends RpcReceiver> recieverClass : sFacadeClassList) {
             for (MethodDescriptor rpcMethod : MethodDescriptor.collectFrom(recieverClass)) {

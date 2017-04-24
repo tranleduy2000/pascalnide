@@ -2,7 +2,11 @@
 
 package com.googlecode.sl4a.jsonrpc;
 
-public abstract class RpcReceiver {
+import com.duy.pascal.backend.lib.PascalLibrary;
+
+import java.util.Map;
+
+public abstract class RpcReceiver implements PascalLibrary {
 
     protected final RpcReceiverManager mManager;
 
@@ -16,4 +20,9 @@ public abstract class RpcReceiver {
      * Invoked when the receiver is shut down.
      */
     public abstract void shutdown();
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return true;
+    }
 }

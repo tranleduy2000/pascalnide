@@ -31,7 +31,7 @@ import android.widget.Toast;
 import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.google.common.collect.Maps;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
-import com.googlecode.sl4a.rpc.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;

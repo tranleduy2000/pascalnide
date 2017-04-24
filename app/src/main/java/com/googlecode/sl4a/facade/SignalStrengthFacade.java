@@ -25,7 +25,7 @@ import android.telephony.TelephonyManager;
 import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
-import com.googlecode.sl4a.rpc.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 

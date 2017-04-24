@@ -22,7 +22,7 @@ import android.content.Intent;
 import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
-import com.googlecode.sl4a.rpc.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcParameter;
 
 import java.io.Serializable;

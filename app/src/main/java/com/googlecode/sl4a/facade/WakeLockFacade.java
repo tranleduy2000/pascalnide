@@ -22,7 +22,7 @@ import android.os.PowerManager.WakeLock;
 
 import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
-import com.googlecode.sl4a.rpc.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 
 import java.util.HashMap;
 import java.util.Map;
