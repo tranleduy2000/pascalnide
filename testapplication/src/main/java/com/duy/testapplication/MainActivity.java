@@ -1,16 +1,16 @@
 package com.duy.testapplication;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.googlecode.android_scripting.activity.Main;
 import com.googlecode.android_scripting.facade.FacadeConfiguration;
 import com.googlecode.android_scripting.facade.FacadeManager;
 import com.googlecode.android_scripting.rpc.MethodDescriptor;
 
 import org.json.JSONArray;
 
-public class MainActivity extends Main implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
