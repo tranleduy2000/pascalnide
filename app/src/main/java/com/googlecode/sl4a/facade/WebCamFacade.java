@@ -30,7 +30,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.googlecode.sl4a.BaseApplication;
+import com.duy.pascal.PascalApplication;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SimpleServer.SimpleServerObserver;
@@ -319,7 +319,7 @@ public class WebCamFacade extends RpcReceiver {
             }
         };
         FutureActivityTaskExecutor taskExecutor =
-                ((BaseApplication) mContext).getTaskExecutor();
+                ((PascalApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
         mCamera.setPreviewDisplay(task.getResult());
         return task;

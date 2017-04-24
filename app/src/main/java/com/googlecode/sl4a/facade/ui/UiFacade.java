@@ -25,7 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.googlecode.sl4a.BaseApplication;
+import com.duy.pascal.PascalApplication;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.facade.EventFacade;
@@ -130,7 +130,7 @@ public class UiFacade extends RpcReceiver {
     public UiFacade(FacadeManager manager) {
         super(manager);
         mContext = manager.getContext();
-        mTaskQueue = ((BaseApplication) mContext).getTaskExecutor();
+        mTaskQueue = ((PascalApplication) mContext).getTaskExecutor();
         mContextMenuItems = new CopyOnWriteArrayList<>();
         mOptionsMenuItems = new CopyOnWriteArrayList<>();
         mEventFacade = manager.getReceiver(EventFacade.class);

@@ -39,7 +39,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.googlecode.sl4a.BaseApplication;
+import com.duy.pascal.PascalApplication;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
@@ -82,7 +82,6 @@ import java.util.TimeZone;
 public class AndroidFacade extends RpcReceiver {
     private final Context mContext;
     private final Handler mHandler;
-    private final Intent mIntent;
     private final FutureActivityTaskExecutor mTaskQueue;
     private final Vibrator mVibrator;
     private final NotificationManager mNotificationManager;
@@ -92,8 +91,8 @@ public class AndroidFacade extends RpcReceiver {
     public AndroidFacade(FacadeManager manager) {
         super(manager);
         mContext = manager.getContext();
-        mIntent = manager.getIntent();
-        BaseApplication application = ((BaseApplication) mContext);
+
+        PascalApplication application = ((PascalApplication) mContext);
         mTaskQueue = application.getTaskExecutor();
         mHandler = new Handler(mContext.getMainLooper());
         mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
@@ -597,12 +596,6 @@ public class AndroidFacade extends RpcReceiver {
         // Get a unique notification id from the application.
         final int notificationId = NotificationIdFactory.create();
         mNotificationManager.notify(notificationId, notification);
-    }
-
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the intent that launched the script.")
-    public Object getIntent() {
-        return mIntent;
     }
 
     @SuppressWarnings("unused")

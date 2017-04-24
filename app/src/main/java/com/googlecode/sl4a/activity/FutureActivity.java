@@ -28,7 +28,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 
-import com.googlecode.sl4a.BaseApplication;
+import com.duy.pascal.PascalApplication;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
@@ -53,7 +53,7 @@ public class FutureActivity extends AppCompatActivity {
         if (id == 0) {
             throw new RuntimeException("FutureActivityTask ID is not specified.");
         }
-        FutureActivityTaskExecutor taskQueue = ((BaseApplication) getApplication()).getTaskExecutor();
+        FutureActivityTaskExecutor taskQueue = ((PascalApplication) getApplication()).getTaskExecutor();
         mTask = taskQueue.getTask(id);
         if (mTask == null) { // TODO: (Robbie) This is now less of a kludge. Would still like to know
             // what is happening.

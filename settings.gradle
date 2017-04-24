@@ -1,1 +1,1 @@
-include ':app', ':testapplication', ':sl4a', ':androipascal'
+include ':app', ':testapplication', ':androipascal'

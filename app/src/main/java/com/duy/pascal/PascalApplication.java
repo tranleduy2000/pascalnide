@@ -18,13 +18,21 @@ package com.duy.pascal;
 
 import android.app.Application;
 
+import com.googlecode.sl4a.FutureActivityTaskExecutor;
+
 /**
  * Created by Duy on 12-Mar-17.
  */
 public class PascalApplication extends Application {
+    private final FutureActivityTaskExecutor mTaskExecutor = new FutureActivityTaskExecutor(this);
+
+    public FutureActivityTaskExecutor getTaskExecutor() {
+        return mTaskExecutor;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
     }
+
 }

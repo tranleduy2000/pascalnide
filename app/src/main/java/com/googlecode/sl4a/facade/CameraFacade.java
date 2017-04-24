@@ -30,7 +30,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.googlecode.sl4a.BaseApplication;
+import com.duy.pascal.PascalApplication;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
@@ -145,7 +145,7 @@ public class CameraFacade extends RpcReceiver {
             }
         };
         FutureActivityTaskExecutor taskQueue =
-                ((BaseApplication) mContext).getTaskExecutor();
+                ((PascalApplication) mContext).getTaskExecutor();
         taskQueue.execute(task);
         camera.setPreviewDisplay(task.getResult());
         return task;

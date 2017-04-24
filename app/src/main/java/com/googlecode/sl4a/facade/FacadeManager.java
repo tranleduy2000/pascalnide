@@ -17,7 +17,6 @@
 package com.googlecode.sl4a.facade;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
@@ -31,15 +30,12 @@ import java.util.Collection;
 public class FacadeManager extends RpcReceiverManager {
 
     private final Context mContext;
-    private final Intent mIntent;
     private int mSdkLevel;
 
-    public FacadeManager(int sdkLevel, Context service, Intent intent,
-                         Collection<Class<? extends RpcReceiver>> classList) {
+    public FacadeManager(int sdkLevel, Context context, Collection<Class<? extends RpcReceiver>> classList) {
         super(classList);
         mSdkLevel = sdkLevel;
-        mContext = service;
-        mIntent = intent;
+        mContext = context;
     }
 
     public int getSdkLevel() {
@@ -48,10 +44,6 @@ public class FacadeManager extends RpcReceiverManager {
 
     public Context getContext() {
         return mContext;
-    }
-
-    public Intent getIntent() {
-        return mIntent;
     }
 
     @Override

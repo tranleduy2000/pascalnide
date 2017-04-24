@@ -149,5 +149,6 @@
     <string name="add_watch">Add watch</string>
     <string name="var_name">Variable name</string>
     <string name="program_stopped">Program is stopped</string>
+    <string name="no_bluetooth_devices_message">No Bluetooth devices found.</string>
 </resources>
 

@@ -23,7 +23,7 @@ import android.os.PowerManager;
 import android.provider.Settings.SettingNotFoundException;
 import android.view.WindowManager;
 
-import com.googlecode.sl4a.BaseApplication;
+import com.duy.pascal.PascalApplication;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
@@ -205,7 +205,7 @@ public class SettingsFacade extends RpcReceiver {
         };
 
         FutureActivityTaskExecutor taskExecutor =
-                ((BaseApplication) mContext).getTaskExecutor();
+                ((PascalApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
 
         return oldValue;
