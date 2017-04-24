@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android.utils;
 
 import android.content.Context;
 
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
@@ -65,8 +66,8 @@ public class FacadeManager extends RpcReceiverManager {
         }
     }
 
-    public AndroidFacade.Resources getAndroidFacadeResources() {
-        return new AndroidFacade.Resources() {
+    public AndroidUtilsLib.Resources getAndroidFacadeResources() {
+        return new AndroidUtilsLib.Resources() {
             @Override
             public int getLogo48() {
                 // TODO(Alexey): As an alternative, ask application for resource ids.

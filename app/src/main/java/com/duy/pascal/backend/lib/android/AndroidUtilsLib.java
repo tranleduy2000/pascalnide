@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -40,6 +40,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
@@ -79,7 +80,7 @@ import java.util.TimeZone;
  * <br>
  * An intent can be built using the {@see #makeIntent} call, but can also be constructed exterally.
  */
-public class AndroidFacade extends RpcReceiver {
+public class AndroidUtilsLib extends RpcReceiver {
     private final Context mContext;
     private final Handler mHandler;
     private final FutureActivityTaskExecutor mTaskQueue;
@@ -88,7 +89,7 @@ public class AndroidFacade extends RpcReceiver {
     private final Resources mResources;
     private ClipboardManager mClipboard = null;
 
-    public AndroidFacade(FacadeManager manager) {
+    public AndroidUtilsLib(FacadeManager manager) {
         super(manager);
         mContext = manager.getContext();
 
@@ -313,7 +314,7 @@ public class AndroidFacade extends RpcReceiver {
         getClipboardManager().setText(text);
     }
 
-    Intent startActivityForResult(final Intent intent) {
+    public Intent startActivityForResult(final Intent intent) {
         FutureActivityTask<Intent> task = new FutureActivityTask<Intent>() {
             @Override
             public void onCreate() {
@@ -342,7 +343,7 @@ public class AndroidFacade extends RpcReceiver {
         }
     }
 
-    void startActivity(final Intent intent) {
+    public void startActivity(final Intent intent) {
         try {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);

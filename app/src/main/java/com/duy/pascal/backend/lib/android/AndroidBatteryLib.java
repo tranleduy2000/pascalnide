@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,6 +25,7 @@ import android.os.Bundle;
 
 import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.Log;
+import com.googlecode.sl4a.facade.EventFacade;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
@@ -40,7 +41,7 @@ import java.lang.reflect.Field;
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class BatteryManagerFacade extends RpcReceiver {
+public class AndroidBatteryLib extends RpcReceiver {
 
     /**
      * Power source is an AC charger.
@@ -67,7 +68,7 @@ public class BatteryManagerFacade extends RpcReceiver {
     private volatile Integer mBatteryTemperature = null;
     private volatile String mBatteryTechnology = null;
 
-    public BatteryManagerFacade(FacadeManager manager) {
+    public AndroidBatteryLib(FacadeManager manager) {
         super(manager);
         mContext = manager.getContext();
         mSdkVersion = manager.getSdkLevel();

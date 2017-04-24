@@ -29,7 +29,7 @@ import com.duy.pascal.PascalApplication;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.facade.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +24,7 @@ import android.provider.Settings.SettingNotFoundException;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
@@ -39,7 +40,7 @@ import java.lang.reflect.Method;
  *
  * @author Frank Spychalski (frank.spychalski@gmail.com)
  */
-public class SettingsFacade extends RpcReceiver {
+public class AndroidSettingLib extends RpcReceiver {
 
     public static int AIRPLANE_MODE_OFF = 0;
     public static int AIRPLANE_MODE_ON = 1;
@@ -48,7 +49,7 @@ public class SettingsFacade extends RpcReceiver {
     private final AudioManager mAudio;
     private final PowerManager mPower;
 
-    public SettingsFacade(FacadeManager manager) {
+    public AndroidSettingLib(FacadeManager manager) {
         super(manager);
         mContext = manager.getContext();
         mAudio = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);

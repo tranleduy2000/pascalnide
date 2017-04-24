@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcParameter;
@@ -37,16 +38,16 @@ import java.util.Set;
 /**
  * Facade for managing Applications.
  */
-public class ApplicationManagerFacade extends RpcReceiver {
+public class AndroidApplicationManagerLib extends RpcReceiver {
 
-    private final AndroidFacade mAndroidFacade;
+    private final AndroidUtilsLib mAndroidFacade;
     private final ActivityManager mActivityManager;
     private final PackageManager mPackageManager;
 
-    public ApplicationManagerFacade(FacadeManager manager) {
+    public AndroidApplicationManagerLib(FacadeManager manager) {
         super(manager);
         Context context = manager.getContext();
-        mAndroidFacade = manager.getReceiver(AndroidFacade.class);
+        mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         mPackageManager = context.getPackageManager();
     }

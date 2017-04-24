@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.MainThread;
@@ -49,19 +50,19 @@ import java.util.concurrent.Callable;
 // Discovery functions added by Eden Sayag
 
 
-public class BluetoothFacade extends RpcReceiver {
+public class AndroidBluetoothLib extends RpcReceiver {
 
     // UUID for SL4A.
     private static final String DEFAULT_UUID = "457807c0-4897-11df-9879-0800200c9a66";
     private static final String SDP_NAME = "SL4A";
 
     private Map<String, BluetoothConnection> connections = new HashMap<>();
-    private AndroidFacade mAndroidFacade;
+    private AndroidUtilsLib mAndroidFacade;
     private BluetoothAdapter mBluetoothAdapter;
 
-    public BluetoothFacade(FacadeManager manager) {
+    public AndroidBluetoothLib(FacadeManager manager) {
         super(manager);
-        mAndroidFacade = manager.getReceiver(AndroidFacade.class);
+        mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
         mBluetoothAdapter = MainThread.run(manager.getContext(), new Callable<BluetoothAdapter>() {
             @Override
             public BluetoothAdapter call() throws Exception {

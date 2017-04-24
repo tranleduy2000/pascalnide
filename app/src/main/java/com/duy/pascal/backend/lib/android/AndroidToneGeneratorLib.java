@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
@@ -27,11 +28,11 @@ import com.googlecode.sl4a.rpc.RpcParameter;
 /**
  * Generate DTMF tones.
  */
-public class ToneGeneratorFacade extends RpcReceiver {
+public class AndroidToneGeneratorLib extends RpcReceiver {
 
     private final ToneGenerator mToneGenerator;
 
-    public ToneGeneratorFacade(FacadeManager manager) {
+    public AndroidToneGeneratorLib(FacadeManager manager) {
         super(manager);
         mToneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     }

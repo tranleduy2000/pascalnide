@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.google.common.collect.Maps;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;

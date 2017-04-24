@@ -14,12 +14,13 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcParameter;
@@ -30,12 +31,12 @@ import java.util.concurrent.CountDownLatch;
  * Provides Text To Speech services for API 4 or more.
  */
 
-public class TextToSpeechFacade extends RpcReceiver {
+public class AndroidTextToSpeakLib extends RpcReceiver {
 
     private final TextToSpeech mTts;
     private final CountDownLatch mOnInitLock;
 
-    public TextToSpeechFacade(FacadeManager manager) {
+    public AndroidTextToSpeakLib(FacadeManager manager) {
         super(manager);
         mOnInitLock = new CountDownLatch(1);
         mTts = new TextToSpeech(manager.getContext(), new OnInitListener() {

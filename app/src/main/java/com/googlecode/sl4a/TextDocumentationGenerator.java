@@ -16,7 +16,7 @@
 
 package com.googlecode.sl4a;
 
-import com.googlecode.sl4a.facade.FacadeConfiguration;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryUtils;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 import com.googlecode.sl4a.rpc.RpcMinSdk;
@@ -34,9 +34,9 @@ import java.util.Set;
 public class TextDocumentationGenerator {
 
     public static void main(String args[]) {
-        List<MethodDescriptor> descriptors = FacadeConfiguration.collectMethodDescriptors();
+        List<MethodDescriptor> descriptors = AndroidLibraryUtils.collectMethodDescriptors();
         List<Class<? extends RpcReceiver>> classes =
-                new ArrayList<>(FacadeConfiguration.getFacadeClasses());
+                new ArrayList<>(AndroidLibraryUtils.getFacadeClasses());
 
         sortMethodDescriptors(descriptors);
         sortClasses(classes);

@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.gsm.SmsManager;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
@@ -36,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,18 +47,17 @@ import java.util.List;
  */
 public class SmsFacade extends RpcReceiver {
 
-    private final Context mContext;
     private final ContentResolver mContentResolver;
     private final SmsManager mSms;
 
     public SmsFacade(FacadeManager manager) {
         super(manager);
-        mContext = manager.getContext();
+        Context mContext = manager.getContext();
         mContentResolver = mContext.getContentResolver();
         mSms = SmsManager.getDefault();
     }
 
-    String buildSelectionClause(boolean unreadOnly) {
+    private String buildSelectionClause(boolean unreadOnly) {
         if (unreadOnly) {
             return "read = 0";
         }
@@ -74,8 +75,7 @@ public class SmsFacade extends RpcReceiver {
     private Uri buildMessageUri(Integer id) {
         Uri.Builder builder = Uri.parse("content://sms").buildUpon();
         ContentUris.appendId(builder, id);
-        Uri uri = builder.build();
-        return uri;
+        return builder.build();
     }
 
     @SuppressWarnings("unused")
@@ -115,7 +115,8 @@ public class SmsFacade extends RpcReceiver {
         while (cursor != null && cursor.moveToNext()) {
             result.add(cursor.getInt(0));
         }
-        cursor.close();
+        if (cursor != null)
+            cursor.close();
         return result;
     }
 
@@ -146,7 +147,9 @@ public class SmsFacade extends RpcReceiver {
             }
             result.add(message);
         }
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+        }
         return result;
     }
 
@@ -188,9 +191,7 @@ public class SmsFacade extends RpcReceiver {
         Cursor cursor = mContentResolver.query(Uri.parse("content://sms"), null, null, null, null);
         if (cursor != null) {
             String[] columns = cursor.getColumnNames();
-            for (String column : columns) {
-                result.add(column);
-            }
+            Collections.addAll(result, columns);
             cursor.close();
         } else {
             result = null;
@@ -202,7 +203,7 @@ public class SmsFacade extends RpcReceiver {
     @PascalMethod(description = "Deletes a message.", returns = "True if the message was deleted")
     public Boolean smsDeleteMessage(@RpcParameter(name = "id") Integer id) {
         Uri uri = buildMessageUri(id);
-        Boolean result = false;
+        Boolean result;
         result = mContentResolver.delete(uri, null, null) > 0;
         return result;
     }

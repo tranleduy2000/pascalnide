@@ -31,6 +31,8 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
@@ -205,7 +207,7 @@ public class CameraFacade extends RpcReceiver {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File file = new File(targetPath);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        AndroidFacade facade = mManager.getReceiver(AndroidFacade.class);
+        AndroidUtilsLib facade = mManager.getReceiver(AndroidUtilsLib.class);
         facade.startActivityForResult(intent);
     }
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -23,6 +23,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.googlecode.sl4a.facade.EventFacade;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
@@ -95,7 +97,7 @@ import java.util.List;
  * @author Robbie Mathews (rjmatthews62@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class SensorManagerFacade extends RpcReceiver {
+public class AndroidSensorLib extends RpcReceiver {
     private final EventFacade mEventFacade;
     private final SensorManager mSensorManager;
 
@@ -132,7 +134,7 @@ public class SensorManagerFacade extends RpcReceiver {
 
     private SensorEventListener mSensorListener;
 
-    public SensorManagerFacade(FacadeManager manager) {
+    public AndroidSensorLib(FacadeManager manager) {
         super(manager);
         mEventFacade = manager.getReceiver(EventFacade.class);
         mSensorManager = (SensorManager) manager.getContext().getSystemService(Context.SENSOR_SERVICE);

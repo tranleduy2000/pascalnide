@@ -28,6 +28,8 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
@@ -49,7 +51,7 @@ import java.util.concurrent.Callable;
  */
 public class PhoneFacade extends RpcReceiver {
 
-    private final AndroidFacade mAndroidFacade;
+    private final AndroidUtilsLib mAndroidFacade;
     private final EventFacade mEventFacade;
     private final TelephonyManager mTelephonyManager;
     private final Bundle mPhoneState;
@@ -60,7 +62,7 @@ public class PhoneFacade extends RpcReceiver {
         super(manager);
         mContext = manager.getContext();
         mTelephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        mAndroidFacade = manager.getReceiver(AndroidFacade.class);
+        mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
         mEventFacade = manager.getReceiver(EventFacade.class);
         mPhoneState = new Bundle();
         mPhoneStateListener = MainThread.run(mContext, new Callable<PhoneStateListener>() {

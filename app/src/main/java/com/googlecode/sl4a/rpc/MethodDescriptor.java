@@ -19,7 +19,7 @@ package com.googlecode.sl4a.rpc;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.googlecode.sl4a.facade.AndroidFacade;
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 
@@ -121,7 +121,7 @@ public final class MethodDescriptor {
             intent.setFlags(jsonObject.getInt("flags"));
         }
         if (!jsonObject.isNull("extras")) {
-            AndroidFacade.putExtrasFromJsonObject(jsonObject.getJSONObject("extras"), intent);
+            AndroidUtilsLib.putExtrasFromJsonObject(jsonObject.getJSONObject("extras"), intent);
         }
         if (!jsonObject.isNull("categories")) {
             JSONArray categories = jsonObject.getJSONArray("categories");

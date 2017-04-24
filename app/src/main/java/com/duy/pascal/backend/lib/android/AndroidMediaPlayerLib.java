@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.googlecode.sl4a.facade.EventFacade;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
@@ -78,14 +80,14 @@ import java.util.Set;
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
 
-public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnCompletionListener {
+public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.OnCompletionListener {
 
     static private final Map<String, MediaPlayer> mPlayers = new Hashtable<>();
     static private final Map<String, String> mUrls = new Hashtable<>();
     private final Context mContext;
     private final EventFacade mEventFacade;
 
-    public MediaPlayerFacade(FacadeManager manager) {
+    public AndroidMediaPlayerLib(FacadeManager manager) {
         super(manager);
         mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);

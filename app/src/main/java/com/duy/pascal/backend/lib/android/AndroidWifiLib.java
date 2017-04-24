@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,6 +23,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -33,13 +34,13 @@ import java.util.List;
 /**
  * Wifi functions.
  */
-public class WifiFacade extends RpcReceiver {
+public class AndroidWifiLib extends RpcReceiver {
 
     private WifiManager mWifi;
     private WifiLock mLock;
 
     @SuppressLint("WifiManagerLeak")
-    public WifiFacade(FacadeManager manager) {
+    public AndroidWifiLib(FacadeManager manager) {
         super(manager);
         Context mContext = manager.getContext();
         mWifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);

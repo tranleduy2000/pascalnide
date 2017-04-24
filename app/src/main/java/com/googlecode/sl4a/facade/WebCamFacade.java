@@ -31,6 +31,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SimpleServer.SimpleServerObserver;

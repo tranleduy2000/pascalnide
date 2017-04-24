@@ -21,6 +21,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Contacts.People;
 
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -38,11 +40,11 @@ import java.io.File;
  */
 public class CommonIntentsFacade extends RpcReceiver {
 
-    private final AndroidFacade mAndroidFacade;
+    private final AndroidUtilsLib mAndroidFacade;
 
     public CommonIntentsFacade(FacadeManager manager) {
         super(manager);
-        mAndroidFacade = manager.getReceiver(AndroidFacade.class);
+        mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
     }
 
     @Override

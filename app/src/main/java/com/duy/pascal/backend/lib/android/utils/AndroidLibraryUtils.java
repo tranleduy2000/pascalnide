@@ -14,11 +14,35 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android.utils;
 
 import android.os.Build;
 
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.AndroidSensorLib;
+import com.duy.pascal.backend.lib.android.AndroidTextToSpeakLib;
+import com.duy.pascal.backend.lib.android.AndroidWifiLib;
 import com.google.common.collect.Maps;
+import com.googlecode.sl4a.facade.ActivityResultFacade;
+import com.duy.pascal.backend.lib.android.AndroidApplicationManagerLib;
+import com.googlecode.sl4a.facade.BatteryManagerFacade;
+import com.duy.pascal.backend.lib.android.AndroidBluetoothLib;
+import com.googlecode.sl4a.facade.CameraFacade;
+import com.googlecode.sl4a.facade.CommonIntentsFacade;
+import com.googlecode.sl4a.facade.ContactsFacade;
+import com.googlecode.sl4a.facade.EventFacade;
+import com.googlecode.sl4a.facade.LocationFacade;
+import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
+import com.googlecode.sl4a.facade.MediaRecorderFacade;
+import com.googlecode.sl4a.facade.PhoneFacade;
+import com.googlecode.sl4a.facade.PreferencesFacade;
+import com.duy.pascal.backend.lib.android.AndroidSettingLib;
+import com.googlecode.sl4a.facade.SignalStrengthFacade;
+import com.googlecode.sl4a.facade.SmsFacade;
+import com.googlecode.sl4a.facade.SpeechRecognitionFacade;
+import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
+import com.googlecode.sl4a.facade.WakeLockFacade;
+import com.googlecode.sl4a.facade.WebCamFacade;
 import com.googlecode.sl4a.facade.ui.UiFacade;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
@@ -42,15 +66,15 @@ import java.util.TreeMap;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Igor Karp (igor.v.karp@gmail.com)
  */
-public class FacadeConfiguration {
+public class AndroidLibraryUtils {
     private final static Set<Class<? extends RpcReceiver>> sFacadeClassList;
     private final static SortedMap<String, MethodDescriptor> sRpcs =
             new TreeMap<>();
 
     static {
         sFacadeClassList = new HashSet<>();
-        sFacadeClassList.add(AndroidFacade.class);
-        sFacadeClassList.add(ApplicationManagerFacade.class);
+        sFacadeClassList.add(AndroidUtilsLib.class);
+        sFacadeClassList.add(AndroidApplicationManagerLib.class);
         sFacadeClassList.add(CameraFacade.class);
         sFacadeClassList.add(CommonIntentsFacade.class);
         sFacadeClassList.add(ContactsFacade.class);
@@ -58,22 +82,22 @@ public class FacadeConfiguration {
         sFacadeClassList.add(LocationFacade.class);
         sFacadeClassList.add(PhoneFacade.class);
         sFacadeClassList.add(MediaRecorderFacade.class);
-        sFacadeClassList.add(SensorManagerFacade.class);
-        sFacadeClassList.add(SettingsFacade.class);
+        sFacadeClassList.add(AndroidSensorLib.class);
+        sFacadeClassList.add(AndroidSettingLib.class);
         sFacadeClassList.add(SmsFacade.class);
         sFacadeClassList.add(SpeechRecognitionFacade.class);
-        sFacadeClassList.add(ToneGeneratorFacade.class);
+        sFacadeClassList.add(AndroidToneGeneratorLib.class);
         sFacadeClassList.add(WakeLockFacade.class);
-        sFacadeClassList.add(WifiFacade.class);
+        sFacadeClassList.add(AndroidWifiLib.class);
         sFacadeClassList.add(UiFacade.class);
         sFacadeClassList.add(BatteryManagerFacade.class);
         sFacadeClassList.add(ActivityResultFacade.class);
-        sFacadeClassList.add(MediaPlayerFacade.class);
+        sFacadeClassList.add(AndroidMediaPlayerLib.class);
         sFacadeClassList.add(PreferencesFacade.class);
 
-        sFacadeClassList.add(TextToSpeechFacade.class);
+        sFacadeClassList.add(AndroidTextToSpeakLib.class);
 
-        sFacadeClassList.add(BluetoothFacade.class);
+        sFacadeClassList.add(AndroidBluetoothLib.class);
 
         sFacadeClassList.add(SignalStrengthFacade.class);
         sFacadeClassList.add(WebCamFacade.class);
@@ -84,7 +108,7 @@ public class FacadeConfiguration {
         }
     }
 
-    private FacadeConfiguration() {
+    private AndroidLibraryUtils() {
         // Utility class.
     }
 

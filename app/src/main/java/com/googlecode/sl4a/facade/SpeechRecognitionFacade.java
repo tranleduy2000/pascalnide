@@ -19,6 +19,8 @@ package com.googlecode.sl4a.facade;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.rpc.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -32,11 +34,11 @@ import java.util.ArrayList;
  * @author Felix Arends (felix.arends@gmail.com)
  */
 public class SpeechRecognitionFacade extends RpcReceiver {
-    private final AndroidFacade mAndroidFacade;
+    private final AndroidUtilsLib mAndroidFacade;
 
     public SpeechRecognitionFacade(FacadeManager manager) {
         super(manager);
-        mAndroidFacade = manager.getReceiver(AndroidFacade.class);
+        mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
     }
 
     @SuppressWarnings("unused")

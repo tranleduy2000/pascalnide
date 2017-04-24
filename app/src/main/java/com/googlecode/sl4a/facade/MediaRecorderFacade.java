@@ -27,6 +27,8 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.utils.FacadeManager;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
@@ -227,7 +229,7 @@ public class MediaRecorderFacade extends RpcReceiver {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         File file = new File(path);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        AndroidFacade facade = mManager.getReceiver(AndroidFacade.class);
+        AndroidUtilsLib facade = mManager.getReceiver(AndroidUtilsLib.class);
         facade.startActivityForResult(intent);
     }
 
