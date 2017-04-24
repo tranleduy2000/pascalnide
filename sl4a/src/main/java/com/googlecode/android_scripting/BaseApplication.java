@@ -33,6 +33,7 @@ public class BaseApplication extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         mConfiguration = new InterpreterConfiguration(this);
         mConfiguration.startDiscovering();
         mTriggerRepository = new TriggerRepository(this);
@@ -42,7 +43,4 @@ public class BaseApplication extends Application {
         return mConfiguration;
     }
 
-    public TriggerRepository getTriggerRepository() {
-        return mTriggerRepository;
-    }
 }

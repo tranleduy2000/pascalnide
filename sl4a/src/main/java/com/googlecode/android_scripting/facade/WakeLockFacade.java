@@ -16,7 +16,6 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
 import android.content.Context;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -42,24 +41,28 @@ public class WakeLockFacade extends RpcReceiver {
 
     public WakeLockFacade(FacadeManager manager) {
         super(manager);
-        mManager = new WakeLockManager(manager.getService());
+        mManager = new WakeLockManager(manager.getContext());
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Acquires a full wake lock (CPU on, screen bright, keyboard bright).")
     public void wakeLockAcquireFull() {
         mManager.acquire(WakeLockType.FULL);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Acquires a partial wake lock (CPU on).")
     public void wakeLockAcquirePartial() {
         mManager.acquire(WakeLockType.PARTIAL);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Acquires a bright wake lock (CPU on, screen bright).")
     public void wakeLockAcquireBright() {
         mManager.acquire(WakeLockType.BRIGHT);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Acquires a dim wake lock (CPU on, screen dim).")
     public void wakeLockAcquireDim() {
         mManager.acquire(WakeLockType.DIM);
@@ -83,8 +86,8 @@ public class WakeLockFacade extends RpcReceiver {
         private final PowerManager mmPowerManager;
         private final Map<WakeLockType, WakeLock> mmLocks = new HashMap<>();
 
-        public WakeLockManager(Service service) {
-            mmPowerManager = (PowerManager) service.getSystemService(Context.POWER_SERVICE);
+        public WakeLockManager(Context context) {
+            mmPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             addWakeLock(WakeLockType.PARTIAL, PowerManager.PARTIAL_WAKE_LOCK);
             addWakeLock(WakeLockType.FULL, PowerManager.FULL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE);
             addWakeLock(WakeLockType.BRIGHT, PowerManager.SCREEN_BRIGHT_WAKE_LOCK

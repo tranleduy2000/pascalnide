@@ -16,7 +16,7 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
@@ -82,12 +82,12 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
 
     static private final Map<String, MediaPlayer> mPlayers = new Hashtable<>();
     static private final Map<String, String> mUrls = new Hashtable<>();
-    private final Service mService;
+    private final Context mContext;
     private final EventFacade mEventFacade;
 
     public MediaPlayerFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
+        mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);
     }
 
@@ -122,6 +122,7 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
         mUrls.remove(tag);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Open a media file", returns = "true if play successful")
     public synchronized boolean mediaPlay(
             @RpcParameter(name = "url", description = "url of media resource") String url,
@@ -129,7 +130,7 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
             @RpcParameter(name = "play", description = "start playing immediately") @RpcDefault(value = "true") Boolean play) {
         removeMp(tag);
         MediaPlayer player = getPlayer(tag);
-        player = MediaPlayer.create(mService, Uri.parse(url));
+        player = MediaPlayer.create(mContext, Uri.parse(url));
         if (player != null) {
             putMp(tag, player, url);
             player.setOnCompletionListener(this);
@@ -140,6 +141,7 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
         return player != null;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "pause playing media file", returns = "true if successful")
     public synchronized boolean mediaPlayPause(
             @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
@@ -151,6 +153,7 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
         return true;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "start playing media file", returns = "true if successful")
     public synchronized boolean mediaPlayStart(
             @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
@@ -162,6 +165,7 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
         return mediaIsPlaying(tag);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Close media file", returns = "true if successful")
     public synchronized boolean mediaPlayClose(
             @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
@@ -176,6 +180,7 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
         return (player == null) ? false : player.isPlaying();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Information on current media", returns = "Media Information")
     public synchronized Map<String, Object> mediaPlayInfo(
             @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
@@ -195,11 +200,13 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Lists currently loaded media", returns = "List of Media Tags")
     public Set<String> mediaPlayList() {
         return mPlayers.keySet();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Set Looping", returns = "True if successful")
     public synchronized boolean mediaPlaySetLooping(
             @RpcParameter(name = "enabled") @RpcDefault(value = "true") Boolean enabled,
@@ -212,6 +219,7 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
         return true;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Seek To Position", returns = "New Position (in ms)")
     public synchronized int mediaPlaySeek(
             @RpcParameter(name = "msec", description = "Position in millseconds") Integer msec,

@@ -16,7 +16,6 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -45,21 +44,22 @@ public class SettingsFacade extends RpcReceiver {
     public static int AIRPLANE_MODE_OFF = 0;
     public static int AIRPLANE_MODE_ON = 1;
 
-    private final Service mService;
+    private final Context mContext;
     private final AudioManager mAudio;
     private final PowerManager mPower;
 
     public SettingsFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
-        mAudio = (AudioManager) mService.getSystemService(Context.AUDIO_SERVICE);
-        mPower = (PowerManager) mService.getSystemService(Context.POWER_SERVICE);
+        mContext = manager.getContext();
+        mAudio = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        mPower = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Sets the screen timeout to this number of seconds.", returns = "The original screen timeout.")
     public Integer setScreenTimeout(@RpcParameter(name = "value") Integer value) {
         Integer oldValue = getScreenTimeout();
-        android.provider.Settings.System.putInt(mService.getContentResolver(),
+        android.provider.Settings.System.putInt(mContext.getContentResolver(),
                 android.provider.Settings.System.SCREEN_OFF_TIMEOUT, value * 1000);
         return oldValue;
     }
@@ -67,7 +67,7 @@ public class SettingsFacade extends RpcReceiver {
     @Rpc(description = "Returns the current screen timeout in seconds.", returns = "the current screen timeout in seconds.")
     public Integer getScreenTimeout() {
         try {
-            return android.provider.Settings.System.getInt(mService.getContentResolver(),
+            return android.provider.Settings.System.getInt(mContext.getContentResolver(),
                     android.provider.Settings.System.SCREEN_OFF_TIMEOUT) / 1000;
         } catch (SettingNotFoundException e) {
             return 0;
@@ -77,24 +77,25 @@ public class SettingsFacade extends RpcReceiver {
     @Rpc(description = "Checks the airplane mode setting.", returns = "True if airplane mode is enabled.")
     public Boolean checkAirplaneMode() {
         try {
-            return android.provider.Settings.System.getInt(mService.getContentResolver(),
+            return android.provider.Settings.System.getInt(mContext.getContentResolver(),
                     android.provider.Settings.System.AIRPLANE_MODE_ON) == AIRPLANE_MODE_ON;
         } catch (SettingNotFoundException e) {
             return false;
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Toggles airplane mode on and off.", returns = "True if airplane mode is enabled.")
     public Boolean toggleAirplaneMode(@RpcParameter(name = "enabled") @RpcOptional Boolean enabled) {
         if (enabled == null) {
             enabled = !checkAirplaneMode();
         }
-        android.provider.Settings.System.putInt(mService.getContentResolver(),
+        android.provider.Settings.System.putInt(mContext.getContentResolver(),
                 android.provider.Settings.System.AIRPLANE_MODE_ON, enabled ? AIRPLANE_MODE_ON
                         : AIRPLANE_MODE_OFF);
         Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         intent.putExtra("state", enabled);
-        mService.sendBroadcast(intent);
+        mContext.sendBroadcast(intent);
         return enabled;
     }
 
@@ -103,6 +104,7 @@ public class SettingsFacade extends RpcReceiver {
         return mAudio.getRingerMode() == AudioManager.RINGER_MODE_SILENT;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Toggles ringer silent mode on and off.", returns = "True if ringer silent mode is enabled.")
     public Boolean toggleRingerSilentMode(@RpcParameter(name = "enabled") @RpcOptional Boolean enabled) {
         if (enabled == null) {
@@ -113,6 +115,7 @@ public class SettingsFacade extends RpcReceiver {
         return enabled;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Toggles vibrate mode on and off. If ringer=true then set Ringer setting, else set Notification setting", returns = "True if vibrate mode is enabled.")
     public Boolean toggleVibrateMode(@RpcParameter(name = "enabled") @RpcOptional Boolean enabled,
                                      @RpcParameter(name = "ringer") @RpcOptional Boolean ringer) {
@@ -122,37 +125,44 @@ public class SettingsFacade extends RpcReceiver {
         return enabled;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Checks Vibration setting. If ringer=true then query Ringer setting, else query Notification setting", returns = "True if vibrate mode is enabled.")
     public Boolean getVibrateMode(@RpcParameter(name = "ringer") @RpcOptional Boolean ringer) {
         int atype = ringer ? AudioManager.VIBRATE_TYPE_RINGER : AudioManager.VIBRATE_TYPE_NOTIFICATION;
         return mAudio.shouldVibrate(atype);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the maximum ringer volume.")
     public int getMaxRingerVolume() {
         return mAudio.getStreamMaxVolume(AudioManager.STREAM_RING);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the current ringer volume.")
     public int getRingerVolume() {
         return mAudio.getStreamVolume(AudioManager.STREAM_RING);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Sets the ringer volume.")
     public void setRingerVolume(@RpcParameter(name = "volume") Integer volume) {
         mAudio.setStreamVolume(AudioManager.STREAM_RING, volume, 0);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the maximum media volume.")
     public int getMaxMediaVolume() {
         return mAudio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the current media volume.")
     public int getMediaVolume() {
         return mAudio.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Sets the media volume.")
     public void setMediaVolume(@RpcParameter(name = "volume") Integer volume) {
         mAudio.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
@@ -161,13 +171,14 @@ public class SettingsFacade extends RpcReceiver {
     @Rpc(description = "Returns the screen backlight brightness.", returns = "the current screen brightness between 0 and 255")
     public Integer getScreenBrightness() {
         try {
-            return android.provider.Settings.System.getInt(mService.getContentResolver(),
+            return android.provider.Settings.System.getInt(mContext.getContentResolver(),
                     android.provider.Settings.System.SCREEN_BRIGHTNESS);
         } catch (SettingNotFoundException e) {
             return 0;
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Sets the the screen backlight brightness.", returns = "the original screen brightness.")
     public Integer setScreenBrightness(
             @RpcParameter(name = "value", description = "brightness value between 0 and 255") Integer value) {
@@ -178,7 +189,7 @@ public class SettingsFacade extends RpcReceiver {
         }
         final int brightness = value;
         Integer oldValue = getScreenBrightness();
-        android.provider.Settings.System.putInt(mService.getContentResolver(),
+        android.provider.Settings.System.putInt(mContext.getContentResolver(),
                 android.provider.Settings.System.SCREEN_BRIGHTNESS, brightness);
 
         FutureActivityTask<Object> task = new FutureActivityTask<Object>() {
@@ -194,12 +205,13 @@ public class SettingsFacade extends RpcReceiver {
         };
 
         FutureActivityTaskExecutor taskExecutor =
-                ((BaseApplication) mService.getApplication()).getTaskExecutor();
+                ((BaseApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
 
         return oldValue;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Checks if the screen is on or off (requires API level 7).", returns = "True if the screen is currently on.")
     public Boolean checkScreenOn() throws Exception {
         Class<?> powerManagerClass = mPower.getClass();

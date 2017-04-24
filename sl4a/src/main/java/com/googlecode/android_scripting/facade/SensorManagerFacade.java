@@ -135,7 +135,7 @@ public class SensorManagerFacade extends RpcReceiver {
     public SensorManagerFacade(FacadeManager manager) {
         super(manager);
         mEventFacade = manager.getReceiver(EventFacade.class);
-        mSensorManager = (SensorManager) manager.getService().getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) manager.getContext().getSystemService(Context.SENSOR_SERVICE);
     }
 
     @Rpc(description = "Starts recording sensor data to be available for polling.")
@@ -180,6 +180,7 @@ public class SensorManagerFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Records to the Event Queue sensor data exceeding a chosen threshold.")
     @RpcStartEvent("threshold")
     public void startSensingThreshold(
@@ -202,6 +203,7 @@ public class SensorManagerFacade extends RpcReceiver {
         startSensingTimed(mSensorNumber, 20);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently recorded sensor data.")
     public Bundle readSensors() {
         if (mSensorReadings == null) {
@@ -222,16 +224,19 @@ public class SensorManagerFacade extends RpcReceiver {
         mThreshOrientation = 0;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received accuracy value.")
     public Integer sensorsGetAccuracy() {
         return mAccuracy;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received light value.")
     public Float sensorsGetLight() {
         return mLight;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received accelerometer values.", returns = "a List of Floats [(acceleration on the) X axis, Y axis, Z axis].")
     public List<Float> sensorsReadAccelerometer() {
         synchronized (mSensorReadings) {
@@ -239,6 +244,7 @@ public class SensorManagerFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received magnetic field values.", returns = "a List of Floats [(magnetic field value for) X axis, Y axis, Z axis].")
     public List<Float> sensorsReadMagnetometer() {
         synchronized (mSensorReadings) {
@@ -246,6 +252,7 @@ public class SensorManagerFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received orientation values.", returns = "a List of Doubles [azimuth, pitch, roll].")
     public List<Double> sensorsReadOrientation() {
         synchronized (mSensorReadings) {
@@ -253,6 +260,7 @@ public class SensorManagerFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts recording sensor data to be available for polling.")
     @RpcDeprecated(value = "startSensingTimed or startSensingThreshhold", release = "4")
     public void startSensing(
@@ -267,13 +275,14 @@ public class SensorManagerFacade extends RpcReceiver {
         stopSensing();
     }
 
-    static class RollingAverage {
+    private class RollingAverage {
         private final int mmSampleSize;
         private final double mmData[];
         private int mmIndex = 0;
         private boolean mmFilled = false;
         private double mmSum = 0.0;
 
+        @SuppressWarnings("unused")
         public RollingAverage() {
             mmSampleSize = 5;
             mmData = new double[mmSampleSize];
@@ -308,6 +317,7 @@ public class SensorManagerFacade extends RpcReceiver {
         private float[] mmR;
         private float[] mmOrientation;
 
+        @SuppressWarnings("unused")
         public SensorValuesCollector() {
             mmAzimuth = new RollingAverage();
             mmPitch = new RollingAverage();

@@ -78,10 +78,7 @@
             android:defaultValue="10"
             android:key="fontsize"
             android:title="@string/pref_fontsize_title" />
-        <org.connectbot.util.EncodingPreference
-            android:key="encoding"
-            android:summary="@string/pref_encoding_summary"
-            android:title="@string/pref_encoding_title" />
+
         <ListPreference
             android:defaultValue="Default"
             android:entries="@array/list_rotation"

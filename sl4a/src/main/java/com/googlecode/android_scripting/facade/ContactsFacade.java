@@ -16,9 +16,9 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -45,18 +45,19 @@ import java.util.List;
 public class ContactsFacade extends RpcReceiver {
     private static final Uri CONTACTS_URI = Uri.parse("content://contacts/people");
     private final ContentResolver mContentResolver;
-    private final Service mService;
+    private final Context mContext;
     private final CommonIntentsFacade mCommonIntentsFacade;
     public Uri mPhoneContent = null;
     public String mContactId;
     public String mPrimary;
     public String mPhoneNumber;
+    @SuppressWarnings("unused")
     public String mHasPhoneNumber;
 
     public ContactsFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
-        mContentResolver = mService.getContentResolver();
+        mContext = manager.getContext();
+        mContentResolver = mContext.getContentResolver();
         mCommonIntentsFacade = manager.getReceiver(CommonIntentsFacade.class);
         try {
             // Backward compatibility... get contract stuff using reflection
@@ -75,18 +76,20 @@ public class ContactsFacade extends RpcReceiver {
         return uri;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Displays a list of contacts to pick from.", returns = "A map of result values.")
     public Intent pickContact() throws JSONException {
         return mCommonIntentsFacade.pick("content://contacts/people");
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Displays a list of phone numbers to pick from.", returns = "The selected phone number.")
     public String pickPhone() throws JSONException {
         String result = null;
         Intent data = mCommonIntentsFacade.pick("content://contacts/phones");
         if (data != null) {
             Uri phoneData = data.getData();
-            Cursor cursor = mService.getContentResolver().query(phoneData, null, null, null, null);
+            Cursor cursor = mContext.getContentResolver().query(phoneData, null, null, null, null);
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
                     result = cursor.getString(cursor.getColumnIndexOrThrow(PhonesColumns.NUMBER));
@@ -97,6 +100,7 @@ public class ContactsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a List of all possible attributes for contacts.")
     public List<String> contactsGetAttributes() {
         List<String> result = new ArrayList<>();
@@ -112,6 +116,7 @@ public class ContactsFacade extends RpcReceiver {
     }
 
     // TODO(MeanEYE.rcf): Add ability to narrow selection by providing named pairs of attributes.
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a List of all contact IDs.")
     public List<Integer> contactsGetIds() {
         List<Integer> result = new ArrayList<>();
@@ -126,6 +131,7 @@ public class ContactsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a List of all contacts.", returns = "a List of contacts as Maps")
     public List<JSONObject> contactsGet(
             @RpcParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
@@ -197,6 +203,7 @@ public class ContactsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns contacts by ID.")
     public JSONObject contactsGetById(@RpcParameter(name = "id") Integer id,
                                       @RpcParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
@@ -226,6 +233,7 @@ public class ContactsFacade extends RpcReceiver {
     }
 
     // TODO(MeanEYE.rcf): Add ability to narrow selection by providing named pairs of attributes.
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the number of contacts.")
     public Integer contactsGetCount() {
         Integer result = 0;
@@ -253,6 +261,7 @@ public class ContactsFacade extends RpcReceiver {
      * "http://developer.android.com/reference/android/content/ContentResolver.html#query%28android.net.Uri,%20java.lang.String[],%20java.lang.String,%20java.lang.String[],%20java.lang.String%29"
      * >ContentResolver.query</a>
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Content Resolver Query", returns = "result of query as Maps")
     public List<JSONObject> queryContent(
             @RpcParameter(name = "uri", description = "The URI, using the content:// scheme, for the content to retrieve.") String uri,
@@ -281,6 +290,7 @@ public class ContactsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Content Resolver Query Attributes", returns = "a list of available columns for a given content uri")
     public JSONArray queryAttributes(
             @RpcParameter(name = "uri", description = "The URI, using the content:// scheme, for the content to retrieve.") String uri)

@@ -16,6 +16,7 @@
 
 package com.googlecode.android_scripting.interpreter.html;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -80,9 +81,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
     private final JavaScriptWrapper mWrapper;
     private final HtmlEventObserver mObserver;
     private final UiFacade mUiFacade;
-    private ChromeClient mChromeClient;
     private WebView mView;
-    private MyWebViewClient mWebViewClient;
     private boolean mDestroyManager;
 
     public HtmlActivityTask(RpcReceiverManager manager, String androidJsSource, String jsonSource,
@@ -110,6 +109,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
         return mReceiverManager;
     }
 
+    @SuppressLint("JavascriptInterface")
     @Override
     public void onCreate() {
         mView = new WebView(getActivity());
@@ -126,8 +126,8 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
 
         getActivity().setContentView(mView);
         mView.setOnCreateContextMenuListener(getActivity());
-        mChromeClient = new ChromeClient(getActivity());
-        mWebViewClient = new MyWebViewClient();
+        ChromeClient mChromeClient = new ChromeClient(getActivity());
+        MyWebViewClient mWebViewClient = new MyWebViewClient();
         mView.setWebChromeClient(mChromeClient);
         mView.setWebViewClient(mWebViewClient);
         mView.loadUrl("javascript:" + mJsonSource);

@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class RpcReceiverManager {
-
+    private static final String TAG = "RpcReceiverManager";
     private final Map<Class<? extends RpcReceiver>, RpcReceiver> mReceivers;
 
     /**
@@ -40,6 +40,7 @@ public abstract class RpcReceiverManager {
             mReceivers.put(receiverClass, null);
             Collection<MethodDescriptor> methodList = MethodDescriptor.collectFrom(receiverClass);
             for (MethodDescriptor m : methodList) {
+                android.util.Log.d(TAG, "RpcReceiverManager: " + m.toString());
                 if (mKnownRpcs.containsKey(m.getName())) {
                     // We already know an RPC of the same name. We don't catch this anywhere because this is a
                     // programming error.

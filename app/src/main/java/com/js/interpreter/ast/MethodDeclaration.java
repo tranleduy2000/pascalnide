@@ -120,21 +120,22 @@ public class MethodDeclaration extends AbstractCallableFunction {
             return argCache;
         }
         Type[] types = method.getGenericParameterTypes();
-        ArgumentType[] result = new ArgumentType[types.length];
-        MethodTypeData tmp = method.getAnnotation(MethodTypeData.class);
-        ArrayBoundsInfo[] typeData = tmp == null ? null : tmp.info();
+        ArgumentType[] args = new ArgumentType[types.length];
+        MethodTypeData methodTypeData = method.getAnnotation(MethodTypeData.class);
+        ArrayBoundsInfo[] typeData = methodTypeData == null ? null : methodTypeData.info();
+
         for (int i = 0; i < types.length; i++) {
             RuntimeType argType = deducePascalTypeFromJavaTypeAndAnnotations(types[i],
                     typeData == null ? null : typeData[i]);
             if (i == types.length - 1 && method.isVarArgs()) {
                 ArrayType<?> lastArgType = (ArrayType<?>) argType.declaredType;
-                result[i] = new VarargsType(new RuntimeType(lastArgType.element_type, argType.writable));
+                args[i] = new VarargsType(new RuntimeType(lastArgType.element_type, argType.writable));
             } else {
-                result[i] = argType;
+                args[i] = argType;
             }
         }
-        argCache = result;
-        return result;
+        argCache = args;
+        return args;
     }
 
     @Override

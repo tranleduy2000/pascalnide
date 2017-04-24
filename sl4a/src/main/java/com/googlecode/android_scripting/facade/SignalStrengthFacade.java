@@ -16,7 +16,6 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
 import android.content.Context;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
@@ -37,7 +36,7 @@ import java.util.concurrent.Callable;
  * @author Joerg Zieren (joerg.zieren@gmail.com)
  */
 public class SignalStrengthFacade extends RpcReceiver {
-    private final Service mService;
+    private final Context mContext;
     private final TelephonyManager mTelephonyManager;
     private final EventFacade mEventFacade;
     private final PhoneStateListener mPhoneStateListener;
@@ -45,11 +44,11 @@ public class SignalStrengthFacade extends RpcReceiver {
 
     public SignalStrengthFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
+        mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);
         mTelephonyManager =
-                (TelephonyManager) manager.getService().getSystemService(Context.TELEPHONY_SERVICE);
-        mPhoneStateListener = MainThread.run(mService, new Callable<PhoneStateListener>() {
+                (TelephonyManager) manager.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        mPhoneStateListener = MainThread.run(mContext, new Callable<PhoneStateListener>() {
             @Override
             public PhoneStateListener call() throws Exception {
                 return new PhoneStateListener() {
@@ -69,12 +68,14 @@ public class SignalStrengthFacade extends RpcReceiver {
         });
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts tracking signal strengths.")
     @RpcStartEvent("signal_strengths")
     public void startTrackingSignalStrengths() {
         mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the current signal strengths.", returns = "A map of \"gsm_signal_strength\"")
     public Bundle readSignalStrengths() {
         return mSignalStrengths;

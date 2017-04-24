@@ -16,7 +16,7 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -59,19 +59,21 @@ import java.util.concurrent.TimeUnit;
 public class MediaRecorderFacade extends RpcReceiver {
 
     private final MediaRecorder mMediaRecorder = new MediaRecorder();
-    private final Service mService;
+    private final Context mContext;
 
     public MediaRecorderFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
+        mContext = manager.getContext();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Records audio from the microphone and saves it to the given location.")
     public void recorderStartMicrophone(@RpcParameter(name = "targetPath") String targetPath)
             throws IOException {
         startAudioRecording(targetPath, MediaRecorder.AudioSource.MIC);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Records video from the camera and saves it to the given location. "
             + "\nDuration specifies the maximum duration of the recording session. "
             + "\nIf duration is 0 this method will return and the recording will only be stopped "
@@ -160,6 +162,7 @@ public class MediaRecorderFacade extends RpcReceiver {
         prepTask.finish();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Records video (and optionally audio) from the camera and saves it to the given location. "
             + "\nDuration specifies the maximum duration of the recording session. "
             + "\nIf duration is not provided this method will return immediately and the recording will only be stopped "
@@ -211,12 +214,14 @@ public class MediaRecorderFacade extends RpcReceiver {
         mMediaRecorder.start();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Stops a previously started recording.")
     public void recorderStop() {
         mMediaRecorder.stop();
         mMediaRecorder.reset();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts the video capture application to record a video and saves it to the specified path.")
     public void startInteractiveVideoRecording(@RpcParameter(name = "path") final String path) {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -267,7 +272,7 @@ public class MediaRecorderFacade extends RpcReceiver {
         };
 
         FutureActivityTaskExecutor taskExecutor =
-                ((BaseApplication) mService.getApplication()).getTaskExecutor();
+                ((BaseApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
 
         Exception e = task.getResult();

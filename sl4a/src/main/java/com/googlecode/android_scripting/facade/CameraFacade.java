@@ -16,7 +16,7 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
@@ -51,12 +51,12 @@ import java.util.concurrent.CountDownLatch;
  */
 public class CameraFacade extends RpcReceiver {
 
-    private final Service mService;
+    private final Context mContext;
     private final Parameters mParameters;
 
     public CameraFacade(FacadeManager manager) throws Exception {
         super(manager);
-        mService = manager.getService();
+        mContext = manager.getContext();
         Camera camera = openCamera(0);
         try {
             mParameters = camera.getParameters();
@@ -77,6 +77,7 @@ public class CameraFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Take a picture and save it to the specified path.", returns = "A map of Booleans autoFocus and takePicture where True indicates success. cameraId also included.")
     public Bundle cameraCapturePicture(
             @RpcParameter(name = "targetPath") final String targetPath,
@@ -144,7 +145,7 @@ public class CameraFacade extends RpcReceiver {
             }
         };
         FutureActivityTaskExecutor taskQueue =
-                ((BaseApplication) mService.getApplication()).getTaskExecutor();
+                ((BaseApplication) mContext).getTaskExecutor();
         taskQueue.execute(task);
         camera.setPreviewDisplay(task.getResult());
         return task;
@@ -197,6 +198,7 @@ public class CameraFacade extends RpcReceiver {
         // Nothing to clean up.
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts the image capture application to take a picture and saves it to the specified path.")
     public void cameraInteractiveCapturePicture(
             @RpcParameter(name = "targetPath") final String targetPath) {

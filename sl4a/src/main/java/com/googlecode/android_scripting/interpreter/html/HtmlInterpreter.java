@@ -48,22 +48,6 @@ public class HtmlInterpreter extends Interpreter {
         mAndroidJs = FileUtils.readFromAssetsFile(context, ANDROID_JS_FILE);
     }
 
-    public boolean hasInterpreterArchive() {
-        return false;
-    }
-
-    public boolean hasExtrasArchive() {
-        return false;
-    }
-
-    public boolean hasScriptsArchive() {
-        return false;
-    }
-
-    public int getVersion() {
-        return 0;
-    }
-
     @Override
     public boolean isUninstallable() {
         return false;

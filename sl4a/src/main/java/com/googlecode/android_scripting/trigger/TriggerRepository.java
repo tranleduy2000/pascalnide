@@ -126,7 +126,7 @@ public class TriggerRepository {
         if (triggerValue != null) {
             editor.putString(TRIGGERS_PREF_KEY, triggerValue);
         }
-        editor.commit();
+        editor.apply();
     }
 
     /**

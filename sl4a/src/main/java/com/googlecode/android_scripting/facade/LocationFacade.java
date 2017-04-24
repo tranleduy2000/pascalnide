@@ -16,14 +16,17 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.widget.Toast;
 
 import com.google.common.collect.Maps;
 import com.googlecode.android_scripting.jsonrpc.RpcReceiver;
@@ -82,7 +85,7 @@ import java.util.Map.Entry;
  */
 public class LocationFacade extends RpcReceiver {
     private final EventFacade mEventFacade;
-    private final Service mService;
+    private final Context mContext;
     private final Map<String, Location> mLocationUpdates;
     private final LocationManager mLocationManager;
     private final Geocoder mGeocoder;
@@ -113,10 +116,10 @@ public class LocationFacade extends RpcReceiver {
 
     public LocationFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
+        mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);
-        mGeocoder = new Geocoder(mService);
-        mLocationManager = (LocationManager) mService.getSystemService(Context.LOCATION_SERVICE);
+        mGeocoder = new Geocoder(mContext);
+        mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         mLocationUpdates = new HashMap<>();
     }
 
@@ -125,28 +128,39 @@ public class LocationFacade extends RpcReceiver {
         stopLocating();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns availables providers on the phone")
     public List<String> locationProviders() {
         return mLocationManager.getAllProviders();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Ask if provider is enabled")
     public boolean locationProviderEnabled(
             @RpcParameter(name = "provider", description = "Name of location provider") String provider) {
         return mLocationManager.isProviderEnabled(provider);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts collecting location data.")
     @RpcStartEvent("location")
     public void startLocating(
             @RpcParameter(name = "minDistance", description = "minimum time between updates in milliseconds") @RpcDefault("60000") Integer minUpdateTime,
             @RpcParameter(name = "minUpdateDistance", description = "minimum distance between updates in meters") @RpcDefault("30") Integer minUpdateDistance) {
         for (String provider : mLocationManager.getAllProviders()) {
+            if (ActivityCompat.checkSelfPermission(mContext,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(mContext,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(mContext, "Request permission failed, please granted permission!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             mLocationManager.requestLocationUpdates(provider, minUpdateTime, minUpdateDistance,
-                    mLocationListener, mService.getMainLooper());
+                    mLocationListener, mContext.getMainLooper());
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the current location as indicated by all available providers.", returns = "A map of location information by provider.")
     public Map<String, Location> readLocation() {
         return mLocationUpdates;
@@ -159,15 +173,24 @@ public class LocationFacade extends RpcReceiver {
         mLocationUpdates.clear();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the last known location of the device.", returns = "A map of location information by provider.")
     public Map<String, Location> getLastKnownLocation() {
         Map<String, Location> location = new HashMap<>();
         for (String provider : mLocationManager.getAllProviders()) {
+            if (ActivityCompat.checkSelfPermission(mContext,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(mContext,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(mContext, "Request permission failed, please granted permission!", Toast.LENGTH_SHORT).show();
+                return location;
+            }
             location.put(provider, mLocationManager.getLastKnownLocation(provider));
         }
         return location;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a list of addresses for the given latitude and longitude.", returns = "A list of addresses.")
     public List<Address> geocode(
             @RpcParameter(name = "latitude") Double latitude,

@@ -39,6 +39,7 @@ public class SpeechRecognitionFacade extends RpcReceiver {
         mAndroidFacade = manager.getReceiver(AndroidFacade.class);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Recognizes user's speech and returns the most likely result.", returns = "An empty string in case the speech cannot be recongnized.")
     public String recognizeSpeech(
             @RpcParameter(name = "prompt", description = "text prompt to show to the user when asking them to speak") @RpcOptional final String prompt,

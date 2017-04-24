@@ -79,12 +79,13 @@ public class EventFacade extends RpcReceiver {
 
     public EventFacade(FacadeManager manager) {
         super(manager);
-        mContext = manager.getService().getApplicationContext();
+        mContext = manager.getContext().getApplicationContext();
     }
 
     /**
      * Example (python): droid.eventClearBuffer()
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Clears all events from the event buffer.")
     public void eventClearBuffer() {
         mEventQueue.clear();
@@ -93,6 +94,7 @@ public class EventFacade extends RpcReceiver {
     /**
      * Registers a listener for a new broadcast signal
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Registers a listener for a new broadcast signal")
     public boolean eventRegisterForBroadcast(
             @RpcParameter(name = "category") String category,
@@ -109,6 +111,7 @@ public class EventFacade extends RpcReceiver {
         return true;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Stop listening for a broadcast signal")
     public void eventUnregisterForBroadcast(@RpcParameter(name = "category") String category) {
         if (!mBroadcastListeners.containsKey(category)) {
@@ -119,6 +122,7 @@ public class EventFacade extends RpcReceiver {
         mBroadcastListeners.remove(category);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Lists all the broadcast signals we are listening for")
     public Set<String> eventGetBrodcastCategories() {
         return mBroadcastListeners.keySet();
@@ -149,6 +153,7 @@ public class EventFacade extends RpcReceiver {
      * entry. </pre>
      */
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns and removes the oldest n events (i.e. location or sensor update, etc.) from the event buffer.", returns = "A List of Maps of event properties.")
     public List<Event> eventPoll(
             @RpcParameter(name = "number_of_events") @RpcDefault("1") Integer number_of_events) {
@@ -196,6 +201,7 @@ public class EventFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Blocks until an event occurs. The returned event is removed from the buffer.", returns = "Map of event properties.")
     public Event eventWait(
             @RpcParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
@@ -277,6 +283,7 @@ public class EventFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @RpcDeprecated(value = "eventPost", release = "r4")
     @Rpc(description = "Post an event to the event queue.")
     @RpcName(name = "postEvent")
@@ -285,12 +292,14 @@ public class EventFacade extends RpcReceiver {
         postEvent(name, data);
     }
 
+    @SuppressWarnings("unused")
     @RpcDeprecated(value = "eventPoll", release = "r4")
     @Rpc(description = "Returns and removes the oldest event (i.e. location or sensor update, etc.) from the event buffer.", returns = "Map of event properties.")
     public Event receiveEvent() {
         return mEventQueue.poll();
     }
 
+    @SuppressWarnings("unused")
     @RpcDeprecated(value = "eventWaitFor", release = "r4")
     @Rpc(description = "Blocks until an event with the supplied name occurs. The returned event is not removed from the buffer.", returns = "Map of event properties.")
     public Event waitForEvent(
@@ -300,6 +309,7 @@ public class EventFacade extends RpcReceiver {
         return eventWaitFor(eventName, timeout);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Opens up a socket where you can read for events posted")
     public int startEventDispatcher(
             @RpcParameter(name = "port", description = "Port to use") @RpcDefault("0") @RpcOptional() Integer port) {

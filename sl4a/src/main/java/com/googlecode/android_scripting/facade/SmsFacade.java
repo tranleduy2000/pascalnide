@@ -16,10 +16,10 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.gsm.SmsManager;
@@ -45,14 +45,14 @@ import java.util.List;
  */
 public class SmsFacade extends RpcReceiver {
 
-    private final Service mService;
+    private final Context mContext;
     private final ContentResolver mContentResolver;
     private final SmsManager mSms;
 
     public SmsFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
-        mContentResolver = mService.getContentResolver();
+        mContext = manager.getContext();
+        mContentResolver = mContext.getContentResolver();
         mSms = SmsManager.getDefault();
     }
 
@@ -78,6 +78,7 @@ public class SmsFacade extends RpcReceiver {
         return uri;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Sends an SMS.")
     public void smsSend(
             @RpcParameter(name = "destinationAddress", description = "typically a phone number") String destinationAddress,
@@ -85,6 +86,7 @@ public class SmsFacade extends RpcReceiver {
         mSms.sendTextMessage(destinationAddress, null, text, null, null);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the number of messages.")
     public Integer smsGetMessageCount(@RpcParameter(name = "unreadOnly") Boolean unreadOnly,
                                       @RpcParameter(name = "folder") @RpcDefault("inbox") String folder) {
@@ -101,6 +103,7 @@ public class SmsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a List of all message IDs.")
     public List<Integer> smsGetMessageIds(@RpcParameter(name = "unreadOnly") Boolean unreadOnly,
                                           @RpcParameter(name = "folder") @RpcDefault("inbox") String folder) {
@@ -116,6 +119,7 @@ public class SmsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a List of all messages.", returns = "a List of messages as Maps")
     public List<JSONObject> smsGetMessages(@RpcParameter(name = "unreadOnly") Boolean unreadOnly,
                                            @RpcParameter(name = "folder") @RpcDefault("inbox") String folder,
@@ -146,6 +150,7 @@ public class SmsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns message attributes.")
     public JSONObject smsGetMessageById(
             @RpcParameter(name = "id", description = "message ID") Integer id,
@@ -176,6 +181,7 @@ public class SmsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a List of all possible message attributes.")
     public List<String> smsGetAttributes() {
         List<String> result = new ArrayList<>();
@@ -192,6 +198,7 @@ public class SmsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Deletes a message.", returns = "True if the message was deleted")
     public Boolean smsDeleteMessage(@RpcParameter(name = "id") Integer id) {
         Uri uri = buildMessageUri(id);
@@ -200,6 +207,7 @@ public class SmsFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Marks messages as read.", returns = "number of messages marked read")
     public Integer smsMarkMessageRead(
             @RpcParameter(name = "ids", description = "List of message IDs to mark as read.") JSONArray ids,

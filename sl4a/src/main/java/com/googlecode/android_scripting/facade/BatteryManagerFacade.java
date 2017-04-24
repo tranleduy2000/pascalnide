@@ -16,7 +16,6 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -45,12 +44,14 @@ public class BatteryManagerFacade extends RpcReceiver {
     /**
      * Power source is an AC charger.
      */
+    @SuppressWarnings("unused")
     public static final int BATTERY_PLUGGED_AC = 1;
     /**
      * Power source is a USB port.
      */
+    @SuppressWarnings("unused")
     public static final int BATTERY_PLUGGED_USB = 2;
-    private final Service mService;
+    private final Context mContext;
     private final EventFacade mEventFacade;
     private final int mSdkVersion;
     private BatteryStateListener mReceiver;
@@ -67,7 +68,7 @@ public class BatteryManagerFacade extends RpcReceiver {
 
     public BatteryManagerFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
+        mContext = manager.getContext();
         mSdkVersion = manager.getSdkLevel();
         mEventFacade = manager.getReceiver(EventFacade.class);
         mReceiver = null;
@@ -84,6 +85,7 @@ public class BatteryManagerFacade extends RpcReceiver {
         return null;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently recorded battery data.")
     public Bundle readBatteryData() {
         return mBatteryData;
@@ -92,6 +94,7 @@ public class BatteryManagerFacade extends RpcReceiver {
     /**
      * throws "battery" events
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts tracking battery state.")
     @RpcStartEvent("battery")
     public void batteryStartMonitoring() {
@@ -99,7 +102,7 @@ public class BatteryManagerFacade extends RpcReceiver {
             IntentFilter filter = new IntentFilter();
             filter.addAction(Intent.ACTION_BATTERY_CHANGED);
             mReceiver = new BatteryStateListener(mEventFacade);
-            mService.registerReceiver(mReceiver, filter);
+            mContext.registerReceiver(mReceiver, filter);
         }
     }
 
@@ -107,7 +110,7 @@ public class BatteryManagerFacade extends RpcReceiver {
     @RpcStopEvent("battery")
     public void batteryStopMonitoring() {
         if (mReceiver != null) {
-            mService.unregisterReceiver(mReceiver);
+            mContext.unregisterReceiver(mReceiver);
             mReceiver = null;
         }
         mBatteryData = null;
@@ -118,12 +121,14 @@ public class BatteryManagerFacade extends RpcReceiver {
         batteryStopMonitoring();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns  the most recently received battery status data:" + "\n1 - unknown;"
             + "\n2 - charging;" + "\n3 - discharging;" + "\n4 - not charging;" + "\n5 - full;")
     public Integer batteryGetStatus() {
         return mBatteryStatus;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received battery health data:" + "\n1 - unknown;"
             + "\n2 - good;" + "\n3 - overheat;" + "\n4 - dead;" + "\n5 - over voltage;"
             + "\n6 - unspecified failure;")
@@ -131,6 +136,7 @@ public class BatteryManagerFacade extends RpcReceiver {
         return mBatteryHealth;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received plug type data:" + "\n-1 - unknown"
             + "\n0 - unplugged;" + "\n1 - power source is an AC charger"
             + "\n2 - power source is a USB port")
@@ -138,12 +144,14 @@ public class BatteryManagerFacade extends RpcReceiver {
         return mPlugType;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received battery presence data.")
 
     public Boolean batteryCheckPresent() {
         return mBatteryPresent;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received battery level (percentage).")
 
     public Integer batteryGetLevel() {
@@ -154,18 +162,21 @@ public class BatteryManagerFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received battery voltage.")
 
     public Integer batteryGetVoltage() {
         return mBatteryVoltage;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received battery temperature.")
 
     public Integer batteryGetTemperature() {
         return mBatteryTemperature;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the most recently received battery technology data.")
 
     public String batteryGetTechnology() {

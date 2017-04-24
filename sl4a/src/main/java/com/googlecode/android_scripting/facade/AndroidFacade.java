@@ -91,7 +91,7 @@ public class AndroidFacade extends RpcReceiver {
 
     public AndroidFacade(FacadeManager manager) {
         super(manager);
-        mContext = manager.getService();
+        mContext = manager.getContext();
         mIntent = manager.getIntent();
         BaseApplication application = ((BaseApplication) mContext);
         mTaskQueue = application.getTaskExecutor();
@@ -295,6 +295,7 @@ public class AndroidFacade extends RpcReceiver {
         return mClipboard;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Read text from the clipboard.", returns = "The text in the clipboard.")
     public String getClipboard() {
         CharSequence text = getClipboardManager().getText();
@@ -307,6 +308,7 @@ public class AndroidFacade extends RpcReceiver {
      * @param text is the {@link Context} the APIs will run under
      */
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Put text in the clipboard.")
     public void setClipboard(@RpcParameter(name = "text") String text) {
         getClipboardManager().setText(text);
@@ -385,6 +387,7 @@ public class AndroidFacade extends RpcReceiver {
         return startActivityForResult(intent);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts an activity and returns the result.", returns = "A Map representation of the result Intent.")
     public Intent startActivityForResultIntent(
             @RpcParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent) {
@@ -445,6 +448,7 @@ public class AndroidFacade extends RpcReceiver {
         doStartActivity(intent, wait);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Send a broadcast.")
     public void sendBroadcast(
             @RpcParameter(name = "action") String action,
@@ -462,6 +466,7 @@ public class AndroidFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Create an Intent.", returns = "An object representing an Intent")
     public Intent makeIntent(
             @RpcParameter(name = "action") String action,
@@ -481,6 +486,7 @@ public class AndroidFacade extends RpcReceiver {
         return intent;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Start Activity using Intent")
     public void startActivityIntent(
             @RpcParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent,
@@ -489,6 +495,7 @@ public class AndroidFacade extends RpcReceiver {
         doStartActivity(intent, wait);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Send Broadcast Intent")
     public void sendBroadcastIntent(
             @RpcParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent)
@@ -496,12 +503,14 @@ public class AndroidFacade extends RpcReceiver {
         mContext.sendBroadcast(intent);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Vibrates the phone or a specified duration in milliseconds.")
     public void vibrate(
             @RpcParameter(name = "duration", description = "duration in milliseconds") @RpcDefault("300") Integer duration) {
         mVibrator.vibrate(duration);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Displays a short-duration Toast notification.")
     public void makeToast(@RpcParameter(name = "message") final String message) {
         mHandler.post(new Runnable() {
@@ -555,6 +564,7 @@ public class AndroidFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Queries the user for a text input.")
     @RpcDeprecated(value = "dialogGetInput", release = "r3")
     public String getInput(
@@ -563,6 +573,7 @@ public class AndroidFacade extends RpcReceiver {
         return getInputFromAlertDialog(title, message, false);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Queries the user for a password.")
     @RpcDeprecated(value = "dialogGetPassword", release = "r3")
     public String getPassword(
@@ -571,6 +582,7 @@ public class AndroidFacade extends RpcReceiver {
         return getInputFromAlertDialog(title, message, true);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Displays a notification that will be canceled when the user clicks on it.")
     public void notify(@RpcParameter(name = "title", description = "title") String title,
                        @RpcParameter(name = "message") String message) {
@@ -587,11 +599,13 @@ public class AndroidFacade extends RpcReceiver {
         mNotificationManager.notify(notificationId, notification);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns the intent that launched the script.")
     public Object getIntent() {
         return mIntent;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Launches an activity that sends an e-mail message to a given recipient.")
     public void sendEmail(
             @RpcParameter(name = "to", description = "A comma separated list of recipients.") final String to,
@@ -625,6 +639,7 @@ public class AndroidFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns package version name.")
     public String getPackageVersion(@RpcParameter(name = "packageName") final String packageName) {
         PackageInfo packageInfo = null;
@@ -640,6 +655,7 @@ public class AndroidFacade extends RpcReceiver {
         return null;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Checks if version of SL4A is greater than or equal to the specified version.")
     public boolean requiredVersion(@RpcParameter(name = "requiredVersion") final Integer version) {
         boolean result = false;
@@ -650,6 +666,7 @@ public class AndroidFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Writes message to logcat.")
     public void log(@RpcParameter(name = "message") String message) {
         android.util.Log.v("SCRIPT", message);
@@ -672,6 +689,7 @@ public class AndroidFacade extends RpcReceiver {
      *     blocksize = size of block.
      * </pre>
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "A map of various useful environment details")
     public Map<String, Object> environment() {
         Map<String, Object> result = new HashMap<>();
@@ -697,6 +715,7 @@ public class AndroidFacade extends RpcReceiver {
         return result;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Get list of constants (static final fields) for a class")
     public Bundle getConstants(
             @RpcParameter(name = "classname", description = "Class to get constants from") String classname)

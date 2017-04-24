@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
 /*
- * ConnectBot: simple, powerful, open-source SSH client for Android
- * Copyright 2007 Kenny Root, Jeffrey Sharkey
+ *  Copyright 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	>
+package com.duy.testapplication;
 
-	<org.connectbot.util.HelpTopicView
-		android:id="@+id/topic_text"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		/>
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-</LinearLayout>
+public class Main3Activity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+}

@@ -49,7 +49,7 @@ public class Log {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification note = new Notification(iconId > 0 ? iconId : -1, title, 0);
         // TODO: 24-Apr-17
-//    note.setLatestEventInfo(context, contentTitle, message, PendingIntent.getService(context, 0,
+//    note.setLatestEventInfo(context, contentTitle, message, PendingIntent.getContext(context, 0,
 //        null, 0));
         note.contentView.getLayoutId();
         notificationManager.notify(NotificationIdFactory.create(), note);

@@ -16,15 +16,13 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 
 import com.googlecode.android_scripting.Log;
-import com.googlecode.android_scripting.exception.Sl4aException;
 import com.googlecode.android_scripting.jsonrpc.RpcReceiver;
 import com.googlecode.android_scripting.jsonrpc.RpcReceiverManager;
 import com.googlecode.android_scripting.rpc.RpcDeprecated;
-import com.googlecode.android_scripting.rpc.RpcMinSdk;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,15 +30,15 @@ import java.util.Collection;
 
 public class FacadeManager extends RpcReceiverManager {
 
-    private final Service mService;
+    private final Context mContext;
     private final Intent mIntent;
     private int mSdkLevel;
 
-    public FacadeManager(int sdkLevel, Service service, Intent intent,
+    public FacadeManager(int sdkLevel, Context service, Intent intent,
                          Collection<Class<? extends RpcReceiver>> classList) {
         super(classList);
         mSdkLevel = sdkLevel;
-        mService = service;
+        mContext = service;
         mIntent = intent;
     }
 
@@ -48,8 +46,8 @@ public class FacadeManager extends RpcReceiverManager {
         return mSdkLevel;
     }
 
-    public Service getService() {
-        return mService;
+    public Context getContext() {
+        return mContext;
     }
 
     public Intent getIntent() {
@@ -63,18 +61,12 @@ public class FacadeManager extends RpcReceiverManager {
             if (method.isAnnotationPresent(RpcDeprecated.class)) {
                 String replacedBy = method.getAnnotation(RpcDeprecated.class).value();
                 String title = method.getName() + " is deprecated";
-                Log.notify(mService, title, title, String.format("Please use %s instead.", replacedBy));
-            } else {
-                int requiredSdkLevel = method.getAnnotation(RpcMinSdk.class).value();
-                if (mSdkLevel < requiredSdkLevel) {
-                    throw new Sl4aException(String.format("%s requires API level %d, current level is %d",
-                            method.getName(), requiredSdkLevel, mSdkLevel));
-                }
+                Log.notify(mContext, title, title, String.format("Please use %s instead.", replacedBy));
             }
             return super.invoke(clazz, method, args);
         } catch (InvocationTargetException e) {
             if (e.getCause() instanceof SecurityException) {
-                Log.notify(mService, "RPC invoke failed...", mService.getPackageName(), e.getCause()
+                Log.notify(mContext, "RPC invoke failed...", mContext.getPackageName(), e.getCause()
                         .getMessage());
             }
             throw e;
@@ -86,8 +78,8 @@ public class FacadeManager extends RpcReceiverManager {
             @Override
             public int getLogo48() {
                 // TODO(Alexey): As an alternative, ask application for resource ids.
-                String packageName = mService.getApplication().getPackageName();
-                return mService.getResources().getIdentifier("script_logo_48", "drawable", packageName);
+                String packageName = mContext.getPackageName();
+                return mContext.getResources().getIdentifier("script_logo_48", "drawable", packageName);
             }
         };
     }

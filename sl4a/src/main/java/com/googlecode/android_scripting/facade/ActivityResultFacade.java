@@ -49,6 +49,7 @@ public class ActivityResultFacade extends RpcReceiver {
         super(manager);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultBoolean(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -61,6 +62,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultByte(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -73,6 +75,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultShort(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -85,6 +88,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultChar(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -97,6 +101,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultInteger(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -109,6 +114,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultLong(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -121,6 +127,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultFloat(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -133,6 +140,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultDouble(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -145,6 +153,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultString(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -157,6 +166,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultBooleanArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -173,6 +183,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultByteArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -189,6 +200,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultShortArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -205,6 +217,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultCharArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -221,6 +234,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultIntegerArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -237,6 +251,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultLongArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -253,6 +268,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultFloatArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -269,6 +285,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultDoubleArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -285,6 +302,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultStringArray(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -297,6 +315,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = sRpcDescription)
     public synchronized void setResultSerializable(
             @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
@@ -309,6 +328,7 @@ public class ActivityResultFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     public synchronized void setActivity(Activity activity) {
         mActivity = activity;
         if (mResult != null) {

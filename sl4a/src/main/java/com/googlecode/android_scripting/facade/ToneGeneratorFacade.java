@@ -36,6 +36,7 @@ public class ToneGeneratorFacade extends RpcReceiver {
         mToneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Generate DTMF tones for the given phone number.")
     public void generateDtmfTones(
             @RpcParameter(name = "phoneNumber") String phoneNumber,

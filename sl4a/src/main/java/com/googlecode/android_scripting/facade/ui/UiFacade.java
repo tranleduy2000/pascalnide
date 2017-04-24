@@ -17,7 +17,7 @@
 package com.googlecode.android_scripting.facade.ui;
 
 import android.app.ProgressDialog;
-import android.app.Service;
+import android.content.Context;
 import android.util.AndroidRuntimeException;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -118,7 +118,7 @@ public class UiFacade extends RpcReceiver {
     // This value should not be used for menu groups outside this class.
     private static final int MENU_GROUP_ID = Integer.MAX_VALUE;
 
-    private final Service mService;
+    private final Context mContext;
     private final FutureActivityTaskExecutor mTaskQueue;
     private final List<UiMenuItem> mContextMenuItems;
     private final List<UiMenuItem> mOptionsMenuItems;
@@ -130,8 +130,8 @@ public class UiFacade extends RpcReceiver {
 
     public UiFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
-        mTaskQueue = ((BaseApplication) mService.getApplication()).getTaskExecutor();
+        mContext = manager.getContext();
+        mTaskQueue = ((BaseApplication) mContext).getTaskExecutor();
         mContextMenuItems = new CopyOnWriteArrayList<>();
         mOptionsMenuItems = new CopyOnWriteArrayList<>();
         mEventFacade = manager.getReceiver(EventFacade.class);
@@ -198,7 +198,7 @@ public class UiFacade extends RpcReceiver {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "unused"})
     @Rpc(description = "Queries the user for a password.")
     public String dialogGetPassword(
             @RpcParameter(name = "title", description = "title of the password box") @RpcDefault("Password") final String title,
@@ -216,6 +216,7 @@ public class UiFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Create a spinner progress dialog.")
     public void dialogCreateSpinnerProgress(@RpcParameter(name = "title") @RpcOptional String title,
                                             @RpcParameter(name = "message") @RpcOptional String message,
@@ -224,6 +225,7 @@ public class UiFacade extends RpcReceiver {
         mDialogTask = new ProgressDialogTask(ProgressDialog.STYLE_SPINNER, max, title, message, true);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Create a horizontal progress dialog.")
     public void dialogCreateHorizontalProgress(
             @RpcParameter(name = "title") @RpcOptional String title,
@@ -276,6 +278,7 @@ public class UiFacade extends RpcReceiver {
      * </ul>
      * Response will contain a "progress" element.
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Create seek bar dialog.")
     public void dialogCreateSeekBar(
             @RpcParameter(name = "starting value") @RpcDefault("50") Integer progress,
@@ -285,6 +288,7 @@ public class UiFacade extends RpcReceiver {
         mDialogTask = new SeekBarDialogTask(progress, max, title, message);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Create time picker dialog.")
     public void dialogCreateTimePicker(
             @RpcParameter(name = "hour") @RpcDefault("0") Integer hour,
@@ -294,6 +298,7 @@ public class UiFacade extends RpcReceiver {
         mDialogTask = new TimePickerDialogTask(hour, minute, is24hour);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Create date picker dialog.")
     public void dialogCreateDatePicker(@RpcParameter(name = "year") @RpcDefault("1970") Integer year,
                                        @RpcParameter(name = "month") @RpcDefault("1") Integer month,
@@ -321,6 +326,7 @@ public class UiFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Set progress dialog current value.")
     public void dialogSetCurrentProgress(@RpcParameter(name = "current") Integer current) {
         if (mDialogTask != null && mDialogTask instanceof ProgressDialogTask) {
@@ -330,6 +336,7 @@ public class UiFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Set progress dialog maximum value.")
     public void dialogSetMaxProgress(@RpcParameter(name = "max") Integer max) {
         if (mDialogTask != null && mDialogTask instanceof ProgressDialogTask) {
@@ -361,6 +368,7 @@ public class UiFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Set alert dialog button text.")
     public void dialogSetNeutralButtonText(@RpcParameter(name = "text") String text) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
@@ -376,6 +384,7 @@ public class UiFacade extends RpcReceiver {
      * This effectively creates list of options. Clicking on an item will immediately return an "item"
      * element, which is the index of the selected item.
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Set alert dialog list items.")
     public void dialogSetItems(@RpcParameter(name = "items") JSONArray items) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
@@ -391,6 +400,7 @@ public class UiFacade extends RpcReceiver {
      * (positive/negative/neutral). Use {@link #dialogGetSelectedItems()} to find out what was
      * selected.
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Set dialog single choice items and selected item.")
     public void dialogSetSingleChoiceItems(
             @RpcParameter(name = "items") JSONArray items,
@@ -409,6 +419,7 @@ public class UiFacade extends RpcReceiver {
      * selected.
      */
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Set dialog multiple choice items and selection.")
     public void dialogSetMultiChoiceItems(
             @RpcParameter(name = "items") JSONArray items,
@@ -430,6 +441,7 @@ public class UiFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "This method provides list of items user selected.", returns = "Selected items")
     public Set<Integer> dialogGetSelectedItems() {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
@@ -443,13 +455,14 @@ public class UiFacade extends RpcReceiver {
      * See <a href=http://code.google.com/p/android-scripting/wiki/UsingWebView>wiki page</a> for more
      * detail.
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Display a WebView with the given URL.")
     public void webViewShow(
             @RpcParameter(name = "url") String url,
             @RpcParameter(name = "wait", description = "block until the user exits the WebView") @RpcOptional Boolean wait)
             throws IOException {
-        String jsonSrc = FileUtils.readFromAssetsFile(mService, HtmlInterpreter.JSON_FILE);
-        String AndroidJsSrc = FileUtils.readFromAssetsFile(mService, HtmlInterpreter.ANDROID_JS_FILE);
+        String jsonSrc = FileUtils.readFromAssetsFile(mContext, HtmlInterpreter.JSON_FILE);
+        String AndroidJsSrc = FileUtils.readFromAssetsFile(mContext, HtmlInterpreter.ANDROID_JS_FILE);
         HtmlActivityTask task = new HtmlActivityTask(mManager, AndroidJsSrc, jsonSrc, url, false);
         mTaskQueue.execute(task);
         if (wait != null && wait) {
@@ -464,6 +477,7 @@ public class UiFacade extends RpcReceiver {
     /**
      * Context menus are used primarily with {@link #webViewShow}
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Adds a new item to context menu.")
     public void addContextMenuItem(
             @RpcParameter(name = "label", description = "label for this menu item") String label,
@@ -497,6 +511,7 @@ public class UiFacade extends RpcReceiver {
      *
      * </pre>
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Adds a new item to options menu.")
     public void addOptionsMenuItem(
             @RpcParameter(name = "label", description = "label for this menu item") String label,
@@ -507,11 +522,13 @@ public class UiFacade extends RpcReceiver {
         mMenuUpdated.set(true);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Removes all items previously added to context menu.")
     public void clearContextMenu() {
         mContextMenuItems.clear();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Removes all items previously added to options menu.")
     public void clearOptionsMenu() {
         mOptionsMenuItems.clear();
@@ -531,7 +548,7 @@ public class UiFacade extends RpcReceiver {
             for (UiMenuItem item : mOptionsMenuItems) {
                 MenuItem menuItem = menu.add(MENU_GROUP_ID, Menu.NONE, Menu.NONE, item.mmTitle);
                 if (item.mmIcon != null) {
-                    menuItem.setIcon(mService.getResources()
+                    menuItem.setIcon(mContext.getResources()
                             .getIdentifier(item.mmIcon, "drawable", "android"));
                 }
                 menuItem.setOnMenuItemClickListener(item.mmListener);
@@ -545,6 +562,7 @@ public class UiFacade extends RpcReceiver {
      * See <a href=http://code.google.com/p/android-scripting/wiki/FullScreenUI>wiki page</a> for more
      * detail.
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Show Full Screen.")
     public List<String> fullShow(
             @RpcParameter(name = "layout", description = "String containing View layout") String layout,
@@ -575,6 +593,7 @@ public class UiFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Get Fullscreen Properties")
     public Map<String, Map<String, String>> fullQuery() {
         if (mFullScreenTask == null) {
@@ -583,6 +602,7 @@ public class UiFacade extends RpcReceiver {
         return mFullScreenTask.getViewAsMap();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Get fullscreen properties for a specific widget")
     public Map<String, String> fullQueryDetail(
             @RpcParameter(name = "id", description = "id of layout widget") String id) {
@@ -592,6 +612,7 @@ public class UiFacade extends RpcReceiver {
         return mFullScreenTask.getViewDetail(id);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Set fullscreen widget property")
     public String fullSetProperty(
             @RpcParameter(name = "id", description = "id of layout widget") String id,
@@ -603,6 +624,7 @@ public class UiFacade extends RpcReceiver {
         return mFullScreenTask.setViewProperty(id, property, value);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Attach a list to a fullscreen widget")
     public String fullSetList(
             @RpcParameter(name = "id", description = "id of layout widget") String id,
@@ -613,6 +635,7 @@ public class UiFacade extends RpcReceiver {
         return mFullScreenTask.setList(id, items);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Set the Full Screen Activity Title")
     public void fullSetTitle(
             @RpcParameter(name = "title", description = "Activity Title") String title) {
@@ -633,6 +656,7 @@ public class UiFacade extends RpcReceiver {
      * not actually adjust the volume. <br>
      * Returns a list of currently overridden keycodes.
      */
+    @SuppressWarnings("unused")
     @Rpc(description = "Override default key actions")
     public JSONArray fullKeyOverride(
             @RpcParameter(name = "keycodes", description = "List of keycodes to override") JSONArray keycodes,

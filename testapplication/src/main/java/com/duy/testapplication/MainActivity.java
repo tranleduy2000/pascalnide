@@ -4,6 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.googlecode.android_scripting.activity.Main;
+import com.googlecode.android_scripting.facade.FacadeConfiguration;
+import com.googlecode.android_scripting.facade.FacadeManager;
+import com.googlecode.android_scripting.rpc.MethodDescriptor;
+
+import org.json.JSONArray;
 
 public class MainActivity extends Main implements View.OnClickListener {
 
@@ -11,6 +16,16 @@ public class MainActivity extends Main implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FacadeManager facadeManager = new FacadeManager(FacadeConfiguration.getSdkLevel(),
+                getApplicationContext(), null, FacadeConfiguration.getFacadeClasses());
+        MethodDescriptor makeToast = facadeManager.getMethodDescriptor("makeToast");
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put("hello android");
+        try {
+            makeToast.invoke(facadeManager, jsonArray);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     @Override

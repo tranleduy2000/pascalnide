@@ -17,7 +17,6 @@
 package com.googlecode.android_scripting.facade;
 
 import android.app.ActivityManager;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -46,12 +45,13 @@ public class ApplicationManagerFacade extends RpcReceiver {
 
     public ApplicationManagerFacade(FacadeManager manager) {
         super(manager);
-        Service service = manager.getService();
+        Context context = manager.getContext();
         mAndroidFacade = manager.getReceiver(AndroidFacade.class);
-        mActivityManager = (ActivityManager) service.getSystemService(Context.ACTIVITY_SERVICE);
-        mPackageManager = service.getPackageManager();
+        mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        mPackageManager = context.getPackageManager();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a list of all launchable application class names.")
     public Map<String, String> getLaunchableApplications() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -64,6 +64,7 @@ public class ApplicationManagerFacade extends RpcReceiver {
         return applications;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Start activity with the given class name.")
     public void launch(@RpcParameter(name = "className") String className) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -72,6 +73,7 @@ public class ApplicationManagerFacade extends RpcReceiver {
         mAndroidFacade.startActivity(intent);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns a list of packages running activities or services.", returns = "List of packages running activities.")
     public List<String> getRunningPackages() {
         Set<String> runningPackages = new HashSet<>();
@@ -88,6 +90,7 @@ public class ApplicationManagerFacade extends RpcReceiver {
         return new ArrayList<>(runningPackages);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Force stops a package.")
     public void forceStopPackage(
             @RpcParameter(name = "packageName", description = "name of package") String packageName) {

@@ -54,6 +54,7 @@ public class CommonIntentsFacade extends RpcReceiver {
         return mAndroidFacade.startActivityForResult(Intent.ACTION_PICK, uri, null, null, null, null);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts the barcode scanner.", returns = "A Map representation of the result Intent.")
     public Intent scanBarcode() throws JSONException {
         return mAndroidFacade.startActivityForResult("com.google.zxing.client.android.SCAN", null,
@@ -75,17 +76,20 @@ public class CommonIntentsFacade extends RpcReceiver {
         mAndroidFacade.startActivity(Intent.ACTION_VIEW, uri, type, extras, true, null, null);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Opens a map search for query (e.g. pizza, 123 My Street).")
     public void viewMap(@RpcParameter(name = "query, e.g. pizza, 123 My Street") String query)
             throws Exception {
         view("geo:0,0?q=" + query, null, null);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Opens the list of contacts.")
     public void viewContacts() throws JSONException {
         view(People.CONTENT_URI, null);
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Opens the browser to display a local HTML file.")
     public void viewHtml(
             @RpcParameter(name = "path", description = "the path to the HTML file") String path)
@@ -94,6 +98,7 @@ public class CommonIntentsFacade extends RpcReceiver {
         view(Uri.fromFile(file), "text/html");
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts a search for the given query.")
     public void search(@RpcParameter(name = "query") String query) {
         Intent intent = new Intent(Intent.ACTION_SEARCH);

@@ -77,30 +77,30 @@ public final class MethodDescriptor {
     // would be to work on one supplied parameter and return the converted parameter. However, that's
     // problematic because you lose the ability to call the getXXX methods on the JSON array.
     @VisibleForTesting
-    static Object convertParameter(final JSONArray parameters, int index, Type type)
+    static Object convertParameter(final JSONArray jsonParams, int index, Type type)
             throws JSONException, RpcError {
         try {
             // We must handle null and numbers explicitly because we cannot magically cast them. We
             // also need to convert implicitly from numbers to bools.
-            if (parameters.isNull(index)) {
+            if (jsonParams.isNull(index)) {
                 return null;
             } else if (type == Boolean.class) {
                 try {
-                    return parameters.getBoolean(index);
+                    return jsonParams.getBoolean(index);
                 } catch (JSONException e) {
-                    return parameters.getInt(index) != 0;
+                    return jsonParams.getInt(index) != 0;
                 }
             } else if (type == Long.class) {
-                return parameters.getLong(index);
+                return jsonParams.getLong(index);
             } else if (type == Double.class) {
-                return parameters.getDouble(index);
+                return jsonParams.getDouble(index);
             } else if (type == Integer.class) {
-                return parameters.getInt(index);
+                return jsonParams.getInt(index);
             } else if (type == Intent.class) {
-                return buildIntent(parameters.getJSONObject(index));
+                return buildIntent(jsonParams.getJSONObject(index));
             } else {
                 // Magically cast the parameter to the right Java type.
-                return ((Class<?>) type).cast(parameters.get(index));
+                return ((Class<?>) type).cast(jsonParams.get(index));
             }
         } catch (ClassCastException e) {
             throw new RpcError("Argument " + (index + 1) + " should be of type "
@@ -340,24 +340,24 @@ public final class MethodDescriptor {
      * Invokes the call that belongs to this object with the given parameters. Wraps the response
      * (possibly an exception) in a JSONObject.
      *
-     * @param parameters {@code JSONArray} containing the parameters
+     * @param jsonParams {@code JSONArray} containing the parameters
      * @return result
      * @throws Throwable
      */
-    public Object invoke(RpcReceiverManager manager, final JSONArray parameters) throws Throwable {
+    public Object invoke(RpcReceiverManager manager, final JSONArray jsonParams) throws Throwable {
 
         final Type[] parameterTypes = getGenericParameterTypes();
         final Object[] args = new Object[parameterTypes.length];
         final Annotation annotations[][] = getParameterAnnotations();
 
-        if (parameters.length() > args.length) {
+        if (jsonParams.length() > args.length) {
             throw new RpcError("Too many parameters specified.");
         }
 
         for (int i = 0; i < args.length; i++) {
             final Type parameterType = parameterTypes[i];
-            if (i < parameters.length()) {
-                args[i] = convertParameter(parameters, i, parameterType);
+            if (i < jsonParams.length()) {
+                args[i] = convertParameter(jsonParams, i, parameterType);
             } else if (MethodDescriptor.hasDefaultValue(annotations[i])) {
                 args[i] = MethodDescriptor.getDefaultValue(parameterType, annotations[i]);
             } else {
@@ -365,7 +365,7 @@ public final class MethodDescriptor {
             }
         }
 
-        Object result = null;
+        Object result;
         try {
             result = manager.invoke(mClass, mMethod, args);
         } catch (Throwable t) {

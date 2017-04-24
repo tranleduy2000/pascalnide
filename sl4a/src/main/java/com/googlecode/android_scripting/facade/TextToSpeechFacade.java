@@ -38,7 +38,7 @@ public class TextToSpeechFacade extends RpcReceiver {
     public TextToSpeechFacade(FacadeManager manager) {
         super(manager);
         mOnInitLock = new CountDownLatch(1);
-        mTts = new TextToSpeech(manager.getService(), new OnInitListener() {
+        mTts = new TextToSpeech(manager.getContext(), new OnInitListener() {
             @Override
             public void onInit(int arg0) {
                 mOnInitLock.countDown();
@@ -54,6 +54,7 @@ public class TextToSpeechFacade extends RpcReceiver {
         mTts.shutdown();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Speaks the provided message via TTS.")
     public void ttsSpeak(@RpcParameter(name = "message") String message) throws InterruptedException {
         mOnInitLock.await();
@@ -62,6 +63,7 @@ public class TextToSpeechFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Returns True if speech is currently in progress.")
     public Boolean ttsIsSpeaking() throws InterruptedException {
         mOnInitLock.await();

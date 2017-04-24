@@ -16,7 +16,7 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.app.Service;
+import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
@@ -86,7 +86,7 @@ import java.util.concurrent.Executor;
  */
 public class WebCamFacade extends RpcReceiver {
 
-    private final Service mService;
+    private final Context mContext;
     private final Executor mJpegCompressionExecutor = new SingleThreadExecutor();
     private final ByteArrayOutputStream mJpegCompressionBuffer = new ByteArrayOutputStream();
     private final EventFacade mEventFacade;
@@ -155,7 +155,7 @@ public class WebCamFacade extends RpcReceiver {
 
     public WebCamFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
+        mContext = manager.getContext();
         mJpegDataReady = new CountDownLatch(1);
         mEventFacade = manager.getReceiver(EventFacade.class);
     }
@@ -169,6 +169,7 @@ public class WebCamFacade extends RpcReceiver {
         return mJpegCompressionBuffer.toByteArray();
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Starts an MJPEG stream and returns a Tuple of address and port for the stream.")
     public InetSocketAddress webcamStart(
             @RpcParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
@@ -221,6 +222,7 @@ public class WebCamFacade extends RpcReceiver {
         }
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Adjusts the quality of the webcam stream while it is running.")
     public void webcamAdjustQuality(
             @RpcParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
@@ -317,12 +319,13 @@ public class WebCamFacade extends RpcReceiver {
             }
         };
         FutureActivityTaskExecutor taskExecutor =
-                ((BaseApplication) mService.getApplication()).getTaskExecutor();
+                ((BaseApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
         mCamera.setPreviewDisplay(task.getResult());
         return task;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Start Preview Mode. Throws 'preview' events.", returns = "True if successful")
     public boolean cameraStartPreview(
             @RpcParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
@@ -348,6 +351,7 @@ public class WebCamFacade extends RpcReceiver {
         return true;
     }
 
+    @SuppressWarnings("unused")
     @Rpc(description = "Stop the preview mode.")
     public void cameraStopPreview() {
         stopPreview();

@@ -29,13 +29,6 @@ import java.io.Serializable;
  * @author Felix Arends (felix.arends@gmail.com)
  */
 public interface Trigger extends Serializable {
-    /**
-     * Handles an event from the event queue.
-     *
-     * @param event   Event to handle
-     * @param context TODO
-     */
-    void handleEvent(Event event, Context context);
 
     /**
      * Returns the event name that this {@link Trigger} is interested in.
