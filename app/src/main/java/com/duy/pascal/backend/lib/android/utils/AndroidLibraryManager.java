@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.lib.android.utils;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
@@ -30,13 +31,15 @@ import java.util.Collection;
 
 public class AndroidLibraryManager extends RpcReceiverManager {
 
-    private final Context mContext;
+    private  Context mContext;
     private int mSdkLevel;
 
-    public AndroidLibraryManager(int sdkLevel, Context context, Collection<Class<? extends RpcReceiver>> classList) {
+    public AndroidLibraryManager(int sdkLevel, Activity context, Collection<Class<? extends RpcReceiver>> classList) {
         super(classList);
         mSdkLevel = sdkLevel;
-        mContext = context;
+        if (context != null){
+            mContext = context.getApplicationContext();
+        }
     }
 
     public int getSdkLevel() {

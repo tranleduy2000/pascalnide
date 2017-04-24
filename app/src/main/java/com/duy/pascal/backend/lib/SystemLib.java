@@ -50,11 +50,6 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    /**
-     * delay procedure
-     *
-     * @param ms - time
-     */
     @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public void delay(long ms) {

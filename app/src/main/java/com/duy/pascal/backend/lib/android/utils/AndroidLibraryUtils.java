@@ -30,7 +30,6 @@ import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.AndroidWifiLib;
 import com.google.common.collect.Maps;
 import com.googlecode.sl4a.facade.ActivityResultFacade;
-import com.googlecode.sl4a.facade.BatteryManagerFacade;
 import com.googlecode.sl4a.facade.CameraFacade;
 import com.googlecode.sl4a.facade.CommonIntentsFacade;
 import com.googlecode.sl4a.facade.ContactsFacade;
@@ -91,7 +90,6 @@ public class AndroidLibraryUtils {
         sFacadeClassList.add(WakeLockFacade.class);
         sFacadeClassList.add(AndroidWifiLib.class);
         sFacadeClassList.add(UiFacade.class);
-        sFacadeClassList.add(BatteryManagerFacade.class);
         sFacadeClassList.add(ActivityResultFacade.class);
         sFacadeClassList.add(AndroidMediaPlayerLib.class);
         sFacadeClassList.add(PreferencesFacade.class);

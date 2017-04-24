@@ -148,7 +148,6 @@ public class AndroidBatteryLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the most recently received battery presence data.")
-
     public Boolean batteryCheckPresent() {
         return mBatteryPresent;
     }

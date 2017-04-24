@@ -46,7 +46,7 @@ import java.util.ArrayList;
  * Created by Duy on 08-Apr-17.
  */
 
-public class LibraryUtils {
+public class PascalLibraryUtils {
     public static final ArrayList<String> SUPPORT_LIB;
 
     static {
@@ -56,7 +56,15 @@ public class LibraryUtils {
         SUPPORT_LIB.add("math");
         SUPPORT_LIB.add("graph");
         SUPPORT_LIB.add("strutils");
-        SUPPORT_LIB.add("sysutils");
+        SUPPORT_LIB.add("abattery");
+        SUPPORT_LIB.add("amedia");
+        SUPPORT_LIB.add("asensor");
+        SUPPORT_LIB.add("autils");
+        SUPPORT_LIB.add("atone");
+        SUPPORT_LIB.add("atextspeak");
+        SUPPORT_LIB.add("awifi");
+        SUPPORT_LIB.add("asetting");
+        SUPPORT_LIB.add("abluetooth");
     }
 
     /**
@@ -70,7 +78,7 @@ public class LibraryUtils {
                                           ListMultimap<String, AbstractFunction> callableFunctions) {
 
         AndroidLibraryManager facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkLevel(),
-                handler.getApplicationContext(), AndroidLibraryUtils.getFacadeClasses());
+                handler, AndroidLibraryUtils.getFacadeClasses());
 
         for (Class<?> pascalPlugin : classes) {
             Constructor constructor;
@@ -185,7 +193,7 @@ public class LibraryUtils {
                 classes.add(AndroidBluetoothLib.class);
             }
         }
-        LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
+        PascalLibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
     }
 
 }

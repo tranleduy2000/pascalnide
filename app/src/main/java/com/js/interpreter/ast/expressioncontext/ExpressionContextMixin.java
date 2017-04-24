@@ -10,7 +10,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.lib.LibraryUtils;
+import com.duy.pascal.backend.lib.PascalLibraryUtils;
 import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
@@ -207,7 +207,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                     throw new ExpectedTokenException("[Library Identifier]", next);
                 }
                 //check library not found
-                if (!LibraryUtils.SUPPORT_LIB.contains(((WordToken) next).name)) {
+                if (!PascalLibraryUtils.SUPPORT_LIB.contains(((WordToken) next).name)) {
                     throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
                 }
                 listLib.add(next.toString());
@@ -219,7 +219,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 }
             } while (true);
             i.assertNextSemicolon();
-            LibraryUtils.loadLibrary(librarieNames, listLib, handler, callableFunctions);
+            PascalLibraryUtils.loadLibrary(librarieNames, listLib, handler, callableFunctions);
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
@@ -278,8 +278,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
         classes.add(StringLib.class);
         classes.add(SystemLib.class);
-        LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
-        LibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
+        PascalLibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
 
         SetLengthFunction setLength = new SetLengthFunction();
         callableFunctions.put(setLength.name(), new TemplatePluginDeclaration(setLength));
