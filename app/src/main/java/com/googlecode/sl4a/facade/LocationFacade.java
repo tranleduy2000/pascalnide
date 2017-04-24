@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.google.common.collect.Maps;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
@@ -115,7 +115,7 @@ public class LocationFacade extends RpcReceiver {
         }
     };
 
-    public LocationFacade(FacadeManager manager) {
+    public LocationFacade(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);

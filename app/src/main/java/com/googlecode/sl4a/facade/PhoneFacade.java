@@ -29,7 +29,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
@@ -58,7 +58,7 @@ public class PhoneFacade extends RpcReceiver {
     private final Context mContext;
     private PhoneStateListener mPhoneStateListener;
 
-    public PhoneFacade(FacadeManager manager) {
+    public PhoneFacade(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
         mTelephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
@@ -121,7 +121,7 @@ public class PhoneFacade extends RpcReceiver {
         if (uri.getScheme().equals("content")) {
             String phoneNumberColumn = PhonesColumns.NUMBER;
             String selectWhere = null;
-            if ((FacadeManager.class.cast(mManager)).getSdkLevel() >= 5) {
+            if ((AndroidLibraryManager.class.cast(mManager)).getSdkLevel() >= 5) {
                 Class<?> contactsContract_Data_class =
                         Class.forName("android.provider.ContactsContract$Data");
                 Field RAW_CONTACT_ID_field = contactsContract_Data_class.getField("RAW_CONTACT_ID");

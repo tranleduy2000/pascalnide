@@ -29,7 +29,7 @@ import com.duy.pascal.PascalApplication;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
@@ -127,7 +127,7 @@ public class UiFacade extends RpcReceiver {
     private FullScreenTask mFullScreenTask;
     private List<Integer> mOverrideKeys = Collections.synchronizedList(new ArrayList<Integer>());
 
-    public UiFacade(FacadeManager manager) {
+    public UiFacade(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
         mTaskQueue = ((PascalApplication) mContext).getTaskExecutor();

@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 

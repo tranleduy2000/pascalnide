@@ -23,7 +23,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -40,7 +40,7 @@ public class AndroidWifiLib extends RpcReceiver {
     private WifiLock mLock;
 
     @SuppressLint("WifiManagerLeak")
-    public AndroidWifiLib(FacadeManager manager) {
+    public AndroidWifiLib(AndroidLibraryManager manager) {
         super(manager);
         Context mContext = manager.getContext();
         mWifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);

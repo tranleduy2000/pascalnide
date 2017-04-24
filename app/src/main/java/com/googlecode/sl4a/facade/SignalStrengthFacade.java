@@ -22,7 +22,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
@@ -43,7 +43,7 @@ public class SignalStrengthFacade extends RpcReceiver {
     private final PhoneStateListener mPhoneStateListener;
     private Bundle mSignalStrengths;
 
-    public SignalStrengthFacade(FacadeManager manager) {
+    public SignalStrengthFacade(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);

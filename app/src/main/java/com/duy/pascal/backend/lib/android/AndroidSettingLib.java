@@ -24,7 +24,7 @@ import android.provider.Settings.SettingNotFoundException;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
@@ -49,7 +49,7 @@ public class AndroidSettingLib extends RpcReceiver {
     private final AudioManager mAudio;
     private final PowerManager mPower;
 
-    public AndroidSettingLib(FacadeManager manager) {
+    public AndroidSettingLib(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
         mAudio = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);

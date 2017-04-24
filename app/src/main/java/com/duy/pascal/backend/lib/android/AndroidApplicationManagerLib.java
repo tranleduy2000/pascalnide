@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcParameter;
@@ -44,7 +44,7 @@ public class AndroidApplicationManagerLib extends RpcReceiver {
     private final ActivityManager mActivityManager;
     private final PackageManager mPackageManager;
 
-    public AndroidApplicationManagerLib(FacadeManager manager) {
+    public AndroidApplicationManagerLib(AndroidLibraryManager manager) {
         super(manager);
         Context context = manager.getContext();
         mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);

@@ -23,7 +23,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.facade.EventFacade;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
@@ -134,7 +134,7 @@ public class AndroidSensorLib extends RpcReceiver {
 
     private SensorEventListener mSensorListener;
 
-    public AndroidSensorLib(FacadeManager manager) {
+    public AndroidSensorLib(AndroidLibraryManager manager) {
         super(manager);
         mEventFacade = manager.getReceiver(EventFacade.class);
         mSensorManager = (SensorManager) manager.getContext().getSystemService(Context.SENSOR_SERVICE);

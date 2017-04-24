@@ -20,7 +20,7 @@ import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcParameter;
@@ -36,7 +36,7 @@ public class AndroidTextToSpeakLib extends RpcReceiver {
     private final TextToSpeech mTts;
     private final CountDownLatch mOnInitLock;
 
-    public AndroidTextToSpeakLib(FacadeManager manager) {
+    public AndroidTextToSpeakLib(AndroidLibraryManager manager) {
         super(manager);
         mOnInitLock = new CountDownLatch(1);
         mTts = new TextToSpeech(manager.getContext(), new OnInitListener() {

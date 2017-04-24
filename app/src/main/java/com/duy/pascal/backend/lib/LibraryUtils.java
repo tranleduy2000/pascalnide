@@ -25,6 +25,8 @@ import com.duy.pascal.backend.lib.android.AndroidTextToSpeakLib;
 import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.AndroidWifiLib;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryUtils;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
@@ -63,17 +65,23 @@ public class LibraryUtils {
      * @param classes  - list class
      * @param modifier - allow method modifier
      */
-    public static void addMethodFromClass(ArrayList<Class> classes, int modifier, RunnableActivity handler, ListMultimap<String, AbstractFunction> callableFunctions) {
-        for (Class pascalPlugin : classes) {
+    public static void addMethodFromClass(ArrayList<Class<?>> classes, int modifier,
+                                          RunnableActivity handler,
+                                          ListMultimap<String, AbstractFunction> callableFunctions) {
+
+        AndroidLibraryManager facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkLevel(),
+                handler.getApplicationContext(), AndroidLibraryUtils.getFacadeClasses());
+
+        for (Class<?> pascalPlugin : classes) {
+            Constructor constructor;
             Object o = null;
             try {
-                Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
+                constructor = pascalPlugin.getConstructor(InOutListener.class);
                 o = constructor.newInstance(handler);
             } catch (Exception ignored) {
             }
             if (o == null) {
                 try {
-                    Constructor constructor;
                     constructor = pascalPlugin.getConstructor(ExecHandler.class);
                     o = constructor.newInstance(handler);
                 } catch (Exception ignored) {
@@ -81,7 +89,13 @@ public class LibraryUtils {
             }
             if (o == null) {
                 try {
-                    Constructor constructor;
+                    constructor = pascalPlugin.getConstructor(AndroidLibraryManager.class);
+                    o = constructor.newInstance(facadeManager);
+                } catch (Exception ignored) {
+                }
+            }
+            if (o == null) {
+                try {
                     constructor = pascalPlugin.getConstructor();
                     o = constructor.newInstance();
                 } catch (Exception ignored) {
@@ -137,7 +151,7 @@ public class LibraryUtils {
     public static void loadLibrary(ArrayList<String> source, ArrayList<String> newLibraries,
                                    RunnableActivity handler, ListMultimap<String, AbstractFunction> callableFunctions) {
         source.addAll(newLibraries);
-        ArrayList<Class> classes = new ArrayList<>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         for (String name : newLibraries) {
             if (name.equalsIgnoreCase("crt")) {
                 classes.add(CrtLib.class);

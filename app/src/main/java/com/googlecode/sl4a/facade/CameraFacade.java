@@ -32,7 +32,7 @@ import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
@@ -56,7 +56,7 @@ public class CameraFacade extends RpcReceiver {
     private final Context mContext;
     private final Parameters mParameters;
 
-    public CameraFacade(FacadeManager manager) throws Exception {
+    public CameraFacade(AndroidLibraryManager manager) throws Exception {
         super(manager);
         mContext = manager.getContext();
         Camera camera = openCamera(0);

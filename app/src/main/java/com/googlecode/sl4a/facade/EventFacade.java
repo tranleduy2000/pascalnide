@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -78,7 +78,7 @@ public class EventFacade extends RpcReceiver {
     private final Context mContext;
     private EventServer mEventServer = null;
 
-    public EventFacade(FacadeManager manager) {
+    public EventFacade(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext().getApplicationContext();
     }

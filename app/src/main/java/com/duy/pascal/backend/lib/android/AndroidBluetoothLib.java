@@ -22,7 +22,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.MainThread;
@@ -60,7 +60,7 @@ public class AndroidBluetoothLib extends RpcReceiver {
     private AndroidUtilsLib mAndroidFacade;
     private BluetoothAdapter mBluetoothAdapter;
 
-    public AndroidBluetoothLib(FacadeManager manager) {
+    public AndroidBluetoothLib(AndroidLibraryManager manager) {
         super(manager);
         mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
         mBluetoothAdapter = MainThread.run(manager.getContext(), new Callable<BluetoothAdapter>() {

@@ -20,7 +20,7 @@ import android.content.Context;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 
@@ -40,7 +40,7 @@ public class WakeLockFacade extends RpcReceiver {
             "com.googlecode.android_scripting.facade.PowerManagerFacade";
     private final WakeLockManager mManager;
 
-    public WakeLockFacade(FacadeManager manager) {
+    public WakeLockFacade(AndroidLibraryManager manager) {
         super(manager);
         mManager = new WakeLockManager(manager.getContext());
     }

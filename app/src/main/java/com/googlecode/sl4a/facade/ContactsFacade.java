@@ -25,7 +25,7 @@ import android.net.Uri;
 import android.provider.Contacts.People;
 import android.provider.Contacts.PhonesColumns;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -55,7 +55,7 @@ public class ContactsFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     public String mHasPhoneNumber;
 
-    public ContactsFacade(FacadeManager manager) {
+    public ContactsFacade(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
         mContentResolver = mContext.getContentResolver();

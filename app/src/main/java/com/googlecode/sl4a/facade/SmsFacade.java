@@ -24,7 +24,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.gsm.SmsManager;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
@@ -50,7 +50,7 @@ public class SmsFacade extends RpcReceiver {
     private final ContentResolver mContentResolver;
     private final SmsManager mSms;
 
-    public SmsFacade(FacadeManager manager) {
+    public SmsFacade(AndroidLibraryManager manager) {
         super(manager);
         Context mContext = manager.getContext();
         mContentResolver = mContext.getContentResolver();

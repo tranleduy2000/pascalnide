@@ -268,7 +268,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
      * load system method  of some class
      */
     protected void loadSystemLibrary() {
-        ArrayList<Class> classes = new ArrayList<>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         /**
          * Important: load file library before io lib. Because
          * method readln(file, ...) in {@link FileLib} will be override method readln(object...) in {@link IOLib}

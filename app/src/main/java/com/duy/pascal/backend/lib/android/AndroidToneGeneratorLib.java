@@ -19,7 +19,7 @@ package com.duy.pascal.backend.lib.android;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
@@ -32,7 +32,7 @@ public class AndroidToneGeneratorLib extends RpcReceiver {
 
     private final ToneGenerator mToneGenerator;
 
-    public AndroidToneGeneratorLib(FacadeManager manager) {
+    public AndroidToneGeneratorLib(AndroidLibraryManager manager) {
         super(manager);
         mToneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     }

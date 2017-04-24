@@ -21,7 +21,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -52,7 +52,7 @@ public class PreferencesFacade extends RpcReceiver {
 
     private Context mContext;
 
-    public PreferencesFacade(FacadeManager manager) {
+    public PreferencesFacade(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
     }

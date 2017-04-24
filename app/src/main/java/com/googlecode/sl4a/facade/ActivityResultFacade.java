@@ -19,7 +19,7 @@ package com.googlecode.sl4a.facade;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
@@ -46,7 +46,7 @@ public class ActivityResultFacade extends RpcReceiver {
     private Intent mResult = null;
     private int mResultCode;
 
-    public ActivityResultFacade(FacadeManager manager) {
+    public ActivityResultFacade(AndroidLibraryManager manager) {
         super(manager);
     }
 

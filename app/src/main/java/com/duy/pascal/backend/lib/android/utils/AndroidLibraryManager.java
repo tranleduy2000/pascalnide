@@ -28,12 +28,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 
-public class FacadeManager extends RpcReceiverManager {
+public class AndroidLibraryManager extends RpcReceiverManager {
 
     private final Context mContext;
     private int mSdkLevel;
 
-    public FacadeManager(int sdkLevel, Context context, Collection<Class<? extends RpcReceiver>> classList) {
+    public AndroidLibraryManager(int sdkLevel, Context context, Collection<Class<? extends RpcReceiver>> classList) {
         super(classList);
         mSdkLevel = sdkLevel;
         mContext = context;

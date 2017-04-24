@@ -26,11 +26,6 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.backend.lib.android.utils.AndroidLibraryUtils;
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
-import com.googlecode.sl4a.rpc.MethodDescriptor;
-
-import org.json.JSONArray;
 
 
 public class ActivitySplashScreen extends AppCompatActivity {
@@ -52,19 +47,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
         } else {
             startMainActivity();
         }
-
-
-        try {
-            FacadeManager facadeManager = new FacadeManager(AndroidLibraryUtils.getSdkLevel(),
-                    getApplicationContext(), AndroidLibraryUtils.getFacadeClasses());
-            MethodDescriptor makeToast = facadeManager.getMethodDescriptor("makeToast");
-            JSONArray jsonArray = new JSONArray();
-            jsonArray.put("hello android");
-            makeToast.invoke(facadeManager, jsonArray);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
     }
 
     @Override
@@ -100,7 +82,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
             public void run() {
                 intentEdit.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 overridePendingTransition(0, 0);
-//                startActivity(intentEdit);
+                startActivity(intentEdit);
                 finish();
             }
         }, 400);

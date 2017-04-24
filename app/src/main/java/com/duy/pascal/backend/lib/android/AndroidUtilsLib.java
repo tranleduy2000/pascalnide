@@ -40,7 +40,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.duy.pascal.PascalApplication;
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
@@ -89,7 +89,7 @@ public class AndroidUtilsLib extends RpcReceiver {
     private final Resources mResources;
     private ClipboardManager mClipboard = null;
 
-    public AndroidUtilsLib(FacadeManager manager) {
+    public AndroidUtilsLib(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
 

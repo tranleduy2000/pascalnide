@@ -23,7 +23,7 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Bundle;
 
-import com.duy.pascal.backend.lib.android.utils.FacadeManager;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.jsonrpc.RpcReceiver;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
@@ -67,7 +67,7 @@ public class BatteryManagerFacade extends RpcReceiver {
     private volatile Integer mBatteryTemperature = null;
     private volatile String mBatteryTechnology = null;
 
-    public BatteryManagerFacade(FacadeManager manager) {
+    public BatteryManagerFacade(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
         mSdkVersion = manager.getSdkLevel();
