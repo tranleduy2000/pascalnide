@@ -233,28 +233,28 @@ public class Memory {
 		if (data != null && data.size() > 0) {
 			String[] lines = data.getArray();
 			MemStat stat = new MemStat();
-			
-			for (int i=0; i < lines.length; i++) {
-				String[] parts = oPatternSpaceSearch.split(lines[i]);
-				
+
+			for (String line : lines) {
+				String[] parts = oPatternSpaceSearch.split(line);
+
 				if (parts[0].equals("MemTotal:")) {
 					stat.mMemTotal = Long.parseLong(parts[1]) * 1024L;
-					
+
 				} else if (parts[0].equals("MemFree:")) {
 					stat.mMemFree = Long.parseLong(parts[1]) * 1024L;
-					
+
 				} else if (parts[0].equals("Cached:")) {
 					stat.mMemCached = Long.parseLong(parts[1]) * 1024L;
-					
+
 				} else if (parts[0].equals("SwapTotal:")) {
 					stat.mSwapTotal = Long.parseLong(parts[1]) * 1024L;
-					
+
 				} else if (parts[0].equals("SwapFree:")) {
 					stat.mSwapFree = Long.parseLong(parts[1]) * 1024L;
-					
+
 				} else if (parts[0].equals("SwapCached:")) {
 					stat.mSwapCached = Long.parseLong(parts[1]) * 1024L;
-					
+
 				}
 			}
 			
@@ -275,21 +275,22 @@ public class Memory {
 		
 		if (file.exists()) {
 			String[] data = file.readMatch("/dev/", false).trim().getArray();
-			List<SwapStat> statList = new ArrayList<SwapStat>();
+			List<SwapStat> statList = new ArrayList<>();
 			
 			if (data != null && data.length > 0) {
-				for (int i=0; i < data.length; i++) {
+				for (String aData : data) {
 					try {
-						String[] sections = oPatternSpaceSearch.split(data[i].trim());
-						
+						String[] sections = oPatternSpaceSearch.split(aData.trim());
+
 						SwapStat stat = new SwapStat();
 						stat.mDevice = sections[0];
 						stat.mSize = Long.parseLong(sections[2]) * 1024L;
 						stat.mUsage = Long.parseLong(sections[3]) * 1024L;
-						
+
 						statList.add(stat);
-						
-					} catch(Throwable e) {}
+
+					} catch (Throwable e) {
+					}
 				}
 				
 				return statList.size() > 0 ? statList.toArray( new SwapStat[ statList.size() ] ) : null;
@@ -417,9 +418,6 @@ public class Memory {
 		/**
 		 * Get information like size and usage of a specific SWAP device. This method will return null if the device does not exist, or if it has not been activated.
 		 * 
-		 * @param device
-		 *     The specific SWAP device path to get infomation about
-		 *     
 		 * @return
 		 *     An SwapStat object containing information about the requested SWAP device
 		 */

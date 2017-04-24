@@ -41,7 +41,6 @@ import com.googlecode.android_scripting.rpc.RpcDefault;
 import com.googlecode.android_scripting.rpc.RpcParameter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -157,7 +156,7 @@ public class CameraFacade extends RpcReceiver {
         camera.takePicture(null, null, new PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                if (!FileUtils.makeDirectories(file.getParentFile(), 0755)) {
+                if (!FileUtils.makeDirectories(file.getParentFile(), 493)) {
                     takePictureResult.mmResult = false;
                     return;
                 }
@@ -166,10 +165,6 @@ public class CameraFacade extends RpcReceiver {
                     output.write(data);
                     output.close();
                     takePictureResult.mmResult = true;
-                } catch (FileNotFoundException e) {
-                    Log.e("Failed to save picture.", e);
-                    takePictureResult.mmResult = false;
-                    return;
                 } catch (IOException e) {
                     Log.e("Failed to save picture.", e);
                     takePictureResult.mmResult = false;

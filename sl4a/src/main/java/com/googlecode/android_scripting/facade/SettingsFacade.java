@@ -49,11 +49,6 @@ public class SettingsFacade extends RpcReceiver {
     private final AudioManager mAudio;
     private final PowerManager mPower;
 
-    /**
-     * Creates a new SettingsFacade.
-     *
-     * @param service is the {@link Context} the APIs will run under
-     */
     public SettingsFacade(FacadeManager manager) {
         super(manager);
         mService = manager.getService();

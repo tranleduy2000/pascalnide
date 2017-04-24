@@ -25,7 +25,6 @@ public class CasePossibility extends DebuggableExecutable {
     /**
      * Executes the contained commands in this branch.
      *
-     * @param value the value being examined in this case statement.
      * @return Whether or not it has broken.
      */
     @Override

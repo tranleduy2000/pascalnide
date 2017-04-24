@@ -40,7 +40,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public abstract class SimpleServer {
 
     private final CopyOnWriteArrayList<ConnectionThread> mConnectionThreads =
-            new CopyOnWriteArrayList<ConnectionThread>();
+            new CopyOnWriteArrayList<>();
     private final List<SimpleServerObserver> mObservers = Lists.newArrayList();
     private volatile boolean mStopServer = false;
     private ServerSocket mServer;
@@ -238,9 +238,9 @@ public abstract class SimpleServer {
     }
 
     public interface SimpleServerObserver {
-        public void onConnect();
+        void onConnect();
 
-        public void onDisconnect();
+        void onDisconnect();
     }
 
     private final class ConnectionThread extends Thread {

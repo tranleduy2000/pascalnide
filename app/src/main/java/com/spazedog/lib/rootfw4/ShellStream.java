@@ -23,8 +23,6 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.util.Log;
 
@@ -54,7 +52,7 @@ public class ShellStream {
 	
 	protected static class Counter {
 		private volatile Integer mCount = 0;
-		private volatile Object mLock = new Object();
+		private final Object mLock = new Object();
 		
 		public Integer size() {
 			synchronized(mLock) {
@@ -92,17 +90,13 @@ public class ShellStream {
 		
 		/**
 		 * This is called on each line from the shell input stream.
-		 * 
-		 * @param inputLine
-		 *     The current shell input line that is being processed
+		 *
 		 */
         void onStreamInput(String outputLine);
 		
 		/**
 		 * This is called after all shell input has been processed. 
-		 * 
-		 * @param exitCode
-		 *     The exit code returned by the shell
+		 *
 		 */
         void onStreamStop(Integer resultCode);
 		

@@ -26,16 +26,16 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
 
 public interface TemplatePascalPlugin {
-    public String name();
+    String name();
 
-    public FunctionCall generateCall(LineInfo line, ReturnsValue[] values,
-                                     ExpressionContext f) throws ParsingException;
+    FunctionCall generateCall(LineInfo line, ReturnsValue[] values,
+                              ExpressionContext f) throws ParsingException;
 
-    public FunctionCall generatePerfectFitCall(LineInfo line,
-                                               ReturnsValue[] values, ExpressionContext f)
+    FunctionCall generatePerfectFitCall(LineInfo line,
+                                        ReturnsValue[] values, ExpressionContext f)
             throws ParsingException;
 
-    public ArgumentType[] argumentTypes();
+    ArgumentType[] argumentTypes();
 
-    public DeclaredType return_type();
+    DeclaredType return_type();
 }

@@ -19,6 +19,6 @@ public class ObjectBasedPointer<T> implements VariableBoxer<T> {
 
 	@Override
 	public ObjectBasedPointer<T> clone() {
-		return new ObjectBasedPointer<T>(obj);
+		return new ObjectBasedPointer<>(obj);
 	}
 }

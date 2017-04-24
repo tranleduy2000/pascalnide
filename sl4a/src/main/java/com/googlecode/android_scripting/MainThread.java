@@ -20,7 +20,7 @@ public class MainThread {
      * finish quickly to avoid hanging the UI thread.
      */
     public static <T> T run(Context context, final Callable<T> task) {
-        final FutureResult<T> result = new FutureResult<T>();
+        final FutureResult<T> result = new FutureResult<>();
         Handler handler = new Handler(context.getMainLooper());
         handler.post(new Runnable() {
             @Override

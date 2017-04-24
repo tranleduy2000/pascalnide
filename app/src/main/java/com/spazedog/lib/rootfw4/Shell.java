@@ -55,19 +55,19 @@ public class Shell {
 	public static final String TAG = Common.TAG + ".Shell";
 	
 	protected static Set<Shell> mInstances = Collections.newSetFromMap(new WeakHashMap<Shell, Boolean>());
-	protected static Map<String, String> mBinaries = new HashMap<String, String>();
+	protected static Map<String, String> mBinaries = new HashMap<>();
 	
 	protected Set<OnShellBroadcastListener> mBroadcastRecievers = Collections.newSetFromMap(new WeakHashMap<OnShellBroadcastListener, Boolean>());
-	protected Set<OnShellConnectionListener> mConnectionRecievers = new HashSet<OnShellConnectionListener>();
+	protected Set<OnShellConnectionListener> mConnectionRecievers = new HashSet<>();
 	
-	protected Object mLock = new Object();
+	protected final Object mLock = new Object();
 	protected ShellStream mStream;
 	protected Boolean mIsConnected = false;
 	protected Boolean mIsRoot = false;
 	protected List<String> mOutput = null;
 	protected Integer mResultCode = 0;
 	protected Integer mShellTimeout = 15000;
-	protected Set<Integer> mResultCodes = new HashSet<Integer>();
+	protected Set<Integer> mResultCodes = new HashSet<>();
 	
 	/**
 	 * This interface is used internally across utility classes.
@@ -154,8 +154,8 @@ public class Shell {
 		 * whether or not the execution was a success. 
 		 */
 		public Boolean wasSuccessful() {
-			for (int i=0; i < mValidResults.length; i++) {
-				if (mValidResults[i] == mResultCode) {
+			for (Integer mValidResult : mValidResults) {
+				if (mValidResult == mResultCode) {
 					return true;
 				}
 			}
@@ -172,7 +172,7 @@ public class Shell {
 	}
 	
 	/**
-	 * A class containing automatically created shell attempts and links to both {@link Shell#executeAsync(String[], Integer[], OnShellResultListener)} and {@link Shell#execute(String[], Integer[])} <br /><br />
+	 * A class containing automatically created shell attempts and links to both  and  <br /><br />
 	 * 
 	 * All attempts are created based on {@link Common#BINARIES}. <br /><br />
 	 * 
@@ -259,7 +259,7 @@ public class Shell {
 				public void onStreamStart() {
 					if(Common.DEBUG)Log.d(TAG, "onStreamStart: ...");
 					
-					mOutput = new ArrayList<String>();
+					mOutput = new ArrayList<>();
 				}
 
 				@Override
@@ -322,8 +322,6 @@ public class Shell {
 	/**
 	 * Execute a shell command.
 	 * 
-	 * @see Shell#execute(String[], Integer[])
-	 * 
 	 * @param command
 	 *     The command to execute
 	 */
@@ -333,8 +331,6 @@ public class Shell {
 	
 	/**
 	 * Execute a range of commands until one is successful.
-	 * 
-	 * @see Shell#execute(String[], Integer[])
 	 * 
 	 * @param commands
 	 *     The commands to try
@@ -367,7 +363,7 @@ public class Shell {
 		synchronized(mLock) {
 			if (mStream.waitFor(mShellTimeout)) {
 				Integer cmdCount = 0;
-				Set<Integer> codes = new HashSet<Integer>(mResultCodes);
+				Set<Integer> codes = new HashSet<>(mResultCodes);
 				
 				if (resultCodes != null) {
 					Collections.addAll(codes, resultCodes);
@@ -411,8 +407,6 @@ public class Shell {
 	/**
 	 * Execute a shell command asynchronous.
 	 * 
-	 * @see Shell#executeAsync(String[], Integer[], OnShellResultListener)
-	 * 
 	 * @param command
 	 *     The command to execute
 	 * 
@@ -426,8 +420,6 @@ public class Shell {
 	/**
 	 * Execute a range of commands asynchronous until one is successful.
 	 * 
-	 * @see Shell#executeAsync(String[], Integer[], OnShellResultListener)
-	 * 
 	 * @param commands
 	 *     The commands to try
 	 * 
@@ -440,8 +432,6 @@ public class Shell {
 	
 	/**
 	 * Execute a range of commands asynchronous until one is successful.
-	 * 
-	 * @see Shell#execute(String[], Integer[])
 	 * 
 	 * @param commands
 	 *     The commands to try

@@ -66,7 +66,7 @@ public class ContactsFacade extends RpcReceiver {
             mPrimary = (String) phone.getField("IS_PRIMARY").get(null);
             mPhoneNumber = (String) phone.getField("NUMBER").get(null);
             mHasPhoneNumber = (String) phone.getField("HAS_PHONE_NUMBER").get(null);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -99,12 +99,12 @@ public class ContactsFacade extends RpcReceiver {
 
     @Rpc(description = "Returns a List of all possible attributes for contacts.")
     public List<String> contactsGetAttributes() {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         Cursor cursor = mContentResolver.query(CONTACTS_URI, null, null, null, null);
         if (cursor != null) {
             String[] columns = cursor.getColumnNames();
-            for (int i = 0; i < columns.length; i++) {
-                result.add(columns[i]);
+            for (String column : columns) {
+                result.add(column);
             }
             cursor.close();
         }
@@ -114,7 +114,7 @@ public class ContactsFacade extends RpcReceiver {
     // TODO(MeanEYE.rcf): Add ability to narrow selection by providing named pairs of attributes.
     @Rpc(description = "Returns a List of all contact IDs.")
     public List<Integer> contactsGetIds() {
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
         String[] columns = {"_id"};
         Cursor cursor = mContentResolver.query(CONTACTS_URI, columns, null, null, null);
         if (cursor != null) {
@@ -129,7 +129,7 @@ public class ContactsFacade extends RpcReceiver {
     @Rpc(description = "Returns a List of all contacts.", returns = "a List of contacts as Maps")
     public List<JSONObject> contactsGet(
             @RpcParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
-        List<JSONObject> result = new ArrayList<JSONObject>();
+        List<JSONObject> result = new ArrayList<>();
         String[] columns;
         if (attributes == null || attributes.length() == 0) {
             // In case no attributes are specified we set the default ones.
@@ -141,7 +141,7 @@ public class ContactsFacade extends RpcReceiver {
                 columns[i] = attributes.getString(i);
             }
         }
-        List<String> queryList = new ArrayList<String>();
+        List<String> queryList = new ArrayList<>();
         for (String s : columns) {
             queryList.add(s);
         }
@@ -156,8 +156,7 @@ public class ContactsFacade extends RpcReceiver {
             while (cursor.moveToNext()) {
                 String id = cursor.getString(idIndex);
                 JSONObject message = new JSONObject();
-                for (int i = 0; i < columns.length; i++) {
-                    String key = columns[i];
+                for (String key : columns) {
                     String value = cursor.getString(cursor.getColumnIndex(key));
                     if (mPhoneNumber != null) {
                         if (key.equals("primary_phone")) {
@@ -262,7 +261,7 @@ public class ContactsFacade extends RpcReceiver {
             @RpcParameter(name = "selectionArgs", description = "You may include ?s in selection, which will be replaced by the values from selectionArgs") @RpcOptional JSONArray selectionArgs,
             @RpcParameter(name = "order", description = "How to order the rows") @RpcOptional String order)
             throws JSONException {
-        List<JSONObject> result = new ArrayList<JSONObject>();
+        List<JSONObject> result = new ArrayList<>();
         String[] columns = jsonToArray(attributes);
         String[] args = jsonToArray(selectionArgs);
         Cursor cursor = mContentResolver.query(Uri.parse(uri), columns, selection, args, order);

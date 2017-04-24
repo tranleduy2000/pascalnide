@@ -25,5 +25,5 @@ import java.lang.annotation.Target;
 // Make this annotation accessible at runtime via reflection.
 @Target({ElementType.METHOD})
 public @interface MethodTypeData {
-    public ArrayBoundsInfo[] info();
+    ArrayBoundsInfo[] info();
 }

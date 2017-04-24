@@ -23,7 +23,7 @@ public class FloodFill {
     /**
      * The array used for fast flood fill. Instantiated only once to improve performance.
      */
-    private ArrayList<LinePixel> linearNRTodo = new ArrayList<LinePixel>();
+    private ArrayList<LinePixel> linearNRTodo = new ArrayList<>();
     /**
      * The index into linear non-recursive fill.
      */
@@ -71,7 +71,7 @@ public class FloodFill {
      * @param imageToFill The imagePixels used for filling.
      */
     public FloodFill(Bitmap imageToFill) {
-        this(imageToFill, (Bitmap) null);
+        this(imageToFill, null);
     }
 
     /**

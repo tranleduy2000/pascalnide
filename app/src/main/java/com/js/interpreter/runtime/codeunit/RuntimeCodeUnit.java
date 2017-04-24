@@ -5,7 +5,6 @@ import com.js.interpreter.ast.codeunit.CodeUnit;
 import com.js.interpreter.ast.codeunit.RunMode;
 import com.js.interpreter.runtime.VariableContext;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

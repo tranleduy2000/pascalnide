@@ -30,7 +30,6 @@ public class BluetoothDiscoveryHelper {
     private final Context mContext;
     private final BluetoothDiscoveryListener mListener;
     private final BroadcastReceiver mReceiver;
-
     public BluetoothDiscoveryHelper(Context context, BluetoothDiscoveryListener listener) {
         mContext = context;
         mListener = listener;

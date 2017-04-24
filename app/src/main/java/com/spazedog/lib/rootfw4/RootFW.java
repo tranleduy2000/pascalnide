@@ -48,7 +48,7 @@ public class RootFW {
 	protected static volatile Integer mLockCount = 0;
 	protected static final Object mLock = new Object();
 	
-	protected static Set<OnConnectionListener> mListeners = new HashSet<OnConnectionListener>();
+	protected static Set<OnConnectionListener> mListeners = new HashSet<>();
 	
 	/**
 	 * An interface that can be used to monitor the current state of the global connection.
@@ -256,8 +256,7 @@ public class RootFW {
 	}
 	
 	/**
-	 * @see Shell#getBinary(String)
-	 */
+     */
 	public static String findCommand(String bin) {
 		return mShell.findCommand(bin);
 	}

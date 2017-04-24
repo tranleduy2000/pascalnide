@@ -4,27 +4,73 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <Button
-        android:id="@+id/button_tooltip_bottom"
+
+    <RadioButton
+        android:id="@+id/radioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="bottomToolTipDialogBox"
-        android:text="ToolTip Bottom" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="253dp"
+        android:layout_marginRight="253dp"
+        android:layout_marginTop="30dp"
+        android:text="RadioButton" />
 
-    <Button
-        android:id="@+id/button_tooltip_right_side"
+    <CheckBox
+        android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/button_tooltip_bottom"
-        android:onClick="rightToolTipPopupWindow"
-        android:text="Right Side" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/radioButton"
+        android:layout_marginLeft="95dp"
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="49dp"
+        android:text="CheckBox" />
 
     <Button
-        android:id="@+id/button_tooltip_left_side"
+        android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/button_tooltip_right_side"
-        android:onClick="leftToolTipPopupWindow"
-        android:text="Left Side" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/checkBox"
+        android:layout_marginLeft="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="84dp"
+        android:text="Button" />
 
+    <CheckedTextView
+        android:id="@+id/checkedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button4"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="9dp"
+        android:layout_toEndOf="@+id/button4"
+        android:layout_toRightOf="@+id/button4"
+        android:text="CheckedTextView" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/checkedTextView"
+        android:layout_marginEnd="49dp"
+        android:layout_marginRight="49dp"
+        android:layout_marginTop="53dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/checkedTextView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/checkedTextView"
+        android:layout_marginBottom="31dp"
+        android:text="RadioButton" />
 </RelativeLayout>

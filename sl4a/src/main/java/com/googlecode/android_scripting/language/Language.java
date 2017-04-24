@@ -34,7 +34,7 @@ public class Language {
 
     private static Map<Character, String> buildAutoCloseMap(char c1, String s1, char c2, String s2,
                                                             char c3, String s3, char c4, String s4, char c5, String s5) {
-        Map<Character, String> map = new HashMap<Character, String>(5);
+        Map<Character, String> map = new HashMap<>(5);
         map.put(c1, s1);
         map.put(c2, s2);
         map.put(c3, s3);

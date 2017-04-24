@@ -175,7 +175,7 @@ public class UndoRedoHelper {
     }
 
     private final class EditHistory {
-        private final LinkedList<EditItem> mmHistory = new LinkedList<EditItem>();
+        private final LinkedList<EditItem> mmHistory = new LinkedList<>();
         private int mmPosition = 0;
         private int mmMaxHistorySize = -1;
 

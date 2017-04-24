@@ -36,6 +36,7 @@ import com.googlecode.android_scripting.rpc.RpcParameter;
 import com.googlecode.android_scripting.rpc.RpcStartEvent;
 import com.googlecode.android_scripting.rpc.RpcStopEvent;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.List;
@@ -154,7 +155,7 @@ public class PhoneFacade extends RpcReceiver {
 
     @Rpc(description = "Dials a phone number.")
     public void phoneDialNumber(@RpcParameter(name = "phone number") final String number)
-            throws Exception {
+            throws Exception, UnsupportedEncodingException {
         phoneDial("tel:" + URLEncoder.encode(number, "ASCII"));
     }
 

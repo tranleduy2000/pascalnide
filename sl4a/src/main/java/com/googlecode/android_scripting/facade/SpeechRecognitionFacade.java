@@ -34,9 +34,6 @@ import java.util.ArrayList;
 public class SpeechRecognitionFacade extends RpcReceiver {
     private final AndroidFacade mAndroidFacade;
 
-    /**
-     * @param activityLauncher a helper object that launches activities in a blocking manner
-     */
     public SpeechRecognitionFacade(FacadeManager manager) {
         super(manager);
         mAndroidFacade = manager.getReceiver(AndroidFacade.class);

@@ -26,36 +26,36 @@ public interface InterpreterPropertyNames {
     /**
      * Unique name of the interpreter.
      */
-    public static final String NAME = "name";
+    String NAME = "name";
 
     /**
      * Display name of the interpreter.
      */
-    public static final String NICE_NAME = "niceName";
+    String NICE_NAME = "niceName";
 
     /**
      * Supported script file extension.
      */
-    public static final String EXTENSION = "extension";
+    String EXTENSION = "extension";
 
     /**
      * Absolute path of the interpreter executable.
      */
-    public static final String BINARY = "binary";
+    String BINARY = "binary";
 
     /**
      * Final argument to interpreter binary when running the interpreter interactively.
      */
-    public static final String INTERACTIVE_COMMAND = "interactiveCommand";
+    String INTERACTIVE_COMMAND = "interactiveCommand";
 
     /**
      * Final argument to interpreter binary when running a script.
      */
-    public static final String SCRIPT_COMMAND = "scriptCommand";
+    String SCRIPT_COMMAND = "scriptCommand";
 
     /**
      * Interpreter interactive mode flag.
      */
-    public static final String HAS_INTERACTIVE_MODE = "hasInteractiveMode";
+    String HAS_INTERACTIVE_MODE = "hasInteractiveMode";
 
 }

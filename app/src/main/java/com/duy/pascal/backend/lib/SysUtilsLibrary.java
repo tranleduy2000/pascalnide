@@ -118,7 +118,7 @@ public class SysUtilsLibrary implements PascalLibrary {
     @PascalMethod(description = "sys utis library", returns = "void")
     public int StrToIntDef(String s, int def) {
         try {
-            return Integer.parseInt(s.toString());
+            return Integer.parseInt(s);
         } catch (Exception e) {
             return def;
         }

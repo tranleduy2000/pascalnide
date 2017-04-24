@@ -1,15 +1,15 @@
 package com.duy.pascal.backend.pascaltypes.bytecode;
 
 public interface RegisterAllocator {
-    public int getNextFree();
+    int getNextFree();
 
-    public int getNextFreeLong();
+    int getNextFreeLong();
 
-    public void free(int i);
+    void free(int i);
 
-    public void freeLong(int i);
+    void freeLong(int i);
 
-    public boolean slotFree(int i);
+    boolean slotFree(int i);
 
-    public RegisterAllocator clone();
+    RegisterAllocator clone();
 }

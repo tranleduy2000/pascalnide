@@ -50,8 +50,8 @@ public class Process {
     private long mEndTime;
 
     public Process() {
-        mArguments = new ArrayList<String>();
-        mEnvironment = new HashMap<String, String>();
+        mArguments = new ArrayList<>();
+        mEnvironment = new HashMap<>();
         mPid = new AtomicInteger(PID_INIT_VALUE);
     }
 
@@ -147,7 +147,7 @@ public class Process {
     }
 
     private String[] getEnvironmentArray() {
-        List<String> environmentVariables = new ArrayList<String>();
+        List<String> environmentVariables = new ArrayList<>();
         for (Entry<String, String> entry : mEnvironment.entrySet()) {
             environmentVariables.add(entry.getKey() + "=" + entry.getValue());
         }

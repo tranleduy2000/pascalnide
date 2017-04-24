@@ -19,7 +19,7 @@ package org.apache.commons.codec;
 
 /**
  * Character encoding names required of every implementation of the Java platform.
- * 
+ * <p>
  * From the Java documentation <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard
  * charsets</a>:
  * <p>
@@ -27,7 +27,7 @@ package org.apache.commons.codec;
  * release documentation for your implementation to see if any other encodings are supported. Consult the release
  * documentation for your implementation to see if any other encodings are supported. </cite>
  * </p>
- * 
+ * <p>
  * <ul>
  * <li><code>US-ASCII</code><br/>
  * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the Unicode character set.</li>
@@ -43,14 +43,14 @@ package org.apache.commons.codec;
  * Sixteen-bit Unicode Transformation Format, byte order specified by a mandatory initial byte-order mark (either order
  * accepted on input, big-endian used on output.)</li>
  * </ul>
- * 
+ * <p>
  * This perhaps would best belong in the [lang] project. Even if a similar interface is defined in [lang], it is not
  * forseen that [codec] would be made to depend on [lang].
- * 
- * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
+ *
  * @author Apache Software Foundation
- * @since 1.4
  * @version $Id: CharEncoding.java 797857 2009-07-25 23:43:33Z ggregory $
+ * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
+ * @since 1.4
  */
 public class CharEncoding {
     /**
@@ -58,7 +58,7 @@ public class CharEncoding {
      * <p>
      * Every implementation of the Java platform is required to support this character encoding.
      * </p>
-     * 
+     *
      * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
      */
     public static final String ISO_8859_1 = "ISO-8859-1";
@@ -70,7 +70,7 @@ public class CharEncoding {
      * <p>
      * Every implementation of the Java platform is required to support this character encoding.
      * </p>
-     * 
+     *
      * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
      */
     public static final String US_ASCII = "US-ASCII";
@@ -83,7 +83,7 @@ public class CharEncoding {
      * <p>
      * Every implementation of the Java platform is required to support this character encoding.
      * </p>
-     * 
+     *
      * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
      */
     public static final String UTF_16 = "UTF-16";
@@ -95,7 +95,7 @@ public class CharEncoding {
      * <p>
      * Every implementation of the Java platform is required to support this character encoding.
      * </p>
-     * 
+     *
      * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
      */
     public static final String UTF_16BE = "UTF-16BE";
@@ -107,7 +107,7 @@ public class CharEncoding {
      * <p>
      * Every implementation of the Java platform is required to support this character encoding.
      * </p>
-     * 
+     *
      * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
      */
     public static final String UTF_16LE = "UTF-16LE";
@@ -119,7 +119,7 @@ public class CharEncoding {
      * <p>
      * Every implementation of the Java platform is required to support this character encoding.
      * </p>
-     * 
+     *
      * @see <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
      */
     public static final String UTF_8 = "UTF-8";

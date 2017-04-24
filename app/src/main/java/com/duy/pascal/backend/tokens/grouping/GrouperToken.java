@@ -81,7 +81,7 @@ public abstract class GrouperToken extends Token {
 
     public GrouperToken(LineInfo line) {
         super(line);
-        queue = new LinkedBlockingQueue<Token>();
+        queue = new LinkedBlockingQueue<>();
     }
 
     private Token get_next() throws GroupingException {
@@ -369,7 +369,7 @@ public abstract class GrouperToken extends Token {
         /*
          * reusing it, so it is further out of scope than necessary
 		 */
-        List<WordToken> names = new ArrayList<WordToken>();
+        List<WordToken> names = new ArrayList<>();
         Token next;
         do {
             do {

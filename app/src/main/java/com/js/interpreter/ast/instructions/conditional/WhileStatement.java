@@ -64,7 +64,7 @@ public class WhileStatement extends DebuggableExecutable {
             if (!((Boolean) cond)) {
                 return new NoneInstruction(line);
             } else {
-                return new WhileStatement(new ConstantAccess(cond,
+                return new WhileStatement(new ConstantAccess(true,
                         condition.getLine()), comm, line);
             }
         }

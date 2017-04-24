@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BasicContainer {
-	private Map<String, Object> mObjects = new HashMap<String, Object>();
+	private Map<String, Object> mObjects = new HashMap<>();
 	
 	public void putObject(String name, Object object) {
 		mObjects.put(name, object);

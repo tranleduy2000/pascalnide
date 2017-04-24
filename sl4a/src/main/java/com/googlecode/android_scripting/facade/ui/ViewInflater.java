@@ -65,9 +65,9 @@ import java.util.Map.Entry;
 public class ViewInflater {
     public static final String ANDROID = "http://schemas.android.com/apk/res/android";
     public static final int BASESEQ = 0x7f0f0000;
-    public static final Map<String, String> mColorNames = new HashMap<String, String>();
-    public static final Map<String, Integer> mRelative = new HashMap<String, Integer>();
-    private static final Map<String, Integer> mInputTypes = new HashMap<String, Integer>();
+    public static final Map<String, String> mColorNames = new HashMap<>();
+    public static final Map<String, Integer> mRelative = new HashMap<>();
+    private static final Map<String, Integer> mInputTypes = new HashMap<>();
     private static XmlPullParserFactory mFactory;
 
     static {
@@ -239,8 +239,8 @@ public class ViewInflater {
         mRelative.put("toRightOf", RelativeLayout.RIGHT_OF);
     }
 
-    private final Map<String, Integer> mIdList = new HashMap<String, Integer>();
-    private final List<String> mErrors = new ArrayList<String>();
+    private final Map<String, Integer> mIdList = new HashMap<>();
+    private final List<String> mErrors = new ArrayList<>();
     private int mNextSeq = BASESEQ;
     private Context mContext;
     private DisplayMetrics mMetrics;
@@ -480,7 +480,7 @@ public class ViewInflater {
     private int tryGetId(String value) {
         Integer id = mIdList.get(value);
         if (id == null) {
-            id = new Integer(mNextSeq++);
+            id = mNextSeq++;
             mIdList.put(value, id);
         }
         return id;
@@ -587,35 +587,45 @@ public class ViewInflater {
     private void setLayoutProperty(View view, ViewGroup root, String attr, String value) {
         LayoutParams layout = getLayoutParams(view, root);
         String layoutAttr = attr.substring(7);
-        if (layoutAttr.equals("width")) {
-            layout.width = getLayoutValue(value);
-        } else if (layoutAttr.equals("height")) {
-            layout.height = getLayoutValue(value);
-        } else if (layoutAttr.equals("gravity")) {
-            setIntegerField(layout, "gravity", getInteger(Gravity.class, value));
-        } else {
-            if (layoutAttr.startsWith("margin") && layout instanceof MarginLayoutParams) {
-                int size = (int) getFontSize(value);
-                MarginLayoutParams margins = (MarginLayoutParams) layout;
-                if (layoutAttr.equals("marginBottom")) {
-                    margins.bottomMargin = size;
-                } else if (layoutAttr.equals("marginTop")) {
-                    margins.topMargin = size;
-                } else if (layoutAttr.equals("marginLeft")) {
-                    margins.leftMargin = size;
-                } else if (layoutAttr.equals("marginRight")) {
-                    margins.rightMargin = size;
+        switch (layoutAttr) {
+            case "width":
+                layout.width = getLayoutValue(value);
+                break;
+            case "height":
+                layout.height = getLayoutValue(value);
+                break;
+            case "gravity":
+                setIntegerField(layout, "gravity", getInteger(Gravity.class, value));
+                break;
+            default:
+                if (layoutAttr.startsWith("margin") && layout instanceof MarginLayoutParams) {
+                    int size = (int) getFontSize(value);
+                    MarginLayoutParams margins = (MarginLayoutParams) layout;
+                    switch (layoutAttr) {
+                        case "marginBottom":
+                            margins.bottomMargin = size;
+                            break;
+                        case "marginTop":
+                            margins.topMargin = size;
+                            break;
+                        case "marginLeft":
+                            margins.leftMargin = size;
+                            break;
+                        case "marginRight":
+                            margins.rightMargin = size;
+                            break;
+                    }
+                } else if (layout instanceof RelativeLayout.LayoutParams) {
+                    int anchor = calcId(value);
+                    if (anchor == 0) {
+                        anchor = getInteger(RelativeLayout.class, value);
+                    }
+                    int rule = mRelative.get(layoutAttr);
+                    ((RelativeLayout.LayoutParams) layout).addRule(rule, anchor);
+                } else {
+                    setIntegerField(layout, layoutAttr, getInteger(layout.getClass(), value));
                 }
-            } else if (layout instanceof RelativeLayout.LayoutParams) {
-                int anchor = calcId(value);
-                if (anchor == 0) {
-                    anchor = getInteger(RelativeLayout.class, value);
-                }
-                int rule = mRelative.get(layoutAttr);
-                ((RelativeLayout.LayoutParams) layout).addRule(rule, anchor);
-            } else {
-                setIntegerField(layout, layoutAttr, getInteger(layout.getClass(), value));
-            }
+                break;
         }
     }
 
@@ -703,7 +713,7 @@ public class ViewInflater {
                 }
                 long result = (a << 24) | (r << 16) | (g << 8) | b;
                 return (int) result;
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         } else if (mColorNames.containsKey(value.toLowerCase())) {
             return getColor(mColorNames.get(value.toLowerCase()));
@@ -898,7 +908,7 @@ public class ViewInflater {
                 Constructor<? extends View> ct = viewclass.getConstructor(Context.class);
                 result = ct.newInstance(context);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return result;
 
@@ -942,7 +952,7 @@ public class ViewInflater {
     }
 
     public Map<String, Map<String, String>> getViewAsMap(View v) {
-        Map<String, Map<String, String>> result = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> result = new HashMap<>();
         for (Entry<String, Integer> entry : mIdList.entrySet()) {
             View tmp = v.findViewById(entry.getValue());
             if (tmp != null) {
@@ -953,7 +963,7 @@ public class ViewInflater {
     }
 
     public Map<String, String> getViewInfo(View v) {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         if (v.getId() != 0) {
             result.put("id", getIdName(v.getId()));
         }
@@ -995,7 +1005,7 @@ public class ViewInflater {
     }
 
     public void setListAdapter(View view, JSONArray items) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         try {
             for (int i = 0; i < items.length(); i++) {
                 list.add(items.get(i).toString());
@@ -1003,11 +1013,11 @@ public class ViewInflater {
             ArrayAdapter<String> adapter;
             if (view instanceof Spinner) {
                 adapter =
-                        new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item,
+                        new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item,
                                 android.R.id.text1, list);
             } else {
                 adapter =
-                        new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1,
+                        new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1,
                                 android.R.id.text1, list);
             }
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

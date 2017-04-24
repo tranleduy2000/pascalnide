@@ -14,9 +14,9 @@ import java.util.Map;
 
 public class FeaturedInterpreters {
     private static final Map<String, FeaturedInterpreter> mNameMap =
-            new HashMap<String, FeaturedInterpreter>();
+            new HashMap<>();
     private static final Map<String, FeaturedInterpreter> mExtensionMap =
-            new HashMap<String, FeaturedInterpreter>();
+            new HashMap<>();
 
     static {
         try {
@@ -46,7 +46,7 @@ public class FeaturedInterpreters {
     }
 
     public static List<String> getList() {
-        ArrayList<String> list = new ArrayList<String>(mNameMap.keySet());
+        ArrayList<String> list = new ArrayList<>(mNameMap.keySet());
         Collections.sort(list);
         return list;
     }

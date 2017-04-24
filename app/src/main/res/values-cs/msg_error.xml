@@ -26,7 +26,7 @@
     <string name="main_program_not_define">Hlavní program nenalezen</string>
     <string name="BadOperationTypeException2">Operace \"%1$s\" není unární operace</string>
     <string name="ConstantCalculationException">Chyba při výpočtu konstantní hodnoty: %1$s</string>
-    <string name="LibraryNotFoundException">Nelze najít knihovnu %1%s</string>
+    <string name="LibraryNotFoundException">Nelze najít knihovnu %1$s</string>
     <string name="MultipleDefaultValuesException">Východiskové hodnoty mohou být použité jen při deklaraci jedné promněnné najednou.</string>
     <string name="NonArrayIndexed">Pokus použít indexy na něčem, co není array ani string, ale %1$s</string>
     <string name="NonConstantExpressionException">Výraz %1$s není konstantní.</string>

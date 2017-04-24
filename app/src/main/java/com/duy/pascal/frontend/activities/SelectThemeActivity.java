@@ -59,7 +59,8 @@ public class SelectThemeActivity extends AbstractAppCompatActivity {
     private void setupActionBar() {
         setSupportActionBar(toolbar);
         setTitle(R.string.theme);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

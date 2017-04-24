@@ -81,7 +81,7 @@ public class WakeLockFacade extends RpcReceiver {
 
     private class WakeLockManager {
         private final PowerManager mmPowerManager;
-        private final Map<WakeLockType, WakeLock> mmLocks = new HashMap<WakeLockType, WakeLock>();
+        private final Map<WakeLockType, WakeLock> mmLocks = new HashMap<>();
 
         public WakeLockManager(Service service) {
             mmPowerManager = (PowerManager) service.getSystemService(Context.POWER_SERVICE);

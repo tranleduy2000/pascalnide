@@ -19,16 +19,17 @@
 
 package com.spazedog.lib.rootfw4.utils.io;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+
+import com.spazedog.lib.rootfw4.Common;
+import com.spazedog.lib.rootfw4.Shell;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Writer;
-
-import android.os.Bundle;
-
-import com.spazedog.lib.rootfw4.Common;
-import com.spazedog.lib.rootfw4.Shell;
 
 /**
  * This class is used to writeString to a file. Unlike {@link java.io.FileWriter}, this class
@@ -124,7 +125,7 @@ public class FileWriter extends Writer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void write(char[] buf, int offset, int count) throws IOException {
+	public void write(@NonNull char[] buf, int offset, int count) throws IOException {
 		synchronized(lock) {
 			byte[] bytes = new byte[buf.length];
 			

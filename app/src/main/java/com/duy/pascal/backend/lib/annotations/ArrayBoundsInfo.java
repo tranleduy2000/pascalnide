@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 // Make this annotation accessible at runtime via reflection.
 @Target({ElementType.METHOD})
 public @interface ArrayBoundsInfo {
-    public int[] starts() default {};
+    int[] starts() default {};
 
-    public int[] lengths() default {};
+    int[] lengths() default {};
 }

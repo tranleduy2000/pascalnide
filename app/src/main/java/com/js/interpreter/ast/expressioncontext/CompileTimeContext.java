@@ -5,7 +5,7 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.ConstantDefinition;
 
 public interface CompileTimeContext {
-    public ConstantDefinition getConstantDefinition(String ident);
+    ConstantDefinition getConstantDefinition(String ident);
 
-    public DeclaredType getTypedefType(String ident);
+    DeclaredType getTypedefType(String ident);
 }

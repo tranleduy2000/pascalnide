@@ -238,11 +238,10 @@ public class ApplicationFileManager {
         ArrayList<File> list = new ArrayList<>();
         File f = new File(path);
         File[] files = f.listFiles();
-        for (int i = 0; i < files.length; i++) {
-            File file = files[i];
-            int ind = files[i].getPath().lastIndexOf('.');
+        for (File file : files) {
+            int ind = file.getPath().lastIndexOf('.');
             if (ind > 0) {
-                String tmp = files[i].getPath().substring(ind + 1);// this is the extension
+                String tmp = file.getPath().substring(ind + 1);// this is the extension
                 if (tmp.equals(extension)) {
                     list.add(file);
                 }

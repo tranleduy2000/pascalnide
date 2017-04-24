@@ -65,8 +65,8 @@ class MoreMath {
         double tmp = x + 5.2421875D;
         double sum = 0.9999999999999971D;
 
-        for(int i = 0; i < GAMMA.length; ++i) {
-            sum += GAMMA[i] / ++x;
+        for (double aGAMMA : GAMMA) {
+            sum += aGAMMA / ++x;
         }
 
         return 0.9189385332046728D + Math.log(sum) + (tmp - 4.7421875D) * Math.log(tmp) - tmp;

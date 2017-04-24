@@ -17,9 +17,9 @@
 package com.googlecode.android_scripting.facade;
 
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,7 +33,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.StatFs;
 import android.os.Vibrator;
-import android.support.v4.app.NotificationCompat;
 import android.text.ClipboardManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
@@ -81,7 +80,7 @@ import java.util.TimeZone;
  * An intent can be built using the {@see #makeIntent} call, but can also be constructed exterally.
  */
 public class AndroidFacade extends RpcReceiver {
-    private final Service mService;
+    private final Context mContext;
     private final Handler mHandler;
     private final Intent mIntent;
     private final FutureActivityTaskExecutor mTaskQueue;
@@ -92,14 +91,14 @@ public class AndroidFacade extends RpcReceiver {
 
     public AndroidFacade(FacadeManager manager) {
         super(manager);
-        mService = manager.getService();
+        mContext = manager.getService();
         mIntent = manager.getIntent();
-        BaseApplication application = ((BaseApplication) mService.getApplication());
+        BaseApplication application = ((BaseApplication) mContext);
         mTaskQueue = application.getTaskExecutor();
-        mHandler = new Handler(mService.getMainLooper());
-        mVibrator = (Vibrator) mService.getSystemService(Context.VIBRATOR_SERVICE);
+        mHandler = new Handler(mContext.getMainLooper());
+        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         mNotificationManager =
-                (NotificationManager) mService.getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mResources = manager.getAndroidFacadeResources();
 
     }
@@ -201,22 +200,22 @@ public class AndroidFacade extends RpcReceiver {
                 continue;
             }
             if (data instanceof Integer) {
-                bundle.putInt(name, ((Integer) data).intValue());
+                bundle.putInt(name, (Integer) data);
             }
             if (data instanceof Float) {
-                bundle.putFloat(name, ((Float) data).floatValue());
+                bundle.putFloat(name, (Float) data);
             }
             if (data instanceof Double) {
-                bundle.putDouble(name, ((Double) data).doubleValue());
+                bundle.putDouble(name, (Double) data);
             }
             if (data instanceof Long) {
-                bundle.putLong(name, ((Long) data).longValue());
+                bundle.putLong(name, (Long) data);
             }
             if (data instanceof String) {
                 bundle.putString(name, (String) data);
             }
             if (data instanceof Boolean) {
-                bundle.putBoolean(name, ((Boolean) data).booleanValue());
+                bundle.putBoolean(name, (Boolean) data);
             }
             // Nested JSONObject
             if (data instanceof JSONObject) {
@@ -279,14 +278,14 @@ public class AndroidFacade extends RpcReceiver {
     public void shutdown() {
     }
 
-    ClipboardManager getClipboardManager() {
+    private ClipboardManager getClipboardManager() {
         Object clipboard = null;
         if (mClipboard == null) {
             try {
-                clipboard = mService.getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard = mContext.getSystemService(Context.CLIPBOARD_SERVICE);
             } catch (Exception e) {
                 Looper.prepare(); // Clipboard manager won't work without this on higher SDK levels...
-                clipboard = mService.getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard = mContext.getSystemService(Context.CLIPBOARD_SERVICE);
             }
             mClipboard = (ClipboardManager) clipboard;
             if (mClipboard == null) {
@@ -345,7 +344,7 @@ public class AndroidFacade extends RpcReceiver {
     void startActivity(final Intent intent) {
         try {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mService.startActivity(intent);
+            mContext.startActivity(intent);
         } catch (Exception e) {
             Log.e("Failed to launch intent.", e);
         }
@@ -457,7 +456,7 @@ public class AndroidFacade extends RpcReceiver {
             throws JSONException {
         final Intent intent = buildIntent(action, uri, type, extras, packagename, classname, null);
         try {
-            mService.sendBroadcast(intent);
+            mContext.sendBroadcast(intent);
         } catch (Exception e) {
             Log.e("Failed to broadcast intent.", e);
         }
@@ -494,7 +493,7 @@ public class AndroidFacade extends RpcReceiver {
     public void sendBroadcastIntent(
             @RpcParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent)
             throws Exception {
-        mService.sendBroadcast(intent);
+        mContext.sendBroadcast(intent);
     }
 
     @Rpc(description = "Vibrates the phone or a specified duration in milliseconds.")
@@ -507,7 +506,7 @@ public class AndroidFacade extends RpcReceiver {
     public void makeToast(@RpcParameter(name = "message") final String message) {
         mHandler.post(new Runnable() {
             public void run() {
-                Toast.makeText(mService, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -575,17 +574,17 @@ public class AndroidFacade extends RpcReceiver {
     @Rpc(description = "Displays a notification that will be canceled when the user clicks on it.")
     public void notify(@RpcParameter(name = "title", description = "title") String title,
                        @RpcParameter(name = "message") String message) {
+        Notification notification =
+                new Notification(mResources.getLogo48(), message, System.currentTimeMillis());
+        // This contentIntent is a noop.
+        PendingIntent contentIntent = PendingIntent.getService(mContext, 0, new Intent(), 0);
+        // TODO: 24-Apr-17
+//    notification.setLatestEventInfo(mContext, title, message, contentIntent);
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
+
+        // Get a unique notification id from the application.
         final int notificationId = NotificationIdFactory.create();
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(mService)
-                        .setContentTitle(title)
-                        .setContentText(message);
-        PendingIntent contentIntent = PendingIntent.getService(mService, 0, new Intent(), 0);
-        mBuilder.setContentIntent(contentIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) mService.getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
-        mNotificationManager.notify(notificationId, mBuilder.build());
+        mNotificationManager.notify(notificationId, notification);
     }
 
     @Rpc(description = "Returns the intent that launched the script.")
@@ -616,7 +615,7 @@ public class AndroidFacade extends RpcReceiver {
         PackageInfo pInfo = null;
         try {
             pInfo =
-                    mService.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+                    mContext.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
         } catch (NameNotFoundException e) {
             pInfo = null;
         }
@@ -631,7 +630,7 @@ public class AndroidFacade extends RpcReceiver {
         PackageInfo packageInfo = null;
         try {
             packageInfo =
-                    mService.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+                    mContext.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
         } catch (NameNotFoundException e) {
             return null;
         }
@@ -675,9 +674,9 @@ public class AndroidFacade extends RpcReceiver {
      */
     @Rpc(description = "A map of various useful environment details")
     public Map<String, Object> environment() {
-        Map<String, Object> result = new HashMap<String, Object>();
-        Map<String, Object> zone = new HashMap<String, Object>();
-        Map<String, Object> space = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> zone = new HashMap<>();
+        Map<String, Object> space = new HashMap<>();
         TimeZone tz = TimeZone.getDefault();
         zone.put("id", tz.getID());
         zone.put("display", tz.getDisplayName());
@@ -685,7 +684,7 @@ public class AndroidFacade extends RpcReceiver {
         result.put("TZ", zone);
         result.put("SDK", android.os.Build.VERSION.SDK);
         result.put("download", FileUtils.getExternalDownload().getAbsolutePath());
-        result.put("appcache", mService.getCacheDir().getAbsolutePath());
+        result.put("appcache", mContext.getCacheDir().getAbsolutePath());
         try {
             StatFs fs = new StatFs("/sdcard");
             space.put("availblocks", fs.getAvailableBlocks());

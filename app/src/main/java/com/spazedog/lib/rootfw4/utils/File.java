@@ -61,7 +61,7 @@ public class File {
 	protected final static Pattern oPatternStatSplitter = Pattern.compile("\\|");
 	protected final static Pattern oPatternStatSearch = Pattern.compile("^([a-z-]+)(?:[ \t]+([0-9]+))?[ \t]+([0-9a-z_]+)[ \t]+([0-9a-z_]+)(?:[ \t]+(?:([0-9]+),[ \t]+)?([0-9]+))?[ \t]+([A-Za-z]+[ \t]+[0-9]+[ \t]+[0-9:]+|[0-9-/]+[ \t]+[0-9:]+)[ \t]+(?:(.*) -> )?(.*)$");
 
-	protected final static Map<String, Integer> oOctals = new HashMap<String, Integer>();
+	protected final static Map<String, Integer> oOctals = new HashMap<>();
 	static {
 		oOctals.put("1:r", 400);
 		oOctals.put("2:w", 200);
@@ -98,7 +98,7 @@ public class File {
 	}
 	
 	/**
-	 * This class is a container which is used by {@link FileExtender#getDetails()} and {@link FileExtender#getDetailedList(Integer)}
+	 * This class is a container which is used by  and
 	 */
 	public static class FileStat extends BasicContainer {
 		private String mName;
@@ -244,9 +244,9 @@ public class File {
 						stat = getParentFile().getDetailedList();
 						
 						if (stat != null && stat.length > 0) {
-							for (int i=0; i < stat.length; i++) {
-								if (stat[i].name().equals(name)) {
-									return stat[i];
+							for (FileStat aStat : stat) {
+								if (aStat.name().equals(name)) {
+									return aStat;
 								}
 							}
 						}
@@ -285,7 +285,7 @@ public class File {
 					Result result = mShell.createAttempts(command).execute();
 					
 					if (result.wasSuccessful()) {
-						List<FileStat> list = new ArrayList<FileStat>();
+						List<FileStat> list = new ArrayList<>();
 						String[] lines = result.trim().getArray();
 						Integer maxIndex = (maxLines == null || maxLines == 0 ? lines.length : (maxLines < 0 ? lines.length + maxLines : maxLines));
 						
@@ -374,7 +374,7 @@ public class File {
 								 * they return. 
 								 */
 								String[] lines = oPatternColumnSearch.split( result.trim().getString("  ").trim() );
-								List<String> output = new ArrayList<String>();
+								List<String> output = new ArrayList<>();
 								
 								for (String line : lines) {
 									if (!".".equals(line) && !"..".equals(line)) {
@@ -439,7 +439,7 @@ public class File {
 			if (isFile()) {
 				try {
 					BufferedReader reader = new BufferedReader(new java.io.FileReader(mFile));
-					List<String> content = new ArrayList<String>();
+					List<String> content = new ArrayList<>();
 					String line;
 					
 					while ((line = reader.readLine()) != null) {
@@ -480,7 +480,7 @@ public class File {
 			if (isFile()) {
 				try {
 					BufferedReader reader = new BufferedReader(new java.io.FileReader(mFile));
-					List<String> content = new ArrayList<String>();
+					List<String> content = new ArrayList<>();
 					String line;
 					
 					while ((line = reader.readLine()) != null) {
@@ -751,14 +751,12 @@ public class File {
 				/*
 				 * Alert other instances using this directory, that the state might have changed. 
 				 */
-				if (status) {
-					Bundle bundle = new Bundle();
-					bundle.putString("action", "exists");
-					bundle.putString("location", getAbsolutePath());
-					
-					Shell.sendBroadcast("file", bundle);
-				}
-				
+				Bundle bundle = new Bundle();
+				bundle.putString("action", "exists");
+				bundle.putString("location", getAbsolutePath());
+
+				Shell.sendBroadcast("file", bundle);
+
 			} else {
 				status = isDirectory();
 			}
@@ -844,14 +842,12 @@ public class File {
 				/*
 				 * Alert other instances using this directory, that the state might have changed. 
 				 */
-				if (status) {
-					Bundle bundle = new Bundle();
-					bundle.putString("action", "exists");
-					bundle.putString("location", linkFile.getAbsolutePath());
-					
-					Shell.sendBroadcast("file", bundle);
-				}
-				
+				Bundle bundle = new Bundle();
+				bundle.putString("action", "exists");
+				bundle.putString("location", linkFile.getAbsolutePath());
+
+				Shell.sendBroadcast("file", bundle);
+
 			} else if (exists() && linkFile.isLink()) {
 				status = getAbsolutePath().equals(linkFile.getCanonicalPath());
 			}
@@ -862,9 +858,6 @@ public class File {
 	
 	/**
 	 * Create a reference from this path to another (This will become the link)
-	 * 
-	 * @param linkPath
-	 *     Path (Including name) to the original location
 	 * 
 	 * @return
 	 *     <code>True</code> on success, <code>False</code> otherwise
@@ -1131,10 +1124,10 @@ public class File {
 					builder.append("-R ");
 				
 				if (user != null && user >= 0) 
-					builder.append("" + user);
+					builder.append("").append(user);
 				
 				if (group != null && group >= 0) 
-					builder.append("." + user);
+					builder.append(".").append(user);
 			}
 			
 			if (mod != null && mod > 0) {
@@ -1146,11 +1139,11 @@ public class File {
 				if (recursive)
 					builder.append("-R ");
 				
-				builder.append((mod <= 777 ? "0" : "") + mod);
+				builder.append(mod <= 777 ? "0" : "").append(mod);
 			}
 			
 			if (builder.length() > 0) {
-				builder.append(" '" + getAbsolutePath() + "'");
+				builder.append(" '").append(getAbsolutePath()).append("'");
 				
 				Result result = mShell.createAttempts(builder.toString()).execute();
 				
@@ -1616,16 +1609,16 @@ public class File {
 			
 			if (path.contains(".")) {
 				String[] directories = ("/".equals(path) ? path : path.endsWith("/") ? path.substring(1, path.length() - 1) : path.substring(1)).split("/");
-				List<String> resolved = new ArrayList<String>();
-				
-				for (int i=0; i < directories.length; i++) {
-					if (directories[i].equals("..")) {
+				List<String> resolved = new ArrayList<>();
+
+				for (String directory : directories) {
+					if (directory.equals("..")) {
 						if (resolved.size() > 0) {
-							resolved.remove( resolved.size()-1 );
+							resolved.remove(resolved.size() - 1);
 						}
-						
-					} else if (!directories[i].equals(".")) {
-						resolved.add(directories[i]);
+
+					} else if (!directory.equals(".")) {
+						resolved.add(directory);
 					}
 				}
 				
@@ -1652,11 +1645,9 @@ public class File {
 					 * First let's try using the native tools 
 					 */
 					String canonical = mFile.getCanonicalPath();
-					
-					if (canonical != null) {
-						return canonical;
-					}
-					
+
+					return canonical;
+
 				} catch(Throwable e) {}
 				
 				/*
@@ -1693,9 +1684,6 @@ public class File {
 	
 	/**
 	 * Open a new {@link File} object pointed at another file.
-	 * 
-	 * @param fileName
-	 *     The file to point at
 	 * 
 	 * @return
 	 *     A new instance of this class representing another file

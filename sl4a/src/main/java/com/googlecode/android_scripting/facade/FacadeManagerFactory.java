@@ -41,7 +41,7 @@ public class FacadeManagerFactory implements RpcReceiverManagerFactory {
         mService = service;
         mIntent = intent;
         mClassList = classList;
-        mFacadeManagers = new ArrayList<RpcReceiverManager>();
+        mFacadeManagers = new ArrayList<>();
     }
 
     public FacadeManager create() {

@@ -19,11 +19,11 @@
 
 package com.spazedog.lib.rootfw4.containers;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import android.text.TextUtils;
 
 /**
  * This container is used to store any kind of text. All of the text is located within a String Array, where each index is considered a line.
@@ -73,18 +73,15 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	/**
 	 * This can be used to replace part of a line, or the whole line. It uses the replace() method in the DataSorting interface where custom replacement of a line can be done. It parses the original line as an argument, and requires the new line to be returned.
 	 * 
-	 * @param DataSorting
-	 *     An instance of the <code>DataSorting</code> class which should handle the line replacement
-	 *     
 	 * @return
 	 *     This instance
 	 */
 	public DATATYPE replace(DataReplace dataReplace) {
 		if (size() > 0) {
-			List<String> list = new ArrayList<String>();
-			
-			for (int i=0; i < mLines.length; i++) {
-				list.add( dataReplace.replace(mLines[i]) );
+			List<String> list = new ArrayList<>();
+
+			for (String mLine : mLines) {
+				list.add(dataReplace.replace(mLine));
 			}
 		}
 		
@@ -115,19 +112,16 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	/**
 	 * This is used to determine whether or not to remove lines from the text array. Each line will be parsed to the custom <code>DataSorting</code> instance and then removed upon a true return.
 	 * 
-	 * @param DataSorting
-	 *     An instance of the <code>DataSorting</code> class which should determine whether or not to remove the line
-	 *     
 	 * @return
 	 *     This instance
 	 */
 	public DATATYPE assort(DataSorting test) {
 		if (size() > 0) {
-			List<String> list = new ArrayList<String>();
-			
-			for (int i=0; i < mLines.length; i++) {
-				if (!test.test(mLines[i])) {
-					list.add(mLines[i]);
+			List<String> list = new ArrayList<>();
+
+			for (String mLine : mLines) {
+				if (!test.test(mLine)) {
+					list.add(mLine);
 				}
 			}
 			
@@ -158,19 +152,16 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	/**
 	 * This is used to determine whether or not to keep lines in the text array. Each line will be parsed to the custom <code>DataSorting</code> instance and then removed upon a false return.
 	 * 
-	 * @param DataSorting
-	 *     An instance of the <code>DataSorting</code> interface which should determine whether or not to keep the line
-	 *     
 	 * @return
 	 *     This instance
 	 */
 	public DATATYPE sort(DataSorting test) {
 		if (size() > 0) {
-			List<String> list = new ArrayList<String>();
-			
-			for (int i=0; i < mLines.length; i++) {
-				if (test.test(mLines[i])) {
-					list.add(mLines[i]);
+			List<String> list = new ArrayList<>();
+
+			for (String mLine : mLines) {
+				if (test.test(mLine)) {
+					list.add(mLine);
 				}
 			}
 			
@@ -232,7 +223,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	 */
 	public DATATYPE sort(Integer start, Integer stop) {
 		if (size() > 0) {
-			List<String> list = new ArrayList<String>();
+			List<String> list = new ArrayList<>();
 			Integer begin = start < 0 ? (mLines.length + start) : start;
 			Integer end = stop < 0 ? (mLines.length + stop) : stop;
 			
@@ -254,9 +245,7 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 			}
 			
 			for (int i=0; i < min.length; i++) {
-				for (int x=min[i]; x < max[i]; x++) {
-					list.add(mLines[x]);
-				}
+				list.addAll(Arrays.asList(mLines).subList(min[i], max[i]));
 			}
 			
 			mLines = list.toArray( new String[list.size()] );
@@ -310,11 +299,11 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	 */
 	public DATATYPE trim() {
 		if (size() > 0) {
-			List<String> list = new ArrayList<String>();
-			
-			for (int i=0; i < mLines.length; i++) {
-				if (mLines[i].trim().length() > 0) {
-					list.add(mLines[i]);
+			List<String> list = new ArrayList<>();
+
+			for (String mLine : mLines) {
+				if (mLine.trim().length() > 0) {
+					list.add(mLine);
 				}
 			}
 			
@@ -347,9 +336,6 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	/**
 	 * This will return a string of the text array with custom characters used as line breakers
 	 * 
-	 * @param start
-	 *     A separator character used to separate each line
-	 *     
 	 * @return
 	 *     The text array as a string
 	 */

@@ -48,7 +48,7 @@ public class CaseInstruction extends DebuggableExecutable {
 
         //this Object used to check compare type with another element
         DeclaredType mSwitchValueType = mSwitchValue.getType(context).declaredType;
-        List<CasePossibility> possibilities = new ArrayList<CasePossibility>();
+        List<CasePossibility> possibilities = new ArrayList<>();
 
         while (!(i.peek() instanceof ElseToken) && !(i.peek() instanceof EOFToken)) {
             List<CaseCondition> conditions = new ArrayList<>();
@@ -142,10 +142,10 @@ public class CaseInstruction extends DebuggableExecutable {
     public ExecutionResult executeImpl(VariableContext f,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         Object value = mSwitchValue.getValue(f, main);
-        for (int i = 0; i < possibilies.length; i++) {
-            for (int j = 0; j < possibilies[i].conditions.length; j++) {
-                if (possibilies[i].conditions[j].fits(value)) {
-                    return possibilies[i].execute(f, main);
+        for (CasePossibility possibily : possibilies) {
+            for (int j = 0; j < possibily.conditions.length; j++) {
+                if (possibily.conditions[j].fits(value)) {
+                    return possibily.execute(f, main);
                 }
             }
         }
@@ -165,10 +165,10 @@ public class CaseInstruction extends DebuggableExecutable {
             return this;
         }
         try {
-            for (int i = 0; i < possibilies.length; i++) {
-                for (int j = 0; j < possibilies[i].conditions.length; j++) {
-                    if (possibilies[i].conditions[j].fits(value)) {
-                        return possibilies[i];
+            for (CasePossibility possibily : possibilies) {
+                for (int j = 0; j < possibily.conditions.length; j++) {
+                    if (possibily.conditions[j].fits(value)) {
+                        return possibily;
                     }
                 }
             }

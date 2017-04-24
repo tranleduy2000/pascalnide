@@ -170,57 +170,58 @@ public class Filesystem {
 				Result result = mShell.execute("for DIR in /fstab.* /fstab /init.*.rc /init.rc; do echo $DIR; done");
 				
 				if (result != null && result.wasSuccessful()) {
-					Set<String> cache = new HashSet<String>();
-					List<MountStat> list = new ArrayList<MountStat>();
+					Set<String> cache = new HashSet<>();
+					List<MountStat> list = new ArrayList<>();
 					String[] dirs = result.trim().getArray();
-					
-					for (int i=0; i < dirs.length; i++) {
-						if (!Common.isEmulator() && dirs[i].contains("goldfish")) {
-							continue;
-						}
-						
-						Boolean isFstab = dirs[i].contains("fstab");
-						FileData data = mShell.getFile(dirs[i]).readMatch( (isFstab ? "/dev/" : "mount "), false );
-						
-						if (data != null) {
-							String[] lines = data.assort("#").getArray();
-							
-							if (lines != null) {
-								for (int x=0; x < lines.length; x++) {
-									try {
-										String[] parts = oPatternSpaceSearch.split(lines[x].trim(), 5);
-										String options = isFstab || parts.length > 4 ? parts[ isFstab ? 3 : 4 ].replaceAll(",", " ") : "";
-										
-										if (parts.length > 3 && !cache.contains(parts[ isFstab ? 1 : 3 ])) {
-											if (!isFstab && parts[2].contains("mtd@")) {
-												
-												FileData mtd = mShell.getFile("/proc/mtd").readMatch( ("\"" + parts[2].substring(4) + "\""), false );
-												
-												if (mtd != null && mtd.size() > 0) {
-													parts[2] = "/dev/block/mtdblock" + mtd.getLine().substring(3, mtd.getLine().indexOf(":"));
-												}
-												
-											} else if (!isFstab && parts[2].contains("loop@")) {
-												parts[2] = parts[2].substring(5);
-												options += " loop";
-											}
-											
-											MountStat stat = new MountStat();
-											
-											stat.mDevice = parts[ isFstab ? 0 : 2 ];
-											stat.mFstype = parts[ isFstab ? 2 : 1 ];
-											stat.mLocation = parts[ isFstab ? 1 : 3 ];
-											stat.mOptions = oPatternSpaceSearch.split(options);
-											
-											list.add(stat);
-											cache.add(parts[ isFstab ? 1 : 3 ]);
-										}
-										
-									} catch(Throwable e) {}
-								}
-							}
-						}
-					}
+
+                    for (String dir : dirs) {
+                        if (!Common.isEmulator() && dir.contains("goldfish")) {
+                            continue;
+                        }
+
+                        Boolean isFstab = dir.contains("fstab");
+                        FileData data = mShell.getFile(dir).readMatch((isFstab ? "/dev/" : "mount "), false);
+
+                        if (data != null) {
+                            String[] lines = data.assort("#").getArray();
+
+                            if (lines != null) {
+                                for (String line : lines) {
+                                    try {
+                                        String[] parts = oPatternSpaceSearch.split(line.trim(), 5);
+                                        String options = isFstab || parts.length > 4 ? parts[isFstab ? 3 : 4].replaceAll(",", " ") : "";
+
+                                        if (parts.length > 3 && !cache.contains(parts[isFstab ? 1 : 3])) {
+                                            if (!isFstab && parts[2].contains("mtd@")) {
+
+                                                FileData mtd = mShell.getFile("/proc/mtd").readMatch(("\"" + parts[2].substring(4) + "\""), false);
+
+                                                if (mtd != null && mtd.size() > 0) {
+                                                    parts[2] = "/dev/block/mtdblock" + mtd.getLine().substring(3, mtd.getLine().indexOf(":"));
+                                                }
+
+                                            } else if (!isFstab && parts[2].contains("loop@")) {
+                                                parts[2] = parts[2].substring(5);
+                                                options += " loop";
+                                            }
+
+                                            MountStat stat = new MountStat();
+
+                                            stat.mDevice = parts[isFstab ? 0 : 2];
+                                            stat.mFstype = parts[isFstab ? 2 : 1];
+                                            stat.mLocation = parts[isFstab ? 1 : 3];
+                                            stat.mOptions = oPatternSpaceSearch.split(options);
+
+                                            list.add(stat);
+                                            cache.add(parts[isFstab ? 1 : 3]);
+                                        }
+
+                                    } catch (Throwable e) {
+                                    }
+                                }
+                            }
+                        }
+                    }
 					
 					oFstabList = list.toArray( new MountStat[ list.size() ] );
 				}
@@ -483,11 +484,11 @@ public class Filesystem {
 				String[] options = stat.options();
 				
 				if (options != null && options.length > 0) {
-					for (int i=0; i < options.length; i++) {
-						if (options[i].equals(option) || options[i].startsWith(option + "=")) {
-							return true;
-						}
-					}
+                    for (String option1 : options) {
+                        if (option1.equals(option) || option1.startsWith(option + "=")) {
+                            return true;
+                        }
+                    }
 				}
 			}
 			
@@ -512,11 +513,11 @@ public class Filesystem {
 				String[] options = stat.options();
 				
 				if (options != null && options.length > 0) {
-					for (int i=0; i < options.length; i++) {
-						if (options[i].startsWith(option + "=")) {
-							return options[i].substring( options[i].indexOf("=")+1 );
-						}
-					}
+                    for (String option1 : options) {
+                        if (option1.startsWith(option + "=")) {
+                            return option1.substring(option1.indexOf("=") + 1);
+                        }
+                    }
 				}
 			}
 			
@@ -537,19 +538,19 @@ public class Filesystem {
 				String path = mFile.getAbsolutePath();
 				
 				if (!mFile.isDirectory()) {
-					for (int i=0; i < list.length; i++) {
-						if (list[i].device().equals(path)) {
-							return list[i];
-						}
-					}
+                    for (MountStat aList : list) {
+                        if (aList.device().equals(path)) {
+                            return aList;
+                        }
+                    }
 					
 				} else {
 					do {
-						for (int i=0; i < list.length; i++) {
-							if (list[i].location().equals(path)) {
-								return list[i];
-							}
-						}
+                        for (MountStat aList : list) {
+                            if (aList.location().equals(path)) {
+                                return aList;
+                            }
+                        }
 						
 					} while (path.lastIndexOf("/") > 0 && !(path = path.substring(0, path.lastIndexOf("/"))).equals(""));
 				}
@@ -572,19 +573,19 @@ public class Filesystem {
 				String path = mFile.getAbsolutePath();
 				
 				if (!mFile.isDirectory()) {
-					for (int i=0; i < list.length; i++) {
-						if (list[i].device().equals(path)) {
-							return list[i];
-						}
-					}
+                    for (MountStat aList : list) {
+                        if (aList.device().equals(path)) {
+                            return aList;
+                        }
+                    }
 					
 				} else {
 					do {
-						for (int i=0; i < list.length; i++) {
-							if (list[i].location().equals(path)) {
-								return list[i];
-							}
-						}
+                        for (MountStat aList : list) {
+                            if (aList.location().equals(path)) {
+                                return aList;
+                            }
+                        }
 						
 					} while (path.lastIndexOf("/") > 0 && !(path = path.substring(0, path.lastIndexOf("/"))).equals(""));
 				}
@@ -647,14 +648,14 @@ public class Filesystem {
 								if (oPatternPrefixSearch.matcher(parts[i]).matches()) {
 									pUsageSections[i-1] = Double.parseDouble( parts[i].substring(0, parts[i].length()-1) );
 									prefix = parts[i].substring(parts[i].length()-1).toLowerCase(Locale.US);
-									
-									for (int x=0; x < prefixList.length; x++) {
-										pUsageSections[i-1] = pUsageSections[i-1] * 1024D;
-										
-										if (prefixList[x].equals(prefix)) {
-											break;
-										}
-									}
+
+                                    for (String aPrefixList : prefixList) {
+                                        pUsageSections[i - 1] = pUsageSections[i - 1] * 1024D;
+
+                                        if (aPrefixList.equals(prefix)) {
+                                            break;
+                                        }
+                                    }
 									
 								} else {
 									pUsageSections[i-1] = Double.parseDouble(parts[i]) * 1024D;

@@ -24,6 +24,6 @@ public class ContainsVariablesPointer<T> implements VariableBoxer<T> {
 
 	@Override
 	public ContainsVariablesPointer<T> clone() {
-		return new ContainsVariablesPointer<T>(container, index);
+		return new ContainsVariablesPointer<>(container, index);
 	}
 }

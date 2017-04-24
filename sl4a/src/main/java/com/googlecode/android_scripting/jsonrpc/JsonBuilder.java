@@ -77,7 +77,7 @@ public class JsonBuilder {
             return data;
         }
         if (data instanceof Set<?>) {
-            List<Object> items = new ArrayList<Object>((Set<?>) data);
+            List<Object> items = new ArrayList<>((Set<?>) data);
             return buildJsonList(items);
         }
         if (data instanceof List<?>) {

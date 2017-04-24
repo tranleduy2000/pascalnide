@@ -105,7 +105,7 @@ public class SmsFacade extends RpcReceiver {
     public List<Integer> smsGetMessageIds(@RpcParameter(name = "unreadOnly") Boolean unreadOnly,
                                           @RpcParameter(name = "folder") @RpcDefault("inbox") String folder) {
         Uri uri = buildFolderUri(folder);
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
         String selection = buildSelectionClause(unreadOnly);
         String[] columns = {"_id"};
         Cursor cursor = mContentResolver.query(uri, columns, selection, null, null);
@@ -120,7 +120,7 @@ public class SmsFacade extends RpcReceiver {
     public List<JSONObject> smsGetMessages(@RpcParameter(name = "unreadOnly") Boolean unreadOnly,
                                            @RpcParameter(name = "folder") @RpcDefault("inbox") String folder,
                                            @RpcParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
-        List<JSONObject> result = new ArrayList<JSONObject>();
+        List<JSONObject> result = new ArrayList<>();
         Uri uri = buildFolderUri(folder);
         String selection = buildSelectionClause(unreadOnly);
         String[] columns;
@@ -178,12 +178,12 @@ public class SmsFacade extends RpcReceiver {
 
     @Rpc(description = "Returns a List of all possible message attributes.")
     public List<String> smsGetAttributes() {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         Cursor cursor = mContentResolver.query(Uri.parse("content://sms"), null, null, null, null);
         if (cursor != null) {
             String[] columns = cursor.getColumnNames();
-            for (int i = 0; i < columns.length; i++) {
-                result.add(columns[i]);
+            for (String column : columns) {
+                result.add(column);
             }
             cursor.close();
         } else {

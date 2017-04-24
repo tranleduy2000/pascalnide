@@ -16,7 +16,6 @@
 
 package com.googlecode.android_scripting.facade;
 
-import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.net.wifi.ScanResult;
@@ -40,7 +39,6 @@ public class WifiFacade extends RpcReceiver {
     private final WifiManager mWifi;
     private WifiLock mLock;
 
-    @SuppressLint("WifiManagerLeak")
     public WifiFacade(FacadeManager manager) {
         super(manager);
         mService = manager.getService();

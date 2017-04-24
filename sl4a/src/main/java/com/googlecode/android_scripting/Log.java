@@ -17,12 +17,10 @@
 package com.googlecode.android_scripting;
 
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 public class Log {
@@ -47,18 +45,14 @@ public class Log {
 
         String packageName = context.getPackageName();
         int iconId = context.getResources().getIdentifier("stat_sys_warning", "drawable", packageName);
-
-        final int notificationId = NotificationIdFactory.create();
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle(contentTitle)
-                .setSmallIcon(iconId)
-                .setContentText(message);
-        PendingIntent contentIntent = PendingIntent.getService(context, 0, new Intent(), 0);
-        mBuilder.setContentIntent(contentIntent);
-        NotificationManager mNotificationManager =
+        NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        // mId allows you to update the notification later on.
-        mNotificationManager.notify(notificationId, mBuilder.build());
+        Notification note = new Notification(iconId > 0 ? iconId : -1, title, 0);
+        // TODO: 24-Apr-17
+//    note.setLatestEventInfo(context, contentTitle, message, PendingIntent.getService(context, 0,
+//        null, 0));
+        note.contentView.getLayoutId();
+        notificationManager.notify(NotificationIdFactory.create(), note);
     }
 
     public static void showDialog(final Context context, final String title, final String message) {

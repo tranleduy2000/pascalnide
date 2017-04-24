@@ -117,8 +117,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     private void getArgumentsForDeclaration(GrouperToken i, boolean is_procedure)
             throws ParsingException { // need
-        List<WordToken> names_list = new ArrayList<WordToken>();
-        List<RuntimeType> types_list = new ArrayList<RuntimeType>();
+        List<WordToken> names_list = new ArrayList<>();
+        List<RuntimeType> types_list = new ArrayList<>();
         Token next = i.peek();
         if (next instanceof ParenthesizedToken) {
             ParenthesizedToken arguments_token = (ParenthesizedToken) i.take();

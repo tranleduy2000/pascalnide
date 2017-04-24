@@ -8,7 +8,7 @@ public interface ScriptSource {
      *
      * @return list of source names
      */
-    public String[] list();
+    String[] list();
 
     /**
      * Open a stream to a given source content.
@@ -16,5 +16,5 @@ public interface ScriptSource {
      * @param scriptname The name of the source
      * @return A reader attached to that source
      */
-    public Reader read(String scriptname);
+    Reader read(String scriptname);
 }

@@ -32,11 +32,10 @@ public abstract class RpcReceiverManager {
     /**
      * A map of strings to known RPCs.
      */
-    private final Map<String, MethodDescriptor> mKnownRpcs = new HashMap<String, MethodDescriptor>();
+    private final Map<String, MethodDescriptor> mKnownRpcs = new HashMap<>();
 
     public RpcReceiverManager(Collection<Class<? extends RpcReceiver>> classList) {
         mReceivers = new HashMap<>();
-        if (classList == null) return;
         for (Class<? extends RpcReceiver> receiverClass : classList) {
             mReceivers.put(receiverClass, null);
             Collection<MethodDescriptor> methodList = MethodDescriptor.collectFrom(receiverClass);
@@ -60,7 +59,6 @@ public abstract class RpcReceiverManager {
         if (object != null) {
             return object;
         }
-
         Constructor<? extends RpcReceiver> constructor;
         try {
             constructor = clazz.getConstructor(getClass());

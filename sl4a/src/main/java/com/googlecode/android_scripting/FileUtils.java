@@ -93,7 +93,7 @@ public class FileUtils {
             return null;
         }
         File file = new File(name);
-        if (!makeDirectories(file.getParentFile(), 0755)) {
+        if (!makeDirectories(file.getParentFile(), 493)) {
             return null;
         }
         try {

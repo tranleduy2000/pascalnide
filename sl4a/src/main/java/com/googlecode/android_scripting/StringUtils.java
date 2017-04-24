@@ -26,7 +26,7 @@ public class StringUtils {
     }
 
     public static String join(Collection<String> collection, String delimiter) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         Iterator<String> iter = collection.iterator();
         while (iter.hasNext()) {
             buffer.append(iter.next());

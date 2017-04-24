@@ -32,7 +32,7 @@ import android.view.Window;
  */
 public abstract class FutureActivityTask<T> {
 
-    private final FutureResult<T> mResult = new FutureResult<T>();
+    private final FutureResult<T> mResult = new FutureResult<>();
     private Activity mActivity;
 
     public Activity getActivity() {

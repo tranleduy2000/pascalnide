@@ -148,7 +148,7 @@ public class AutoIndentCode {
         } else if (token instanceof CaseToken) {
             processCaseToken(token);
         } else if (token instanceof ThenToken) {
-            processThenToken((ThenToken) token);
+            processThenToken(token);
         } else if (token instanceof PeriodToken) {
             processPeriodToken(token);
         } else if (token instanceof SemicolonToken) { //new line

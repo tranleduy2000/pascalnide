@@ -127,11 +127,7 @@ public class FutureActivity extends Activity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (mTask == null) {
-            return false;
-        } else {
-            return mTask.onPrepareOptionsMenu(menu);
-        }
+        return mTask != null && mTask.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -143,9 +139,6 @@ public class FutureActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mTask != null) {
-            return mTask.onKeyDown(keyCode, event);
-        }
-        return false;
+        return mTask != null && mTask.onKeyDown(keyCode, event);
     }
 }

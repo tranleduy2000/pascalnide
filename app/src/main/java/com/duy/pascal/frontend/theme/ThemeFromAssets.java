@@ -163,7 +163,7 @@ public class ThemeFromAssets {
         if (line == null && name.equals("opt_color")) {
             line = properties.getProperty("theme." + themeid + ".string_color");
         }
-        return new ForegroundColor(android.graphics.Color.parseColor(line.trim()));
+        return new ForegroundColor(android.graphics.Color.parseColor(line != null ? line.trim() : null));
     }
 
     private static int loadColor(Properties properties, int themeid, String name) {
@@ -174,7 +174,7 @@ public class ThemeFromAssets {
         if (line == null && name.equals("opt_color")) {
             line = properties.getProperty("theme." + themeid + ".string_color");
         }
-        return android.graphics.Color.parseColor(line.trim());
+        return android.graphics.Color.parseColor(line != null ? line.trim() : null);
     }
 
     public static CharSequence[] getThemes(Context ctx) {
@@ -235,11 +235,11 @@ public class ThemeFromAssets {
     }
 
     public ForegroundColor getDefaultStyle() {
-        return (ForegroundColor) this.colors.get(0);
+        return this.colors.get(0);
     }
 
     public ForegroundColor getStyle(int id) {
-        ForegroundColor color = (ForegroundColor) this.colors.get(id);
+        ForegroundColor color = this.colors.get(id);
         if (color.getForeground() == getDefaultStyle().getForeground()) {
             return null;
         }
@@ -247,7 +247,7 @@ public class ThemeFromAssets {
     }
 
     public int getColor(int id) {
-        return ((ForegroundColor) this.colors.get(id)).getForeground();
+        return this.colors.get(id).getForeground();
     }
 
 

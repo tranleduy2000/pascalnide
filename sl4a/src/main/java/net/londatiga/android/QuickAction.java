@@ -32,7 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.duy.lib.androidpascallib.R;
+import com.googlecode.android_scripting.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +67,7 @@ public class QuickAction extends CustomPopupWindow {
     public QuickAction(View anchor) {
         super(anchor);
 
-        mActionList = new ArrayList<ActionItem>();
+        mActionList = new ArrayList<>();
         mContext = anchor.getContext();
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

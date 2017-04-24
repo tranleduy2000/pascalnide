@@ -48,8 +48,8 @@ public class Interpreter implements InterpreterPropertyNames {
     private Language mLanguage;
 
     public Interpreter() {
-        mArguments = new ArrayList<String>();
-        mEnvironment = new HashMap<String, String>();
+        mArguments = new ArrayList<>();
+        mEnvironment = new HashMap<>();
     }
 
     public static Interpreter buildFromMaps(Map<String, String> data,
@@ -61,13 +61,9 @@ public class Interpreter implements InterpreterPropertyNames {
         String interactiveCommand = data.get(INTERACTIVE_COMMAND);
         String scriptCommand = data.get(SCRIPT_COMMAND);
         Boolean hasInteractiveMode;
-        if (data.containsKey(HAS_INTERACTIVE_MODE)) {
-            hasInteractiveMode = Boolean.parseBoolean(data.get(HAS_INTERACTIVE_MODE));
-        } else {
-            // Default to true so that older interpreter APKs that don't have this value define still
-            // work.
-            hasInteractiveMode = true;
-        }
+        hasInteractiveMode = !data.containsKey(HAS_INTERACTIVE_MODE) || Boolean.parseBoolean(data.get(HAS_INTERACTIVE_MODE));
+// Default to true so that older interpreter APKs that don't have this value define still
+// work.
         Interpreter interpreter = new Interpreter();
         interpreter.setName(name);
         interpreter.setNiceName(niceName);

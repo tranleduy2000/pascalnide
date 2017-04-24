@@ -80,8 +80,8 @@ import java.util.Set;
 
 public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnCompletionListener {
 
-    static private final Map<String, MediaPlayer> mPlayers = new Hashtable<String, MediaPlayer>();
-    static private final Map<String, String> mUrls = new Hashtable<String, String>();
+    static private final Map<String, MediaPlayer> mPlayers = new Hashtable<>();
+    static private final Map<String, String> mUrls = new Hashtable<>();
     private final Service mService;
     private final EventFacade mEventFacade;
 
@@ -173,13 +173,13 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
     public synchronized boolean mediaIsPlaying(
             @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
         MediaPlayer player = getPlayer(tag);
-        return player != null && player.isPlaying();
+        return (player == null) ? false : player.isPlaying();
     }
 
     @Rpc(description = "Information on current media", returns = "Media Information")
     public synchronized Map<String, Object> mediaPlayInfo(
             @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<>();
         MediaPlayer player = getPlayer(tag);
         result.put("tag", getDefault(tag));
         if (player == null) {
@@ -242,7 +242,7 @@ public class MediaPlayerFacade extends RpcReceiver implements MediaPlayer.OnComp
     public void onCompletion(MediaPlayer player) {
         String tag = getTag(player);
         if (tag != null) {
-            Map<String, Object> data = new HashMap<String, Object>();
+            Map<String, Object> data = new HashMap<>();
             data.put("action", "complete");
             data.put("tag", tag);
             mEventFacade.postEvent("media", data);

@@ -62,7 +62,8 @@ public class InfoActivity extends AbstractAppCompatActivity {
     private void setupActionBar() {
         setSupportActionBar(toolbar);
         setTitle(R.string.information);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

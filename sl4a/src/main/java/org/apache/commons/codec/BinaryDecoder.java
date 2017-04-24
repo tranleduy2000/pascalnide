@@ -26,16 +26,14 @@ package org.apache.commons.codec;
 public interface BinaryDecoder extends Decoder {
 
     /**
-     * Decodes a byte array and returns the results as a byte array. 
+     * Decodes a byte array and returns the results as a byte array.
      *
      * @param pArray A byte array which has been encoded with the
-     *      appropriate encoder
-     * 
+     *               appropriate encoder
      * @return a byte array that contains decoded content
-     * 
      * @throws DecoderException A decoder exception is thrown
-     *          if a Decoder encounters a failure condition during
-     *          the decode process.
+     *                          if a Decoder encounters a failure condition during
+     *                          the decode process.
      */
     byte[] decode(byte[] pArray) throws DecoderException;
 }  

@@ -67,8 +67,8 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
             code.constant().setValue(ranges.get(i).size);
             code.ificmplt().setTarget(jmpbackto[i + 1]);
         }
-        for (int i = 0; i < indexes.length; i++) {
-            ra.free(indexes[i]);
+        for (int indexe : indexes) {
+            ra.free(indexe);
         }
         code.aload().setLocal(array);
         ra.free(array);

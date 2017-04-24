@@ -86,13 +86,13 @@ public class TypeUtils {
                         Double.class, Float.class, Integer.class, Long.class, Short.class
                 };
 
-        for (int i = 0; i < types.length; i++) {
-            numTypes.put(types[i], types[i]);
+        for (Class type : types) {
+            numTypes.put(type, type);
         }
 
         assignable = new HashMap();
-        for (int i = 0; i < primitiveAssignable.length; i++) {
-            assignable.put(primitiveAssignable[i], null);
+        for (Class aPrimitiveAssignable : primitiveAssignable) {
+            assignable.put(aPrimitiveAssignable, null);
         }
 
     } // static

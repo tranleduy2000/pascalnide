@@ -29,7 +29,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
-import com.duy.lib.androidpascallib.R;
+import com.googlecode.android_scripting.R;
+
 
 /**
  * This class does most of the work of wrapping the {@link PopupWindow} so it's

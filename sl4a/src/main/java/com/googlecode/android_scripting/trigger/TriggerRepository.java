@@ -55,8 +55,7 @@ public class TriggerRepository {
     private final Context mContext;
     private final Multimap<String, Trigger> mTriggers;
     private final CopyOnWriteArrayList<TriggerRepositoryObserver> mTriggerObservers =
-            new CopyOnWriteArrayList<TriggerRepositoryObserver>();
-
+            new CopyOnWriteArrayList<>();
     public TriggerRepository(Context context) {
         mContext = context;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -136,7 +135,7 @@ public class TriggerRepository {
     @SuppressWarnings("unchecked")
     private Multimap<String, Trigger> deserializeTriggersFromString(String triggers) {
         if (triggers == null) {
-            return ArrayListMultimap.create();
+            return ArrayListMultimap.<String, Trigger>create();
         }
         try {
             final ByteArrayInputStream inputStream =
@@ -146,7 +145,7 @@ public class TriggerRepository {
         } catch (Exception e) {
             Log.e(e);
         }
-        return ArrayListMultimap.create();
+        return ArrayListMultimap.<String, Trigger>create();
     }
 
     /**

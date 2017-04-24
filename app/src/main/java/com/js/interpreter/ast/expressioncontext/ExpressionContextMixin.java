@@ -425,7 +425,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         if (!result) {
             throw new UnrecognizedTokenException(next);
         }
-        return result;
+        return true;
     }
 
 

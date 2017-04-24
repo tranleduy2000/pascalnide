@@ -56,7 +56,7 @@ public class RepeatInstruction extends DebuggableExecutable {
             } else {
                 return new RepeatInstruction(
                         command.compileTimeConstantTransform(c),
-                        new ConstantAccess(b, condition.getLine()), line);
+                        new ConstantAccess(true, condition.getLine()), line);
             }
 
         }

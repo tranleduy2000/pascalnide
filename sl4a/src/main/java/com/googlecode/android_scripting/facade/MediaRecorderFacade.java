@@ -126,22 +126,26 @@ public class MediaRecorderFacade extends RpcReceiver {
 
         mMediaRecorder.setAudioSource(audioSource);
         String extension = file.toString().split("\\.")[1];
-        if (extension.equals("mp4")) {
-            mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mMediaRecorder.setVideoSize(xSize, ySize);
-            mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-        } else if (extension.equals("3gp")) {
-            mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mMediaRecorder.setVideoSize(xSize, ySize);
-            mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-        } else {
+        switch (extension) {
+            case "mp4":
+                mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mMediaRecorder.setVideoSize(xSize, ySize);
+                mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+                break;
+            case "3gp":
+                mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mMediaRecorder.setVideoSize(xSize, ySize);
+                mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+                break;
+            default:
 
-            mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-            mMediaRecorder.setVideoSize(xSize, ySize);
-            mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
+                mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+                mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+                mMediaRecorder.setVideoSize(xSize, ySize);
+                mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
+                break;
         }
 
         mMediaRecorder.setOutputFile(file.getAbsolutePath());

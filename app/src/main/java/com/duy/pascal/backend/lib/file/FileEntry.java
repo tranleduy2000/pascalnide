@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 class FileEntry {
+    private final Object lock = new Object();
     private String mFilePath = "";
     private BufferedWriter mWriter;
     private String bufferReader = "";
@@ -41,12 +42,12 @@ class FileEntry {
     private boolean opened = false;
     private File file;
 
+
     FileEntry(String mFilePath) {
         this.mFilePath = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/" + mFilePath;
         this.file = new File(this.mFilePath);
 //        System.out.println("File: " + this.mFilePath);
     }
-
 
     public String getFileName(String fileName) {
         return mFilePath;
@@ -154,9 +155,11 @@ class FileEntry {
         }
     }
 
-    public void writeString(Object[] objects) throws IOException {
-        for (Object o : objects) {
-            mWriter.write(o.toString());
+    public synchronized void writeString(Object[] objects) throws IOException {
+        synchronized (lock) {
+            for (Object o : objects) {
+                mWriter.write(o.toString());
+            }
         }
     }
 

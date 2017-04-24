@@ -32,8 +32,8 @@ public class Common {
 	public static final String TAG = Common.class.getPackage().getName();
 	public static Boolean DEBUG = true;
 	public static String[] BINARIES = new String[]{null, "busybox", "toolbox"};
-	public static Map<String, Integer> UIDS = new HashMap<String, Integer>();
-	public static Map<Integer, String> UNAMES = new HashMap<Integer, String>();
+	public static Map<String, Integer> UIDS = new HashMap<>();
+	public static Map<Integer, String> UNAMES = new HashMap<>();
 	
 	static {
 		UIDS.put("root", 0);

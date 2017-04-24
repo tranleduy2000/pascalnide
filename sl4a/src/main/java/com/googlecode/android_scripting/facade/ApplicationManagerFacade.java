@@ -57,7 +57,7 @@ public class ApplicationManagerFacade extends RpcReceiver {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> resolveInfos = mPackageManager.queryIntentActivities(intent, 0);
-        Map<String, String> applications = new HashMap<String, String>();
+        Map<String, String> applications = new HashMap<>();
         for (ResolveInfo info : resolveInfos) {
             applications.put(info.loadLabel(mPackageManager).toString(), info.activityInfo.name);
         }
@@ -74,7 +74,7 @@ public class ApplicationManagerFacade extends RpcReceiver {
 
     @Rpc(description = "Returns a list of packages running activities or services.", returns = "List of packages running activities.")
     public List<String> getRunningPackages() {
-        Set<String> runningPackages = new HashSet<String>();
+        Set<String> runningPackages = new HashSet<>();
         List<ActivityManager.RunningAppProcessInfo> appProcesses =
                 mActivityManager.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo info : appProcesses) {
@@ -85,7 +85,7 @@ public class ApplicationManagerFacade extends RpcReceiver {
         for (ActivityManager.RunningServiceInfo info : serviceProcesses) {
             runningPackages.add(info.service.getPackageName());
         }
-        return new ArrayList<String>(runningPackages);
+        return new ArrayList<>(runningPackages);
     }
 
     @Rpc(description = "Force stops a package.")

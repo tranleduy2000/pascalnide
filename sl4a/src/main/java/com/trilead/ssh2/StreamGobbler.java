@@ -105,7 +105,7 @@ public class StreamGobbler extends InputStream {
 
                 try {
                     synchronizer.wait();
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                 }
             }
 
@@ -174,7 +174,7 @@ public class StreamGobbler extends InputStream {
 
                 try {
                     synchronizer.wait();
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                 }
             }
 

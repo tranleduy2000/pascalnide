@@ -23,17 +23,21 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 
 import com.googlecode.android_scripting.Constants;
+import com.googlecode.android_scripting.Log;
 import com.googlecode.android_scripting.MainThread;
 import com.googlecode.android_scripting.jsonrpc.RpcReceiver;
 import com.googlecode.android_scripting.rpc.Rpc;
 import com.googlecode.android_scripting.rpc.RpcDefault;
-import com.googlecode.android_scripting.rpc.RpcMinSdk;
 import com.googlecode.android_scripting.rpc.RpcOptional;
 import com.googlecode.android_scripting.rpc.RpcParameter;
 
 import org.apache.commons.codec.binary.Base64Codec;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -44,14 +48,14 @@ import java.util.concurrent.Callable;
  */
 // Discovery functions added by Eden Sayag
 
-@RpcMinSdk(5)
+
 public class BluetoothFacade extends RpcReceiver {
 
     // UUID for SL4A.
     private static final String DEFAULT_UUID = "457807c0-4897-11df-9879-0800200c9a66";
     private static final String SDP_NAME = "SL4A";
 
-    private Map<String, BluetoothConnection> connections = new HashMap<String, BluetoothConnection>();
+    private Map<String, BluetoothConnection> connections = new HashMap<>();
     private AndroidFacade mAndroidFacade;
     private BluetoothAdapter mBluetoothAdapter;
 
@@ -68,7 +72,7 @@ public class BluetoothFacade extends RpcReceiver {
 
     @Rpc(description = "Returns active Bluetooth connections.")
     public Map<String, String> bluetoothActiveConnections() {
-        Map<String, String> out = new HashMap<String, String>();
+        Map<String, String> out = new HashMap<>();
         for (Map.Entry<String, BluetoothConnection> entry : connections.entrySet()) {
             if (entry.getValue().isConnected()) {
                 out.put(entry.getKey(), entry.getValue().getRemoteBluetoothAddress());
@@ -162,7 +166,7 @@ public class BluetoothFacade extends RpcReceiver {
         BluetoothServerSocket mServerSocket;
         mServerSocket =
                 mBluetoothAdapter.listenUsingRfcommWithServiceRecord(SDP_NAME, UUID.fromString(uuid));
-        BluetoothSocket mSocket = mServerSocket.accept(timeout.intValue());
+        BluetoothSocket mSocket = mServerSocket.accept(timeout);
         BluetoothConnection conn = new BluetoothConnection(mSocket, mServerSocket);
         return addConnection(conn);
     }
@@ -362,3 +366,164 @@ public class BluetoothFacade extends RpcReceiver {
     }
 }
 
+class BluetoothConnection {
+    private BluetoothSocket mSocket;
+    private BluetoothDevice mDevice;
+    private OutputStream mOutputStream;
+    private InputStream mInputStream;
+    private BufferedReader mReader;
+    private BluetoothServerSocket mServerSocket;
+    private String UUID;
+
+    public BluetoothConnection(BluetoothSocket mSocket) throws IOException {
+        this(mSocket, null);
+    }
+
+    public BluetoothConnection(BluetoothSocket mSocket, BluetoothServerSocket mServerSocket)
+            throws IOException {
+        this.mSocket = mSocket;
+        mOutputStream = mSocket.getOutputStream();
+        mInputStream = mSocket.getInputStream();
+        mDevice = mSocket.getRemoteDevice();
+        mReader = new BufferedReader(new InputStreamReader(mInputStream, "ASCII"));
+        this.mServerSocket = mServerSocket;
+    }
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
+    }
+
+    public String getRemoteBluetoothAddress() {
+        return mDevice.getAddress();
+    }
+
+    public boolean isConnected() {
+        if (mSocket == null) {
+            return false;
+        }
+        try {
+            mSocket.getRemoteDevice();
+            mInputStream.available();
+            mReader.ready();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void write(byte[] out) throws IOException {
+        if (mOutputStream != null) {
+            mOutputStream.write(out);
+        } else {
+            throw new IOException("Bluetooth not ready.");
+        }
+    }
+
+    public void write(String out) throws IOException {
+        this.write(out.getBytes());
+    }
+
+    public Boolean readReady() throws IOException {
+        if (mReader != null) {
+            return mReader.ready();
+        }
+        throw new IOException("Bluetooth not ready.");
+    }
+
+    public byte[] readBinary() throws IOException {
+        return this.readBinary(4096);
+    }
+
+    public byte[] readBinary(int bufferSize) throws IOException {
+        if (mReader != null) {
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead = mInputStream.read(buffer);
+            if (bytesRead == -1) {
+                Log.e("Read failed.");
+                throw new IOException("Read failed.");
+            }
+            byte[] truncatedBuffer = new byte[bytesRead];
+            System.arraycopy(buffer, 0, truncatedBuffer, 0, bytesRead);
+            return truncatedBuffer;
+        }
+
+        throw new IOException("Bluetooth not ready.");
+
+    }
+
+    public String read() throws IOException {
+        return this.read(4096);
+    }
+
+    public String read(int bufferSize) throws IOException {
+        if (mReader != null) {
+            char[] buffer = new char[bufferSize];
+            int bytesRead = mReader.read(buffer);
+            if (bytesRead == -1) {
+                Log.e("Read failed.");
+                throw new IOException("Read failed.");
+            }
+            return new String(buffer, 0, bytesRead);
+        }
+        throw new IOException("Bluetooth not ready.");
+    }
+
+    public String readLine() throws IOException {
+        if (mReader != null) {
+            return mReader.readLine();
+        }
+        throw new IOException("Bluetooth not ready.");
+    }
+
+    public String getConnectedDeviceName() {
+        return mDevice.getName();
+    }
+
+    public void stop() {
+        if (mSocket != null) {
+            try {
+                mSocket.close();
+            } catch (IOException e) {
+                Log.e(e);
+            }
+        }
+        mSocket = null;
+        if (mServerSocket != null) {
+            try {
+                mServerSocket.close();
+            } catch (IOException e) {
+                Log.e(e);
+            }
+        }
+        mServerSocket = null;
+
+        if (mInputStream != null) {
+            try {
+                mInputStream.close();
+            } catch (IOException e) {
+                Log.e(e);
+            }
+        }
+        mInputStream = null;
+        if (mOutputStream != null) {
+            try {
+                mOutputStream.close();
+            } catch (IOException e) {
+                Log.e(e);
+            }
+        }
+        mOutputStream = null;
+        if (mReader != null) {
+            try {
+                mReader.close();
+            } catch (IOException e) {
+                Log.e(e);
+            }
+        }
+        mReader = null;
+    }
+}

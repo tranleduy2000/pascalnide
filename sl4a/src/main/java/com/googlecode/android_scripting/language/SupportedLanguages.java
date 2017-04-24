@@ -26,7 +26,7 @@ public class SupportedLanguages {
     private static Map<String, Class<? extends Language>> sSupportedLanguages;
 
     static {
-        sSupportedLanguages = new HashMap<String, Class<? extends Language>>();
+        sSupportedLanguages = new HashMap<>();
         for (KnownLanguage language : KnownLanguage.values()) {
             sSupportedLanguages.put(language.getExtension(), language.getLanguageClass());
         }
@@ -46,9 +46,7 @@ public class SupportedLanguages {
         if (clazz != null) {
             try {
                 lang = clazz.newInstance();
-            } catch (IllegalAccessException e) {
-                Log.e(e);
-            } catch (InstantiationException e) {
+            } catch (IllegalAccessException | InstantiationException e) {
                 Log.e(e);
             }
         }

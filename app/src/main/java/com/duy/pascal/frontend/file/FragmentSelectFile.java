@@ -57,6 +57,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Locale;
 
 
 /**
@@ -188,7 +189,7 @@ public class FragmentSelectFile extends Fragment implements
                 RadioButton checkBoxPas = (RadioButton) alertDialog.findViewById(R.id.rad_pas);
                 RadioButton checkBoxInp = (RadioButton) alertDialog.findViewById(R.id.rad_inp);
 
-                if (checkBoxInp.isChecked()) fileName += ".inp";
+                if (checkBoxInp != null && checkBoxInp.isChecked()) fileName += ".inp";
                 else if (checkBoxPas.isChecked()) fileName += ".pas";
 
                 //create new file
@@ -214,6 +215,7 @@ public class FragmentSelectFile extends Fragment implements
         alertDialog.show();
         final EditText editText = (EditText) alertDialog.findViewById(R.id.edit_file_name);
         final TextInputLayout textInputLayout = (TextInputLayout) alertDialog.findViewById(R.id.hint);
+        assert textInputLayout != null;
         textInputLayout.setHint(getString(R.string.enter_new_folder_name));
         Button btnOK = (Button) alertDialog.findViewById(R.id.btn_ok);
         Button btnCancel = (Button) alertDialog.findViewById(R.id.btn_cancel);
@@ -229,7 +231,7 @@ public class FragmentSelectFile extends Fragment implements
             @Override
             public void onClick(View v) {
                 //get string path of in edit text
-                String fileName = editText.getText().toString();
+                String fileName = editText != null ? editText.getText().toString() : null;
                 if (fileName.isEmpty()) {
                     editText.setError(getString(R.string.enter_new_file_name));
                     return;
@@ -456,21 +458,19 @@ public class FragmentSelectFile extends Fragment implements
 
                     Arrays.sort(files, getFileNameComparator());
 
-                    if (files != null) {
-                        for (final File f : files) {
-                            if (f.isDirectory()) {
-                                folderDetails.add(new FileDetail(f.getName(),
-                                        getString(R.string.folder),
-                                        ""));
-                            } else if (f.isFile()
-                                    && !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
-                                    && FileUtils.sizeOf(f) <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
-                                final long fileSize = f.length();
-                                SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
-                                String date = format.format(f.lastModified());
-                                fileDetails.add(new FileDetail(f.getName(),
-                                        FileUtils.byteCountToDisplaySize(fileSize), date));
-                            }
+                    for (final File f : files) {
+                        if (f.isDirectory()) {
+                            folderDetails.add(new FileDetail(f.getName(),
+                                    getString(R.string.folder),
+                                    ""));
+                        } else if (f.isFile()
+                                && !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
+                                && FileUtils.sizeOf(f) <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
+                            final long fileSize = f.length();
+                            SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a", Locale.getDefault());
+                            String date = format.format(f.lastModified());
+                            fileDetails.add(new FileDetail(f.getName(),
+                                    FileUtils.byteCountToDisplaySize(fileSize), date));
                         }
                     }
                 }

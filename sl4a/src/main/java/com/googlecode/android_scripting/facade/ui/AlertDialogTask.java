@@ -59,9 +59,9 @@ class AlertDialogTask extends DialogTask {
         mTitle = title;
         mMessage = message;
         mInputType = InputType.DEFAULT;
-        mItems = new ArrayList<String>();
-        mSelectedItems = new TreeSet<Integer>();
-        mResultMap = new HashMap<String, Object>();
+        mItems = new ArrayList<>();
+        mSelectedItems = new TreeSet<>();
+        mResultMap = new HashMap<>();
     }
 
     public void setPositiveButtonText(String text) {
@@ -201,7 +201,7 @@ class AlertDialogTask extends DialogTask {
             case MENU:
                 builder.setItems(getItemsAsCharSequenceArray(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        Map<String, Integer> result = new HashMap<String, Integer>();
+                        Map<String, Integer> result = new HashMap<>();
                         result.put("item", item);
                         dismissDialog();
                         setResult(result);

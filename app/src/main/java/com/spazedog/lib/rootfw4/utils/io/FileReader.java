@@ -19,6 +19,12 @@
 
 package com.spazedog.lib.rootfw4.utils.io;
 
+import android.support.annotation.NonNull;
+
+import com.spazedog.lib.rootfw4.Common;
+import com.spazedog.lib.rootfw4.Shell;
+import com.spazedog.lib.rootfw4.ShellStream;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -28,10 +34,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.CharBuffer;
-
-import com.spazedog.lib.rootfw4.Common;
-import com.spazedog.lib.rootfw4.Shell;
-import com.spazedog.lib.rootfw4.ShellStream;
 
 /**
  * This class allows you to open a file as root, if needed. 
@@ -120,7 +122,7 @@ public class FileReader extends Reader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int read(char[] buffer, int offset, int count) throws IOException {
+	public int read(@NonNull char[] buffer, int offset, int count) throws IOException {
 		return mStream.read(buffer, offset, count);
 	}
 	
@@ -128,7 +130,7 @@ public class FileReader extends Reader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int read(CharBuffer target) throws IOException {
+	public int read(@NonNull CharBuffer target) throws IOException {
 		return mStream.read(target);
 	}
 	
@@ -136,7 +138,7 @@ public class FileReader extends Reader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int read(char[] buffer) throws IOException {
+	public int read(@NonNull char[] buffer) throws IOException {
 		return mStream.read(buffer);
 	}
 	

@@ -27,7 +27,6 @@ import android.os.Bundle;
 import com.googlecode.android_scripting.Log;
 import com.googlecode.android_scripting.jsonrpc.RpcReceiver;
 import com.googlecode.android_scripting.rpc.Rpc;
-import com.googlecode.android_scripting.rpc.RpcMinSdk;
 import com.googlecode.android_scripting.rpc.RpcStartEvent;
 import com.googlecode.android_scripting.rpc.RpcStopEvent;
 
@@ -140,13 +139,13 @@ public class BatteryManagerFacade extends RpcReceiver {
     }
 
     @Rpc(description = "Returns the most recently received battery presence data.")
-    @RpcMinSdk(5)
+
     public Boolean batteryCheckPresent() {
         return mBatteryPresent;
     }
 
     @Rpc(description = "Returns the most recently received battery level (percentage).")
-    @RpcMinSdk(5)
+
     public Integer batteryGetLevel() {
         if (mBatteryMaxLevel == null || mBatteryMaxLevel == 100 || mBatteryMaxLevel == 0) {
             return mBatteryLevel;
@@ -156,19 +155,19 @@ public class BatteryManagerFacade extends RpcReceiver {
     }
 
     @Rpc(description = "Returns the most recently received battery voltage.")
-    @RpcMinSdk(5)
+
     public Integer batteryGetVoltage() {
         return mBatteryVoltage;
     }
 
     @Rpc(description = "Returns the most recently received battery temperature.")
-    @RpcMinSdk(5)
+
     public Integer batteryGetTemperature() {
         return mBatteryTemperature;
     }
 
     @Rpc(description = "Returns the most recently received battery technology data.")
-    @RpcMinSdk(5)
+
     public String batteryGetTechnology() {
         return mBatteryTechnology;
     }

@@ -59,14 +59,14 @@ public class InterpreterConfiguration {
 
     public InterpreterConfiguration(Context context) {
         mContext = context;
-        mInterpreterSet = new CopyOnWriteArraySet<Interpreter>();
+        mInterpreterSet = new CopyOnWriteArraySet<>();
         mInterpreterSet.add(new ShellInterpreter());
         try {
             mInterpreterSet.add(new HtmlInterpreter(mContext));
         } catch (IOException e) {
             Log.e("Failed to instantiate HtmlInterpreter.", e);
         }
-        mObserverSet = new CopyOnWriteArraySet<ConfigurationObserver>();
+        mObserverSet = new CopyOnWriteArraySet<>();
         IntentFilter filter = new IntentFilter();
         filter.addAction(InterpreterConstants.ACTION_INTERPRETER_ADDED);
         filter.addAction(InterpreterConstants.ACTION_INTERPRETER_REMOVED);
@@ -106,14 +106,14 @@ public class InterpreterConfiguration {
      * Returns the list of all known interpreters.
      */
     public List<? extends Interpreter> getSupportedInterpreters() {
-        return new ArrayList<Interpreter>(mInterpreterSet);
+        return new ArrayList<>(mInterpreterSet);
     }
 
     /**
      * Returns the list of all installed interpreters.
      */
     public List<Interpreter> getInstalledInterpreters() {
-        List<Interpreter> interpreters = new ArrayList<Interpreter>();
+        List<Interpreter> interpreters = new ArrayList<>();
         for (Interpreter i : mInterpreterSet) {
             if (i.isInstalled()) {
                 interpreters.add(i);
@@ -126,7 +126,7 @@ public class InterpreterConfiguration {
      * Returns the list of interpreters that support interactive mode execution.
      */
     public List<Interpreter> getInteractiveInterpreters() {
-        List<Interpreter> interpreters = new ArrayList<Interpreter>();
+        List<Interpreter> interpreters = new ArrayList<>();
         for (Interpreter i : mInterpreterSet) {
             if (i.isInstalled() && i.hasInteractiveMode()) {
                 interpreters.add(i);
@@ -179,7 +179,7 @@ public class InterpreterConfiguration {
             mmPackageManager = context.getPackageManager();
             mmResolver = context.getContentResolver();
             mmExecutor = new SingleThreadExecutor();
-            mmDiscoveredInterpreters = new HashMap<String, Interpreter>();
+            mmDiscoveredInterpreters = new HashMap<>();
         }
 
         private void discoverForType(final String mime) {
@@ -291,7 +291,7 @@ public class InterpreterConfiguration {
             }
             cursor.moveToFirst();
             // Use LinkedHashMap so that order is maintained (important for position CLI arguments).
-            Map<String, String> map = new LinkedHashMap<String, String>();
+            Map<String, String> map = new LinkedHashMap<>();
             for (int i = 0; i < cursor.getColumnCount(); i++) {
                 map.put(cursor.getColumnName(i), cursor.getString(i));
             }

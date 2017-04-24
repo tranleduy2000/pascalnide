@@ -19,7 +19,6 @@ package com.googlecode.android_scripting.rpc;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.googlecode.android_scripting.Analytics;
 import com.googlecode.android_scripting.facade.AndroidFacade;
 import com.googlecode.android_scripting.jsonrpc.RpcReceiver;
 import com.googlecode.android_scripting.jsonrpc.RpcReceiverManager;
@@ -60,7 +59,7 @@ public final class MethodDescriptor {
      * Collects all methods with {@code RPC} annotation from given class.
      */
     public static Collection<MethodDescriptor> collectFrom(Class<? extends RpcReceiver> clazz) {
-        List<MethodDescriptor> descriptors = new ArrayList<MethodDescriptor>();
+        List<MethodDescriptor> descriptors = new ArrayList<>();
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(Rpc.class)) {
                 descriptors.add(new MethodDescriptor(clazz, method));
@@ -89,7 +88,7 @@ public final class MethodDescriptor {
                 try {
                     return parameters.getBoolean(index);
                 } catch (JSONException e) {
-                    return new Boolean(parameters.getInt(index) != 0);
+                    return parameters.getInt(index) != 0;
                 }
             } else if (type == Long.class) {
                 return parameters.getLong(index);
@@ -255,8 +254,8 @@ public final class MethodDescriptor {
             return converter;
         }
         try {
-            Constructor<?> constructor = converterClass.getConstructor();
-            return (Converter<?>) constructor.newInstance();
+            Constructor<?> constructor = converterClass.getConstructor(new Class<?>[0]);
+            return (Converter<?>) constructor.newInstance(new Object[0]);
         } catch (Exception e) {
             throw new IllegalArgumentException("Cannot create converter from "
                     + converterClass.getCanonicalName());
@@ -296,7 +295,7 @@ public final class MethodDescriptor {
      * Returns the converters for {@code String}, {@code Integer} and {@code Boolean}.
      */
     private static Map<Class<?>, Converter<?>> populateConverters() {
-        Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
+        Map<Class<?>, Converter<?>> converters = new HashMap<>();
         converters.put(String.class, new Converter<String>() {
             @Override
             public String convert(String value) {
@@ -346,8 +345,6 @@ public final class MethodDescriptor {
      * @throws Throwable
      */
     public Object invoke(RpcReceiverManager manager, final JSONArray parameters) throws Throwable {
-        // Issue track call first in case of failure.
-        Analytics.track("api", getName());
 
         final Type[] parameterTypes = getGenericParameterTypes();
         final Object[] args = new Object[parameterTypes.length];

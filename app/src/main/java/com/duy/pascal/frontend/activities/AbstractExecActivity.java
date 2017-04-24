@@ -114,7 +114,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     protected RuntimeExecutable program;
     protected String programFile;
     protected ApplicationFileManager mFileManager;
-    protected Handler mMessageHandler = new Handler() {
+    protected final Handler mMessageHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

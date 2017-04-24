@@ -36,13 +36,13 @@ public class TextDocumentationGenerator {
     public static void main(String args[]) {
         List<MethodDescriptor> descriptors = FacadeConfiguration.collectMethodDescriptors();
         List<Class<? extends RpcReceiver>> classes =
-                new ArrayList<Class<? extends RpcReceiver>>(FacadeConfiguration.getFacadeClasses());
+                new ArrayList<>(FacadeConfiguration.getFacadeClasses());
 
         sortMethodDescriptors(descriptors);
         sortClasses(classes);
 
         HashMap<Class<? extends RpcReceiver>, Set<MethodDescriptor>> map =
-                new HashMap<Class<? extends RpcReceiver>, Set<MethodDescriptor>>();
+                new HashMap<>();
 
         for (MethodDescriptor descriptor : descriptors) {
             Class<? extends RpcReceiver> clazz = descriptor.getDeclaringClass();
@@ -60,7 +60,7 @@ public class TextDocumentationGenerator {
             } else {
                 System.out.println(String.format("*!%s*", clazz.getSimpleName()));
             }
-            List<MethodDescriptor> list = new ArrayList<MethodDescriptor>(map.get(clazz));
+            List<MethodDescriptor> list = new ArrayList<>(map.get(clazz));
             sortMethodDescriptors(list);
             for (MethodDescriptor descriptor : list) {
                 System.out.println(String.format("  * [#%1$s %1$s]", descriptor.getName()));

@@ -117,7 +117,7 @@ public class LocationFacade extends RpcReceiver {
         mEventFacade = manager.getReceiver(EventFacade.class);
         mGeocoder = new Geocoder(mService);
         mLocationManager = (LocationManager) mService.getSystemService(Context.LOCATION_SERVICE);
-        mLocationUpdates = new HashMap<String, Location>();
+        mLocationUpdates = new HashMap<>();
     }
 
     @Override
@@ -161,7 +161,7 @@ public class LocationFacade extends RpcReceiver {
 
     @Rpc(description = "Returns the last known location of the device.", returns = "A map of location information by provider.")
     public Map<String, Location> getLastKnownLocation() {
-        Map<String, Location> location = new HashMap<String, Location>();
+        Map<String, Location> location = new HashMap<>();
         for (String provider : mLocationManager.getAllProviders()) {
             location.put(provider, mLocationManager.getLastKnownLocation(provider));
         }

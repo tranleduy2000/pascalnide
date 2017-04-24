@@ -34,10 +34,10 @@ import java.util.concurrent.CountDownLatch;
  * clients.
  *
  * @author Manuel Naranjo (manuel@aircable.net)
- * @see com.googlecode.android_scripting.SimpleServer
+ * @see SimpleServer
  */
 public class EventServer extends SimpleServer implements EventFacade.EventObserver {
-    private static final Vector<Listener> mListeners = new Vector<Listener>();
+    private static final Vector<Listener> mListeners = new Vector<>();
     private InetSocketAddress address = null;
 
     public EventServer() {

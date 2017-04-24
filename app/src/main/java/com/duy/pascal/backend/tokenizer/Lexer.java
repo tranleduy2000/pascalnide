@@ -442,7 +442,7 @@ class Lexer {
      * @param in the java.io.Reader to read input from.
      */
     Lexer(java.io.Reader in, String sourcename, List<ScriptSource> searchDirectories) {
-        sourcenames = new Stack<String>();
+        sourcenames = new Stack<>();
         sourcenames.push(sourcename);
         this.searchDirectories = searchDirectories;
         this.zzReader = in;

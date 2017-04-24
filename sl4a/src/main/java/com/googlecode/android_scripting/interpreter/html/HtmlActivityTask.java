@@ -16,7 +16,6 @@
 
 package com.googlecode.android_scripting.interpreter.html;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -111,13 +110,10 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
         return mReceiverManager;
     }
 
-    @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
     public void onCreate() {
-        super.onCreate();
         mView = new WebView(getActivity());
-        int id = 1;
-        mView.setId(id);
+        mView.setId(1);
         mView.getSettings().setJavaScriptEnabled(true);
         mView.addJavascriptInterface(mWrapper, "_rpc_wrapper");
         mView.addJavascriptInterface(new Object() {
@@ -244,13 +240,13 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
     }
 
     private class HtmlEventObserver implements EventFacade.EventObserver {
-        private Map<String, Set<Integer>> mEventMap = new HashMap<String, Set<Integer>>();
+        private Map<String, Set<Integer>> mEventMap = new HashMap<>();
 
         public void register(String eventName, Integer id) {
             if (mEventMap.containsKey(eventName)) {
                 mEventMap.get(eventName).add(id);
             } else {
-                Set<Integer> idSet = new HashSet<Integer>();
+                Set<Integer> idSet = new HashSet<>();
                 idSet.add(id);
                 mEventMap.put(eventName, idSet);
             }

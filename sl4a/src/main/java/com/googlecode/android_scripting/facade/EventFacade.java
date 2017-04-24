@@ -67,13 +67,13 @@ public class EventFacade extends RpcReceiver {
      * exceeded.
      */
     private static final int MAX_QUEUE_SIZE = 1024;
-    private final Queue<Event> mEventQueue = new ConcurrentLinkedQueue<Event>();
+    private final Queue<Event> mEventQueue = new ConcurrentLinkedQueue<>();
     private final CopyOnWriteArrayList<EventObserver> mGlobalEventObservers =
-            new CopyOnWriteArrayList<EventObserver>();
+            new CopyOnWriteArrayList<>();
     private final Multimap<String, EventObserver> mNamedEventObservers = Multimaps
             .synchronizedListMultimap(ArrayListMultimap.<String, EventObserver>create());
     private final HashMap<String, BroadcastListener> mBroadcastListeners =
-            new HashMap<String, BroadcastListener>();
+            new HashMap<>();
     private final Context mContext;
     private EventServer mEventServer = null;
 
@@ -101,7 +101,7 @@ public class EventFacade extends RpcReceiver {
             return false;
         }
 
-        BroadcastListener b = new BroadcastListener(this, enqueue.booleanValue());
+        BroadcastListener b = new BroadcastListener(this, enqueue);
         IntentFilter c = new IntentFilter(category);
         mContext.registerReceiver(b, c);
         mBroadcastListeners.put(category, b);
@@ -175,7 +175,7 @@ public class EventFacade extends RpcReceiver {
                 }
             }
         }
-        final FutureResult<Event> futureEvent = new FutureResult<Event>();
+        final FutureResult<Event> futureEvent = new FutureResult<>();
         addNamedEventObserver(eventName, new EventObserver() {
             @Override
             public void onEventReceived(Event event) {
@@ -201,7 +201,7 @@ public class EventFacade extends RpcReceiver {
             @RpcParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
             throws InterruptedException {
         Event result = null;
-        final FutureResult<Event> futureEvent = new FutureResult<Event>();
+        final FutureResult<Event> futureEvent = new FutureResult<>();
         synchronized (mEventQueue) { // Anything in queue?
             if (mEventQueue.size() > 0) {
                 return mEventQueue.poll(); // return it.
@@ -244,7 +244,7 @@ public class EventFacade extends RpcReceiver {
             @RpcParameter(name = "name", description = "Name of event") String name,
             @RpcParameter(name = "data", description = "Data contained in event.") String data,
             @RpcParameter(name = "enqueue", description = "Set to False if you don't want your events to be added to the event queue, just dispatched.") @RpcOptional @RpcDefault("false") Boolean enqueue) {
-        postEvent(name, data, enqueue.booleanValue());
+        postEvent(name, data, enqueue);
     }
 
     /**
@@ -328,7 +328,7 @@ public class EventFacade extends RpcReceiver {
     public void shutdown() {
         try {
             stopEventDispatcher();
-        } catch (Exception err) {
+        } catch (Exception ignored) {
         }
         // let others (like webviews) know we're going down
         postEvent("sl4a", "{\"shutdown\": \"event-facade\"}");

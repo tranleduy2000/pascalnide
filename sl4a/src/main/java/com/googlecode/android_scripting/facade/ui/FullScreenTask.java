@@ -138,7 +138,7 @@ public class FullScreenTask extends FutureActivityTask<Object> implements OnClic
     }
 
     public Map<String, String> getViewDetail(String idName) {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         result.put("error", "id not found (" + idName + ")");
         View v = getViewByName(idName);
         if (v != null) {
@@ -212,13 +212,13 @@ public class FullScreenTask extends FutureActivityTask<Object> implements OnClic
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         data.put("key", String.valueOf(keyCode));
         data.put("action", String.valueOf(event.getAction()));
         mEventFacade.postEvent("key", data);
         boolean overrideKey =
                 (keyCode == KeyEvent.KEYCODE_BACK)
-                        || (mOverrideKeys != null && mOverrideKeys.contains(keyCode));
+                        || (mOverrideKeys == null ? false : mOverrideKeys.contains(keyCode));
         return overrideKey;
     }
 

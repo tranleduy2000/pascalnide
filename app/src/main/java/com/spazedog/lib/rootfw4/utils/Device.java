@@ -95,60 +95,66 @@ public class Device {
 		String[] files = mShell.getFile("/proc").getList();
 		
 		if (files != null) {
-			List<ProcessInfo> processes = new ArrayList<ProcessInfo>();
+			List<ProcessInfo> processes = new ArrayList<>();
 			String process = null;
 			String path = null;
-			
-			for (int i=0; i < files.length; i++) {
-				if (oPatternPidMatch.matcher(files[i]).matches()) {
-					if ((process = mShell.getFile("/proc/" + files[i] + "/cmdline").readOneLine()) == null) {
-						if ((process = mShell.getFile("/proc/" + files[i] + "/stat").readOneLine()) != null) {
-							try {
-								if (pattern == null || process.contains(pattern)) {
-									process = oPatternSpaceSearch.split(process.trim())[1];
-									process = process.substring(1, process.length()-1);
-									
-								} else {
-									continue;
-								}
-								
-							} catch(Throwable e) { process = null; }
-						}
-						
-					} else if (pattern == null || process.contains(pattern)) {
-						if (process.contains("/")) {
-							try {
-								path = process.substring(process.indexOf("/"), process.contains("-") ? process.indexOf("-", process.lastIndexOf("/", process.indexOf("-"))) : process.length());
-							} catch (Throwable e) { path = null; }
-								
-							if (!process.startsWith("/")) {
-								process = process.substring(0, process.indexOf("/"));
-								
-							} else {
-								try {
-									process = process.substring(process.lastIndexOf("/", process.contains("-") ? process.indexOf("-") : process.length())+1, process.contains("-") ? process.indexOf("-", process.lastIndexOf("/", process.indexOf("-"))) : process.length());
-									
-								} catch (Throwable e) { process = null; }
-							}
-							
-						} else if (process.contains("-")) {
-							process = process.substring(0, process.indexOf("-"));
-						}
-						
-					} else {
-						continue;
-					}
-					
-					if (pattern == null || (process != null && process.contains(pattern))) {
-						ProcessInfo stat = new ProcessInfo();
-						stat.mPath = path;
-						stat.mProcess = process;
-						stat.mProcessId = Integer.parseInt(files[i]);
-						
-						processes.add(stat);
-					}
-				}
-			}
+
+            for (String file : files) {
+                if (oPatternPidMatch.matcher(file).matches()) {
+                    if ((process = mShell.getFile("/proc/" + file + "/cmdline").readOneLine()) == null) {
+                        if ((process = mShell.getFile("/proc/" + file + "/stat").readOneLine()) != null) {
+                            try {
+                                if (pattern == null || process.contains(pattern)) {
+                                    process = oPatternSpaceSearch.split(process.trim())[1];
+                                    process = process.substring(1, process.length() - 1);
+
+                                } else {
+                                    continue;
+                                }
+
+                            } catch (Throwable e) {
+                                process = null;
+                            }
+                        }
+
+                    } else if (pattern == null || process.contains(pattern)) {
+                        if (process.contains("/")) {
+                            try {
+                                path = process.substring(process.indexOf("/"), process.contains("-") ? process.indexOf("-", process.lastIndexOf("/", process.indexOf("-"))) : process.length());
+                            } catch (Throwable e) {
+                                path = null;
+                            }
+
+                            if (!process.startsWith("/")) {
+                                process = process.substring(0, process.indexOf("/"));
+
+                            } else {
+                                try {
+                                    process = process.substring(process.lastIndexOf("/", process.contains("-") ? process.indexOf("-") : process.length()) + 1, process.contains("-") ? process.indexOf("-", process.lastIndexOf("/", process.indexOf("-"))) : process.length());
+
+                                } catch (Throwable e) {
+                                    process = null;
+                                }
+                            }
+
+                        } else if (process.contains("-")) {
+                            process = process.substring(0, process.indexOf("-"));
+                        }
+
+                    } else {
+                        continue;
+                    }
+
+                    if (pattern == null || (process != null && process.contains(pattern))) {
+                        ProcessInfo stat = new ProcessInfo();
+                        stat.mPath = path;
+                        stat.mProcess = process;
+                        stat.mProcessId = Integer.parseInt(file);
+
+                        processes.add(stat);
+                    }
+                }
+            }
 			
 			return processes.toArray( new ProcessInfo[ processes.size() ] );
 		}
@@ -311,11 +317,11 @@ public class Device {
 				ProcessInfo[] processes = getProcessList();
 				
 				if (processes != null) {
-					for (int i=0; i < processes.length; i++) {
-						if (mProcess.equals(processes[i].name())) {
-							return processes[i].pid();
-						}
-					}
+                    for (ProcessInfo process : processes) {
+                        if (mProcess.equals(process.name())) {
+                            return process.pid();
+                        }
+                    }
 				}
 			}
 			
@@ -354,13 +360,13 @@ public class Device {
 				ProcessInfo[] processes = getProcessList();
 				
 				if (name != null && processes != null && processes.length > 0) {
-					List<Integer> list = new ArrayList<Integer>();
-					
-					for (int i=0; i < processes.length; i++) {
-						if (name.equals(processes[i].name())) {
-							list.add(processes[i].pid());
-						}
-					}
+					List<Integer> list = new ArrayList<>();
+
+                    for (ProcessInfo process : processes) {
+                        if (name.equals(process.name())) {
+                            list.add(process.pid());
+                        }
+                    }
 					
 					return list.toArray( new Integer[ list.size() ] );
 				}

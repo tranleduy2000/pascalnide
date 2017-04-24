@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.lib;
 
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
@@ -57,6 +58,7 @@ public class LibraryUtils {
         for (Class pascalPlugin : classes) {
             Object o = null;
             try {
+
                 Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
                 o = constructor.newInstance(handler);
             } catch (Exception ignored) {
@@ -78,7 +80,7 @@ public class LibraryUtils {
                 }
             }
             for (Method m : pascalPlugin.getDeclaredMethods()) {
-                if (Modifier.isPublic(m.getModifiers())) {
+                if (m.isAnnotationPresent(PascalMethod.class)) {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
                     callableFunctions.put(tmp.name().toLowerCase(), tmp);
                 }
