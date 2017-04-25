@@ -59,11 +59,8 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.rarepebble:colorpicker:2.2.0'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.github.bmelnychuk:atv:1.2.9'
-    compile 'com.sothree.slidinguppanel:library:3.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     androidTestCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

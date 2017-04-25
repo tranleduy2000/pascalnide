@@ -146,5 +146,4 @@
     <string name="debug">Debug program</string>
     <string name="var_name">Tên biến</string>
     <string name="program_stopped">Chương trình đã dừng</string>
-    <string name="no_bluetooth_devices_message">No Bluetooth devices found.</string>
 </resources>

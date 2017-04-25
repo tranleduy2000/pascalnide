@@ -271,7 +271,6 @@ public class UndoRedoHelper {
             if (mIsUndoOrRedo) {
                 return;
             }
-
             mBeforeChange = s.subSequence(start, start + count);
         }
 
@@ -279,7 +278,6 @@ public class UndoRedoHelper {
             if (mIsUndoOrRedo) {
                 return;
             }
-
             mAfterChange = s.subSequence(start, start + count);
             makeBatch(start);
         }
@@ -292,9 +290,9 @@ public class UndoRedoHelper {
             } else {
                 if (at == ActionType.DELETE) {
                     editItem.mmStart = start;
-                    editItem.mmBefore = TextUtils.concat(mBeforeChange, editItem.mmBefore);
+                    editItem.mmBefore = mBeforeChange + editItem.mmBefore.toString();
                 } else {
-                    editItem.mmAfter = TextUtils.concat(editItem.mmAfter, mAfterChange);
+                    editItem.mmAfter = editItem.mmAfter + mAfterChange.toString();
                 }
             }
             lastActionType = at;

@@ -82,8 +82,6 @@
 
 -keep class android.support.v4.app.** { *; }
 -keep interface android.support.v4.app.** { *; }
--keep class com.actionbarsherlock.** { *; }
--keep interface com.actionbarsherlock.** { *; }
 # The support library contains references to newer platform versions.
 # Don't warn about those in case this app is linking against an older
 # platform version. We know about them, and they are safe.
@@ -94,15 +92,7 @@
 -keep class com.duy.pascal.backend.lib.** { *; }
 
 -keep class javax.** { *; }
--dontwarn javax.annotation**
+-keep class javax.annotation.**
 -dontwarn com.google.common.**
-
--dontwarn icepick.**
--keep class icepick.** { *; }
--keep class **$$Icepick { *; }
--keepclasseswithmembernames class * {
-    @icepick.* <fields>;
-}
--keepnames class * { @icepick.State *;}
 
 -dontwarn java.awt.**
