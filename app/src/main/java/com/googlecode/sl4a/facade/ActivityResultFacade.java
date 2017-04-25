@@ -21,9 +21,9 @@ import android.content.Intent;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Constants;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.Serializable;
 
@@ -32,7 +32,7 @@ import java.io.Serializable;
  *
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
-public class ActivityResultFacade extends RpcReceiver {
+public class ActivityResultFacade extends AndroidLibrary {
 
     private static final String sRpcDescription =
             "Sets the result of a script execution. Whenever the script APK is called via "
@@ -53,8 +53,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultBoolean(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Boolean resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Boolean resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue.booleanValue());
         mResultCode = resultCode;
@@ -66,8 +66,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultByte(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Byte resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Byte resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue.byteValue());
         mResultCode = resultCode;
@@ -79,8 +79,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultShort(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Short resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Short resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue.shortValue());
         mResultCode = resultCode;
@@ -92,8 +92,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultChar(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Character resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Character resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue.charValue());
         mResultCode = resultCode;
@@ -105,8 +105,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultInteger(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Integer resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Integer resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue.intValue());
         mResultCode = resultCode;
@@ -118,8 +118,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultLong(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Long resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Long resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue.longValue());
         mResultCode = resultCode;
@@ -131,8 +131,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultFloat(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Float resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Float resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue.floatValue());
         mResultCode = resultCode;
@@ -144,8 +144,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultDouble(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Double resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Double resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue.doubleValue());
         mResultCode = resultCode;
@@ -157,8 +157,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultString(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") String resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") String resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue);
         mResultCode = resultCode;
@@ -170,8 +170,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultBooleanArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Boolean[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Boolean[] resultValue) {
         mResult = new Intent();
         boolean[] array = new boolean[resultValue.length];
         for (int i = 0; i < resultValue.length; i++) {
@@ -187,8 +187,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultByteArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Byte[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Byte[] resultValue) {
         mResult = new Intent();
         byte[] array = new byte[resultValue.length];
         for (int i = 0; i < resultValue.length; i++) {
@@ -204,8 +204,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultShortArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Short[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Short[] resultValue) {
         mResult = new Intent();
         short[] array = new short[resultValue.length];
         for (int i = 0; i < resultValue.length; i++) {
@@ -221,8 +221,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultCharArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Character[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Character[] resultValue) {
         mResult = new Intent();
         char[] array = new char[resultValue.length];
         for (int i = 0; i < resultValue.length; i++) {
@@ -238,8 +238,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultIntegerArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Integer[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Integer[] resultValue) {
         mResult = new Intent();
         int[] array = new int[resultValue.length];
         for (int i = 0; i < resultValue.length; i++) {
@@ -255,8 +255,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultLongArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Long[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Long[] resultValue) {
         mResult = new Intent();
         long[] array = new long[resultValue.length];
         for (int i = 0; i < resultValue.length; i++) {
@@ -272,8 +272,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultFloatArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Float[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Float[] resultValue) {
         mResult = new Intent();
         float[] array = new float[resultValue.length];
         for (int i = 0; i < resultValue.length; i++) {
@@ -289,8 +289,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultDoubleArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Double[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Double[] resultValue) {
         mResult = new Intent();
         double[] array = new double[resultValue.length];
         for (int i = 0; i < resultValue.length; i++) {
@@ -306,8 +306,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultStringArray(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") String[] resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") String[] resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue);
         mResultCode = resultCode;
@@ -319,8 +319,8 @@ public class ActivityResultFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = sRpcDescription)
     public synchronized void setResultSerializable(
-            @RpcParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
-            @RpcParameter(name = "resultValue") Serializable resultValue) {
+            @PascalParameter(name = "resultCode", description = sCodeDescription) Integer resultCode,
+            @PascalParameter(name = "resultValue") Serializable resultValue) {
         mResult = new Intent();
         mResult.putExtra(Constants.EXTRA_RESULT, resultValue);
         mResultCode = resultCode;

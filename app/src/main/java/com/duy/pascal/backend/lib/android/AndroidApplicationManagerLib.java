@@ -23,9 +23,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ import java.util.Set;
 /**
  * Facade for managing Applications.
  */
-public class AndroidApplicationManagerLib extends RpcReceiver {
+public class AndroidApplicationManagerLib extends AndroidLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
     private final ActivityManager mActivityManager;
@@ -67,7 +67,7 @@ public class AndroidApplicationManagerLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Start activity with the given class name.")
-    public void launch(@RpcParameter(name = "className") String className) {
+    public void launch(@PascalParameter(name = "className") String className) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         String packageName = className.substring(0, className.lastIndexOf("."));
         intent.setClassName(packageName, className);
@@ -94,11 +94,12 @@ public class AndroidApplicationManagerLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Force stops a package.")
     public void forceStopPackage(
-            @RpcParameter(name = "packageName", description = "name of package") String packageName) {
+            @PascalParameter(name = "packageName", description = "name of package") String packageName) {
         mActivityManager.restartPackage(packageName);
     }
 
     @Override
     public void shutdown() {
+
     }
 }

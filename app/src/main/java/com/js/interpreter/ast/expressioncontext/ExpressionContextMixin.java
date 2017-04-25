@@ -11,7 +11,6 @@ import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.lib.PascalLibraryUtils;
-import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.io.IOLib;
@@ -275,10 +274,8 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
          */
         classes.add(FileLib.class);
         classes.add(IOLib.class);
-
-        classes.add(StringLib.class);
         classes.add(SystemLib.class);
-        PascalLibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
+        PascalLibraryUtils.addMethodFromClasses(classes, Modifier.PUBLIC, handler, callableFunctions);
 
         SetLengthFunction setLength = new SetLengthFunction();
         callableFunctions.put(setLength.name(), new TemplatePluginDeclaration(setLength));

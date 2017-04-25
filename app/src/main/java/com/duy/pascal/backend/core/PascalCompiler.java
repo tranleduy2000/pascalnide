@@ -4,7 +4,6 @@ package com.duy.pascal.backend.core;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
-import com.duy.pascal.backend.lib.StringLib;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
@@ -95,8 +94,6 @@ public class PascalCompiler {
 
         ArrayList<Class> classes = new ArrayList<>();
         classes.add(MathLib.class);
-//        classes.add(MiscLib.class);
-        classes.add(StringLib.class);
         classes.add(systemLib.getClass());
         classes.add(crtLib.getClass());
         classes.add(DosLib.class);

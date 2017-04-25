@@ -31,11 +31,11 @@ import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.facade.EventFacade;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,7 +113,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class UiFacade extends RpcReceiver {
+public class UiFacade extends AndroidLibrary {
     // This value should not be used for menu groups outside this class.
     private static final int MENU_GROUP_ID = Integer.MAX_VALUE;
 
@@ -145,10 +145,10 @@ public class UiFacade extends RpcReceiver {
      */
     @PascalMethod(description = "Create a text input dialog.")
     public void dialogCreateInput(
-            @RpcParameter(name = "title", description = "title of the input box") @RpcDefault("Value") final String title,
-            @RpcParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:") final String message,
-            @RpcParameter(name = "defaultText", description = "text to insert into the input box") @RpcOptional final String text,
-            @RpcParameter(name = "inputType", description = "type of input data, ie number or text") @RpcOptional final String inputType)
+            @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("Value") final String title,
+            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:") final String message,
+            @PascalParameter(name = "defaultText", description = "text to insert into the input box") @RpcOptional final String text,
+            @PascalParameter(name = "inputType", description = "type of input data, ie number or text") @RpcOptional final String inputType)
             throws InterruptedException {
         dialogDismiss();
         mDialogTask = new AlertDialogTask(title, message);
@@ -160,8 +160,8 @@ public class UiFacade extends RpcReceiver {
 
     @PascalMethod(description = "Create a password input dialog.")
     public void dialogCreatePassword(
-            @RpcParameter(name = "title", description = "title of the input box") @RpcDefault("Password") final String title,
-            @RpcParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter password:") final String message) {
+            @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("Password") final String title,
+            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter password:") final String message) {
         dialogDismiss();
         mDialogTask = new AlertDialogTask(title, message);
         ((AlertDialogTask) mDialogTask).setPasswordInput();
@@ -181,9 +181,9 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unchecked")
     @PascalMethod(description = "Queries the user for a text input.")
     public String dialogGetInput(
-            @RpcParameter(name = "title", description = "title of the input box") @RpcDefault("Value") final String title,
-            @RpcParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:") final String message,
-            @RpcParameter(name = "defaultText", description = "text to insert into the input box") @RpcOptional final String text)
+            @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("Value") final String title,
+            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:") final String message,
+            @PascalParameter(name = "defaultText", description = "text to insert into the input box") @RpcOptional final String text)
             throws InterruptedException {
         dialogCreateInput(title, message, text, "text");
         dialogSetNegativeButtonText("Cancel");
@@ -200,8 +200,8 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings({"unchecked", "unused"})
     @PascalMethod(description = "Queries the user for a password.")
     public String dialogGetPassword(
-            @RpcParameter(name = "title", description = "title of the password box") @RpcDefault("Password") final String title,
-            @RpcParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter password:") final String message)
+            @PascalParameter(name = "title", description = "title of the password box") @RpcDefault("Password") final String title,
+            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter password:") final String message)
             throws InterruptedException {
         dialogCreatePassword(title, message);
         dialogSetNegativeButtonText("Cancel");
@@ -217,9 +217,9 @@ public class UiFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Create a spinner progress dialog.")
-    public void dialogCreateSpinnerProgress(@RpcParameter(name = "title") @RpcOptional String title,
-                                            @RpcParameter(name = "message") @RpcOptional String message,
-                                            @RpcParameter(name = "maximum progress") @RpcDefault("100") Integer max) {
+    public void dialogCreateSpinnerProgress(@PascalParameter(name = "title") @RpcOptional String title,
+                                            @PascalParameter(name = "message") @RpcOptional String message,
+                                            @PascalParameter(name = "maximum progress") @RpcDefault("100") Integer max) {
         dialogDismiss(); // Dismiss any existing dialog.
         mDialogTask = new ProgressDialogTask(ProgressDialog.STYLE_SPINNER, max, title, message, true);
     }
@@ -227,9 +227,9 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Create a horizontal progress dialog.")
     public void dialogCreateHorizontalProgress(
-            @RpcParameter(name = "title") @RpcOptional String title,
-            @RpcParameter(name = "message") @RpcOptional String message,
-            @RpcParameter(name = "maximum progress") @RpcDefault("100") Integer max) {
+            @PascalParameter(name = "title") @RpcOptional String title,
+            @PascalParameter(name = "message") @RpcOptional String message,
+            @PascalParameter(name = "maximum progress") @RpcDefault("100") Integer max) {
         dialogDismiss(); // Dismiss any existing dialog.
         mDialogTask =
                 new ProgressDialogTask(ProgressDialog.STYLE_HORIZONTAL, max, title, message, true);
@@ -262,8 +262,8 @@ public class UiFacade extends RpcReceiver {
      * </pre>
      */
     @PascalMethod(description = "Create alert dialog.")
-    public void dialogCreateAlert(@RpcParameter(name = "title") @RpcOptional String title,
-                                  @RpcParameter(name = "message") @RpcOptional String message) {
+    public void dialogCreateAlert(@PascalParameter(name = "title") @RpcOptional String title,
+                                  @PascalParameter(name = "message") @RpcOptional String message) {
         dialogDismiss(); // Dismiss any existing dialog.
         mDialogTask = new AlertDialogTask(title, message);
     }
@@ -280,9 +280,9 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Create seek bar dialog.")
     public void dialogCreateSeekBar(
-            @RpcParameter(name = "starting value") @RpcDefault("50") Integer progress,
-            @RpcParameter(name = "maximum value") @RpcDefault("100") Integer max,
-            @RpcParameter(name = "title") String title, @RpcParameter(name = "message") String message) {
+            @PascalParameter(name = "starting value") @RpcDefault("50") Integer progress,
+            @PascalParameter(name = "maximum value") @RpcDefault("100") Integer max,
+            @PascalParameter(name = "title") String title, @PascalParameter(name = "message") String message) {
         dialogDismiss(); // Dismiss any existing dialog.
         mDialogTask = new SeekBarDialogTask(progress, max, title, message);
     }
@@ -290,18 +290,18 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Create time picker dialog.")
     public void dialogCreateTimePicker(
-            @RpcParameter(name = "hour") @RpcDefault("0") Integer hour,
-            @RpcParameter(name = "minute") @RpcDefault("0") Integer minute,
-            @RpcParameter(name = "is24hour", description = "Use 24 hour clock") @RpcDefault("false") Boolean is24hour) {
+            @PascalParameter(name = "hour") @RpcDefault("0") Integer hour,
+            @PascalParameter(name = "minute") @RpcDefault("0") Integer minute,
+            @PascalParameter(name = "is24hour", description = "Use 24 hour clock") @RpcDefault("false") Boolean is24hour) {
         dialogDismiss(); // Dismiss any existing dialog.
         mDialogTask = new TimePickerDialogTask(hour, minute, is24hour);
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Create date picker dialog.")
-    public void dialogCreateDatePicker(@RpcParameter(name = "year") @RpcDefault("1970") Integer year,
-                                       @RpcParameter(name = "month") @RpcDefault("1") Integer month,
-                                       @RpcParameter(name = "day") @RpcDefault("1") Integer day) {
+    public void dialogCreateDatePicker(@PascalParameter(name = "year") @RpcDefault("1970") Integer year,
+                                       @PascalParameter(name = "month") @RpcDefault("1") Integer month,
+                                       @PascalParameter(name = "day") @RpcDefault("1") Integer day) {
         dialogDismiss(); // Dismiss any existing dialog.
         mDialogTask = new DatePickerDialogTask(year, month, day);
     }
@@ -327,7 +327,7 @@ public class UiFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set progress dialog current value.")
-    public void dialogSetCurrentProgress(@RpcParameter(name = "current") Integer current) {
+    public void dialogSetCurrentProgress(@PascalParameter(name = "current") Integer current) {
         if (mDialogTask != null && mDialogTask instanceof ProgressDialogTask) {
             ((ProgressDialog) mDialogTask.getDialog()).setProgress(current);
         } else {
@@ -337,7 +337,7 @@ public class UiFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set progress dialog maximum value.")
-    public void dialogSetMaxProgress(@RpcParameter(name = "max") Integer max) {
+    public void dialogSetMaxProgress(@PascalParameter(name = "max") Integer max) {
         if (mDialogTask != null && mDialogTask instanceof ProgressDialogTask) {
             ((ProgressDialog) mDialogTask.getDialog()).setMax(max);
         } else {
@@ -346,7 +346,7 @@ public class UiFacade extends RpcReceiver {
     }
 
     @PascalMethod(description = "Set alert dialog positive button text.")
-    public void dialogSetPositiveButtonText(@RpcParameter(name = "text") String text) {
+    public void dialogSetPositiveButtonText(@PascalParameter(name = "text") String text) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setPositiveButtonText(text);
         } else if (mDialogTask != null && mDialogTask instanceof SeekBarDialogTask) {
@@ -357,7 +357,7 @@ public class UiFacade extends RpcReceiver {
     }
 
     @PascalMethod(description = "Set alert dialog button text.")
-    public void dialogSetNegativeButtonText(@RpcParameter(name = "text") String text) {
+    public void dialogSetNegativeButtonText(@PascalParameter(name = "text") String text) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setNegativeButtonText(text);
         } else if (mDialogTask != null && mDialogTask instanceof SeekBarDialogTask) {
@@ -369,7 +369,7 @@ public class UiFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set alert dialog button text.")
-    public void dialogSetNeutralButtonText(@RpcParameter(name = "text") String text) {
+    public void dialogSetNeutralButtonText(@PascalParameter(name = "text") String text) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setNeutralButtonText(text);
         } else {
@@ -385,7 +385,7 @@ public class UiFacade extends RpcReceiver {
      */
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set alert dialog list items.")
-    public void dialogSetItems(@RpcParameter(name = "items") JSONArray items) {
+    public void dialogSetItems(@PascalParameter(name = "items") JSONArray items) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setItems(items);
         } else {
@@ -402,8 +402,8 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set dialog single choice items and selected item.")
     public void dialogSetSingleChoiceItems(
-            @RpcParameter(name = "items") JSONArray items,
-            @RpcParameter(name = "selected", description = "selected item index") @RpcDefault("0") Integer selected) {
+            @PascalParameter(name = "items") JSONArray items,
+            @PascalParameter(name = "selected", description = "selected item index") @RpcDefault("0") Integer selected) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setSingleChoiceItems(items, selected);
         } else {
@@ -421,8 +421,8 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set dialog multiple choice items and selection.")
     public void dialogSetMultiChoiceItems(
-            @RpcParameter(name = "items") JSONArray items,
-            @RpcParameter(name = "selected", description = "list of selected items") @RpcOptional JSONArray selected)
+            @PascalParameter(name = "items") JSONArray items,
+            @PascalParameter(name = "selected", description = "list of selected items") @RpcOptional JSONArray selected)
             throws JSONException {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setMultiChoiceItems(items, selected);
@@ -457,8 +457,8 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Display a WebView with the given URL.")
     public void webViewShow(
-            @RpcParameter(name = "url") String url,
-            @RpcParameter(name = "wait", description = "block until the user exits the WebView") @RpcOptional Boolean wait)
+            @PascalParameter(name = "url") String url,
+            @PascalParameter(name = "wait", description = "block until the user exits the WebView") @RpcOptional Boolean wait)
             throws IOException {
         String jsonSrc = FileUtils.readFromAssetsFile(mContext, HtmlActivityTask.JSON_FILE);
         String AndroidJsSrc = FileUtils.readFromAssetsFile(mContext, HtmlActivityTask.ANDROID_JS_FILE);
@@ -479,9 +479,9 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Adds a new item to context menu.")
     public void addContextMenuItem(
-            @RpcParameter(name = "label", description = "label for this menu item") String label,
-            @RpcParameter(name = "event", description = "event that will be generated on menu item click") String event,
-            @RpcParameter(name = "eventData") @RpcOptional Object data) {
+            @PascalParameter(name = "label", description = "label for this menu item") String label,
+            @PascalParameter(name = "event", description = "event that will be generated on menu item click") String event,
+            @PascalParameter(name = "eventData") @RpcOptional Object data) {
         mContextMenuItems.add(new UiMenuItem(label, event, data, null));
     }
 
@@ -513,10 +513,10 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Adds a new item to options menu.")
     public void addOptionsMenuItem(
-            @RpcParameter(name = "label", description = "label for this menu item") String label,
-            @RpcParameter(name = "event", description = "event that will be generated on menu item click") String event,
-            @RpcParameter(name = "eventData") @RpcOptional Object data,
-            @RpcParameter(name = "iconName", description = "Android system menu icon, see http://developer.android.com/reference/android/R.drawable.html") @RpcOptional String iconName) {
+            @PascalParameter(name = "label", description = "label for this menu item") String label,
+            @PascalParameter(name = "event", description = "event that will be generated on menu item click") String event,
+            @PascalParameter(name = "eventData") @RpcOptional Object data,
+            @PascalParameter(name = "iconName", description = "Android system menu icon, see http://developer.android.com/reference/android/R.drawable.html") @RpcOptional String iconName) {
         mOptionsMenuItems.add(new UiMenuItem(label, event, data, iconName));
         mMenuUpdated.set(true);
     }
@@ -564,8 +564,8 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Show Full Screen.")
     public List<String> fullShow(
-            @RpcParameter(name = "layout", description = "String containing View layout") String layout,
-            @RpcParameter(name = "title", description = "Activity Title") @RpcOptional String title)
+            @PascalParameter(name = "layout", description = "String containing View layout") String layout,
+            @PascalParameter(name = "title", description = "Activity Title") @RpcOptional String title)
             throws InterruptedException {
         if (mFullScreenTask != null) {
             // fullDismiss();
@@ -604,7 +604,7 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Get fullscreen properties for a specific widget")
     public Map<String, String> fullQueryDetail(
-            @RpcParameter(name = "id", description = "id of layout widget") String id) {
+            @PascalParameter(name = "id", description = "id of layout widget") String id) {
         if (mFullScreenTask == null) {
             throw new RuntimeException("No screen displayed.");
         }
@@ -614,9 +614,9 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set fullscreen widget property")
     public String fullSetProperty(
-            @RpcParameter(name = "id", description = "id of layout widget") String id,
-            @RpcParameter(name = "property", description = "name of property to set") String property,
-            @RpcParameter(name = "value", description = "value to set property to") String value) {
+            @PascalParameter(name = "id", description = "id of layout widget") String id,
+            @PascalParameter(name = "property", description = "name of property to set") String property,
+            @PascalParameter(name = "value", description = "value to set property to") String value) {
         if (mFullScreenTask == null) {
             throw new RuntimeException("No screen displayed.");
         }
@@ -626,8 +626,8 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Attach a list to a fullscreen widget")
     public String fullSetList(
-            @RpcParameter(name = "id", description = "id of layout widget") String id,
-            @RpcParameter(name = "list", description = "List to set") JSONArray items) {
+            @PascalParameter(name = "id", description = "id of layout widget") String id,
+            @PascalParameter(name = "list", description = "List to set") JSONArray items) {
         if (mFullScreenTask == null) {
             throw new RuntimeException("No screen displayed.");
         }
@@ -637,7 +637,7 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set the Full Screen Activity Title")
     public void fullSetTitle(
-            @RpcParameter(name = "title", description = "Activity Title") String title) {
+            @PascalParameter(name = "title", description = "Activity Title") String title) {
         if (mFullScreenTask == null) {
             throw new RuntimeException("No screen displayed.");
         }
@@ -658,8 +658,8 @@ public class UiFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Override default key actions")
     public JSONArray fullKeyOverride(
-            @RpcParameter(name = "keycodes", description = "List of keycodes to override") JSONArray keycodes,
-            @RpcParameter(name = "enable", description = "Turn overriding or off") @RpcDefault(value = "true") Boolean enable)
+            @PascalParameter(name = "keycodes", description = "List of keycodes to override") JSONArray keycodes,
+            @PascalParameter(name = "enable", description = "Turn overriding or off") @RpcDefault(value = "true") Boolean enable)
             throws JSONException {
         for (int i = 0; i < keycodes.length(); i++) {
             int value = (int) keycodes.getLong(i);

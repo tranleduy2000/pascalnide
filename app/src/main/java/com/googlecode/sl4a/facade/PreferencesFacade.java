@@ -22,10 +22,10 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.IOException;
 import java.util.Map;
@@ -48,7 +48,7 @@ import java.util.Map;
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
 
-public class PreferencesFacade extends RpcReceiver {
+public class PreferencesFacade extends AndroidLibrary {
 
     private Context mContext;
 
@@ -59,17 +59,17 @@ public class PreferencesFacade extends RpcReceiver {
 
     @PascalMethod(description = "Read a value from shared preferences")
     public Object prefGetValue(
-            @RpcParameter(name = "key") String key,
-            @RpcParameter(name = "filename", description = "Desired preferences file. If not defined, uses the default Shared Preferences.") @RpcOptional String filename) {
+            @PascalParameter(name = "key") String key,
+            @PascalParameter(name = "filename", description = "Desired preferences file. If not defined, uses the default Shared Preferences.") @RpcOptional String filename) {
         SharedPreferences p = getPref(filename);
         return p.getAll().get(key);
     }
 
     @PascalMethod(description = "Write a value to shared preferences")
     public void prefPutValue(
-            @RpcParameter(name = "key") String key,
-            @RpcParameter(name = "value") Object value,
-            @RpcParameter(name = "filename", description = "Desired preferences file. If not defined, uses the default Shared Preferences.") @RpcOptional String filename)
+            @PascalParameter(name = "key") String key,
+            @PascalParameter(name = "value") Object value,
+            @PascalParameter(name = "filename", description = "Desired preferences file. If not defined, uses the default Shared Preferences.") @RpcOptional String filename)
             throws IOException {
         if (filename == null || filename.equals("")) {
             throw new IOException("Can't write to default preferences.");
@@ -94,7 +94,7 @@ public class PreferencesFacade extends RpcReceiver {
 
     @PascalMethod(description = "Get list of Shared Preference Values", returns = "Map of key,value")
     public Map<String, ?> prefGetAll(
-            @RpcParameter(name = "filename", description = "Desired preferences file. If not defined, uses the default Shared Preferences.") @RpcOptional String filename) {
+            @PascalParameter(name = "filename", description = "Desired preferences file. If not defined, uses the default Shared Preferences.") @RpcOptional String filename) {
         return getPref(filename).getAll();
     }
 

@@ -33,10 +33,10 @@ import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 
 /**
- * This {@link Activity} is launched by {@link RpcReceiver}s in order to perform operations that a
+ * This {@link Activity} is launched by {@link AndroidLibrary}s in order to perform operations that a
  * {@link Service} is unable to do. For example: start another activity for result, show dialogs,
  * etc.
  *

@@ -24,17 +24,17 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.util.List;
 
 /**
  * Wifi functions.
  */
-public class AndroidWifiLib extends RpcReceiver {
+public class AndroidWifiLib extends AndroidLibrary {
 
     private WifiManager mWifi;
     private WifiLock mLock;
@@ -93,7 +93,7 @@ public class AndroidWifiLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Toggle Wifi on and off.", returns = "True if Wifi is enabled.")
-    public Boolean toggleWifiState(@RpcParameter(name = "enabled") @RpcOptional Boolean enabled) {
+    public Boolean toggleWifiState(@PascalParameter(name = "enabled") @RpcOptional Boolean enabled) {
         if (enabled == null) {
             enabled = !checkWifiState();
         }

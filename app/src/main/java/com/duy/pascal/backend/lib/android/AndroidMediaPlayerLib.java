@@ -22,10 +22,10 @@ import android.net.Uri;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -80,7 +80,7 @@ import java.util.Set;
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
 
-public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.OnCompletionListener {
+public class AndroidMediaPlayerLib extends AndroidLibrary implements MediaPlayer.OnCompletionListener {
 
     private final Map<String, MediaPlayer> mPlayers = new Hashtable<>();
     private final Map<String, String> mUrls = new Hashtable<>();
@@ -127,9 +127,9 @@ public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.On
     @SuppressWarnings("unused")
     @PascalMethod(description = "Open a media file", returns = "true if play successful")
     public synchronized boolean mediaPlay(
-            @RpcParameter(name = "url", description = "url of media resource") String url,
-            @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag,
-            @RpcParameter(name = "play", description = "start playing immediately") @RpcDefault(value = "true") Boolean play) {
+            @PascalParameter(name = "url", description = "url of media resource") String url,
+            @PascalParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag,
+            @PascalParameter(name = "play", description = "start playing immediately") @RpcDefault(value = "true") Boolean play) {
         removeMp(tag);
         MediaPlayer player = getPlayer(tag);
         player = MediaPlayer.create(mContext, Uri.parse(url));
@@ -146,7 +146,8 @@ public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.On
     @SuppressWarnings("unused")
     @PascalMethod(description = "pause playing media file", returns = "true if successful")
     public synchronized boolean mediaPlayPause(
-            @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
+            @PascalParameter(name = "tag", description = "string identifying resource")
+            @RpcDefault(value = "default") String tag) {
         MediaPlayer player = getPlayer(tag);
         if (player == null) {
             return false;
@@ -158,7 +159,7 @@ public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.On
     @SuppressWarnings("unused")
     @PascalMethod(description = "start playing media file", returns = "true if successful")
     public synchronized boolean mediaPlayStart(
-            @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
+            @PascalParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
         MediaPlayer player = getPlayer(tag);
         if (player == null) {
             return false;
@@ -170,14 +171,14 @@ public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.On
     @SuppressWarnings("unused")
     @PascalMethod(description = "Close media file", returns = "true if successful")
     public synchronized boolean mediaPlayClose(
-            @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
+            @PascalParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
         removeMp(tag);
         return true;
     }
 
     @PascalMethod(description = "Checks if media file is playing.", returns = "true if playing")
     public synchronized boolean mediaIsPlaying(
-            @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
+            @PascalParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
         MediaPlayer player = getPlayer(tag);
         return (player == null) ? false : player.isPlaying();
     }
@@ -185,7 +186,7 @@ public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.On
     @SuppressWarnings("unused")
     @PascalMethod(description = "Information on current media", returns = "Media Information")
     public synchronized Map<String, Object> mediaPlayInfo(
-            @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
+            @PascalParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
         Map<String, Object> result = new HashMap<>();
         MediaPlayer player = getPlayer(tag);
         result.put("tag", getDefault(tag));
@@ -211,8 +212,8 @@ public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.On
     @SuppressWarnings("unused")
     @PascalMethod(description = "Set Looping", returns = "True if successful")
     public synchronized boolean mediaPlaySetLooping(
-            @RpcParameter(name = "enabled") @RpcDefault(value = "true") Boolean enabled,
-            @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
+            @PascalParameter(name = "enabled") @RpcDefault(value = "true") Boolean enabled,
+            @PascalParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
         MediaPlayer player = getPlayer(tag);
         if (player == null) {
             return false;
@@ -224,8 +225,8 @@ public class AndroidMediaPlayerLib extends RpcReceiver implements MediaPlayer.On
     @SuppressWarnings("unused")
     @PascalMethod(description = "Seek To Position", returns = "New Position (in ms)")
     public synchronized int mediaPlaySeek(
-            @RpcParameter(name = "msec", description = "Position in millseconds") Integer msec,
-            @RpcParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
+            @PascalParameter(name = "msec", description = "Position in millseconds") Integer msec,
+            @PascalParameter(name = "tag", description = "string identifying resource") @RpcDefault(value = "default") String tag) {
         MediaPlayer player = getPlayer(tag);
         if (player == null) {
             return 0;

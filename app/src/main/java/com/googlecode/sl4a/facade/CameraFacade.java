@@ -37,10 +37,10 @@ import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,7 +51,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Access Camera functions.
  */
-public class CameraFacade extends RpcReceiver {
+public class CameraFacade extends AndroidLibrary {
 
     private final Context mContext;
     private final Parameters mParameters;
@@ -82,9 +82,9 @@ public class CameraFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Take a picture and save it to the specified path.", returns = "A map of Booleans autoFocus and takePicture where True indicates success. cameraId also included.")
     public Bundle cameraCapturePicture(
-            @RpcParameter(name = "targetPath") final String targetPath,
-            @RpcParameter(name = "useAutoFocus") @RpcDefault("true") Boolean useAutoFocus,
-            @RpcParameter(name = "cameraId", description = "Id of camera to use. SDK 9") @RpcDefault("0") Integer cameraId)
+            @PascalParameter(name = "targetPath") final String targetPath,
+            @PascalParameter(name = "useAutoFocus") @RpcDefault("true") Boolean useAutoFocus,
+            @PascalParameter(name = "cameraId", description = "Id of camera to use. SDK 9") @RpcDefault("0") Integer cameraId)
             throws Exception {
         final BooleanResult autoFocusResult = new BooleanResult();
         final BooleanResult takePictureResult = new BooleanResult();
@@ -203,7 +203,7 @@ public class CameraFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Starts the image capture application to take a picture and saves it to the specified path.")
     public void cameraInteractiveCapturePicture(
-            @RpcParameter(name = "targetPath") final String targetPath) {
+            @PascalParameter(name = "targetPath") final String targetPath) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File file = new File(targetPath);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));

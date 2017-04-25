@@ -23,10 +23,10 @@ import android.provider.Contacts.People;
 
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ import java.io.File;
  * <br>
  * These can be used to trigger some common tasks.
  */
-public class CommonIntentsFacade extends RpcReceiver {
+public class CommonIntentsFacade extends AndroidLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
 
@@ -52,7 +52,7 @@ public class CommonIntentsFacade extends RpcReceiver {
     }
 
     @PascalMethod(description = "Display content to be picked by URI (e.g. contacts)", returns = "A map of result values.")
-    public Intent pick(@RpcParameter(name = "uri") String uri) throws JSONException {
+    public Intent pick(@PascalParameter(name = "uri") String uri) throws JSONException {
         return mAndroidFacade.startActivityForResult(Intent.ACTION_PICK, uri, null, null, null, null);
     }
 
@@ -71,16 +71,16 @@ public class CommonIntentsFacade extends RpcReceiver {
 
     @PascalMethod(description = "Start activity with view action by URI (i.e. browser, contacts, etc.).")
     public void view(
-            @RpcParameter(name = "uri") String uri,
-            @RpcParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
-            @RpcParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras)
+            @PascalParameter(name = "uri") String uri,
+            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras)
             throws Exception {
         mAndroidFacade.startActivity(Intent.ACTION_VIEW, uri, type, extras, true, null, null);
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Opens a map search for query (e.g. pizza, 123 My Street).")
-    public void viewMap(@RpcParameter(name = "query, e.g. pizza, 123 My Street") String query)
+    public void viewMap(@PascalParameter(name = "query, e.g. pizza, 123 My Street") String query)
             throws Exception {
         view("geo:0,0?q=" + query, null, null);
     }
@@ -94,7 +94,7 @@ public class CommonIntentsFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Opens the browser to display a local HTML file.")
     public void viewHtml(
-            @RpcParameter(name = "path", description = "the path to the HTML file") String path)
+            @PascalParameter(name = "path", description = "the path to the HTML file") String path)
             throws JSONException {
         File file = new File(path);
         view(Uri.fromFile(file), "text/html");
@@ -102,7 +102,7 @@ public class CommonIntentsFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Starts a search for the given query.")
-    public void search(@RpcParameter(name = "query") String query) {
+    public void search(@PascalParameter(name = "query") String query) {
         Intent intent = new Intent(Intent.ACTION_SEARCH);
         intent.putExtra(SearchManager.QUERY, query);
         mAndroidFacade.startActivity(intent);

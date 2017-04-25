@@ -26,11 +26,11 @@ import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.MainThread;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.apache.commons.codec.binary.Base64Codec;
 
@@ -50,7 +50,7 @@ import java.util.concurrent.Callable;
 // Discovery functions added by Eden Sayag
 
 
-public class AndroidBluetoothLib extends RpcReceiver {
+public class AndroidBluetoothLib extends AndroidLibrary {
 
     // UUID for SL4A.
     private static final String DEFAULT_UUID = "457807c0-4897-11df-9879-0800200c9a66";
@@ -100,8 +100,8 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Send bytes over the currently open Bluetooth connection.")
     public void bluetoothWriteBinary(
-            @RpcParameter(name = "base64", description = "A base64 encoded String of the bytes to be sent.") String base64,
-            @RpcParameter(name = "connID", description = "Connection id") @RpcDefault("") @RpcOptional String connID)
+            @PascalParameter(name = "base64", description = "A base64 encoded String of the bytes to be sent.") String base64,
+            @PascalParameter(name = "connID", description = "Connection id") @RpcDefault("") @RpcOptional String connID)
             throws IOException {
         BluetoothConnection conn = getConnection(connID);
         try {
@@ -115,8 +115,8 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Read up to bufferSize bytes and return a chunked, base64 encoded string.")
     public String bluetoothReadBinary(
-            @RpcParameter(name = "bufferSize") @RpcDefault("4096") Integer bufferSize,
-            @RpcParameter(name = "connID", description = "Connection id") @RpcDefault("") @RpcOptional String connID)
+            @PascalParameter(name = "bufferSize") @RpcDefault("4096") Integer bufferSize,
+            @PascalParameter(name = "connID", description = "Connection id") @RpcDefault("") @RpcOptional String connID)
             throws IOException {
 
         BluetoothConnection conn = getConnection(connID);
@@ -138,8 +138,8 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Connect to a device over Bluetooth. Blocks until the connection is established or fails.", returns = "True if the connection was established successfully.")
     public String bluetoothConnect(
-            @RpcParameter(name = "uuid", description = "The UUID passed here must match the UUID used by the server device.") @RpcDefault(DEFAULT_UUID) String uuid,
-            @RpcParameter(name = "address", description = "The user will be presented with a list of discovered devices to choose from if an address is not provided.") @RpcOptional String address)
+            @PascalParameter(name = "uuid", description = "The UUID passed here must match the UUID used by the server device.") @RpcDefault(DEFAULT_UUID) String uuid,
+            @PascalParameter(name = "address", description = "The user will be presented with a list of discovered devices to choose from if an address is not provided.") @RpcOptional String address)
             throws IOException {
         if (address == null) {
             Intent deviceChooserIntent = new Intent();
@@ -166,8 +166,8 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Listens for and accepts a Bluetooth connection. Blocks until the connection is established or fails.")
     public String bluetoothAccept(
-            @RpcParameter(name = "uuid") @RpcDefault(DEFAULT_UUID) String uuid,
-            @RpcParameter(name = "timeout", description = "How long to wait for a new connection, 0 is wait for ever") @RpcDefault("0") Integer timeout)
+            @PascalParameter(name = "uuid") @RpcDefault(DEFAULT_UUID) String uuid,
+            @PascalParameter(name = "timeout", description = "How long to wait for a new connection, 0 is wait for ever") @RpcDefault("0") Integer timeout)
             throws IOException {
         BluetoothServerSocket mServerSocket;
         mServerSocket =
@@ -180,7 +180,7 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Requests that the device be discoverable for Bluetooth connections.")
     public void bluetoothMakeDiscoverable(
-            @RpcParameter(name = "duration", description = "period of time, in seconds, during which the device should be discoverable") @RpcDefault("300") Integer duration) {
+            @PascalParameter(name = "duration", description = "period of time, in seconds, during which the device should be discoverable") @RpcDefault("300") Integer duration) {
         if (mBluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
             Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, duration);
@@ -191,8 +191,8 @@ public class AndroidBluetoothLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Sends ASCII characters over the currently open Bluetooth connection.")
-    public void bluetoothWrite(@RpcParameter(name = "ascii") String ascii,
-                               @RpcParameter(name = "connID", description = "Connection id") @RpcDefault("") String connID)
+    public void bluetoothWrite(@PascalParameter(name = "ascii") String ascii,
+                               @PascalParameter(name = "connID", description = "Connection id") @RpcDefault("") String connID)
             throws IOException {
         BluetoothConnection conn = getConnection(connID);
         try {
@@ -206,7 +206,7 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns True if the next read is guaranteed not to block.")
     public Boolean bluetoothReadReady(
-            @RpcParameter(name = "connID", description = "Connection id") @RpcDefault("") @RpcOptional String connID)
+            @PascalParameter(name = "connID", description = "Connection id") @RpcDefault("") @RpcOptional String connID)
             throws IOException {
         BluetoothConnection conn = getConnection(connID);
         try {
@@ -220,8 +220,8 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Read up to bufferSize ASCII characters.")
     public String bluetoothRead(
-            @RpcParameter(name = "bufferSize") @RpcDefault("4096") Integer bufferSize,
-            @RpcParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID)
+            @PascalParameter(name = "bufferSize") @RpcDefault("4096") Integer bufferSize,
+            @PascalParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID)
             throws IOException {
         BluetoothConnection conn = getConnection(connID);
         try {
@@ -235,7 +235,7 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Read the next line.")
     public String bluetoothReadLine(
-            @RpcParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID)
+            @PascalParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID)
             throws IOException {
         BluetoothConnection conn = getConnection(connID);
         try {
@@ -249,7 +249,7 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Queries a remote device for it's name or null if it can't be resolved")
     public String bluetoothGetRemoteDeviceName(
-            @RpcParameter(name = "address", description = "Bluetooth Address For Target Device") String address) {
+            @PascalParameter(name = "address", description = "Bluetooth Address For Target Device") String address) {
         try {
             BluetoothDevice mDevice;
             mDevice = mBluetoothAdapter.getRemoteDevice(address);
@@ -268,7 +268,7 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Sets the Bluetooth Visible device name, returns True on success")
     public boolean bluetoothSetLocalName(
-            @RpcParameter(name = "name", description = "New local name") String name) {
+            @PascalParameter(name = "name", description = "New local name") String name) {
         return mBluetoothAdapter.setName(name);
     }
 
@@ -297,7 +297,7 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the name of the connected device.")
     public String bluetoothGetConnectedDeviceName(
-            @RpcParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID)
+            @PascalParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID)
             throws IOException {
         BluetoothConnection conn = getConnection(connID);
         return conn.getConnectedDeviceName();
@@ -311,8 +311,8 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Toggle Bluetooth on and off.", returns = "True if Bluetooth is enabled.")
     public Boolean toggleBluetoothState(
-            @RpcParameter(name = "enabled") @RpcOptional Boolean enabled,
-            @RpcParameter(name = "prompt", description = "Prompt the user to confirm changing the Bluetooth state.") @RpcDefault("true") Boolean prompt) {
+            @PascalParameter(name = "enabled") @RpcOptional Boolean enabled,
+            @PascalParameter(name = "prompt", description = "Prompt the user to confirm changing the Bluetooth state.") @RpcDefault("true") Boolean prompt) {
         if (enabled == null) {
             enabled = !checkBluetoothState();
         }
@@ -338,7 +338,7 @@ public class AndroidBluetoothLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Stops Bluetooth connection.")
     public void bluetoothStop(
-            @RpcParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID) {
+            @PascalParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID) {
         BluetoothConnection conn;
         try {
             conn = getConnection(connID);

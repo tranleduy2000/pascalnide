@@ -21,7 +21,7 @@ import android.net.Uri;
 
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 
 import org.json.JSONArray;
@@ -48,9 +48,9 @@ public final class MethodDescriptor {
     private static final Map<Class<?>, Converter<?>> sConverters = populateConverters();
 
     private final Method mMethod;
-    private final Class<? extends RpcReceiver> mClass;
+    private final Class<? extends AndroidLibrary> mClass;
 
-    public MethodDescriptor(Class<? extends RpcReceiver> clazz, Method method) {
+    public MethodDescriptor(Class<? extends AndroidLibrary> clazz, Method method) {
         mClass = clazz;
         mMethod = method;
     }
@@ -58,7 +58,7 @@ public final class MethodDescriptor {
     /**
      * Collects all methods with {@code RPC} annotation from given class.
      */
-    public static Collection<MethodDescriptor> collectFrom(Class<? extends RpcReceiver> clazz) {
+    public static Collection<MethodDescriptor> collectFrom(Class<? extends AndroidLibrary> clazz) {
         List<MethodDescriptor> descriptors = new ArrayList<>();
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(PascalMethod.class)) {
@@ -196,8 +196,8 @@ public final class MethodDescriptor {
      */
     private static String getName(Annotation[] annotations) {
         for (Annotation a : annotations) {
-            if (a instanceof RpcParameter) {
-                return ((RpcParameter) a).name();
+            if (a instanceof PascalParameter) {
+                return ((PascalParameter) a).name();
             }
         }
         throw new IllegalStateException("No parameter name");
@@ -211,8 +211,8 @@ public final class MethodDescriptor {
      */
     private static String getDescription(Annotation[] annotations) {
         for (Annotation a : annotations) {
-            if (a instanceof RpcParameter) {
-                return ((RpcParameter) a).description();
+            if (a instanceof PascalParameter) {
+                return ((PascalParameter) a).description();
             }
         }
         throw new IllegalStateException("No parameter description");
@@ -369,7 +369,7 @@ public final class MethodDescriptor {
         return mMethod;
     }
 
-    public Class<? extends RpcReceiver> getDeclaringClass() {
+    public Class<? extends AndroidLibrary> getDeclaringClass() {
         return mClass;
     }
 

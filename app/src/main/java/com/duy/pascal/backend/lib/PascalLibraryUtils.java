@@ -21,12 +21,11 @@ import com.duy.pascal.backend.lib.android.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.AndroidSettingLib;
-import com.duy.pascal.backend.lib.android.AndroidTextToSpeakLib;
+import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.AndroidWifiLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.duy.pascal.backend.lib.android.utils.AndroidLibraryUtils;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
@@ -61,7 +60,7 @@ public class PascalLibraryUtils {
         SUPPORT_LIB.add("asensor");
         SUPPORT_LIB.add("autils");
         SUPPORT_LIB.add("atone");
-        SUPPORT_LIB.add("aspeak");
+        SUPPORT_LIB.add("aspeech");
         SUPPORT_LIB.add("awifi");
         SUPPORT_LIB.add("asetting");
         SUPPORT_LIB.add("abluetooth");
@@ -73,9 +72,10 @@ public class PascalLibraryUtils {
      * @param classes  - list class
      * @param modifier - allow method modifier
      */
-    public static void addMethodFromClass(ArrayList<Class<?>> classes, int modifier,
-                                          RunnableActivity handler,
-                                          ListMultimap<String, AbstractFunction> callableFunctions) {
+    public static void addMethodFromClasses(ArrayList<Class<?>> classes,
+                                            int modifier,
+                                            RunnableActivity handler,
+                                            ListMultimap<String, AbstractFunction> callableFunctions) {
 
         AndroidLibraryManager facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkLevel(),
                 handler, AndroidLibraryUtils.getFacadeClasses());
@@ -110,16 +110,28 @@ public class PascalLibraryUtils {
                 }
             }
             for (Method m : pascalPlugin.getDeclaredMethods()) {
-                if (m.isAnnotationPresent(PascalMethod.class)) {
-                    MethodDeclaration tmp = new MethodDeclaration(o, m);
-                    callableFunctions.put(tmp.name().toLowerCase(), tmp);
+                if (AndroidLibraryUtils.getSdkLevel() >= 18) {
+                    if (m.isAnnotationPresent(PascalMethod.class)) {
+                        System.out.println(m.getName());
+                        MethodDeclaration tmp = new MethodDeclaration(o, m);
+                        callableFunctions.put(tmp.name().toLowerCase(), tmp);
+                    }
+                } else {
+                    if (Modifier.isPublic(m.getModifiers())) {
+                        System.out.println(m.getName());
+                        MethodDeclaration tmp = new MethodDeclaration(o, m);
+                        callableFunctions.put(tmp.name().toLowerCase(), tmp);
+                    }
                 }
             }
 
         }
     }
 
-    public static void addMethodFromClass(Class<?> pascalPlugin, int modifier, RunnableActivity handler, ListMultimap<String, AbstractFunction> callableFunctions) {
+    public static void addMethodFromClass(Class<?> pascalPlugin,
+                                          int modifier,
+                                          RunnableActivity handler,
+                                          ListMultimap<String, AbstractFunction> callableFunctions) {
         Object o = null;
         try {
             Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
@@ -157,7 +169,8 @@ public class PascalLibraryUtils {
      * @param callableFunctions
      */
     public static void loadLibrary(ArrayList<String> source, ArrayList<String> newLibraries,
-                                   RunnableActivity handler, ListMultimap<String, AbstractFunction> callableFunctions) {
+                                   RunnableActivity handler,
+                                   ListMultimap<String, AbstractFunction> callableFunctions) {
         source.addAll(newLibraries);
         ArrayList<Class<?>> classes = new ArrayList<>();
         for (String name : newLibraries) {
@@ -183,8 +196,8 @@ public class PascalLibraryUtils {
                 classes.add(AndroidUtilsLib.class);
             } else if (name.equalsIgnoreCase("atone")) {
                 classes.add(AndroidToneGeneratorLib.class);
-            } else if (name.equalsIgnoreCase("aspeak")) {
-                classes.add(AndroidTextToSpeakLib.class);
+            } else if (name.equalsIgnoreCase("aSpeech")) {
+                classes.add(AndroidTextToSpeechLib.class);
             } else if (name.equalsIgnoreCase("AWifi")) {
                 classes.add(AndroidWifiLib.class);
             } else if (name.equalsIgnoreCase("ASetting")) {
@@ -193,7 +206,7 @@ public class PascalLibraryUtils {
                 classes.add(AndroidBluetoothLib.class);
             }
         }
-        PascalLibraryUtils.addMethodFromClass(classes, Modifier.PUBLIC, handler, callableFunctions);
+        PascalLibraryUtils.addMethodFromClasses(classes, Modifier.PUBLIC, handler, callableFunctions);
     }
 
 }

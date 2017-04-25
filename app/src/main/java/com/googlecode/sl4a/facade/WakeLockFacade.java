@@ -21,7 +21,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ import java.util.Map.Entry;
  * @author Felix Arends (felixarends@gmail.com)
  * @author Damon Kohler (damonkohler@gmail.com)
  */
-public class WakeLockFacade extends RpcReceiver {
+public class WakeLockFacade extends AndroidLibrary {
 
     private final static String WAKE_LOCK_TAG =
             "com.googlecode.android_scripting.facade.PowerManagerFacade";

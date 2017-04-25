@@ -31,9 +31,9 @@ import android.telephony.TelephonyManager;
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.MainThread;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
@@ -49,7 +49,7 @@ import java.util.concurrent.Callable;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class PhoneFacade extends RpcReceiver {
+public class PhoneFacade extends AndroidLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
     private final EventFacade mEventFacade;
@@ -116,7 +116,7 @@ public class PhoneFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Calls a contact/phone number by URI.")
-    public void phoneCall(@RpcParameter(name = "uri") final String uriString) throws Exception {
+    public void phoneCall(@PascalParameter(name = "uri") final String uriString) throws Exception {
         Uri uri = Uri.parse(uriString);
         if (uri.getScheme().equals("content")) {
             String phoneNumberColumn = PhonesColumns.NUMBER;
@@ -148,19 +148,19 @@ public class PhoneFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Calls a phone number.")
-    public void phoneCallNumber(@RpcParameter(name = "phone number") final String number)
+    public void phoneCallNumber(@PascalParameter(name = "phone number") final String number)
             throws Exception {
         phoneCall("tel:" + URLEncoder.encode(number, "ASCII"));
     }
 
     @PascalMethod(description = "Dials a contact/phone number by URI.")
-    public void phoneDial(@RpcParameter(name = "uri") final String uri) throws Exception {
+    public void phoneDial(@PascalParameter(name = "uri") final String uri) throws Exception {
         mAndroidFacade.startActivity(Intent.ACTION_DIAL, uri, null, null, null, null, null);
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Dials a phone number.")
-    public void phoneDialNumber(@RpcParameter(name = "phone number") final String number)
+    public void phoneDialNumber(@PascalParameter(name = "phone number") final String number)
             throws Exception, UnsupportedEncodingException {
         phoneDial("tel:" + URLEncoder.encode(number, "ASCII"));
     }

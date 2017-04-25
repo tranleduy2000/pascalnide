@@ -37,11 +37,11 @@ import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SimpleServer.SimpleServerObserver;
 import com.googlecode.sl4a.SingleThreadExecutor;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -85,7 +85,7 @@ import java.util.concurrent.Executor;
  * @author Damon Kohler (damonkohler@gmail.com) (probably)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class WebCamFacade extends RpcReceiver {
+public class WebCamFacade extends AndroidLibrary {
 
     private final Context mContext;
     private final Executor mJpegCompressionExecutor = new SingleThreadExecutor();
@@ -173,9 +173,9 @@ public class WebCamFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Starts an MJPEG stream and returns a Tuple of address and port for the stream.")
     public InetSocketAddress webcamStart(
-            @RpcParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
-            @RpcParameter(name = "jpegQuality", description = "a number from 0-100") @RpcDefault("20") Integer jpegQuality,
-            @RpcParameter(name = "port", description = "If port is specified, the webcam service will bind to port, otherwise it will pick any available port.") @RpcDefault("0") Integer port)
+            @PascalParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
+            @PascalParameter(name = "jpegQuality", description = "a number from 0-100") @RpcDefault("20") Integer jpegQuality,
+            @PascalParameter(name = "port", description = "If port is specified, the webcam service will bind to port, otherwise it will pick any available port.") @RpcDefault("0") Integer port)
             throws Exception {
         try {
             openCamera(resolutionLevel, jpegQuality);
@@ -226,8 +226,8 @@ public class WebCamFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Adjusts the quality of the webcam stream while it is running.")
     public void webcamAdjustQuality(
-            @RpcParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
-            @RpcParameter(name = "jpegQuality", description = "a number from 0-100") @RpcDefault("20") Integer jpegQuality)
+            @PascalParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
+            @PascalParameter(name = "jpegQuality", description = "a number from 0-100") @RpcDefault("20") Integer jpegQuality)
             throws Exception {
         if (mStreaming == false) {
             throw new IllegalStateException("Webcam not streaming.");
@@ -329,9 +329,9 @@ public class WebCamFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Start Preview Mode. Throws 'preview' events.", returns = "True if successful")
     public boolean cameraStartPreview(
-            @RpcParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
-            @RpcParameter(name = "jpegQuality", description = "a number from 0-100") @RpcDefault("20") Integer jpegQuality,
-            @RpcParameter(name = "filepath", description = "Path to store jpeg files.") @RpcOptional String filepath)
+            @PascalParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
+            @PascalParameter(name = "jpegQuality", description = "a number from 0-100") @RpcDefault("20") Integer jpegQuality,
+            @PascalParameter(name = "filepath", description = "Path to store jpeg files.") @RpcOptional String filepath)
             throws InterruptedException {
         mDest = null;
         if (filepath != null && (filepath.length() > 0)) {

@@ -29,13 +29,13 @@ import com.google.common.collect.Multimaps;
 import com.googlecode.sl4a.event.Event;
 import com.googlecode.sl4a.future.FutureResult;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcName;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONException;
 
@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class EventFacade extends RpcReceiver {
+public class EventFacade extends AndroidLibrary {
     /**
      * The maximum length of the event queue. Old events will be discarded when this limit is
      * exceeded.
@@ -98,8 +98,8 @@ public class EventFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Registers a listener for a new broadcast signal")
     public boolean eventRegisterForBroadcast(
-            @RpcParameter(name = "category") String category,
-            @RpcParameter(name = "enqueue", description = "Should this events be added to the event queue or only dispatched") @RpcDefault(value = "true") Boolean enqueue) {
+            @PascalParameter(name = "category") String category,
+            @PascalParameter(name = "enqueue", description = "Should this events be added to the event queue or only dispatched") @RpcDefault(value = "true") Boolean enqueue) {
         if (mBroadcastListeners.containsKey(category)) {
             return false;
         }
@@ -114,7 +114,7 @@ public class EventFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Stop listening for a broadcast signal")
-    public void eventUnregisterForBroadcast(@RpcParameter(name = "category") String category) {
+    public void eventUnregisterForBroadcast(@PascalParameter(name = "category") String category) {
         if (!mBroadcastListeners.containsKey(category)) {
             return;
         }
@@ -157,7 +157,7 @@ public class EventFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns and removes the oldest n events (i.e. location or sensor update, etc.) from the event buffer.", returns = "A List of Maps of event properties.")
     public List<Event> eventPoll(
-            @RpcParameter(name = "number_of_events") @RpcDefault("1") Integer number_of_events) {
+            @PascalParameter(name = "number_of_events") @RpcDefault("1") Integer number_of_events) {
         List<Event> events = Lists.newArrayList();
         for (int i = 0; i < number_of_events; i++) {
             Event event = mEventQueue.poll();
@@ -171,8 +171,8 @@ public class EventFacade extends RpcReceiver {
 
     @PascalMethod(description = "Blocks until an event with the supplied name occurs. The returned event is not removed from the buffer.", returns = "Map of event properties.")
     public Event eventWaitFor(
-            @RpcParameter(name = "eventName") final String eventName,
-            @RpcParameter(name = "timeout", description = "the maximum time to wait (in ms)") @RpcOptional Integer timeout)
+            @PascalParameter(name = "eventName") final String eventName,
+            @PascalParameter(name = "timeout", description = "the maximum time to wait (in ms)") @RpcOptional Integer timeout)
             throws InterruptedException {
         synchronized (mEventQueue) { // First check to make sure it isn't already there
             for (Event event : mEventQueue) {
@@ -205,7 +205,7 @@ public class EventFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Blocks until an event occurs. The returned event is removed from the buffer.", returns = "Map of event properties.")
     public Event eventWait(
-            @RpcParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
+            @PascalParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
             throws InterruptedException {
         Event result = null;
         final FutureResult<Event> futureEvent = new FutureResult<>();
@@ -248,9 +248,9 @@ public class EventFacade extends RpcReceiver {
      */
     @PascalMethod(description = "Post an event to the event queue.")
     public void eventPost(
-            @RpcParameter(name = "name", description = "Name of event") String name,
-            @RpcParameter(name = "data", description = "Data contained in event.") String data,
-            @RpcParameter(name = "enqueue", description = "Set to False if you don't want your events to be added to the event queue, just dispatched.") @RpcOptional @RpcDefault("false") Boolean enqueue) {
+            @PascalParameter(name = "name", description = "Name of event") String name,
+            @PascalParameter(name = "data", description = "Data contained in event.") String data,
+            @PascalParameter(name = "enqueue", description = "Set to False if you don't want your events to be added to the event queue, just dispatched.") @RpcOptional @RpcDefault("false") Boolean enqueue) {
         postEvent(name, data, enqueue);
     }
 
@@ -288,8 +288,8 @@ public class EventFacade extends RpcReceiver {
     @RpcDeprecated(value = "eventPost", release = "r4")
     @PascalMethod(description = "Post an event to the event queue.")
     @RpcName(name = "postEvent")
-    public void rpcPostEvent(@RpcParameter(name = "name") String name,
-                             @RpcParameter(name = "data") String data) {
+    public void rpcPostEvent(@PascalParameter(name = "name") String name,
+                             @PascalParameter(name = "data") String data) {
         postEvent(name, data);
     }
 
@@ -304,8 +304,8 @@ public class EventFacade extends RpcReceiver {
     @RpcDeprecated(value = "eventWaitFor", release = "r4")
     @PascalMethod(description = "Blocks until an event with the supplied name occurs. The returned event is not removed from the buffer.", returns = "Map of event properties.")
     public Event waitForEvent(
-            @RpcParameter(name = "eventName") final String eventName,
-            @RpcParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
+            @PascalParameter(name = "eventName") final String eventName,
+            @PascalParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
             throws InterruptedException {
         return eventWaitFor(eventName, timeout);
     }
@@ -313,7 +313,7 @@ public class EventFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Opens up a socket where you can read for events posted")
     public int startEventDispatcher(
-            @RpcParameter(name = "port", description = "Port to use") @RpcDefault("0") @RpcOptional() Integer port) {
+            @PascalParameter(name = "port", description = "Port to use") @RpcDefault("0") @RpcOptional() Integer port) {
         if (mEventServer == null) {
             if (port == null) {
                 port = 0;

@@ -26,7 +26,7 @@ import android.os.Bundle;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
@@ -41,7 +41,7 @@ import java.lang.reflect.Field;
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class AndroidBatteryLib extends RpcReceiver {
+public class AndroidBatteryLib extends AndroidLibrary {
 
     /**
      * Power source is an AC charger.
@@ -55,23 +55,21 @@ public class AndroidBatteryLib extends RpcReceiver {
     public static final int BATTERY_PLUGGED_USB = 2;
     private final Context mContext;
     private final EventFacade mEventFacade;
-    private final int mSdkVersion;
     private BatteryStateListener mReceiver;
     private volatile Bundle mBatteryData = null;
-    private volatile Integer mBatteryStatus = null;
-    private volatile Integer mBatteryHealth = null;
-    private volatile Integer mPlugType = null;
+    private volatile int mBatteryStatus = -1;
+    private volatile int mBatteryHealth = -1;
+    private volatile int mPlugType = -1;
     private volatile Boolean mBatteryPresent = null;
-    private volatile Integer mBatteryLevel = null;
-    private volatile Integer mBatteryMaxLevel = null;
-    private volatile Integer mBatteryVoltage = null;
-    private volatile Integer mBatteryTemperature = null;
+    private volatile int mBatteryLevel = -1;
+    private volatile int mBatteryMaxLevel = -1;
+    private volatile int mBatteryVoltage = -1;
+    private volatile int mBatteryTemperature = -1;
     private volatile String mBatteryTechnology = null;
 
     public AndroidBatteryLib(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
-        mSdkVersion = manager.getSdkLevel();
         mEventFacade = manager.getReceiver(EventFacade.class);
         mReceiver = null;
         mBatteryData = null;
@@ -126,7 +124,7 @@ public class AndroidBatteryLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns  the most recently received battery status data:" + "\n1 - unknown;"
             + "\n2 - charging;" + "\n3 - discharging;" + "\n4 - not charging;" + "\n5 - full;")
-    public Integer batteryGetStatus() {
+    public int batteryGetStatus() {
         return mBatteryStatus;
     }
 
@@ -134,7 +132,7 @@ public class AndroidBatteryLib extends RpcReceiver {
     @PascalMethod(description = "Returns the most recently received battery health data:" + "\n1 - unknown;"
             + "\n2 - good;" + "\n3 - overheat;" + "\n4 - dead;" + "\n5 - over voltage;"
             + "\n6 - unspecified failure;")
-    public Integer batteryGetHealth() {
+    public int batteryGetHealth() {
         return mBatteryHealth;
     }
 
@@ -142,21 +140,21 @@ public class AndroidBatteryLib extends RpcReceiver {
     @PascalMethod(description = "Returns the most recently received plug type data:" + "\n-1 - unknown"
             + "\n0 - unplugged;" + "\n1 - power source is an AC charger"
             + "\n2 - power source is a USB port")
-    public Integer batteryGetPlugType() {
+    public int batteryGetPlugType() {
         return mPlugType;
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the most recently received battery presence data.")
-    public Boolean batteryCheckPresent() {
+    public boolean batteryCheckPresent() {
         return mBatteryPresent;
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the most recently received battery level (percentage).")
 
-    public Integer batteryGetLevel() {
-        if (mBatteryMaxLevel == null || mBatteryMaxLevel == 100 || mBatteryMaxLevel == 0) {
+    public int batteryGetLevel() {
+        if (mBatteryMaxLevel == -1 || mBatteryMaxLevel == 100 || mBatteryMaxLevel == 0) {
             return mBatteryLevel;
         } else {
             return (int) (mBatteryLevel * 100.0 / mBatteryMaxLevel);
@@ -166,22 +164,22 @@ public class AndroidBatteryLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the most recently received battery voltage.")
 
-    public Integer batteryGetVoltage() {
+    public int batteryGetVoltage() {
         return mBatteryVoltage;
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the most recently received battery temperature.")
 
-    public Integer batteryGetTemperature() {
+    public int batteryGetTemperature() {
         return mBatteryTemperature;
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the most recently received battery technology data.")
 
-    public String batteryGetTechnology() {
-        return mBatteryTechnology;
+    public StringBuilder batteryGetTechnology() {
+        return new StringBuilder(mBatteryTechnology);
     }
 
     private class BatteryStateListener extends BroadcastReceiver {
@@ -197,31 +195,30 @@ public class AndroidBatteryLib extends RpcReceiver {
             mBatteryStatus = intent.getIntExtra("status", 1);
             mBatteryHealth = intent.getIntExtra("health", 1);
             mPlugType = intent.getIntExtra("plugged", -1);
-            if (mSdkVersion >= 5) {
-                mBatteryPresent =
-                        intent.getBooleanExtra(getBatteryManagerFieldValue("EXTRA_PRESENT"), false);
-                mBatteryLevel = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_LEVEL"), -1);
-                mBatteryMaxLevel = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_SCALE"), 0);
-                mBatteryVoltage = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_VOLTAGE"), -1);
-                mBatteryTemperature =
-                        intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_TEMPERATURE"), -1);
-                mBatteryTechnology = intent.getStringExtra(getBatteryManagerFieldValue("EXTRA_TECHNOLOGY"));
-            }
+
+            mBatteryPresent =
+                    intent.getBooleanExtra(getBatteryManagerFieldValue("EXTRA_PRESENT"), false);
+            mBatteryLevel = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_LEVEL"), -1);
+            mBatteryMaxLevel = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_SCALE"), 0);
+            mBatteryVoltage = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_VOLTAGE"), -1);
+            mBatteryTemperature = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_TEMPERATURE"), -1);
+            mBatteryTechnology = intent.getStringExtra(getBatteryManagerFieldValue("EXTRA_TECHNOLOGY"));
+
             Bundle data = new Bundle();
             data.putInt("status", mBatteryStatus);
             data.putInt("health", mBatteryHealth);
             data.putInt("plugged", mPlugType);
-            if (mSdkVersion >= 5) {
-                data.putBoolean("battery_present", mBatteryPresent);
-                if (mBatteryMaxLevel == null || mBatteryMaxLevel == 100 || mBatteryMaxLevel == 0) {
-                    data.putInt("level", mBatteryLevel);
-                } else {
-                    data.putInt("level", (int) (mBatteryLevel * 100.0 / mBatteryMaxLevel));
-                }
-                data.putInt("voltage", mBatteryVoltage);
-                data.putInt("temperature", mBatteryTemperature);
-                data.putString("technology", mBatteryTechnology);
+
+            data.putBoolean("battery_present", mBatteryPresent);
+            if (mBatteryMaxLevel == -1 || mBatteryMaxLevel == 100 || mBatteryMaxLevel == 0) {
+                data.putInt("level", mBatteryLevel);
+            } else {
+                data.putInt("level", (int) (mBatteryLevel * 100.0 / mBatteryMaxLevel));
             }
+            data.putInt("voltage", mBatteryVoltage);
+            data.putInt("temperature", mBatteryTemperature);
+            data.putString("technology", mBatteryTechnology);
+
             mBatteryData = data;
             mmEventFacade.postEvent("battery", mBatteryData.clone());
         }

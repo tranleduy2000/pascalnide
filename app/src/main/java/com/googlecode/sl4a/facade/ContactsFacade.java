@@ -26,10 +26,10 @@ import android.provider.Contacts.People;
 import android.provider.Contacts.PhonesColumns;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +43,7 @@ import java.util.List;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com
  */
-public class ContactsFacade extends RpcReceiver {
+public class ContactsFacade extends AndroidLibrary {
     private static final Uri CONTACTS_URI = Uri.parse("content://contacts/people");
     private final ContentResolver mContentResolver;
     private final Context mContext;
@@ -135,7 +135,7 @@ public class ContactsFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns a List of all contacts.", returns = "a List of contacts as Maps")
     public List<JSONObject> contactsGet(
-            @RpcParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
+            @PascalParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
         List<JSONObject> result = new ArrayList<>();
         String[] columns;
         if (attributes == null || attributes.length() == 0) {
@@ -206,8 +206,8 @@ public class ContactsFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns contacts by ID.")
-    public JSONObject contactsGetById(@RpcParameter(name = "id") Integer id,
-                                      @RpcParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
+    public JSONObject contactsGetById(@PascalParameter(name = "id") Integer id,
+                                      @PascalParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
         JSONObject result = null;
         Uri uri = buildUri(id);
         String[] columns;
@@ -265,11 +265,11 @@ public class ContactsFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Content Resolver Query", returns = "result of query as Maps")
     public List<JSONObject> queryContent(
-            @RpcParameter(name = "uri", description = "The URI, using the content:// scheme, for the content to retrieve.") String uri,
-            @RpcParameter(name = "attributes", description = "A list of which columns to return. Passing null will return all columns") @RpcOptional JSONArray attributes,
-            @RpcParameter(name = "selection", description = "A filter declaring which rows to return") @RpcOptional String selection,
-            @RpcParameter(name = "selectionArgs", description = "You may include ?s in selection, which will be replaced by the values from selectionArgs") @RpcOptional JSONArray selectionArgs,
-            @RpcParameter(name = "order", description = "How to order the rows") @RpcOptional String order)
+            @PascalParameter(name = "uri", description = "The URI, using the content:// scheme, for the content to retrieve.") String uri,
+            @PascalParameter(name = "attributes", description = "A list of which columns to return. Passing null will return all columns") @RpcOptional JSONArray attributes,
+            @PascalParameter(name = "selection", description = "A filter declaring which rows to return") @RpcOptional String selection,
+            @PascalParameter(name = "selectionArgs", description = "You may include ?s in selection, which will be replaced by the values from selectionArgs") @RpcOptional JSONArray selectionArgs,
+            @PascalParameter(name = "order", description = "How to order the rows") @RpcOptional String order)
             throws JSONException {
         List<JSONObject> result = new ArrayList<>();
         String[] columns = jsonToArray(attributes);
@@ -294,7 +294,7 @@ public class ContactsFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Content Resolver Query Attributes", returns = "a list of available columns for a given content uri")
     public JSONArray queryAttributes(
-            @RpcParameter(name = "uri", description = "The URI, using the content:// scheme, for the content to retrieve.") String uri)
+            @PascalParameter(name = "uri", description = "The URI, using the content:// scheme, for the content to retrieve.") String uri)
             throws JSONException {
         JSONArray result = new JSONArray();
         Cursor cursor = mContentResolver.query(Uri.parse(uri), null, "1=0", null, null);

@@ -46,12 +46,12 @@ import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.NotificationIdFactory;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +80,7 @@ import java.util.TimeZone;
  * <br>
  * An intent can be built using the {@see #makeIntent} call, but can also be constructed exterally.
  */
-public class AndroidUtilsLib extends RpcReceiver {
+public class AndroidUtilsLib extends AndroidLibrary {
     private final Context mContext;
     private final Handler mHandler;
     private final FutureActivityTaskExecutor mTaskQueue;
@@ -310,7 +310,7 @@ public class AndroidUtilsLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Put text in the clipboard.")
-    public void setClipboard(@RpcParameter(name = "text") String text) {
+    public void setClipboard(@PascalParameter(name = "text") String text) {
         getClipboardManager().setText(text);
     }
 
@@ -376,12 +376,12 @@ public class AndroidUtilsLib extends RpcReceiver {
     // indicate if we should wait for a result.
     @PascalMethod(description = "Starts an activity and returns the result.", returns = "A Map representation of the result Intent.")
     public Intent startActivityForResult(
-            @RpcParameter(name = "action") String action,
-            @RpcParameter(name = "uri") @RpcOptional String uri,
-            @RpcParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
-            @RpcParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
-            @RpcParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
-            @RpcParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname)
+            @PascalParameter(name = "action") String action,
+            @PascalParameter(name = "uri") @RpcOptional String uri,
+            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
+            @PascalParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
+            @PascalParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname)
             throws JSONException {
         final Intent intent = buildIntent(action, uri, type, extras, packagename, classname, null);
         return startActivityForResult(intent);
@@ -390,7 +390,7 @@ public class AndroidUtilsLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Starts an activity and returns the result.", returns = "A Map representation of the result Intent.")
     public Intent startActivityForResultIntent(
-            @RpcParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent) {
+            @PascalParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent) {
         return startActivityForResult(intent);
     }
 
@@ -436,13 +436,13 @@ public class AndroidUtilsLib extends RpcReceiver {
      */
     @PascalMethod(description = "Starts an activity.")
     public void startActivity(
-            @RpcParameter(name = "action") String action,
-            @RpcParameter(name = "uri") @RpcOptional String uri,
-            @RpcParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
-            @RpcParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
-            @RpcParameter(name = "wait", description = "block until the user exits the started activity") @RpcOptional Boolean wait,
-            @RpcParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
-            @RpcParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname)
+            @PascalParameter(name = "action") String action,
+            @PascalParameter(name = "uri") @RpcOptional String uri,
+            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
+            @PascalParameter(name = "wait", description = "block until the user exits the started activity") @RpcOptional Boolean wait,
+            @PascalParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
+            @PascalParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname)
             throws Exception {
         final Intent intent = buildIntent(action, uri, type, extras, packagename, classname, null);
         doStartActivity(intent, wait);
@@ -451,12 +451,12 @@ public class AndroidUtilsLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Send a broadcast.")
     public void sendBroadcast(
-            @RpcParameter(name = "action") String action,
-            @RpcParameter(name = "uri") @RpcOptional String uri,
-            @RpcParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
-            @RpcParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
-            @RpcParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
-            @RpcParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname)
+            @PascalParameter(name = "action") String action,
+            @PascalParameter(name = "uri") @RpcOptional String uri,
+            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
+            @PascalParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
+            @PascalParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname)
             throws JSONException {
         final Intent intent = buildIntent(action, uri, type, extras, packagename, classname, null);
         try {
@@ -469,14 +469,14 @@ public class AndroidUtilsLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Create an Intent.", returns = "An object representing an Intent")
     public Intent makeIntent(
-            @RpcParameter(name = "action") String action,
-            @RpcParameter(name = "uri") @RpcOptional String uri,
-            @RpcParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
-            @RpcParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
-            @RpcParameter(name = "categories", description = "a List of categories to add to the Intent") @RpcOptional JSONArray categories,
-            @RpcParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
-            @RpcParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname,
-            @RpcParameter(name = "flags", description = "Intent flags") @RpcOptional Integer flags)
+            @PascalParameter(name = "action") String action,
+            @PascalParameter(name = "uri") @RpcOptional String uri,
+            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
+            @PascalParameter(name = "categories", description = "a List of categories to add to the Intent") @RpcOptional JSONArray categories,
+            @PascalParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
+            @PascalParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname,
+            @PascalParameter(name = "flags", description = "Intent flags") @RpcOptional Integer flags)
             throws JSONException {
         Intent intent = buildIntent(action, uri, type, extras, packagename, classname, categories);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -489,8 +489,8 @@ public class AndroidUtilsLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Start Activity using Intent")
     public void startActivityIntent(
-            @RpcParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent,
-            @RpcParameter(name = "wait", description = "block until the user exits the started activity") @RpcOptional Boolean wait)
+            @PascalParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent,
+            @PascalParameter(name = "wait", description = "block until the user exits the started activity") @RpcOptional Boolean wait)
             throws Exception {
         doStartActivity(intent, wait);
     }
@@ -498,7 +498,7 @@ public class AndroidUtilsLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Send Broadcast Intent")
     public void sendBroadcastIntent(
-            @RpcParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent)
+            @PascalParameter(name = "intent", description = "Intent in the format as returned from makeIntent") Intent intent)
             throws Exception {
         mContext.sendBroadcast(intent);
     }
@@ -506,13 +506,13 @@ public class AndroidUtilsLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Vibrates the phone or a specified duration in milliseconds.")
     public void vibrate(
-            @RpcParameter(name = "duration", description = "duration in milliseconds") @RpcDefault("300") Integer duration) {
+            @PascalParameter(name = "duration", description = "duration in milliseconds") @RpcDefault("300") Integer duration) {
         mVibrator.vibrate(duration);
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Displays a short-duration Toast notification.")
-    public void makeToast(@RpcParameter(name = "message") final String message) {
+    public void makeToast(@PascalParameter(name = "message") final String message) {
         mHandler.post(new Runnable() {
             public void run() {
                 Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
@@ -568,8 +568,8 @@ public class AndroidUtilsLib extends RpcReceiver {
     @PascalMethod(description = "Queries the user for a text input.")
     @RpcDeprecated(value = "dialogGetInput", release = "r3")
     public String getInput(
-            @RpcParameter(name = "title", description = "title of the input box") @RpcDefault("SL4A Input") final String title,
-            @RpcParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:") final String message) {
+            @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("SL4A Input") final String title,
+            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:") final String message) {
         return getInputFromAlertDialog(title, message, false);
     }
 
@@ -577,15 +577,15 @@ public class AndroidUtilsLib extends RpcReceiver {
     @PascalMethod(description = "Queries the user for a password.")
     @RpcDeprecated(value = "dialogGetPassword", release = "r3")
     public String getPassword(
-            @RpcParameter(name = "title", description = "title of the input box") @RpcDefault("SL4A Password Input") final String title,
-            @RpcParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter password:") final String message) {
+            @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("SL4A Password Input") final String title,
+            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter password:") final String message) {
         return getInputFromAlertDialog(title, message, true);
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Displays a notification that will be canceled when the user clicks on it.")
-    public void notify(@RpcParameter(name = "title", description = "title") String title,
-                       @RpcParameter(name = "message") String message) {
+    public void notify(@PascalParameter(name = "title", description = "title") String title,
+                       @PascalParameter(name = "message") String message) {
         Notification notification =
                 new Notification(mResources.getLogo48(), message, System.currentTimeMillis());
         // This contentIntent is a noop.
@@ -602,10 +602,10 @@ public class AndroidUtilsLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Launches an activity that sends an e-mail message to a given recipient.")
     public void sendEmail(
-            @RpcParameter(name = "to", description = "A comma separated list of recipients.") final String to,
-            @RpcParameter(name = "subject") final String subject,
-            @RpcParameter(name = "body") final String body,
-            @RpcParameter(name = "attachmentUri") @RpcOptional final String attachmentUri) {
+            @PascalParameter(name = "to", description = "A comma separated list of recipients.") final String to,
+            @PascalParameter(name = "subject") final String subject,
+            @PascalParameter(name = "body") final String body,
+            @PascalParameter(name = "attachmentUri") @RpcOptional final String attachmentUri) {
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("plain/text");
         intent.putExtra(Intent.EXTRA_EMAIL, to.split(","));
@@ -618,7 +618,7 @@ public class AndroidUtilsLib extends RpcReceiver {
     }
 
     @PascalMethod(description = "Returns package version code.")
-    public int getPackageVersionCode(@RpcParameter(name = "packageName") final String packageName) {
+    public int getPackageVersionCode(@PascalParameter(name = "packageName") final String packageName) {
         int result = -1;
         PackageInfo pInfo = null;
         try {
@@ -635,7 +635,7 @@ public class AndroidUtilsLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns package version name.")
-    public String getPackageVersion(@RpcParameter(name = "packageName") final String packageName) {
+    public String getPackageVersion(@PascalParameter(name = "packageName") final String packageName) {
         PackageInfo packageInfo = null;
         try {
             packageInfo =
@@ -651,7 +651,7 @@ public class AndroidUtilsLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Checks if version of SL4A is greater than or equal to the specified version.")
-    public boolean requiredVersion(@RpcParameter(name = "requiredVersion") final Integer version) {
+    public boolean requiredVersion(@PascalParameter(name = "requiredVersion") final Integer version) {
         boolean result = false;
         int packageVersion = getPackageVersionCode("com.googlecode.android_scripting");
         if (version > -1) {
@@ -662,7 +662,7 @@ public class AndroidUtilsLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Writes message to logcat.")
-    public void log(@RpcParameter(name = "message") String message) {
+    public void log(@PascalParameter(name = "message") String message) {
         android.util.Log.v("SCRIPT", message);
     }
 
@@ -712,7 +712,7 @@ public class AndroidUtilsLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Get list of constants (static final fields) for a class")
     public Bundle getConstants(
-            @RpcParameter(name = "classname", description = "Class to get constants from") String classname)
+            @PascalParameter(name = "classname", description = "Class to get constants from") String classname)
             throws Exception {
         Bundle result = new Bundle();
         int flags = Modifier.FINAL | Modifier.PUBLIC | Modifier.STATIC;

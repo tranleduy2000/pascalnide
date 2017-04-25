@@ -25,11 +25,11 @@ import android.os.Bundle;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
@@ -97,7 +97,7 @@ import java.util.List;
  * @author Robbie Mathews (rjmatthews62@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class AndroidSensorLib extends RpcReceiver {
+public class AndroidSensorLib extends AndroidLibrary {
     private final EventFacade mEventFacade;
     private final SensorManager mSensorManager;
 
@@ -143,8 +143,8 @@ public class AndroidSensorLib extends RpcReceiver {
     @PascalMethod(description = "Starts recording sensor data to be available for polling.")
     @RpcStartEvent("sensors")
     public void startSensingTimed(
-            @RpcParameter(name = "sensorNumber", description = "1 = All, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") Integer sensorNumber,
-            @RpcParameter(name = "delayTime", description = "Minimum time between readings in milliseconds") Integer delayTime) {
+            @PascalParameter(name = "sensorNumber", description = "1 = All, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") Integer sensorNumber,
+            @PascalParameter(name = "delayTime", description = "Minimum time between readings in milliseconds") Integer delayTime) {
         mSensorNumber = sensorNumber;
         if (delayTime < 20) {
             delayTime = 20;
@@ -187,9 +187,9 @@ public class AndroidSensorLib extends RpcReceiver {
     @RpcStartEvent("threshold")
     public void startSensingThreshold(
 
-            @RpcParameter(name = "sensorNumber", description = "1 = Orientation, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") Integer sensorNumber,
-            @RpcParameter(name = "threshold", description = "Threshold level for chosen sensor (integer)") Integer threshold,
-            @RpcParameter(name = "axis", description = "0 = No axis, 1 = X, 2 = Y, 3 = X+Y, 4 = Z, 5= X+Z, 6 = Y+Z, 7 = X+Y+Z") Integer axis) {
+            @PascalParameter(name = "sensorNumber", description = "1 = Orientation, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") Integer sensorNumber,
+            @PascalParameter(name = "threshold", description = "Threshold level for chosen sensor (integer)") Integer threshold,
+            @PascalParameter(name = "axis", description = "0 = No axis, 1 = X, 2 = Y, 3 = X+Y, 4 = Z, 5= X+Z, 6 = Y+Z, 7 = X+Y+Z") Integer axis) {
         mSensorNumber = sensorNumber;
         mXAxis = axis & 1;
         mYAxis = axis & 2;
@@ -266,7 +266,7 @@ public class AndroidSensorLib extends RpcReceiver {
     @PascalMethod(description = "Starts recording sensor data to be available for polling.")
     @RpcDeprecated(value = "startSensingTimed or startSensingThreshhold", release = "4")
     public void startSensing(
-            @RpcParameter(name = "sampleSize", description = "number of samples for calculating average readings") @RpcDefault("5") Integer sampleSize) {
+            @PascalParameter(name = "sampleSize", description = "number of samples for calculating average readings") @RpcDefault("5") Integer sampleSize) {
         if (mSensorListener == null) {
             startSensingTimed(1, 220);
         }

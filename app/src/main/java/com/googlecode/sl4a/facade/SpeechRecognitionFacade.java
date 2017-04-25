@@ -21,10 +21,10 @@ import android.speech.RecognizerIntent;
 
 import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ import java.util.ArrayList;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class SpeechRecognitionFacade extends RpcReceiver {
+public class SpeechRecognitionFacade extends AndroidLibrary {
     private final AndroidUtilsLib mAndroidFacade;
 
     public SpeechRecognitionFacade(AndroidLibraryManager manager) {
@@ -44,9 +44,9 @@ public class SpeechRecognitionFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Recognizes user's speech and returns the most likely result.", returns = "An empty string in case the speech cannot be recongnized.")
     public String recognizeSpeech(
-            @RpcParameter(name = "prompt", description = "text prompt to show to the user when asking them to speak") @RpcOptional final String prompt,
-            @RpcParameter(name = "language", description = "language override to inform the recognizer that it should expect speech in a language different than the one set in the java.util.Locale.getDefault()") @RpcOptional final String language,
-            @RpcParameter(name = "languageModel", description = "informs the recognizer which speech model to prefer (see android.speech.RecognizeIntent)") @RpcOptional final String languageModel) {
+            @PascalParameter(name = "prompt", description = "text prompt to show to the user when asking them to speak") @RpcOptional final String prompt,
+            @PascalParameter(name = "language", description = "language override to inform the recognizer that it should expect speech in a language different than the one set in the java.util.Locale.getDefault()") @RpcOptional final String language,
+            @PascalParameter(name = "languageModel", description = "informs the recognizer which speech model to prefer (see android.speech.RecognizeIntent)") @RpcOptional final String languageModel) {
         final Intent recognitionIntent =
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 

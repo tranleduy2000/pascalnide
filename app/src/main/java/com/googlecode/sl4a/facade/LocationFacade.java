@@ -30,10 +30,10 @@ import android.widget.Toast;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.google.common.collect.Maps;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
@@ -84,7 +84,7 @@ import java.util.Map.Entry;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class LocationFacade extends RpcReceiver {
+public class LocationFacade extends AndroidLibrary {
     private final EventFacade mEventFacade;
     private final Context mContext;
     private final Map<String, Location> mLocationUpdates;
@@ -138,7 +138,7 @@ public class LocationFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Ask if provider is enabled")
     public boolean locationProviderEnabled(
-            @RpcParameter(name = "provider", description = "Name of location provider") String provider) {
+            @PascalParameter(name = "provider", description = "Name of location provider") String provider) {
         return mLocationManager.isProviderEnabled(provider);
     }
 
@@ -146,8 +146,8 @@ public class LocationFacade extends RpcReceiver {
     @PascalMethod(description = "Starts collecting location data.")
     @RpcStartEvent("location")
     public void startLocating(
-            @RpcParameter(name = "minDistance", description = "minimum time between updates in milliseconds") @RpcDefault("60000") Integer minUpdateTime,
-            @RpcParameter(name = "minUpdateDistance", description = "minimum distance between updates in meters") @RpcDefault("30") Integer minUpdateDistance) {
+            @PascalParameter(name = "minDistance", description = "minimum time between updates in milliseconds") @RpcDefault("60000") Integer minUpdateTime,
+            @PascalParameter(name = "minUpdateDistance", description = "minimum distance between updates in meters") @RpcDefault("30") Integer minUpdateDistance) {
         for (String provider : mLocationManager.getAllProviders()) {
             if (ActivityCompat.checkSelfPermission(mContext,
                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -194,9 +194,9 @@ public class LocationFacade extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns a list of addresses for the given latitude and longitude.", returns = "A list of addresses.")
     public List<Address> geocode(
-            @RpcParameter(name = "latitude") Double latitude,
-            @RpcParameter(name = "longitude") Double longitude,
-            @RpcParameter(name = "maxResults", description = "maximum number of results") @RpcDefault("1") Integer maxResults)
+            @PascalParameter(name = "latitude") Double latitude,
+            @PascalParameter(name = "longitude") Double longitude,
+            @PascalParameter(name = "maxResults", description = "maximum number of results") @RpcDefault("1") Integer maxResults)
             throws IOException {
         return mGeocoder.getFromLocation(latitude, longitude, maxResults);
     }

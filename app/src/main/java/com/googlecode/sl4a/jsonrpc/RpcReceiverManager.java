@@ -27,16 +27,16 @@ import java.util.Map;
 
 public abstract class RpcReceiverManager {
     private static final String TAG = "RpcReceiverManager";
-    private final Map<Class<? extends RpcReceiver>, RpcReceiver> mReceivers;
+    private final Map<Class<? extends AndroidLibrary>, AndroidLibrary> mReceivers;
 
     /**
      * A map of strings to known RPCs.
      */
     private final Map<String, MethodDescriptor> mKnownRpcs = new HashMap<>();
 
-    public RpcReceiverManager(Collection<Class<? extends RpcReceiver>> classList) {
+    public RpcReceiverManager(Collection<Class<? extends AndroidLibrary>> classList) {
         mReceivers = new HashMap<>();
-        for (Class<? extends RpcReceiver> receiverClass : classList) {
+        for (Class<? extends AndroidLibrary> receiverClass : classList) {
             mReceivers.put(receiverClass, null);
             Collection<MethodDescriptor> methodList = MethodDescriptor.collectFrom(receiverClass);
             for (MethodDescriptor m : methodList) {
@@ -51,16 +51,16 @@ public abstract class RpcReceiverManager {
         }
     }
 
-    public Collection<Class<? extends RpcReceiver>> getRpcReceiverClasses() {
+    public Collection<Class<? extends AndroidLibrary>> getRpcReceiverClasses() {
         return mReceivers.keySet();
     }
 
-    private RpcReceiver get(Class<? extends RpcReceiver> clazz) {
-        RpcReceiver object = mReceivers.get(clazz);
+    private AndroidLibrary get(Class<? extends AndroidLibrary> clazz) {
+        AndroidLibrary object = mReceivers.get(clazz);
         if (object != null) {
             return object;
         }
-        Constructor<? extends RpcReceiver> constructor;
+        Constructor<? extends AndroidLibrary> constructor;
         try {
             constructor = clazz.getConstructor(getClass());
             object = constructor.newInstance(this);
@@ -72,8 +72,8 @@ public abstract class RpcReceiverManager {
         return object;
     }
 
-    public <T extends RpcReceiver> T getReceiver(Class<T> clazz) {
-        RpcReceiver receiver = get(clazz);
+    public <T extends AndroidLibrary> T getReceiver(Class<T> clazz) {
+        AndroidLibrary receiver = get(clazz);
         return clazz.cast(receiver);
     }
 
@@ -81,14 +81,14 @@ public abstract class RpcReceiverManager {
         return mKnownRpcs.get(methodName);
     }
 
-    public Object invoke(Class<? extends RpcReceiver> clazz, Method method, Object[] args)
+    public Object invoke(Class<? extends AndroidLibrary> clazz, Method method, Object[] args)
             throws Exception {
-        RpcReceiver object = get(clazz);
+        AndroidLibrary object = get(clazz);
         return method.invoke(object, args);
     }
 
     public void shutdown() {
-        for (RpcReceiver receiver : mReceivers.values()) {
+        for (AndroidLibrary receiver : mReceivers.values()) {
             if (receiver != null) {
                 receiver.shutdown();
             }

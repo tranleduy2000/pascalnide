@@ -32,11 +32,11 @@ import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,7 +58,7 @@ import java.util.concurrent.TimeUnit;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class MediaRecorderFacade extends RpcReceiver {
+public class MediaRecorderFacade extends AndroidLibrary {
 
     private final MediaRecorder mMediaRecorder = new MediaRecorder();
     private final Context mContext;
@@ -70,7 +70,7 @@ public class MediaRecorderFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Records audio from the microphone and saves it to the given location.")
-    public void recorderStartMicrophone(@RpcParameter(name = "targetPath") String targetPath)
+    public void recorderStartMicrophone(@PascalParameter(name = "targetPath") String targetPath)
             throws IOException {
         startAudioRecording(targetPath, MediaRecorder.AudioSource.MIC);
     }
@@ -82,9 +82,9 @@ public class MediaRecorderFacade extends RpcReceiver {
             + "\nwhen recorderStop is called or when a scripts exits. "
             + "\nOtherwise it will block for the time period equal to the duration argument."
             + "\nvideoSize: 0=160x120, 1=320x240, 2=352x288, 3=640x480, 4=800x480.")
-    public void recorderStartVideo(@RpcParameter(name = "targetPath") String targetPath,
-                                   @RpcParameter(name = "duration") @RpcDefault("0") Integer duration,
-                                   @RpcParameter(name = "videoSize") @RpcDefault("1") Integer videoSize) throws Exception {
+    public void recorderStartVideo(@PascalParameter(name = "targetPath") String targetPath,
+                                   @PascalParameter(name = "duration") @RpcDefault("0") Integer duration,
+                                   @PascalParameter(name = "videoSize") @RpcDefault("1") Integer videoSize) throws Exception {
         int ms = convertSecondsToMilliseconds(duration);
         startVideoRecording(new File(targetPath), ms, videoSize);
     }
@@ -170,9 +170,9 @@ public class MediaRecorderFacade extends RpcReceiver {
             + "\nIf duration is not provided this method will return immediately and the recording will only be stopped "
             + "\nwhen recorderStop is called or when a scripts exits. "
             + "\nOtherwise it will block for the time period equal to the duration argument.")
-    public void recorderCaptureVideo(@RpcParameter(name = "targetPath") String targetPath,
-                                     @RpcParameter(name = "duration") @RpcOptional Integer duration,
-                                     @RpcParameter(name = "recordAudio") @RpcDefault("true") Boolean recordAudio) throws Exception {
+    public void recorderCaptureVideo(@PascalParameter(name = "targetPath") String targetPath,
+                                     @PascalParameter(name = "duration") @RpcOptional Integer duration,
+                                     @PascalParameter(name = "recordAudio") @RpcDefault("true") Boolean recordAudio) throws Exception {
         int ms = convertSecondsToMilliseconds(duration);
         startVideoRecording(new File(targetPath), ms, recordAudio);
     }
@@ -225,7 +225,7 @@ public class MediaRecorderFacade extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Starts the video capture application to record a video and saves it to the specified path.")
-    public void startInteractiveVideoRecording(@RpcParameter(name = "path") final String path) {
+    public void startInteractiveVideoRecording(@PascalParameter(name = "path") final String path) {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         File file = new File(path);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));

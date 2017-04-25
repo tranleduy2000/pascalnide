@@ -28,10 +28,10 @@ import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.RpcReceiver;
+import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.RpcParameter;
+import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.lang.reflect.Method;
 
@@ -40,7 +40,7 @@ import java.lang.reflect.Method;
  *
  * @author Frank Spychalski (frank.spychalski@gmail.com)
  */
-public class AndroidSettingLib extends RpcReceiver {
+public class AndroidSettingLib extends AndroidLibrary {
 
     public static int AIRPLANE_MODE_OFF = 0;
     public static int AIRPLANE_MODE_ON = 1;
@@ -58,7 +58,7 @@ public class AndroidSettingLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Sets the screen timeout to this number of seconds.", returns = "The original screen timeout.")
-    public Integer setScreenTimeout(@RpcParameter(name = "value") Integer value) {
+    public Integer setScreenTimeout(@PascalParameter(name = "value") Integer value) {
         Integer oldValue = getScreenTimeout();
         android.provider.Settings.System.putInt(mContext.getContentResolver(),
                 android.provider.Settings.System.SCREEN_OFF_TIMEOUT, value * 1000);
@@ -87,7 +87,7 @@ public class AndroidSettingLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Toggles airplane mode on and off.", returns = "True if airplane mode is enabled.")
-    public Boolean toggleAirplaneMode(@RpcParameter(name = "enabled") @RpcOptional Boolean enabled) {
+    public Boolean toggleAirplaneMode(@PascalParameter(name = "enabled") @RpcOptional Boolean enabled) {
         if (enabled == null) {
             enabled = !checkAirplaneMode();
         }
@@ -107,7 +107,7 @@ public class AndroidSettingLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Toggles ringer silent mode on and off.", returns = "True if ringer silent mode is enabled.")
-    public Boolean toggleRingerSilentMode(@RpcParameter(name = "enabled") @RpcOptional Boolean enabled) {
+    public Boolean toggleRingerSilentMode(@PascalParameter(name = "enabled") @RpcOptional Boolean enabled) {
         if (enabled == null) {
             enabled = !checkRingerSilentMode();
         }
@@ -118,8 +118,8 @@ public class AndroidSettingLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Toggles vibrate mode on and off. If ringer=true then set Ringer setting, else set Notification setting", returns = "True if vibrate mode is enabled.")
-    public Boolean toggleVibrateMode(@RpcParameter(name = "enabled") @RpcOptional Boolean enabled,
-                                     @RpcParameter(name = "ringer") @RpcOptional Boolean ringer) {
+    public Boolean toggleVibrateMode(@PascalParameter(name = "enabled") @RpcOptional Boolean enabled,
+                                     @PascalParameter(name = "ringer") @RpcOptional Boolean ringer) {
         int atype = ringer ? AudioManager.VIBRATE_TYPE_RINGER : AudioManager.VIBRATE_TYPE_NOTIFICATION;
         int asetting = enabled ? AudioManager.VIBRATE_SETTING_ON : AudioManager.VIBRATE_SETTING_OFF;
         mAudio.setVibrateSetting(atype, asetting);
@@ -128,7 +128,7 @@ public class AndroidSettingLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Checks Vibration setting. If ringer=true then query Ringer setting, else query Notification setting", returns = "True if vibrate mode is enabled.")
-    public Boolean getVibrateMode(@RpcParameter(name = "ringer") @RpcOptional Boolean ringer) {
+    public Boolean getVibrateMode(@PascalParameter(name = "ringer") @RpcOptional Boolean ringer) {
         int atype = ringer ? AudioManager.VIBRATE_TYPE_RINGER : AudioManager.VIBRATE_TYPE_NOTIFICATION;
         return mAudio.shouldVibrate(atype);
     }
@@ -147,7 +147,7 @@ public class AndroidSettingLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Sets the ringer volume.")
-    public void setRingerVolume(@RpcParameter(name = "volume") Integer volume) {
+    public void setRingerVolume(@PascalParameter(name = "volume") Integer volume) {
         mAudio.setStreamVolume(AudioManager.STREAM_RING, volume, 0);
     }
 
@@ -165,7 +165,7 @@ public class AndroidSettingLib extends RpcReceiver {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Sets the media volume.")
-    public void setMediaVolume(@RpcParameter(name = "volume") Integer volume) {
+    public void setMediaVolume(@PascalParameter(name = "volume") Integer volume) {
         mAudio.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
     }
 
@@ -182,7 +182,7 @@ public class AndroidSettingLib extends RpcReceiver {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Sets the the screen backlight brightness.", returns = "the original screen brightness.")
     public Integer setScreenBrightness(
-            @RpcParameter(name = "value", description = "brightness value between 0 and 255") Integer value) {
+            @PascalParameter(name = "value", description = "brightness value between 0 and 255") Integer value) {
         if (value < 0) {
             value = 0;
         } else if (value > 255) {
