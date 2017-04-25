@@ -56,8 +56,6 @@ public class SystemLib implements PascalLibrary {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
-//            System.err.println("??? Interrupted.");
-            e.printStackTrace();
         }
     }
 
@@ -206,10 +204,10 @@ public class SystemLib implements PascalLibrary {
     @PascalMethod(description = "system lib", returns = "null")
     @SuppressWarnings("unused")
     public double frac(double d) {
-        return d - floor(d);
+        return d - Math.floor(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
+    @PascalMethod(description = "Return the largest integer smaller than or equal to argument", returns = "null")
     @SuppressWarnings("unused")
     public int floor(double d) {
         return (int) Math.floor(d);

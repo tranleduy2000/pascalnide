@@ -147,4 +147,5 @@
     <string name="debug">Программа отладки</string>
     <string name="var_name">Имя переменной</string>
     <string name="program_stopped">Program is stopped</string>
+    <string name="no_bluetooth_devices_message">No Bluetooth devices found.</string>
 </resources>

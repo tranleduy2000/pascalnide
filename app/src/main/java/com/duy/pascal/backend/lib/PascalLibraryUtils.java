@@ -61,7 +61,7 @@ public class PascalLibraryUtils {
         SUPPORT_LIB.add("asensor");
         SUPPORT_LIB.add("autils");
         SUPPORT_LIB.add("atone");
-        SUPPORT_LIB.add("atextspeak");
+        SUPPORT_LIB.add("aspeak");
         SUPPORT_LIB.add("awifi");
         SUPPORT_LIB.add("asetting");
         SUPPORT_LIB.add("abluetooth");
@@ -175,15 +175,15 @@ public class PascalLibraryUtils {
                 classes.add(StrUtilsLibrary.class);
             } else if (name.equalsIgnoreCase("ABattery")) {
                 classes.add(AndroidBatteryLib.class);
-            } else if (name.equalsIgnoreCase("AMediaPlayer")) {
+            } else if (name.equalsIgnoreCase("AMedia")) {
                 classes.add(AndroidMediaPlayerLib.class);
             } else if (name.equalsIgnoreCase("ASensor")) {
                 classes.add(AndroidSensorLib.class);
             } else if (name.equalsIgnoreCase("AUtils")) {
                 classes.add(AndroidUtilsLib.class);
-            } else if (name.equalsIgnoreCase("AToneGenerator")) {
+            } else if (name.equalsIgnoreCase("atone")) {
                 classes.add(AndroidToneGeneratorLib.class);
-            } else if (name.equalsIgnoreCase("ATextToSpeak")) {
+            } else if (name.equalsIgnoreCase("aspeak")) {
                 classes.add(AndroidTextToSpeakLib.class);
             } else if (name.equalsIgnoreCase("AWifi")) {
                 classes.add(AndroidWifiLib.class);

@@ -116,11 +116,10 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
         return mReceiverManager;
     }
 
-    @SuppressLint("JavascriptInterface")
+    @SuppressLint({"JavascriptInterface", "AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     public void onCreate() {
         mView = new WebView(getActivity());
-        mView.setId(1);
         mView.getSettings().setJavaScriptEnabled(true);
         mView.addJavascriptInterface(mWrapper, "_rpc_wrapper");
         mView.addJavascriptInterface(new Object() {

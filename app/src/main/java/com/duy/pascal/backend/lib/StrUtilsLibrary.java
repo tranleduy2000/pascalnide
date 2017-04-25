@@ -35,16 +35,8 @@ public class StrUtilsLibrary implements PascalLibrary {
         return false;
     }
 
-    /**
-     * AddChar adds characters (C) to the left of S till the length N is reached,
-     * and returns the resulting string. If the length of S is already equal to or
-     * larger than N, then no characters are added. The resulting string can be thought
-     * of as a right-aligned version of S, with length N.
-     *
-     * @return
-     */
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
+    @PascalMethod(description = "Add characters to the left of a string till a certain length", returns = "void")
     public StringBuilder addChar(char c, StringBuilder s, int index) {
         if (index < s.length()) return s;
         while (s.length() < index) {
@@ -53,19 +45,10 @@ public class StrUtilsLibrary implements PascalLibrary {
         return s;
     }
 
-    /**
-     * AddCharR adds characters (C) to the right of S till the length N is reached,
-     * and returns the resulting string. If the length of S is already equal to or
-     * larger than N, then no characters are added. The resulting string can be thought
-     * of as a left-aligned version of S, with length N .
-     *
-     * @param c
-     * @param s
-     * @param index
-     * @return
-     */
+
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
+    @PascalMethod(description = "Add chars at the end of a string till it reaches a certain length",
+            returns = "StringBuilder")
     public StringBuilder addCharR(char c, StringBuilder s, int index) {
         if (index < s.length()) return s;
         while (s.length() < index) {
@@ -74,13 +57,9 @@ public class StrUtilsLibrary implements PascalLibrary {
         return s;
     }
 
-    /**
-     * AnsiContainsString checks whether AText contains ASubText, and returns True if this is the
-     * case, or returns False otherwise. The search is performed case-sensitive.
-     */
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
 
+    @SuppressWarnings("unused")
+    @PascalMethod(description = "Checks whether a string contains a given substring", returns = "void")
     public boolean AnsiContainsStr(StringBuilder s1, StringBuilder s2) {
         return s1.toString().contains(s2.toString());
 
@@ -93,7 +72,6 @@ public class StrUtilsLibrary implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public boolean AnsiEndsStr(StringBuilder sub, StringBuilder text) {
         return text.toString().endsWith(sub.toString());
     }
@@ -103,7 +81,6 @@ public class StrUtilsLibrary implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public boolean AnsiEndsText(String sub, String text) {
         return text.toLowerCase().endsWith(sub.toLowerCase());
     }
@@ -113,21 +90,12 @@ public class StrUtilsLibrary implements PascalLibrary {
      */
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public int AnsiIndexStr(String find, String... array) {
         return Arrays.asList(array).indexOf(find);
     }
 
-    /**
-     * Searches, case insensitive, for a string in an array of strings.
-     *
-     * @param find
-     * @param array
-     * @return
-     */
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Searches, case insensitive, for a string in an array of strings.", returns = "void")
     public int AnsiIndexText(String find, String... array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = array[i].toLowerCase();
@@ -135,10 +103,8 @@ public class StrUtilsLibrary implements PascalLibrary {
         return Arrays.asList(array).indexOf(find.toLowerCase());
     }
 
-    //Copies a number of characters starting at the left of a string
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Copies a number of characters starting at the left of a string", returns = "void")
     public String AnsiLeftStr(String text, int count) {
         try {
             return text.substring(0, count - 1);
@@ -149,14 +115,12 @@ public class StrUtilsLibrary implements PascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public boolean AnsiMatchStr(String find, String... array) {
         return Arrays.asList(array).contains(find);
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public boolean AnsiMatchText(String find, String... array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = array[i].toLowerCase();
@@ -164,92 +128,73 @@ public class StrUtilsLibrary implements PascalLibrary {
         return Arrays.asList(array).contains(find.toLowerCase());
     }
 
-    //Returns a number of characters copied from a given location in a string
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String AnsiMidStr(String find, int start, int count) {
-        return find.substring(start + 1, start + count);
+    @PascalMethod(description = "Returns a number of characters copied from a given location in a string", returns = "void")
+    public StringBuilder AnsiMidStr(StringBuilder find, int start, int count) {
+        return new StringBuilder(find.substring(start + 1, start + count));
     }
 
-    //Pretty-Print a string: make lowercase and capitalize first letters of words
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String AnsiProperCase(String input, char word) {
-        input = input.toLowerCase();
-        StringBuilder stringBuilder = new StringBuilder(input);
-        for (int i = 0; i < stringBuilder.length(); i++) {
-            if (stringBuilder.charAt(i) == word) {
-                if (stringBuilder.length() - 1 > i) {
-                    stringBuilder.setCharAt(i + 1,
-                            Character.toUpperCase(stringBuilder.charAt(i + 1)));
+    @PascalMethod(description = "Pretty-Print a string: make lowercase and capitalize first letters of words", returns = "void")
+    public StringBuilder AnsiProperCase(StringBuilder input, char word) {
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == word) {
+                if (input.length() - 1 > i) {
+                    input.setCharAt(i + 1, Character.toUpperCase(input.charAt(i + 1)));
                 }
             }
         }
-        return stringBuilder.toString();
-    }
-
-    //Search and replace all occurrences of a string, case sensitive.
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String AnsiReplaceStr(String original, String from, String to) {
-        return original.replace(from, to);
+        return input;
     }
 
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String ReplaceStr(String original, String from, String to) {
-        return original.replace(from, to);
+    @PascalMethod(description = "Search and replace all occurrences of a string, case sensitive.", returns = "void")
+    public StringBuilder AnsiReplaceStr(StringBuilder original, String from, String to) {
+        return new StringBuilder(original.toString().replace(from, to));
     }
 
-    //Search and replace all occurrences of a string, case insensitive.
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
+    public StringBuilder ReplaceStr(StringBuilder original, String from, String to) {
+        return new StringBuilder(original.toString().replace(from, to));
+    }
 
-    public String AnsiReplaceText(String original, String from, String to) {
+    @SuppressWarnings("unused")
+    @PascalMethod(description = "Search and replace all occurrences of a string, case insensitive.", returns = "String")
+    public StringBuilder AnsiReplaceText(StringBuilder original, String from, String to) {
         Pattern pattern = Pattern.compile(from, Pattern.CASE_INSENSITIVE);
-        return original.replaceAll(pattern.toString(), to);
+        return new StringBuilder(original.toString().replaceAll(pattern.toString(), to));
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
-    public String ReplaceText(String original, String from, String to) {
+    public StringBuilder ReplaceText(StringBuilder original, String from, String to) {
         Pattern pattern = Pattern.compile(from, Pattern.CASE_INSENSITIVE);
-        return original.replaceAll(pattern.toString(), to);
+        return new StringBuilder(original.toString().replaceAll(pattern.toString(), to));
     }
 
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public boolean AnsiResemblesText(String s1, String s2) {
         return s1.equals(s2);
     }
 
-    //Reverse the letters in a string.
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Reverse the letters in a string.", returns = "void")
     public StringBuilder AnsiReverseString(StringBuilder in) {
         return new StringBuilder(in).reverse();
     }
 
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Reverse characters in a string", returns = "void")
     public StringBuilder ReverseString(StringBuilder in) {
         return new StringBuilder(in).reverse();
     }
 
 
-    //Copies a number of characters starting at the right of a string
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Copies a number of characters starting at the right of a string", returns = "void")
     public StringBuilder AnsiRightStr(StringBuilder text, int count) {
         try {
             if (count > text.length()) return text;
@@ -261,7 +206,6 @@ public class StrUtilsLibrary implements PascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public StringBuilder RightStr(StringBuilder text, int count) {
         try {
             if (count > text.length()) return text;
@@ -273,7 +217,6 @@ public class StrUtilsLibrary implements PascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public StringBuilder RightBStr(StringBuilder text, int count) {
         try {
             if (count > text.length()) return text;
@@ -283,26 +226,20 @@ public class StrUtilsLibrary implements PascalLibrary {
         }
     }
 
-    //Check whether a string starts with a given substring, observing case
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Check whether a string starts with a given substring, observing case", returns = "void")
     public boolean AnsiStartsStr(String sub, String text) {
         return text.startsWith(sub);
     }
 
-    //Check whether a string starts with a given substring, observing case
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Check whether a string starts with a given substring, observing case", returns = "void")
     public boolean AnsiStartsText(String sub, String text) {
         return text.toLowerCase().startsWith(sub.toLowerCase());
     }
 
-    //Returns all characters in a string till the first space character (not included).
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Returns all characters in a string till the first space character (not included).", returns = "void")
     public String Copy2Space(String text) {
         int index = text.indexOf(" ");
         if (index > 0) {
@@ -312,10 +249,8 @@ public class StrUtilsLibrary implements PascalLibrary {
         }
     }
 
-    //Deletes and returns all characters in a string till the first space character (not included).
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Deletes and returns all characters in a string till the first space character (not included).", returns = "void")
     public String Copy2SpaceDel(VariableBoxer<StringBuilder> variableBoxer) throws RuntimePascalException {
         StringBuilder stringBuilder = variableBoxer.get();
         int index = stringBuilder.indexOf(" ");
@@ -328,82 +263,67 @@ public class StrUtilsLibrary implements PascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "str utils library", returns = "void")
-
     public int indexStr(String text, String... array) {
         return Arrays.asList(array).indexOf(text);
     }
 
-    //Returns all characters in a string till a given character (not included).
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String Copy2Symb(String text, char separator) {
+    @PascalMethod(description = "Returns all characters in a string till a given character (not included).", returns = "void")
+    public StringBuilder Copy2Symb(String text, char separator) {
         int index = text.indexOf(separator);
         if (index > 0) {
-            return text.substring(0, index);
+            return new StringBuilder(text.substring(0, index));
         } else {
-            return text;
+            return new StringBuilder(text);
         }
     }
 
-    //Deletes and returns all characters in a string till a given character (not included).
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String Copy2SymbDel(VariableBoxer<StringBuilder> variableBoxer, char separator) throws RuntimePascalException {
+    @PascalMethod(description = "Deletes and returns all characters in a string till a given character (not included).", returns = "void")
+    public StringBuilder Copy2SymbDel(VariableBoxer<StringBuilder> variableBoxer, char separator) throws RuntimePascalException {
         StringBuilder stringBuilder = variableBoxer.get();
         int index = stringBuilder.indexOf(Character.toString(separator));
         if (index > 0 && index < stringBuilder.length()) {
-            return stringBuilder.substring(index + 1, stringBuilder.length());
+            return new StringBuilder(stringBuilder.substring(index + 1, stringBuilder.length()));
         } else {
-            return stringBuilder.toString();
+            return stringBuilder;
         }
     }
 
-    //Convert a decimal number to a string representation, using given a base.
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String Dec2Numb(long num, byte length, byte base) {
+    @PascalMethod(description = "Convert a decimal number to a string representation, using given a base.", returns = "void")
+    public StringBuilder Dec2Numb(long num, byte length, byte base) {
         Long number = num;
         String s = Long.toString(num, base);
         while (s.length() < length) {
             s = " " + s;
         }
-        return s;
+        return new StringBuilder(s);
     }
 
-    //Delete all occurrences of a given character from a string.
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String DelChars(String source, char charToDel) {
-        return source.replace(Character.toString(charToDel), "");
+    @PascalMethod(description = "Delete all occurrences of a given character from a string.", returns = "void")
+    public StringBuilder DelChars(String source, char charToDel) {
+        return new StringBuilder(source.replace(Character.toString(charToDel), ""));
     }
 
-    //Delete all occurrences of a space from a string.
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String DelSpace(String source) {
-        return source.replace(" ", "");
+    @PascalMethod(description = "Delete all occurrences of a space from a string.", returns = "void")
+    public StringBuilder DelSpace(String source) {
+        return new StringBuilder(source.replace(" ", ""));
     }
 
-    //Reduces sequences of space characters to 1 space character.
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
-    public String DelSpace1(String source) {
+    @PascalMethod(description = "Reduces sequences of space characters to 1 space character.", returns = "void")
+    public StringBuilder DelSpace1(String source) {
         while (source.contains("  ")) {
             source = source.replace("  ", " ");
         }
-        return source;
+        return new StringBuilder(source);
     }
 
-    //Creates and concatenates N copies of a string
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Creates and concatenates N copies of a string", returns = "void")
     public StringBuilder DupeString(String text, int count) {
         StringBuilder stringBuilder = new StringBuilder();
         while (count > 0) {
@@ -413,10 +333,8 @@ public class StrUtilsLibrary implements PascalLibrary {
         return stringBuilder;
     }
 
-    //Converts a hexadecimal string to a decimal value
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Converts a hexadecimal string to a decimal value", returns = "void")
     public long hex2Dec(String hex) throws EConvertError {
         try {
             return Long.parseLong(hex, 16);
@@ -425,26 +343,9 @@ public class StrUtilsLibrary implements PascalLibrary {
         }
     }
 
-    /**
-     * function IntToBin(
-     * Value: LongInt;
-     * Digits: Integer;
-     * Spaces: Integer
-     * ):string;
-     * <p>
-     * function IntToBin(
-     * Value: LongInt;
-     * Digits: Integer
-     * ):string;
-     * <p>
-     * function intToBin(
-     * Value: Int64;
-     * Digits: Integer
-     * ):string;
-     */
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
 
+    @SuppressWarnings("unused")
+    @PascalMethod(description = "Converts an integer to a binary string representation, inserting spaces at fixed locations.", returns = "void")
     public StringBuilder intToBin(long value, int digits, int space) {
         StringBuilder stringBuilder = new StringBuilder(Long.toBinaryString(value));
         while (stringBuilder.length() > digits) {
@@ -467,8 +368,7 @@ public class StrUtilsLibrary implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Converts an integer to a binary string representation, inserting spaces at fixed locations.", returns = "void")
     public StringBuilder intToBin(long value, int digits) {
         StringBuilder stringBuilder = new StringBuilder(Long.toBinaryString(value));
         while (stringBuilder.length() > digits) {
@@ -484,18 +384,14 @@ public class StrUtilsLibrary implements PascalLibrary {
         return stringBuilder;
     }
 
-    //Count the number of words in a string.
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Count the number of words in a string.", returns = "void")
     public int WordCount(StringBuilder s, char separator) {
         return s.toString().split(Character.toString(separator)).length;
     }
 
-    //Search position of Nth word in a string.
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Search position of Nth word in a string.", returns = "void")
     public int WordPosition(int n, StringBuilder s, char separator) {
         String[] split = s.toString().split(Character.toString(separator));
         if (split.length < n) {
@@ -510,10 +406,8 @@ public class StrUtilsLibrary implements PascalLibrary {
         return res;
     }
 
-    //Convert tab characters to a number of spaces
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Convert tab characters to a number of spaces", returns = "void")
     public StringBuilder Tab2Space(StringBuilder s, byte size) {
         String space = "";
         for (byte i = 0; i < size; i++) {
@@ -522,10 +416,8 @@ public class StrUtilsLibrary implements PascalLibrary {
         return new StringBuilder(s.toString().replace("\t", space));
     }
 
-    //Replace part of a string with another string.
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
-
+    @PascalMethod(description = "Replace part of a string with another string.", returns = "void")
     public StringBuilder StuffString(StringBuilder text, int start, int count, String replace) {
         return text.replace(start - 1, start - 1 + count, replace);
     }
