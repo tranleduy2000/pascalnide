@@ -71,6 +71,28 @@ public abstract class AbstractExecActivity extends RunnableActivity {
      */
     protected boolean enableDebug = false;
     protected AtomicBoolean mIsRunning = new AtomicBoolean(true);
+    protected final Handler mMessageHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (!mIsRunning.get()) return;
+            switch (msg.what) {
+                case RUNTIME_ERROR:
+                    if (!isFinishing()) {
+                        onError((Exception) msg.obj);
+                    }
+                    break;
+                case COMPLETE:
+                    if (!isFinishing()) {
+                        showDialogComplete();
+                    }
+                    break;
+                case SHOW_KEYBOARD:
+                    showKeyBoard();
+                    break;
+            }
+        }
+    };
     protected AtomicBoolean isCanRead = new AtomicBoolean(false);
     protected Runnable runnableInput = new Runnable() {
         @Override
@@ -114,24 +136,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     protected RuntimeExecutable program;
     protected String programFile;
     protected ApplicationFileManager mFileManager;
-    protected final Handler mMessageHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (!mIsRunning.get()) return;
-            switch (msg.what) {
-                case RUNTIME_ERROR:
-                    onError((Exception) msg.obj);
-                    break;
-                case COMPLETE:
-                    showDialogComplete();
-                    break;
-                case SHOW_KEYBOARD:
-                    showKeyBoard();
-                    break;
-            }
-        }
-    };
     Runnable runProgram = new Runnable() {
         @Override
         public void run() {
@@ -182,7 +186,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFileManager = new ApplicationFileManager(this);
-
     }
 
     @Override
