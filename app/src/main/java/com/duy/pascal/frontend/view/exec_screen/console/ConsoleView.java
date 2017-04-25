@@ -814,7 +814,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         int w = getWidth();
         int h = getHeight();
         if (graphMode) {
-            canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, mGraphScreen.getBackgroundPaint());
+            if (!mGraphScreen.getGraphBitmap().isRecycled())
+                canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, mGraphScreen.getBackgroundPaint());
         } else {
             // drawBackground bitmap graph
             mConsoleScreen.drawBackground(canvas, mConsoleScreen.getLeftVisible(),
