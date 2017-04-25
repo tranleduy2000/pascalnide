@@ -1,0 +1,65 @@
+/*
+ *  Copyright 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.backend.lib.android;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.support.v4.app.NotificationCompat;
+
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.frontend.R;
+import com.googlecode.sl4a.rpc.PascalParameter;
+
+/**
+ * Created by Duy on 25-Apr-17.
+ */
+
+public class AndroidNotifyLib extends BaseAndroidLibrary {
+    public static final String NAME = "aNotify";
+
+    private final Context mContext;
+
+    public AndroidNotifyLib(AndroidLibraryManager manager) {
+        super(manager);
+        mContext = manager.getContext();
+    }
+
+    @Override
+    public void shutdown() {
+
+    }
+
+    @SuppressWarnings("unused")
+    @PascalMethod(description = "Displays a notification that will be canceled when the user clicks on it.")
+    public void notify(@PascalParameter(name = "title", description = "title") String title,
+                       @PascalParameter(name = "message") String message) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
+        mBuilder.setContentTitle(title);
+        mBuilder.setContentText(message);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setAutoCancel(true);
+
+        int id = 1;
+        NotificationManager notificationManager =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification build = mBuilder.build();
+        notificationManager.notify(id, build);
+    }
+
+}

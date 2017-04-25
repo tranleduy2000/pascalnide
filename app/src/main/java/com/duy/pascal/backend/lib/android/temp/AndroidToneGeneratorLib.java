@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.android;
+package com.duy.pascal.backend.lib.android.temp;
 
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -28,7 +28,7 @@ import com.googlecode.sl4a.rpc.PascalParameter;
 /**
  * Generate DTMF tones.
  */
-public class AndroidToneGeneratorLib extends AndroidLibrary {
+public class AndroidToneGeneratorLib extends BaseAndroidLibrary {
 
     private final ToneGenerator mToneGenerator;
 

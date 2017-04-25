@@ -19,9 +19,9 @@ package com.googlecode.sl4a.rpc;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.AndroidLibraryUtils;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 
 import org.json.JSONArray;
@@ -48,9 +48,9 @@ public final class MethodDescriptor {
     private static final Map<Class<?>, Converter<?>> sConverters = populateConverters();
 
     private final Method mMethod;
-    private final Class<? extends AndroidLibrary> mClass;
+    private final Class<? extends BaseAndroidLibrary> mClass;
 
-    public MethodDescriptor(Class<? extends AndroidLibrary> clazz, Method method) {
+    public MethodDescriptor(Class<? extends BaseAndroidLibrary> clazz, Method method) {
         mClass = clazz;
         mMethod = method;
     }
@@ -58,7 +58,7 @@ public final class MethodDescriptor {
     /**
      * Collects all methods with {@code RPC} annotation from given class.
      */
-    public static Collection<MethodDescriptor> collectFrom(Class<? extends AndroidLibrary> clazz) {
+    public static Collection<MethodDescriptor> collectFrom(Class<? extends BaseAndroidLibrary> clazz) {
         List<MethodDescriptor> descriptors = new ArrayList<>();
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(PascalMethod.class)) {
@@ -122,7 +122,7 @@ public final class MethodDescriptor {
             intent.setFlags(jsonObject.getInt("flags"));
         }
         if (!jsonObject.isNull("extras")) {
-            AndroidUtilsLib.putExtrasFromJsonObject(jsonObject.getJSONObject("extras"), intent);
+            AndroidLibraryUtils.putExtrasFromJsonObject(jsonObject.getJSONObject("extras"), intent);
         }
         if (!jsonObject.isNull("categories")) {
             JSONArray categories = jsonObject.getJSONArray("categories");
@@ -248,8 +248,8 @@ public final class MethodDescriptor {
             return converter;
         }
         try {
-            Constructor<?> constructor = converterClass.getConstructor(new Class<?>[0]);
-            return (Converter<?>) constructor.newInstance(new Object[0]);
+            Constructor<?> constructor = converterClass.getConstructor();
+            return (Converter<?>) constructor.newInstance();
         } catch (Exception e) {
             throw new IllegalArgumentException("Cannot create converter from "
                     + converterClass.getCanonicalName());
@@ -369,7 +369,7 @@ public final class MethodDescriptor {
         return mMethod;
     }
 
-    public Class<? extends AndroidLibrary> getDeclaringClass() {
+    public Class<? extends BaseAndroidLibrary> getDeclaringClass() {
         return mClass;
     }
 

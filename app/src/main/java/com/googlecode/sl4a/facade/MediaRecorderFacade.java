@@ -27,12 +27,12 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -58,7 +58,7 @@ import java.util.concurrent.TimeUnit;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class MediaRecorderFacade extends AndroidLibrary {
+public class MediaRecorderFacade extends BaseAndroidLibrary {
 
     private final MediaRecorder mMediaRecorder = new MediaRecorder();
     private final Context mContext;

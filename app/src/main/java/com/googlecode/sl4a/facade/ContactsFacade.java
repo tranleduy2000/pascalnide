@@ -26,7 +26,7 @@ import android.provider.Contacts.People;
 import android.provider.Contacts.PhonesColumns;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -43,7 +43,7 @@ import java.util.List;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com
  */
-public class ContactsFacade extends AndroidLibrary {
+public class ContactsFacade extends BaseAndroidLibrary {
     private static final Uri CONTACTS_URI = Uri.parse("content://contacts/people");
     private final ContentResolver mContentResolver;
     private final Context mContext;

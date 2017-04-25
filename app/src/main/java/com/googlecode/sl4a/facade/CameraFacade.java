@@ -31,13 +31,13 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -51,7 +51,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Access Camera functions.
  */
-public class CameraFacade extends AndroidLibrary {
+public class CameraFacade extends BaseAndroidLibrary {
 
     private final Context mContext;
     private final Parameters mParameters;

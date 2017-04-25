@@ -24,10 +24,8 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
@@ -41,8 +39,8 @@ import java.lang.reflect.Field;
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class AndroidBatteryLib extends AndroidLibrary {
-
+public class AndroidBatteryLib extends BaseAndroidLibrary {
+    public static final String NAME = "aBattery";
     /**
      * Power source is an AC charger.
      */
@@ -54,13 +52,12 @@ public class AndroidBatteryLib extends AndroidLibrary {
     @SuppressWarnings("unused")
     public static final int BATTERY_PLUGGED_USB = 2;
     private final Context mContext;
-    private final EventFacade mEventFacade;
     private BatteryStateListener mReceiver;
     private volatile Bundle mBatteryData = null;
     private volatile int mBatteryStatus = -1;
     private volatile int mBatteryHealth = -1;
     private volatile int mPlugType = -1;
-    private volatile Boolean mBatteryPresent = null;
+    private volatile boolean mBatteryPresent = false;
     private volatile int mBatteryLevel = -1;
     private volatile int mBatteryMaxLevel = -1;
     private volatile int mBatteryVoltage = -1;
@@ -70,7 +67,6 @@ public class AndroidBatteryLib extends AndroidLibrary {
     public AndroidBatteryLib(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
-        mEventFacade = manager.getReceiver(EventFacade.class);
         mReceiver = null;
         mBatteryData = null;
     }
@@ -101,7 +97,7 @@ public class AndroidBatteryLib extends AndroidLibrary {
         if (mReceiver == null) {
             IntentFilter filter = new IntentFilter();
             filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-            mReceiver = new BatteryStateListener(mEventFacade);
+            mReceiver = new BatteryStateListener();
             mContext.registerReceiver(mReceiver, filter);
         }
     }
@@ -183,11 +179,7 @@ public class AndroidBatteryLib extends AndroidLibrary {
     }
 
     private class BatteryStateListener extends BroadcastReceiver {
-
-        private final EventFacade mmEventFacade;
-
-        private BatteryStateListener(EventFacade facade) {
-            mmEventFacade = facade;
+        private BatteryStateListener() {
         }
 
         @Override
@@ -196,8 +188,7 @@ public class AndroidBatteryLib extends AndroidLibrary {
             mBatteryHealth = intent.getIntExtra("health", 1);
             mPlugType = intent.getIntExtra("plugged", -1);
 
-            mBatteryPresent =
-                    intent.getBooleanExtra(getBatteryManagerFieldValue("EXTRA_PRESENT"), false);
+            mBatteryPresent = intent.getBooleanExtra(getBatteryManagerFieldValue("EXTRA_PRESENT"), false);
             mBatteryLevel = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_LEVEL"), -1);
             mBatteryMaxLevel = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_SCALE"), 0);
             mBatteryVoltage = intent.getIntExtra(getBatteryManagerFieldValue("EXTRA_VOLTAGE"), -1);
@@ -220,7 +211,6 @@ public class AndroidBatteryLib extends AndroidLibrary {
             data.putString("technology", mBatteryTechnology);
 
             mBatteryData = data;
-            mmEventFacade.postEvent("battery", mBatteryData.clone());
         }
     }
 

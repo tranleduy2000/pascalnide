@@ -1,14 +1,14 @@
 uses aSpeech;
 var
-    str: String;
+    input: String;
 begin
     {Please enable network, audio permission, speaker ...}
 
     writeln('Enter your text: ');
-    readln(str);
+    readln(input);
 
-    {Text to speech}
-    speak(srt);
+    {Text to speech, wait....}
+    speak(input);
 
     readln;
 

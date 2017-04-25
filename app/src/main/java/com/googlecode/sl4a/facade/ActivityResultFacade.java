@@ -21,7 +21,7 @@ import android.content.Intent;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Constants;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.PascalParameter;
 
@@ -32,7 +32,7 @@ import java.io.Serializable;
  *
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
-public class ActivityResultFacade extends AndroidLibrary {
+public class ActivityResultFacade extends BaseAndroidLibrary {
 
     private static final String sRpcDescription =
             "Sets the result of a script execution. Whenever the script APK is called via "

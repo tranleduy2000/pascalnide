@@ -37,7 +37,7 @@ import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SimpleServer.SimpleServerObserver;
 import com.googlecode.sl4a.SingleThreadExecutor;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -85,7 +85,7 @@ import java.util.concurrent.Executor;
  * @author Damon Kohler (damonkohler@gmail.com) (probably)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class WebCamFacade extends AndroidLibrary {
+public class WebCamFacade extends BaseAndroidLibrary {
 
     private final Context mContext;
     private final Executor mJpegCompressionExecutor = new SingleThreadExecutor();

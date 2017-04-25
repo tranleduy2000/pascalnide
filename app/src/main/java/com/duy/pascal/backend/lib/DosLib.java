@@ -30,6 +30,8 @@ import java.util.Map;
 
 public class DosLib implements PascalLibrary {
 
+    public static final String NAME = "dos";
+
     public DosLib() {
 
     }

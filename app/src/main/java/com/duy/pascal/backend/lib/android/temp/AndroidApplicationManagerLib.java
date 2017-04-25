@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.android;
+package com.duy.pascal.backend.lib.android.temp;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -22,8 +22,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.PascalParameter;
 
@@ -38,7 +38,7 @@ import java.util.Set;
 /**
  * Facade for managing Applications.
  */
-public class AndroidApplicationManagerLib extends AndroidLibrary {
+public class AndroidApplicationManagerLib extends BaseAndroidLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
     private final ActivityManager mActivityManager;

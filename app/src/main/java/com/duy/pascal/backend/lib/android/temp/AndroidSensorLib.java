@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.duy.pascal.backend.lib.android;
+package com.duy.pascal.backend.lib.android.temp;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -23,9 +23,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
@@ -97,7 +97,7 @@ import java.util.List;
  * @author Robbie Mathews (rjmatthews62@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class AndroidSensorLib extends AndroidLibrary {
+public class AndroidSensorLib extends BaseAndroidLibrary {
     private final EventFacade mEventFacade;
     private final SensorManager mSensorManager;
 

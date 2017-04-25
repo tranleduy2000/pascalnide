@@ -28,10 +28,10 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.MainThread;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
@@ -49,7 +49,7 @@ import java.util.concurrent.Callable;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class PhoneFacade extends AndroidLibrary {
+public class PhoneFacade extends BaseAndroidLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
     private final EventFacade mEventFacade;

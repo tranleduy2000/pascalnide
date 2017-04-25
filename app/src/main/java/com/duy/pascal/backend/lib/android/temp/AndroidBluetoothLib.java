@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.duy.pascal.backend.lib.android;
+package com.duy.pascal.backend.lib.android.temp;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -22,11 +22,11 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.MainThread;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -50,7 +50,7 @@ import java.util.concurrent.Callable;
 // Discovery functions added by Eden Sayag
 
 
-public class AndroidBluetoothLib extends AndroidLibrary {
+public class AndroidBluetoothLib extends BaseAndroidLibrary {
 
     // UUID for SL4A.
     private static final String DEFAULT_UUID = "457807c0-4897-11df-9879-0800200c9a66";

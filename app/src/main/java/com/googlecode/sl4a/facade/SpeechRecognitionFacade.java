@@ -19,9 +19,9 @@ package com.googlecode.sl4a.facade;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class SpeechRecognitionFacade extends AndroidLibrary {
+public class SpeechRecognitionFacade extends BaseAndroidLibrary {
     private final AndroidUtilsLib mAndroidFacade;
 
     public SpeechRecognitionFacade(AndroidLibraryManager manager) {

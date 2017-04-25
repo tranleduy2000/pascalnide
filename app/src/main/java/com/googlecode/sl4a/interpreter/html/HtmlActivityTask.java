@@ -43,7 +43,7 @@ import com.googlecode.sl4a.future.FutureActivityTask;
 import com.googlecode.sl4a.interpreter.InterpreterConstants;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.jsonrpc.JsonRpcResult;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 import com.googlecode.sl4a.rpc.RpcError;
@@ -180,7 +180,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
 
     private String generateAPIWrapper() {
         StringBuilder wrapper = new StringBuilder();
-        for (Class<? extends AndroidLibrary> clazz : mReceiverManager.getRpcReceiverClasses()) {
+        for (Class<? extends BaseAndroidLibrary> clazz : mReceiverManager.getRpcReceiverClasses()) {
             for (MethodDescriptor rpc : MethodDescriptor.collectFrom(clazz)) {
                 wrapper.append(String.format(ANDROID_PROTOTYPE_JS, rpc.getName()));
             }

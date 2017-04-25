@@ -24,7 +24,7 @@ import android.telephony.TelephonyManager;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.MainThread;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
@@ -36,7 +36,7 @@ import java.util.concurrent.Callable;
  *
  * @author Joerg Zieren (joerg.zieren@gmail.com)
  */
-public class SignalStrengthFacade extends AndroidLibrary {
+public class SignalStrengthFacade extends BaseAndroidLibrary {
     private final Context mContext;
     private final TelephonyManager mTelephonyManager;
     private final EventFacade mEventFacade;

@@ -206,7 +206,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                     throw new ExpectedTokenException("[Library Identifier]", next);
                 }
                 //check library not found
-                if (!PascalLibraryUtils.SUPPORT_LIB.contains(((WordToken) next).name)) {
+                if (PascalLibraryUtils.mSupportLibraries.get(((WordToken) next).name.toLowerCase()) == null) {
                     throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
                 }
                 listLib.add(next.toString());

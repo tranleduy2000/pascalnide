@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.duy.pascal.backend.lib.android;
+package com.duy.pascal.backend.lib.android.temp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,11 +24,11 @@ import android.provider.Settings.SettingNotFoundException;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -40,8 +40,8 @@ import java.lang.reflect.Method;
  *
  * @author Frank Spychalski (frank.spychalski@gmail.com)
  */
-public class AndroidSettingLib extends AndroidLibrary {
-
+public class AndroidSettingLib extends BaseAndroidLibrary {
+public static final String NAME = "aSetting";
     public static int AIRPLANE_MODE_OFF = 0;
     public static int AIRPLANE_MODE_ON = 1;
 

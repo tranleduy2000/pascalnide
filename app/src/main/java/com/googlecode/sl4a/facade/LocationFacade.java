@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.google.common.collect.Maps;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -84,7 +84,7 @@ import java.util.Map.Entry;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class LocationFacade extends AndroidLibrary {
+public class LocationFacade extends BaseAndroidLibrary {
     private final EventFacade mEventFacade;
     private final Context mContext;
     private final Map<String, Location> mLocationUpdates;

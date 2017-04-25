@@ -19,9 +19,9 @@ package com.duy.pascal.backend.lib.android.utils;
 import android.app.Activity;
 import android.content.Context;
 
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 
@@ -34,7 +34,7 @@ public class AndroidLibraryManager extends RpcReceiverManager {
     private  Context mContext;
     private int mSdkLevel;
 
-    public AndroidLibraryManager(int sdkLevel, Activity context, Collection<Class<? extends AndroidLibrary>> classList) {
+    public AndroidLibraryManager(int sdkLevel, Activity context, Collection<Class<? extends BaseAndroidLibrary>> classList) {
         super(classList);
         mSdkLevel = sdkLevel;
         if (context != null){
@@ -51,7 +51,7 @@ public class AndroidLibraryManager extends RpcReceiverManager {
     }
 
     @Override
-    public Object invoke(Class<? extends AndroidLibrary> clazz, Method method, Object[] args)
+    public Object invoke(Class<? extends BaseAndroidLibrary> clazz, Method method, Object[] args)
             throws Exception {
         try {
             if (method.isAnnotationPresent(RpcDeprecated.class)) {

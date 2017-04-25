@@ -31,7 +31,7 @@ import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.facade.EventFacade;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -113,7 +113,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class UiFacade extends AndroidLibrary {
+public class UiFacade extends BaseAndroidLibrary {
     // This value should not be used for menu groups outside this class.
     private static final int MENU_GROUP_ID = Integer.MAX_VALUE;
 

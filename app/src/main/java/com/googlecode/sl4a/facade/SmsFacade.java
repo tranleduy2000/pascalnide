@@ -26,7 +26,7 @@ import android.telephony.gsm.SmsManager;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -45,7 +45,7 @@ import java.util.List;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class SmsFacade extends AndroidLibrary {
+public class SmsFacade extends BaseAndroidLibrary {
 
     private final ContentResolver mContentResolver;
     private final SmsManager mSms;

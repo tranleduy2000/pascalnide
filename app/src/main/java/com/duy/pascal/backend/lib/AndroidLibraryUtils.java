@@ -16,19 +16,26 @@
 
 package com.duy.pascal.backend.lib;
 
+import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 
-import com.duy.pascal.backend.lib.android.AndroidApplicationManagerLib;
 import com.duy.pascal.backend.lib.android.AndroidBatteryLib;
-import com.duy.pascal.backend.lib.android.AndroidBluetoothLib;
-import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
-import com.duy.pascal.backend.lib.android.AndroidSensorLib;
-import com.duy.pascal.backend.lib.android.AndroidSettingLib;
+import com.duy.pascal.backend.lib.android.AndroidClipboard;
+import com.duy.pascal.backend.lib.android.AndroidNotifyLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
-import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
-import com.duy.pascal.backend.lib.android.AndroidWifiLib;
+import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.android.temp.AndroidApplicationManagerLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidSensorLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
 import com.google.common.collect.Maps;
+import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.facade.ActivityResultFacade;
 import com.googlecode.sl4a.facade.CameraFacade;
 import com.googlecode.sl4a.facade.CommonIntentsFacade;
@@ -44,11 +51,14 @@ import com.googlecode.sl4a.facade.SpeechRecognitionFacade;
 import com.googlecode.sl4a.facade.WakeLockFacade;
 import com.googlecode.sl4a.facade.WebCamFacade;
 import com.googlecode.sl4a.facade.ui.UiFacade;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -67,7 +77,7 @@ import java.util.TreeMap;
  * @author Igor Karp (igor.v.karp@gmail.com)
  */
 public class AndroidLibraryUtils {
-    private final static Set<Class<? extends AndroidLibrary>> sFacadeClassList;
+    private final static Set<Class<? extends BaseAndroidLibrary>> sFacadeClassList;
     private final static SortedMap<String, MethodDescriptor> sRpcs =
             new TreeMap<>();
 
@@ -98,7 +108,10 @@ public class AndroidLibraryUtils {
         sFacadeClassList.add(SignalStrengthFacade.class);
         sFacadeClassList.add(AndroidBatteryLib.class);
         sFacadeClassList.add(WebCamFacade.class);
-        for (Class<? extends AndroidLibrary> recieverClass : sFacadeClassList) {
+        sFacadeClassList.add(AndroidVibrateLib.class);
+        sFacadeClassList.add(AndroidClipboard.class);
+        sFacadeClassList.add(AndroidNotifyLib.class);
+        for (Class<? extends BaseAndroidLibrary> recieverClass : sFacadeClassList) {
             for (MethodDescriptor rpcMethod : MethodDescriptor.collectFrom(recieverClass)) {
                 sRpcs.put(rpcMethod.getName(), rpcMethod);
             }
@@ -173,7 +186,180 @@ public class AndroidLibraryUtils {
         return sRpcs.get(name);
     }
 
-    public static Collection<Class<? extends AndroidLibrary>> getFacadeClasses() {
+    public static Collection<Class<? extends BaseAndroidLibrary>> getFacadeClasses() {
         return sFacadeClassList;
     }
+
+
+    // TODO(damonkohler): Pull this out into proper argument deserialization and support
+    // complex/nested types being passed in.
+    public static void putExtrasFromJsonObject(JSONObject extras, Intent intent) throws JSONException {
+        JSONArray names = extras.names();
+        for (int i = 0; i < names.length(); i++) {
+            String name = names.getString(i);
+            Object data = extras.get(name);
+            if (data == null) {
+                continue;
+            }
+            if (data instanceof Integer) {
+                intent.putExtra(name, (Integer) data);
+            }
+            if (data instanceof Float) {
+                intent.putExtra(name, (Float) data);
+            }
+            if (data instanceof Double) {
+                intent.putExtra(name, (Double) data);
+            }
+            if (data instanceof Long) {
+                intent.putExtra(name, (Long) data);
+            }
+            if (data instanceof String) {
+                intent.putExtra(name, (String) data);
+            }
+            if (data instanceof Boolean) {
+                intent.putExtra(name, (Boolean) data);
+            }
+            // Nested JSONObject
+            if (data instanceof JSONObject) {
+                Bundle nestedBundle = new Bundle();
+                intent.putExtra(name, nestedBundle);
+                putNestedJSONObject((JSONObject) data, nestedBundle);
+            }
+            // Nested JSONArray. Doesn't support mixed types in single array
+            if (data instanceof JSONArray) {
+                // Empty array. No way to tell what type of data to pass on, so skipping
+                if (((JSONArray) data).length() == 0) {
+                    Log.e("Empty array not supported in JSONObject, skipping");
+                    continue;
+                }
+                // Integer
+                if (((JSONArray) data).get(0) instanceof Integer) {
+                    Integer[] integerArrayData = new Integer[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        integerArrayData[j] = ((JSONArray) data).getInt(j);
+                    }
+                    intent.putExtra(name, integerArrayData);
+                }
+                // Double
+                if (((JSONArray) data).get(0) instanceof Double) {
+                    Double[] doubleArrayData = new Double[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        doubleArrayData[j] = ((JSONArray) data).getDouble(j);
+                    }
+                    intent.putExtra(name, doubleArrayData);
+                }
+                // Long
+                if (((JSONArray) data).get(0) instanceof Long) {
+                    Long[] longArrayData = new Long[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        longArrayData[j] = ((JSONArray) data).getLong(j);
+                    }
+                    intent.putExtra(name, longArrayData);
+                }
+                // String
+                if (((JSONArray) data).get(0) instanceof String) {
+                    String[] stringArrayData = new String[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        stringArrayData[j] = ((JSONArray) data).getString(j);
+                    }
+                    intent.putExtra(name, stringArrayData);
+                }
+                // Boolean
+                if (((JSONArray) data).get(0) instanceof Boolean) {
+                    Boolean[] booleanArrayData = new Boolean[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        booleanArrayData[j] = ((JSONArray) data).getBoolean(j);
+                    }
+                    intent.putExtra(name, booleanArrayData);
+                }
+            }
+        }
+    }
+
+    // Contributed by Emmanuel T
+    // Nested Array handling contributed by Sergey Zelenev
+    public static void putNestedJSONObject(JSONObject jsonObject, Bundle bundle)
+            throws JSONException {
+        JSONArray names = jsonObject.names();
+        for (int i = 0; i < names.length(); i++) {
+            String name = names.getString(i);
+            Object data = jsonObject.get(name);
+            if (data == null) {
+                continue;
+            }
+            if (data instanceof Integer) {
+                bundle.putInt(name, (Integer) data);
+            }
+            if (data instanceof Float) {
+                bundle.putFloat(name, (Float) data);
+            }
+            if (data instanceof Double) {
+                bundle.putDouble(name, (Double) data);
+            }
+            if (data instanceof Long) {
+                bundle.putLong(name, (Long) data);
+            }
+            if (data instanceof String) {
+                bundle.putString(name, (String) data);
+            }
+            if (data instanceof Boolean) {
+                bundle.putBoolean(name, (Boolean) data);
+            }
+            // Nested JSONObject
+            if (data instanceof JSONObject) {
+                Bundle nestedBundle = new Bundle();
+                bundle.putBundle(name, nestedBundle);
+                putNestedJSONObject((JSONObject) data, nestedBundle);
+            }
+            // Nested JSONArray. Doesn't support mixed types in single array
+            if (data instanceof JSONArray) {
+                // Empty array. No way to tell what type of data to pass on, so skipping
+                if (((JSONArray) data).length() == 0) {
+                    Log.e("Empty array not supported in nested JSONObject, skipping");
+                    continue;
+                }
+                // Integer
+                if (((JSONArray) data).get(0) instanceof Integer) {
+                    int[] integerArrayData = new int[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        integerArrayData[j] = ((JSONArray) data).getInt(j);
+                    }
+                    bundle.putIntArray(name, integerArrayData);
+                }
+                // Double
+                if (((JSONArray) data).get(0) instanceof Double) {
+                    double[] doubleArrayData = new double[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        doubleArrayData[j] = ((JSONArray) data).getDouble(j);
+                    }
+                    bundle.putDoubleArray(name, doubleArrayData);
+                }
+                // Long
+                if (((JSONArray) data).get(0) instanceof Long) {
+                    long[] longArrayData = new long[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        longArrayData[j] = ((JSONArray) data).getLong(j);
+                    }
+                    bundle.putLongArray(name, longArrayData);
+                }
+                // String
+                if (((JSONArray) data).get(0) instanceof String) {
+                    String[] stringArrayData = new String[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        stringArrayData[j] = ((JSONArray) data).getString(j);
+                    }
+                    bundle.putStringArray(name, stringArrayData);
+                }
+                // Boolean
+                if (((JSONArray) data).get(0) instanceof Boolean) {
+                    boolean[] booleanArrayData = new boolean[((JSONArray) data).length()];
+                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
+                        booleanArrayData[j] = ((JSONArray) data).getBoolean(j);
+                    }
+                    bundle.putBooleanArray(name, booleanArrayData);
+                }
+            }
+        }
+    }
+
 }

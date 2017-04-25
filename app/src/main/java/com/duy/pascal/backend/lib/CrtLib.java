@@ -37,6 +37,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CrtLib implements PascalLibrary {
 
     public static final String TAG = CrtLib.class.getSimpleName();
+    public static final String NAME = "crt";
     private ExecHandler handler;
     private AtomicBoolean canPlaySound = new AtomicBoolean(false);
     private long finalFrequency;

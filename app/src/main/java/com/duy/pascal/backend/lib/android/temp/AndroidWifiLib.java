@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.android;
+package com.duy.pascal.backend.lib.android.temp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,8 +23,8 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Wifi functions.
  */
-public class AndroidWifiLib extends AndroidLibrary {
+public class AndroidWifiLib extends BaseAndroidLibrary {
 
     private WifiManager mWifi;
     private WifiLock mLock;

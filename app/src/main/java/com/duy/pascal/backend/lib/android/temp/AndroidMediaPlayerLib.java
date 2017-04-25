@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.android;
+package com.duy.pascal.backend.lib.android.temp;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -80,7 +80,7 @@ import java.util.Set;
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
 
-public class AndroidMediaPlayerLib extends AndroidLibrary implements MediaPlayer.OnCompletionListener {
+public class AndroidMediaPlayerLib extends BaseAndroidLibrary implements MediaPlayer.OnCompletionListener {
 
     private final Map<String, MediaPlayer> mPlayers = new Hashtable<>();
     private final Map<String, String> mUrls = new Hashtable<>();

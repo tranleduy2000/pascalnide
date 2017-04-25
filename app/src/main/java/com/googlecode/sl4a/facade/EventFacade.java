@@ -29,7 +29,7 @@ import com.google.common.collect.Multimaps;
 import com.googlecode.sl4a.event.Event;
 import com.googlecode.sl4a.future.FutureResult;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class EventFacade extends AndroidLibrary {
+public class EventFacade extends BaseAndroidLibrary {
     /**
      * The maximum length of the event queue. Old events will be discarded when this limit is
      * exceeded.

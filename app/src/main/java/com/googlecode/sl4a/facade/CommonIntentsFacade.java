@@ -21,9 +21,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Contacts.People;
 
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -38,7 +38,7 @@ import java.io.File;
  * <br>
  * These can be used to trigger some common tasks.
  */
-public class CommonIntentsFacade extends AndroidLibrary {
+public class CommonIntentsFacade extends BaseAndroidLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
 

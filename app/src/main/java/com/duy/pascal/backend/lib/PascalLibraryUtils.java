@@ -17,14 +17,17 @@
 package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.lib.android.AndroidBatteryLib;
-import com.duy.pascal.backend.lib.android.AndroidBluetoothLib;
-import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
-import com.duy.pascal.backend.lib.android.AndroidSensorLib;
-import com.duy.pascal.backend.lib.android.AndroidSettingLib;
+import com.duy.pascal.backend.lib.android.AndroidClipboard;
+import com.duy.pascal.backend.lib.android.AndroidNotifyLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
-import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
-import com.duy.pascal.backend.lib.android.AndroidUtilsLib;
-import com.duy.pascal.backend.lib.android.AndroidWifiLib;
+import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidSensorLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
+import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.graph.GraphLib;
@@ -40,30 +43,34 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Duy on 08-Apr-17.
  */
 
 public class PascalLibraryUtils {
-    public static final ArrayList<String> SUPPORT_LIB;
+    public static final Map<String, Class<? extends PascalLibrary>> mSupportLibraries = new HashMap<>();
 
     static {
-        SUPPORT_LIB = new ArrayList<>();
-        SUPPORT_LIB.add("crt");
-        SUPPORT_LIB.add("dos");
-        SUPPORT_LIB.add("math");
-        SUPPORT_LIB.add("graph");
-        SUPPORT_LIB.add("strutils");
-        SUPPORT_LIB.add("abattery");
-        SUPPORT_LIB.add("amedia");
-        SUPPORT_LIB.add("asensor");
-        SUPPORT_LIB.add("autils");
-        SUPPORT_LIB.add("atone");
-        SUPPORT_LIB.add("aspeech");
-        SUPPORT_LIB.add("awifi");
-        SUPPORT_LIB.add("asetting");
-        SUPPORT_LIB.add("abluetooth");
+        mSupportLibraries.put(CrtLib.NAME, CrtLib.class);
+        mSupportLibraries.put(DosLib.NAME, DosLib.class);
+        mSupportLibraries.put(MathLib.NAME, MathLib.class);
+        mSupportLibraries.put("graph", GraphLib.class);
+        mSupportLibraries.put("strutils", StrUtilsLibrary.class);
+        mSupportLibraries.put("abattery", AndroidBatteryLib.class);
+        mSupportLibraries.put("amedia", AndroidMediaPlayerLib.class);
+        mSupportLibraries.put("asensor", AndroidSensorLib.class);
+        mSupportLibraries.put("autils", AndroidUtilsLib.class);
+        mSupportLibraries.put("atone", AndroidToneGeneratorLib.class);
+        mSupportLibraries.put("aspeech", AndroidTextToSpeechLib.class);
+        mSupportLibraries.put("awifi", AndroidWifiLib.class);
+        mSupportLibraries.put("asetting", AndroidSettingLib.class);
+        mSupportLibraries.put("abluetooth", AndroidBluetoothLib.class);
+        mSupportLibraries.put(AndroidClipboard.NAME, AndroidClipboard.class);
+        mSupportLibraries.put("anotify", AndroidNotifyLib.class);
+        mSupportLibraries.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
     }
 
     /**
@@ -128,6 +135,9 @@ public class PascalLibraryUtils {
         }
     }
 
+    /**
+     * load method from a class
+     */
     public static void addMethodFromClass(Class<?> pascalPlugin,
                                           int modifier,
                                           RunnableActivity handler,
@@ -163,10 +173,12 @@ public class PascalLibraryUtils {
     }
 
     /**
-     * load library
+     * load all method of the list classes
      *
-     * @param newLibraries
-     * @param callableFunctions
+     * @param source            - current library
+     * @param newLibraries      - list name of libraries to import
+     * @param handler-          - activity for handle output, input, graph, ...
+     * @param callableFunctions - map function for add method
      */
     public static void loadLibrary(ArrayList<String> source, ArrayList<String> newLibraries,
                                    RunnableActivity handler,
@@ -174,37 +186,7 @@ public class PascalLibraryUtils {
         source.addAll(newLibraries);
         ArrayList<Class<?>> classes = new ArrayList<>();
         for (String name : newLibraries) {
-            if (name.equalsIgnoreCase("crt")) {
-                classes.add(CrtLib.class);
-            } else if (name.equalsIgnoreCase("dos")) {
-                classes.add(DosLib.class);
-            } else if (name.equalsIgnoreCase("math")) {
-                classes.add(MathLib.class);
-            } else if (name.equalsIgnoreCase("graph")) {
-                classes.add(GraphLib.class);
-            } else if (name.equalsIgnoreCase("graph")) {
-                classes.add(GraphLib.class);
-            } else if (name.equalsIgnoreCase("strUtils")) {
-                classes.add(StrUtilsLibrary.class);
-            } else if (name.equalsIgnoreCase("ABattery")) {
-                classes.add(AndroidBatteryLib.class);
-            } else if (name.equalsIgnoreCase("AMedia")) {
-                classes.add(AndroidMediaPlayerLib.class);
-            } else if (name.equalsIgnoreCase("ASensor")) {
-                classes.add(AndroidSensorLib.class);
-            } else if (name.equalsIgnoreCase("AUtils")) {
-                classes.add(AndroidUtilsLib.class);
-            } else if (name.equalsIgnoreCase("atone")) {
-                classes.add(AndroidToneGeneratorLib.class);
-            } else if (name.equalsIgnoreCase("aSpeech")) {
-                classes.add(AndroidTextToSpeechLib.class);
-            } else if (name.equalsIgnoreCase("AWifi")) {
-                classes.add(AndroidWifiLib.class);
-            } else if (name.equalsIgnoreCase("ASetting")) {
-                classes.add(AndroidSettingLib.class);
-            } else if (name.equalsIgnoreCase("ABluetooth")) {
-                classes.add(AndroidBluetoothLib.class);
-            }
+            classes.add(mSupportLibraries.get(name));
         }
         PascalLibraryUtils.addMethodFromClasses(classes, Modifier.PUBLIC, handler, callableFunctions);
     }

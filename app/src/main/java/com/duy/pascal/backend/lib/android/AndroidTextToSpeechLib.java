@@ -23,7 +23,6 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
 import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.util.Locale;
@@ -33,7 +32,8 @@ import java.util.concurrent.CountDownLatch;
  * Provides Text To Speech services for API 4 or more.
  */
 
-public class AndroidTextToSpeechLib extends AndroidLibrary {
+public class AndroidTextToSpeechLib extends BaseAndroidLibrary {
+    public static final String NAME = "aSpeech";
 
     private final TextToSpeech mTextToSpeech;
     private final CountDownLatch mOnInitLock;

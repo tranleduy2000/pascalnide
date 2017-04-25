@@ -22,7 +22,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcOptional;
 import com.googlecode.sl4a.rpc.PascalParameter;
@@ -48,7 +48,7 @@ import java.util.Map;
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
 
-public class PreferencesFacade extends AndroidLibrary {
+public class PreferencesFacade extends BaseAndroidLibrary {
 
     private Context mContext;
 

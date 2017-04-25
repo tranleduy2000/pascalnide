@@ -14,12 +14,10 @@
  * the License.
  */
 
-package com.duy.pascal.backend.lib.android;
+package com.duy.pascal.backend.lib.android.temp;
 
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,7 +28,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.StatFs;
 import android.os.Vibrator;
 import android.text.ClipboardManager;
@@ -40,18 +37,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.AndroidLibraryUtils;
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.NotificationIdFactory;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.jsonrpc.AndroidLibrary;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +77,7 @@ import java.util.TimeZone;
  * <br>
  * An intent can be built using the {@see #makeIntent} call, but can also be constructed exterally.
  */
-public class AndroidUtilsLib extends AndroidLibrary {
+public class AndroidUtilsLib extends BaseAndroidLibrary {
     private final Context mContext;
     private final Handler mHandler;
     private final FutureActivityTaskExecutor mTaskQueue;
@@ -103,216 +100,10 @@ public class AndroidUtilsLib extends AndroidLibrary {
 
     }
 
-    // TODO(damonkohler): Pull this out into proper argument deserialization and support
-    // complex/nested types being passed in.
-    public static void putExtrasFromJsonObject(JSONObject extras, Intent intent) throws JSONException {
-        JSONArray names = extras.names();
-        for (int i = 0; i < names.length(); i++) {
-            String name = names.getString(i);
-            Object data = extras.get(name);
-            if (data == null) {
-                continue;
-            }
-            if (data instanceof Integer) {
-                intent.putExtra(name, (Integer) data);
-            }
-            if (data instanceof Float) {
-                intent.putExtra(name, (Float) data);
-            }
-            if (data instanceof Double) {
-                intent.putExtra(name, (Double) data);
-            }
-            if (data instanceof Long) {
-                intent.putExtra(name, (Long) data);
-            }
-            if (data instanceof String) {
-                intent.putExtra(name, (String) data);
-            }
-            if (data instanceof Boolean) {
-                intent.putExtra(name, (Boolean) data);
-            }
-            // Nested JSONObject
-            if (data instanceof JSONObject) {
-                Bundle nestedBundle = new Bundle();
-                intent.putExtra(name, nestedBundle);
-                putNestedJSONObject((JSONObject) data, nestedBundle);
-            }
-            // Nested JSONArray. Doesn't support mixed types in single array
-            if (data instanceof JSONArray) {
-                // Empty array. No way to tell what type of data to pass on, so skipping
-                if (((JSONArray) data).length() == 0) {
-                    Log.e("Empty array not supported in JSONObject, skipping");
-                    continue;
-                }
-                // Integer
-                if (((JSONArray) data).get(0) instanceof Integer) {
-                    Integer[] integerArrayData = new Integer[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        integerArrayData[j] = ((JSONArray) data).getInt(j);
-                    }
-                    intent.putExtra(name, integerArrayData);
-                }
-                // Double
-                if (((JSONArray) data).get(0) instanceof Double) {
-                    Double[] doubleArrayData = new Double[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        doubleArrayData[j] = ((JSONArray) data).getDouble(j);
-                    }
-                    intent.putExtra(name, doubleArrayData);
-                }
-                // Long
-                if (((JSONArray) data).get(0) instanceof Long) {
-                    Long[] longArrayData = new Long[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        longArrayData[j] = ((JSONArray) data).getLong(j);
-                    }
-                    intent.putExtra(name, longArrayData);
-                }
-                // String
-                if (((JSONArray) data).get(0) instanceof String) {
-                    String[] stringArrayData = new String[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        stringArrayData[j] = ((JSONArray) data).getString(j);
-                    }
-                    intent.putExtra(name, stringArrayData);
-                }
-                // Boolean
-                if (((JSONArray) data).get(0) instanceof Boolean) {
-                    Boolean[] booleanArrayData = new Boolean[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        booleanArrayData[j] = ((JSONArray) data).getBoolean(j);
-                    }
-                    intent.putExtra(name, booleanArrayData);
-                }
-            }
-        }
-    }
-
-    // Contributed by Emmanuel T
-    // Nested Array handling contributed by Sergey Zelenev
-    private static void putNestedJSONObject(JSONObject jsonObject, Bundle bundle)
-            throws JSONException {
-        JSONArray names = jsonObject.names();
-        for (int i = 0; i < names.length(); i++) {
-            String name = names.getString(i);
-            Object data = jsonObject.get(name);
-            if (data == null) {
-                continue;
-            }
-            if (data instanceof Integer) {
-                bundle.putInt(name, (Integer) data);
-            }
-            if (data instanceof Float) {
-                bundle.putFloat(name, (Float) data);
-            }
-            if (data instanceof Double) {
-                bundle.putDouble(name, (Double) data);
-            }
-            if (data instanceof Long) {
-                bundle.putLong(name, (Long) data);
-            }
-            if (data instanceof String) {
-                bundle.putString(name, (String) data);
-            }
-            if (data instanceof Boolean) {
-                bundle.putBoolean(name, (Boolean) data);
-            }
-            // Nested JSONObject
-            if (data instanceof JSONObject) {
-                Bundle nestedBundle = new Bundle();
-                bundle.putBundle(name, nestedBundle);
-                putNestedJSONObject((JSONObject) data, nestedBundle);
-            }
-            // Nested JSONArray. Doesn't support mixed types in single array
-            if (data instanceof JSONArray) {
-                // Empty array. No way to tell what type of data to pass on, so skipping
-                if (((JSONArray) data).length() == 0) {
-                    Log.e("Empty array not supported in nested JSONObject, skipping");
-                    continue;
-                }
-                // Integer
-                if (((JSONArray) data).get(0) instanceof Integer) {
-                    int[] integerArrayData = new int[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        integerArrayData[j] = ((JSONArray) data).getInt(j);
-                    }
-                    bundle.putIntArray(name, integerArrayData);
-                }
-                // Double
-                if (((JSONArray) data).get(0) instanceof Double) {
-                    double[] doubleArrayData = new double[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        doubleArrayData[j] = ((JSONArray) data).getDouble(j);
-                    }
-                    bundle.putDoubleArray(name, doubleArrayData);
-                }
-                // Long
-                if (((JSONArray) data).get(0) instanceof Long) {
-                    long[] longArrayData = new long[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        longArrayData[j] = ((JSONArray) data).getLong(j);
-                    }
-                    bundle.putLongArray(name, longArrayData);
-                }
-                // String
-                if (((JSONArray) data).get(0) instanceof String) {
-                    String[] stringArrayData = new String[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        stringArrayData[j] = ((JSONArray) data).getString(j);
-                    }
-                    bundle.putStringArray(name, stringArrayData);
-                }
-                // Boolean
-                if (((JSONArray) data).get(0) instanceof Boolean) {
-                    boolean[] booleanArrayData = new boolean[((JSONArray) data).length()];
-                    for (int j = 0; j < ((JSONArray) data).length(); ++j) {
-                        booleanArrayData[j] = ((JSONArray) data).getBoolean(j);
-                    }
-                    bundle.putBooleanArray(name, booleanArrayData);
-                }
-            }
-        }
-    }
-
     @Override
     public void shutdown() {
     }
 
-    private ClipboardManager getClipboardManager() {
-        Object clipboard = null;
-        if (mClipboard == null) {
-            try {
-                clipboard = mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-            } catch (Exception e) {
-                Looper.prepare(); // Clipboard manager won't work without this on higher SDK levels...
-                clipboard = mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-            }
-            mClipboard = (ClipboardManager) clipboard;
-            if (mClipboard == null) {
-                Log.w("Clipboard managed not accessible.");
-            }
-        }
-        return mClipboard;
-    }
-
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Read text from the clipboard.", returns = "The text in the clipboard.")
-    public String getClipboard() {
-        CharSequence text = getClipboardManager().getText();
-        return text == null ? null : text.toString();
-    }
-
-    /**
-     * Creates a new AndroidFacade that simplifies the interface to various Android APIs.
-     *
-     * @param text is the {@link Context} the APIs will run under
-     */
-
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Put text in the clipboard.")
-    public void setClipboard(@PascalParameter(name = "text") String text) {
-        getClipboardManager().setText(text);
-    }
 
     public Intent startActivityForResult(final Intent intent) {
         FutureActivityTask<Intent> task = new FutureActivityTask<Intent>() {
@@ -360,7 +151,7 @@ public class AndroidUtilsLib extends AndroidLibrary {
             intent.setComponent(new ComponentName(packagename, classname));
         }
         if (extras != null) {
-            putExtrasFromJsonObject(extras, intent);
+            AndroidLibraryUtils.putExtrasFromJsonObject(extras, intent);
         }
         if (categories != null) {
             for (int i = 0; i < categories.length(); i++) {
@@ -503,12 +294,7 @@ public class AndroidUtilsLib extends AndroidLibrary {
         mContext.sendBroadcast(intent);
     }
 
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Vibrates the phone or a specified duration in milliseconds.")
-    public void vibrate(
-            @PascalParameter(name = "duration", description = "duration in milliseconds") @RpcDefault("300") Integer duration) {
-        mVibrator.vibrate(duration);
-    }
+
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Displays a short-duration Toast notification.")
@@ -582,22 +368,6 @@ public class AndroidUtilsLib extends AndroidLibrary {
         return getInputFromAlertDialog(title, message, true);
     }
 
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Displays a notification that will be canceled when the user clicks on it.")
-    public void notify(@PascalParameter(name = "title", description = "title") String title,
-                       @PascalParameter(name = "message") String message) {
-        Notification notification =
-                new Notification(mResources.getLogo48(), message, System.currentTimeMillis());
-        // This contentIntent is a noop.
-        PendingIntent contentIntent = PendingIntent.getService(mContext, 0, new Intent(), 0);
-        // TODO: 24-Apr-17
-//    notification.setLatestEventInfo(mContext, title, message, contentIntent);
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
-
-        // Get a unique notification id from the application.
-        final int notificationId = NotificationIdFactory.create();
-        mNotificationManager.notify(notificationId, notification);
-    }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Launches an activity that sends an e-mail message to a given recipient.")

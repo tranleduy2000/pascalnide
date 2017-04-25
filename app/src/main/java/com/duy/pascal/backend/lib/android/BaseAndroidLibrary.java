@@ -1,16 +1,17 @@
 // Copyright 2010 Google Inc. All Rights Reserved.
 
-package com.googlecode.sl4a.jsonrpc;
+package com.duy.pascal.backend.lib.android;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 
 import java.util.Map;
 
-public abstract class AndroidLibrary implements PascalLibrary {
+public abstract class BaseAndroidLibrary implements PascalLibrary {
 
-    protected final RpcReceiverManager mManager;
+    protected final AndroidLibraryManager mManager;
 
-    public AndroidLibrary(RpcReceiverManager manager) {
+    public BaseAndroidLibrary(AndroidLibraryManager manager) {
         // To make reflection easier, we ensures that all the subclasses agree on this common
         // constructor.
         mManager = manager;
