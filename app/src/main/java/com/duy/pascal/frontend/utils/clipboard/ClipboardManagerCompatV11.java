@@ -33,8 +33,11 @@ public class ClipboardManagerCompatV11 implements ClipboardManagerCompat {
 
     @Override
     public CharSequence getText() {
-        ClipData.Item item = clip.getPrimaryClip().getItemAt(0);
-        return item.getText();
+        if (clip.getPrimaryClip().getItemCount() >= 1) {
+            ClipData.Item item = clip.getPrimaryClip().getItemAt(0);
+            return item.getText();
+        }
+        return "";
     }
 
     @Override

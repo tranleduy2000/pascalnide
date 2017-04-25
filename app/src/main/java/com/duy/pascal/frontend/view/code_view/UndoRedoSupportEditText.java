@@ -282,7 +282,9 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
     }
 
     public void paste() {
-        insert(mClipboardManager.getText().toString());
+        if (mClipboardManager.hasText()) {
+            insert(mClipboardManager.getText().toString());
+        }
     }
 
     /**
