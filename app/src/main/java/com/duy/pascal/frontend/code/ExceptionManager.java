@@ -276,7 +276,6 @@ public class ExceptionManager {
     }
 
     private Spanned getPluginCallException(Throwable e) {
-
         PluginCallException exception = (PluginCallException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         String format = String.format(

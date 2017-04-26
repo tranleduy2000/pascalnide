@@ -140,20 +140,20 @@ public class GraphScreen {
         invalidateBitmap();
     }
 
-    private synchronized void invalidateBitmap() {
-        if (mGraphBitmap == null) {
-            mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        } else {
-            mGraphBitmap = ImageUtils.getResizedBitmap(mGraphBitmap, width, height);
+    private void invalidateBitmap() {
+        synchronized (mLock) {
+            if (mGraphBitmap == null) {
+                mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            } else {
+                mGraphBitmap = ImageUtils.getResizedBitmap(mGraphBitmap, width, height);
+            }
         }
-//        Canvas canvas = new Canvas(mGraphBitmap);
-//        for (GraphObject object : graphObjects) {
-//            object.draw(canvas);
-//        }
     }
 
     public synchronized Bitmap getGraphBitmap() {
-        return mGraphBitmap;
+        synchronized (mLock) {
+            return mGraphBitmap;
+        }
     }
 
     public int getColorPixel(int x, int y) {
