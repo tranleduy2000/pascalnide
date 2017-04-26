@@ -101,36 +101,36 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
     private final EventFacade mEventFacade;
     private final SensorManager mSensorManager;
 
-    private volatile Bundle mSensorReadings;
+    private Bundle mSensorReadings;
 
-    private volatile Integer mAccuracy;
-    private volatile Integer mSensorNumber;
-    private volatile Integer mXAxis = 0;
-    private volatile Integer mYAxis = 0;
-    private volatile Integer mZAxis = 0;
-    private volatile Integer mThreshing = 0;
-    private volatile Integer mThreshOrientation = 0;
-    private volatile Integer mXCrossed = 0;
-    private volatile Integer mYCrossed = 0;
-    private volatile Integer mZCrossed = 0;
+    private int mAccuracy;
+    private int mSensorNumber;
+    private int mXAxis = 0;
+    private int mYAxis = 0;
+    private int mZAxis = 0;
+    private int mThreshing = 0;
+    private int mThreshOrientation = 0;
+    private int mXCrossed = 0;
+    private int mYCrossed = 0;
+    private int mZCrossed = 0;
 
-    private volatile Float mThreshold;
-    private volatile Float mXForce;
-    private volatile Float mYForce;
-    private volatile Float mZForce;
+    private Float mThreshold;
+    private Float mXForce;
+    private Float mYForce;
+    private Float mZForce;
 
-    private volatile Float mXMag;
-    private volatile Float mYMag;
-    private volatile Float mZMag;
+    private Float mXMag;
+    private Float mYMag;
+    private Float mZMag;
 
-    private volatile Float mLight;
+    private Float mLight;
 
-    private volatile Double mAzimuth;
-    private volatile Double mPitch;
-    private volatile Double mRoll;
+    private Double mAzimuth;
+    private Double mPitch;
+    private Double mRoll;
 
-    private volatile Long mLastTime;
-    private volatile Long mDelayTime;
+    private Long mLastTime;
+    private Long mDelayTime;
 
     private SensorEventListener mSensorListener;
 
@@ -143,8 +143,8 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
     @PascalMethod(description = "Starts recording sensor data to be available for polling.")
     @RpcStartEvent("sensors")
     public void startSensingTimed(
-            @PascalParameter(name = "sensorNumber", description = "1 = All, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") Integer sensorNumber,
-            @PascalParameter(name = "delayTime", description = "Minimum time between readings in milliseconds") Integer delayTime) {
+            @PascalParameter(name = "sensorNumber", description = "1 = All, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") int sensorNumber,
+            @PascalParameter(name = "delayTime", description = "Minimum time between readings in milliseconds") int delayTime) {
         mSensorNumber = sensorNumber;
         if (delayTime < 20) {
             delayTime = 20;
@@ -187,9 +187,9 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
     @RpcStartEvent("threshold")
     public void startSensingThreshold(
 
-            @PascalParameter(name = "sensorNumber", description = "1 = Orientation, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") Integer sensorNumber,
-            @PascalParameter(name = "threshold", description = "Threshold level for chosen sensor (integer)") Integer threshold,
-            @PascalParameter(name = "axis", description = "0 = No axis, 1 = X, 2 = Y, 3 = X+Y, 4 = Z, 5= X+Z, 6 = Y+Z, 7 = X+Y+Z") Integer axis) {
+            @PascalParameter(name = "sensorNumber", description = "1 = Orientation, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") int sensorNumber,
+            @PascalParameter(name = "threshold", description = "Threshold level for chosen sensor (integer)") int threshold,
+            @PascalParameter(name = "axis", description = "0 = No axis, 1 = X, 2 = Y, 3 = X+Y, 4 = Z, 5= X+Z, 6 = Y+Z, 7 = X+Y+Z") int axis) {
         mSensorNumber = sensorNumber;
         mXAxis = axis & 1;
         mYAxis = axis & 2;
@@ -228,7 +228,7 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the most recently received accuracy value.")
-    public Integer sensorsGetAccuracy() {
+    public int sensorsGetAccuracy() {
         return mAccuracy;
     }
 
@@ -266,7 +266,7 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
     @PascalMethod(description = "Starts recording sensor data to be available for polling.")
     @RpcDeprecated(value = "startSensingTimed or startSensingThreshhold", release = "4")
     public void startSensing(
-            @PascalParameter(name = "sampleSize", description = "number of samples for calculating average readings") @RpcDefault("5") Integer sampleSize) {
+            @PascalParameter(name = "sampleSize", description = "number of samples for calculating average readings") @RpcDefault("5") int sampleSize) {
         if (mSensorListener == null) {
             startSensingTimed(1, 220);
         }

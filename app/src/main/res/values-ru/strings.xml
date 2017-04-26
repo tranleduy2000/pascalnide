@@ -25,8 +25,8 @@
     <string name="cant_close_file">Невозможно закрыть файл</string>
     <string name="cant_redo">Невозможно повторить</string>
     <string name="cant_undo">Невозможно отменить</string>
-    <string name="change_key_board">Изменить клавиатуру</string>
-    <string name="change_lang_msg">Перезапустите приложение, чтобы изменить язык.</string>
+    <string name="change_key_board">Сменить клавиатуру</string>
+    <string name="change_lang_msg">Перезапустите приложение</string>
     <string name="check_update">Проверить обновление</string>
     <string name="close">Закрыть</string>
     <string name="closed">Закрыто</string>
@@ -55,9 +55,9 @@
     <string name="extension">Расширение:</string>
     <string name="failed">Ошибка</string>
     <string name="file">Файл</string>
-    <string name="find">Искать</string>
+    <string name="find">Найти</string>
     <string name="find_replace">Найти и заменить</string>
-    <string name="find_what">"Что искать? "</string>
+    <string name="find_what">Что ищем?</string>
     <string name="folder">Папка</string>
     <string name="font">Шрифт</string>
     <string name="font_z">Размер шрифта</string>
@@ -106,7 +106,7 @@
     <string name="view_console">Просмотр консоли</string>
     <string name="word_only">Только Word</string>
     <string name="word_wrap">Перенос содержимого</string>
-    <string name="word_wrap_desc">Авто перенос, на новую строку при переполнении</string>
+    <string name="word_wrap_desc">Авто перенос на новую строку при переполнении</string>
     <string name="writeable">"Запись: "</string>
     <string name="BrightYellow">Ярко-жёлтый</string>
     <string name="DarkGray">Тёмно-зелёный</string>
@@ -138,11 +138,11 @@
     <string name="your_language">Ваш язык</string>
     <string name="logo">Логотип</string>
     <string name="auto_compile">Авто компиляция</string>
-    <string name="auto_compile_summary">Автоматическая компиляция во время набора текста. Однако производительность приложения снизится!</string>
+    <string name="auto_compile_summary">Автоматическая компиляция во время набора текста. Производительность приложения снизится!</string>
     <string name="keyboard_shortcut">Сочетание клавиш</string>
     <string name="program_structure">Показать структуру программы</string>
-    <string name="show_symbol">Список символов</string>
-    <string name="show_symbol_decs">Скрыть список символов в редакторе</string>
+    <string name="show_symbol">Строка символов</string>
+    <string name="show_symbol_decs">Показывать строку символов в редакторе</string>
     <string name="add_watch">Добавить часы</string>
     <string name="debug">Программа отладки</string>
     <string name="var_name">Имя переменной</string>
