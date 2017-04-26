@@ -113,12 +113,12 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     public void initContent() {
-        mCodeView.setEditorControl(this);
-        mCodeView.setVerticalScroll(mScrollView);
+        mCodeEditor.setEditorControl(this);
+        mCodeEditor.setVerticalScroll(mScrollView);
         mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
             @Override
             public void onScroll(int x, int y) {
-                mCodeView.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
+                mCodeEditor.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
             }
         });
     }
@@ -130,12 +130,12 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onKeyClick(View view, String text) {
-        mCodeView.insert(text);
+        mCodeEditor.insert(text);
     }
 
     @Override
     public void onKeyLongClick(String text) {
-        mCodeView.insert(text);
+        mCodeEditor.insert(text);
     }
 
     @Override
@@ -166,12 +166,12 @@ public class EditorActivity extends BaseEditorActivity implements
                 assert ckbRegex != null;
                 assert editReplace != null;
                 assert ckbMatch != null;
-                mCodeView.replaceAll(
+                mCodeEditor.replaceAll(
                         editFind.getText().toString(),
                         editReplace.getText().toString(),
                         ckbRegex.isChecked(),
                         ckbMatch.isChecked());
-                mCodeView.refresh();
+                mCodeEditor.refresh();
                 mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
                 alertDialog.dismiss();
             }
@@ -211,7 +211,7 @@ public class EditorActivity extends BaseEditorActivity implements
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCodeView.find(editFind.getText().toString(),
+                mCodeEditor.find(editFind.getText().toString(),
                         ckbRegex.isChecked(),
                         ckbWordOnly.isChecked(),
                         ckbMatch.isChecked());
@@ -244,13 +244,13 @@ public class EditorActivity extends BaseEditorActivity implements
         if (e != null) {
             if (e.line != null) {
                 LineInfo lineInfo = e.line;
-                mCodeView.setLineError(lineInfo);
-                mCodeView.refresh();
+                mCodeEditor.setLineError(lineInfo);
+                mCodeEditor.refresh();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                                mCodeView.getLineCount(), e.line.line));
+                                mCodeEditor.getLineCount(), e.line.line));
                     }
                 }, 100);
             }
@@ -258,7 +258,7 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     public String getCode() {
-        return mCodeView.getCleanText();
+        return mCodeEditor.getCleanText();
     }
 
     /**
@@ -267,13 +267,14 @@ public class EditorActivity extends BaseEditorActivity implements
      * @param code
      */
     public void setCode(String code) {
-        mCodeView.setText(code);
-        mCodeView.clearHistory();
-        mCodeView.refresh();
+        mCodeEditor.setText(code);
+        mCodeEditor.clearHistory();
+        mCodeEditor.refresh();
     }
 
     /**
      * compile code, if is error, show dialog error
+     * invalidate keyword
      */
     @Override
     public boolean doCompile() {
@@ -283,11 +284,25 @@ public class EditorActivity extends BaseEditorActivity implements
                     .loadPascal(mFilePath,
                             new FileReader(mFilePath),
                             new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
-
             if (pascalProgram.main == null) {
                 showErrorDialog(new MainProgramNotFoundException());
                 return false;
             }
+            ExpressionContextMixin program = pascalProgram.getProgram();
+            ArrayList<String> listNameConstants = program.getListNameConstants();
+            ArrayList<String> listNameFunctions = program.getListNameFunctions();
+            ArrayList<String> listNameTypes = program.getListNameTypes();
+            ArrayList<VariableDeclaration> variables = program.getVariables();
+            ArrayList<String> listVariables = new ArrayList<>();
+            for (VariableDeclaration variableDeclaration : variables) {
+                listVariables.add(variableDeclaration.name());
+            }
+            ArrayList<String> data = new ArrayList<>();
+            data.addAll(listNameConstants);
+            data.addAll(listNameFunctions);
+            data.addAll(listNameTypes);
+            data.addAll(listVariables);
+            mCodeEditor.setSuggestData(data);
         } catch (FileNotFoundException e) {
             showErrorDialog(e);
             return false;
@@ -338,7 +353,7 @@ public class EditorActivity extends BaseEditorActivity implements
         } else {
             mContainerSymbol.setVisibility(View.GONE);
         }
-        mCodeView.updateFromSettings();
+        mCodeEditor.updateFromSettings();
     }
 
 
@@ -419,10 +434,10 @@ public class EditorActivity extends BaseEditorActivity implements
                 saveFile();
                 //add to view
                 addNewFile(file, true);
-                mCodeView.setText(CodeSample.MAIN);
-                mCodeView.refresh();
+                mCodeEditor.setText(CodeSample.MAIN);
+                mCodeEditor.refresh();
                 //select before update
-                mCodeView.selectAll();
+                mCodeEditor.selectAll();
                 mDrawerLayout.closeDrawers();
             }
 
@@ -446,7 +461,7 @@ public class EditorActivity extends BaseEditorActivity implements
                         String line = edittext.getText().toString();
                         if (!line.isEmpty()) {
                             // TODO: 03-Apr-17
-                            mCodeView.goToLine(Integer.parseInt(line));
+                            mCodeEditor.goToLine(Integer.parseInt(line));
                         }
                         dialog.cancel();
                     }
@@ -492,7 +507,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 i.putExtra(Intent.EXTRA_SUBJECT, "Report bug: " + editTitle.getText().toString());
                 assert editContent != null;
                 String content = "Cause: \n" + editContent.getText().toString();
-                content += "\n ====================== \n" + mCodeView.getCleanText();
+                content += "\n ====================== \n" + mCodeEditor.getCleanText();
                 i.putExtra(Intent.EXTRA_TEXT, content);
                 try {
                     startActivity(Intent.createChooser(i, getString(R.string.send_mail)));
@@ -512,13 +527,13 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void undo() {
-        if (mCodeView.canUndo()) mCodeView.undo();
+        if (mCodeEditor.canUndo()) mCodeEditor.undo();
         else Toast.makeText(this, R.string.cant_undo, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void redo() {
-        if (mCodeView.canRedo()) mCodeView.redo();
+        if (mCodeEditor.canRedo()) mCodeEditor.redo();
         else Toast.makeText(this, R.string.cant_redo, Toast.LENGTH_SHORT).show();
     }
 
@@ -555,7 +570,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        hideKeyboard(mCodeView);
+        hideKeyboard(mCodeEditor);
     }
 
     @Override
@@ -566,12 +581,12 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     public void paste() {
         String text = ClipboardManager.getClipboard(this);
-        mCodeView.paste();
+        mCodeEditor.paste();
     }
 
     @Override
     public void copyAll() {
-        String text = mCodeView.getCleanText();
+        String text = mCodeEditor.getCleanText();
         ClipboardManager.setClipboard(this, text);
     }
 
@@ -597,7 +612,7 @@ public class EditorActivity extends BaseEditorActivity implements
          * check can undo
          */
         if (mPascalPreferences.getBoolean(getString(R.string.key_back_undo))) {
-            if (mCodeView.canUndo()) {
+            if (mCodeEditor.canUndo()) {
                 undo();
                 return;
             }

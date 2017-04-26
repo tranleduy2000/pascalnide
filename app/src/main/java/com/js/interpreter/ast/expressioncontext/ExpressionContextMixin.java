@@ -60,7 +60,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     /**
      * list global variable
      */
-    public List<VariableDeclaration> variables = new ArrayList<>();
+    public ArrayList<VariableDeclaration> variables = new ArrayList<>();
     /**
      * activity target, uses for input and output
      */
@@ -129,7 +129,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         return typedefs;
     }
 
-    public List<VariableDeclaration> getVariables() {
+    public ArrayList<VariableDeclaration> getVariables() {
         return variables;
     }
 
@@ -218,7 +218,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 }
             } while (true);
             i.assertNextSemicolon();
-            PascalLibraryUtils.loadLibrary(librarieNames, listLib, handler, callableFunctions);
+            PascalLibraryUtils.loadLibrary(librarieNames, listLib, handler, this);
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
@@ -275,7 +275,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         classes.add(FileLib.class);
         classes.add(IOLib.class);
         classes.add(SystemLib.class);
-        PascalLibraryUtils.addMethodFromClasses(classes, Modifier.PUBLIC, handler, callableFunctions);
+        PascalLibraryUtils.addMethodFromClasses(classes, Modifier.PUBLIC, handler, this);
 
         SetLengthFunction setLength = new SetLengthFunction();
         callableFunctions.put(setLength.name(), new TemplatePluginDeclaration(setLength));
@@ -318,9 +318,9 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         variables.add(v);
     }
 
-    public void declareFunction(FunctionDeclaration f) {
-        callableFunctions.put(f.name, f);
-        listNameFunctions.add(f.name);
+    public void declareFunction(AbstractFunction f) {
+        callableFunctions.put(f.name().toLowerCase(), f);
+        listNameFunctions.add(f.name());
     }
 
     public void declareConst(ConstantDefinition c) {

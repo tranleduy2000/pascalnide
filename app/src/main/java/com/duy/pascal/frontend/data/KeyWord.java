@@ -32,7 +32,7 @@ public class KeyWord {
             "while  do  ;", "repeat", "until", "case", "of",
             "and", "or", "xor", "not", "div", "mod",
 
-            //system
+           /* //system
             "dec(", "inc(",
 
             //io
@@ -55,7 +55,7 @@ public class KeyWord {
             "concat(", "insert(", "pos(", "upcase(", "delete(",
             //file
             "assign(", "close(", "reset(", "rewrite",
-            "eof("
+            "eof("*/
 
     };
 
@@ -79,22 +79,5 @@ public class KeyWord {
 
     }
 
-    public class SuggestItem {
-        private int defaultPos;
-        private String key;
-
-        public SuggestItem(int defaultPos, String key) {
-            this.defaultPos = defaultPos;
-            this.key = key;
-        }
-
-        public int getDefaultPos() {
-            return defaultPos;
-        }
-
-        public String getKey() {
-            return key;
-        }
-    }
 
 }

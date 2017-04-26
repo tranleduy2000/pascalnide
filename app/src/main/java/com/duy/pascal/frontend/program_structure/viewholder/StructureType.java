@@ -21,14 +21,17 @@ package com.duy.pascal.frontend.program_structure.viewholder;
  */
 
 public class StructureType {
-    public static final int TYPE_PROGRAM = 0;
-    public static final int TYPE_FUNCTION = 1;
-    public static final int TYPE_PROCEDURE = 2;
-    public static final int TYPE_VARIABLE = 3;
-    public static final int TYPE_CONST = 4;
-    public static final int TYPE_LIBRARY = 5;
-    public static final int TYPE_NONE = 6;
-    public static final String[] ICONS = new String[]{"P", "f", "p", "v", "c", "L", "@"};
+    public static final byte TYPE_PROGRAM = 0;
+    public static final byte TYPE_FUNCTION = 1;
+    public static final byte TYPE_PROCEDURE = 2;
+    public static final byte TYPE_VARIABLE = 3;
+    public static final byte TYPE_CONST = 4;
+    public static final byte TYPE_LIBRARY = 5;
+    public static final byte TYPE_NONE = 6;
+    public static final byte TYPE_KEY_WORD = 7;
+    public static final byte TYPE_UNKNOWN = 8;
+
+    public static final String[] ICONS = new String[]{"P", "f", "p", "v", "c", "L", "?", "k", "?"};
     public static final int[] COLORS_BACKGROUND = new int[]{
             0xffF44336,//red
             0xffE91E63,//pink
@@ -36,7 +39,9 @@ public class StructureType {
             0xff673AB7,//deep purple
             0xff3F51B5,//indigo
             0xff2196F3, //blue
-            0xff009688//teal
+            0xff009688, //teal
+            0xff4CAF50, //Green
+            0xff4CAF50, //Lime
     };
     public static final int[] COLORS_FOREGROUND = new int[]{
             0xFFFFFFFF,
@@ -45,6 +50,10 @@ public class StructureType {
             0xFFFFFFFF,
             0xFFFFFFFF,
             0xFFFFFFFF,
-            0xFFFFFFFF
+            0xFFFFFFFF,
+            0x0,
+            0x0,
+            0x0
     };
+
 }

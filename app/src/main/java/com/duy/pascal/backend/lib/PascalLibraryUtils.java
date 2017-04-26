@@ -20,12 +20,12 @@ import com.duy.pascal.backend.lib.android.AndroidBatteryLib;
 import com.duy.pascal.backend.lib.android.AndroidClipboard;
 import com.duy.pascal.backend.lib.android.AndroidNotifyLib;
 import com.duy.pascal.backend.lib.android.AndroidSensorLib;
+import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
-import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
@@ -39,6 +39,7 @@ import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.MethodDeclaration;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -84,7 +85,7 @@ public class PascalLibraryUtils {
     public static void addMethodFromClasses(ArrayList<Class<?>> classes,
                                             int modifier,
                                             RunnableActivity handler,
-                                            ListMultimap<String, AbstractFunction> callableFunctions) {
+                                            ExpressionContextMixin program) {
 
         AndroidLibraryManager facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkLevel(), handler);
 
@@ -121,14 +122,14 @@ public class PascalLibraryUtils {
                 if (AndroidLibraryUtils.getSdkLevel() >= 18) {
                     if (m.isAnnotationPresent(PascalMethod.class)) {
                         System.out.println(m.getName());
-                        MethodDeclaration tmp = new MethodDeclaration(o, m);
-                        callableFunctions.put(tmp.name().toLowerCase(), tmp);
+                        MethodDeclaration methodDeclaration = new MethodDeclaration(o, m);
+                        program.declareFunction(methodDeclaration);
                     }
                 } else {
                     if (Modifier.isPublic(m.getModifiers())) {
                         System.out.println(m.getName());
-                        MethodDeclaration tmp = new MethodDeclaration(o, m);
-                        callableFunctions.put(tmp.name().toLowerCase(), tmp);
+                        MethodDeclaration methodDeclaration = new MethodDeclaration(o, m);
+                        program.declareFunction(methodDeclaration);
                     }
                 }
             }
@@ -176,20 +177,20 @@ public class PascalLibraryUtils {
     /**
      * load all method of the list classes
      *
-     * @param source            - current library
-     * @param newLibraries      - list name of libraries to import
-     * @param handler-          - activity for handle output, input, graph, ...
-     * @param callableFunctions - map function for add method
+     * @param source       - current library
+     * @param newLibraries - list name of libraries to import
+     * @param handler-     - activity for handle output, input, graph, ...
+     * @param program      - main program for declare function
      */
     public static void loadLibrary(ArrayList<String> source, ArrayList<String> newLibraries,
                                    RunnableActivity handler,
-                                   ListMultimap<String, AbstractFunction> callableFunctions) {
+                                   ExpressionContextMixin program) {
         source.addAll(newLibraries);
         ArrayList<Class<?>> classes = new ArrayList<>();
         for (String name : newLibraries) {
             classes.add(mSupportLibraries.get(name));
         }
-        PascalLibraryUtils.addMethodFromClasses(classes, Modifier.PUBLIC, handler, callableFunctions);
+        PascalLibraryUtils.addMethodFromClasses(classes, Modifier.PUBLIC, handler, program);
     }
 
 }

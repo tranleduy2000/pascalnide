@@ -25,11 +25,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.KeyWord;
+import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,8 +45,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     public int mCharHeight = 0;
     private ArrayList<Character> openBracketList = new ArrayList<>();
     private ArrayList<String> closeBracketList = new ArrayList<>();
-    private ArrayAdapter<String> mAdapter;
-    private ArrayList<String> list = new ArrayList<>();
+    private CodeSuggestAdapter mAdapter;
 
     public AutoSuggestsEditText(Context context) {
         super(context);
@@ -66,30 +65,17 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     /**
      * slipt string in edittext and put it to list keyword
      */
-    public void invalidateKeyWord(String source) {
-        list.clear();
-        Collections.addAll(list, KeyWord.LIST_KEY_WORD);
-        String[] words = source.split("[^a-zA-Z']+");
-        Collections.addAll(list, words);
-        mAdapter = new ArrayAdapter<>(getContext(), R.layout.code_hint, R.id.txt_title, list);
-        setAdapter(mAdapter);
+    public void invalidateKeyWord() {
+        setSuggestData(new ArrayList<String>());
     }
 
-    public void addKeyWord(String key) {
-        list.add(key);
-    }
-
-    public void removeKeyWord(String key) {
-        list.remove(key);
-    }
 
     private void init() {
         Log.i(TAG, "init: ");
-        invalidateKeyWord("");
+        invalidateKeyWord();
         setTokenizer(new SymbolsTokenizer());
         setThreshold(1);
         invalidateCharHeight();
-
         openBracketList = new ArrayList<>();
         Collections.addAll(openBracketList, '[', '{', '\'', '(');
         Collections.addAll(closeBracketList, "]", "}", "'", ")");
@@ -140,7 +126,6 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         });
 
     }
-
 
 
     private CharSequence getBracket(CharSequence source, int index) {
@@ -221,6 +206,40 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     }
 
     public abstract void onPopupSuggestChangeSize();
+
+    /**
+     * invalidate data for auto suggest
+     */
+    public void setSuggestData(ArrayList<String> data) {
+        if (mAdapter == null) {
+            mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint);
+            setAdapter(mAdapter);
+        }
+        ArrayList<SuggestItem> list = new ArrayList<>();
+        for (String s : KeyWord.LIST_KEY_WORD) {
+            list.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
+        }
+        for (String s : data) {
+            list.add(new SuggestItem(StructureType.TYPE_UNKNOWN, s));
+        }
+        mAdapter.setSource(list);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void addSuggestData(ArrayList<String> data) {
+
+    }
+
+    public void clearKeyword() {
+        mAdapter.clear();
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        setDropDownWidth(w / 2);
+        setDropDownHeight(h / 2);
+    }
 
     private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         String token = "!@#$%^&*()_+-={}|[]:;'<>/<.?1234567890 \n\t";

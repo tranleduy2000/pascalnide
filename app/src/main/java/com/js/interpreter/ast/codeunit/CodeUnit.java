@@ -18,29 +18,26 @@ import java.io.Reader;
 import java.util.List;
 
 public abstract class CodeUnit {
-    public ExpressionContextMixin getProgram() {
-        return context;
-    }
-
     public final ExpressionContextMixin context;
     private String programName;
-    private RunnableActivity handler;
 
     public CodeUnit(ListMultimap<String, AbstractFunction> functionTable,
                     RunnableActivity handler) {
         this.context = getExpressionContextInstance(functionTable, handler);
     }
 
-
     public CodeUnit(Reader program, ListMultimap<String, AbstractFunction> functionTable,
                     String sourceName, List<ScriptSource> includeDirectories,
                     RunnableActivity handler)
             throws ParsingException {
         this(functionTable, handler);
-        this.handler = handler;
         NewLexer grouper = new NewLexer(program, sourceName, includeDirectories);
         grouper.parse();
         parseTree(grouper.tokenQueue);
+    }
+
+    public ExpressionContextMixin getProgram() {
+        return context;
     }
 
     protected CodeUnitExpressionContext getExpressionContextInstance(

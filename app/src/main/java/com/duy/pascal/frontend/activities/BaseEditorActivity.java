@@ -74,7 +74,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     @BindView(R.id.vertical_scroll)
     LockableScrollView mScrollView;
     @BindView(R.id.code_editor)
-    CodeView mCodeView;
+    CodeView mCodeEditor;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
     @BindView(R.id.tab_layout)
@@ -159,7 +159,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     protected void removeTab(TabLayout.Tab tab, boolean saveLastFile, boolean createNewFileIfNeed) {
         //get position
         int position = tab.getPosition();
-        mCodeView.clearHistory();
+        mCodeEditor.clearHistory();
 
         //set last position to view
         if (position > 0) {
@@ -225,7 +225,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         File file = new File(filePath);
         //load to view
         addNewTab(file);
-        mCodeView.clearHistory();
+        mCodeEditor.clearHistory();
         mFileManager.addNewPath(filePath);
         listFile.add(file);
         selectTab(tabLayout.getTabAt(0), false);
@@ -247,15 +247,15 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         /**
          * save history for undo redo
          */
-//        mCodeView.saveHistory(mFilePath);
+//        mCodeEditor.saveHistory(mFilePath);
         if (save) mFileManager.saveFile(mFilePath, getCode());
 
         loadFile(listFile.get(tab.getPosition()).getPath());
         /**
          * restore history undo redo of file
          */
-        mCodeView.clearHistory();
-//        mCodeView.restoreHistory(mFilePath);
+        mCodeEditor.clearHistory();
+//        mCodeEditor.restoreHistory(mFilePath);
     }
 
     protected void addNewTab(File file) {
@@ -386,10 +386,10 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                         File currentFile = getCurrentFile();
                         if (currentFile != null) {
                             mFileManager.saveFile(getCurrentFile().getParent() + "/" + fileName,
-                                    mCodeView.getCleanText());
+                                    mCodeEditor.getCleanText());
                         } else {
                             mFileManager.saveFile(mFileManager.createNewFileInMode(fileName),
-                                    mCodeView.getCleanText());
+                                    mCodeEditor.getCleanText());
                         }
                     }
                 })

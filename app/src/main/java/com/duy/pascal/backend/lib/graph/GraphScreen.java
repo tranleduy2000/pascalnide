@@ -140,7 +140,10 @@ public class GraphScreen {
         invalidateBitmap();
     }
 
-    private void invalidateBitmap() {
+    /**
+     * resize the graph bitmap if size of screen change
+     */
+    private synchronized void invalidateBitmap() {
         synchronized (mLock) {
             if (mGraphBitmap == null) {
                 mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
@@ -150,6 +153,9 @@ public class GraphScreen {
         }
     }
 
+    /**
+     * @return the graph bitmap
+     */
     public synchronized Bitmap getGraphBitmap() {
         synchronized (mLock) {
             return mGraphBitmap;

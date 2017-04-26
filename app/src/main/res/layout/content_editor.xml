@@ -37,8 +37,6 @@
             android:layout_height="match_parent"
             android:bufferType="spannable"
             android:dropDownAnchor="@+id/app_bar"
-            android:dropDownHeight="110dp"
-            android:dropDownWidth="150dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="top|start"
@@ -66,7 +64,6 @@
             android:id="@+id/img_tab"
             android:layout_width="@dimen/bottom_editor_height"
             android:layout_height="@dimen/bottom_editor_height"
-
             android:background="#651fff"
             android:clickable="true"
             android:contentDescription="@string/tab"
