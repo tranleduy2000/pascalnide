@@ -494,9 +494,9 @@ public class AutoIndentCode {
         if (getInCaseInstruction()) {
             decreaseTab();
             decreaseCaseInstruction();
+        } else {
+            decreaseTab();
         }
-
-        decreaseTab();
 
         //tab
         result.append(getTab(numberTab)).append(t.toString());
