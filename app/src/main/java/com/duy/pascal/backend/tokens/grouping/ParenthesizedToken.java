@@ -68,12 +68,12 @@ public class ParenthesizedToken extends GrouperToken {
             Class<?> runtimeClass;
             runtimeClass = value.getType(context).declaredType.getStorageClass();
             if (hasNext()) {
-                Token next = take();
+                Token next = peek();
                 if (next instanceof ColonToken) {
+                    next = take();
                     if (!RuntimeType.canOutputWithFormat(runtimeClass, 1)) {
                         throw new ExpectedTokenException(",", next);
                     }
-
                     ReturnsValue[] infoOutput = new ReturnsValue[2];
                     ReturnsValue column = getNextExpression(context);
                     ReturnsValue lengthFloatingPoint = null;
@@ -88,12 +88,22 @@ public class ParenthesizedToken extends GrouperToken {
                         } else if (!(next instanceof CommaToken)) {
                             throw new ExpectedTokenException(",", next);
                         }
+
+                        if (hasNext()) {
+                            next = take();
+                            if (!(next instanceof CommaToken)) {
+                                throw new ExpectedTokenException(",", next);
+                            }
+                        }
                     }
                     infoOutput[0] = column;
                     infoOutput[1] = lengthFloatingPoint;
                     value.setOutputFormat(infoOutput);
-                } else if (!(next instanceof CommaToken)) {
-                    throw new ExpectedTokenException(",", next);
+                } else {
+                    next = take();
+                    if (!(next instanceof CommaToken)) {
+                        throw new ExpectedTokenException(",", next);
+                    }
                 }
             }
             result.add(value);
