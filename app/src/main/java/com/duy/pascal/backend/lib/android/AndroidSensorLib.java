@@ -14,45 +14,39 @@
  * the License.
  */
 
-package com.duy.pascal.backend.lib.android.temp;
+package com.duy.pascal.backend.lib.android;
 
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
+import android.util.Log;
 
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.facade.EventFacade;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.RpcDefault;
-import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
-import com.googlecode.sl4a.rpc.RpcStopEvent;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Exposes the SensorManager related functionality. <br>
  * <br>
  * <b>Guidance notes</b> <br>
  * For reasons of economy the sensors on smart phones are usually low cost and, therefore, low
- * accuracy (usually represented by 10 bit data). The floating point data values obtained from
+ * accuracyValue (usually represented by 10 bit data). The floating point data values obtained from
  * sensor readings have up to 16 decimal places, the majority of which are noise. On many phones the
  * accelerometer is limited (by the phone manufacturer) to a maximum reading of 2g. The magnetometer
  * (which also provides orientation readings) is strongly affected by the presence of ferrous metals
  * and can give large errors in vehicles, on board ship etc.
  * <p>
- * Following a startSensingTimed(A,B) api call sensor events are entered into the Event Queue (see
+ * Following a startSensor(A,B) api call sensor events are entered into the Event Queue (see
  * EventFacade). For the A parameter: 1 = All Sensors, 2 = Accelerometer, 3 = Magnetometer and 4 =
  * Light. The B parameter is the minimum delay between recordings in milliseconds. To avoid
- * duplicate readings the minimum delay should be 20 milliseconds. The light sensor will probably be
- * much slower (taking about 1 second to register a change in light level). Note that if the light
- * level is constant no sensor events will be registered by the light sensor.
+ * duplicate readings the minimum delay should be 20 milliseconds. The lightValue sensor will probably be
+ * much slower (taking about 1 second to register a change in lightValue level). Note that if the lightValue
+ * level is constant no sensor events will be registered by the lightValue sensor.
  * <p>
  * Following a startSensingThreshold(A,B,C) api call sensor events greater than a given threshold
  * are entered into the Event Queue. For the A parameter: 1 = Orientation, 2 = Accelerometer, 3 =
@@ -68,23 +62,23 @@ import java.util.List;
  * <pre>
  * import android, time
  * droid = android.Android()
- * droid.startSensingTimed(1, 250)
+ * droid.startSensor(1, 250)
  * time.sleep(1)
  * s1 = droid.readSensors().result
- * s2 = droid.sensorsGetAccuracy().result
- * s3 = droid.sensorsGetLight().result
+ * s2 = droid.getAccuracyValue().result
+ * s3 = droid.getLightValue().result
  * s4 = droid.sensorsReadAccelerometer().result
  * s5 = droid.sensorsReadMagnetometer().result
  * s6 = droid.sensorsReadOrientation().result
- * droid.stopSensing()
+ * droid.stopSensor()
  * </pre>
  * <p>
  * Returns:<br>
- * s1 = {u'accuracy': 3, u'pitch': -0.47323511242866517, u'xmag': 1.75, u'azimuth':
+ * s1 = {u'accuracyValue': 3, u'pitch': -0.47323511242866517, u'xmag': 1.75, u'azimuth':
  * -0.26701245009899138, u'zforce': 8.4718560000000007, u'yforce': 4.2495484000000001, u'time':
  * 1297160391.2820001, u'ymag': -8.9375, u'zmag': -41.0625, u'roll': -0.031366908922791481,
  * u'xforce': 0.23154590999999999}<br>
- * s2 = 3 (Highest accuracy)<br>
+ * s2 = 3 (Highest accuracyValue)<br>
  * s3 = None ---(not available on many phones)<br>
  * s4 = [0.23154590999999999, 4.2495484000000001, 8.4718560000000007] ----(x, y, z accelerations)<br>
  * s5 = [1.75, -8.9375, -41.0625] -----(x, y, z magnetic readings)<br>
@@ -98,62 +92,83 @@ import java.util.List;
  * @author John Karwatzki (jokar49@gmail.com)
  */
 public class AndroidSensorLib extends BaseAndroidLibrary {
-    private final EventFacade mEventFacade;
+    public static final String NAME = "asensor";
+
     private final SensorManager mSensorManager;
 
-    private Bundle mSensorReadings;
-
-    private int mAccuracy;
+    private int accuracyValue;
     private int mSensorNumber;
     private int mXAxis = 0;
     private int mYAxis = 0;
     private int mZAxis = 0;
     private int mThreshing = 0;
     private int mThreshOrientation = 0;
+
     private int mXCrossed = 0;
     private int mYCrossed = 0;
     private int mZCrossed = 0;
 
-    private Float mThreshold;
-    private Float mXForce;
-    private Float mYForce;
-    private Float mZForce;
+    private double mThreshold;
+    private double xAccelerometer = 0d;
+    private double yAccelerometer = 0d;
+    private double zAccelerometer = 0d;
 
-    private Float mXMag;
-    private Float mYMag;
-    private Float mZMag;
+    private double xMagnetic = 0d;
+    private double yMagnetic = 0d;
+    private double zMagnetic = 0d;
 
-    private Float mLight;
+    private double lightValue;
 
-    private Double mAzimuth;
-    private Double mPitch;
-    private Double mRoll;
-
-    private Long mLastTime;
-    private Long mDelayTime;
-
+    private double azimuthValue;
+    private double pitchValue;
+    private double rollValue;
     private SensorEventListener mSensorListener;
+    private double pressureValue;
+    private double gravityValue;
+    private double humidityValue;
+    private double tempValue;
+    private long delayTime = 20;
 
     public AndroidSensorLib(AndroidLibraryManager manager) {
         super(manager);
-        mEventFacade = manager.getReceiver(EventFacade.class);
         mSensorManager = (SensorManager) manager.getContext().getSystemService(Context.SENSOR_SERVICE);
     }
 
+    @PascalMethod(description = "Pitch, rotation around x-axis (-180 to 180), with positive values when the z-axis moves toward the y-axis.")
+    public double getPitchValue() {
+        return pitchValue;
+    }
+
+    @PascalMethod(description = "Roll, rotation around the y-axis (-90 to 90) increasing as the device moves clockwise")
+    public double getRollValue() {
+        return rollValue;
+    }
+
+    @PascalMethod(description = "Azimuth, angle between the magnetic north direction and the y-axis, around the z-axis (0 to 359). 0=North, 90=East, 180=South, 270=West")
+    public double getAzimuthValue() {
+        return azimuthValue;
+    }
+
+    @PascalMethod(description = "Proximity sensor distance measured in centimeters")
+    public double getGravityValue() {
+        return gravityValue;
+    }
+
     @PascalMethod(description = "Starts recording sensor data to be available for polling.")
-    @RpcStartEvent("sensors")
-    public void startSensingTimed(
-            @PascalParameter(name = "sensorNumber", description = "1 = All, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") int sensorNumber,
-            @PascalParameter(name = "delayTime", description = "Minimum time between readings in milliseconds") int delayTime) {
+    public void startSensor(
+            @PascalParameter(name = "sensorNumber",
+                    description =
+                            "1 = All, " +
+                                    " 2 = Accelerometer, " +
+                                    "3 = Magnetometer, " +
+                                    "4 = Light, " +
+                                    "5 = Pressure, " +
+                                    "6 = Gravity, " +
+                                    "7 = Humidity, " +
+                                    "8 = Temperature") int sensorNumber) {
         mSensorNumber = sensorNumber;
-        if (delayTime < 20) {
-            delayTime = 20;
-        }
-        mDelayTime = (long) (delayTime);
-        mLastTime = System.currentTimeMillis();
         if (mSensorListener == null) {
             mSensorListener = new SensorValuesCollector();
-            mSensorReadings = new Bundle();
             switch (mSensorNumber) {
                 case 1:
                     for (Sensor sensor : mSensorManager.getSensorList(Sensor.TYPE_ALL)) {
@@ -178,15 +193,38 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
                         mSensorManager.registerListener(mSensorListener, sensor,
                                 SensorManager.SENSOR_DELAY_FASTEST);
                     }
+                    break;
+                case 5:
+                    for (Sensor sensor : mSensorManager.getSensorList(Sensor.TYPE_PRESSURE)) {
+                        mSensorManager.registerListener(mSensorListener, sensor,
+                                SensorManager.SENSOR_DELAY_FASTEST);
+                    }
+                    break;
+                case 6:
+                    for (Sensor sensor : mSensorManager.getSensorList(Sensor.TYPE_GRAVITY)) {
+                        mSensorManager.registerListener(mSensorListener, sensor,
+                                SensorManager.SENSOR_DELAY_FASTEST);
+                    }
+                    break;
+                case 7:
+                    for (Sensor sensor : mSensorManager.getSensorList(Sensor.TYPE_RELATIVE_HUMIDITY)) {
+                        mSensorManager.registerListener(mSensorListener, sensor,
+                                SensorManager.SENSOR_DELAY_FASTEST);
+                    }
+                    break;
+                case 8:
+                    for (Sensor sensor : mSensorManager.getSensorList(Sensor.TYPE_AMBIENT_TEMPERATURE)) {
+                        mSensorManager.registerListener(mSensorListener, sensor,
+                                SensorManager.SENSOR_DELAY_FASTEST);
+                    }
+                    break;
             }
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Records to the Event Queue sensor data exceeding a chosen threshold.")
     @RpcStartEvent("threshold")
     public void startSensingThreshold(
-
             @PascalParameter(name = "sensorNumber", description = "1 = Orientation, 2 = Accelerometer, 3 = Magnetometer and 4 = Light") int sensorNumber,
             @PascalParameter(name = "threshold", description = "Threshold level for chosen sensor (integer)") int threshold,
             @PascalParameter(name = "axis", description = "0 = No axis, 1 = X, 2 = Y, 3 = X+Y, 4 = Z, 5= X+Z, 6 = Y+Z, 7 = X+Y+Z") int axis) {
@@ -202,89 +240,97 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
             mThreshing = 1;
             mThreshold = (float) threshold;
         }
-        startSensingTimed(mSensorNumber, 20);
-    }
-
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the most recently recorded sensor data.")
-    public Bundle readSensors() {
-        if (mSensorReadings == null) {
-            return null;
-        }
-        synchronized (mSensorReadings) {
-            return new Bundle(mSensorReadings);
-        }
+        startSensor(mSensorNumber);
     }
 
     @PascalMethod(description = "Stops collecting sensor data.")
-    @RpcStopEvent("sensors")
-    public void stopSensing() {
+    public void stopSensor() {
         mSensorManager.unregisterListener(mSensorListener);
         mSensorListener = null;
-        mSensorReadings = null;
         mThreshing = 0;
         mThreshOrientation = 0;
     }
 
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the most recently received accuracy value.")
-    public int sensorsGetAccuracy() {
-        return mAccuracy;
+    @PascalMethod(description = "Returns the most recently received accuracyValue value.")
+    public int getAccuracyValue() {
+        return accuracyValue;
     }
 
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the most recently received light value.")
-    public Float sensorsGetLight() {
-        return mLight;
+    @PascalMethod(description = "Ambient light level in SI lux units")
+    public double getLightValue() {
+        return lightValue;
     }
 
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the most recently received accelerometer values.", returns = "a List of Floats [(acceleration on the) X axis, Y axis, Z axis].")
-    public List<Float> sensorsReadAccelerometer() {
-        synchronized (mSensorReadings) {
-            return Arrays.asList(mXForce, mYForce, mZForce);
-        }
+    @PascalMethod(description = "Atmospheric pressureValue in hPa (millibar)")
+    public double getPressure() {
+        return pressureValue;
     }
 
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the most recently received magnetic field values.", returns = "a List of Floats [(magnetic field value for) X axis, Y axis, Z axis].")
-    public List<Float> sensorsReadMagnetometer() {
-        synchronized (mSensorReadings) {
-            return Arrays.asList(mXMag, mYMag, mZMag);
-        }
-    }
-
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the most recently received orientation values.", returns = "a List of Doubles [azimuth, pitch, roll].")
-    public List<Double> sensorsReadOrientation() {
-        synchronized (mSensorReadings) {
-            return Arrays.asList(mAzimuth, mPitch, mRoll);
-        }
-    }
-
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Starts recording sensor data to be available for polling.")
-    @RpcDeprecated(value = "startSensingTimed or startSensingThreshhold", release = "4")
-    public void startSensing(
-            @PascalParameter(name = "sampleSize", description = "number of samples for calculating average readings") @RpcDefault("5") int sampleSize) {
+    public void startAllSensor() {
         if (mSensorListener == null) {
-            startSensingTimed(1, 220);
+            startSensor(1);
         }
     }
 
     @Override
     public void shutdown() {
-        stopSensing();
+        stopSensor();
     }
 
-    public static class RollingAverage {
+    @PascalMethod(description = "Return X value of accelerometer sensor")
+    public double getXAccelerometer() {
+        return xAccelerometer;
+    }
+
+    @PascalMethod(description = "Return Y value of accelerometer sensor")
+    public double getYAccelerometer() {
+        return yAccelerometer;
+    }
+
+    @PascalMethod(description = "Return Z value of accelerometer sensor")
+    public double getZAccelerometer() {
+        return zAccelerometer;
+    }
+
+    @PascalMethod(description = "Return X value of magnetic sensor")
+    public double getXMagnetic() {
+        return xMagnetic;
+    }
+
+    @PascalMethod(description = "Return Y value of magnetic sensor")
+    public double getYMagnetic() {
+        return yMagnetic;
+    }
+
+    @PascalMethod(description = "Return Z value of magnetic sensor")
+    public double getZMagnetic() {
+        return zMagnetic;
+    }
+
+    @PascalMethod(description = "Relative ambient air humidity in percent")
+    public double getHumidityValue() {
+        return humidityValue;
+    }
+
+    @PascalMethod(description = "ambient (room) temperature in degree Celsius.")
+    public double getTempValue() {
+        return tempValue;
+    }
+
+    @PascalMethod(description = "Set delay time")
+    public void setDelayTime(long ms) {
+        delayTime = ms;
+    }
+
+    private class RollingAverage {
         private final int mmSampleSize;
         private final double mmData[];
         private int mmIndex = 0;
         private boolean mmFilled = false;
         private double mmSum = 0.0;
 
-        public RollingAverage() {
+        RollingAverage() {
             mmSampleSize = 5;
             mmData = new double[mmSampleSize];
         }
@@ -295,7 +341,7 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
             mmSum += mmData[mmIndex];
             ++mmIndex;
             mmIndex %= mmSampleSize;
-            mmFilled = (!mmFilled) ? mmIndex == 0 : mmFilled;
+            mmFilled = mmFilled || mmIndex == 0;
         }
 
         public double get() throws IllegalStateException {
@@ -308,125 +354,60 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
 
     private class SensorValuesCollector implements SensorEventListener {
         private final static int MATRIX_SIZE = 9;
-
+        private static final String TAG = "SensorValuesCollector";
         private final RollingAverage mmAzimuth;
         private final RollingAverage mmPitch;
         private final RollingAverage mmRoll;
-
         private float[] mmGeomagneticValues;
         private float[] mmGravityValues;
         private float[] mmR;
         private float[] mmOrientation;
+        private double timestamp;
+        private long lastTime = 0;
 
-        @SuppressWarnings("unused")
-        public SensorValuesCollector() {
+        SensorValuesCollector() {
             mmAzimuth = new RollingAverage();
             mmPitch = new RollingAverage();
             mmRoll = new RollingAverage();
         }
 
-        private void postEvent() {
-            mSensorReadings.putDouble("time", System.currentTimeMillis() / 1000.0);
-            mEventFacade.postEvent("sensors", mSensorReadings.clone());
-        }
-
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            if (mSensorReadings == null) {
-                return;
-            }
-            synchronized (mSensorReadings) {
-                mSensorReadings.putInt("accuracy", accuracy);
-                mAccuracy = accuracy;
-
-            }
+            AndroidSensorLib.this.accuracyValue = accuracy;
         }
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if (mSensorReadings == null) {
-                return;
-            }
-            synchronized (mSensorReadings) {
+            Log.d(TAG, "onSensorChanged: " + Arrays.toString(event.values));
+            if (System.currentTimeMillis() - lastTime >= delayTime) {
                 switch (event.sensor.getType()) {
                     case Sensor.TYPE_ACCELEROMETER:
-                        mXForce = event.values[0];
-                        mYForce = event.values[1];
-                        mZForce = event.values[2];
-                        if (mThreshing == 0) {
-                            mSensorReadings.putFloat("xforce", mXForce);
-                            mSensorReadings.putFloat("yforce", mYForce);
-                            mSensorReadings.putFloat("zforce", mZForce);
-                            if ((mSensorNumber == 2) && (System.currentTimeMillis() > (mDelayTime + mLastTime))) {
-                                mLastTime = System.currentTimeMillis();
-                                postEvent();
-                            }
-                        }
-                        if ((mThreshing == 1) && (mSensorNumber == 2)) {
-                            if ((Math.abs(mXForce) > mThreshold) && (mXAxis == 1)) {
-                                mSensorReadings.putFloat("xforce", mXForce);
-                                postEvent();
-                            }
-
-                            if ((Math.abs(mYForce) > mThreshold) && (mYAxis == 2)) {
-                                mSensorReadings.putFloat("yforce", mYForce);
-                                postEvent();
-                            }
-
-                            if ((Math.abs(mZForce) > mThreshold) && (mZAxis == 4)) {
-                                mSensorReadings.putFloat("zforce", mZForce);
-                                postEvent();
-                            }
-                        }
-
+                        xAccelerometer = event.values[0];
+                        yAccelerometer = event.values[1];
+                        zAccelerometer = event.values[2];
                         mmGravityValues = event.values.clone();
                         break;
                     case Sensor.TYPE_MAGNETIC_FIELD:
-                        mXMag = event.values[0];
-                        mYMag = event.values[1];
-                        mZMag = event.values[2];
-                        if (mThreshing == 0) {
-                            mSensorReadings.putFloat("xMag", mXMag);
-                            mSensorReadings.putFloat("yMag", mYMag);
-                            mSensorReadings.putFloat("zMag", mZMag);
-                            if ((mSensorNumber == 3) && (System.currentTimeMillis() > (mDelayTime + mLastTime))) {
-                                mLastTime = System.currentTimeMillis();
-                                postEvent();
-                            }
-                        }
-                        if ((mThreshing == 1) && (mSensorNumber == 3)) {
-                            if ((Math.abs(mXMag) > mThreshold) && (mXAxis == 1)) {
-                                mSensorReadings.putFloat("xforce", mXMag);
-                                postEvent();
-                            }
-                            if ((Math.abs(mYMag) > mThreshold) && (mYAxis == 2)) {
-                                mSensorReadings.putFloat("yforce", mYMag);
-                                postEvent();
-                            }
-                            if ((Math.abs(mZMag) > mThreshold) && (mZAxis == 4)) {
-                                mSensorReadings.putFloat("zforce", mZMag);
-                                postEvent();
-                            }
-                        }
+                        xMagnetic = event.values[0];
+                        yMagnetic = event.values[1];
+                        zMagnetic = event.values[2];
                         mmGeomagneticValues = event.values.clone();
                         break;
                     case Sensor.TYPE_LIGHT:
-                        mLight = event.values[0];
-                        if (mThreshing == 0) {
-                            mSensorReadings.putFloat("light", mLight);
-                            if ((mSensorNumber == 4) && (System.currentTimeMillis() > (mDelayTime + mLastTime))) {
-                                mLastTime = System.currentTimeMillis();
-                                postEvent();
-                            }
-                        }
-                        if ((mThreshing == 1) && (mSensorNumber == 4)) {
-                            if (mLight > mThreshold) {
-                                mSensorReadings.putFloat("light", mLight);
-                                postEvent();
-                            }
-                        }
+                        lightValue = event.values[0];
                         break;
-
+                    case Sensor.TYPE_PRESSURE:
+                        pressureValue = event.values[0];
+                        break;
+                    case Sensor.TYPE_GRAVITY:
+                        gravityValue = event.values[0];
+                        break;
+                    case Sensor.TYPE_RELATIVE_HUMIDITY:
+                        humidityValue = event.values[0];
+                        break;
+                    case Sensor.TYPE_AMBIENT_TEMPERATURE:
+                        tempValue = event.values[0];
+                        break;
                 }
                 if (mSensorNumber == 1) {
                     if (mmGeomagneticValues != null && mmGravityValues != null) {
@@ -442,58 +423,37 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
                             mmPitch.add(mmOrientation[1]);
                             mmRoll.add(mmOrientation[2]);
 
-                            mAzimuth = mmAzimuth.get();
-                            mPitch = mmPitch.get();
-                            mRoll = mmRoll.get();
-                            if (mThreshOrientation == 0) {
-                                mSensorReadings.putDouble("azimuth", mAzimuth);
-                                mSensorReadings.putDouble("pitch", mPitch);
-                                mSensorReadings.putDouble("roll", mRoll);
-                                if ((mSensorNumber == 1) && (System.currentTimeMillis() > (mDelayTime + mLastTime))) {
-                                    mLastTime = System.currentTimeMillis();
-                                    postEvent();
-                                }
-                            }
+                            azimuthValue = mmAzimuth.get();
+                            pitchValue = mmPitch.get();
+                            rollValue = mmRoll.get();
                             if ((mThreshOrientation == 1) && (mSensorNumber == 1)) {
                                 if ((mXAxis == 1) && (mXCrossed == 0)) {
-                                    if (Math.abs(mAzimuth) > ((double) mThreshold)) {
-                                        mSensorReadings.putDouble("azimuth", mAzimuth);
-                                        postEvent();
+                                    if (Math.abs(azimuthValue) > mThreshold) {
                                         mXCrossed = 1;
                                     }
                                 }
                                 if ((mXAxis == 1) && (mXCrossed == 1)) {
-                                    if (Math.abs(mAzimuth) < ((double) mThreshold)) {
-                                        mSensorReadings.putDouble("azimuth", mAzimuth);
-                                        postEvent();
+                                    if (Math.abs(azimuthValue) < mThreshold) {
                                         mXCrossed = 0;
                                     }
                                 }
                                 if ((mYAxis == 2) && (mYCrossed == 0)) {
-                                    if (Math.abs(mPitch) > ((double) mThreshold)) {
-                                        mSensorReadings.putDouble("pitch", mPitch);
-                                        postEvent();
+                                    if (Math.abs(pitchValue) > mThreshold) {
                                         mYCrossed = 1;
                                     }
                                 }
                                 if ((mYAxis == 2) && (mYCrossed == 1)) {
-                                    if (Math.abs(mPitch) < ((double) mThreshold)) {
-                                        mSensorReadings.putDouble("pitch", mPitch);
-                                        postEvent();
+                                    if (Math.abs(pitchValue) < mThreshold) {
                                         mYCrossed = 0;
                                     }
                                 }
                                 if ((mZAxis == 4) && (mZCrossed == 0)) {
-                                    if (Math.abs(mRoll) > ((double) mThreshold)) {
-                                        mSensorReadings.putDouble("roll", mRoll);
-                                        postEvent();
+                                    if (Math.abs(rollValue) > mThreshold) {
                                         mZCrossed = 1;
                                     }
                                 }
                                 if ((mZAxis == 4) && (mZCrossed == 1)) {
-                                    if (Math.abs(mRoll) < ((double) mThreshold)) {
-                                        mSensorReadings.putDouble("roll", mRoll);
-                                        postEvent();
+                                    if (Math.abs(rollValue) < mThreshold) {
                                         mZCrossed = 0;
                                     }
                                 }
@@ -501,6 +461,7 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
                         }
                     }
                 }
+                lastTime = System.currentTimeMillis();
             }
         }
     }

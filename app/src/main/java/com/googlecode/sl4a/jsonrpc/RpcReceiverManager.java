@@ -35,21 +35,21 @@ public abstract class RpcReceiverManager {
      */
     private final Map<String, MethodDescriptor> mKnownRpcs = new HashMap<>();
 
-    public RpcReceiverManager(Collection<Class<? extends BaseAndroidLibrary>> classList) {
+    public RpcReceiverManager() {
         mReceivers = new HashMap<>();
-        for (Class<? extends BaseAndroidLibrary> receiverClass : classList) {
-            mReceivers.put(receiverClass, null);
-            Collection<MethodDescriptor> methodList = MethodDescriptor.collectFrom(receiverClass);
-            for (MethodDescriptor m : methodList) {
-                android.util.Log.d(TAG, "RpcReceiverManager: " + m.toString());
-                if (mKnownRpcs.containsKey(m.getName())) {
-                    // We already know an RPC of the same name. We don't catch this anywhere because this is a
-                    // programming error.
-                    throw new RuntimeException("An RPC with the name " + m.getName() + " is already known.");
-                }
-                mKnownRpcs.put(m.getName(), m);
-            }
-        }
+//        for (Class<? extends BaseAndroidLibrary> receiverClass : classList) {
+//            mReceivers.put(receiverClass, null);
+//            Collection<MethodDescriptor> methodList = MethodDescriptor.collectFrom(receiverClass);
+//            for (MethodDescriptor m : methodList) {
+//                android.util.Log.d(TAG, "RpcReceiverManager: " + m.toString());
+//                if (mKnownRpcs.containsKey(m.getName())) {
+//                    // We already know an RPC of the same name. We don't catch this anywhere because this is a
+//                    // programming error.
+//                    throw new RuntimeException("An RPC with the name " + m.getName() + " is already known.");
+//                }
+//                mKnownRpcs.put(m.getName(), m);
+//            }
+//        }
     }
 
     public Collection<Class<? extends BaseAndroidLibrary>> getRpcReceiverClasses() {

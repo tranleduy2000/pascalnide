@@ -33,6 +33,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SingleThreadExecutor;
@@ -43,7 +44,6 @@ import com.googlecode.sl4a.future.FutureActivityTask;
 import com.googlecode.sl4a.interpreter.InterpreterConstants;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.jsonrpc.JsonRpcResult;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 import com.googlecode.sl4a.rpc.RpcError;
@@ -82,7 +82,6 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
     private final RpcReceiverManager mReceiverManager;
     private final String mJsonSource;
     private final String mAndroidJsSource;
-    private final String mAPIWrapperSource;
     private final String mUrl;
     private final JavaScriptWrapper mWrapper;
     private final HtmlEventObserver mObserver;
@@ -97,7 +96,6 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
         mReceiverManager = manager;
         mJsonSource = jsonSource;
         mAndroidJsSource = androidJsSource;
-        mAPIWrapperSource = generateAPIWrapper();
         mWrapper = new JavaScriptWrapper();
         mObserver = new HtmlEventObserver();
         mReceiverManager.getReceiver(EventFacade.class).addGlobalEventObserver(mObserver);
@@ -138,7 +136,6 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
         mView.setWebViewClient(mWebViewClient);
         mView.loadUrl("javascript:" + mJsonSource);
         mView.loadUrl("javascript:" + mAndroidJsSource);
-        mView.loadUrl("javascript:" + mAPIWrapperSource);
         load();
     }
 
@@ -194,26 +191,26 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-      /*
-       * if (Uri.parse(url).getHost().equals("www.example.com")) { // This is my web site, so do not
-       * override; let my WebView load the page return false; } // Otherwise, the link is not for a
-       * page on my site, so launch another Activity that handles URLs Intent intent = new
-       * Intent(Intent.ACTION_VIEW, Uri.parse(url)); startActivity(intent);
-       */
-            if (!HTTP.equals(Uri.parse(url).getScheme())) {
-                String source = null;
-                try {
-                    source = FileUtils.readToString(new File(Uri.parse(url).getPath()));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                source =
-                        "<script>" + mJsonSource + "</script>" + "<script>" + mAndroidJsSource + "</script>"
-                                + "<script>" + mAPIWrapperSource + "</script>" + source;
-                mView.loadDataWithBaseURL(BASE_URL, source, "text/html", "utf-8", null);
-            } else {
-                mView.loadUrl(url);
-            }
+//      /*
+//       * if (Uri.parse(url).getHost().equals("www.example.com")) { // This is my web site, so do not
+//       * override; let my WebView load the page return false; } // Otherwise, the link is not for a
+//       * page on my site, so launch another Activity that handles URLs Intent intent = new
+//       * Intent(Intent.ACTION_VIEW, Uri.parse(url)); startActivity(intent);
+//       */
+//            if (!HTTP.equals(Uri.parse(url).getScheme())) {
+//                String source = null;
+//                try {
+//                    source = FileUtils.readToString(new File(Uri.parse(url).getPath()));
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                source =
+//                        "<script>" + mJsonSource + "</script>" + "<script>" + mAndroidJsSource + "</script>"
+//                                + "<script>" + mAPIWrapperSource + "</script>" + source;
+//                mView.loadDataWithBaseURL(BASE_URL, source, "text/html", "utf-8", null);
+//            } else {
+//                mView.loadUrl(url);
+//            }
             return true;
         }
     }

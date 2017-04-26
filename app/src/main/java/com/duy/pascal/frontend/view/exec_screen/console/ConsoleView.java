@@ -948,7 +948,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     public boolean isKeyPressed() {
         return (bufferData.stringBuffer.rear > bufferData.stringBuffer.front)
-                || mImeBuffer.length() > 0;
+                || !mImeBuffer.isEmpty();
     }
 
     //pascal

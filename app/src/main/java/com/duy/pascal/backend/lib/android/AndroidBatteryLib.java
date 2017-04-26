@@ -26,7 +26,6 @@ import android.os.Bundle;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
 import java.lang.reflect.Field;
@@ -44,12 +43,12 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
     /**
      * Power source is an AC charger.
      */
-    @SuppressWarnings("unused")
+
     public static final int BATTERY_PLUGGED_AC = 1;
     /**
      * Power source is a USB port.
      */
-    @SuppressWarnings("unused")
+
     public static final int BATTERY_PLUGGED_USB = 2;
     private final Context mContext;
     private BatteryStateListener mReceiver;
@@ -81,7 +80,7 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
         return null;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns the most recently recorded battery data.")
     public Bundle readBatteryData() {
         return mBatteryData;
@@ -90,9 +89,8 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
     /**
      * throws "battery" events
      */
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Starts tracking battery state.")
-    @RpcStartEvent("battery")
     public void batteryStartMonitoring() {
         if (mReceiver == null) {
             IntentFilter filter = new IntentFilter();
@@ -117,14 +115,14 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
         batteryStopMonitoring();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns  the most recently received battery status data:" + "\n1 - unknown;"
             + "\n2 - charging;" + "\n3 - discharging;" + "\n4 - not charging;" + "\n5 - full;")
     public int batteryGetStatus() {
         return mBatteryStatus;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns the most recently received battery health data:" + "\n1 - unknown;"
             + "\n2 - good;" + "\n3 - overheat;" + "\n4 - dead;" + "\n5 - over voltage;"
             + "\n6 - unspecified failure;")
@@ -132,7 +130,7 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
         return mBatteryHealth;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns the most recently received plug type data:" + "\n-1 - unknown"
             + "\n0 - unplugged;" + "\n1 - power source is an AC charger"
             + "\n2 - power source is a USB port")
@@ -140,13 +138,13 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
         return mPlugType;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns the most recently received battery presence data.")
     public boolean batteryCheckPresent() {
         return mBatteryPresent;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns the most recently received battery level (percentage).")
 
     public int batteryGetLevel() {
@@ -157,21 +155,21 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns the most recently received battery voltage.")
 
     public int batteryGetVoltage() {
         return mBatteryVoltage;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns the most recently received battery temperature.")
 
     public int batteryGetTemperature() {
         return mBatteryTemperature;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns the most recently received battery technology data.")
 
     public StringBuilder batteryGetTechnology() {

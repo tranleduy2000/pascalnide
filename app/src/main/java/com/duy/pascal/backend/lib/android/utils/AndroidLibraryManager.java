@@ -19,23 +19,21 @@ package com.duy.pascal.backend.lib.android.utils;
 import android.app.Activity;
 import android.content.Context;
 
+import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.googlecode.sl4a.Log;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
 
 public class AndroidLibraryManager extends RpcReceiverManager {
 
     private  Context mContext;
     private int mSdkLevel;
 
-    public AndroidLibraryManager(int sdkLevel, Activity context, Collection<Class<? extends BaseAndroidLibrary>> classList) {
-        super(classList);
+    public AndroidLibraryManager(int sdkLevel, Activity context) {
         mSdkLevel = sdkLevel;
         if (context != null){
             mContext = context.getApplicationContext();

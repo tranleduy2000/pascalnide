@@ -53,7 +53,7 @@ import java.util.concurrent.TimeUnit;
  * <b>Usage Notes:</b><br>
  * EventFacade APIs interact with the Event Queue (a data buffer containing up to 1024 event
  * entries).<br>
- * Events are automatically entered into the Event Queue following API calls such as startSensing()
+ * Events are automatically entered into the Event Queue following API calls such as startAllSensor()
  * and startLocating().<br>
  * The Event Facade provides control over how events are entered into (and removed from) the Event
  * Queue.<br>
@@ -136,7 +136,7 @@ public class EventFacade extends BaseAndroidLibrary {
      * Example (python):
      *     import android, time
      *     droid = android.Android()
-     *     droid.startSensing()
+     *     droid.startAllSensor()
      *     time.sleep(1)
      *     droid.eventClearBuffer()
      *     time.sleep(1)

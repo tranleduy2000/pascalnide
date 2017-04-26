@@ -23,7 +23,7 @@ import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
-import com.duy.pascal.backend.lib.android.temp.AndroidSensorLib;
+import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
@@ -84,8 +84,7 @@ public class PascalLibraryUtils {
                                             RunnableActivity handler,
                                             ListMultimap<String, AbstractFunction> callableFunctions) {
 
-        AndroidLibraryManager facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkLevel(),
-                handler, AndroidLibraryUtils.getFacadeClasses());
+        AndroidLibraryManager facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkLevel(), handler);
 
         for (Class<?> pascalPlugin : classes) {
             Constructor constructor;
