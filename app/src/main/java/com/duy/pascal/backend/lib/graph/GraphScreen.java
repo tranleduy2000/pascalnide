@@ -18,6 +18,7 @@ package com.duy.pascal.backend.lib.graph;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -43,6 +44,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 public class GraphScreen {
     private static final String TAG = GraphScreen.class.getSimpleName();
     private final Context context;
+    private final Object mLock = new Object();
     protected GraphObject lastObject;
     protected int fillPattern = FillType.EmptyFill;
     protected int fillColor = -1;//white
@@ -53,12 +55,12 @@ public class GraphScreen {
     private Paint mBackgroundPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
     private LinePaint linePaint = new LinePaint();
-    private FillPaint fillPaint = new FillPaint();
 
-//    private int textStyle = TextFont.DefaultFont;
+    //    private int textStyle = TextFont.DefaultFont;
 //    private int textDirection = TextDirection.HORIZONTAL_DIR;
 //    private Typeface currentFont;
 //    private TextJustify textJustify = new TextJustify();
+    private FillPaint fillPaint = new FillPaint();
     /**
      * this object used to draw {@link GraphObject}
      */
@@ -67,7 +69,6 @@ public class GraphScreen {
     private int lineWidth = LineWidth.NormWidth;
     private int lineStyle = LineStyle.SolidLn;
     private int linePattern;
-
 
     public GraphScreen(Context context) {
         this.context = context;
@@ -181,9 +182,21 @@ public class GraphScreen {
     }
 
     public void clear() {
-//        graphObjects.clear();
         mCursor.setCoordinate(0, 0);
-        invalidateBitmap();
+        clearGraphBitmap();
+    }
+
+    /**
+     * draw rect with background black instead of create new bitmap
+     * It will be improve performance
+     */
+    private void clearGraphBitmap() {
+        synchronized (mLock) {
+            Canvas canvas = new Canvas(mGraphBitmap);
+            Paint paint = new Paint();
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(0, 0, width, height, paint);
+        }
     }
 
     public void setCursorPostion(int x, int y) {

@@ -1000,7 +1000,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     //pascal
     public void clearGraph() {
         mGraphScreen.clear();
-//        clearScreen();
+        postInvalidate();
     }
 
     //pascal
