@@ -203,14 +203,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         getConsoleView().setConsoleTextBackground(color);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopInput();
-        getConsoleView().onStop();
-        //stop program
-        stopProgram();
-    }
 
     public String getInput() {
         return input;
@@ -245,6 +237,15 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopInput();
+        getConsoleView().onStop();
+        //stop program
+        stopProgram();
     }
 
     @Override

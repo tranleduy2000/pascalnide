@@ -22,8 +22,8 @@ import android.media.ToneGenerator;
 import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.PascalParameter;
+import com.googlecode.sl4a.rpc.RpcDefault;
 
 /**
  * Generate DTMF tones.
@@ -41,7 +41,8 @@ public class AndroidToneGeneratorLib extends BaseAndroidLibrary {
     @PascalMethod(description = "Generate DTMF tones for the given phone number.")
     public void generateDtmfTones(
             @PascalParameter(name = "phoneNumber") String phoneNumber,
-            @PascalParameter(name = "toneDuration", description = "duration of each tone in milliseconds") @RpcDefault("100") Integer toneDuration)
+            @PascalParameter(name = "toneDuration", description = "duration of each tone in milliseconds")
+            @RpcDefault("100") Integer toneDuration)
             throws InterruptedException {
         try {
             for (int i = 0; i < phoneNumber.length(); i++) {

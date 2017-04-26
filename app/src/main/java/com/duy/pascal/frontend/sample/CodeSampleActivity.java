@@ -56,7 +56,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         if (!BuildConfig.DEBUG) {
             categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "More"};
         } else {
-            categories = new String[]{"android"};
+            categories = new String[]{"temp"};
         }
     }
 

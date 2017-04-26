@@ -26,8 +26,8 @@ import android.net.wifi.WifiManager.WifiLock;
 import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.RpcOptional;
 import com.googlecode.sl4a.rpc.PascalParameter;
+import com.googlecode.sl4a.rpc.RpcOptional;
 
 import java.util.List;
 
@@ -82,28 +82,26 @@ public class AndroidWifiLib extends BaseAndroidLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Starts a scan for Wifi access points.", returns = "True if the scan was initiated successfully.")
-    public Boolean wifiStartScan() {
+    public boolean wifiStartScan() {
         return mWifi.startScan();
     }
 
     @PascalMethod(description = "Checks Wifi state.", returns = "True if Wifi is enabled.")
-    public Boolean checkWifiState() {
+    public boolean checkWifiState() {
         return mWifi.getWifiState() == WifiManager.WIFI_STATE_ENABLED;
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Toggle Wifi on and off.", returns = "True if Wifi is enabled.")
-    public Boolean toggleWifiState(@PascalParameter(name = "enabled") @RpcOptional Boolean enabled) {
-        if (enabled == null) {
-            enabled = !checkWifiState();
-        }
+    public boolean toggleWifiState(@PascalParameter(name = "enabled") @RpcOptional boolean enabled) {
         mWifi.setWifiEnabled(enabled);
+        enabled = checkWifiState();
         return enabled;
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Disconnects from the currently active access point.", returns = "True if the operation succeeded.")
-    public Boolean wifiDisconnect() {
+    public boolean wifiDisconnect() {
         return mWifi.disconnect();
     }
 
@@ -115,13 +113,13 @@ public class AndroidWifiLib extends BaseAndroidLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Reassociates with the currently active access point.", returns = "True if the operation succeeded.")
-    public Boolean wifiReassociate() {
+    public boolean wifiReassociate() {
         return mWifi.reassociate();
     }
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Reconnects to the currently active access point.", returns = "True if the operation succeeded.")
-    public Boolean wifiReconnect() {
+    public boolean wifiReconnect() {
         return mWifi.reconnect();
     }
 

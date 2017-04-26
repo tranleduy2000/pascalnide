@@ -17,7 +17,6 @@
 package com.duy.pascal.backend.lib.android.temp;
 
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,8 +28,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StatFs;
-import android.os.Vibrator;
-import android.text.ClipboardManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
@@ -81,23 +78,13 @@ public class AndroidUtilsLib extends BaseAndroidLibrary {
     private final Context mContext;
     private final Handler mHandler;
     private final FutureActivityTaskExecutor mTaskQueue;
-    private final Vibrator mVibrator;
-    private final NotificationManager mNotificationManager;
-    private final Resources mResources;
-    private ClipboardManager mClipboard = null;
 
     public AndroidUtilsLib(AndroidLibraryManager manager) {
         super(manager);
         mContext = manager.getContext();
-
         PascalApplication application = ((PascalApplication) mContext);
         mTaskQueue = application.getTaskExecutor();
         mHandler = new Handler(mContext.getMainLooper());
-        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-        mNotificationManager =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        mResources = manager.getAndroidFacadeResources();
-
     }
 
     @Override

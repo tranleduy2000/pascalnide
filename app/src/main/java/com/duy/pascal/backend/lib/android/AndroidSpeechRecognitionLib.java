@@ -14,16 +14,14 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.RpcOptional;
 import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.util.ArrayList;
@@ -33,20 +31,23 @@ import java.util.ArrayList;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class SpeechRecognitionFacade extends BaseAndroidLibrary {
+public class AndroidSpeechRecognitionLib extends BaseAndroidLibrary {
+    public static final String NAME = "aSpeechRecord".toLowerCase();
     private final AndroidUtilsLib mAndroidFacade;
 
-    public SpeechRecognitionFacade(AndroidLibraryManager manager) {
+    public AndroidSpeechRecognitionLib(AndroidLibraryManager manager) {
         super(manager);
-        mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
+        mAndroidFacade = new AndroidUtilsLib(manager);
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Recognizes user's speech and returns the most likely result.", returns = "An empty string in case the speech cannot be recongnized.")
-    public String recognizeSpeech(
-            @PascalParameter(name = "prompt", description = "text prompt to show to the user when asking them to speak") @RpcOptional final String prompt,
-            @PascalParameter(name = "language", description = "language override to inform the recognizer that it should expect speech in a language different than the one set in the java.util.Locale.getDefault()") @RpcOptional final String language,
-            @PascalParameter(name = "languageModel", description = "informs the recognizer which speech model to prefer (see android.speech.RecognizeIntent)") @RpcOptional final String languageModel) {
+    public StringBuilder speechToText(
+            @PascalParameter(name = "prompt", description = "text prompt to show to the user when asking them to speak")
+            final String prompt,
+            @PascalParameter(name = "language", description = "language override to inform the recognizer that it should expect speech in a language different than the one set in the java.util.Locale.getDefault()")
+            final String language,
+            @PascalParameter(name = "languageModel", description = "informs the recognizer which speech model to prefer (see android.speech.RecognizeIntent)")
+            final String languageModel) {
         final Intent recognitionIntent =
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
@@ -69,10 +70,27 @@ public class SpeechRecognitionFacade extends BaseAndroidLibrary {
             // possible result. The most likely result is the first entry.
             ArrayList<String> results =
                     data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            return results.get(0);
+            return new StringBuilder(results.get(0));
         }
 
-        return "";
+        return new StringBuilder("");
+    }
+
+    @PascalMethod(description = "Recognizes user's speech and returns the most likely result.", returns = "An empty string in case the speech cannot be recongnized.")
+    public StringBuilder speechToText() {
+        final Intent recognitionIntent =
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        // Run the activity an retrieve the result.
+        final Intent data = mAndroidFacade.startActivityForResult(recognitionIntent);
+
+        if (data.hasExtra(RecognizerIntent.EXTRA_RESULTS)) {
+            // The result consists of an array-list containing one entry for each
+            // possible result. The most likely result is the first entry.
+            ArrayList<String> results =
+                    data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            return new StringBuilder(results.get(0));
+        }
+        return new StringBuilder("");
     }
 
     @Override

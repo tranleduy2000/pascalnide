@@ -100,8 +100,10 @@ public class AndroidBluetoothLib extends BaseAndroidLibrary {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Send bytes over the currently open Bluetooth connection.")
     public void bluetoothWriteBinary(
-            @PascalParameter(name = "base64", description = "A base64 encoded String of the bytes to be sent.") String base64,
-            @PascalParameter(name = "connID", description = "Connection id") @RpcDefault("") @RpcOptional String connID)
+            @PascalParameter(name = "base64", description = "A base64 encoded String of the bytes to be sent.")
+                    String base64,
+            @PascalParameter(name = "connID", description = "Connection id") @RpcDefault("")
+            @RpcOptional String connID)
             throws IOException {
         BluetoothConnection conn = getConnection(connID);
         try {

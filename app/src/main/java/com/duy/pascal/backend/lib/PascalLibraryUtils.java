@@ -19,12 +19,13 @@ package com.duy.pascal.backend.lib;
 import com.duy.pascal.backend.lib.android.AndroidBatteryLib;
 import com.duy.pascal.backend.lib.android.AndroidClipboard;
 import com.duy.pascal.backend.lib.android.AndroidNotifyLib;
+import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
-import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
+import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
@@ -71,6 +72,7 @@ public class PascalLibraryUtils {
         mSupportLibraries.put(AndroidClipboard.NAME, AndroidClipboard.class);
         mSupportLibraries.put("anotify", AndroidNotifyLib.class);
         mSupportLibraries.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
+        mSupportLibraries.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
     }
 
     /**
