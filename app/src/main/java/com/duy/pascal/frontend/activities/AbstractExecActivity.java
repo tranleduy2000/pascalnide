@@ -188,11 +188,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         mFileManager = new ApplicationFileManager(this);
     }
 
-    @Override
-    public void startReadKey(IOLib lock) {
-        getConsoleView().setFilterKey(true);
-        this.mLock = lock;
-    }
 
     /**
      * set background console
@@ -215,13 +210,12 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     public void println(final CharSequence charSequence) {
-
         getConsoleView().commitString(charSequence.toString());
         getConsoleView().commitString("\n");
     }
 
     @Override
-    public char getKeyCode() {
+    public char getKeyBuffer() {
         keyCodeBuffer = getConsoleView().readKey();
         return keyCodeBuffer;
     }

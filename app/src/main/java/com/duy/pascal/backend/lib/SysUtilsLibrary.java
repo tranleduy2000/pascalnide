@@ -26,6 +26,8 @@ import java.util.Map;
  * Created by Duy on 12-Apr-17.
  */
 public class SysUtilsLibrary implements PascalLibrary {
+    public static final String NAME = "sysUtils".toLowerCase();
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;

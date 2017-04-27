@@ -31,9 +31,7 @@ public interface InOutListener {
 
     void println(CharSequence charSequence);
 
-    void startReadKey(IOLib lock);
-
-    char getKeyCode();
+    char getKeyBuffer();
 
     boolean keyPressed();
 }

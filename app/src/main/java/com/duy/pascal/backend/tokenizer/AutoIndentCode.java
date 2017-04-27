@@ -28,6 +28,7 @@ import com.duy.pascal.backend.tokens.basic.ConstToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
+import com.duy.pascal.backend.tokens.basic.ForToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
 import com.duy.pascal.backend.tokens.basic.IfToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
@@ -177,6 +178,10 @@ public class AutoIndentCode {
             processVarToken(token);
         } else if (token instanceof CommentToken) {
             processCommentToken(token);
+        } else if (token instanceof ForToken) {
+            result.append(getTab(numberTab));
+            lastToken = token;
+            result.append(token.toString()).append(" ");
         } else {
             result.append(getTab(numberTab));
             lastToken = token;
@@ -245,7 +250,7 @@ public class AutoIndentCode {
                 || t2 instanceof ColonToken)) {
             result.append(wordToken.getCode()).append(" ");
         } else {
-            result.append(wordToken.getCode());
+            result.append(wordToken.getCode()).append(" ");
         }
         lastToken = wordToken;
         processToken(t2);
@@ -352,7 +357,7 @@ public class AutoIndentCode {
             increaseTab();
             result.append(getTab(numberTab));
 
-            result.append(child.toString()); //append begin
+            result.append(child.toString()).append(" "); //append begin
             lastToken = child;
 
             increaseThenElseToken();

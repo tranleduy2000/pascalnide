@@ -161,7 +161,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return bufferData.stringBuffer.getString();
     }
 
-    public char readKey() {
+    public synchronized char readKey() {
         return bufferData.keyBuffer.getChar();
     }
 
@@ -561,16 +561,14 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 return true;
             }
 
-//            public boolean commitCorrection (CorrectionInfo correctionInfo) {
-//                if (DLog.DEBUG) {
-//                    Log.w(TAG, "commitCorrection");
-//                }
-//                return true;
-//            }
 
             public boolean commitText(CharSequence text, int newCursorPosition) {
                 if (DLog.DEBUG) {
                     Log.w(TAG, "commitText(\"" + text + "\", " + newCursorPosition + ")");
+                }
+                char[] characters = text.toString().toCharArray();
+                for (char character : characters) {
+                    bufferData.keyBuffer.putChar(character);
                 }
                 clearComposingText();
                 sendText(text);
@@ -631,16 +629,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 if (DLog.DEBUG) {
                     Log.w(TAG, "setComposingText(\"" + text + "\", " + newCursorPosition + ")");
                 }
-                if (filterKey) {
-                    if (text.length() >= 1) {
-                        if (Character.isLetter(text.charAt(text.length() - 1))) {
-                            bufferData.keyBuffer.putChar(text.charAt(text.length() - 1));
-                        } else {
-                            bufferData.keyBuffer.putChar(text.charAt(text.length() - 1)); //scan code
-                        }
-                    }
-                    return true;
-                }
+
                 setImeBuffer(mImeBuffer.substring(0, mComposingTextStart) +
                         text + mImeBuffer.substring(mComposingTextEnd));
                 mComposingTextEnd = mComposingTextStart + text.length();
@@ -724,27 +713,19 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
-        if (filterKey) {
-//            if (Character.isLetter(event.getUnicodeChar())) {
-            bufferData.keyBuffer.putChar((char) event.getUnicodeChar()); //scan code
-//            } else {
-//            bufferData.keyBuffer.putChar((char) 0);
-//                bufferData.keyBuffer.putChar((char) event.getUnicodeChar()); //scan code
-//            }
-            return true;
-        } else {
-            if (keyCode == KeyEvent.KEYCODE_DEL) {
-                putString(THE_DELETE_COMMAND);
-                return true;
-            }
-            String c = event.getCharacters();
-            if (c == null) {
-                c = Character.valueOf((char) event.getUnicodeChar()).toString();
-            }
-            putString(c);
+        bufferData.keyBuffer.putChar((char) event.getUnicodeChar()); //scan code
+        if (keyCode == KeyEvent.KEYCODE_DEL) {
+            putString(THE_DELETE_COMMAND);
             return true;
         }
+        String c = event.getCharacters();
+        if (c == null) {
+            c = Character.valueOf((char) event.getUnicodeChar()).toString();
+        }
+        putString(c);
+        return true;
     }
+
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -752,10 +733,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         if (event.isSystem()) {
             return super.onKeyUp(keyCode, event);
         }
-//        if (filterKey) {
-//            bufferData.keyBuffer.putChar((char) event.getUnicodeChar());
-//            return true;
-//        }
         return super.onKeyUp(keyCode, event);
     }
 
@@ -996,7 +973,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     //pascal
     public void closeGraph() {
-        mGraphScreen.closeGraph();
+        clearGraph();
         graphMode = false;
         postInvalidate();
     }
@@ -1032,7 +1009,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        Log.d(TAG, "onDoubleTap: ");
         doShowSoftKeyboard();
         return true;
     }

@@ -16,7 +16,6 @@
 
 package com.duy.pascal.backend.lib;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -35,7 +34,6 @@ import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
@@ -82,6 +80,7 @@ public class PascalLibraryManager {
         mapLibraries.put(MathLib.NAME, MathLib.class);
         mapLibraries.put(GraphLib.NAME, GraphLib.class);
         mapLibraries.put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
+        mapLibraries.put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
 
         mapLibraries.put("abattery", AndroidBatteryLib.class);
         mapLibraries.put("amedia", AndroidMediaPlayerLib.class);
@@ -151,12 +150,13 @@ public class PascalLibraryManager {
 
         if (parent != null) {
             for (Method method : pascalPlugin.getDeclaredMethods()) {
-                if (AndroidLibraryUtils.getSdkLevel() > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+              /*  if (AndroidLibraryUtils.getSdkLevel() > Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
                         MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method);
                         program.declareFunction(methodDeclaration);
                     }
-                } else {
+                } else */
+                {
                     if (Modifier.isPublic(method.getModifiers())) {
                         MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method);
                         program.declareFunction(methodDeclaration);

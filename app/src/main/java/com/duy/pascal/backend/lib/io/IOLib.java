@@ -436,12 +436,9 @@ public class IOLib implements PascalLibrary {
      */
     @PascalMethod(description = "system library", returns = "void")
     public char readKey() {
+        Log.d(TAG, "readKey: ");
         if (listener != null) {
-            synchronized (this) {
-                listener.startReadKey(this);
-            }
-            char keyCode = listener.getKeyCode();
-            Log.d(TAG, "readKey: " + keyCode);
+            char keyCode = listener.getKeyBuffer();
             return keyCode;
         }
         return 0;
