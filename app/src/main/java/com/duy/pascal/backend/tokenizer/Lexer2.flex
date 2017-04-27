@@ -253,7 +253,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 		yybegin(STRING);
 	}
 	
-	{Identifier} {return new WordToken(getLine(),yytext().toLowerCase()); }
+	{Identifier} {return new WordToken(getLine(),yytext()); }
 
 }
 <STRING> {
