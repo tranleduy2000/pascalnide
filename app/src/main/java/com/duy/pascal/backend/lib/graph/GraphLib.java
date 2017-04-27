@@ -163,7 +163,8 @@ public class GraphLib implements PascalLibrary {
     @PascalMethod(description = "graph library", returns = "void")
     public int getPixel(int x, int y) {
         // TODO: 09-Apr-17
-        return handler.getConsoleView().getColorPixel(x, y);
+        int colorPixel = handler.getConsoleView().getColorPixel(x, y);
+        return CrtLib.androidColorToPascalColor(colorPixel);
     }
 
     /**
@@ -191,10 +192,9 @@ public class GraphLib implements PascalLibrary {
     /**
      * Set foreground drawing color
      */
-
     @PascalMethod(description = "graph library", returns = "void")
     public void setColor(int index) {
-        handler.getConsoleView().setPaintGraphColor(CrtLib.getColorPascal(index));
+        handler.getConsoleView().setPaintGraphColor(CrtLib.pascalColorToAndroidColor(index));
     }
 
     /**
@@ -295,7 +295,7 @@ public class GraphLib implements PascalLibrary {
     @PascalMethod(description = "graph library", returns = "void")
     public void putPixel(int x, int y, int color) {
         if (handler != null)
-            handler.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.getColorPascal(color)));
+            handler.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.pascalColorToAndroidColor(color)));
     }
 
 
@@ -359,7 +359,7 @@ public class GraphLib implements PascalLibrary {
     @PascalMethod(description = "graph library", returns = "void")
     public void setBkColor(int color) {
         if (handler != null)
-            handler.getConsoleView().setGraphBackground(CrtLib.getColorPascal(color));
+            handler.getConsoleView().setGraphBackground(CrtLib.pascalColorToAndroidColor(color));
     }
 
     /**
@@ -422,7 +422,7 @@ public class GraphLib implements PascalLibrary {
         if (handler != null) {
             GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
             graphScreen.setFillPattern(pattern);
-            graphScreen.setFillColor(CrtLib.getColorPascal(color));
+            graphScreen.setFillColor(CrtLib.pascalColorToAndroidColor(color));
         }
 
     }
@@ -543,7 +543,7 @@ public class GraphLib implements PascalLibrary {
             Bitmap fillBitmap = graphScreen.getFillBitmap();
 
             FloodFill floodFill = new FloodFill(graphBitmap, fillBitmap);
-            floodFill.fill(x, y, Color.BLUE, CrtLib.getColorPascal(borderColorIndex));
+            floodFill.fill(x, y, Color.BLUE, CrtLib.pascalColorToAndroidColor(borderColorIndex));
 
             int[] imagePixels = floodFill.getImagePixels();
 

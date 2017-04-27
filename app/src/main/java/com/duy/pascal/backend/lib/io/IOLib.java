@@ -455,4 +455,12 @@ public class IOLib implements PascalLibrary {
         return listener != null && listener.keyPressed();
     }
 
+    @PascalMethod(description = "test")
+    public Integer[] getarr() {
+        Integer[] a = new Integer[4];
+        a[1] = 2;
+        a[2] = 3;
+        a[3] = 6;
+        return a;
+    }
 }
