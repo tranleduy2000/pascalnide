@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -550,7 +551,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             @Override
-            public boolean commitContent(InputContentInfo inputContentInfo, int flags, Bundle opts) {
+            public boolean commitContent(@NonNull InputContentInfo inputContentInfo, int flags, Bundle opts) {
                 return false;
             }
 
