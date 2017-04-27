@@ -1,4 +1,4 @@
-uses aSpeech;
+uses aTTSpeech;
 var
     input: String;
 begin

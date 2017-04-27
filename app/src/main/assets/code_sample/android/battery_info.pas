@@ -64,17 +64,17 @@ begin
     writeln('battery level (percentage): ', i, ' %');
 end;
 
-procedure printTechnology(const tech: string);
+procedure printTechnology(tech: string);
 begin
     writeln('Battery technology data: ', tech);
 end;
 
-procedure printVoltage(const vol: Integer);
+procedure printVoltage(vol: Integer);
 begin
     writeln('Voltage: ', vol);
 end;
 
-procedure printTemp(const temp: Integer);
+procedure printTemp(temp: Integer);
 begin
     writeln('Temperature: ', vol);
 end;

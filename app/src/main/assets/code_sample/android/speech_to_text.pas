@@ -1,4 +1,4 @@
-uses aSpeechRecord;
+uses aRecognition;
 var
     result: string ;
 begin
