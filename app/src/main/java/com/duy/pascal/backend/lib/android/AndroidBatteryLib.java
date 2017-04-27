@@ -23,12 +23,14 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Bundle;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 /**
  * Exposes Batterymanager API. Note that in order to use any of the batteryGet* functions, you need
@@ -38,7 +40,7 @@ import java.lang.reflect.Field;
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class AndroidBatteryLib extends BaseAndroidLibrary {
+public class AndroidBatteryLib implements PascalLibrary {
     public static final String NAME = "aBattery";
     /**
      * Power source is an AC charger.
@@ -64,7 +66,6 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
     private volatile String mBatteryTechnology = null;
 
     public AndroidBatteryLib(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
         mReceiver = null;
         mBatteryData = null;
@@ -108,6 +109,11 @@ public class AndroidBatteryLib extends BaseAndroidLibrary {
             mReceiver = null;
         }
         mBatteryData = null;
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

@@ -19,25 +19,28 @@ package com.duy.pascal.backend.lib.android;
 import android.content.Context;
 import android.os.Vibrator;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcDefault;
+
+import java.util.Map;
 
 /**
  * Created by Duy on 25-Apr-17.
  */
 
-public class AndroidVibrateLib extends BaseAndroidLibrary {
-    private static final String TAG = "AndroidClipboard";
-    public static final String NAME = "avibrate";
-    private final Context mContext;
-    private final Vibrator mVibrator;
+public class AndroidVibrateLib implements PascalLibrary {
+    public static final String NAME = "aVibrate".toLowerCase();
+    private Context mContext;
+    private Vibrator mVibrator;
 
     public AndroidVibrateLib(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
-        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+        if (mContext != null) {
+            mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -60,6 +63,11 @@ public class AndroidVibrateLib extends BaseAndroidLibrary {
     @SuppressWarnings("unused")
     public boolean isVibrating() {
         return mVibrator.hasVibrator();
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

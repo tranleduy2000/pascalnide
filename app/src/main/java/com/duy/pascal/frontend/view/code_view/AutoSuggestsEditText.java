@@ -66,7 +66,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
      * slipt string in edittext and put it to list keyword
      */
     public void invalidateKeyWord() {
-        setSuggestData(new ArrayList<String>());
+        setSuggestData(new ArrayList<SuggestItem>());
     }
 
 
@@ -210,29 +210,17 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     /**
      * invalidate data for auto suggest
      */
-    public void setSuggestData(ArrayList<String> data) {
-        if (mAdapter == null) {
-            mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint);
-            setAdapter(mAdapter);
-        }
-        ArrayList<SuggestItem> list = new ArrayList<>();
+    public void setSuggestData(ArrayList<SuggestItem> data) {
         for (String s : KeyWord.LIST_KEY_WORD) {
-            list.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
+            data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }
-        for (String s : data) {
-            list.add(new SuggestItem(StructureType.TYPE_UNKNOWN, s));
+        if (mAdapter != null) {
+            mAdapter.clearAll();
         }
-        mAdapter.setSource(list);
-        mAdapter.notifyDataSetChanged();
+        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);
+        setAdapter(mAdapter);
     }
 
-    public void addSuggestData(ArrayList<String> data) {
-
-    }
-
-    public void clearKeyword() {
-        mAdapter.clear();
-    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -240,6 +228,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         setDropDownWidth(w / 2);
         setDropDownHeight(h / 2);
     }
+
 
     private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         String token = "!@#$%^&*()_+-={}|[]:;'<>/<.?1234567890 \n\t";

@@ -23,27 +23,29 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcOptional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Wifi functions.
  */
-public class AndroidWifiLib extends BaseAndroidLibrary {
+public class AndroidWifiLib implements PascalLibrary {
 
     private WifiManager mWifi;
     private WifiLock mLock;
 
     @SuppressLint("WifiManagerLeak")
     public AndroidWifiLib(AndroidLibraryManager manager) {
-        super(manager);
         Context mContext = manager.getContext();
-        mWifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+        if (mContext != null) {
+            mWifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+        }
         mLock = null;
     }
 
@@ -121,6 +123,11 @@ public class AndroidWifiLib extends BaseAndroidLibrary {
     @PascalMethod(description = "Reconnects to the currently active access point.", returns = "True if the operation succeeded.")
     public boolean wifiReconnect() {
         return mWifi.reconnect();
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

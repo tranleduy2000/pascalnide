@@ -23,12 +23,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Exposes the SensorManager related functionality. <br>
@@ -91,10 +93,10 @@ import java.util.Arrays;
  * @author Robbie Mathews (rjmatthews62@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class AndroidSensorLib extends BaseAndroidLibrary {
-    public static final String NAME = "asensor";
+public class AndroidSensorLib implements PascalLibrary {
+    public static final String NAME = "aSensor".toLowerCase();
 
-    private final SensorManager mSensorManager;
+    private SensorManager mSensorManager;
 
     private int accuracyValue;
     private int mSensorNumber;
@@ -130,8 +132,9 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
     private long delayTime = 20;
 
     public AndroidSensorLib(AndroidLibraryManager manager) {
-        super(manager);
-        mSensorManager = (SensorManager) manager.getContext().getSystemService(Context.SENSOR_SERVICE);
+        if (manager.getContext() != null) {
+            mSensorManager = (SensorManager) manager.getContext().getSystemService(Context.SENSOR_SERVICE);
+        }
     }
 
     @PascalMethod(description = "Pitch, rotation around x-axis (-180 to 180), with positive values when the z-axis moves toward the y-axis.")
@@ -271,6 +274,11 @@ public class AndroidSensorLib extends BaseAndroidLibrary {
         if (mSensorListener == null) {
             startSensor(1);
         }
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

@@ -35,14 +35,14 @@ import android.widget.Toast;
 
 import com.duy.pascal.PascalApplication;
 import com.duy.pascal.backend.lib.AndroidLibraryUtils;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -74,21 +74,18 @@ import java.util.TimeZone;
  * <br>
  * An intent can be built using the {@see #makeIntent} call, but can also be constructed exterally.
  */
-public class AndroidUtilsLib extends BaseAndroidLibrary {
-    private final Context mContext;
-    private final Handler mHandler;
-    private final FutureActivityTaskExecutor mTaskQueue;
+public class AndroidUtilsLib implements PascalLibrary {
+    private Context mContext;
+    private Handler mHandler;
+    private FutureActivityTaskExecutor mTaskQueue;
 
     public AndroidUtilsLib(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
-        PascalApplication application = ((PascalApplication) mContext);
-        mTaskQueue = application.getTaskExecutor();
-        mHandler = new Handler(mContext.getMainLooper());
-    }
-
-    @Override
-    public void shutdown() {
+        if (mContext != null) {
+            PascalApplication application = ((PascalApplication) mContext);
+            mTaskQueue = application.getTaskExecutor();
+            mHandler = new Handler(mContext.getMainLooper());
+        }
     }
 
 
@@ -280,7 +277,6 @@ public class AndroidUtilsLib extends BaseAndroidLibrary {
             throws Exception {
         mContext.sendBroadcast(intent);
     }
-
 
 
     @SuppressWarnings("unused")
@@ -492,6 +488,16 @@ public class AndroidUtilsLib extends BaseAndroidLibrary {
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
+
+    @Override
+    public void shutdown() {
+
     }
 
     /**

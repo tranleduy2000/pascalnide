@@ -48,14 +48,14 @@ begin
     {Returns the most recently received plug type data:
     -1 - unknown
     0 - unplugged;
-    1 - power source is an AC charger
-    2 - power source is a USB port
+    1 - power items is an AC charger
+    2 - power items is a USB port
     }
     case i of
     -1: writeln('unknown');
     0: writeln('unplugged');
-    1: writeln('power source is an AC charger');
-    2: writeln('power source is a USB port');
+    1: writeln('power items is an AC charger');
+    2: writeln('power items is a USB port');
     end;
 end;
 

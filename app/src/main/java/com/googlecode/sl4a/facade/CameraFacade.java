@@ -31,34 +31,36 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 /**
  * Access Camera functions.
  */
-public class CameraFacade extends BaseAndroidLibrary {
+public class CameraFacade implements PascalLibrary {
 
     private final Context mContext;
+    private AndroidLibraryManager mManager;
     private final Parameters mParameters;
 
     public CameraFacade(AndroidLibraryManager manager) throws Exception {
-        super(manager);
         mContext = manager.getContext();
+        mManager = manager;
         Camera camera = openCamera(0);
         try {
             mParameters = camera.getParameters();
@@ -193,6 +195,11 @@ public class CameraFacade extends BaseAndroidLibrary {
             });
             latch.await();
         }
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

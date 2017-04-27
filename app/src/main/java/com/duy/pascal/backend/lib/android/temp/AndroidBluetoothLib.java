@@ -22,15 +22,15 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.MainThread;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.apache.commons.codec.binary.Base64Codec;
 
@@ -50,18 +50,18 @@ import java.util.concurrent.Callable;
 // Discovery functions added by Eden Sayag
 
 
-public class AndroidBluetoothLib extends BaseAndroidLibrary {
+public class AndroidBluetoothLib  implements PascalLibrary{
 
     // UUID for SL4A.
     private static final String DEFAULT_UUID = "457807c0-4897-11df-9879-0800200c9a66";
     private static final String SDP_NAME = "SL4A";
+    public static final String NAME = "aBluetooth".toLowerCase();
 
     private Map<String, BluetoothConnection> connections = new HashMap<>();
     private AndroidUtilsLib mAndroidFacade;
     private BluetoothAdapter mBluetoothAdapter;
 
     public AndroidBluetoothLib(AndroidLibraryManager manager) {
-        super(manager);
         mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
         mBluetoothAdapter = MainThread.run(manager.getContext(), new Callable<BluetoothAdapter>() {
             @Override
@@ -379,6 +379,11 @@ public class AndroidBluetoothLib extends BaseAndroidLibrary {
     @PascalMethod(description = "Return true if the local Bluetooth adapter is currently in the device discovery process. ")
     public Boolean bluetoothIsDiscovering() {
         return mBluetoothAdapter.isDiscovering();
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

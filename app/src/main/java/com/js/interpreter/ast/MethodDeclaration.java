@@ -1,5 +1,7 @@
 package com.js.interpreter.ast;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.lib.annotations.ArrayBoundsInfo;
 import com.duy.pascal.backend.lib.annotations.MethodTypeData;
@@ -32,7 +34,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     private Method method;
     private ArgumentType[] argCache = null;
 
-    public MethodDeclaration(Object owner, Method m) {
+    public MethodDeclaration(@NonNull Object owner, @NonNull Method m) {
         this.parent = owner;
         method = m;
     }

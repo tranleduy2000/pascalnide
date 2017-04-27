@@ -28,12 +28,12 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.MainThread;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
@@ -41,6 +41,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -49,18 +50,19 @@ import java.util.concurrent.Callable;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class PhoneFacade extends BaseAndroidLibrary {
+public class PhoneFacade implements PascalLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
     private final EventFacade mEventFacade;
     private final TelephonyManager mTelephonyManager;
     private final Bundle mPhoneState;
     private final Context mContext;
+    private AndroidLibraryManager mManager;
     private PhoneStateListener mPhoneStateListener;
 
     public PhoneFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
+        mManager = manager;
         mTelephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
         mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
         mEventFacade = manager.getReceiver(EventFacade.class);
@@ -93,6 +95,9 @@ public class PhoneFacade extends BaseAndroidLibrary {
     @Override
     public void shutdown() {
         stopTrackingPhoneState();
+    } @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @SuppressWarnings("unused")

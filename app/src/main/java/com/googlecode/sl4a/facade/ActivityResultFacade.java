@@ -19,20 +19,21 @@ package com.googlecode.sl4a.facade;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.Constants;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.googlecode.sl4a.Constants;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Allows you to return results to a startActivityForResult call.
  *
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
-public class ActivityResultFacade extends BaseAndroidLibrary {
+public class ActivityResultFacade implements PascalLibrary {
 
     private static final String sRpcDescription =
             "Sets the result of a script execution. Whenever the script APK is called via "
@@ -47,7 +48,6 @@ public class ActivityResultFacade extends BaseAndroidLibrary {
     private int mResultCode;
 
     public ActivityResultFacade(AndroidLibraryManager manager) {
-        super(manager);
     }
 
     @SuppressWarnings("unused")
@@ -340,6 +340,11 @@ public class ActivityResultFacade extends BaseAndroidLibrary {
     private void setResult() {
         mActivity.setResult(mResultCode, mResult);
         mActivity.finish();
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

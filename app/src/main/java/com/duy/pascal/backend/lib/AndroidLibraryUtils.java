@@ -24,14 +24,13 @@ import com.duy.pascal.backend.lib.android.AndroidBatteryLib;
 import com.duy.pascal.backend.lib.android.AndroidClipboard;
 import com.duy.pascal.backend.lib.android.AndroidNotifyLib;
 import com.duy.pascal.backend.lib.android.AndroidSensorLib;
+import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidApplicationManagerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
-import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
@@ -77,7 +76,7 @@ import java.util.TreeMap;
  * @author Igor Karp (igor.v.karp@gmail.com)
  */
 public class AndroidLibraryUtils {
-    private final static Set<Class<? extends BaseAndroidLibrary>> sFacadeClassList;
+    private final static Set<Class<? extends PascalLibrary>> sFacadeClassList;
     private final static SortedMap<String, MethodDescriptor> sRpcs =
             new TreeMap<>();
 
@@ -111,7 +110,7 @@ public class AndroidLibraryUtils {
         sFacadeClassList.add(AndroidVibrateLib.class);
         sFacadeClassList.add(AndroidClipboard.class);
         sFacadeClassList.add(AndroidNotifyLib.class);
-        for (Class<? extends BaseAndroidLibrary> recieverClass : sFacadeClassList) {
+        for (Class<? extends PascalLibrary> recieverClass : sFacadeClassList) {
             for (MethodDescriptor rpcMethod : MethodDescriptor.collectFrom(recieverClass)) {
                 sRpcs.put(rpcMethod.getName(), rpcMethod);
             }
@@ -186,7 +185,7 @@ public class AndroidLibraryUtils {
         return sRpcs.get(name);
     }
 
-    public static Collection<Class<? extends BaseAndroidLibrary>> getFacadeClasses() {
+    public static Collection<Class<? extends PascalLibrary>> getFacadeClasses() {
         return sFacadeClassList;
     }
 

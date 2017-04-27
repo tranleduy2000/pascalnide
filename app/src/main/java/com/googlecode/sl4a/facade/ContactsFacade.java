@@ -25,11 +25,11 @@ import android.net.Uri;
 import android.provider.Contacts.People;
 import android.provider.Contacts.PhonesColumns;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,13 +37,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides access to contacts related functionality.
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com
  */
-public class ContactsFacade extends BaseAndroidLibrary {
+public class ContactsFacade implements PascalLibrary {
     private static final Uri CONTACTS_URI = Uri.parse("content://contacts/people");
     private final ContentResolver mContentResolver;
     private final Context mContext;
@@ -56,7 +57,6 @@ public class ContactsFacade extends BaseAndroidLibrary {
     public String mHasPhoneNumber;
 
     public ContactsFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
         mContentResolver = mContext.getContentResolver();
         mCommonIntentsFacade = manager.getReceiver(CommonIntentsFacade.class);
@@ -310,5 +310,8 @@ public class ContactsFacade extends BaseAndroidLibrary {
 
     @Override
     public void shutdown() {
+    } @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 }

@@ -21,11 +21,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.IOException;
 import java.util.Map;
@@ -48,12 +48,11 @@ import java.util.Map;
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
 
-public class PreferencesFacade extends BaseAndroidLibrary {
+public class PreferencesFacade implements PascalLibrary {
 
     private Context mContext;
 
     public PreferencesFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
     }
 
@@ -105,7 +104,10 @@ public class PreferencesFacade extends BaseAndroidLibrary {
         return mContext.getSharedPreferences(filename, 0);
 
     }
-
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
     @Override
     public void shutdown() {
 

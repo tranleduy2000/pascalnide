@@ -10,12 +10,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.lib.PascalLibraryUtils;
-import com.duy.pascal.backend.lib.SystemLib;
-import com.duy.pascal.backend.lib.file.FileLib;
-import com.duy.pascal.backend.lib.io.IOLib;
-import com.duy.pascal.backend.lib.templated.SetLengthFunction;
-import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePluginDeclaration;
+import com.duy.pascal.backend.lib.PascalLibraryManager;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
@@ -35,6 +30,8 @@ import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
+import com.duy.pascal.frontend.view.code_view.SuggestItem;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
@@ -70,25 +67,27 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
      */
     private ListMultimap<String, AbstractFunction> callableFunctions = ArrayListMultimap.create();
     //name of function in map callableFunctions, uses for get all function
-    private ArrayList<String> listNameFunctions = new ArrayList<>();
+    private ArrayList<SuggestItem> listNameFunctions = new ArrayList<>();
 
     /**
      * list defined constant
      */
     private Map<String, ConstantDefinition> constants = new HashMap<>();
     //list name of constant map,  use for get all constants
-    private ArrayList<String> listNameConstants = new ArrayList<>();
+    private ArrayList<SuggestItem> listNameConstants = new ArrayList<>();
 
     /**
      * list custom type
      */
     private Map<String, DeclaredType> typedefs = new HashMap<>();
     //uses for get all type in map typedefs
-    private ArrayList<String> listNameTypes = new ArrayList<>();
+    private ArrayList<SuggestItem> listNameTypes = new ArrayList<>();
     /**
      * list library
      */
     private ArrayList<String> librarieNames = new ArrayList<>();
+
+    private PascalLibraryManager pascalLibraryManager;
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
         super(root, parent);
@@ -104,9 +103,9 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
         if (handler != null)
             this.handler = handler;
-
+        pascalLibraryManager = new PascalLibraryManager(this, handler);
         //load system function
-        loadSystemLibrary();
+        pascalLibraryManager.loadSystemLibrary();
         //add constants
         SystemConstants.addSystemConstant(constants);
         SystemConstants.addSystemType(this);
@@ -144,7 +143,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             }
         }
         callableFunctions.put(f.name, f);
-        listNameFunctions.add(f.name);
+        listNameFunctions.add(new SuggestItem(StructureType.TYPE_FUNCTION, f.name));
         return f;
     }
 
@@ -199,17 +198,19 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             addConstDeclarations(i);
         } else if (next instanceof UsesToken) {
             i.take();
-            ArrayList<String> listLib = new ArrayList<>();
             do {
                 next = i.take();
                 if (!(next instanceof WordToken)) {
                     throw new ExpectedTokenException("[Library Identifier]", next);
                 }
                 //check library not found
-                if (PascalLibraryUtils.mSupportLibraries.get(((WordToken) next).name.toLowerCase()) == null) {
+                if (pascalLibraryManager.mapLibraries.get(((WordToken) next).name.toLowerCase()) == null) {
                     throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
                 }
-                listLib.add(next.toString());
+                librarieNames.add(next.toString());
+                pascalLibraryManager.addMethodFromClass(
+                        pascalLibraryManager.mapLibraries.get(((WordToken) next).name.toLowerCase()),
+                        Modifier.PUBLIC);
                 next = i.peek();
                 if (next instanceof SemicolonToken) {
                     break;
@@ -218,7 +219,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 }
             } while (true);
             i.assertNextSemicolon();
-            PascalLibraryUtils.loadLibrary(librarieNames, listLib, handler, this);
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
@@ -249,9 +249,8 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                     }
                 }
 
+                declareTypedef(name, type);
 
-                typedefs.put(name, type);
-                this.listNameTypes.add(name);
                 i.assertNextSemicolon();
             }
         } /*else if (next instanceof CommentToken) {
@@ -261,24 +260,6 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         } */ else {
             handleUnrecognizedDeclaration(i.take(), i);
         }
-    }
-
-    /**
-     * load system method  of some class
-     */
-    protected void loadSystemLibrary() {
-        ArrayList<Class<?>> classes = new ArrayList<>();
-        /**
-         * Important: load file library before io lib. Because
-         * method readln(file, ...) in {@link FileLib} will be override method readln(object...) in {@link IOLib}
-         */
-        classes.add(FileLib.class);
-        classes.add(IOLib.class);
-        classes.add(SystemLib.class);
-        PascalLibraryUtils.addMethodFromClasses(classes, Modifier.PUBLIC, handler, this);
-
-        SetLengthFunction setLength = new SetLengthFunction();
-        callableFunctions.put(setLength.name(), new TemplatePluginDeclaration(setLength));
     }
 
 
@@ -311,7 +292,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
     public void declareTypedef(String name, DeclaredType type) {
         typedefs.put(name, type);
-        listNameTypes.add(name);
+        listNameTypes.add(new SuggestItem(StructureType.TYPE_DEF, name));
     }
 
     public void declareVariable(VariableDeclaration v) {
@@ -320,12 +301,12 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
     public void declareFunction(AbstractFunction f) {
         callableFunctions.put(f.name().toLowerCase(), f);
-        listNameFunctions.add(f.name());
+        listNameFunctions.add(new SuggestItem(StructureType.TYPE_FUNCTION, f.name()));
     }
 
     public void declareConst(ConstantDefinition c) {
         constants.put(c.name(), c);
-        listNameConstants.add(c.name());
+        listNameConstants.add(new SuggestItem(StructureType.TYPE_CONST, c.name()));
     }
 
     public void addConstDeclarations(GrouperToken i) throws ParsingException {
@@ -354,8 +335,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
                         ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
                                 type, defaultValue, constName.lineInfo);
-                        this.constants.put(constantDefinition.name(), constantDefinition);
-                        this.listNameConstants.add(constantDefinition.name());
+                        declareConst(constantDefinition);
                         i.assertNextSemicolon();
                     }
                 } else {
@@ -425,15 +405,15 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     }
 
 
-    public ArrayList<String> getListNameFunctions() {
+    public ArrayList<SuggestItem> getListNameFunctions() {
         return listNameFunctions;
     }
 
-    public ArrayList<String> getListNameConstants() {
+    public ArrayList<SuggestItem> getListNameConstants() {
         return listNameConstants;
     }
 
-    public ArrayList<String> getListNameTypes() {
+    public ArrayList<SuggestItem> getListNameTypes() {
         return listNameTypes;
     }
 }

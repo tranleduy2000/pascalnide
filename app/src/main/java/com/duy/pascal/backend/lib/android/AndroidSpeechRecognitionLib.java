@@ -19,24 +19,25 @@ package com.duy.pascal.backend.lib.android;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A facade containing RPC implementations related to the speech-to-text functionality of Android.
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class AndroidSpeechRecognitionLib extends BaseAndroidLibrary {
-    public static final String NAME = "aSpeechRecord".toLowerCase();
-    private final AndroidUtilsLib mAndroidFacade;
+public class AndroidSpeechRecognitionLib implements PascalLibrary {
+    public static final String NAME = "aRecognition".toLowerCase();
+    private  AndroidUtilsLib mAndroidFacade;
 
     public AndroidSpeechRecognitionLib(AndroidLibraryManager manager) {
-        super(manager);
         mAndroidFacade = new AndroidUtilsLib(manager);
     }
 
@@ -91,6 +92,11 @@ public class AndroidSpeechRecognitionLib extends BaseAndroidLibrary {
             return new StringBuilder(results.get(0));
         }
         return new StringBuilder("");
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

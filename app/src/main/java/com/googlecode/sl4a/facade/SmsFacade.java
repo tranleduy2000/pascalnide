@@ -24,13 +24,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.gsm.SmsManager;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.Log;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,19 +39,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides access to SMS related functionality.
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class SmsFacade extends BaseAndroidLibrary {
+public class SmsFacade implements PascalLibrary {
 
     private final ContentResolver mContentResolver;
     private final SmsManager mSms;
 
     public SmsFacade(AndroidLibraryManager manager) {
-        super(manager);
         Context mContext = manager.getContext();
         mContentResolver = mContext.getContentResolver();
         mSms = SmsManager.getDefault();
@@ -222,7 +222,10 @@ public class SmsFacade extends BaseAndroidLibrary {
         }
         return result;
     }
-
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
     @Override
     public void shutdown() {
     }

@@ -22,10 +22,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,21 +38,22 @@ import java.util.Set;
 /**
  * Facade for managing Applications.
  */
-public class AndroidApplicationManagerLib extends BaseAndroidLibrary {
+public class AndroidApplicationManagerLib implements PascalLibrary {
 
-    private final AndroidUtilsLib mAndroidFacade;
-    private final ActivityManager mActivityManager;
-    private final PackageManager mPackageManager;
+    private  AndroidUtilsLib mAndroidFacade;
+    private  ActivityManager mActivityManager;
+    private  PackageManager mPackageManager;
 
     public AndroidApplicationManagerLib(AndroidLibraryManager manager) {
-        super(manager);
         Context context = manager.getContext();
         mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
-        mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        mPackageManager = context.getPackageManager();
+        if (context != null) {
+            mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            mPackageManager = context.getPackageManager();
+        }
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns a list of all launchable application class names.")
     public Map<String, String> getLaunchableApplications() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -65,7 +66,7 @@ public class AndroidApplicationManagerLib extends BaseAndroidLibrary {
         return applications;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Start activity with the given class name.")
     public void launch(@PascalParameter(name = "className") String className) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -74,7 +75,7 @@ public class AndroidApplicationManagerLib extends BaseAndroidLibrary {
         mAndroidFacade.startActivity(intent);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Returns a list of packages running activities or services.", returns = "List of packages running activities.")
     public List<String> getRunningPackages() {
         Set<String> runningPackages = new HashSet<>();
@@ -91,11 +92,16 @@ public class AndroidApplicationManagerLib extends BaseAndroidLibrary {
         return new ArrayList<>(runningPackages);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Force stops a package.")
     public void forceStopPackage(
             @PascalParameter(name = "packageName", description = "name of package") String packageName) {
         mActivityManager.restartPackage(packageName);
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

@@ -63,6 +63,7 @@ import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.duy.pascal.frontend.view.code_view.HighlightEditor;
+import com.duy.pascal.frontend.view.code_view.SuggestItem;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.ConstantDefinition;
@@ -289,18 +290,15 @@ public class EditorActivity extends BaseEditorActivity implements
                 return false;
             }
             ExpressionContextMixin program = pascalProgram.getProgram();
-            ArrayList<String> listNameConstants = program.getListNameConstants();
-            ArrayList<String> listNameFunctions = program.getListNameFunctions();
-            ArrayList<String> listNameTypes = program.getListNameTypes();
+            ArrayList<SuggestItem> data = new ArrayList<>();
+            data.addAll(program.getListNameConstants());
+            data.addAll(program.getListNameFunctions());
+            data.addAll(program.getListNameTypes());
             ArrayList<VariableDeclaration> variables = program.getVariables();
-            ArrayList<String> listVariables = new ArrayList<>();
+            ArrayList<SuggestItem> listVariables = new ArrayList<>();
             for (VariableDeclaration variableDeclaration : variables) {
-                listVariables.add(variableDeclaration.name());
+                listVariables.add(new SuggestItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
             }
-            ArrayList<String> data = new ArrayList<>();
-            data.addAll(listNameConstants);
-            data.addAll(listNameFunctions);
-            data.addAll(listNameTypes);
             data.addAll(listVariables);
             mCodeEditor.setSuggestData(data);
         } catch (FileNotFoundException e) {
@@ -668,12 +666,10 @@ public class EditorActivity extends BaseEditorActivity implements
         String tab = "";
         for (int i = 0; i < depth; i++) tab += "\t";
         Map<String, ConstantDefinition> constants = context.getConstants();
-        ArrayList<String> listNameConstants = context.getListNameConstants();
-        for (String name : listNameConstants) {
-            Log.d(TAG, tab + "showProgramStructure: const " +
-                    constants.get(name).name() + " = " + constants.get(name).getValue());
+        ArrayList<SuggestItem> listNameConstants = context.getListNameConstants();
+        for (SuggestItem name : listNameConstants) {
             node.addNode(new StructureItem(StructureType.TYPE_CONST,
-                    name + " = " + constants.get(name).getValue()));
+                    name + " = " + constants.get(name.getName().toLowerCase()).getValue()));
         }
 
         ArrayList<String> libraries = context.getLibrarieNames();
@@ -691,14 +687,12 @@ public class EditorActivity extends BaseEditorActivity implements
         }
 
         ListMultimap<String, AbstractFunction> callableFunctions = context.getCallableFunctions();
-        ArrayList<String> listNameFunctions = context.getListNameFunctions();
-        for (String name : listNameFunctions) {
-            List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
+        ArrayList<SuggestItem> listNameFunctions = context.getListNameFunctions();
+        for (SuggestItem name : listNameFunctions) {
+            List<AbstractFunction> abstractFunctions = callableFunctions.get(name.getName().toLowerCase());
             for (AbstractFunction function : abstractFunctions) {
                 if (function instanceof FunctionDeclaration) {
                     FunctionDeclaration functionInPascal = (FunctionDeclaration) function;
-                    Log.d(TAG, tab + "FUNC: " + functionInPascal.name + ": " + functionInPascal.returnType().toString());
-
                     StructureItem child = getNode(
                             functionInPascal.declarations,
                             ((FunctionDeclaration) function).name,

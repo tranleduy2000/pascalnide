@@ -21,23 +21,30 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.duy.pascal.frontend.R;
-import com.googlecode.sl4a.rpc.PascalParameter;
+
+import java.util.Map;
 
 /**
  * Created by Duy on 25-Apr-17.
  */
 
-public class AndroidNotifyLib extends BaseAndroidLibrary {
-    public static final String NAME = "aNotify";
+public class AndroidNotifyLib implements PascalLibrary {
+    public static final String NAME = "aNotify".toLowerCase();
 
     private final Context mContext;
 
     public AndroidNotifyLib(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

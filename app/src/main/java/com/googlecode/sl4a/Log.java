@@ -40,42 +40,6 @@ public class Log {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static void notify(Context context, String title, String contentTitle, String message) {
-        android.util.Log.v(getTag(), String.format("%s %s", contentTitle, message));
-
-        String packageName = context.getPackageName();
-        int iconId = context.getResources().getIdentifier("stat_sys_warning", "drawable", packageName);
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification note = new Notification(iconId > 0 ? iconId : -1, title, 0);
-        // TODO: 24-Apr-17
-//    note.setLatestEventInfo(context, contentTitle, message, PendingIntent.getContext(context, 0,
-//        null, 0));
-        note.contentView.getLayoutId();
-        notificationManager.notify(NotificationIdFactory.create(), note);
-    }
-
-    public static void showDialog(final Context context, final String title, final String message) {
-        android.util.Log.v(getTag(), String.format("%s %s", title, message));
-
-        MainThread.run(context, new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(title);
-                builder.setMessage(message);
-
-                DialogInterface.OnClickListener buttonListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                };
-                builder.setPositiveButton("Ok", buttonListener);
-                builder.show();
-            }
-        });
-    }
 
     public static void v(String message) {
         android.util.Log.v(getTag(), message);

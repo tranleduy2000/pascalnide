@@ -25,13 +25,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 
 import java.util.ArrayList;
 
@@ -43,8 +40,10 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
     private static final String TAG = "CodeSuggestAdapter";
     private final Context context;
     private LayoutInflater inflater;
-    private ArrayList<SuggestItem> source;
-    private ArrayList<SuggestItem> filterData;
+    private ArrayList<SuggestItem> items;
+    private ArrayList<SuggestItem> itemsAll;
+    private ArrayList<SuggestItem> suggestion;
+    private int resourceID;
     private Filter codeFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
@@ -54,63 +53,59 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
-            filterData.clear();
+            suggestion.clear();
             if (constraint != null) {
-                for (SuggestItem item : source) {
+                for (SuggestItem item : itemsAll) {
                     if (item.getName().startsWith(constraint.toString())) {
-                        filterData.add(item);
+                        suggestion.add(item);
                     }
                 }
-                filterResults.values = filterData;
-                filterResults.count = filterData.size();
+                filterResults.values = suggestion;
+                filterResults.count = suggestion.size();
             }
             return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<SuggestItem> filterList = (ArrayList<SuggestItem>) results.values;
+            ArrayList<SuggestItem> filteredList = (ArrayList<SuggestItem>) results.values;
             clear();
             if (results != null && results.count > 0) {
-                addAll(filterList);
+                for (SuggestItem suggestItem : filteredList) {
+                    add(suggestItem);
+                }
             }
             notifyDataSetChanged();
         }
     };
 
-    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resID) {
-        super(context, resID);
+
+    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<SuggestItem> objects) {
+        super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
         this.context = context;
-        source = new ArrayList<>();
-        filterData = new ArrayList<>();
+        this.items = objects;
+        this.itemsAll = (ArrayList<SuggestItem>) items.clone();
+        this.suggestion = new ArrayList<>();
+        this.resourceID = resource;
     }
 
-    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource,
-                              @NonNull ArrayList<SuggestItem> source) {
-        super(context, resource);
-        this.context = context;
-        this.source = new ArrayList<>();
-        filterData = new ArrayList<>();
+    public ArrayList<SuggestItem> getItems() {
+        return items;
     }
 
-
-    public ArrayList<SuggestItem> getSource() {
-        return source;
-    }
-
-    public void setSource(ArrayList<SuggestItem> source) {
-        this.source = source;
+    public void setItems(ArrayList<SuggestItem> items) {
+        this.items = items;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (position > filterData.size()- 1) return convertView;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.code_hint, parent, false);
+            convertView = inflater.inflate(resourceID, null);
         }
-        final SuggestItem item = filterData.get(position);
+        final SuggestItem item = items.get(position);
+
         TextView txtName = (TextView) convertView.findViewById(R.id.txt_title);
         txtName.setText(item.getName());
         View btnInfo = convertView.findViewById(R.id.img_info);
@@ -120,21 +115,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
                 Toast.makeText(context, item.getName(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        final ImageView iconView = (ImageView) convertView.findViewById(R.id.img_icon);
-        String prefix = StructureType.ICONS[item.getType()];
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .textColor(StructureType.COLORS_FOREGROUND[item.getType()]).bold()
-                .endConfig()
-                .buildRound(prefix, StructureType.COLORS_BACKGROUND[item.getType()]);
-        iconView.setImageDrawable(drawable);
         return convertView;
-    }
-
-    public void clearData() {
-        source.clear();
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -143,4 +124,9 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         return codeFilter;
     }
 
+    public void clearAll() {
+        clear();
+        items.clear();
+        itemsAll.clear();
+    }
 }

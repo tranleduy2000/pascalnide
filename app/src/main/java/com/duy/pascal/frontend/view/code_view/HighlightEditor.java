@@ -194,7 +194,6 @@ public class HighlightEditor extends AutoSuggestsEditText
     }
 
 
-
     public void extendSelection(int index) {
         Selection.extendSelection(getText(), index);
     }
@@ -425,7 +424,6 @@ public class HighlightEditor extends AutoSuggestsEditText
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override

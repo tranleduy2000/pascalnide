@@ -24,36 +24,38 @@ import android.provider.Settings.SettingNotFoundException;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcOptional;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * Exposes phone settings functionality.
  *
  * @author Frank Spychalski (frank.spychalski@gmail.com)
  */
-public class AndroidSettingLib extends BaseAndroidLibrary {
-    public static final String NAME = "asetting";
+public class AndroidSettingLib implements PascalLibrary {
+    public static final String NAME = "aSetting".toLowerCase();
     private static final int AIRPLANE_MODE_OFF = 0;
     private static final int AIRPLANE_MODE_ON = 1;
 
-    private final Context mContext;
-    private final AudioManager mAudio;
-    private final PowerManager mPower;
+    private Context mContext;
+    private AudioManager mAudio;
+    private PowerManager mPower;
 
     public AndroidSettingLib(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
-        mAudio = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        mPower = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        if (mContext != null) {
+            mAudio = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            mPower = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -225,6 +227,11 @@ public class AndroidSettingLib extends BaseAndroidLibrary {
             throw new UnsupportedOperationException("This feature is only available after Eclair.");
         }
         return result;
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

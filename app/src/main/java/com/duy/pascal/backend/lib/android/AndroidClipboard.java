@@ -18,26 +18,30 @@ package com.duy.pascal.backend.lib.android;
 
 import android.content.Context;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
-import com.googlecode.sl4a.rpc.PascalParameter;
+
+import java.util.Map;
 
 /**
  * Created by Duy on 25-Apr-17.
  */
 
-public class AndroidClipboard extends BaseAndroidLibrary {
+public class AndroidClipboard implements PascalLibrary {
     public static final String NAME = "aclipboard";
     private final Context mContext;
     private ClipboardManagerCompat mClipboard = null;
 
 
     public AndroidClipboard(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
-        mClipboard = ClipboardManagerCompatFactory.getManager(mContext);
+        if (manager.getContext() != null) {
+            mClipboard = ClipboardManagerCompatFactory.getManager(mContext);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -58,6 +62,11 @@ public class AndroidClipboard extends BaseAndroidLibrary {
     public void setClipboard(@PascalParameter(name = "text") String text) {
         ClipboardManagerCompat manager = getClipboardManager();
         manager.setText(text);
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

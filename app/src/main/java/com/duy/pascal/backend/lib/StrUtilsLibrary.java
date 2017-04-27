@@ -30,9 +30,16 @@ import java.util.regex.Pattern;
  */
 
 public class StrUtilsLibrary implements PascalLibrary {
+    public static final String NAME = "strUtils".toLowerCase();
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
+    }
+
+    @Override
+    public void shutdown() {
+
     }
 
     @SuppressWarnings("unused")
@@ -76,20 +83,14 @@ public class StrUtilsLibrary implements PascalLibrary {
         return text.toString().endsWith(sub.toString());
     }
 
-    /**
-     * Check whether a string ends with a certain substring, ignoring case.
-     */
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
+    @PascalMethod(description = "Check whether a string ends with a certain substring, ignoring case.", returns = "void")
     public boolean AnsiEndsText(String sub, String text) {
         return text.toLowerCase().endsWith(sub.toLowerCase());
     }
 
-    /**
-     * Searches, observing case, for a string in an array of strings.
-     */
     @SuppressWarnings("unused")
-    @PascalMethod(description = "str utils library", returns = "void")
+    @PascalMethod(description = "Searches, observing case, for a string in an array of strings.", returns = "void")
     public int AnsiIndexStr(String find, String... array) {
         return Arrays.asList(array).indexOf(find);
     }
@@ -421,4 +422,5 @@ public class StrUtilsLibrary implements PascalLibrary {
     public StringBuilder StuffString(StringBuilder text, int start, int count, String replace) {
         return text.replace(start - 1, start - 1 + count, replace);
     }
+
 }

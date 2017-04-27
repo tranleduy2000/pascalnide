@@ -19,21 +19,22 @@ package com.duy.pascal.backend.lib.android.temp;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcDefault;
+
+import java.util.Map;
 
 /**
  * Generate DTMF tones.
  */
-public class AndroidToneGeneratorLib extends BaseAndroidLibrary {
+public class AndroidToneGeneratorLib implements PascalLibrary{
 
     private final ToneGenerator mToneGenerator;
 
     public AndroidToneGeneratorLib(AndroidLibraryManager manager) {
-        super(manager);
         mToneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
     }
 
@@ -102,6 +103,11 @@ public class AndroidToneGeneratorLib extends BaseAndroidLibrary {
         } finally {
             mToneGenerator.stopTone();
         }
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

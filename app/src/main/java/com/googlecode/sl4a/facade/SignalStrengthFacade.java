@@ -22,13 +22,14 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.MainThread;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -36,7 +37,7 @@ import java.util.concurrent.Callable;
  *
  * @author Joerg Zieren (joerg.zieren@gmail.com)
  */
-public class SignalStrengthFacade extends BaseAndroidLibrary {
+public class SignalStrengthFacade implements PascalLibrary {
     private final Context mContext;
     private final TelephonyManager mTelephonyManager;
     private final EventFacade mEventFacade;
@@ -44,7 +45,6 @@ public class SignalStrengthFacade extends BaseAndroidLibrary {
     private Bundle mSignalStrengths;
 
     public SignalStrengthFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);
         mTelephonyManager =
@@ -87,7 +87,10 @@ public class SignalStrengthFacade extends BaseAndroidLibrary {
     public void stopTrackingSignalStrengths() {
         mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
     }
-
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
     @Override
     public void shutdown() {
         stopTrackingSignalStrengths();

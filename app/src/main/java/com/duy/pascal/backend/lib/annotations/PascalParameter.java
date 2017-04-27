@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.googlecode.sl4a.rpc;
+package com.duy.pascal.backend.lib.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -22,11 +22,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * An annotation that is used to document the parameters of an RPC.
- *
- * @author Felix Arends (felix.arends@gmail.com)
- */
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Documented

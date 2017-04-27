@@ -33,10 +33,9 @@ import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 
 /**
- * This {@link Activity} is launched by {@link BaseAndroidLibrary}s in order to perform operations that a
+ * This {@link Activity} is launched by {@link com.duy.pascal.backend.lib.PascalLibrary}s in order to perform operations that a
  * {@link Service} is unable to do. For example: start another activity for result, show dialogs,
  * etc.
  *

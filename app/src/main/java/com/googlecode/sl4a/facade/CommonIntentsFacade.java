@@ -21,36 +21,39 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Contacts.People;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.Map;
 
 /**
  * A selection of commonly used intents. <br>
  * <br>
  * These can be used to trigger some common tasks.
  */
-public class CommonIntentsFacade extends BaseAndroidLibrary {
+public class CommonIntentsFacade implements PascalLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
 
     public CommonIntentsFacade(AndroidLibraryManager manager) {
-        super(manager);
         mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
     }
 
     @Override
     public void shutdown() {
     }
-
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
     @PascalMethod(description = "Display content to be picked by URI (e.g. contacts)", returns = "A map of result values.")
     public Intent pick(@PascalParameter(name = "uri") String uri) throws JSONException {
         return mAndroidFacade.startActivityForResult(Intent.ACTION_PICK, uri, null, null, null, null);

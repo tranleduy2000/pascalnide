@@ -25,16 +25,18 @@ import java.util.Map;
 /**
  * Created by Duy on 12-Apr-17.
  */
-
 public class SysUtilsLibrary implements PascalLibrary {
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }
 
-    //Convert a string to an integer value.
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "sys utis library", returns = "void")
+    @Override
+    public void shutdown() {
+
+    }
+
+    @PascalMethod(description = "Convert a string to an integer value.", returns = "int")
     public int strToInt(StringBuilder s) throws EConvertError {
         try {
             return Integer.parseInt(String.valueOf(s));
@@ -43,7 +45,6 @@ public class SysUtilsLibrary implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public int StrToDWord(StringBuilder s) throws EConvertError {
         try {
@@ -54,7 +55,6 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     //Convert string to DWord (cardinal), using default
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public int StrToDWordDef(StringBuilder s, int def) {
         try {
@@ -64,7 +64,6 @@ public class SysUtilsLibrary implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public long StrToQWord(StringBuilder s) throws EConvertError {
         try {
@@ -74,7 +73,6 @@ public class SysUtilsLibrary implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public long StrToQWordDef(StringBuilder s, int def) {
         try {
@@ -84,7 +82,6 @@ public class SysUtilsLibrary implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public int StrToIntDef(StringBuilder s, int def) {
         try {
@@ -94,7 +91,6 @@ public class SysUtilsLibrary implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public double StrToFloat(StringBuilder s, double def) {
         try {
@@ -105,7 +101,6 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     //Convert a string to a float, with a default value.
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public double StrToFloatDef(StringBuilder s, double def) {
         try {
@@ -115,7 +110,6 @@ public class SysUtilsLibrary implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public int StrToIntDef(String s, int def) {
         try {
@@ -126,7 +120,6 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     //Convert a string to an Int64 value.
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public long StrToInt64(StringBuilder value) throws EConvertError {
         try {
@@ -137,7 +130,6 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     //Convert a string to an Int64 value, with a default value
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public long StrToInt64Def(StringBuilder value, Long def) {
         try {
@@ -148,7 +140,6 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Convert a string to a boolean value", returns = "void")
     public boolean StrToBool(StringBuilder s) throws EConvertError {
         try {
@@ -158,7 +149,6 @@ public class SysUtilsLibrary implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public boolean StrToBoolDef(String s, boolean def) {
         try {
@@ -168,13 +158,11 @@ public class SysUtilsLibrary implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Trim whitespace from the ends of a string.", returns = "void")
     public StringBuilder trim(StringBuilder s) {
         return new StringBuilder(s.toString().trim());
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Suspend execution of a program for a certain time.", returns = "void")
     public void sleep(int time) {
         try {
@@ -186,13 +174,11 @@ public class SysUtilsLibrary implements PascalLibrary {
 
 
     //Convert null-TERMINATED string to all-uppercase
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public StringBuilder strupper(StringBuilder stringBuilder) {
         return new StringBuilder(stringBuilder.toString().toUpperCase());
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "sys utis library", returns = "void")
     public StringBuilder strupper(Character stringBuilder) {
         return new StringBuilder(stringBuilder.toString().toUpperCase());
@@ -200,25 +186,21 @@ public class SysUtilsLibrary implements PascalLibrary {
 
 
     @PascalMethod(description = "Convert a BCD coded integer to a normal integer.")
-    @SuppressWarnings("unused")
     public int BCDToInt(int value) {
         return Integer.parseInt(String.valueOf(value), 2);
     }
 
     @PascalMethod(description = "Convert a float value to a string using a fixed format.")
-    @SuppressWarnings("unused")
     public StringBuilder FloatToStr(double value) {
         return new StringBuilder(String.valueOf(value));
     }
 
     @PascalMethod(description = "Format a float according to a certain mask.")
-    @SuppressWarnings("unused")
     public StringBuilder FormatFloat(StringBuilder format, double value) {
         return new StringBuilder(new DecimalFormat(format.toString()).format(value));
     }
 
     @PascalMethod(description = "Convert an integer value to a hexadecimal string.")
-    @SuppressWarnings("unused")
     public StringBuilder IntToHex(long value, int digit) {
         long i = Long.parseLong(String.valueOf(value), digit);
         String obj = Long.toHexString(i);
@@ -227,13 +209,11 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Convert an integer value to a decimal string.")
-    @SuppressWarnings("unused")
     public StringBuilder IntToStr(long value) {
         return new StringBuilder(String.valueOf(value));
     }
 
     @PascalMethod(description = "Convert a string to an integer value, with a default value.")
-    @SuppressWarnings("unused")
     public long StrToIntDef(StringBuilder input, long def) {
         try {
             return Long.parseLong(input.toString());
@@ -243,7 +223,6 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Convert a string to an integer value")
-    @SuppressWarnings("unused")
     public long StrToInt(StringBuilder input) throws EConvertError {
         try {
             return Long.parseLong(input.toString());
@@ -253,7 +232,6 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Convert a string to a floating-point value.")
-    @SuppressWarnings("unused")
     public double StrToFloat(StringBuilder input) throws EConvertError {
         try {
             return Double.parseDouble(input.toString());
@@ -263,13 +241,11 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @PascalMethod(description = "Compare 2 ansistrings, case sensitive, ignoring accents characters.")
-    @SuppressWarnings("unused")
     public double AnsiCompareStr(StringBuilder s1, StringBuilder s2) throws EConvertError {
         return (s1.toString().compareTo(s2.toString()));
     }
 
     @PascalMethod(description = "Return a lowercase version of a string.")
-    @SuppressWarnings("unused")
     public StringBuilder AnsiLowerCase(StringBuilder s1) throws EConvertError {
         return new StringBuilder(s1.toString().toLowerCase());
     }

@@ -73,6 +73,11 @@ public class DosLib implements PascalLibrary {
         return true;
     }
 
+    @Override
+    public void shutdown() {
+
+    }
+
     @PascalMethod(description = "Dos library", returns = "void")
     @SuppressWarnings("unused")
     public int dosVersion() {

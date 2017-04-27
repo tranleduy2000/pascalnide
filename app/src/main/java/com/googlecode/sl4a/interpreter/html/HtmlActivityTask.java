@@ -33,7 +33,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SingleThreadExecutor;
@@ -177,7 +177,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
 
     private String generateAPIWrapper() {
         StringBuilder wrapper = new StringBuilder();
-        for (Class<? extends BaseAndroidLibrary> clazz : mReceiverManager.getRpcReceiverClasses()) {
+        for (Class<? extends PascalLibrary> clazz : mReceiverManager.getRpcReceiverClasses()) {
             for (MethodDescriptor rpc : MethodDescriptor.collectFrom(clazz)) {
                 wrapper.append(String.format(ANDROID_PROTOTYPE_JS, rpc.getName()));
             }

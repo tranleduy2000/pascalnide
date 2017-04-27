@@ -28,12 +28,12 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.google.common.collect.Maps;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.google.common.collect.Maps;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.googlecode.sl4a.rpc.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
@@ -84,8 +84,9 @@ import java.util.Map.Entry;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class LocationFacade extends BaseAndroidLibrary {
+public class LocationFacade implements PascalLibrary {
     private final EventFacade mEventFacade;
+    private AndroidLibraryManager mManager;
     private final Context mContext;
     private final Map<String, Location> mLocationUpdates;
     private final LocationManager mLocationManager;
@@ -116,9 +117,9 @@ public class LocationFacade extends BaseAndroidLibrary {
     };
 
     public LocationFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);
+        mManager = manager;
         mGeocoder = new Geocoder(mContext);
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         mLocationUpdates = new HashMap<>();
@@ -127,6 +128,9 @@ public class LocationFacade extends BaseAndroidLibrary {
     @Override
     public void shutdown() {
         stopLocating();
+    } @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @SuppressWarnings("unused")

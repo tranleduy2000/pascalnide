@@ -26,16 +26,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.PascalLibrary;
+import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,11 +113,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class UiFacade extends BaseAndroidLibrary {
+public class UiFacade implements PascalLibrary {
     // This value should not be used for menu groups outside this class.
     private static final int MENU_GROUP_ID = Integer.MAX_VALUE;
 
     private final Context mContext;
+    private AndroidLibraryManager mManager;
     private final FutureActivityTaskExecutor mTaskQueue;
     private final List<UiMenuItem> mContextMenuItems;
     private final List<UiMenuItem> mOptionsMenuItems;
@@ -128,8 +129,8 @@ public class UiFacade extends BaseAndroidLibrary {
     private List<Integer> mOverrideKeys = Collections.synchronizedList(new ArrayList<Integer>());
 
     public UiFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
+        mManager = manager;
         mTaskQueue = ((PascalApplication) mContext).getTaskExecutor();
         mContextMenuItems = new CopyOnWriteArrayList<>();
         mOptionsMenuItems = new CopyOnWriteArrayList<>();
@@ -680,6 +681,11 @@ public class UiFacade extends BaseAndroidLibrary {
             mFullScreenTask.setOverrideKeys(mOverrideKeys);
         }
         return new JSONArray(mOverrideKeys);
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

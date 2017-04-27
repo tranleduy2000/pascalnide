@@ -54,43 +54,48 @@ public class SystemLib implements PascalLibrary {
         return false;
     }
 
+    @Override
+    public void shutdown() {
+
+    }
+
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public void delay(long ms) {
         try {
             Thread.sleep(ms);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int Byte(boolean b) {
         return b ? 1 : 0;
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int random(int range) {
         Log.d("random", "random: " + range);
         return random.nextInt(range);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public void randomize() {
         random = new Random(System.currentTimeMillis());
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public void inc(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
         inc(boxer, 1);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public void inc(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
             long count;
@@ -139,13 +144,13 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public void dec(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
         dec(boxer, 1);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public void dec(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
             long count;
@@ -195,69 +200,69 @@ public class SystemLib implements PascalLibrary {
 
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int ceil(double d) {
         return (int) Math.ceil(d);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int trunc(double d) {
         return floor(d);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double frac(double d) {
         return d - Math.floor(d);
     }
 
     @PascalMethod(description = "Return the largest integer smaller than or equal to argument", returns = "null")
-    @SuppressWarnings("unused")
+
     public int floor(double d) {
         return (int) Math.floor(d);
     }
 
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int abs(int d) {
         return Math.abs(d);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public long abs(long d) {
         return Math.abs(d);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double abs(double d) {
         return Math.abs(d);
     }
 
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int round(double d) {
         return (int) Math.round(d);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double sin(double d) {
         return Math.sin(d);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double cos(double d) {
         return Math.cos(d);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double sqr(double d) {
         return d * d;
     }
@@ -266,7 +271,7 @@ public class SystemLib implements PascalLibrary {
      * square root
      */
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double sqrt(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
             throw new InvalidFloatingPointOperation(d);
@@ -275,13 +280,13 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int pred(int d) {
         return d - 1;
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int succ(int d) {
         return d + 1;
     }
@@ -290,7 +295,7 @@ public class SystemLib implements PascalLibrary {
      * logarithm function
      */
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double ln(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
             throw new InvalidFloatingPointOperation(d);
@@ -299,32 +304,32 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double arctan(double a) {
         return Math.atan(a);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public double exp(double a) {
         return Math.exp(a);
     }
 
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public int Int(double x) {
         return (int) x;
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public boolean odd(long x) {
         return x % 2 == 0;
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public void halt(int value) throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
@@ -333,46 +338,46 @@ public class SystemLib implements PascalLibrary {
      * exit program
      */
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public void halt() throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public boolean odd(Integer i) {
         return i % 2 == 1;
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-    @SuppressWarnings("unused")
+
     public boolean odd(Long i) {
         return i % 2 == 1;
     }
 
 
     @PascalMethod(description = "Convert ascii to character", returns = "null")
-    @SuppressWarnings("unused")
+
     public char chr(int i) {
         return (char) i;
     }
 
 
     @PascalMethod(description = "Convert character to ascii code", returns = "null")
-    @SuppressWarnings("unused")
+
     public int ord(char c) {
         return (int) c;
     }
 
 
     @PascalMethod(description = "Convert number to string", returns = "null")
-    @SuppressWarnings("unused")
+
     public void str(Object num, VariableBoxer<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 
     @PascalMethod(description = " Calculate numerical/enumerated value of a string.", returns = "null")
-    @SuppressWarnings("unused")
+
     public void val(String input, VariableBoxer<Object> output, VariableBoxer<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
         try {
             input = input.trim(); //remove white space in start and end postion
@@ -395,37 +400,37 @@ public class SystemLib implements PascalLibrary {
             resultCode.set(-1);
         }
     }
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
 
-    public  char upcase(Character s) {
+    public char upcase(Character s) {
         return Character.toUpperCase(s);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  StringBuilder concat(StringBuilder... s) {
+    public StringBuilder concat(StringBuilder... s) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Object s1 : s) stringBuilder.append(s1);
         return stringBuilder;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  int pos(String substring, String s) {
+    public int pos(String substring, String s) {
         return s.indexOf(substring) + 1;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  int length(String s) {
+    public int length(String s) {
         System.out.println("length " + s + " " + s.length());
         return s.length();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String findregex(String tosearch, String regex) {
+    public String findregex(String tosearch, String regex) {
         Pattern reg = Pattern.compile(regex);
         Matcher m = reg.matcher(tosearch);
         if (!m.find()) {
@@ -434,17 +439,17 @@ public class SystemLib implements PascalLibrary {
         return tosearch.substring(m.start(), m.end());
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String between(String s1, String s2, String s) {
+    public String between(String s1, String s2, String s) {
         int startindex = s.indexOf(s1) + s1.length();
         int endindex = s.indexOf(s2, startindex);
         return s.substring(startindex, endindex);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String capitalize(String s) {
+    public String capitalize(String s) {
         boolean lastSpace = true;
         char[] chars = s.toCharArray();
         for (int i = 0; i < chars.length; i++) {
@@ -459,9 +464,9 @@ public class SystemLib implements PascalLibrary {
         return new String(chars);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String getletters(String s) {
+    public String getletters(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -472,9 +477,9 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String getnumbers(String s) {
+    public String getnumbers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -485,9 +490,9 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String getothers(String s) {
+    public String getothers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -498,30 +503,30 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
+    public void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
             throws RuntimePascalException {
         s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String Left(String s, int count) {
+    public String Left(String s, int count) {
         return s.substring(0, count);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String md5(String s) throws NoSuchAlgorithmException {
+    public String md5(String s) throws NoSuchAlgorithmException {
         MessageDigest digester = MessageDigest.getInstance("MD5");
         digester.update(s.getBytes());
         return new BigInteger(1, digester.digest()).toString(16);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String padl(String topad, int size) {
+    public String padl(String topad, int size) {
         StringBuilder result = new StringBuilder(size);
         for (int i = topad.length(); i < size; i++) {
             result.append(' ');
@@ -530,9 +535,9 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String padr(String topad, int size) {
+    public String padr(String topad, int size) {
         StringBuilder result = new StringBuilder(size);
         result.append(topad);
         for (int i = topad.length(); i < size; i++) {
@@ -541,9 +546,9 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String padz(String topad, int size) {
+    public String padz(String topad, int size) {
         StringBuilder result = new StringBuilder(size);
         for (int i = topad.length(); i < size; i++) {
             result.append('0');
@@ -552,15 +557,15 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  int posex(String tofind, String s, int startindex) {
+    public int posex(String tofind, String s, int startindex) {
         return s.indexOf("\\Q" + tofind, startindex);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  int regexpos(String text, String regex) {
+    public int regexpos(String text, String regex) {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
         m.find();
@@ -571,18 +576,18 @@ public class SystemLib implements PascalLibrary {
         return i;
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String replaceregex(String text, String regex,
-                                      String replacetext) {
+    public String replaceregex(String text, String regex,
+                               String replacetext) {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
         return m.replaceAll(replacetext);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String replicate(char c, int times) {
+    public String replicate(char c, int times) {
         StringBuilder result = new StringBuilder(times);
         for (int i = 0; i < times; i++) {
             result.append(c);
@@ -590,15 +595,15 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String right(String s, int length) {
+    public String right(String s, int length) {
         return s.substring(s.length() - length, s.length());
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  void setlength(VariableBoxer<StringBuilder> s, int length)
+    public void setlength(VariableBoxer<StringBuilder> s, int length)
             throws RuntimePascalException {
         String filler = "!@#$%";
         StringBuilder old = s.get();
@@ -618,37 +623,36 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  boolean startswith(String prefix, String s) {
+    public boolean startswith(String prefix, String s) {
         return s.startsWith(prefix);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  char strget(VariableBoxer<StringBuilder> s, int index)
+    public char strget(VariableBoxer<StringBuilder> s, int index)
             throws RuntimePascalException {
         return s.get().charAt(index);
     }
 
-    @SuppressWarnings("unused")
-    @PascalMethod(description = "none", returns = "void")
-    public  void strset(char c, int index, VariableBoxer<StringBuilder> s)
-            throws RuntimePascalException {
 
+    @PascalMethod(description = "none", returns = "void")
+    public void strset(char c, int index, VariableBoxer<StringBuilder> s)
+            throws RuntimePascalException {
         s.get().setCharAt(index, c);
         s.set(s.get());
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String stringofchar(char c, int times) {
+    public String stringofchar(char c, int times) {
         return replicate(c, times);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String trimex(String delimeter, String s) {
+    public String trimex(String delimeter, String s) {
         int beginningindex = 0;
         while (s.startsWith(delimeter, beginningindex)) {
             beginningindex += delimeter.length();
@@ -661,15 +665,15 @@ public class SystemLib implements PascalLibrary {
         return s.substring(beginningindex, endindex);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String trim(String s) {
+    public String trim(String s) {
         return s.trim();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String trimletters(String s) {
+    public String trimletters(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -680,9 +684,9 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String trimnumbers(String s) {
+    public String trimnumbers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -693,9 +697,9 @@ public class SystemLib implements PascalLibrary {
         return result.toString();
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  String trimothers(String s) {
+    public String trimothers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -707,15 +711,14 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "none", returns = "void")
-    public  StringBuilder copy(String s, int ifrom, int count) {
+    public StringBuilder copy(String s, int ifrom, int count) {
         return new StringBuilder(s.substring(ifrom - 1, ifrom - 1 + count));
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "none", returns = "void")
-    public  void delete(VariableBoxer<StringBuilder> s, int start, int count)
+    public void delete(VariableBoxer<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
         s.set(s.get().delete(start - 1, start + count - 1));
     }

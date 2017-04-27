@@ -21,7 +21,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -29,18 +32,15 @@ import com.google.common.collect.Multimaps;
 import com.googlecode.sl4a.event.Event;
 import com.googlecode.sl4a.future.FutureResult;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
-import com.googlecode.sl4a.rpc.RpcName;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class EventFacade extends BaseAndroidLibrary {
+public class EventFacade implements PascalLibrary {
     /**
      * The maximum length of the event queue. Old events will be discarded when this limit is
      * exceeded.
@@ -79,7 +79,6 @@ public class EventFacade extends BaseAndroidLibrary {
     private EventServer mEventServer = null;
 
     public EventFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext().getApplicationContext();
     }
 
@@ -287,7 +286,6 @@ public class EventFacade extends BaseAndroidLibrary {
     @SuppressWarnings("unused")
     @RpcDeprecated(value = "eventPost", release = "r4")
     @PascalMethod(description = "Post an event to the event queue.")
-    @RpcName(name = "postEvent")
     public void rpcPostEvent(@PascalParameter(name = "name") String name,
                              @PascalParameter(name = "data") String data) {
         postEvent(name, data);
@@ -333,6 +331,11 @@ public class EventFacade extends BaseAndroidLibrary {
         removeEventObserver(mEventServer);
         mEventServer = null;
         return;
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

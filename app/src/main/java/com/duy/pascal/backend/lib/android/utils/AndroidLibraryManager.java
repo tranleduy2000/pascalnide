@@ -18,10 +18,10 @@ package com.duy.pascal.backend.lib.android.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
-import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 
@@ -44,25 +44,21 @@ public class AndroidLibraryManager extends RpcReceiverManager {
         return mSdkLevel;
     }
 
+    @Nullable
     public Context getContext() {
         return mContext;
     }
 
     @Override
-    public Object invoke(Class<? extends BaseAndroidLibrary> clazz, Method method, Object[] args)
+    public Object invoke(Class<? extends PascalLibrary> clazz, Method method, Object[] args)
             throws Exception {
         try {
             if (method.isAnnotationPresent(RpcDeprecated.class)) {
                 String replacedBy = method.getAnnotation(RpcDeprecated.class).value();
                 String title = method.getName() + " is deprecated";
-                Log.notify(mContext, title, title, String.format("Please use %s instead.", replacedBy));
             }
             return super.invoke(clazz, method, args);
         } catch (InvocationTargetException e) {
-            if (e.getCause() instanceof SecurityException) {
-                Log.notify(mContext, "RPC invoke failed...", mContext.getPackageName(), e.getCause()
-                        .getMessage());
-            }
             throw e;
         }
     }

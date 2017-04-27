@@ -23,13 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * An annotation that is used to document the parameters
  * Created by Duy on 23-Apr-17.
- */
-
-/**
- * An annotation that is used to document the parameters of an RPC.
- *
- * @author Felix Arends (felix.arends@gmail.com)
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)

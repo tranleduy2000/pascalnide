@@ -20,12 +20,12 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.googlecode.sl4a.facade.EventFacade;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.googlecode.sl4a.facade.EventFacade;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -80,7 +80,7 @@ import java.util.Set;
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
 
-public class AndroidMediaPlayerLib extends BaseAndroidLibrary implements MediaPlayer.OnCompletionListener {
+public class AndroidMediaPlayerLib  implements PascalLibrary, MediaPlayer.OnCompletionListener {
 
     private final Map<String, MediaPlayer> mPlayers = new Hashtable<>();
     private final Map<String, String> mUrls = new Hashtable<>();
@@ -88,7 +88,6 @@ public class AndroidMediaPlayerLib extends BaseAndroidLibrary implements MediaPl
     private final EventFacade mEventFacade;
 
     public AndroidMediaPlayerLib(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
         mEventFacade = manager.getReceiver(EventFacade.class);
     }
@@ -233,6 +232,11 @@ public class AndroidMediaPlayerLib extends BaseAndroidLibrary implements MediaPl
         }
         player.seekTo(msec);
         return player.getCurrentPosition();
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

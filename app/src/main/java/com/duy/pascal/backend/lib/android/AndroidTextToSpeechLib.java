@@ -21,25 +21,25 @@ import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.googlecode.sl4a.rpc.PascalParameter;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 /**
  * Provides Text To Speech services for API 4 or more.
  */
-
-public class AndroidTextToSpeechLib extends BaseAndroidLibrary {
-    public static final String NAME = "aSpeech";
+public class AndroidTextToSpeechLib implements PascalLibrary {
+    public static final String NAME = "aTTSpeech".toLowerCase();
 
     private final TextToSpeech mTextToSpeech;
     private final CountDownLatch mOnInitLock;
 
     public AndroidTextToSpeechLib(AndroidLibraryManager manager) {
-        super(manager);
         mOnInitLock = new CountDownLatch(1);
         mTextToSpeech = new TextToSpeech(manager.getContext(), new OnInitListener() {
             @Override
@@ -47,6 +47,11 @@ public class AndroidTextToSpeechLib extends BaseAndroidLibrary {
                 mOnInitLock.countDown();
             }
         });
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override
@@ -58,7 +63,6 @@ public class AndroidTextToSpeechLib extends BaseAndroidLibrary {
         mTextToSpeech.shutdown();
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Speaks the provided message via TTS.")
     public void speak(@PascalParameter(name = "message") StringBuilder message) throws InterruptedException {
         mOnInitLock.await();
@@ -72,14 +76,12 @@ public class AndroidTextToSpeechLib extends BaseAndroidLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Returns True if speech is currently in progress.")
     public boolean isSpeaking() throws InterruptedException {
         mOnInitLock.await();
         return mTextToSpeech.isSpeaking();
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Returns a Locale instance describing the language.")
     public StringBuilder getLanguage() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -89,26 +91,24 @@ public class AndroidTextToSpeechLib extends BaseAndroidLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Set language for speak.")
     public void setLanguage(StringBuilder code) {
         mTextToSpeech.setLanguage(new Locale(code.toString()));
     }
 
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Sets the speech pitch for the TextToSpeech engine.")
     public void setPitch(double d) {
         mTextToSpeech.setPitch((float) d);
     }
 
-    @SuppressWarnings("unused")
+
     @PascalMethod(description = "Sets the speech rate.")
     public void setSpeechRate(double rate) {
         mTextToSpeech.setSpeechRate((float) rate);
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Stop the speak")
     public void stopSpeak() {
         if (mTextToSpeech.isSpeaking()) {
@@ -116,7 +116,6 @@ public class AndroidTextToSpeechLib extends BaseAndroidLibrary {
         }
     }
 
-    @SuppressWarnings("unused")
     @PascalMethod(description = "Stop the speak")
     public void setDefaultLanguage() {
         mTextToSpeech.setLanguage(Locale.getDefault());

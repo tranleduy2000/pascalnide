@@ -31,17 +31,17 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SimpleServer.SimpleServerObserver;
 import com.googlecode.sl4a.SingleThreadExecutor;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -85,7 +85,7 @@ import java.util.concurrent.Executor;
  * @author Damon Kohler (damonkohler@gmail.com) (probably)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class WebCamFacade extends BaseAndroidLibrary {
+public class WebCamFacade implements PascalLibrary {
 
     private final Context mContext;
     private final Executor mJpegCompressionExecutor = new SingleThreadExecutor();
@@ -155,7 +155,6 @@ public class WebCamFacade extends BaseAndroidLibrary {
     };
 
     public WebCamFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
         mJpegDataReady = new CountDownLatch(1);
         mEventFacade = manager.getReceiver(EventFacade.class);
@@ -371,7 +370,10 @@ public class WebCamFacade extends BaseAndroidLibrary {
         }
         releaseCamera();
     }
-
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
     @Override
     public void shutdown() {
         mPreview = false;

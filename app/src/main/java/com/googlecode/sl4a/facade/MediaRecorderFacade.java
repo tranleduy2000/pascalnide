@@ -27,20 +27,21 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.future.FutureActivityTask;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.googlecode.sl4a.rpc.PascalParameter;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -58,14 +59,15 @@ import java.util.concurrent.TimeUnit;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class MediaRecorderFacade extends BaseAndroidLibrary {
+public class MediaRecorderFacade implements PascalLibrary {
 
     private final MediaRecorder mMediaRecorder = new MediaRecorder();
     private final Context mContext;
+    private AndroidLibraryManager mManager;
 
     public MediaRecorderFacade(AndroidLibraryManager manager) {
-        super(manager);
         mContext = manager.getContext();
+        mManager = manager;
     }
 
     @SuppressWarnings("unused")
@@ -231,6 +233,11 @@ public class MediaRecorderFacade extends BaseAndroidLibrary {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         AndroidUtilsLib facade = mManager.getReceiver(AndroidUtilsLib.class);
         facade.startActivityForResult(intent);
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
     }
 
     @Override

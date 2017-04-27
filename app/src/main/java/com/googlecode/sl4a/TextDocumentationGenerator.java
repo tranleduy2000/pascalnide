@@ -17,7 +17,7 @@
 package com.googlecode.sl4a;
 
 import com.duy.pascal.backend.lib.AndroidLibraryUtils;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 import com.googlecode.sl4a.rpc.RpcMinSdk;
 
@@ -33,24 +33,24 @@ public class TextDocumentationGenerator {
 
     public static void main(String args[]) {
         List<MethodDescriptor> descriptors = AndroidLibraryUtils.collectMethodDescriptors();
-        List<Class<? extends BaseAndroidLibrary>> classes =
+        List<Class<? extends PascalLibrary>> classes =
                 new ArrayList<>(AndroidLibraryUtils.getFacadeClasses());
 
         sortMethodDescriptors(descriptors);
         sortClasses(classes);
 
-        HashMap<Class<? extends BaseAndroidLibrary>, Set<MethodDescriptor>> map =
+        HashMap<Class<? extends PascalLibrary>, Set<MethodDescriptor>> map =
                 new HashMap<>();
 
         for (MethodDescriptor descriptor : descriptors) {
-            Class<? extends BaseAndroidLibrary> clazz = descriptor.getDeclaringClass();
+            Class<? extends PascalLibrary> clazz = descriptor.getDeclaringClass();
             if (!map.containsKey(clazz)) {
                 map.put(clazz, new HashSet<MethodDescriptor>());
             }
             map.get(clazz).add(descriptor);
         }
 
-        for (Class<? extends BaseAndroidLibrary> clazz : classes) {
+        for (Class<? extends PascalLibrary> clazz : classes) {
             int minSDK = getMinSdk(clazz);
             if (minSDK != 3) {
                 System.out.println(String.format("*!%s* Requires API Level %d.", clazz.getSimpleName(),
@@ -66,7 +66,7 @@ public class TextDocumentationGenerator {
         }
     }
 
-    private static int getMinSdk(Class<? extends BaseAndroidLibrary> clazz) {
+    private static int getMinSdk(Class<? extends PascalLibrary> clazz) {
         if (clazz.isAnnotationPresent(RpcMinSdk.class)) {
             return clazz.getAnnotation(RpcMinSdk.class).value();
         }
@@ -82,10 +82,10 @@ public class TextDocumentationGenerator {
         });
     }
 
-    private static void sortClasses(List<Class<? extends BaseAndroidLibrary>> list) {
-        Collections.sort(list, new Comparator<Class<? extends BaseAndroidLibrary>>() {
+    private static void sortClasses(List<Class<? extends PascalLibrary>> list) {
+        Collections.sort(list, new Comparator<Class<? extends PascalLibrary>>() {
             @Override
-            public int compare(Class<? extends BaseAndroidLibrary> clazz1, Class<? extends BaseAndroidLibrary> clazz2) {
+            public int compare(Class<? extends PascalLibrary> clazz1, Class<? extends PascalLibrary> clazz2) {
                 return clazz1.getSimpleName().compareTo(clazz2.getSimpleName());
             }
         });

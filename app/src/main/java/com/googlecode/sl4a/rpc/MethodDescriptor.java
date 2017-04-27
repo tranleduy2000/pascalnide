@@ -20,8 +20,9 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.duy.pascal.backend.lib.AndroidLibraryUtils;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 
 import org.json.JSONArray;
@@ -48,9 +49,9 @@ public final class MethodDescriptor {
     private static final Map<Class<?>, Converter<?>> sConverters = populateConverters();
 
     private final Method mMethod;
-    private final Class<? extends BaseAndroidLibrary> mClass;
+    private final Class<? extends PascalLibrary> mClass;
 
-    public MethodDescriptor(Class<? extends BaseAndroidLibrary> clazz, Method method) {
+    public MethodDescriptor(Class<? extends PascalLibrary> clazz, Method method) {
         mClass = clazz;
         mMethod = method;
     }
@@ -58,7 +59,7 @@ public final class MethodDescriptor {
     /**
      * Collects all methods with {@code RPC} annotation from given class.
      */
-    public static Collection<MethodDescriptor> collectFrom(Class<? extends BaseAndroidLibrary> clazz) {
+    public static Collection<MethodDescriptor> collectFrom(Class<? extends PascalLibrary> clazz) {
         List<MethodDescriptor> descriptors = new ArrayList<>();
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(PascalMethod.class)) {
@@ -369,7 +370,7 @@ public final class MethodDescriptor {
         return mMethod;
     }
 
-    public Class<? extends BaseAndroidLibrary> getDeclaringClass() {
+    public Class<? extends PascalLibrary> getDeclaringClass() {
         return mClass;
     }
 

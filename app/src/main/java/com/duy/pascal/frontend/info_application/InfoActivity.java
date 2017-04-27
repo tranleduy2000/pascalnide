@@ -29,7 +29,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 
@@ -81,7 +80,7 @@ public class InfoActivity extends AbstractAppCompatActivity {
     }
 
     public void gotoNcalcApp(View view) {
-        Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
+        Uri uri = Uri.parse("market://details?id=com.duy.calculator.free");
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,
         // to taken back to our application, we need to add following flags to intent.
@@ -92,7 +91,7 @@ public class InfoActivity extends AbstractAppCompatActivity {
             startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
             startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)));
+                    Uri.parse("http://play.google.com/store/apps/details?id=market://details?id=com.duy.calculator.free")));
         }
     }
 

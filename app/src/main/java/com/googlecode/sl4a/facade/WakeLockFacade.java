@@ -20,8 +20,8 @@ import android.content.Context;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
+import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
-import com.duy.pascal.backend.lib.android.BaseAndroidLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 
 import java.util.HashMap;
@@ -34,14 +34,13 @@ import java.util.Map.Entry;
  * @author Felix Arends (felixarends@gmail.com)
  * @author Damon Kohler (damonkohler@gmail.com)
  */
-public class WakeLockFacade extends BaseAndroidLibrary {
+public class WakeLockFacade implements PascalLibrary {
 
     private final static String WAKE_LOCK_TAG =
             "com.googlecode.android_scripting.facade.PowerManagerFacade";
     private final WakeLockManager mManager;
 
     public WakeLockFacade(AndroidLibraryManager manager) {
-        super(manager);
         mManager = new WakeLockManager(manager.getContext());
     }
 
@@ -78,7 +77,10 @@ public class WakeLockFacade extends BaseAndroidLibrary {
     public void shutdown() {
         wakeLockRelease();
     }
-
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
     private enum WakeLockType {
         FULL, PARTIAL, BRIGHT, DIM
     }

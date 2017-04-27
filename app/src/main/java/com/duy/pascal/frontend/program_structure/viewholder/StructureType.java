@@ -30,8 +30,9 @@ public class StructureType {
     public static final byte TYPE_NONE = 6;
     public static final byte TYPE_KEY_WORD = 7;
     public static final byte TYPE_UNKNOWN = 8;
+    public static final int TYPE_DEF = 9;
 
-    public static final String[] ICONS = new String[]{"P", "f", "p", "v", "c", "L", "?", "k", "?"};
+    public static final String[] ICONS = new String[]{"P", "f", "p", "v", "c", "L", "?", "k", "?", "t"};
     public static final int[] COLORS_BACKGROUND = new int[]{
             0xffF44336,//red
             0xffE91E63,//pink
@@ -42,6 +43,7 @@ public class StructureType {
             0xff009688, //teal
             0xff4CAF50, //Green
             0xff4CAF50, //Lime
+            0xff4CAF50, //Lime
     };
     public static final int[] COLORS_FOREGROUND = new int[]{
             0xFFFFFFFF,
@@ -51,6 +53,7 @@ public class StructureType {
             0xFFFFFFFF,
             0xFFFFFFFF,
             0xFFFFFFFF,
+            0x0,
             0x0,
             0x0,
             0x0
