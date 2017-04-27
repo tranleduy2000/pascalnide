@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.view.code_view;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -146,6 +147,17 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         return "";
     }
 
+    /**
+     * @return the height of view display on screen
+     */
+    public int getHeightVisible() {
+        Rect r = new Rect();
+        // r will be populated with the coordinates of     your view
+        // that area still visible.
+        getWindowVisibleDisplayFrame(r);
+        return r.bottom - r.top;
+    }
+
     private CharSequence autoIndent(CharSequence source,
                                     int start, int end, Spanned dest, int dstart, int dend) {
         String indent = "";
@@ -202,31 +214,39 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
-        onPopupSuggestChangeSize();
+        onPopupSuggestPosition();
     }
 
-    public abstract void onPopupSuggestChangeSize();
+    public abstract void onPopupSuggestPosition();
 
     /**
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<SuggestItem> data) {
+//        if (mAdapter != null) {
+//            mAdapter.clearAll();
+//        }
         for (String s : KeyWord.LIST_KEY_WORD) {
             data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }
-        if (mAdapter != null) {
-            mAdapter.clearAll();
-        }
         mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);
         setAdapter(mAdapter);
+        onDropdownChangeSize();
     }
 
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        setDropDownWidth(w / 2);
-        setDropDownHeight(h / 2);
+        onDropdownChangeSize();
+    }
+
+    private void onDropdownChangeSize() {
+        setDropDownWidth(getWidth() / 2);
+        int height = getHeightVisible() / 2;
+        Log.d(TAG, "onDropdownChangeSize: " + getWidth() + " - " + height);
+        setDropDownHeight(height);
+        onPopupSuggestPosition();
     }
 
 

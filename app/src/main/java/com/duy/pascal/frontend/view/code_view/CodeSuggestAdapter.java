@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.view.code_view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,9 @@ import java.util.ArrayList;
 public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
     private static final String TAG = "CodeSuggestAdapter";
     private final Context context;
+    private final int colorKeyWord;
+    private final int colorNormal;
+    private final int colorVariable = 0xffFFB74D;
     private LayoutInflater inflater;
     private ArrayList<SuggestItem> items;
     private ArrayList<SuggestItem> itemsAll;
@@ -79,7 +84,6 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         }
     };
 
-
     public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<SuggestItem> objects) {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
@@ -88,6 +92,8 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         this.itemsAll = (ArrayList<SuggestItem>) items.clone();
         this.suggestion = new ArrayList<>();
         this.resourceID = resource;
+        colorKeyWord = context.getResources().getColor(R.color.color_key_word_color);
+        colorNormal = context.getResources().getColor(android.R.color.primary_text_dark);
     }
 
     public ArrayList<SuggestItem> getItems() {
@@ -108,6 +114,20 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
 
         TextView txtName = (TextView) convertView.findViewById(R.id.txt_title);
         txtName.setText(item.getName());
+        switch (item.getType()) {
+            case StructureType.TYPE_KEY_WORD:
+                txtName.setTextColor(colorKeyWord);
+                txtName.setTypeface(Typeface.DEFAULT_BOLD);
+                break;
+            case StructureType.TYPE_VARIABLE:
+                txtName.setTextColor(colorVariable);
+                txtName.setTypeface(Typeface.DEFAULT);
+                break;
+            default:
+                txtName.setTextColor(colorNormal);
+                txtName.setTypeface(Typeface.DEFAULT);
+                break;
+        }
         View btnInfo = convertView.findViewById(R.id.img_info);
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,5 +148,6 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         clear();
         items.clear();
         itemsAll.clear();
+        suggestion.clear();
     }
 }

@@ -679,7 +679,7 @@ public class HighlightEditor extends AutoSuggestsEditText
     }
 
     @Override
-    public void onPopupSuggestChangeSize() {
+    public void onPopupSuggestPosition() {
         try {
             Layout layout = getLayout();
             if (layout != null) {
@@ -710,13 +710,7 @@ public class HighlightEditor extends AutoSuggestsEditText
         }
     }
 
-    public int getHeightVisible() {
-        Rect r = new Rect();
-        // r will be populated with the coordinates of     your view
-        // that area still visible.
-        getWindowVisibleDisplayFrame(r);
-        return r.bottom - r.top;
-    }
+
 
     public void setVerticalScroll(ScrollView verticalScroll) {
         this.verticalScroll = verticalScroll;
