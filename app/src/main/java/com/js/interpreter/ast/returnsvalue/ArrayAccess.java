@@ -31,7 +31,7 @@ public class ArrayAccess extends DebuggableReturnsValue {
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         RuntimeType r = (container.getType(f));
-        return new RuntimeType(((ArrayType<?>) r.declaredType).element_type, r.writable);
+        return new RuntimeType(((ArrayType<?>) r.declaredType).elementType, r.writable);
     }
 
     @Override

@@ -131,7 +131,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
                     typeData == null ? null : typeData[i]);
             if (i == types.length - 1 && method.isVarArgs()) {
                 ArrayType<?> lastArgType = (ArrayType<?>) argType.declaredType;
-                args[i] = new VarargsType(new RuntimeType(lastArgType.element_type, argType.writable));
+                args[i] = new VarargsType(new RuntimeType(lastArgType.elementType, argType.writable));
             } else {
                 args[i] = argType;
             }

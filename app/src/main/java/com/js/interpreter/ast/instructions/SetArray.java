@@ -12,13 +12,13 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import java.lang.reflect.Array;
 
 public class SetArray implements SetValueExecutable {
-    private ReturnsValue container;
+    private ReturnsValue array;
     private ReturnsValue index;
     private int offset;
     private ReturnsValue val;
 
-    public SetArray(ReturnsValue container, ReturnsValue index, int offset, ReturnsValue val) {
-        this.container = container;
+    public SetArray(ReturnsValue array, ReturnsValue index, int offset, ReturnsValue val) {
+        this.array = array;
         this.index = index;
         this.offset = offset;
         this.val = val;
@@ -32,7 +32,7 @@ public class SetArray implements SetValueExecutable {
     @Override
     public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        Object cont = container.getValue(f, main);
+        Object cont = array.getValue(f, main);
         Integer ind = (Integer) index.getValue(f, main);
         Object v = val.getValue(f, main);
         try {
@@ -52,7 +52,7 @@ public class SetArray implements SetValueExecutable {
     @Override
     public SetValueExecutable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        return new SetArray(container.compileTimeExpressionFold(c),
+        return new SetArray(array.compileTimeExpressionFold(c),
                 index.compileTimeExpressionFold(c), offset,
                 val.compileTimeExpressionFold(c));
     }

@@ -161,7 +161,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return bufferData.stringBuffer.getString();
     }
 
-    public synchronized char readKey() {
+    public char readKey() {
         return bufferData.keyBuffer.getChar();
     }
 
@@ -353,7 +353,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 newScreenBuffer[i] = new TextConsole();
                 newScreenBuffer[i].setText("\0");
             }
-            Log.d(TAG, "tUpdateSize: " + newScreenSize);
             if (bufferData.textConsole != null) {
                 i = 0;
                 int nextj = 0;
@@ -384,7 +383,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             bufferData.firstIndex = newFirstIndex;
         }
         makeCursorVisible();
-        Log.d(TAG, "tUpdateSize: " + (System.currentTimeMillis() - startTime));
         return value;
     }
 
@@ -635,8 +633,11 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 }
                 if (filterKey) {
                     if (text.length() >= 1) {
-                        bufferData.keyBuffer.putChar((char) 0);
-                        bufferData.keyBuffer.putChar(text.charAt(text.length() - 1));
+                        if (Character.isLetter(text.charAt(text.length() - 1))) {
+                            bufferData.keyBuffer.putChar(text.charAt(text.length() - 1));
+                        } else {
+                            bufferData.keyBuffer.putChar(text.charAt(text.length() - 1)); //scan code
+                        }
                     }
                     return true;
                 }
@@ -724,8 +725,12 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             return super.onKeyDown(keyCode, event);
         }
         if (filterKey) {
-            bufferData.keyBuffer.putChar((char) 0);
+//            if (Character.isLetter(event.getUnicodeChar())) {
             bufferData.keyBuffer.putChar((char) event.getUnicodeChar()); //scan code
+//            } else {
+//            bufferData.keyBuffer.putChar((char) 0);
+//                bufferData.keyBuffer.putChar((char) event.getUnicodeChar()); //scan code
+//            }
             return true;
         } else {
             if (keyCode == KeyEvent.KEYCODE_DEL) {
@@ -756,7 +761,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        Log.d(TAG, "onSizeChanged: " + w + " " + h + " " + oldw + " " + oldh);
         mGraphScreen.onSizeChange(w, h);
         updateSize();
     }

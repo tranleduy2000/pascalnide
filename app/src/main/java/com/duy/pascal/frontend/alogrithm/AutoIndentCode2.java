@@ -408,7 +408,7 @@
 //                numberTab++;
 //                result.append(getTab(numberTab));
 //
-//                result.append(((WordToken) child).orginalName); //append begin
+//                result.append(((WordToken) child).originalName); //append begin
 //                lastToken = child;
 //            } else {
 //                processToken(child);

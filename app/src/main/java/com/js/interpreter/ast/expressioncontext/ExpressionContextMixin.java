@@ -1,5 +1,7 @@
 package com.js.interpreter.ast.expressioncontext;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
@@ -11,6 +13,7 @@ import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
+import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
@@ -29,6 +32,7 @@ import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.code_view.SuggestItem;
@@ -48,6 +52,7 @@ import com.js.interpreter.ast.returnsvalue.VariableAccess;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,8 +159,8 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             return FunctionCall.generateFunctionCall(name,
                     new ArrayList<ReturnsValue>(0), this);
         } else if (getConstantDefinitionLocal(name.name) != null) {
-            return new ConstantAccess(getConstantDefinition(name.name)
-                    .getValue(), name.lineInfo);
+            ConstantDefinition constantDefinition = getConstantDefinition(name.name);
+            return new ConstantAccess(constantDefinition.getValue(), constantDefinition.getType(), name.lineInfo);
         } else if (getVariableDefinitionLocal(name.name) != null) {
             return new VariableAccess(name.name, name.lineInfo);
         }
@@ -204,12 +209,12 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                     throw new ExpectedTokenException("[Library Identifier]", next);
                 }
                 //check library not found
-                if (pascalLibraryManager.mapLibraries.get(((WordToken) next).name.toLowerCase()) == null) {
+                if (pascalLibraryManager.mapLibraries.get(((WordToken) next).name) == null) {
                     throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
                 }
                 librarieNames.add(next.toString());
                 pascalLibraryManager.addMethodFromClass(
-                        pascalLibraryManager.mapLibraries.get(((WordToken) next).name.toLowerCase()),
+                        pascalLibraryManager.mapLibraries.get(((WordToken) next).name),
                         Modifier.PUBLIC);
                 next = i.peek();
                 if (next instanceof SemicolonToken) {
@@ -309,43 +314,59 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         listNameConstants.add(new SuggestItem(StructureType.TYPE_CONST, c.name()));
     }
 
-    public void addConstDeclarations(GrouperToken i) throws ParsingException {
+    public void addConstDeclarations(GrouperToken token) throws ParsingException {
         Token next;
-        while (i.peek() instanceof WordToken) {
-            WordToken constName = (WordToken) i.take(); //const a : integer = 2; const a = 2;
-            next = i.take();
-            if (next instanceof ColonToken) {
-                DeclaredType type = i.getNextPascalType(this);
+        while (token.peek() instanceof WordToken) {
+            WordToken constName = (WordToken) token.take(); //const a : integer = 2; const a = 2;
+            next = token.take();
+            if (next instanceof ColonToken) {// const a : array[1..3] of integer = (1, 2, 3);
+                DeclaredType type = token.getNextPascalType(this);
                 Object defaultValue;
+                if (token.peek() instanceof OperatorToken) {
+                    if (((OperatorToken) token.peek()).type == OperatorTypes.EQUALS) {
+                        token.take(); //ignore equal name
+                        //set default value for array
+                        if (type instanceof ArrayType) {
+                            DeclaredType elementTypeOfArray = ((ArrayType) type).elementType;
+                            ParenthesizedToken bracketedToken = (ParenthesizedToken) token.take();
+                            int size = ((ArrayType) type).getBounds().size;
+                            Object[] objects = new Object[size];
+                            for (int i = 0; i < size; i++) {
+                                if (!bracketedToken.hasNext()) {
+                                    // TODO: 27-Apr-17  exception
+                                }
+                                objects[i] = token.getDefaultValueArray(this, bracketedToken, elementTypeOfArray);
+                            }
+                            Log.d(TAG, "getDefaultValueArray: " + Arrays.toString(objects));
+                            defaultValue = objects;
+                        } else {
+                            ReturnsValue unconverted = token.getNextExpression(this);
+                            ReturnsValue converted = type.convert(unconverted, this);
+                            if (converted == null) {
+                                throw new UnConvertibleTypeException(unconverted,
+                                        unconverted.getType(this).declaredType, type,
+                                        true);
+                            }
+                            defaultValue = converted.compileTimeValue(this);
+                            if (defaultValue == null) {
+                                throw new NonConstantExpressionException(converted);
+                            }
 
-                if (i.peek() instanceof OperatorToken) {
-                    if (((OperatorToken) i.peek()).type == OperatorTypes.EQUALS) {
-                        i.take(); //ignore equal name
-                        ReturnsValue unconverted = i.getNextExpression(this);
-                        ReturnsValue converted = type.convert(unconverted, this);
-                        if (converted == null) {
-                            throw new UnConvertibleTypeException(unconverted,
-                                    unconverted.getType(this).declaredType, type,
-                                    true);
-                        }
-                        defaultValue = converted.compileTimeValue(this);
-                        if (defaultValue == null) {
-                            throw new NonConstantExpressionException(converted);
-                        }
 
+                        }
                         ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
                                 type, defaultValue, constName.lineInfo);
                         declareConst(constantDefinition);
-                        i.assertNextSemicolon();
+                        token.assertNextSemicolon();
                     }
                 } else {
                     // TODO: 08-Apr-17
                 }
-            } else if (next instanceof OperatorToken) {
+            } else if (next instanceof OperatorToken) { //const a = 2; , non define type
                 if (((OperatorToken) next).type != OperatorTypes.EQUALS) {
                     throw new ExpectedTokenException("=", constName);
                 }
-                ReturnsValue value = i.getNextExpression(this);
+                ReturnsValue value = token.getNextExpression(this);
                 Object compileVal = value.compileTimeValue(this);
                 if (compileVal == null) {
                     throw new NonConstantExpressionException(value);
@@ -353,7 +374,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
                         compileVal, constName.lineInfo);
                 this.constants.put(constantDefinition.name(), constantDefinition);
-                i.assertNextSemicolon();
+                token.assertNextSemicolon();
             } else {
                 throw new ExpectedTokenException("=", constName);
             }

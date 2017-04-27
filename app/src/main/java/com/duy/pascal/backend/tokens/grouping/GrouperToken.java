@@ -1,6 +1,8 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 
+import android.util.Log;
+
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
@@ -71,6 +73,7 @@ import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
 import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -209,13 +212,10 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof OfToken) {
             take();
             DeclaredType elementType = getNextPascalType(context);
-            ArrayType<DeclaredType> declaredTypeArrayType =
-                    new ArrayType<>(elementType, new IntegerSubrangeType());
-            return declaredTypeArrayType;
+            return new ArrayType<>(elementType, new IntegerSubrangeType());
         } else {
             throw new ExpectedTokenException("of", n);
         }
-
     }
 
     private DeclaredType getArrayType(BracketedToken bounds, ExpressionContext context)
@@ -235,6 +235,8 @@ public abstract class GrouperToken extends Token {
             }
             elementType = getNextPascalType(context);
         }
+        Log.d(TAG, "getArrayType: " + elementType.toString());
+        ArrayType arrayType;
         return new ArrayType<>(elementType, bound);
     }
 
@@ -328,7 +330,6 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof WordToken) {
             WordToken name = ((WordToken) next);
             next = peek();
-
             if (next instanceof ParenthesizedToken) {
                 List<ReturnsValue> arguments;
                 if (name.name.equalsIgnoreCase("writeln") || name.name.equalsIgnoreCase("write")) {
@@ -409,27 +410,42 @@ public abstract class GrouperToken extends Token {
             if (peek() instanceof OperatorToken) {
                 if (((OperatorToken) peek()).type == OperatorTypes.EQUALS) {
                     take();
-                    ReturnsValue unconverted = getNextExpression(context);
-                    ReturnsValue converted = type.convert(unconverted, context);
-                    if (converted == null) {
-                        throw new UnConvertibleTypeException(unconverted,
-                                unconverted.getType(context).declaredType, type,
-                                true);
-                    }
-                    defaultValue = converted.compileTimeValue(context);
-                    if (defaultValue == null) {
-                        throw new NonConstantExpressionException(converted);
-                    }
-                    if (names.size() != 1) {
-                        throw new MultipleDefaultValuesException(converted.getLine());
+                    //set default value for array
+                    if (type instanceof ArrayType) {
+                        DeclaredType elementTypeOfArray = ((ArrayType) type).elementType;
+                        ParenthesizedToken bracketedToken = (ParenthesizedToken) take();
+                        int size = ((ArrayType) type).getBounds().size;
+                        Object[] objects = new Object[size];
+                        for (int i = 0; i < size; i++) {
+                            if (!bracketedToken.hasNext()) {
+                                // TODO: 27-Apr-17  exception
+                            }
+                            objects[i] = getDefaultValueArray(context, bracketedToken, elementTypeOfArray);
+                        }
+                        Log.d(TAG, "getDefaultValueArray: " + Arrays.toString(objects));
+                        defaultValue = objects;
+                    } else { //set default single value
+                        ReturnsValue unConvert = getNextExpression(context);
+                        ReturnsValue converted = type.convert(unConvert, context);
+                        if (converted == null) {
+                            throw new UnConvertibleTypeException(unConvert,
+                                    unConvert.getType(context).declaredType, type,
+                                    true);
+                        }
+                        defaultValue = converted.compileTimeValue(context);
+                        if (defaultValue == null) {
+                            throw new NonConstantExpressionException(converted);
+                        }
+                        if (names.size() != 1) {
+                            throw new MultipleDefaultValuesException(converted.getLine());
+                        }
                     }
                 }
             }
 
             assertNextSemicolon();
             for (WordToken word : names) {
-                VariableDeclaration v = new VariableDeclaration(word.name, type, defaultValue,
-                        word.lineInfo);
+                VariableDeclaration v = new VariableDeclaration(word.name, type, defaultValue, word.lineInfo);
                 verifyNonConflictingSymbol(result, v);
                 result.add(v);
             }
@@ -437,6 +453,44 @@ public abstract class GrouperToken extends Token {
             next = peek();
         } while (next instanceof WordToken);
         return result;
+    }
+
+    public Object getDefaultValueArray(ExpressionContext context,
+                                       ParenthesizedToken parenthesizedToken,
+                                       DeclaredType elementTypeOfArray) throws ParsingException {
+        if (parenthesizedToken.hasNext()) {
+            if (elementTypeOfArray instanceof ArrayType) {
+                if (parenthesizedToken.peek() instanceof ParenthesizedToken) {
+                    ParenthesizedToken child = (ParenthesizedToken) parenthesizedToken.take();
+                    Object[] objects = new Object[((ArrayType) elementTypeOfArray).getBounds().size];
+                    for (int i = 0; i < objects.length; i++) {
+                        objects[i] = getDefaultValueArray(context, child, ((ArrayType) elementTypeOfArray).elementType);
+                    }
+                    if (child.hasNext()) {
+                        // TODO: 27-Apr-17  exception
+                    }
+                    if (parenthesizedToken.hasNext()) {
+                        parenthesizedToken.assertNextComma();
+                    }
+                    return objects;
+                } else {
+                    // TODO: 27-Apr-17 throw exception
+                }
+            } else {
+                ReturnsValue unconvert = parenthesizedToken.getNextExpression(context);
+                ReturnsValue converted = elementTypeOfArray.convert(unconvert, context);
+                if (context == null) {
+                    // TODO: 27-Apr-17  throw exception
+                }
+                if (parenthesizedToken.hasNext()) {
+                    parenthesizedToken.assertNextComma();
+                }
+                return converted.compileTimeValue(context);
+            }
+        } else {
+            // TODO: 27-Apr-17  throw exception
+        }
+        return null;
     }
 
     private void verifyNonConflictingSymbol(List<VariableDeclaration> result, VariableDeclaration variable) throws SameNameException {

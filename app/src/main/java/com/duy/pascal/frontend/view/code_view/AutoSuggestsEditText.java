@@ -25,7 +25,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.R;
@@ -72,7 +71,6 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
 
     private void init() {
-        Log.i(TAG, "init: ");
         invalidateKeyWord();
         setTokenizer(new SymbolsTokenizer());
         setThreshold(1);
@@ -244,7 +242,6 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     private void onDropdownChangeSize() {
         setDropDownWidth(getWidth() / 2);
         int height = getHeightVisible() / 2;
-        Log.d(TAG, "onDropdownChangeSize: " + getWidth() + " - " + height);
         setDropDownHeight(height);
         onPopupSuggestPosition();
     }

@@ -26,7 +26,7 @@ import com.google.firebase.crash.FirebaseCrash;
 
 public class DLog {
     public static final String TAG = DLog.class.getSimpleName();
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = BuildConfig.DEBUG;
 
     public static void d(Object msg) {
         if (DEBUG) Log.d(TAG, msg.toString());
@@ -38,7 +38,7 @@ public class DLog {
 
     public static void e(Object msg) {
         if (DEBUG) {
-            Log.e(TAG, msg.toString());
+            Log.e(TAG, "ERROR: ", (Throwable) msg);
         }
     }
 

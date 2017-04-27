@@ -93,17 +93,17 @@ public class SetLengthCall extends FunctionCall {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        int s = (Integer) size.getValue(f, main);
+        int length = (Integer) size.getValue(f, main);
         @SuppressWarnings("rawtypes")
         VariableBoxer a = (VariableBoxer) array.getValue(f, main);
         Object arr = a.get();
         int oldlength = Array.getLength(arr);
-        Object newarr = Array.newInstance(elemtype.getTransferClass(), s);
-        if (oldlength > s) {
-            System.arraycopy(arr, 0, newarr, 0, s);
+        Object newarr = Array.newInstance(elemtype.getTransferClass(), length);
+        if (oldlength > length) {
+            System.arraycopy(arr, 0, newarr, 0, length);
         } else {
             System.arraycopy(arr, 0, newarr, 0, oldlength);
-            for (int i = oldlength; i < s; i++) {
+            for (int i = oldlength; i < length; i++) {
                 Array.set(newarr, i, elemtype.initialize());
             }
         }

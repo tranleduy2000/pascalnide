@@ -49,7 +49,7 @@ public class SetLengthFunction implements TemplatePascalPlugin {
         ReturnsValue array = arguments[0];
         ReturnsValue size = arguments[1];
         @SuppressWarnings("rawtypes")
-        DeclaredType elemtype = ((ArrayType) ((PointerType) array.getType(f).declaredType).pointedToType).element_type;
+        DeclaredType elemtype = ((ArrayType) ((PointerType) array.getType(f).declaredType).pointedToType).elementType;
         LineInfo l = line;
         return new SetLengthCall(array, size, elemtype, l);
     }

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http,//www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,6 +27,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -35,9 +36,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 
 public class CrtLib implements PascalLibrary {
-
     public static final String TAG = CrtLib.class.getSimpleName();
     public static final String NAME = "crt";
+    private static final Map<Integer, Integer> mapColorsPascal = new Hashtable<>();
+    private static final Map<Integer, Integer> mapColorsAndroid = new Hashtable<>();
+
+    static {
+        generateMapColors();
+    }
+
     private ExecHandler handler;
     private AtomicBoolean canPlaySound = new AtomicBoolean(false);
     private long finalFrequency;
@@ -58,68 +65,66 @@ public class CrtLib implements PascalLibrary {
 
     /**
      * constructor call by {@link ClassLoader} in {@link com.duy.pascal.backend.core.PascalCompiler}
-     *
-     * @param handler
      */
     public CrtLib(ExecHandler handler) {
         this.handler = handler;
+
     }
 
     /**
-     * Black = 0;
-     * Blue = 1;
-     * Green = 2;
-     * Cyan = 3;
-     * Red = 4;
-     * Magenta = 5;
-     * Brown = 6;
-     * LightGray = 7;
-     * DarkGray = 8;
-     * LightBlue = 9;
-     * LightGreen = 10;
-     * LightCyan = 11;
-     * LightRed = 12;
-     * LightMagenta = 13;
-     * Yellow = 14;
-     * White = 15;
+     * convert color of pascal to android color
      */
-    public static int getColorPascal(int index) {
-        System.out.println("get color " + index);
-        switch (index) {
-            case 0:
-                return (Color.BLACK);
-            case 1:
-                return (Color.BLUE);
-            case 2:
-                return (Color.GREEN);
-            case 3:
-                return (Color.CYAN);
-            case 4:
-                return (Color.RED);
-            case 5:
-                return (Color.MAGENTA);
-            case 6:
-                return (Color.parseColor("#49281E"));
-            case 7:
-                return (Color.LTGRAY);
-            case 8:
-                return (Color.DKGRAY);
-            case 9:
-                return (Color.parseColor("#add8e6"));
-            case 10:
-                return (Color.parseColor("#98fb98"));
-            case 11:
-                return (Color.parseColor("#e0ffff"));
-            case 12:
-                return (Color.parseColor("#ffa07a"));
-            case 13:
-                return (Color.parseColor("#ff00ff"));
-            case 14:
-                return (Color.YELLOW);
-            case 15:
-                return (Color.WHITE);
+    public static int androidColorToPascalColor(int androidColor) {
+        System.out.println("androidColor = " + androidColor);
+        if (mapColorsAndroid.get(androidColor) != null) {
+            return mapColorsAndroid.get(androidColor);
+        } else {
+            return 0;
         }
-        return -1;
+    }
+
+    public static int pascalColorToAndroidColor(int pascalColor) {
+        System.out.println("pascalColor = " + pascalColor);
+        if (mapColorsPascal.get(pascalColor) != null) {
+            return mapColorsPascal.get(pascalColor);
+        }
+        return 0;
+    }
+
+    public static void generateMapColors() {
+        mapColorsPascal.put(0, Color.BLACK);
+        mapColorsPascal.put(1, Color.BLUE);
+        mapColorsPascal.put(2, Color.GREEN);
+        mapColorsPascal.put(3, Color.CYAN);
+        mapColorsPascal.put(4, Color.RED);
+        mapColorsPascal.put(5, Color.MAGENTA);
+        mapColorsPascal.put(6, 0xff49281E);
+        mapColorsPascal.put(7, Color.LTGRAY);
+        mapColorsPascal.put(8, Color.DKGRAY);
+        mapColorsPascal.put(9, 0xffadd8e6);
+        mapColorsPascal.put(10, 0xff98fb98);
+        mapColorsPascal.put(11, 0xffe0ffff);
+        mapColorsPascal.put(12, 0xffffa07a);
+        mapColorsPascal.put(13, 0xffff00ff);
+        mapColorsPascal.put(14, Color.YELLOW);
+        mapColorsPascal.put(15, Color.WHITE);
+
+        mapColorsAndroid.put(Color.BLACK, 0);
+        mapColorsAndroid.put(Color.BLUE, 1);
+        mapColorsAndroid.put(Color.GREEN, 2);
+        mapColorsAndroid.put(Color.CYAN, 3);
+        mapColorsAndroid.put(Color.RED, 4);
+        mapColorsAndroid.put(Color.MAGENTA, 5);
+        mapColorsAndroid.put(0xff49281E, 6);
+        mapColorsAndroid.put(Color.LTGRAY, 7);
+        mapColorsAndroid.put(Color.DKGRAY, 8);
+        mapColorsAndroid.put(0xffadd8e6, 9);
+        mapColorsAndroid.put(0xff98fb98, 10);
+        mapColorsAndroid.put(0xffe0ffff, 11);
+        mapColorsAndroid.put(0xffffa07a, 12);
+        mapColorsAndroid.put(0xffff00ff, 13);
+        mapColorsAndroid.put(Color.YELLOW, 14);
+        mapColorsAndroid.put(Color.WHITE, 15);
     }
 
     /**
@@ -163,7 +168,7 @@ public class CrtLib implements PascalLibrary {
     @SuppressWarnings("unused")
     public void textColor(int code) {
         if (handler == null) return;
-        int color = getColorPascal(code);
+        int color = pascalColorToAndroidColor(code);
         handler.getConsoleView().setConsoleTextColor(color);
     }
 
@@ -174,7 +179,7 @@ public class CrtLib implements PascalLibrary {
     @SuppressWarnings("unused")
     public void textBackground(int code) {
         if (handler == null) return;
-        int color = getColorPascal(code);
+        int color = pascalColorToAndroidColor(code);
         handler.getConsoleView().setConsoleTextBackground(color);
     }
 

@@ -1,11 +1,15 @@
 package com.js.interpreter.ast.returnsvalue;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
 import com.duy.pascal.backend.exceptions.ChangeValueConstantException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -15,10 +19,17 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 
 public class ConstantAccess extends DebuggableReturnsValue {
     public Object constantValue;
+    private DeclaredType type;
     private LineInfo line;
 
-    public ConstantAccess(Object o, LineInfo line) {
+    public ConstantAccess(@NonNull Object o, @Nullable LineInfo line) {
         this.constantValue = o;
+        this.line = line;
+    }
+
+    public ConstantAccess(@NonNull Object o, @Nullable DeclaredType type, LineInfo line) {
+        this.constantValue = o;
+        this.type = type;
         this.line = line;
     }
 
@@ -40,6 +51,9 @@ public class ConstantAccess extends DebuggableReturnsValue {
 
     @Override
     public RuntimeType getType(ExpressionContext f) {
+        if (type != null) {
+            return new RuntimeType(type, false);
+        }
         return new RuntimeType(BasicType.anew(constantValue.getClass()), false);
     }
 

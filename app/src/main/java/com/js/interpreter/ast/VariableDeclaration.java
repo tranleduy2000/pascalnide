@@ -1,5 +1,8 @@
 package com.js.interpreter.ast;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 
@@ -11,8 +14,8 @@ public class VariableDeclaration implements NamedEntity {
     public Object initialValue;
     private LineInfo line;
 
-    public VariableDeclaration(String name, DeclaredType type,
-                               Object initialValue, LineInfo line) {
+    public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
+                               @Nullable Object initialValue, LineInfo line) {
         this.name = name;
         this.type = type;
         this.line = line;

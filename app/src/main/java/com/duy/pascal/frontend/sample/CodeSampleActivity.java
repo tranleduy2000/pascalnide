@@ -93,7 +93,6 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
     @Override
     public void onPlay(String code) {
-        Log.d(TAG, "onPlay: " + code);
         //create file temp
         fileManager.setContentFileTemp(code);
 

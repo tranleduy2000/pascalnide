@@ -93,7 +93,6 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
 
     public interface OnCodeClickListener {
         void onPlay(String code);
-
         //            void onCopy(String code);
         void onEdit(String code);
     }

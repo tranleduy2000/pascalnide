@@ -23,6 +23,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.keyboard.KeyListener;
 import com.duy.pascal.frontend.keyboard.KeySettings;
@@ -138,83 +139,6 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
         return super.onKeyMultiple(keyCode, repeatCount, event);
     }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        Log.d(TAG, "dispatchKeyEvent: " + event);
-        int keyCode = event.getKeyCode();
-        if (event.isCtrlPressed()/* || mKeyListener.mControlKey.isActive()*/
-                && event.getAction() == KeyEvent.ACTION_DOWN) {
-            Log.d(TAG, "onKeyDown: ctrl pressed");
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_A:
-                    selectAll();
-                    return true;
-                case KeyEvent.KEYCODE_X:
-                    cut();
-                    return true;
-                case KeyEvent.KEYCODE_C:
-                    copy();
-                    return true;
-                case KeyEvent.KEYCODE_V:
-                    paste();
-                    return true;
-                case KeyEvent.KEYCODE_R:
-                    if (editorControl != null)
-                        editorControl.runProgram();
-                    return true;
-                case KeyEvent.KEYCODE_B:
-                    if (editorControl != null)
-                        editorControl.doCompile();
-                    return true;
-                case KeyEvent.KEYCODE_G:
-                    if (editorControl != null)
-                        editorControl.goToLine();
-                    return true;
-                case KeyEvent.KEYCODE_L:
-                    if (editorControl != null)
-                        editorControl.formatCode();
-                    return true;
-                case KeyEvent.KEYCODE_Z:
-                    if (canUndo()) {
-                        undo();
-                    }
-                    return true;
-                case KeyEvent.KEYCODE_Y:
-                    if (canRedo()) {
-                        redo();
-                    }
-                    return true;
-                case KeyEvent.KEYCODE_S:
-                    if (editorControl != null)
-                        editorControl.saveFile();
-                    return true;
-                case KeyEvent.KEYCODE_N:
-                    if (editorControl != null)
-                        editorControl.saveAs();
-                    return true;
-                default:
-                    return super.dispatchKeyEvent(event);
-            }
-        } else {
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_TAB:
-                        String textToInsert = "\t";
-                        int start, end;
-                        start = Math.max(getSelectionStart(), 0);
-                        end = Math.max(getSelectionEnd(), 0);
-                        getText().replace(Math.min(start, end), Math.max(start, end),
-                                textToInsert, 0, textToInsert.length());
-                        return true;
-                    default:
-                        return super.dispatchKeyEvent(event);
-                }
-            } else {
-                return super.dispatchKeyEvent(event);
-            }
-        }
-    }
-
     /**
      * CTRL + C copy
      * CTRL + V paste
@@ -231,10 +155,10 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
      * CTRL + L format code
      * CTRL + G: goto line
      */
-   /* @Override
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + keyCode + " " + event);
-        if (event.isCtrlPressed()*//* || mKeyListener.mControlKey.isActive()*//*) {
+        if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
             Log.d(TAG, "onKeyDown: ctrl pressed");
             switch (keyCode) {
                 case KeyEvent.KEYCODE_A:
@@ -300,18 +224,18 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
                     return super.onKeyDown(keyCode, event);
             }
         }
-    }*/
+    }
 
-    /*@Override
+    @Override
     public boolean onKeyUp(int zKeyCode, KeyEvent event) {
         if (DEBUG) Log.w(TAG, "onKeyUp " + zKeyCode);
 
         //The new Key Code
         int keyCode = event.getKeyCode();
-       *//* if (handleControlKey(keyCode, event, false)) {
+        if (handleControlKey(keyCode, event, false)) {
             return true;
-        }*//*
-        if (event.isCtrlPressed()*//* || mKeyListener.mControlKey.isActive()*//*) {
+        }
+        if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_A:
                 case KeyEvent.KEYCODE_X:
@@ -335,7 +259,7 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
                     return false;
             }
         }
-    }*/
+    }
     public void cut() {
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();

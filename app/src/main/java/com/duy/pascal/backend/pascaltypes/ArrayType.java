@@ -21,12 +21,13 @@ import serp.bytecode.JumpInstruction;
 
 public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
-    public final T element_type;
+    private static final String TAG = "ArrayType";
+    public final T elementType;
+    private IntegerSubrangeType bounds;
 
-    public IntegerSubrangeType bounds;
 
-    public ArrayType(T element_class, IntegerSubrangeType bounds) {
-        this.element_type = element_class;
+    public ArrayType(T elementClass, IntegerSubrangeType bounds) {
+        this.elementType = elementClass;
         this.bounds = bounds;
     }
 
@@ -74,6 +75,14 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         ra.free(array);
     }
 
+    public T getElementType() {
+        return elementType;
+    }
+
+    public IntegerSubrangeType getBounds() {
+        return bounds;
+    }
+
     /**
      * This basically tells if the types are assignable from each other
      * according to Pascal.
@@ -84,7 +93,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         }
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
-            if (o.element_type.equals(element_type)) {
+            if (o.elementType.equals(elementType)) {
                 if (this.bounds.contains(o.bounds)) {
                     return true;
                 }
@@ -100,7 +109,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         }
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
-            if (o.element_type.equals(element_type)) {
+            if (o.elementType.equals(elementType)) {
                 if (this.bounds.equals(o.bounds)) {
                     return true;
                 }
@@ -111,7 +120,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public int hashCode() {
-        return (element_type.hashCode() * 31 + bounds.hashCode());
+        return (elementType.hashCode() * 31 + bounds.hashCode());
     }
 
     /**
@@ -119,16 +128,16 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
      */
     @Override
     public Object initialize() {
-        Object result = Array.newInstance(element_type.getTransferClass(), bounds.size);
+        Object result = Array.newInstance(elementType.getTransferClass(), bounds.size);
         for (int i = 0; i < bounds.size; i++) {
-            Array.set(result, i, element_type.initialize());
+            Array.set(result, i, elementType.initialize());
         }
         return result;
     }
 
     @Override
     public Class<?> getTransferClass() {
-        String s = element_type.getTransferClass().getName();
+        String s = elementType.getTransferClass().getName();
         StringBuilder b = new StringBuilder();
         b.append('[');
         b.append('L');
@@ -144,7 +153,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public String toString() {
-        return element_type.toString() + '[' + bounds + ']';
+        return elementType.toString() + '[' + bounds + ']';
     }
 
     /**
@@ -152,17 +161,17 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
      * except variable length arrays, but they are checked in the {@link
      */
     @Override
-    public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
+    public ReturnsValue convert(ReturnsValue valueToAssign, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other = value.getType(f);
-        return this.superset(other.declaredType) ? cloneValue(value) : null;
+        RuntimeType other = valueToAssign.getType(f);
+        return this.superset(other.declaredType) ? cloneValue(valueToAssign) : null;
     }
 
     @Override
     public void pushDefaultValue(Code code, RegisterAllocator ra) {
         ArrayList<IntegerSubrangeType> ranges = new ArrayList<>();
         ranges.add(bounds);
-        element_type.pushArrayOfType(code, ra, ranges);
+        elementType.pushArrayOfType(code, ra, ranges);
     }
 
     @Override
@@ -196,7 +205,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         // STACK=LEN
         c.dup();
         // STACK=LEN,LEN
-        c.anewarray().setType(this.element_type.getTransferClass());
+        c.anewarray().setType(this.elementType.getTransferClass());
         // Stack=LEN,NEW
         c.dupx1();
         c.swap();
@@ -210,7 +219,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         // STACK=NEW,NEW,IND,LEN,IND
         JumpInstruction jmp = c.ificmple();
         // STACK=NEW,NEW,IND
-        element_type.cloneValueOnStack(new TransformationInput() {
+        elementType.cloneValueOnStack(new TransformationInput() {
 
             @Override
             public void pushInputOnStack() {
@@ -261,12 +270,12 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
     public void pushArrayOfType(Code code, RegisterAllocator ra,
                                 List<IntegerSubrangeType> ranges) {
         ranges.add(bounds);
-        element_type.pushArrayOfType(code, ra, ranges);
+        elementType.pushArrayOfType(code, ra, ranges);
     }
 
     @Override
     public Class<?> getStorageClass() {
-        Class c = element_type.getStorageClass();
+        Class c = elementType.getStorageClass();
         if (c.isArray()) {
             try {
                 return Class.forName("[" + c.getName());

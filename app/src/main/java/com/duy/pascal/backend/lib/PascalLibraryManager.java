@@ -149,10 +149,8 @@ public class PascalLibraryManager {
             }
         }
 
-        Log.d(TAG, "addMethodFromClasses: " + pascalPlugin.getName() + " " + parent);
         if (parent != null) {
             for (Method method : pascalPlugin.getDeclaredMethods()) {
-                Log.d(TAG, "addMethodFromClass: " + method.getName());
                 if (AndroidLibraryUtils.getSdkLevel() > Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
                         MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method);
