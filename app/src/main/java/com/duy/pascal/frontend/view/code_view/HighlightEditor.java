@@ -766,26 +766,29 @@ public class HighlightEditor extends AutoSuggestsEditText
         Layout layout = getLayout();
         Editable e = getEditableText();
         if (layout != null && lineInfo.line < getLineCount()) {
-            if (lastPinLine < getLineCount() && lastPinLine >= 0) {
-                int lineStart = getLayout().getLineStart(lastPinLine);
-                int lineEnd = getLayout().getLineEnd(lastPinLine);
-                BackgroundColorSpan[] backgroundColorSpan = e.getSpans(lineStart, lineEnd,
-                        BackgroundColorSpan.class);
-                for (BackgroundColorSpan colorSpan : backgroundColorSpan) {
-                    e.removeSpan(colorSpan);
+            try {
+                if (lastPinLine < getLineCount() && lastPinLine >= 0) {
+                    int lineStart = getLayout().getLineStart(lastPinLine);
+                    int lineEnd = getLayout().getLineEnd(lastPinLine);
+                    BackgroundColorSpan[] backgroundColorSpan = e.getSpans(lineStart, lineEnd,
+                            BackgroundColorSpan.class);
+                    for (BackgroundColorSpan colorSpan : backgroundColorSpan) {
+                        e.removeSpan(colorSpan);
+                    }
                 }
-            }
 
-            int lineStart = getLayout().getLineStart(lineInfo.line);
-            int lineEnd = getLayout().getLineEnd(lineInfo.line);
-            lineStart = lineStart + lineInfo.column;
-            if (lineStart < lineEnd) {
-                e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
-                        lineStart,
-                        lineEnd,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                int lineStart = getLayout().getLineStart(lineInfo.line);
+                int lineEnd = getLayout().getLineEnd(lineInfo.line);
+                lineStart = lineStart + lineInfo.column;
+                if (lineStart < lineEnd) {
+                    e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                            lineStart,
+                            lineEnd,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                lastPinLine = lineInfo.line;
+            }catch (Exception ignored){
             }
-            lastPinLine = lineInfo.line;
         }
     }
 

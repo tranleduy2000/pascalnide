@@ -92,6 +92,9 @@ public class ExceptionManager {
 //    }
 
     public Spanned getMessage(Throwable e) {
+        if (e == null) {
+            return new SpannableString("null");
+        }
         try {
             if (e instanceof ExpectedTokenException) {
                 return getExpectedTokenException((ExpectedTokenException) e);

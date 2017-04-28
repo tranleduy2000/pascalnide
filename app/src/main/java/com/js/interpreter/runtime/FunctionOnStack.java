@@ -87,10 +87,6 @@ public class FunctionOnStack extends VariableContext {
 
     /**
      * Global variable of function
-     *
-     * @param name
-     * @return
-     * @throws RuntimePascalException
      */
     @Override
     public Object getLocalVariable(String name) throws RuntimePascalException {

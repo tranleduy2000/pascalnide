@@ -150,5 +150,6 @@
     <string name="var_name">Variable name</string>
     <string name="program_stopped">Program is stopped</string>
     <string name="search_sample">Search sample...</string>
+    <string name="title_activity_search_result_sample">SearchResultSampleActivity</string>
 </resources>
 
