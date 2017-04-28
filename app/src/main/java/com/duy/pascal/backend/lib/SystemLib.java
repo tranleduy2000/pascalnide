@@ -27,6 +27,9 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -493,8 +496,6 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-
-
     @PascalMethod(description = "none")
     public void setlength(VariableBoxer<StringBuilder> s, int length)
             throws RuntimePascalException {
@@ -539,4 +540,16 @@ public class SystemLib implements PascalLibrary {
         s.set(s.get().delete(start - 1, start + count - 1));
     }
 
+    @PascalMethod(description = "none")
+    public int sizeof(Object[] array) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutput out = new ObjectOutputStream(bos);
+            out.writeObject(array);
+            byte[] bytes = bos.toByteArray();
+            return bytes.length;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 }

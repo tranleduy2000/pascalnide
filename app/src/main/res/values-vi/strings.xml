@@ -138,12 +138,12 @@
     <string name="logo">Biểu tượng</string>
     <string name="auto_compile">Tự động biên dịch</string>
     <string name="auto_compile_summary">Tự động biên dịch trong khi gõ. Hiệu năng của ứng dụng sẽ bị giảm nếu sử dụng tính năng này, tuy nhiên giúp chúng ta báo lỗi nhanh hơn.</string>
-    <string name="keyboard_shortcut">Key board shortcut</string>
-    <string name="program_structure">Show program structure</string>
-    <string name="show_symbol">List symbols</string>
-    <string name="show_symbol_decs">Show list symbol below the editor.</string>
+    <string name="keyboard_shortcut">Lối tắt bàn phím</string>
+    <string name="program_structure">Hiển thị cấu trúc chương trình</string>
+    <string name="show_symbol">Dãy kí tự đặc biệt</string>
+    <string name="show_symbol_decs">Hiển thị dãy kí tự đặc biệt bên dưới trình soạn thảo code</string>
     <string name="add_watch">Add watch</string>
-    <string name="debug">Debug program</string>
+    <string name="debug">Debug chương trình</string>
     <string name="var_name">Tên biến</string>
     <string name="program_stopped">Chương trình đã dừng</string>
     <string name="no_document">Không có tài liệu</string>

@@ -132,12 +132,6 @@ public class FragmentSelectFile extends Fragment implements
 
     }
 
-
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);

@@ -22,6 +22,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
+import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
@@ -38,13 +39,13 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
     private final String[] categories;
 
-//    @BindView(R.id.toolbar)
+    //    @BindView(R.id.toolbar)
 //    Toolbar toolbar;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
     @BindView(R.id.tab)
     TabLayout tabLayout;
-//    @BindView(R.id.searchView)
+    //    @BindView(R.id.searchView)
 //    SearchView searchView;
 //    @BindView(R.id.drawer_layout)
 //    DrawerLayout drawerLayout;
@@ -52,7 +53,11 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 //    private SearchHistoryTable mHistoryDatabase;
 
     public CodeSampleActivity() {
-        categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};
+        if (BuildConfig.DEBUG) {
+            categories = new String[]{"Temp", "Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};
+        } else {
+            categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};
+        }
     }
 
     @Override

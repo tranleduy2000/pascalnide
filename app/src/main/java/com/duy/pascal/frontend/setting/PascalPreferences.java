@@ -16,11 +16,13 @@
 
 package com.duy.pascal.frontend.setting;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.utils.FontManager;
@@ -35,17 +37,22 @@ public class PascalPreferences {
     public static final String LAST_FIND = "LAST_FIND";
     public static final String LAST_REPLACE = "LAST_REPLACE";
     public static final String TAB_POSITION_FILE = "TAB_POSITION_FILE";
+    @NonNull
     protected SharedPreferences.Editor editor;
+    @NonNull
     protected Context context;
+    @NonNull
     private SharedPreferences sharedPreferences;
 
-    public PascalPreferences(Context context) {
+    @SuppressLint("CommitPrefEdits")
+    public PascalPreferences(@NonNull Context context) {
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = sharedPreferences.edit();
     }
 
-    public PascalPreferences(SharedPreferences mPreferences, Context context) {
+    @SuppressLint("CommitPrefEdits")
+    public PascalPreferences(@NonNull SharedPreferences mPreferences, @NonNull Context context) {
         this.context = context;
         this.sharedPreferences = mPreferences;
         this.editor = sharedPreferences.edit();

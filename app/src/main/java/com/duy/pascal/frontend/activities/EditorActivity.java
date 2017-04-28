@@ -388,7 +388,7 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     public void onFileClick(File file) {
         //save current file
-        addNewFile(file, true);
+        addNewTab(file, SELECT, SAVE_LAST_FILE);
 
         //close drawer
         mDrawerLayout.closeDrawers();
@@ -446,7 +446,7 @@ public class EditorActivity extends BaseEditorActivity implements
             public void onFileCreated(File file) {
                 saveFile();
                 //add to view
-                addNewFile(file, true);
+                addNewTab(file, SELECT, SAVE_LAST_FILE);
                 mCodeEditor.setText(CodeSample.MAIN);
                 mCodeEditor.refresh();
                 //select before update
