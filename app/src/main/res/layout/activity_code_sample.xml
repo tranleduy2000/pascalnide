@@ -32,7 +32,6 @@
             android:id="@+id/tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:tabMode="scrollable"
             app:tabTextAppearance="@style/TextAppearance.AppCompat.Small">
 
