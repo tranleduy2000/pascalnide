@@ -54,15 +54,15 @@
     <string name="NonIntegerException">El valor debe ser integer: %1$s</string>
     <string name="ChangeValueConstantException">El valor guardado en una constante no puede ser cambiado.</string>
 
-    <string name="ExpectedTokenException_2">There was the following name:</string>
-    <string name="CanNotReadVariableException">Can not read variable of this type</string>
-    <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
-    One has type \"%4$s\" and the other has type \"%5$s\"</string>
-    <string name="SubRangeException">Upper bound of range is less than lower bound.\n
-        Current lower is %1$s and upper is %2$s</string>
-    <string name="MissingSemicolonTokenException">Missing semicolon (;) token near line %1$s</string>
-    <string name="MissingCommaTokenException">Missing comma (,) token near line %1$s</string>
-    <string name="StrayCharacterException">Stray character in program: %1$s</string>
+    <string name="ExpectedTokenException_2">Se encontro el siguiente nombre:</string>
+    <string name="CanNotReadVariableException">No se pueden leer variables de este tipo</string>
+    <string name="BadOperationTypeException">El operador \"%1$s\" no se puede aplicar a los argumentos \"%2$s\" y \"%3$s\".\n
+    Unos es de tipo \"%4$s\" y el otro de \"%5$s\"</string>
+    <string name="SubRangeException">El limite superior del rango es menor que el limite inferior del mismo.\n
+        Actualmente el inferior es %1$s y el superior es %2$s</string>
+    <string name="MissingSemicolonTokenException">Falta punto y coma (;) cerca de la linea %1$s</string>
+    <string name="MissingCommaTokenException">Falta coma (,) cerca de la linea %1$s</string>
+    <string name="StrayCharacterException">Caracter extraviado en el programa: %1$s</string>
 
     <string name="UNFINISHED_BEGIN_END">Estructura begin - end sin terminar</string>
     <string name="UNFINISHED_PARENTHESES">Se te olvido cerrar uno o más parentesis</string>
@@ -72,9 +72,9 @@
     <string name="MISMATCHED_PARENTHESES">Paréntesis no coincidentes</string>
     <string name="MISMATCHED_BRACKETS">Corchetes no coincidentes</string>
     <string name="MISMATCHED_BEGIN_END">Error en la construcción de la estructura begin - end.</string>
-    <string name="EXTRA_END">Tienens un \'end\' extra en tu programa</string>
+    <string name="EXTRA_END">Tienes un \'end\' extra en tu programa</string>
     <string name="IO_EXCEPTION">Ocurrio un problema IOException mientras se leía la entrada</string>
-    <string name="PluginCallException">When calling Function or Procedure %1$s, the following java exception: %2$s</string>
-    <string name="StackOverflowException">Stack overflow error.</string>
+    <string name="PluginCallException">Cuando se llama a la funcion o procedimiento %1$s, ocurre la siguiente excepción de Java: %2$s</string>
+    <string name="StackOverflowException">Error por desbordamiento de pila.</string>
 
 </resources>

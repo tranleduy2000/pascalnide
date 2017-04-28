@@ -116,11 +116,32 @@
                 android:title="@string/format_code" />
         </menu>
     </item>
+
+    <item
+        android:icon="@drawable/ic_code_white_24dp"
+        android:title="@string/setting_editor"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item
+                android:id="@+id/action_edit_word_wrap"
+                android:checkable="true"
+                android:title="@string/word_wrap" />
+            <item
+                android:id="@+id/show_symbol"
+                android:title="@string/show_symbol"
+                android:checkable="true">
+
+            </item>
+        </menu>
+    </item>
+
     <item
         android:id="@+id/action_more_feature"
         android:icon="@drawable/ic_more_vert_white_24dp"
         android:title="@string/more_feature"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_program_structure"
         android:icon="@drawable/ic_format_list_bulleted_white_24dp"

@@ -6,8 +6,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 69
-        versionName "3.6.9"
+        versionCode 70
+        versionName "3.7.0"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -15,12 +15,8 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            def appId = variant.applicationId
-            def versionName = variant.versionName
             def versionCode = variant.versionCode
-            def variantName = variant.name // e. g. freeDebug
-
-            def apkName = appId + '_' + variantName + '_' + versionName + '_' + versionCode + '.apk';
+            def apkName = "/apk/" + "pascal_" +  versionName + '_' + versionCode + '.apk';
             output.outputFile = new File(output.outputFile.parentFile, apkName)
         }
     }
@@ -47,8 +43,6 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
-
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
