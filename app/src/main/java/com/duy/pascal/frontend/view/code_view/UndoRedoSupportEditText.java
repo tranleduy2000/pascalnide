@@ -23,7 +23,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.keyboard.KeyListener;
 import com.duy.pascal.frontend.keyboard.KeySettings;
@@ -157,7 +157,7 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (DLog.DEBUG) Log.w(TAG, "onKeyDown: " + keyCode + " " + event);
+        if (Dlog.DEBUG) Log.w(TAG, "onKeyDown: " + keyCode + " " + event);
         if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
             Log.d(TAG, "onKeyDown: ctrl pressed");
             switch (keyCode) {

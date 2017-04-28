@@ -40,9 +40,9 @@ import java.util.Set;
  */
 public class AndroidApplicationManagerLib implements PascalLibrary {
 
-    private  AndroidUtilsLib mAndroidFacade;
-    private  ActivityManager mActivityManager;
-    private  PackageManager mPackageManager;
+    private AndroidUtilsLib mAndroidFacade;
+    private ActivityManager mActivityManager;
+    private PackageManager mPackageManager;
 
     public AndroidApplicationManagerLib(AndroidLibraryManager manager) {
         Context context = manager.getContext();

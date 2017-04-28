@@ -28,7 +28,7 @@ import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
@@ -49,7 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
 public abstract class AbstractExecActivity extends RunnableActivity {
-    public static final boolean DEBUG = DLog.DEBUG;
+    public static final boolean DEBUG = Dlog.DEBUG;
     protected static final String TAG = ExecuteActivity.class.getSimpleName();
     protected static final int COMPLETE = 4;
     protected static final int RUNTIME_ERROR = 5;
@@ -255,7 +255,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     public void onProcedureCall(final FunctionDeclaration functionDeclaration) {
-        if (DLog.DEBUG) Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
+        if (Dlog.DEBUG) Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
         mMessageHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -308,14 +308,14 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             program.terminate();
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
-            if (DLog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
+            if (Dlog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
         }
     }
 
     @Override
     public synchronized void startInput(IOLib lock) {
         this.mLock = lock;
-        if (DLog.DEBUG) Log.d(TAG, "startInput: ");
+        if (Dlog.DEBUG) Log.d(TAG, "startInput: ");
         mMessageHandler.sendEmptyMessage(SHOW_KEYBOARD);
         isCanRead.set(true);
         new Thread(runnableInput).start();

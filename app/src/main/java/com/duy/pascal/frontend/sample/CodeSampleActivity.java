@@ -17,25 +17,22 @@
 package com.duy.pascal.frontend.sample;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.duy.pascal.frontend.BuildConfig;
-import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.activities.EditorActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-
-import java.io.IOException;
-import java.util.ArrayList;
+import com.lapism.searchview.SearchHistoryTable;
+import com.lapism.searchview.SearchView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,42 +42,65 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     final String TAG = getClass().getSimpleName();
 
     private final String[] categories;
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    private CodeSampleAdapter adapter;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+    @BindView(R.id.tab)
+    TabLayout tabLayout;
+    @BindView(R.id.searchView)
+    SearchView searchView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
     private ApplicationFileManager fileManager;
+    private SearchHistoryTable mHistoryDatabase;
 
     public CodeSampleActivity() {
-        if (!BuildConfig.DEBUG) {
-            categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};
-        } else {
-            categories = new String[]{"temp"};
-        }
+        categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fileManager = new ApplicationFileManager(getApplicationContext());
         setContentView(R.layout.activity_code_sample);
         ButterKnife.bind(this);
-        setTitle(R.string.title_activity_code_sample);
 
-        fileManager = new ApplicationFileManager(this);
+        setTitle(R.string.title_activity_code_sample);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        adapter = new CodeSampleAdapter(this);
-        adapter.setListener(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(false);
+        CodePagerAdapter pagerAdapter = new CodePagerAdapter(getSupportFragmentManager(), categories);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+        tabLayout.setupWithViewPager(viewPager);
 
-        new LoadCodeTask().execute();
+        mHistoryDatabase = new SearchHistoryTable(this);
+        searchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
+            @Override
+            public boolean onClose() {
+                return false;
+            }
+
+            @Override
+            public boolean onOpen() {
+                return false;
+            }
+        });
+        searchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
+            @Override
+            public void onMenuClick() {
+                openDrawer();
+            }
+
+        });
     }
 
+    private void openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -118,39 +138,5 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         startActivity(intent);
     }
 
-
-    public class LoadCodeTask extends AsyncTask<Object, Object, ArrayList<CodeSampleEntry>> {
-        private ArrayList<CodeSampleEntry> codeSampleEntries;
-
-        @Override
-        protected ArrayList<CodeSampleEntry> doInBackground(Object... params) {
-            codeSampleEntries = new ArrayList<>();
-            for (String category : categories) {
-                CodeCategory codeCategory = new CodeCategory(category, "");
-                String[] list;
-                String path = "code_sample/" + category.toLowerCase();
-                try {
-                    list = getAssets().list(path);
-                    for (String fileName : list) {
-                        String content =
-                                ApplicationFileManager.streamToString(getAssets().open(path + "/" + fileName));
-                        codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
-                    }
-                } catch (IOException ignored) {
-                    if (DLog.DEBUG) Log.e(TAG, "doInBackground: ", ignored);
-                }
-                codeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
-            }
-            return codeSampleEntries;
-        }
-
-
-        @Override
-        protected void onPostExecute(ArrayList<CodeSampleEntry> aVoid) {
-            super.onPostExecute(aVoid);
-            adapter.addCodes(codeSampleEntries);
-            adapter.notifyDataSetChanged();
-        }
-    }
 
 }

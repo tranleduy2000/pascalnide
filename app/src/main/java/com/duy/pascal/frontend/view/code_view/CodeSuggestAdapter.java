@@ -75,7 +75,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         protected void publishResults(CharSequence constraint, FilterResults results) {
             ArrayList<SuggestItem> filteredList = (ArrayList<SuggestItem>) results.values;
             clear();
-            if (results != null && results.count > 0) {
+            if (filteredList != null && results.count > 0) {
                 for (SuggestItem suggestItem : filteredList) {
                     add(suggestItem);
                 }

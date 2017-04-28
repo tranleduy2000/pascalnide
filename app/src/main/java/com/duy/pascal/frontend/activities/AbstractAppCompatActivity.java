@@ -37,7 +37,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.BuildConfig;
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
@@ -46,7 +46,7 @@ import java.util.Locale;
 public abstract class AbstractAppCompatActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String TAG = AbstractAppCompatActivity.class.getSimpleName();
-    private static final boolean DEBUG = DLog.DEBUG;
+    private static final boolean DEBUG = Dlog.DEBUG;
     protected PascalPreferences mPascalPreferences;
 
     @Override

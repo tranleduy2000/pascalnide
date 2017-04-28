@@ -16,7 +16,7 @@
 
 package com.duy.pascal.frontend.info_application;
 
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.Dlog;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,7 +73,7 @@ public class InfoAppUtil {
             Document document = documentBuilder.parse(inputStream);
             Element root = document.getDocumentElement();
             NodeList nodeList = root.getChildNodes();
-            DLog.i(nodeList.getLength());
+            Dlog.i(nodeList.getLength());
             for (int index = 0; index < nodeList.getLength(); index++) {
                 Node node = nodeList.item(index);
                 if (node instanceof Element) {
@@ -103,7 +103,7 @@ public class InfoAppUtil {
             Document document = documentBuilder.parse(inputStream);
             Element root = document.getDocumentElement();
             NodeList nodeList = root.getChildNodes();
-            DLog.i(nodeList.getLength());
+            Dlog.i(nodeList.getLength());
             for (int index = 0; index < nodeList.getLength(); index++) {
                 Node node = nodeList.item(index);
                 if (node instanceof Element) {

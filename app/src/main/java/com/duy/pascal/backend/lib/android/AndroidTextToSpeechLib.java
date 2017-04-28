@@ -64,8 +64,12 @@ public class AndroidTextToSpeechLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Speaks the provided message via TTS.")
-    public void speak(@PascalParameter(name = "message") StringBuilder message) throws InterruptedException {
-        mOnInitLock.await();
+    public void speak(@PascalParameter(name = "message") StringBuilder message){
+        try {
+            mOnInitLock.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (message != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 String utteranceId = this.hashCode() + "";
@@ -77,8 +81,12 @@ public class AndroidTextToSpeechLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Returns True if speech is currently in progress.")
-    public boolean isSpeaking() throws InterruptedException {
-        mOnInitLock.await();
+    public boolean isSpeaking()  {
+        try {
+            mOnInitLock.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return mTextToSpeech.isSpeaking();
     }
 

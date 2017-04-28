@@ -45,7 +45,7 @@ import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokenizer.AutoIndentCode;
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
@@ -321,7 +321,7 @@ public class EditorActivity extends BaseEditorActivity implements
         DialogFragmentErrorMsg dialogFragmentErrorMsg = DialogFragmentErrorMsg
                 .newInstance(exceptionManager.getMessage(e), "");
         dialogFragmentErrorMsg.show(getSupportFragmentManager(), DialogFragmentErrorMsg.TAG);
-        DLog.e(e);
+        Dlog.e(e);
     }
 
     /**

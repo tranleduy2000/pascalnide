@@ -24,8 +24,8 @@ import com.google.firebase.crash.FirebaseCrash;
  * Created by Duy on 27-Mar-17.
  */
 
-public class DLog {
-    public static final String TAG = DLog.class.getSimpleName();
+public class Dlog {
+    public static final String TAG = Dlog.class.getSimpleName();
     public static final boolean DEBUG = false;
 //    public static final boolean DEBUG = BuildConfig.DEBUG;
 
