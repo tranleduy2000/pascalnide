@@ -270,6 +270,7 @@ public class HighlightEditor extends AutoSuggestsEditText
 
     public void setLineError(LineInfo lineError) {
         this.lineError = lineError;
+        if (lineError == null) return;
         int lineStart = getLayout().getLineStart(lineError.line);
         setSelection(lineStart);
     }
@@ -711,7 +712,6 @@ public class HighlightEditor extends AutoSuggestsEditText
     }
 
 
-
     public void setVerticalScroll(ScrollView verticalScroll) {
         this.verticalScroll = verticalScroll;
     }
@@ -787,7 +787,7 @@ public class HighlightEditor extends AutoSuggestsEditText
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 lastPinLine = lineInfo.line;
-            }catch (Exception ignored){
+            } catch (Exception ignored) {
             }
         }
     }
