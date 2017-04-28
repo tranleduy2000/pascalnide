@@ -118,7 +118,7 @@
     </item>
 
     <item
-        android:icon="@drawable/ic_code_white_24dp"
+        android:icon="@drawable/ic_settings_white_24dp"
         android:title="@string/setting_editor"
         app:showAsAction="ifRoom">
 
@@ -126,13 +126,21 @@
             <item
                 android:id="@+id/action_edit_word_wrap"
                 android:checkable="true"
+                android:icon="@drawable/ic_wrap_text_white_24dp"
                 android:title="@string/word_wrap" />
             <item
-                android:id="@+id/show_symbol"
-                android:title="@string/show_symbol"
-                android:checkable="true">
-
-            </item>
+                android:id="@+id/action_show_symbol"
+                android:checkable="true"
+                android:title="@string/show_symbol" />
+            <item
+                android:id="@+id/action_show_line"
+                android:checkable="true"
+                android:icon="@drawable/ic_format_list_numbered_white_24dp"
+                android:title="@string/show_line" />
+            <item
+                android:id="@+id/action_show_popup"
+                android:checkable="true"
+                android:title="@string/show_suggest_popup" />
         </menu>
     </item>
 

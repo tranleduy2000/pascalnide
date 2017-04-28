@@ -124,7 +124,8 @@ public class PascalPreferences {
             return false;
         }
     }
- public boolean getBoolean(String key, boolean def) {
+
+    public boolean getBoolean(String key, boolean def) {
         try {
             return sharedPreferences.getBoolean(key, def);
         } catch (Exception e) {
@@ -194,15 +195,36 @@ public class PascalPreferences {
         return FontManager.getFontFromAsset(context, getString(context.getString(R.string.key_pref_font)));
     }
 
-    public boolean isShowlines() {
-        return getBoolean(context.getString(R.string.key_pref_show_line_number));
+    public boolean isShowLines() {
+        return getBoolean(context.getString(R.string.key_show_line_number));
+    }
+
+    public void setShowLines(boolean isShow) {
+        put(context.getString(R.string.key_show_line_number), isShow);
     }
 
     public boolean isAutoCompile() {
         return getBoolean(context.getString(R.string.key_pref_auto_compile));
     }
 
-    public boolean showListSymbol() {
+    public boolean isShowListSymbol() {
         return getBoolean(context.getString(R.string.key_show_symbol), true);
+    }
+
+    public boolean isShowSuggestPopup() {
+        return getBoolean(context.getString(R.string.key_show_suggest_popup), true);
+    }
+
+    public void setShowSuggestPopup(boolean b) {
+        put(context.getString(R.string.key_show_suggest_popup), b);
+    }
+
+    public void setShowSymbol(boolean b) {
+        put(context.getString(R.string.key_show_symbol), b);
+    }
+
+    public void setWordWrap(boolean b) {
+        put(context.getString(R.string.key_pref_word_wrap), b);
+
     }
 }

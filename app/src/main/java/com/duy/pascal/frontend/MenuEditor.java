@@ -19,6 +19,8 @@ package com.duy.pascal.frontend;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 import com.duy.pascal.frontend.activities.EditorActivity;
 import com.duy.pascal.frontend.info_application.InfoActivity;
 import com.duy.pascal.frontend.sample.CodeSampleActivity;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingActivity;
 
 /**
@@ -40,22 +43,34 @@ import com.duy.pascal.frontend.setting.SettingActivity;
 
 public class MenuEditor {
     private EditorActivity activity;
+    @Nullable
     private EditorControl listener;
     private Menu menu;
+    private PascalPreferences pascalPreferences;
 
-    public MenuEditor(EditorActivity activity, EditorControl listener) {
+    public MenuEditor(@NonNull EditorActivity activity, @Nullable EditorControl listener) {
         this.activity = activity;
         this.listener = listener;
+        pascalPreferences = new PascalPreferences(this.activity);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         activity.getMenuInflater().inflate(R.menu.menu_tool, menu);
+
+        /*
+         * set state for menu editor
+         */
+        menu.findItem(R.id.action_show_line).setChecked(pascalPreferences.isShowLines());
+        menu.findItem(R.id.action_show_symbol).setChecked(pascalPreferences.isShowListSymbol());
+        menu.findItem(R.id.action_show_popup).setChecked(pascalPreferences.isShowSuggestPopup());
+        menu.findItem(R.id.action_edit_word_wrap).setChecked(pascalPreferences.isWrapText());
+
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
         switch (id) {
             case R.id.action_setting:
                 activity.startActivity(new Intent(activity, SettingActivity.class));
@@ -64,16 +79,22 @@ public class MenuEditor {
                 activity.showDialogFind();
                 break;
             case R.id.action_find_and_replace:
-                listener.findAndReplace();
+                if (listener != null) {
+                    listener.findAndReplace();
+                }
                 break;
 //            case R.id.action_open_file:
 //                listener.chooseFile(null);
 //                break;
             case R.id.action_doc:
-                listener.showDocumentActivity();
+                if (listener != null) {
+                    listener.showDocumentActivity();
+                }
                 break;
             case R.id.action_new_file:
-                listener.createNewSourceFile(null);
+                if (listener != null) {
+                    listener.createNewSourceFile(null);
+                }
                 break;
             case R.id.action_code_sample:
                 activity.startActivity(new Intent(activity, CodeSampleActivity.class));
@@ -85,46 +106,72 @@ public class MenuEditor {
                 activity.moreApp(null);
                 break;
             case R.id.nav_run:
-                listener.runProgram();
+                if (listener != null) {
+                    listener.runProgram();
+                }
                 break;
             case R.id.action_compile:
-                listener.doCompile();
+                if (listener != null) {
+                    listener.doCompile();
+                }
                 break;
             case R.id.action_save:
-                listener.saveFile();
+                if (listener != null) {
+                    listener.saveFile();
+                }
                 break;
             case R.id.action_save_as:
-                listener.saveAs();
+                if (listener != null) {
+                    listener.saveAs();
+                }
                 break;
             case R.id.action_goto_line:
-                listener.goToLine();
+                if (listener != null) {
+                    listener.goToLine();
+                }
                 break;
             case R.id.action_format:
-                listener.formatCode();
+                if (listener != null) {
+                    listener.formatCode();
+                }
                 break;
             case R.id.action_report_bug:
-                listener.reportBug();
+                if (listener != null) {
+                    listener.reportBug();
+                }
                 break;
             case R.id.action_check_update:
-                listener.checkUpdate();
+                if (listener != null) {
+                    listener.checkUpdate();
+                }
                 break;
 //            case R.id.action_open_tool:
 //                listener.openTool();
 //                break;
             case R.id.action_undo:
-                listener.undo();
+                if (listener != null) {
+                    listener.undo();
+                }
                 break;
             case R.id.action_redo:
-                listener.redo();
+                if (listener != null) {
+                    listener.redo();
+                }
                 break;
             case R.id.action_paste:
-                listener.paste();
+                if (listener != null) {
+                    listener.paste();
+                }
                 break;
             case R.id.action_copy_all:
-                listener.copyAll();
+                if (listener != null) {
+                    listener.copyAll();
+                }
                 break;
             case R.id.action_select_theme:
-                listener.selectTheme();
+                if (listener != null) {
+                    listener.selectTheme();
+                }
                 break;
             case R.id.action_more_feature:
                 activity.openDrawer(GravityCompat.END);
@@ -140,6 +187,22 @@ public class MenuEditor {
                 break;
             case R.id.action_debug:
                 activity.startDebug();
+                break;
+            case R.id.action_show_line:
+                pascalPreferences.setShowLines(!menuItem.isChecked());
+                menuItem.setChecked(!menuItem.isChecked());
+                break;
+            case R.id.action_show_popup:
+                pascalPreferences.setShowSuggestPopup(!menuItem.isChecked());
+                menuItem.setChecked(!menuItem.isChecked());
+                break;
+            case R.id.action_show_symbol:
+                pascalPreferences.setShowSymbol(!menuItem.isChecked());
+                menuItem.setChecked(!menuItem.isChecked());
+                break;
+            case R.id.action_edit_word_wrap:
+                pascalPreferences.setWordWrap(!menuItem.isChecked());
+                menuItem.setChecked(!menuItem.isChecked());
                 break;
         }
         return true;

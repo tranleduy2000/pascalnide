@@ -17,10 +17,10 @@
 
 <resources>
     <string name="key_pref_word_wrap" translatable="false">pref_word_wrap</string>
-    <string name="key_pref_show_line_number" translatable="false">pref_show_line_number</string>
+    <string name="key_show_line_number" translatable="false">pref_show_line_number</string>
     <string name="key_pref_font_size" translatable="false">key_pref_font_size</string>
     <string name="key_pref_font" translatable="false">key_pref_font</string>
-    <string name="key_show_hint" translatable="false">key_show_hint</string>
+    <string name="key_show_suggest_popup" translatable="false">key_show_hint</string>
     <string name="key_pref_lang" translatable="false">key_pref_lang</string>
     <string name="lang_default" translatable="false">default_lang</string>
     <string name="key_code_theme" translatable="false">key_code_theme</string>

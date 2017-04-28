@@ -350,7 +350,7 @@ public class HighlightEditor extends AutoSuggestsEditText
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setTextSize(mEditorSetting.getTextSize());
         mPaintNumbers.setTextSize(getTextSize() * 0.85f);
-        showlines = mEditorSetting.isShowlines();
+        showlines = mEditorSetting.isShowLines();
         postInvalidate();
         refreshDrawableState();
 

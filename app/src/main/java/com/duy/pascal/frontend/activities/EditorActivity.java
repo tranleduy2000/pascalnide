@@ -351,7 +351,7 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPascalPreferences.showListSymbol()) {
+        if (mPascalPreferences.isShowListSymbol()) {
             mKeyList.setListener(this);
             mContainerSymbol.setVisibility(View.VISIBLE);
         } else {
@@ -363,7 +363,16 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        super.onSharedPreferenceChanged(sharedPreferences, s);
+        if (s.equals(getString(R.string.key_show_suggest_popup))
+                || s.equals(getString(R.string.key_show_line_number))
+                || s.equals(getString(R.string.show_suggest_popup))
+                || s.equals(getString(R.string.key_pref_word_wrap))) {
+            mCodeEditor.updateFromSettings();
+        } else if (s.equals(getString(R.string.key_show_symbol))) {
+            mContainerSymbol.setVisibility(mPascalPreferences.isShowListSymbol() ? View.VISIBLE : View.GONE);
+        } else {
+            super.onSharedPreferenceChanged(sharedPreferences, s);
+        }
     }
 
     /**

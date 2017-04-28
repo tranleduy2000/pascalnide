@@ -75,7 +75,7 @@
     <string name="show_line_desc">Zobrazovať čísla riadkov naľavo od editora kódu</string>
     <string name="hide_status_bar">Skryť stavový riadok</string>
     <string name="hide_status_bar_desc">Skryť stavový riadok v celej aplikácii vrátane konzole. Ak toto nastavenie potrebujete zmeniť, reštartujte aplikáciu.</string>
-    <string name="show_hint">Zobrazovať návrhy</string>
+    <string name="show_suggest_popup">Zobrazovať návrhy</string>
     <string name="show_hint_desc">Zobrazovať návrhy pri písaní</string>
     <string name="compile">Kompilovať</string>
     <string name="file">Súbor</string>

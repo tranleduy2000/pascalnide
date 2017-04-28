@@ -73,7 +73,7 @@
     <string name="bug">Bug</string>
     <string name="compile">Biên dịch</string>
     <string name="report_bug">Báo lỗi</string>
-    <string name="show_hint">Cửa sổ gợi ý</string>
+    <string name="show_suggest_popup">Cửa sổ gợi ý</string>
     <string name="show_hint_desc">Hiển thị các từ có khả năng trùng với các từ khóa khi gõ</string>
     <string name="file">Tệp</string>
     <string name="language">Ngôn ngữ</string>

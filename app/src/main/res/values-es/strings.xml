@@ -76,7 +76,7 @@
     <string name="show_line_desc">Muestra los numeros de línea a la izquierda del editor</string>
     <string name="hide_status_bar">Ocultar barra de estado</string>
     <string name="hide_status_bar_desc">Oculta la barra de estado en todas las ventanas de la aplicación, incluida la consola. Reinicie la aplicación si necesita cambiarlo.</string>
-    <string name="show_hint">Sugerencias automaticas</string>
+    <string name="show_suggest_popup">Sugerencias automaticas</string>
     <string name="show_hint_desc">Muestra sugerencias mientras se escribe el código</string>
     <string name="compile">Compilar</string>
     <string name="file">Archivo</string>

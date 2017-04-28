@@ -31,7 +31,7 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:key="@string/key_pref_show_line_number"
+            android:key="@string/key_show_line_number"
             android:summary="@string/show_line_desc"
             android:title="@string/show_line" />
 
@@ -44,9 +44,9 @@
         <SwitchPreference
             android:defaultValue="true"
             android:enabled="false"
-            android:key="@string/key_show_hint"
+            android:key="@string/key_show_suggest_popup"
             android:summary="@string/show_hint_desc"
-            android:title="@string/show_hint" />
+            android:title="@string/show_suggest_popup" />
 
         <ListPreference
             android:defaultValue="13"

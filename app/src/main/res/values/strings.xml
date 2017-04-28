@@ -79,7 +79,7 @@
 
     <string name="hide_status_bar">Hide status bar</string>
     <string name="hide_status_bar_desc">Hide the status bar in every screen of the app, include console. Restart app if need change.</string>
-    <string name="show_hint">Hint popup</string>
+    <string name="show_suggest_popup">Hint popup</string>
     <string name="show_hint_desc">Show suggestions while typing</string>
     <string name="compile">Compile</string>
     <string name="file">File</string>

@@ -93,7 +93,7 @@
     <string name="send_to_me">Отправить</string>
     <string name="setting">Настройки</string>
     <string name="setting_editor">Настройки редактора</string>
-    <string name="show_hint">Всплывающие подсказки</string>
+    <string name="show_suggest_popup">Всплывающие подсказки</string>
     <string name="show_hint_desc">Показывать предложения, при наборе текста</string>
     <string name="show_key_board">Показать клавиатуру</string>
     <string name="show_line">Номера строк</string>
