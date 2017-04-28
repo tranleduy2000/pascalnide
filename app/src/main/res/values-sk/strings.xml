@@ -147,5 +147,6 @@
     <string name="debug">Debug program</string>
     <string name="var_name">Variable name</string>
     <string name="program_stopped">Program is stopped</string>
+    <string name="no_document">No document</string>
 </resources>
 

@@ -41,6 +41,7 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ScrollView;
+import android.widget.Scroller;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -70,7 +71,7 @@ public class HighlightEditor extends AutoSuggestsEditText
     public static final int SHORT_DELAY = 500;
     public static final int LONG_DELAY = 1000;
     private static final int CHARS_TO_COLOR = 2500;
-    private static final String INDEX_CHAR = "m";
+    private static final String INDEX_CHAR = "M";
     private static final int TAB_NUMBER = 3;
     private final Handler updateHandler = new Handler();
     private final Object objectThread = new Object();
@@ -104,7 +105,7 @@ public class HighlightEditor extends AutoSuggestsEditText
     protected int mPaddingDP = 4;
     protected int mPadding, mLinePadding;
     protected float mScale;
-    //    protected Scroller mScroller;
+    protected Scroller mScroller;
     protected GestureDetector mGestureDetector;
     protected Point mMaxSize;
     protected int mHighlightedLine;
@@ -254,8 +255,6 @@ public class HighlightEditor extends AutoSuggestsEditText
 
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
-
-//        setTypeface(FontManager.getInstance(mContext));
     }
 
     public void computeScroll() {

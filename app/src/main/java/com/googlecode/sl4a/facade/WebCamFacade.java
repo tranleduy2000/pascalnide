@@ -370,10 +370,12 @@ public class WebCamFacade implements PascalLibrary {
         }
         releaseCamera();
     }
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }
+
     @Override
     public void shutdown() {
         mPreview = false;

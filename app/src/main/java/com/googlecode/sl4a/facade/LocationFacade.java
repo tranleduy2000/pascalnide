@@ -86,12 +86,10 @@ import java.util.Map.Entry;
  */
 public class LocationFacade implements PascalLibrary {
     private final EventFacade mEventFacade;
-    private AndroidLibraryManager mManager;
     private final Context mContext;
     private final Map<String, Location> mLocationUpdates;
     private final LocationManager mLocationManager;
     private final Geocoder mGeocoder;
-
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public synchronized void onLocationChanged(Location location) {
@@ -115,6 +113,7 @@ public class LocationFacade implements PascalLibrary {
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
     };
+    private AndroidLibraryManager mManager;
 
     public LocationFacade(AndroidLibraryManager manager) {
         mContext = manager.getContext();
@@ -128,7 +127,9 @@ public class LocationFacade implements PascalLibrary {
     @Override
     public void shutdown() {
         stopLocating();
-    } @Override
+    }
+
+    @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }

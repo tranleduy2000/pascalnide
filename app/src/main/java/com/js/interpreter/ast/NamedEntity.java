@@ -8,4 +8,6 @@ public interface NamedEntity {
     String getEntityType();
 
     String name();
+
+    String description();
 }

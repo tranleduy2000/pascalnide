@@ -50,10 +50,12 @@ public class CommonIntentsFacade implements PascalLibrary {
     @Override
     public void shutdown() {
     }
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }
+
     @PascalMethod(description = "Display content to be picked by URI (e.g. contacts)", returns = "A map of result values.")
     public Intent pick(@PascalParameter(name = "uri") String uri) throws JSONException {
         return mAndroidFacade.startActivityForResult(Intent.ACTION_PICK, uri, null, null, null, null);

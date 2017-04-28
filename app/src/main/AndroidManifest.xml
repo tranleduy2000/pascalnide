@@ -116,7 +116,7 @@
         <activity android:name="com.googlecode.sl4a.activity.FutureActivity" />
         <activity
             android:name=".sample.SearchResultSampleActivity"
-            android:label="@string/title_activity_search_result_sample"></activity>
+        ></activity>
     </application>
 
 </manifest>

@@ -52,6 +52,11 @@ public class TemplatePluginDeclaration extends AbstractFunction {
     }
 
     @Override
+    public String description() {
+        return null;
+    }
+
+    @Override
     public ArgumentType[] getArgumentTypes() {
         return t.argumentTypes();
     }

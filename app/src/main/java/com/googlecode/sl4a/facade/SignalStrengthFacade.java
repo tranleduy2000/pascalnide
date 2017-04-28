@@ -87,10 +87,12 @@ public class SignalStrengthFacade implements PascalLibrary {
     public void stopTrackingSignalStrengths() {
         mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
     }
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }
+
     @Override
     public void shutdown() {
         stopTrackingSignalStrengths();

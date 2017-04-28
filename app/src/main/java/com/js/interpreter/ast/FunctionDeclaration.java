@@ -107,6 +107,11 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
+    public String description() {
+        return null;
+    }
+
+    @Override
     public Object call(VariableContext parentContext, RuntimeExecutable<?> main, Object[] arguments)
             throws RuntimePascalException {
         if (this.declarations.root() instanceof Library) {

@@ -130,7 +130,11 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, item.getName(), Toast.LENGTH_SHORT).show();
+                if (item.getDescription() == null) {
+                    Toast.makeText(context, R.string.no_document, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, item.getDescription(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return convertView;

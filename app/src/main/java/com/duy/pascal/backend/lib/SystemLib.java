@@ -27,9 +27,6 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -344,14 +341,7 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "system lib", returns = "null")
-
-    public boolean odd(Integer i) {
-        return i % 2 == 1;
-    }
-
-    @PascalMethod(description = "system lib", returns = "null")
-
-    public boolean odd(Long i) {
+    public boolean odd(int i) {
         return i % 2 == 1;
     }
 
@@ -401,35 +391,34 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
-    @PascalMethod(description = "none", returns = "void")
-
-    public char upcase(Character s) {
+    @PascalMethod(description = "none")
+    public char upcase(char s) {
         return Character.toUpperCase(s);
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
-    public StringBuilder concat(StringBuilder... s) {
+    @PascalMethod(description = "none")
+    public StringBuilder concat(StringBuilder... agrs) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Object s1 : s) stringBuilder.append(s1);
+        for (Object s1 : agrs) stringBuilder.append(s1);
         return stringBuilder;
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public int pos(String substring, String s) {
         return s.indexOf(substring) + 1;
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public int length(String s) {
         System.out.println("length " + s + " " + s.length());
         return s.length();
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public String findregex(String tosearch, String regex) {
         Pattern reg = Pattern.compile(regex);
         Matcher m = reg.matcher(tosearch);
@@ -440,7 +429,7 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public String between(String s1, String s2, String s) {
         int startindex = s.indexOf(s1) + s1.length();
         int endindex = s.indexOf(s2, startindex);
@@ -448,7 +437,7 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public String capitalize(String s) {
         boolean lastSpace = true;
         char[] chars = s.toCharArray();
@@ -465,7 +454,7 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public String getletters(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -478,7 +467,7 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public String getnumbers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -491,7 +480,7 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public String getothers(String s) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -504,105 +493,9 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
-    public void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
-            throws RuntimePascalException {
-        s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
-    }
 
 
-    @PascalMethod(description = "none", returns = "void")
-    public String Left(String s, int count) {
-        return s.substring(0, count);
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String md5(String s) throws NoSuchAlgorithmException {
-        MessageDigest digester = MessageDigest.getInstance("MD5");
-        digester.update(s.getBytes());
-        return new BigInteger(1, digester.digest()).toString(16);
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String padl(String topad, int size) {
-        StringBuilder result = new StringBuilder(size);
-        for (int i = topad.length(); i < size; i++) {
-            result.append(' ');
-        }
-        result.append(topad);
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String padr(String topad, int size) {
-        StringBuilder result = new StringBuilder(size);
-        result.append(topad);
-        for (int i = topad.length(); i < size; i++) {
-            result.append(' ');
-        }
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String padz(String topad, int size) {
-        StringBuilder result = new StringBuilder(size);
-        for (int i = topad.length(); i < size; i++) {
-            result.append('0');
-        }
-        result.append(topad);
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public int posex(String tofind, String s, int startindex) {
-        return s.indexOf("\\Q" + tofind, startindex);
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public int regexpos(String text, String regex) {
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(text);
-        m.find();
-        int i = m.start();
-        if (i >= 0) {
-            i++;
-        }
-        return i;
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String replaceregex(String text, String regex,
-                               String replacetext) {
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(text);
-        return m.replaceAll(replacetext);
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String replicate(char c, int times) {
-        StringBuilder result = new StringBuilder(times);
-        for (int i = 0; i < times; i++) {
-            result.append(c);
-        }
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String right(String s, int length) {
-        return s.substring(s.length() - length, s.length());
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public void setlength(VariableBoxer<StringBuilder> s, int length)
             throws RuntimePascalException {
         String filler = "!@#$%";
@@ -624,100 +517,23 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "none", returns = "void")
-    public boolean startswith(String prefix, String s) {
-        return s.startsWith(prefix);
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public char strget(VariableBoxer<StringBuilder> s, int index)
-            throws RuntimePascalException {
-        return s.get().charAt(index);
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public void strset(char c, int index, VariableBoxer<StringBuilder> s)
-            throws RuntimePascalException {
-        s.get().setCharAt(index, c);
-        s.set(s.get());
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String stringofchar(char c, int times) {
-        return replicate(c, times);
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String trimex(String delimeter, String s) {
-        int beginningindex = 0;
-        while (s.startsWith(delimeter, beginningindex)) {
-            beginningindex += delimeter.length();
-        }
-        int endindex = s.length();
-        while (s.lastIndexOf(delimeter, endindex) == endindex
-                - delimeter.length()) {
-            endindex -= delimeter.length();
-        }
-        return s.substring(beginningindex, endindex);
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public String trim(String s) {
         return s.trim();
     }
 
-
-    @PascalMethod(description = "none", returns = "void")
-    public String trimletters(String s) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (!Character.isLetter(c)) {
-                result.append(c);
-            }
-        }
-        return result.toString();
+    @PascalMethod(description = "none")
+    public void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
+            throws RuntimePascalException {
+        s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
     }
 
-
-    @PascalMethod(description = "none", returns = "void")
-    public String trimnumbers(String s) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (!Character.isDigit(c)) {
-                result.append(c);
-            }
-        }
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public String trimothers(String s) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (Character.isDigit(c) || Character.isLetter(c)) {
-                result.append(c);
-            }
-        }
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none", returns = "void")
-    public StringBuilder copy(String s, int ifrom, int count) {
+    @PascalMethod(description = "none")
+    public StringBuilder copy(StringBuilder s, int ifrom, int count) {
         return new StringBuilder(s.substring(ifrom - 1, ifrom - 1 + count));
     }
 
-
-    @PascalMethod(description = "none", returns = "void")
+    @PascalMethod(description = "none")
     public void delete(VariableBoxer<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
         s.set(s.get().delete(start - 1, start + count - 1));

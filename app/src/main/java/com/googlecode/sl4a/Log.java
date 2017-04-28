@@ -16,11 +16,7 @@
 
 package com.googlecode.sl4a;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.widget.Toast;
 
 public class Log {

@@ -16,6 +16,9 @@
 
 package com.duy.pascal.frontend.view.code_view;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.io.Serializable;
 
 /**
@@ -23,18 +26,21 @@ import java.io.Serializable;
  */
 public class SuggestItem implements Serializable {
     private int type;
+    @NonNull
     private String name = "";
-    private String description = "";
+    @Nullable
+    private String description = null;
+    @Nullable
     private CharSequence show;
 
-    public SuggestItem(String name, String description, int type, CharSequence show) {
+    public SuggestItem(int type, String name, String description, CharSequence show) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.show = show;
     }
 
-    public SuggestItem(String name, String description, int type) {
+    public SuggestItem(int type, String name, String description) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -61,6 +67,7 @@ public class SuggestItem implements Serializable {
         this.name = name;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }

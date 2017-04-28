@@ -32,6 +32,7 @@ import java.util.Map;
  */
 public class AndroidToneGeneratorLib implements PascalLibrary{
 
+    public static final String NAME = "aTone".toLowerCase();
     private final ToneGenerator mToneGenerator;
 
     public AndroidToneGeneratorLib(AndroidLibraryManager manager) {
@@ -113,4 +114,5 @@ public class AndroidToneGeneratorLib implements PascalLibrary{
     @Override
     public void shutdown() {
     }
+
 }

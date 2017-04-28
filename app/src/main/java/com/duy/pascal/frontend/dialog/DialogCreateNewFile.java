@@ -41,6 +41,7 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
     public static final String TAG = DialogCreateNewFile.class.getSimpleName();
     private EditText mEditFileName;
     private Button btnOK, btnCancel;
+    @Nullable
     private OnCreateNewFileListener listener;
     private RadioButton checkBoxPas;
     private RadioButton checkBoxInp;
@@ -51,7 +52,7 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
         return dialogCreateNewFile;
     }
 
-    public void setListener(OnCreateNewFileListener listener) {
+    public void setListener(@Nullable OnCreateNewFileListener listener) {
         this.listener = listener;
     }
 
@@ -81,8 +82,11 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN
                         && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    doCreateFile();
-                    if (listener != null) listener.onCancel();
+                    File file = doCreateFile();
+                    if (listener != null) {
+                        listener.onFileCreated(file);
+                        listener.onCancel();
+                    }
                     dismiss();
                     return true;
                 }
@@ -124,8 +128,11 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
             mEditFileName.setError(getString(R.string.enter_new_file_name));
             return null;
         }
-        if (checkBoxInp.isChecked()) fileName += ".inp";
-        else if (checkBoxPas.isChecked()) fileName += ".pas";
+        if (checkBoxInp.isChecked() && !fileName.contains(".")) {
+            fileName += ".inp";
+        } else if (checkBoxPas.isChecked() && !fileName.contains(".")) {
+            fileName += ".pas";
+        }
         File file = new File(ApplicationFileManager.getApplicationPath() + fileName);
         if (file.exists()) {
             mEditFileName.setError(getString(R.string.file_exist));

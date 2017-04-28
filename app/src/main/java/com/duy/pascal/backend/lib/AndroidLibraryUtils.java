@@ -117,11 +117,7 @@ public class AndroidLibraryUtils {
         }
     }
 
-    private AndroidLibraryUtils() {
-        // Utility class.
-    }
-
-    public static int getSdkLevel() {
+    public static int getSdkVersion() {
         return Build.VERSION.SDK_INT;
     }
 

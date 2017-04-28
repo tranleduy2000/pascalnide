@@ -1,6 +1,7 @@
 package com.js.interpreter.ast;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.lib.annotations.ArrayBoundsInfo;
@@ -33,10 +34,26 @@ public class MethodDeclaration extends AbstractCallableFunction {
     private Object parent;
     private Method method;
     private ArgumentType[] argCache = null;
+    private String description = "";
+    private ArrayList<String> listParams;
 
     public MethodDeclaration(@NonNull Object owner, @NonNull Method m) {
         this.parent = owner;
         method = m;
+    }
+
+    public MethodDeclaration(@NonNull Object owner, @NonNull Method m, @Nullable String description) {
+        this.parent = owner;
+        this.method = m;
+        this.description = description;
+    }
+
+    public MethodDeclaration(@NonNull Object owner, @NonNull Method m, @Nullable String description,
+                             @Nullable ArrayList<String> listParams) {
+        this.parent = owner;
+        method = m;
+        this.description = description;
+        this.listParams = listParams;
     }
 
     @Override
@@ -143,6 +160,11 @@ public class MethodDeclaration extends AbstractCallableFunction {
     @Override
     public String name() {
         return method.getName();
+    }
+
+    @Override
+    public String description() {
+        return description;
     }
 
     @Override

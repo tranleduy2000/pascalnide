@@ -95,7 +95,9 @@ public class PhoneFacade implements PascalLibrary {
     @Override
     public void shutdown() {
         stopTrackingPhoneState();
-    } @Override
+    }
+
+    @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }

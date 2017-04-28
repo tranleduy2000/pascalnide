@@ -71,4 +71,9 @@ public class VariableDeclaration implements NamedEntity {
     public String name() {
         return name;
     }
+
+    @Override
+    public String description() {
+        return null;
+    }
 }

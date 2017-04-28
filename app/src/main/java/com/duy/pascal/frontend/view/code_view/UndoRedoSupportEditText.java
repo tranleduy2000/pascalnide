@@ -134,11 +134,6 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
         return false;
     }
 
-    @Override
-    public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
-        return super.onKeyMultiple(keyCode, repeatCount, event);
-    }
-
     /**
      * CTRL + C copy
      * CTRL + V paste
@@ -159,7 +154,6 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (Dlog.DEBUG) Log.w(TAG, "onKeyDown: " + keyCode + " " + event);
         if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
-            Log.d(TAG, "onKeyDown: ctrl pressed");
             switch (keyCode) {
                 case KeyEvent.KEYCODE_A:
                     selectAll();
@@ -249,14 +243,14 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
                 case KeyEvent.KEYCODE_L:
                     return true;
                 default:
-                    return false;
+                    return super.onKeyUp(zKeyCode, event);
             }
         } else {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_TAB:
                     return true;
                 default:
-                    return false;
+                    return super.onKeyUp(zKeyCode, event);
             }
         }
     }

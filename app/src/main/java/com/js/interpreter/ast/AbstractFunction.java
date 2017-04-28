@@ -18,6 +18,11 @@ public abstract class AbstractFunction implements NamedEntity {
     @Override
     public abstract String name();
 
+    @Override
+    public String description() {
+        return null;
+    }
+
     public abstract ArgumentType[] getArgumentTypes();
 
     public abstract DeclaredType returnType();

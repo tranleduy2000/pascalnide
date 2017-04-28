@@ -86,7 +86,6 @@ public class IntentBuilders {
     }
 
 
-
     /**
      * Builds an intent that creates a shortcut to launch the provided script in a terminal.
      *

@@ -48,4 +48,8 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
     }
 
 
+    @Override
+    public String description() {
+        return null;
+    }
 }

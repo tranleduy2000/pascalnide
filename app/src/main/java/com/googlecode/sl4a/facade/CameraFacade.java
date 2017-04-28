@@ -55,8 +55,8 @@ import java.util.concurrent.CountDownLatch;
 public class CameraFacade implements PascalLibrary {
 
     private final Context mContext;
-    private AndroidLibraryManager mManager;
     private final Parameters mParameters;
+    private AndroidLibraryManager mManager;
 
     public CameraFacade(AndroidLibraryManager manager) throws Exception {
         mContext = manager.getContext();

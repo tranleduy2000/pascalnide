@@ -118,12 +118,12 @@ public class UiFacade implements PascalLibrary {
     private static final int MENU_GROUP_ID = Integer.MAX_VALUE;
 
     private final Context mContext;
-    private AndroidLibraryManager mManager;
     private final FutureActivityTaskExecutor mTaskQueue;
     private final List<UiMenuItem> mContextMenuItems;
     private final List<UiMenuItem> mOptionsMenuItems;
     private final AtomicBoolean mMenuUpdated;
     private final EventFacade mEventFacade;
+    private AndroidLibraryManager mManager;
     private DialogTask mDialogTask;
     private FullScreenTask mFullScreenTask;
     private List<Integer> mOverrideKeys = Collections.synchronizedList(new ArrayList<Integer>());

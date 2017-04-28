@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.lib;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -34,6 +35,7 @@ import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
@@ -43,12 +45,15 @@ import com.duy.pascal.backend.lib.templated.SetLengthFunction;
 import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePluginDeclaration;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
+import com.duy.pascal.frontend.view.code_view.SuggestItem;
 import com.js.interpreter.ast.MethodDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
@@ -70,8 +75,31 @@ public class PascalLibraryManager {
                                 @Nullable RunnableActivity handler) {
         this.program = program;
         this.handler = handler;
-        facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkLevel(), handler);
+        facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
         initMapLib();
+    }
+
+    public static ArrayList<SuggestItem> getAllMethod(Class<?>... classes) {
+        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+        for (Class<?> aClass : classes) {
+            Method[] methods = aClass.getDeclaredMethods();
+            for (Method method : methods) {
+                if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    if (method.isAnnotationPresent(PascalMethod.class)) {
+                        PascalMethod annotation = method.getAnnotation(PascalMethod.class);
+                        String description = annotation.description();
+                        Type[] genericParameterTypes = method.getGenericParameterTypes();
+//                        System.out.println(method.getName() + "  " + Arrays.toString(genericParameterTypes));
+                        suggestItems.add(new SuggestItem(StructureType.TYPE_FUNCTION, method.getName(), description));
+                    }
+                } else {
+                    if (Modifier.isPublic(method.getModifiers())) {
+                        suggestItems.add(new SuggestItem(StructureType.TYPE_FUNCTION, method.getName()));
+                    }
+                }
+            }
+        }
+        return suggestItems;
     }
 
     private void initMapLib() {
@@ -82,14 +110,14 @@ public class PascalLibraryManager {
         mapLibraries.put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
         mapLibraries.put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
 
-        mapLibraries.put("abattery", AndroidBatteryLib.class);
         mapLibraries.put("amedia", AndroidMediaPlayerLib.class);
         mapLibraries.put("autils", AndroidUtilsLib.class);
-        mapLibraries.put("atone", AndroidToneGeneratorLib.class);
+        mapLibraries.put(AndroidToneGeneratorLib.NAME, AndroidToneGeneratorLib.class);
         mapLibraries.put("awifi", AndroidWifiLib.class);
-        mapLibraries.put("asetting", AndroidSettingLib.class);
+        mapLibraries.put(AndroidSettingLib.NAME, AndroidSettingLib.class);
         mapLibraries.put(AndroidBluetoothLib.NAME, AndroidBluetoothLib.class);
 
+        mapLibraries.put(AndroidBatteryLib.NAME, AndroidBatteryLib.class);
         mapLibraries.put(AndroidTextToSpeechLib.NAME, AndroidTextToSpeechLib.class);
         mapLibraries.put(AndroidSensorLib.NAME, AndroidSensorLib.class);
         mapLibraries.put(AndroidClipboard.NAME, AndroidClipboard.class);
@@ -111,7 +139,6 @@ public class PascalLibraryManager {
             addMethodFromClass(pascalPlugin, Modifier.PUBLIC);
         }
     }
-
 
     /**
      * load method from a class
@@ -150,13 +177,15 @@ public class PascalLibraryManager {
 
         if (parent != null) {
             for (Method method : pascalPlugin.getDeclaredMethods()) {
-              /*  if (AndroidLibraryUtils.getSdkLevel() > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
-                        MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method);
+                        PascalMethod annotation = method.getAnnotation(PascalMethod.class);
+                        String description = annotation.description();
+                        System.out.println(description);
+                        MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method, description);
                         program.declareFunction(methodDeclaration);
                     }
-                } else */
-                {
+                } else {
                     if (Modifier.isPublic(method.getModifiers())) {
                         MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method);
                         program.declareFunction(methodDeclaration);
@@ -187,15 +216,13 @@ public class PascalLibraryManager {
         addMethodFromClasses(classes, Modifier.PUBLIC);
     }
 
-
     /**
      * load system method
      */
     public void loadSystemLibrary() {
-        /**
-         * Important: load file library before io lib. Because
-         * method readln(file, ...) in {@link FileLib} will be override method readln(object...) in {@link IOLib}
-         */
+
+        //Important: load file library before io lib. Because  method readln(file, ...)
+        //in {@link FileLib} will be override method readln(object...) in {@link IOLib}
         addMethodFromClass(FileLib.class, Modifier.PUBLIC);
         addMethodFromClass(IOLib.class, Modifier.PUBLIC);
         addMethodFromClass(SystemLib.class, Modifier.PUBLIC);

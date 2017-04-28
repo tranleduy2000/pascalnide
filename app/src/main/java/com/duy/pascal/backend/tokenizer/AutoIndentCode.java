@@ -244,11 +244,13 @@ public class AutoIndentCode {
     private void processWordToken(WordToken wordToken) throws IOException {
         result.append(getTab(numberTab));
         Token t2 = lexer.yylex();
-        if (!(t2 instanceof GrouperToken || t2 instanceof CommaToken
+        if ((t2 instanceof GrouperToken
+                || t2 instanceof CommaToken
                 || t2 instanceof ClosingToken
-                || t2 instanceof DotDotToken || t2 instanceof PeriodToken
+                || t2 instanceof DotDotToken
+                || t2 instanceof PeriodToken
                 || t2 instanceof ColonToken)) {
-            result.append(wordToken.getCode()).append(" ");
+            result.append(wordToken.getCode());
         } else {
             result.append(wordToken.getCode()).append(" ");
         }

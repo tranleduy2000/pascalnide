@@ -306,7 +306,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
     public void declareFunction(AbstractFunction f) {
         callableFunctions.put(f.name().toLowerCase(), f);
-        listNameFunctions.add(new SuggestItem(StructureType.TYPE_FUNCTION, f.name()));
+        listNameFunctions.add(new SuggestItem(StructureType.TYPE_FUNCTION, f.name(), f.description()));
     }
 
     public void declareConst(ConstantDefinition c) {

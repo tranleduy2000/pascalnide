@@ -43,6 +43,10 @@ import android.widget.Toast;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.lib.PascalLibraryManager;
+import com.duy.pascal.backend.lib.SystemLib;
+import com.duy.pascal.backend.lib.file.FileLib;
+import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokenizer.AutoIndentCode;
 import com.duy.pascal.frontend.Dlog;
@@ -122,6 +126,8 @@ public class EditorActivity extends BaseEditorActivity implements
                 mCodeEditor.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
             }
         });
+        mCodeEditor.setSuggestData(PascalLibraryManager.getAllMethod(SystemLib.class,
+                IOLib.class, FileLib.class));
     }
 
     @OnClick(R.id.img_tab)

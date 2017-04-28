@@ -104,10 +104,12 @@ public class PreferencesFacade implements PascalLibrary {
         return mContext.getSharedPreferences(filename, 0);
 
     }
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }
+
     @Override
     public void shutdown() {
 

@@ -77,10 +77,12 @@ public class WakeLockFacade implements PascalLibrary {
     public void shutdown() {
         wakeLockRelease();
     }
+
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }
+
     private enum WakeLockType {
         FULL, PARTIAL, BRIGHT, DIM
     }

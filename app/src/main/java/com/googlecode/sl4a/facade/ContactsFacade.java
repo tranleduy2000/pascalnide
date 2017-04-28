@@ -310,7 +310,9 @@ public class ContactsFacade implements PascalLibrary {
 
     @Override
     public void shutdown() {
-    } @Override
+    }
+
+    @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;
     }

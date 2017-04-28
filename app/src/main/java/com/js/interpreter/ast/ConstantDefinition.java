@@ -46,4 +46,9 @@ public class ConstantDefinition implements NamedEntity {
     public String name() {
         return name;
     }
+
+    @Override
+    public String description() {
+        return null;
+    }
 }
