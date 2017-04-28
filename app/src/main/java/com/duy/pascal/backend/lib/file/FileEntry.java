@@ -173,6 +173,7 @@ class FileEntry {
             scanner.close();
         }
         if (mWriter != null) {
+            mWriter.flush();
             mWriter.close();
         }
         setOpened(false);
@@ -180,7 +181,7 @@ class FileEntry {
 
 
     public boolean isEof() {
-        return scanner.hasNext();
+        return !scanner.hasNext();
     }
 
     public void nextLine() {
