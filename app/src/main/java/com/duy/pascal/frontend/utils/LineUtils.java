@@ -25,6 +25,7 @@ import android.widget.ScrollView;
 
 public class LineUtils {
     public static int getYAtLine(ScrollView scrollView, int lineCount, int line) {
+        if (lineCount == 0) return 0;
         return scrollView.getChildAt(0).getHeight() / lineCount * line;
     }
 
