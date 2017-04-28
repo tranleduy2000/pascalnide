@@ -52,14 +52,14 @@
                 android:weightSum="100">
 
                 <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/gotoSortApp"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:onClick="gotoSortApp"
                     app:srcCompat="@drawable/ic_sort_app" />
 
                 <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/gotoNcalcApp"
                     android:layout_width="100dp"
-                    android:onClick="gotoNcalcApp"
                     android:layout_height="100dp"
                     app:srcCompat="@drawable/ic_calc_app" />
             </LinearLayout>

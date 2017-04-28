@@ -36,6 +36,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class InfoActivity extends AbstractAppCompatActivity {
@@ -77,6 +78,16 @@ public class InfoActivity extends AbstractAppCompatActivity {
         new TaskLoadData().execute();
         Log.d(TAG, "initContent: ");
 
+    }
+
+    @OnClick(R.id.gotoNcalcApp)
+    public void clickCalc(View view) {
+        gotoNcalcApp(view);
+    }
+
+    @OnClick(R.id.gotoSortApp)
+    public void clickSort(View view) {
+        gotoSortApp(view);
     }
 
     public void gotoNcalcApp(View view) {
