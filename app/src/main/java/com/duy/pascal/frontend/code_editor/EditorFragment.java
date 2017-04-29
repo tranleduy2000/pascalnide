@@ -174,6 +174,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         AutoIndentCode autoIndentCode = new AutoIndentCode();
         String result = autoIndentCode.format(text);
         mCodeEditor.setTextHighlighted(result);
+        mCodeEditor.applyTabWidth(mCodeEditor.getText(), 0, mCodeEditor.getText().length());
     }
 
     @Override

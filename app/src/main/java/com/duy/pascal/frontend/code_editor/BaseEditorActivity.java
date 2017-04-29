@@ -95,10 +95,10 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
 
         mFileManager = new ApplicationFileManager(this);
         setupActionBar();
-        setupTabView();
+        setupPageView();
     }
 
-    protected void setupTabView() {
+    protected void setupPageView() {
         ArrayList<File> listFile = TabFileUtils.getTabFiles(this);
         ArrayList<PageDescriptor> pages = new ArrayList<>();
         for (File file : listFile) {
@@ -108,6 +108,11 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         invalidateTab();
+
+        int pos = mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE);
+        if (pagerAdapter.getCount() > pos){
+            viewPager.setCurrentItem(pos);
+        }
     }
 
     private void invalidateTab() {
