@@ -263,18 +263,18 @@ public abstract class GrouperToken extends Token {
                     break;
                 }
                 take();
-                ReturnsValue nextvalue = getNextExpression(context, nextOperator.type.getPrecedence());
-                OperatorTypes operationtype = ((OperatorToken) next).type;
+                ReturnsValue nextValue = getNextExpression(context, nextOperator.type.getPrecedence());
+                OperatorTypes operatorTypes = ((OperatorToken) next).type;
                 DeclaredType type1 = nextTerm.getType(context).declaredType;
-                DeclaredType type2 = nextvalue.getType(context).declaredType;
+                DeclaredType type2 = nextValue.getType(context).declaredType;
                 try {
-                    operationtype.verifyOperation(type1, type2);
+                    operatorTypes.verifyOperation(type1, type2);
                 } catch (BadOperationTypeException e) {
                     throw new BadOperationTypeException(next.lineInfo, type1,
-                            type2, nextTerm, nextvalue, operationtype);
+                            type2, nextTerm, nextValue, operatorTypes);
                 }
                 nextTerm = BinaryOperatorEvaluation.generateOp(context,
-                        nextTerm, nextvalue, operationtype, nextOperator.lineInfo);
+                        nextTerm, nextValue, operatorTypes, nextOperator.lineInfo);
             } else if (next instanceof PeriodToken) {
                 take();
                 next = take();
