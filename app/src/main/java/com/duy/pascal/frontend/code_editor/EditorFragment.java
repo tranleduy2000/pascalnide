@@ -42,6 +42,8 @@ import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.duy.pascal.frontend.view.code_view.HighlightEditor;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -82,6 +84,8 @@ public class EditorFragment extends Fragment implements EditorListener {
         ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
         String code = fileManager.readFileAsString(getArguments().getString(CompileManager.FILE_PATH));
         mCodeEditor.setTextHighlighted(code);
+        mCodeEditor.clearHistory();
+        mCodeEditor.restoreHistory(getFilePath());
 
         try {
             mCodeEditor.setEditorControl((EditorControl) getActivity());
@@ -137,15 +141,27 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.find(find, regex, wordOnly, matchCase);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveFile();
+    }
 
     @Override
     public void saveFile() {
         String filePath = getArguments().getString(CompileManager.FILE_PATH);
-        boolean result = mFileManager.saveFile(filePath, getCode());
-        if (result) {
-            Toast.makeText(getContext(), R.string.saved, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), R.string.can_not_save_file, Toast.LENGTH_SHORT).show();
+        boolean result;
+        if (filePath != null) {
+            result = mFileManager.saveFile(filePath, getCode());
+            if (result) {
+                Toast.makeText(getContext(),
+                        getString(R.string.saved) + " " + (new File(filePath).getName()),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(),
+                        getString(R.string.can_not_save_file) +  " " + (new File(filePath).getName()),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -200,7 +216,6 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.insert(text);
     }
 
-
     public CodeView getEditor() {
         return mCodeEditor;
     }
@@ -222,7 +237,12 @@ public class EditorFragment extends Fragment implements EditorListener {
     }
 
     public String getFilePath() {
-        return getTag();
+        String path = getArguments().getString(CompileManager.FILE_PATH);
+        if (path == null){
+            return "";
+        } else {
+            return path;
+        }
     }
 
     public void hideKeyboard() {

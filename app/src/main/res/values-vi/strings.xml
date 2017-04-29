@@ -129,7 +129,7 @@
     <string name="max_buffer">Kích thức bộ nhớ đệm cho màn hình</string>
 
     <string name="can_not_save_file">Không thể lưu file!</string>
-    <string name="saved">Đã đóng</string>
+    <string name="saved">Đã lưu</string>
     <string name="file_exist">Tệp đã tồn tại, vui lòng nhập tên khác!</string>
     <string name="send_mail">Gửi mail…</string>
     <string name="no_mail_clients">Hiện tại không có ứng dụng email nào được cài đặt.</string>

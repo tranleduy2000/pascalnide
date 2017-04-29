@@ -20,6 +20,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
@@ -270,7 +271,7 @@ public class ApplicationFileManager {
      * @param filePath - name of file
      * @param text     - content of file
      */
-    public boolean saveFile(String filePath, String text) {
+    public boolean saveFile(@NonNull String filePath, String text) {
         try {
             File file = new File(filePath);
             if (!file.exists()) {

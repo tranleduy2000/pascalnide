@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
@@ -153,7 +154,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     protected void removePage(int position, boolean saveLastFile) {
         Fragment existingFragment = pagerAdapter.getExistingFragment(position);
         if (existingFragment == null) {
-            Log.d(TAG, "removePage: " + "null page " + position);
+            if (Dlog.DEBUG) Log.d(TAG, "removePage: " + "null page " + position);
             return;
         }
         //save file and remove tab entry
@@ -166,7 +167,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         //remove page
         pagerAdapter.remove(position);
         invalidateTab();
-        Toast.makeText(this, R.string.closed + " " + filePath, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.closed) + " " + filePath, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -318,9 +319,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     @Nullable
     protected File getCurrentFile() {
         EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
-        String filePath = null;
         if (editorFragment != null) {
-            filePath = editorFragment.getFilePath();
+            String filePath = editorFragment.getFilePath();
             return new File(filePath);
         }
         return null;
