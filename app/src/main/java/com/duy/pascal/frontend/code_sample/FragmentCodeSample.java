@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,32 +73,34 @@ public class FragmentCodeSample extends Fragment {
     }
 
     private class LoadCodeTask extends AsyncTask<Object, Object, ArrayList<CodeSampleEntry>> {
-        private ArrayList<CodeSampleEntry> codeSampleEntries;
+        private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
 
         @Override
         protected ArrayList<CodeSampleEntry> doInBackground(Object... params) {
-            Log.d(TAG, "doInBackground: ");
-            codeSampleEntries = new ArrayList<>();
-            String category = getArguments().getString(TAG);
-            CodeCategory codeCategory = new CodeCategory(category, "");
-            String[] list;
-            String path = "code_sample/" + getArguments().getString(TAG).toLowerCase();
-            Log.d(TAG, "doInBackground: " + path);
             try {
-                AssetManager assets = getContext().getAssets();
-                list = assets.list(path);
-                for (String fileName : list) {
-                    Log.d(TAG, "doInBackground: " + fileName);
-                    if (fileName.endsWith(".pas")) {
-                        String content =
-                                ApplicationFileManager.streamToString(assets.open(path + "/" + fileName));
-                        codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
+                String category = getArguments().getString(TAG);
+                CodeCategory codeCategory = new CodeCategory(category, "");
+                String[] list;
+                String path = "code_sample/" + getArguments().getString(TAG).toLowerCase();
+                Log.d(TAG, "doInBackground: " + path);
+                try {
+                    AssetManager assets = getContext().getAssets();
+                    list = assets.list(path);
+                    for (String fileName : list) {
+                        Log.d(TAG, "doInBackground: " + fileName);
+                        if (fileName.endsWith(".pas")) {
+                            String content =
+                                    ApplicationFileManager.streamToString(assets.open(path + "/" + fileName));
+                            codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
+                        }
                     }
+                } catch (IOException ignored) {
+                    Dlog.e(ignored);
                 }
-            } catch (IOException ignored) {
-                Dlog.e(ignored);
+                codeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
+            } catch (Exception e) {
+                FirebaseCrash.report(e);
             }
-            codeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
             return codeSampleEntries;
         }
 

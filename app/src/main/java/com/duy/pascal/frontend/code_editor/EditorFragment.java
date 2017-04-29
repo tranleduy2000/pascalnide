@@ -107,6 +107,9 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        saveFile();
+        mCodeEditor.saveHistory(getFilePath());
+
         unbinder.unbind();
     }
 
@@ -141,11 +144,6 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.find(find, regex, wordOnly, matchCase);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        saveFile();
-    }
 
     @Override
     public void saveFile() {
@@ -159,7 +157,7 @@ public class EditorFragment extends Fragment implements EditorListener {
                         Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(),
-                        getString(R.string.can_not_save_file) +  " " + (new File(filePath).getName()),
+                        getString(R.string.can_not_save_file) + " " + (new File(filePath).getName()),
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -238,7 +236,7 @@ public class EditorFragment extends Fragment implements EditorListener {
 
     public String getFilePath() {
         String path = getArguments().getString(CompileManager.FILE_PATH);
-        if (path == null){
+        if (path == null) {
             return "";
         } else {
             return path;

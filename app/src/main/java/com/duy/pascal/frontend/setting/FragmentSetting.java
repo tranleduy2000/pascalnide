@@ -42,5 +42,6 @@ public class FragmentSetting extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_font_size)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_frame_rate)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_max_buffer_size)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.key_max_page)));
     }
 }

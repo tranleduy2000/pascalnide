@@ -45,7 +45,6 @@ import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.SelectThemeActivity;
-import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
@@ -422,7 +421,9 @@ public class EditorActivity extends BaseEditorActivity implements
                         if (!line.isEmpty()) {
                             EditorFragment editorFragment
                                     = (EditorFragment) pagerAdapter.getCurrentFragment();
-                            editorFragment.goToLine(Integer.parseInt(line));
+                            if (editorFragment != null) {
+                                editorFragment.goToLine(Integer.parseInt(line));
+                            }
                         }
                         dialog.cancel();
                     }
@@ -460,10 +461,18 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void undo() {
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            editorFragment.undo();
+        }
     }
 
     @Override
     public void redo() {
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            editorFragment.redo();
+        }
     }
 
 
@@ -540,14 +549,11 @@ public class EditorActivity extends BaseEditorActivity implements
         /**
          * check can undo
          */
-       /* if (mPascalPreferences.getBoolean(getString(R.string.key_back_undo))) {
-            if (mCodeEditor.canUndo()) {
-                undo();
-                return;
-            }
+        if (mPascalPreferences.getBoolean(getString(R.string.key_back_undo))) {
+            undo();
+            return;
         }
 
-       */
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.exit)

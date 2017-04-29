@@ -659,7 +659,8 @@ public class HighlightEditor extends AutoSuggestsEditText
      */
     public void goToLine(int line) {
         Layout layout = getLayout();
-        line = Math.min(line, getLineCount() - 1);
+        line = Math.min(line - 1, getLineCount() - 1);
+        line = Math.max(0, line);
         if (layout != null) {
             int index = layout.getLineEnd(line);
             setSelection(index);
