@@ -19,7 +19,9 @@ package com.duy.pascal.frontend.code_editor;
 public interface EditorListener {
     void saveAs();
 
-    void findAndReplace();
+    void doFindAndReplace(String from, String to, boolean regex, boolean matchCase);
+
+    void doFind(String find, boolean regex, boolean wordOnly, boolean matchCase);
 
     void saveFile();
 
@@ -45,5 +47,4 @@ public interface EditorListener {
 
     void insert(CharSequence text);
 
-    void find();
 }

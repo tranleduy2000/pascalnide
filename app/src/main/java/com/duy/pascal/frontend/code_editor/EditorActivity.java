@@ -31,6 +31,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,7 @@ import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureItem;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.duy.pascal.frontend.view.code_view.SuggestItem;
 import com.google.common.collect.ListMultimap;
@@ -131,10 +134,39 @@ public class EditorActivity extends BaseEditorActivity implements
      */
     @Override
     public void findAndReplace() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
-        if (editorFragment != null) {
-            editorFragment.findAndReplace();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
+        builder.setView(R.layout.dialog_find_and_replace);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
+        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
+        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
+        final EditText editReplace = (EditText) alertDialog.findViewById(R.id.edit_replace);
+        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
+        alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+                if (editorFragment != null) {
+                    editorFragment.doFindAndReplace(
+                            editFind.getText().toString(),
+                            editReplace.getText().toString(),
+                            ckbRegex.isChecked(),
+                            ckbMatch.isChecked());
+                }
+                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+
     }
 
     @Override
@@ -151,10 +183,37 @@ public class EditorActivity extends BaseEditorActivity implements
      * replace dialog find
      */
     public void showDialogFind() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
-        if (editorFragment != null) {
-            editorFragment.find();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
+        builder.setView(R.layout.find_dialog);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
+        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
+        final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
+        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
+        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
+        alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+                if (editorFragment != null) {
+                    editorFragment.doFind(editFind.getText().toString(),
+                            ckbRegex.isChecked(),
+                            ckbWordOnly.isChecked(),
+                            ckbMatch.isChecked());
+                }
+                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+
     }
 
     @Override

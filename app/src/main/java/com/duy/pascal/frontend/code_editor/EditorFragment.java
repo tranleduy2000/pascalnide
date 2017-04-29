@@ -128,41 +128,15 @@ public class EditorFragment extends Fragment implements EditorListener {
     }
 
     @Override
-    public void findAndReplace() {
- /*AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
-        builder.setView(R.layout.dialog_find_and_replace);
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
-        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
-        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
-        final EditText editReplace = (EditText) alertDialog.findViewById(R.id.edit_replace);
-        assert editFind != null;
-        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
-        alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 01-Mar-17 replace
-                assert ckbRegex != null;
-                assert editReplace != null;
-                assert ckbMatch != null;
-                mCodeEditor.replaceAll(
-                        editFind.getText().toString(),
-                        editReplace.getText().toString(),
-                        ckbRegex.isChecked(),
-                        ckbMatch.isChecked());
-                mCodeEditor.refresh();
-                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });*/
+    public void doFindAndReplace(String from, String to, boolean regex, boolean matchCase) {
+        mCodeEditor.replaceAll(from, to, regex, matchCase);
     }
+
+    @Override
+    public void doFind(String find, boolean regex, boolean wordOnly, boolean matchCase) {
+        mCodeEditor.find(find, regex, wordOnly, matchCase);
+    }
+
 
     @Override
     public void saveFile() {
@@ -226,36 +200,6 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.insert(text);
     }
 
-    @Override
-    public void find() {
-          /*  AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
-        builder.setView(R.layout.find_dialog);
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
-        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
-        final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
-        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
-        assert editFind != null;
-        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
-        alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCodeEditor.find(editFind.getText().toString(),
-                        ckbRegex.isChecked(),
-                        ckbWordOnly.isChecked(),
-                        ckbMatch.isChecked());
-                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });*/
-    }
 
     public CodeView getEditor() {
         return mCodeEditor;

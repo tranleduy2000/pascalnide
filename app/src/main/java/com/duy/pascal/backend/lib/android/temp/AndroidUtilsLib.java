@@ -89,7 +89,6 @@ public class AndroidUtilsLib implements PascalLibrary {
         }
     }
 
-
     public Intent startActivityForResult(final Intent intent) {
         FutureActivityTask<Intent> task = new FutureActivityTask<Intent>() {
             @Override
