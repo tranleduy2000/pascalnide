@@ -407,8 +407,7 @@ public enum OperatorTypes {
         @Override
         public void verifyOperation(DeclaredType GCF)
                 throws BadOperationTypeException {
-            if (GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder) {
+            if (GCF == BasicType.Boolean) {
                 throw new BadOperationTypeException();
             }
         }
@@ -439,8 +438,7 @@ public enum OperatorTypes {
         @Override
         public void verifyOperation(DeclaredType GCF)
                 throws BadOperationTypeException {
-            if (GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder) {
+            if (GCF == BasicType.Boolean) {
                 throw new BadOperationTypeException();
             }
         }
@@ -452,7 +450,7 @@ public enum OperatorTypes {
 
         @Override
         public String toString() {
-            return ">=";
+            return ">";
         }
     },
     EQUALS(false) {
@@ -517,8 +515,7 @@ public enum OperatorTypes {
         @Override
         public void verifyOperation(DeclaredType GCF)
                 throws BadOperationTypeException {
-            if (GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder) {
+            if (GCF == BasicType.Boolean) {
                 throw new BadOperationTypeException();
             }
         }
@@ -550,8 +547,7 @@ public enum OperatorTypes {
         @Override
         public void verifyOperation(DeclaredType GCF)
                 throws BadOperationTypeException {
-            if (GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder) {
+            if (GCF == BasicType.Boolean) {
                 throw new BadOperationTypeException();
             }
         }
@@ -679,6 +675,13 @@ public enum OperatorTypes {
     }
 
     public Object operate(boolean b1, boolean b2)
+            throws OperationNotSupportedException {
+        throw new OperationNotSupportedException(this
+                + " does not support operating on boolean types");
+
+    }
+
+    public Object operate(StringBuilder b1, StringBuilder b2)
             throws OperationNotSupportedException {
         throw new OperationNotSupportedException(this
                 + " does not support operating on boolean types");

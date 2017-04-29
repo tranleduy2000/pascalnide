@@ -21,7 +21,6 @@ public class StringBiOperatorEval extends BinaryOperatorEvaluation {
     }
 
 
-
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         switch (operator_type) {
@@ -40,10 +39,17 @@ public class StringBiOperatorEval extends BinaryOperatorEvaluation {
         String v2 = value2.toString();
         switch (operator_type) {
             case EQUALS:
-//                System.out.println(v1 + " " + v2 + " " + v1.equals(v2));
                 return v1.equals(v2);
             case NOTEQUAL:
                 return !v1.equals(v2);
+            case LESSTHAN:
+                return v1.compareTo(v2) < 0;
+            case LESSEQ:
+                return v1.compareTo(v2) <= 0;
+            case GREATEREQ:
+                return v1.compareTo(v2) >= 0;
+            case GREATERTHAN:
+                return v1.compareTo(v2) > 0;
             case PLUS:
                 return new StringBuilder(v1).append(v2);
             default:
