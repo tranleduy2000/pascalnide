@@ -80,8 +80,9 @@ import java.util.Set;
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
 
-public class AndroidMediaPlayerLib  implements PascalLibrary, MediaPlayer.OnCompletionListener {
+public class AndroidMediaPlayerLib implements PascalLibrary, MediaPlayer.OnCompletionListener {
 
+    public static final String NAME = "aMedia".toLowerCase();
     private final Map<String, MediaPlayer> mPlayers = new Hashtable<>();
     private final Map<String, String> mUrls = new Hashtable<>();
     private final Context mContext;

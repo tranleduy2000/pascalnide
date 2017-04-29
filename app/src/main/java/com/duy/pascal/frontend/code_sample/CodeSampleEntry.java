@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.sample;
+package com.duy.pascal.frontend.code_sample;
 
 /**
  * Created by Duy on 08-Apr-17.

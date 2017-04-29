@@ -19,8 +19,6 @@ package com.duy.pascal.frontend;
 import android.view.View;
 
 public interface EditorControl {
-
-
     boolean doCompile();
 
     void saveAs();

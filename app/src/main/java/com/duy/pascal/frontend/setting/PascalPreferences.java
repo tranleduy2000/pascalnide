@@ -102,7 +102,15 @@ public class PascalPreferences {
     }
 
     public int getInt(String key) {
-        return sharedPreferences.getInt(key, -1);
+        try {
+            return sharedPreferences.getInt(key, -1);
+        } catch (Exception e) {
+            try {
+                return Integer.parseInt(getString(key));
+            } catch (Exception e2) {
+            }
+        }
+        return -1;
     }
 
     /**
@@ -232,6 +240,16 @@ public class PascalPreferences {
 
     public void setWordWrap(boolean b) {
         put(context.getString(R.string.key_pref_word_wrap), b);
+    }
 
+    public int getMaxPage() {
+        int count = getInt(context.getString(R.string.key_max_page));
+        count = Math.min(30, count);
+        count = Math.max(1, count);
+        return count;
+    }
+
+    public void setMaxPage(int count) {
+        put(context.getString(R.string.key_max_page), count);
     }
 }

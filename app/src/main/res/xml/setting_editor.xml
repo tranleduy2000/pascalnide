@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +22,14 @@
             android:key="@string/key_pref_auto_compile"
             android:summary="@string/auto_compile_summary"
             android:title="@string/auto_compile" />
+
+        <EditTextPreference
+            android:contentDescription="@string/max_page_desc"
+            android:defaultValue="5"
+            android:inputType="number"
+            android:key="@string/key_max_page"
+            android:title="@string/max_page" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_pref_word_wrap"
@@ -133,10 +140,10 @@
 
     <PreferenceCategory android:title="@string/keyboard_shortcut">
         <ListPreference
-            android:key="@string/key_pref_control"
             android:defaultValue="@string/volume_down"
             android:entries="@array/control_key"
             android:entryValues="@array/control_key"
+            android:key="@string/key_pref_control"
             android:title="Ctrl Key" />
     </PreferenceCategory>
 

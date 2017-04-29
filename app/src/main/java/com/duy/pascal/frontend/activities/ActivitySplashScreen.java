@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 
 

@@ -20,33 +20,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.duy.pascal.frontend.activities.EditorActivity">
+    tools:context="com.duy.pascal.frontend.code_editor.EditorActivity">
 
-    <com.duy.pascal.frontend.view.LockableScrollView
-        android:id="@+id/vertical_scroll"
+    <!-- <com.duy.pascal.frontend.view.LockableScrollView
+         android:id="@+id/vertical_scroll"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_above="@+id/container_symbol"
+         android:fillViewport="true">
+
+
+         <com.duy.pascal.frontend.view.code_view.CodeView
+             android:id="@+id/code_editor"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:dropDownAnchor="@+id/app_bar"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:gravity="top|start"
+             android:hint="@string/write_code_here"
+             android:inputType="textMultiLine|textNoSuggestions"
+             android:scrollbarSize="5dip"
+             android:scrollbars="vertical">
+
+             <requestFocus />
+         </com.duy.pascal.frontend.view.code_view.CodeView>
+
+     </com.duy.pascal.frontend.view.LockableScrollView>-->
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/container_symbol"
-        android:fillViewport="true">
+        android:id="@+id/view_pager"
+        android:layout_above="@+id/container_symbol">
 
-
-        <com.duy.pascal.frontend.view.code_view.CodeView
-            android:id="@+id/code_editor"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dropDownAnchor="@+id/app_bar"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="top|start"
-            android:hint="@string/write_code_here"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:scrollbarSize="5dip"
-            android:scrollbars="vertical">
-
-            <requestFocus />
-        </com.duy.pascal.frontend.view.code_view.CodeView>
-
-    </com.duy.pascal.frontend.view.LockableScrollView>
+    </android.support.v4.view.ViewPager>
 
     <LinearLayout
         android:id="@+id/container_symbol"

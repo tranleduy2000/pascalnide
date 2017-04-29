@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.sample;
+package com.duy.pascal.frontend.code_sample;
 
 import java.util.ArrayList;
 

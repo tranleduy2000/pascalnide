@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.sample;
+package com.duy.pascal.frontend.code_sample;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.sample;
+package com.duy.pascal.frontend.code_sample;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

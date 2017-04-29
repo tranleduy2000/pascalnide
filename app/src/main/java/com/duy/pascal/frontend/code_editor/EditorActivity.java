@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.activities;
+package com.duy.pascal.frontend.code_editor;
 
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,45 +27,29 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatEditText;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.PascalLibraryManager;
-import com.duy.pascal.backend.lib.SystemLib;
-import com.duy.pascal.backend.lib.file.FileLib;
-import com.duy.pascal.backend.lib.io.IOLib;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokenizer.AutoIndentCode;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code.CodeSample;
+import com.duy.pascal.frontend.activities.SelectThemeActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
-import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
+import com.duy.pascal.frontend.code_sample.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogFragmentErrorMsg;
+import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureItem;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.sample.DocumentActivity;
-import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.utils.LineUtils;
-import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
-import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
-import com.duy.pascal.frontend.view.code_view.HighlightEditor;
 import com.duy.pascal.frontend.view.code_view.SuggestItem;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
@@ -109,25 +92,11 @@ public class EditorActivity extends BaseEditorActivity implements
                 return menuEditor.onOptionsItemSelected(item);
             }
         });
-        initContent();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return menuEditor.onOptionsItemSelected(item);
-    }
-
-    public void initContent() {
-        mCodeEditor.setEditorControl(this);
-        mCodeEditor.setVerticalScroll(mScrollView);
-        mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
-            @Override
-            public void onScroll(int x, int y) {
-                mCodeEditor.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
-            }
-        });
-        mCodeEditor.setSuggestData(PascalLibraryManager.getAllMethod(SystemLib.class,
-                IOLib.class, FileLib.class));
     }
 
     @OnClick(R.id.img_tab)
@@ -137,12 +106,18 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onKeyClick(View view, String text) {
-        mCodeEditor.insert(text);
+        EditorFragment currentFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (currentFragment != null) {
+            currentFragment.insert(text);
+        }
     }
 
     @Override
     public void onKeyLongClick(String text) {
-        mCodeEditor.insert(text);
+        EditorFragment currentFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (currentFragment != null) {
+            currentFragment.insert(text);
+        }
     }
 
     @Override
@@ -156,44 +131,15 @@ public class EditorActivity extends BaseEditorActivity implements
      */
     @Override
     public void findAndReplace() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
-        builder.setView(R.layout.dialog_find_and_replace);
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
-        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
-        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
-        final EditText editReplace = (EditText) alertDialog.findViewById(R.id.edit_replace);
-        assert editFind != null;
-        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
-        alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 01-Mar-17 replace
-                assert ckbRegex != null;
-                assert editReplace != null;
-                assert ckbMatch != null;
-                mCodeEditor.replaceAll(
-                        editFind.getText().toString(),
-                        editReplace.getText().toString(),
-                        ckbRegex.isChecked(),
-                        ckbMatch.isChecked());
-                mCodeEditor.refresh();
-                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            editorFragment.findAndReplace();
+        }
     }
 
     @Override
     public void runProgram() {
-        if (doCompile()) mCompileManager.execute(mFilePath);
+        if (doCompile()) mCompileManager.execute(getCurrentFilePath());
     }
 
     @Override
@@ -205,40 +151,18 @@ public class EditorActivity extends BaseEditorActivity implements
      * replace dialog find
      */
     public void showDialogFind() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
-        builder.setView(R.layout.find_dialog);
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
-        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
-        final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
-        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
-        assert editFind != null;
-        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
-        alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCodeEditor.find(editFind.getText().toString(),
-                        ckbRegex.isChecked(),
-                        ckbWordOnly.isChecked(),
-                        ckbMatch.isChecked());
-                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            editorFragment.find();
+        }
     }
 
     @Override
     public void saveFile() {
-        boolean result = mFileManager.saveFile(mFilePath, getCode());
-        if (result) Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show();
-        else Toast.makeText(this, R.string.can_not_save_file, Toast.LENGTH_SHORT).show();
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            editorFragment.saveFile();
+        }
     }
 
     @Override
@@ -250,33 +174,20 @@ public class EditorActivity extends BaseEditorActivity implements
     private void showLineError(final ParsingException e) {
         if (e != null) {
             if (e.line != null) {
-                LineInfo lineInfo = e.line;
-                mCodeEditor.setLineError(lineInfo);
-                mCodeEditor.refresh();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                                mCodeEditor.getLineCount(), e.line.line));
-                    }
-                }, 100);
+                EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+                if (editorFragment != null) {
+                    editorFragment.setLineError(e.line);
+                }
             }
         }
     }
 
     public String getCode() {
-        return mCodeEditor.getCleanText();
-    }
-
-    /**
-     * set text code to {@link CodeView}
-     *
-     * @param code
-     */
-    public void setCode(String code) {
-        mCodeEditor.setText(code);
-        mCodeEditor.clearHistory();
-        mCodeEditor.refresh();
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            return editorFragment.getCode();
+        }
+        return "";
     }
 
     /**
@@ -285,11 +196,11 @@ public class EditorActivity extends BaseEditorActivity implements
      */
     @Override
     public boolean doCompile() {
-        mFileManager.saveFile(mFilePath, getCode());
+        String filePath = getCurrentFilePath();
+        if (filePath.isEmpty()) return false;
         try {
             PascalProgram pascalProgram = new PascalCompiler(null)
-                    .loadPascal(mFilePath,
-                            new FileReader(mFilePath),
+                    .loadPascal(filePath, new FileReader(filePath),
                             new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
             if (pascalProgram.main == null) {
                 showErrorDialog(new MainProgramNotFoundException());
@@ -306,7 +217,10 @@ public class EditorActivity extends BaseEditorActivity implements
                 listVariables.add(new SuggestItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
             }
             data.addAll(listVariables);
-            mCodeEditor.setSuggestData(data);
+            EditorFragment currentFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+            if (currentFragment != null) {
+                currentFragment.getEditor().setSuggestData(data);
+            }
         } catch (FileNotFoundException e) {
             showErrorDialog(e);
             return false;
@@ -330,24 +244,6 @@ public class EditorActivity extends BaseEditorActivity implements
         Dlog.e(e);
     }
 
-    /**
-     * load file and set text to editor
-     *
-     * @param filePath - filePath of file, do not include path
-     */
-    protected void loadFile(final String filePath) {
-        try {
-            File file = new File(filePath);
-            String txt = mFileManager.readFileAsString(file);
-            setCode(txt);
-            mFilePath = filePath;
-            mPascalPreferences.put(PascalPreferences.FILE_PATH, filePath);
-        } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -357,7 +253,6 @@ public class EditorActivity extends BaseEditorActivity implements
         } else {
             mContainerSymbol.setVisibility(View.GONE);
         }
-        mCodeEditor.updateFromSettings();
     }
 
 
@@ -367,29 +262,22 @@ public class EditorActivity extends BaseEditorActivity implements
                 || s.equals(getString(R.string.key_show_line_number))
                 || s.equals(getString(R.string.show_suggest_popup))
                 || s.equals(getString(R.string.key_pref_word_wrap))) {
-            mCodeEditor.updateFromSettings();
+            EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+            if (editorFragment != null) {
+                editorFragment.refreshCodeEditor();
+            }
         } else if (s.equals(getString(R.string.key_show_symbol))) {
-            mContainerSymbol.setVisibility(mPascalPreferences.isShowListSymbol() ? View.VISIBLE : View.GONE);
+            mContainerSymbol.setVisibility(mPascalPreferences.isShowListSymbol()
+                    ? View.VISIBLE : View.GONE);
         } else {
             super.onSharedPreferenceChanged(sharedPreferences, s);
         }
     }
 
-    /**
-     * save current project
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mFileManager.saveFile(mFilePath, getCode());
-        mPascalPreferences.put(PascalPreferences.FILE_PATH, mFilePath);
-    }
-
     @Override
     public void onFileClick(File file) {
         //save current file
-        addNewTab(file, SELECT, SAVE_LAST_FILE);
-
+        addNewPageEditor(file, SELECT, SAVE_LAST_FILE);
         //close drawer
         mDrawerLayout.closeDrawers();
     }
@@ -439,14 +327,14 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     public void createNewSourceFile(View view) {
 
-        DialogCreateNewFile dialogCreateNewFile = DialogCreateNewFile.getInstance();
+     /*   DialogCreateNewFile dialogCreateNewFile = DialogCreateNewFile.getInstance();
         dialogCreateNewFile.show(getSupportFragmentManager(), DialogCreateNewFile.TAG);
         dialogCreateNewFile.setListener(new DialogCreateNewFile.OnCreateNewFileListener() {
             @Override
             public void onFileCreated(File file) {
                 saveFile();
                 //add to view
-                addNewTab(file, SELECT, SAVE_LAST_FILE);
+                addNewPageEditor(file, SELECT, SAVE_LAST_FILE);
                 mCodeEditor.setText(CodeSample.MAIN);
                 mCodeEditor.refresh();
                 //select before update
@@ -458,12 +346,12 @@ public class EditorActivity extends BaseEditorActivity implements
             public void onCancel() {
 
             }
-        });
+        });*/
     }
 
     @Override
     public void goToLine() {
-        final AppCompatEditText edittext = new AppCompatEditText(this);
+        /*final AppCompatEditText edittext = new AppCompatEditText(this);
         edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
         edittext.setMaxEms(5);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -484,53 +372,25 @@ public class EditorActivity extends BaseEditorActivity implements
                         dialog.cancel();
                     }
                 });
-        builder.create().show();
+        builder.create().show();*/
     }
 
     @Override
     public void formatCode() {
-        String text = getCode();
-        AutoIndentCode autoIndentCode = new AutoIndentCode();
-        String result = autoIndentCode.format(text);
-        setCode(result);
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            editorFragment.formatCode();
+        }
     }
 
     @Override
     public void checkUpdate() {
-        rateApp();
+        goToPlayStore();
     }
 
     @Override
     public void reportBug() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.report_bug).setView(R.layout.report_bug_dialog).setIcon(R.drawable.ic_bug_report_white_24dp);
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        final EditText editTitle = (EditText) alertDialog.findViewById(R.id.edit_title);
-        final EditText editContent = (EditText) alertDialog.findViewById(R.id.edit_content);
-        final Button btnSend = (Button) alertDialog.findViewById(R.id.btn_email);
-        assert btnSend != null;
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"tranleduy1233@gmail.com"});
-                assert editTitle != null;
-                i.putExtra(Intent.EXTRA_SUBJECT, "Report bug: " + editTitle.getText().toString());
-                assert editContent != null;
-                String content = "Cause: \n" + editContent.getText().toString();
-                content += "\n ====================== \n" + mCodeEditor.getCleanText();
-                i.putExtra(Intent.EXTRA_TEXT, content);
-                try {
-                    startActivity(Intent.createChooser(i, getString(R.string.send_mail)));
-                } catch (ActivityNotFoundException ex) {
-                    Toast.makeText(EditorActivity.this, R.string.no_mail_clients, Toast.LENGTH_SHORT).show();
-                }
-                alertDialog.cancel();
-            }
-        });
-
+        DialogManager.createDialogReportBug(this, getCode());
     }
 
     @Override
@@ -540,14 +400,10 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void undo() {
-        if (mCodeEditor.canUndo()) mCodeEditor.undo();
-        else Toast.makeText(this, R.string.cant_undo, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void redo() {
-        if (mCodeEditor.canRedo()) mCodeEditor.redo();
-        else Toast.makeText(this, R.string.cant_redo, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -563,17 +419,13 @@ public class EditorActivity extends BaseEditorActivity implements
                 try {
                     path = mFileManager.getPath(this, uri);
                     mFileManager.setWorkingFilePath(path);
-                    loadFile(path);
+                    addNewPageEditor(new File(path), SELECT, SAVE_LAST_FILE);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
-    }
-
-    public void openFileView(View view) {
-        mDrawerLayout.openDrawer(GravityCompat.START);
     }
 
     @Override
@@ -583,7 +435,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        hideKeyboard(mCodeEditor);
+        closeKeyBoard();
     }
 
     @Override
@@ -593,14 +445,18 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void paste() {
-        String text = ClipboardManager.getClipboard(this);
-        mCodeEditor.paste();
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            editorFragment.paste();
+        }
     }
 
     @Override
     public void copyAll() {
-        String text = mCodeEditor.getCleanText();
-        ClipboardManager.setClipboard(this, text);
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            editorFragment.copyAll();
+        }
     }
 
     @Override
@@ -624,12 +480,14 @@ public class EditorActivity extends BaseEditorActivity implements
         /**
          * check can undo
          */
-        if (mPascalPreferences.getBoolean(getString(R.string.key_back_undo))) {
+       /* if (mPascalPreferences.getBoolean(getString(R.string.key_back_undo))) {
             if (mCodeEditor.canUndo()) {
                 undo();
                 return;
             }
         }
+
+       */
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.exit)
@@ -652,13 +510,19 @@ public class EditorActivity extends BaseEditorActivity implements
         mDrawerLayout.openDrawer(gravity);
     }
 
-    public void showProgramStructure() {
-        saveFile();
+    private String getCurrentFilePath() {
+        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        if (editorFragment != null) {
+            return editorFragment.getFilePath();
+        }
+        return "";
+    }
 
+    public void showProgramStructure() {
         try {
+            String filePath = getCurrentFilePath();
             PascalProgram pascalProgram = new PascalCompiler(null)
-                    .loadPascal(mFilePath,
-                            new FileReader(mFilePath),
+                    .loadPascal(filePath, new FileReader(filePath),
                             new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
 
             if (pascalProgram.main == null) {
@@ -674,7 +538,6 @@ public class EditorActivity extends BaseEditorActivity implements
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private StructureItem getNode(ExpressionContextMixin context, String nameOfNode, int type, int depth) {
         StructureItem node = new StructureItem(type, nameOfNode);
@@ -721,6 +584,6 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     public void startDebug() {
-        if (doCompile()) mCompileManager.debug(mFilePath);
+        if (doCompile()) mCompileManager.debug(getCurrentFilePath());
     }
 }

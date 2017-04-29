@@ -1,4 +1,4 @@
-package com.duy.pascal.frontend.sample;
+package com.duy.pascal.frontend.code_sample;
 
 import android.content.res.AssetManager;
 import android.os.AsyncTask;

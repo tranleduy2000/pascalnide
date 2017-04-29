@@ -50,7 +50,6 @@ import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.js.interpreter.ast.returnsvalue.VariableAccess;
 
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -214,8 +213,8 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 }
                 librarieNames.add(next.toString());
                 pascalLibraryManager.addMethodFromClass(
-                        pascalLibraryManager.mapLibraries.get(((WordToken) next).name),
-                        Modifier.PUBLIC);
+                        pascalLibraryManager.mapLibraries.get(((WordToken) next).name)
+                );
                 next = i.peek();
                 if (next instanceof SemicolonToken) {
                     break;

@@ -36,17 +36,19 @@ import java.util.concurrent.CountDownLatch;
 public class AndroidTextToSpeechLib implements PascalLibrary {
     public static final String NAME = "aTTSpeech".toLowerCase();
 
-    private final TextToSpeech mTextToSpeech;
-    private final CountDownLatch mOnInitLock;
+    private  TextToSpeech mTextToSpeech;
+    private  CountDownLatch mOnInitLock;
 
     public AndroidTextToSpeechLib(AndroidLibraryManager manager) {
-        mOnInitLock = new CountDownLatch(1);
-        mTextToSpeech = new TextToSpeech(manager.getContext(), new OnInitListener() {
-            @Override
-            public void onInit(int arg0) {
-                mOnInitLock.countDown();
-            }
-        });
+        if (manager.getContext() != null) {
+            mOnInitLock = new CountDownLatch(1);
+            mTextToSpeech = new TextToSpeech(manager.getContext(), new OnInitListener() {
+                @Override
+                public void onInit(int arg0) {
+                    mOnInitLock.countDown();
+                }
+            });
+        }
     }
 
     @Override
@@ -64,7 +66,7 @@ public class AndroidTextToSpeechLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Speaks the provided message via TTS.")
-    public void speak(@PascalParameter(name = "message") StringBuilder message){
+    public void speak(@PascalParameter(name = "message") StringBuilder message) {
         try {
             mOnInitLock.await();
         } catch (InterruptedException e) {
@@ -81,7 +83,7 @@ public class AndroidTextToSpeechLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Returns True if speech is currently in progress.")
-    public boolean isSpeaking()  {
+    public boolean isSpeaking() {
         try {
             mOnInitLock.await();
         } catch (InterruptedException e) {
@@ -103,8 +105,6 @@ public class AndroidTextToSpeechLib implements PascalLibrary {
     public void setLanguage(StringBuilder code) {
         mTextToSpeech.setLanguage(new Locale(code.toString()));
     }
-
-
 
     @PascalMethod(description = "Sets the speech pitch for the TextToSpeech engine.")
     public void setPitch(double d) {

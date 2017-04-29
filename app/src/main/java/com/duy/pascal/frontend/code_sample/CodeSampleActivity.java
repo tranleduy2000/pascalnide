@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.sample;
+package com.duy.pascal.frontend.code_sample;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +25,7 @@ import android.view.MenuItem;
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
-import com.duy.pascal.frontend.activities.EditorActivity;
+import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
@@ -41,9 +41,9 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
     //    @BindView(R.id.toolbar)
 //    Toolbar toolbar;
-    @BindView(R.id.viewpager)
+    @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.tab)
+    @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     //    @BindView(R.id.searchView)
 //    SearchView searchView;

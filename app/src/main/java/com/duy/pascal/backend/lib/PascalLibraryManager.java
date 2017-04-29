@@ -43,6 +43,7 @@ import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.lib.templated.SetLengthFunction;
 import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePluginDeclaration;
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
@@ -53,7 +54,6 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
@@ -64,7 +64,7 @@ import java.util.Map;
 
 public class PascalLibraryManager {
     private static final String TAG = "PascalLibraryUtils";
-    public final Map<String, Class<? extends PascalLibrary>> mapLibraries = new Hashtable<>();
+    public static final Map<String, Class<? extends PascalLibrary>> mapLibraries = new Hashtable<>();
     @NonNull
     private ExpressionContextMixin program;
     @Nullable
@@ -79,7 +79,7 @@ public class PascalLibraryManager {
         initMapLib();
     }
 
-    public static ArrayList<SuggestItem> getAllMethod(Class<?>... classes) {
+    public static ArrayList<SuggestItem> getAllMethodDescription(Class<?>... classes) {
         ArrayList<SuggestItem> suggestItems = new ArrayList<>();
         for (Class<?> aClass : classes) {
             Method[] methods = aClass.getDeclaredMethods();
@@ -88,8 +88,6 @@ public class PascalLibraryManager {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
                         PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                         String description = annotation.description();
-                        Type[] genericParameterTypes = method.getGenericParameterTypes();
-//                        System.out.println(method.getName() + "  " + Arrays.toString(genericParameterTypes));
                         suggestItems.add(new SuggestItem(StructureType.TYPE_FUNCTION, method.getName(), description));
                     }
                 } else {
@@ -110,10 +108,10 @@ public class PascalLibraryManager {
         mapLibraries.put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
         mapLibraries.put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
 
-        mapLibraries.put("amedia", AndroidMediaPlayerLib.class);
-        mapLibraries.put("autils", AndroidUtilsLib.class);
+        mapLibraries.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
+        mapLibraries.put(AndroidUtilsLib.NAME, AndroidUtilsLib.class);
         mapLibraries.put(AndroidToneGeneratorLib.NAME, AndroidToneGeneratorLib.class);
-        mapLibraries.put("awifi", AndroidWifiLib.class);
+        mapLibraries.put(AndroidWifiLib.NAME, AndroidWifiLib.class);
         mapLibraries.put(AndroidSettingLib.NAME, AndroidSettingLib.class);
         mapLibraries.put(AndroidBluetoothLib.NAME, AndroidBluetoothLib.class);
 
@@ -136,7 +134,7 @@ public class PascalLibraryManager {
                                      int modifier) {
 
         for (Class<? extends PascalLibrary> pascalPlugin : classes) {
-            addMethodFromClass(pascalPlugin, Modifier.PUBLIC);
+            addMethodFromClass(pascalPlugin);
         }
     }
 
@@ -144,8 +142,8 @@ public class PascalLibraryManager {
      * load method from a class
      */
 
-    public void addMethodFromClass(Class<? extends PascalLibrary> pascalPlugin,
-                                   int modifier) {
+    public void addMethodFromClass(Class<? extends PascalLibrary> pascalPlugin) {
+        if (Dlog.DEBUG) Log.d(TAG, "addMethodFromClass: " + pascalPlugin.getName());
         Object parent = null;
         Constructor constructor;
         try {
@@ -181,12 +179,13 @@ public class PascalLibraryManager {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
                         PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                         String description = annotation.description();
-                        System.out.println(description);
+                        if (Dlog.DEBUG) Log.i(TAG, "addMethodFromClass: " + method.getName());
                         MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method, description);
                         program.declareFunction(methodDeclaration);
                     }
                 } else {
                     if (Modifier.isPublic(method.getModifiers())) {
+                        if (Dlog.DEBUG) Log.i(TAG, "addMethodFromClass: " + method.getName());
                         MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method);
                         program.declareFunction(methodDeclaration);
                     }
@@ -223,9 +222,9 @@ public class PascalLibraryManager {
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}
-        addMethodFromClass(FileLib.class, Modifier.PUBLIC);
-        addMethodFromClass(IOLib.class, Modifier.PUBLIC);
-        addMethodFromClass(SystemLib.class, Modifier.PUBLIC);
+        addMethodFromClass(FileLib.class);
+        addMethodFromClass(IOLib.class);
+        addMethodFromClass(SystemLib.class);
 
         SetLengthFunction setLength = new SetLengthFunction();
         TemplatePluginDeclaration method = new TemplatePluginDeclaration(setLength);

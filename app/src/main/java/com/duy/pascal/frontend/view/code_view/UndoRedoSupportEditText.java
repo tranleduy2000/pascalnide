@@ -74,7 +74,6 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
     }
 
 
-
     /**
      * undo text
      */
@@ -120,7 +119,7 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
         try {
             mUndoRedoHelper.restorePersistentState(
                     PreferenceManager.getDefaultSharedPreferences(getContext()), key);
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
@@ -321,4 +320,7 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
     }
 
 
+    public void copyAll() {
+        mClipboardManager.setText(getText());
+    }
 }

@@ -85,7 +85,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (fileAdapterListener != null)
                     fileAdapterListener.onItemClick(v, fileName, FileAdapterListener.ACTION_CLICK);
             }

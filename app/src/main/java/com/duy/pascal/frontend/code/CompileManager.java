@@ -20,7 +20,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.duy.pascal.frontend.activities.DebugActivity;
-import com.duy.pascal.frontend.activities.EditorActivity;
+import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 
 /**

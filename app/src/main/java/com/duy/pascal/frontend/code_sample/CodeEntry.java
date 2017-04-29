@@ -14,22 +14,34 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.sample;
-
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-
-import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
+package com.duy.pascal.frontend.code_sample;
 
 /**
- * Created by Duy on 27-Feb-17.
+ * Created by Duy on 04-Mar-17.
  */
 
-public class DocumentActivity extends AbstractAppCompatActivity {
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.document);
+class CodeEntry {
+    private String name;
+    private String content;
+
+    public CodeEntry(String name, String content) {
+        this.name = name;
+        this.content = content;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

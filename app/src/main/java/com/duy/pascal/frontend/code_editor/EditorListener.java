@@ -14,5 +14,36 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor;
+package com.duy.pascal.frontend.code_editor;
 
+public interface EditorListener {
+    void saveAs();
+
+    void findAndReplace();
+
+    void saveFile();
+
+    void goToLine(int line);
+
+    /**
+     * beautiful code
+     */
+    void formatCode();
+
+    void undo();
+
+    void redo();
+
+    void paste();
+
+    void copyAll();
+
+    /**
+     * @return current content of editor
+     */
+    String getCode();
+
+    void insert(CharSequence text);
+
+    void find();
+}

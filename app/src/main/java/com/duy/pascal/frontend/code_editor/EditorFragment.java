@@ -1,0 +1,286 @@
+/*
+ *  Copyright 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use getContext() file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.frontend.code_editor;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.duy.pascal.backend.lib.PascalLibraryManager;
+import com.duy.pascal.backend.lib.SystemLib;
+import com.duy.pascal.backend.lib.file.FileLib;
+import com.duy.pascal.backend.lib.io.IOLib;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokenizer.AutoIndentCode;
+import com.duy.pascal.frontend.EditorControl;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.utils.LineUtils;
+import com.duy.pascal.frontend.view.LockableScrollView;
+import com.duy.pascal.frontend.view.code_view.CodeView;
+import com.duy.pascal.frontend.view.code_view.HighlightEditor;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
+/**
+ * Created by Duy on 15-Mar-17.
+ */
+
+public class EditorFragment extends Fragment implements EditorListener {
+    @BindView(R.id.code_editor)
+    CodeView mCodeEditor;
+    @BindView(R.id.vertical_scroll)
+    LockableScrollView mScrollView;
+    private Unbinder unbinder;
+    private ApplicationFileManager mFileManager;
+    private Handler handler = new Handler();
+
+    public static Fragment newInstance(String filePath) {
+        EditorFragment editorFragment = new EditorFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CompileManager.FILE_PATH, filePath);
+        editorFragment.setArguments(bundle);
+        return editorFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mFileManager = new ApplicationFileManager(getContext());
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_editor, container, false);
+        unbinder = ButterKnife.bind(this, view);
+
+        ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
+        String code = fileManager.readFileAsString(getArguments().getString(CompileManager.FILE_PATH));
+        mCodeEditor.setTextHighlighted(code);
+
+        try {
+            mCodeEditor.setEditorControl((EditorControl) getActivity());
+        } catch (Exception e) {
+
+        }
+        mCodeEditor.setVerticalScroll(mScrollView);
+        mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
+            @Override
+            public void onScroll(int x, int y) {
+                mCodeEditor.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
+            }
+        });
+        mCodeEditor.setSuggestData(PascalLibraryManager.getAllMethodDescription(SystemLib.class,
+                IOLib.class, FileLib.class));
+        return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mCodeEditor.updateFromSettings();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void saveAs() {
+
+    }
+
+    @Override
+    public void findAndReplace() {
+ /*AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
+        builder.setView(R.layout.dialog_find_and_replace);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
+        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
+        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
+        final EditText editReplace = (EditText) alertDialog.findViewById(R.id.edit_replace);
+        assert editFind != null;
+        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
+        alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 01-Mar-17 replace
+                assert ckbRegex != null;
+                assert editReplace != null;
+                assert ckbMatch != null;
+                mCodeEditor.replaceAll(
+                        editFind.getText().toString(),
+                        editReplace.getText().toString(),
+                        ckbRegex.isChecked(),
+                        ckbMatch.isChecked());
+                mCodeEditor.refresh();
+                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });*/
+    }
+
+    @Override
+    public void saveFile() {
+        String filePath = getArguments().getString(CompileManager.FILE_PATH);
+        boolean result = mFileManager.saveFile(filePath, getCode());
+        if (result) {
+            Toast.makeText(getContext(), R.string.saved, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), R.string.can_not_save_file, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void goToLine(int line) {
+
+    }
+
+    @Override
+    public void formatCode() {
+        String text = getCode();
+        AutoIndentCode autoIndentCode = new AutoIndentCode();
+        String result = autoIndentCode.format(text);
+        mCodeEditor.setTextHighlighted(result);
+    }
+
+    @Override
+    public void undo() {
+        if (mCodeEditor.canUndo()) {
+            mCodeEditor.undo();
+        } else {
+            Toast.makeText(getContext(), R.string.cant_undo, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void redo() {
+        if (mCodeEditor.canRedo()) {
+            mCodeEditor.redo();
+        } else {
+            Toast.makeText(getContext(), R.string.cant_redo, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void paste() {
+        mCodeEditor.paste();
+    }
+
+    @Override
+    public void copyAll() {
+        mCodeEditor.copyAll();
+    }
+
+    @Override
+    public String getCode() {
+        return mCodeEditor.getCleanText();
+    }
+
+    @Override
+    public void insert(CharSequence text) {
+        mCodeEditor.insert(text);
+    }
+
+    @Override
+    public void find() {
+          /*  AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
+        builder.setView(R.layout.find_dialog);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);
+        final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
+        final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
+        final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
+        assert editFind != null;
+        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
+        alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCodeEditor.find(editFind.getText().toString(),
+                        ckbRegex.isChecked(),
+                        ckbWordOnly.isChecked(),
+                        ckbMatch.isChecked());
+                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });*/
+    }
+
+    public CodeView getEditor() {
+        return mCodeEditor;
+    }
+
+    public void setLineError(@NonNull final LineInfo lineInfo) {
+        mCodeEditor.setLineError(lineInfo);
+        mCodeEditor.refresh();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
+                        mCodeEditor.getLineCount(), lineInfo.line));
+            }
+        }, 100);
+    }
+
+    public void refreshCodeEditor() {
+        mCodeEditor.updateFromSettings();
+    }
+
+    public String getFilePath() {
+        return getTag();
+    }
+
+    public void hideKeyboard() {
+    }
+}

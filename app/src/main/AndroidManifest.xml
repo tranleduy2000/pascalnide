@@ -27,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.EditorActivity"
+            android:name=".code_editor.EditorActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
         <activity
@@ -88,11 +88,11 @@
             android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".sample.DocumentActivity"
+            android:name=".code_sample.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:icon="@drawable/ic_info_white_24dp" />
         <activity
-            android:name=".sample.CodeSampleActivity"
+            android:name=".code_sample.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:label="@string/title_activity_code_sample">
             <intent-filter>
@@ -114,9 +114,16 @@
             android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.googlecode.sl4a.activity.FutureActivity" />
+        <activity android:name=".code_sample.SearchResultSampleActivity" />
         <activity
-            android:name=".sample.SearchResultSampleActivity"
-        ></activity>
+            android:name=".code_editor.TestActivity"
+            android:label="@string/title_activity_test">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

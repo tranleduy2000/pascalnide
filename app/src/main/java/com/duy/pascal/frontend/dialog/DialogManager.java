@@ -17,8 +17,14 @@
 package com.duy.pascal.frontend.dialog;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 
@@ -57,6 +63,41 @@ public class DialogManager {
             }
         });
         return builder.create();
+
+    }
+
+    public static void createDialogReportBug(final Activity activity, final String code) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(R.string.report_bug).setView(R.layout.report_bug_dialog).setIcon(R.drawable.ic_bug_report_white_24dp);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        final EditText editTitle = (EditText) alertDialog.findViewById(R.id.edit_title);
+        final EditText editContent = (EditText) alertDialog.findViewById(R.id.edit_content);
+        final Button btnSend = (Button) alertDialog.findViewById(R.id.btn_email);
+        assert btnSend != null;
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"tranleduy1233@gmail.com"});
+                assert editTitle != null;
+                i.putExtra(Intent.EXTRA_SUBJECT, "Report bug: " + editTitle.getText().toString());
+                assert editContent != null;
+                StringBuilder content = new StringBuilder();
+                content.append("Cause: \n");
+                content.append(editContent.getText().toString());
+                content.append("\n ====================== \n");
+                content.append(code);
+                i.putExtra(Intent.EXTRA_TEXT, content.toString());
+                try {
+                    activity.startActivity(Intent.createChooser(i, activity.getString(R.string.send_mail)));
+                } catch (ActivityNotFoundException ex) {
+                    Toast.makeText(activity, R.string.no_mail_clients, Toast.LENGTH_SHORT).show();
+                }
+                alertDialog.cancel();
+            }
+        });
 
     }
 }

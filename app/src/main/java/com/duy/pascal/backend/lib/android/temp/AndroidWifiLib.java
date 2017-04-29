@@ -37,6 +37,7 @@ import java.util.Map;
  */
 public class AndroidWifiLib implements PascalLibrary {
 
+    public static final String NAME = "aWifi".toLowerCase();
     private WifiManager mWifi;
     private WifiLock mLock;
 

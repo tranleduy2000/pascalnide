@@ -30,9 +30,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.duy.pascal.frontend.activities.EditorActivity;
+import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.info_application.InfoActivity;
-import com.duy.pascal.frontend.sample.CodeSampleActivity;
+import com.duy.pascal.frontend.code_sample.CodeSampleActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingActivity;
 
@@ -42,6 +42,7 @@ import com.duy.pascal.frontend.setting.SettingActivity;
  */
 
 public class MenuEditor {
+    @NonNull
     private EditorActivity activity;
     @Nullable
     private EditorControl listener;
@@ -100,7 +101,7 @@ public class MenuEditor {
                 activity.startActivity(new Intent(activity, CodeSampleActivity.class));
                 break;
             case R.id.action_rate:
-                activity.rateApp();
+                activity.goToPlayStore();
                 break;
             case R.id.action_more_app:
                 activity.moreApp(null);

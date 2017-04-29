@@ -22,7 +22,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.Layout;
@@ -34,7 +33,6 @@ import android.text.method.ArrowKeyMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -365,7 +363,7 @@ public class HighlightEditor extends AutoSuggestsEditText
         if (showlines) {
             mLinePadding = (int) (Math.floor(Math.log10(count)) + 1);
             mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize())
-                    + mPadding + (textSize * mScale * 0.5));
+                    + mPadding /*+ (textSize * mScale * 0.5)*/);
             setPadding(mLinePadding, mPadding, mPadding, mPadding);
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);
@@ -545,10 +543,6 @@ public class HighlightEditor extends AutoSuggestsEditText
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             for (Matcher m = keywords.matcher(input); m.find(); ) {
-                e.setSpan(new StyleSpan(Typeface.BOLD),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 e.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
                         start + m.start(),
                         start + m.end(),
@@ -631,11 +625,11 @@ public class HighlightEditor extends AutoSuggestsEditText
             for (int n = spans.length; n-- > 0; )
                 e.removeSpan(spans[n]);
         }
-        {
-            StyleSpan[] spans = e.getSpans(start, end, StyleSpan.class);
-            for (int n = spans.length; n-- > 0; )
-                e.removeSpan(spans[n]);
-        }
+//        {
+//            StyleSpan[] spans = e.getSpans(start, end, StyleSpan.class);
+//            for (int n = spans.length; n-- > 0; )
+//                e.removeSpan(spans[n]);
+//        }
         {
             UnderlineSpan[] spans = e.getSpans(start, end, UnderlineSpan.class);
             for (int n = spans.length; n-- > 0; )

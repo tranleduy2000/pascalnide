@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context="com.duy.pascal.frontend.sample.CodeSampleActivity">
+    tools:context="com.duy.pascal.frontend.code_sample.CodeSampleActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

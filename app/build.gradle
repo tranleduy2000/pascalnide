@@ -16,7 +16,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def versionCode = variant.versionCode
-            def apkName = "/apk/" + "pascal_" +  versionName + '_' + versionCode + '.apk';
+            def apkName = "/apk/" + "pascal_" + versionName + '_' + versionCode + '.apk';
             output.outputFile = new File(output.outputFile.parentFile, apkName)
         }
     }
@@ -39,6 +39,9 @@ repositories {
     maven { url "https://clojars.org/repo/" }
     maven { url 'http://dl.bintray.com/amulyakhare/maven' }
     mavenCentral()
+    maven {
+        url "https://s3.amazonaws.com/repo.commonsware.com"
+    }
 }
 
 dependencies {
@@ -66,5 +69,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     androidTestCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile project(':pager')
 }
 apply plugin: 'com.google.gms.google-services'

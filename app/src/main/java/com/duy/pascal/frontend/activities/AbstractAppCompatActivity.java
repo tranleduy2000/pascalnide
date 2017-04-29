@@ -198,11 +198,11 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         this.showDialog("", msg);
     }
 
-    public void rateApp() {
-        this.rateApp(null);
+    public void goToPlayStore() {
+        this.goToPlayStore(null);
     }
 
-    public void rateApp(View view) {
+    public void goToPlayStore(View view) {
         Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,

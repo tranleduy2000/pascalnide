@@ -185,8 +185,9 @@ class FileEntry {
     }
 
     public void nextLine() {
-        if (scanner.hasNext())
+        if (scanner.hasNext()) {
             scanner.nextLine();
+        }
     }
 
     public boolean isOpened() {
