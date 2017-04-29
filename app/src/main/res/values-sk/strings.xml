@@ -148,5 +148,8 @@
     <string name="var_name">Variable name</string>
     <string name="program_stopped">Program is stopped</string>
     <string name="no_document">No document</string>
+    <string name="implicitly">implicitly</string>
+    <string name="max_page">Max page</string>
+    <string name="max_page_desc">Number of maximum page display on the screen</string>
 </resources>
 

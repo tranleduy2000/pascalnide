@@ -50,6 +50,7 @@ import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.exceptions.SubRangeException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
+import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTypeException;
 import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
@@ -151,6 +152,13 @@ public class ExceptionManager {
             }
             if (e instanceof ChangeValueConstantException) {
                 return getMessageResource(e, R.string.ChangeValueConstantException);
+            }
+            if (e instanceof UnConvertibleTypeException) {
+                UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
+                return getMessageResource(e, R.string.UnConvertibleTypeException,
+                        exception.obj, exception.out,
+                        exception.implicit ? context.getString(R.string.implicitly) : "",
+                        exception.in);
             }
 
             if (e instanceof LibraryNotFoundException) {

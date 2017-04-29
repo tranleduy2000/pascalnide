@@ -75,5 +75,6 @@
     <string name="MissingCommaTokenException">Có thể thiếu dấu phẩy (,) gần dòng %1$s</string>
     <string name="StrayCharacterException">Kí tự không xác định trong chương trình: %1$s</string>
     <string name="StackOverflowException">Stack overflow error.</string>
+    <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be %3$s converted to the type %4$s</string>
 
 </resources>

@@ -112,7 +112,7 @@
     <string name="view_console">Ver consola</string>
     <string name="resume_program">Reanudar programa</string>
     <string name="help_me_translate">Ayúdame a traducir!</string>
-    <string name="name">Tú nombre</string>
+    <string name="your_name">Tú nombre</string>
     <string name="send_to_me">Enviar al desarrollador</string>
     <string name="rerun">Volver a ejecutar programa actual</string>
     <string name="translate">Traducciónes</string>
@@ -149,6 +149,9 @@
     <string name="var_name">Nombre de la variable</string>
     <string name="program_stopped">El programa se detuvo</string>
     <string name="no_document">No document</string>
+    <string name="implicitly">implicitly</string>
+    <string name="max_page">Max page</string>
+    <string name="max_page_desc">Number of maximum page display on the screen</string>
 </resources>
 
 

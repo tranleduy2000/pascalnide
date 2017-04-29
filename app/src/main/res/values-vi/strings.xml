@@ -147,4 +147,7 @@
     <string name="var_name">Tên biến</string>
     <string name="program_stopped">Chương trình đã dừng</string>
     <string name="no_document">Không có tài liệu</string>
+    <string name="implicitly">không thể</string>
+    <string name="max_page">Số trang lớn nhất</string>
+    <string name="max_page_desc">Số lượng trang lớn nhất có thể hiển thị</string>
 </resources>

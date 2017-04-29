@@ -76,5 +76,6 @@
     <string name="MissingCommaTokenException">Missing comma (,) token near line %1$s</string>
     <string name="StrayCharacterException">Stray character in program: %1$s</string>
     <string name="StackOverflowException">Stack overflow error.</string>
+    <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be %3$s converted to the type %4$s</string>
 
 </resources>
