@@ -109,8 +109,14 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         tabLayout.setupWithViewPager(viewPager);
         invalidateTab();
 
+        if (pagerAdapter.getCount() == 0) {
+            String fileName = Integer.toHexString((int) System.currentTimeMillis());
+            String filePath = mFileManager.createNewFileInMode(fileName);
+            addNewPageEditor(new File(filePath), SELECT, UN_SAVE_LAST_FILE);
+        }
+
         int pos = mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE);
-        if (pagerAdapter.getCount() > pos){
+        if (pagerAdapter.getCount() > pos) {
             viewPager.setCurrentItem(pos);
         }
     }

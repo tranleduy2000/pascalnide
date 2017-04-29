@@ -115,15 +115,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.googlecode.sl4a.activity.FutureActivity" />
         <activity android:name=".code_sample.SearchResultSampleActivity" />
-        <activity
-            android:name=".code_editor.TestActivity"
-            android:label="@string/title_activity_test">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

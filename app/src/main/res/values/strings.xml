@@ -20,7 +20,7 @@
     <string name="save">Save</string>
     <string name="ok">OK</string>
 
-    <string name="new_file">New items file</string>
+    <string name="new_file">New source file</string>
 
     <string name="default_">System</string>
     <string name="language">Language</string>
@@ -150,7 +150,6 @@
     <string name="var_name">Variable name</string>
     <string name="program_stopped">Program is stopped</string>
     <string name="no_document">No document</string>
-    <string name="title_activity_test">TestActivity</string>
     <string name="max_page_desc">Number of maximum page display on the screen</string>
     <string name="max_page">Max page</string>
     <string name="implicitly">implicitly</string>

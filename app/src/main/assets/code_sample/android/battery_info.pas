@@ -54,8 +54,8 @@ begin
     case i of
     -1: writeln('unknown');
     0: writeln('unplugged');
-    1: writeln('power items is an AC charger');
-    2: writeln('power items is a USB port');
+    1: writeln('power source is an AC charger');
+    2: writeln('power source is a USB port');
     end;
 end;
 
