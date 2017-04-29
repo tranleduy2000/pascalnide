@@ -118,7 +118,7 @@ public class GraphScreen {
     }
 
     public void setWidth(int visibleWidth) {
-        if (width < 1) width = 1;
+        if (visibleWidth < 1) visibleWidth = 1;
         this.width = visibleWidth;
     }
 
@@ -127,7 +127,7 @@ public class GraphScreen {
     }
 
     public void setHeight(int visibleHeight) {
-        if (height < 1) height = 1;
+        if (visibleHeight < 1) visibleHeight = 1;
         this.height = visibleHeight;
     }
 
