@@ -151,7 +151,7 @@ public class EditorFragment extends Fragment implements EditorListener {
 
     @Override
     public void goToLine(int line) {
-
+        mCodeEditor.goToLine(line);
     }
 
     @Override

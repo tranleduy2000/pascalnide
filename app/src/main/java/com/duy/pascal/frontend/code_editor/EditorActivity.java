@@ -27,6 +27,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,9 +45,11 @@ import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.SelectThemeActivity;
+import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
+import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentErrorMsg;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
@@ -255,6 +259,7 @@ public class EditorActivity extends BaseEditorActivity implements
      */
     @Override
     public boolean doCompile() {
+        saveFile();
         String filePath = getCurrentFilePath();
         if (filePath.isEmpty()) return false;
         try {
@@ -385,8 +390,7 @@ public class EditorActivity extends BaseEditorActivity implements
      */
     @Override
     public void createNewSourceFile(View view) {
-
-     /*   DialogCreateNewFile dialogCreateNewFile = DialogCreateNewFile.getInstance();
+        DialogCreateNewFile dialogCreateNewFile = DialogCreateNewFile.getInstance();
         dialogCreateNewFile.show(getSupportFragmentManager(), DialogCreateNewFile.TAG);
         dialogCreateNewFile.setListener(new DialogCreateNewFile.OnCreateNewFileListener() {
             @Override
@@ -394,23 +398,19 @@ public class EditorActivity extends BaseEditorActivity implements
                 saveFile();
                 //add to view
                 addNewPageEditor(file, SELECT, SAVE_LAST_FILE);
-                mCodeEditor.setText(CodeSample.MAIN);
-                mCodeEditor.refresh();
-                //select before update
-                mCodeEditor.selectAll();
+
                 mDrawerLayout.closeDrawers();
             }
 
             @Override
             public void onCancel() {
-
             }
-        });*/
+        });
     }
 
     @Override
     public void goToLine() {
-        /*final AppCompatEditText edittext = new AppCompatEditText(this);
+        final AppCompatEditText edittext = new AppCompatEditText(this);
         edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
         edittext.setMaxEms(5);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -420,8 +420,9 @@ public class EditorActivity extends BaseEditorActivity implements
                     public void onClick(DialogInterface dialog, int id) {
                         String line = edittext.getText().toString();
                         if (!line.isEmpty()) {
-                            // TODO: 03-Apr-17
-                            mCodeEditor.goToLine(Integer.parseInt(line));
+                            EditorFragment editorFragment
+                                    = (EditorFragment) pagerAdapter.getCurrentFragment();
+                            editorFragment.goToLine(Integer.parseInt(line));
                         }
                         dialog.cancel();
                     }
@@ -431,7 +432,7 @@ public class EditorActivity extends BaseEditorActivity implements
                         dialog.cancel();
                     }
                 });
-        builder.create().show();*/
+        builder.create().show();
     }
 
     @Override

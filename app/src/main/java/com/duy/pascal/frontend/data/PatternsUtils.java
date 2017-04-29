@@ -48,7 +48,7 @@ public class PatternsUtils {
             "\\b(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
-                    "|odd|int|halt|odd)\\b");
+                    "|odd|int|halt|odd)\\b",  Pattern.CASE_INSENSITIVE );
 
     public static final Pattern comments = Pattern.compile(
             "(//.*)|(/\\*(?:.|[\\n\\r])*?\\*/)" +
@@ -57,7 +57,7 @@ public class PatternsUtils {
 
     public static final Pattern symbols = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;]");
 
-    public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
+//    public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
 
     public static final Pattern strings = Pattern.compile("('(.*?)')|('(.*?)\\n$)");
 

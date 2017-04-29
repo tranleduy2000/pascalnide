@@ -77,7 +77,6 @@ public class HighlightEditor extends AutoSuggestsEditText
     public float textSize = 13;
     public boolean wordWrap = true;
     public boolean flingToScroll = true;
-    public OnTextChangedListener onTextChangedListener = null;
     public LineInfo lineError = null;
     private final Runnable compileProgram = new Runnable() {
         @Override
@@ -127,9 +126,6 @@ public class HighlightEditor extends AutoSuggestsEditText
         @Override
         public void run() {
             highlightWithoutChange(getText());
-            if (onTextChangedListener != null) {
-                onTextChangedListener.onTextChanged(getText().toString());
-            }
         }
     };
     private float lastX = 0;
@@ -393,8 +389,6 @@ public class HighlightEditor extends AutoSuggestsEditText
         modified = false;
         setText(highlight(new SpannableStringBuilder(text), false));
         modified = true;
-        if (onTextChangedListener != null)
-            onTextChangedListener.onTextChanged(text.toString());
     }
 
     public void refresh() {
@@ -594,7 +588,7 @@ public class HighlightEditor extends AutoSuggestsEditText
                     int lineEnd = getLayout().getLineEnd(lineError.line);
                     lineStart += lineError.column;
                     if (lineStart < lineEnd) {
-                        e.setSpan(new UnderlineSpan(),
+                        e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
