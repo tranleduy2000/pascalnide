@@ -24,6 +24,8 @@ public class BadOperationTypeException extends ParsingException {
         this.value1 = v1;
         this.value2 = v2;
         this.operatorTypes = operation;
+        declaredType = t1;
+        declaredType1 = t2;
     }
 
     public BadOperationTypeException(LineInfo line, OperatorTypes operator) {
