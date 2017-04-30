@@ -150,7 +150,7 @@ Digit = [0-9]
 Char = "#" {Digit}+
 Integer = {Digit}+
 Float	= {Digit}+ "." {Digit}+
-WhiteSpace = ([ \pascalPlugin] | {LineTerminator})+
+WhiteSpace = ([ \t] | {LineTerminator})+
 
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r|\n|]
@@ -168,7 +168,7 @@ TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}
 
 
-IncludeStatement = {CommentStarter}\$(("i" [ \pascalPlugin]) |"include")
+IncludeStatement = {CommentStarter}\$(("i" [ \t]) |"include")
 CompilerDirective = {CommentStarter}\$ {RestOfComment}
 
 %state STRING
@@ -189,7 +189,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 
     {Char} {return new CharacterToken(getLine(),yytext());}
 	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
-	{Integer} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext()));}
+	{Integer} {return new LongToken(getLine(),Long.parseLong(yytext()));}
 	
 	"and" {return new OperatorToken(getLine(),OperatorTypes.AND); }
 	"not" {return new OperatorToken(getLine(),OperatorTypes.NOT); }
@@ -242,7 +242,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"record" {return new RecordToken(getLine());}
 	"case" {return new CaseToken(getLine());}
 	"break" {return new BreakToken(getLine());}
-	"exit" {return new ExitToken(getLine());}
+
 	"(" {return new ParenthesizedToken(getLine());}
 	"[" {return new BracketedToken(getLine());}
 	"end" {return new EndToken(getLine());}
@@ -292,9 +292,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException pascalPlugin = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
-			pascalPlugin.caused = e;
-			return new GroupingExceptionToken(pascalPlugin);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+			t.caused = e;
+			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     }
@@ -307,9 +307,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException pascalPlugin = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
-			pascalPlugin.caused = e;
-			return new GroupingExceptionToken(pascalPlugin);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+			t.caused = e;
+			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     }
@@ -322,9 +322,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException pascalPlugin = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
-			pascalPlugin.caused = e;
-			return new GroupingExceptionToken(pascalPlugin);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+			t.caused = e;
+			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     	}

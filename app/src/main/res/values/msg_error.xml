@@ -44,7 +44,7 @@
     <string name="ConstantCalculationException">Error while computing constant value: %1$s</string>
     <string name="LibraryNotFoundException">Can not find library %1$s</string>
     <string name="MultipleDefaultValuesException">Default Values can only be used when declaring variables one at a time.</string>
-    <string name="NonArrayIndexed">Tried to do indexed access on something which wasn\'pascalPlugin an array or a string. It was a %1$s</string>
+    <string name="NonArrayIndexed">Tried to do indexed access on something which wasn\'t an array or a string. It was a %1$s</string>
     <string name="NonConstantExpressionException">The expression %1$s is not constant.</string>
     <string name="NonIntegerIndexException">Array index must be integers: %1$s</string>
     <string name="NoSuchFunctionOrVariableException">%1$s is not a variable or function name</string>
@@ -69,7 +69,7 @@
     <string name="InvalidNumericFormatException">Reported when a non-numeric value is read from a text file, and a numeric value was expected.</string>
     <string name="NonIntegerException">Value must be integers: %1$s</string>
     <string name="ChangeValueConstantException">The value stored in a constant cannot be changed.</string>
-    <string name="token_not_belong">The following name doesn\'pascalPlugin belong here: </string>
+    <string name="token_not_belong">The following name doesn\'t belong here: </string>
     <string name="SubRangeException">Upper bound of range is less than lower bound.\n
         Current lower is %1$s and upper is %2$s</string>
     <string name="MissingSemicolonTokenException">Missing semicolon (;) token near line %1$s</string>

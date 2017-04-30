@@ -24,12 +24,13 @@ public class FunctionOnStack extends VariableContext {
     private VariableContext parentContext;
     private RuntimeExecutable<?> main;
     @SuppressWarnings("rawtypes")
-    private
-    HashMap<String, VariableBoxer> referenceVariables;
+    private HashMap<String, VariableBoxer> referenceVariables;
+    private boolean procedure = false;
 
     @SuppressWarnings("rawtypes")
     public FunctionOnStack(VariableContext parentContext, RuntimeExecutable<?> main,
                            FunctionDeclaration declaration, Object[] arguments) {
+        this.procedure = declaration.isProcedure();
         // TODO: 27-Mar-17  debug function
         if (main.isDebugMode()) {
             if (declaration.isProcedure()) {
@@ -122,4 +123,7 @@ public class FunctionOnStack extends VariableContext {
         return parentContext;
     }
 
+    public boolean isProcedure() {
+        return procedure;
+    }
 }

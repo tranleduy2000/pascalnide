@@ -41,6 +41,8 @@ import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunctionDeclaration;
+import com.duy.pascal.backend.lib.templated.exit.ExitFunction;
+import com.duy.pascal.backend.lib.templated.exit.ExitNoneFunction;
 import com.duy.pascal.backend.lib.templated.length.LengthFunction;
 import com.duy.pascal.backend.lib.templated.setlength.SetLengthFunction;
 import com.duy.pascal.backend.lib.templated.sizeof.SizeOfArrayFunction;
@@ -134,8 +136,8 @@ public class PascalLibraryManager {
     public void addMethodFromClasses(ArrayList<Class<? extends PascalLibrary>> classes,
                                      int modifier) {
 
-        for (Class<? extends PascalLibrary> pascalPlugin : classes) {
-            addMethodFromClass(pascalPlugin);
+        for (Class<? extends PascalLibrary> t : classes) {
+            addMethodFromClass(t);
         }
     }
 
@@ -143,38 +145,38 @@ public class PascalLibraryManager {
      * load method from a class
      */
 
-    public void addMethodFromClass(Class<? extends PascalLibrary> pascalPlugin) {
+    public void addMethodFromClass(Class<? extends PascalLibrary> t) {
         Object parent = null;
         Constructor constructor;
         try {
-            constructor = pascalPlugin.getConstructor(InOutListener.class);
+            constructor = t.getConstructor(InOutListener.class);
             parent = constructor.newInstance(handler);
         } catch (Exception ignored) {
         }
         if (parent == null) {
             try {
-                constructor = pascalPlugin.getConstructor(ExecHandler.class);
+                constructor = t.getConstructor(ExecHandler.class);
                 parent = constructor.newInstance(handler);
             } catch (Exception ignored) {
             }
         }
         if (parent == null) {
             try {
-                constructor = pascalPlugin.getConstructor(AndroidLibraryManager.class);
+                constructor = t.getConstructor(AndroidLibraryManager.class);
                 parent = constructor.newInstance(facadeManager);
             } catch (Exception ignored) {
             }
         }
         if (parent == null) {
             try {
-                constructor = pascalPlugin.getConstructor();
+                constructor = t.getConstructor();
                 parent = constructor.newInstance();
             } catch (Exception ignored) {
             }
         }
 
         if (parent != null) {
-            for (Method method : pascalPlugin.getDeclaredMethods()) {
+            for (Method method : t.getDeclaredMethods()) {
                 if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
                         PascalMethod annotation = method.getAnnotation(PascalMethod.class);
@@ -220,6 +222,8 @@ public class PascalLibraryManager {
         program.declareFunction(new TemplatePascalFunctionDeclaration(new LengthFunction()));
         program.declareFunction(new TemplatePascalFunctionDeclaration(new SizeOfObjectFunction()));
         program.declareFunction(new TemplatePascalFunctionDeclaration(new SizeOfArrayFunction()));
+        program.declareFunction(new TemplatePascalFunctionDeclaration(new ExitFunction()));
+        program.declareFunction(new TemplatePascalFunctionDeclaration(new ExitNoneFunction()));
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}

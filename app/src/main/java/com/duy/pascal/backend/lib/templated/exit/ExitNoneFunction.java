@@ -14,39 +14,32 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.templated.length;
+package com.duy.pascal.backend.lib.templated.exit;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunction;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class LengthFunction implements TemplatePascalFunction {
+public class ExitNoneFunction implements TemplatePascalFunction {
 
-    private ArgumentType[] argumentTypes = {
-            new RuntimeType(
-                    new ArrayType<>(BasicType.anew(Object.class), new IntegerSubrangeType(0, -1)),
-                    false),};
+    private ArgumentType[] argumentTypes = new ArgumentType[]{};
 
     @Override
     public String name() {
-        return "length";
+        return "exit";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, ReturnsValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        ReturnsValue array = arguments[0];
-        return new LengthCall(array, line);
+        return new ExitNoneCall(line);
     }
 
     @Override

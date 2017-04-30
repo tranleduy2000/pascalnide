@@ -58,12 +58,12 @@ end;
 
 procedure scanner; {сканирование первого тела на собственный цвет}
 var
-    pascalPlugin: integer;
+    t: integer;
 begin
-    for pascalPlugin := -k + 2 to k - 2 do
+    for t := -k + 2 to k - 2 do
     begin
-        if getpixel(x + pascalPlugin, y) = snake_color then ending;
-        if getpixel(x, y + pascalPlugin) = snake_color then ending;
+        if getpixel(x + t, y) = snake_color then ending;
+        if getpixel(x, y + t) = snake_color then ending;
     end;
     if (x <= 10 + k) or (x >= 630 - k) or {если голова вышла за пределы поля}
     (y <= 40 + k) or (y >= 470 - k) then ending;

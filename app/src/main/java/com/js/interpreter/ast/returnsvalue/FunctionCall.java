@@ -86,7 +86,10 @@ public abstract class FunctionCall extends DebuggableExecutableReturnsValue {
     @Override
     public ExecutionResult executeImpl(VariableContext f,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
-        getValueImpl(f, main);
+        Object valueImpl = getValueImpl(f, main);
+        if (valueImpl == ExecutionResult.EXIT) {
+            return ExecutionResult.EXIT;
+        }
         return ExecutionResult.NONE;
     }
 

@@ -105,17 +105,17 @@ public class PascalCompiler {
          */
         classes.add(fileLib.getClass());
         classes.add(ioLib.getClass());
-        for (Class pascalPlugin : classes) {
+        for (Class t : classes) {
             Object o = null;
             try {
-                Constructor constructor = pascalPlugin.getConstructor(InOutListener.class);
+                Constructor constructor = t.getConstructor(InOutListener.class);
                 o = constructor.newInstance(handler);
             } catch (Exception ignored) {
             }
             if (o == null) {
                 try {
                     Constructor constructor;
-                    constructor = pascalPlugin.getConstructor(ExecHandler.class);
+                    constructor = t.getConstructor(ExecHandler.class);
                     o = constructor.newInstance(handler);
                 } catch (Exception ignored) {
                 }
@@ -123,13 +123,13 @@ public class PascalCompiler {
             if (o == null) {
                 try {
                     Constructor constructor;
-                    constructor = pascalPlugin.getConstructor();
+                    constructor = t.getConstructor();
                     o = constructor.newInstance();
                 } catch (Exception ignored) {
                 }
             }
 
-            for (Method m : pascalPlugin.getDeclaredMethods()) {
+            for (Method m : t.getDeclaredMethods()) {
                 if (Modifier.isPublic(m.getModifiers())) {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
 //                    functionTable.put(tmp.name().toLowerCase(), tmp);
