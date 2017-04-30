@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,4 +52,11 @@
         lang="Slovenčina"
         link=""
         mail="marek14michalovic@gmail.com" />
+    <user
+        name="David Meszaros"
+        code="ro"
+        image=""
+        lang="Romanian"
+        link=""
+        mail="davidmszrs22@gmail.com" />
 </help_translate>
