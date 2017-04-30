@@ -189,7 +189,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 
     {Char} {return new CharacterToken(getLine(),yytext());}
 	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
-	{Integer} {return new LongToken(getLine(),Long.parseLong(yytext()));}
+	{Integer} {return new IntegerToken(getLine(),(int)Long.parseLong(yytext()));}
 	
 	"and" {return new OperatorToken(getLine(),OperatorTypes.AND); }
 	"not" {return new OperatorToken(getLine(),OperatorTypes.NOT); }
