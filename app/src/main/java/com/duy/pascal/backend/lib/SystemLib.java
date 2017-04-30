@@ -16,8 +16,6 @@
 
 package com.duy.pascal.backend.lib;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.OrdinalExpressionExpectedException;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.InvalidFloatingPointOperation;
@@ -32,8 +30,6 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * System lib
@@ -60,8 +56,7 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "system lib")
     public void delay(long ms) {
         try {
             Thread.sleep(ms);
@@ -69,33 +64,27 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "system lib")
     public int Byte(boolean b) {
         return b ? 1 : 0;
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Generate random number")
     public int random(int range) {
-        Log.d("random", "random: " + range);
         return random.nextInt(range);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Initialize random number generator")
     public void randomize() {
         random = new Random(System.currentTimeMillis());
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Increase value of integer variable")
     public void inc(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
         inc(boxer, 1);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Increase value of integer variable")
     public void inc(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
             long count;
@@ -143,14 +132,12 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Decrease value of variable")
     public void dec(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
         dec(boxer, 1);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Decrease value of variable")
     public void dec(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
             long count;
@@ -198,80 +185,62 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
-
-    @PascalMethod(description = "system lib", returns = "null")
-
-    public int ceil(double d) {
-        return (int) Math.ceil(d);
+    @PascalMethod(description = "Truncate a floating point value.")
+    public long trunc(double d) {
+        return (long) Math.floor(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
-    public int trunc(double d) {
-        return floor(d);
-    }
-
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Return fractional part of floating point value.")
     public double frac(double d) {
         return d - Math.floor(d);
     }
 
-    @PascalMethod(description = "Return the largest integer smaller than or equal to argument", returns = "null")
-
-    public int floor(double d) {
-        return (int) Math.floor(d);
-    }
-
-
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Calculate absolute value")
     public int abs(int d) {
         return Math.abs(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Calculate absolute value")
     public long abs(long d) {
         return Math.abs(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Calculate absolute value")
     public double abs(double d) {
         return Math.abs(d);
     }
 
-
-    @PascalMethod(description = "system lib", returns = "null")
-
-    public int round(double d) {
-        return (int) Math.round(d);
+    @PascalMethod(description = "Round floating point value to nearest integer number.")
+    public long round(double d) {
+        return Math.round(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Calculate sine of angle")
     public double sin(double d) {
         return Math.sin(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Calculate cosine of angle")
     public double cos(double d) {
         return Math.cos(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
+    @PascalMethod(description = "Calculate the square of a value.")
+    public int sqr(int d) {
+        return d * d;
+    }
 
+    @PascalMethod(description = "Calculate the square of a value.")
+    public long sqr(long d) {
+        return d * d;
+    }
+
+    @PascalMethod(description = "Calculate the square of a value.")
     public double sqr(double d) {
         return d * d;
     }
 
-    /**
-     * square root
-     */
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Calculate the square root of a value")
     public double sqrt(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
             throw new InvalidFloatingPointOperation(d);
@@ -279,14 +248,12 @@ public class SystemLib implements PascalLibrary {
         return Math.sqrt(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Return previous element for an ordinal type")
     public int pred(int d) {
         return d - 1;
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "system lib")
     public int succ(int d) {
         return d + 1;
     }
@@ -294,8 +261,7 @@ public class SystemLib implements PascalLibrary {
     /**
      * logarithm function
      */
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "system lib")
     public double ln(double d) throws InvalidFloatingPointOperation {
         if (d < 0) {
             throw new InvalidFloatingPointOperation(d);
@@ -303,74 +269,60 @@ public class SystemLib implements PascalLibrary {
         return Math.log(d);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Calculate inverse tangent")
     public double arctan(double a) {
         return Math.atan(a);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Exponentiate")
     public double exp(double a) {
         return Math.exp(a);
     }
 
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Calculate integer part of floating point value.")
     public int Int(double x) {
         return (int) x;
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "Is a value odd or even ?")
     public boolean odd(long x) {
         return x % 2 == 0;
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
-
-    public void halt(int value) throws ScriptTerminatedException {
+    @PascalMethod(description = "Stop program execution")
+    public void halt(long value) throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
 
-    /**
-     * exit program
-     */
-    @PascalMethod(description = "system lib", returns = "null")
-
+    @PascalMethod(description = "")
     public void halt() throws ScriptTerminatedException {
         throw new ScriptTerminatedException(null);
     }
 
-    @PascalMethod(description = "system lib", returns = "null")
+    @PascalMethod(description = "Is a value odd or even ?")
     public boolean odd(int i) {
         return i % 2 == 1;
     }
 
-
-    @PascalMethod(description = "Convert ascii to character", returns = "null")
-
+    @PascalMethod(description = "Convert ascii to character")
     public char chr(int i) {
         return (char) i;
     }
 
 
-    @PascalMethod(description = "Convert character to ascii code", returns = "null")
-
+    @PascalMethod(description = "Convert character to ascii code")
     public int ord(char c) {
         return (int) c;
     }
 
 
-    @PascalMethod(description = "Convert number to string", returns = "null")
-
+    @PascalMethod(description = "Convert a numerical or enumeration value to a string")
     public void str(Object num, VariableBoxer<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 
-    @PascalMethod(description = " Calculate numerical/enumerated value of a string.", returns = "null")
-
+    @PascalMethod(description = " Calculate numerical/enumerated value of a string.")
     public void val(String input, VariableBoxer<Object> output, VariableBoxer<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
         try {
             input = input.trim(); //remove white space in start and end postion
@@ -394,109 +346,34 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
-    @PascalMethod(description = "none")
-    public char upcase(char s) {
+    @PascalMethod(description = "Convert a string to all uppercase.")
+    public char upCase(char s) {
         return Character.toUpperCase(s);
     }
 
+    @PascalMethod(description = "Convert a string to all uppercase.")
+    public StringBuilder upCase(StringBuilder s) {
+        return new StringBuilder(s.toString().toUpperCase());
+    }
 
-    @PascalMethod(description = "none")
+    @PascalMethod(description = "Append one string to another")
     public StringBuilder concat(StringBuilder... agrs) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Object s1 : agrs) stringBuilder.append(s1);
         return stringBuilder;
     }
 
-
-    @PascalMethod(description = "none")
+    @PascalMethod(description = "Search for substring in a string")
     public int pos(String substring, String s) {
         return s.indexOf(substring) + 1;
     }
 
-
-    @PascalMethod(description = "none")
-    public int length(String s) {
-        System.out.println("length " + s + " " + s.length());
+    @PascalMethod(description = "Returns length of a string or array.")
+    public int length(StringBuilder s) {
         return s.length();
     }
 
-
-    @PascalMethod(description = "none")
-    public String findregex(String tosearch, String regex) {
-        Pattern reg = Pattern.compile(regex);
-        Matcher m = reg.matcher(tosearch);
-        if (!m.find()) {
-            return "";
-        }
-        return tosearch.substring(m.start(), m.end());
-    }
-
-
-    @PascalMethod(description = "none")
-    public String between(String s1, String s2, String s) {
-        int startindex = s.indexOf(s1) + s1.length();
-        int endindex = s.indexOf(s2, startindex);
-        return s.substring(startindex, endindex);
-    }
-
-
-    @PascalMethod(description = "none")
-    public String capitalize(String s) {
-        boolean lastSpace = true;
-        char[] chars = s.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            if (lastSpace) {
-                chars[i] = Character.toUpperCase(chars[i]);
-                lastSpace = false;
-            }
-            if (chars[i] == ' ') {
-                lastSpace = true;
-            }
-        }
-        return new String(chars);
-    }
-
-
-    @PascalMethod(description = "none")
-    public String getletters(String s) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (Character.isLetter(c)) {
-                result.append(c);
-            }
-        }
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none")
-    public String getnumbers(String s) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (Character.isDigit(c)) {
-                result.append(c);
-            }
-        }
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none")
-    public String getothers(String s) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (!Character.isDigit(c) && !Character.isLetter(c)) {
-                result.append(c);
-            }
-        }
-        return result.toString();
-    }
-
-
-    @PascalMethod(description = "none")
+    @PascalMethod(description = "Set length of a string.")
     public void setlength(VariableBoxer<StringBuilder> s, int length)
             throws RuntimePascalException {
         String filler = "!@#$%";
@@ -517,30 +394,24 @@ public class SystemLib implements PascalLibrary {
         }
     }
 
-
-    @PascalMethod(description = "none")
-    public String trim(String s) {
-        return s.trim();
-    }
-
-    @PascalMethod(description = "none")
+    @PascalMethod(description = "Insert one string in another.")
     public void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
             throws RuntimePascalException {
         s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
     }
 
-    @PascalMethod(description = "none")
+    @PascalMethod(description = "Copy part of a string")
     public StringBuilder copy(StringBuilder s, int ifrom, int count) {
         return new StringBuilder(s.substring(ifrom - 1, ifrom - 1 + count));
     }
 
-    @PascalMethod(description = "none")
+    @PascalMethod(description = "Delete part of a string")
     public void delete(VariableBoxer<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
         s.set(s.get().delete(start - 1, start + count - 1));
     }
 
-    @PascalMethod(description = "none")
+    @PascalMethod(description = "Return size of a variable or type.")
     public int sizeof(Object[] array) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();

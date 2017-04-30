@@ -32,7 +32,6 @@ public class MathLib implements PascalLibrary {
     public static final String NAME = "math";
     private Random random = new Random();
 
-
     @PascalMethod(description = "")
     public double arcsin(double d) {
         return Math.asin(d);
@@ -179,8 +178,8 @@ public class MathLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "")
-    public int floor(double d) {
+    @PascalMethod(description = "Return the largest integer smaller than or equal to argument")
+    public long floor(double d) {
         return (int) Math.floor(d);
     }
 
