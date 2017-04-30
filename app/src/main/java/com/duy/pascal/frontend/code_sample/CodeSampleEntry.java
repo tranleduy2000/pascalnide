@@ -20,7 +20,7 @@ package com.duy.pascal.frontend.code_sample;
  * Created by Duy on 08-Apr-17.
  */
 
-public class CodeSampleEntry {
+public class CodeSampleEntry  {
     /**
      * name of file code
      */
@@ -30,6 +30,7 @@ public class CodeSampleEntry {
      * code
      */
     private String content;
+    private String query;
 
     public CodeSampleEntry(String name, String content) {
         this.name = name;
@@ -50,5 +51,16 @@ public class CodeSampleEntry {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+    protected CodeSampleEntry clone() {
+        return new CodeSampleEntry(name, content);
     }
 }

@@ -42,10 +42,13 @@ public class FragmentCodeSample extends Fragment {
         View view = inflater.inflate(R.layout.fragment_code_sample, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         adapter = new CodeSampleAdapter(getContext());
+        adapter.setHasStableIds(true);
         try {
             adapter.setListener((CodeSampleAdapter.OnCodeClickListener) getActivity());
         } catch (Exception ignored) {
         }
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(false);
@@ -56,6 +59,10 @@ public class FragmentCodeSample extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         new LoadCodeTask().execute();
+    }
+
+    public void query(String query) {
+        adapter.query(query);
     }
 
     private class LoadCodeTask extends AsyncTask<Object, Object, ArrayList<CodeSampleEntry>> {

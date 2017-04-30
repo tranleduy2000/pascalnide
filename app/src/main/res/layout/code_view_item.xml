@@ -83,18 +83,12 @@
 
         </RelativeLayout>
 
-        <HorizontalScrollView
+
+        <com.duy.pascal.frontend.view.code_view.CodeView
+            android:id="@+id/code_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
-
-            <com.duy.pascal.frontend.view.code_view.CodeView
-                android:id="@+id/code_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:editable="false" />
-        </HorizontalScrollView>
-
+            android:editable="false" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

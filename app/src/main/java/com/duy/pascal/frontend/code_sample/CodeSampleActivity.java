@@ -22,13 +22,20 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
+import com.commonsware.cwac.pager.PageDescriptor;
+import com.commonsware.cwac.pager.SimplePageDescriptor;
 import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
-import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.lapism.searchview.SearchHistoryTable;
+import com.lapism.searchview.SearchItem;
+import com.lapism.searchview.SearchView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,12 +52,13 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     ViewPager viewPager;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-    //    @BindView(R.id.searchView)
-//    SearchView searchView;
-//    @BindView(R.id.drawer_layout)
+    @BindView(R.id.search_view)
+    SearchView searchView;
+    //    @BindView(R.id.drawer_layout)
 //    DrawerLayout drawerLayout;
     private ApplicationFileManager fileManager;
-//    private SearchHistoryTable mHistoryDatabase;
+    private SearchHistoryTable mHistoryDatabase;
+    private CodePagerAdapter pagerAdapter;
 
     public CodeSampleActivity() {
         if (BuildConfig.DEBUG) {
@@ -67,41 +75,39 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         setContentView(R.layout.activity_code_sample);
         ButterKnife.bind(this);
 
-        CodePagerAdapter pagerAdapter = new CodePagerAdapter(getSupportFragmentManager(), categories);
+        final ArrayList<PageDescriptor> pages = new ArrayList<>();
+        for (String category : categories) {
+            pages.add(new SimplePageDescriptor(category, category));
+        }
+        pagerAdapter = new CodePagerAdapter(getSupportFragmentManager(), pages);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
 
-//        mHistoryDatabase = new SearchHistoryTable(this);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                mHistoryDatabase.addItem(new SearchItem(query));
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-//        searchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
-//            @Override
-//            public boolean onClose() {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onOpen() {
-//                return false;
-//            }
-//        });
-//        searchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
-//            @Override
-//            public void onMenuClick() {
-//                openDrawer();
-//            }
-//        });
+        mHistoryDatabase = new SearchHistoryTable(this);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mHistoryDatabase.addItem(new SearchItem(query));
+                searchView.close(true);
+                FragmentCodeSample fragmentCodeSample = pagerAdapter.getCurrentFragment();
+                if (fragmentCodeSample != null) {
+                    fragmentCodeSample.query(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
+            @Override
+            public void onMenuClick() {
+
+            }
+        });
     }
 
 //    private void openDrawer() {

@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
@@ -32,13 +33,14 @@ import java.util.ArrayList;
  * <p>
  * Created by Duy on 08-Apr-17.
  */
-public class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
+class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
     private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
+    private ArrayList<CodeSampleEntry> originalData = new ArrayList<>();
     private Context context;
     private LayoutInflater inflater;
     private OnCodeClickListener listener;
 
-    public CodeSampleAdapter(Context context) {
+    CodeSampleAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
@@ -55,6 +57,9 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
         //set code
         holder.codeView.setTextHighlighted(codeSampleEntry.getContent());
         holder.codeView.setCanEdit(false);
+        if (codeSampleEntry.getQuery() != null && !codeSampleEntry.getQuery().isEmpty()) {
+            holder.codeView.find(codeSampleEntry.getQuery(), false, false, false);
+        }
 
         holder.txtTitle.setText(codeSampleEntry.getName());
 
@@ -82,7 +87,8 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
         this.listener = listener;
     }
 
-    public void addCodes(ArrayList<CodeSampleEntry> listCodeCategories) {
+    void addCodes(ArrayList<CodeSampleEntry> listCodeCategories) {
+        this.originalData.addAll(listCodeCategories);
         this.codeSampleEntries.addAll(listCodeCategories);
     }
 
@@ -91,10 +97,34 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
         return codeSampleEntries.size();
     }
 
+    public void query(String query) {
+        int size = codeSampleEntries.size();
+        codeSampleEntries.clear();
+        notifyItemRangeRemoved(0, size);
+
+        int count = 0;
+        for (CodeSampleEntry codeSampleEntry : originalData) {
+            if (codeSampleEntry.getName().contains(query) ||
+                    codeSampleEntry.getContent().contains(query)) {
+                CodeSampleEntry clone = codeSampleEntry.clone();
+                clone.setQuery(query);
+                codeSampleEntries.add(clone);
+                notifyItemInserted(codeSampleEntries.size() - 1);
+                count++;
+            }
+        }
+        if (count == 0) {
+            Toast.makeText(context, "No matching", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, count + " file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     public interface OnCodeClickListener {
         void onPlay(String code);
+
         //            void onCopy(String code);
         void onEdit(String code);
     }
-
 }
