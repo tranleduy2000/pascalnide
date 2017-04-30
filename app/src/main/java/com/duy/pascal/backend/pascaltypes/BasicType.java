@@ -33,11 +33,6 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
-            return null;
-        }
-
-        @Override
         public String toString() {
             return "Boolean";
         }
@@ -60,12 +55,6 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public void setLength(ReturnsValue length) {
-
-        }
-
-        @Override
-        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
-            return null;
 
         }
 
@@ -98,10 +87,6 @@ public enum BasicType implements DeclaredType {
             this.length = length;
         }
 
-        @Override
-        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
-            return null;
-        }
 
         @Override
         public void pushDefaultValue(Code constructor_code, RegisterAllocator ra) {
@@ -123,7 +108,6 @@ public enum BasicType implements DeclaredType {
         public ReturnsValue convert(ReturnsValue valueToAssign, ExpressionContext f)
                 throws ParsingException {
             RuntimeType otherType = valueToAssign.getType(f);
-
             if (otherType.declaredType instanceof BasicType) {
                 if (this.equals(otherType.declaredType)) {
                     return new StringBuilderWithRangeType(valueToAssign, length);
@@ -164,6 +148,81 @@ public enum BasicType implements DeclaredType {
         }
 
     },
+    Byte(Byte.class) {
+        @Override
+        Object getDefaultValue() {
+            return 0;
+        }
+
+        @Override
+        public void setLength(ReturnsValue length) {
+        }
+
+        @Override
+        public String toString() {
+            return "Short";
+        }
+
+        @Override
+        public void convertStackToStorageType(Code c) {
+            c.invokestatic().setMethod(Byte.class, "valueOf", Byte.class, new Class[]{byte.class});
+        }
+
+        @Override
+        public void arrayStoreOperation(Code c) {
+            c.iastore();
+        }
+    },
+    Short(Short.class) {
+        @Override
+        Object getDefaultValue() {
+            return 0;
+        }
+
+        @Override
+        public void setLength(ReturnsValue length) {
+        }
+
+        @Override
+        public String toString() {
+            return "Short";
+        }
+
+        @Override
+        public void convertStackToStorageType(Code c) {
+            c.invokestatic().setMethod(Short.class, "valueOf", Short.class, new Class[]{short.class});
+        }
+
+        @Override
+        public void arrayStoreOperation(Code c) {
+            c.iastore();
+        }
+    },
+    Integer(Integer.class) {
+        @Override
+        Object getDefaultValue() {
+            return 0;
+        }
+
+        @Override
+        public void setLength(ReturnsValue length) {
+        }
+
+        @Override
+        public String toString() {
+            return "Integer";
+        }
+
+        @Override
+        public void convertStackToStorageType(Code c) {
+            c.invokestatic().setMethod(Integer.class, "valueOf", Integer.class, new Class[]{int.class});
+        }
+
+        @Override
+        public void arrayStoreOperation(Code c) {
+            c.iastore();
+        }
+    },
     Long(Long.class) {
         @Override
         Object getDefaultValue() {
@@ -172,12 +231,6 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public void setLength(ReturnsValue length) {
-
-        }
-
-        @Override
-        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
-            return null;
 
         }
 
@@ -198,12 +251,6 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
-            return null;
-
-        }
-
-        @Override
         public String toString() {
             return "Double";
         }
@@ -219,37 +266,6 @@ public enum BasicType implements DeclaredType {
             c.dastore();
         }
     },
-    Integer(Integer.class) {
-        @Override
-        Object getDefaultValue() {
-            return 0;
-        }
-
-        @Override
-        public void setLength(ReturnsValue length) {
-
-        }
-
-        @Override
-        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
-            return null;
-        }
-
-        @Override
-        public String toString() {
-            return "Integer";
-        }
-
-        @Override
-        public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Integer.class, "valueOf", Integer.class, new Class[]{int.class});
-        }
-
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.iastore();
-        }
-    },
     Text(File.class) {
         @Override
         Object getDefaultValue() {
@@ -259,11 +275,6 @@ public enum BasicType implements DeclaredType {
         @Override
         public void setLength(ReturnsValue length) {
 
-        }
-
-        @Override
-        public ReturnsValue getStringWithLength(StringBuilder stringBuilder) {
-            return null;
         }
 
         @Override
@@ -349,8 +360,6 @@ public enum BasicType implements DeclaredType {
      * @param length
      */
     public abstract void setLength(ReturnsValue length);
-
-    public abstract ReturnsValue getStringWithLength(StringBuilder stringBuilder);
 
     @Override
     public Class getTransferClass() {

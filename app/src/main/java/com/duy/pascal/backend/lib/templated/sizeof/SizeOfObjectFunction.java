@@ -14,44 +14,43 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.templated.length;
+package com.duy.pascal.backend.lib.templated.sizeof;
 
+
+import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunction;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class LengthFunction implements TemplatePascalFunction {
+public class SizeOfObjectFunction implements TemplatePascalFunction {
 
     private static final String TAG = "LengthFunction";
-    private ArgumentType[] argumentTypes = {
-            new RuntimeType(
-                    new ArrayType<>(BasicType.anew(Object.class), new IntegerSubrangeType(0, -1)),
-                    true),};
+    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.anew(Object.class), false)};
 
     @Override
     public String name() {
-        return "length";
+        return "sizeof";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, ReturnsValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         ReturnsValue array = arguments[0];
-        return new LengthCall(array, line);
+        Log.d(TAG, "generateCall: ");
+        return new SizeOfObjectCall(array, line);
     }
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line, ReturnsValue[] values, ExpressionContext f) throws ParsingException {
+        Log.d(TAG, "generatePerfectFitCall: ");
         return generateCall(line, values, f);
     }
 

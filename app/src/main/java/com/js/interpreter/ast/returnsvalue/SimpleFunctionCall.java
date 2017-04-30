@@ -70,7 +70,7 @@ public class SimpleFunctionCall extends FunctionCall {
                             for (int j = 0; j < sizeOfReal; j++) round.append("#");
                             DecimalFormat decimalFormat = new DecimalFormat("#." + round.toString());
                             decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
-                            decimalFormat.setRoundingMode(RoundingMode.CEILING);
+                            decimalFormat.setRoundingMode(RoundingMode.UNNECESSARY);
                             Double d = Double.parseDouble(object.toString());
                             object = new StringBuilder(decimalFormat.format(d));
                         }

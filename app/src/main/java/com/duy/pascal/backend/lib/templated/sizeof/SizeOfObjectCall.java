@@ -19,7 +19,6 @@ package com.duy.pascal.backend.lib.templated.sizeof;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
@@ -32,12 +31,12 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-class SizeOfCall extends FunctionCall {
+class SizeOfObjectCall extends FunctionCall {
 
     private LineInfo line;
     private ReturnsValue array;
 
-    SizeOfCall(ReturnsValue array, LineInfo line) {
+    SizeOfObjectCall(ReturnsValue array, LineInfo line) {
         this.array = array;
         this.line = line;
     }
@@ -66,35 +65,40 @@ class SizeOfCall extends FunctionCall {
     @Override
     public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new SizeOfCall(array.compileTimeExpressionFold(context), line);
+        return new SizeOfObjectCall(array.compileTimeExpressionFold(context), line);
     }
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        return new SizeOfCall(array.compileTimeExpressionFold(c), line);
+        return new SizeOfObjectCall(array.compileTimeExpressionFold(c), line);
     }
 
     @Override
     protected String getFunctionName() {
-        return "length";
+        return "sizeof";
     }
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        @SuppressWarnings("rawtypes")
-        ArrayType arr = (ArrayType) array.getValue(f, main);
-        int size = arr.getBounds().size;
-        Class storageClass = arr.elementType.getStorageClass();
-        if (storageClass == int.class || storageClass == Integer.class) {
-            return size * 4; //32 bit
-        } else if (storageClass == long.class || storageClass == Long.class) {
-            return size * 8; //64 bit
-        } else if (storageClass == double.class || storageClass == Double.class) {
-            return size * 8; //64 bit
-        } else if (storageClass == char.class || storageClass == Character.class) {
-            return size * 2; //16 bit
+        Object value = array.getValue(f, main);
+        if (value instanceof Integer) {
+            return 4;
+        } else if (value instanceof Long) {
+            return 8;
+        } else if (value instanceof Double) {
+            return 8;
+        } else if (value instanceof Short) {
+            return 1;
+        } else if (value instanceof Byte) {
+            return 1;
+        } else if (value instanceof Character) {
+            return 2;
+        } else if (value instanceof String) {
+            return ((String) value).length() + 1;
+        } else if (value instanceof StringBuilder) {
+            return ((StringBuilder) value).length() + 1;
         }
         return 0;
     }

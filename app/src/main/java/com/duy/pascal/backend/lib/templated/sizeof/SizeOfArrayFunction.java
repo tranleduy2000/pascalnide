@@ -17,8 +17,6 @@
 package com.duy.pascal.backend.lib.templated.sizeof;
 
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunction;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -32,7 +30,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class SizeOfFunction implements TemplatePascalFunction {
+public class SizeOfArrayFunction implements TemplatePascalFunction {
 
     private static final String TAG = "LengthFunction";
     private ArgumentType[] argumentTypes = {
@@ -41,20 +39,18 @@ public class SizeOfFunction implements TemplatePascalFunction {
 
     @Override
     public String name() {
-        return "length";
+        return "sizeof";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, ReturnsValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         ReturnsValue array = arguments[0];
-        Log.d(TAG, "generateCall: ");
-        return new SizeOfCall(array, line);
+        return new SizeOfArrayCall(array, line);
     }
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line, ReturnsValue[] values, ExpressionContext f) throws ParsingException {
-        Log.d(TAG, "generatePerfectFitCall: ");
         return generateCall(line, values, f);
     }
 
