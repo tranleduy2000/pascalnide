@@ -44,20 +44,13 @@ import com.duy.pascal.frontend.view.code_view.HighlightEditor;
 
 import java.io.File;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Created by Duy on 15-Mar-17.
  */
 
 public class EditorFragment extends Fragment implements EditorListener {
-    @BindView(R.id.code_editor)
     CodeView mCodeEditor;
-    @BindView(R.id.vertical_scroll)
     LockableScrollView mScrollView;
-    private Unbinder unbinder;
     private ApplicationFileManager mFileManager;
     private Handler handler = new Handler();
 
@@ -79,7 +72,8 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_editor, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        mCodeEditor = (CodeView) view.findViewById(R.id.code_editor);
+        mScrollView = (LockableScrollView) view.findViewById(R.id.vertical_scroll);
 
         ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
         String code = fileManager.readFileAsString(getArguments().getString(CompileManager.FILE_PATH));
@@ -89,8 +83,7 @@ public class EditorFragment extends Fragment implements EditorListener {
 
         try {
             mCodeEditor.setEditorControl((EditorControl) getActivity());
-        } catch (Exception e) {
-
+        } catch (Exception ignored) {
         }
         mCodeEditor.setVerticalScroll(mScrollView);
         mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
@@ -105,12 +98,16 @@ public class EditorFragment extends Fragment implements EditorListener {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
     public void onDestroy() {
-        super.onDestroy();
         saveFile();
         mCodeEditor.saveHistory(getFilePath());
 
-        unbinder.unbind();
+        super.onDestroy();
     }
 
     @Override
@@ -144,21 +141,23 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.find(find, regex, wordOnly, matchCase);
     }
 
-
     @Override
     public void saveFile() {
         String filePath = getArguments().getString(CompileManager.FILE_PATH);
         boolean result;
         if (filePath != null) {
-            result = mFileManager.saveFile(filePath, getCode());
-            if (result) {
-                Toast.makeText(getContext(),
-                        getString(R.string.saved) + " " + (new File(filePath).getName()),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(),
-                        getString(R.string.can_not_save_file) + " " + (new File(filePath).getName()),
-                        Toast.LENGTH_SHORT).show();
+            try {
+                String code = getCode();
+                result = mFileManager.saveFile(filePath, code);
+                if (result) {
+                    Toast.makeText(getContext(), getString(R.string.saved) + " " + (new File(filePath).getName()),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.can_not_save_file) + " " + (new File(filePath).getName()),
+                            Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
