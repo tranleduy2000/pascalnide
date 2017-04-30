@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +19,12 @@ import com.google.firebase.crash.FirebaseCrash;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Created by Duy on 28-Apr-17.
  */
 
 public class FragmentCodeSample extends Fragment {
     private static final String TAG = "FragmentCodeSample";
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-    private Unbinder unbinder;
 
     private CodeSampleAdapter adapter;
 
@@ -48,7 +40,7 @@ public class FragmentCodeSample extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_code_sample, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         adapter = new CodeSampleAdapter(getContext());
         try {
             adapter.setListener((CodeSampleAdapter.OnCodeClickListener) getActivity());
@@ -66,12 +58,6 @@ public class FragmentCodeSample extends Fragment {
         new LoadCodeTask().execute();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
     private class LoadCodeTask extends AsyncTask<Object, Object, ArrayList<CodeSampleEntry>> {
         private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
 
@@ -82,12 +68,10 @@ public class FragmentCodeSample extends Fragment {
                 CodeCategory codeCategory = new CodeCategory(category, "");
                 String[] list;
                 String path = "code_sample/" + getArguments().getString(TAG).toLowerCase();
-                Log.d(TAG, "doInBackground: " + path);
                 try {
                     AssetManager assets = getContext().getAssets();
                     list = assets.list(path);
                     for (String fileName : list) {
-                        Log.d(TAG, "doInBackground: " + fileName);
                         if (fileName.endsWith(".pas")) {
                             String content =
                                     ApplicationFileManager.streamToString(assets.open(path + "/" + fileName));
