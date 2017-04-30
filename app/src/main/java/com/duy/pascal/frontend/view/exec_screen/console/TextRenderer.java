@@ -28,9 +28,6 @@ import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
  */
 
 public class TextRenderer implements ScreenObject {
-
-    public static final String TAG = TextRenderer.class.getSimpleName();
-
     /**
      * mode text, low-high-normal
      */

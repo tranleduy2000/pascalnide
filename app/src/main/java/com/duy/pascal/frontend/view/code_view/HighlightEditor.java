@@ -23,6 +23,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Selection;
@@ -35,6 +36,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.View;
@@ -261,11 +263,9 @@ public class HighlightEditor extends AutoSuggestsEditText
 //        }
     }
 
-    public void setLineError(LineInfo lineError) {
+    public void setLineError(@NonNull LineInfo lineError) {
+        Log.i(TAG, "setLineError: " + lineError.line);
         this.lineError = lineError;
-        if (lineError == null) return;
-        int lineStart = getLayout().getLineStart(lineError.line);
-        setSelection(lineStart);
     }
 
     @Override
@@ -580,12 +580,21 @@ public class HighlightEditor extends AutoSuggestsEditText
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
+            highlightLineError(e);
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
+        return e;
+    }
+
+    private void highlightLineError(Editable e) {
+        try {
             //high light error line
             if (lineError != null) {
                 Layout layout = getLayout();
                 if (layout != null && lineError.line < getLineCount()) {
                     int lineStart = getLayout().getLineStart(lineError.line);
-                    int lineEnd = getLayout().getLineEnd(lineError.line);
+                    int lineEnd = getLayout().getLineEnd(lineError.line );
                     lineStart += lineError.column;
                     if (lineStart < lineEnd) {
                         e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
@@ -599,10 +608,8 @@ public class HighlightEditor extends AutoSuggestsEditText
                     }
                 }
             }
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
+        } catch (Exception ex) {
         }
-        return e;
     }
 
     /**

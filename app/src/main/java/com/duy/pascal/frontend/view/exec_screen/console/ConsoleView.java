@@ -166,7 +166,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return bufferData.keyBuffer.getChar();
     }
 
-    public void commitChar(String c, boolean isMaskBuffer) {
+    public synchronized void commitChar(String c, boolean isMaskBuffer) {
         int index = bufferData.firstIndex + mCursor.y * mConsoleScreen.consoleColumn + mCursor.x;
         if (index >= mConsoleScreen.getScreenSize()) {
             index -= mConsoleScreen.getScreenSize();
@@ -239,10 +239,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         }
     }
 
-    public void commitString(String msg) {
+    public synchronized void commitString(String msg) {
         for (int i = 0; i < msg.length(); i++)
             commitChar(msg.substring(i, i + 1), false);
-//        textScreen = ArrayUtils.arrayToString(bufferData.textConsole);
     }
 
     private void nextLine() {
@@ -756,7 +755,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 top + (mCursor.y - firstLine) * mTextRenderer.charHeight,
                 mTextRenderer.charHeight, mTextRenderer.charWidth, mTextRenderer.charDescent);
 
-//        Log.d(TAG, "drawText: " + mConsoleScreen.consoleRow + " row = " + mConsoleScreen.consoleColumn);
         int count = 0;
         for (int row = 0; row < mConsoleScreen.consoleRow; row++) {
             if (row > mCursor.y - firstLine) break;
@@ -772,22 +770,6 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
             if (index >= mConsoleScreen.getScreenSize()) index = 0;
         }
-
-        /**
-         * draw ime buffer
-         */
-        /*TextConsole[] textImeBuffer = new TextConsole[mImeBuffer.length()];
-        for (int i = 0; i < textImeBuffer.length; i++) {
-            textImeBuffer[i] = new TextConsole(mImeBuffer.substring(i, i + 1), ForegroundColor.DKGRAY,
-                    mTextRenderer.getTextColor());
-        }
-*/
-//        int mIndex = 0;
-//        int mLastCount = count;
-        top -= mTextRenderer.charHeight;
-//        mTextRenderer.draw(canvas, left, top, textImeBuffer, 0, textImeBuffer.length);
-//        index += mConsoleScreen.consoleColumn;
-//        mIndex += count - mLastCount;
     }
 
     @Override
