@@ -15,4 +15,4 @@ end;
 begin
     S:='*'+IntToStr(-233)+'*';
     Writeln (S);
-end
+end.

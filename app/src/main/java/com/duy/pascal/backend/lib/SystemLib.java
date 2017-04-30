@@ -187,7 +187,7 @@ public class SystemLib implements PascalLibrary {
 
     @PascalMethod(description = "Truncate a floating point value.")
     public long trunc(double d) {
-        return (long) Math.floor(d);
+        return (long) (d - frac(d));
     }
 
     @PascalMethod(description = "Return fractional part of floating point value.")

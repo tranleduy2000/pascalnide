@@ -43,6 +43,7 @@ import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunctionDeclaration;
 import com.duy.pascal.backend.lib.templated.length.LengthFunction;
 import com.duy.pascal.backend.lib.templated.setlength.SetLengthFunction;
+import com.duy.pascal.backend.lib.templated.sizeof.SizeOfFunction;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
@@ -214,11 +215,12 @@ public class PascalLibraryManager {
      * load system method
      */
     public void loadSystemLibrary() {
+        program.declareFunction(new TemplatePascalFunctionDeclaration(new SetLengthFunction()));
+        program.declareFunction(new TemplatePascalFunctionDeclaration(new LengthFunction()));
+        program.declareFunction(new TemplatePascalFunctionDeclaration(new SizeOfFunction()));
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new SetLengthFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new LengthFunction()));
 
         addMethodFromClass(FileLib.class);
         addMethodFromClass(IOLib.class);
