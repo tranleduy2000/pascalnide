@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.templated;
+package com.duy.pascal.backend.lib.templated.setlength;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalPlugin;
+import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunction;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
@@ -31,10 +31,11 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
-public class SetLengthFunction implements TemplatePascalPlugin {
+public class SetLengthFunction implements TemplatePascalFunction {
 
-    private ArgumentType[] argumentTypes =
-            {new RuntimeType(new ArrayType<>(BasicType.anew(Object.class), new IntegerSubrangeType(0, 0)), true),
+    private ArgumentType[] argumentTypes = {
+            new RuntimeType(
+                    new ArrayType<>(BasicType.anew(Object.class), new IntegerSubrangeType(0, 0)), true),
             new RuntimeType(BasicType.Integer, false)
     };
 
@@ -49,9 +50,9 @@ public class SetLengthFunction implements TemplatePascalPlugin {
         ReturnsValue array = arguments[0];
         ReturnsValue size = arguments[1];
         @SuppressWarnings("rawtypes")
-        DeclaredType elemtype = ((ArrayType) ((PointerType) array.getType(f).declaredType).pointedToType).elementType;
-        LineInfo l = line;
-        return new SetLengthCall(array, size, elemtype, l);
+        DeclaredType elemtype = ((ArrayType)
+                ((PointerType) array.getType(f).declaredType).pointedToType).elementType;
+        return new SetLengthCall(array, size, elemtype, line);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class SetLengthFunction implements TemplatePascalPlugin {
     }
 
     @Override
-    public DeclaredType return_type() {
+    public DeclaredType returnType() {
         return null;
     }
 

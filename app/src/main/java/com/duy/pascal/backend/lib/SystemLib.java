@@ -192,7 +192,7 @@ public class SystemLib implements PascalLibrary {
 
     @PascalMethod(description = "Return fractional part of floating point value.")
     public double frac(double d) {
-        return d - Math.floor(d);
+        return d - ((long) d);
     }
 
     @PascalMethod(description = "Calculate absolute value")
@@ -372,6 +372,12 @@ public class SystemLib implements PascalLibrary {
     public int length(StringBuilder s) {
         return s.length();
     }
+
+//    @PascalMethod(description = "Returns length of a string or array.")
+//    @MethodTypeData(info = {@ArrayBoundsInfo(starts = {0}, lengths = {0})})
+//    public int length(Object[] array) {
+//        return array.length;
+//    }
 
     @PascalMethod(description = "Set length of a string.")
     public void setlength(VariableBoxer<StringBuilder> s, int length)

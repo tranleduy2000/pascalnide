@@ -71,6 +71,9 @@ public class IntegerSubrangeType {
         size = (((int) max) - lower) + 1;
     }
 
+    /**
+     * @param size if <code>size == -1</code>, the array will be ignore bound when compare
+     */
     public IntegerSubrangeType(int lower, int size) {
         this.lower = lower;
         this.size = size;
@@ -97,6 +100,10 @@ public class IntegerSubrangeType {
             return false;
         }
         IntegerSubrangeType other = (IntegerSubrangeType) obj;
+
+        //ignore bound
+        if (size == -1) return true;
+
         return lower == other.lower && size == other.size;
     }
 

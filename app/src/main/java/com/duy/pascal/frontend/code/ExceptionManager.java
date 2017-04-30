@@ -213,7 +213,6 @@ public class ExceptionManager {
                     return getMessageResource(e, R.string.OverridingFunctionException);
                 }
             }
-
             if (e instanceof ParsingException) {
                 return new SpannableString(((ParsingException) e).line + "\n\n" + e.getMessage());
             }
@@ -374,18 +373,24 @@ public class ExceptionManager {
         return new SpannableString(e.getMessage());
     }
 
-    private Spannable getBadFunctionCallException(Throwable e) {
-        String functionName = ((BadFunctionCallException) e).functionName + " ";
-        boolean functionExists = ((BadFunctionCallException) e).functionExists;
-        boolean numargsMatch = ((BadFunctionCallException) e).numargsMatch;
+    private Spannable getBadFunctionCallException(Throwable throwable) {
+        BadFunctionCallException e = (BadFunctionCallException) throwable;
+        String functionName = e.functionName + " ";
+        boolean functionExists = e.functionExists;
+        boolean numargsMatch = e.numargsMatch;
         if (functionExists) {
             if (numargsMatch) {
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                spannableStringBuilder.append(e.line.toString());
+                spannableStringBuilder.append("\n\n");
+
                 String msg = context.getString(R.string.bad_function_msg1) + " ";
                 Spannable span = new SpannableString(msg + functionName);
                 span.setSpan(new ForegroundColorSpan(Color.YELLOW),
                         msg.length(), msg.length() + functionName.length(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                return span;
+                spannableStringBuilder.append(span);
+                return spannableStringBuilder;
             } else {
                 String msg = context.getString(R.string.bad_function_msg2) + " ";
                 Spannable span = new SpannableString(msg + functionName);

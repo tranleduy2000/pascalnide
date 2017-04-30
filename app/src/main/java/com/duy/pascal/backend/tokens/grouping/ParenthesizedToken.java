@@ -85,15 +85,14 @@ public class ParenthesizedToken extends GrouperToken {
                             } else {
                                 throw new ExpectedTokenException(",", next);
                             }
+                            if (hasNext()) {
+                                next = take();
+                                if (!(next instanceof CommaToken)) {
+                                    throw new ExpectedTokenException(",", next);
+                                }
+                            }
                         } else if (!(next instanceof CommaToken)) {
                             throw new ExpectedTokenException(",", next);
-                        }
-
-                        if (hasNext()) {
-                            next = take();
-                            if (!(next instanceof CommaToken)) {
-                                throw new ExpectedTokenException(",", next);
-                            }
                         }
                     }
                     infoOutput[0] = column;

@@ -19,7 +19,6 @@ package com.duy.pascal.backend.lib;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.duy.pascal.backend.lib.android.AndroidBatteryLib;
 import com.duy.pascal.backend.lib.android.AndroidClipboard;
@@ -41,9 +40,9 @@ import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
-import com.duy.pascal.backend.lib.templated.SetLengthFunction;
-import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePluginDeclaration;
-import com.duy.pascal.frontend.Dlog;
+import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunctionDeclaration;
+import com.duy.pascal.backend.lib.templated.length.LengthFunction;
+import com.duy.pascal.backend.lib.templated.setlength.SetLengthFunction;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
@@ -63,8 +62,8 @@ import java.util.Map;
  */
 
 public class PascalLibraryManager {
-    private static final String TAG = "PascalLibraryUtils";
     public static final Map<String, Class<? extends PascalLibrary>> mapLibraries = new Hashtable<>();
+    private static final String TAG = "PascalLibraryUtils";
     @NonNull
     private ExpressionContextMixin program;
     @Nullable
@@ -143,7 +142,6 @@ public class PascalLibraryManager {
      */
 
     public void addMethodFromClass(Class<? extends PascalLibrary> pascalPlugin) {
-        if (Dlog.DEBUG) Log.d(TAG, "addMethodFromClass: " + pascalPlugin.getName());
         Object parent = null;
         Constructor constructor;
         try {
@@ -179,13 +177,11 @@ public class PascalLibraryManager {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
                         PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                         String description = annotation.description();
-                        if (Dlog.DEBUG) Log.i(TAG, "addMethodFromClass: " + method.getName());
                         MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method, description);
                         program.declareFunction(methodDeclaration);
                     }
                 } else {
                     if (Modifier.isPublic(method.getModifiers())) {
-                        if (Dlog.DEBUG) Log.i(TAG, "addMethodFromClass: " + method.getName());
                         MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method);
                         program.declareFunction(methodDeclaration);
                     }
@@ -210,7 +206,6 @@ public class PascalLibraryManager {
         ArrayList<Class<? extends PascalLibrary>> classes = new ArrayList<>();
         for (String name : newLibraries) {
             classes.add(mapLibraries.get(name.toLowerCase()));
-            Log.d(TAG, "loadLibrary: " + name);
         }
         addMethodFromClasses(classes, Modifier.PUBLIC);
     }
@@ -222,13 +217,14 @@ public class PascalLibraryManager {
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}
+        program.declareFunction(new TemplatePascalFunctionDeclaration(new SetLengthFunction()));
+        program.declareFunction(new TemplatePascalFunctionDeclaration(new LengthFunction()));
+
         addMethodFromClass(FileLib.class);
         addMethodFromClass(IOLib.class);
         addMethodFromClass(SystemLib.class);
 
-        SetLengthFunction setLength = new SetLengthFunction();
-        TemplatePluginDeclaration method = new TemplatePluginDeclaration(setLength);
-        program.declareFunction(method);
+
     }
 
 }

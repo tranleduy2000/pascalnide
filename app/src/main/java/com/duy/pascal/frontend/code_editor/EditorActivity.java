@@ -397,7 +397,6 @@ public class EditorActivity extends BaseEditorActivity implements
                 saveFile();
                 //add to view
                 addNewPageEditor(file, SELECT, SAVE_LAST_FILE);
-
                 mDrawerLayout.closeDrawers();
             }
 

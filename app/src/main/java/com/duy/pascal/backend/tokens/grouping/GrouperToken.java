@@ -517,7 +517,9 @@ public abstract class GrouperToken extends Token {
         if (next instanceof IfToken) {
             ReturnsValue condition = getNextExpression(context);
             next = take();
-            assert (next instanceof ThenToken);
+            if (!(next instanceof ThenToken)) {
+                throw new ExpectedTokenException("then", next);
+            }
             Executable command = getNextCommand(context);
             Executable else_command = null;
             next = peek();

@@ -28,17 +28,17 @@ import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 
 import java.util.List;
 
-public class TemplatePluginDeclaration extends AbstractFunction {
+public class TemplatePascalFunctionDeclaration extends AbstractFunction {
 
-    TemplatePascalPlugin t;
+    private TemplatePascalFunction pascalPlugin;
 
-    public TemplatePluginDeclaration(TemplatePascalPlugin t) {
-        this.t = t;
+    public TemplatePascalFunctionDeclaration(TemplatePascalFunction pascalPlugin) {
+        this.pascalPlugin = pascalPlugin;
     }
 
     @Override
     public LineInfo getLine() {
-        return new LineInfo(-1, t.getClass().getCanonicalName());
+        return new LineInfo(-1, pascalPlugin.getClass().getCanonicalName());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TemplatePluginDeclaration extends AbstractFunction {
 
     @Override
     public String name() {
-        return t.name();
+        return pascalPlugin.name();
     }
 
     @Override
@@ -58,12 +58,12 @@ public class TemplatePluginDeclaration extends AbstractFunction {
 
     @Override
     public ArgumentType[] getArgumentTypes() {
-        return t.argumentTypes();
+        return pascalPlugin.argumentTypes();
     }
 
     @Override
     public DeclaredType returnType() {
-        return t.return_type();
+        return pascalPlugin.returnType();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TemplatePluginDeclaration extends AbstractFunction {
         if (args == null) {
             return null;
         }
-        return t.generatePerfectFitCall(line, args, f);
+        return pascalPlugin.generatePerfectFitCall(line, args, f);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class TemplatePluginDeclaration extends AbstractFunction {
         if (args == null) {
             return null;
         }
-        return t.generateCall(line, args, f);
+        return pascalPlugin.generateCall(line, args, f);
     }
 
 }

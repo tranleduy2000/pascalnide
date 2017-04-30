@@ -150,7 +150,7 @@ Digit = [0-9]
 Char = "#" {Digit}+
 Integer = {Digit}+
 Float	= {Digit}+ "." {Digit}+
-WhiteSpace = ([ \t] | {LineTerminator})+
+WhiteSpace = ([ \pascalPlugin] | {LineTerminator})+
 
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r|\n|]
@@ -168,7 +168,7 @@ TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}
 
 
-IncludeStatement = {CommentStarter}\$(("i" [ \t]) |"include")
+IncludeStatement = {CommentStarter}\$(("i" [ \pascalPlugin]) |"include")
 CompilerDirective = {CommentStarter}\$ {RestOfComment}
 
 %state STRING
@@ -292,9 +292,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
-			t.caused = e;
-			return new GroupingExceptionToken(t);
+    		EnumeratedGroupingException pascalPlugin = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+			pascalPlugin.caused = e;
+			return new GroupingExceptionToken(pascalPlugin);
     	}
     	yybegin(END_INCLUDE);
     }
@@ -307,9 +307,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
-			t.caused = e;
-			return new GroupingExceptionToken(t);
+    		EnumeratedGroupingException pascalPlugin = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+			pascalPlugin.caused = e;
+			return new GroupingExceptionToken(pascalPlugin);
     	}
     	yybegin(END_INCLUDE);
     }
@@ -322,9 +322,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
-			t.caused = e;
-			return new GroupingExceptionToken(t);
+    		EnumeratedGroupingException pascalPlugin = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+			pascalPlugin.caused = e;
+			return new GroupingExceptionToken(pascalPlugin);
     	}
     	yybegin(END_INCLUDE);
     	}

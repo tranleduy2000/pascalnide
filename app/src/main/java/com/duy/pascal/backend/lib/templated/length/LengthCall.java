@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.templated;
+package com.duy.pascal.backend.lib.templated.length;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -34,25 +34,19 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
 
-public class SetLengthCall extends FunctionCall {
+class LengthCall extends FunctionCall {
 
-    ReturnsValue array;
-    ReturnsValue size;
-    DeclaredType elemtype;
+    private LineInfo line;
+    private ReturnsValue array;
 
-    LineInfo line;
-
-    public SetLengthCall(ReturnsValue array, ReturnsValue size, DeclaredType elemType, LineInfo line) {
+    LengthCall(ReturnsValue array, LineInfo line) {
         this.array = array;
-        this.size = size;
-        this.elemtype = elemType;
         this.line = line;
     }
 
-
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return null;
+        return new RuntimeType(BasicType.Integer, false);
     }
 
     @Override
@@ -74,40 +68,26 @@ public class SetLengthCall extends FunctionCall {
     @Override
     public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new SetLengthCall(array.compileTimeExpressionFold(context),
-                size.compileTimeExpressionFold(context), elemtype, line);
+        return new LengthCall(array.compileTimeExpressionFold(context), line);
     }
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        return new SetLengthCall(array.compileTimeExpressionFold(c),
-                size.compileTimeExpressionFold(c), elemtype, line);
+        return new LengthCall(array.compileTimeExpressionFold(c), line);
     }
 
     @Override
     protected String getFunctionName() {
-        return "setlength";
+        return "length";
     }
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        int length = (Integer) size.getValue(f, main);
         @SuppressWarnings("rawtypes")
         VariableBoxer a = (VariableBoxer) array.getValue(f, main);
         Object arr = a.get();
-        int oldlength = Array.getLength(arr);
-        Object newarr = Array.newInstance(elemtype.getTransferClass(), length);
-        if (oldlength > length) {
-            System.arraycopy(arr, 0, newarr, 0, length);
-        } else {
-            System.arraycopy(arr, 0, newarr, 0, oldlength);
-            for (int i = oldlength; i < length; i++) {
-                Array.set(newarr, i, elemtype.initialize());
-            }
-        }
-        a.set(newarr);
-        return null;
+        return Array.getLength(arr);
     }
 }
