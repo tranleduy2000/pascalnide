@@ -70,8 +70,18 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Generate random number")
-    public int random(int range) {
-        return random.nextInt(range);
+    public long random(long range) {
+        return (long) (random.nextDouble() * range);
+    }
+
+    @PascalMethod(description = "Generate random number")
+    public double random(double range) {
+        return random.nextDouble() * range;
+    }
+
+    @PascalMethod(description = "Generate random number")
+    public double random() {
+        return random.nextDouble();
     }
 
     @PascalMethod(description = "Initialize random number generator")
