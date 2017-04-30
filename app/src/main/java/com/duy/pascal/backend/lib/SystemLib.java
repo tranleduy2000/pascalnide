@@ -397,17 +397,23 @@ public class SystemLib implements PascalLibrary {
     @PascalMethod(description = "Insert one string in another.")
     public void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
             throws RuntimePascalException {
+        System.out.println("s = [" + s + "], s1 = [" + s1 + "], pos = [" + pos + "]");
         s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
     }
 
     @PascalMethod(description = "Copy part of a string")
-    public StringBuilder copy(StringBuilder s, int ifrom, int count) {
-        return new StringBuilder(s.substring(ifrom - 1, ifrom - 1 + count));
+    public StringBuilder copy(String s, int from, int count) {
+        System.out.println("s = [" + s + "], from = [" + from + "], count = [" + count + "]");
+        if (from - 1 + count > s.length()) {
+            return new StringBuilder(s.substring(from - 1, s.length()));
+        }
+        return new StringBuilder(s.substring(from - 1, from - 1 + count));
     }
 
     @PascalMethod(description = "Delete part of a string")
     public void delete(VariableBoxer<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
+        System.out.println("s = [" + s + "], start = [" + start + "], count = [" + count + "]");
         s.set(s.get().delete(start - 1, start + count - 1));
     }
 

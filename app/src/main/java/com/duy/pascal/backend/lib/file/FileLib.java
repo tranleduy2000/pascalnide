@@ -175,7 +175,7 @@ public class FileLib implements PascalLibrary {
      * return <code>false</code>
      * @throws RuntimePascalException - file not open for output
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "Check for end of file", returns = "null")
     @SuppressWarnings("unused")
     public boolean eof(VariableBoxer<File> fileVariable) throws IOException,
             RuntimePascalException {
