@@ -1,37 +1,35 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
+import com.duy.pascal.backend.debugable.DebuggableRValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringBuilderBoxer extends DebuggableReturnsValue {
-    private ReturnsValue value;
+public class StringBuilderBoxer extends DebuggableRValue {
+    private RValue value;
 
-    public StringBuilderBoxer(ReturnsValue value) {
+    public StringBuilderBoxer(RValue value) {
         this.value = value;
         this.outputFormat = value.getOutputFormat();
     }
 
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(BasicType.anew(String.class), false);
+    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+        return new RuntimeType(BasicType.create(String.class), false);
     }
 
     @Override
-    public LineInfo getLine() {
-        return value.getLine();
+    public LineInfo getLineNumber() {
+        return value.getLineNumber();
     }
 
     @Override
@@ -39,7 +37,7 @@ public class StringBuilderBoxer extends DebuggableReturnsValue {
             throws ParsingException {
         Object other = value.compileTimeValue(context);
         if (other != null) {
-            return other.toString();
+            return ((StringBuilder) other).toString();
         }
         return null;
     }
@@ -48,21 +46,15 @@ public class StringBuilderBoxer extends DebuggableReturnsValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         Object other = value.getValue(f, main);
-        return other.toString();
+        return ((StringBuilder) other).toString();
     }
 
     @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
-    }
-
-    @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, value.getLine());
+            return new ConstantAccess(val, value.getLineNumber());
         } else {
             return new StringBuilderBoxer(
                     value.compileTimeExpressionFold(context));

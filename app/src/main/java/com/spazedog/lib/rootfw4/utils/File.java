@@ -129,7 +129,7 @@ public class File {
 		
 		/** 
 		 * @return
-		 *     The file type ('d'=>Directory, 'f'=>File, 'b'=>Block Device, 'c'=>Character Device, 'l'=>Symbolic Link)
+		 *     The file operator ('d'=>Directory, 'f'=>File, 'b'=>Block Device, 'c'=>Character Device, 'l'=>Symbolic Link)
 		 */
 		public String type() {
 			return mType;

@@ -24,7 +24,7 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class TemplatePascalFunctionDeclaration extends AbstractFunction {
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return new LineInfo(-1, t.getClass().getCanonicalName());
     }
 
@@ -57,20 +57,20 @@ public class TemplatePascalFunctionDeclaration extends AbstractFunction {
     }
 
     @Override
-    public ArgumentType[] getArgumentTypes() {
+    public ArgumentType[] argumentTypes() {
         return t.argumentTypes();
     }
 
     @Override
-    public DeclaredType returnType() {
+    public DeclaredType return_type() {
         return t.returnType();
     }
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line,
-                                               List<ReturnsValue> values, ExpressionContext f)
+                                               List<RValue> values, ExpressionContext f)
             throws ParsingException {
-        ReturnsValue[] args = this.perfectMatch(values, f);
+        RValue[] args = this.perfectMatch(values, f);
         if (args == null) {
             return null;
         }
@@ -78,9 +78,9 @@ public class TemplatePascalFunctionDeclaration extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, List<ReturnsValue> values,
+    public FunctionCall generateCall(LineInfo line, List<RValue> values,
                                      ExpressionContext f) throws ParsingException {
-        ReturnsValue[] args = this.formatArgs(values, f);
+        RValue[] args = this.formatArgs(values, f);
         if (args == null) {
             return null;
         }

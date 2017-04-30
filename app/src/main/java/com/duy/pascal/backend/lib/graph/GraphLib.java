@@ -43,7 +43,7 @@ import com.duy.pascal.backend.lib.graph.paint.TextPaint;
 import com.duy.pascal.backend.lib.graph.style.TextJustify;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.PascalReference;
 
 import java.util.Map;
 
@@ -51,8 +51,8 @@ import java.util.Map;
  * Created by Duy on 01-Mar-17.
  */
 public class GraphLib implements PascalLibrary {
-    private static final String TAG = "GraphLib";
     public static final String NAME = "graph";
+    private static final String TAG = "GraphLib";
     private ExecHandler handler;
 
     public GraphLib(ExecHandler handler) {
@@ -222,7 +222,7 @@ public class GraphLib implements PascalLibrary {
      */
 
     @PascalMethod(description = "graph library", returns = "void")
-    public void detectGraph(VariableBoxer<Integer> driver, VariableBoxer<Integer> mode) {
+    public void detectGraph(PascalReference<Integer> driver, PascalReference<Integer> mode) {
         driver.set(0);
         mode.set(0);
     }
@@ -482,7 +482,7 @@ public class GraphLib implements PascalLibrary {
      */
 
     @PascalMethod(description = "graph library", returns = "void")
-    public void getAspectRatio(VariableBoxer<Integer> x, VariableBoxer<Integer> y) {
+    public void getAspectRatio(PascalReference<Integer> x, PascalReference<Integer> y) {
         x.set(getMaxX());
         y.set(getMaxY());
     }

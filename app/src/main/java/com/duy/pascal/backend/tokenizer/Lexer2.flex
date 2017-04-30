@@ -209,7 +209,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	">=" {return new OperatorToken(getLine(),OperatorTypes.GREATEREQ); }
 	">" {return new OperatorToken(getLine(),OperatorTypes.GREATERTHAN); }
 	"<" {return new OperatorToken(getLine(),OperatorTypes.LESSTHAN); }
-	
+	"@" {return new OperatorToken(getLine(),OperatorTypes.ADDRESS); }
+	"^" {return new OperatorToken(getLine(),OperatorTypes.DEREF); }
+
 	"if" {return new IfToken(getLine()); }
 	"then" {return new ThenToken(getLine()); }
 	"while" {return new WhileToken(getLine()); }

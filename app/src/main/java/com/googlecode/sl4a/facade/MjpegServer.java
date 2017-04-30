@@ -51,7 +51,7 @@ class MjpegServer extends SimpleServer {
                 return;
             }
             outputStream.write("--BoundaryString\r\n".getBytes());
-            outputStream.write("Content-type: image/jpg\r\n".getBytes());
+            outputStream.write("Content-operator: image/jpg\r\n".getBytes());
             outputStream.write(("Content-Length: " + data.length + "\r\n\r\n").getBytes());
             outputStream.write(data);
             outputStream.write("\r\n\r\n".getBytes());

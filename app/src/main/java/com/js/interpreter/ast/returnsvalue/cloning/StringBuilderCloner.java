@@ -1,39 +1,38 @@
 package com.js.interpreter.ast.returnsvalue.cloning;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.LValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringBuilderCloner implements ReturnsValue {
-    protected ReturnsValue[] outputFormat;
-    ReturnsValue returnsValue;
+public class StringBuilderCloner implements RValue {
+    protected RValue[] outputFormat;
+    RValue r;
 
-    public StringBuilderCloner(ReturnsValue returnsValue) {
-        this.returnsValue = returnsValue;
-        this.outputFormat = returnsValue.getOutputFormat();
+    public StringBuilderCloner(RValue r) {
+        this.r = r;
+        this.outputFormat = r.getOutputFormat();
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f)
+    public RuntimeType get_type(ExpressionContext f)
             throws ParsingException {
-        return returnsValue.getType(f);
+        return r.get_type(f);
     }
 
     @Override
-    public ReturnsValue[] getOutputFormat() {
+    public RValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnsValue[] formatInfo) {
+    public void setOutputFormat(RValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -41,7 +40,7 @@ public class StringBuilderCloner implements ReturnsValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        Object result = returnsValue.getValue(f, main);
+        Object result = r.getValue(f, main);
         return new StringBuilder(result.toString());
     }
 
@@ -51,20 +50,15 @@ public class StringBuilderCloner implements ReturnsValue {
     }
 
     @Override
-    public LineInfo getLine() {
-        return returnsValue.getLine();
+    public LineInfo getLineNumber() {
+        return r.getLineNumber();
     }
 
-    @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
-    }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object val = returnsValue.compileTimeValue(context);
+        Object val = r.compileTimeValue(context);
         if (val != null) {
             return new StringBuilder((StringBuilder) val);
         }
@@ -72,8 +66,14 @@ public class StringBuilderCloner implements ReturnsValue {
     }
 
     @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new StringBuilderCloner(returnsValue);
+        return new StringBuilderCloner(r);
     }
+
+    @Override
+    public LValue asLValue(ExpressionContext f) {
+        return null;
+    }
+
 }

@@ -15,7 +15,7 @@ public class BreakInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return line;
     }
 

@@ -2,19 +2,20 @@ package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.LValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.ast.returnsvalue.boxing.GetAddress;
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.PascalReference;
 
 import java.util.Iterator;
 
 public class RuntimeType implements ArgumentType {
 
-    public final DeclaredType declaredType;
+    public final DeclaredType declType;
     public final boolean writable;
 
-    public RuntimeType(DeclaredType declaredType, boolean writable) {
-        this.declaredType = declaredType;
+    public RuntimeType(DeclaredType declType, boolean writable) {
+        this.declType = declType;
         this.writable = writable;
     }
 
@@ -40,25 +41,26 @@ public class RuntimeType implements ArgumentType {
         return false;
     }
 
-    public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
+    public RValue convert(RValue value, ExpressionContext f)
             throws ParsingException {
 
-        RuntimeType other = value.getType(f);
+        RuntimeType other = value.get_type(f);
         if (writable) {
             if (this.equals(other)) {
-                return new GetAddress(value);
+                return new GetAddress((LValue) value);
             } else {
                 return null;
             }
         }
-        return declaredType.convert(value, f);
+        return declType.convert(value, f);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof RuntimeType) {
             RuntimeType other = (RuntimeType) obj;
-            return other.writable == this.writable && this.declaredType.equals(other.declaredType);
+            return other.writable == this.writable
+                    && this.declType.equals(other.declType);
         } else {
             return false;
         }
@@ -66,21 +68,21 @@ public class RuntimeType implements ArgumentType {
 
     @Override
     public String toString() {
-        return (writable ? "" : "non-") + "writable " + declaredType.toString();
+        return (writable ? "" : "non-") + "writable " + declType.toString();
     }
 
     @Override
     public Class<?> getRuntimeClass() {
         if (writable) {
-            return VariableBoxer.class;
+            return PascalReference.class;
         } else {
-            return declaredType.getTransferClass();
+            return declType.getTransferClass();
         }
     }
 
     @Override
-    public ReturnsValue convertArgType(Iterator<ReturnsValue> args,
-                                       ExpressionContext f) throws ParsingException {
+    public RValue convertArgType(Iterator<RValue> args,
+                                 ExpressionContext f) throws ParsingException {
         if (!args.hasNext()) {
             return null;
         }
@@ -88,18 +90,18 @@ public class RuntimeType implements ArgumentType {
     }
 
     @Override
-    public ReturnsValue perfectFit(Iterator<ReturnsValue> args,
-                                   ExpressionContext e) throws ParsingException {
+    public RValue perfectFit(Iterator<RValue> args,
+                             ExpressionContext e) throws ParsingException {
         if (!args.hasNext()) {
             return null;
         }
-        ReturnsValue val = args.next();
-        RuntimeType other = val.getType(e);
-        if (this.declaredType.equals(other.declaredType)) {
+        RValue val = args.next();
+        RuntimeType other = val.get_type(e);
+        if (this.declType.equals(other.declType)) {
             if (writable) {
-                return new GetAddress(val);
+                return new GetAddress((LValue) val);
             } else {
-                return other.declaredType.cloneValue(val);
+                return other.declType.cloneValue(val);
             }
         } else {
             return null;

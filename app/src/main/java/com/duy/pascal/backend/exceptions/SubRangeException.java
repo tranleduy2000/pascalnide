@@ -15,7 +15,9 @@ public class SubRangeException extends ParsingException {
         super(lineInfo, message);
         this.low = low;
         this.high = high;
-    }  public SubRangeException(int low, int high, LineInfo lineInfo) {
+    }
+
+    public SubRangeException(int low, int high, LineInfo lineInfo) {
         super(lineInfo);
         this.low = low;
         this.high = high;

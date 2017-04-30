@@ -17,17 +17,15 @@
 package com.duy.pascal.backend.lib.templated.setlength;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -36,13 +34,13 @@ import java.lang.reflect.Array;
 
 public class SetLengthCall extends FunctionCall {
 
-    ReturnsValue array;
-    ReturnsValue size;
+    RValue array;
+    RValue size;
     DeclaredType elemtype;
 
     LineInfo line;
 
-    public SetLengthCall(ReturnsValue array, ReturnsValue size, DeclaredType elemType, LineInfo line) {
+    public SetLengthCall(RValue array, RValue size, DeclaredType elemType, LineInfo line) {
         this.array = array;
         this.size = size;
         this.elemtype = elemType;
@@ -51,20 +49,15 @@ public class SetLengthCall extends FunctionCall {
 
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
         return null;
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return line;
     }
 
-    @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
-    }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context) {
@@ -72,7 +65,7 @@ public class SetLengthCall extends FunctionCall {
     }
 
     @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new SetLengthCall(array.compileTimeExpressionFold(context),
                 size.compileTimeExpressionFold(context), elemtype, line);
@@ -93,9 +86,9 @@ public class SetLengthCall extends FunctionCall {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        int length = (Integer) size.getValue(f, main);
+        int length = (int) size.getValue(f, main);
         @SuppressWarnings("rawtypes")
-        VariableBoxer a = (VariableBoxer) array.getValue(f, main);
+        PascalReference a = (PascalReference) array.getValue(f, main);
         Object arr = a.get();
         int oldlength = Array.getLength(arr);
         Object newarr = Array.newInstance(elemtype.getTransferClass(), length);

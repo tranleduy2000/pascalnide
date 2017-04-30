@@ -10,15 +10,12 @@ public class OperatorToken extends Token {
         this.type = t;
     }
 
-    public boolean canBeUnary() {
-        switch (type) {
-            case MINUS:
-            case NOT:
-            case PLUS:
-                return true;
-            default:
-                return false;
-        }
+    public boolean can_be_unary() {
+        return type.can_be_unary;
+    }
+
+    public boolean postfix() {
+        return type.postfix;
     }
 
     @Override

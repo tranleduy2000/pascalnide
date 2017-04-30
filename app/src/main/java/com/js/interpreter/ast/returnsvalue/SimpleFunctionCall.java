@@ -26,7 +26,7 @@ public class SimpleFunctionCall extends FunctionCall {
     private LineInfo line;
 
     public SimpleFunctionCall(AbstractCallableFunction function,
-                              ReturnsValue[] arguments, LineInfo line) {
+                              RValue[] arguments, LineInfo line) {
         this.function = function;
         if (function == null) {
             System.err.println("Warning: Null function call");
@@ -40,17 +40,17 @@ public class SimpleFunctionCall extends FunctionCall {
             throws RuntimePascalException {
         if (main != null) {
             if (main.isDebugMode()) {
-                main.getDebugListener().onLine(getLine());
-                System.out.println(getClass().getSimpleName() + " " + getLine());
+                main.getDebugListener().onLine(getLineNumber());
+                System.out.println(getClass().getSimpleName() + " " + getLineNumber());
             }
-            main.incStack(getLine());
-            main.scriptControlCheck(getLine());
+            main.incStack(getLineNumber());
+            main.scriptControlCheck(getLineNumber());
         }
 
         //array store clone value
         Object[] values = new Object[arguments.length];
-        //list type of list variable
-        ArgumentType[] argumentTypes = function.getArgumentTypes();
+        //list operator of list variable
+        ArgumentType[] argumentTypes = function.argumentTypes();
 
         //convert to string object for print console or write to file
         if (getFunctionName().equals("writeln") || getFunctionName().equals("write")) {
@@ -58,8 +58,8 @@ public class SimpleFunctionCall extends FunctionCall {
                 if (argumentTypes[i].getRuntimeClass().equals(File.class)) {
                     values[i] = arguments[i].getValue(f, main);
                 } else {
-                    ReturnsValue rawValue = arguments[i];
-                    ReturnsValue[] outputFormat = rawValue.getOutputFormat();
+                    RValue rawValue = arguments[i];
+                    RValue[] outputFormat = rawValue.getOutputFormat();
                     StringBuilder object = new StringBuilder(String.valueOf(rawValue.getValue(f, main)));
 
                     if (outputFormat != null) {
@@ -103,12 +103,12 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) {
-        return new RuntimeType(function.returnType(), false);
+    public RuntimeType get_type(ExpressionContext f) {
+        return new RuntimeType(function.return_type(), false);
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return line;
     }
 
@@ -118,7 +118,7 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new SimpleFunctionCall(function, compileTimeExpressionFoldArguments(context), line);
     }

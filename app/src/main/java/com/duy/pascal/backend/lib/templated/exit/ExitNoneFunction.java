@@ -25,7 +25,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 public class ExitNoneFunction implements TemplatePascalFunction {
 
@@ -37,13 +37,13 @@ public class ExitNoneFunction implements TemplatePascalFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, ReturnsValue[] arguments,
+    public FunctionCall generateCall(LineInfo line, RValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         return new ExitNoneCall(line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, ReturnsValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RValue[] values, ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 

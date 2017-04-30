@@ -1,12 +1,12 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
+import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 import java.util.List;
 
@@ -14,28 +14,33 @@ import serp.bytecode.Code;
 
 public interface DeclaredType {
 
-    Object initialize();
+    public abstract Object initialize();
 
-    Class getTransferClass();
+    public abstract Class getTransferClass();
 
-    ReturnsValue convert(ReturnsValue returns_value, ExpressionContext f) throws ParsingException;
 
-    boolean equals(DeclaredType other);
+    public abstract RValue convert(RValue returns_value,
+                                   ExpressionContext f) throws ParsingException;
 
-    void pushDefaultValue(Code constructor_code, RegisterAllocator ra);
+    public abstract boolean equals(DeclaredType other);
 
-    void cloneValueOnStack(TransformationInput t);
+    public abstract void pushDefaultValue(Code constructor_code,
+                                          RegisterAllocator ra);
 
-    ReturnsValue cloneValue(ReturnsValue r);
+    public abstract void cloneValueOnStack(TransformationInput t);
 
-    ReturnsValue generateArrayAccess(ReturnsValue array, ReturnsValue index) throws NonArrayIndexed;
+    public abstract RValue cloneValue(RValue r);
 
-    Class<?> getStorageClass();
+    public abstract RValue generateArrayAccess(RValue array,
+                                               RValue index) throws NonArrayIndexed;
 
-    void arrayStoreOperation(Code c);
+    public abstract Class<?> getStorageClass();
 
-    void convertStackToStorageType(Code c);
+    public abstract void arrayStoreOperation(Code c);
 
-    void pushArrayOfType(Code code, RegisterAllocator ra, List<IntegerSubrangeType> ranges);
+    public abstract void convertStackToStorageType(Code c);
+
+    public abstract void pushArrayOfType(Code code, RegisterAllocator ra,
+                                         List<SubrangeType> ranges);
 
 }

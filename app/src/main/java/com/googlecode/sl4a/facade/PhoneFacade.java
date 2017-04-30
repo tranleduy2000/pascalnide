@@ -191,7 +191,7 @@ public class PhoneFacade implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns a the radio technology (network type) currently in use on the device.")
+    @PascalMethod(description = "Returns a the radio technology (network operator) currently in use on the device.")
     public String getNetworkType() {
         // TODO(damonkohler): API level 5 has many more types.
         switch (mTelephonyManager.getNetworkType()) {
@@ -209,7 +209,7 @@ public class PhoneFacade implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    @PascalMethod(description = "Returns the device phone type.")
+    @PascalMethod(description = "Returns the device phone operator.")
     public String getPhoneType() {
         // TODO(damonkohler): API level 4 includes CDMA.
         switch (mTelephonyManager.getPhoneType()) {

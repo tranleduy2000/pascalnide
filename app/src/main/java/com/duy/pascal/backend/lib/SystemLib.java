@@ -20,7 +20,7 @@ import com.duy.pascal.backend.exceptions.OrdinalExpressionExpectedException;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.backend.lib.runtime_exceptions.RangeCheckError;
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 import com.js.interpreter.runtime.exception.WrongArgsException;
@@ -90,12 +90,12 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Increase value of integer variable")
-    public void inc(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
+    public void inc(PascalReference<Object> boxer) throws RuntimePascalException, WrongArgsException {
         inc(boxer, 1);
     }
 
     @PascalMethod(description = "Increase value of integer variable")
-    public void inc(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
+    public void inc(PascalReference<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
             long count;
             if (increment instanceof Integer) {
@@ -105,7 +105,7 @@ public class SystemLib implements PascalLibrary {
             } else {
                 throw new OrdinalExpressionExpectedException();
             }
-            boxer.set(((Long) boxer.get()) + count);
+            boxer.set(((long) boxer.get()) + count);
         } else if (boxer.get() instanceof Integer) {
             int count;
             if (increment instanceof Long) {
@@ -115,7 +115,7 @@ public class SystemLib implements PascalLibrary {
             } else {
                 throw new OrdinalExpressionExpectedException();
             }
-            boxer.set(((Integer) boxer.get()) + count);
+            boxer.set(((int) boxer.get()) + count);
         } else if (boxer.get() instanceof Character) {
             int count;
             if (increment instanceof Long) {
@@ -143,12 +143,12 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Decrease value of variable")
-    public void dec(VariableBoxer<Object> boxer) throws RuntimePascalException, WrongArgsException {
+    public void dec(PascalReference<Object> boxer) throws RuntimePascalException, WrongArgsException {
         dec(boxer, 1);
     }
 
     @PascalMethod(description = "Decrease value of variable")
-    public void dec(VariableBoxer<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
+    public void dec(PascalReference<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
         if (boxer.get() instanceof Long) {
             long count;
             if (increment instanceof Integer) {
@@ -258,7 +258,7 @@ public class SystemLib implements PascalLibrary {
         return Math.sqrt(d);
     }
 
-    @PascalMethod(description = "Return previous element for an ordinal type")
+    @PascalMethod(description = "Return previous element for an ordinal operator")
     public int pred(int d) {
         return d - 1;
     }
@@ -328,12 +328,12 @@ public class SystemLib implements PascalLibrary {
 
 
     @PascalMethod(description = "Convert a numerical or enumeration value to a string")
-    public void str(Object num, VariableBoxer<StringBuilder> s) {
+    public void str(Object num, PascalReference<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 
     @PascalMethod(description = " Calculate numerical/enumerated value of a string.")
-    public void val(String input, VariableBoxer<Object> output, VariableBoxer<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
+    public void val(String input, PascalReference<Object> output, PascalReference<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
         try {
             input = input.trim(); //remove white space in start and end postion
             if (output.get() instanceof Long) {
@@ -390,7 +390,7 @@ public class SystemLib implements PascalLibrary {
 //    }
 
     @PascalMethod(description = "Set length of a string.")
-    public void setlength(VariableBoxer<StringBuilder> s, int length)
+    public void setlength(PascalReference<StringBuilder> s, int length)
             throws RuntimePascalException {
         String filler = "!@#$%";
         StringBuilder old = s.get();
@@ -411,7 +411,7 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Insert one string in another.")
-    public void insert(String s, VariableBoxer<StringBuilder> s1, int pos)
+    public void insert(String s, PascalReference<StringBuilder> s1, int pos)
             throws RuntimePascalException {
         System.out.println("s = [" + s + "], s1 = [" + s1 + "], pos = [" + pos + "]");
         s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
@@ -427,13 +427,13 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Delete part of a string")
-    public void delete(VariableBoxer<StringBuilder> s, int start, int count)
+    public void delete(PascalReference<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
         System.out.println("s = [" + s + "], start = [" + start + "], count = [" + count + "]");
         s.set(s.get().delete(start - 1, start + count - 1));
     }
 
-    @PascalMethod(description = "Return size of a variable or type.")
+    @PascalMethod(description = "Return size of a variable or operator.")
     public int sizeof(Object[] array) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();

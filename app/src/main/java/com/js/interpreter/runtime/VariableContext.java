@@ -12,16 +12,17 @@ public abstract class VariableContext implements ContainsVariables {
      * @return - value of variable
      * @throws RuntimePascalException
      */
-    public abstract Object getLocalVariable(String name) throws RuntimePascalException;
+    public abstract Object getLocalVar(String name)
+            throws RuntimePascalException;
 
     public abstract boolean setLocalVar(String name, Object val);
 
     @Override
-    public Object getVariable(String name) throws RuntimePascalException {
-        Object result = this.getLocalVariable(name);
+    public Object get_var(String name) throws RuntimePascalException {
+        Object result = this.getLocalVar(name);
         VariableContext parentcontext = getParentContext();
         if (result == null && parentcontext != null) {
-            result = parentcontext.getVariable(name);
+            result = parentcontext.get_var(name);
         }
         if (result == null) {
             System.err.println("Warning!  Fetched null variable!");
@@ -30,16 +31,16 @@ public abstract class VariableContext implements ContainsVariables {
     }
 
     @Override
-    public void setVariable(String name, Object val) {
+    public void set_var(String name, Object val) {
         if (val == null) {
             System.err.println("Warning!  Setting null variable!");
         }
         if (setLocalVar(name, val)) {
             return;
         }
-        VariableContext parentContext = getParentContext();
-        if (parentContext != null) {
-            parentContext.setVariable(name, val);
+        VariableContext parentcontext = getParentContext();
+        if (parentcontext != null) {
+            parentcontext.set_var(name, val);
         }
     }
 

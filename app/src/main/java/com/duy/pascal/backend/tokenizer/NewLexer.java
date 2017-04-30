@@ -38,7 +38,7 @@ public class NewLexer implements Runnable {
         }
     }
 
-    private   void TossException(LineInfo line, EnumeratedGroupingException.GroupingExceptionTypes t) {
+    private void TossException(LineInfo line, EnumeratedGroupingException.GroupingExceptionTypes t) {
         GroupingExceptionToken gt = new GroupingExceptionToken(line, t);
         for (GrouperToken g : groupers) {
             g.put(gt);

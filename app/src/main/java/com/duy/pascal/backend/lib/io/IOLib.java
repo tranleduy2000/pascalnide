@@ -23,7 +23,7 @@ import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -230,59 +230,59 @@ public class IOLib implements PascalLibrary {
      * read procedure
      */
     @PascalMethod(description = "system library", returns = "void")
-    public void read(VariableBoxer<Object> a1) throws RuntimePascalException, NumberFormatException {
+    public void read(PascalReference<Object> a1) throws RuntimePascalException, NumberFormatException {
         setValueForVariables(a1);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void read(VariableBoxer<Object> a1, VariableBoxer a2) throws RuntimePascalException {
+    public void read(PascalReference<Object> a1, PascalReference a2) throws RuntimePascalException {
         setValueForVariables(a1, a2);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
+    public void read(PascalReference<Object> a1, PascalReference<Object> a2, PascalReference<Object> a3) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
-                     VariableBoxer<Object> a3, VariableBoxer<Object> a4) throws RuntimePascalException {
+    public void read(PascalReference<Object> a1, PascalReference<Object> a2,
+                     PascalReference<Object> a3, PascalReference<Object> a4) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
-                     VariableBoxer<Object> a3, VariableBoxer<Object> a4,
-                     VariableBoxer<Object> a5) throws RuntimePascalException {
+    public void read(PascalReference<Object> a1, PascalReference<Object> a2,
+                     PascalReference<Object> a3, PascalReference<Object> a4,
+                     PascalReference<Object> a5) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
-                     VariableBoxer<Object> a3, VariableBoxer<Object> a4,
-                     VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
+    public void read(PascalReference<Object> a1, PascalReference<Object> a2,
+                     PascalReference<Object> a3, PascalReference<Object> a4,
+                     PascalReference<Object> a5, PascalReference<Object> a6) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6);
 
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void read(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
-                     VariableBoxer<Object> a3, VariableBoxer<Object> a4,
-                     VariableBoxer<Object> a5, VariableBoxer<Object> a6,
-                     VariableBoxer<Object> a7) throws RuntimePascalException {
+    public void read(PascalReference<Object> a1, PascalReference<Object> a2,
+                     PascalReference<Object> a3, PascalReference<Object> a4,
+                     PascalReference<Object> a5, PascalReference<Object> a6,
+                     PascalReference<Object> a7) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
     }
 
-    private void readString(Scanner scanner, VariableBoxer<String> variableBoxer) {
+    private void readString(Scanner scanner, PascalReference<String> variableBoxer) {
         variableBoxer.set(scanner.nextLine());
 
     }
 
-    private void readStringBuilder(Scanner scanner, VariableBoxer<StringBuilder> variableBoxer) {
+    private void readStringBuilder(Scanner scanner, PascalReference<StringBuilder> variableBoxer) {
         variableBoxer.set(new StringBuilder(scanner.nextLine()));
     }
 
-    private void readInt(Scanner scanner, VariableBoxer<Object> variableBoxer)
+    private void readInt(Scanner scanner, PascalReference<Object> variableBoxer)
             throws InvalidNumericFormatException {
         try {
             variableBoxer.set(scanner.nextInt());
@@ -291,7 +291,7 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    private void readLong(Scanner scanner, VariableBoxer<Long> variableBoxer)
+    private void readLong(Scanner scanner, PascalReference<Long> variableBoxer)
             throws InvalidNumericFormatException {
         try {
             variableBoxer.set(scanner.nextLong());
@@ -300,7 +300,7 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    private void readDouble(Scanner scanner, VariableBoxer<Double> variableBoxer) throws InvalidNumericFormatException {
+    private void readDouble(Scanner scanner, PascalReference<Double> variableBoxer) throws InvalidNumericFormatException {
         try {
             variableBoxer.set(scanner.nextDouble());
         } catch (InputMismatchException e) {
@@ -308,16 +308,16 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    private void readChar(Scanner scanner, VariableBoxer<Character> variableBoxer) {
+    private void readChar(Scanner scanner, PascalReference<Character> variableBoxer) {
         System.out.println("readchar " + scanner.hasNext());
         variableBoxer.set(scanner.next().charAt(0));
     }
 
-    private void setValueForVariables(VariableBoxer... listVariable) throws RuntimePascalException {
+    private void setValueForVariables(PascalReference... listVariable) throws RuntimePascalException {
         if (listener == null)
             throw new InputStreamNotFoundException();
         Scanner scanner = new Scanner("");
-        for (VariableBoxer variableBoxer : listVariable) {
+        for (PascalReference variableBoxer : listVariable) {
             Log.d(TAG, "setValueForVariables: ");
             while (!scanner.hasNext()) {
                 listener.startInput(this);
@@ -352,45 +352,45 @@ public class IOLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void readln(VariableBoxer<Object> variableBoxer) throws NumberFormatException, RuntimePascalException {
+    public void readln(PascalReference<Object> variableBoxer) throws NumberFormatException, RuntimePascalException {
         setValueForVariables(variableBoxer);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void readln(VariableBoxer<Object> a1, VariableBoxer a2) throws RuntimePascalException {
+    public void readln(PascalReference<Object> a1, PascalReference a2) throws RuntimePascalException {
         setValueForVariables(a1, a2);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2, VariableBoxer<Object> a3) throws RuntimePascalException {
+    public void readln(PascalReference<Object> a1, PascalReference<Object> a2, PascalReference<Object> a3) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
-                       VariableBoxer<Object> a3, VariableBoxer<Object> a4) throws RuntimePascalException {
+    public void readln(PascalReference<Object> a1, PascalReference<Object> a2,
+                       PascalReference<Object> a3, PascalReference<Object> a4) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
-                       VariableBoxer<Object> a3, VariableBoxer<Object> a4,
-                       VariableBoxer<Object> a5) throws RuntimePascalException {
+    public void readln(PascalReference<Object> a1, PascalReference<Object> a2,
+                       PascalReference<Object> a3, PascalReference<Object> a4,
+                       PascalReference<Object> a5) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
-                       VariableBoxer<Object> a3, VariableBoxer<Object> a4,
-                       VariableBoxer<Object> a5, VariableBoxer<Object> a6) throws RuntimePascalException {
+    public void readln(PascalReference<Object> a1, PascalReference<Object> a2,
+                       PascalReference<Object> a3, PascalReference<Object> a4,
+                       PascalReference<Object> a5, PascalReference<Object> a6) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6);
     }
 
     @PascalMethod(description = "system library", returns = "void")
-    public void readln(VariableBoxer<Object> a1, VariableBoxer<Object> a2,
-                       VariableBoxer<Object> a3, VariableBoxer<Object> a4,
-                       VariableBoxer<Object> a5, VariableBoxer<Object> a6,
-                       VariableBoxer<Object> a7) throws RuntimePascalException {
+    public void readln(PascalReference<Object> a1, PascalReference<Object> a2,
+                       PascalReference<Object> a3, PascalReference<Object> a4,
+                       PascalReference<Object> a5, PascalReference<Object> a6,
+                       PascalReference<Object> a7) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
     }
 

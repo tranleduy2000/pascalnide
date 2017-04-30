@@ -150,4 +150,5 @@
     <string name="implicitly">không thể</string>
     <string name="max_page">Số trang lớn nhất</string>
     <string name="max_page_desc">Số lượng trang lớn nhất có thể hiển thị</string>
+    <string name="enter_key_word">Tìm kiếm...</string>
 </resources>

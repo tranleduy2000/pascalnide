@@ -1,40 +1,39 @@
 package com.js.interpreter.ast.returnsvalue.cloning;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.LValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
-public class CloneableObjectCloner implements ReturnsValue {
-    protected ReturnsValue[] outputFormat;
-    private ReturnsValue value;
+public class CloneableObjectCloner implements RValue {
+    protected RValue[] outputFormat;
+    private RValue r;
 
-    public CloneableObjectCloner(ReturnsValue value) {
-        this.value = value;
-        this.outputFormat = value.getOutputFormat();
+    public CloneableObjectCloner(RValue r) {
+        this.r = r;
+        this.outputFormat = r.getOutputFormat();
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f)
+    public RuntimeType get_type(ExpressionContext f)
             throws ParsingException {
-        return value.getType(f);
+        return r.get_type(f);
     }
 
     @Override
-    public ReturnsValue[] getOutputFormat() {
+    public RValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnsValue[] formatInfo) {
+    public void setOutputFormat(RValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -46,32 +45,32 @@ public class CloneableObjectCloner implements ReturnsValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        ContainsVariables c = (ContainsVariables) value.getValue(f, main);
+        ContainsVariables c = (ContainsVariables) r.getValue(f, main);
         return c.clone();
     }
 
     @Override
-    public LineInfo getLine() {
-        return value.getLine();
+    public LineInfo getLineNumber() {
+        return r.getLineNumber();
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        ContainsVariables c = (ContainsVariables) value
+        ContainsVariables c = (ContainsVariables) r
                 .compileTimeValue(context);
         return c.clone();
     }
 
+
     @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
+            throws ParsingException {
+        return new CloneableObjectCloner(r.compileTimeExpressionFold(context));
     }
 
     @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
-        return new CloneableObjectCloner(value.compileTimeExpressionFold(context));
+    public LValue asLValue(ExpressionContext f) {
+        return null;
     }
 }

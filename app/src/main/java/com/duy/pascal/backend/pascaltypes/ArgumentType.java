@@ -3,17 +3,17 @@ package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 import java.util.Iterator;
 
 public interface ArgumentType {
 
-    ReturnsValue convertArgType(Iterator<ReturnsValue> args,
-                                ExpressionContext f) throws ParsingException;
+    RValue convertArgType(Iterator<RValue> args,
+                          ExpressionContext f) throws ParsingException;
 
-    ReturnsValue perfectFit(Iterator<ReturnsValue> types,
-                            ExpressionContext e) throws ParsingException;
+    RValue perfectFit(Iterator<RValue> types,
+                      ExpressionContext e) throws ParsingException;
 
     @SuppressWarnings("rawtypes")
     Class getRuntimeClass();

@@ -45,7 +45,7 @@ end;
 
 procedure printPlugType(i: Integer);
 begin
-    {Returns the most recently received plug type data:
+    {Returns the most recently received plug operator data:
     -1 - unknown
     0 - unplugged;
     1 - power items is an AC charger

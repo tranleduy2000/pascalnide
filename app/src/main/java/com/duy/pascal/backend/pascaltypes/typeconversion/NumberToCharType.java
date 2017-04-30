@@ -1,34 +1,33 @@
 package com.duy.pascal.backend.pascaltypes.typeconversion;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.LValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class NumberToCharType implements ReturnsValue {
-    protected ReturnsValue[] outputFormat;
-    ReturnsValue other;
+public class NumberToCharType implements RValue {
+    protected RValue[] outputFormat;
+    RValue other;
 
 
-    public NumberToCharType(ReturnsValue other) {
+    public NumberToCharType(RValue other) {
         this.other = other;
     }
 
     @Override
-    public ReturnsValue[] getOutputFormat() {
+    public RValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnsValue[] formatInfo) {
+    public void setOutputFormat(RValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -41,14 +40,14 @@ public class NumberToCharType implements ReturnsValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f)
+    public RuntimeType get_type(ExpressionContext f)
             throws ParsingException {
         return new RuntimeType(BasicType.Character, false);
     }
 
     @Override
-    public LineInfo getLine() {
-        return other.getLine();
+    public LineInfo getLineNumber() {
+        return other.getLineNumber();
     }
 
     @Override
@@ -63,13 +62,7 @@ public class NumberToCharType implements ReturnsValue {
     }
 
     @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
-    }
-
-    @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new NumberToCharType(other.compileTimeExpressionFold(context));
     }
@@ -77,5 +70,10 @@ public class NumberToCharType implements ReturnsValue {
     @Override
     public String toString() {
         return getClass().getSimpleName();
+    }
+
+    @Override
+    public LValue asLValue(ExpressionContext f) {
+        return null;
     }
 }

@@ -4,7 +4,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.ast.returnsvalue.SimpleFunctionCall;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class AbstractCallableFunction extends AbstractFunction {
 
     /**
-     * This invokes a function call of any type.
+     * This invokes a function call of any operator.
      *
      * @param parentContext The program context.
      * @return The return value of the called function.
@@ -28,9 +28,9 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line,
-                                               List<ReturnsValue> values, ExpressionContext f)
+                                               List<RValue> values, ExpressionContext f)
             throws ParsingException {
-        ReturnsValue[] args = perfectMatch(values, f);
+        RValue[] args = perfectMatch(values, f);
         if (args == null) {
             return null;
         }
@@ -38,9 +38,9 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, List<ReturnsValue> values,
+    public FunctionCall generateCall(LineInfo line, List<RValue> values,
                                      ExpressionContext f) throws ParsingException {
-        ReturnsValue[] args = formatArgs(values, f);
+        RValue[] args = formatArgs(values, f);
         if (args == null) {
             return null;
         }

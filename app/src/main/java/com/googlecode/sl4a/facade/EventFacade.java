@@ -129,7 +129,7 @@ public class EventFacade implements PascalLibrary {
     }
 
     /**
-     * Actual data returned in the map will depend on the type of event.
+     * Actual data returned in the map will depend on the operator of event.
      * <p>
      * <pre>
      * Example (python):

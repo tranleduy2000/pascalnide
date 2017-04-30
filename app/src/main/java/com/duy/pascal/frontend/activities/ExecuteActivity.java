@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -171,7 +172,7 @@ public class ExecuteActivity extends AbstractExecActivity {
         ExceptionManager exceptionManager = new ExceptionManager(this);
         DialogManager.createDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
         //debug
-        if (DEBUG) e.printStackTrace();
+        Log.e(TAG, "onError: ", e);
     }
 
 

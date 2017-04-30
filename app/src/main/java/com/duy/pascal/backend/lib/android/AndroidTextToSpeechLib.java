@@ -36,8 +36,8 @@ import java.util.concurrent.CountDownLatch;
 public class AndroidTextToSpeechLib implements PascalLibrary {
     public static final String NAME = "aTTSpeech".toLowerCase();
 
-    private  TextToSpeech mTextToSpeech;
-    private  CountDownLatch mOnInitLock;
+    private TextToSpeech mTextToSpeech;
+    private CountDownLatch mOnInitLock;
 
     public AndroidTextToSpeechLib(AndroidLibraryManager manager) {
         if (manager.getContext() != null) {

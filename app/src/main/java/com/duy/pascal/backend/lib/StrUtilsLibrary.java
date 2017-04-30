@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.EConvertError;
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.Arrays;
@@ -252,7 +252,7 @@ public class StrUtilsLibrary implements PascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Deletes and returns all characters in a string till the first space character (not included).", returns = "void")
-    public String Copy2SpaceDel(VariableBoxer<StringBuilder> variableBoxer) throws RuntimePascalException {
+    public String Copy2SpaceDel(PascalReference<StringBuilder> variableBoxer) throws RuntimePascalException {
         StringBuilder stringBuilder = variableBoxer.get();
         int index = stringBuilder.indexOf(" ");
         if (index > 0 && index < stringBuilder.length()) {
@@ -281,7 +281,7 @@ public class StrUtilsLibrary implements PascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Deletes and returns all characters in a string till a given character (not included).", returns = "void")
-    public StringBuilder Copy2SymbDel(VariableBoxer<StringBuilder> variableBoxer, char separator) throws RuntimePascalException {
+    public StringBuilder Copy2SymbDel(PascalReference<StringBuilder> variableBoxer, char separator) throws RuntimePascalException {
         StringBuilder stringBuilder = variableBoxer.get();
         int index = stringBuilder.indexOf(Character.toString(separator));
         if (index > 0 && index < stringBuilder.length()) {

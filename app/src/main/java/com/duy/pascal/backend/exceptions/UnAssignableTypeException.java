@@ -1,14 +1,14 @@
 package com.duy.pascal.backend.exceptions;
 
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 public class UnAssignableTypeException extends com.duy.pascal.backend.exceptions.ParsingException {
-    public ReturnsValue returnsValue;
+    public RValue rValue;
 
-    public UnAssignableTypeException(ReturnsValue value) {
-        super(value.getLine(), "The expression " + value
+    public UnAssignableTypeException(RValue value) {
+        super(value.getLineNumber(), "The expression " + value
                 + " cannot have a value assigned to it.");
-        this.returnsValue = value;
+        this.rValue = value;
     }
 
 }

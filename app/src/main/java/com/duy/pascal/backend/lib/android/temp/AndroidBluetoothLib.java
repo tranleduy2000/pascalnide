@@ -50,13 +50,12 @@ import java.util.concurrent.Callable;
 // Discovery functions added by Eden Sayag
 
 
-public class AndroidBluetoothLib  implements PascalLibrary{
+public class AndroidBluetoothLib implements PascalLibrary {
 
+    public static final String NAME = "aBluetooth".toLowerCase();
     // UUID for SL4A.
     private static final String DEFAULT_UUID = "457807c0-4897-11df-9879-0800200c9a66";
     private static final String SDP_NAME = "SL4A";
-    public static final String NAME = "aBluetooth".toLowerCase();
-
     private Map<String, BluetoothConnection> connections = new HashMap<>();
     private AndroidUtilsLib mAndroidFacade;
     private BluetoothAdapter mBluetoothAdapter;

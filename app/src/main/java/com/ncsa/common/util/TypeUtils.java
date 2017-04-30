@@ -8,13 +8,14 @@ import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 /**
- * Various type-checking, primitive conversion and class lookup
+ * Various operator-checking, primitive conversion and class lookup
  * routines.
  *
  * @author Albert L. Rossi
  */
 public class TypeUtils {
-    public static final Class[] primitiveAssignable = {
+    public static final Class[] primitiveAssignable =
+            {
             String.class, Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
             Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
             Boolean.class, Byte.class, Character.class, Double.class,
@@ -27,8 +28,14 @@ public class TypeUtils {
     private static HashMap numTypes = null;
     private static HashMap assignable = null;
 
+    /**
+     * Static utility class; cannot be constructed.
+     */
+    private TypeUtils() {
+    }
+
     /*
-     *  HashMaps holding primitive and numerical type mappings.
+     *  HashMaps holding primitive and numerical operator mappings.
      */
     static {
         typeMap = new HashMap();
@@ -86,23 +93,17 @@ public class TypeUtils {
                         Double.class, Float.class, Integer.class, Long.class, Short.class
                 };
 
-        for (Class type : types) {
-            numTypes.put(type, type);
+        for (int i = 0; i < types.length; i++) {
+            numTypes.put(types[i], types[i]);
         }
 
         assignable = new HashMap();
-        for (Class aPrimitiveAssignable : primitiveAssignable) {
-            assignable.put(aPrimitiveAssignable, null);
+        for (int i = 0; i < primitiveAssignable.length; i++) {
+            assignable.put(primitiveAssignable[i], null);
         }
 
     } // static
 
-    /**
-     * Static utility class; cannot be constructed.
-     */
-    private TypeUtils() {
-
-    }
 
     /**
      * @param s fully qualified or primitive name.
@@ -147,7 +148,7 @@ public class TypeUtils {
     } // getTypeForClass
 
     /**
-     * Checks to see if the type string designates a primitive, java.lang.String
+     * Checks to see if the operator string designates a primitive, java.lang.String
      * or java.io.File.
      *
      * @param s  fully qualified or primitive name.
@@ -169,7 +170,7 @@ public class TypeUtils {
     }
 
     /**
-     * Checks to see if the class or type qualifies as a primitive-assignable
+     * Checks to see if the class or operator qualifies as a primitive-assignable
      * class.
      *
      * @param c class object.
@@ -181,7 +182,7 @@ public class TypeUtils {
 
     /**
      * @param s fully qualified or primitive name.
-     * @return true if type represents a numerical value.
+     * @return true if operator represents a numerical value.
      */
     public static boolean isNumber(String s) throws ClassNotFoundException {
         return numTypes.containsKey(getClassForName(s));
@@ -198,9 +199,9 @@ public class TypeUtils {
     /**
      * See isTypeOf( Class, Class )
      *
-     * @param s       type to check.
-     * @param toMatch type to check against.
-     * @return true if Class of s is a (sub)type of Class of toMatch.
+     * @param s       operator to check.
+     * @param toMatch operator to check against.
+     * @return true if Class of s is a (sub)operator of Class of toMatch.
      * @throws ClassNotFoundException if class not found.
      */
     public static boolean isTypeOf(String s, String toMatch)
@@ -210,8 +211,8 @@ public class TypeUtils {
 
     /**
      * @param c       class to check.
-     * @param toMatch type to check against.
-     * @return true if c is a (sub)type of Class of toMatch.
+     * @param toMatch operator to check against.
+     * @return true if c is a (sub)operator of Class of toMatch.
      * @throws ClassNotFoundException if class not found.
      */
     public static boolean isTypeOf(Class c, String toMatch)
@@ -220,9 +221,9 @@ public class TypeUtils {
     } // isTypeOf
 
     /**
-     * @param s       type to check.
+     * @param s       operator to check.
      * @param toMatch class to check against.
-     * @return true if Class of s is a (sub)type of toMatch.
+     * @return true if Class of s is a (sub)operator of toMatch.
      * @throws ClassNotFoundException if class not found.
      */
     public static boolean isTypeOf(String s, Class toMatch)
@@ -235,7 +236,7 @@ public class TypeUtils {
      *
      * @param c       class to check.
      * @param toMatch class to check against.
-     * @return true if c is a (sub)type of toMatch.
+     * @return true if c is a (sub)operator of toMatch.
      */
     public static boolean isTypeOf(Class c, Class toMatch) {
         boolean matches = false;
@@ -266,7 +267,7 @@ public class TypeUtils {
     } // isTypeOf
 
     /**
-     * Does type-checking to make sure the two objects are comparable.
+     * Does operator-checking to make sure the two objects are comparable.
      * This method checks the objects against the putative classes provided.
      *
      * @param o1 object to compare.
@@ -279,7 +280,7 @@ public class TypeUtils {
                                      Object o2,
                                      Class c1,
                                      Class c2) {
-        // we'll consider a null to match any type
+        // we'll consider a null to match any operator
         if (o1 == null || o2 == null) {
             return true;
         }
@@ -292,7 +293,7 @@ public class TypeUtils {
     } // typesMatch
 
     /**
-     * Does type-checking to make sure the two objects are comparable.
+     * Does operator-checking to make sure the two objects are comparable.
      * The classes of the objects are directly compared.
      *
      * @param o1 object to compare.
@@ -300,7 +301,7 @@ public class TypeUtils {
      * @return true if match, false if not.
      */
     public static boolean typesMatch(Object o1, Object o2) {
-        // we'll consider a null to match any type
+        // we'll consider a null to match any operator
         if (o1 == null || o2 == null) {
             return true;
         }
@@ -336,17 +337,17 @@ public class TypeUtils {
     }
 
     /**
-     * If the class of value is a (sub)type of type, returns value.
-     * Else if the class of value is a number and type is also, a
+     * If the class of value is a (sub)operator of operator, returns value.
+     * Else if the class of value is a number and operator is also, a
      * cast is performed by doing toString on the value and using it
-     * as the parameter to the constructor of the new numerical type.
+     * as the parameter to the constructor of the new numerical operator.
      * This is also done for all primitives in the case that value is a String.
      * Otherwise, the unconverted value is returned.
      *
      * @param type  to convert to.
      * @param value to convert.
-     * @return the new type of object.
-     * @throws TypeConversionException if the constructors of the new type
+     * @return the new operator of object.
+     * @throws TypeConversionException if the constructors of the new operator
      *                                 throw an exception.
      */
     public static Object convertPrim(Class type, Object value)

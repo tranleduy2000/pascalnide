@@ -6,7 +6,7 @@ import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 import java.util.Iterator;
 import java.util.List;
@@ -23,15 +23,15 @@ public abstract class AbstractFunction implements NamedEntity {
         return null;
     }
 
-    public abstract ArgumentType[] getArgumentTypes();
+    public abstract ArgumentType[] argumentTypes();
 
-    public abstract DeclaredType returnType();
+    public abstract DeclaredType return_type();
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder(name());
         result.append('(');
-        for (ArgumentType c : getArgumentTypes()) {
+        for (ArgumentType c : argumentTypes()) {
             result.append(c);
             result.append(',');
         }
@@ -42,13 +42,13 @@ public abstract class AbstractFunction implements NamedEntity {
     /**
      * @return converted arguments, or null, if they do not fit.
      */
-    public ReturnsValue[] formatArgs(List<ReturnsValue> values,
-                                     ExpressionContext expressionContext) throws ParsingException {
-        ArgumentType[] acceptedTypes = getArgumentTypes();
-        ReturnsValue[] result = new ReturnsValue[acceptedTypes.length];
-        Iterator<ReturnsValue> iterator = values.iterator();
-        for (int i = 0; i < acceptedTypes.length; i++) {
-            result[i] = acceptedTypes[i].convertArgType(iterator, expressionContext);
+    public RValue[] formatArgs(List<RValue> values,
+                               ExpressionContext expressionContext) throws ParsingException {
+        ArgumentType[] accepted_types = argumentTypes();
+        RValue[] result = new RValue[accepted_types.length];
+        Iterator<RValue> iterator = values.iterator();
+        for (int i = 0; i < accepted_types.length; i++) {
+            result[i] = accepted_types[i].convertArgType(iterator, expressionContext);
             if (result[i] == null) {
                 //This indicates that it cannot fit.
                 return null;
@@ -60,9 +60,9 @@ public abstract class AbstractFunction implements NamedEntity {
         return result;
     }
 
-    public ReturnsValue[] perfectMatch(List<ReturnsValue> arguments,
-                                       ExpressionContext context) throws ParsingException {
-        ArgumentType[] acceptedTypes = getArgumentTypes();
+    public RValue[] perfectMatch(List<RValue> arguments,
+                                 ExpressionContext context) throws ParsingException {
+        ArgumentType[] acceptedTypes = argumentTypes();
 
         //check array
         boolean isArray = false;
@@ -77,8 +77,8 @@ public abstract class AbstractFunction implements NamedEntity {
             return null;
         }
 
-        Iterator<ReturnsValue> iterator = arguments.iterator();
-        ReturnsValue[] result = new ReturnsValue[acceptedTypes.length];
+        Iterator<RValue> iterator = arguments.iterator();
+        RValue[] result = new RValue[acceptedTypes.length];
         for (int i = 0; i < acceptedTypes.length; i++) {
             result[i] = acceptedTypes[i].perfectFit(iterator, context);
             if (result[i] == null) {
@@ -88,12 +88,12 @@ public abstract class AbstractFunction implements NamedEntity {
         return result;
     }
 
-    public abstract ReturnsValue generatePerfectFitCall(LineInfo line,
-                                                        List<ReturnsValue> values, ExpressionContext f)
+    public abstract RValue generatePerfectFitCall(LineInfo line,
+                                                  List<RValue> values, ExpressionContext f)
             throws ParsingException;
 
-    public abstract ReturnsValue generateCall(LineInfo line,
-                                              List<ReturnsValue> values, ExpressionContext f)
+    public abstract RValue generateCall(LineInfo line,
+                                        List<RValue> values, ExpressionContext f)
             throws ParsingException;
 
 }

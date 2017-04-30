@@ -27,9 +27,8 @@ public class EllipseObject extends GraphObject {
     private int x, y, rx, ry;
 
     /**
-     *
-     * @param x - x coordinate
-     * @param y - y coordinate
+     * @param x  - x coordinate
+     * @param y  - y coordinate
      * @param rx - horizontal radius
      * @param ry - vertical radius
      */

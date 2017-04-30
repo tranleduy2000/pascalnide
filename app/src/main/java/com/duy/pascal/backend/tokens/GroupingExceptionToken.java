@@ -5,20 +5,20 @@ import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class GroupingExceptionToken extends Token {
-	public GroupingException exception;
+    public GroupingException exception;
 
-	public GroupingExceptionToken(GroupingException g) {
-		super(g.line);
-		this.exception = g;
-	}
+    public GroupingExceptionToken(GroupingException g) {
+        super(g.line);
+        this.exception = g;
+    }
 
-	public GroupingExceptionToken(LineInfo line, EnumeratedGroupingException.GroupingExceptionTypes type) {
-		super(line);
-		this.exception = new EnumeratedGroupingException(line, type);
-	}
+    public GroupingExceptionToken(LineInfo line, EnumeratedGroupingException.GroupingExceptionTypes type) {
+        super(line);
+        this.exception = new EnumeratedGroupingException(line, type);
+    }
 
-	@Override
-	public String toString() {
-		return exception.toString();
-	}
+    @Override
+    public String toString() {
+        return exception.toString();
+    }
 }

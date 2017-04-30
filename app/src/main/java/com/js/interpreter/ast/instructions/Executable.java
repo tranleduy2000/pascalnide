@@ -8,7 +8,7 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public interface Executable {
-    LineInfo getLine();
+    LineInfo getLineNumber();
 
     /*
      * This should not modify the state of the object, unless it is a plugin

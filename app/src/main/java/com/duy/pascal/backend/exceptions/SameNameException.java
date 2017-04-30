@@ -7,13 +7,13 @@ public class SameNameException extends com.duy.pascal.backend.exceptions.Parsing
     public String preType, preLine;
 
     public SameNameException(NamedEntity previous, NamedEntity current) {
-        super(current.getLine(), current.getEntityType() + " " + current.name()
+        super(current.getLineNumber(), current.getEntityType() + " " + current.name()
                 + " conflicts with previously defined "
                 + previous.getEntityType() + " with the same name defined at "
-                + previous.getLine());
+                + previous.getLineNumber());
         this.type = current.getEntityType();
         this.name = current.name();
         this.preType = previous.getEntityType();
-        this.preLine = previous.getLine().toString();
+        this.preLine = previous.getLineNumber().toString();
     }
 }

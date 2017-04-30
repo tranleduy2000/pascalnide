@@ -65,12 +65,12 @@ public class CustomVariable implements ContainsVariables {
     }
 
     @Override
-    public Object getVariable(String name) throws RuntimePascalException {
+    public Object get_var(String name) throws RuntimePascalException {
         return variableMap.get(name.toLowerCase());
     }
 
     @Override
-    public void setVariable(String name, Object val) {
+    public void set_var(String name, Object val) {
         variableMap.put(name.toLowerCase(), val);
     }
 
@@ -79,7 +79,7 @@ public class CustomVariable implements ContainsVariables {
         List<VariableDeclaration> listVariable = new ArrayList<>();
         for (VariableDeclaration variable : variableList) {
             VariableDeclaration variableDeclaration = new VariableDeclaration(variable.name(),
-                    variable.getType(), variableMap.get(variable.name), variable.getLine());
+                    variable.getType(), variableMap.get(variable.name), variable.getLineNumber());
             listVariable.add(variableDeclaration);
         }
         return new CustomVariable(listVariable);

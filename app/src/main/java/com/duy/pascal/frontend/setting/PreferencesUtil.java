@@ -60,7 +60,7 @@ public class PreferencesUtil {
      * preference's value is changed, its summary (line of text below the
      * preference title) is updated to reflect the value. The summary is also
      * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
+     * dependent on the operator of preference.
      *
      * @see #sBindPreferenceSummaryToValueListener
      */

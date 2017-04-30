@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.lib.runtime_exceptions;
 
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 /**
@@ -25,7 +25,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class RangeCheckError extends RuntimePascalException {
 
-    public RangeCheckError(VariableBoxer<Object> boxer) {
+    public RangeCheckError(PascalReference<Object> boxer) {
 
     }
 }

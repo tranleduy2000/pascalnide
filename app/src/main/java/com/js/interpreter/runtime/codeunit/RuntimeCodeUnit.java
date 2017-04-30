@@ -20,8 +20,12 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
         }
     }
 
+    public parent getDefinition() {
+        return definition;
+    }
+
     @Override
-    public Object getLocalVariable(String name) {
+    public Object getLocalVar(String name) {
         return unitVariables.get(name);
     }
 

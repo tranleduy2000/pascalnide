@@ -23,7 +23,7 @@ public class RecordType extends CustomType {
     public String toString() {
         StringBuilder out = new StringBuilder();
         out.append("\n");
-        for (VariableDeclaration variableType : variableTypes) {
+        for (VariableDeclaration variableType : variable_types) {
             out.append(variableType.toString()).append("\n");
         }
         return out.toString();

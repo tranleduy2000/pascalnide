@@ -34,7 +34,7 @@ public class CasePossibility extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return conditions[0].getLine();
     }
 

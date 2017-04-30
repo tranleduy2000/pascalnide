@@ -140,7 +140,7 @@ public class ContactsFacade implements PascalLibrary {
         String[] columns;
         if (attributes == null || attributes.length() == 0) {
             // In case no attributes are specified we set the default ones.
-            columns = new String[]{"_id", "name", "primary_phone", "primary_email", "type"};
+            columns = new String[]{"_id", "name", "primary_phone", "primary_email", "operator"};
         } else {
             // Convert selected attributes list into usable string list.
             columns = new String[attributes.length()];
@@ -213,7 +213,7 @@ public class ContactsFacade implements PascalLibrary {
         String[] columns;
         if (attributes == null || attributes.length() == 0) {
             // In case no attributes are specified we set the default ones.
-            columns = new String[]{"_id", "name", "primary_phone", "primary_email", "type"};
+            columns = new String[]{"_id", "name", "primary_phone", "primary_email", "operator"};
         } else {
             // Convert selected attributes list into usable string list.
             columns = new String[attributes.length()];

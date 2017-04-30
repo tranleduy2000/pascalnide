@@ -19,7 +19,7 @@ package com.duy.pascal.backend.lib;
 import android.os.Build;
 
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.PascalReference;
 
 import java.util.Date;
 import java.util.Map;
@@ -41,10 +41,10 @@ public class DosLib implements PascalLibrary {
      */
     @PascalMethod(description = "Dos library", returns = "void")
     @SuppressWarnings("unused")
-    public static void getTime(VariableBoxer<Object> hour,
-                               VariableBoxer<Object> minute,
-                               VariableBoxer<Object> second,
-                               VariableBoxer<Object> sec100) {
+    public static void getTime(PascalReference<Object> hour,
+                               PascalReference<Object> minute,
+                               PascalReference<Object> second,
+                               PascalReference<Object> sec100) {
         Date date = new Date();
         hour.set(date.getHours());
         minute.set(date.getMinutes());
@@ -57,10 +57,10 @@ public class DosLib implements PascalLibrary {
      */
     @PascalMethod(description = "Dos library", returns = "void")
     @SuppressWarnings("unused")
-    public static void getDate(VariableBoxer<Object> year,
-                               VariableBoxer<Object> month,
-                               VariableBoxer<Object> mday,
-                               VariableBoxer<Object> wday) {
+    public static void getDate(PascalReference<Object> year,
+                               PascalReference<Object> month,
+                               PascalReference<Object> mday,
+                               PascalReference<Object> wday) {
         Date date = new Date();
         year.set(date.getYear());
         month.set(date.getMonth());

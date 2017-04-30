@@ -17,7 +17,6 @@
 package com.duy.pascal.backend.lib.templated.sizeof;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -25,9 +24,8 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -35,28 +33,23 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 class SizeOfArrayCall extends FunctionCall {
 
     private LineInfo line;
-    private ReturnsValue array;
+    private RValue array;
 
-    SizeOfArrayCall(ReturnsValue array, LineInfo line) {
+    SizeOfArrayCall(RValue array, LineInfo line) {
         this.array = array;
         this.line = line;
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
         return new RuntimeType(BasicType.Integer, false);
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return line;
     }
 
-    @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
-    }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context) {
@@ -64,7 +57,7 @@ class SizeOfArrayCall extends FunctionCall {
     }
 
     @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new SizeOfArrayCall(array.compileTimeExpressionFold(context), line);
     }
@@ -86,7 +79,7 @@ class SizeOfArrayCall extends FunctionCall {
         @SuppressWarnings("rawtypes")
         ArrayType arr = (ArrayType) array.getValue(f, main);
         int size = arr.getBounds().size;
-        Class storageClass = arr.elementType.getStorageClass();
+        Class storageClass = arr.element_type.getStorageClass();
         if (storageClass == int.class || storageClass == Integer.class) {
             return size * 4; //32 bit
         } else if (storageClass == long.class || storageClass == Long.class) {

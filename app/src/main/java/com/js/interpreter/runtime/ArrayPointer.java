@@ -2,7 +2,7 @@ package com.js.interpreter.runtime;
 
 import java.lang.reflect.Array;
 
-public class ArrayPointer<T> implements VariableBoxer<T> {
+public class ArrayPointer<T> implements PascalReference<T> {
 	private final int index;
 	private final Object container;
 
@@ -17,7 +17,8 @@ public class ArrayPointer<T> implements VariableBoxer<T> {
 	@Override
 	public T get() {
 		if (isString) {
-			return (T) (Character) ((StringBuilder) container).charAt(index - 1);
+            return (T) (Character) ((StringBuilder) container)
+                    .charAt(index - 1);
 		} else {
 			return (T) Array.get(container, index);
 		}

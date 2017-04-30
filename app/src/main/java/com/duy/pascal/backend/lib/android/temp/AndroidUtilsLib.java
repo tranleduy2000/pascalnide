@@ -64,7 +64,7 @@ import java.util.TimeZone;
  * <ul>
  * <li><b>action</b> - action.
  * <li><b>data</b> - url
- * <li><b>type</b> - mime type
+ * <li><b>operator</b> - mime operator
  * <li><b>packagename</b> - name of package. If used, requires classname to be useful (optional)
  * <li><b>classname</b> - name of class. If used, requires packagename to be useful (optional)
  * <li><b>categories</b> - list of categories
@@ -153,7 +153,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     public Intent startActivityForResult(
             @PascalParameter(name = "action") String action,
             @PascalParameter(name = "uri") @RpcOptional String uri,
-            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "operator", description = "MIME operator/subtype of the URI") @RpcOptional String type,
             @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
             @PascalParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
             @PascalParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname)
@@ -213,7 +213,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     public void startActivity(
             @PascalParameter(name = "action") String action,
             @PascalParameter(name = "uri") @RpcOptional String uri,
-            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "operator", description = "MIME operator/subtype of the URI") @RpcOptional String type,
             @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
             @PascalParameter(name = "wait", description = "block until the user exits the started activity") @RpcOptional Boolean wait,
             @PascalParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
@@ -228,7 +228,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     public void sendBroadcast(
             @PascalParameter(name = "action") String action,
             @PascalParameter(name = "uri") @RpcOptional String uri,
-            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "operator", description = "MIME operator/subtype of the URI") @RpcOptional String type,
             @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
             @PascalParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,
             @PascalParameter(name = "classname", description = "name of class. If used, requires packagename to be useful") @RpcOptional String classname)
@@ -246,7 +246,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     public Intent makeIntent(
             @PascalParameter(name = "action") String action,
             @PascalParameter(name = "uri") @RpcOptional String uri,
-            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "operator", description = "MIME operator/subtype of the URI") @RpcOptional String type,
             @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras,
             @PascalParameter(name = "categories", description = "a List of categories to add to the Intent") @RpcOptional JSONArray categories,
             @PascalParameter(name = "packagename", description = "name of package. If used, requires classname to be useful") @RpcOptional String packagename,

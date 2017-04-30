@@ -24,7 +24,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * Created by Duy on 08-Apr-17.
  */
 
-public  class InvalidFloatingPointOperation extends RuntimePascalException {
+public class InvalidFloatingPointOperation extends RuntimePascalException {
     private Object object;
 
     public InvalidFloatingPointOperation(Object d) {

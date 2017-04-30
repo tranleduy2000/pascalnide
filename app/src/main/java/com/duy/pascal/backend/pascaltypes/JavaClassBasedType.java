@@ -4,9 +4,9 @@ import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
-import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
 import com.js.interpreter.ast.returnsvalue.boxing.StringBuilderBoxer;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
@@ -46,19 +46,19 @@ public class JavaClassBasedType implements DeclaredType {
     }
 
     @Override
-    public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
+    public RValue convert(RValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.getType(f);
-        if (other_type.declaredType instanceof BasicType) {
-            if (this.equals(other_type.declaredType)) {
+        RuntimeType other_type = value.get_type(f);
+        if (other_type.declType instanceof BasicType) {
+            if (this.equals(other_type.declType)) {
                 return cloneValue(value);
             }
             if (this.c == String.class
-                    && other_type.declaredType == BasicType.StringBuilder) {
+                    && other_type.declType == BasicType.StringBuilder) {
                 return new StringBuilderBoxer(value);
             }
             if (this.c == String.class
-                    && other_type.declaredType == BasicType.Character) {
+                    && other_type.declType == BasicType.Character) {
                 return new StringBuilderBoxer(new CharacterBoxer(value));
             }
 
@@ -94,13 +94,13 @@ public class JavaClassBasedType implements DeclaredType {
     }
 
     @Override
-    public ReturnsValue cloneValue(ReturnsValue r) {
+    public RValue cloneValue(RValue r) {
         return new CloneableObjectCloner(r);
     }
 
     @Override
-    public ReturnsValue generateArrayAccess(ReturnsValue array,
-                                            ReturnsValue index) throws NonArrayIndexed {
+    public RValue generateArrayAccess(RValue array,
+                                      RValue index) throws NonArrayIndexed {
         return null;
     }
 
@@ -121,7 +121,7 @@ public class JavaClassBasedType implements DeclaredType {
 
     @Override
     public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<IntegerSubrangeType> ranges) {
+                                List<SubrangeType> ranges) {
         ArrayType.pushArrayOfNonArrayType(this, code, ra, ranges);
     }
 

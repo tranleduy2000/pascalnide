@@ -17,25 +17,24 @@
 package com.duy.pascal.backend.pascaltypes.typeconversion;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.LValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringBuilderWithRangeType implements ReturnsValue {
-    protected ReturnsValue[] outputFormat;
-    private ReturnsValue value;
-    private ReturnsValue length;
+public class StringBuilderWithRangeType implements RValue {
+    protected RValue[] outputFormat;
+    private RValue value;
+    private RValue length;
 
 
-    public StringBuilderWithRangeType(ReturnsValue value, ReturnsValue length) {
+    public StringBuilderWithRangeType(RValue value, RValue length) {
         this.value = value;
         this.length = length;
         this.outputFormat = value.getOutputFormat();
@@ -47,12 +46,12 @@ public class StringBuilderWithRangeType implements ReturnsValue {
     }
 
     @Override
-    public ReturnsValue[] getOutputFormat() {
+    public RValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnsValue[] formatInfo) {
+    public void setOutputFormat(RValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -64,7 +63,7 @@ public class StringBuilderWithRangeType implements ReturnsValue {
             return new StringBuilder(value.getValue(f, main).toString());
 
         String original = value.getValue(f, main).toString();
-        Integer len = (Integer) length.getValue(f, main);
+        int len = (int) length.getValue(f, main);
         if (len > original.length()) {
             return new StringBuilder(original);
         } else {
@@ -73,14 +72,14 @@ public class StringBuilderWithRangeType implements ReturnsValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f)
+    public RuntimeType get_type(ExpressionContext f)
             throws ParsingException {
-        return new RuntimeType(BasicType.anew(StringBuilder.class), false);
+        return new RuntimeType(BasicType.create(StringBuilder.class), false);
     }
 
     @Override
-    public LineInfo getLine() {
-        return value.getLine();
+    public LineInfo getLineNumber() {
+        return value.getLineNumber();
     }
 
     @Override
@@ -94,15 +93,15 @@ public class StringBuilderWithRangeType implements ReturnsValue {
         }
     }
 
+
     @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
+            throws ParsingException {
+        return new StringBuilderWithRangeType(value.compileTimeExpressionFold(context), length);
     }
 
     @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
-        return new StringBuilderWithRangeType(value.compileTimeExpressionFold(context), length);
+    public LValue asLValue(ExpressionContext f) {
+        return null;
     }
 }

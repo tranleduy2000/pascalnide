@@ -1,37 +1,45 @@
 package com.js.interpreter.ast.returnsvalue;
 
 
-import com.duy.pascal.backend.debugable.DebuggableReturnsValue;
+import com.duy.pascal.backend.debugable.DebuggableRValue;
+import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
-import com.duy.pascal.backend.exceptions.OperationNotSupportedException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
+import com.js.interpreter.ast.returnsvalue.operators.AddressEval;
+import com.js.interpreter.ast.returnsvalue.operators.BoolUniOperatorEval;
+import com.js.interpreter.ast.returnsvalue.operators.DerefEval;
+import com.js.interpreter.ast.returnsvalue.operators.DoubleUniOperatorEval;
+import com.js.interpreter.ast.returnsvalue.operators.IntUniOperatorEval;
+import com.js.interpreter.ast.returnsvalue.operators.LongUniOperatorEval;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
 
-public class UnaryOperatorEvaluation extends DebuggableReturnsValue {
-    public OperatorTypes type;
+public abstract class UnaryOperatorEvaluation extends DebuggableRValue {
+    public OperatorTypes operator;
+    public RuntimeType type;
+    public RValue operon;
+    public LineInfo line;
 
-    public ReturnsValue operon;
-    LineInfo line;
-
-    public UnaryOperatorEvaluation(ReturnsValue operon, OperatorTypes operator,
+    protected UnaryOperatorEvaluation(RValue operon, OperatorTypes operator,
                                    LineInfo line) {
-        this.type = operator;
+        this.operator = operator;
         this.line = line;
         this.operon = operon;
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return line;
     }
 
@@ -42,27 +50,16 @@ public class UnaryOperatorEvaluation extends DebuggableReturnsValue {
         return operate(value);
     }
 
-    public Object operate(Object value) throws PascalArithmeticException {
-        try {
-            return type.operate(value);
-        } catch (OperationNotSupportedException e) {
-            throw new RuntimeException(e);
-        } catch (ArithmeticException e) {
-            throw new PascalArithmeticException(line, e);
-        }
-    }
+    public abstract Object operate(Object value) throws PascalArithmeticException, InternalInterpreterException;
 
     @Override
     public String toString() {
-        return "operator [" + type + "] on [" + operon + ']';
+        return "operator [" + operator + "] on [" + operon + ']';
     }
 
-
-
-
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return operon.getType(f);
+    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+        return operon.get_type(f);
     }
 
     @Override
@@ -74,26 +71,43 @@ public class UnaryOperatorEvaluation extends DebuggableReturnsValue {
         }
         try {
             return operate(value);
-        } catch (PascalArithmeticException e) {
+        } catch (PascalArithmeticException | InternalInterpreterException e) {
             throw new ConstantCalculationException(e);
         }
     }
 
-    @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
-    }
+    public static RValue generateOp(ExpressionContext f,
+                                    RValue v1, OperatorTypes op_type,
+                                    LineInfo line) throws ParsingException {
+        DeclaredType t1 = v1.get_type(f).declType;
 
-    @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
-        Object val = this.compileTimeValue(context);
-        if (val != null) {
-            return new ConstantAccess(val, line);
-        } else {
-            return new UnaryOperatorEvaluation(
-                    operon.compileTimeExpressionFold(context), type, line);
+        if(!op_type.can_be_unary) {
+            throw new BadOperationTypeException(line, t1,  v1, op_type);
         }
+        if(op_type == OperatorTypes.ADDRESS) {
+            LValue target = v1.asLValue(f);
+            if(target!=null) {
+                return new AddressEval(target,line);
+            }
+        }
+        if(op_type == OperatorTypes.DEREF) {
+            if(t1 instanceof  PointerType) {
+                return new DerefEval(v1, line);
+            }
+        }
+        if(op_type == OperatorTypes.NOT && t1 == BasicType.Boolean) {
+            return new BoolUniOperatorEval(v1,op_type,line);
+        }
+        if(t1 == BasicType.Integer) {
+            return new IntUniOperatorEval(v1, op_type, line);
+        }
+        if(t1 == BasicType.Long) {
+            return new LongUniOperatorEval(v1, op_type, line);
+        }
+        if(t1 == BasicType.Double) {
+            return new DoubleUniOperatorEval(v1, op_type, line);
+        }
+
+        throw new BadOperationTypeException(line, t1,  v1, op_type);
     }
 }

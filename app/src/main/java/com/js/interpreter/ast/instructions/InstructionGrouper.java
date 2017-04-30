@@ -21,11 +21,11 @@ public class InstructionGrouper extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return line;
     }
 
-    public void addCommand(Executable e) {
+    public void add_command(Executable e) {
         instructions.add(e);
     }
 

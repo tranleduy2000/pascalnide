@@ -255,7 +255,7 @@ public class SystemConstants {
     }
 
     /**
-     * add some missing type
+     * add some missing operator
      *
      * @param context
      */

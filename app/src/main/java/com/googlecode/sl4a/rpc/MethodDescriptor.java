@@ -94,11 +94,11 @@ public final class MethodDescriptor {
             } else if (type == Intent.class) {
                 return buildIntent(jsonParams.getJSONObject(index));
             } else {
-                // Magically cast the parameter to the right Java type.
+                // Magically cast the parameter to the right Java operator.
                 return ((Class<?>) type).cast(jsonParams.get(index));
             }
         } catch (ClassCastException e) {
-            throw new RpcError("Argument " + (index + 1) + " should be of type "
+            throw new RpcError("Argument " + (index + 1) + " should be of operator "
                     + ((Class<?>) type).getSimpleName() + ".");
         }
     }
@@ -108,13 +108,13 @@ public final class MethodDescriptor {
         if (jsonObject.has("action")) {
             intent.setAction(jsonObject.getString("action"));
         }
-        if (jsonObject.has("data") && jsonObject.has("type")) {
+        if (jsonObject.has("data") && jsonObject.has("operator")) {
             intent.setDataAndType(Uri.parse(jsonObject.optString("data", null)),
-                    jsonObject.optString("type", null));
+                    jsonObject.optString("operator", null));
         } else if (jsonObject.has("data")) {
             intent.setData(Uri.parse(jsonObject.optString("data", null)));
-        } else if (jsonObject.has("type")) {
-            intent.setType(jsonObject.optString("type", null));
+        } else if (jsonObject.has("operator")) {
+            intent.setType(jsonObject.optString("operator", null));
         }
         if (jsonObject.has("packagename") && jsonObject.has("classname")) {
             intent.setClassName(jsonObject.getString("packagename"), jsonObject.getString("classname"));
@@ -137,7 +137,7 @@ public final class MethodDescriptor {
     /**
      * Returns the help string for one particular parameter. This respects optional parameters.
      *
-     * @param parameterType (generic) type of the parameter
+     * @param parameterType (generic) operator of the parameter
      * @param annotations   annotations of the parameter, may be null
      * @return string describing the parameter based on source code annotations
      */
@@ -165,10 +165,10 @@ public final class MethodDescriptor {
     }
 
     /**
-     * Appends the name of the given type to the {@link StringBuilder}.
+     * Appends the name of the given operator to the {@link StringBuilder}.
      *
      * @param builder string builder to append to
-     * @param type    type whose name to append
+     * @param type    operator whose name to append
      */
     private static void appendTypeName(final StringBuilder builder, final Type type) {
         if (type instanceof Class<?>) {

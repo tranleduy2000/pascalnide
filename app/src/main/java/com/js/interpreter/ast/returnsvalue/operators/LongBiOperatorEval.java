@@ -8,13 +8,13 @@ import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 
 
 public class LongBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public LongBiOperatorEval(ReturnsValue operon1, ReturnsValue operon2,
+    public LongBiOperatorEval(RValue operon1, RValue operon2,
                               OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
@@ -23,7 +23,7 @@ public class LongBiOperatorEval extends BinaryOperatorEvaluation {
 
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
         switch (operator_type) {
             case EQUALS:
             case GREATEREQ:
@@ -87,7 +87,7 @@ public class LongBiOperatorEval extends BinaryOperatorEvaluation {
     }
 
     @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {

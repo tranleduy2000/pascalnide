@@ -1,21 +1,21 @@
 package com.duy.pascal.backend.exceptions;
 
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 public class UnConvertibleTypeException extends com.duy.pascal.backend.exceptions.ParsingException {
 
-    public final ReturnsValue obj;
+    public final RValue obj;
     public final DeclaredType out;
     public final DeclaredType in;
     public final boolean implicit;
 
-    public UnConvertibleTypeException(ReturnsValue obj,
+    public UnConvertibleTypeException(RValue obj,
                                       DeclaredType out, DeclaredType in, boolean implicit) {
-        super(obj.getLine(),
-                "The expression or variable \"" + obj + "\" is of type \"" + out + "\""
+        super(obj.getLineNumber(),
+                "The expression or variable \"" + obj + "\" is of operator \"" + out + "\""
                         + ", which cannot be " + (implicit ? "implicitly " : "")
-                        + "converted to to the type \"" + in + "\"");
+                        + "converted to to the operator \"" + in + "\"");
 
         this.obj = obj;
         this.out = out;

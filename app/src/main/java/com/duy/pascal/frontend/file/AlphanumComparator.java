@@ -49,7 +49,7 @@ import java.util.Comparator;
  * <p/>
  * To convert to use Templates (Java 1.5+): - Change "implements Comparator" to "implements
  * Comparator<String>" - Change "compare(Object o1, Object o2)" to "compare(String s1, String s2)" -
- * Remove the type checking and casting in compare().
+ * Remove the operator checking and casting in compare().
  * <p/>
  * To use this class: Use the static "sort" method from the java.util.Collections class:
  * Collections.sort(your list, new AlphanumComparator());

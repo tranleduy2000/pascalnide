@@ -5,8 +5,8 @@ import com.duy.pascal.backend.tokens.Token;
 
 public abstract class BasicToken extends Token {
 
-	public BasicToken(LineInfo line) {
-		super(line);
-	}
+    public BasicToken(LineInfo line) {
+        super(line);
+    }
 
 }

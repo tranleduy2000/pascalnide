@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib.math;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.js.interpreter.runtime.VariableBoxer;
+import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
@@ -138,8 +138,8 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "")
-    public void DivMod(long dividend, int divisor, VariableBoxer<Object> result,
-                       VariableBoxer<Object> remainder) throws RuntimePascalException, WrongArgsException {
+    public void DivMod(long dividend, int divisor, PascalReference<Object> result,
+                       PascalReference<Object> remainder) throws RuntimePascalException, WrongArgsException {
         if (result.get() instanceof Integer) {
             result.set((int) (dividend / divisor));
             remainder.set((int) (dividend % divisor));

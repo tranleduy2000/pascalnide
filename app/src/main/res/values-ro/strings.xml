@@ -160,4 +160,5 @@
     <string name="DarkGray">Dark Gray</string>
     <string name="BrightYellow">Bright Yellow</string>
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
+    <string name="enter_key_word">Enter your keyword...</string>
 </resources>

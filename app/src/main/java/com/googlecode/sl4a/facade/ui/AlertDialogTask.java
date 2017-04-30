@@ -223,7 +223,7 @@ class AlertDialogTask extends DialogTask {
                 builder.setView(mEditText);
                 break;
             default:
-                // No input type specified.
+                // No input operator specified.
         }
         configureButtons(builder, getActivity());
         addOnCancelListener(builder, getActivity());

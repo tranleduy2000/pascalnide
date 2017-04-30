@@ -17,13 +17,13 @@ public abstract class DebuggableExecutable implements Executable {
     public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         try {
-            System.out.println(getClass().getSimpleName() + " " + getLine());
+            System.out.println(getClass().getSimpleName() + " " + getLineNumber());
             if (main != null) {
                 if (main.isDebugMode()) {
-                    main.getDebugListener().onLine(getLine());
+                    main.getDebugListener().onLine(getLineNumber());
                 }
-                main.incStack(getLine());
-                main.scriptControlCheck(getLine());
+                main.incStack(getLineNumber());
+                main.scriptControlCheck(getLineNumber());
             }
             ExecutionResult result = executeImpl(f, main);
             if (main != null) {
@@ -33,7 +33,7 @@ public abstract class DebuggableExecutable implements Executable {
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
-            throw new UnhandledPascalException(this.getLine(), e);
+            throw new UnhandledPascalException(this.getLineNumber(), e);
         }
     }
 

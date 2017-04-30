@@ -10,7 +10,9 @@ import java.util.Map;
 
 public class VariableDeclaration implements NamedEntity {
     public String name;
+
     public DeclaredType type;
+
     public Object initialValue;
     private LineInfo line;
 
@@ -40,7 +42,7 @@ public class VariableDeclaration implements NamedEntity {
         return initialValue;
     }
 
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return line;
     }
 

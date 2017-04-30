@@ -4,10 +4,10 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.ScopedRegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
-import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ArrayAccess;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.ast.returnsvalue.cloning.ArrayCloner;
 import com.ncsa.common.util.TypeUtils;
 
@@ -20,20 +20,19 @@ import serp.bytecode.Instruction;
 import serp.bytecode.JumpInstruction;
 
 public class ArrayType<T extends DeclaredType> implements DeclaredType {
-
     private static final String TAG = "ArrayType";
-    public final T elementType;
-    private IntegerSubrangeType bounds;
+    public final T element_type;
+    private SubrangeType bounds;
 
 
-    public ArrayType(T elementClass, IntegerSubrangeType bounds) {
-        this.elementType = elementClass;
+    public ArrayType(T elementclass, SubrangeType bounds) {
+        this.element_type = elementclass;
         this.bounds = bounds;
     }
 
     public static void pushArrayOfNonArrayType(DeclaredType type, Code code,
-                                               RegisterAllocator ra, List<IntegerSubrangeType> ranges) {
-        for (IntegerSubrangeType i : ranges) {
+                                               RegisterAllocator ra, List<SubrangeType> ranges) {
+        for (SubrangeType i : ranges) {
             code.constant().setValue(i.size);
         }
         // For now we are storing as array of objects always
@@ -75,11 +74,11 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         ra.free(array);
     }
 
-    public T getElementType() {
-        return elementType;
+    public T getElement_type() {
+        return element_type;
     }
 
-    public IntegerSubrangeType getBounds() {
+    public SubrangeType getBounds() {
         return bounds;
     }
 
@@ -93,7 +92,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         }
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
-            if (o.elementType.equals(elementType)) {
+            if (o.element_type.equals(element_type)) {
                 if (this.bounds.contains(o.bounds)) {
                     return true;
                 }
@@ -109,7 +108,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         }
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
-            if (o.elementType.equals(elementType)) {
+            if (o.element_type.equals(element_type)) {
                 if (this.bounds.equals(o.bounds)) {
                     return true;
                 }
@@ -120,7 +119,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public int hashCode() {
-        return (elementType.hashCode() * 31 + bounds.hashCode());
+        return (element_type.hashCode() * 31 + bounds.hashCode());
     }
 
     /**
@@ -128,16 +127,17 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
      */
     @Override
     public Object initialize() {
-        Object result = Array.newInstance(elementType.getTransferClass(), bounds.size);
+        Object result = Array.newInstance(element_type.getTransferClass(),
+                bounds.size);
         for (int i = 0; i < bounds.size; i++) {
-            Array.set(result, i, elementType.initialize());
+            Array.set(result, i, element_type.initialize());
         }
         return result;
     }
 
     @Override
     public Class<?> getTransferClass() {
-        String s = elementType.getTransferClass().getName();
+        String s = element_type.getTransferClass().getName();
         StringBuilder b = new StringBuilder();
         b.append('[');
         b.append('L');
@@ -153,7 +153,12 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public String toString() {
-        return elementType.toString() + '[' + bounds + ']';
+        StringBuilder result = new StringBuilder(element_type.toString());
+
+        result.append('[');
+        result.append(bounds);
+        result.append(']');
+        return result.toString();
     }
 
     /**
@@ -161,21 +166,21 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
      * except variable length arrays, but they are checked in the {@link
      */
     @Override
-    public ReturnsValue convert(ReturnsValue valueToAssign, ExpressionContext f)
+    public RValue convert(RValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other = valueToAssign.getType(f);
-        return this.superset(other.declaredType) ? cloneValue(valueToAssign) : null;
+        RuntimeType other = value.get_type(f);
+        return this.superset(other.declType) ? cloneValue(value) : null;
     }
 
     @Override
     public void pushDefaultValue(Code code, RegisterAllocator ra) {
-        ArrayList<IntegerSubrangeType> ranges = new ArrayList<>();
+        ArrayList<SubrangeType> ranges = new ArrayList<>();
         ranges.add(bounds);
-        elementType.pushArrayOfType(code, ra, ranges);
+        element_type.pushArrayOfType(code, ra, ranges);
     }
 
     @Override
-    public ReturnsValue cloneValue(final ReturnsValue r) {
+    public RValue cloneValue(final RValue r) {
         return new ArrayCloner<T>(r);
     }
 
@@ -205,7 +210,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         // STACK=LEN
         c.dup();
         // STACK=LEN,LEN
-        c.anewarray().setType(this.elementType.getTransferClass());
+        c.anewarray().setType(this.element_type.getTransferClass());
         // Stack=LEN,NEW
         c.dupx1();
         c.swap();
@@ -219,7 +224,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         // STACK=NEW,NEW,IND,LEN,IND
         JumpInstruction jmp = c.ificmple();
         // STACK=NEW,NEW,IND
-        elementType.cloneValueOnStack(new TransformationInput() {
+        element_type.cloneValueOnStack(new TransformationInput() {
 
             @Override
             public void pushInputOnStack() {
@@ -262,20 +267,20 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
     }
 
     @Override
-    public ReturnsValue generateArrayAccess(ReturnsValue array,
-                                            ReturnsValue index) {
+    public RValue generateArrayAccess(RValue array,
+                                      RValue index) {
         return new ArrayAccess(array, index, bounds.lower);
     }
 
     public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<IntegerSubrangeType> ranges) {
+                                List<SubrangeType> ranges) {
         ranges.add(bounds);
-        elementType.pushArrayOfType(code, ra, ranges);
+        element_type.pushArrayOfType(code, ra, ranges);
     }
 
     @Override
     public Class<?> getStorageClass() {
-        Class c = elementType.getStorageClass();
+        Class c = element_type.getStorageClass();
         if (c.isArray()) {
             try {
                 return Class.forName("[" + c.getName());

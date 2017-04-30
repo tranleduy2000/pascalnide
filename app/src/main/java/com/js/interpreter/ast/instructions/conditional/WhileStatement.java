@@ -9,18 +9,18 @@ import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.NoneInstruction;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class WhileStatement extends DebuggableExecutable {
-    ReturnsValue condition;
+    RValue condition;
 
     Executable command;
     LineInfo line;
 
-    public WhileStatement(ReturnsValue condition, Executable command,
+    public WhileStatement(RValue condition, Executable command,
                           LineInfo line) {
         this.condition = condition;
         this.command = command;
@@ -51,7 +51,7 @@ public class WhileStatement extends DebuggableExecutable {
     }
 
     @Override
-    public LineInfo getLine() {
+    public LineInfo getLineNumber() {
         return line;
     }
 
@@ -65,7 +65,7 @@ public class WhileStatement extends DebuggableExecutable {
                 return new NoneInstruction(line);
             } else {
                 return new WhileStatement(new ConstantAccess(true,
-                        condition.getLine()), comm, line);
+                        condition.getLineNumber()), comm, line);
             }
         }
         return new WhileStatement(condition, comm, line);

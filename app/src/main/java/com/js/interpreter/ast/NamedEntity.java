@@ -3,7 +3,7 @@ package com.js.interpreter.ast;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 public interface NamedEntity {
-    LineInfo getLine();
+    LineInfo getLineNumber();
 
     String getEntityType();
 

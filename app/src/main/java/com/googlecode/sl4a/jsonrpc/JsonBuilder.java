@@ -189,7 +189,7 @@ public class JsonBuilder {
     private static JSONObject buildJsonIntent(Intent data) throws JSONException {
         JSONObject result = new JSONObject();
         result.put("data", data.getDataString());
-        result.put("type", data.getType());
+        result.put("operator", data.getType());
         result.put("extras", build(data.getExtras()));
         result.put("categories", build(data.getCategories()));
         result.put("action", data.getAction());

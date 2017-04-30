@@ -4,12 +4,12 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class ToToken extends BasicToken {
 
-	public ToToken(LineInfo line) {
-		super(line);
-	}
+    public ToToken(LineInfo line) {
+        super(line);
+    }
 
-	@Override
-	public String toString() {
-		return "to";
-	}
+    @Override
+    public String toString() {
+        return "to";
+    }
 }

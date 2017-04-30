@@ -103,7 +103,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * </ul>
  * <br>
  * <b>Some notes:</b><br>
- * Not every dialogSet function is relevant to every dialog type, ie, dialogSetMaxProgress obviously
+ * Not every dialogSet function is relevant to every dialog operator, ie, dialogSetMaxProgress obviously
  * only applies to dialogs created with a progress bar. Also, an Alert Dialog may have a message or
  * items, not both. If you set both, items will take priority.<br>
  * In addition to the above functions, {@link #dialogGetInput} and {@link #dialogGetPassword} are
@@ -149,7 +149,7 @@ public class UiFacade implements PascalLibrary {
             @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("Value") final String title,
             @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:") final String message,
             @PascalParameter(name = "defaultText", description = "text to insert into the input box") @RpcOptional final String text,
-            @PascalParameter(name = "inputType", description = "type of input data, ie number or text") @RpcOptional final String inputType)
+            @PascalParameter(name = "inputType", description = "operator of input data, ie number or text") @RpcOptional final String inputType)
             throws InterruptedException {
         dialogDismiss();
         mDialogTask = new AlertDialogTask(title, message);

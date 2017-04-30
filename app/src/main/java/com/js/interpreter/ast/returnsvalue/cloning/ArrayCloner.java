@@ -7,32 +7,33 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.LValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class ArrayCloner<T> implements ReturnsValue {
-    protected ReturnsValue[] outputFormat;
-    private ReturnsValue returnsValue;
+public class ArrayCloner<T> implements RValue {
+    protected RValue[] outputFormat;
+    private RValue r;
 
-    public ArrayCloner(ReturnsValue r2) {
-        this.returnsValue = r2;
-        this.outputFormat = returnsValue.getOutputFormat();
+    public ArrayCloner(RValue r2) {
+        this.r = r2;
+        this.outputFormat = r.getOutputFormat();
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return returnsValue.getType(f);
+    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+        return r.get_type(f);
     }
 
     @Override
-    public ReturnsValue[] getOutputFormat() {
+    public RValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnsValue[] formatInfo) {
+    public void setOutputFormat(RValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -40,19 +41,19 @@ public class ArrayCloner<T> implements ReturnsValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        Object[] value = (Object[]) returnsValue.getValue(f, main);
+        Object[] value = (Object[]) r.getValue(f, main);
         return value.clone();
     }
 
     @Override
-    public LineInfo getLine() {
-        return returnsValue.getLine();
+    public LineInfo getLineNumber() {
+        return r.getLineNumber();
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object[] value = (Object[]) returnsValue.compileTimeValue(context);
+        Object[] value = (Object[]) r.compileTimeValue(context);
         return value.clone();
     }
 
@@ -60,15 +61,16 @@ public class ArrayCloner<T> implements ReturnsValue {
     public String toString() {
         return getClass().getSimpleName();
     }
+
+
     @Override
-    public SetValueExecutable createSetValueInstruction(ReturnsValue r)
-            throws UnAssignableTypeException {
-        throw new UnAssignableTypeException(this);
+    public RValue compileTimeExpressionFold(CompileTimeContext context)
+            throws ParsingException {
+        return new ArrayCloner(r.compileTimeExpressionFold(context));
     }
 
     @Override
-    public ReturnsValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
-        return new ArrayCloner(returnsValue.compileTimeExpressionFold(context));
+    public LValue asLValue(ExpressionContext f) {
+        return null;
     }
 }

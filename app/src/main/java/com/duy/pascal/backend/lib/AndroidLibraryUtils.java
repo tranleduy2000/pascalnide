@@ -222,7 +222,7 @@ public class AndroidLibraryUtils {
             }
             // Nested JSONArray. Doesn't support mixed types in single array
             if (data instanceof JSONArray) {
-                // Empty array. No way to tell what type of data to pass on, so skipping
+                // Empty array. No way to tell what operator of data to pass on, so skipping
                 if (((JSONArray) data).length() == 0) {
                     Log.e("Empty array not supported in JSONObject, skipping");
                     continue;
@@ -308,7 +308,7 @@ public class AndroidLibraryUtils {
             }
             // Nested JSONArray. Doesn't support mixed types in single array
             if (data instanceof JSONArray) {
-                // Empty array. No way to tell what type of data to pass on, so skipping
+                // Empty array. No way to tell what operator of data to pass on, so skipping
                 if (((JSONArray) data).length() == 0) {
                     Log.e("Empty array not supported in nested JSONObject, skipping");
                     continue;

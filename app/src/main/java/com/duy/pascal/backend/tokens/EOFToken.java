@@ -11,30 +11,30 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 
 public class EOFToken extends ClosingToken {
-	public EOFToken(LineInfo line) {
-		super(line);
-	}
+    public EOFToken(LineInfo line) {
+        super(line);
+    }
 
-	@Override
-	public String toString() {
-		return "EOF";
-	}
+    @Override
+    public String toString() {
+        return "EOF";
+    }
 
-	@Override
-	public GroupingException getClosingException(GrouperToken t) {
-		if (t instanceof ParenthesizedToken) {
-			return new EnumeratedGroupingException(t.lineInfo,
-					GroupingExceptionTypes.UNFINISHED_PARENTHESES);
-		} else if (t instanceof BeginEndToken) {
-			return new EnumeratedGroupingException(t.lineInfo,
-					GroupingExceptionTypes.UNFINISHED_BEGIN_END);
-		} else if (t instanceof BracketedToken) {
-			return new EnumeratedGroupingException(t.lineInfo,
-					GroupingExceptionTypes.UNFINISHED_BRACKETS);
-		} else {
-			return new EnumeratedGroupingException(t.lineInfo,
-					GroupingExceptionTypes.UNFINISHED_CONSTRUCT);
-		}
-	}
+    @Override
+    public GroupingException getClosingException(GrouperToken t) {
+        if (t instanceof ParenthesizedToken) {
+            return new EnumeratedGroupingException(t.lineInfo,
+                    GroupingExceptionTypes.UNFINISHED_PARENTHESES);
+        } else if (t instanceof BeginEndToken) {
+            return new EnumeratedGroupingException(t.lineInfo,
+                    GroupingExceptionTypes.UNFINISHED_BEGIN_END);
+        } else if (t instanceof BracketedToken) {
+            return new EnumeratedGroupingException(t.lineInfo,
+                    GroupingExceptionTypes.UNFINISHED_BRACKETS);
+        } else {
+            return new EnumeratedGroupingException(t.lineInfo,
+                    GroupingExceptionTypes.UNFINISHED_CONSTRUCT);
+        }
+    }
 
 }

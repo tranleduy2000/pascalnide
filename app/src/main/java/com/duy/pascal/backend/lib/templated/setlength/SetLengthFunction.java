@@ -26,16 +26,16 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 public class SetLengthFunction implements TemplatePascalFunction {
 
     private ArgumentType[] argumentTypes = {
             new RuntimeType(
-                    new ArrayType<>(BasicType.anew(Object.class), new IntegerSubrangeType(0, 0)), true),
+                    new ArrayType<>(BasicType.create(Object.class), new SubrangeType(0, 0)), true),
             new RuntimeType(BasicType.Integer, false)
     };
 
@@ -45,18 +45,18 @@ public class SetLengthFunction implements TemplatePascalFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, ReturnsValue[] arguments,
+    public FunctionCall generateCall(LineInfo line, RValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        ReturnsValue array = arguments[0];
-        ReturnsValue size = arguments[1];
+        RValue array = arguments[0];
+        RValue size = arguments[1];
         @SuppressWarnings("rawtypes")
         DeclaredType elemtype = ((ArrayType)
-                ((PointerType) array.getType(f).declaredType).pointedToType).elementType;
+                ((PointerType) array.get_type(f).declType).pointedToType).element_type;
         return new SetLengthCall(array, size, elemtype, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, ReturnsValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RValue[] values, ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 

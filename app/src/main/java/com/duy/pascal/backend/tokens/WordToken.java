@@ -28,11 +28,11 @@ public class WordToken extends Token {
     }
 
     @Override
-    public WordToken getWordValue() throws ParsingException {
+    public WordToken get_word_value() throws ParsingException {
         return this;
     }
 
-    public DeclaredType toBasicType(ExpressionContext context)
+    public DeclaredType to_basic_type(ExpressionContext context)
             throws UnrecognizedTypeException {
         String s = name.toLowerCase().intern();
         if (s.equalsIgnoreCase("integer")
@@ -74,7 +74,7 @@ public class WordToken extends Token {
                 if (constVal == null) {
                     throw new UnrecognizedTypeException(lineInfo, s);
                 }
-                return BasicType.anew(constVal.getClass());
+                return BasicType.create(constVal.getClass());
             }
         }
     }

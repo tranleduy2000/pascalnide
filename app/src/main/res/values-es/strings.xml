@@ -152,6 +152,7 @@
     <string name="implicitly">implicitly</string>
     <string name="max_page">Max page</string>
     <string name="max_page_desc">Number of maximum page display on the screen</string>
+    <string name="enter_key_word">Enter your keyword...</string>
 </resources>
 
 

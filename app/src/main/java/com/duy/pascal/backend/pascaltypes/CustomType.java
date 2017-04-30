@@ -3,13 +3,11 @@ package com.duy.pascal.backend.pascaltypes;
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
-import com.duy.pascal.backend.pascaltypes.bytecode.ScopedRegisterAllocator;
-import com.duy.pascal.backend.pascaltypes.bytecode.SimpleRegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
-import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
@@ -17,42 +15,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import serp.bytecode.BCClass;
-import serp.bytecode.BCField;
-import serp.bytecode.BCMethod;
 import serp.bytecode.Code;
-import serp.bytecode.Instruction;
-import serp.bytecode.JumpInstruction;
 
 public class CustomType extends ObjectType {
 
     /**
-     * This is a list of the defined variables in the custom type.
+     * This is a list of the defined variables in the custom operator.
      */
-    public List<VariableDeclaration> variableTypes = new ArrayList<>();
+    public List<VariableDeclaration> variable_types;
 
     private CustomVariable customVariable;
 
     public CustomType() {
+        variable_types = new ArrayList<VariableDeclaration>();
     }
 
     /**
-     * Adds another sub-variable to this user defined type.
+     * Adds another sub-variable to this user defined operator.
      *
-     * @param v The name and type of the variable to add.
+     * @param v The name and operator of the variable to add.
      */
-    public void addVariableDeclaration(VariableDeclaration v) {
-        variableTypes.add(v);
+    public void add_variable_declaration(VariableDeclaration v) {
+        variable_types.add(v);
     }
 
     @Override
     public Object initialize() {
-        customVariable = new CustomVariable(variableTypes);
+        customVariable = new CustomVariable(variable_types);
         return customVariable;
     }
 
     @Override
     public int hashCode() {
-        return variableTypes.hashCode();
+        return variable_types.hashCode();
     }
 
     @Override
@@ -61,7 +56,7 @@ public class CustomType extends ObjectType {
             return false;
         }
         CustomType other = (CustomType) obj;
-        return variableTypes.equals(other.variableTypes);
+        return variable_types.equals(other.variable_types);
     }
 
     @Override
@@ -74,15 +69,28 @@ public class CustomType extends ObjectType {
         if (customVariable != null) {
             return customVariable.getClass();
         }
-        customVariable = new CustomVariable(variableTypes);
+        customVariable = new CustomVariable(variable_types);
         return customVariable.getClass();
     }
 
+    protected void declareClassElements(BCClass c) {
+        c.declareInterface(ContainsVariables.class);
+        c.setDeclaredInterfaces(new Class[]{ContainsVariables.class});
+        for (VariableDeclaration v : variable_types) {
+            Class type = v.type.getStorageClass();
+            c.declareField(v.name, type);
+        }
+//        add_constructor(c);
+//        add_get_var(c);
+//        add_set_var(c);
+//        add_clone(c);
+    }
+
     @Override
-    public ReturnsValue convert(ReturnsValue value, ExpressionContext f)
+    public RValue convert(RValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.getType(f);
-        if (this.equals(other_type.declaredType)) {
+        RuntimeType other_type = value.get_type(f);
+        if (this.equals(other_type.declType)) {
             return cloneValue(value);
         }
         return null;
@@ -90,7 +98,7 @@ public class CustomType extends ObjectType {
 
     @Override
     public DeclaredType getMemberType(String name) {
-        for (VariableDeclaration v : variableTypes) {
+        for (VariableDeclaration v : variable_types) {
             if (v.name.equals(name)) {
                 return v.type;
             }
@@ -103,8 +111,13 @@ public class CustomType extends ObjectType {
     public void pushDefaultValue(Code constructor_code, RegisterAllocator ra) {
         constructor_code.anew().setType(this.getTransferClass());
         try {
-            constructor_code.invokespecial().setMethod(this.getTransferClass().getConstructor());
-        } catch (SecurityException | NoSuchMethodException e) {
+            constructor_code.invokespecial().setMethod(
+                    this.getTransferClass().getConstructor());
+        } catch (SecurityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -114,20 +127,22 @@ public class CustomType extends ObjectType {
     public void cloneValueOnStack(TransformationInput t) {
         t.pushInputOnStack();
         try {
-            t.getCode().invokeinterface().setMethod("clone", ContainsVariables.class, new Class[0]);
+            t.getCode().invokeinterface()
+                    .setMethod("clone", ContainsVariables.class, new Class[0]);
         } catch (SecurityException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     @Override
-    public ReturnsValue generateArrayAccess(ReturnsValue array,
-                                            ReturnsValue index) throws NonArrayIndexed {
-        throw new NonArrayIndexed(array.getLine(), this);
+    public RValue generateArrayAccess(RValue array,
+                                      RValue index) throws NonArrayIndexed {
+        throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 
     @Override
-    public ReturnsValue cloneValue(ReturnsValue r) {
+    public RValue cloneValue(RValue r) {
         return new CloneableObjectCloner(r);
     }
 
@@ -148,7 +163,7 @@ public class CustomType extends ObjectType {
 
     @Override
     public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<IntegerSubrangeType> ranges) {
+                                List<SubrangeType> ranges) {
         //Because I cannot mix this method into DeclaredType (no multiple inheritance) I have to duplicate it.
         ArrayType.pushArrayOfNonArrayType(this, code, ra, ranges);
 

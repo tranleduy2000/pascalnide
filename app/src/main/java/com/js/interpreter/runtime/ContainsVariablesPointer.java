@@ -3,7 +3,7 @@ package com.js.interpreter.runtime;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
-public class ContainsVariablesPointer<T> implements VariableBoxer<T> {
+public class ContainsVariablesPointer<T> implements Reference<T> {
 	private final ContainsVariables container;
 	private final String index;
 
@@ -14,16 +14,16 @@ public class ContainsVariablesPointer<T> implements VariableBoxer<T> {
 
 	@Override
 	public T get() throws RuntimePascalException {
-		return (T) container.getVariable(index);
+		return (T) container.get_var(index);
 	}
 
 	@Override
 	public void set(T value) {
-		container.setVariable(index, value);
+		container.set_var(index, value);
 	}
 
 	@Override
 	public ContainsVariablesPointer<T> clone() {
-		return new ContainsVariablesPointer<>(container, index);
+        return new ContainsVariablesPointer<T>(container, index);
 	}
 }

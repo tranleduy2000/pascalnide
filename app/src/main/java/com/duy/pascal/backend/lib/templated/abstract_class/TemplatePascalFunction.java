@@ -22,17 +22,17 @@ import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 
 public interface TemplatePascalFunction {
     String name();
 
-    FunctionCall generateCall(LineInfo line, ReturnsValue[] values,
+    FunctionCall generateCall(LineInfo line, RValue[] values,
                               ExpressionContext f) throws ParsingException;
 
     FunctionCall generatePerfectFitCall(LineInfo line,
-                                        ReturnsValue[] values, ExpressionContext f)
+                                        RValue[] values, ExpressionContext f)
             throws ParsingException;
 
     ArgumentType[] argumentTypes();

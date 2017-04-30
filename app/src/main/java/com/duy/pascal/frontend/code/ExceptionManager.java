@@ -176,7 +176,7 @@ public class ExceptionManager {
             }
             if (e instanceof NotAStatementException) {
                 return getMessageResource(e, R.string.NotAStatementException,
-                        ((NotAStatementException) e).returnsValue.toString());
+                        ((NotAStatementException) e).rValue.toString());
             }
             if (e instanceof SameNameException) {
                 SameNameException exception = (SameNameException) e;
@@ -185,7 +185,7 @@ public class ExceptionManager {
             }
             if (e instanceof UnAssignableTypeException) {
                 return getMessageResource(e, R.string.UnAssignableTypeException,
-                        ((UnAssignableTypeException) e).returnsValue.toString());
+                        ((UnAssignableTypeException) e).rValue.toString());
             }
             if (e instanceof UnrecognizedTypeException) {
                 return getMessageResource(e, R.string.UnrecognizedTypeException,
@@ -208,7 +208,7 @@ public class ExceptionManager {
                 if (!((OverridingFunctionException) e).isMethod) {
                     return getMessageResource(e, R.string.OverridingFunctionException,
                             ((OverridingFunctionException) e).functionDeclaration.name(),
-                            ((OverridingFunctionException) e).functionDeclaration.getLine());
+                            ((OverridingFunctionException) e).functionDeclaration.getLineNumber());
                 } else {
                     return getMessageResource(e, R.string.OverridingFunctionException);
                 }

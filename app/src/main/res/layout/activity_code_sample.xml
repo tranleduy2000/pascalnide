@@ -59,7 +59,8 @@
     <com.lapism.searchview.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:search_hint="@string/enter_key_word">
 
     </com.lapism.searchview.SearchView>
 </android.support.design.widget.CoordinatorLayout>

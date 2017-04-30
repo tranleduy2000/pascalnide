@@ -34,6 +34,6 @@ public class CanNotReadVariableException extends RuntimePascalException {
     }
 
     public CanNotReadVariableException(Object o) {
-            this.object = o;
+        this.object = o;
     }
 }

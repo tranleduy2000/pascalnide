@@ -5,18 +5,18 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class BaseGrouperToken extends GrouperToken {
 
-	public BaseGrouperToken(LineInfo line) {
-		super(line);
-	}
+    public BaseGrouperToken(LineInfo line) {
+        super(line);
+    }
 
-	@Override
-	public String toCode() {
-		return getClosingText();
-	}
+    @Override
+    public String toCode() {
+        return getClosingText();
+    }
 
-	@Override
-	protected String getClosingText() {
-		return "[End of file]";
-	}
+    @Override
+    protected String getClosingText() {
+        return "[End of file]";
+    }
 
 }

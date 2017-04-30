@@ -30,12 +30,12 @@ import java.lang.reflect.Method;
 
 public class AndroidLibraryManager extends RpcReceiverManager {
 
-    private  Context mContext;
+    private Context mContext;
     private int mSdkLevel;
 
     public AndroidLibraryManager(int sdkLevel, Activity context) {
         mSdkLevel = sdkLevel;
-        if (context != null){
+        if (context != null) {
             mContext = context.getApplicationContext();
         }
     }

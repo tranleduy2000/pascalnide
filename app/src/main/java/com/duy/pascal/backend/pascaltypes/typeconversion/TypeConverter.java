@@ -2,7 +2,7 @@ package com.duy.pascal.backend.pascaltypes.typeconversion;
 
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.js.interpreter.ast.returnsvalue.ReturnsValue;
+import com.js.interpreter.ast.returnsvalue.RValue;
 
 import java.util.HashMap;
 
@@ -23,8 +23,8 @@ public class TypeConverter {
         precedence.put(double.class, 2);
     }
 
-    public static ReturnsValue autoConvert(BasicType outtype,
-                                           ReturnsValue target, BasicType intype) {
+    public static RValue autoConvert(BasicType outtype,
+                                     RValue target, BasicType intype) {
         if (intype == outtype) {
             return target;
         }
@@ -41,28 +41,28 @@ public class TypeConverter {
         return null;
     }
 
-    public static ReturnsValue autoConvertRequired(BasicType outtype,
-                                                   ReturnsValue target, BasicType intype)
+    public static RValue autoConvertRequired(BasicType outtype,
+                                             RValue target, BasicType intype)
             throws UnConvertibleTypeException {
-        ReturnsValue result = autoConvert(outtype, target, intype);
+        RValue result = autoConvert(outtype, target, intype);
         if (result == null) {
             throw new UnConvertibleTypeException(target, outtype, intype, true);
         }
         return result;
     }
 
-    public static ReturnsValue forceConvertRequired(BasicType outtype,
-                                                    ReturnsValue target, BasicType intype)
+    public static RValue forceConvertRequired(BasicType outtype,
+                                              RValue target, BasicType intype)
             throws UnConvertibleTypeException {
-        ReturnsValue result = forceConvert(outtype, target, intype);
+        RValue result = forceConvert(outtype, target, intype);
         if (result == null) {
             throw new UnConvertibleTypeException(target, outtype, intype, false);
         }
         return result;
     }
 
-    public static ReturnsValue forceConvert(BasicType outtype,
-                                            ReturnsValue target, BasicType intype) {
+    public static RValue forceConvert(BasicType outtype,
+                                      RValue target, BasicType intype) {
         if (outtype == intype) {
             return target;
         }
