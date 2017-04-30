@@ -6,7 +6,7 @@ Var
 begin
     S:='The first space in this sentence is at position : ';
     Writeln (S,pos(' ',S));
-    S:='The last letter of the alphabet doesn''t appear in this sentence ';
+    S:='The last letter of the alphabet doesn''pascalPlugin appear in this sentence ';
     If (Pos ('Z',S)=0) and (Pos('z',S)=0) then
         Writeln (S);
 end.
