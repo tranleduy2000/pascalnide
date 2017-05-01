@@ -40,10 +40,12 @@ import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
-import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunctionDeclaration;
+import com.duy.pascal.backend.lib.templated.abstract_class.AbstractMethodDeclaration;
 import com.duy.pascal.backend.lib.templated.exit.ExitFunction;
 import com.duy.pascal.backend.lib.templated.exit.ExitNoneFunction;
 import com.duy.pascal.backend.lib.templated.length.LengthFunction;
+import com.duy.pascal.backend.lib.templated.lowhigh.HighFunction;
+import com.duy.pascal.backend.lib.templated.lowhigh.LowFunction;
 import com.duy.pascal.backend.lib.templated.setlength.SetLengthFunction;
 import com.duy.pascal.backend.lib.templated.sizeof.SizeOfArrayFunction;
 import com.duy.pascal.backend.lib.templated.sizeof.SizeOfObjectFunction;
@@ -218,12 +220,14 @@ public class PascalLibraryManager {
      * load system method
      */
     public void loadSystemLibrary() {
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new SetLengthFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new LengthFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new SizeOfObjectFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new SizeOfArrayFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new ExitFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new ExitNoneFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new SetLengthFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new LengthFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new SizeOfObjectFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new SizeOfArrayFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new ExitFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new ExitNoneFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new HighFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new LowFunction()));
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}

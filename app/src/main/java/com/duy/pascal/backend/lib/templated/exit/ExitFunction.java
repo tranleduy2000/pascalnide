@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib.templated.exit;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunction;
+import com.duy.pascal.backend.lib.templated.abstract_class.IMethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -28,7 +28,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.RValue;
 
-public class ExitFunction implements TemplatePascalFunction {
+public class ExitFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 

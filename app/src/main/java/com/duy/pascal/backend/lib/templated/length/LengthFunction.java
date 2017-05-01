@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib.templated.length;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunction;
+import com.duy.pascal.backend.lib.templated.abstract_class.IMethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
@@ -30,7 +30,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.RValue;
 
-public class LengthFunction implements TemplatePascalFunction {
+public class LengthFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {
             new RuntimeType(

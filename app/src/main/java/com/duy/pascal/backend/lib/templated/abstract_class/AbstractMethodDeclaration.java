@@ -28,11 +28,11 @@ import com.js.interpreter.ast.returnsvalue.RValue;
 
 import java.util.List;
 
-public class TemplatePascalFunctionDeclaration extends AbstractFunction {
+public class AbstractMethodDeclaration extends AbstractFunction {
 
-    private TemplatePascalFunction t;
+    private IMethodDeclaration t;
 
-    public TemplatePascalFunctionDeclaration(TemplatePascalFunction t) {
+    public AbstractMethodDeclaration(IMethodDeclaration t) {
         this.t = t;
     }
 
