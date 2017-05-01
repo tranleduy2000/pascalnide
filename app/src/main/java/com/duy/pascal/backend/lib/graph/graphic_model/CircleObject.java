@@ -29,7 +29,6 @@ public class CircleObject extends GraphObject {
         this.x = x;
         this.y = y;
         this.r = r;
-
     }
 
     @Override

@@ -3,13 +3,17 @@ package com.js.interpreter.runtime.codeunit;
 import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.js.interpreter.ast.AbstractFunction;
+import com.js.interpreter.ast.MethodDeclaration;
 import com.js.interpreter.ast.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.ast.codeunit.Library;
 import com.js.interpreter.runtime.ScriptControl;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> extends RuntimeCodeUnit<parent>
@@ -104,24 +108,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     public void scriptControlCheck(LineInfo line)
             throws ScriptTerminatedException {
-        do {
-            if (runMode == ControlMode.PAUSED || debugMode) {
-                synchronized (this) {
-                    try {
-                        this.wait();
-                    } catch (InterruptedException ignored) {
-                    }
-                }
-            }
-
-            if (runMode == ControlMode.RUNNING) {
-                return;
-            }
-            if (runMode == ControlMode.TERMINATED) {
-                throw new ScriptTerminatedException(line);
-            }
-
-        } while (true);
+        scriptControlCheck(line, debugMode);
     }
 
     public void scriptControlCheck(LineInfo line, boolean debug)
@@ -135,11 +122,24 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
                     }
                 }
             }
-
             if (runMode == ControlMode.RUNNING) {
                 return;
             }
             if (runMode == ControlMode.TERMINATED) {
+                List<AbstractFunction> shutdown = this.getDefinition().getProgram().getCallableFunctionsLocal("shutdown");
+                for (AbstractFunction function : shutdown) {
+                    if (function instanceof MethodDeclaration) {
+                        try {
+                            ((MethodDeclaration) function).call(null, this, new Object[]{});
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        } catch (StackOverflowException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 throw new ScriptTerminatedException(line);
             }
 

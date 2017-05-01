@@ -74,6 +74,8 @@ public class DosLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }

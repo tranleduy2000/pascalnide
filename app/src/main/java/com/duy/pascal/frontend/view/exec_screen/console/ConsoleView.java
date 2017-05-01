@@ -152,21 +152,22 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
 
-    // move cursor to new line
-
     public void putString(String c) {
         bufferData.stringBuffer.putString(c);
     }
 
-    public synchronized String readString() {
+    public String readString() {
         return bufferData.stringBuffer.getString();
     }
 
-    public synchronized char readKey() {
+    /**
+     * @return one key in the buffer key
+     */
+    public char readKey() {
         return bufferData.keyBuffer.getChar();
     }
 
-    public synchronized void commitChar(String c, boolean isMaskBuffer) {
+    public void commitChar(String c, boolean isMaskBuffer) {
         int index = bufferData.firstIndex + mCursor.y * mConsoleScreen.consoleColumn + mCursor.x;
         if (index >= mConsoleScreen.getScreenSize()) {
             index -= mConsoleScreen.getScreenSize();
@@ -412,7 +413,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
                 Log.d(TAG, "sendText: " + text);
                 int n = text.length();
                 for (int i = 0; i < n; i++) {
-                    putString(text.subSequence(i, i + 1).toString());
+                    bufferData.keyBuffer.putChar(text.charAt(i));
+                    putString(Character.toString(text.charAt(i)));
                 }
             }
 
@@ -696,15 +698,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             commitChar(THE_DELETE_COMMAND, false);
         }
         mImeBuffer = buffer;
+        if (mImeBuffer.isEmpty()) return;
         for (int i = 0; i < mImeBuffer.length(); i++)
             commitChar(mImeBuffer.substring(i, i + 1), true);
-//        textScreen = ArrayUtils.arrayToString(bufferData.textConsole);
-//        textImeBuffer = new TextConsole[mImeBuffer.length()];
-//        for (int i = 0; i < textImeBuffer.length; i++) {
-//            textImeBuffer[i] = new TextConsole(mImeBuffer.substring(i, i + 1), ForegroundColor.DKGRAY,
-//                    mTextRenderer.getTextColor());
-//        }
-//        invalidate();
     }
 
     @Override
@@ -714,6 +710,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             return super.onKeyDown(keyCode, event);
         }
         bufferData.keyBuffer.putChar((char) event.getUnicodeChar()); //scan code
+
         if (keyCode == KeyEvent.KEYCODE_DEL) {
             putString(THE_DELETE_COMMAND);
             return true;
@@ -911,8 +908,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
 
     public boolean isKeyPressed() {
-        return (bufferData.stringBuffer.rear > bufferData.stringBuffer.front)
-                || !mImeBuffer.isEmpty();
+        return (bufferData.keyBuffer.rear > bufferData.keyBuffer.front);
     }
 
     //pascal
@@ -1001,8 +997,3 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return false;
     }
 }
-
-
-
-
-

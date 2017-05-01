@@ -48,6 +48,8 @@ public class AndroidNotifyLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }

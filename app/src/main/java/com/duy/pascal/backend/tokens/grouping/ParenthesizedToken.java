@@ -38,7 +38,7 @@ public class ParenthesizedToken extends GrouperToken {
         return "(";
     }
 
-    public List<RValue> getArgumentsForCall(ExpressionContext context)
+    public List<RValue> get_arguments_for_call(ExpressionContext context)
             throws ParsingException {
         List<RValue> result = new ArrayList<>();
         while (hasNext()) {
@@ -80,11 +80,11 @@ public class ParenthesizedToken extends GrouperToken {
                     if (hasNext()) {
                         next = take();
                         if (next instanceof ColonToken) {
-                            if (RuntimeType.canOutputWithFormat(runtimeClass, 2)) {
+//                            if (RuntimeType.canOutputWithFormat(runtimeClass, 2)) {
                                 lengthFloatingPoint = getNextExpression(context);
-                            } else {
-                                throw new ExpectedTokenException(",", next);
-                            }
+//                            } else {
+//                                throw new ExpectedTokenException(",", next);
+//                            }
                             if (hasNext()) {
                                 next = take();
                                 if (!(next instanceof CommaToken)) {

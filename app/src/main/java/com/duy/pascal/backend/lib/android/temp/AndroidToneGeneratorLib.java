@@ -112,6 +112,8 @@ public class AndroidToneGeneratorLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
     }
 

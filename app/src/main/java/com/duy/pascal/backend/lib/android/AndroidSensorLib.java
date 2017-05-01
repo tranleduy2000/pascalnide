@@ -282,6 +282,7 @@ public class AndroidSensorLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
     public void shutdown() {
         stopSensor();
     }

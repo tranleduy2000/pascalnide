@@ -36,8 +36,8 @@ import java.util.Map;
 public class SystemConstants {
 
     public static void addSystemConstant(Map<String, ConstantDefinition> constantDefinitionMap) {
-        defineColorCode(constantDefinitionMap);
-        defineGraphConstant(constantDefinitionMap);
+        defineColorConstants(constantDefinitionMap);
+        defineGraphConstants(constantDefinitionMap);
         defineFillStyleGraphConstant(constantDefinitionMap);
     }
 
@@ -52,42 +52,42 @@ public class SystemConstants {
         constants.put(constant.name(), constant);
 
         constant = new ConstantDefinition("LineFill".toLowerCase(), FillType.LineFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
         constant = new ConstantDefinition("ltSlashFill".toLowerCase(), FillType.ltSlashFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
         constant = new ConstantDefinition("SlashFill".toLowerCase(), FillType.SlashFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
         constant = new ConstantDefinition("BkSlashFill".toLowerCase(), FillType.BkSlashFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
         constant = new ConstantDefinition("LtBkSlashFill".toLowerCase(), FillType.LtBkSlashFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
         constant = new ConstantDefinition("HatchFill".toLowerCase(), FillType.HatchFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
 
         constant = new ConstantDefinition("XHatchFill".toLowerCase(), FillType.XHatchFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
 
         constant = new ConstantDefinition("InterLeaveFill".toLowerCase(), FillType.InterLeaveFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
 
         constant = new ConstantDefinition("WideDotFill".toLowerCase(), FillType.WideDotFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
 
         constant = new ConstantDefinition("CloseDotFill".toLowerCase(), FillType.CloseDotFill,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
     }
 
-    private static void defineGraphConstant(Map<String, ConstantDefinition> constants) {
+    private static void defineGraphConstants(Map<String, ConstantDefinition> constants) {
         ConstantDefinition constant;
         constant = new ConstantDefinition("grok".toLowerCase(), 1, new LineInfo(-1, "grok = 1;".toLowerCase()));
         constants.put(constant.name(), constant);
@@ -96,7 +96,7 @@ public class SystemConstants {
                 new LineInfo(-1, "const NormWidth = 1;".toLowerCase()));
         constants.put(constant.name(), constant);
         constant = new ConstantDefinition("ThickWidth".toLowerCase(), LineWidth.ThickWidth,
-                new LineInfo(-1, "const ThickWidth = 3;".toLowerCase()));
+                new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
 
         constant = new ConstantDefinition("SolidLn".toLowerCase(), LineStyle.SolidLn,
@@ -215,7 +215,7 @@ public class SystemConstants {
      *
      * @param context
      */
-    private static void defineColorCode(Map<String, ConstantDefinition> context) {
+    private static void defineColorConstants(Map<String, ConstantDefinition> context) {
         ConstantDefinition colorConst;
         colorConst = new ConstantDefinition("black".toLowerCase(), 0, new LineInfo(-1, "black = 0".toLowerCase()));
         context.put(colorConst.name(), colorConst);
@@ -249,7 +249,6 @@ public class SystemConstants {
         context.put(colorConst.name(), colorConst);
         colorConst = new ConstantDefinition("White".toLowerCase(), 15, new LineInfo(-1, "White = 15".toLowerCase()));
         context.put(colorConst.name(), colorConst);
-
         colorConst = new ConstantDefinition("pi".toLowerCase(), Math.PI, new LineInfo(-1, " pi = 3.14159265358979323846".toLowerCase()));
         context.put(colorConst.name(), colorConst);
     }

@@ -496,6 +496,8 @@ public class AndroidUtilsLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }

@@ -241,6 +241,8 @@ public class AndroidMediaPlayerLib implements PascalLibrary, MediaPlayer.OnCompl
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public synchronized void shutdown() {
         for (String key : mPlayers.keySet()) {
             MediaPlayer player = mPlayers.get(key);

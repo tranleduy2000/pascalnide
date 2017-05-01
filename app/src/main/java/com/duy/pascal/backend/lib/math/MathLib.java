@@ -505,6 +505,8 @@ public class MathLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }

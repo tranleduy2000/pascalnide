@@ -34,6 +34,8 @@ public class SysUtilsLibrary implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }

@@ -348,6 +348,7 @@ public class ActivityResultFacade implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
     public void shutdown() {
     }
 }

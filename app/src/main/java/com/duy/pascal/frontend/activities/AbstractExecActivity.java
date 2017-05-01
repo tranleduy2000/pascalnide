@@ -235,10 +235,12 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     protected void onDestroy() {
+        //stop readkey, keypressed event
+        getConsoleView().commitChar("s", false);
         stopInput();
-        getConsoleView().onStop();
         //stop program
         stopProgram();
+        getConsoleView().onStop();
 
         super.onDestroy();
     }

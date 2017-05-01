@@ -307,6 +307,8 @@ public class GraphScreen {
     }
 
     public void gc() {
-        if (mGraphBitmap != null) mGraphBitmap.recycle();
+        if (mGraphBitmap != null && !mGraphBitmap.isRecycled()) {
+            mGraphBitmap.recycle();
+        }
     }
 }

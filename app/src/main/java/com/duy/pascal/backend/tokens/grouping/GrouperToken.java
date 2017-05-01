@@ -23,6 +23,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
@@ -87,7 +88,7 @@ public abstract class GrouperToken extends Token {
 
     public GrouperToken(LineInfo line) {
         super(line);
-        queue = new LinkedBlockingQueue<>();
+        queue = new LinkedBlockingQueue<Token>();
     }
 
     private Token get_next() throws GroupingException {
@@ -101,7 +102,7 @@ public abstract class GrouperToken extends Token {
                 break;
             }
         }
-        exceptionCheck(next);
+        exceptioncheck(next);
         if (next instanceof CommentToken) {
             next = null;
             return get_next();
@@ -113,7 +114,7 @@ public abstract class GrouperToken extends Token {
         return !(get_next() instanceof EOFToken);
     }
 
-    private void exceptionCheck(Token t) throws GroupingException {
+    private void exceptioncheck(Token t) throws GroupingException {
         if (t instanceof GroupingExceptionToken) {
             throw ((GroupingExceptionToken) t).exception;
         }
@@ -141,11 +142,10 @@ public abstract class GrouperToken extends Token {
         while (true) {
             try {
                 next = queue.take();
-                exceptionCheck(next);
+                exceptioncheck(next);
 
                 return result;
-
-            } catch (InterruptedException ignored) {
+            } catch (InterruptedException e) {
             }
         }
     }
@@ -203,6 +203,15 @@ public abstract class GrouperToken extends Token {
             result.variable_types = r.get_variable_declarations(context);
             return result;
         }
+        if (n instanceof OperatorToken && ((OperatorToken) n).type == OperatorTypes.DEREF) {
+            DeclaredType pointed_type = get_next_pascal_type(context);
+            return new PointerType(pointed_type);
+        }
+        /*if (n instanceof ClassToken) {
+            ClassToken o = (ClassToken)n;
+			ClassType result = new ClassType();
+			throw new ExpectedTokenException("[asdf]", n);
+		}*/
         if (!(n instanceof WordToken)) {
             throw new ExpectedTokenException("[Type Identifier]", n);
         }
@@ -218,7 +227,7 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof OfToken) {
             take();
             DeclaredType elementType = get_next_pascal_type(context);
-            return new ArrayType<>(elementType, new SubrangeType());
+            return new ArrayType<DeclaredType>(elementType, new SubrangeType());
         } else {
             throw new ExpectedTokenException("of", n);
         }
@@ -348,7 +357,7 @@ public abstract class GrouperToken extends Token {
                 if (name.name.equalsIgnoreCase("writeln") || name.name.equalsIgnoreCase("write")) {
                     arguments = ((ParenthesizedToken) take()).getArgumentsForOutput(context);
                 } else {
-                    arguments = ((ParenthesizedToken) take()).getArgumentsForCall(context);
+                    arguments = ((ParenthesizedToken) take()).get_arguments_for_call(context);
                 }
                 return FunctionCall.generateFunctionCall(name, arguments, context);
             } else {

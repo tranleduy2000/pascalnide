@@ -59,6 +59,7 @@ public abstract class GraphObject {
     public GraphObject() {
         linePaint.setStrokeWidth(LineWidth.NormWidth);
         linePaint.setStyle(Paint.Style.STROKE);
+//        linePaint.setAntiAlias(true);
 
         fillPaint.setStyle(Paint.Style.FILL);
     }

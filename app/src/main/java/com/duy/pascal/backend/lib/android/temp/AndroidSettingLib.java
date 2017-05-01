@@ -235,6 +235,8 @@ public class AndroidSettingLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
         // Nothing to do yet.
     }

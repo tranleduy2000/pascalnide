@@ -386,6 +386,8 @@ public class AndroidBluetoothLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
         for (Map.Entry<String, BluetoothConnection> entry : connections.entrySet()) {
             entry.getValue().stop();

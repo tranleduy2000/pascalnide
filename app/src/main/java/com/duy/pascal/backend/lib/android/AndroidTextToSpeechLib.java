@@ -57,6 +57,8 @@ public class AndroidTextToSpeechLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
         while (mTextToSpeech.isSpeaking()) {
             SystemClock.sleep(100);

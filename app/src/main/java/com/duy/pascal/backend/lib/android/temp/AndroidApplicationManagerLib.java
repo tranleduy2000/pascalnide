@@ -105,6 +105,8 @@ public class AndroidApplicationManagerLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }

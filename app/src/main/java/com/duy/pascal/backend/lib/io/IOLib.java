@@ -80,6 +80,8 @@ public class IOLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }
@@ -210,12 +212,12 @@ public class IOLib implements PascalLibrary {
         print(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
     }
 
-    private void sleep() {
-//        try {
-//            Thread.sleep(10);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+    private void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @PascalMethod(description = "system library", returns = "void")
@@ -431,33 +433,22 @@ public class IOLib implements PascalLibrary {
         return state == RuntimeExecutable.ControlMode.RUNNING;
     }
 
-    /**
-     * procedure readkey
-     */
     @PascalMethod(description = "system library", returns = "void")
     public char readKey() {
-        Log.d(TAG, "readKey: ");
         if (listener != null) {
-            char keyCode = listener.getKeyBuffer();
-            return keyCode;
+            char keyBuffer = listener.getKeyBuffer();
+            Log.d(TAG, "readKey: " + keyBuffer);
+            return keyBuffer;
         }
-        return 0;
+//        sleep(10);
+//        char[] c = new char[]{'a', 'b'};
+//        return c[new Random().nextInt(2)];
+        return (char) 0;
     }
 
-    /**
-     * key pressed method
-     */
     @PascalMethod(description = "system library", returns = "void")
     public boolean keyPressed() {
         return listener != null && listener.keyPressed();
     }
 
-    @PascalMethod(description = "test")
-    public Integer[] getarr() {
-        Integer[] a = new Integer[4];
-        a[1] = 2;
-        a[2] = 3;
-        a[3] = 6;
-        return a;
-    }
 }

@@ -16,7 +16,6 @@
 
 package com.duy.pascal.backend.lib;
 
-import android.graphics.Color;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
@@ -27,7 +26,6 @@ import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -38,12 +36,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CrtLib implements PascalLibrary {
     public static final String TAG = CrtLib.class.getSimpleName();
     public static final String NAME = "crt";
-    private static final Map<Integer, Integer> mapColorsPascal = new Hashtable<>();
-    private static final Map<Integer, Integer> mapColorsAndroid = new Hashtable<>();
 
-    static {
-        generateMapColors();
-    }
 
     private ExecHandler handler;
     private AtomicBoolean canPlaySound = new AtomicBoolean(false);
@@ -71,61 +64,6 @@ public class CrtLib implements PascalLibrary {
 
     }
 
-    /**
-     * convert color of pascal to android color
-     */
-    public static int androidColorToPascalColor(int androidColor) {
-        System.out.println("androidColor = " + androidColor);
-        if (mapColorsAndroid.get(androidColor) != null) {
-            return mapColorsAndroid.get(androidColor);
-        } else {
-            return 0;
-        }
-    }
-
-    public static int pascalColorToAndroidColor(int pascalColor) {
-        System.out.println("pascalColor = " + pascalColor);
-        if (mapColorsPascal.get(pascalColor) != null) {
-            return mapColorsPascal.get(pascalColor);
-        }
-        return 0;
-    }
-
-    public static void generateMapColors() {
-        mapColorsPascal.put(0, Color.BLACK);
-        mapColorsPascal.put(1, Color.BLUE);
-        mapColorsPascal.put(2, Color.GREEN);
-        mapColorsPascal.put(3, Color.CYAN);
-        mapColorsPascal.put(4, Color.RED);
-        mapColorsPascal.put(5, Color.MAGENTA);
-        mapColorsPascal.put(6, 0xff49281E);
-        mapColorsPascal.put(7, Color.LTGRAY);
-        mapColorsPascal.put(8, Color.DKGRAY);
-        mapColorsPascal.put(9, 0xffadd8e6);
-        mapColorsPascal.put(10, 0xff98fb98);
-        mapColorsPascal.put(11, 0xffe0ffff);
-        mapColorsPascal.put(12, 0xffffa07a);
-        mapColorsPascal.put(13, 0xffff00ff);
-        mapColorsPascal.put(14, Color.YELLOW);
-        mapColorsPascal.put(15, Color.WHITE);
-
-        mapColorsAndroid.put(Color.BLACK, 0);
-        mapColorsAndroid.put(Color.BLUE, 1);
-        mapColorsAndroid.put(Color.GREEN, 2);
-        mapColorsAndroid.put(Color.CYAN, 3);
-        mapColorsAndroid.put(Color.RED, 4);
-        mapColorsAndroid.put(Color.MAGENTA, 5);
-        mapColorsAndroid.put(0xff49281E, 6);
-        mapColorsAndroid.put(Color.LTGRAY, 7);
-        mapColorsAndroid.put(Color.DKGRAY, 8);
-        mapColorsAndroid.put(0xffadd8e6, 9);
-        mapColorsAndroid.put(0xff98fb98, 10);
-        mapColorsAndroid.put(0xffe0ffff, 11);
-        mapColorsAndroid.put(0xffffa07a, 12);
-        mapColorsAndroid.put(0xffff00ff, 13);
-        mapColorsAndroid.put(Color.YELLOW, 14);
-        mapColorsAndroid.put(Color.WHITE, 15);
-    }
 
     /**
      * goto x, y procedure
@@ -135,7 +73,6 @@ public class CrtLib implements PascalLibrary {
      * @param y - y coordinate of screen
      */
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void gotoXY(int x, int y) {
         if (handler == null) return;
         handler.getConsoleView().gotoXY(x, y);
@@ -147,15 +84,20 @@ public class CrtLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
     public void shutdown() {
-
+        noSound();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * clear screen
      */
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void clrscr() {
         if (handler == null) return;
         handler.getConsoleView().clearScreen();
@@ -165,10 +107,9 @@ public class CrtLib implements PascalLibrary {
      * set text linePaint color
      */
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void textColor(int code) {
         if (handler == null) return;
-        int color = pascalColorToAndroidColor(code);
+        int color = ColorUtils.pascalColorToAndroidColor(code);
         handler.getConsoleView().setConsoleTextColor(color);
     }
 
@@ -176,22 +117,19 @@ public class CrtLib implements PascalLibrary {
      * set background console
      */
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void textBackground(int code) {
         if (handler == null) return;
-        int color = pascalColorToAndroidColor(code);
+        int color = ColorUtils.pascalColorToAndroidColor(code);
         handler.getConsoleView().setConsoleTextBackground(color);
     }
 
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public int whereX() {
         if (handler == null) return 0;
         return handler.getConsoleView().whereX();
     }
 
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public int whereY() {
         if (handler == null) return 0;
         return handler.getConsoleView().whereY();
@@ -202,21 +140,18 @@ public class CrtLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void NormVideo() {
         assertActivityNotNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.NORMAL_TEXT_ALPHA);
     }
 
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void HighVideo() {
         assertActivityNotNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.HIGH_TEXT_ALPHA);
     }
 
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void LowVideo() {
         assertActivityNotNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.LOW_TEXT_ALPHA);
@@ -226,7 +161,6 @@ public class CrtLib implements PascalLibrary {
      * Show big cursor
      */
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void cursorBig() {
         assertActivityNotNull();
         handler.getConsoleView().getCursorConsole().setMode(CursorConsole.BIG_CURSOR);
@@ -236,7 +170,6 @@ public class CrtLib implements PascalLibrary {
      * Hide cursor
      */
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void cursorOff() {
         assertActivityNotNull();
         handler.getConsoleView().getCursorConsole().setVisible(false);
@@ -246,14 +179,12 @@ public class CrtLib implements PascalLibrary {
      * Display cursor
      */
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void cursorOn() {
         assertActivityNotNull();
         handler.getConsoleView().getCursorConsole().setVisible(true);
     }
 
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void sound(Long frequency) throws WrongArgsException {
         if (frequency != null) {
             this.finalFrequency = frequency;
@@ -268,13 +199,11 @@ public class CrtLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void sound(Integer frequency) throws WrongArgsException {
         this.sound(Long.valueOf(frequency));
     }
 
     @PascalMethod(description = "crt library", returns = "void")
-    @SuppressWarnings("unused")
     public void noSound() {
         canPlaySound.set(false);
     }

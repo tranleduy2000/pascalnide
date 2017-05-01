@@ -23,7 +23,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.duy.pascal.backend.imageprocessing.FloodFill;
-import com.duy.pascal.backend.lib.CrtLib;
+import com.duy.pascal.backend.lib.ColorUtils;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.graph.graphic_model.ArcEllipseObject;
@@ -47,6 +47,8 @@ import com.js.interpreter.runtime.PascalReference;
 
 import java.util.Map;
 
+import static com.duy.pascal.backend.lib.ColorUtils.pascalColorToAndroidColor;
+
 /**
  * Created by Duy on 01-Mar-17.
  */
@@ -65,6 +67,8 @@ public class GraphLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }
@@ -134,7 +138,7 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * GetY returns the Y-coordinate of the current position of the graphical pointer
+     * GetY returns the Y-coordinate of the current position of the graphical cursor
      */
 
     @PascalMethod(description = "graph library", returns = "void")
@@ -146,7 +150,7 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * GetY returns the Y-coordinate of the current position of the graphical pointer
+     * GetY returns the Y-coordinate of the current position of the graphical cursor
      */
 
     @PascalMethod(description = "graph library", returns = "void")
@@ -164,7 +168,7 @@ public class GraphLib implements PascalLibrary {
     public int getPixel(int x, int y) {
         // TODO: 09-Apr-17
         int colorPixel = handler.getConsoleView().getColorPixel(x, y);
-        return CrtLib.androidColorToPascalColor(colorPixel);
+        return ColorUtils.androidColorToPascalColor(colorPixel);
     }
 
     /**
@@ -194,23 +198,16 @@ public class GraphLib implements PascalLibrary {
      */
     @PascalMethod(description = "graph library", returns = "void")
     public void setColor(int index) {
-        handler.getConsoleView().setPaintGraphColor(CrtLib.pascalColorToAndroidColor(index));
+        Log.d(TAG, "setColor: " + index + pascalColorToAndroidColor(index));
+        handler.getConsoleView().setPaintGraphColor(pascalColorToAndroidColor(index));
     }
 
-    /**
-     * Clears the graphical screen (with the current background color), and sets the pointer at (0,0).
-     */
-
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "Clears the graphical screen (with the current background color), and sets the cursor at (0,0).", returns = "void")
     public void clearDevice() {
         handler.getConsoleView().clearGraph();
     }
 
-    /**
-     * MoveTo moves the pointer to the point (X,Y).
-     */
-
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "moves the cursor to the point (X,Y).", returns = "void")
     public void moveTo(int x, int y) {
         handler.getConsoleView().setCursorGraphPosition(x, y);
     }
@@ -228,7 +225,7 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * MoveRel moves the pointer to the point (DX,DY), relative to the current pointer position
+     * MoveRel moves the cursor to the point (DX,DY), relative to the current cursor position
      */
 
     @PascalMethod(description = "graph library", returns = "void")
@@ -257,7 +254,7 @@ public class GraphLib implements PascalLibrary {
     }
 
     /**
-     * LineTo draws a line starting from the current pointer position to the point(DX,DY),
+     * LineTo draws a line starting from the current cursor position to the point(DX,DY),
      * relative to the current position, in the current line style and color. The Current
      * position is set to the end of the line.
      */
@@ -295,7 +292,7 @@ public class GraphLib implements PascalLibrary {
     @PascalMethod(description = "graph library", returns = "void")
     public void putPixel(int x, int y, int color) {
         if (handler != null)
-            handler.getConsoleView().addGraphObject(new PixelObject(x, y, CrtLib.pascalColorToAndroidColor(color)));
+            handler.getConsoleView().addGraphObject(new PixelObject(x, y, pascalColorToAndroidColor(color)));
     }
 
 
@@ -359,7 +356,7 @@ public class GraphLib implements PascalLibrary {
     @PascalMethod(description = "graph library", returns = "void")
     public void setBkColor(int color) {
         if (handler != null)
-            handler.getConsoleView().setGraphBackground(CrtLib.pascalColorToAndroidColor(color));
+            handler.getConsoleView().setGraphBackground(pascalColorToAndroidColor(color));
     }
 
     /**
@@ -422,7 +419,7 @@ public class GraphLib implements PascalLibrary {
         if (handler != null) {
             GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
             graphScreen.setFillPattern(pattern);
-            graphScreen.setFillColor(CrtLib.pascalColorToAndroidColor(color));
+            graphScreen.setFillColor(pascalColorToAndroidColor(color));
         }
 
     }
@@ -543,14 +540,14 @@ public class GraphLib implements PascalLibrary {
             Bitmap fillBitmap = graphScreen.getFillBitmap();
 
             FloodFill floodFill = new FloodFill(graphBitmap, fillBitmap);
-            floodFill.fill(x, y, Color.BLUE, CrtLib.pascalColorToAndroidColor(borderColorIndex));
+            floodFill.fill(x, y, Color.BLUE, pascalColorToAndroidColor(borderColorIndex));
 
             int[] imagePixels = floodFill.getImagePixels();
 
             graphBitmap.setPixels(imagePixels.clone(), 0, graphBitmap.getWidth(), 0, 0, graphBitmap.getWidth(),
                     graphBitmap.getHeight());
             floodFill.gc();
-            fillBitmap.recycle();
+            //fillBitmap.recycle();
         }
     }
 

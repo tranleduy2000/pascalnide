@@ -117,6 +117,7 @@ public class AndroidBatteryLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
     public void shutdown() {
         batteryStopMonitoring();
     }

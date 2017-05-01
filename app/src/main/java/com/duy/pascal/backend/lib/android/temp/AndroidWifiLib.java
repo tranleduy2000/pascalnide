@@ -132,6 +132,8 @@ public class AndroidWifiLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
         wifiLockRelease();
     }

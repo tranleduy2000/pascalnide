@@ -25,9 +25,6 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Random;
 
@@ -51,6 +48,8 @@ public class SystemLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
 
     }
@@ -426,18 +425,5 @@ public class SystemLib implements PascalLibrary {
             throws RuntimePascalException {
         System.out.println("s = [" + s + "], start = [" + start + "], count = [" + count + "]");
         s.set(s.get().delete(start - 1, start + count - 1));
-    }
-
-    @PascalMethod(description = "Return size of a variable or operator.")
-    public int sizeof(Object[] array) {
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(array);
-            byte[] bytes = bos.toByteArray();
-            return bytes.length;
-        } catch (Exception e) {
-            return 0;
-        }
     }
 }

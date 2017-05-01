@@ -71,6 +71,8 @@ public class AndroidVibrateLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
+
     public void shutdown() {
         cancelVibrate();
     }

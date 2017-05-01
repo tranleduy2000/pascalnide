@@ -19,6 +19,7 @@ package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.lib.annotations.ArrayBoundsInfo;
 import com.duy.pascal.backend.lib.annotations.MethodTypeData;
+import com.duy.pascal.backend.lib.annotations.PascalMethod;
 
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class MiscLib implements PascalLibrary {
     }
 
     @Override
+    @PascalMethod(description = "stop")
     public void shutdown() {
 
     }
