@@ -27,6 +27,7 @@ import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
+import com.duy.pascal.backend.lib.android.ZXingLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidApplicationManagerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
@@ -110,6 +111,7 @@ public class AndroidLibraryUtils {
         sFacadeClassList.add(AndroidVibrateLib.class);
         sFacadeClassList.add(AndroidClipboard.class);
         sFacadeClassList.add(AndroidNotifyLib.class);
+        sFacadeClassList.add(ZXingLib.class);
         for (Class<? extends PascalLibrary> recieverClass : sFacadeClassList) {
             for (MethodDescriptor rpcMethod : MethodDescriptor.collectFrom(recieverClass)) {
                 sRpcs.put(rpcMethod.getName(), rpcMethod);

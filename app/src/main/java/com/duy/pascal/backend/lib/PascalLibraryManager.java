@@ -27,6 +27,7 @@ import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
+import com.duy.pascal.backend.lib.android.ZXingLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
@@ -70,7 +71,6 @@ import java.util.Map;
 
 public class PascalLibraryManager {
     public static final Map<String, Class<? extends PascalLibrary>> mapLibraries = new Hashtable<>();
-    private static final String TAG = "PascalLibraryUtils";
     @NonNull
     private ExpressionContextMixin program;
     @Nullable
@@ -128,6 +128,7 @@ public class PascalLibraryManager {
         mapLibraries.put(AndroidNotifyLib.NAME, AndroidNotifyLib.class);
         mapLibraries.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
         mapLibraries.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
+        mapLibraries.put(ZXingLib.NAME, ZXingLib.class);
     }
 
     /**

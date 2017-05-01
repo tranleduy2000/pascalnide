@@ -1,53 +1,25 @@
-Program Quan_ly_can_bo;
+uses aTTSpeech, {Thư viện chuyển văn bản thành giọng nói}
+    aRecognition; {Thư viện chuyển giọng nói thành văn bản}
+var
+    name: string; {hỗ trợ UTF-8}
+begin
+    {In ra màn hình}
+    writeln('Tên của bạn là gì? ');
 
-Uses Crt;
+    speak('Tên của bạn là gì');
 
-Var
-    f: Text; hoten: String[20];
-    c1, heso: real; c2, i, n, socon: byte;
-    Ten: string[12];
+    {Đợi khoảng vài giây, có thể do điều kiện mạng mà
+    ứng dụng sẽ đọc nhanh hay chậm, các bạn điểu chỉnh thời
+    gian tạm dừng để được như ý muốn}
+    delay(3000);
 
-Begin
+    name := speechToText;
+    {Ứng dụng sẽ hiện lên hộp thoại}
 
-    Clrscr;
-    Write('cho biet ten tep');
-    readln(ten);
+    writeln('Xin chào ' + name);
+    speak('Xin chào ' + name);
+    delay(3000);
 
-    Assign(f,ten);
-    Rewrite(f);
-
-    Write('nhap bao nhieu nguoi');
-    readln(n);
-
-    For i:=1 to n do
-    Begin
-        Write('Hoten');
-        Readln(hoten);
-
-        Write('He so');
-        Readln(heso);
-
-        Write('So con');
-        Readln(socon);
-
-        Writeln(f,hoten);
-        Writeln(f,heso:4:2);
-        Writeln(f,socon);
-
-    End;
-
-    Close(f);
-    Assign(f,ten);
-    Reset(f);
-    Writeln('------------------------------------------------------');
-    Writeln ('| Ho va ten | Hs | socon | Luong |');
-    Writeln('------------------------------------------------------');
-    While not eof(f) do
-    Begin
-        Readln(f,hoten);
-        Readln(f,heso);
-        Readln(f,socon);
-        Writeln('|',ten:19,'|',heso:4:2,'|',socon:4,'|',heso * 540000:10:2,'|');
-    End;
-    Readln;
-End.
+    readln;
+    stopSpeak(); {dừng đọc nếu còn đang đọc}
+end.

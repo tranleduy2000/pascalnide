@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/pager/pager.iml" filepath="$PROJECT_DIR$/pager/pager.iml" />
       <module fileurl="file://$PROJECT_DIR$/pascal_ide.iml" filepath="$PROJECT_DIR$/pascal_ide.iml" />
       <module fileurl="file://$PROJECT_DIR$/testapplication/testapplication.iml" filepath="$PROJECT_DIR$/testapplication/testapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zxingplugin/zxingplugin.iml" filepath="$PROJECT_DIR$/zxingplugin/zxingplugin.iml" />
     </modules>
   </component>
 </project>

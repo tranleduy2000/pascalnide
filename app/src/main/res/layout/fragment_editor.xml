@@ -31,6 +31,7 @@
         android:focusableInTouchMode="true"
         android:gravity="top|start"
         android:hint="@string/write_code_here"
+        android:imeOptions="flagNoExtractUi"
         android:inputType="textMultiLine|textNoSuggestions"
         android:overScrollMode="always"
         android:scrollbarSize="5dip"
