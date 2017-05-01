@@ -94,7 +94,10 @@ public class FileLib implements PascalLibrary {
     @SuppressWarnings("unused")
     public void erase(PascalReference<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
-        // TODO: 07-Apr-17
+        if (filesMap.get(fileVariable.get().getPath()).isOpened()) {
+            throw new FileNotAssignException(fileVariable.get().getPath());
+        }
+        boolean delete = fileVariable.get().delete();
     }
 
     /**
@@ -158,7 +161,6 @@ public class FileLib implements PascalLibrary {
     public void close(PascalReference<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileOpened(fileVariable);
         filesMap.get(fileVariable.get().getPath()).close();
-        filesMap.remove(fileVariable.get().getPath());
     }
 
     @PascalMethod(description = "library file", returns = "null")
@@ -564,8 +566,14 @@ public class FileLib implements PascalLibrary {
 
     @Override
     @PascalMethod(description = "stop")
-
     public void shutdown() {
-
+        for (Map.Entry<String, FileEntry> entry : filesMap.entrySet()) {
+            try {
+                filesMap.get(entry.getKey()).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            filesMap.remove(entry.getKey());
+        }
     }
 }
