@@ -90,6 +90,8 @@ class LowCall extends FunctionCall {
             return Long.MIN_VALUE;
         } else if (BasicType.Double.equals(declType)) {
             return Double.MIN_VALUE;
+        } else if (BasicType.Character.equals(declType)) {
+            return Character.MIN_VALUE;
         }
         return 0;
     }

@@ -83,12 +83,9 @@ class HighCall extends FunctionCall {
         DeclaredType declType = type.declType;
         if (declType instanceof ArrayType) {
             SubrangeType bounds = ((ArrayType) declType).getBounds();
-            if (bounds.size == -1) {
-                Object[] value = (Object[]) this.value.getValue(f, main);
-                return value.length - 1;
-            } else {
-                return bounds.lower + bounds.size - 1;
-            }
+            Object[] value = (Object[]) this.value.getValue(f, main);
+            int size = value.length - 1;
+            return bounds.lower + size - 1;
         } else if (BasicType.Byte.equals(declType)) {
             return Byte.MAX_VALUE;
         } else if (BasicType.Short.equals(declType)) {
@@ -99,6 +96,8 @@ class HighCall extends FunctionCall {
             return Long.MAX_VALUE;
         } else if (BasicType.Double.equals(declType)) {
             return Double.MAX_VALUE;
+        }else if (BasicType.Character.equals(declType)) {
+            return Character.MAX_VALUE;
         }
         return 0;
     }

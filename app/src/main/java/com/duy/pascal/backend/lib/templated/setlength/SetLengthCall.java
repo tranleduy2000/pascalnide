@@ -87,7 +87,6 @@ public class SetLengthCall extends FunctionCall {
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         int length = (int) size.getValue(f, main);
-        @SuppressWarnings("rawtypes")
         PascalReference a = (PascalReference) array.getValue(f, main);
         Object arr = a.get();
         int oldlength = Array.getLength(arr);

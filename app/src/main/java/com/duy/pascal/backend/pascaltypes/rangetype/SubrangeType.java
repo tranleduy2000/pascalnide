@@ -37,7 +37,7 @@ public class SubrangeType {
 
     public SubrangeType() {
         this.lower = 0;
-        this.size = -1;
+        this.size = 0;
     }
 
     public SubrangeType(GrouperToken i, ExpressionContext context)

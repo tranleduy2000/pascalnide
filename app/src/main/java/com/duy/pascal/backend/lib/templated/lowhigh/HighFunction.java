@@ -40,9 +40,9 @@ public class HighFunction implements IMethodDeclaration {
     @Override
     public FunctionCall generateCall(LineInfo line, RValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        RValue object = arguments[0];
-        RuntimeType type = object.get_type(f);
-        return new HighCall(type, line);
+        RValue value = arguments[0];
+        RuntimeType type = value.get_type(f);
+        return new HighCall(type, value, line);
     }
 
     @Override

@@ -34,10 +34,9 @@ import com.js.interpreter.ast.returnsvalue.RValue;
 public class SetLengthFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {
-            new RuntimeType(
-                    new ArrayType<>(BasicType.create(Object.class), new SubrangeType(0, 0)), true),
-            new RuntimeType(BasicType.Integer, false)
-    };
+            new RuntimeType(new ArrayType<>(BasicType.create(Object.class),
+                    new SubrangeType()), true),
+            new RuntimeType(BasicType.Integer, false)};
 
     @Override
     public String name() {
