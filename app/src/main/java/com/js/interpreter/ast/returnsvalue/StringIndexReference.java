@@ -14,12 +14,12 @@ public class StringIndexReference implements Reference {
 
     @Override
     public void set(Object value) {
-        container.setCharAt(index, (char) value);
+        container.setCharAt(index - 1, (char) value);
     }
 
     @Override
     public Object get() throws RuntimePascalException {
-        return container.charAt(index);
+        return container.charAt(index - 1);
     }
 
     @Override
