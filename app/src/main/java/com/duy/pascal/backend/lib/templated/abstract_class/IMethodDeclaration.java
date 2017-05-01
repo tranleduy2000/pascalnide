@@ -38,4 +38,6 @@ public interface IMethodDeclaration {
     ArgumentType[] argumentTypes();
 
     DeclaredType returnType();
+
+    String description();
 }

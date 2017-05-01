@@ -69,4 +69,9 @@ public class SetLengthFunction implements IMethodDeclaration {
         return null;
     }
 
+    @Override
+    public String description() {
+        return null;
+    }
+
 }

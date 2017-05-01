@@ -60,4 +60,9 @@ public class LowFunction implements IMethodDeclaration {
         return BasicType.Integer;
     }
 
+    @Override
+    public String description() {
+        return null;
+    }
+
 }

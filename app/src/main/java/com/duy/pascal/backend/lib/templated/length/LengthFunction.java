@@ -63,4 +63,9 @@ public class LengthFunction implements IMethodDeclaration {
         return BasicType.Integer;
     }
 
+    @Override
+    public String description() {
+        return null;
+    }
+
 }

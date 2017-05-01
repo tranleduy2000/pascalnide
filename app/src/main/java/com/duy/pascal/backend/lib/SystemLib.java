@@ -428,11 +428,6 @@ public class SystemLib implements PascalLibrary {
         s.set(s.get().delete(start - 1, start + count - 1));
     }
 
-
-    @PascalMethod(description = "Dynamically allocate memory for variable")
-    public void New(PascalPointer<?> pascalPointer) {
-    }
-
     @PascalMethod(description = "Free dynamically allocated memory")
     public void dispose(PascalPointer<?> pascalPointer) {
         pascalPointer.set(null);

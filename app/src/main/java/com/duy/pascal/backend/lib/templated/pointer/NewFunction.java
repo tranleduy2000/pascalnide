@@ -62,4 +62,9 @@ public class NewFunction implements IMethodDeclaration {
         return BasicType.Integer;
     }
 
+    @Override
+    public String description() {
+        return "Dynamically allocate memory for variable";
+    }
+
 }
