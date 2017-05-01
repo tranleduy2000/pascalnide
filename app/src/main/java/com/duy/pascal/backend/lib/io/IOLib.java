@@ -80,8 +80,6 @@ public class IOLib implements PascalLibrary {
     }
 
     @Override
-    @PascalMethod(description = "stop")
-
     public void shutdown() {
 
     }
@@ -435,9 +433,9 @@ public class IOLib implements PascalLibrary {
 
     @PascalMethod(description = "system library", returns = "void")
     public char readKey() {
+        Log.d(TAG, "readKey: ");
         if (listener != null) {
             char keyBuffer = listener.getKeyBuffer();
-            Log.d(TAG, "readKey: " + keyBuffer);
             return keyBuffer;
         }
 //        sleep(10);
