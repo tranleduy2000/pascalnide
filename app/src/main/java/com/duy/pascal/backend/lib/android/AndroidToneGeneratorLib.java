@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.android.temp;
+package com.duy.pascal.backend.lib.android;
 
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -41,10 +41,10 @@ public class AndroidToneGeneratorLib implements PascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Generate DTMF tones for the given phone number.")
-    public void generateDtmfTones(
+    public void generateTones(
             @PascalParameter(name = "phoneNumber") String phoneNumber,
             @PascalParameter(name = "toneDuration", description = "duration of each tone in milliseconds")
-            @RpcDefault("100") Integer toneDuration)
+            @RpcDefault("100") int toneDuration)
             throws InterruptedException {
         try {
             for (int i = 0; i < phoneNumber.length(); i++) {
@@ -113,7 +113,6 @@ public class AndroidToneGeneratorLib implements PascalLibrary {
 
     @Override
     @PascalMethod(description = "stop")
-
     public void shutdown() {
     }
 

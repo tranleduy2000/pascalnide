@@ -31,7 +31,7 @@ import com.duy.pascal.backend.lib.android.ZXingLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
-import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
+import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
