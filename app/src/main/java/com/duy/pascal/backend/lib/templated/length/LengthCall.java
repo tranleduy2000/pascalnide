@@ -25,7 +25,6 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.RValue;
-import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -79,8 +78,7 @@ class LengthCall extends FunctionCall {
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         @SuppressWarnings("rawtypes")
-        PascalReference a = (PascalReference) array.getValue(f, main);
-        Object arr = a.get();
+        Object[] arr = (Object[]) array.getValue(f, main);
         return Array.getLength(arr);
     }
 }

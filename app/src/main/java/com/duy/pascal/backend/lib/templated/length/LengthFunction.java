@@ -34,8 +34,7 @@ public class LengthFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {
             new RuntimeType(
-                    new ArrayType<>(BasicType.create(Object.class), new SubrangeType(0, -1)),
-                    false),};
+                    new ArrayType<>(BasicType.create(Object.class), new SubrangeType(0, -1)), false)};
 
     @Override
     public String name() {
