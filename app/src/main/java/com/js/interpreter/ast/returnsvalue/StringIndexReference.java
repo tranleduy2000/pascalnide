@@ -14,7 +14,7 @@ public class StringIndexReference implements Reference {
 
     @Override
     public void set(Object value) {
-        container.setCharAt(index,(char)value);
+        container.setCharAt(index, (char) value);
     }
 
     @Override

@@ -235,11 +235,12 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         stopInput();
         getConsoleView().onStop();
         //stop program
         stopProgram();
+
+        super.onDestroy();
     }
 
     @Override

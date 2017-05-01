@@ -11,8 +11,7 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class Assignment extends DebuggableExecutable implements
-        SetValueExecutable {
+public class Assignment extends DebuggableExecutable implements SetValueExecutable {
     LValue left;
 
     RValue value;
@@ -28,7 +27,8 @@ public class Assignment extends DebuggableExecutable implements
     public ExecutionResult executeImpl(VariableContext f,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         Reference ref = left.getReference(f, main);
-        ref.set(value.getValue(f,main));
+        Object value = this.value.getValue(f, main);
+        ref.set(value);
         return ExecutionResult.NONE;
     }
 

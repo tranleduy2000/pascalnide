@@ -75,11 +75,6 @@ public class SystemLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Generate random number")
-    public double random(double range) {
-        return random.nextDouble() * range;
-    }
-
-    @PascalMethod(description = "Generate random number")
     public double random() {
         return random.nextDouble();
     }

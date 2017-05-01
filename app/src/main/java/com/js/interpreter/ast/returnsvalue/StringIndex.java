@@ -17,7 +17,7 @@ public class StringIndex extends DebuggableLValue {
     RValue string;
     RValue index;
 
-    public StringIndex(RValue index, RValue string) {
+    public StringIndex(RValue string, RValue index) {
         this.index = index;
         this.string = string;
     }
