@@ -2,6 +2,8 @@
 
 See app on Google Play Store 
 
+<img src="https://github.com/tranleduy2000/pascalnide/blob/master/art/wall2..png">
+
 <a href="https://play.google.com/store/apps/details?id=com.duy.pascal.compiler">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width = 200/>
 </a>
