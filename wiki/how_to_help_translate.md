@@ -7,14 +7,15 @@
     •	Russian (ru)
     •	Spanish (es)
     •	Slovak (sk)
-All of these translations (besides English) have been provided by volunteers. More translations and improved translations are gratefully accepted.
+All of these translations (besides English) have been provided by volunteers. If you want to improve or add more translations,
+ it will be gratefully accepted.
 You don't have to be a programmer to create the translations, all you need is a text editor, some knowledge of technical English, and of course knowledge of the technical version of your own language.
 
 ## How to improve a localization or create a brand-new localization
 
 **Use a text editor that supports UTF-8**
 
-Android resource files are encoded using the UTF-8 character set. If possible, please use a text editor that can read and write UTF-8 encoded files to edit the resource files. For example, on Windows you should use an editor like the free (Notepad++)[http://notepad-plus-plus.org/] editor. Or use "Turbo editor" in Android.
+Android resource files are encoded using the UTF-8 character set. If possible, please use a text editor that can read and write UTF-8 encoded files to edit the resource files. For example, on Windows you should use an editor like the free (Notepad++)[http://notepad-plus-plus.org/] editor. Or use **Turbo editor** in Android.
 
 ###To improve an existing localization
 
