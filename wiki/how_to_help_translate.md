@@ -16,7 +16,9 @@ You don't have to be a programmer to create the translations, all you need is a 
 
 Android resource files are encoded using the UTF-8 character set. If possible, please use a text editor that can read and write UTF-8 encoded files to edit the resource files. For example, on Windows you should use an editor like the free (Notepad++)[http://notepad-plus-plus.org/] editor. Or use "Turbo editor" in Android.
 
-To improve an existing localization you'll need both the English version of the files as well as the existing localized versions of the files.
+###To improve an existing localization
+
+You'll need both the English version of the files as well as the existing localized versions of the files.
 
 1. Download these two files (they are the U.S. English version of the UI:
     https://github.com/tranleduy2000/pascalnide/blob/master/app/src/main/res/values/msg_error.xml
@@ -27,7 +29,7 @@ To improve an existing localization you'll need both the English version of the 
 3. Edit the localized files to edit string strings from the original English files.
 4. Email the localized copies of those files to tranleduy1233@gmail.com
 
-## Creating a brand new localization
+### Creating a brand new localization
 
 To contribute a new localization for the Terminal Emulator for Android, please:
 
