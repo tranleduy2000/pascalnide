@@ -44,7 +44,6 @@ public abstract class FutureActivityTask<T> {
     }
 
     public void onCreate() {
-        mActivity.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
     }
 
     public void onStart() {

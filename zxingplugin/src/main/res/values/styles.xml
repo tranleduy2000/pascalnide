@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Dialog">
+
+    </style>
+
+    <style name="AppCompatCaptureTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">#ffb341</item>
+        <item name="colorPrimaryDark">#ffb341</item>
+        <item name="colorAccent">#ffb341</item>
+    </style>
+</resources>

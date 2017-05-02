@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib.templated.setlength;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunction;
+import com.duy.pascal.backend.lib.templated.abstract_class.IMethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
@@ -31,13 +31,12 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.RValue;
 
-public class SetLengthFunction implements TemplatePascalFunction {
+public class SetLengthFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {
-            new RuntimeType(
-                    new ArrayType<>(BasicType.create(Object.class), new SubrangeType(0, 0)), true),
-            new RuntimeType(BasicType.Integer, false)
-    };
+            new RuntimeType(new ArrayType<>(BasicType.create(Object.class),
+                    new SubrangeType()), true),
+            new RuntimeType(BasicType.Integer, false)};
 
     @Override
     public String name() {
@@ -67,6 +66,11 @@ public class SetLengthFunction implements TemplatePascalFunction {
 
     @Override
     public DeclaredType returnType() {
+        return null;
+    }
+
+    @Override
+    public String description() {
         return null;
     }
 

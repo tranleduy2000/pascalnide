@@ -62,7 +62,6 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.R;
-import com.google.firebase.crash.FirebaseCrash;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.PluginCallException;
@@ -222,7 +221,7 @@ public class ExceptionManager {
             }
             return new SpannableString(e.getMessage());
         } catch (Exception err) {
-            FirebaseCrash.report(new Throwable("Error when get exception msg"));
+//            FirebaseCrash.report(new Throwable("Error when get exception msg"));
             return new SpannableString(err.toString());
         }
     }

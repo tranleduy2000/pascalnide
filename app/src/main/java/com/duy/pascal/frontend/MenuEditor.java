@@ -19,6 +19,7 @@ package com.duy.pascal.frontend;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
@@ -31,8 +32,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.code_editor.EditorActivity;
-import com.duy.pascal.frontend.info_application.InfoActivity;
 import com.duy.pascal.frontend.code_sample.CodeSampleActivity;
+import com.duy.pascal.frontend.info_application.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingActivity;
 
@@ -204,6 +205,11 @@ public class MenuEditor {
             case R.id.action_edit_word_wrap:
                 pascalPreferences.setWordWrap(!menuItem.isChecked());
                 menuItem.setChecked(!menuItem.isChecked());
+                break;
+            case R.id.action_got_to_blog:
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://pascalnide.wordpress.com/"));
+                activity.startActivity(intent);
                 break;
         }
         return true;

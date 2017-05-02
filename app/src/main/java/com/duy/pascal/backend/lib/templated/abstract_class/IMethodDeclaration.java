@@ -25,7 +25,7 @@ import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.RValue;
 
 
-public interface TemplatePascalFunction {
+public interface IMethodDeclaration {
     String name();
 
     FunctionCall generateCall(LineInfo line, RValue[] values,
@@ -38,4 +38,6 @@ public interface TemplatePascalFunction {
     ArgumentType[] argumentTypes();
 
     DeclaredType returnType();
+
+    String description();
 }

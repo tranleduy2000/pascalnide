@@ -27,10 +27,11 @@ import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
+import com.duy.pascal.backend.lib.android.ZXingLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
-import com.duy.pascal.backend.lib.android.temp.AndroidToneGeneratorLib;
+import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidWifiLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
@@ -40,10 +41,13 @@ import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
-import com.duy.pascal.backend.lib.templated.abstract_class.TemplatePascalFunctionDeclaration;
+import com.duy.pascal.backend.lib.templated.abstract_class.AbstractMethodDeclaration;
 import com.duy.pascal.backend.lib.templated.exit.ExitFunction;
 import com.duy.pascal.backend.lib.templated.exit.ExitNoneFunction;
 import com.duy.pascal.backend.lib.templated.length.LengthFunction;
+import com.duy.pascal.backend.lib.templated.lowhigh.HighFunction;
+import com.duy.pascal.backend.lib.templated.lowhigh.LowFunction;
+import com.duy.pascal.backend.lib.templated.pointer.NewFunction;
 import com.duy.pascal.backend.lib.templated.setlength.SetLengthFunction;
 import com.duy.pascal.backend.lib.templated.sizeof.SizeOfArrayFunction;
 import com.duy.pascal.backend.lib.templated.sizeof.SizeOfObjectFunction;
@@ -67,7 +71,6 @@ import java.util.Map;
 
 public class PascalLibraryManager {
     public static final Map<String, Class<? extends PascalLibrary>> mapLibraries = new Hashtable<>();
-    private static final String TAG = "PascalLibraryUtils";
     @NonNull
     private ExpressionContextMixin program;
     @Nullable
@@ -125,6 +128,7 @@ public class PascalLibraryManager {
         mapLibraries.put(AndroidNotifyLib.NAME, AndroidNotifyLib.class);
         mapLibraries.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
         mapLibraries.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
+        mapLibraries.put(ZXingLib.NAME, ZXingLib.class);
     }
 
     /**
@@ -218,12 +222,15 @@ public class PascalLibraryManager {
      * load system method
      */
     public void loadSystemLibrary() {
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new SetLengthFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new LengthFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new SizeOfObjectFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new SizeOfArrayFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new ExitFunction()));
-        program.declareFunction(new TemplatePascalFunctionDeclaration(new ExitNoneFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new SetLengthFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new LengthFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new SizeOfObjectFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new SizeOfArrayFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new ExitFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new ExitNoneFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new HighFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new LowFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new NewFunction()));
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}

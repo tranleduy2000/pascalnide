@@ -1,1 +1,1 @@
-include ':app', ':testapplication', ':pager'
+include ':app', ':testapplication', ':pager', ':zxingplugin'

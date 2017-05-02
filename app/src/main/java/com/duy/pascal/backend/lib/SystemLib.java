@@ -20,6 +20,7 @@ import com.duy.pascal.backend.exceptions.OrdinalExpressionExpectedException;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.backend.lib.runtime_exceptions.RangeCheckError;
+import com.js.interpreter.runtime.PascalPointer;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
@@ -363,7 +364,7 @@ public class SystemLib implements PascalLibrary {
     @PascalMethod(description = "Append one string to another")
     public StringBuilder concat(StringBuilder... agrs) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Object s1 : agrs) stringBuilder.append(s1);
+        for (StringBuilder s1 : agrs) stringBuilder.append(s1);
         return stringBuilder;
     }
 
@@ -425,5 +426,10 @@ public class SystemLib implements PascalLibrary {
             throws RuntimePascalException {
         System.out.println("s = [" + s + "], start = [" + start + "], count = [" + count + "]");
         s.set(s.get().delete(start - 1, start + count - 1));
+    }
+
+    @PascalMethod(description = "Free dynamically allocated memory")
+    public void dispose(PascalPointer<?> pascalPointer) {
+        pascalPointer.set(null);
     }
 }

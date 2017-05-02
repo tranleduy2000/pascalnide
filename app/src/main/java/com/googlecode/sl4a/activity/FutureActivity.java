@@ -21,7 +21,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -29,6 +28,8 @@ import android.view.Menu;
 import android.view.View;
 
 import com.duy.pascal.PascalApplication;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
@@ -41,12 +42,13 @@ import com.googlecode.sl4a.future.FutureActivityTask;
  *
  * @author Damon Kohler (damonkohler@gmail.com)
  */
-public class FutureActivity extends AppCompatActivity {
+public class FutureActivity extends AbstractAppCompatActivity {
     private FutureActivityTask<?> mTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_exec);
         Log.v("FutureActivity created.");
         int id = getIntent().getIntExtra(Constants.EXTRA_TASK_ID, 0);
         if (id == 0) {

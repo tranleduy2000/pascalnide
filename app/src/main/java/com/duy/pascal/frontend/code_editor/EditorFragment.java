@@ -49,8 +49,8 @@ import java.io.File;
  */
 
 public class EditorFragment extends Fragment implements EditorListener {
-    CodeView mCodeEditor;
-    LockableScrollView mScrollView;
+    private CodeView mCodeEditor;
+    private LockableScrollView mScrollView;
     private ApplicationFileManager mFileManager;
     private Handler handler = new Handler();
 
@@ -105,8 +105,9 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public void onDestroy() {
         saveFile();
-        mCodeEditor.saveHistory(getFilePath());
-
+        if (mCodeEditor != null) {
+            mCodeEditor.saveHistory(getFilePath());
+        }
         super.onDestroy();
     }
 
@@ -143,6 +144,7 @@ public class EditorFragment extends Fragment implements EditorListener {
 
     @Override
     public void saveFile() {
+        if (mCodeEditor == null) return;
         String filePath = getArguments().getString(CompileManager.FILE_PATH);
         boolean result;
         if (filePath != null) {

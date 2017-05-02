@@ -30,6 +30,9 @@ import com.js.interpreter.ast.returnsvalue.RValue;
 
 public class SubrangeType {
     public int lower;
+    /**
+     * if size = -1, the size of array will be ignore while comparing
+     */
     public int size;
 
     public SubrangeType() {

@@ -28,7 +28,6 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".code_editor.EditorActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
         <activity
             android:name=".activities.ActivitySplashScreen"
@@ -95,12 +94,6 @@
             android:name=".code_sample.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:label="@string/title_activity_code_sample">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.SelectThemeActivity"
