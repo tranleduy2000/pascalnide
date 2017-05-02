@@ -50,7 +50,7 @@
     <string name="NoSuchFunctionOrVariableException">%1$s is not a variable or function name</string>
     <string name="NotAStatementException">%1$s is not an instruction by itself.</string>
     <string name="OverridingFunctionException">Redefining function body for %1$s, which was previous define at %1$s</string>
-    <string name="SameNameException">%1$s %2$s conflicts with previously defined %3$s with the same name defined at %4$s</string>
+    <string name="SameNameException">%1$s \"%2$s\" conflicts with previously defined %3$s with the same name defined at %4$s</string>
     <string name="UnAssignableTypeException">The expression %1$s cannot have a value assigned to it.</string>
     <string name="UnrecognizedTypeException">Type %1$s is not defined.</string>
     <string name="PascalArithmeticException">Arithmetic Exception: %1$s</string>
