@@ -108,7 +108,6 @@ public class AndroidUtilsLib implements PascalLibrary {
             }
         };
         mTaskQueue.execute(task);
-
         try {
             return task.getResult();
         } catch (Exception e) {

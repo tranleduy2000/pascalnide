@@ -17,9 +17,13 @@
 package com.duy.pascal.backend.lib.templated.length;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.TypeMismatchException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
@@ -33,11 +37,13 @@ import java.lang.reflect.Array;
 
 class LengthCall extends FunctionCall {
 
+    private DeclaredType type;
     private LineInfo line;
     private RValue array;
 
-    LengthCall(RValue array, LineInfo line) {
+    LengthCall(RValue array, DeclaredType declaredType, LineInfo line) {
         this.array = array;
+        type = declaredType;
         this.line = line;
     }
 
@@ -60,13 +66,13 @@ class LengthCall extends FunctionCall {
     @Override
     public RValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new LengthCall(array.compileTimeExpressionFold(context), line);
+        return new LengthCall(array.compileTimeExpressionFold(context), type, line);
     }
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        return new LengthCall(array.compileTimeExpressionFold(c), line);
+        return new LengthCall(array.compileTimeExpressionFold(c), type, line);
     }
 
     @Override
@@ -77,8 +83,20 @@ class LengthCall extends FunctionCall {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        @SuppressWarnings("rawtypes")
-        Object[] arr = (Object[]) array.getValue(f, main);
-        return Array.getLength(arr);
+        Object value = array.getValue(f, main);
+        if (value instanceof Object[]) {
+            Object[] arr = (Object[]) value;
+            return Array.getLength(arr);
+        } else if (value instanceof StringBuilder) {
+            return ((StringBuilder) value).length();
+        } else if (value instanceof String) {
+            return ((String) value).length();
+        } else {
+            // TODO: 02-May-17  check exception
+            throw new TypeMismatchException(line, getFunctionName(),
+                    new DeclaredType[]{BasicType.StringBuilder,
+                            new ArrayType<>(BasicType.create(Object.class), new SubrangeType())},
+                    type);
+        }
     }
 }

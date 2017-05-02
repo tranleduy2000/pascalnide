@@ -21,20 +21,20 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.lib.templated.abstract_class.IMethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.RValue;
 
+/**
+ * length of one dimension array
+ */
 public class LengthFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {
-            new RuntimeType(
-                    new ArrayType<>(BasicType.create(Object.class), new SubrangeType(0, -1)), false)};
+            new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
     public String name() {
@@ -45,7 +45,8 @@ public class LengthFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RValue array = arguments[0];
-        return new LengthCall(array, line);
+        RuntimeType type = array.get_type(f);
+        return new LengthCall(array, type.declType, line);
     }
 
     @Override

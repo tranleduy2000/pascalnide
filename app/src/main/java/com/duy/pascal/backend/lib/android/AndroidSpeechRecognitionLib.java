@@ -54,13 +54,13 @@ public class AndroidSpeechRecognitionLib implements PascalLibrary {
 
         // Setup intent parameters (if provided).
         if (language != null) {
-            recognitionIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "");
+            recognitionIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language);
         }
         if (languageModel != null) {
-            recognitionIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "");
+            recognitionIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, languageModel);
         }
         if (prompt != null) {
-            recognitionIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "");
+            recognitionIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, prompt);
         }
 
         // Run the activity an retrieve the result.

@@ -27,7 +27,7 @@ import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
-import com.duy.pascal.backend.lib.android.ZXingLib;
+import com.duy.pascal.backend.lib.android.ZXingAPI;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
@@ -128,7 +128,7 @@ public class PascalLibraryManager {
         mapLibraries.put(AndroidNotifyLib.NAME, AndroidNotifyLib.class);
         mapLibraries.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
         mapLibraries.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
-        mapLibraries.put(ZXingLib.NAME, ZXingLib.class);
+        mapLibraries.put(ZXingAPI.NAME, ZXingAPI.class);
     }
 
     /**

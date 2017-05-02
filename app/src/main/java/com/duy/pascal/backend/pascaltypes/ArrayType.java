@@ -30,6 +30,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         this.bounds = bounds;
     }
 
+
     public static void pushArrayOfNonArrayType(DeclaredType type, Code code,
                                                RegisterAllocator ra, List<SubrangeType> ranges) {
         for (SubrangeType i : ranges) {

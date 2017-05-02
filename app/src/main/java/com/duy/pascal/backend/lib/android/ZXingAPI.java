@@ -14,13 +14,13 @@ import java.util.Map;
  * Created by Duy on 01-May-17.
  */
 
-public class ZXingLib implements PascalLibrary {
+public class ZXingAPI implements PascalLibrary {
     public static final String NAME = "barCode".toLowerCase();
     private static final String PACKAGE = "com.duy.pascal.plugin.zxing";
     private Intent barcodeIntent;
     private AndroidUtilsLib mAndroidFacade;
 
-    public ZXingLib(AndroidLibraryManager manager) throws RuntimePascalException {
+    public ZXingAPI(AndroidLibraryManager manager) throws RuntimePascalException {
         mAndroidFacade = new AndroidUtilsLib(manager);
         //invoke method will be
         if (manager.getContext() != null) {

@@ -16,6 +16,9 @@
 
 package com.duy.pascal.backend.lib.annotations;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,6 +29,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Documented
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public @interface PascalParameter {
     /**
      * The name of the formal parameter. This should be in agreement with the java code.
