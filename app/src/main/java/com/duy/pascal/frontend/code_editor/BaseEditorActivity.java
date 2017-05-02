@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.code_editor;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -90,6 +91,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
+
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
 
@@ -122,15 +125,18 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     }
 
     private void invalidateTab() {
+        Log.d(TAG, "invalidateTab: ");
         for (int i = 0; i < pagerAdapter.getCount(); i++) {
             final TabLayout.Tab tab = tabLayout.getTabAt(i);
-            View root = null;
+            Log.d(TAG, "invalidateTab: " + i + " " + tab);
+            View view = null;
             if (tab != null) {
                 tab.setCustomView(R.layout.item_tab_file);
-                root = tab.getCustomView();
+                view = tab.getCustomView();
+                Log.d(TAG, "invalidateTab: " + view);
             }
-            if (root != null) {
-                View vClose = root.findViewById(R.id.img_close);
+            if (view != null) {
+                View vClose = view.findViewById(R.id.img_close);
                 final int position = i;
                 vClose.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -138,7 +144,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                         removePage(position, SAVE_LAST_FILE);
                     }
                 });
-                TextView txtTitle = (TextView) root.findViewById(R.id.txt_title);
+                TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);
                 txtTitle.setText(pagerAdapter.getPageTitle(i));
                 txtTitle.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -179,6 +185,11 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         pagerAdapter.remove(position);
         invalidateTab();
         Toast.makeText(this, getString(R.string.closed) + " " + filePath, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     /**

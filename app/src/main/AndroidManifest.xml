@@ -28,7 +28,6 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".code_editor.EditorActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
         <activity
             android:name=".activities.ActivitySplashScreen"

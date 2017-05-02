@@ -83,7 +83,7 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
                 if (event.getAction() == KeyEvent.ACTION_DOWN
                         && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     File file = doCreateFile();
-                    if (listener != null) {
+                    if (listener != null && file != null) {
                         listener.onFileCreated(file);
                         listener.onCancel();
                     }
@@ -110,12 +110,12 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
                 File file = doCreateFile();
-                if (file != null)
-                    if (listener != null) {
-                        listener.onFileCreated(file);
-                        listener.onCancel();
-                        dismiss();
-                    }
+                if (listener != null && file != null) {
+
+                    listener.onFileCreated(file);
+                    listener.onCancel();
+                    dismiss();
+                }
             }
         });
 
