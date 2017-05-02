@@ -73,7 +73,7 @@ See in https://pascalnide.wordpress.com/
 # Developer 
  Trần Lê Duy
  
-# Thirty party library
+# Third party library
    * JSPIIJ https://github.com/jeremysalwen/JSPIIJ
    * SL4A https://github.com/damonkohler/sl4a
    * And more...
