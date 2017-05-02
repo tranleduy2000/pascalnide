@@ -1,9 +1,10 @@
-**PASCAL COMPILER FOR ANDROID**
+# Pascal NIDE - Pascal Compiler for Android
 
 See app on Google Play Store 
 
 <a href="https://play.google.com/store/apps/details?id=com.duy.pascal.compiler">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width = 200/>
+</a>
 
 # Overview
 
@@ -51,7 +52,7 @@ All contributions are welcome, from code to documentation to graphics to design 
 # Tutorials
 
 See in https://pascalnide.wordpress.com/
-  1. <a href="https://pascalnide.wordpress.com/2017/05/01/tao-ung-dung-giao-tiep-bang-giong-noi-voi-pascal-n-ide/">How to create communication application by voice with Pascal N-IDE
+  1. <a href="https://pascalnide.wordpress.com/2017/05/01/tao-ung-dung-giao-tiep-bang-giong-noi-voi-pascal-n-ide/">How to create communication application by voice with Pascal N-IDE></a>
   
 # License
 	The code in this repository is licensed under the Apache License, Version 2.0 (the "License");
