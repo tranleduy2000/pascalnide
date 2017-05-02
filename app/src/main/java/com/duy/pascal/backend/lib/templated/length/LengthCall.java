@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.lib.templated.length;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.TypeMismatchException;
+import com.js.interpreter.runtime.exception.TypeMismatchException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;

@@ -31,8 +31,7 @@ public class VarargsType implements ArgumentType {
             line = tmp.getLineNumber();
             convertedargs.add(tmp);
         }
-        return new ArrayBoxer(
-                convertedargs.toArray(new RValue[convertedargs.size()]),
+        return new ArrayBoxer(convertedargs.toArray(new RValue[convertedargs.size()]),
                 elementType, line);
     }
 

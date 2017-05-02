@@ -61,7 +61,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public String toString() {
-            return "Character";
+            return "Char";
         }
 
         @Override
@@ -253,7 +253,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public String toString() {
-            return "Double";
+            return "Real";
         }
 
         @Override
