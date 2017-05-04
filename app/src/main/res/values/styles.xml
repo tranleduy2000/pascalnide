@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,19 +19,25 @@
     <style name="AppTheme" parent="Theme.AppCompat">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimary">@color/dark.color_primary</item>
+        <item name="colorPrimaryDark">@color/dark.color_primary_dark</item>
     </style>
 
 
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
+    <!--Theme light for pro version-->
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+
+        <item name="colorPrimary">@color/light.color_primary</item>
+        <item name="colorPrimaryDark">@color/light.color_primary_dark</item>
+        <item name="colorAccent">@color/light.color_accent</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
+
     <style name="TreeNodeStyleCustom">
         <item name="android:paddingLeft">20dp</item>
         <!--<item name="android:showDividers">middle</item>-->

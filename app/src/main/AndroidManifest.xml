@@ -99,13 +99,17 @@
             android:name=".activities.SelectThemeActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
+
         <activity android:name=".info_application.InfoActivity" />
+
         <activity android:name=".setting.SettingActivity" />
+
         <activity
             android:name=".activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustPan" />
+
         <activity android:name="com.googlecode.sl4a.activity.FutureActivity" />
         <activity android:name=".code_sample.SearchResultSampleActivity" />
 

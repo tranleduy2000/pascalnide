@@ -101,7 +101,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         super.onStart();
         if (mPascalPreferences != null)
             mPascalPreferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-
     }
 
     @Override
@@ -116,16 +115,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
      * @param recreate -call method onCreate
      */
     protected void setTheme(boolean recreate) {
-//        String name = mPreferences.getString(getResources().getString(R.string.key_pref_theme), "");
-//        ThemeEngine themeEngine = new ThemeEngine(getApplicationContext());
-//        int themeId = themeEngine.getTheme(name);
-//        if (themeId != ThemeEngine.THEME_NOT_FOUND) {
-//            super.setTheme(themeId);
-//            if (recreate) recreate();
-//            Log.d(TAG, "Set theme ok");
-//        } else {
-//            Log.d(TAG, "Theme not found");
-//        }
     }
 
     @Override
@@ -133,7 +122,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         if (DEBUG) Log.d(TAG, "onSharedPreferenceChanged: " + s);
         if (s.equals(getString(R.string.key_pref_lang))) {
             setLocale(true);
-            Toast.makeText(this, getString(R.string.change_lang_msg), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, getString(R.string.change_lang_msg), Toast.LENGTH_SHORT).show();
         } else if (s.equalsIgnoreCase(getString(R.string.key_full_screen))) {
             setFullScreen();
         }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,18 +14,18 @@
   ~ limitations under the License.
   -->
 
-<android.support.design.widget.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation_view"
-    android:layout_width="wrap_content"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:windowBackground"
     android:fitsSystemWindows="true"
-    android:scrollbarAlwaysDrawHorizontalTrack="true"
-    android:scrollbarAlwaysDrawVerticalTrack="true"
-    android:scrollbarStyle="insideOverlay"
-    app:itemTextAppearance="@style/Base.TextAppearance.AppCompat.Small"
-    app:menu="@menu/menu_nav">
+    android:orientation="vertical">
 
-</android.support.design.widget.NavigationView>
-
-
+    <fragment
+        android:id="@+id/file_view"
+        class="com.duy.pascal.frontend.file.FragmentSelectFile"
+        android:layout_width="wrap_content"
+        android:minWidth="200dp"
+        android:layout_height="match_parent"
+        android:tag="fragment_file_view" />
+</FrameLayout>

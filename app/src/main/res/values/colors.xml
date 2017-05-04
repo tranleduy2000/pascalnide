@@ -16,9 +16,12 @@
 
 <resources>
 
-    <color name="color_primary_dark">#263238</color>
-    <color name="color_primary">#37474f</color>
+    <color name="dark.color_primary_dark">#263238</color>
+    <color name="dark.color_primary">#37474f</color>
     <!--<color name="color_primary_dark">#01579b</color>-->
     <!--<color name="color_primary">#0288d1</color>-->
-<!---->
+
+    <color name="light.color_primary_dark">#00796b</color>
+    <color name="light.color_primary">#26a69a</color>
+    <color name="light.color_accent">#ef6c00</color>
 </resources>

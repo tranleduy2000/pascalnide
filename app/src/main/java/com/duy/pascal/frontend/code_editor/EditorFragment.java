@@ -158,8 +158,8 @@ public class EditorFragment extends Fragment implements EditorListener {
                 String code = getCode();
                 result = mFileManager.saveFile(filePath, code);
                 if (result) {
-                    Toast.makeText(getContext(), getString(R.string.saved) + " " + (new File(filePath).getName()),
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), getString(R.string.saved) + " " + (new File(filePath).getName()),
+//                            Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), getString(R.string.can_not_save_file) + " " + (new File(filePath).getName()),
                             Toast.LENGTH_SHORT).show();
