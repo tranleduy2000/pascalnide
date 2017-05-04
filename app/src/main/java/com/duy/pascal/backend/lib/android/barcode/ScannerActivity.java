@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.lib.android.barcode;
 
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -7,14 +8,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 /**
  * Custom Scannner Activity extending from Activity to display a custom layout form scanner view.
  */
-public class ZxingScannerActivity extends AbstractAppCompatActivity implements
+public class ScannerActivity extends Activity implements
         DecoratedBarcodeView.TorchListener {
 
     private CaptureManager capture;
@@ -26,10 +26,10 @@ public class ZxingScannerActivity extends AbstractAppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
-        barcodeScannerView = (DecoratedBarcodeView)findViewById(R.id.zxing_barcode_scanner);
+        barcodeScannerView = (DecoratedBarcodeView) findViewById(R.id.zxing_barcode_scanner);
         barcodeScannerView.setTorchListener(this);
 
-        switchFlashlightButton = (Button)findViewById(R.id.switch_flashlight);
+        switchFlashlightButton = (Button) findViewById(R.id.switch_flashlight);
 
         // if the device does not have flashlight in its camera,
         // then remove the switch flashlight button...
@@ -73,6 +73,7 @@ public class ZxingScannerActivity extends AbstractAppCompatActivity implements
 
     /**
      * Check if the device's camera has a Flashlight.
+     *
      * @return true if there is Flashlight, otherwise false.
      */
     private boolean hasFlash() {

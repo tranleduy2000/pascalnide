@@ -1,18 +1,23 @@
 package com.duy.pascal.backend.lib.android.barcode;
 
 import android.content.Intent;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.CaptureActivity;
 
-public class ZxingActivity extends AbstractAppCompatActivity {
+public class ZxingActivity extends CaptureActivity {
+
+    public static final String TYPE = "type";
+    public static final int TYPE_BAR = 1;
+    public static final int TYPE_QR = 2;
+    public static final int TYPE_MATRIX = 3;
+    public static final int TYPE_PRODUCT = 4;
 
     private Handler handler = new Handler();
 
@@ -50,10 +55,32 @@ public class ZxingActivity extends AbstractAppCompatActivity {
     }
 
     public void scanBarCode() {
-        new IntentIntegrator(this).setOrientationLocked(false)
-                .setBarcodeImageEnabled(true)
-                .setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK)
-                .setCaptureActivity(ZxingScannerActivity.class).initiateScan();
+        Intent intent = getIntent();
+        int type = 0;
+        if (intent != null) {
+            type = intent.getIntExtra(TYPE, TYPE_BAR);
+        }
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        switch (type) {
+            case TYPE_BAR:
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                break;
+            case TYPE_MATRIX:
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.DATA_MATRIX_TYPES);
+                break;
+            case TYPE_PRODUCT:
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
+                break;
+            case TYPE_QR:
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                break;
+        }
+        integrator.setOrientationLocked(true);
+        integrator.setPrompt("Scan a barcode");
+        integrator.setCameraId(0);  // Use a specific camera of the device
+        integrator.setBeepEnabled(true);
+        integrator.setBarcodeImageEnabled(true);
+        integrator.initiateScan();
     }
 
 }

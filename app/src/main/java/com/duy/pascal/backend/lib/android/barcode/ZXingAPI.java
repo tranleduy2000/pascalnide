@@ -26,11 +26,48 @@ public class ZXingAPI implements PascalLibrary {
         }
     }
 
-    @PascalMethod(description = "scan bar code")
+    @PascalMethod(description = "Scan bar code")
     public StringBuilder scanBarCode() {
-        final Intent barcodeIntent = new Intent(context, ZxingActivity.class);
+        final Intent intent = new Intent(context, ZxingActivity.class);
+        intent.putExtra(ZxingActivity.TYPE, ZxingActivity.TYPE_BAR);
         // Run the activity an retrieve the result.
-        final Intent data = mAndroidFacade.startActivityForResult(barcodeIntent);
+        final Intent data = mAndroidFacade.startActivityForResult(intent);
+        if (data != null) {
+            return new StringBuilder(data.getStringExtra(Intent.EXTRA_RETURN_RESULT));
+        }
+        return new StringBuilder("");
+    }
+
+    @PascalMethod(description = "Scan QR code")
+    public StringBuilder scanQRCode() {
+        final Intent intent = new Intent(context, ZxingActivity.class);
+        intent.putExtra(ZxingActivity.TYPE, ZxingActivity.TYPE_QR);
+        // Run the activity an retrieve the result.
+        final Intent data = mAndroidFacade.startActivityForResult(intent);
+        if (data != null) {
+            return new StringBuilder(data.getStringExtra(Intent.EXTRA_RETURN_RESULT));
+        }
+        return new StringBuilder("");
+    }
+
+    @PascalMethod(description = "Scan matrix code")
+    public StringBuilder scanMatrixCode() {
+        final Intent intent = new Intent(context, ZxingActivity.class);
+        intent.putExtra(ZxingActivity.TYPE, ZxingActivity.TYPE_MATRIX);
+        // Run the activity an retrieve the result.
+        final Intent data = mAndroidFacade.startActivityForResult(intent);
+        if (data != null) {
+            return new StringBuilder(data.getStringExtra(Intent.EXTRA_RETURN_RESULT));
+        }
+        return new StringBuilder("");
+    }
+
+    @PascalMethod(description = "Scan product code")
+    public StringBuilder scanProductCode() {
+        final Intent intent = new Intent(context, ZxingActivity.class);
+        intent.putExtra(ZxingActivity.TYPE, ZxingActivity.TYPE_PRODUCT);
+        // Run the activity an retrieve the result.
+        final Intent data = mAndroidFacade.startActivityForResult(intent);
         if (data != null) {
             return new StringBuilder(data.getStringExtra(Intent.EXTRA_RETURN_RESULT));
         }
