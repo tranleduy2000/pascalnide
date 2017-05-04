@@ -50,7 +50,8 @@ public class WordToken extends Token {
                 || s.equalsIgnoreCase("extended")
                 || s.equalsIgnoreCase("real")
                 || s.equalsIgnoreCase("comp")
-                || s.equalsIgnoreCase("curreny")) {
+                || s.equalsIgnoreCase("curreny")
+                || s.equalsIgnoreCase("double")) {
             return BasicType.Double;
         } else if (s.equalsIgnoreCase("longint")
                 || s.equalsIgnoreCase("int64")
