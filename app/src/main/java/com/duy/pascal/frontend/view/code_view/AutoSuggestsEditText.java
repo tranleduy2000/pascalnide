@@ -221,9 +221,6 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<SuggestItem> data) {
-//        if (mAdapter != null) {
-//            mAdapter.clearAll();
-//        }
         for (String s : KeyWord.LIST_KEY_WORD) {
             data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }

@@ -24,7 +24,7 @@ import java.io.Serializable;
 /**
  * item for suggest adapter of {@link AutoSuggestsEditText}
  */
-public class SuggestItem implements Serializable {
+public class SuggestItem implements Serializable{
     private int type;
     @NonNull
     private String name = "";
@@ -32,6 +32,7 @@ public class SuggestItem implements Serializable {
     private String description = null;
     @Nullable
     private CharSequence show;
+    private String compare = "";
 
     public SuggestItem(int type, String name, String description, CharSequence show) {
         this.name = name;
@@ -44,11 +45,13 @@ public class SuggestItem implements Serializable {
         this.name = name;
         this.description = description;
         this.type = type;
+        this.compare = name.toLowerCase();
     }
 
     public SuggestItem(int type, String name) {
         this.name = name;
         this.type = type;
+        this.compare = name.toLowerCase();
     }
 
     public int getType() {
@@ -62,6 +65,7 @@ public class SuggestItem implements Serializable {
     public String getName() {
         return name;
     }
+
 
     public void setName(String name) {
         this.name = name;
@@ -82,5 +86,13 @@ public class SuggestItem implements Serializable {
 
     public void setShow(CharSequence show) {
         this.show = show;
+    }
+
+    public String getCompare() {
+        return compare;
+    }
+
+    public void setCompare(String compare) {
+        this.compare = compare;
     }
 }

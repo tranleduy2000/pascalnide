@@ -61,7 +61,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
             suggestion.clear();
             if (constraint != null) {
                 for (SuggestItem item : itemsAll) {
-                    if (item.getName().startsWith(constraint.toString())) {
+                    if (item.getCompare().startsWith(constraint.toString())) {
                         suggestion.add(item);
                     }
                 }
