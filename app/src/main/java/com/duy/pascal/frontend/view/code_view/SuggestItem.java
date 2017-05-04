@@ -24,31 +24,29 @@ import java.io.Serializable;
 /**
  * item for suggest adapter of {@link AutoSuggestsEditText}
  */
-public class SuggestItem implements Serializable{
+public class SuggestItem implements Serializable, Comparable {
     private int type;
     @NonNull
     private String name = "";
-    @Nullable
     private String description = null;
-    @Nullable
     private CharSequence show;
     private String compare = "";
 
-    public SuggestItem(int type, String name, String description, CharSequence show) {
+    public SuggestItem(int type, @NonNull String name, String description, CharSequence show) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.show = show;
     }
 
-    public SuggestItem(int type, String name, String description) {
+    public SuggestItem(int type, @NonNull String name, String description) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.compare = name.toLowerCase();
     }
 
-    public SuggestItem(int type, String name) {
+    public SuggestItem(int type, @NonNull String name) {
         this.name = name;
         this.type = type;
         this.compare = name.toLowerCase();
@@ -62,21 +60,20 @@ public class SuggestItem implements Serializable{
         this.type = type;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
-    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@Nullable String description) {
         this.description = description;
     }
 
@@ -84,15 +81,13 @@ public class SuggestItem implements Serializable{
         return show;
     }
 
-    public void setShow(CharSequence show) {
+    public void setShow(@Nullable CharSequence show) {
         this.show = show;
     }
 
-    public String getCompare() {
-        return compare;
-    }
-
-    public void setCompare(String compare) {
-        this.compare = compare;
+    @Override
+    public int compareTo(@NonNull Object o) {
+        String s = o.toString().toLowerCase();
+        return compare.startsWith(s) ? 0 : -1;
     }
 }

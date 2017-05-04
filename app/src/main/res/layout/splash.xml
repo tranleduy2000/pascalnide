@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="@string/pascal_for_android"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/color.key_word_color"
         android:textSize="32sp" />
 

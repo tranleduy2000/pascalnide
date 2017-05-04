@@ -35,10 +35,11 @@
 
             </item>
             <item
-                android:enabled="true"
                 android:id="@+id/action_got_to_blog"
+                android:enabled="true"
                 android:icon="@drawable/ic_web_white_24dp"
-                android:title="@string/blog">
+                android:title="@string/blog"
+                android:visible="false">
 
             </item>
             <item
