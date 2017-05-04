@@ -25,18 +25,26 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="false"
-        app:theme="@style/AppTheme.AppBarOverlay">
+        android:fitsSystemWindows="false">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <FrameLayout
+            android:id="@+id/toolbar_container"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="?colorPrimary"
-            android:fitsSystemWindows="false"
-            app:layout_scrollFlags="snap|scroll|enterAlwaysCollapsed"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content">
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?colorPrimary"
+                android:fitsSystemWindows="false" />
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:searchSuggestionBackground="?colorPrimary" />
+        </FrameLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
@@ -56,11 +64,4 @@
 
     </android.support.v4.view.ViewPager>
 
-    <com.lapism.searchview.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:search_hint="@string/enter_key_word">
-
-    </com.lapism.searchview.SearchView>
 </android.support.design.widget.CoordinatorLayout>

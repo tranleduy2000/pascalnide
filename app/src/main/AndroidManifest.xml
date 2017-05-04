@@ -93,26 +93,28 @@
         <activity
             android:name=".code_sample.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:label="@string/title_activity_code_sample">
-        </activity>
+            android:label="@string/title_activity_code_sample"></activity>
         <activity
             android:name=".activities.SelectThemeActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:launchMode="singleTask" />
-
         <activity android:name=".info_application.InfoActivity" />
-
         <activity android:name=".setting.SettingActivity" />
-
         <activity
             android:name=".activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustPan" />
-
         <activity android:name="com.googlecode.sl4a.activity.FutureActivity" />
         <activity android:name=".code_sample.SearchResultSampleActivity" />
 
+        <activity
+            android:name="com.duy.pascal.backend.lib.android.barcode.ZxingActivity"
+            android:label="@string/title_activity_zxing" />
+
+        <activity
+            android:name="com.duy.pascal.backend.lib.android.barcode.ZxingScannerActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

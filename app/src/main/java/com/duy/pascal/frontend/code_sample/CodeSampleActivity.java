@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.commonsware.cwac.pager.PageDescriptor;
@@ -31,9 +33,7 @@ import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.lapism.searchview.SearchHistoryTable;
-import com.lapism.searchview.SearchItem;
-import com.lapism.searchview.SearchView;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
@@ -53,11 +53,12 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.search_view)
-    SearchView searchView;
+    MaterialSearchView searchView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     //    @BindView(R.id.drawer_layout)
 //    DrawerLayout drawerLayout;
     private ApplicationFileManager fileManager;
-    private SearchHistoryTable mHistoryDatabase;
     private CodePagerAdapter pagerAdapter;
 
     public CodeSampleActivity() {
@@ -75,20 +76,21 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         setContentView(R.layout.activity_code_sample);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        setTitle(R.string.code_sample);
+
         final ArrayList<PageDescriptor> pages = new ArrayList<>();
         for (String category : categories) {
             pages.add(new SimplePageDescriptor(category, category));
         }
+
         pagerAdapter = new CodePagerAdapter(getSupportFragmentManager(), pages);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        mHistoryDatabase = new SearchHistoryTable(this);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mHistoryDatabase.addItem(new SearchItem(query));
-                searchView.close(true);
                 FragmentCodeSample fragmentCodeSample = pagerAdapter.getCurrentFragment();
                 if (fragmentCodeSample != null) {
                     fragmentCodeSample.query(query);
@@ -102,17 +104,17 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
             }
         });
 
-        searchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
-            @Override
-            public void onMenuClick() {
-
-            }
-        });
     }
 
-//    private void openDrawer() {
-//        drawerLayout.openDrawer(GravityCompat.START);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_code_sample, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

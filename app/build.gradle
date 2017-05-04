@@ -6,8 +6,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 74
-        versionName "3.7.2"
+        versionCode 75
+        versionName "3.7.3"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -47,6 +47,7 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
+    compile project(':pager')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
@@ -65,10 +66,11 @@ dependencies {
     compile 'com.rarepebble:colorpicker:2.2.0'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.github.bmelnychuk:atv:1.2.9'
-    compile 'com.lapism:searchview:4.0'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     androidTestCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile project(':pager')
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

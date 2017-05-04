@@ -27,7 +27,7 @@ import com.duy.pascal.backend.lib.android.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
-import com.duy.pascal.backend.lib.android.ZXingAPI;
+import com.duy.pascal.backend.lib.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.lib.android.temp.AndroidApplicationManagerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
