@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -146,11 +145,11 @@
     <string name="add_watch">Добавить часы</string>
     <string name="debug">Программа отладки</string>
     <string name="var_name">Имя переменной</string>
-    <string name="program_stopped">Program is stopped</string>
-    <string name="no_document">No document</string>
-    <string name="implicitly">implicitly</string>
-    <string name="max_page">Max page</string>
-    <string name="max_page_desc">Number of maximum page display on the screen</string>
+    <string name="program_stopped">Программа остановлена</string>
+    <string name="no_document">Нет документа</string>
+    <string name="implicitly">косвенно</string>
+    <string name="max_page">Максимум страниц</string>
+    <string name="max_page_desc">Максимальное число страниц на экране</string>
     <string name="enter_key_word">Enter your keyword...</string>
     <string name="blog">Blog of Pascal N-IDE</string>
 </resources>

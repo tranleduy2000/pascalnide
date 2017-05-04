@@ -6,7 +6,7 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 73
+        versionCode 74
         versionName "3.7.2"
         vectorDrawables.useSupportLibrary = true
 

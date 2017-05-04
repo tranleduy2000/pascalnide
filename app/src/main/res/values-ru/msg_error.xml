@@ -75,6 +75,6 @@
     <string name="MissingCommaTokenException">Отсутствует запятая (,) в строке %1$s</string>
     <string name="StrayCharacterException">Неверный знак в программе: %1$s</string>
     <string name="StackOverflowException">Ошибка переполнения стека.</string>
-    <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be %3$s converted to the type %4$s</string>
+    <string name="UnConvertibleTypeException">Выражение или переменная \"%1$s\" типа \"%2$s\" не может быть %3$s конвертирована в %4$s</string>
 
 </resources>

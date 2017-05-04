@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,10 +50,12 @@ import java.io.File;
  */
 
 public class EditorFragment extends Fragment implements EditorListener {
+    private static final String TAG = "EditorFragment";
     private CodeView mCodeEditor;
     private LockableScrollView mScrollView;
     private ApplicationFileManager mFileManager;
     private Handler handler = new Handler();
+
 
     public static Fragment newInstance(String filePath) {
         EditorFragment editorFragment = new EditorFragment();
@@ -105,9 +108,12 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public void onDestroy() {
         saveFile();
-        if (mCodeEditor != null) {
+        if (mCodeEditor != null && getFilePath() != null) {
             mCodeEditor.saveHistory(getFilePath());
+        } else {
+            Log.d(TAG, "onDestroy: " + " null editor");
         }
+
         super.onDestroy();
     }
 
@@ -236,6 +242,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.updateFromSettings();
     }
 
+    @Nullable
     public String getFilePath() {
         String path = getArguments().getString(CompileManager.FILE_PATH);
         if (path == null) {
