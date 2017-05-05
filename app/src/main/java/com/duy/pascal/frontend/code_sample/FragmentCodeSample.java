@@ -1,5 +1,6 @@
 package com.duy.pascal.frontend.code_sample;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,18 +63,22 @@ public class FragmentCodeSample extends Fragment {
         adapter.query(query);
     }
 
-    private class LoadCodeTask extends AsyncTask<Object, Object, ArrayList<CodeSampleEntry>> {
+    private class LoadCodeTask extends AsyncTask<Object, Object, Void> {
         private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
 
         @Override
-        protected ArrayList<CodeSampleEntry> doInBackground(Object... params) {
+        protected Void doInBackground(Object... params) {
             try {
                 String category = getArguments().getString(TAG);
                 CodeCategory codeCategory = new CodeCategory(category, "");
                 String[] list;
                 String path = "code_sample/" + getArguments().getString(TAG).toLowerCase();
                 try {
-                    AssetManager assets = getContext().getAssets();
+                    Context context = getContext();
+                    if (category == null) {
+                        return null;
+                    }
+                    AssetManager assets = context.getAssets();
                     list = assets.list(path);
                     for (String fileName : list) {
                         if (fileName.endsWith(".pas")) {
@@ -89,12 +94,12 @@ public class FragmentCodeSample extends Fragment {
             } catch (Exception e) {
                 FirebaseCrash.report(e);
             }
-            return codeSampleEntries;
+            return null;
         }
 
 
         @Override
-        protected void onPostExecute(ArrayList<CodeSampleEntry> aVoid) {
+        protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             adapter.addCodes(codeSampleEntries);
             adapter.notifyDataSetChanged();

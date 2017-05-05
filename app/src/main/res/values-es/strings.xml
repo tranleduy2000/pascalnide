@@ -154,6 +154,9 @@
     <string name="max_page_desc">Number of maximum page display on the screen</string>
     <string name="enter_key_word">Enter your keyword...</string>
     <string name="blog">Blog of Pascal N-IDE</string>
+    <string name="title_activity_zxing">ZxingActivity</string>
+    <string name="turn_off_flashlight">Turn off flashlight</string>
+    <string name="turn_on_flashlight">Turn on flashlight</string>
 </resources>
 
 
