@@ -103,18 +103,12 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public void onStop() {
         super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
         saveFile();
         if (mCodeEditor != null && getFilePath() != null) {
             mCodeEditor.saveHistory(getFilePath());
         } else {
             Log.d(TAG, "onDestroy: " + " null editor");
         }
-
-        super.onDestroy();
     }
 
     @Override
