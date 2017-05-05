@@ -236,7 +236,6 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.updateFromSettings();
     }
 
-    @Nullable
     public String getFilePath() {
         String path = getArguments().getString(CompileManager.FILE_PATH);
         if (path == null) {

@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.view.code_view;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
@@ -109,7 +110,7 @@ public abstract class UndoRedoSupportEditText extends HighlightEditor {
         mUndoRedoHelper.clearHistory();
     }
 
-    public void saveHistory(String key) {
+    public void saveHistory(@NonNull String key) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
         mUndoRedoHelper.storePersistentState(editor, key);
         editor.apply();

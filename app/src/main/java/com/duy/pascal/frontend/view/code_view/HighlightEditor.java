@@ -121,7 +121,6 @@ public class HighlightEditor extends AutoSuggestsEditText
     private boolean autoCompile = false;
     private Context mContext;
     private boolean modified = true;
-    private EditorSetting mEditorSetting;
     private boolean canEdit = true;
     private ScrollView verticalScroll;
     private final Runnable updateRunnable = new Runnable() {
@@ -332,7 +331,6 @@ public class HighlightEditor extends AutoSuggestsEditText
     }
 
     public void updateFromSettings() {
-        mEditorSetting = new EditorSetting(mContext);
         String name = mEditorSetting.getString(mContext.getString(R.string.key_code_theme));
         try {
             Integer id = Integer.parseInt(name);

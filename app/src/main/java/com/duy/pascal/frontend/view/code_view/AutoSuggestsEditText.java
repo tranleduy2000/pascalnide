@@ -27,6 +27,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.MultiAutoCompleteTextView;
 
+import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.data.KeyWord;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
@@ -43,6 +44,7 @@ import java.util.Collections;
 public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView {
     private static final String TAG = AutoSuggestsEditText.class.getName();
     public int mCharHeight = 0;
+    protected EditorSetting mEditorSetting;
     private ArrayList<Character> openBracketList = new ArrayList<>();
     private ArrayList<String> closeBracketList = new ArrayList<>();
     private CodeSuggestAdapter mAdapter;
@@ -71,6 +73,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
 
     private void init() {
+        mEditorSetting = new EditorSetting(getContext());
         invalidateKeyWord();
         setTokenizer(new SymbolsTokenizer());
         setThreshold(1);
@@ -221,6 +224,9 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<SuggestItem> data) {
+        if (!mEditorSetting.isShowSuggestPopup()) {
+            return;
+        }
         for (String s : KeyWord.LIST_KEY_WORD) {
             data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }

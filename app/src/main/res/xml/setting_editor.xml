@@ -50,7 +50,6 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:enabled="false"
             android:key="@string/key_show_suggest_popup"
             android:summary="@string/show_hint_desc"
             android:title="@string/show_suggest_popup" />
