@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.googlecode.sl4a.facade;
+package com.duy.pascal.backend.lib.android;
 
 import android.content.Context;
 import android.content.Intent;
@@ -52,13 +52,13 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Access Camera functions.
  */
-public class CameraFacade implements PascalLibrary {
-
+public class AndroidCameraLibrary implements PascalLibrary {
+    public static final String NAME = "aCamera";
     private final Context mContext;
     private final Parameters mParameters;
     private AndroidLibraryManager mManager;
 
-    public CameraFacade(AndroidLibraryManager manager) throws Exception {
+    public AndroidCameraLibrary(AndroidLibraryManager manager) throws Exception {
         mContext = manager.getContext();
         mManager = manager;
         Camera camera = openCamera(0);
@@ -69,15 +69,10 @@ public class CameraFacade implements PascalLibrary {
         }
     }
 
-    public Camera openCamera(int cameraId) throws Exception {
-        int sSdkLevel = Integer.parseInt(android.os.Build.VERSION.SDK);
+    private Camera openCamera(int cameraId) throws Exception {
         Camera result;
-        if (sSdkLevel < 9) {
-            result = Camera.open();
-        } else {
-            Method openCamera = Camera.class.getMethod("open", int.class);
-            result = (Camera) openCamera.invoke(null, cameraId);
-        }
+        Method openCamera = Camera.class.getMethod("open", int.class);
+        result = (Camera) openCamera.invoke(null, cameraId);
         return result;
     }
 
@@ -92,7 +87,6 @@ public class CameraFacade implements PascalLibrary {
         final BooleanResult takePictureResult = new BooleanResult();
         Camera camera = openCamera(cameraId);
         camera.setParameters(mParameters);
-
         try {
             Method method = camera.getClass().getMethod("setDisplayOrientation", int.class);
             method.invoke(camera, 90);
