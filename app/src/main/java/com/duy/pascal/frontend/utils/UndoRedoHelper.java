@@ -20,16 +20,12 @@ public class UndoRedoHelper {
 
     private TextView mTextView;
 
-    // =================================================================== //
-
     public UndoRedoHelper(TextView textView) {
         mTextView = textView;
         mEditHistory = new EditHistory();
         mChangeListener = new EditTextChangeListener();
         mTextView.addTextChangedListener(mChangeListener);
     }
-
-    // =================================================================== //
 
     public void disconnect() {
         mTextView.removeTextChangedListener(mChangeListener);

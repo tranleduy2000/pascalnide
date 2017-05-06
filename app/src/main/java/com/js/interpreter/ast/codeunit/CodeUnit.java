@@ -73,8 +73,8 @@ public abstract class CodeUnit {
         protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken grouperToken)
                 throws ParsingException {
             if (next instanceof ProgramToken) {
-                CodeUnit.this.programName = grouperToken.next_word_value();
-                grouperToken.assert_next_semicolon();
+                CodeUnit.this.programName = grouperToken.nextWordValue();
+                grouperToken.assertNextSemicolon();
                 return true;
             }
             return false;

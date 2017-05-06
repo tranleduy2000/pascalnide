@@ -19,8 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:overScrollMode="always"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+ >
 
     <com.duy.pascal.frontend.view.code_view.CodeView
         android:id="@+id/code_editor"
@@ -33,9 +32,6 @@
         android:hint="@string/write_code_here"
         android:imeOptions="flagNoExtractUi"
         android:inputType="textMultiLine|textNoSuggestions"
-        android:overScrollMode="always"
-        android:scrollbarSize="5dip"
-        android:scrollbars="vertical"
-        android:text="@string/back_to_undo" />
+        />
 
 </com.duy.pascal.frontend.view.LockableScrollView>

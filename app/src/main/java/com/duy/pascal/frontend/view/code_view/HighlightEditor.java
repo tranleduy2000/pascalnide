@@ -20,10 +20,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Selection;
@@ -37,16 +37,13 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ScrollView;
-import android.widget.Scroller;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
@@ -78,7 +75,7 @@ public class HighlightEditor extends AutoSuggestsEditText
     public boolean showlines = true;
     public float textSize = 13;
     public boolean wordWrap = true;
-    public boolean flingToScroll = true;
+    //    public boolean flingToScroll = true;
     public LineInfo lineError = null;
     private final Runnable compileProgram = new Runnable() {
         @Override
@@ -104,9 +101,6 @@ public class HighlightEditor extends AutoSuggestsEditText
     protected int mPaddingDP = 4;
     protected int mPadding, mLinePadding;
     protected float mScale;
-    protected Scroller mScroller;
-    protected GestureDetector mGestureDetector;
-    protected Point mMaxSize;
     protected int mHighlightedLine;
     protected int mHighlightStart;
     protected Rect mDrawingRect, mLineBounds;
@@ -122,6 +116,7 @@ public class HighlightEditor extends AutoSuggestsEditText
     private Context mContext;
     private boolean modified = true;
     private boolean canEdit = true;
+    @Nullable
     private ScrollView verticalScroll;
     private final Runnable updateRunnable = new Runnable() {
         @Override
@@ -129,8 +124,11 @@ public class HighlightEditor extends AutoSuggestsEditText
             highlightWithoutChange(getText());
         }
     };
-    private float lastX = 0;
     private int lastPinLine = -1;
+    private LineUtils lineUtils;
+    private boolean[] isGoodLineArray;
+    private int[] realLines;
+    private int lineCount;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -145,6 +143,12 @@ public class HighlightEditor extends AutoSuggestsEditText
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setup(context);
+    }
+
+    @Override
+    protected void onScrollChanged(int horiz, int vert, int oldHoriz, int oldVert) {
+        super.onScrollChanged(horiz, vert, oldHoriz, oldVert);
+
     }
 
     public boolean isAutoCompile() {
@@ -163,17 +167,11 @@ public class HighlightEditor extends AutoSuggestsEditText
         this.canEdit = canEdit;
     }
 
-    public boolean isFlingToScroll() {
-        return flingToScroll;
-    }
-
-    public void setFlingToScroll(boolean flingToScroll) {
-        this.flingToScroll = flingToScroll;
-    }
-
     private void setup(Context context) {
         this.mContext = context;
         init();
+
+        lineUtils = new LineUtils();
         mPaintNumbers = new Paint();
         mPaintNumbers.setColor(getResources().getColor(R.color.color_number_color));
         mPaintNumbers.setAntiAlias(true);
@@ -188,7 +186,6 @@ public class HighlightEditor extends AutoSuggestsEditText
 
         updateFromSettings();
     }
-
 
     public void extendSelection(int index) {
         Selection.extendSelection(getText(), index);
@@ -268,9 +265,14 @@ public class HighlightEditor extends AutoSuggestsEditText
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(@NonNull Canvas canvas) {
         int lineX, baseline;
-        int lineCount = getLineCount();
+        if (lineCount != getLineCount()) {
+            lineCount = getLineCount();
+            lineUtils.updateHasNewLineArray(0, lineCount, getLayout(), getText().toString());
+            isGoodLineArray = lineUtils.getGoodLines();
+            realLines = lineUtils.getRealLines();
+        }
         if (showlines) {
             int padding = (int) (Math.floor(Math.log10(lineCount)) + 1);
             padding = (int) ((padding * mPaintNumbers.getTextSize())
@@ -297,32 +299,22 @@ public class HighlightEditor extends AutoSuggestsEditText
         }
         for (int i = min; i < max; i++) {
             baseline = getLineBounds(i, mLineBounds);
-            if ((mMaxSize != null) && (mMaxSize.x < mLineBounds.right)) {
-                mMaxSize.x = mLineBounds.right;
-            }
             if ((i == mHighlightedLine) && (!wordWrap)) {
                 canvas.drawRect(mLineBounds, mPaintHighlight);
             }
-            if (showlines) {
-                canvas.drawText("" + (i), mDrawingRect.left + mPadding, baseline, mPaintNumbers);
+            if (showlines && isGoodLineArray[i]) {
+                int realLine = realLines[i];
+                canvas.drawText("" + (realLine), mDrawingRect.left + mPadding, baseline, mPaintNumbers);
             }
             if (showlines) {
                 canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
             }
         }
-        getLineBounds(lineCount - 1, mLineBounds);
-        if (mMaxSize != null) {
-            mMaxSize.y = mLineBounds.bottom;
-            mMaxSize.x = Math.max(mMaxSize.x + mPadding - mDrawingRect.width(), 0);
-            mMaxSize.y = Math.max(mMaxSize.y + mPadding - mDrawingRect.height(), 0);
-        }
-        super.onDraw(canvas);
-    }
 
-    @Override
-    public void setText(CharSequence text, boolean filter) {
-        super.setText(text, filter);
-        lineError = null;
+        long time = System.currentTimeMillis();
+        super.onDraw(canvas);
+        Log.d(TAG, "onDraw: " + (System.currentTimeMillis() - time));
+
     }
 
     @Override
@@ -346,11 +338,11 @@ public class HighlightEditor extends AutoSuggestsEditText
         postInvalidate();
         refreshDrawableState();
 
-        if (flingToScroll) {
-            mMaxSize = new Point();
-        } else {
-            mMaxSize = null;
-        }
+//        if (flingToScroll) {
+//            mMaxSize = new Point();
+//        } else {
+//            mMaxSize = null;
+//        }
 
         mLinePadding = mPadding;
         int count = getLineCount();
@@ -458,11 +450,14 @@ public class HighlightEditor extends AutoSuggestsEditText
 
     /**
      * Gets the first line that is visible on the screen.
-     *
-     * @return
      */
     public int getFirstLineIndex() {
-        int scrollY = verticalScroll.getScrollY();
+        int scrollY = 0;
+        if (verticalScroll != null) {
+            scrollY = verticalScroll.getScrollY();
+        } else {
+            scrollY = getScrollY();
+        }
         Layout layout = getLayout();
         if (layout != null) {
             return layout.getLineForVertical(scrollY);
@@ -476,8 +471,18 @@ public class HighlightEditor extends AutoSuggestsEditText
      * @return last line that is visible on the screen.
      */
     public int getLastLineIndex() {
-        int height = verticalScroll.getHeight();
-        int scrollY = verticalScroll.getScrollY();
+        int height = 0;
+        if (verticalScroll != null) {
+            height = verticalScroll.getHeight();
+        } else {
+            height = getHeight();
+        }
+        int scrollY = 0;
+        if (verticalScroll != null) {
+            scrollY = verticalScroll.getScrollY();
+        } else {
+            scrollY = getScrollY();
+        }
         Layout layout = getLayout();
         if (layout != null) {
             return layout.getLineForVertical(scrollY + height);
@@ -590,9 +595,11 @@ public class HighlightEditor extends AutoSuggestsEditText
             //high light error line
             if (lineError != null) {
                 Layout layout = getLayout();
-                if (layout != null && lineError.line < getLineCount()) {
-                    int lineStart = getLayout().getLineStart(lineError.line);
-                    int lineEnd = getLayout().getLineEnd(lineError.line );
+                int line = lineError.line;
+                line = realLines[line];
+                if (layout != null && line < getLineCount()) {
+                    int lineStart = getLayout().getLineStart(line);
+                    int lineEnd = getLayout().getLineEnd(line);
                     lineStart += lineError.column;
                     if (lineStart < lineEnd) {
                         e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
@@ -673,8 +680,8 @@ public class HighlightEditor extends AutoSuggestsEditText
     }
 
     @Override
-    public void onPopupSuggestPosition() {
-        try {
+    public void onPopupChangePosition() {
+       try {
             Layout layout = getLayout();
             if (layout != null) {
                 int pos = getSelectionStart();
@@ -689,7 +696,12 @@ public class HighlightEditor extends AutoSuggestsEditText
                 setDropDownHorizontalOffset(offsetHorizontal);
 
                 int heightVisible = getHeightVisible();
-                int offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
+                int offsetVertical = 0;
+                if (verticalScroll != null) {
+                    offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
+                } else {
+                    offsetVertical = (int) ((y + mCharHeight) - getScrollY());
+                }
 
                 int tmp = offsetVertical + getDropDownHeight() + mCharHeight;
                 if (tmp < heightVisible) {
@@ -705,7 +717,7 @@ public class HighlightEditor extends AutoSuggestsEditText
     }
 
 
-    public void setVerticalScroll(ScrollView verticalScroll) {
+    public void setVerticalScroll(@Nullable ScrollView verticalScroll) {
         this.verticalScroll = verticalScroll;
     }
 

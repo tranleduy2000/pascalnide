@@ -18,6 +18,7 @@ package com.duy.pascal.frontend.view.code_view;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -25,6 +26,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.EditorSetting;
@@ -41,7 +43,7 @@ import java.util.Collections;
  * Created by Duy on 28-Feb-17.
  */
 
-public abstract class AutoSuggestsEditText extends android.support.v7.widget.AppCompatMultiAutoCompleteTextView {
+public abstract class AutoSuggestsEditText extends AppCompatMultiAutoCompleteTextView {
     private static final String TAG = AutoSuggestsEditText.class.getName();
     public int mCharHeight = 0;
     protected EditorSetting mEditorSetting;
@@ -88,7 +90,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
                                                int end, Spanned dest, int dstart, int dend) {
                         if (end - start == 1 && start < source.length() &&
                                 dstart < dest.length()) {
-                            Character c = source.charAt(start);
+                            char c = source.charAt(start);
                             if (c == '\n')
                                 return autoIndent(source, start, end, dest, dstart, dend);
                         }
@@ -161,6 +163,8 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
 
     private CharSequence autoIndent(CharSequence source,
                                     int start, int end, Spanned dest, int dstart, int dend) {
+        long time = System.currentTimeMillis();
+
         String indent = "";
         int indexStart = dstart - 1;
         int indexEnd = -1;
@@ -205,6 +209,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         }
         if (parenthesesCount < 0)
             indent += "\t";
+        Log.d(TAG, "autoIndent: " + (System.currentTimeMillis() - time));
         return source + indent;
     }
 
@@ -215,10 +220,10 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
     @Override
     protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
-        onPopupSuggestPosition();
+        onPopupChangePosition();
     }
 
-    public abstract void onPopupSuggestPosition();
+    public abstract void onPopupChangePosition();
 
     /**
      * invalidate data for auto suggest
@@ -246,7 +251,7 @@ public abstract class AutoSuggestsEditText extends android.support.v7.widget.App
         setDropDownWidth(getWidth() / 2);
         int height = getHeightVisible() / 2;
         setDropDownHeight(height);
-        onPopupSuggestPosition();
+        onPopupChangePosition();
     }
 
 

@@ -222,11 +222,11 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                     i.assertNextComma();
                 }
             } while (true);
-            i.assert_next_semicolon();
+            i.assertNextSemicolon();
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
-                String name = i.next_word_value();
+                String name = i.nextWordValue();
                 next = i.take();
                 if (!(next instanceof OperatorToken && ((OperatorToken) next).type == OperatorTypes.EQUALS)) {
                     throw new ExpectedTokenException("=", next);
@@ -255,7 +255,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
                 declareTypedef(name, type);
 
-                i.assert_next_semicolon();
+                i.assertNextSemicolon();
             }
         } /*else if (next instanceof CommentToken) {
             i.take();
@@ -356,7 +356,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                         ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
                                 type, defaultValue, constName.lineInfo);
                         declareConst(constantDefinition);
-                        token.assert_next_semicolon();
+                        token.assertNextSemicolon();
                     }
                 } else {
                     // TODO: 08-Apr-17
@@ -373,7 +373,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
                         compileVal, constName.lineInfo);
                 this.constants.put(constantDefinition.name(), constantDefinition);
-                token.assert_next_semicolon();
+                token.assertNextSemicolon();
             } else {
                 throw new ExpectedTokenException("=", constName);
             }

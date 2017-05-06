@@ -38,20 +38,21 @@ import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.utils.LineUtils;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.code_view.CodeView;
 import com.duy.pascal.frontend.view.code_view.HighlightEditor;
+import com.duy.pascal.frontend.view.code_view.LineUtils;
 
 import java.io.File;
 
 /**
  * Created by Duy on 15-Mar-17.
+ * Editor fragment
  */
-
 public class EditorFragment extends Fragment implements EditorListener {
     private static final String TAG = "EditorFragment";
     private CodeView mCodeEditor;
+    @Nullable
     private LockableScrollView mScrollView;
     private ApplicationFileManager mFileManager;
     private Handler handler = new Handler();
@@ -89,12 +90,14 @@ public class EditorFragment extends Fragment implements EditorListener {
         } catch (Exception ignored) {
         }
         mCodeEditor.setVerticalScroll(mScrollView);
-        mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
-            @Override
-            public void onScroll(int x, int y) {
-                mCodeEditor.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
-            }
-        });
+        if (mScrollView != null) {
+            mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
+                @Override
+                public void onScroll(int x, int y) {
+                    mCodeEditor.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
+                }
+            });
+        }
         mCodeEditor.setSuggestData(PascalLibraryManager.getAllMethodDescription(SystemLib.class,
                 IOLib.class, FileLib.class));
         return view;
@@ -226,8 +229,10 @@ public class EditorFragment extends Fragment implements EditorListener {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                        mCodeEditor.getLineCount(), lineInfo.line));
+                if (mScrollView != null) {
+                    mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
+                            mCodeEditor.getLineCount(), lineInfo.line));
+                }
             }
         }, 100);
     }
@@ -245,6 +250,4 @@ public class EditorFragment extends Fragment implements EditorListener {
         }
     }
 
-    public void hideKeyboard() {
-    }
 }

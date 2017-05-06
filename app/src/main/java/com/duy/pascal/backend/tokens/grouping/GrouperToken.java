@@ -172,11 +172,11 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public String next_word_value() throws ParsingException {
+    public String nextWordValue() throws ParsingException {
         return take().get_word_value().name;
     }
 
-    public void assert_next_semicolon() throws ParsingException {
+    public void assertNextSemicolon() throws ParsingException {
         Token t = take();
         if (!(t instanceof SemicolonToken)) {
             throw new MissingSemicolonTokenException(t);
@@ -466,7 +466,7 @@ public abstract class GrouperToken extends Token {
                 }
             }
 
-            assert_next_semicolon();
+            assertNextSemicolon();
             for (WordToken s : names) {
                 VariableDeclaration v = new VariableDeclaration(s.name, type,
                         defaultValue, s.lineInfo);
@@ -573,7 +573,7 @@ public abstract class GrouperToken extends Token {
                 begin_end_preprocessed.add_command(cast_token
                         .get_next_command(context));
                 if (cast_token.hasNext()) {
-                    cast_token.assert_next_semicolon();
+                    cast_token.assertNextSemicolon();
                 }
             }
             return begin_end_preprocessed;
@@ -611,7 +611,7 @@ public abstract class GrouperToken extends Token {
             while (!(peek_no_EOF() instanceof UntilToken)) {
                 command.add_command(get_next_command(context));
                 if (!(peek_no_EOF() instanceof UntilToken)) {
-                    assert_next_semicolon();
+                    assertNextSemicolon();
                 }
             }
             next = take();

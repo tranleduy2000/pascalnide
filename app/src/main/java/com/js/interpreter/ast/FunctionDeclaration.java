@@ -56,7 +56,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         this.declarations = new FunctionExpressionContext(this, parent);
         this.line = i.peek().lineInfo;
         this.isProcedure = is_procedure;
-        name = i.next_word_value();
+        name = i.nextWordValue();
 
         getArgumentsForDeclaration(i, is_procedure);
         Token next = i.peek();
@@ -72,7 +72,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             this.declarations.declareVariable(result_definition);
         }
 
-        i.assert_next_semicolon();
+        i.assertNextSemicolon();
 
         instructions = null;
         NamedEntity n = parent.getConstantDefinition(name);
@@ -99,7 +99,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         Token next = i.peek_no_EOF();
         if (next instanceof ForwardToken) {
             i.take();
-            i.assert_next_semicolon();
+            i.assertNextSemicolon();
         } else {
             if (instructions != null) {
                 throw new OverridingFunctionException(this, i.lineInfo);
@@ -246,7 +246,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         public boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken container)
                 throws ParsingException {
             if (next instanceof ForwardToken) {
-                container.assert_next_semicolon();
+                container.assertNextSemicolon();
                 bodyDeclared = true;
                 return true;
             }
@@ -257,7 +257,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             bodyDeclared = true;
             instructions = i.get_next_command(declarations);
-            i.assert_next_semicolon();
+            i.assertNextSemicolon();
         }
 
         @Override

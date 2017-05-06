@@ -379,7 +379,6 @@ public class EditorActivity extends BaseEditorActivity implements
         CodeView codeView = (CodeView) dialog.findViewById(R.id.code_view);
         assert codeView != null;
         codeView.setTextHighlighted(mFileManager.readFileAsString(file));
-        codeView.setFlingToScroll(false);
     }
 
     /**
