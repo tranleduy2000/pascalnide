@@ -200,7 +200,7 @@ public abstract class GrouperToken extends Token {
 //            throw new UnSupportTokenException(n.lineInfo, n);
             RecordToken r = (RecordToken) n;
             RecordType result = new RecordType();
-            result.variable_types = r.get_variable_declarations(context);
+            result.variable_types = r.getVariableDeclarations(context);
             return result;
         }
         if (n instanceof OperatorToken && ((OperatorToken) n).type == OperatorTypes.DEREF) {
@@ -386,7 +386,7 @@ public abstract class GrouperToken extends Token {
         return getNextExpression(context, precedence.NoPrecedence, first);
     }
 
-    public List<VariableDeclaration> get_variable_declarations(
+    public List<VariableDeclaration> getVariableDeclarations(
             ExpressionContext context) throws ParsingException {
         List<VariableDeclaration> result = new ArrayList<>();
         /*
@@ -539,7 +539,7 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public Executable get_next_command(ExpressionContext context)
+    public Executable getNextCommand(ExpressionContext context)
             throws ParsingException {
         Token next = take();
         LineInfo initialline = next.lineInfo;
@@ -549,20 +549,22 @@ public abstract class GrouperToken extends Token {
             if (!(next instanceof ThenToken)) {
                 throw new ExpectedTokenException("then", next);
             }
-            Executable command = get_next_command(context);
+            Executable command = getNextCommand(context);
             Executable else_command = null;
             next = peek();
             if (next instanceof ElseToken) {
                 take();
-                else_command = get_next_command(context);
+                else_command = getNextCommand(context);
             }
             return new IfStatement(condition, command, else_command,
                     initialline);
         } else if (next instanceof WhileToken) {
             RValue condition = getNextExpression(context);
             next = take();
-            assert (next instanceof DoToken);
-            Executable command = get_next_command(context);
+            if (!(next instanceof DoToken)) {
+                throw new ExpectedTokenException("do", next);
+            }
+            Executable command = getNextCommand(context);
             return new WhileStatement(condition, command, initialline);
         } else if (next instanceof BeginEndToken) {
             InstructionGrouper begin_end_preprocessed = new InstructionGrouper(
@@ -571,7 +573,7 @@ public abstract class GrouperToken extends Token {
 
             while (cast_token.hasNext()) {
                 begin_end_preprocessed.add_command(cast_token
-                        .get_next_command(context));
+                        .getNextCommand(context));
                 if (cast_token.hasNext()) {
                     cast_token.assertNextSemicolon();
                 }
@@ -584,7 +586,9 @@ public abstract class GrouperToken extends Token {
                 throw new UnAssignableTypeException(tmp_val);
             }
             next = take();
-            assert (next instanceof AssignmentToken);
+            if (!(next instanceof AssignmentToken)) {
+                throw new ExpectedTokenException(":=", next);
+            }
             RValue first_value = getNextExpression(context);
             next = take();
             boolean downto = false;
@@ -595,21 +599,23 @@ public abstract class GrouperToken extends Token {
             }
             RValue last_value = getNextExpression(context);
             next = take();
-            assert (next instanceof DoToken);
+            if (!(next instanceof DoToken)) {
+                throw new ExpectedTokenException("do", next);
+            }
             Executable result;
             if (downto) { // TODO probably should merge these two types
                 result = new DowntoForStatement(context, tmp_var, first_value,
-                        last_value, get_next_command(context), initialline);
+                        last_value, getNextCommand(context), initialline);
             } else {
                 result = new ForStatement(context, tmp_var, first_value,
-                        last_value, get_next_command(context), initialline);
+                        last_value, getNextCommand(context), initialline);
             }
             return result;
         } else if (next instanceof RepeatToken) {
             InstructionGrouper command = new InstructionGrouper(initialline);
 
             while (!(peek_no_EOF() instanceof UntilToken)) {
-                command.add_command(get_next_command(context));
+                command.add_command(getNextCommand(context));
                 if (!(peek_no_EOF() instanceof UntilToken)) {
                     assertNextSemicolon();
                 }

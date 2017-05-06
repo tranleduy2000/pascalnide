@@ -193,7 +193,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             handleBeginEnd(i);
         } else if (next instanceof VarToken) {
             i.take();
-            List<VariableDeclaration> d = i.get_variable_declarations(this);
+            List<VariableDeclaration> d = i.getVariableDeclarations(this);
             for (VariableDeclaration dec : d) {
                 declareVariable(dec);
             }

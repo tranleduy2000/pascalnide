@@ -83,7 +83,7 @@ public class CaseInstruction extends DebuggableExecutable {
                     throw new ExpectedTokenException("[comma or colon]", i.take());
                 }
             }
-            Executable command = i.get_next_command(context);
+            Executable command = i.getNextCommand(context);
             assertNextSemicolon(i);
             possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
         }
@@ -92,7 +92,7 @@ public class CaseInstruction extends DebuggableExecutable {
         if (i.peek() instanceof ElseToken) {
             i.take();
             while (i.hasNext()) {
-                otherwise.add_command(i.get_next_command(context));
+                otherwise.add_command(i.getNextCommand(context));
                 /**
                  * case i of
                  *  1 : writeln;
