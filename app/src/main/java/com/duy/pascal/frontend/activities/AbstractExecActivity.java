@@ -42,6 +42,7 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -143,7 +144,8 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                 //compile
                 PascalCompiler pascalCompiler = new PascalCompiler(AbstractExecActivity.this);
                 try {
-                    PascalProgram pascalProgram = pascalCompiler.loadPascal(programFile,
+                    PascalProgram pascalProgram = pascalCompiler.loadPascal(
+                            new File(programFile).getName(),
                             new FileReader(programFile),
                             new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
                             AbstractExecActivity.this);

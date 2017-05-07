@@ -9,7 +9,7 @@ public class TypeToken extends BasicToken {
 
     @Override
     public String toString() {
-        return "operator";
+        return "type";
     }
 
 }

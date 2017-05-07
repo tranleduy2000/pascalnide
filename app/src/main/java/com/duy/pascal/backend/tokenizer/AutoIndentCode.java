@@ -312,13 +312,21 @@ public class AutoIndentCode {
         if (child instanceof IfToken) {
             processToken(child);
         } else {
-            increaseThenElseToken();
+            if (child instanceof BeginEndToken) {
+                result.append("\n");//new line
+                needTab = true;
+                increaseTab();
+                //decrease = 2;
+                processToken(child);
+            } else {
+                increaseThenElseToken();
 
-            result.append("\n");//new line
-            needTab = true;
-            increaseTab();
-            //decrease = 2;
-            processToken(child);
+                result.append("\n");//new line
+                needTab = true;
+                increaseTab();
+                //decrease = 2;
+                processToken(child);
+            }
         }
     }
 

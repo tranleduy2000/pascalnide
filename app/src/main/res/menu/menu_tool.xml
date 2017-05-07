@@ -16,6 +16,19 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/action_compile"
+        android:icon="@drawable/ic_check_circle_white_24dp"
+        android:title="@string/compile"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_run"
+        android:icon="@drawable/ic_play_arrow_white_24dp"
+        android:title="@string/run"
+        app:showAsAction="always" />
+
     <item
         android:icon="@drawable/ic_folder_white_24dp"
         android:title="@string/file"
@@ -27,6 +40,10 @@
                 android:icon="@drawable/ic_fiber_new_white_24dp"
                 android:title="@string/new_file" />
             <item
+                android:id="@+id/action_open_file"
+                android:icon="@drawable/ic_folder_open_white_24dp"
+                android:title="@string/open_file" />
+            <item
                 android:id="@+id/action_save"
                 android:icon="@drawable/ic_save_white_24dp"
                 android:title="@string/save" />
@@ -34,6 +51,7 @@
                 android:id="@+id/action_save_as"
                 android:icon="@drawable/ic_save_white_24dp"
                 android:title="@string/save_as" />
+
             <item
                 android:id="@+id/action_auto_save"
                 android:checkable="true"
@@ -76,16 +94,6 @@
     </item>
 
 
-    <item
-        android:id="@+id/action_compile"
-        android:icon="@drawable/ic_check_circle_white_24dp"
-        android:title="@string/compile"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/nav_run"
-        android:icon="@drawable/ic_play_arrow_white_24dp"
-        android:title="@string/run"
-        app:showAsAction="always" />
     <item
         android:id="@+id/action_debug"
         android:icon="@drawable/ic_bug_report_white_24dp"
@@ -140,8 +148,8 @@
                 android:title="@string/show_line" />
             <item
                 android:id="@+id/action_show_popup"
-                android:icon="@drawable/ic_chat_bubble_outline_white_24dp"
                 android:checkable="true"
+                android:icon="@drawable/ic_chat_bubble_outline_white_24dp"
                 android:title="@string/show_suggest_popup" />
         </menu>
     </item>

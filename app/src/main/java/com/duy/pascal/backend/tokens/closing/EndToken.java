@@ -26,6 +26,10 @@ public class EndToken extends ClosingToken {
         }
     }
 
+    public String toCode() {
+        return toString();
+    }
+
     @Override
     public String toString() {
         return "end";

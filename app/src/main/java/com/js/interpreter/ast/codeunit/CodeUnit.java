@@ -74,7 +74,7 @@ public abstract class CodeUnit {
                 throws ParsingException {
             if (next instanceof ProgramToken) {
                 CodeUnit.this.programName = grouperToken.nextWordValue();
-                grouperToken.assertNextSemicolon();
+                grouperToken.assertNextSemicolon(grouperToken);
                 return true;
             }
             return false;

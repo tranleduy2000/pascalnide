@@ -35,18 +35,6 @@
         android:layout_height="wrap_content"
         android:text="TextView" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_margin="4dp"
-        android:background="?colorAccent" />
-
-    <TextView
-        android:id="@+id/txt_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
     <Button
         android:id="@+id/btn_cancel"
         style="@style/Base.Widget.AppCompat.Button.Colored"

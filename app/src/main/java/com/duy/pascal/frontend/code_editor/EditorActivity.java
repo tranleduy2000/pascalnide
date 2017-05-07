@@ -263,7 +263,7 @@ public class EditorActivity extends BaseEditorActivity implements
         if (filePath.isEmpty()) return false;
         try {
             PascalProgram pascalProgram = new PascalCompiler(null)
-                    .loadPascal(filePath, new FileReader(filePath),
+                    .loadPascal(new File(filePath).getName(), new FileReader(filePath),
                             new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
             if (pascalProgram.main == null) {
                 showErrorDialog(new MainProgramNotFoundException());

@@ -106,7 +106,7 @@ public class CaseInstruction extends DebuggableExecutable {
 //                if (!(t instanceof SemicolonToken)) {
 //                    throw new ExpectedTokenException(";", t);
 //                }
-                i.assertNextSemicolon();
+                i.assertNextSemicolon(i);
 //                if (!(i.peek() instanceof EndToken)
 //                        && !(i.peek() instanceof EOFToken)) {
 //                    i.assertNextSemicolon();
@@ -135,7 +135,7 @@ public class CaseInstruction extends DebuggableExecutable {
     private void assertNextSemicolon(GrouperToken grouperToken) throws ParsingException {
 //        i.assertNextSemicolon();
         if (grouperToken.peek() instanceof ElseToken) return;
-        grouperToken.assertNextSemicolon();
+        grouperToken.assertNextSemicolon(grouperToken);
     }
 
     @Override

@@ -207,9 +207,11 @@ public class MenuEditor {
                 menuItem.setChecked(!menuItem.isChecked());
                 break;
             case R.id.action_got_to_blog:
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://pascalnide.wordpress.com/"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pascalnide.wordpress.com/"));
                 activity.startActivity(intent);
+                break;
+            case R.id.action_open_file:
+                activity.openDrawer(GravityCompat.START);
                 break;
         }
         return true;

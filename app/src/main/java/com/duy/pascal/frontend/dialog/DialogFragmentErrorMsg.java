@@ -69,9 +69,6 @@ public class DialogFragmentErrorMsg extends AppCompatDialogFragment {
         TextView txtLine = (TextView) view.findViewById(R.id.txt_line);
         txtLine.setText(getArguments().getCharSequence("line"));
 
-        TextView txtMsg = (TextView) view.findViewById(R.id.txt_message);
-        txtMsg.setText(getArguments().getCharSequence("msg"));
-
         TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);
         txtTitle.setText(getString(R.string.compile_error));
         Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);

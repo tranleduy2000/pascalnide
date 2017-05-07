@@ -42,8 +42,7 @@
             app:tabGravity="fill"
             app:tabMode="scrollable"
             app:tabPaddingEnd="0dp"
-            app:tabPaddingStart="0dp"
-            app:tabTextAppearance="@style/TextAppearance.AppCompat.Small" />
+            app:tabPaddingStart="0dp" />
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_editor" />

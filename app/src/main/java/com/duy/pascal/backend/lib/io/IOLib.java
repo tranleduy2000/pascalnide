@@ -30,6 +30,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -324,6 +325,7 @@ public class IOLib implements PascalLibrary {
                 pause();
                 String input = listener.getInput();
                 scanner = new Scanner(input);
+                scanner.useLocale(Locale.ENGLISH);
             }
             if (variableBoxer.get() instanceof Character) {
                 readChar(scanner, variableBoxer);

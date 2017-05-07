@@ -55,6 +55,7 @@ import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.js.interpreter.ast.VariableDeclaration;
+import com.js.interpreter.ast.WrongIfElseStatement;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Assignment;
 import com.js.interpreter.ast.instructions.BreakInstruction;
@@ -84,7 +85,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
     LinkedBlockingQueue<Token> queue;
-    Token next = null;
+    public Token next = null;
 
     public GrouperToken(LineInfo line) {
         super(line);
@@ -176,7 +177,7 @@ public abstract class GrouperToken extends Token {
         return take().get_word_value().name;
     }
 
-    public void assertNextSemicolon() throws ParsingException {
+    public void assertNextSemicolon(Token last) throws ParsingException {
         Token t = take();
         if (!(t instanceof SemicolonToken)) {
             throw new MissingSemicolonTokenException(t);
@@ -367,6 +368,9 @@ public abstract class GrouperToken extends Token {
         }/* else if (next instanceof CommentToken) {
             return getNextTerm(context);
         } */ else {
+            if (next instanceof ElseToken) {
+                throw new WrongIfElseStatement(next);
+            }
             throw new UnrecognizedTokenException(next);
         }
     }
@@ -466,7 +470,7 @@ public abstract class GrouperToken extends Token {
                 }
             }
 
-            assertNextSemicolon();
+            assertNextSemicolon(next);
             for (WordToken s : names) {
                 VariableDeclaration v = new VariableDeclaration(s.name, type,
                         defaultValue, s.lineInfo);
@@ -556,8 +560,7 @@ public abstract class GrouperToken extends Token {
                 take();
                 else_command = getNextCommand(context);
             }
-            return new IfStatement(condition, command, else_command,
-                    initialline);
+            return new IfStatement(condition, command, else_command, initialline);
         } else if (next instanceof WhileToken) {
             RValue condition = getNextExpression(context);
             next = take();
@@ -572,10 +575,10 @@ public abstract class GrouperToken extends Token {
             BeginEndToken cast_token = (BeginEndToken) next;
 
             while (cast_token.hasNext()) {
-                begin_end_preprocessed.add_command(cast_token
-                        .getNextCommand(context));
+                begin_end_preprocessed.add_command(cast_token.getNextCommand(context));
+                Token token = cast_token.next;
                 if (cast_token.hasNext()) {
-                    cast_token.assertNextSemicolon();
+                    cast_token.assertNextSemicolon(token);
                 }
             }
             return begin_end_preprocessed;
@@ -617,7 +620,7 @@ public abstract class GrouperToken extends Token {
             while (!(peek_no_EOF() instanceof UntilToken)) {
                 command.add_command(getNextCommand(context));
                 if (!(peek_no_EOF() instanceof UntilToken)) {
-                    assertNextSemicolon();
+                    assertNextSemicolon(next);
                 }
             }
             next = take();
@@ -638,6 +641,7 @@ public abstract class GrouperToken extends Token {
             try {
                 return context.handleUnrecognizedStatement(next, this);
             } catch (ParsingException ignored) {
+                ignored.printStackTrace();
             }
 
             RValue r = getNextExpression(context, next);
@@ -654,14 +658,12 @@ public abstract class GrouperToken extends Token {
                 /*
                  * Does not have to be writable to assign value to variable.
 				 */
-                RValue converted = output_type.convert(value_to_assign,
-                        context);
+                RValue converted = output_type.convert(value_to_assign, context);
                 if (converted == null) {
                     throw new UnConvertibleTypeException(value_to_assign,
                             input_type, output_type, true);
                 }
-                return new Assignment(left, output_type
-                        .cloneValue(converted), next.lineInfo);
+                return new Assignment(left, output_type.cloneValue(converted), next.lineInfo);
             } else if (r instanceof Executable) {
                 return (Executable) r;
             } else {

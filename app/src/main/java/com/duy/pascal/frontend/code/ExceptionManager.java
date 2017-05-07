@@ -62,6 +62,7 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.R;
+import com.js.interpreter.ast.WrongIfElseStatement;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.PluginCallException;
@@ -198,6 +199,9 @@ public class ExceptionManager {
             }
             if (e instanceof CanNotReadVariableException) {
                 return getMessageResource(e, R.string.CanNotReadVariableException);
+            }
+            if (e instanceof WrongIfElseStatement) {
+                return getMessageResource(e, R.string.WrongIfElseStatement);
             }
             if (e instanceof SubRangeException) {
                 return getMessageResource(e, R.string.SubRangeException,

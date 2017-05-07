@@ -20,7 +20,6 @@
     android:layout_height="40dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:minWidth="100dp"
     android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatTextView

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -77,5 +76,8 @@
     <string name="StrayCharacterException">Stray character in program: %1$s</string>
     <string name="StackOverflowException">Stack overflow error.</string>
     <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be %3$s converted to the type %4$s</string>
+    <string name="WrongIfElseStatement">WRONG IF ELSE STATEMENT\n\n
+        Syntax: "if condition then S1 else S2;" \n\n
+        Where, S1 and S2 are different statements. Please note that the statement S1 is not followed by a "semicolon" (;).</string>
 
 </resources>

@@ -65,14 +65,14 @@ public class FunctionDeclaration extends AbstractCallableFunction {
                     "Functions must have a return operator, and procedures cannot have one");
         }
         if (!is_procedure) {
-            i.take();
+            next = i.take();
             //define variable result of function, the name of variable same as name function
             result_definition = new VariableDeclaration(name,
                     i.get_next_pascal_type(declarations), line);
             this.declarations.declareVariable(result_definition);
         }
 
-        i.assertNextSemicolon();
+        i.assertNextSemicolon(next);
 
         instructions = null;
         NamedEntity n = parent.getConstantDefinition(name);
@@ -98,8 +98,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public void parse_function_body(GrouperToken i) throws ParsingException {
         Token next = i.peek_no_EOF();
         if (next instanceof ForwardToken) {
-            i.take();
-            i.assertNextSemicolon();
+            Token take = i.take();
+            i.assertNextSemicolon(take);
         } else {
             if (instructions != null) {
                 throw new OverridingFunctionException(this, i.lineInfo);
@@ -207,7 +207,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
                     || !result_definition.equals(other.return_type())) {
                 System.err
                         .println("Warning: Overriding previously declared return operator for function "
-                        + name);
+                                + name);
             }
             return true;
         }
@@ -246,7 +246,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         public boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken container)
                 throws ParsingException {
             if (next instanceof ForwardToken) {
-                container.assertNextSemicolon();
+                container.assertNextSemicolon(next);
                 bodyDeclared = true;
                 return true;
             }
@@ -257,7 +257,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             bodyDeclared = true;
             instructions = i.getNextCommand(declarations);
-            i.assertNextSemicolon();
+            i.assertNextSemicolon(i.next);
         }
 
         @Override

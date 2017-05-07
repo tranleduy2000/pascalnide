@@ -36,7 +36,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ScrollView;
@@ -249,18 +248,7 @@ public class HighlightEditor extends AutoSuggestsEditText
         typedArray.recycle();
     }
 
-    public void computeScroll() {
-//        if (mScroller != null) {
-//            if (mScroller.computeScrollOffset()) {
-//                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-//            }
-//        } else {
-        super.computeScroll();
-//        }
-    }
-
     public void setLineError(@NonNull LineInfo lineError) {
-        Log.i(TAG, "setLineError: " + lineError.line);
         this.lineError = lineError;
     }
 
@@ -310,11 +298,7 @@ public class HighlightEditor extends AutoSuggestsEditText
                 canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
             }
         }
-
-        long time = System.currentTimeMillis();
         super.onDraw(canvas);
-        Log.d(TAG, "onDraw: " + (System.currentTimeMillis() - time));
-
     }
 
     @Override

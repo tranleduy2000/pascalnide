@@ -23,6 +23,7 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.ConstToken;
+import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
@@ -43,6 +44,7 @@ import com.js.interpreter.ast.ConstantDefinition;
 import com.js.interpreter.ast.FunctionDeclaration;
 import com.js.interpreter.ast.NamedEntity;
 import com.js.interpreter.ast.VariableDeclaration;
+import com.js.interpreter.ast.WrongIfElseStatement;
 import com.js.interpreter.ast.codeunit.CodeUnit;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
@@ -222,7 +224,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                     i.assertNextComma();
                 }
             } while (true);
-            i.assertNextSemicolon();
+            i.assertNextSemicolon(i.next);
         } else if (next instanceof TypeToken) {
             i.take();
             while (i.peek() instanceof WordToken) {
@@ -255,7 +257,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
                 declareTypedef(name, type);
 
-                i.assertNextSemicolon();
+                i.assertNextSemicolon(i.next);
             }
         } /*else if (next instanceof CommentToken) {
             i.take();
@@ -356,7 +358,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                         ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
                                 type, defaultValue, constName.lineInfo);
                         declareConst(constantDefinition);
-                        token.assertNextSemicolon();
+                        token.assertNextSemicolon(token.next);
                     }
                 } else {
                     // TODO: 08-Apr-17
@@ -373,7 +375,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
                         compileVal, constName.lineInfo);
                 this.constants.put(constantDefinition.name(), constantDefinition);
-                token.assertNextSemicolon();
+                token.assertNextSemicolon(token);
             } else {
                 throw new ExpectedTokenException("=", constName);
             }
@@ -401,7 +403,11 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
 
         Executable result = parent == null ? null : parent
                 .handleUnrecognizedStatement(next, container);
+
         if (result == null) {
+            if (next instanceof ElseToken) {
+                throw new WrongIfElseStatement(next);
+            }
             throw new UnrecognizedTokenException(next);
         }
         return result;
@@ -419,6 +425,9 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         boolean result = handleUnrecognizedDeclarationImpl(next, container)
                 || (parent != null && parent.handleUnrecognizedDeclaration(next, container));
         if (!result) {
+            if (next instanceof ElseToken) {
+                throw new WrongIfElseStatement(next);
+            }
             throw new UnrecognizedTokenException(next);
         }
         return true;
