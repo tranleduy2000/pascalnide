@@ -10,7 +10,16 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 
 public class WordToken extends Token {
     public String name;
-    public String originalName;
+
+    public String getOriginalName() {
+        return originalName;
+    }
+
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
+    }
+
+    private String originalName;
 
     public WordToken(LineInfo line, String s) {
         super(line);
