@@ -665,7 +665,7 @@ public class HighlightEditor extends AutoSuggestsEditText
 
     @Override
     public void onPopupChangePosition() {
-       try {
+        try {
             Layout layout = getLayout();
             if (layout != null) {
                 int pos = getSelectionStart();
@@ -779,6 +779,10 @@ public class HighlightEditor extends AutoSuggestsEditText
             } catch (Exception ignored) {
             }
         }
+    }
+
+    public void applyTabWidth() {
+        applyTabWidth(getText(), 0, getText().length());
     }
 
     public interface OnTextChangedListener {

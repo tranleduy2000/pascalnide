@@ -55,7 +55,11 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
     public void onBindViewHolder(final CodeHolder holder, int position) {
         final CodeSampleEntry codeSampleEntry = codeSampleEntries.get(position);
         //set code
-        holder.codeView.setTextHighlighted(codeSampleEntry.getContent());
+        final String content = codeSampleEntry.getContent();
+
+        holder.codeView.setTextHighlighted(content);
+        holder.codeView.applyTabWidth();
+
         holder.codeView.setCanEdit(false);
         if (codeSampleEntry.getQuery() != null && !codeSampleEntry.getQuery().isEmpty()) {
             holder.codeView.find(codeSampleEntry.getQuery(), false, false, false);
@@ -66,19 +70,19 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
         holder.btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null) listener.onPlay(codeSampleEntry.getContent());
+                if (listener != null) listener.onPlay(content);
             }
         });
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null) listener.onEdit(codeSampleEntry.getContent());
+                if (listener != null) listener.onEdit(content);
             }
         });
         holder.btnCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager.setClipboard(context, codeSampleEntry.getContent());
+                ClipboardManager.setClipboard(context, content);
             }
         });
     }

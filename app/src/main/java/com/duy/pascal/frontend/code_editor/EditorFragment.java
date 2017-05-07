@@ -33,7 +33,7 @@ import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokenizer.AutoIndentCode;
+import com.duy.pascal.backend.tokenizer.IndentCode;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
@@ -44,6 +44,8 @@ import com.duy.pascal.frontend.view.code_view.HighlightEditor;
 import com.duy.pascal.frontend.view.code_view.LineUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 
 /**
  * Created by Duy on 15-Mar-17.
@@ -175,10 +177,15 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public void formatCode() {
         String text = getCode();
-        AutoIndentCode autoIndentCode = new AutoIndentCode();
-        String result = autoIndentCode.format(text);
-        mCodeEditor.setTextHighlighted(result);
-        mCodeEditor.applyTabWidth(mCodeEditor.getText(), 0, mCodeEditor.getText().length());
+        try {
+            IndentCode autoIndentCode;
+            autoIndentCode = new IndentCode(new StringReader(text));
+            StringBuilder result = autoIndentCode.getResult();
+            mCodeEditor.setTextHighlighted(result);
+            mCodeEditor.applyTabWidth(mCodeEditor.getText(), 0, mCodeEditor.getText().length());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

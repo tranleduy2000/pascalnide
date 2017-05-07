@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.tokenizer;
 
 
+import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
@@ -20,6 +21,7 @@ import com.duy.pascal.backend.tokens.basic.ProgramToken;
 import com.duy.pascal.backend.tokens.basic.RepeatToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.ThenToken;
+import com.duy.pascal.backend.tokens.basic.ToToken;
 import com.duy.pascal.backend.tokens.basic.TypeToken;
 import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
@@ -151,6 +153,10 @@ public class IndentCode {
             return completeRepeatUntil(depth, token);
         } else if (isCloseToken(token)) {
             return new StringBuilder(token.toString());
+        } else if (token instanceof CommentToken) {
+            return new StringBuilder().append(token.toString());
+        } else if (token instanceof PeriodToken) {
+            return new StringBuilder(token.toString());
         }
         return new StringBuilder(token.toString()).append(" ");
     }
@@ -170,7 +176,8 @@ public class IndentCode {
     }
 
     private StringBuilder completeValue(ValueToken token) {
-        if (isCloseToken(peek())) {
+        if (!(peek() instanceof WordToken)
+                && !isStatement(peek())) {
             return new StringBuilder(token.toCode());
         } else {
             return new StringBuilder(token.toCode()).append(" ");
@@ -181,7 +188,8 @@ public class IndentCode {
         if (stack.peek() instanceof WordToken
                 || peek() instanceof ValueToken
                 || peek() instanceof OperatorToken
-                || peek() instanceof AssignmentToken) {
+                || peek() instanceof AssignmentToken
+                || isStatement(peek())) {
             return new StringBuilder(token.getOriginalName()).append(" ");
         } else {
             return new StringBuilder(token.getOriginalName());
@@ -232,7 +240,7 @@ public class IndentCode {
 
         if (stack.peek() instanceof EndToken) {
             token = stack.pop();
-            record.append(completeEnd((EndToken) token));
+            record.append(getTab(depth)).append(completeEnd((EndToken) token));
         }
         return record;
     }
@@ -302,9 +310,9 @@ public class IndentCode {
         result.append(token).append(" ").append("\n");
 
         StringBuilder next = new StringBuilder();
-        if (stack.peek() instanceof BeginEndToken) {
-            next.append(completeBeginToken(depth, stack.pop()));
-            result.append(next).append(" ");
+        next.append(getLineCommand(depth, true));
+       /* if (isGroupToken()) {
+            result.append(processNext(depth, stack.pop())).append(" ");
         } else {
             while (stack.peek() != null &&
                     !(stack.peek() instanceof SemicolonToken) &&
@@ -312,7 +320,9 @@ public class IndentCode {
                 next.append(processNext(depth));
             }
             result.append(getTab(depth)).append(next).append(" ");
-        }
+        }*/
+//        result.append(getTab(depth)).append(next).append(" ");
+        result.append(next);
         return result;
     }
 
@@ -349,6 +359,7 @@ public class IndentCode {
         beginEnd.append("\n");
 
         while (stack.peek() != null && !(stack.peek() instanceof EndToken)) {
+            Token peek = peek();
             StringBuilder next = getLineCommand(depth + 1, true);
             beginEnd.append(next);
         }
@@ -387,19 +398,23 @@ public class IndentCode {
         if (stack.peek() instanceof ThenToken) {
             //append else
             result.append(stack.pop());
-
             result.append("\n");
-            StringBuilder next = getLineCommand(depth, true);
+            StringBuilder next = new StringBuilder();
+            next.append(getLineCommand(depth + 1, true));
             result.append(next).append(" ");
         }
         result.append(" ");
 
-        while (!(stack.peek() instanceof SemicolonToken || stack.peek() instanceof ElseToken)) {
-            StringBuilder next = processNext(depth + 1, stack.pop());
+        while (peek() instanceof ElseToken) {
+            //append else
+            result.append("\n").append(getTab(depth));
+            result.append(stack.pop()).append("\n");
+
+            StringBuilder next = getLineCommand(depth + 1, true);
             result.append(next);
         }
 
-        //if contain else token
+        /*//if contain else token
         if (stack.peek() instanceof ElseToken) {
             //append else
             result.append("\n").append(getTab(depth));
@@ -415,7 +430,7 @@ public class IndentCode {
             }
             result.append(getTab(depth + 1)).append(next).append(" ");
 //            result.append(next).append(" \n");
-        }
+        }*/
         return result;
     }
 
@@ -433,20 +448,33 @@ public class IndentCode {
                 token instanceof RepeatToken;
     }
 
+    private boolean isStatement(Token token) {
+        return token instanceof IfToken ||
+                token instanceof ElseToken ||
+                token instanceof ThenToken ||
+                token instanceof DoToken ||
+                token instanceof WhileToken ||
+                token instanceof ForToken || token instanceof ToToken ||
+                token instanceof BeginEndToken || token instanceof EndToken ||
+                token instanceof RepeatToken || token instanceof CaseToken;
+    }
+
     //end of line by ;
     private StringBuilder getLineCommand(int depth, boolean tab) {
         StringBuilder result = new StringBuilder();
-        if (tab && !isGroupToken(stack.peek())) {
+        if (tab && !isGroupToken(peek())) {
             result.append(getTab(depth));
         }
-        if (isGroupToken(stack.peek())) { //group commnand
+//        if (isGroupToken(stack.peek())) { //group commnand
+        if (isStatement(peek())) { //group commnand
             result.append(processNext(depth, stack.pop()));
         } else {
             //single command; end by semicolon token
             while (stack.peek() != null
                     && !(stack.peek() instanceof SemicolonToken)
-                    && !(stack.peek() instanceof EndToken)) {
-                StringBuilder next = processNext(depth, stack.pop());
+                    && !(stack.peek() instanceof EndToken)
+                    && !(stack.peek() instanceof ElseToken)) {
+                StringBuilder next = processNext(depth + 1, stack.pop());
                 result.append(next);
             }
             if (stack.peek() instanceof SemicolonToken) {

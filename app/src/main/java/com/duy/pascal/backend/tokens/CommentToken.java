@@ -33,10 +33,10 @@ public class CommentToken extends Token {
 
     @Override
     public String toString() {
-        if (comment.endsWith("\n"))
-            return comment;
-        else {
-            return comment + "\n";
-        }
+//        if (comment.endsWith())
+//            return comment;
+//        else {
+        return comment;
+//        }
     }
 }
