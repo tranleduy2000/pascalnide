@@ -22,7 +22,7 @@
     <com.duy.pascal.frontend.view.code_view.CodeView
         android:id="@+id/code_editor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:dropDownAnchor="@+id/app_bar"
         android:focusable="true"
         android:focusableInTouchMode="true"

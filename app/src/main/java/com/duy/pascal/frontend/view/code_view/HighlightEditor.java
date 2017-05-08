@@ -489,17 +489,14 @@ public class HighlightEditor extends AutoSuggestsEditText
                 firstVisibleIndex = 0;
                 lastVisibleIndex = CHARS_TO_COLOR;
             }
-            int firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
-
             // normalize
-            if (firstColoredIndex < 0)
-                firstColoredIndex = 0;
+            if (firstVisibleIndex < 0)
+                firstVisibleIndex = 0;
             if (lastVisibleIndex > editable.length())
                 lastVisibleIndex = editable.length();
-            if (firstColoredIndex > lastVisibleIndex)
-                firstColoredIndex = lastVisibleIndex;
-
-            return highlight(editable, firstColoredIndex, lastVisibleIndex);
+            if (firstVisibleIndex > lastVisibleIndex)
+                firstVisibleIndex = lastVisibleIndex;
+            return highlight(editable, firstVisibleIndex, lastVisibleIndex);
         }
     }
 

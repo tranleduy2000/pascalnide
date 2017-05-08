@@ -39,10 +39,7 @@ import com.google.firebase.crash.FirebaseCrash;
  * Created by Duy on 15-Mar-17.
  */
 
-public abstract class UndoRedoSupportEditText extends HighlightEditor {
-
-    private static final boolean DEBUG = true;
-    private static final String TAG = UndoRedoSupportEditText.class.getSimpleName();
+public class UndoRedoSupportEditText extends HighlightEditor {
 
     private UndoRedoHelper mUndoRedoHelper;
     private KeySettings mSettings;

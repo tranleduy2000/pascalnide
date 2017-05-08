@@ -40,27 +40,15 @@ public class KeySettings {
     private Context context;
 
     public KeySettings(SharedPreferences prefs, Context context) {
-
-        this.context = context;    readPrefs(prefs);
+        this.context = context;
+        readPrefs(prefs);
     }
 
     public void readPrefs(SharedPreferences prefs) {
         mPrefs = prefs;
-        String s = readStringPref(context.getString(R.string.key_pref_control),
-                context.getString(R.string.volume_down));
+        String s = readStringPref(context.getString(R.string.key_pref_control), context.getString(R.string.volume_down));
         String[] array = context.getResources().getStringArray(R.array.control_key);
         mControlKeyId = Arrays.asList(array).indexOf(s);
-    }
-
-    private int readIntPref(String key, int defaultValue, int maxValue) {
-        int val;
-        try {
-            val = Integer.parseInt(mPrefs.getString(key, Integer.toString(defaultValue)));
-        } catch (NumberFormatException e) {
-            val = defaultValue;
-        }
-        val = Math.max(0, Math.min(val, maxValue));
-        return val;
     }
 
     private String readStringPref(String key, String defaultValue) {
