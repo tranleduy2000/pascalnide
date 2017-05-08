@@ -119,6 +119,6 @@ public class MathLibrary implements PascalLibrary {
 }
 ```
 
-## Đưa thư viện bạn viết bào ứng dụng
+## Đưa thư viện bạn viết vào ứng dụng
 
 Để đưa thư viện vào ứng dụng, bạn tạo một pull request, mình sẽ cập nhật thư viện của bạn
