@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -153,10 +152,10 @@
     <string name="enter_key_word">Tìm kiếm…</string>
     <string name="blog">Blog của ứng dụng</string>
     <string name="title_activity_zxing">ZxingActivity</string>
-    <string name="turn_off_flashlight">Turn off flashlight</string>
-    <string name="turn_on_flashlight">Turn on flashlight</string>
-    <string name="insert_url_media">Insert url media</string>
-    <string name="open_file">Open file</string>
-    <string name="see_in_github">See project in github https://github.com/tranleduy2000/pascalnide</string>
-    <string name="max_history_edit_desc">The maximum number of steps can be undo redo</string>
+    <string name="turn_off_flashlight">Tắt đèn flash</string>
+    <string name="turn_on_flashlight">Bật đèn flash</string>
+    <string name="insert_url_media">Chèn url media</string>
+    <string name="open_file">Mở tệp</string>
+    <string name="see_in_github">Xem dự án trên https://github.com/tranleduy2000/pascalnide</string>
+    <string name="max_history_edit_desc">Số lượng bước tối đa có thể undo redo</string>
 </resources>
