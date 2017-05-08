@@ -60,7 +60,7 @@ public class EditorFragment extends Fragment implements EditorListener {
     private Handler handler = new Handler();
 
 
-    public static Fragment newInstance(String filePath) {
+    public static EditorFragment newInstance(String filePath) {
         EditorFragment editorFragment = new EditorFragment();
         Bundle bundle = new Bundle();
         bundle.putString(CompileManager.FILE_PATH, filePath);

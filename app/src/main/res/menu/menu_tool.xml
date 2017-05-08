@@ -166,4 +166,9 @@
         android:title="@string/program_structure"
         android:visible="false"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_insert_media_url"
+        android:icon="@drawable/ic_perm_media_white_24dp"
+        android:title="@string/insert_url_media"
+        app:showAsAction="ifRoom" />
 </menu>

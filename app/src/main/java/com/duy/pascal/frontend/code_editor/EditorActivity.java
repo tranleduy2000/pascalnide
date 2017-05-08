@@ -78,7 +78,8 @@ import butterknife.OnClick;
 public class EditorActivity extends BaseEditorActivity implements
         DrawerLayout.DrawerListener {
 
-    private static final int FILE_SELECT_CODE = 1012;
+    public static final int ACTION_PICK_MEDIA_URL = 1013;
+    public static final int ACTION_FILE_SELECT_CODE = 1012;
 
     private CompileManager mCompileManager;
     private MenuEditor menuEditor;
@@ -477,21 +478,32 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FILE_SELECT_CODE) {
-            if (resultCode == RESULT_OK) {
-                // Get the Uri of the selected file
-                Uri uri = data.getData();
-                // Get the path
-                String path;
-                try {
-                    path = mFileManager.getPath(this, uri);
-                    mFileManager.setWorkingFilePath(path);
-                    addNewPageEditor(new File(path), SELECT, SAVE_LAST_FILE);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        switch (requestCode) {
+            case ACTION_FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    Uri uri = data.getData();
+                    // Get the path
+                    String path;
+                    try {
+                        path = mFileManager.getPath(this, uri);
+                        mFileManager.setWorkingFilePath(path);
+                        addNewPageEditor(new File(path), SELECT, SAVE_LAST_FILE);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
+                break;
+            case ACTION_PICK_MEDIA_URL:
+                if (resultCode == RESULT_OK) {
+                    String path = data.getData().getPath();
+                    EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
+                    if (currentFragment != null && path != null) {
+                        currentFragment.insert(path);
+                    }
+                }
+                break;
         }
     }
 
@@ -650,4 +662,5 @@ public class EditorActivity extends BaseEditorActivity implements
     public void startDebug() {
         if (doCompile()) mCompileManager.debug(getCurrentFilePath());
     }
+
 }

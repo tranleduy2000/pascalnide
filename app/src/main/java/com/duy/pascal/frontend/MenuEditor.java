@@ -213,6 +213,13 @@ public class MenuEditor {
             case R.id.action_open_file:
                 activity.openDrawer(GravityCompat.START);
                 break;
+            case R.id.action_insert_media_url:
+                Intent i = new Intent();
+                i.setType("audio/*");
+                i.setAction(Intent.ACTION_GET_CONTENT);
+                activity. startActivityForResult(Intent.createChooser(i, "Complete action using"),
+                        EditorActivity.ACTION_PICK_MEDIA_URL);
+                break;
         }
         return true;
     }
