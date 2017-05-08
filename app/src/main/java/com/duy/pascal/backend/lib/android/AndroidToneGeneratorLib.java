@@ -138,7 +138,7 @@ public class AndroidToneGeneratorLib implements PascalLibrary {
         }
     }
 
-    @PascalMethod(description = "Generate and play a sound with frequency in duration (miliseconds)")
+    @PascalMethod(description = "Generate and play a sound with frequency in duration (milliseconds)")
     public void generateSound(int frequency, int duration) {
         playSound(frequency, duration);
         try {
