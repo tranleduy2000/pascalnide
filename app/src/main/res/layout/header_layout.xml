@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +19,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:onClick="goToPlayStore"
     android:foreground="?attr/selectableItemBackground"
+    android:onClick="goToPlayStore"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -52,4 +51,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/copy_right" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:text="@string/see_in_github" />
 </LinearLayout>

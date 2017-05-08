@@ -77,5 +77,8 @@
     <string name="StrayCharacterException">Caracter rătăcit în cadrul programului: %1$s</string>
     <string name="StackOverflowException">Eroare apărută la supraîncărcarea unei stive (stack overflow).</string>
     <string name="UnConvertibleTypeException">Expresia sau variabila \"%1$s\" este de tipul \"%2$s\" care nu poate fi %3$s convertită la tipul %4$s</string>
+    <string name="WrongIfElseStatement">WRONG IF ELSE STATEMENT\n\n
+        Syntax: "if condition then S1 else S2;" \n\n
+        Where, S1 and S2 are different statements. Please note that the statement S1 is not followed by a "semicolon" (;).</string>
 
 </resources>
