@@ -37,6 +37,6 @@ public abstract class DebuggableExecutable implements Executable {
         }
     }
 
-    public abstract ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
+    public abstract ExecutionResult executeImpl(VariableContext context, RuntimeExecutable<?> main)
             throws RuntimePascalException;
 }

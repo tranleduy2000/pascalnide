@@ -21,39 +21,41 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class ForStatement extends DebuggableExecutable {
     private SetValueExecutable setfirst;
-    private ReturnValue lessthanlast;
+    private ReturnValue lessThanLast;
     private SetValueExecutable increment_temp;
     private Executable command;
     private LineInfo line;
 
-    public ForStatement(ExpressionContext f, LeftValue temp_var,
+    public ForStatement(ExpressionContext context, LeftValue tempVar,
                         ReturnValue first, ReturnValue last, Executable command,
                         LineInfo line) throws ParsingException {
         this.line = line;
-        setfirst = new Assignment(temp_var,first,line);
-        lessthanlast = BinaryOperatorEvaluation.generateOp(f, temp_var, last,
+        setfirst = new Assignment(tempVar, first, line);
+        lessThanLast = BinaryOperatorEvaluation.generateOp(context, tempVar, last,
                 OperatorTypes.LESSEQ, this.line);
-        increment_temp = new Assignment(temp_var, BinaryOperatorEvaluation.generateOp(
-                f, temp_var, new ConstantAccess(1, this.line),
+        increment_temp = new Assignment(tempVar, BinaryOperatorEvaluation.generateOp(
+                context, tempVar, new ConstantAccess(1, this.line),
                 OperatorTypes.PLUS, this.line), line);
 
         this.command = command;
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
+    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        setfirst.execute(f, main);
-        while_loop:
-        while ((Boolean) lessthanlast.getValue(f, main)) {
-            ExecutionResult result = command.execute(f, main);
+        setfirst.execute(context, main);
+        whileLoop:
+        while ((Boolean) lessThanLast.getValue(context, main)) {
+            ExecutionResult result = command.execute(context, main);
             switch (result) {
                 case EXIT:
                     return ExecutionResult.EXIT;
                 case BREAK:
-                    break while_loop;
+                    break whileLoop;
+                case CONTINUE:
+//                    continue whileLoop;
             }
-            increment_temp.execute(f, main);
+            increment_temp.execute(context, main);
         }
         return ExecutionResult.NONE;
     }
@@ -69,13 +71,13 @@ public class ForStatement extends DebuggableExecutable {
         SetValueExecutable first = setfirst.compileTimeConstantTransform(c);
         SetValueExecutable inc = increment_temp.compileTimeConstantTransform(c);
         Executable comm = command.compileTimeConstantTransform(c);
-        ReturnValue comp = lessthanlast;
-        Object val = lessthanlast.compileTimeValue(c);
+        ReturnValue comp = lessThanLast;
+        Object val = lessThanLast.compileTimeValue(c);
         if (val != null) {
             if (((Boolean) val)) {
                 return first;
             } else {
-                comp = new ConstantAccess(val, lessthanlast.getLineNumber());
+                comp = new ConstantAccess(val, lessThanLast.getLineNumber());
             }
         }
         return new DowntoForStatement(first, comp, inc, comm, line);

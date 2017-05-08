@@ -1,9 +1,9 @@
 package com.js.interpreter.ast.instructions.conditional;
 
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
@@ -31,17 +31,19 @@ public class RepeatInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
+    public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         do_loop:
         do {
-            switch (command.execute(f, main)) {
+            switch (command.execute(context, main)) {
+                case CONTINUE:
+                    continue do_loop;
                 case BREAK:
                     break do_loop;
                 case EXIT:
                     return ExecutionResult.EXIT;
             }
-        } while (!((Boolean) condition.getValue(f, main)));
+        } while (!((Boolean) condition.getValue(context, main)));
         return ExecutionResult.NONE;
     }
 

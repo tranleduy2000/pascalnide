@@ -3,8 +3,8 @@ package com.js.interpreter.ast.instructions.case_statement;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class SingleValue implements CaseCondition {
-    Object value;
-    LineInfo line;
+    private Object value;
+    private LineInfo line;
 
     public SingleValue(Object value, LineInfo line) {
         this.value = value;

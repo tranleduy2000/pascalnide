@@ -33,7 +33,7 @@ public class DowntoForStatement extends DebuggableExecutable {
         lessthanlast = BinaryOperatorEvaluation.generateOp(f, temp_var, last,
                 OperatorTypes.GREATEREQ, this.line);
         increment_temp = new Assignment(temp_var, BinaryOperatorEvaluation.generateOp(
-                        f, temp_var, new ConstantAccess(1, this.line),
+                f, temp_var, new ConstantAccess(1, this.line),
                 OperatorTypes.MINUS, this.line), line);
 
         this.command = command;
@@ -51,18 +51,20 @@ public class DowntoForStatement extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
+    public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
-        setfirst.execute(f, main);
+        setfirst.execute(context, main);
         while_loop:
-        while ((Boolean) lessthanlast.getValue(f, main)) {
-            switch (command.execute(f, main)) {
+        while ((Boolean) lessthanlast.getValue(context, main)) {
+            switch (command.execute(context, main)) {
                 case EXIT:
                     return ExecutionResult.EXIT;
                 case BREAK:
                     break while_loop;
+                case CONTINUE:
+                    continue while_loop;
             }
-            increment_temp.execute(f, main);
+            increment_temp.execute(context, main);
         }
         return ExecutionResult.NONE;
     }

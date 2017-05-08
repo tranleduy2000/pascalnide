@@ -24,10 +24,10 @@ public class Assignment extends DebuggableExecutable implements SetValueExecutab
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
+    public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
-        Reference ref = left.getReference(f, main);
-        Object value = this.value.getValue(f, main);
+        Reference ref = left.getReference(context, main);
+        Object value = this.value.getValue(context, main);
         ref.set(value);
         return ExecutionResult.NONE;
     }

@@ -39,6 +39,7 @@ import com.duy.pascal.backend.tokens.basic.AssignmentToken;
 import com.duy.pascal.backend.tokens.basic.BreakToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
+import com.duy.pascal.backend.tokens.basic.ContinueToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.basic.DowntoToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
@@ -59,6 +60,7 @@ import com.js.interpreter.ast.WrongIfElseStatement;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Assignment;
 import com.js.interpreter.ast.instructions.BreakInstruction;
+import com.js.interpreter.ast.instructions.ContinueInstruction;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExitInstruction;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
@@ -84,8 +86,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
-    LinkedBlockingQueue<Token> queue;
     public Token next = null;
+    LinkedBlockingQueue<Token> queue;
 
     public GrouperToken(LineInfo line) {
         super(line);
@@ -635,6 +637,8 @@ public abstract class GrouperToken extends Token {
             return new NoneInstruction(next.lineInfo);
         } else if (next instanceof BreakToken) {
             return new BreakInstruction(next.lineInfo);
+        } else if (next instanceof ContinueToken) {
+            return new ContinueInstruction(next.lineInfo);
         } else if (next instanceof ExitToken) {
             return new ExitInstruction(next.lineInfo);
         } else {

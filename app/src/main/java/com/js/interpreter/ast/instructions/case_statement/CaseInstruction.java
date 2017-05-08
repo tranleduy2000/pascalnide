@@ -32,66 +32,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CaseInstruction extends DebuggableExecutable {
-    private ReturnValue switch_value;
+    private ReturnValue mSwitchValue;
     private CasePossibility[] possibilies;
     private InstructionGrouper otherwise;
     private LineInfo line;
 
-    public CaseInstruction(CaseToken i, ExpressionContext context)
+    public CaseInstruction(CaseToken token, ExpressionContext context)
             throws ParsingException {
-        this.line = i.lineInfo;
-        switch_value = new CachedReturnValue(i.getNextExpression(context));
-        Token next = i.take();
+        this.line = token.lineInfo;
+        mSwitchValue = new CachedReturnValue(token.getNextExpression(context));
+        Token next = token.take();
         if (!(next instanceof OfToken)) {
             throw new ExpectedTokenException("of", next);
         }
 
         //this Object used to check compare type with another element
-        DeclaredType mSwitchValueType = switch_value.getType(context).declType;
+        DeclaredType switchValueType = mSwitchValue.getType(context).declType;
         List<CasePossibility> possibilities = new ArrayList<>();
 
-        while (!(i.peek() instanceof ElseToken) && !(i.peek() instanceof EOFToken)) {
+        while (!(token.peek() instanceof ElseToken) && !(token.peek() instanceof EOFToken)) {
             List<CaseCondition> conditions = new ArrayList<>();
             while (true) {
-                ReturnValue valueToSwitch = i.getNextExpression(context);
+                ReturnValue valueToSwitch = token.getNextExpression(context);
 
                 //check type
-                assertType(mSwitchValueType, valueToSwitch, context);
+                assertType(switchValueType, valueToSwitch, context);
 
                 Object v = valueToSwitch.compileTimeValue(context);
                 if (v == null) {
                     throw new NonConstantExpressionException(valueToSwitch);
                 }
-                if (i.peek() instanceof DotDotToken) {
-                    i.take();
-                    ReturnValue upper = i.getNextExpression(context);
+                if (token.peek() instanceof DotDotToken) {
+                    token.take();
+                    ReturnValue upper = token.getNextExpression(context);
                     Object hi = upper.compileTimeValue(context);
                     if (hi == null) {
                         throw new NonConstantExpressionException(upper);
                     }
-                    conditions.add(new RangeOfValues(context, switch_value, v, hi, valueToSwitch.getLineNumber()));
+                    conditions.add(new RangeOfValues(context, mSwitchValue, v, hi, valueToSwitch.getLineNumber()));
                 } else {
                     conditions.add(new SingleValue(v, valueToSwitch.getLineNumber()));
                 }
-                if (i.peek() instanceof CommaToken) {
-                    i.take();
-                } else if (i.peek() instanceof ColonToken) {
-                    i.take();
+                if (token.peek() instanceof CommaToken) {
+                    token.take();
+                } else if (token.peek() instanceof ColonToken) {
+                    token.take();
                     break;
                 } else {
-                    throw new ExpectedTokenException("[comma or colon]", i.take());
+                    throw new ExpectedTokenException("[comma or colon]", token.take());
                 }
             }
-            Executable command = i.getNextCommand(context);
-            assertNextSemicolon(i);
+            Executable command = token.getNextCommand(context);
+            assertNextSemicolon(token);
             possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
         }
 
-        otherwise = new InstructionGrouper(i.peek().lineInfo);
-        if (i.peek() instanceof ElseToken) {
-            i.take();
-            while (i.hasNext()) {
-                otherwise.add_command(i.getNextCommand(context));
+        otherwise = new InstructionGrouper(token.peek().lineInfo);
+        if (token.peek() instanceof ElseToken) {
+            token.take();
+            while (token.hasNext()) {
+                otherwise.add_command(token.getNextCommand(context));
                 /*
                   case i of
                    1 : writeln;
@@ -105,7 +105,7 @@ public class CaseInstruction extends DebuggableExecutable {
 //                if (!(t instanceof SemicolonToken)) {
 //                    throw new ExpectedTokenException(";", t);
 //                }
-                i.assertNextSemicolon(i);
+                token.assertNextSemicolon(token);
 //                if (!(i.peek() instanceof EndToken)
 //                        && !(i.peek() instanceof EOFToken)) {
 //                    i.assertNextSemicolon();
@@ -138,17 +138,17 @@ public class CaseInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
+    public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
-        Object value = switch_value.getValue(f, main);
+        Object value = mSwitchValue.getValue(context, main);
         for (CasePossibility possibily : possibilies) {
             for (int j = 0; j < possibily.conditions.length; j++) {
                 if (possibily.conditions[j].fits(value)) {
-                    return possibily.execute(f, main);
+                    return possibily.execute(context, main);
                 }
             }
         }
-        return otherwise.execute(f, main);
+        return otherwise.execute(context, main);
     }
 
     @Override
@@ -159,7 +159,7 @@ public class CaseInstruction extends DebuggableExecutable {
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        Object value = switch_value.compileTimeValue(c);
+        Object value = mSwitchValue.compileTimeValue(c);
         if (value == null) {
             return this;
         }

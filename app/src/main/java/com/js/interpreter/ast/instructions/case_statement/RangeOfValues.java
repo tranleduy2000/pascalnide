@@ -13,22 +13,22 @@ public class RangeOfValues implements CaseCondition {
 
     private LineInfo line;
 
-    private BinaryOperatorEvaluation greater_than_lower;
-    private BinaryOperatorEvaluation less_than_higher;
+    private BinaryOperatorEvaluation greaterThanLower;
+    private BinaryOperatorEvaluation lessThanHigher;
 
     public RangeOfValues(ExpressionContext context, ReturnValue value, Object lower, Object higher,
                          LineInfo line) throws ParsingException {
         ConstantAccess low = new ConstantAccess(lower, line);
-        ConstantAccess hi = new ConstantAccess(higher, line);
-        greater_than_lower = BinaryOperatorEvaluation.generateOp(context, value, low, OperatorTypes.GREATEREQ, line);
-        less_than_higher = BinaryOperatorEvaluation.generateOp(context, value, hi, OperatorTypes.LESSEQ, line);
+        ConstantAccess high = new ConstantAccess(higher, line);
+        greaterThanLower = BinaryOperatorEvaluation.generateOp(context, value, low, OperatorTypes.GREATEREQ, line);
+        lessThanHigher = BinaryOperatorEvaluation.generateOp(context, value, high, OperatorTypes.LESSEQ, line);
         this.line = line;
     }
 
     @Override
     public boolean fits(Object value) throws RuntimePascalException {
-        return (Boolean) greater_than_lower.getValue(null, null)
-                && (Boolean) less_than_higher.getValue(null, null);
+        return (Boolean) greaterThanLower.getValue(null, null)
+                && (Boolean) lessThanHigher.getValue(null, null);
     }
 
     @Override

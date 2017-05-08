@@ -31,14 +31,14 @@ public class IfStatement extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
+    public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
-        Boolean value = (Boolean) (condition.getValue(f, main));
+        Boolean value = (Boolean) (condition.getValue(context, main));
         if (value) {
-            return instruction.execute(f, main);
+            return instruction.execute(context, main);
         } else {
             if (elseInstruction != null) {
-                return elseInstruction.execute(f, main);
+                return elseInstruction.execute(context, main);
             }
             return ExecutionResult.NONE;
         }

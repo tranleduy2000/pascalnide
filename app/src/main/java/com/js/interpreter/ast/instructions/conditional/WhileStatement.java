@@ -28,20 +28,20 @@ public class WhileStatement extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f,
+    public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         while_loop:
-        while ((Boolean) condition.getValue(f, main)) {
+        while ((Boolean) condition.getValue(context, main)) {
             DebugManager.outputConditionWhile(main.getDebugListener(), true);
-            switch (command.execute(f, main)) {
+            switch (command.execute(context, main)) {
+                case CONTINUE:
+                    continue while_loop;
                 case BREAK:
                     break while_loop;
                 case EXIT:
                     return ExecutionResult.EXIT;
             }
         }
-//        DebugManager.outputConditionWhile(main.getDebugListener(), false);
-
         return ExecutionResult.NONE;
     }
 

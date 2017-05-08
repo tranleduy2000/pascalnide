@@ -1,17 +1,16 @@
 package com.js.interpreter.ast.instructions;
 
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
-import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class ExitInstruction extends DebuggableExecutable {
-    LineInfo line;
+public class ContinueInstruction extends DebuggableExecutable {
+    private LineInfo line;
 
-    public ExitInstruction(LineInfo line) {
+    public ContinueInstruction(LineInfo line) {
         this.line = line;
     }
 
@@ -21,16 +20,14 @@ public class ExitInstruction extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
-        return ExecutionResult.EXIT;
+    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
+        return ExecutionResult.CONTINUE;
     }
 
     @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c)
-            throws ParsingException {
+    public Executable compileTimeConstantTransform(CompileTimeContext c) {
         return this;
     }
-
 
 }
