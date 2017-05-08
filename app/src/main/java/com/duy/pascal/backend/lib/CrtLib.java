@@ -16,10 +16,7 @@
 
 package com.duy.pascal.backend.lib;
 
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
-
+import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
@@ -45,7 +42,7 @@ public class CrtLib implements PascalLibrary {
         @Override
         public void run() {
             while (canPlaySound.get()) {
-                playSound(finalFrequency, 44100);
+                AndroidToneGeneratorLib.playSound(finalFrequency, 44100);
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -208,34 +205,5 @@ public class CrtLib implements PascalLibrary {
         canPlaySound.set(false);
     }
 
-    private void playSound(double frequency, int duration) {
-        try {
-            // AudioTrack definition
-            int mBufferSize = AudioTrack.getMinBufferSize(44100,
-                    AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_8BIT);
-
-            AudioTrack mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100,
-                    AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
-                    mBufferSize, AudioTrack.MODE_STREAM);
-
-            // Sine wave
-            double[] mSound = new double[4410];
-            short[] mBuffer = new short[duration];
-            for (int i = 0; i < mSound.length; i++) {
-                mSound[i] = Math.sin((2.0 * Math.PI * i / (44100 / frequency)));
-                mBuffer[i] = (short) (mSound[i] * Short.MAX_VALUE);
-            }
-
-            mAudioTrack.setStereoVolume(AudioTrack.getMaxVolume(), AudioTrack.getMaxVolume());
-            mAudioTrack.play();
-
-            mAudioTrack.write(mBuffer, 0, mSound.length);
-            mAudioTrack.stop();
-            mAudioTrack.release();
-        } catch (Exception ignored) {
-
-        }
-    }
 
 }

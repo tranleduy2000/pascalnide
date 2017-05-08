@@ -30,7 +30,7 @@ import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
 import com.duy.pascal.backend.lib.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.lib.android.temp.AndroidApplicationManagerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
-import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
+import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
 import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;

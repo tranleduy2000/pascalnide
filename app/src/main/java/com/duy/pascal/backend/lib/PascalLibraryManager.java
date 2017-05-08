@@ -29,7 +29,7 @@ import com.duy.pascal.backend.lib.android.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.android.AndroidVibrateLib;
 import com.duy.pascal.backend.lib.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.lib.android.temp.AndroidBluetoothLib;
-import com.duy.pascal.backend.lib.android.temp.AndroidMediaPlayerLib;
+import com.duy.pascal.backend.lib.android.AndroidMediaPlayerLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
 import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
@@ -129,6 +129,7 @@ public class PascalLibraryManager {
         mapLibraries.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
         mapLibraries.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
         mapLibraries.put(ZXingAPI.NAME, ZXingAPI.class);
+        mapLibraries.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
     }
 
     /**
