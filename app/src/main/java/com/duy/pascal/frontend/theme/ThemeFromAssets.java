@@ -112,7 +112,7 @@ public class ThemeFromAssets {
             themeFromAssets.addStyle(loadCustomStyle(prefs, id, "function_color"));
             themeFromAssets.addStyle(loadCustomStyle(prefs, id, "opt_color"));
             customThemeFromAssetses.add(themeFromAssets);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -151,7 +151,7 @@ public class ThemeFromAssets {
                     return;
                 }
             }
-        } catch (IOException e2) {
+        } catch (IOException ignored) {
         }
     }
 

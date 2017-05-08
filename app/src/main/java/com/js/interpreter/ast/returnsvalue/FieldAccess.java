@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import com.duy.pascal.backend.debugable.DebuggableLValue;
+import com.duy.pascal.backend.debugable.DebuggableLeftValue;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -16,25 +16,25 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
-public class FieldAccess extends DebuggableLValue {
-    private RValue container;
+public class FieldAccess extends DebuggableLeftValue {
+    private ReturnValue container;
     private String name;
     private LineInfo line;
 
-    public FieldAccess(RValue container, String name, LineInfo line) {
+    public FieldAccess(ReturnValue container, String name, LineInfo line) {
         this.container = container;
         this.name = name;
         this.line = line;
     }
 
-    public FieldAccess(RValue container, WordToken name) {
+    public FieldAccess(ReturnValue container, WordToken name) {
         this(container, name.name, name.lineInfo);
     }
 
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        RuntimeType r = container.get_type(f);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        RuntimeType r = container.getType(f);
         return new RuntimeType(((ObjectType) (r.declType)).getMemberType(name),
                 r.writable);
     }
@@ -72,7 +72,7 @@ public class FieldAccess extends DebuggableLValue {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {

@@ -26,7 +26,7 @@ public class SimpleFunctionCall extends FunctionCall {
     private LineInfo line;
 
     public SimpleFunctionCall(AbstractCallableFunction function,
-                              RValue[] arguments, LineInfo line) {
+                              ReturnValue[] arguments, LineInfo line) {
         this.function = function;
         if (function == null) {
             System.err.println("Warning: Null function call");
@@ -58,8 +58,8 @@ public class SimpleFunctionCall extends FunctionCall {
                 if (argumentTypes[i].getRuntimeClass().equals(File.class)) {
                     values[i] = arguments[i].getValue(f, main);
                 } else {
-                    RValue rawValue = arguments[i];
-                    RValue[] outputFormat = rawValue.getOutputFormat();
+                    ReturnValue rawValue = arguments[i];
+                    ReturnValue[] outputFormat = rawValue.getOutputFormat();
                     StringBuilder object = new StringBuilder(String.valueOf(rawValue.getValue(f, main)));
 
                     if (outputFormat != null) {
@@ -103,8 +103,8 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) {
-        return new RuntimeType(function.return_type(), false);
+    public RuntimeType getType(ExpressionContext f) {
+        return new RuntimeType(function.returnType(), false);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new SimpleFunctionCall(function, compileTimeExpressionFoldArguments(context), line);
     }

@@ -65,7 +65,6 @@ public class InstructionGrouper extends DebuggableExecutable {
             if (transformed == null) {
                 nig.instructions.add(e);
             } else if (transformed instanceof NoneInstruction) {
-                continue;
             } else {
                 nig.instructions.add(transformed);
             }

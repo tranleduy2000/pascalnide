@@ -24,6 +24,7 @@ import com.duy.pascal.backend.lib.graph.style.FillType;
  * Created by Duy on 20-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class FillPaint extends Paint {
     protected int fillPattern = FillType.EmptyFill;
     protected int fillColor = -1;//white

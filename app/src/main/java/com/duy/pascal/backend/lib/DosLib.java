@@ -28,6 +28,7 @@ import java.util.Map;
  * Created by Duy on 01-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class DosLib implements PascalLibrary {
 
     public static final String NAME = "dos";

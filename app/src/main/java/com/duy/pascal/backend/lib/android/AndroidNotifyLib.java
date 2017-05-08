@@ -33,6 +33,7 @@ import java.util.Map;
  * Created by Duy on 25-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class AndroidNotifyLib implements PascalLibrary {
     public static final String NAME = "aNotify".toLowerCase();
 

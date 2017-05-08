@@ -71,7 +71,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
      * set <code>true</code> if enable debug mode, program will be pause every line
      */
     protected boolean enableDebug = false;
-    protected AtomicBoolean mIsRunning = new AtomicBoolean(true);
+    protected final AtomicBoolean mIsRunning = new AtomicBoolean(true);
     protected final Handler mMessageHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -94,8 +94,8 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             }
         }
     };
-    protected AtomicBoolean isCanRead = new AtomicBoolean(false);
-    protected Runnable runnableInput = new Runnable() {
+    protected final AtomicBoolean isCanRead = new AtomicBoolean(false);
+    protected final Runnable runnableInput = new Runnable() {
         @Override
         public void run() {
             int exitFlag;
@@ -137,7 +137,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     protected RuntimeExecutable program;
     protected String programFile;
     protected ApplicationFileManager mFileManager;
-    Runnable runProgram = new Runnable() {
+    final Runnable runProgram = new Runnable() {
         @Override
         public void run() {
             try {

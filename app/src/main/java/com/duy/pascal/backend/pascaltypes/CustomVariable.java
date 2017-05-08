@@ -29,6 +29,7 @@ import java.util.Map;
 /**
  * Created by Duy on 17-Apr-17.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class CustomVariable implements ContainsVariables {
     private Map<String, Object> variableMap = new HashMap<>();
     private List<VariableDeclaration> variableList;

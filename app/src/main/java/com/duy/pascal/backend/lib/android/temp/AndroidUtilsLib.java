@@ -169,7 +169,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     }
 
     private void doStartActivity(final Intent intent, Boolean wait) throws Exception {
-        if (wait == null || wait == false) {
+        if (wait == null || !wait) {
             startActivity(intent);
         } else {
             FutureActivityTask<Intent> task = new FutureActivityTask<Intent>() {
@@ -372,7 +372,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     @PascalMethod(description = "Returns package version code.")
     public int getPackageVersionCode(@PascalParameter(name = "packageName") final String packageName) {
         int result = -1;
-        PackageInfo pInfo = null;
+        PackageInfo pInfo;
         try {
             pInfo =
                     mContext.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
@@ -388,7 +388,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns package version name.")
     public String getPackageVersion(@PascalParameter(name = "packageName") final String packageName) {
-        PackageInfo packageInfo = null;
+        PackageInfo packageInfo;
         try {
             packageInfo =
                     mContext.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);

@@ -228,7 +228,7 @@ public class WebCamFacade implements PascalLibrary {
             @PascalParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
             @PascalParameter(name = "jpegQuality", description = "a number from 0-100") @RpcDefault("20") Integer jpegQuality)
             throws Exception {
-        if (mStreaming == false) {
+        if (!mStreaming) {
             throw new IllegalStateException("Webcam not streaming.");
         }
         stopStream();

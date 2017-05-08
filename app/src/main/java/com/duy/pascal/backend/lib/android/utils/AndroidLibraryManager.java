@@ -23,9 +23,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
-import com.googlecode.sl4a.rpc.RpcDeprecated;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class AndroidLibraryManager extends RpcReceiverManager {
@@ -52,15 +50,7 @@ public class AndroidLibraryManager extends RpcReceiverManager {
     @Override
     public Object invoke(Class<? extends PascalLibrary> clazz, Method method, Object[] args)
             throws Exception {
-        try {
-            if (method.isAnnotationPresent(RpcDeprecated.class)) {
-                String replacedBy = method.getAnnotation(RpcDeprecated.class).value();
-                String title = method.getName() + " is deprecated";
-            }
-            return super.invoke(clazz, method, args);
-        } catch (InvocationTargetException e) {
-            throw e;
-        }
+        return super.invoke(clazz, method, args);
     }
 
     public AndroidUtilsLib.Resources getAndroidFacadeResources() {

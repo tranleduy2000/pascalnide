@@ -5,7 +5,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
@@ -16,7 +16,7 @@ public class RangeOfValues implements CaseCondition {
     private BinaryOperatorEvaluation greater_than_lower;
     private BinaryOperatorEvaluation less_than_higher;
 
-    public RangeOfValues(ExpressionContext context, RValue value, Object lower, Object higher,
+    public RangeOfValues(ExpressionContext context, ReturnValue value, Object lower, Object higher,
                          LineInfo line) throws ParsingException {
         ConstantAccess low = new ConstantAccess(lower, line);
         ConstantAccess hi = new ConstantAccess(higher, line);

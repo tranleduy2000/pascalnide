@@ -6,6 +6,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 /**
  * Created by Duy on 26-Feb-17.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class OperationNotSupportedException extends RuntimePascalException {
     public OperationNotSupportedException() {
     }

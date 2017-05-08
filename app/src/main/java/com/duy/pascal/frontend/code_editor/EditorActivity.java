@@ -113,7 +113,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onKeyClick(View view, String text) {
-        EditorFragment currentFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
         if (currentFragment != null) {
             currentFragment.insert(text);
         }
@@ -121,7 +121,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void onKeyLongClick(String text) {
-        EditorFragment currentFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
         if (currentFragment != null) {
             currentFragment.insert(text);
         }
@@ -151,7 +151,7 @@ public class EditorActivity extends BaseEditorActivity implements
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+                EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
                 if (editorFragment != null) {
                     editorFragment.doFindAndReplace(
                             editFind.getText().toString(),
@@ -199,7 +199,7 @@ public class EditorActivity extends BaseEditorActivity implements
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+                EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
                 if (editorFragment != null) {
                     editorFragment.doFind(editFind.getText().toString(),
                             ckbRegex.isChecked(),
@@ -222,7 +222,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void saveFile() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             editorFragment.saveFile();
         }
@@ -237,7 +237,7 @@ public class EditorActivity extends BaseEditorActivity implements
     private void showLineError(final ParsingException e) {
         if (e != null) {
             if (e.line != null) {
-                EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+                EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
                 if (editorFragment != null) {
                     editorFragment.setLineError(e.line);
                 }
@@ -246,7 +246,7 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     public String getCode() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             return editorFragment.getCode();
         }
@@ -281,7 +281,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 listVariables.add(new SuggestItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
             }
             data.addAll(listVariables);
-            EditorFragment currentFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+            EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
             if (currentFragment != null) {
                 currentFragment.getEditor().setSuggestData(data);
             }
@@ -326,7 +326,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 || s.equals(getString(R.string.key_show_line_number))
                 || s.equals(getString(R.string.show_suggest_popup))
                 || s.equals(getString(R.string.key_pref_word_wrap))) {
-            EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+            EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
             if (editorFragment != null) {
                 editorFragment.refreshCodeEditor();
             }
@@ -419,7 +419,7 @@ public class EditorActivity extends BaseEditorActivity implements
                         String line = edittext.getText().toString();
                         if (!line.isEmpty()) {
                             EditorFragment editorFragment
-                                    = (EditorFragment) pagerAdapter.getCurrentFragment();
+                                    = pagerAdapter.getCurrentFragment();
                             if (editorFragment != null) {
                                 editorFragment.goToLine(Integer.parseInt(line));
                             }
@@ -437,7 +437,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void formatCode() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             editorFragment.formatCode();
         }
@@ -460,7 +460,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void undo() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             editorFragment.undo();
         }
@@ -468,7 +468,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void redo() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             editorFragment.redo();
         }
@@ -524,7 +524,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void paste() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             editorFragment.paste();
         }
@@ -532,7 +532,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void copyAll() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             editorFragment.copyAll();
         }
@@ -556,8 +556,8 @@ public class EditorActivity extends BaseEditorActivity implements
             return;
         }
 
-        /**
-         * check can undo
+        /*
+          check can undo
          */
         if (mPascalPreferences.getBoolean(getString(R.string.key_back_undo))) {
             undo();
@@ -587,7 +587,7 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     private String getCurrentFilePath() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             return editorFragment.getFilePath();
         }

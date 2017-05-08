@@ -24,6 +24,7 @@ import com.google.firebase.crash.FirebaseCrash;
  * Created by Duy on 27-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class Dlog {
     public static final String TAG = Dlog.class.getSimpleName();
     public static final boolean DEBUG = true;

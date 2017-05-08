@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import com.duy.pascal.backend.debugable.DebuggableLValue;
+import com.duy.pascal.backend.debugable.DebuggableLeftValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
@@ -13,7 +13,7 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class VariableAccess extends DebuggableLValue {
+public class VariableAccess extends DebuggableLeftValue {
     public String name;
     private LineInfo line;
 
@@ -28,12 +28,12 @@ public class VariableAccess extends DebuggableLValue {
     }
 
     @Override
-    public RValue[] getOutputFormat() {
+    public ReturnValue[] getOutputFormat() {
         return super.getOutputFormat();
     }
 
     @Override
-    public void setOutputFormat(RValue[] formatInfo) {
+    public void setOutputFormat(ReturnValue[] formatInfo) {
         super.setOutputFormat(formatInfo);
     }
 
@@ -59,7 +59,7 @@ public class VariableAccess extends DebuggableLValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(f.getVariableDefinition(name).type, true);
     }
 
@@ -71,7 +71,7 @@ public class VariableAccess extends DebuggableLValue {
 
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return this;
     }

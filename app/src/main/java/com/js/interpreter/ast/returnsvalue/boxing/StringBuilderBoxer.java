@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
-import com.duy.pascal.backend.debugable.DebuggableRValue;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -8,22 +8,22 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringBuilderBoxer extends DebuggableRValue {
-    private RValue value;
+public class StringBuilderBoxer extends DebuggableReturnValue {
+    private ReturnValue value;
 
-    public StringBuilderBoxer(RValue value) {
+    public StringBuilderBoxer(ReturnValue value) {
         this.value = value;
         this.outputFormat = value.getOutputFormat();
     }
 
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(BasicType.create(String.class), false);
     }
 
@@ -37,7 +37,7 @@ public class StringBuilderBoxer extends DebuggableRValue {
             throws ParsingException {
         Object other = value.compileTimeValue(context);
         if (other != null) {
-            return ((StringBuilder) other).toString();
+            return other.toString();
         }
         return null;
     }
@@ -46,11 +46,11 @@ public class StringBuilderBoxer extends DebuggableRValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         Object other = value.getValue(f, main);
-        return ((StringBuilder) other).toString();
+        return other.toString();
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {

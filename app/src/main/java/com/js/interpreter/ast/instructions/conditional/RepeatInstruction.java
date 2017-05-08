@@ -7,7 +7,7 @@ import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -15,10 +15,10 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 public class RepeatInstruction extends DebuggableExecutable {
     Executable command;
 
-    RValue condition;
+    ReturnValue condition;
     LineInfo line;
 
-    public RepeatInstruction(Executable command, RValue condition,
+    public RepeatInstruction(Executable command, ReturnValue condition,
                              LineInfo line) {
         this.command = command;
         this.condition = condition;

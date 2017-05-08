@@ -41,6 +41,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
  * Created by Duy on 30-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class GraphScreen {
     private static final String TAG = GraphScreen.class.getSimpleName();
     private final Context context;

@@ -34,6 +34,7 @@ import java.util.ArrayList;
 /**
  * Created by Duy on 29-Mar-17.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class DialogProgramStructure extends AppCompatDialogFragment {
     public static final String TAG = DialogProgramStructure.class.getSimpleName();
     private AndroidTreeView tView;

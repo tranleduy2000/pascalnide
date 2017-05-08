@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.returnsvalue;
 
 
-import com.duy.pascal.backend.debugable.DebuggableRValue;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -25,29 +25,29 @@ import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
 
-public abstract class UnaryOperatorEvaluation extends DebuggableRValue {
+public abstract class UnaryOperatorEvaluation extends DebuggableReturnValue {
     public OperatorTypes operator;
     public RuntimeType type;
-    public RValue operon;
+    public ReturnValue operon;
     public LineInfo line;
 
-    protected UnaryOperatorEvaluation(RValue operon, OperatorTypes operator,
+    protected UnaryOperatorEvaluation(ReturnValue operon, OperatorTypes operator,
                                       LineInfo line) {
         this.operator = operator;
         this.line = line;
         this.operon = operon;
     }
 
-    public static RValue generateOp(ExpressionContext f,
-                                    RValue v1, OperatorTypes op_type,
-                                    LineInfo line) throws ParsingException {
-        DeclaredType t1 = v1.get_type(f).declType;
+    public static ReturnValue generateOp(ExpressionContext f,
+                                         ReturnValue v1, OperatorTypes op_type,
+                                         LineInfo line) throws ParsingException {
+        DeclaredType t1 = v1.getType(f).declType;
 
         if (!op_type.can_be_unary) {
             throw new BadOperationTypeException(line, t1, v1, op_type);
         }
         if (op_type == OperatorTypes.ADDRESS) {
-            LValue target = v1.asLValue(f);
+            LeftValue target = v1.asLValue(f);
             if (target != null) {
                 return new AddressEval(target, line);
             }
@@ -93,8 +93,8 @@ public abstract class UnaryOperatorEvaluation extends DebuggableRValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        return operon.get_type(f);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        return operon.getType(f);
     }
 
     @Override

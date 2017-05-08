@@ -25,6 +25,7 @@ import com.duy.pascal.backend.lib.graph.style.LineWidth;
  * Created by Duy on 20-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class LinePaint extends Paint {
     private int lineWidth = LineWidth.NormWidth;
     private int lineStyle = LineStyle.SolidLn;

@@ -6,18 +6,18 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LValue;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class NumberToIntType implements RValue {
-    protected RValue[] outputFormat;
-    RValue other;
+public class NumberToIntType implements ReturnValue {
+    protected ReturnValue[] outputFormat;
+    ReturnValue other;
 
 
-    public NumberToIntType(RValue other) {
+    public NumberToIntType(ReturnValue other) {
         this.other = other;
     }
 
@@ -27,12 +27,12 @@ public class NumberToIntType implements RValue {
     }
 
     @Override
-    public RValue[] getOutputFormat() {
+    public ReturnValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(RValue[] formatInfo) {
+    public void setOutputFormat(ReturnValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -45,7 +45,7 @@ public class NumberToIntType implements RValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f)
+    public RuntimeType getType(ExpressionContext f)
             throws ParsingException {
         return new RuntimeType(BasicType.Integer, false);
     }
@@ -67,13 +67,13 @@ public class NumberToIntType implements RValue {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new NumberToIntType(other.compileTimeExpressionFold(context));
     }
 
     @Override
-    public LValue asLValue(ExpressionContext f) {
+    public LeftValue asLValue(ExpressionContext f) {
         return null;
     }
 }

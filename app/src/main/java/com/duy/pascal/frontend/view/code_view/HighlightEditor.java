@@ -216,8 +216,8 @@ public class HighlightEditor extends AutoSuggestsEditText
     }
 
     public void setTheme(String name) {
-        /**
-         * load theme from xml
+        /*
+          load theme from xml
          */
 
         int style = CodeThemeUtils.getCodeTheme(mContext, name);
@@ -597,7 +597,7 @@ public class HighlightEditor extends AutoSuggestsEditText
                     }
                 }
             }
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
     }
 

@@ -133,9 +133,7 @@ class FileEntry {
 
     public String readString() throws DiskReadErrorException {
         assertNotEndOfFile();
-        String res = scanner.nextLine();
-//        System.out.println(res);
-        return res;
+        return scanner.nextLine();
     }
 
     public char readChar() throws DiskReadErrorException {

@@ -216,10 +216,8 @@ public class FullScreenTask extends FutureActivityTask<Object> implements OnClic
         data.put("key", String.valueOf(keyCode));
         data.put("action", String.valueOf(event.getAction()));
         mEventFacade.postEvent("key", data);
-        boolean overrideKey =
-                (keyCode == KeyEvent.KEYCODE_BACK)
-                        || (mOverrideKeys == null ? false : mOverrideKeys.contains(keyCode));
-        return overrideKey;
+        return (keyCode == KeyEvent.KEYCODE_BACK)
+                || (mOverrideKeys != null && mOverrideKeys.contains(keyCode));
     }
 
     @Override

@@ -150,7 +150,7 @@
     <string name="implicitly">không thể</string>
     <string name="max_page">Số trang lớn nhất</string>
     <string name="max_page_desc">Số lượng trang lớn nhất có thể hiển thị</string>
-    <string name="enter_key_word">Tìm kiếm...</string>
+    <string name="enter_key_word">Tìm kiếm…</string>
     <string name="blog">Blog của ứng dụng</string>
     <string name="title_activity_zxing">ZxingActivity</string>
     <string name="turn_off_flashlight">Turn off flashlight</string>

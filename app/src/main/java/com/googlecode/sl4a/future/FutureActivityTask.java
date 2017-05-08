@@ -23,7 +23,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 
 /**
  * Encapsulates an {@link Activity} and a {@link FutureObject}.

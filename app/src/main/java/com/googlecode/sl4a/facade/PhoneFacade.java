@@ -37,7 +37,6 @@ import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.List;
@@ -168,7 +167,7 @@ public class PhoneFacade implements PascalLibrary {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Dials a phone number.")
     public void phoneDialNumber(@PascalParameter(name = "phone number") final String number)
-            throws Exception, UnsupportedEncodingException {
+            throws Exception {
         phoneDial("tel:" + URLEncoder.encode(number, "ASCII"));
     }
 

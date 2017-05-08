@@ -8,19 +8,19 @@ import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
 
 public class BoolUniOperatorEval extends UnaryOperatorEvaluation {
 
-    public BoolUniOperatorEval(RValue operon, OperatorTypes operator, LineInfo line) {
+    public BoolUniOperatorEval(ReturnValue operon, OperatorTypes operator, LineInfo line) {
         super(operon, operator, line);
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(BasicType.Boolean, false);
     }
 
@@ -35,7 +35,7 @@ public class BoolUniOperatorEval extends UnaryOperatorEvaluation {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess(val, line);

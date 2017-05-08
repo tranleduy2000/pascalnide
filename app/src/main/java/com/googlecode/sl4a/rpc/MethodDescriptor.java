@@ -150,7 +150,7 @@ public final class MethodDescriptor {
         if (hasDefaultValue(annotations)) {
             result.append("[optional");
             if (hasExplicitDefaultValue(annotations)) {
-                result.append(", default " + getDefaultValue(parameterType, annotations));
+                result.append(", default ").append(getDefaultValue(parameterType, annotations));
             }
             result.append("]");
         }

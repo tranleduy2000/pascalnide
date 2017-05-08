@@ -8,6 +8,7 @@ import java.io.File;
  * Created by Duy on 29-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class PageEditInfo extends SimplePageDescriptor {
 
     private File file;

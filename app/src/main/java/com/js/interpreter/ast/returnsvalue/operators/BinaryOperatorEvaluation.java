@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.returnsvalue.operators;
 
 
-import com.duy.pascal.backend.debugable.DebuggableRValue;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -14,7 +14,7 @@ import com.duy.pascal.backend.pascaltypes.typeconversion.TypeConverter;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
@@ -22,15 +22,15 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
 
 
-public abstract class BinaryOperatorEvaluation extends DebuggableRValue {
+public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
     OperatorTypes operator_type;
 
-    RValue operon1;
+    ReturnValue operon1;
 
-    RValue operon2;
+    ReturnValue operon2;
     LineInfo line;
 
-    public BinaryOperatorEvaluation(RValue operon1, RValue operon2,
+    public BinaryOperatorEvaluation(ReturnValue operon1, ReturnValue operon2,
                                     OperatorTypes operator, LineInfo line) {
         this.operator_type = operator;
         this.operon1 = operon1;
@@ -40,10 +40,10 @@ public abstract class BinaryOperatorEvaluation extends DebuggableRValue {
 
     /* Boy, templates or macros like C++ sure would be useful now... */
     public static BinaryOperatorEvaluation generateOp(ExpressionContext f,
-                                                      RValue v1, RValue v2, OperatorTypes op_type,
+                                                      ReturnValue v1, ReturnValue v2, OperatorTypes op_type,
                                                       LineInfo line) throws ParsingException {
-        DeclaredType t1 = v1.get_type(f).declType;
-        DeclaredType t2 = v2.get_type(f).declType;
+        DeclaredType t1 = v1.getType(f).declType;
+        DeclaredType t2 = v2.getType(f).declType;
 
         if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
             throw new BadOperationTypeException(line, t1, t2, v1, v2, op_type);

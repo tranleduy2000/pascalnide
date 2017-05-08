@@ -25,6 +25,7 @@ import java.util.Map;
 /**
  * Created by Duy on 12-Apr-17.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class SysUtilsLibrary implements PascalLibrary {
     public static final String NAME = "sysUtils".toLowerCase();
 

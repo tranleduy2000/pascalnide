@@ -35,6 +35,6 @@ public class ArrayPointer<T> implements PascalReference<T> {
 
 	@Override
 	public ArrayPointer<T> clone() {
-		return new ArrayPointer<T>(container, index);
+		return new ArrayPointer<>(container, index);
 	}
 }

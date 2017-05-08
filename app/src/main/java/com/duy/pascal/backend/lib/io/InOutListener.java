@@ -20,6 +20,7 @@ package com.duy.pascal.backend.lib.io;
  * Created by Duy on 21-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public interface InOutListener {
     void startInput(IOLib lock);
 

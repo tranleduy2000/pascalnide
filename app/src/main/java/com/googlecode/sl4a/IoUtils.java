@@ -26,7 +26,7 @@ public class IoUtils {
     private static final int BUFFER_SIZE = 1024 * 8;
 
 
-    public static int copy(InputStream input, OutputStream output) throws Exception, IOException {
+    public static int copy(InputStream input, OutputStream output) throws Exception {
         byte[] buffer = new byte[BUFFER_SIZE];
 
         BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);

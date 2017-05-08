@@ -681,7 +681,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
                     return mImeBuffer.substring(mSelectedTextStart, mSelectedTextEnd + 1);
 
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
 

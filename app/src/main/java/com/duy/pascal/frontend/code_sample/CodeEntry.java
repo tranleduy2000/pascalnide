@@ -20,6 +20,7 @@ package com.duy.pascal.frontend.code_sample;
  * Created by Duy on 04-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 class CodeEntry {
     private String name;
     private String content;

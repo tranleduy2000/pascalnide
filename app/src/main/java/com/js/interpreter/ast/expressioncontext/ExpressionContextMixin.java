@@ -49,7 +49,7 @@ import com.js.interpreter.ast.codeunit.CodeUnit;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.VariableAccess;
 
 import java.util.ArrayList;
@@ -154,11 +154,11 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     }
 
     @Override
-    public RValue getIdentifierValue(WordToken name)
+    public ReturnValue getIdentifierValue(WordToken name)
             throws ParsingException {
         if (functionExistsLocal(name.name)) {
             return FunctionCall.generateFunctionCall(name,
-                    new ArrayList<RValue>(0), this);
+                    new ArrayList<ReturnValue>(0), this);
         } else if (getConstantDefinitionLocal(name.name) != null) {
             ConstantDefinition constantDefinition = getConstantDefinition(name.name);
             return new ConstantAccess(constantDefinition.getValue(), constantDefinition.getType(), name.lineInfo);
@@ -210,12 +210,12 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                     throw new ExpectedTokenException("[Library Identifier]", next);
                 }
                 //check library not found
-                if (pascalLibraryManager.mapLibraries.get(((WordToken) next).name) == null) {
+                if (PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name) == null) {
                     throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
                 }
                 librarieNames.add(next.toString());
                 pascalLibraryManager.addMethodFromClass(
-                        pascalLibraryManager.mapLibraries.get(((WordToken) next).name)
+                        PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name)
                 );
                 next = i.peek();
                 if (next instanceof SemicolonToken) {
@@ -234,15 +234,15 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                     throw new ExpectedTokenException("=", next);
                 }
 
-                DeclaredType type = i.get_next_pascal_type(this);
+                DeclaredType type = i.getNextPascalType(this);
 
                 //process string with define length
                 if (type.equals(BasicType.StringBuilder)) {
                     if (i.peek() instanceof BracketedToken) {
                         BracketedToken bracketedToken = (BracketedToken) i.take();
 
-                        RValue unconverted = bracketedToken.getNextExpression(this);
-                        RValue converted = BasicType.Integer.convert(unconverted, this);
+                        ReturnValue unconverted = bracketedToken.getNextExpression(this);
+                        ReturnValue converted = BasicType.Integer.convert(unconverted, this);
 
                         if (converted == null) {
                             throw new NonIntegerException(unconverted);
@@ -321,7 +321,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             WordToken constName = (WordToken) token.take(); //const a : integer = 2; const a = 2;
             next = token.take();
             if (next instanceof ColonToken) {// const a : array[1..3] of integer = (1, 2, 3);
-                DeclaredType type = token.get_next_pascal_type(this);
+                DeclaredType type = token.getNextPascalType(this);
                 Object defaultValue;
                 if (token.peek() instanceof OperatorToken) {
                     if (((OperatorToken) token.peek()).type == OperatorTypes.EQUALS) {
@@ -341,11 +341,11 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                             Log.d(TAG, "getDefaultValueArray: " + Arrays.toString(objects));
                             defaultValue = objects;
                         } else {
-                            RValue unconverted = token.getNextExpression(this);
-                            RValue converted = type.convert(unconverted, this);
+                            ReturnValue unconverted = token.getNextExpression(this);
+                            ReturnValue converted = type.convert(unconverted, this);
                             if (converted == null) {
                                 throw new UnConvertibleTypeException(unconverted,
-                                        unconverted.get_type(this).declType, type,
+                                        unconverted.getType(this).declType, type,
                                         true);
                             }
                             defaultValue = converted.compileTimeValue(this);
@@ -367,7 +367,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                 if (((OperatorToken) next).type != OperatorTypes.EQUALS) {
                     throw new ExpectedTokenException("=", constName);
                 }
-                RValue value = token.getNextExpression(this);
+                ReturnValue value = token.getNextExpression(this);
                 Object compileVal = value.compileTimeValue(this);
                 if (compileVal == null) {
                     throw new NonConstantExpressionException(value);
@@ -391,14 +391,12 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
     @Override
     public Executable handleUnrecognizedStatement(Token next, GrouperToken container)
             throws ParsingException {
-        ParsingException e;
         try {
             Executable result = handleUnrecognizedStatementImpl(next, container);
             if (result != null) {
                 return result;
             }
-        } catch (ParsingException ex) {
-            e = ex;
+        } catch (ParsingException ignored) {
         }
 
         Executable result = parent == null ? null : parent

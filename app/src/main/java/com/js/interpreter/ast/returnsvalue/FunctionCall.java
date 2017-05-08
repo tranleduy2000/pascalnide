@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import com.duy.pascal.backend.debugable.DebuggableExecutableRValue;
+import com.duy.pascal.backend.debugable.DebuggableExecutableReturnValue;
 import com.duy.pascal.backend.exceptions.AmbiguousFunctionCallException;
 import com.duy.pascal.backend.exceptions.BadFunctionCallException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class FunctionCall extends DebuggableExecutableRValue {
+public abstract class FunctionCall extends DebuggableExecutableReturnValue {
     protected static final String TAG = FunctionCall.class.getSimpleName();
-    protected RValue[] outputFormat;
-    RValue[] arguments;
+    protected ReturnValue[] outputFormat;
+    ReturnValue[] arguments;
 
-    public static RValue generateFunctionCall(WordToken name, List<RValue> arguments,
-                                              ExpressionContext expressionContext)
+    public static ReturnValue generateFunctionCall(WordToken name, List<ReturnValue> arguments,
+                                                   ExpressionContext expressionContext)
             throws ParsingException {
         List<List<AbstractFunction>> possibilities = new ArrayList<>();
         expressionContext.getCallableFunctions(name.name.toLowerCase(), possibilities);
@@ -33,8 +33,8 @@ public abstract class FunctionCall extends DebuggableExecutableRValue {
 
         AbstractFunction chosen = null;
         AbstractFunction ambiguous = null;
-        RValue result;
-        RValue rValue = null;
+        ReturnValue result;
+        ReturnValue returnValue = null;
 
         for (List<AbstractFunction> l : possibilities) {
             for (AbstractFunction function : l) {
@@ -46,7 +46,7 @@ public abstract class FunctionCall extends DebuggableExecutableRValue {
                     }
                     perfectFit = true;
                     chosen = function;
-                    rValue = result;
+                    returnValue = result;
 //                    continue;
                     break;
                 }
@@ -56,21 +56,21 @@ public abstract class FunctionCall extends DebuggableExecutableRValue {
                         ambiguous = chosen;
                     }
                     chosen = function;
-                    if (rValue == null)
-                        rValue = result;
+                    if (returnValue == null)
+                        returnValue = result;
                 }
                 if (function.argumentTypes().length == arguments.size()) {
                     matching = true;
                 }
             }
         }
-        if (rValue == null) {
+        if (returnValue == null) {
             throw new BadFunctionCallException(name.lineInfo, name.name,
                     !possibilities.isEmpty(), matching);
         } else if (!perfectFit && ambiguous != null) {
             throw new AmbiguousFunctionCallException(name.lineInfo, chosen, ambiguous);
         } else {
-            return rValue;
+            return returnValue;
         }
     }
 
@@ -98,9 +98,9 @@ public abstract class FunctionCall extends DebuggableExecutableRValue {
         return null;
     }
 
-    RValue[] compileTimeExpressionFoldArguments(CompileTimeContext context)
+    ReturnValue[] compileTimeExpressionFoldArguments(CompileTimeContext context)
             throws ParsingException {
-        RValue[] args = new RValue[arguments.length];
+        ReturnValue[] args = new ReturnValue[arguments.length];
         for (int i = 0; i < arguments.length; i++) {
             args[i] = arguments[i].compileTimeExpressionFold(context);
         }

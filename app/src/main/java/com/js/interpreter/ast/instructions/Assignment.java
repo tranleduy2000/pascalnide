@@ -4,20 +4,20 @@ import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
-import com.js.interpreter.ast.returnsvalue.LValue;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.Reference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class Assignment extends DebuggableExecutable implements SetValueExecutable {
-    LValue left;
+    LeftValue left;
 
-    RValue value;
+    ReturnValue value;
     LineInfo line;
 
-    public Assignment(LValue left, RValue value, LineInfo line) {
+    public Assignment(LeftValue left, ReturnValue value, LineInfo line) {
         this.left = left;
         this.value = value;
         this.line = line;
@@ -43,7 +43,7 @@ public class Assignment extends DebuggableExecutable implements SetValueExecutab
     }
 
     @Override
-    public void setAssignedValue(RValue value) {
+    public void setAssignedValue(ReturnValue value) {
         this.value = value;
     }
 

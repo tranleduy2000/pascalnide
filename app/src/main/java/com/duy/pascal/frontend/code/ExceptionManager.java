@@ -72,6 +72,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * Created by Duy on 11-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class ExceptionManager {
     public static final String TAG = ExceptionManager.class
             .getSimpleName();
@@ -176,7 +177,7 @@ public class ExceptionManager {
             }
             if (e instanceof NotAStatementException) {
                 return getMessageResource(e, R.string.NotAStatementException,
-                        ((NotAStatementException) e).rValue.toString());
+                        ((NotAStatementException) e).returnValue.toString());
             }
             if (e instanceof SameNameException) {
                 SameNameException exception = (SameNameException) e;
@@ -185,7 +186,7 @@ public class ExceptionManager {
             }
             if (e instanceof UnAssignableTypeException) {
                 return getMessageResource(e, R.string.UnAssignableTypeException,
-                        ((UnAssignableTypeException) e).rValue.toString());
+                        ((UnAssignableTypeException) e).returnValue.toString());
             }
             if (e instanceof UnrecognizedTypeException) {
                 return getMessageResource(e, R.string.UnrecognizedTypeException,

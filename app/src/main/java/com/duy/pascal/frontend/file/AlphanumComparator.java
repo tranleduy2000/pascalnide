@@ -110,7 +110,7 @@ public class AlphanumComparator implements Comparator {
             thatMarker += thatChunk.length();
 
             // If both chunks contain numeric characters, sort them numerically
-            int result = 0;
+            int result;
             if (isDigit(thisChunk.charAt(0)) && isDigit(thatChunk.charAt(0))) {
                 // Simple chunk comparison by length.
                 int thisChunkLength = thisChunk.length();

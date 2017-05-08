@@ -16,29 +16,23 @@ import java.util.NoSuchElementException;
 public class TypeUtils {
     public static final Class[] primitiveAssignable =
             {
-            String.class, Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
-            Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
-            Boolean.class, Byte.class, Character.class, Double.class,
-            Float.class, Integer.class, Long.class, Short.class, File.class, URI.class
-    };
+                    String.class, Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
+                    Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
+                    Boolean.class, Byte.class, Character.class, Double.class,
+                    Float.class, Integer.class, Long.class, Short.class, File.class, URI.class
+            };
 
-    private static HashMap typeMap = null;
-    private static HashMap wrappers = null;
-    private static HashMap primTypes = null;
-    private static HashMap numTypes = null;
-    private static HashMap assignable = null;
-
-    /**
-     * Static utility class; cannot be constructed.
-     */
-    private TypeUtils() {
-    }
+    private static HashMap<String, Class> typeMap = null;
+    private static HashMap<Class, Class> wrappers = null;
+    private static HashMap<Class, Class> primTypes = null;
+    private static HashMap<Class, Class> numTypes = null;
+    private static HashMap<Class, Class> assignable = null;
 
     /*
      *  HashMaps holding primitive and numerical operator mappings.
      */
     static {
-        typeMap = new HashMap();
+        typeMap = new HashMap<>();
         String[] keys = new String[]
                 {
                         "bool", "boolean", "byte", "char", "character", "double", "float",
@@ -67,8 +61,8 @@ public class TypeUtils {
             typeMap.put(keys[i], clazzes[i]);
         }
 
-        primTypes = new HashMap();
-        wrappers = new HashMap();
+        primTypes = new HashMap<>();
+        wrappers = new HashMap<>();
         clazzes = new Class[]
                 {
                         Boolean.class, Byte.class, Character.class, Double.class,
@@ -86,24 +80,29 @@ public class TypeUtils {
             wrappers.put(types[i], clazzes[i]);
         }
 
-        numTypes = new HashMap();
+        numTypes = new HashMap<>();
         types = new Class[]
                 {
                         Double.TYPE, Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
                         Double.class, Float.class, Integer.class, Long.class, Short.class
                 };
 
-        for (int i = 0; i < types.length; i++) {
-            numTypes.put(types[i], types[i]);
+        for (Class type : types) {
+            numTypes.put(type, type);
         }
 
-        assignable = new HashMap();
-        for (int i = 0; i < primitiveAssignable.length; i++) {
-            assignable.put(primitiveAssignable[i], null);
+        assignable = new HashMap<>();
+        for (Class aPrimitiveAssignable : primitiveAssignable) {
+            assignable.put(aPrimitiveAssignable, null);
         }
 
     } // static
 
+    /**
+     * Static utility class; cannot be constructed.
+     */
+    private TypeUtils() {
+    }
 
     /**
      * @param s fully qualified or primitive name.
@@ -151,7 +150,7 @@ public class TypeUtils {
      * Checks to see if the operator string designates a primitive, java.lang.String
      * or java.io.File.
      *
-     * @param s  fully qualified or primitive name.
+     * @param s fully qualified or primitive name.
      * @return true if one of the above types.
      */
     public static boolean isPrimVal(String s) {
@@ -329,8 +328,6 @@ public class TypeUtils {
             } catch (ClassNotFoundException t) {
                 throw new TypeConversionException
                         ("could not get class for " + castTo);
-            } catch (TypeConversionException t) {
-                throw t;
             }
         }
         return value;
@@ -390,7 +387,7 @@ public class TypeUtils {
                     || type.equals(Integer.TYPE)) {
                 try {
                     s = s.substring(0, s.indexOf("."));
-                } catch (IndexOutOfBoundsException ioobe) {
+                } catch (IndexOutOfBoundsException ignored) {
                 }
                 return Integer.valueOf(s);
             } else if (type.equals(Long.class)

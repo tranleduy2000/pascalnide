@@ -23,6 +23,7 @@ import com.googlecode.sl4a.FutureActivityTaskExecutor;
 /**
  * Created by Duy on 12-Mar-17.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class PascalApplication extends Application {
     private final FutureActivityTaskExecutor mTaskExecutor = new FutureActivityTaskExecutor(this);
 

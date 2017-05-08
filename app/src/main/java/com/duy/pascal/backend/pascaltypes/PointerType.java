@@ -6,7 +6,7 @@ import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.ObjectBasedPointer;
 import com.js.interpreter.runtime.PascalReference;
 
@@ -23,11 +23,11 @@ public class PointerType implements DeclaredType {
     }
 
     @Override
-    public RValue convert(RValue rValue, ExpressionContext f)
+    public ReturnValue convert(ReturnValue returnValue, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other = rValue.get_type(f);
+        RuntimeType other = returnValue.getType(f);
         if (this.equals(other)) {
-            return rValue;
+            return returnValue;
         }
         return null;
     }
@@ -63,19 +63,18 @@ public class PointerType implements DeclaredType {
 
     // The pointer itself contains no mutable information.
     @Override
-    public RValue cloneValue(final RValue r) {
+    public ReturnValue cloneValue(final ReturnValue r) {
         return r;
     }
 
     @Override
     public void cloneValueOnStack(TransformationInput t) {
         t.pushInputOnStack();
-        return;
     }
 
     @Override
-    public RValue generateArrayAccess(RValue array,
-                                      RValue index) throws NonArrayIndexed {
+    public ReturnValue generateArrayAccess(ReturnValue array,
+                                           ReturnValue index) throws NonArrayIndexed {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 

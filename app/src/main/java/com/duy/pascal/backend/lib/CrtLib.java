@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by Duy on 28-Feb-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class CrtLib implements PascalLibrary {
     public static final String TAG = CrtLib.class.getSimpleName();
     public static final String NAME = "crt";

@@ -24,6 +24,7 @@ import com.duy.pascal.frontend.R;
  * Created by Duy on 12-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class CodeThemeUtils {
 
     public static int getCodeTheme(Context context, String name) {

@@ -58,8 +58,9 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 /**
- * @author Duy
+ * uses {@link IndentCode}
  */
+@Deprecated
 public class AutoIndentCode {
 
     private StringBuilder result = new StringBuilder();

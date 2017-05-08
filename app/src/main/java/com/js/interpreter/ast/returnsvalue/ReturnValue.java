@@ -9,8 +9,8 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public interface RValue {
-    RValue[] getOutputFormat();
+public interface ReturnValue {
+    ReturnValue[] getOutputFormat();
 
     /**
      * used for output to console
@@ -18,12 +18,12 @@ public interface RValue {
      * @param formatInfo formatInfo[0] : number column for display in the screen
      *                   formatInfo[1] :  length of floating point if this variable is double
      */
-    void setOutputFormat(RValue[] formatInfo);
+    void setOutputFormat(ReturnValue[] formatInfo);
 
     Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException;
 
-    RuntimeType get_type(ExpressionContext f)
+    RuntimeType getType(ExpressionContext f)
             throws ParsingException;
 
     LineInfo getLineNumber();
@@ -34,7 +34,7 @@ public interface RValue {
     Object compileTimeValue(CompileTimeContext context)
             throws ParsingException;
 
-    RValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException;
+    ReturnValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException;
 
     /*
      * returns null if not a writable value.
@@ -43,5 +43,5 @@ public interface RValue {
 //            throws UnAssignableTypeException, ChangeValueConstantException;
 
 
-    LValue asLValue(ExpressionContext f);
+    LeftValue asLValue(ExpressionContext f);
 }

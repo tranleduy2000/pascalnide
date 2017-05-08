@@ -20,6 +20,7 @@ package com.duy.pascal.frontend.data;
  * Created by Duy on 30-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class KeyWord {
 
     public static final String[] LIST_KEY_WORD = new String[]{

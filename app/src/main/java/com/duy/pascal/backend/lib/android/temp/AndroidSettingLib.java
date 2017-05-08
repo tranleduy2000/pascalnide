@@ -218,7 +218,7 @@ public class AndroidSettingLib implements PascalLibrary {
     @PascalMethod(description = "Checks if the screen is on or off (requires API level 7).", returns = "True if the screen is currently on.")
     public Boolean checkScreenOn() throws Exception {
         Class<?> powerManagerClass = mPower.getClass();
-        Boolean result = null;
+        Boolean result;
         try {
             Method isScreenOn = powerManagerClass.getMethod("isScreenOn");
             result = (Boolean) isScreenOn.invoke(mPower);

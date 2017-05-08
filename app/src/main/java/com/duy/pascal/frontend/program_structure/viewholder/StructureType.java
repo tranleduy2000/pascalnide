@@ -20,6 +20,7 @@ package com.duy.pascal.frontend.program_structure.viewholder;
  * Created by Duy on 17-Apr0xFFFFFFFF7.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class StructureType {
     public static final byte TYPE_PROGRAM = 0;
     public static final byte TYPE_FUNCTION = 1;

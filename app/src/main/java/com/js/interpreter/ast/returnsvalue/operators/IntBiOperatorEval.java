@@ -9,19 +9,19 @@ import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
 
 public class IntBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public IntBiOperatorEval(RValue operon1, RValue operon2,
+    public IntBiOperatorEval(ReturnValue operon1, ReturnValue operon2,
                              OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         switch (operator_type) {
             case EQUALS:
             case GREATEREQ:
@@ -89,7 +89,7 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess(val, line);

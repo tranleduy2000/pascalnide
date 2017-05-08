@@ -19,15 +19,15 @@
 
 package com.spazedog.lib.rootfw4.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import com.spazedog.lib.rootfw4.Common;
 import com.spazedog.lib.rootfw4.Shell;
 import com.spazedog.lib.rootfw4.Shell.Result;
 import com.spazedog.lib.rootfw4.containers.BasicContainer;
 import com.spazedog.lib.rootfw4.utils.File.FileData;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * This class is used to get information about the device memory. 
@@ -237,24 +237,31 @@ public class Memory {
 			for (String line : lines) {
 				String[] parts = oPatternSpaceSearch.split(line);
 
-				if (parts[0].equals("MemTotal:")) {
-					stat.mMemTotal = Long.parseLong(parts[1]) * 1024L;
+				switch (parts[0]) {
+					case "MemTotal:":
+						stat.mMemTotal = Long.parseLong(parts[1]) * 1024L;
 
-				} else if (parts[0].equals("MemFree:")) {
-					stat.mMemFree = Long.parseLong(parts[1]) * 1024L;
+						break;
+					case "MemFree:":
+						stat.mMemFree = Long.parseLong(parts[1]) * 1024L;
 
-				} else if (parts[0].equals("Cached:")) {
-					stat.mMemCached = Long.parseLong(parts[1]) * 1024L;
+						break;
+					case "Cached:":
+						stat.mMemCached = Long.parseLong(parts[1]) * 1024L;
 
-				} else if (parts[0].equals("SwapTotal:")) {
-					stat.mSwapTotal = Long.parseLong(parts[1]) * 1024L;
+						break;
+					case "SwapTotal:":
+						stat.mSwapTotal = Long.parseLong(parts[1]) * 1024L;
 
-				} else if (parts[0].equals("SwapFree:")) {
-					stat.mSwapFree = Long.parseLong(parts[1]) * 1024L;
+						break;
+					case "SwapFree:":
+						stat.mSwapFree = Long.parseLong(parts[1]) * 1024L;
 
-				} else if (parts[0].equals("SwapCached:")) {
-					stat.mSwapCached = Long.parseLong(parts[1]) * 1024L;
+						break;
+					case "SwapCached:":
+						stat.mSwapCached = Long.parseLong(parts[1]) * 1024L;
 
+						break;
 				}
 			}
 			
@@ -289,7 +296,7 @@ public class Memory {
 
 						statList.add(stat);
 
-					} catch (Throwable e) {
+					} catch (Throwable ignored) {
 					}
 				}
 				
@@ -379,7 +386,7 @@ public class Memory {
 				try {
 					return Integer.parseInt(output);
 					
-				} catch (Throwable e) {}
+				} catch (Throwable ignored) {}
 			}
 		}
 		
@@ -439,7 +446,7 @@ public class Memory {
 							
 							return stat;
 							
-						} catch(Throwable e) {}
+						} catch(Throwable ignored) {}
 					}
 				}
 			}

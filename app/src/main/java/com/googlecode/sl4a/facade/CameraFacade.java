@@ -173,7 +173,6 @@ public class CameraFacade implements PascalLibrary {
                 } catch (IOException e) {
                     Log.e("Failed to save picture.", e);
                     takePictureResult.mmResult = false;
-                    return;
                 } finally {
                     latch.countDown();
                 }

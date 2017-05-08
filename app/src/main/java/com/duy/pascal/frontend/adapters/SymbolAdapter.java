@@ -30,6 +30,7 @@ import com.duy.pascal.frontend.view.SymbolListView;
  * Created by Duy on 11-Feb-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class SymbolAdapter extends RecyclerView.Adapter<SymbolAdapter.ViewHolder> {
     private String[] mList;
     private SymbolListView.OnKeyListener listener;

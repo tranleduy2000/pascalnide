@@ -14,4 +14,8 @@ public class WarningToken extends Token {
     public String toString() {
         return "";
     }
+
+    public String getMessage() {
+        return message;
+    }
 }

@@ -32,7 +32,7 @@ package com.duy.pascal.frontend.utils.clipboard;
 public class AndroidCompat {
     public final static int SDK = getSDK();
 
-    private final static int getSDK() {
+    private static int getSDK() {
         int result;
         try {
             result = AndroidLevel4PlusCompat.getSDKInt();

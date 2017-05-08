@@ -6,18 +6,18 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class IfStatement extends DebuggableExecutable {
-    private RValue condition;
+    private ReturnValue condition;
     private Executable instruction;
     private Executable elseInstruction;
     private LineInfo line;
 
-    public IfStatement(RValue condition, Executable instruction,
+    public IfStatement(ReturnValue condition, Executable instruction,
                        Executable elseInstruction, LineInfo line) {
         this.condition = condition;
         this.instruction = instruction;

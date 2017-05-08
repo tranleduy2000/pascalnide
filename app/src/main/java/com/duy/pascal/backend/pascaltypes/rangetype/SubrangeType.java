@@ -26,7 +26,7 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 
 public class SubrangeType {
     public int lower;
@@ -42,8 +42,8 @@ public class SubrangeType {
 
     public SubrangeType(GrouperToken i, ExpressionContext context)
             throws ParsingException {
-        RValue firstValue = i.getNextExpression(context);
-        RValue low = BasicType.Integer.convert(firstValue, context);
+        ReturnValue firstValue = i.getNextExpression(context);
+        ReturnValue low = BasicType.Integer.convert(firstValue, context);
         if (low == null) {
             throw new NonIntegerIndexException(firstValue);
         }
@@ -59,8 +59,8 @@ public class SubrangeType {
             throw new ExpectedTokenException("..", t);
         }
 
-        RValue secondValue = i.getNextExpression(context);
-        RValue high = BasicType.Integer.convert(secondValue, context);
+        ReturnValue secondValue = i.getNextExpression(context);
+        ReturnValue high = BasicType.Integer.convert(secondValue, context);
         if (high == null) {
             throw new NonIntegerIndexException(secondValue);
         }

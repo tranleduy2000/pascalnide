@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
  * Created by Duy on 26-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class ScreenBuffer {
     public int firstIndex;
     //    public TextConsole[] textOnScreenBuffer;

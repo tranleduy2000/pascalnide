@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
  * Created by Duy on 11-Feb-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class PatternsUtils {
 
     //Words

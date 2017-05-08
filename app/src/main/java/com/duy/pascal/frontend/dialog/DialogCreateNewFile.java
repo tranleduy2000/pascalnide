@@ -48,8 +48,7 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
     private ApplicationFileManager mFileManager;
 
     public static DialogCreateNewFile getInstance() {
-        DialogCreateNewFile dialogCreateNewFile = new DialogCreateNewFile();
-        return dialogCreateNewFile;
+        return new DialogCreateNewFile();
     }
 
     public void setListener(@Nullable OnCreateNewFileListener listener) {

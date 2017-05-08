@@ -437,12 +437,8 @@ public class IOLib implements PascalLibrary {
     public char readKey() {
         Log.d(TAG, "readKey: ");
         if (listener != null) {
-            char keyBuffer = listener.getKeyBuffer();
-            return keyBuffer;
+            return listener.getKeyBuffer();
         }
-//        sleep(10);
-//        char[] c = new char[]{'a', 'b'};
-//        return c[new Random().nextInt(2)];
         return (char) 0;
     }
 

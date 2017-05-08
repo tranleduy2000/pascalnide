@@ -6,16 +6,16 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LValue;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class CharToIntType implements RValue {
-    RValue other;
+public class CharToIntType implements ReturnValue {
+    ReturnValue other;
 
-    public CharToIntType(RValue other) {
+    public CharToIntType(ReturnValue other) {
         this.other = other;
     }
 
@@ -25,12 +25,12 @@ public class CharToIntType implements RValue {
     }
 
     @Override
-    public RValue[] getOutputFormat() {
-        return new RValue[0];
+    public ReturnValue[] getOutputFormat() {
+        return new ReturnValue[0];
     }
 
     @Override
-    public void setOutputFormat(RValue[] formatInfo) {
+    public void setOutputFormat(ReturnValue[] formatInfo) {
 
     }
 
@@ -38,11 +38,11 @@ public class CharToIntType implements RValue {
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         Character i = (Character) other.getValue(f, main);
-        return (int) i.charValue();
+        return (int) i;
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f)
+    public RuntimeType getType(ExpressionContext f)
             throws ParsingException {
         return new RuntimeType(BasicType.Integer, false);
     }
@@ -57,7 +57,7 @@ public class CharToIntType implements RValue {
             throws ParsingException {
         Object o = other.compileTimeValue(context);
         if (o != null) {
-            return (int) ((Character) o).charValue();
+            return (int) (Character) o;
         } else {
             return null;
         }
@@ -65,13 +65,13 @@ public class CharToIntType implements RValue {
 
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new CharToIntType(other.compileTimeExpressionFold(context));
     }
 
     @Override
-    public LValue asLValue(ExpressionContext f) {
+    public LeftValue asLValue(ExpressionContext f) {
         return null;
     }
 }

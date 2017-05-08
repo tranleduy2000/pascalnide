@@ -114,7 +114,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         if (arrayinfo == null) {
             return convertBasicType(javatype);
         } else {
-            return new ArrayType<DeclaredType>(convertArrayType(subtype,
+            return new ArrayType<>(convertArrayType(subtype,
                     arraysizes), arrayinfo);
         }
     }
@@ -135,7 +135,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(Type javatype,
                                                            ArrayBoundsInfo annotation) {
 
-        List<SubrangeType> arrayinfo = new ArrayList<SubrangeType>();
+        List<SubrangeType> arrayinfo = new ArrayList<>();
         if (annotation != null && annotation.starts().length > 0) {
             int[] starts = annotation.starts();
             int[] lengths = annotation.lengths();
@@ -183,7 +183,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public DeclaredType return_type() {
+    public DeclaredType returnType() {
         Class<?> result = method.getReturnType();
         if (result == PascalReference.class) {
             result = (Class<?>) ((ParameterizedType) method

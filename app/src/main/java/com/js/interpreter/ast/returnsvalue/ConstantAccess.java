@@ -3,7 +3,7 @@ package com.js.interpreter.ast.returnsvalue;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.debugable.DebuggableRValue;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -14,7 +14,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 
-public class ConstantAccess extends DebuggableRValue {
+public class ConstantAccess extends DebuggableReturnValue {
     public Object constant_value;
     private DeclaredType type;
     private LineInfo line;
@@ -47,7 +47,7 @@ public class ConstantAccess extends DebuggableRValue {
 
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) {
+    public RuntimeType getType(ExpressionContext f) {
         if (type != null) {
             return new RuntimeType(type, false);
         }
@@ -60,7 +60,7 @@ public class ConstantAccess extends DebuggableRValue {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return this;
     }

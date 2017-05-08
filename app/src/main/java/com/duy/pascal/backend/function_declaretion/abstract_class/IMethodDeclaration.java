@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.templated.abstract_class;
+package com.duy.pascal.backend.function_declaretion.abstract_class;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -22,17 +22,17 @@ import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 
 
 public interface IMethodDeclaration {
     String name();
 
-    FunctionCall generateCall(LineInfo line, RValue[] values,
+    FunctionCall generateCall(LineInfo line, ReturnValue[] values,
                               ExpressionContext f) throws ParsingException;
 
     FunctionCall generatePerfectFitCall(LineInfo line,
-                                        RValue[] values, ExpressionContext f)
+                                        ReturnValue[] values, ExpressionContext f)
             throws ParsingException;
 
     ArgumentType[] argumentTypes();

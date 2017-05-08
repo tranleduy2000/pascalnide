@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.view.exec_screen.console;
 /**
  * Created by Duy on 10-Feb-17.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class CharBuffer {
     public static final int QUEUE_SIZE = 2 * 1024; //2MB ram
     public char text[];

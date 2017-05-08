@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -73,8 +74,7 @@ public class ContactsFacade implements PascalLibrary {
     }
 
     private Uri buildUri(Integer id) {
-        Uri uri = ContentUris.withAppendedId(People.CONTENT_URI, id);
-        return uri;
+        return ContentUris.withAppendedId(People.CONTENT_URI, id);
     }
 
     @SuppressWarnings("unused")
@@ -108,9 +108,7 @@ public class ContactsFacade implements PascalLibrary {
         Cursor cursor = mContentResolver.query(CONTACTS_URI, null, null, null, null);
         if (cursor != null) {
             String[] columns = cursor.getColumnNames();
-            for (String column : columns) {
-                result.add(column);
-            }
+            Collections.addAll(result, columns);
             cursor.close();
         }
         return result;
@@ -149,9 +147,7 @@ public class ContactsFacade implements PascalLibrary {
             }
         }
         List<String> queryList = new ArrayList<>();
-        for (String s : columns) {
-            queryList.add(s);
-        }
+        Collections.addAll(queryList, columns);
         if (!queryList.contains("_id")) {
             queryList.add("_id");
         }
@@ -182,7 +178,7 @@ public class ContactsFacade implements PascalLibrary {
     private String findPhone(String id) {
         String result = null;
         if (id == null || id.equals("")) {
-            return result;
+            return null;
         }
         try {
             if (Integer.parseInt(id) > 0) {
@@ -196,7 +192,9 @@ public class ContactsFacade implements PascalLibrary {
                         break;
                     }
                 }
-                pCur.close();
+                if (pCur != null) {
+                    pCur.close();
+                }
             }
         } catch (Exception e) {
             return null;

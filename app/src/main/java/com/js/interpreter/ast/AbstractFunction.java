@@ -6,7 +6,7 @@ import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +25,7 @@ public abstract class AbstractFunction implements NamedEntity {
 
     public abstract ArgumentType[] argumentTypes();
 
-    public abstract DeclaredType return_type();
+    public abstract DeclaredType returnType();
 
     @Override
     public String toString() {
@@ -42,11 +42,11 @@ public abstract class AbstractFunction implements NamedEntity {
     /**
      * @return converted arguments, or null, if they do not fit.
      */
-    public RValue[] formatArgs(List<RValue> values,
-                               ExpressionContext expressionContext) throws ParsingException {
+    public ReturnValue[] formatArgs(List<ReturnValue> values,
+                                    ExpressionContext expressionContext) throws ParsingException {
         ArgumentType[] accepted_types = argumentTypes();
-        RValue[] result = new RValue[accepted_types.length];
-        Iterator<RValue> iterator = values.iterator();
+        ReturnValue[] result = new ReturnValue[accepted_types.length];
+        Iterator<ReturnValue> iterator = values.iterator();
         for (int i = 0; i < accepted_types.length; i++) {
             result[i] = accepted_types[i].convertArgType(iterator, expressionContext);
             if (result[i] == null) {
@@ -60,8 +60,8 @@ public abstract class AbstractFunction implements NamedEntity {
         return result;
     }
 
-    public RValue[] perfectMatch(List<RValue> arguments,
-                                 ExpressionContext context) throws ParsingException {
+    public ReturnValue[] perfectMatch(List<ReturnValue> arguments,
+                                      ExpressionContext context) throws ParsingException {
         ArgumentType[] acceptedTypes = argumentTypes();
 
         //check array
@@ -77,8 +77,8 @@ public abstract class AbstractFunction implements NamedEntity {
             return null;
         }
 
-        Iterator<RValue> iterator = arguments.iterator();
-        RValue[] result = new RValue[acceptedTypes.length];
+        Iterator<ReturnValue> iterator = arguments.iterator();
+        ReturnValue[] result = new ReturnValue[acceptedTypes.length];
         for (int i = 0; i < acceptedTypes.length; i++) {
             result[i] = acceptedTypes[i].perfectFit(iterator, context);
             if (result[i] == null) {
@@ -88,12 +88,12 @@ public abstract class AbstractFunction implements NamedEntity {
         return result;
     }
 
-    public abstract RValue generatePerfectFitCall(LineInfo line,
-                                                  List<RValue> values, ExpressionContext f)
+    public abstract ReturnValue generatePerfectFitCall(LineInfo line,
+                                                       List<ReturnValue> values, ExpressionContext f)
             throws ParsingException;
 
-    public abstract RValue generateCall(LineInfo line,
-                                        List<RValue> values, ExpressionContext f)
+    public abstract ReturnValue generateCall(LineInfo line,
+                                             List<ReturnValue> values, ExpressionContext f)
             throws ParsingException;
 
 }

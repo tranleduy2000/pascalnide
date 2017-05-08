@@ -1,12 +1,12 @@
 package com.duy.pascal.backend.exceptions;
 
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 
 public class NonIntegerIndexException extends com.duy.pascal.backend.exceptions.ParsingException {
 
-    public RValue value;
+    public ReturnValue value;
 
-    public NonIntegerIndexException(RValue value) {
+    public NonIntegerIndexException(ReturnValue value) {
         super(value.getLineNumber());
         this.value = value;
     }

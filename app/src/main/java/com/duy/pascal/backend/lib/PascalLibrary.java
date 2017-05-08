@@ -25,6 +25,6 @@ public interface PascalLibrary {
     /**
      * Invoked when the receiver is shut down.
      */
-    public abstract void shutdown();
+    void shutdown();
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.templated.abstract_class;
+package com.duy.pascal.backend.function_declaretion.abstract_class;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -24,7 +24,7 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 
 import java.util.List;
 
@@ -62,15 +62,15 @@ public class AbstractMethodDeclaration extends AbstractFunction {
     }
 
     @Override
-    public DeclaredType return_type() {
+    public DeclaredType returnType() {
         return t.returnType();
     }
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line,
-                                               List<RValue> values, ExpressionContext f)
+                                               List<ReturnValue> values, ExpressionContext f)
             throws ParsingException {
-        RValue[] args = this.perfectMatch(values, f);
+        ReturnValue[] args = this.perfectMatch(values, f);
         if (args == null) {
             return null;
         }
@@ -78,9 +78,9 @@ public class AbstractMethodDeclaration extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, List<RValue> values,
+    public FunctionCall generateCall(LineInfo line, List<ReturnValue> values,
                                      ExpressionContext f) throws ParsingException {
-        RValue[] args = this.formatArgs(values, f);
+        ReturnValue[] args = this.formatArgs(values, f);
         if (args == null) {
             return null;
         }

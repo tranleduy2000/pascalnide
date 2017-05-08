@@ -72,8 +72,8 @@ import com.js.interpreter.ast.instructions.conditional.WhileStatement;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.LValue;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
 import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
 
@@ -89,7 +89,7 @@ public abstract class GrouperToken extends Token {
 
     public GrouperToken(LineInfo line) {
         super(line);
-        queue = new LinkedBlockingQueue<Token>();
+        queue = new LinkedBlockingQueue<>();
     }
 
     private Token get_next() throws GroupingException {
@@ -146,7 +146,7 @@ public abstract class GrouperToken extends Token {
                 exceptioncheck(next);
 
                 return result;
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
     }
@@ -155,7 +155,7 @@ public abstract class GrouperToken extends Token {
         return get_next();
     }
 
-    public Token peek_no_EOF() throws ExpectedAnotherTokenException,
+    public Token peekNoEOF() throws ExpectedAnotherTokenException,
             GroupingException {
         Token result = peek();
         if (result instanceof EOFToken) {
@@ -191,7 +191,7 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public DeclaredType get_next_pascal_type(ExpressionContext context)
+    public DeclaredType getNextPascalType(ExpressionContext context)
             throws ParsingException {
         Token n = take();
         if (n instanceof ArrayToken) {
@@ -205,7 +205,7 @@ public abstract class GrouperToken extends Token {
             return result;
         }
         if (n instanceof OperatorToken && ((OperatorToken) n).type == OperatorTypes.DEREF) {
-            DeclaredType pointed_type = get_next_pascal_type(context);
+            DeclaredType pointed_type = getNextPascalType(context);
             return new PointerType(pointed_type);
         }
         /*if (n instanceof ClassToken) {
@@ -221,14 +221,14 @@ public abstract class GrouperToken extends Token {
 
     private DeclaredType getArrayType(ExpressionContext context)
             throws ParsingException {
-        Token n = peek_no_EOF();
+        Token n = peekNoEOF();
         if (n instanceof BracketedToken) {
             BracketedToken bracket = (BracketedToken) take();
             return getArrayType(bracket, context);
         } else if (n instanceof OfToken) {
             take();
-            DeclaredType elementType = get_next_pascal_type(context);
-            return new ArrayType<DeclaredType>(elementType, new SubrangeType());
+            DeclaredType elementType = getNextPascalType(context);
+            return new ArrayType<>(elementType, new SubrangeType());
         } else {
             throw new ExpectedTokenException("of", n);
         }
@@ -249,17 +249,17 @@ public abstract class GrouperToken extends Token {
             if (!(next instanceof OfToken)) {
                 throw new ExpectedTokenException("of", next);
             }
-            elementType = get_next_pascal_type(context);
+            elementType = getNextPascalType(context);
         }
         Log.d(TAG, "getArrayType: " + elementType.toString());
         ArrayType arrayType;
         return new ArrayType<>(elementType, bound);
     }
 
-    public RValue getNextExpression(ExpressionContext context,
-                                    precedence precedence, Token next) throws ParsingException {
+    public ReturnValue getNextExpression(ExpressionContext context,
+                                         precedence precedence, Token next) throws ParsingException {
 
-        RValue nextTerm;
+        ReturnValue nextTerm;
         if (next instanceof OperatorToken) {
             OperatorToken nextOperator = (OperatorToken) next;
             if (!nextOperator.can_be_unary() || nextOperator.postfix()) {
@@ -281,11 +281,11 @@ public abstract class GrouperToken extends Token {
                 if (nextOperator.postfix()) {
                     return UnaryOperatorEvaluation.generateOp(context, nextTerm, nextOperator.type, nextOperator.lineInfo);
                 }
-                RValue nextvalue = getNextExpression(context,
+                ReturnValue nextvalue = getNextExpression(context,
                         nextOperator.type.getPrecedence());
                 OperatorTypes operationtype = ((OperatorToken) next).type;
-                DeclaredType type1 = nextTerm.get_type(context).declType;
-                DeclaredType type2 = nextvalue.get_type(context).declType;
+                DeclaredType type1 = nextTerm.getType(context).declType;
+                DeclaredType type2 = nextvalue.getType(context).declType;
                 try {
                     operationtype.verifyBinaryOperation(type1, type2);
                 } catch (BadOperationTypeException e) {
@@ -306,9 +306,9 @@ public abstract class GrouperToken extends Token {
                 take(); //comma token
                 BracketedToken b = (BracketedToken) next;
 
-                RuntimeType mRuntimeType = nextTerm.get_type(context);
-                RValue mUnConverted = b.getNextExpression(context);
-                RValue mConverted = BasicType.Integer.convert(mUnConverted, context);
+                RuntimeType mRuntimeType = nextTerm.getType(context);
+                ReturnValue mUnConverted = b.getNextExpression(context);
+                ReturnValue mConverted = BasicType.Integer.convert(mUnConverted, context);
 
                 if (mConverted == null) {
                     throw new NonIntegerIndexException(mUnConverted);
@@ -321,9 +321,9 @@ public abstract class GrouperToken extends Token {
                     if (!(next instanceof CommaToken)) {
                         throw new ExpectedTokenException("]", next);
                     }
-                    RuntimeType type = nextTerm.get_type(context);
-                    RValue unconvert = b.getNextExpression(context);
-                    RValue convert = BasicType.Integer.convert(unconvert, context);
+                    RuntimeType type = nextTerm.getType(context);
+                    ReturnValue unconvert = b.getNextExpression(context);
+                    ReturnValue convert = BasicType.Integer.convert(unconvert, context);
 
                     if (convert == null) {
                         throw new NonIntegerIndexException(unconvert);
@@ -337,12 +337,12 @@ public abstract class GrouperToken extends Token {
         return nextTerm;
     }
 
-    public RValue getNextExpression(ExpressionContext context,
-                                    precedence precedence) throws ParsingException {
+    public ReturnValue getNextExpression(ExpressionContext context,
+                                         precedence precedence) throws ParsingException {
         return getNextExpression(context, precedence, take());
     }
 
-    public RValue getNextTerm(ExpressionContext context, Token next)
+    public ReturnValue getNextTerm(ExpressionContext context, Token next)
             throws ParsingException {
         if (next instanceof ParenthesizedToken) {
             return ((ParenthesizedToken) next).get_single_value(context);
@@ -354,7 +354,7 @@ public abstract class GrouperToken extends Token {
             next = peek();
 
             if (next instanceof ParenthesizedToken) {
-                List<RValue> arguments;
+                List<ReturnValue> arguments;
                 if (name.name.equalsIgnoreCase("writeln") || name.name.equalsIgnoreCase("write")) {
                     arguments = ((ParenthesizedToken) take()).getArgumentsForOutput(context);
                 } else {
@@ -375,17 +375,17 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public RValue getNextTerm(ExpressionContext context)
+    public ReturnValue getNextTerm(ExpressionContext context)
             throws ParsingException {
         return getNextTerm(context, take());
     }
 
-    public RValue getNextExpression(ExpressionContext context)
+    public ReturnValue getNextExpression(ExpressionContext context)
             throws ParsingException {
         return getNextExpression(context, precedence.NoPrecedence);
     }
 
-    public RValue getNextExpression(ExpressionContext context, Token first)
+    public ReturnValue getNextExpression(ExpressionContext context, Token first)
             throws ParsingException {
         return getNextExpression(context, precedence.NoPrecedence, first);
     }
@@ -410,15 +410,15 @@ public abstract class GrouperToken extends Token {
             if (!(next instanceof ColonToken)) {
                 throw new ExpectedTokenException(":", next);
             }
-            DeclaredType type = get_next_pascal_type(context);
+            DeclaredType type = getNextPascalType(context);
 
             //process string with define length
             if (type.equals(BasicType.StringBuilder)) {
                 if (peek() instanceof BracketedToken) {
                     BracketedToken bracketedToken = (BracketedToken) take();
 
-                    RValue unconverted = bracketedToken.getNextExpression(context);
-                    RValue converted = BasicType.Integer.convert(unconverted, context);
+                    ReturnValue unconverted = bracketedToken.getNextExpression(context);
+                    ReturnValue converted = BasicType.Integer.convert(unconverted, context);
 
                     if (converted == null) {
                         throw new NonIntegerException(unconverted);
@@ -451,11 +451,11 @@ public abstract class GrouperToken extends Token {
                         Log.d(TAG, "getDefaultValueArray: " + Arrays.toString(objects));
                         defaultValue = objects;
                     } else { //set default single value
-                        RValue unConvert = getNextExpression(context);
-                        RValue converted = type.convert(unConvert, context);
+                        ReturnValue unConvert = getNextExpression(context);
+                        ReturnValue converted = type.convert(unConvert, context);
                         if (converted == null) {
                             throw new UnConvertibleTypeException(unConvert,
-                                    unConvert.get_type(context).declType, type,
+                                    unConvert.getType(context).declType, type,
                                     true);
                         }
                         defaultValue = converted.compileTimeValue(context);
@@ -505,8 +505,8 @@ public abstract class GrouperToken extends Token {
                     // TODO: 27-Apr-17 throw exception
                 }
             } else {
-                RValue unconvert = parenthesizedToken.getNextExpression(context);
-                RValue converted = elementTypeOfArray.convert(unconvert, context);
+                ReturnValue unconvert = parenthesizedToken.getNextExpression(context);
+                ReturnValue converted = elementTypeOfArray.convert(unconvert, context);
                 if (context == null) {
                     // TODO: 27-Apr-17  throw exception
                 }
@@ -533,9 +533,9 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public RValue get_single_value(ExpressionContext context)
+    public ReturnValue get_single_value(ExpressionContext context)
             throws ParsingException {
-        RValue result = getNextExpression(context);
+        ReturnValue result = getNextExpression(context);
         if (hasNext()) {
             Token next = take();
             throw new ExpectedTokenException(getClosingText(), next);
@@ -548,7 +548,7 @@ public abstract class GrouperToken extends Token {
         Token next = take();
         LineInfo initialline = next.lineInfo;
         if (next instanceof IfToken) {
-            RValue condition = getNextExpression(context);
+            ReturnValue condition = getNextExpression(context);
             next = take();
             if (!(next instanceof ThenToken)) {
                 throw new ExpectedTokenException("then", next);
@@ -562,7 +562,7 @@ public abstract class GrouperToken extends Token {
             }
             return new IfStatement(condition, command, else_command, initialline);
         } else if (next instanceof WhileToken) {
-            RValue condition = getNextExpression(context);
+            ReturnValue condition = getNextExpression(context);
             next = take();
             if (!(next instanceof DoToken)) {
                 throw new ExpectedTokenException("do", next);
@@ -583,8 +583,8 @@ public abstract class GrouperToken extends Token {
             }
             return begin_end_preprocessed;
         } else if (next instanceof ForToken) {
-            RValue tmp_val = getNextExpression(context);
-            LValue tmp_var = tmp_val.asLValue(context);
+            ReturnValue tmp_val = getNextExpression(context);
+            LeftValue tmp_var = tmp_val.asLValue(context);
             if (tmp_var == null) {
                 throw new UnAssignableTypeException(tmp_val);
             }
@@ -592,7 +592,7 @@ public abstract class GrouperToken extends Token {
             if (!(next instanceof AssignmentToken)) {
                 throw new ExpectedTokenException(":=", next);
             }
-            RValue first_value = getNextExpression(context);
+            ReturnValue first_value = getNextExpression(context);
             next = take();
             boolean downto = false;
             if (next instanceof DowntoToken) {
@@ -600,7 +600,7 @@ public abstract class GrouperToken extends Token {
             } else if (!(next instanceof ToToken)) {
                 throw new ExpectedTokenException("[To] or [Downto]", next);
             }
-            RValue last_value = getNextExpression(context);
+            ReturnValue last_value = getNextExpression(context);
             next = take();
             if (!(next instanceof DoToken)) {
                 throw new ExpectedTokenException("do", next);
@@ -617,9 +617,9 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof RepeatToken) {
             InstructionGrouper command = new InstructionGrouper(initialline);
 
-            while (!(peek_no_EOF() instanceof UntilToken)) {
+            while (!(peekNoEOF() instanceof UntilToken)) {
                 command.add_command(getNextCommand(context));
-                if (!(peek_no_EOF() instanceof UntilToken)) {
+                if (!(peekNoEOF() instanceof UntilToken)) {
                     assertNextSemicolon(next);
                 }
             }
@@ -627,7 +627,7 @@ public abstract class GrouperToken extends Token {
             if (!(next instanceof UntilToken)) {
                 throw new ExpectedTokenException("until", next);
             }
-            RValue condition = getNextExpression(context);
+            ReturnValue condition = getNextExpression(context);
             return new RepeatInstruction(command, condition, initialline);
         } else if (next instanceof CaseToken) {
             return new CaseInstruction((CaseToken) next, context);
@@ -644,21 +644,21 @@ public abstract class GrouperToken extends Token {
                 ignored.printStackTrace();
             }
 
-            RValue r = getNextExpression(context, next);
+            ReturnValue r = getNextExpression(context, next);
             next = peek();
             if (next instanceof AssignmentToken) {
                 take();
-                LValue left = r.asLValue(context);
+                LeftValue left = r.asLValue(context);
                 if (left == null) {
                     throw new UnAssignableTypeException(r);
                 }
-                RValue value_to_assign = getNextExpression(context);
-                DeclaredType output_type = left.get_type(context).declType;
-                DeclaredType input_type = value_to_assign.get_type(context).declType;
+                ReturnValue value_to_assign = getNextExpression(context);
+                DeclaredType output_type = left.getType(context).declType;
+                DeclaredType input_type = value_to_assign.getType(context).declType;
                 /*
                  * Does not have to be writable to assign value to variable.
 				 */
-                RValue converted = output_type.convert(value_to_assign, context);
+                ReturnValue converted = output_type.convert(value_to_assign, context);
                 if (converted == null) {
                     throw new UnConvertibleTypeException(value_to_assign,
                             input_type, output_type, true);

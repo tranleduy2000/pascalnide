@@ -62,6 +62,7 @@ import butterknife.ButterKnife;
  * Created by Duy on 09-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for debug
         implements SymbolListView.OnKeyListener,
         EditorControl, FileListener {
@@ -205,7 +206,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
             //check need select tab
             if (selectNewPage) {
                 if (saveLastFile) {
-                    EditorFragment currentFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+                    EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
                     if (currentFragment != null) {
                         currentFragment.saveFile();
                     }
@@ -218,7 +219,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
             }
         } else { //new file
             if (saveLastFile) {
-                EditorFragment currentFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+                EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
                 if (currentFragment != null) {
                     currentFragment.saveFile();
                 }
@@ -339,7 +340,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
      */
     @Nullable
     protected File getCurrentFile() {
-        EditorFragment editorFragment = (EditorFragment) pagerAdapter.getCurrentFragment();
+        EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
         if (editorFragment != null) {
             String filePath = editorFragment.getFilePath();
             return new File(filePath);

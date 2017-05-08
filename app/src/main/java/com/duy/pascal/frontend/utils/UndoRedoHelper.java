@@ -157,11 +157,8 @@ public class UndoRedoHelper {
         }
 
         mEditHistory.mmPosition = sp.getInt(prefix + ".position", -1);
-        if (mEditHistory.mmPosition == -1) {
-            return false;
-        }
+        return mEditHistory.mmPosition != -1;
 
-        return true;
     }
 
     // =================================================================== //

@@ -14,6 +14,7 @@ import java.util.Map;
 /**
  * Created by Duy on 01-May-17.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class ZXingAPI implements PascalLibrary {
     public static final String NAME = "barCode".toLowerCase();
     private AndroidUtilsLib mAndroidFacade;

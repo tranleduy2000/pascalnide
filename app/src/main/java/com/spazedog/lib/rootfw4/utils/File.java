@@ -1644,11 +1644,10 @@ public class File {
 					/*
 					 * First let's try using the native tools 
 					 */
-					String canonical = mFile.getCanonicalPath();
 
-					return canonical;
+					return mFile.getCanonicalPath();
 
-				} catch(Throwable e) {}
+				} catch(Throwable ignored) {}
 				
 				/*
 				 * Second we try using readlink, if the first failed. 

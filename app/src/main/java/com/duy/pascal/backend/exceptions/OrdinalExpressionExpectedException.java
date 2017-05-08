@@ -7,6 +7,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
  * Created by Duy on 06-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class OrdinalExpressionExpectedException extends RuntimePascalException {
 
     public OrdinalExpressionExpectedException(LineInfo line) {

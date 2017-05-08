@@ -99,9 +99,9 @@ public class PascalCompiler {
         classes.add(DosLib.class);
         classes.add(graphLib.getClass());
 
-        /**
-         * Important: load file library before io lib. Because method readln(file, ...)
-         * in {@link FileLib} will be override method readln(object...) in {@link IOLib}
+        /*
+          Important: load file library before io lib. Because method readln(file, ...)
+          in {@link FileLib} will be override method readln(object...) in {@link IOLib}
          */
         classes.add(fileLib.getClass());
         classes.add(ioLib.getClass());

@@ -24,6 +24,7 @@ import java.io.File;
  * Created by Duy on 13-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class PathNotFoundException extends FileException {
     public PathNotFoundException(@NonNull String filePath) {
         super(filePath);

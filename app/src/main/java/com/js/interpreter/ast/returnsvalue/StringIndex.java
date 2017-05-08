@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.returnsvalue;
 
 
-import com.duy.pascal.backend.debugable.DebuggableLValue;
+import com.duy.pascal.backend.debugable.DebuggableLeftValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -13,11 +13,11 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringIndex extends DebuggableLValue {
-    RValue string;
-    RValue index;
+public class StringIndex extends DebuggableLeftValue {
+    ReturnValue string;
+    ReturnValue index;
 
-    public StringIndex(RValue string, RValue index) {
+    public StringIndex(ReturnValue string, ReturnValue index) {
         this.index = index;
         this.string = string;
     }
@@ -37,8 +37,8 @@ public class StringIndex extends DebuggableLValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        boolean writable = string.get_type(f).writable;
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        boolean writable = string.getType(f).writable;
         return new RuntimeType(BasicType.Character, writable);
     }
 
@@ -55,9 +55,9 @@ public class StringIndex extends DebuggableLValue {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
-        RValue cstr = string.compileTimeExpressionFold(context);
-        RValue cind = index.compileTimeExpressionFold(context);
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+        ReturnValue cstr = string.compileTimeExpressionFold(context);
+        ReturnValue cind = index.compileTimeExpressionFold(context);
         return new StringIndex(cstr, cind);
     }
 }

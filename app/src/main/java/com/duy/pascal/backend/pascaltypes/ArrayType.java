@@ -7,7 +7,7 @@ import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ArrayAccess;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.cloning.ArrayCloner;
 import com.ncsa.common.util.TypeUtils;
 
@@ -166,9 +166,9 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
      * except variable length arrays, but they are checked in the {@link
      */
     @Override
-    public RValue convert(RValue value, ExpressionContext f)
+    public ReturnValue convert(ReturnValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other = value.get_type(f);
+        RuntimeType other = value.getType(f);
         return this.superset(other.declType) ? cloneValue(value) : null;
     }
 
@@ -180,7 +180,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
     }
 
     @Override
-    public RValue cloneValue(final RValue r) {
+    public ReturnValue cloneValue(final ReturnValue r) {
         return new ArrayCloner<T>(r);
     }
 
@@ -267,8 +267,8 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
     }
 
     @Override
-    public RValue generateArrayAccess(RValue array,
-                                      RValue index) {
+    public ReturnValue generateArrayAccess(ReturnValue array,
+                                           ReturnValue index) {
         return new ArrayAccess(array, index, bounds.lower);
     }
 

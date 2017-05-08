@@ -3,11 +3,11 @@ package com.duy.pascal.backend.exceptions;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.OperatorTypes;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 
 public class BadOperationTypeException extends ParsingException {
     public DeclaredType declaredType, declaredType1;
-    public RValue value1, value2;
+    public ReturnValue value1, value2;
     public OperatorTypes operatorTypes;
 
     public BadOperationTypeException() {
@@ -15,7 +15,7 @@ public class BadOperationTypeException extends ParsingException {
     }
 
     public BadOperationTypeException(LineInfo line, DeclaredType t1,
-                                     DeclaredType t2, RValue v1, RValue v2,
+                                     DeclaredType t2, ReturnValue v1, ReturnValue v2,
                                      OperatorTypes operation) {
         super(line, "Operator " + operation
                 + " cannot be applied to arguments '" + v1 + "' and '" + v2
@@ -29,7 +29,7 @@ public class BadOperationTypeException extends ParsingException {
     }
 
     public BadOperationTypeException(LineInfo line, DeclaredType t1,
-                                     RValue v1,
+                                     ReturnValue v1,
                                      OperatorTypes operation) {
         super(line, "Operator " + operation
                 + " cannot be applied to argument '" + v1

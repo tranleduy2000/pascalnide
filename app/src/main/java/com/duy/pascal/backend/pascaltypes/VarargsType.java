@@ -3,7 +3,7 @@ package com.duy.pascal.backend.pascaltypes;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.boxing.ArrayBoxer;
 
 import java.util.ArrayList;
@@ -19,19 +19,19 @@ public class VarargsType implements ArgumentType {
     }
 
     @Override
-    public RValue convertArgType(Iterator<RValue> args,
-                                 ExpressionContext f) throws ParsingException {
-        List<RValue> convertedargs = new ArrayList<>();
+    public ReturnValue convertArgType(Iterator<ReturnValue> args,
+                                      ExpressionContext f) throws ParsingException {
+        List<ReturnValue> convertedargs = new ArrayList<>();
         LineInfo line = null;
         while (args.hasNext()) {
-            RValue tmp = elementType.convert(args.next(), f);
+            ReturnValue tmp = elementType.convert(args.next(), f);
             if (tmp == null) {
                 return null;
             }
             line = tmp.getLineNumber();
             convertedargs.add(tmp);
         }
-        return new ArrayBoxer(convertedargs.toArray(new RValue[convertedargs.size()]),
+        return new ArrayBoxer(convertedargs.toArray(new ReturnValue[convertedargs.size()]),
                 elementType, line);
     }
 
@@ -41,12 +41,12 @@ public class VarargsType implements ArgumentType {
     }
 
     @Override
-    public RValue perfectFit(Iterator<RValue> types,
-                             ExpressionContext e) throws ParsingException {
+    public ReturnValue perfectFit(Iterator<ReturnValue> types,
+                                  ExpressionContext e) throws ParsingException {
         LineInfo line = null;
-        List<RValue> converted = new ArrayList<>();
+        List<ReturnValue> converted = new ArrayList<>();
         while (types.hasNext()) {
-            RValue fit = elementType.perfectFit(types, e);
+            ReturnValue fit = elementType.perfectFit(types, e);
             if (fit == null) {
                 return null;
             }
@@ -55,7 +55,7 @@ public class VarargsType implements ArgumentType {
             }
             converted.add(fit);
         }
-        RValue[] convert = converted.toArray(new RValue[converted
+        ReturnValue[] convert = converted.toArray(new ReturnValue[converted
                 .size()]);
         return new ArrayBoxer(convert, elementType, line);
     }

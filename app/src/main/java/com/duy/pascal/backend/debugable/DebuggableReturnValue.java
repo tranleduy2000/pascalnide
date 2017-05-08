@@ -2,8 +2,8 @@ package com.duy.pascal.backend.debugable;
 
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.LValue;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.boxing.ArrayBoxer;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
 import com.js.interpreter.ast.returnsvalue.boxing.StringBuilderBoxer;
@@ -12,17 +12,17 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
-public abstract class DebuggableRValue implements RValue {
+public abstract class DebuggableReturnValue implements ReturnValue {
 
-    protected RValue[] outputFormat;
+    protected ReturnValue[] outputFormat;
 
     @Override
-    public RValue[] getOutputFormat() {
+    public ReturnValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(RValue[] formatInfo) {
+    public void setOutputFormat(ReturnValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -60,7 +60,7 @@ public abstract class DebuggableRValue implements RValue {
     }
 
     @Override
-    public LValue asLValue(ExpressionContext f) {
+    public LeftValue asLValue(ExpressionContext f) {
         return null;
     }
 

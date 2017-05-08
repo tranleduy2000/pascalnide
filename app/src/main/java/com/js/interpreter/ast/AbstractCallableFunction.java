@@ -4,7 +4,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.SimpleFunctionCall;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -28,9 +28,9 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line,
-                                               List<RValue> values, ExpressionContext f)
+                                               List<ReturnValue> values, ExpressionContext f)
             throws ParsingException {
-        RValue[] args = perfectMatch(values, f);
+        ReturnValue[] args = perfectMatch(values, f);
         if (args == null) {
             return null;
         }
@@ -38,9 +38,9 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, List<RValue> values,
+    public FunctionCall generateCall(LineInfo line, List<ReturnValue> values,
                                      ExpressionContext f) throws ParsingException {
-        RValue[] args = formatArgs(values, f);
+        ReturnValue[] args = formatArgs(values, f);
         if (args == null) {
             return null;
         }

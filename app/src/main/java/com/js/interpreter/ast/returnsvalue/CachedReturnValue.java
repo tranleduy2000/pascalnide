@@ -9,17 +9,17 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class CachedRValue implements RValue {
-    RValue other;
+public class CachedReturnValue implements ReturnValue {
+    ReturnValue other;
     Object cache = null;
 
-    public CachedRValue(RValue other) {
+    public CachedReturnValue(ReturnValue other) {
         this.other = other;
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        return other.get_type(f);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        return other.getType(f);
     }
 
     @Override
@@ -38,30 +38,30 @@ public class CachedRValue implements RValue {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         if (cache != null) {
             return this;
         } else {
-            return new CachedRValue(other);
+            return new CachedReturnValue(other);
         }
     }
 
     @Override
-    public LValue asLValue(ExpressionContext f) {
+    public LeftValue asLValue(ExpressionContext f) {
         return null;
     }
 
 
-    protected RValue[] outputFormat;
+    protected ReturnValue[] outputFormat;
 
     @Override
-    public RValue[] getOutputFormat() {
+    public ReturnValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(RValue[] formatInfo) {
+    public void setOutputFormat(ReturnValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 

@@ -41,16 +41,16 @@ import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
-import com.duy.pascal.backend.lib.templated.abstract_class.AbstractMethodDeclaration;
-import com.duy.pascal.backend.lib.templated.exit.ExitFunction;
-import com.duy.pascal.backend.lib.templated.exit.ExitNoneFunction;
-import com.duy.pascal.backend.lib.templated.length.LengthFunction;
-import com.duy.pascal.backend.lib.templated.lowhigh.HighFunction;
-import com.duy.pascal.backend.lib.templated.lowhigh.LowFunction;
-import com.duy.pascal.backend.lib.templated.pointer.NewFunction;
-import com.duy.pascal.backend.lib.templated.setlength.SetLengthFunction;
-import com.duy.pascal.backend.lib.templated.sizeof.SizeOfArrayFunction;
-import com.duy.pascal.backend.lib.templated.sizeof.SizeOfObjectFunction;
+import com.duy.pascal.backend.function_declaretion.abstract_class.AbstractMethodDeclaration;
+import com.duy.pascal.backend.function_declaretion.ExitFunction;
+import com.duy.pascal.backend.function_declaretion.ExitNoneFunction;
+import com.duy.pascal.backend.function_declaretion.LengthFunction;
+import com.duy.pascal.backend.function_declaretion.HighFunction;
+import com.duy.pascal.backend.function_declaretion.LowFunction;
+import com.duy.pascal.backend.function_declaretion.NewFunction;
+import com.duy.pascal.backend.function_declaretion.SetLengthFunction;
+import com.duy.pascal.backend.function_declaretion.SizeOfArrayFunction;
+import com.duy.pascal.backend.function_declaretion.SizeOfObjectFunction;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
@@ -69,8 +69,9 @@ import java.util.Map;
  * Created by Duy on 08-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class PascalLibraryManager {
-    public static final Map<String, Class<? extends PascalLibrary>> mapLibraries = new Hashtable<>();
+    public static final Map<String, Class<? extends PascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
     @NonNull
     private ExpressionContextMixin program;
     @Nullable
@@ -107,29 +108,29 @@ public class PascalLibraryManager {
     }
 
     private void initMapLib() {
-        mapLibraries.put(CrtLib.NAME, CrtLib.class);
-        mapLibraries.put(DosLib.NAME, DosLib.class);
-        mapLibraries.put(MathLib.NAME, MathLib.class);
-        mapLibraries.put(GraphLib.NAME, GraphLib.class);
-        mapLibraries.put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
-        mapLibraries.put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
+        MAP_LIBRARIES.put(CrtLib.NAME, CrtLib.class);
+        MAP_LIBRARIES.put(DosLib.NAME, DosLib.class);
+        MAP_LIBRARIES.put(MathLib.NAME, MathLib.class);
+        MAP_LIBRARIES.put(GraphLib.NAME, GraphLib.class);
+        MAP_LIBRARIES.put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
+        MAP_LIBRARIES.put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
 
-        mapLibraries.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
-        mapLibraries.put(AndroidUtilsLib.NAME, AndroidUtilsLib.class);
-        mapLibraries.put(AndroidToneGeneratorLib.NAME, AndroidToneGeneratorLib.class);
-        mapLibraries.put(AndroidWifiLib.NAME, AndroidWifiLib.class);
-        mapLibraries.put(AndroidSettingLib.NAME, AndroidSettingLib.class);
-        mapLibraries.put(AndroidBluetoothLib.NAME, AndroidBluetoothLib.class);
+        MAP_LIBRARIES.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
+        MAP_LIBRARIES.put(AndroidUtilsLib.NAME, AndroidUtilsLib.class);
+        MAP_LIBRARIES.put(AndroidToneGeneratorLib.NAME, AndroidToneGeneratorLib.class);
+        MAP_LIBRARIES.put(AndroidWifiLib.NAME, AndroidWifiLib.class);
+        MAP_LIBRARIES.put(AndroidSettingLib.NAME, AndroidSettingLib.class);
+        MAP_LIBRARIES.put(AndroidBluetoothLib.NAME, AndroidBluetoothLib.class);
 
-        mapLibraries.put(AndroidBatteryLib.NAME, AndroidBatteryLib.class);
-        mapLibraries.put(AndroidTextToSpeechLib.NAME, AndroidTextToSpeechLib.class);
-        mapLibraries.put(AndroidSensorLib.NAME, AndroidSensorLib.class);
-        mapLibraries.put(AndroidClipboard.NAME, AndroidClipboard.class);
-        mapLibraries.put(AndroidNotifyLib.NAME, AndroidNotifyLib.class);
-        mapLibraries.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
-        mapLibraries.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
-        mapLibraries.put(ZXingAPI.NAME, ZXingAPI.class);
-        mapLibraries.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
+        MAP_LIBRARIES.put(AndroidBatteryLib.NAME, AndroidBatteryLib.class);
+        MAP_LIBRARIES.put(AndroidTextToSpeechLib.NAME, AndroidTextToSpeechLib.class);
+        MAP_LIBRARIES.put(AndroidSensorLib.NAME, AndroidSensorLib.class);
+        MAP_LIBRARIES.put(AndroidClipboard.NAME, AndroidClipboard.class);
+        MAP_LIBRARIES.put(AndroidNotifyLib.NAME, AndroidNotifyLib.class);
+        MAP_LIBRARIES.put(AndroidVibrateLib.NAME, AndroidVibrateLib.class);
+        MAP_LIBRARIES.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
+        MAP_LIBRARIES.put(ZXingAPI.NAME, ZXingAPI.class);
+        MAP_LIBRARIES.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
     }
 
     /**
@@ -214,7 +215,7 @@ public class PascalLibraryManager {
         source.addAll(newLibraries);
         ArrayList<Class<? extends PascalLibrary>> classes = new ArrayList<>();
         for (String name : newLibraries) {
-            classes.add(mapLibraries.get(name.toLowerCase()));
+            classes.add(MAP_LIBRARIES.get(name.toLowerCase()));
         }
         addMethodFromClasses(classes, Modifier.PUBLIC);
     }

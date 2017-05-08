@@ -8,6 +8,7 @@ import org.junit.Before;
  * Created by Duy on 17-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class IndentTest {
     public static final String TAG = "IndentTest";
     private AutoIndentCode autoIndentCode;

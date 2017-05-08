@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
  * Created by Duy on 20-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 class CodeHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.txt_title)
     TextView txtTitle;

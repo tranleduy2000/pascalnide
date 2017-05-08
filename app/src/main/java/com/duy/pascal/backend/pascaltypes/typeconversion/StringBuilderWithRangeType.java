@@ -22,19 +22,19 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LValue;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringBuilderWithRangeType implements RValue {
-    protected RValue[] outputFormat;
-    private RValue value;
-    private RValue length;
+public class StringBuilderWithRangeType implements ReturnValue {
+    protected ReturnValue[] outputFormat;
+    private ReturnValue value;
+    private ReturnValue length;
 
 
-    public StringBuilderWithRangeType(RValue value, RValue length) {
+    public StringBuilderWithRangeType(ReturnValue value, ReturnValue length) {
         this.value = value;
         this.length = length;
         this.outputFormat = value.getOutputFormat();
@@ -46,12 +46,12 @@ public class StringBuilderWithRangeType implements RValue {
     }
 
     @Override
-    public RValue[] getOutputFormat() {
+    public ReturnValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(RValue[] formatInfo) {
+    public void setOutputFormat(ReturnValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -72,7 +72,7 @@ public class StringBuilderWithRangeType implements RValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f)
+    public RuntimeType getType(ExpressionContext f)
             throws ParsingException {
         return new RuntimeType(BasicType.create(StringBuilder.class), false);
     }
@@ -95,13 +95,13 @@ public class StringBuilderWithRangeType implements RValue {
 
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new StringBuilderWithRangeType(value.compileTimeExpressionFold(context), length);
     }
 
     @Override
-    public LValue asLValue(ExpressionContext f) {
+    public LeftValue asLValue(ExpressionContext f) {
         return null;
     }
 }

@@ -186,7 +186,7 @@ public class Device {
 				 */
 				return false;	
 			
-			} catch (Throwable e) {}
+			} catch (Throwable ignored) {}
 		}
 		
 		Result result = mShell.execute("toolbox reboot recovery");
@@ -349,7 +349,7 @@ public class Device {
 							try {
 								values[i] = Integer.parseInt(parts[i]);
 								
-							} catch(Throwable e) {}
+							} catch(Throwable ignored) {}
 						}
 						
 						return values;

@@ -11,8 +11,8 @@ import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.LValue;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -21,13 +21,13 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class ForStatement extends DebuggableExecutable {
     private SetValueExecutable setfirst;
-    private RValue lessthanlast;
+    private ReturnValue lessthanlast;
     private SetValueExecutable increment_temp;
     private Executable command;
     private LineInfo line;
 
-    public ForStatement(ExpressionContext f, LValue temp_var,
-                        RValue first, RValue last, Executable command,
+    public ForStatement(ExpressionContext f, LeftValue temp_var,
+                        ReturnValue first, ReturnValue last, Executable command,
                         LineInfo line) throws ParsingException {
         this.line = line;
         setfirst = new Assignment(temp_var,first,line);
@@ -69,7 +69,7 @@ public class ForStatement extends DebuggableExecutable {
         SetValueExecutable first = setfirst.compileTimeConstantTransform(c);
         SetValueExecutable inc = increment_temp.compileTimeConstantTransform(c);
         Executable comm = command.compileTimeConstantTransform(c);
-        RValue comp = lessthanlast;
+        ReturnValue comp = lessthanlast;
         Object val = lessthanlast.compileTimeValue(c);
         if (val != null) {
             if (((Boolean) val)) {

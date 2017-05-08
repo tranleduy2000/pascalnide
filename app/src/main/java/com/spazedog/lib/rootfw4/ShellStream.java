@@ -229,7 +229,7 @@ public class ShellStream {
 			try {
 				lock.wait();
 				
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException ignored) {}
 		}
 	}
 	
@@ -341,7 +341,7 @@ public class ShellStream {
 				mStdInput.close();
 				mStdInput = null;
 				
-			} catch (IOException e) {}
+			} catch (IOException ignored) {}
 			
 			mStdOutputWorker.interrupt();
 			mStdOutputWorker = null;

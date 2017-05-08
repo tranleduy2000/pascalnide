@@ -479,7 +479,7 @@ public class Shell {
 			try {
 				lock.wait();
 				
-			} catch (InterruptedException e) {}
+			} catch (InterruptedException ignored) {}
 		}
 	}
 	

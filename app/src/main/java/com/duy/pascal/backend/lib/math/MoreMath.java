@@ -29,23 +29,23 @@ class MoreMath {
     MoreMath() {
     }
 
-    public static final double asinh(double x) {
+    public static double asinh(double x) {
         return x < 0.0D ? -asinh(-x) : Math.log(x + x + 1.0D / (Math.sqrt(x * x + 1.0D) + x));
     }
 
-    public static final double acosh(double x) {
+    public static double acosh(double x) {
         return Math.log(x + x - 1.0D / (Math.sqrt(x * x - 1.0D) + x));
     }
 
-    public static final double atanh(double x) {
+    public static double atanh(double x) {
         return x < 0.0D ? -atanh(-x) : 0.5D * Math.log(1.0D + (x + x) / (1.0D - x));
     }
 
-    public static final double trunc(double x) {
+    public static double trunc(double x) {
         return x >= 0.0D ? Math.floor(x) : Math.ceil(x);
     }
 
-    public static final double gcd(double x, double y) {
+    public static double gcd(double x, double y) {
         if (!Double.isNaN(x) && !Double.isNaN(y) && !Double.isInfinite(x) && !Double.isInfinite(y)) {
             x = Math.abs(x);
 
@@ -61,7 +61,7 @@ class MoreMath {
         }
     }
 
-    public static final double lgamma(double x) {
+    public static double lgamma(double x) {
         double tmp = x + 5.2421875D;
         double sum = 0.9999999999999971D;
 
@@ -72,7 +72,7 @@ class MoreMath {
         return 0.9189385332046728D + Math.log(sum) + (tmp - 4.7421875D) * Math.log(tmp) - tmp;
     }
 
-    public static final double factorial(double x) {
+    public static double factorial(double x) {
         if (x < 0.0D) {
             return 0.0D / 0.0;
         } else {
@@ -103,7 +103,7 @@ class MoreMath {
         }
     }
 
-    public static final double combinations(double n, double k) {
+    public static double combinations(double n, double k) {
         if (n >= 0.0D && k >= 0.0D) {
             if (n < k) {
                 return 0.0D;
@@ -129,7 +129,7 @@ class MoreMath {
         }
     }
 
-    public static final double permutations(double n, double k) {
+    public static double permutations(double n, double k) {
         if (n >= 0.0D && k >= 0.0D) {
             if (n < k) {
                 return 0.0D;
@@ -154,32 +154,32 @@ class MoreMath {
         }
     }
 
-    public static final double log2(double x) {
+    public static double log2(double x) {
         return Math.log(x) * 1.4426950408889634D;
     }
 
-    private static final boolean isPiMultiple(double x) {
+    private static boolean isPiMultiple(double x) {
         double d = x / 3.141592653589793D;
         return d == Math.floor(d);
     }
 
-    public static final double sin(double x) {
+    public static double sin(double x) {
         return isPiMultiple(x) ? 0.0D : Math.sin(x);
     }
 
-    public static final double cos(double x) {
+    public static double cos(double x) {
         return isPiMultiple(x - 1.5707963267948966D) ? 0.0D : Math.cos(x);
     }
 
-    public static final double tan(double x) {
+    public static double tan(double x) {
         return isPiMultiple(x) ? 0.0D : Math.tan(x);
     }
 
-    public static final int intLog10(double x) {
+    public static int intLog10(double x) {
         return (int) Math.floor(Math.log10(x));
     }
 
-    public static final double intExp10(int exp) {
+    public static double intExp10(int exp) {
         return Double.parseDouble("1E" + exp);
     }
 }

@@ -51,10 +51,10 @@ public class FunctionOnStack extends VariableContext {
         reference_variables = new HashMap<>();
         for (int i = 0; i < arguments.length; i++) {
             if (prototype.argument_types[i].writable) {
-                reference_variables.put(prototype.argument_names[i],
+                reference_variables.put(prototype.argumentNames[i],
                         (PascalReference) arguments[i]);
             } else {
-                local_variables.put(prototype.argument_names[i], arguments[i]);
+                local_variables.put(prototype.argumentNames[i], arguments[i]);
             }
         }
         this.parentContext = parentContext;

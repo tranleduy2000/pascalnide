@@ -8,7 +8,7 @@ import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.duy.pascal.backend.pascaltypes.typeconversion.StringBuilderWithRangeType;
 import com.duy.pascal.backend.pascaltypes.typeconversion.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.StringIndex;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
 import com.js.interpreter.ast.returnsvalue.boxing.StringBoxer;
@@ -28,7 +28,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
 
         }
 
@@ -55,7 +55,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
 
         }
 
@@ -76,7 +76,7 @@ public enum BasicType implements DeclaredType {
         }
     },
     StringBuilder(StringBuilder.class) {
-        private RValue length; //max size
+        private ReturnValue length; //max size
 
         @Override
         Object getDefaultValue() {
@@ -84,7 +84,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
             this.length = length;
         }
 
@@ -106,9 +106,9 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public RValue convert(RValue valueToAssign, ExpressionContext f)
+        public ReturnValue convert(ReturnValue valueToAssign, ExpressionContext f)
                 throws ParsingException {
-            RuntimeType otherType = valueToAssign.get_type(f);
+            RuntimeType otherType = valueToAssign.getType(f);
             if (otherType.declType instanceof BasicType) {
                 if (this.equals(otherType.declType)) {
                     return new StringBuilderWithRangeType(valueToAssign, length);
@@ -125,13 +125,13 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public RValue generateArrayAccess(RValue array,
-                                          RValue index) throws NonArrayIndexed {
+        public ReturnValue generateArrayAccess(ReturnValue array,
+                                               ReturnValue index) throws NonArrayIndexed {
             return new StringIndex(array, index);
         }
 
         @Override
-        public RValue cloneValue(RValue value) {
+        public ReturnValue cloneValue(ReturnValue value) {
             return new StringBuilderCloner(value);
         }
 
@@ -156,7 +156,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
         }
 
         @Override
@@ -181,7 +181,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
         }
 
         @Override
@@ -206,7 +206,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
         }
 
         @Override
@@ -231,7 +231,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
 
         }
 
@@ -247,7 +247,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
 
         }
 
@@ -274,7 +274,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RValue length) {
+        public void setLength(ReturnValue length) {
 
         }
 
@@ -361,7 +361,7 @@ public enum BasicType implements DeclaredType {
      *
      * @param length
      */
-    public abstract void setLength(RValue length);
+    public abstract void setLength(ReturnValue length);
 
     @Override
     public Class getTransferClass() {
@@ -372,9 +372,9 @@ public enum BasicType implements DeclaredType {
     public abstract String toString();
 
     @Override
-    public RValue convert(RValue value, ExpressionContext f)
+    public ReturnValue convert(ReturnValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.get_type(f);
+        RuntimeType other_type = value.getType(f);
         if (other_type.declType instanceof BasicType) {
             if (this.equals(other_type.declType)) {
                 return cloneValue(value);
@@ -391,7 +391,7 @@ public enum BasicType implements DeclaredType {
     }
 
     @Override
-    public RValue cloneValue(final RValue r) {
+    public ReturnValue cloneValue(final ReturnValue r) {
         return r;
     }
 
@@ -401,8 +401,8 @@ public enum BasicType implements DeclaredType {
     }
 
     @Override
-    public RValue generateArrayAccess(RValue array,
-                                      RValue index) throws NonArrayIndexed {
+    public ReturnValue generateArrayAccess(ReturnValue array,
+                                           ReturnValue index) throws NonArrayIndexed {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 

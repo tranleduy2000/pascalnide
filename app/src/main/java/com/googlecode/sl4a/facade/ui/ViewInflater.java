@@ -320,8 +320,7 @@ public class ViewInflater {
                 return null;
             }
         } while (event != XmlPullParser.START_TAG);
-        View view = inflateView(context, xml, null);
-        return view;
+        return inflateView(context, xml, null);
     }
 
     private void addln(Object msg) {
@@ -643,8 +642,7 @@ public class ViewInflater {
         try {
             Uri uri = Uri.parse(value);
             if ("file".equals(uri.getScheme())) {
-                BitmapDrawable bd = new BitmapDrawable(uri.getPath());
-                return bd;
+                return new BitmapDrawable(uri.getPath());
             }
         } catch (Exception e) {
             mErrors.add("failed to load drawable " + value);

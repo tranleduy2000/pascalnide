@@ -57,15 +57,9 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         setTheme(false);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
 
     /**
      * set language
-     *
-     * @param create
      */
     private void setLocale(boolean create) {
         Locale locale;
@@ -211,7 +205,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    public void moreApp(View view) {
+    public void moreApp() {
         Uri uri = Uri.parse("market://search?q=pub:Trần Lê Duy");
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,

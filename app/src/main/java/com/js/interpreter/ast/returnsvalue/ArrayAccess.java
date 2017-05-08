@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import com.duy.pascal.backend.debugable.DebuggableLValue;
+import com.duy.pascal.backend.debugable.DebuggableLeftValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
@@ -16,20 +16,20 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
 
-public class ArrayAccess extends DebuggableLValue {
-    private RValue container;
-    private RValue index;
+public class ArrayAccess extends DebuggableLeftValue {
+    private ReturnValue container;
+    private ReturnValue index;
     private int offset;
 
-    public ArrayAccess(RValue container, RValue index, int offset) {
+    public ArrayAccess(ReturnValue container, ReturnValue index, int offset) {
         this.container = container;
         this.index = index;
         this.offset = offset;
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        RuntimeType r = (container.get_type(f));
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        RuntimeType r = (container.getType(f));
         return new RuntimeType(((ArrayType<?>) r.declType).element_type,
                 r.writable);
     }
@@ -73,7 +73,7 @@ public class ArrayAccess extends DebuggableLValue {
     }
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context)
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new ArrayAccess(container.compileTimeExpressionFold(context),
                 index.compileTimeExpressionFold(context), offset);

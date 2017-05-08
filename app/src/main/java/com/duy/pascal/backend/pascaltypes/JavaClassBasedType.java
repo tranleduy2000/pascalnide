@@ -6,7 +6,7 @@ import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
 import com.js.interpreter.ast.returnsvalue.boxing.StringBuilderBoxer;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
@@ -46,9 +46,9 @@ public class JavaClassBasedType implements DeclaredType {
     }
 
     @Override
-    public RValue convert(RValue value, ExpressionContext f)
+    public ReturnValue convert(ReturnValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.get_type(f);
+        RuntimeType other_type = value.getType(f);
         if (other_type.declType instanceof BasicType) {
             if (this.equals(other_type.declType)) {
                 return cloneValue(value);
@@ -94,13 +94,13 @@ public class JavaClassBasedType implements DeclaredType {
     }
 
     @Override
-    public RValue cloneValue(RValue r) {
+    public ReturnValue cloneValue(ReturnValue r) {
         return new CloneableObjectCloner(r);
     }
 
     @Override
-    public RValue generateArrayAccess(RValue array,
-                                      RValue index) throws NonArrayIndexed {
+    public ReturnValue generateArrayAccess(ReturnValue array,
+                                           ReturnValue index) throws NonArrayIndexed {
         return null;
     }
 

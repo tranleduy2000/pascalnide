@@ -216,7 +216,7 @@ public class Filesystem {
                                             cache.add(parts[isFstab ? 1 : 3]);
                                         }
 
-                                    } catch (Throwable e) {
+                                    } catch (Throwable ignored) {
                                     }
                                 }
                             }
@@ -255,7 +255,7 @@ public class Filesystem {
 					list[i].mLocation = parts[1];
 					list[i].mOptions = oPatternSeparatorSearch.split(parts[3]);
 					
-				} catch(Throwable e) {}
+				} catch(Throwable ignored) {}
 			}
 			
 			return list;

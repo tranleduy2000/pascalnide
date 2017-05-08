@@ -7,6 +7,7 @@ import com.js.interpreter.runtime.exception.internal.InternalInterpreterExceptio
  * Created by Duy on 01-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class DivisionOperatorIntegerException extends InternalInterpreterException {
     public DivisionOperatorIntegerException(LineInfo line) {
         super(line);

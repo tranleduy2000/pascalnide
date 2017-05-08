@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
  * Created by Duy on 12-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class SelectThemeActivity extends AbstractAppCompatActivity {
 
     @BindView(R.id.toolbar)

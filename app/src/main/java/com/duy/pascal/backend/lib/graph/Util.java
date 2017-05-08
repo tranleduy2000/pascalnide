@@ -41,8 +41,7 @@ public class Util {
 
 
     public static Drawable covertBitmapToDrawable(Context context, Bitmap bitmap) {
-        Drawable d = new BitmapDrawable(context.getResources(), bitmap);
-        return d;
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 
     public static Bitmap convertDrawableToBitmap(Drawable drawable) {

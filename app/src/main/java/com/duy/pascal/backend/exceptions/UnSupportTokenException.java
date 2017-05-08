@@ -7,6 +7,7 @@ import com.duy.pascal.backend.tokens.Token;
  * Created by Duy on 16-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class UnSupportTokenException extends ParsingException {
     public Token token;
 

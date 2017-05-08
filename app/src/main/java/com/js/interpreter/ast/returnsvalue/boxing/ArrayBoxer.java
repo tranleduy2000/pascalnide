@@ -1,27 +1,25 @@
 package com.js.interpreter.ast.returnsvalue.boxing;
 
-import com.duy.pascal.backend.debugable.DebuggableRValue;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
 
-public class ArrayBoxer extends DebuggableRValue {
-    public RValue[] values;
+public class ArrayBoxer extends DebuggableReturnValue {
+    public ReturnValue[] values;
     public ArgumentType type;
     public LineInfo line;
 
-    public ArrayBoxer(RValue[] array, ArgumentType elementType,
+    public ArrayBoxer(ReturnValue[] array, ArgumentType elementType,
                       LineInfo line) {
         this.values = array;
         this.type = elementType;
@@ -35,7 +33,7 @@ public class ArrayBoxer extends DebuggableRValue {
 
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         throw new ParsingException(
                 line,
                 "Attempted to get operator of varargs boxer. This should not happen as" +
@@ -71,8 +69,8 @@ public class ArrayBoxer extends DebuggableRValue {
 
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
-        RValue[] val = new RValue[values.length];
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+        ReturnValue[] val = new ReturnValue[values.length];
         for (int i = 0; i < values.length; i++) {
             val[i] = values[i].compileTimeExpressionFold(context);
         }

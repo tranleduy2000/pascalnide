@@ -167,7 +167,7 @@ public abstract class AutoSuggestsEditText extends AppCompatMultiAutoCompleteTex
 
         String indent = "";
         int indexStart = dstart - 1;
-        int indexEnd = -1;
+        int indexEnd;
         boolean dataBefore = false;
         int parenthesesCount = 0;
 

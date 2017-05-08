@@ -24,6 +24,7 @@ import com.duy.pascal.backend.lib.graph.style.FillType;
  * Created by Duy on 02-Mar-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class Bar3DObject extends GraphObject {
 
     private final int x1;

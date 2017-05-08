@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.operators;
 
-import com.duy.pascal.backend.debugable.DebuggableLValue;
+import com.duy.pascal.backend.debugable.DebuggableLeftValue;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -9,17 +9,17 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.Reference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class DerefEval extends DebuggableLValue {
-    RValue pointer;
+public class DerefEval extends DebuggableLeftValue {
+    ReturnValue pointer;
     LineInfo line;
 
-    public DerefEval(RValue pointer, LineInfo line) {
+    public DerefEval(ReturnValue pointer, LineInfo line) {
         this.pointer = pointer;
         this.line = line;
     }
@@ -36,8 +36,8 @@ public class DerefEval extends DebuggableLValue {
     }
 
     @Override
-    public RuntimeType get_type(ExpressionContext f) throws ParsingException {
-        RuntimeType pointertype = pointer.get_type(f);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        RuntimeType pointertype = pointer.getType(f);
         return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
     }
 
@@ -62,7 +62,7 @@ public class DerefEval extends DebuggableLValue {
 
 
     @Override
-    public RValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess(val, line);

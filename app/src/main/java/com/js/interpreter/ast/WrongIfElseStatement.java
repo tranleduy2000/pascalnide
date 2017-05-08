@@ -7,6 +7,7 @@ import com.duy.pascal.backend.tokens.Token;
  * Created by Duy on 07-May-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class WrongIfElseStatement extends ParsingException {
     public WrongIfElseStatement(Token next) {
         super(next.lineInfo);

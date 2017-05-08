@@ -107,7 +107,7 @@ public class PascalPreferences {
         } catch (Exception e) {
             try {
                 return Integer.parseInt(getString(key));
-            } catch (Exception e2) {
+            } catch (Exception ignored) {
             }
         }
         return -1;

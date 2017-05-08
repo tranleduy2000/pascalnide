@@ -9,9 +9,9 @@ import serp.bytecode.BCClass;
 import serp.bytecode.BCMethod;
 
 public class ClassType extends CustomType {
-    List<FunctionDeclaration> memberfunctions = new ArrayList<FunctionDeclaration>();
+    List<FunctionDeclaration> memberfunctions = new ArrayList<>();
 
-    public void add_member_declaration(FunctionDeclaration f) {
+    public void addMemberDeclaration(FunctionDeclaration f) {
         memberfunctions.add(f);
     }
 
@@ -19,8 +19,8 @@ public class ClassType extends CustomType {
     protected void declareClassElements(BCClass c) {
         super.declareClassElements(c);
         for (FunctionDeclaration f : memberfunctions) {
-            Class[] argtypes = new Class[f.argument_names.length];
-            for (int i = 0; i < f.argument_names.length; i++) {
+            Class[] argtypes = new Class[f.argumentNames.length];
+            for (int i = 0; i < f.argumentNames.length; i++) {
                 argtypes[i] = f.argument_types[i].getRuntimeClass();
             }
             Class returntype = null;

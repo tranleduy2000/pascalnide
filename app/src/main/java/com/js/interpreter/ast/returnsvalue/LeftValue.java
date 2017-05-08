@@ -5,8 +5,8 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public interface LValue extends RValue {
+public interface LeftValue extends ReturnValue {
 
-    public Reference getReference(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException;
+    Reference getReference(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException;
 
 }

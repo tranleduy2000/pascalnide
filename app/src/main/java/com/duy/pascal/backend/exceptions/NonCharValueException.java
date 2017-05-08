@@ -23,6 +23,7 @@ import com.duy.pascal.backend.tokens.value.CharacterToken;
  * Created by Duy on 21-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class NonCharValueException extends ParsingException {
     CharacterToken characterToken;
 

@@ -7,7 +7,7 @@ import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
@@ -27,7 +27,7 @@ public class CustomType extends ObjectType {
     private CustomVariable customVariable;
 
     public CustomType() {
-        variable_types = new ArrayList<VariableDeclaration>();
+        variable_types = new ArrayList<>();
     }
 
     /**
@@ -87,9 +87,9 @@ public class CustomType extends ObjectType {
     }
 
     @Override
-    public RValue convert(RValue value, ExpressionContext f)
+    public ReturnValue convert(ReturnValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.get_type(f);
+        RuntimeType other_type = value.getType(f);
         if (this.equals(other_type.declType)) {
             return cloneValue(value);
         }
@@ -136,13 +136,13 @@ public class CustomType extends ObjectType {
     }
 
     @Override
-    public RValue generateArrayAccess(RValue array,
-                                      RValue index) throws NonArrayIndexed {
+    public ReturnValue generateArrayAccess(ReturnValue array,
+                                           ReturnValue index) throws NonArrayIndexed {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 
     @Override
-    public RValue cloneValue(RValue r) {
+    public ReturnValue cloneValue(ReturnValue r) {
         return new CloneableObjectCloner(r);
     }
 

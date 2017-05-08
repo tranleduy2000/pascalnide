@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * Created by Duy on 28-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class FragmentCodeSample extends Fragment {
     private static final String TAG = "FragmentCodeSample";
 

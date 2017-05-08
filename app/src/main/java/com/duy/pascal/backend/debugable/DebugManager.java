@@ -20,5 +20,6 @@ package com.duy.pascal.backend.debugable;
  * Created by Duy on 21-Apr-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class DebugManager {
 }

@@ -2,8 +2,8 @@ package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LValue;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.boxing.GetAddress;
 import com.js.interpreter.runtime.PascalReference;
 
@@ -41,13 +41,13 @@ public class RuntimeType implements ArgumentType {
         return false;
     }
 
-    public RValue convert(RValue value, ExpressionContext f)
+    public ReturnValue convert(ReturnValue value, ExpressionContext f)
             throws ParsingException {
 
-        RuntimeType other = value.get_type(f);
+        RuntimeType other = value.getType(f);
         if (writable) {
             if (this.equals(other)) {
-                return new GetAddress((LValue) value);
+                return new GetAddress((LeftValue) value);
             } else {
                 return null;
             }
@@ -81,8 +81,8 @@ public class RuntimeType implements ArgumentType {
     }
 
     @Override
-    public RValue convertArgType(Iterator<RValue> args,
-                                 ExpressionContext f) throws ParsingException {
+    public ReturnValue convertArgType(Iterator<ReturnValue> args,
+                                      ExpressionContext f) throws ParsingException {
         if (!args.hasNext()) {
             return null;
         }
@@ -90,16 +90,16 @@ public class RuntimeType implements ArgumentType {
     }
 
     @Override
-    public RValue perfectFit(Iterator<RValue> args,
-                             ExpressionContext e) throws ParsingException {
+    public ReturnValue perfectFit(Iterator<ReturnValue> args,
+                                  ExpressionContext e) throws ParsingException {
         if (!args.hasNext()) {
             return null;
         }
-        RValue val = args.next();
-        RuntimeType other = val.get_type(e);
+        ReturnValue val = args.next();
+        RuntimeType other = val.getType(e);
         if (this.declType.equals(other.declType)) {
             if (writable) {
-                return new GetAddress((LValue) val);
+                return new GetAddress((LeftValue) val);
             } else {
                 return other.declType.cloneValue(val);
             }

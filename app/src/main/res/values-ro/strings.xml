@@ -130,7 +130,7 @@
 
     <string name="max_buffer">Lungimea maximă a tamponului</string>
 
-    <string name="write_code_here">Introduceți codul aici...</string>
+    <string name="write_code_here">Introduceți codul aici…</string>
     <string name="can_not_save_file">Nu se poate salva fișierul!</string>
     <string name="saved">Salvat</string>
     <string name="file_exist">Fișierul există deja, vă rugăm să introduceți un alt nume!</string>
@@ -160,7 +160,7 @@
     <string name="DarkGray">Dark Gray</string>
     <string name="BrightYellow">Bright Yellow</string>
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
-    <string name="enter_key_word">Enter your keyword...</string>
+    <string name="enter_key_word">Enter your keyword…</string>
     <string name="blog">Blog of Pascal N-IDE</string>
     <string name="title_activity_zxing">ZxingActivity</string>
     <string name="turn_off_flashlight">Turn off flashlight</string>

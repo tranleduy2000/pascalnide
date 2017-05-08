@@ -464,10 +464,7 @@ public enum OperatorTypes {
     public boolean verifyBinaryOperation(DeclaredType type1, DeclaredType type2)
             throws BadOperationTypeException {
         DeclaredType GCF = get_GCF(type1, type2);
-        if (GCF == null) {
-            return false;
-        }
-        return verifyBinaryOperation(GCF);
+        return GCF != null && verifyBinaryOperation(GCF);
     }
 
     boolean verifyBinaryOperation(DeclaredType GCF) {

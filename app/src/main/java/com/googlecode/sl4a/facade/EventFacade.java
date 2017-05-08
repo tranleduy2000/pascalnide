@@ -265,7 +265,7 @@ public class EventFacade implements PascalLibrary {
      */
     public void postEvent(String name, Object data, boolean enqueue) {
         Event event = new Event(name, data);
-        if (enqueue != false) {
+        if (enqueue) {
             mEventQueue.add(event);
             if (mEventQueue.size() > MAX_QUEUE_SIZE) {
                 mEventQueue.remove();
@@ -292,14 +292,14 @@ public class EventFacade implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    @RpcDeprecated(value = "eventPoll", release = "r4")
+    @RpcDeprecated(value = "eventPoll")
     @PascalMethod(description = "Returns and removes the oldest event (i.e. location or sensor update, etc.) from the event buffer.", returns = "Map of event properties.")
     public Event receiveEvent() {
         return mEventQueue.poll();
     }
 
     @SuppressWarnings("unused")
-    @RpcDeprecated(value = "eventWaitFor", release = "r4")
+    @RpcDeprecated(value = "eventWaitFor")
     @PascalMethod(description = "Blocks until an event with the supplied name occurs. The returned event is not removed from the buffer.", returns = "Map of event properties.")
     public Event waitForEvent(
             @PascalParameter(name = "eventName") final String eventName,
@@ -330,7 +330,6 @@ public class EventFacade implements PascalLibrary {
         mEventServer.shutdown();
         removeEventObserver(mEventServer);
         mEventServer = null;
-        return;
     }
 
     @Override

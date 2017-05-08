@@ -9,18 +9,18 @@ import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.NoneInstruction;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.RValue;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class WhileStatement extends DebuggableExecutable {
-    RValue condition;
+    ReturnValue condition;
 
     Executable command;
     LineInfo line;
 
-    public WhileStatement(RValue condition, Executable command,
+    public WhileStatement(ReturnValue condition, Executable command,
                           LineInfo line) {
         this.condition = condition;
         this.command = command;

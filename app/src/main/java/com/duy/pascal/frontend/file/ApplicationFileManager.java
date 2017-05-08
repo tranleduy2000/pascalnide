@@ -106,7 +106,7 @@ public class ApplicationFileManager {
     public String getPath(Context context, Uri uri) throws URISyntaxException {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
             String[] projection = {"_data"};
-            Cursor cursor = null;
+            Cursor cursor;
             try {
                 cursor = context.getContentResolver().query(uri, projection, null, null, null);
                 int column_index = cursor.getColumnIndexOrThrow("_data");
@@ -128,7 +128,7 @@ public class ApplicationFileManager {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 int index = 0;
-                String line = "";
+                String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     index += line.length();
                     if (index >= position) break;

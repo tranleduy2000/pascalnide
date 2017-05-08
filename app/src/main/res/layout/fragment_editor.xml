@@ -14,12 +14,10 @@
   ~ limitations under the License.
   -->
 <com.duy.pascal.frontend.view.LockableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vertical_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
- >
+    android:fillViewport="true">
 
     <com.duy.pascal.frontend.view.code_view.CodeView
         android:id="@+id/code_editor"

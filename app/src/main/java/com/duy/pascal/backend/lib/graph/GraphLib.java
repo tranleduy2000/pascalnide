@@ -52,6 +52,7 @@ import static com.duy.pascal.backend.lib.ColorUtils.pascalColorToAndroidColor;
 /**
  * Created by Duy on 01-Mar-17.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class GraphLib implements PascalLibrary {
     public static final String NAME = "graph";
     private static final String TAG = "GraphLib";
@@ -457,8 +458,7 @@ public class GraphLib implements PascalLibrary {
     @PascalMethod(description = "graph library", returns = "void")
     public String graphErrorMsg(int errorCode) {
         // TODO: 09-Apr-17
-        String errorMsg = "";
-        return errorMsg;
+        return "";
     }
 
 

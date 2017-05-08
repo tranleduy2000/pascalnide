@@ -105,7 +105,7 @@ public class MenuEditor {
                 activity.goToPlayStore();
                 break;
             case R.id.action_more_app:
-                activity.moreApp(null);
+                activity.moreApp();
                 break;
             case R.id.nav_run:
                 if (listener != null) {
@@ -217,7 +217,7 @@ public class MenuEditor {
                 Intent i = new Intent();
                 i.setType("audio/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
-                activity. startActivityForResult(Intent.createChooser(i, "Complete action using"),
+                activity.startActivityForResult(Intent.createChooser(i, "Complete action using"),
                         EditorActivity.ACTION_PICK_MEDIA_URL);
                 break;
         }
@@ -266,7 +266,9 @@ public class MenuEditor {
 
     public boolean getChecked(int action_auto_save) {
         if (menu != null) {
-            return menu.findItem(action_auto_save).isChecked();
+            if (menu.findItem(action_auto_save).isChecked()) {
+                return true;
+            }
         }
         return false;
     }
