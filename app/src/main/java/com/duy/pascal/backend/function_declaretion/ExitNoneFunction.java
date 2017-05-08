@@ -21,7 +21,6 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.function_declaretion.abstract_class.IMethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
@@ -61,7 +60,7 @@ public class ExitNoneFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.Integer;
+        return null;
     }
 
     @Override
@@ -79,7 +78,7 @@ public class ExitNoneFunction implements IMethodDeclaration {
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.Integer, false);
+            return null;
         }
 
         @Override

@@ -641,7 +641,6 @@ public abstract class GrouperToken extends Token {
             try {
                 return context.handleUnrecognizedStatement(next, this);
             } catch (ParsingException ignored) {
-                ignored.printStackTrace();
             }
 
             ReturnValue r = getNextExpression(context, next);

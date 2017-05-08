@@ -1,14 +1,14 @@
 uses aTone;
 var
     phone: string;
-    delayTime: integer;
+    time: integer;
 begin
     writeln('Enter your phone number (or 1234567890): ');
     readln(phone);
 
-    delayTime := 1000; {100 milisecond}
+    time := 1000; {1000 milisecond}
 
-    generateTones(phone,delayTime );
+    generateTones(phone, time);
 
     readln;
 end.

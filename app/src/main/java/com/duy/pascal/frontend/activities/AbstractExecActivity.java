@@ -55,22 +55,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     protected static final int COMPLETE = 4;
     protected static final int RUNTIME_ERROR = 5;
     protected static final int SHOW_KEYBOARD = 6;
-    protected String input = "";
-    protected String filePath;
-    protected IOLib mLock;
-
-    /**
-     * this object use store buffer key
-     */
-    protected char keyCodeBuffer;
-    /**
-     * set <code>true</code> if you want to debug program
-     */
-    protected boolean debugging = false;
-    /**
-     * set <code>true</code> if enable debug mode, program will be pause every line
-     */
-    protected boolean enableDebug = false;
     protected final AtomicBoolean mIsRunning = new AtomicBoolean(true);
     protected final Handler mMessageHandler = new Handler() {
         @Override
@@ -95,6 +79,9 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         }
     };
     protected final AtomicBoolean isCanRead = new AtomicBoolean(false);
+    protected String input = "";
+    protected String filePath;
+    protected Object mLock;
     protected final Runnable runnableInput = new Runnable() {
         @Override
         public void run() {
@@ -129,14 +116,27 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             input = inputData.toString();
             isCanRead.set(false);
             if (mLock != null) {
-                mLock.resume();
+                if (mLock instanceof IOLib) {
+                    ((IOLib) mLock).resume();
+                }
             }
         }
 
     };
+    /**
+     * this object use store buffer key
+     */
+    protected char keyCodeBuffer;
+    /**
+     * set <code>true</code> if you want to debug program
+     */
+    protected boolean debugging = false;
+    /**
+     * set <code>true</code> if enable debug mode, program will be pause every line
+     */
+    protected boolean enableDebug = false;
     protected RuntimeExecutable program;
     protected String programFile;
-    protected ApplicationFileManager mFileManager;
     final Runnable runProgram = new Runnable() {
         @Override
         public void run() {
@@ -165,6 +165,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             }
         }
     };
+    protected ApplicationFileManager mFileManager;
 
     public boolean isDebugging() {
         return debugging;
@@ -325,6 +326,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         isCanRead.set(true);
         new Thread(runnableInput).start();
     }
+
 
     @Override
     public void stopInput() {

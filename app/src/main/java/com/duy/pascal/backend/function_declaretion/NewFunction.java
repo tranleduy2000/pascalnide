@@ -67,7 +67,7 @@ public class NewFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.Integer;
+        return null;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class NewFunction implements IMethodDeclaration {
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.Integer, false);
+            return null;
         }
 
         @Override

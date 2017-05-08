@@ -261,7 +261,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
      * @since 1.4
      */
     public Base64Codec(int lineLength) {
-        this(lineLength);
+        this(lineLength, CHUNK_SEPARATOR);
     }
 
     /**
@@ -279,11 +279,12 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
      *
      * @param lineLength    Each line of encoded data will be at most of the given length (rounded down to nearest multiple of 4).
      *                      If lineLength <= 0, then the output will not be divided into lines (chunks). Ignored when decoding.
+     * @param lineSeparator Each line of encoded data will end with this sequence of bytes.
      * @throws IllegalArgumentException Thrown when the provided lineSeparator included some base64 characters.
      * @since 1.4
      */
-    public Base64Codec(int lineLength) {
-        this(lineLength, Base64Codec.CHUNK_SEPARATOR, false);
+    public Base64Codec(int lineLength, byte[] lineSeparator) {
+        this(lineLength, lineSeparator, false);
     }
 
     /**
@@ -449,7 +450,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
      * @since 1.4
      */
     public static byte[] encodeBase64(byte[] binaryData, boolean isChunked, boolean urlSafe) {
-        return encodeBase64(binaryData, isChunked, urlSafe);
+        return encodeBase64(binaryData, isChunked, urlSafe, Integer.MAX_VALUE);
     }
 
     /**
@@ -458,21 +459,22 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
      * @param binaryData    Array containing binary data to encode.
      * @param isChunked     if <code>true</code> this encoder will chunk the base64 output into 76 character blocks
      * @param urlSafe       if <code>true</code> this encoder will emit - and _ instead of the usual + and / characters.
+     * @param maxResultSize The maximum result size to accept.
      * @return Base64-encoded data.
      * @throws IllegalArgumentException Thrown when the input array needs an output array bigger than maxResultSize
      * @since 1.4
      */
-    public static byte[] encodeBase64(byte[] binaryData, boolean isChunked, boolean urlSafe) {
+    public static byte[] encodeBase64(byte[] binaryData, boolean isChunked, boolean urlSafe, int maxResultSize) {
         if (binaryData == null || binaryData.length == 0) {
             return binaryData;
         }
 
         long len = getEncodeLength(binaryData, CHUNK_SIZE, CHUNK_SEPARATOR);
-        if (len > Integer.MAX_VALUE) {
+        if (len > maxResultSize) {
             throw new IllegalArgumentException("Input array too big, the output array would be bigger (" +
                     len +
                     ") than the specified maxium size of " +
-                    Integer.MAX_VALUE);
+                    maxResultSize);
         }
 
         Base64Codec b64 = isChunked ? new Base64Codec(urlSafe) : new Base64Codec(0, CHUNK_SEPARATOR, urlSafe);
@@ -677,14 +679,15 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
      * bytes. Returns how many bytes were actually extracted.
      *
      * @param b      byte[] array to extract the buffered data into.
+     * @param bPos   position in byte[] array to start extraction at.
      * @param bAvail amount of bytes we're allowed to extract. We may extract fewer (if fewer are available).
      * @return The number of bytes successfully extracted into the provided byte[] array.
      */
-    int readResults(byte[] b, int bAvail) {
+    int readResults(byte[] b, int bPos, int bAvail) {
         if (buffer != null) {
             int len = Math.min(avail(), bAvail);
             if (buffer != b) {
-                System.arraycopy(buffer, readPos, b, 0, len);
+                System.arraycopy(buffer, readPos, b, bPos, len);
                 readPos += len;
                 if (readPos >= pos) {
                     buffer = null;
@@ -702,16 +705,18 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
     /**
      * Sets the streaming buffer. This is a small optimization where we try to buffer directly to the consumer's output
      * array for one round (if the consumer calls this method first) instead of starting our own buffer.
-     *  @param out      byte[] array to buffer directly to.
+     *
+     * @param out      byte[] array to buffer directly to.
+     * @param outPos   Position to start buffering into.
      * @param outAvail Amount of bytes available for direct buffering.
      */
-    void setInitialBuffer(byte[] out, int outAvail) {
+    void setInitialBuffer(byte[] out, int outPos, int outAvail) {
         // We can re-use consumer's original output array under
         // special circumstances, saving on some System.arraycopy().
         if (out != null && out.length == outAvail) {
             buffer = out;
-            pos = 0;
-            readPos = 0;
+            pos = outPos;
+            readPos = outPos;
         }
     }
 
@@ -725,10 +730,12 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
      * Thanks to "commons" project in ws.apache.org for the bitwise operations, and general approach.
      * http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/util/
      * </p>
-     *  @param in      byte[] array of binary data to base64 encode.
+     *
+     * @param in      byte[] array of binary data to base64 encode.
+     * @param inPos   Position to start reading data from.
      * @param inAvail Amount of bytes available from input for encoding.
      */
-    void encode(byte[] in, int inAvail) {
+    void encode(byte[] in, int inPos, int inAvail) {
         if (eof) {
             return;
         }
@@ -770,7 +777,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
                     resizeBuffer();
                 }
                 modulus = (++modulus) % 3;
-                int b = in[0++];
+                int b = in[inPos++];
                 if (b < 0) {
                     b += 256;
                 }
@@ -808,10 +815,12 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
      * Thanks to "commons" project in ws.apache.org for the bitwise operations, and general approach.
      * http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/util/
      * </p>
-     *  @param in      byte[] array of ascii data to base64 decode.
+     *
+     * @param in      byte[] array of ascii data to base64 decode.
+     * @param inPos   Position to start reading data from.
      * @param inAvail Amount of bytes available from input for encoding.
      */
-    void decode(byte[] in, int inAvail) {
+    void decode(byte[] in, int inPos, int inAvail) {
         if (eof) {
             return;
         }
@@ -822,7 +831,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
             if (buffer == null || buffer.length - pos < decodeSize) {
                 resizeBuffer();
             }
-            byte b = in[0++];
+            byte b = in[inPos++];
             if (b == PAD) {
                 // We're done.
                 eof = true;
@@ -903,9 +912,9 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
         }
         long len = (pArray.length * 3) / 4;
         byte[] buf = new byte[(int) len];
-        setInitialBuffer(buf, buf.length);
-        decode(pArray, pArray.length);
-        decode(pArray, -1); // Notify decoder of EOF.
+        setInitialBuffer(buf, 0, buf.length);
+        decode(pArray, 0, pArray.length);
+        decode(pArray, 0, -1); // Notify decoder of EOF.
 
         // Would be nice to just return buf (like we sometimes do in the encode
         // logic), but we have no idea what the line-length was (could even be
@@ -914,7 +923,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
         // hold the final result:
 
         byte[] result = new byte[pos];
-        readResults(result, result.length);
+        readResults(result, 0, result.length);
         return result;
     }
 
@@ -959,12 +968,12 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
         }
         long len = getEncodeLength(pArray, lineLength, lineSeparator);
         byte[] buf = new byte[(int) len];
-        setInitialBuffer(buf, buf.length);
-        encode(pArray, pArray.length);
-        encode(pArray, -1); // Notify encoder of EOF.
+        setInitialBuffer(buf, 0, buf.length);
+        encode(pArray, 0, pArray.length);
+        encode(pArray, 0, -1); // Notify encoder of EOF.
         // Encoder might have resized, even though it was unnecessary.
         if (buffer != buf) {
-            readResults(buf, buf.length);
+            readResults(buf, 0, buf.length);
         }
         // In URL-SAFE mode we skip the padding characters, so sometimes our
         // final length is a bit smaller.
