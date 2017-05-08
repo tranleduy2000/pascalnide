@@ -85,7 +85,6 @@
         <activity
             android:name=".activities.ExecuteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
