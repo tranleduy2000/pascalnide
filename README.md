@@ -46,6 +46,8 @@ The application is a Pascal interpreter on Android. This application is confusin
 - The **aNotify** library helps display notifications in the status bar. See the example `notify.pas`
 - The **aClipboard** library works with the clipboard in Android. See the `clipboard.pas` example
 - The **aBattery** library retrieves the battery information of the device. See `battery.pas` example
+- The **aMedia** library Provides classes that manage various media interfaces in audio and video. See https://github.com/tranleduy2000/pascalnide/blob/master/wiki/aMedia_library.md
+- **aTone** library provides API to play DTMF tones (ITU-T Recommendation Q.23). See https://github.com/tranleduy2000/pascalnide/blob/master/wiki/aTone_library.md
 
 # How to contribute
 

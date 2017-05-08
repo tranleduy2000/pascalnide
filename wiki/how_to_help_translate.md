@@ -42,17 +42,21 @@ To contribute a new localization for the Terminal Emulator for Android, please:
 
 ## Example format
 
-    <resources>
-        <string name="deleted">Deleted</string>
-        <string name="failed">Failed</string>
-    </resource>
+```xml
+<resources>
+    <string name="deleted">Deleted</string>
+    <string name="failed">Failed</string>
+</resource>
+```
 
 Here is the same section of the file, "localized" by being changed to "Tiếng Việt":
 
-    <resources>
-       <string name="deleted">Đã xóa</string>
-       <string name="failed">Thất bại</string>
-    </resource>
+```xml
+<resources>
+   <string name="deleted">Đã xóa</string>
+   <string name="failed">Thất bại</string>
+</resource>
+```
 
 
 

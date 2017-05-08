@@ -14,7 +14,7 @@ This library provides API to play DTMF tones (ITU-T Recommendation Q.23)
 * ``number``
 * ``duration`` The tone duration in milliseconds.
 
-
+***
 ### generateSound
 
 ``procedure generateSound(frequency: integer; duration: integer);``

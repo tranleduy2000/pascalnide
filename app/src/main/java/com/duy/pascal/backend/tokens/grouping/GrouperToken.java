@@ -651,18 +651,18 @@ public abstract class GrouperToken extends Token {
                 if (left == null) {
                     throw new UnAssignableTypeException(r);
                 }
-                ReturnValue value_to_assign = getNextExpression(context);
-                DeclaredType output_type = left.getType(context).declType;
-                DeclaredType input_type = value_to_assign.getType(context).declType;
+                ReturnValue valueToAssign = getNextExpression(context);
+                DeclaredType outputType = left.getType(context).declType;
+                DeclaredType inputType = valueToAssign.getType(context).declType;
                 /*
                  * Does not have to be writable to assign value to variable.
 				 */
-                ReturnValue converted = output_type.convert(value_to_assign, context);
+                ReturnValue converted = outputType.convert(valueToAssign, context);
                 if (converted == null) {
-                    throw new UnConvertibleTypeException(value_to_assign,
-                            input_type, output_type, true);
+                    throw new UnConvertibleTypeException(valueToAssign,
+                            inputType, outputType, true);
                 }
-                return new Assignment(left, output_type.cloneValue(converted), next.lineInfo);
+                return new Assignment(left, outputType.cloneValue(converted), next.lineInfo);
             } else if (r instanceof Executable) {
                 return (Executable) r;
             } else {

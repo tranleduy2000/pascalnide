@@ -233,7 +233,6 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new HighFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new LowFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new NewFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new ReadlnFunction(handler)));
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}
