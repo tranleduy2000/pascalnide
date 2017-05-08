@@ -132,10 +132,7 @@ public class PascalCompiler {
             for (Method m : t.getDeclaredMethods()) {
                 if (Modifier.isPublic(m.getModifiers())) {
                     MethodDeclaration tmp = new MethodDeclaration(o, m);
-//                    functionTable.put(tmp.name().toLowerCase(), tmp);
                 }
-                if (DEBUG)
-                    System.out.println("#method " + m.getName());
             }
 
         }
