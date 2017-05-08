@@ -288,8 +288,8 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
         return callableFunctions.containsKey(name);
     }
 
-    public ConstantDefinition getConstantDefinitionLocal(String ident) {
-        return constants.get(ident);
+    public ConstantDefinition getConstantDefinitionLocal(String indent) {
+        return constants.get(indent);
     }
 
     public DeclaredType getTypedefTypeLocal(String ident) {

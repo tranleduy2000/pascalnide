@@ -21,7 +21,6 @@
         android:name="com.duy.pascal.PascalApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"

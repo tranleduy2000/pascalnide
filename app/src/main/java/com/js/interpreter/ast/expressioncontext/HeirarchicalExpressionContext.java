@@ -22,8 +22,7 @@ public abstract class HeirarchicalExpressionContext implements
     }
 
 
-    protected abstract ConstantDefinition getConstantDefinitionLocal(
-            String ident);
+    protected abstract ConstantDefinition getConstantDefinitionLocal(String indent);
 
     @Override
     public ConstantDefinition getConstantDefinition(String ident) {
