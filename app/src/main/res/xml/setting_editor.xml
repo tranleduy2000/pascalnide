@@ -30,6 +30,13 @@
             android:key="@string/key_max_page"
             android:title="@string/max_page" />
 
+        <EditTextPreference
+            android:contentDescription="@string/max_history_edit_desc"
+            android:defaultValue="100"
+            android:inputType="number"
+            android:key="@string/key_max_history_edit"
+            android:title="@string/max_history_edit" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_pref_word_wrap"

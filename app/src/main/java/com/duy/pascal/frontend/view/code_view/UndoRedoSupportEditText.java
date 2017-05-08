@@ -64,7 +64,8 @@ public class UndoRedoSupportEditText extends HighlightEditor {
 
     private void init() {
         mUndoRedoHelper = new UndoRedoHelper(this);
-        mUndoRedoHelper.setMaxHistorySize(100);
+        mUndoRedoHelper.setMaxHistorySize(mEditorSetting.getMaxHistoryEdit());
+
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mSettings = new KeySettings(mPrefs, getContext());
         mKeyListener = new KeyListener();

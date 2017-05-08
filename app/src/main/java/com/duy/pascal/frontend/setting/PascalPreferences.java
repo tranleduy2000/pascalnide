@@ -102,15 +102,19 @@ public class PascalPreferences {
     }
 
     public int getInt(String key) {
+        return getInt(key, -1);
+    }
+
+    public int getInt(String key, int def) {
         try {
-            return sharedPreferences.getInt(key, -1);
+            return sharedPreferences.getInt(key, def);
         } catch (Exception e) {
             try {
                 return Integer.parseInt(getString(key));
             } catch (Exception ignored) {
+                return def;
             }
         }
-        return -1;
     }
 
     /**
@@ -251,5 +255,12 @@ public class PascalPreferences {
 
     public void setMaxPage(int count) {
         put(context.getString(R.string.key_max_page), count);
+    }
+
+    public int getMaxHistoryEdit() {
+        int max = getInt(context.getString(R.string.key_max_page), 100);
+        max = Math.min(10, max);
+        max = Math.max(1, max);
+        return max;
     }
 }

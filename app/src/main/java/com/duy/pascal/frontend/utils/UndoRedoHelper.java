@@ -95,8 +95,7 @@ public class UndoRedoHelper {
     public void storePersistentState(SharedPreferences.Editor editor, String prefix) {
         // Store hash code of text in the editor so that we can check if the
         // editor contents has changed.
-        editor.putString(prefix + ".hash",
-                String.valueOf(mTextView.getText().toString().hashCode()));
+        editor.putString(prefix + ".hash", String.valueOf(mTextView.getText().toString().hashCode()));
         editor.putInt(prefix + ".maxSize", mEditHistory.mmMaxHistorySize);
         editor.putInt(prefix + ".position", mEditHistory.mmPosition);
         editor.putInt(prefix + ".size", mEditHistory.mmHistory.size());

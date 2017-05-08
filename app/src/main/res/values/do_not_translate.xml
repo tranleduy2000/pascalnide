@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -89,5 +88,6 @@
         <item>@string/none</item>
     </string-array>
     <string name="key_max_page" translatable="false">key_max_tab</string>
+    <string name="key_max_history_edit" translatable="false">key_max_history_edit</string>
 
 </resources>

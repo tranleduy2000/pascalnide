@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="see_in_github">See project in github https://github.com/tranleduy2000/pascalnide</string>
+    <string name="max_history_edit_desc">The maximum number of steps can be undo redo</string>
 </resources>

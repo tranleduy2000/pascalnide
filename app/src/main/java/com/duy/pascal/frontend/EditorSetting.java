@@ -34,4 +34,5 @@ public class EditorSetting extends PascalPreferences {
         super(mPreferences, context);
     }
 
+
 }
