@@ -36,8 +36,8 @@ public class InstructionGrouper extends DebuggableExecutable {
         for (Executable e : instructions) {
             switch (e.execute(f, main)) {
                 case BREAK:
-                    break forloop;
-//                    return ExecutionResult.BREAK;
+//                    break forloop;
+                    return ExecutionResult.BREAK;
                 case EXIT:
                     return ExecutionResult.EXIT;
                 case CONTINUE:

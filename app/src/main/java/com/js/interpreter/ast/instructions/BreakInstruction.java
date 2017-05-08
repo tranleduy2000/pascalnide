@@ -8,7 +8,7 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class BreakInstruction extends DebuggableExecutable {
-    LineInfo line;
+    private LineInfo line;
 
     public BreakInstruction(LineInfo line) {
         this.line = line;
@@ -22,7 +22,6 @@ public class BreakInstruction extends DebuggableExecutable {
     @Override
     public ExecutionResult executeImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-//        System.out.println(this.getClass().getSimpleName() + " " + f.getClass().getSimpleName());
         return ExecutionResult.BREAK;
     }
 
