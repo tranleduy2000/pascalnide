@@ -85,7 +85,11 @@ public class AndroidMediaPlayerLib implements PascalLibrary {
         remove(key);
         MediaPlayer player;
         try {
-            player = MediaPlayer.create(mContext, Uri.parse(url));
+            Uri parse = Uri.parse(url);
+            if (parse == null) {
+                throw new FileNotFoundException(url);
+            }
+            player = MediaPlayer.create(mContext, parse);
         } catch (Exception e) {
             throw new FileNotFoundException(url);
         }

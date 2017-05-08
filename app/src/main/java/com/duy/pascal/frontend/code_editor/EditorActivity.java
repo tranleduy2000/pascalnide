@@ -497,7 +497,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 break;
             case ACTION_PICK_MEDIA_URL:
                 if (resultCode == RESULT_OK) {
-                    String path = data.getData().getPath();
+                    String path = data.getData().toString();
                     EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
                     if (currentFragment != null && path != null) {
                         currentFragment.insert(path);
