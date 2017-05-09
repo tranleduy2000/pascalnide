@@ -32,14 +32,13 @@ import java.util.List;
 
 public class CaseInstruction extends DebuggableExecutable {
     private ReturnValue mSwitchValue;
-    private CasePossibility[] possibilies;
+    private CasePossibility[] possibilities;
     private InstructionGrouper otherwise;
     private LineInfo line;
 
     public CaseInstruction(CaseToken token, ExpressionContext context)
             throws ParsingException {
         this.line = token.lineInfo;
-//        mSwitchValue = new CachedReturnValue(token.getNextExpression(context));
         mSwitchValue = token.getNextExpression(context);
         Token next = token.take();
         if (!(next instanceof OfToken)) {
@@ -95,7 +94,7 @@ public class CaseInstruction extends DebuggableExecutable {
                 token.assertNextSemicolon(token);
             }
         }
-        this.possibilies = possibilities.toArray(new CasePossibility[possibilities.size()]);
+        this.possibilities = possibilities.toArray(new CasePossibility[possibilities.size()]);
     }
 
     //check type
@@ -120,7 +119,7 @@ public class CaseInstruction extends DebuggableExecutable {
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         Object value = mSwitchValue.getValue(context, main);
-        for (CasePossibility possibily : possibilies) {
+        for (CasePossibility possibily : possibilities) {
             for (int j = 0; j < possibily.conditions.length; j++) {
                 if (possibily.conditions[j].fits(value)) {
                     return possibily.execute(context, main);
@@ -143,7 +142,7 @@ public class CaseInstruction extends DebuggableExecutable {
             return this;
         }
         try {
-            for (CasePossibility possibily : possibilies) {
+            for (CasePossibility possibily : possibilities) {
                 for (int j = 0; j < possibily.conditions.length; j++) {
                     if (possibily.conditions[j].fits(value)) {
                         return possibily;

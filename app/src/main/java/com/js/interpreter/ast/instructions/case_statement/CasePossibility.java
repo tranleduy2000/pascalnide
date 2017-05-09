@@ -1,23 +1,23 @@
 package com.js.interpreter.ast.instructions.case_statement;
 
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class CasePossibility extends DebuggableExecutable {
-    final Executable commands;
+class CasePossibility extends DebuggableExecutable {
+    private final Executable commands;
     /**
      * This class represents a line in a case statement.
      */
     CaseCondition[] conditions;
 
-    public CasePossibility(CaseCondition[] conditions, Executable commands) {
+    CasePossibility(CaseCondition[] conditions, Executable commands) {
         this.conditions = conditions;
         this.commands = commands;
     }
