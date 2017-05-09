@@ -24,7 +24,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <activity
             android:name=".code_editor.EditorActivity"
@@ -104,7 +104,6 @@
         <activity
             android:name=".activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.googlecode.sl4a.activity.FutureActivity" />
         <activity android:name=".code_sample.SearchResultSampleActivity" />

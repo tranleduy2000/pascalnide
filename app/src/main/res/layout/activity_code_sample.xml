@@ -21,8 +21,15 @@
     android:fitsSystemWindows="false"
     tools:context="com.duy.pascal.frontend.code_sample.CodeSampleActivity">
 
-    <android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="false">
@@ -31,14 +38,13 @@
             android:id="@+id/toolbar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="snap|scroll|enterAlways">
+            app:layout_scrollFlags="scroll|snap|enterAlways">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?colorPrimary"
-                android:fitsSystemWindows="false" />
+                android:background="?colorPrimary" />
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
@@ -56,13 +62,5 @@
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    </android.support.v4.view.ViewPager>
 
 </android.support.design.widget.CoordinatorLayout>

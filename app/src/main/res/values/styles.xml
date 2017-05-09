@@ -16,7 +16,7 @@
 
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat">
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/dark.color_primary</item>
