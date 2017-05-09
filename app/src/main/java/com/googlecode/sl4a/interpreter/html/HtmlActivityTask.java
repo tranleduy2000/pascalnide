@@ -34,13 +34,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SingleThreadExecutor;
 import com.googlecode.sl4a.event.Event;
 import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.facade.ui.UiFacade;
-import com.googlecode.sl4a.future.FutureActivityTask;
+import com.duy.pascal.backend.lib.android.view.AndroidDialogLib;
 import com.googlecode.sl4a.interpreter.InterpreterConstants;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.jsonrpc.JsonRpcResult;
@@ -63,7 +63,7 @@ import java.util.concurrent.ExecutorService;
 /**
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
-public class HtmlActivityTask extends FutureActivityTask<Void> {
+public class HtmlActivityTask extends PascalActivityTask<Void> {
 
     public static final String HTML = "html";
     public static final String HTML_EXTENSION = ".html";
@@ -85,7 +85,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
     private final String mUrl;
     private final JavaScriptWrapper mWrapper;
     private final HtmlEventObserver mObserver;
-    private final UiFacade mUiFacade;
+    private final AndroidDialogLib mUiFacade;
     private HtmlActivityTask reference;
     private WebView mView;
     private boolean mDestroyManager;
@@ -99,7 +99,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
         mWrapper = new JavaScriptWrapper();
         mObserver = new HtmlEventObserver();
         mReceiverManager.getReceiver(EventFacade.class).addGlobalEventObserver(mObserver);
-        mUiFacade = mReceiverManager.getReceiver(UiFacade.class);
+        mUiFacade = mReceiverManager.getReceiver(AndroidDialogLib.class);
         mUrl = url;
         mDestroyManager = destroyManager;
     }
@@ -117,6 +117,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     public void onCreate() {
+        super.onCreate();
         mView = new WebView(getActivity());
         mView.getSettings().setJavaScriptEnabled(true);
         mView.addJavascriptInterface(mWrapper, "_rpc_wrapper");
@@ -155,6 +156,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         mReceiverManager.getReceiver(EventFacade.class).removeEventObserver(mObserver);
         if (mDestroyManager) {
             mReceiverManager.shutdown();
@@ -171,7 +173,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    protected boolean onPrepareOptionsMenu(Menu menu) {
         return mUiFacade.onPrepareOptionsMenu(menu);
     }
 
@@ -308,8 +310,8 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
 
         @Override
         public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
-            final UiFacade uiFacade = mReceiverManager.getReceiver(UiFacade.class);
-            uiFacade.dialogCreateAlert(JS_TITLE, message);
+            final AndroidDialogLib uiFacade = mReceiverManager.getReceiver(AndroidDialogLib.class);
+            uiFacade.createAlertDialog(JS_TITLE, message);
             uiFacade.dialogSetPositiveButtonText(mResources.getString(android.R.string.ok));
 
             mmExecutor.execute(new Runnable() {
@@ -317,7 +319,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
                 @Override
                 public void run() {
                     try {
-                        uiFacade.dialogShow();
+                        uiFacade.showDialog();
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -331,8 +333,8 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
         @SuppressWarnings("unchecked")
         @Override
         public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
-            final UiFacade uiFacade = mReceiverManager.getReceiver(UiFacade.class);
-            uiFacade.dialogCreateAlert(JS_TITLE, message);
+            final AndroidDialogLib uiFacade = mReceiverManager.getReceiver(AndroidDialogLib.class);
+            uiFacade.createAlertDialog(JS_TITLE, message);
             uiFacade.dialogSetPositiveButtonText(mResources.getString(android.R.string.ok));
             uiFacade.dialogSetNegativeButtonText(mResources.getString(android.R.string.cancel));
 
@@ -341,7 +343,7 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
                 @Override
                 public void run() {
                     try {
-                        uiFacade.dialogShow();
+                        uiFacade.showDialog();
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -360,18 +362,18 @@ public class HtmlActivityTask extends FutureActivityTask<Void> {
         @Override
         public boolean onJsPrompt(WebView view, String url, final String message,
                                   final String defaultValue, final JsPromptResult result) {
-            final UiFacade uiFacade = mReceiverManager.getReceiver(UiFacade.class);
+            final AndroidDialogLib uiFacade = mReceiverManager.getReceiver(AndroidDialogLib.class);
             mmExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    String value = null;
+                    StringBuilder value = null;
                     try {
                         value = uiFacade.dialogGetInput(JS_TITLE, message, defaultValue);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     if (value != null) {
-                        result.confirm(value);
+                        result.confirm(value.toString());
                     } else {
                         result.cancel();
                     }

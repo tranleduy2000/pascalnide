@@ -36,13 +36,13 @@ import android.widget.Toast;
 import com.duy.pascal.PascalApplication;
 import com.duy.pascal.backend.lib.AndroidLibraryUtils;
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
+import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.FileUtils;
-import com.googlecode.sl4a.FutureActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.future.FutureActivityTask;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -78,7 +78,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     public static final String NAME = "aUtils".toLowerCase();
     private Context mContext;
     private Handler mHandler;
-    private FutureActivityTaskExecutor mTaskQueue;
+    private PascalActivityTaskExecutor mTaskQueue;
 
     public AndroidUtilsLib(AndroidLibraryManager manager) {
         mContext = manager.getContext();
@@ -90,7 +90,7 @@ public class AndroidUtilsLib implements PascalLibrary {
     }
 
     public Intent startActivityForResult(final Intent intent) {
-        FutureActivityTask<Intent> task = new FutureActivityTask<Intent>() {
+        PascalActivityTask<Intent> task = new PascalActivityTask<Intent>() {
             @Override
             public void onCreate() {
                 super.onCreate();
@@ -172,7 +172,7 @@ public class AndroidUtilsLib implements PascalLibrary {
         if (wait == null || !wait) {
             startActivity(intent);
         } else {
-            FutureActivityTask<Intent> task = new FutureActivityTask<Intent>() {
+            PascalActivityTask<Intent> task = new PascalActivityTask<Intent>() {
                 private boolean mSecondResume = false;
 
                 @Override
@@ -183,6 +183,7 @@ public class AndroidUtilsLib implements PascalLibrary {
 
                 @Override
                 public void onResume() {
+                    super.onResume();
                     if (mSecondResume) {
                         finish();
                     }
@@ -191,6 +192,7 @@ public class AndroidUtilsLib implements PascalLibrary {
 
                 @Override
                 public void onDestroy() {
+                    super.onDestroy();
                     setResult(null);
                 }
 
@@ -290,7 +292,7 @@ public class AndroidUtilsLib implements PascalLibrary {
 
     private String getInputFromAlertDialog(final String title, final String message,
                                            final boolean password) {
-        final FutureActivityTask<String> task = new FutureActivityTask<String>() {
+        final PascalActivityTask<String> task = new PascalActivityTask<String>() {
             @Override
             public void onCreate() {
                 super.onCreate();

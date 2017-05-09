@@ -18,16 +18,15 @@ package com.duy.pascal;
 
 import android.app.Application;
 
-import com.googlecode.sl4a.FutureActivityTaskExecutor;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
 
 /**
  * Created by Duy on 12-Mar-17.
  */
-@SuppressWarnings("DefaultFileTemplate")
 public class PascalApplication extends Application {
-    private final FutureActivityTaskExecutor mTaskExecutor = new FutureActivityTaskExecutor(this);
+    private final PascalActivityTaskExecutor mTaskExecutor = new PascalActivityTaskExecutor(this);
 
-    public FutureActivityTaskExecutor getTaskExecutor() {
+    public PascalActivityTaskExecutor getTaskExecutor() {
         return mTaskExecutor;
     }
 

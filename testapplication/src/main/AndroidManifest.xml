@@ -22,7 +22,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.googlecode.sl4a.activity.ScriptEditor" />
+                android:value="com.duy.pascal.backend.lib.android.activity.ScriptEditor" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

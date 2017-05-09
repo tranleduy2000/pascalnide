@@ -22,7 +22,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.google.common.collect.ArrayListMultimap;
@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.googlecode.sl4a.event.Event;
-import com.googlecode.sl4a.future.FutureResult;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityResult;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
@@ -180,7 +180,7 @@ public class EventFacade implements PascalLibrary {
                 }
             }
         }
-        final FutureResult<Event> futureEvent = new FutureResult<>();
+        final PascalActivityResult<Event> futureEvent = new PascalActivityResult<>();
         addNamedEventObserver(eventName, new EventObserver() {
             @Override
             public void onEventReceived(Event event) {
@@ -207,7 +207,7 @@ public class EventFacade implements PascalLibrary {
             @PascalParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
             throws InterruptedException {
         Event result = null;
-        final FutureResult<Event> futureEvent = new FutureResult<>();
+        final PascalActivityResult<Event> futureEvent = new PascalActivityResult<>();
         synchronized (mEventQueue) { // Anything in queue?
             if (mEventQueue.size() > 0) {
                 return mEventQueue.poll(); // return it.

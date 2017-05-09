@@ -311,7 +311,10 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         if ((newWidth != mConsoleScreen.getVisibleWidth()) || (newHeight != mConsoleScreen.getVisibleHeight())) {
             mConsoleScreen.setVisibleWidth(newWidth);
             mConsoleScreen.setVisibleHeight(newHeight);
-            tUpdateSize(mConsoleScreen.getVisibleWidth(), mConsoleScreen.getVisibleHeight());
+            try {
+                tUpdateSize(mConsoleScreen.getVisibleWidth(), mConsoleScreen.getVisibleHeight());
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+            }
             invalid = true;
         }
         if ((newLeft != mConsoleScreen.getLeftVisible()) || (newTop != mConsoleScreen.getTopVisible())) {
@@ -339,7 +342,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         return i;
     }
 
-    public boolean tUpdateSize(int newWidth, int newHeight) {
+    public boolean tUpdateSize(int newWidth, int newHeight) throws ArrayIndexOutOfBoundsException {
         long startTime = System.currentTimeMillis();
         int newColumn = newWidth / mTextRenderer.charWidth;
         int i, j;

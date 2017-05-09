@@ -43,7 +43,7 @@ public abstract class UnaryOperatorEvaluation extends DebuggableReturnValue {
                                          LineInfo line) throws ParsingException {
         DeclaredType t1 = v1.getType(f).declType;
 
-        if (!op_type.can_be_unary) {
+        if (!op_type.canBeUnary) {
             throw new BadOperationTypeException(line, t1, v1, op_type);
         }
         if (op_type == OperatorTypes.ADDRESS) {

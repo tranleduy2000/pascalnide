@@ -2,6 +2,7 @@ package com.duy.pascal.backend.tokens;
 
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.OperationNotSupportedException;
+import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
@@ -394,13 +395,31 @@ public enum OperatorTypes {
         public String toString() {
             return "@";
         }
-    };
 
-    public boolean can_be_unary;
+    },
+    IN(false, false) {
+        @Override
+        public boolean verifyBinaryOperation(DeclaredType GCF) {
+            return GCF == BasicType.Boolean;
+        }
+
+        @Override
+        public precedence getPrecedence() {
+            return precedence.Relational;
+        }
+
+        @Override
+        public String toString() {
+            return "in";
+        }
+
+        ;
+    };
+    public boolean canBeUnary;
     public boolean postfix;
 
-    OperatorTypes(boolean can_be_unary, boolean postfix) {
-        this.can_be_unary = can_be_unary;
+    OperatorTypes(boolean canBeUnary, boolean postfix) {
+        this.canBeUnary = canBeUnary;
         this.postfix = postfix;
     }
 
@@ -409,6 +428,7 @@ public enum OperatorTypes {
                 || two == BasicType.StringBuilder) {
             return BasicType.StringBuilder;
         }
+
         if (one == BasicType.Double
                 || two == BasicType.Double) {
             if (one == BasicType.Boolean
@@ -439,6 +459,14 @@ public enum OperatorTypes {
         if (one == BasicType.Character
                 && two == BasicType.Character) {
             return BasicType.Character;
+        }
+        //in
+        if (one instanceof BasicType
+                && two instanceof ArrayType) {
+            ArrayType arrayType = (ArrayType) two;
+            if (arrayType.element_type.equals(one)) {
+                return BasicType.Boolean;
+            }
         }
         return null;
     }

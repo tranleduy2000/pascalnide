@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.lib;
 
-import com.duy.pascal.backend.lib.android.AndroidToneGeneratorLib;
+import com.duy.pascal.backend.lib.android.media.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;

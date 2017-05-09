@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
-import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 

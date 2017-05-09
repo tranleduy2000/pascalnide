@@ -28,16 +28,22 @@ import java.lang.annotation.Target;
 /**
  * Created by Duy on 23-Apr-17.
  */
+
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 // Make this annotation accessible at runtime via reflection.
 @Target({ElementType.METHOD})
-@Documented
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public @interface PascalMethod {
     /**
      * Returns brief description of the function. Should be limited to one or two sentences.
      */
     String description();
+
+    /**
+     * @return parameters of method
+     */
+    String[] params() default {};
 
     /**
      * Gives a brief description of the functions return value (and the underlying data structure).

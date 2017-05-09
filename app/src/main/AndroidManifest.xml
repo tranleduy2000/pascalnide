@@ -105,7 +105,7 @@
             android:name=".activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.googlecode.sl4a.activity.FutureActivity" />
+        <activity android:name="com.duy.pascal.backend.lib.android.activity.PascalActivity" />
         <activity android:name=".code_sample.SearchResultSampleActivity" />
 
         <activity

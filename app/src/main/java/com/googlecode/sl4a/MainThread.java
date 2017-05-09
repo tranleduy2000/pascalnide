@@ -5,7 +5,7 @@ package com.googlecode.sl4a;
 import android.content.Context;
 import android.os.Handler;
 
-import com.googlecode.sl4a.future.FutureResult;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityResult;
 
 import java.util.concurrent.Callable;
 
@@ -20,7 +20,7 @@ public class MainThread {
      * finish quickly to avoid hanging the UI thread.
      */
     public static <T> T run(Context context, final Callable<T> task) {
-        final FutureResult<T> result = new FutureResult<>();
+        final PascalActivityResult<T> result = new PascalActivityResult<>();
         Handler handler = new Handler(context.getMainLooper());
         handler.post(new Runnable() {
             @Override

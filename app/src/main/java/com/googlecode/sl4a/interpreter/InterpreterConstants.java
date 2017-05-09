@@ -24,38 +24,12 @@ import android.os.Environment;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
-public interface InterpreterConstants {
+public class InterpreterConstants {
 
-    String SDCARD_ROOT =
-            Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+    public static final String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
 
-    String SDCARD_SL4A_ROOT = SDCARD_ROOT + "sl4a/";
+    public static final String SDCARD_SL4A_ROOT = SDCARD_ROOT + "sl4a/";
 
-    String SCRIPTS_ROOT = SDCARD_SL4A_ROOT + "scripts/";
+    public static final String SCRIPTS_ROOT = SDCARD_SL4A_ROOT + "scripts/";
 
-    String SDCARD_SL4A_DOC = SDCARD_SL4A_ROOT + "doc/";
-
-    String SL4A_DALVIK_CACHE_ROOT = "/dalvik-cache/";
-
-    String INTERPRETER_EXTRAS_ROOT = "/extras/";
-
-    // Interpreters discovery mechanism.
-    String ACTION_DISCOVER_INTERPRETERS =
-            "com.googlecode.android_scripting.DISCOVER_INTERPRETERS";
-
-    // Interpreters broadcasts.
-    String ACTION_INTERPRETER_ADDED =
-            "com.googlecode.android_scripting.INTERPRETER_ADDED";
-    String ACTION_INTERPRETER_REMOVED =
-            "com.googlecode.android_scripting.INTERPRETER_REMOVED";
-
-    // Interpreter content provider.
-    String PROVIDER_PROPERTIES = "com.googlecode.android_scripting.base";
-    String PROVIDER_ENVIRONMENT_VARIABLES =
-            "com.googlecode.android_scripting.env";
-    String PROVIDER_ARGUMENTS = "com.googlecode.android_scripting.args";
-
-    String INSTALLED_PREFERENCE_KEY = "SL4A.interpreter.installed";
-
-    String MIME = "script/";
 }

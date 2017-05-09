@@ -11,7 +11,7 @@ public class OperatorToken extends Token {
     }
 
     public boolean can_be_unary() {
-        return type.can_be_unary;
+        return type.canBeUnary;
     }
 
     public boolean postfix() {

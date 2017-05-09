@@ -19,7 +19,6 @@ package com.googlecode.sl4a;
 import com.duy.pascal.backend.lib.AndroidLibraryUtils;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
-import com.googlecode.sl4a.rpc.RpcMinSdk;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,13 +50,6 @@ public class TextDocumentationGenerator {
         }
 
         for (Class<? extends PascalLibrary> clazz : classes) {
-            int minSDK = getMinSdk(clazz);
-            if (minSDK != 3) {
-                System.out.println(String.format("*!%s* Requires API Level %d.", clazz.getSimpleName(),
-                        minSDK));
-            } else {
-                System.out.println(String.format("*!%s*", clazz.getSimpleName()));
-            }
             List<MethodDescriptor> list = new ArrayList<>(map.get(clazz));
             sortMethodDescriptors(list);
             for (MethodDescriptor descriptor : list) {
@@ -66,12 +58,6 @@ public class TextDocumentationGenerator {
         }
     }
 
-    private static int getMinSdk(Class<? extends PascalLibrary> clazz) {
-        if (clazz.isAnnotationPresent(RpcMinSdk.class)) {
-            return clazz.getAnnotation(RpcMinSdk.class).value();
-        }
-        return 3;
-    }
 
     private static void sortMethodDescriptors(List<MethodDescriptor> list) {
         Collections.sort(list, new Comparator<MethodDescriptor>() {

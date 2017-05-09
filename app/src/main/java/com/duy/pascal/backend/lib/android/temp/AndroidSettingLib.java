@@ -25,12 +25,12 @@ import android.view.WindowManager;
 
 import com.duy.pascal.PascalApplication;
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.android.utils.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
-import com.googlecode.sl4a.FutureActivityTaskExecutor;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.future.FutureActivityTask;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
 import com.googlecode.sl4a.rpc.RpcOptional;
 
 import java.lang.reflect.Method;
@@ -195,7 +195,7 @@ public class AndroidSettingLib implements PascalLibrary {
         android.provider.Settings.System.putInt(mContext.getContentResolver(),
                 android.provider.Settings.System.SCREEN_BRIGHTNESS, brightness);
 
-        FutureActivityTask<Object> task = new FutureActivityTask<Object>() {
+        PascalActivityTask<Object> task = new PascalActivityTask<Object>() {
             @Override
             public void onCreate() {
                 super.onCreate();
@@ -207,7 +207,7 @@ public class AndroidSettingLib implements PascalLibrary {
             }
         };
 
-        FutureActivityTaskExecutor taskExecutor =
+        PascalActivityTaskExecutor taskExecutor =
                 ((PascalApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
 
