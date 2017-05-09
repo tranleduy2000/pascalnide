@@ -76,8 +76,8 @@
     <string name="StrayCharacterException">Неверный знак в программе: %1$s</string>
     <string name="StackOverflowException">Ошибка переполнения стека.</string>
     <string name="UnConvertibleTypeException">Выражение или переменная \"%1$s\" типа \"%2$s\" не может быть %3$s конвертирована в %4$s</string>
-    <string name="WrongIfElseStatement">WRONG IF ELSE STATEMENT\n\n
-        Syntax: "if condition then S1 else S2;" \n\n
-        Where, S1 and S2 are different statements. Please note that the statement S1 is not followed by a "semicolon" (;).</string>
+    <string name="WrongIfElseStatement">НЕПРАВИЛЬНО УПОТРЕБЛЁН ОПЕРАТОР IF ELSE\n\n
+        Синтаксис: "if УСЛОВИЕ then S1 else S2;" \n\n
+        Где S1 и S2 - разные утверждения. Обратите внимание, что за выражением S1 нет «точки с запятой» (;).</string>
 
 </resources>
