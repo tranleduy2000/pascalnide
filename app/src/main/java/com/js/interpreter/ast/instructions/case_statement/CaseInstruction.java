@@ -22,7 +22,6 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
-import com.js.interpreter.ast.returnsvalue.CachedReturnValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -40,7 +39,8 @@ public class CaseInstruction extends DebuggableExecutable {
     public CaseInstruction(CaseToken token, ExpressionContext context)
             throws ParsingException {
         this.line = token.lineInfo;
-        mSwitchValue = new CachedReturnValue(token.getNextExpression(context));
+//        mSwitchValue = new CachedReturnValue(token.getNextExpression(context));
+        mSwitchValue = token.getNextExpression(context);
         Token next = token.take();
         if (!(next instanceof OfToken)) {
             throw new ExpectedTokenException("of", next);
@@ -92,24 +92,7 @@ public class CaseInstruction extends DebuggableExecutable {
             token.take();
             while (token.hasNext()) {
                 otherwise.add_command(token.getNextCommand(context));
-                /*
-                  case i of
-                   1 : writeln;
-                   2 : writeln;
-                  else
-                   writeln  //Adding a semicolon is not necessary
-                  end;
-                 */
-//                Token t = i.take();
-//                if (i.peek() instanceof ElseToken)
-//                if (!(t instanceof SemicolonToken)) {
-//                    throw new ExpectedTokenException(";", t);
-//                }
                 token.assertNextSemicolon(token);
-//                if (!(i.peek() instanceof EndToken)
-//                        && !(i.peek() instanceof EOFToken)) {
-//                    i.assertNextSemicolon();
-//                }
             }
         }
         this.possibilies = possibilities.toArray(new CasePossibility[possibilities.size()]);
@@ -127,12 +110,8 @@ public class CaseInstruction extends DebuggableExecutable {
 
     /**
      * check semicolon symbol
-     *
-     * @param grouperToken
-     * @throws ParsingException
      */
     private void assertNextSemicolon(GrouperToken grouperToken) throws ParsingException {
-//        i.assertNextSemicolon();
         if (grouperToken.peek() instanceof ElseToken) return;
         grouperToken.assertNextSemicolon(grouperToken);
     }

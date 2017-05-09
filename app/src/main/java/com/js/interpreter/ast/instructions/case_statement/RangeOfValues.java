@@ -9,15 +9,15 @@ import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class RangeOfValues implements CaseCondition {
+class RangeOfValues implements CaseCondition {
 
     private LineInfo line;
 
     private BinaryOperatorEvaluation greaterThanLower;
     private BinaryOperatorEvaluation lessThanHigher;
 
-    public RangeOfValues(ExpressionContext context, ReturnValue value, Object lower, Object higher,
-                         LineInfo line) throws ParsingException {
+    RangeOfValues(ExpressionContext context, ReturnValue value, Object lower, Object higher,
+                  LineInfo line) throws ParsingException {
         ConstantAccess low = new ConstantAccess(lower, line);
         ConstantAccess high = new ConstantAccess(higher, line);
         greaterThanLower = BinaryOperatorEvaluation.generateOp(context, value, low, OperatorTypes.GREATEREQ, line);

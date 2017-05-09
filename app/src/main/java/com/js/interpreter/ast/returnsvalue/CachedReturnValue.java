@@ -10,8 +10,9 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class CachedReturnValue implements ReturnValue {
-    ReturnValue other;
-    Object cache = null;
+    protected ReturnValue[] outputFormat;
+    private ReturnValue other;
+    private Object cache = null;
 
     public CachedReturnValue(ReturnValue other) {
         this.other = other;
@@ -30,9 +31,6 @@ public class CachedReturnValue implements ReturnValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        if (cache != null) {
-            return cache;
-        }
         cache = other.compileTimeValue(context);
         return cache;
     }
@@ -40,20 +38,13 @@ public class CachedReturnValue implements ReturnValue {
     @Override
     public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        if (cache != null) {
-            return this;
-        } else {
-            return new CachedReturnValue(other);
-        }
+        return new CachedReturnValue(other);
     }
 
     @Override
     public LeftValue asLValue(ExpressionContext f) {
         return null;
     }
-
-
-    protected ReturnValue[] outputFormat;
 
     @Override
     public ReturnValue[] getOutputFormat() {
@@ -69,9 +60,6 @@ public class CachedReturnValue implements ReturnValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        if (cache != null) {
-            return cache;
-        }
         cache = other.getValue(f, main);
         return cache;
     }

@@ -74,7 +74,7 @@ public class AndroidContactsLibrary implements PascalLibrary {
         }
     }
 
-    private Uri buildUri(Integer id) {
+    private Uri buildUri(int id) {
         return ContentUris.withAppendedId(People.CONTENT_URI, id);
     }
 
@@ -205,7 +205,7 @@ public class AndroidContactsLibrary implements PascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns contacts by ID.")
-    public JSONObject contactsGetById(@PascalParameter(name = "id") Integer id,
+    public JSONObject contactsGetById(@PascalParameter(name = "id") int id,
                                       @PascalParameter(name = "attributes") @RpcOptional JSONArray attributes) throws JSONException {
         JSONObject result = null;
         Uri uri = buildUri(id);
@@ -235,8 +235,8 @@ public class AndroidContactsLibrary implements PascalLibrary {
     // TODO(MeanEYE.rcf): Add ability to narrow selection by providing named pairs of attributes.
     @SuppressWarnings("unused")
     @PascalMethod(description = "Returns the number of contacts.")
-    public Integer contactsGetCount() {
-        Integer result = 0;
+    public int contactsGetCount() {
+        int result = 0;
         Cursor cursor = mContentResolver.query(CONTACTS_URI, null, null, null, null);
         if (cursor != null) {
             result = cursor.getCount();
