@@ -6,9 +6,9 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import java.lang.reflect.Array;
 
 public class ArrayReference implements Reference {
-    Object array;
-    int index;
-    int offset;
+    private Object array;
+    private int index;
+    private int offset;
 
     public ArrayReference(Object array, int index, int offset) {
         this.array = array;
@@ -17,11 +17,11 @@ public class ArrayReference implements Reference {
     }
 
     public void set(Object value) {
-            Array.set(array, index - offset, value);
+        Array.set(array, index - offset, value);
     }
 
     public Object get() throws RuntimePascalException {
-       return Array.get(array, index - offset);
+        return Array.get(array, index - offset);
     }
 
     @Override
