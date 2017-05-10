@@ -25,10 +25,15 @@ uses barCode;
 
 ### Các hàm được hỗ trợ
 
-``function scanBarCode: string;``
-quét mã vạch. Khi gọi hàm này ứng dụng sẽ hiện ra camera để quét mã vạch, sau đó trả về một chuỗi là giá trị của mã vạch vừa quét được, nếu người dùng nhất nút back, hàm sẽ trả về chuỗi rỗng
-
-``functioon scanQRCode: string;`` quét mã QR. Khi gọi hàm này ứng dụng sẽ hiện ra camera để quét mã vạch, sau đó trả về một chuỗi là giá trị của mã vạch vừa quét được, nếu người dùng nhất nút back, hàm sẽ trả về chuỗi rỗng
+```pascal
+function scanBarCode: string;
+```
+Quét mã vạch. Khi gọi hàm này ứng dụng sẽ hiện ra camera để quét mã vạch, sau đó trả về một chuỗi là giá trị của mã vạch vừa quét được, nếu người dùng nhất nút back, hàm sẽ trả về chuỗi rỗng
+___
+```pascal
+functioon scanQRCode: string;
+```
+Quét mã QR. Khi gọi hàm này ứng dụng sẽ hiện ra camera để quét mã QR, sau đó trả về một chuỗi là giá trị của mã vạch vừa quét được, nếu người dùng nhất nút back, hàm sẽ trả về chuỗi rỗng
 
 
 ### Ví dụ mẫu:
@@ -44,8 +49,8 @@ end.
 
 ### Một vài hình ảnh khi chạy ứng dụng
 
-![IMG](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img1.png)
+![](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img1.png)
 
-![IMG](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img2.png)
+![](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img2.png)
 
-![IMG](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img3.png)
+![](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img3.png)
