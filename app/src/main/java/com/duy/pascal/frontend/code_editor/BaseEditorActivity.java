@@ -20,10 +20,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -34,6 +36,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +78,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     protected EditorPagerAdapter pagerAdapter;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.app_bar)
+    AppBarLayout appBarLayout;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.recycler_view)
@@ -87,6 +92,31 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     View mContainerSymbol;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    private KeyBoardEventListener keyBoardListener;
+
+    protected void onShowKeyboard() {
+        hideAppBar();
+    }
+
+    protected void onHideKeyboard() {
+        showAppBar();
+    }
+
+    /**
+     * hide appbar layout when keyboard visible
+     */
+    private void hideAppBar() {
+        tabLayout.setVisibility(View.GONE);
+        toolbar.setVisibility(View.GONE);
+    }
+
+    /**
+     * show appbar layout when keyboard gone
+     */
+    private void showAppBar() {
+        tabLayout.setVisibility(View.VISIBLE);
+        toolbar.setVisibility(View.VISIBLE);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +129,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         mFileManager = new ApplicationFileManager(this);
         setupActionBar();
         setupPageView();
+        this.keyBoardListener = new KeyBoardEventListener(this);
+        mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(keyBoardListener);
     }
 
     protected void setupPageView() {
@@ -290,7 +322,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
 
     protected abstract String getCode();
 
-
     /**
      * delete a file
      *
@@ -380,6 +411,9 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     protected void onDestroy() {
         super.onDestroy();
         closeKeyBoard();
+        mDrawerLayout.getViewTreeObserver()
+                .removeGlobalOnLayoutListener(keyBoardListener);
+
     }
 
     // closes the soft keyboard
@@ -398,6 +432,31 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
 
             // Hide the KeyBoard
             inputManager.hideSoftInputFromWindow(windowToken, hideType);
+        }
+    }
+
+    private class KeyBoardEventListener implements ViewTreeObserver.OnGlobalLayoutListener {
+        BaseEditorActivity activity;
+
+        KeyBoardEventListener(BaseEditorActivity activityIde) {
+            this.activity = activityIde;
+        }
+
+        public void onGlobalLayout() {
+            int i = 0;
+            int navHeight = this.activity.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+            navHeight = navHeight > 0 ? this.activity.getResources().getDimensionPixelSize(navHeight) : 0;
+            int statusBarHeight = this.activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (statusBarHeight > 0) {
+                i = this.activity.getResources().getDimensionPixelSize(statusBarHeight);
+            }
+            Rect rect = new Rect();
+            activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+            if (activity.mDrawerLayout.getRootView().getHeight() - ((navHeight + i) + rect.height()) <= 0) {
+                activity.onHideKeyboard();
+            } else {
+                activity.onShowKeyboard();
+            }
         }
     }
 
