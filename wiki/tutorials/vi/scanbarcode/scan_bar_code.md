@@ -49,8 +49,8 @@ end.
 
 ### Một vài hình ảnh khi chạy ứng dụng
 
-![Demo 1](wiki/tutorials/vi/scanbarcode/img1.png?raw=true)
+![Demo 1](img1.png)
 
-![Demo 2](wiki/tutorials/vi/scanbarcode/img2.png?raw=true)
+![Demo 2](img2.png)
 
-![Demo 3](wiki/tutorials/vi/scanbarcode/img3.png?raw=true)
+![Demo 3](img3.png)
