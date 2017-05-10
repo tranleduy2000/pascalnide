@@ -2,6 +2,7 @@ package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.UnsupportedFormatException;
 import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
 import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
@@ -16,6 +17,7 @@ import com.js.interpreter.ast.returnsvalue.cloning.StringBuilderCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.io.File;
+import java.net.Socket;
 import java.util.List;
 
 import serp.bytecode.Code;
@@ -28,7 +30,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
+        public void setLength(ReturnValue length) throws UnsupportedFormatException {
+            throw new UnsupportedFormatException();
 
         }
 
@@ -55,8 +58,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
-
+        public void setLength(ReturnValue length) throws UnsupportedFormatException {
+            throw new UnsupportedFormatException();
         }
 
         @Override
@@ -156,7 +159,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
+        public void setLength(ReturnValue length) throws UnsupportedFormatException {
+            throw new UnsupportedFormatException();
         }
 
         @Override
@@ -206,7 +210,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
+        public void setLength(ReturnValue length) throws UnsupportedFormatException {
+            throw new UnsupportedFormatException();
         }
 
         @Override
@@ -231,8 +236,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
-
+        public void setLength(ReturnValue length) throws UnsupportedFormatException {
+            throw new UnsupportedFormatException();
         }
 
         @Override
@@ -247,8 +252,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
-
+        public void setLength(ReturnValue length) throws UnsupportedFormatException {
+            throw new UnsupportedFormatException();
         }
 
         @Override
@@ -274,13 +279,38 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
-
+        public void setLength(ReturnValue length) throws UnsupportedFormatException {
+            throw new UnsupportedFormatException();
         }
 
         @Override
         public String toString() {
             return "File";
+        }
+
+        @Override
+        public void convertStackToStorageType(Code c) {
+        }
+
+        @Override
+        public void arrayStoreOperation(Code c) {
+            c.iastore();
+        }
+    },
+    Socket(Socket.class) {
+        @Override
+        Object getDefaultValue() {
+            return null;
+        }
+
+        @Override
+        public void setLength(ReturnValue length) throws UnsupportedFormatException {
+            throw new UnsupportedFormatException();
+        }
+
+        @Override
+        public String toString() {
+            return "Socket";
         }
 
         @Override
@@ -333,7 +363,7 @@ public enum BasicType implements DeclaredType {
             return true;
         }
         if (obj instanceof JavaClassBasedType) {
-            Class other = ((JavaClassBasedType) obj).c;
+            Class other = ((JavaClassBasedType) obj).clazz;
             return c == other || c == Object.class || other == Object.class;
         }
         return false;
@@ -361,7 +391,7 @@ public enum BasicType implements DeclaredType {
      *
      * @param length
      */
-    public abstract void setLength(ReturnValue length);
+    public abstract void setLength(ReturnValue length) throws UnsupportedFormatException;
 
     @Override
     public Class getTransferClass() {

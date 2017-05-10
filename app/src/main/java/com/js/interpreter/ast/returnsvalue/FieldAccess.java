@@ -1,9 +1,12 @@
 package com.js.interpreter.ast.returnsvalue;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.debugable.DebuggableLeftValue;
 import com.duy.pascal.backend.exceptions.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.ObjectType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.tokens.WordToken;
@@ -17,11 +20,13 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
 public class FieldAccess extends DebuggableLeftValue {
+    private static final String TAG = "FieldAccess";
     private ReturnValue container;
     private String name;
     private LineInfo line;
 
     public FieldAccess(ReturnValue container, String name, LineInfo line) {
+        Log.d(TAG, "FieldAccess() called with: container = [" + container + "], name = [" + name + "], line = [" + line + "]");
         this.container = container;
         this.name = name;
         this.line = line;
@@ -35,8 +40,12 @@ public class FieldAccess extends DebuggableLeftValue {
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         RuntimeType r = container.getType(f);
-        return new RuntimeType(((ObjectType) (r.declType)).getMemberType(name),
-                r.writable);
+        if (r.declType instanceof ObjectType) {
+            return new RuntimeType(((ObjectType) (r.declType)).getMemberType(name), r.writable);
+        } else if (r.declType instanceof JavaClassBasedType) {
+            return new RuntimeType(r.declType, r.writable);
+        }
+        return null;
     }
 
     @Override
@@ -50,7 +59,7 @@ public class FieldAccess extends DebuggableLeftValue {
         Object value = container.compileTimeValue(context);
         if (value != null) {
             try {
-                return ((ContainsVariables) value).get_var(name);
+                return ((ContainsVariables) value).getVar(name);
             } catch (RuntimePascalException e) {
                 throw new ConstantCalculationException(e);
             }
@@ -63,12 +72,12 @@ public class FieldAccess extends DebuggableLeftValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         Object value = container.getValue(f, main);
-        return ((ContainsVariables) value).get_var(name);
+        return ((ContainsVariables) value).getVar(name);
     }
 
     @Override
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException {
-        return new FieldReference((ContainsVariables)container.getValue(f,main), name);
+        return new FieldReference((ContainsVariables) container.getValue(f, main), name);
     }
 
     @Override
@@ -78,8 +87,15 @@ public class FieldAccess extends DebuggableLeftValue {
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new FieldAccess(
-                    container.compileTimeExpressionFold(context), name, line);
+            return new FieldAccess(container.compileTimeExpressionFold(context), name, line);
         }
+    }
+
+    public ReturnValue getContainer() {
+        return container;
+    }
+
+    public String getName() {
+        return name;
     }
 }

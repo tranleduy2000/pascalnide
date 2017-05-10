@@ -80,10 +80,10 @@ public class CustomType extends ObjectType {
             Class type = v.type.getStorageClass();
             c.declareField(v.name, type);
         }
-//        add_constructor(c);
-//        add_get_var(c);
-//        add_set_var(c);
-//        add_clone(c);
+//        add_constructor(clazz);
+//        add_get_var(clazz);
+//        add_set_var(clazz);
+//        add_clone(clazz);
     }
 
     @Override

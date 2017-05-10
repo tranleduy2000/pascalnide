@@ -85,7 +85,7 @@ import java.util.Map.Entry;
  * @author Felix Arends (felix.arends@gmail.com)
  */
 public class LocationFacade implements PascalLibrary {
-    private final EventFacade mEventFacade;
+    private final AndroidEvent mEventFacade;
     private final Context mContext;
     private final Map<String, Location> mLocationUpdates;
     private final LocationManager mLocationManager;
@@ -117,7 +117,7 @@ public class LocationFacade implements PascalLibrary {
 
     public LocationFacade(AndroidLibraryManager manager) {
         mContext = manager.getContext();
-        mEventFacade = manager.getReceiver(EventFacade.class);
+        mEventFacade = manager.getReceiver(AndroidEvent.class);
         mManager = manager;
         mGeocoder = new Geocoder(mContext);
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);

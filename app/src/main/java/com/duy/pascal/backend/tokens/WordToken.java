@@ -5,11 +5,24 @@ import com.duy.pascal.backend.exceptions.UnrecognizedTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+
+import java.net.Socket;
 
 
 public class WordToken extends Token {
     public String name;
+    private String originalName;
+    public WordToken(LineInfo line, String s) {
+        super(line);
+        this.name = s.toLowerCase();
+        this.originalName = s;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public String getOriginalName() {
         return originalName;
@@ -17,14 +30,6 @@ public class WordToken extends Token {
 
     public void setOriginalName(String originalName) {
         this.originalName = originalName;
-    }
-
-    private String originalName;
-
-    public WordToken(LineInfo line, String s) {
-        super(line);
-        this.name = s.toLowerCase();
-        this.originalName = s;
     }
 
     @Override
@@ -37,52 +42,63 @@ public class WordToken extends Token {
     }
 
     @Override
-    public WordToken get_word_value() throws ParsingException {
+    public WordToken getWordValue() throws ParsingException {
         return this;
     }
 
-    public DeclaredType to_basic_type(ExpressionContext context)
+    public DeclaredType toBasicType(ExpressionContext context)
             throws UnrecognizedTypeException {
-        String s = name.toLowerCase().intern();
-        if (s.equalsIgnoreCase("integer")
-                || s.equalsIgnoreCase("byte")
-                || s.equalsIgnoreCase("word")
-                || s.equalsIgnoreCase("shortint")
-                || s.equalsIgnoreCase("smallint")
-                || s.equalsIgnoreCase("cardinal")) {
+        String name = this.name.toLowerCase().intern();
+        if (name.equalsIgnoreCase("integer")
+                || name.equalsIgnoreCase("byte")
+                || name.equalsIgnoreCase("word")
+                || name.equalsIgnoreCase("shortint")
+                || name.equalsIgnoreCase("smallint")
+                || name.equalsIgnoreCase("cardinal")) {
             return BasicType.Integer;
-        } else if (s.equalsIgnoreCase("string")
-                || s.equalsIgnoreCase("ansistring")
-                || s.equalsIgnoreCase("shortstring")) {
+        } else if (name.equalsIgnoreCase("string")
+                || name.equalsIgnoreCase("ansistring")
+                || name.equalsIgnoreCase("shortstring")) {
             return BasicType.StringBuilder;
-        } else if (s.equalsIgnoreCase("single")
-                || s.equalsIgnoreCase("extended")
-                || s.equalsIgnoreCase("real")
-                || s.equalsIgnoreCase("comp")
-                || s.equalsIgnoreCase("curreny")
-                || s.equalsIgnoreCase("double")) {
+        } else if (name.equalsIgnoreCase("single")
+                || name.equalsIgnoreCase("extended")
+                || name.equalsIgnoreCase("real")
+                || name.equalsIgnoreCase("comp")
+                || name.equalsIgnoreCase("curreny")
+                || name.equalsIgnoreCase("double")) {
             return BasicType.Double;
-        } else if (s.equalsIgnoreCase("longint")
-                || s.equalsIgnoreCase("int64")
-                || s.equalsIgnoreCase("qword")
-                || s.equalsIgnoreCase("longword")
-                || s.equalsIgnoreCase("dword")) {
+        } else if (name.equalsIgnoreCase("longint")
+                || name.equalsIgnoreCase("int64")
+                || name.equalsIgnoreCase("qword")
+                || name.equalsIgnoreCase("longword")
+                || name.equalsIgnoreCase("dword")) {
             return BasicType.Long;
-        } else if (s.equalsIgnoreCase("boolean")) {
+        } else if (name.equalsIgnoreCase("boolean")) {
             return BasicType.Boolean;
-        } else if (s.equalsIgnoreCase("char")) {
+        } else if (name.equalsIgnoreCase("char")) {
             return BasicType.Character;
-        } else if (s.equalsIgnoreCase("text")
-                || s.equalsIgnoreCase("textfile")) {
+        } else if (name.equalsIgnoreCase("text")
+                || name.equalsIgnoreCase("textfile")) {
             return BasicType.Text;
+        } else if (name.equalsIgnoreCase("socket")) {
+            return new JavaClassBasedType(Socket.class);
         } else {
-            DeclaredType type = context.getTypedefType(s);
+            DeclaredType type = context.getTypedefType(name);
             if (type != null) {
                 return type;
             } else {
-                Object constVal = context.getConstantDefinition(s);
+
+                try {
+                    String clone = originalName.replace("_", ".");
+                    Class clazz = Class.forName(clone);
+                    return new JavaClassBasedType(clazz);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                Object constVal = context.getConstantDefinition(name);
                 if (constVal == null) {
-                    throw new UnrecognizedTypeException(lineInfo, s);
+                    throw new UnrecognizedTypeException(lineInfo, name);
                 }
                 return BasicType.create(constVal.getClass());
             }

@@ -45,8 +45,12 @@ public class CloneableObjectCloner implements ReturnValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
-        ContainsVariables c = (ContainsVariables) r.getValue(f, main);
-        return c.clone();
+        Object value = r.getValue(f, main);
+        if (value instanceof ContainsVariables) {
+            ContainsVariables c = (ContainsVariables) value;
+            return c.clone();
+        }
+        return value;
     }
 
     @Override
@@ -57,8 +61,7 @@ public class CloneableObjectCloner implements ReturnValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        ContainsVariables c = (ContainsVariables) r
-                .compileTimeValue(context);
+        ContainsVariables c = (ContainsVariables) r.compileTimeValue(context);
         return c.clone();
     }
 

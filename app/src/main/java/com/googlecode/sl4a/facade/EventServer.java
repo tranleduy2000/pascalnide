@@ -36,7 +36,7 @@ import java.util.concurrent.CountDownLatch;
  * @author Manuel Naranjo (manuel@aircable.net)
  * @see SimpleServer
  */
-public class EventServer extends SimpleServer implements EventFacade.EventObserver {
+public class EventServer extends SimpleServer implements AndroidEvent.EventObserver {
     private static final Vector<Listener> mListeners = new Vector<>();
     private InetSocketAddress address = null;
 
@@ -64,19 +64,19 @@ public class EventServer extends SimpleServer implements EventFacade.EventObserv
 
     @Override
     protected void handleConnection(Socket socket) throws IOException {
-        Listener l = new Listener(socket);
+        Listener listener = new Listener(socket);
         Log.v("Adding EventServer listener " + socket.getPort());
-        mListeners.add(l);
+        mListeners.add(listener);
         // we are running in the socket accept thread
         // wait until the event dispatcher gets us the events
         // or we die, what ever happens first
         try {
-            l.lock.await();
+            listener.lock.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         try {
-            l.sock.close();
+            listener.socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,7 +85,7 @@ public class EventServer extends SimpleServer implements EventFacade.EventObserv
 
     @Override
     public void onEventReceived(Event event) {
-        Object result = null;
+        Object result;
         try {
             result = JsonBuilder.build(event);
         } catch (JSONException e) {
@@ -107,13 +107,13 @@ public class EventServer extends SimpleServer implements EventFacade.EventObserv
     }
 
     private class Listener {
-        private Socket sock;
+        private Socket socket;
         private PrintWriter out;
         private CountDownLatch lock = new CountDownLatch(1);
 
-        public Listener(Socket l) throws IOException {
-            sock = l;
-            out = new PrintWriter(l.getOutputStream(), true);
+        public Listener(Socket socket) throws IOException {
+            this.socket = socket;
+            out = new PrintWriter(socket.getOutputStream(), true);
         }
     }
 }

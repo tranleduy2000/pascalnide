@@ -95,7 +95,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return name;
     }
 
-    public void parse_function_body(GrouperToken i) throws ParsingException {
+    public void parseFunctionBody(GrouperToken i) throws ParsingException {
         Token next = i.peekNoEOF();
         if (next instanceof ForwardToken) {
             Token take = i.take();

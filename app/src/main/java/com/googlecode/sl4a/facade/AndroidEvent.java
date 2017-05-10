@@ -23,6 +23,7 @@ import android.os.Bundle;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityResult;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.google.common.collect.ArrayListMultimap;
@@ -30,7 +31,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.googlecode.sl4a.event.Event;
-import com.duy.pascal.backend.lib.android.activity.PascalActivityResult;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
@@ -62,7 +62,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class EventFacade implements PascalLibrary {
+public class AndroidEvent implements PascalLibrary {
     /**
      * The maximum length of the event queue. Old events will be discarded when this limit is
      * exceeded.
@@ -78,7 +78,7 @@ public class EventFacade implements PascalLibrary {
     private final Context mContext;
     private EventServer mEventServer = null;
 
-    public EventFacade(AndroidLibraryManager manager) {
+    public AndroidEvent(AndroidLibraryManager manager) {
         mContext = manager.getContext().getApplicationContext();
     }
 
@@ -206,7 +206,7 @@ public class EventFacade implements PascalLibrary {
     public Event eventWait(
             @PascalParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
             throws InterruptedException {
-        Event result = null;
+        Event result;
         final PascalActivityResult<Event> futureEvent = new PascalActivityResult<>();
         synchronized (mEventQueue) { // Anything in queue?
             if (mEventQueue.size() > 0) {
@@ -249,7 +249,8 @@ public class EventFacade implements PascalLibrary {
     public void eventPost(
             @PascalParameter(name = "name", description = "Name of event") String name,
             @PascalParameter(name = "data", description = "Data contained in event.") String data,
-            @PascalParameter(name = "enqueue", description = "Set to False if you don't want your events to be added to the event queue, just dispatched.") @RpcOptional @RpcDefault("false") Boolean enqueue) {
+            @PascalParameter(name = "enqueue", description = "Set to False if you don't want your events to be added to the event queue, just dispatched.")
+                    boolean enqueue) {
         postEvent(name, data, enqueue);
     }
 
@@ -263,7 +264,7 @@ public class EventFacade implements PascalLibrary {
     /**
      * Posts an event with to the event queue.
      */
-    public void postEvent(String name, Object data, boolean enqueue) {
+    private void postEvent(String name, Object data, boolean enqueue) {
         Event event = new Event(name, data);
         if (enqueue) {
             mEventQueue.add(event);
@@ -284,7 +285,7 @@ public class EventFacade implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    @RpcDeprecated(value = "eventPost", release = "r4")
+    @RpcDeprecated(value = "eventPost")
     @PascalMethod(description = "Post an event to the event queue.")
     public void rpcPostEvent(@PascalParameter(name = "name") String name,
                              @PascalParameter(name = "data") String data) {
@@ -365,10 +366,10 @@ public class EventFacade implements PascalLibrary {
     }
 
     public class BroadcastListener extends android.content.BroadcastReceiver {
-        private EventFacade mParent;
+        private AndroidEvent mParent;
         private boolean mEnQueue;
 
-        public BroadcastListener(EventFacade parent, boolean enqueue) {
+        public BroadcastListener(AndroidEvent parent, boolean enqueue) {
             mParent = parent;
             mEnQueue = enqueue;
         }

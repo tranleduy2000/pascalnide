@@ -18,12 +18,15 @@ public class ArrayBoxer extends DebuggableReturnValue {
     public ReturnValue[] values;
     public ArgumentType type;
     public LineInfo line;
-
     public ArrayBoxer(ReturnValue[] array, ArgumentType elementType,
                       LineInfo line) {
         this.values = array;
         this.type = elementType;
         this.line = line;
+    }
+
+    public ReturnValue[] getValues() {
+        return values;
     }
 
     @Override
@@ -65,7 +68,6 @@ public class ArrayBoxer extends DebuggableReturnValue {
         }
         return result;
     }
-
 
 
     @Override

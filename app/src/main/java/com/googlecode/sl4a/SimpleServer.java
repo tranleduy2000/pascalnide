@@ -172,7 +172,7 @@ public abstract class SimpleServer {
      * @param port the port to bind to or 0 to pick any unused port
      * @return the port that the server is bound to
      */
-    public InetSocketAddress startAllInterfaces(int port) {
+    protected InetSocketAddress startAllInterfaces(int port) {
         try {
             mServer = new ServerSocket(port, 5 /* backlog */);
         } catch (Exception e) {

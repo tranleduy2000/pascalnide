@@ -4,6 +4,7 @@ import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class TypeConverter {
@@ -109,9 +110,29 @@ public class TypeConverter {
         return null;
     }
 
+    public static boolean autoConvert(Object[] targetObjects, Object[] convertedObject, Type[] types) {
+        if (!(types.length == targetObjects.length)) {
+            return false;
+        }
+        try {
+            for (int i = 0; i < types.length; i++) {
+                Class<?> classType = (Class<?>) types[i];
+                if (classType == String.class) {
+                    if (targetObjects[i] instanceof StringBuilder) {
+                        convertedObject[i] = targetObjects[i].toString();
+                        continue;
+                    }
+                }
+                convertedObject[i] = classType.cast(targetObjects[i]);
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName();
     }
-
 }

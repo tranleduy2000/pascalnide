@@ -17,59 +17,66 @@ import serp.bytecode.Code;
 
 public class JavaClassBasedType implements DeclaredType {
 
-    Class c;
+    Class clazz;
 
     public JavaClassBasedType(Class c) {
-        this.c = c;
+        this.clazz = c;
     }
 
     @Override
     public Object initialize() {
         try {
-            return c.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            return clazz.newInstance();
+        } catch (InstantiationException ignored) {
+        } catch (IllegalAccessException ignored) {
         }
         return null;
     }
 
     @Override
     public String toString() {
-        return c.getSimpleName();
+        return clazz.getSimpleName();
     }
 
     @Override
     public Class getTransferClass() {
-        return c;
+        return clazz;
     }
 
     @Override
     public ReturnValue convert(ReturnValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.getType(f);
-        if (other_type.declType instanceof BasicType) {
-            if (this.equals(other_type.declType)) {
+        RuntimeType otherType = value.getType(f);
+        if (otherType.declType instanceof BasicType) {
+            if (this.equals(otherType.declType)) {
                 return cloneValue(value);
             }
-            if (this.c == String.class
-                    && other_type.declType == BasicType.StringBuilder) {
+            if (this.clazz == String.class
+                    && otherType.declType == BasicType.StringBuilder) {
                 return new StringBuilderBoxer(value);
             }
-            if (this.c == String.class
-                    && other_type.declType == BasicType.Character) {
+            if (this.clazz == String.class
+                    && otherType.declType == BasicType.Character) {
                 return new StringBuilderBoxer(new CharacterBoxer(value));
             }
-
+        }
+        if (otherType.declType instanceof JavaClassBasedType) {
+            JavaClassBasedType otherClassBasedType = (JavaClassBasedType) otherType.declType;
+            //Object o = (Math) obj;
+            if (this.equals(otherClassBasedType)
+                    //Object o = ...
+                    //Math math = (Math) o;
+                    || otherClassBasedType.equals(this)) {
+                return value;
+            }
         }
         return null;
     }
 
     @Override
     public boolean equals(DeclaredType other) {
-        return c == Object.class
-                || (other instanceof JavaClassBasedType && ((JavaClassBasedType) other).c == c);
+        return clazz == Object.class
+                || (other instanceof JavaClassBasedType && ((JavaClassBasedType) other).clazz == clazz);
     }
 
     @Override
@@ -106,7 +113,7 @@ public class JavaClassBasedType implements DeclaredType {
 
     @Override
     public Class<?> getStorageClass() {
-        return c;
+        return clazz;
     }
 
     @Override

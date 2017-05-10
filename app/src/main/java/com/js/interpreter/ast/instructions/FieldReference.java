@@ -15,12 +15,12 @@ public class FieldReference implements Reference {
 
     @Override
     public void set(Object value) {
-        container.set_var(name, value);
+        container.setVar(name, value);
     }
 
     @Override
     public Object get() throws RuntimePascalException {
-        return container.get_var(name);
+        return container.getVar(name);
     }
 
     @Override

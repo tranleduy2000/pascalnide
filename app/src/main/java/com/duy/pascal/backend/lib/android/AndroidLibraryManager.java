@@ -57,7 +57,6 @@ public class AndroidLibraryManager extends RpcReceiverManager {
         return new AndroidUtilsLib.Resources() {
             @Override
             public int getLogo48() {
-                // TODO(Alexey): As an alternative, ask application for resource ids.
                 String packageName = mContext.getPackageName();
                 return mContext.getResources().getIdentifier("script_logo_48", "drawable", packageName);
             }

@@ -36,8 +36,7 @@ import com.duy.pascal.backend.lib.android.view.dialog.SeekBarDialogTask;
 import com.duy.pascal.backend.lib.android.view.dialog.TimePickerDialogTask;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
-import com.googlecode.sl4a.FileUtils;
-import com.googlecode.sl4a.facade.EventFacade;
+import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
@@ -128,7 +127,7 @@ public class AndroidDialogLib implements PascalLibrary {
     private List<MenuItem> mContextMenuItems;
     private List<MenuItem> mOptionsMenuItems;
     private AtomicBoolean mMenuUpdated;
-    private EventFacade mEventFacade;
+    private AndroidEvent mEventFacade;
     private AndroidLibraryManager mManager;
     private DialogTask mDialogTask;
     private List<Integer> mOverrideKeys = Collections.synchronizedList(new ArrayList<Integer>());
@@ -141,7 +140,7 @@ public class AndroidDialogLib implements PascalLibrary {
         }
         mContextMenuItems = new CopyOnWriteArrayList<>();
         mOptionsMenuItems = new CopyOnWriteArrayList<>();
-        mEventFacade = manager.getReceiver(EventFacade.class);
+        mEventFacade = manager.getReceiver(AndroidEvent.class);
         mMenuUpdated = new AtomicBoolean(false);
     }
 
@@ -431,9 +430,7 @@ public class AndroidDialogLib implements PascalLibrary {
             @PascalParameter(name = "url") String url,
             @PascalParameter(name = "wait", description = "block until the user exits the WebView") boolean wait)
             throws IOException {
-        String jsonSrc = FileUtils.readFromAssetsFile(mContext, HtmlActivityTask.JSON_FILE);
-        String AndroidJsSrc = FileUtils.readFromAssetsFile(mContext, HtmlActivityTask.ANDROID_JS_FILE);
-        HtmlActivityTask task = new HtmlActivityTask(mManager, AndroidJsSrc, jsonSrc, url, false);
+        HtmlActivityTask task = new HtmlActivityTask(mManager, url, false);
         mTaskQueue.execute(task);
         if (wait) {
             try {

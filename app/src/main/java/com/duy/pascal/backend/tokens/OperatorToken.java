@@ -10,7 +10,7 @@ public class OperatorToken extends Token {
         this.type = t;
     }
 
-    public boolean can_be_unary() {
+    public boolean canBeUnary() {
         return type.canBeUnary;
     }
 

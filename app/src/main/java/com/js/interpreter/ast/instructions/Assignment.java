@@ -12,10 +12,10 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class Assignment extends DebuggableExecutable implements SetValueExecutable {
-    LeftValue left;
+    private LeftValue left;
 
-    ReturnValue value;
-    LineInfo line;
+    private ReturnValue value;
+    private LineInfo line;
 
     public Assignment(LeftValue left, ReturnValue value, LineInfo line) {
         this.left = left;

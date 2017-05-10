@@ -16,7 +16,6 @@
 
 package com.googlecode.sl4a.interpreter.html;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -33,14 +32,13 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
+import com.duy.pascal.backend.lib.android.view.AndroidDialogLib;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SingleThreadExecutor;
 import com.googlecode.sl4a.event.Event;
-import com.googlecode.sl4a.facade.EventFacade;
-import com.duy.pascal.backend.lib.android.view.AndroidDialogLib;
+import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.interpreter.InterpreterConstants;
 import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.jsonrpc.JsonRpcResult;
@@ -65,40 +63,24 @@ import java.util.concurrent.ExecutorService;
  */
 public class HtmlActivityTask extends PascalActivityTask<Void> {
 
-    public static final String HTML = "html";
-    public static final String HTML_EXTENSION = ".html";
-
-    public static final String JSON_FILE = "json2.js";
-    public static final String ANDROID_JS_FILE = "android.js";
-    public static final String HTML_NICE_NAME = "HTML and JavaScript";
-
     private static final String HTTP = "http";
-    private static final String ANDROID_PROTOTYPE_JS =
-            "Android.prototype.%1$s = function(var_args) { "
-                    + "return this._call(\"%1$s\", Array.prototype.slice.call(arguments)); };";
-
     private static final String PREFIX = "file://";
     private static final String BASE_URL = PREFIX + InterpreterConstants.SCRIPTS_ROOT;
+    private static final String HTTPS = "https";
     private final RpcReceiverManager mReceiverManager;
-    private final String mJsonSource;
-    private final String mAndroidJsSource;
     private final String mUrl;
-    private final JavaScriptWrapper mWrapper;
     private final HtmlEventObserver mObserver;
     private final AndroidDialogLib mUiFacade;
     private HtmlActivityTask reference;
     private WebView mView;
     private boolean mDestroyManager;
 
-    public HtmlActivityTask(RpcReceiverManager manager, String androidJsSource, String jsonSource,
+    public HtmlActivityTask(RpcReceiverManager manager,
                             String url, boolean destroyManager) {
         reference = this;
         mReceiverManager = manager;
-        mJsonSource = jsonSource;
-        mAndroidJsSource = androidJsSource;
-        mWrapper = new JavaScriptWrapper();
         mObserver = new HtmlEventObserver();
-        mReceiverManager.getReceiver(EventFacade.class).addGlobalEventObserver(mObserver);
+        mReceiverManager.getReceiver(AndroidEvent.class).addGlobalEventObserver(mObserver);
         mUiFacade = mReceiverManager.getReceiver(AndroidDialogLib.class);
         mUrl = url;
         mDestroyManager = destroyManager;
@@ -110,39 +92,25 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
         }
     }
 
-    public RpcReceiverManager getRpcReceiverManager() {
-        return mReceiverManager;
-    }
-
-    @SuppressLint({"JavascriptInterface", "AddJavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     public void onCreate() {
         super.onCreate();
         mView = new WebView(getActivity());
-        mView.getSettings().setJavaScriptEnabled(true);
-        mView.addJavascriptInterface(mWrapper, "_rpc_wrapper");
-        mView.addJavascriptInterface(new Object() {
-
-            @SuppressWarnings("unused")
-            public void register(String event, int id) {
-                mObserver.register(event, id);
-            }
-        }, "_callback_wrapper");
-
         getActivity().setContentView(mView);
+
         mView.setOnCreateContextMenuListener(getActivity());
         ChromeClient mChromeClient = new ChromeClient(getActivity());
         MyWebViewClient mWebViewClient = new MyWebViewClient();
         mView.setWebChromeClient(mChromeClient);
         mView.setWebViewClient(mWebViewClient);
-        mView.loadUrl("javascript:" + mJsonSource);
-        mView.loadUrl("javascript:" + mAndroidJsSource);
-        load();
+
+        loadURL();
     }
 
-    private void load() {
-        if (!HTTP.equals(Uri.parse(mUrl).getScheme())) {
-            String source = null;
+    private void loadURL() {
+        if (!HTTP.equals(Uri.parse(mUrl).getScheme())
+                && !HTTPS.equals(Uri.parse(mUrl).getScheme())) {
+            String source;
             try {
                 source = FileUtils.readToString(new File(Uri.parse(mUrl).getPath()));
             } catch (IOException e) {
@@ -157,7 +125,7 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mReceiverManager.getReceiver(EventFacade.class).removeEventObserver(mObserver);
+        mReceiverManager.getReceiver(AndroidEvent.class).removeEventObserver(mObserver);
         if (mDestroyManager) {
             mReceiverManager.shutdown();
         }
@@ -177,15 +145,6 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
         return mUiFacade.onPrepareOptionsMenu(menu);
     }
 
-    private String generateAPIWrapper() {
-        StringBuilder wrapper = new StringBuilder();
-        for (Class<? extends PascalLibrary> clazz : mReceiverManager.getRpcReceiverClasses()) {
-            for (MethodDescriptor rpc : MethodDescriptor.collectFrom(clazz)) {
-                wrapper.append(String.format(ANDROID_PROTOTYPE_JS, rpc.getName()));
-            }
-        }
-        return wrapper.toString();
-    }
 
     /*
      * New WebviewClient
@@ -195,7 +154,7 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //      /*
 //       * if (Uri.parse(url).getHost().equals("www.example.com")) { // This is my web site, so do not
-//       * override; let my WebView load the page return false; } // Otherwise, the link is not for a
+//       * override; let my WebView loadURL the page return false; } // Otherwise, the link is not for a
 //       * page on my site, so launch another Activity that handles URLs Intent intent = new
 //       * Intent(Intent.ACTION_VIEW, Uri.parse(url)); startActivity(intent);
 //       */
@@ -244,7 +203,7 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
         }
     }
 
-    private class HtmlEventObserver implements EventFacade.EventObserver {
+    private class HtmlEventObserver implements AndroidEvent.EventObserver {
         private Map<String, Set<Integer>> mEventMap = new HashMap<>();
 
         public void register(String eventName, Integer id) {

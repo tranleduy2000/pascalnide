@@ -23,7 +23,7 @@ import android.util.AndroidRuntimeException;
 import android.widget.SeekBar;
 
 import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.facade.EventFacade;
+import com.googlecode.sl4a.facade.AndroidEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,7 +77,7 @@ public class SeekBarDialogTask extends DialogTask {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                EventFacade eventFacade = getEventFacade();
+                AndroidEvent eventFacade = getEventFacade();
                 if (eventFacade != null) {
                     JSONObject result = new JSONObject();
                     try {

@@ -34,7 +34,7 @@ import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.MainThread;
-import com.googlecode.sl4a.facade.EventFacade;
+import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
 
@@ -53,7 +53,7 @@ import java.util.concurrent.Callable;
 public class AndroidPhoneLibrary implements PascalLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
-    private final EventFacade mEventFacade;
+    private final AndroidEvent mEventFacade;
     private final TelephonyManager mTelephonyManager;
     private final Bundle mPhoneState;
     private final Context mContext;
@@ -65,7 +65,7 @@ public class AndroidPhoneLibrary implements PascalLibrary {
         mManager = manager;
         mTelephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
         mAndroidFacade = manager.getReceiver(AndroidUtilsLib.class);
-        mEventFacade = manager.getReceiver(EventFacade.class);
+        mEventFacade = manager.getReceiver(AndroidEvent.class);
         mPhoneState = new Bundle();
         mPhoneStateListener = MainThread.run(mContext, new Callable<PhoneStateListener>() {
             @Override

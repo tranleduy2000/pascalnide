@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  * @author Albert L. Rossi
  */
 public class TypeUtils {
-    public static final Class[] primitiveAssignable =
+    private static final Class[] primitiveAssignable =
             {
                     String.class, Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
                     Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
@@ -24,79 +24,93 @@ public class TypeUtils {
 
     private static HashMap<String, Class> typeMap = null;
     private static HashMap<Class, Class> wrappers = null;
-    private static HashMap<Class, Class> primTypes = null;
-    private static HashMap<Class, Class> numTypes = null;
+    private static HashMap<Class, Class> primitiveTypes = null;
+    private static HashMap<Class, Class> numberTypes = null;
     private static HashMap<Class, Class> assignable = null;
 
     /*
      *  HashMaps holding primitive and numerical operator mappings.
      */
     static {
-        typeMap = new HashMap<>();
-        String[] keys = new String[]
-                {
-                        "bool", "boolean", "byte", "char", "character", "double", "float",
-                        "int", "integer", "long", "short", "void",
-                        "Boolean", "java.lang.Boolean", "Byte", "java.lang.Byte",
-                        "Character", "java.lang.Character", "Double", "java.lang.Double",
-                        "Float", "java.lang.Float", "Integer", "java.lang.Integer",
-                        "Long", "java.lang.Long", "Short", "java.lang.Short",
-                        "Void", "java.lang.Void", "string",
-                        "String", "java.lang.String", "file", "File", "java.io.File",
-                        "uri", "URI", "java.net.URI"
-                };
-        Class[] clazzes = new Class[]
-                {
-                        Boolean.TYPE, Boolean.TYPE, Byte.TYPE, Character.TYPE,
-                        Character.TYPE, Double.TYPE, Float.TYPE, Integer.TYPE,
-                        Integer.TYPE, Long.TYPE, Short.TYPE, Void.TYPE,
-                        Boolean.class, Boolean.class, Byte.class, Byte.class,
-                        Character.class, Character.class, Double.class, Double.class,
-                        Float.class, Float.class, Integer.class, Integer.class,
-                        Long.class, Long.class, Short.class, Short.class,
-                        Void.class, Void.class, String.class, String.class, String.class,
-                        File.class, File.class, File.class, URI.class, URI.class, URI.class
-                };
-        for (int i = 0; i < keys.length; i++) {
-            typeMap.put(keys[i], clazzes[i]);
+        {
+            typeMap = new HashMap<>();
+            String[] keys = new String[]
+                    {
+                            "bool", "boolean", "byte", "char", "character", "double", "float",
+                            "int", "integer", "long", "short", "void",
+                            "Boolean", "java.lang.Boolean", "Byte", "java.lang.Byte",
+                            "Character", "java.lang.Character", "Double", "java.lang.Double",
+                            "Float", "java.lang.Float", "Integer", "java.lang.Integer",
+                            "Long", "java.lang.Long", "Short", "java.lang.Short",
+                            "Void", "java.lang.Void",
+                            "string", "String", "java.lang.String",
+                            "file", "File", "java.io.File",
+                            "uri", "URI", "java.net.URI",
+
+                    };
+            Class[] clazzes = new Class[]
+                    {
+                            Boolean.TYPE, Boolean.TYPE, Byte.TYPE, Character.TYPE,
+                            Character.TYPE, Double.TYPE, Float.TYPE, Integer.TYPE,
+                            Integer.TYPE, Long.TYPE, Short.TYPE, Void.TYPE,
+                            Boolean.class, Boolean.class, Byte.class, Byte.class,
+                            Character.class, Character.class, Double.class, Double.class,
+                            Float.class, Float.class, Integer.class, Integer.class,
+                            Long.class, Long.class, Short.class, Short.class,
+                            Void.class, Void.class, String.class, String.class, String.class,
+                            File.class, File.class, File.class,
+                            URI.class, URI.class, URI.class,
+
+                    };
+            for (int i = 0; i < keys.length; i++) {
+                typeMap.put(keys[i], clazzes[i]);
+            }
         }
 
-        primTypes = new HashMap<>();
+        primitiveTypes = new HashMap<>();
         wrappers = new HashMap<>();
-        clazzes = new Class[]
-                {
-                        Boolean.class, Byte.class, Character.class, Double.class,
-                        Float.class, Integer.class, Long.class, Short.class,
-                        Void.class
-                };
-        Class[] types = new Class[]
-                {
-                        Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
-                        Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
-                        Void.TYPE
-                };
-        for (int i = 0; i < clazzes.length; i++) {
-            primTypes.put(clazzes[i], types[i]);
-            wrappers.put(types[i], clazzes[i]);
+
+
+        {
+            Class[] types = new Class[]
+                    {
+                            Boolean.TYPE, Byte.TYPE, Character.TYPE, Double.TYPE,
+                            Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
+                            Void.TYPE
+                    };
+            Class[] clazzes = new Class[]
+                    {
+                            Boolean.class, Byte.class, Character.class, Double.class,
+                            Float.class, Integer.class, Long.class, Short.class,
+                            Void.class
+                    };
+
+            for (int i = 0; i < clazzes.length; i++) {
+                primitiveTypes.put(clazzes[i], types[i]);
+                wrappers.put(types[i], clazzes[i]);
+            }
         }
 
-        numTypes = new HashMap<>();
-        types = new Class[]
-                {
-                        Double.TYPE, Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
-                        Double.class, Float.class, Integer.class, Long.class, Short.class
-                };
+        {
+            numberTypes = new HashMap<>();
+            Class[] types = new Class[]
+                    {
+                            Double.TYPE, Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
+                            Double.class, Float.class, Integer.class, Long.class, Short.class
+                    };
 
-        for (Class type : types) {
-            numTypes.put(type, type);
+            for (Class type : types) {
+                numberTypes.put(type, type);
+            }
+        }
+        {
+            assignable = new HashMap<>();
+            for (Class aPrimitiveAssignable : primitiveAssignable) {
+                assignable.put(aPrimitiveAssignable, null);
+            }
         }
 
-        assignable = new HashMap<>();
-        for (Class aPrimitiveAssignable : primitiveAssignable) {
-            assignable.put(aPrimitiveAssignable, null);
-        }
-
-    } // static
+    }
 
     /**
      * Static utility class; cannot be constructed.
@@ -113,10 +127,10 @@ public class TypeUtils {
     public static Class getClassForName(String s)
             throws ClassNotFoundException {
         if (typeMap.containsKey(s)) {
-            return (Class) typeMap.get(s);
+            return typeMap.get(s);
         }
         return Class.forName(s);
-    } // getClassForName
+    }
 
     /**
      * @param c the primitive wrapper class.
@@ -124,7 +138,7 @@ public class TypeUtils {
      */
     public static Class getTypeForClass(Class c) {
         try {
-            return (Class) primTypes.get(c);
+            return primitiveTypes.get(c);
         } catch (NoSuchElementException nse) {
             return null;
         } catch (NullPointerException npe) {
@@ -138,7 +152,7 @@ public class TypeUtils {
      */
     public static Class getClassForType(Class c) {
         try {
-            return (Class) wrappers.get(c);
+            return wrappers.get(c);
         } catch (NoSuchElementException nse) {
             return null;
         } catch (NullPointerException npe) {
@@ -165,7 +179,7 @@ public class TypeUtils {
      * @return true if one of the primitive types or its wrappers.
      */
     public static boolean isPrimitiveWrapper(Class c) {
-        return primTypes.containsKey(c);
+        return primitiveTypes.containsKey(c);
     }
 
     /**
@@ -184,7 +198,7 @@ public class TypeUtils {
      * @return true if operator represents a numerical value.
      */
     public static boolean isNumber(String s) throws ClassNotFoundException {
-        return numTypes.containsKey(getClassForName(s));
+        return numberTypes.containsKey(getClassForName(s));
     }
 
     /**
@@ -192,7 +206,7 @@ public class TypeUtils {
      * @return true if Class represents a numerical value.
      */
     public static boolean isNumber(Class c) {
-        return numTypes.containsKey(c);
+        return numberTypes.containsKey(c);
     }
 
     /**
@@ -315,16 +329,16 @@ public class TypeUtils {
         }
         return c1.equals(c2) ||
                 c1.equals(wrappers.get(c2)) ||
-                c1.equals(primTypes.get(c2));
+                c1.equals(primitiveTypes.get(c2));
     }
 
     public static Object cast(String castTo, Object value)
             throws TypeConversionException {
-        Class clzz = null;
+        Class clazz;
         if (castTo != null) {
             try {
-                clzz = TypeUtils.getClassForName(castTo);
-                value = TypeUtils.convertPrim(clzz, value);
+                clazz = getClassForName(castTo);
+                value = convertPrim(clazz, value);
             } catch (ClassNotFoundException t) {
                 throw new TypeConversionException
                         ("could not get class for " + castTo);

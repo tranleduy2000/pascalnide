@@ -17,6 +17,7 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
+import com.duy.pascal.backend.exceptions.UnsupportedFormatException;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
@@ -190,7 +191,7 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
             boolean is_procedure = next instanceof ProcedureToken;
             FunctionDeclaration declaration = new FunctionDeclaration(this, i, is_procedure);
             declaration = getExistingFunction(declaration);
-            declaration.parse_function_body(i);
+            declaration.parseFunctionBody(i);
         } else if (next instanceof BeginEndToken) {
             handleBeginEnd(i);
         } else if (next instanceof VarToken) {
@@ -251,7 +252,11 @@ public abstract class ExpressionContextMixin extends HeirarchicalExpressionConte
                         if (bracketedToken.hasNext()) {
                             throw new ExpectedTokenException("]", bracketedToken.take());
                         }
-                        ((BasicType) type).setLength(converted);
+                        try {
+                            ((BasicType) type).setLength(converted);
+                        }catch (UnsupportedFormatException e){
+                            throw new UnsupportedFormatException(i.lineInfo);
+                        }
                     }
                 }
 

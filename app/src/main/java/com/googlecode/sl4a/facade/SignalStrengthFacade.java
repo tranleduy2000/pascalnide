@@ -40,13 +40,13 @@ import java.util.concurrent.Callable;
 public class SignalStrengthFacade implements PascalLibrary {
     private final Context mContext;
     private final TelephonyManager mTelephonyManager;
-    private final EventFacade mEventFacade;
+    private final AndroidEvent mEventFacade;
     private final PhoneStateListener mPhoneStateListener;
     private Bundle mSignalStrengths;
 
     public SignalStrengthFacade(AndroidLibraryManager manager) {
         mContext = manager.getContext();
-        mEventFacade = manager.getReceiver(EventFacade.class);
+        mEventFacade = manager.getReceiver(AndroidEvent.class);
         mTelephonyManager =
                 (TelephonyManager) manager.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         mPhoneStateListener = MainThread.run(mContext, new Callable<PhoneStateListener>() {

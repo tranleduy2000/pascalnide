@@ -66,12 +66,12 @@ public class CustomVariable implements ContainsVariables {
     }
 
     @Override
-    public Object get_var(String name) throws RuntimePascalException {
+    public Object getVar(String name) throws RuntimePascalException {
         return variableMap.get(name.toLowerCase());
     }
 
     @Override
-    public void set_var(String name, Object val) {
+    public void setVar(String name, Object val) {
         variableMap.put(name.toLowerCase(), val);
     }
 

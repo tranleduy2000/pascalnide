@@ -137,6 +137,8 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
                             e.printStackTrace();
                         } catch (StackOverflowException e) {
                             e.printStackTrace();
+                        } catch (RuntimePascalException e) {
+                            e.printStackTrace();
                         }
                     }
                 }

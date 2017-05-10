@@ -3,6 +3,7 @@ package com.duy.pascal.backend.tokens.grouping;
 
 import android.util.Log;
 
+import com.duy.pascal.backend.exceptions.MethodNotFoundException;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
@@ -18,11 +19,13 @@ import com.duy.pascal.backend.exceptions.SameNameException;
 import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
 import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
+import com.duy.pascal.backend.exceptions.UnsupportedFormatException;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
@@ -55,6 +58,7 @@ import com.duy.pascal.backend.tokens.basic.ToToken;
 import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
+import com.js.interpreter.ast.MethodDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.WrongIfElseStatement;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -76,9 +80,11 @@ import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.LeftValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.returnsvalue.SimpleFunctionCall;
 import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
 import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -94,7 +100,7 @@ public abstract class GrouperToken extends Token {
         queue = new LinkedBlockingQueue<>();
     }
 
-    private Token get_next() throws GroupingException {
+    private Token getNext() throws GroupingException {
         if (next == null) {
             while (true) {
                 try {
@@ -105,19 +111,19 @@ public abstract class GrouperToken extends Token {
                 break;
             }
         }
-        exceptioncheck(next);
+        exceptionCheck(next);
         if (next instanceof CommentToken) {
             next = null;
-            return get_next();
+            return getNext();
         }
         return next;
     }
 
     public boolean hasNext() throws GroupingException {
-        return !(get_next() instanceof EOFToken);
+        return !(getNext() instanceof EOFToken);
     }
 
-    private void exceptioncheck(Token t) throws GroupingException {
+    private void exceptionCheck(Token t) throws GroupingException {
         if (t instanceof GroupingExceptionToken) {
             throw ((GroupingExceptionToken) t).exception;
         }
@@ -137,7 +143,7 @@ public abstract class GrouperToken extends Token {
     public abstract String toCode();
 
     public Token take() throws ExpectedAnotherTokenException, GroupingException {
-        Token result = get_next();
+        Token result = getNext();
 
         if (result instanceof EOFToken) {
             throw new ExpectedAnotherTokenException(result.lineInfo);
@@ -145,7 +151,7 @@ public abstract class GrouperToken extends Token {
         while (true) {
             try {
                 next = queue.take();
-                exceptioncheck(next);
+                exceptionCheck(next);
 
                 return result;
             } catch (InterruptedException ignored) {
@@ -154,7 +160,7 @@ public abstract class GrouperToken extends Token {
     }
 
     public Token peek() throws GroupingException {
-        return get_next();
+        return getNext();
     }
 
     public Token peekNoEOF() throws ExpectedAnotherTokenException,
@@ -169,14 +175,14 @@ public abstract class GrouperToken extends Token {
     @Override
     public String toString() {
         try {
-            return get_next().toString() + ',' + queue.toString();
+            return getNext().toString() + ',' + queue.toString();
         } catch (GroupingException e) {
             return "Exception: " + e.toString();
         }
     }
 
     public String nextWordValue() throws ParsingException {
-        return take().get_word_value().name;
+        return take().getWordValue().name;
     }
 
     public void assertNextSemicolon(Token last) throws ParsingException {
@@ -218,7 +224,7 @@ public abstract class GrouperToken extends Token {
         if (!(n instanceof WordToken)) {
             throw new ExpectedTokenException("[Type Identifier]", n);
         }
-        return ((WordToken) n).to_basic_type(context);
+        return ((WordToken) n).toBasicType(context);
     }
 
     private DeclaredType getArrayType(ExpressionContext context)
@@ -254,7 +260,6 @@ public abstract class GrouperToken extends Token {
             elementType = getNextPascalType(context);
         }
         Log.d(TAG, "getArrayType: " + elementType.toString());
-        ArrayType arrayType;
         return new ArrayType<>(elementType, bound);
     }
 
@@ -264,11 +269,12 @@ public abstract class GrouperToken extends Token {
         ReturnValue nextTerm;
         if (next instanceof OperatorToken) {
             OperatorToken nextOperator = (OperatorToken) next;
-            if (!nextOperator.can_be_unary() || nextOperator.postfix()) {
+            if (!nextOperator.canBeUnary() || nextOperator.postfix()) {
                 throw new BadOperationTypeException(next.lineInfo,
                         nextOperator.type);
             }
-            nextTerm = UnaryOperatorEvaluation.generateOp(context, getNextExpression(context, nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.lineInfo);
+            nextTerm = UnaryOperatorEvaluation.generateOp(context, getNextExpression(context,
+                    nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.lineInfo);
         } else {
             nextTerm = getNextTerm(context, next);
         }
@@ -281,21 +287,22 @@ public abstract class GrouperToken extends Token {
                 }
                 take();
                 if (nextOperator.postfix()) {
-                    return UnaryOperatorEvaluation.generateOp(context, nextTerm, nextOperator.type, nextOperator.lineInfo);
+                    return UnaryOperatorEvaluation.generateOp(context, nextTerm, nextOperator.type,
+                            nextOperator.lineInfo);
                 }
-                ReturnValue nextvalue = getNextExpression(context,
+                ReturnValue nextValue = getNextExpression(context,
                         nextOperator.type.getPrecedence());
-                OperatorTypes operationtype = ((OperatorToken) next).type;
+                OperatorTypes operationType = ((OperatorToken) next).type;
                 DeclaredType type1 = nextTerm.getType(context).declType;
-                DeclaredType type2 = nextvalue.getType(context).declType;
+                DeclaredType type2 = nextValue.getType(context).declType;
                 try {
-                    operationtype.verifyBinaryOperation(type1, type2);
+                    operationType.verifyBinaryOperation(type1, type2);
                 } catch (BadOperationTypeException e) {
                     throw new BadOperationTypeException(next.lineInfo, type1,
-                            type2, nextTerm, nextvalue, operationtype);
+                            type2, nextTerm, nextValue, operationType);
                 }
                 nextTerm = BinaryOperatorEvaluation.generateOp(context,
-                        nextTerm, nextvalue, operationtype,
+                        nextTerm, nextValue, operationType,
                         nextOperator.lineInfo);
             } else if (next instanceof PeriodToken) {
                 take();
@@ -303,7 +310,41 @@ public abstract class GrouperToken extends Token {
                 if (!(next instanceof WordToken)) {
                     throw new ExpectedTokenException("[Element Name]", next);
                 }
-                nextTerm = new FieldAccess(nextTerm, (WordToken) next);
+                //need call method of java class
+                RuntimeType type = nextTerm.getType(context);
+                //access method of java class
+                if (type.declType instanceof JavaClassBasedType) {
+                    JavaClassBasedType javaClass = (JavaClassBasedType) type.declType;
+                    Class<?> storageClass = javaClass.getStorageClass();
+
+                    //get arguments
+                    ReturnValue[] args = {};
+                    if (hasNext()) {
+                        if (peek() instanceof ParenthesizedToken) {
+                            ParenthesizedToken token = (ParenthesizedToken) take();
+                            List<ReturnValue> argumentsForCall = token.getArgumentsForCall(context);
+                            args = new ReturnValue[argumentsForCall.size()];
+                            for (int i = 0; i < argumentsForCall.size(); i++) {
+                                args[i] = argumentsForCall.get(i);
+                            }
+                        }
+                    }
+                    String methodName = ((WordToken) next).getName();
+                    //get method, ignore case
+                    Method[] declaredMethods = storageClass.getDeclaredMethods();
+                    for (Method declaredMethod : declaredMethods) {
+                        if (declaredMethod.getName().equalsIgnoreCase(methodName)) {
+                            MethodDeclaration methodDeclaration =
+                                    new MethodDeclaration(nextTerm, declaredMethod);
+                            return new SimpleFunctionCall(methodDeclaration, args, lineInfo);
+                        }
+                    }
+                    throw new MethodNotFoundException(lineInfo, methodName, storageClass.getName());
+                } else {
+                    nextTerm = new FieldAccess(nextTerm, (WordToken) next);
+                }
+
+
             } else if (next instanceof BracketedToken) {
                 take(); //comma token
                 BracketedToken b = (BracketedToken) next;
@@ -324,11 +365,11 @@ public abstract class GrouperToken extends Token {
                         throw new ExpectedTokenException("]", next);
                     }
                     RuntimeType type = nextTerm.getType(context);
-                    ReturnValue unconvert = b.getNextExpression(context);
-                    ReturnValue convert = BasicType.Integer.convert(unconvert, context);
+                    ReturnValue unConvert = b.getNextExpression(context);
+                    ReturnValue convert = BasicType.Integer.convert(unConvert, context);
 
                     if (convert == null) {
-                        throw new NonIntegerIndexException(unconvert);
+                        throw new NonIntegerIndexException(unConvert);
                     }
                     nextTerm = type.declType.generateArrayAccess(nextTerm, convert);
                 }
@@ -347,7 +388,7 @@ public abstract class GrouperToken extends Token {
     public ReturnValue getNextTerm(ExpressionContext context, Token next)
             throws ParsingException {
         if (next instanceof ParenthesizedToken) {
-            return ((ParenthesizedToken) next).get_single_value(context);
+            return ((ParenthesizedToken) next).getSingleValue(context);
         } else if (next instanceof ValueToken) {
             return new ConstantAccess(((ValueToken) next).getValue(),
                     next.lineInfo);
@@ -360,16 +401,14 @@ public abstract class GrouperToken extends Token {
                 if (name.name.equalsIgnoreCase("writeln") || name.name.equalsIgnoreCase("write")) {
                     arguments = ((ParenthesizedToken) take()).getArgumentsForOutput(context);
                 } else {
-                    arguments = ((ParenthesizedToken) take()).get_arguments_for_call(context);
+                    arguments = ((ParenthesizedToken) take()).getArgumentsForCall(context);
                 }
                 return FunctionCall.generateFunctionCall(name, arguments, context);
             } else {
                 return context.getIdentifierValue(name);
             }
 
-        }/* else if (next instanceof CommentToken) {
-            return getNextTerm(context);
-        } */ else {
+        } else {
             if (next instanceof ElseToken) {
                 throw new WrongIfElseStatement(next);
             }
@@ -429,7 +468,11 @@ public abstract class GrouperToken extends Token {
                     if (bracketedToken.hasNext()) {
                         throw new ExpectedTokenException("]", bracketedToken.take());
                     }
-                    ((BasicType) type).setLength(converted);
+                    try {
+                        ((BasicType) type).setLength(converted);
+                    } catch (UnsupportedFormatException e) {
+                        throw new UnsupportedFormatException(lineInfo);
+                    }
                 }
             }
 
@@ -535,8 +578,12 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public ReturnValue get_single_value(ExpressionContext context)
-            throws ParsingException {
+    /**
+     * Return single value in list value
+     * example:
+     * <code>parentheses token = (1, 2, 3, 4) -> return 1</code>
+     */
+    public ReturnValue getSingleValue(ExpressionContext context) throws ParsingException {
         ReturnValue result = getNextExpression(context);
         if (hasNext()) {
             Token next = take();
@@ -545,10 +592,9 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public Executable getNextCommand(ExpressionContext context)
-            throws ParsingException {
+    public Executable getNextCommand(ExpressionContext context) throws ParsingException {
         Token next = take();
-        LineInfo initialline = next.lineInfo;
+        LineInfo lineNumber = next.lineInfo;
         if (next instanceof IfToken) {
             ReturnValue condition = getNextExpression(context);
             next = take();
@@ -556,13 +602,13 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException("then", next);
             }
             Executable command = getNextCommand(context);
-            Executable else_command = null;
+            Executable elseCommand = null;
             next = peek();
             if (next instanceof ElseToken) {
                 take();
-                else_command = getNextCommand(context);
+                elseCommand = getNextCommand(context);
             }
-            return new IfStatement(condition, command, else_command, initialline);
+            return new IfStatement(condition, command, elseCommand, lineNumber);
         } else if (next instanceof WhileToken) {
             ReturnValue condition = getNextExpression(context);
             next = take();
@@ -570,25 +616,25 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException("do", next);
             }
             Executable command = getNextCommand(context);
-            return new WhileStatement(condition, command, initialline);
+            return new WhileStatement(condition, command, lineNumber);
         } else if (next instanceof BeginEndToken) {
-            InstructionGrouper begin_end_preprocessed = new InstructionGrouper(
-                    initialline);
-            BeginEndToken cast_token = (BeginEndToken) next;
+            InstructionGrouper beginEndPreprocessed = new InstructionGrouper(
+                    lineNumber);
+            BeginEndToken castToken = (BeginEndToken) next;
 
-            while (cast_token.hasNext()) {
-                begin_end_preprocessed.add_command(cast_token.getNextCommand(context));
-                Token token = cast_token.next;
-                if (cast_token.hasNext()) {
-                    cast_token.assertNextSemicolon(token);
+            while (castToken.hasNext()) {
+                beginEndPreprocessed.add_command(castToken.getNextCommand(context));
+                Token token = castToken.next;
+                if (castToken.hasNext()) {
+                    castToken.assertNextSemicolon(token);
                 }
             }
-            return begin_end_preprocessed;
+            return beginEndPreprocessed;
         } else if (next instanceof ForToken) {
-            ReturnValue tmp_val = getNextExpression(context);
-            LeftValue tmp_var = tmp_val.asLValue(context);
-            if (tmp_var == null) {
-                throw new UnAssignableTypeException(tmp_val);
+            ReturnValue tmpVal = getNextExpression(context);
+            LeftValue tmpVariable = tmpVal.asLValue(context);
+            if (tmpVariable == null) {
+                throw new UnAssignableTypeException(tmpVal);
             }
             next = take();
             if (!(next instanceof AssignmentToken)) {
@@ -609,15 +655,15 @@ public abstract class GrouperToken extends Token {
             }
             Executable result;
             if (downto) { // TODO probably should merge these two types
-                result = new DowntoForStatement(context, tmp_var, first_value,
-                        last_value, getNextCommand(context), initialline);
+                result = new DowntoForStatement(context, tmpVariable, first_value,
+                        last_value, getNextCommand(context), lineNumber);
             } else {
-                result = new ForStatement(context, tmp_var, first_value,
-                        last_value, getNextCommand(context), initialline);
+                result = new ForStatement(context, tmpVariable, first_value,
+                        last_value, getNextCommand(context), lineNumber);
             }
             return result;
         } else if (next instanceof RepeatToken) {
-            InstructionGrouper command = new InstructionGrouper(initialline);
+            InstructionGrouper command = new InstructionGrouper(lineNumber);
 
             while (!(peekNoEOF() instanceof UntilToken)) {
                 command.add_command(getNextCommand(context));
@@ -630,7 +676,7 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException("until", next);
             }
             ReturnValue condition = getNextExpression(context);
-            return new RepeatInstruction(command, condition, initialline);
+            return new RepeatInstruction(command, condition, lineNumber);
         } else if (next instanceof CaseToken) {
             return new CaseInstruction((CaseToken) next, context);
         } else if (next instanceof SemicolonToken) {
@@ -669,10 +715,46 @@ public abstract class GrouperToken extends Token {
                 return new Assignment(left, outputType.cloneValue(converted), next.lineInfo);
             } else if (r instanceof Executable) {
                 return (Executable) r;
+            } else if (r instanceof FieldAccess) {
+                FieldAccess fieldAccess = (FieldAccess) r;
+                ReturnValue container = fieldAccess.getContainer();
+                RuntimeType type = container.getType(context);
+
+                //access method of java class
+                if (type.declType instanceof JavaClassBasedType) {
+                    JavaClassBasedType javaClass = (JavaClassBasedType) type.declType;
+                    Class<?> storageClass = javaClass.getStorageClass();
+
+                    //get arguments
+                    ReturnValue[] args = {};
+                    if (hasNext()) {
+                        if (peek() instanceof ParenthesizedToken) {
+                            ParenthesizedToken token = (ParenthesizedToken) take();
+                            List<ReturnValue> argumentsForCall = token.getArgumentsForCall(context);
+                            args = new ReturnValue[argumentsForCall.size()];
+                            for (int i = 0; i < argumentsForCall.size(); i++) {
+                                args[i] = argumentsForCall.get(i);
+                            }
+                        }
+                    }
+
+                    //get method, ignore case
+                    Method[] declaredMethods = storageClass.getDeclaredMethods();
+                    for (Method declaredMethod : declaredMethods) {
+                        if (declaredMethod.getName().equalsIgnoreCase(fieldAccess.getName())) {
+                            MethodDeclaration methodDeclaration =
+                                    new MethodDeclaration(container, declaredMethod);
+                            return new SimpleFunctionCall(methodDeclaration, args, lineInfo);
+                        }
+                    }
+                    throw new MethodNotFoundException(fieldAccess.getLineNumber(),
+                            fieldAccess.getName(), storageClass.getName());
+                } else {
+                    throw new NotAStatementException(r);
+                }
             } else {
                 throw new NotAStatementException(r);
             }
-
         }
     }
 

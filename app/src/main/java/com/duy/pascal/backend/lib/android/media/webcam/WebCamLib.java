@@ -41,7 +41,7 @@ import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SimpleServer.SimpleServerObserver;
 import com.googlecode.sl4a.SingleThreadExecutor;
 import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
-import com.googlecode.sl4a.facade.EventFacade;
+import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
 
@@ -92,7 +92,7 @@ public class WebCamLib implements PascalLibrary {
     private final Context mContext;
     private final Executor mJpegCompressionExecutor = new SingleThreadExecutor();
     private final ByteArrayOutputStream mJpegCompressionBuffer = new ByteArrayOutputStream();
-    private final EventFacade mEventFacade;
+    private final AndroidEvent mEventFacade;
     private volatile byte[] mJpegData;
     private CountDownLatch mJpegDataReady;
     private boolean mStreaming;
@@ -159,7 +159,7 @@ public class WebCamLib implements PascalLibrary {
     public WebCamLib(AndroidLibraryManager manager) {
         mContext = manager.getContext();
         mJpegDataReady = new CountDownLatch(1);
-        mEventFacade = manager.getReceiver(EventFacade.class);
+        mEventFacade = manager.getReceiver(AndroidEvent.class);
     }
 
     private byte[] compressYuvToJpeg(final byte[] yuvData) {

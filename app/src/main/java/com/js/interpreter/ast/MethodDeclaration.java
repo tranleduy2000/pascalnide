@@ -3,7 +3,6 @@ package com.js.interpreter.ast;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.lib.annotations.ArrayBoundsInfo;
 import com.duy.pascal.backend.lib.annotations.MethodTypeData;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -15,11 +14,12 @@ import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.PascalPointer;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
-import com.js.interpreter.runtime.exception.ScriptTerminatedException;
+import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.GenericArrayType;
@@ -44,6 +44,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         method = m;
     }
 
+
     public MethodDeclaration(@NonNull Object owner, @NonNull Method m, @Nullable String description) {
         this.owner = owner;
         this.method = m;
@@ -63,11 +64,14 @@ public class MethodDeclaration extends AbstractCallableFunction {
                        RuntimeExecutable<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException,
-            StackOverflowException, ScriptTerminatedException {
+            RuntimePascalException {
+        if (owner instanceof ReturnValue){
+            owner = ((ReturnValue) owner).getValue(parentContext, main);
+        }
         return method.invoke(owner, arguments);
     }
 
-    Type getFirstGenericType(Type t) {
+    private Type getFirstGenericType(Type t) {
         if (!(t instanceof ParameterizedType)) {
             return Object.class;
         }
@@ -79,7 +83,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return parameters[0];
     }
 
-    DeclaredType convertBasicType(Type javatype) {
+    private DeclaredType convertBasicType(Type javatype) {
         if (javatype == PascalPointer.class
                 || (javatype instanceof ParameterizedType && ((ParameterizedType) javatype)
                 .getRawType() == PascalPointer.class)) {
@@ -88,12 +92,11 @@ public class MethodDeclaration extends AbstractCallableFunction {
         }
 
         Class<?> type = (Class<?>) javatype;
-        return BasicType.create(type.isPrimitive() ? TypeUtils
-                .getClassForType(type) : type);
+        return BasicType.create(type.isPrimitive() ? TypeUtils.getClassForType(type) : type);
     }
 
-    DeclaredType convertArrayType(Type javatype,
-                                  Iterator<SubrangeType> arraysizes) {
+    private DeclaredType convertArrayType(Type javatype,
+                                          Iterator<SubrangeType> arraysizes) {
         Type subtype;
         SubrangeType arrayinfo;
         if (javatype instanceof GenericArrayType) {
@@ -119,8 +122,8 @@ public class MethodDeclaration extends AbstractCallableFunction {
         }
     }
 
-    RuntimeType convertReferenceType(Type javatype,
-                                     Iterator<SubrangeType> arraysizes) {
+    private RuntimeType convertReferenceType(Type javatype,
+                                             Iterator<SubrangeType> arraysizes) {
         Type subtype = javatype;
         boolean reference_argument = javatype == PascalReference.class
                 || (javatype instanceof ParameterizedType && ((ParameterizedType) javatype)
@@ -132,8 +135,8 @@ public class MethodDeclaration extends AbstractCallableFunction {
         return new RuntimeType(arraytype, reference_argument);
     }
 
-    RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(Type javatype,
-                                                           ArrayBoundsInfo annotation) {
+    private RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(Type javatype,
+                                                                   ArrayBoundsInfo annotation) {
 
         List<SubrangeType> arrayinfo = new ArrayList<>();
         if (annotation != null && annotation.starts().length > 0) {

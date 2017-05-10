@@ -20,55 +20,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.duy.pascal.backend.lib.android.utils.AndroidBatteryLib;
-import com.duy.pascal.backend.lib.android.utils.AndroidClipboardLib;
-import com.duy.pascal.backend.lib.android.view.AndroidNotifyLib;
-import com.duy.pascal.backend.lib.android.hardware.AndroidSensorLib;
-import com.duy.pascal.backend.lib.android.voice.AndroidSpeechRecognitionLib;
-import com.duy.pascal.backend.lib.android.voice.AndroidTextToSpeechLib;
-import com.duy.pascal.backend.lib.android.hardware.AndroidVibrateLib;
-import com.duy.pascal.backend.lib.android.barcode.ZXingAPI;
-import com.duy.pascal.backend.lib.android.temp.AndroidApplicationManagerLib;
-import com.duy.pascal.backend.lib.android.connection.bluetooth.AndroidBluetoothLib;
-import com.duy.pascal.backend.lib.android.media.AndroidMediaPlayerLib;
-import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
-import com.duy.pascal.backend.lib.android.media.AndroidToneGeneratorLib;
-import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
-import com.duy.pascal.backend.lib.android.connection.wifi.AndroidWifiLib;
-import com.google.common.collect.Maps;
 import com.googlecode.sl4a.Log;
-import com.googlecode.sl4a.facade.ActivityResultFacade;
-import com.duy.pascal.backend.lib.android.media.CameraFacade;
-import com.googlecode.sl4a.facade.CommonIntentsFacade;
-import com.duy.pascal.backend.lib.android.contact.AndroidContactsLibrary;
-import com.googlecode.sl4a.facade.EventFacade;
-import com.googlecode.sl4a.facade.LocationFacade;
-import com.duy.pascal.backend.lib.android.media.AndroidMediaRecorderLib;
-import com.duy.pascal.backend.lib.android.contact.AndroidPhoneLibrary;
-import com.duy.pascal.backend.lib.android.database.AndroidPreferencesLibrary;
-import com.googlecode.sl4a.facade.SignalStrengthFacade;
-import com.googlecode.sl4a.facade.SmsFacade;
-import com.googlecode.sl4a.facade.WakeLockFacade;
-import com.duy.pascal.backend.lib.android.media.webcam.WebCamLib;
-import com.duy.pascal.backend.lib.android.view.AndroidDialogLib;
-import com.googlecode.sl4a.rpc.MethodDescriptor;
-import com.googlecode.sl4a.rpc.RpcDeprecated;
-import com.googlecode.sl4a.rpc.RpcStartEvent;
-import com.googlecode.sl4a.rpc.RpcStopEvent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * Encapsulates the list of supported facades and their construction.
@@ -77,114 +33,9 @@ import java.util.TreeMap;
  * @author Igor Karp (igor.v.karp@gmail.com)
  */
 public class AndroidLibraryUtils {
-    private final static Set<Class<? extends PascalLibrary>> sFacadeClassList;
-    private final static SortedMap<String, MethodDescriptor> sRpcs =
-            new TreeMap<>();
-
-    static {
-        sFacadeClassList = new HashSet<>();
-        sFacadeClassList.add(AndroidUtilsLib.class);
-        sFacadeClassList.add(AndroidApplicationManagerLib.class);
-        sFacadeClassList.add(CameraFacade.class);
-        sFacadeClassList.add(CommonIntentsFacade.class);
-        sFacadeClassList.add(AndroidContactsLibrary.class);
-        sFacadeClassList.add(EventFacade.class);
-        sFacadeClassList.add(LocationFacade.class);
-        sFacadeClassList.add(AndroidPhoneLibrary.class);
-        sFacadeClassList.add(AndroidMediaRecorderLib.class);
-        sFacadeClassList.add(AndroidSensorLib.class);
-        sFacadeClassList.add(AndroidSettingLib.class);
-        sFacadeClassList.add(SmsFacade.class);
-        sFacadeClassList.add(AndroidSpeechRecognitionLib.class);
-        sFacadeClassList.add(AndroidToneGeneratorLib.class);
-        sFacadeClassList.add(WakeLockFacade.class);
-        sFacadeClassList.add(AndroidWifiLib.class);
-        sFacadeClassList.add(AndroidDialogLib.class);
-        sFacadeClassList.add(ActivityResultFacade.class);
-        sFacadeClassList.add(AndroidMediaPlayerLib.class);
-        sFacadeClassList.add(AndroidPreferencesLibrary.class);
-        sFacadeClassList.add(AndroidTextToSpeechLib.class);
-        sFacadeClassList.add(AndroidBluetoothLib.class);
-        sFacadeClassList.add(SignalStrengthFacade.class);
-        sFacadeClassList.add(AndroidBatteryLib.class);
-        sFacadeClassList.add(WebCamLib.class);
-        sFacadeClassList.add(AndroidVibrateLib.class);
-        sFacadeClassList.add(AndroidClipboardLib.class);
-        sFacadeClassList.add(AndroidNotifyLib.class);
-        sFacadeClassList.add(ZXingAPI.class);
-        for (Class<? extends PascalLibrary> recieverClass : sFacadeClassList) {
-            for (MethodDescriptor rpcMethod : MethodDescriptor.collectFrom(recieverClass)) {
-                sRpcs.put(rpcMethod.getName(), rpcMethod);
-            }
-        }
-    }
 
     public static int getSdkVersion() {
         return Build.VERSION.SDK_INT;
-    }
-
-    /**
-     * Returns a list of {@link MethodDescriptor} objects for all facades.
-     */
-    public static List<MethodDescriptor> collectMethodDescriptors() {
-        return new ArrayList<>(sRpcs.values());
-    }
-
-    /**
-     * Returns a list of not deprecated {@link MethodDescriptor} objects for facades supported by the
-     * current SDK version.
-     */
-    public static List<MethodDescriptor> collectSupportedMethodDescriptors() {
-        List<MethodDescriptor> list = new ArrayList<>();
-        for (MethodDescriptor descriptor : sRpcs.values()) {
-            Method method = descriptor.getMethod();
-            if (method.isAnnotationPresent(RpcDeprecated.class)) {
-                continue;
-            }
-            list.add(descriptor);
-        }
-        return list;
-    }
-
-    public static Map<String, MethodDescriptor> collectStartEventMethodDescriptors() {
-        Map<String, MethodDescriptor> map = Maps.newHashMap();
-        for (MethodDescriptor descriptor : sRpcs.values()) {
-            Method method = descriptor.getMethod();
-            if (method.isAnnotationPresent(RpcStartEvent.class)) {
-                String eventName = method.getAnnotation(RpcStartEvent.class).value();
-                if (map.containsKey(eventName)) {
-                    throw new RuntimeException("Duplicate start event method descriptor found.");
-                }
-                map.put(eventName, descriptor);
-            }
-        }
-        return map;
-    }
-
-    public static Map<String, MethodDescriptor> collectStopEventMethodDescriptors() {
-        Map<String, MethodDescriptor> map = Maps.newHashMap();
-        for (MethodDescriptor descriptor : sRpcs.values()) {
-            Method method = descriptor.getMethod();
-            if (method.isAnnotationPresent(RpcStopEvent.class)) {
-                String eventName = method.getAnnotation(RpcStopEvent.class).value();
-                if (map.containsKey(eventName)) {
-                    throw new RuntimeException("Duplicate stop event method descriptor found.");
-                }
-                map.put(eventName, descriptor);
-            }
-        }
-        return map;
-    }
-
-    /**
-     * Returns a method by name.
-     */
-    public static MethodDescriptor getMethodDescriptor(String name) {
-        return sRpcs.get(name);
-    }
-
-    public static Collection<Class<? extends PascalLibrary>> getFacadeClasses() {
-        return sFacadeClassList;
     }
 
 

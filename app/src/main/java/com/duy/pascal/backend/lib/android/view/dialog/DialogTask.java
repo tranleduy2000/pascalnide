@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib.android.view.dialog;
 
 import android.app.Dialog;
 
-import com.googlecode.sl4a.facade.EventFacade;
+import com.googlecode.sl4a.facade.AndroidEvent;
 import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
 
 import java.util.concurrent.CountDownLatch;
@@ -27,20 +27,20 @@ public abstract class DialogTask extends PascalActivityTask<Object> {
 
     protected final CountDownLatch mShowLatch = new CountDownLatch(1);
     protected Dialog mDialog;
-    private EventFacade mEventFacade;
+    private AndroidEvent mEventFacade;
 
-    public EventFacade getEventFacade() {
+    public AndroidEvent getEventFacade() {
         return mEventFacade;
     }
 
-    public void setEventFacade(EventFacade mEventFacade) {
+    public void setEventFacade(AndroidEvent mEventFacade) {
         this.mEventFacade = mEventFacade;
     }
 
     @Override
     protected void setResult(Object object) {
         super.setResult(object);
-        EventFacade eventFacade = getEventFacade();
+        AndroidEvent eventFacade = getEventFacade();
         if (eventFacade != null) {
             eventFacade.postEvent("dialog", object);
         }
