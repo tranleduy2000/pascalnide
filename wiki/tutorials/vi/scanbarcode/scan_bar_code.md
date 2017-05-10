@@ -49,8 +49,8 @@ end.
 
 ### Một vài hình ảnh khi chạy ứng dụng
 
-![](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img1.png)
+![Demo 1](wiki/tutorials/vi/scanbarcode/img1.png?raw=true)
 
-![](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img2.png)
+![Demo 2](wiki/tutorials/vi/scanbarcode/img2.png?raw=true)
 
-![](https://github.com/tranleduy2000/pascalnide/tree/master/wiki/tutorials/vi/scanbarcode/img3.png)
+![Demo 3](wiki/tutorials/vi/scanbarcode/img3.png?raw=true)
