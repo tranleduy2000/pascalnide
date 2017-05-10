@@ -5,8 +5,8 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
 public class FieldReference implements Reference {
-    ContainsVariables container;
-    String name;
+    private ContainsVariables container;
+    private String name;
 
     public FieldReference(ContainsVariables container, String name) {
         this.container = container;

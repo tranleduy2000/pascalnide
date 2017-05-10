@@ -24,8 +24,8 @@ public class ClassType extends CustomType {
                 argtypes[i] = f.argument_types[i].getRuntimeClass();
             }
             Class returntype = null;
-            if (f.result_definition != null) {
-                returntype = f.result_definition.type.getTransferClass();
+            if (f.resultDefinition != null) {
+                returntype = f.resultDefinition.type.getTransferClass();
             }
             BCMethod method = c.declareMethod(f.name, returntype, argtypes);
         }

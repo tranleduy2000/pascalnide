@@ -35,6 +35,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     private static final String TAG = MethodDeclaration.class.getSimpleName();
     private Object owner;
     private Method method;
+    private DeclaredType mReturnType = null;
     private ArgumentType[] argCache = null;
     private String description = "";
     private ArrayList<String> listParams;
@@ -44,6 +45,18 @@ public class MethodDeclaration extends AbstractCallableFunction {
         method = m;
     }
 
+    /**
+     * Constructor
+     *
+     * @param owner      - parent class
+     * @param m          - method of class
+     * @param returnType - return type
+     */
+    public MethodDeclaration(@NonNull Object owner, @NonNull Method m, DeclaredType returnType) {
+        this.owner = owner;
+        method = m;
+        this.mReturnType = returnType;
+    }
 
     public MethodDeclaration(@NonNull Object owner, @NonNull Method m, @Nullable String description) {
         this.owner = owner;
@@ -65,7 +78,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException,
             RuntimePascalException {
-        if (owner instanceof ReturnValue){
+        if (owner instanceof ReturnValue) {
             owner = ((ReturnValue) owner).getValue(parentContext, main);
         }
         return method.invoke(owner, arguments);
@@ -90,9 +103,16 @@ public class MethodDeclaration extends AbstractCallableFunction {
             Type subtype = getFirstGenericType(javatype);
             return new PointerType(convertBasicType(subtype));
         }
+        if (javatype instanceof GenericArrayType) {
 
-        Class<?> type = (Class<?>) javatype;
-        return BasicType.create(type.isPrimitive() ? TypeUtils.getClassForType(type) : type);
+        }
+        if (javatype instanceof Class) {
+            Class<?> type = (Class<?>) javatype;
+            return BasicType.create(type.isPrimitive() ? TypeUtils.getClassForType(type) : type);
+        } else {
+            //generic type, such as List<T>
+            return BasicType.create(Object.class);
+        }
     }
 
     private DeclaredType convertArrayType(Type javatype,

@@ -64,9 +64,9 @@ public class JavaClassBasedType implements DeclaredType {
             JavaClassBasedType otherClassBasedType = (JavaClassBasedType) otherType.declType;
             //Object o = (Math) obj;
             if (this.equals(otherClassBasedType)
-                    //Object o = ...
+                   /* //Object o = ...
                     //Math math = (Math) o;
-                    || otherClassBasedType.equals(this)) {
+                    || otherClassBasedType.equals(this)*/) {
                 return value;
             }
         }

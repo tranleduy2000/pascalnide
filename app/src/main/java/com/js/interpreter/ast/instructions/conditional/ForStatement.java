@@ -53,7 +53,7 @@ public class ForStatement extends DebuggableExecutable {
                 case BREAK:
                     break whileLoop;
                 case CONTINUE:
-//                    continue whileLoop;
+
             }
             increment_temp.execute(context, main);
         }

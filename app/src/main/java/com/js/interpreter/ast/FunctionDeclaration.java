@@ -40,7 +40,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     /**
      * this is the store class of function
      */
-    public VariableDeclaration result_definition;
+    public VariableDeclaration resultDefinition;
 
     public LineInfo line;
 
@@ -67,9 +67,9 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (!isProcedure) {
             next = grouperToken.take();
             //define variable result of function, the name of variable same as name function
-            result_definition = new VariableDeclaration(name,
+            resultDefinition = new VariableDeclaration(name,
                     grouperToken.getNextPascalType(declarations), line);
-            this.declarations.declareVariable(result_definition);
+            this.declarations.declareVariable(resultDefinition);
         }
 
         grouperToken.assertNextSemicolon(next);
@@ -192,21 +192,19 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     @Override
     public DeclaredType returnType() {
-        return result_definition == null ? null : result_definition.type;
+        return resultDefinition == null ? null : resultDefinition.type;
     }
 
-    public boolean headerMatches(AbstractFunction other)
-            throws ParsingException {
+    public boolean headerMatches(AbstractFunction other) throws ParsingException {
         if (name.equals(other.name())
                 && Arrays.equals(argument_types, other.argumentTypes())) {
-            if (result_definition == null && other.returnType() == null) {
+            if (resultDefinition == null && other.returnType() == null) {
                 return true;
             }
-            if (result_definition == null || other.returnType() == null
-                    || !result_definition.equals(other.returnType())) {
-                System.err
-                        .println("Warning: Overriding previously declared return operator for function "
-                                + name);
+            if (resultDefinition == null || other.returnType() == null
+                    || !resultDefinition.equals(other.returnType())) {
+                System.err.println("Warning: " +
+                        "Overriding previously declared return operator for function " + name);
             }
             return true;
         }

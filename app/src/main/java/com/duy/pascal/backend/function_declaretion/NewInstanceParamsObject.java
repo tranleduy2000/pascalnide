@@ -32,6 +32,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -43,20 +44,19 @@ import java.lang.reflect.Type;
 public class NewInstanceParamsObject implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
-            {new RuntimeType(new JavaClassBasedType(Object.class), false),
+            {new RuntimeType(new JavaClassBasedType(Object.class), true),
                     new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
 
     @Override
     public String name() {
-        return "newInstance".toLowerCase();
+        return "new".toLowerCase();
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, ReturnValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        ReturnValue clazz = arguments[0];
-        JavaClassBasedType type = (JavaClassBasedType) clazz.getType(f).declType;
-        return new InstanceObjectCall(clazz, type, arguments[1], line);
+        ReturnValue pointer = arguments[0];
+        return new InstanceObjectCall(pointer, arguments[1], line);
     }
 
     @Override
@@ -81,14 +81,12 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
 
     private class InstanceObjectCall extends FunctionCall {
 
-        private ReturnValue mClass;
-        private JavaClassBasedType type;
+        private ReturnValue pointer;
         private ReturnValue listArg;
         private LineInfo line;
 
-        InstanceObjectCall(ReturnValue clazz, JavaClassBasedType type, ReturnValue listArg, LineInfo line) {
-            this.mClass = clazz;
-            this.type = type;
+        InstanceObjectCall(ReturnValue pointer, ReturnValue listArg, LineInfo line) {
+            this.pointer = pointer;
             this.listArg = listArg;
             this.line = line;
         }
@@ -113,25 +111,28 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
         @Override
         public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(mClass, type, listArg, line);
+            return new InstanceObjectCall(pointer, listArg, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(mClass, type, listArg, line);
+            return new InstanceObjectCall(pointer, listArg, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "newInstance";
+            return "new";
         }
 
         @Override
         public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
                 throws RuntimePascalException {
+            PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);
+            Object o = pointer.get(); // o = null
+
             Object[] targetObjects = (Object[]) listArg.getValue(f, main);
-            Class<?> clazz = type.getStorageClass();
+            Class<?> clazz = o.getClass();
             Constructor<?>[] constructors = clazz.getConstructors();
 
             Object[] convertedObjects = new Object[targetObjects.length];
@@ -139,7 +140,8 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
                 Type[] parameterTypes = constructor.getGenericParameterTypes();
                 if (TypeConverter.autoConvert(targetObjects, convertedObjects, parameterTypes)) {
                     try {
-                        return constructor.newInstance(convertedObjects);
+                        Object newObject = constructor.newInstance(convertedObjects);
+                        pointer.set(newObject);
                     } catch (InstantiationException e) {
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {

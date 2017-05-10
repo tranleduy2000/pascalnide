@@ -3,10 +3,10 @@ package com.duy.pascal.backend.tokens.grouping;
 
 import android.util.Log;
 
-import com.duy.pascal.backend.exceptions.MethodNotFoundException;
 import com.duy.pascal.backend.exceptions.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.MethodNotFoundException;
 import com.duy.pascal.backend.exceptions.MissingCommaTokenException;
 import com.duy.pascal.backend.exceptions.MissingSemicolonTokenException;
 import com.duy.pascal.backend.exceptions.MultipleDefaultValuesException;
@@ -80,7 +80,6 @@ import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.LeftValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.SimpleFunctionCall;
 import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
 import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
 
@@ -314,37 +313,10 @@ public abstract class GrouperToken extends Token {
                 RuntimeType type = nextTerm.getType(context);
                 //access method of java class
                 if (type.declType instanceof JavaClassBasedType) {
-                    JavaClassBasedType javaClass = (JavaClassBasedType) type.declType;
-                    Class<?> storageClass = javaClass.getStorageClass();
-
-                    //get arguments
-                    ReturnValue[] args = {};
-                    if (hasNext()) {
-                        if (peek() instanceof ParenthesizedToken) {
-                            ParenthesizedToken token = (ParenthesizedToken) take();
-                            List<ReturnValue> argumentsForCall = token.getArgumentsForCall(context);
-                            args = new ReturnValue[argumentsForCall.size()];
-                            for (int i = 0; i < argumentsForCall.size(); i++) {
-                                args[i] = argumentsForCall.get(i);
-                            }
-                        }
-                    }
-                    String methodName = ((WordToken) next).getName();
-                    //get method, ignore case
-                    Method[] declaredMethods = storageClass.getDeclaredMethods();
-                    for (Method declaredMethod : declaredMethods) {
-                        if (declaredMethod.getName().equalsIgnoreCase(methodName)) {
-                            MethodDeclaration methodDeclaration =
-                                    new MethodDeclaration(nextTerm, declaredMethod);
-                            return new SimpleFunctionCall(methodDeclaration, args, lineInfo);
-                        }
-                    }
-                    throw new MethodNotFoundException(lineInfo, methodName, storageClass.getName());
+                    nextTerm = getMethodFromClass(context, nextTerm, ((WordToken) next).getName());
                 } else {
                     nextTerm = new FieldAccess(nextTerm, (WordToken) next);
                 }
-
-
             } else if (next instanceof BracketedToken) {
                 take(); //comma token
                 BracketedToken b = (BracketedToken) next;
@@ -373,8 +345,6 @@ public abstract class GrouperToken extends Token {
                     }
                     nextTerm = type.declType.generateArrayAccess(nextTerm, convert);
                 }
-
-
             }
         }
         return nextTerm;
@@ -640,7 +610,7 @@ public abstract class GrouperToken extends Token {
             if (!(next instanceof AssignmentToken)) {
                 throw new ExpectedTokenException(":=", next);
             }
-            ReturnValue first_value = getNextExpression(context);
+            ReturnValue firstValue = getNextExpression(context);
             next = take();
             boolean downto = false;
             if (next instanceof DowntoToken) {
@@ -648,18 +618,18 @@ public abstract class GrouperToken extends Token {
             } else if (!(next instanceof ToToken)) {
                 throw new ExpectedTokenException("[To] or [Downto]", next);
             }
-            ReturnValue last_value = getNextExpression(context);
+            ReturnValue lastValue = getNextExpression(context);
             next = take();
             if (!(next instanceof DoToken)) {
                 throw new ExpectedTokenException("do", next);
             }
             Executable result;
             if (downto) { // TODO probably should merge these two types
-                result = new DowntoForStatement(context, tmpVariable, first_value,
-                        last_value, getNextCommand(context), lineNumber);
+                result = new DowntoForStatement(context, tmpVariable, firstValue,
+                        lastValue, getNextCommand(context), lineNumber);
             } else {
-                result = new ForStatement(context, tmpVariable, first_value,
-                        last_value, getNextCommand(context), lineNumber);
+                result = new ForStatement(context, tmpVariable, firstValue,
+                        lastValue, getNextCommand(context), lineNumber);
             }
             return result;
         } else if (next instanceof RepeatToken) {
@@ -718,43 +688,49 @@ public abstract class GrouperToken extends Token {
             } else if (r instanceof FieldAccess) {
                 FieldAccess fieldAccess = (FieldAccess) r;
                 ReturnValue container = fieldAccess.getContainer();
-                RuntimeType type = container.getType(context);
-
-                //access method of java class
-                if (type.declType instanceof JavaClassBasedType) {
-                    JavaClassBasedType javaClass = (JavaClassBasedType) type.declType;
-                    Class<?> storageClass = javaClass.getStorageClass();
-
-                    //get arguments
-                    ReturnValue[] args = {};
-                    if (hasNext()) {
-                        if (peek() instanceof ParenthesizedToken) {
-                            ParenthesizedToken token = (ParenthesizedToken) take();
-                            List<ReturnValue> argumentsForCall = token.getArgumentsForCall(context);
-                            args = new ReturnValue[argumentsForCall.size()];
-                            for (int i = 0; i < argumentsForCall.size(); i++) {
-                                args[i] = argumentsForCall.get(i);
-                            }
-                        }
-                    }
-
-                    //get method, ignore case
-                    Method[] declaredMethods = storageClass.getDeclaredMethods();
-                    for (Method declaredMethod : declaredMethods) {
-                        if (declaredMethod.getName().equalsIgnoreCase(fieldAccess.getName())) {
-                            MethodDeclaration methodDeclaration =
-                                    new MethodDeclaration(container, declaredMethod);
-                            return new SimpleFunctionCall(methodDeclaration, args, lineInfo);
-                        }
-                    }
-                    throw new MethodNotFoundException(fieldAccess.getLineNumber(),
-                            fieldAccess.getName(), storageClass.getName());
-                } else {
-                    throw new NotAStatementException(r);
-                }
+                return (Executable) getMethodFromClass(context, container, fieldAccess.getName());
             } else {
                 throw new NotAStatementException(r);
             }
+        }
+    }
+
+    private ReturnValue getMethodFromClass(ExpressionContext context, ReturnValue container, String
+            methodName) throws ParsingException {
+
+        RuntimeType type = container.getType(context);
+
+        //access method of java class
+        if (type.declType instanceof JavaClassBasedType) {
+            JavaClassBasedType javaType = (JavaClassBasedType) type.declType;
+            Class<?> storageClass = javaType.getStorageClass();
+
+            //get arguments
+            List<ReturnValue> argumentsForCall = new ArrayList<>();
+            if (hasNext()) {
+                if (peek() instanceof ParenthesizedToken) {
+                    ParenthesizedToken token = (ParenthesizedToken) take();
+                    argumentsForCall = token.getArgumentsForCall(context);
+                }
+            }
+
+            //get method, ignore case
+            Method[] declaredMethods = storageClass.getDeclaredMethods();
+            for (Method declaredMethod : declaredMethods) {
+                if (declaredMethod.getName().equalsIgnoreCase(methodName)) {
+                    MethodDeclaration methodDeclaration =
+                            new MethodDeclaration(container, declaredMethod, javaType);
+                    FunctionCall functionCall = methodDeclaration.generateCall(lineInfo,
+                            argumentsForCall, context);
+                    if (functionCall != null) {
+                        return functionCall;
+                    }
+                }
+            }
+            throw new MethodNotFoundException(container.getLineNumber(),
+                    methodName, storageClass.getName());
+        } else {
+            throw new NotAStatementException(container);
         }
     }
 

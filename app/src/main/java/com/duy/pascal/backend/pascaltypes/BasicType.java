@@ -404,13 +404,19 @@ public enum BasicType implements DeclaredType {
     @Override
     public ReturnValue convert(ReturnValue value, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.getType(f);
-        if (other_type.declType instanceof BasicType) {
-            if (this.equals(other_type.declType)) {
+        RuntimeType otherType = value.getType(f);
+        if (otherType.declType instanceof BasicType) {
+            if (this.equals(otherType.declType)) {
                 return cloneValue(value);
             }
             return TypeConverter.autoConvert(this, value,
-                    (BasicType) other_type.declType);
+                    (BasicType) otherType.declType);
+        } else {
+            if (otherType.declType instanceof JavaClassBasedType) {
+                if (otherType.declType.getStorageClass() == getStorageClass()) {
+                    return cloneValue(value);
+                }
+            }
         }
         return null;
     }

@@ -577,7 +577,9 @@ public class HighlightEditor extends AutoSuggestsEditText
             if (lineError != null) {
                 Layout layout = getLayout();
                 int line = lineError.line;
-                line = realLines[line];
+                int temp = line;
+                while (realLines[temp] < line) temp++;
+                line = temp;
                 if (layout != null && line < getLineCount()) {
                     int lineStart = getLayout().getLineStart(line);
                     int lineEnd = getLayout().getLineEnd(line);
