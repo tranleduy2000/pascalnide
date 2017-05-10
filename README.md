@@ -1,6 +1,6 @@
 # Pascal NIDE - Pascal Compiler for Android
 
-<img src="https://github.com/tranleduy2000/pascalnide/blob/master/art/wall2..png">
+![Wall](art/wall2.png)
 
 See app on Google Play Store
 
