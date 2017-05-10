@@ -46,8 +46,6 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
     private final String[] categories;
 
-    //    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.tab_layout)
@@ -56,8 +54,6 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     MaterialSearchView searchView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    //    @BindView(R.id.drawer_layout)
-//    DrawerLayout drawerLayout;
     private ApplicationFileManager fileManager;
     private CodePagerAdapter pagerAdapter;
 
@@ -104,6 +100,15 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
