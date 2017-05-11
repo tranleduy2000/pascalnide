@@ -57,6 +57,7 @@ import com.duy.pascal.backend.tokens.basic.ThenToken;
 import com.duy.pascal.backend.tokens.basic.ToToken;
 import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
+import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.js.interpreter.ast.MethodDeclaration;
 import com.js.interpreter.ast.VariableDeclaration;
@@ -75,6 +76,7 @@ import com.js.interpreter.ast.instructions.conditional.ForStatement;
 import com.js.interpreter.ast.instructions.conditional.IfStatement;
 import com.js.interpreter.ast.instructions.conditional.RepeatInstruction;
 import com.js.interpreter.ast.instructions.conditional.WhileStatement;
+import com.js.interpreter.ast.instructions.with_statement.WithDeclaration;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
@@ -208,7 +210,7 @@ public abstract class GrouperToken extends Token {
 //            throw new UnSupportTokenException(n.lineInfo, n);
             RecordToken r = (RecordToken) n;
             RecordType result = new RecordType();
-            result.variable_types = r.getVariableDeclarations(context);
+            result.variableDeclarations = r.getVariableDeclarations(context);
             return result;
         }
         if (n instanceof OperatorToken && ((OperatorToken) n).type == OperatorTypes.DEREF) {
@@ -655,6 +657,8 @@ public abstract class GrouperToken extends Token {
             return new BreakInstruction(next.lineInfo);
         } else if (next instanceof ContinueToken) {
             return new ContinueInstruction(next.lineInfo);
+        } else if (next instanceof WithToken) {
+            return (Executable) new WithDeclaration(context, this).generate();
         } else if (next instanceof ExitToken) {
             return new ExitInstruction(next.lineInfo);
         } else {

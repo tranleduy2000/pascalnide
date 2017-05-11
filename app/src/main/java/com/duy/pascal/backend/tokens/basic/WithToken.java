@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.pascaltypes;
+package com.duy.pascal.backend.tokens.basic;
 
-import com.js.interpreter.ast.VariableDeclaration;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
-public class RecordType extends CustomType {
+public class WithToken extends BasicToken {
+    public WithToken(LineInfo line) {
+        super(line);
+    }
+
     @Override
     public String toString() {
-        StringBuilder out = new StringBuilder();
-        out.append("\n");
-        for (VariableDeclaration variableType : variableDeclarations) {
-            out.append(variableType.toString()).append("\n");
-        }
-        return out.toString();
+        return "with";
     }
 }

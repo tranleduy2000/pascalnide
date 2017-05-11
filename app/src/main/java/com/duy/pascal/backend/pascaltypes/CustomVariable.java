@@ -59,6 +59,8 @@ public class CustomVariable implements ContainsVariables {
                     variableMap.put(declaration.name, new Object[0]);
                 } else if (declaration.type instanceof ArrayType) {
                     variableMap.put(declaration.name, new Object[0]);
+                } else {
+                    variableMap.put(declaration.name, null);
                 }
             }
         }

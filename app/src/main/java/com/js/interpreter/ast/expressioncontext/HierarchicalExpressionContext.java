@@ -10,13 +10,13 @@ import com.js.interpreter.ast.codeunit.CodeUnit;
 
 import java.util.List;
 
-public abstract class HeirarchicalExpressionContext implements
+public abstract class HierarchicalExpressionContext implements
         ExpressionContext {
-    ExpressionContext parent;
-    CodeUnit root;
+    protected ExpressionContext parent;
+    protected CodeUnit root;
 
 
-    public HeirarchicalExpressionContext(CodeUnit root, ExpressionContext parent) {
+    public HierarchicalExpressionContext(CodeUnit root, ExpressionContext parent) {
         this.parent = parent;
         this.root = root;
     }
@@ -67,11 +67,11 @@ public abstract class HeirarchicalExpressionContext implements
     }
 
     protected abstract List<AbstractFunction> getCallableFunctionsLocal(
-    String name);
+            String name);
 
     @Override
     public void getCallableFunctions(String name,
-    List<List<AbstractFunction>> sofar) {
+                                     List<List<AbstractFunction>> sofar) {
         List<AbstractFunction> mine = getCallableFunctionsLocal(name);
         if (mine.size() != 0) {
             sofar.add(mine);

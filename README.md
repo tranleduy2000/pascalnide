@@ -96,9 +96,7 @@ end.
 ```
 
 ## How to contribute
-
-All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports. Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
-
+All contributions are welcome, include code, documentation, suggestions, bug reports, ... . Use github pull request feature or email me. Many thanks for your help
 ## Tutorials
 
 1. [Google Voice](wiki/tutorials/vi/google_voice/google_voice.md)

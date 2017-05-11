@@ -22,6 +22,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
+import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;

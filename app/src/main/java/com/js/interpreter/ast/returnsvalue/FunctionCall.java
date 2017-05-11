@@ -19,8 +19,8 @@ import java.util.List;
 
 public abstract class FunctionCall extends DebuggableExecutableReturnValue {
     protected static final String TAG = FunctionCall.class.getSimpleName();
+    public ReturnValue[] arguments;
     protected ReturnValue[] outputFormat;
-    ReturnValue[] arguments;
 
     public static ReturnValue generateFunctionCall(WordToken name, List<ReturnValue> arguments,
                                                    ExpressionContext expressionContext)

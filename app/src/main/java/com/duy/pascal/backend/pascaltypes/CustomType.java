@@ -22,12 +22,12 @@ public class CustomType extends ObjectType {
     /**
      * This is a list of the defined variables in the custom operator.
      */
-    public List<VariableDeclaration> variable_types;
+    public List<VariableDeclaration> variableDeclarations;
 
     private CustomVariable customVariable;
 
     public CustomType() {
-        variable_types = new ArrayList<>();
+        variableDeclarations = new ArrayList<>();
     }
 
     /**
@@ -36,18 +36,18 @@ public class CustomType extends ObjectType {
      * @param v The name and operator of the variable to add.
      */
     public void add_variable_declaration(VariableDeclaration v) {
-        variable_types.add(v);
+        variableDeclarations.add(v);
     }
 
     @Override
     public Object initialize() {
-        customVariable = new CustomVariable(variable_types);
+        customVariable = new CustomVariable(variableDeclarations);
         return customVariable;
     }
 
     @Override
     public int hashCode() {
-        return variable_types.hashCode();
+        return variableDeclarations.hashCode();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class CustomType extends ObjectType {
             return false;
         }
         CustomType other = (CustomType) obj;
-        return variable_types.equals(other.variable_types);
+        return variableDeclarations.equals(other.variableDeclarations);
     }
 
     @Override
@@ -69,21 +69,17 @@ public class CustomType extends ObjectType {
         if (customVariable != null) {
             return customVariable.getClass();
         }
-        customVariable = new CustomVariable(variable_types);
+        customVariable = new CustomVariable(variableDeclarations);
         return customVariable.getClass();
     }
 
     protected void declareClassElements(BCClass c) {
         c.declareInterface(ContainsVariables.class);
         c.setDeclaredInterfaces(new Class[]{ContainsVariables.class});
-        for (VariableDeclaration v : variable_types) {
+        for (VariableDeclaration v : variableDeclarations) {
             Class type = v.type.getStorageClass();
             c.declareField(v.name, type);
         }
-//        add_constructor(clazz);
-//        add_get_var(clazz);
-//        add_set_var(clazz);
-//        add_clone(clazz);
     }
 
     @Override
@@ -98,7 +94,7 @@ public class CustomType extends ObjectType {
 
     @Override
     public DeclaredType getMemberType(String name) {
-        for (VariableDeclaration v : variable_types) {
+        for (VariableDeclaration v : variableDeclarations) {
             if (v.name.equals(name)) {
                 return v.type;
             }
@@ -167,14 +163,5 @@ public class CustomType extends ObjectType {
         //Because I cannot mix this method into DeclaredType (no multiple inheritance) I have to duplicate it.
         ArrayType.pushArrayOfNonArrayType(this, code, ra, ranges);
 
-    }
-
-    public static class ByteClassLoader extends ClassLoader {
-
-        public Class<?> loadThisClass(byte[] bytes) {
-            Class<?> c = defineClass(null, bytes, 0, bytes.length);
-            resolveClass(c);
-            return c;
-        }
     }
 }

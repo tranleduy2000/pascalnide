@@ -59,7 +59,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ExpressionContextMixin extends HeirarchicalExpressionContext {
+public abstract class ExpressionContextMixin extends HierarchicalExpressionContext {
     public static final String TAG = ExpressionContextMixin.class.getSimpleName();
     /**
      * list global variable

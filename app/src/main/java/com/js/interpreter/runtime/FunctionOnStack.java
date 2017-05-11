@@ -32,15 +32,6 @@ public class FunctionOnStack extends VariableContext {
                            RuntimeExecutable<?> main, FunctionDeclaration declaration,
                            Object[] arguments) {
         this.procedure = declaration.isProcedure();
-        // TODO: 27-Mar-17  debug function
-        if (main.isDebugMode()) {
-            if (declaration.isProcedure()) {
-                main.getDebugListener().onFunctionCall(declaration);
-            } else {
-                main.getDebugListener().onProcedureCall(declaration);
-            }
-        }
-
         this.prototype = declaration;
         this.parentContext = parentContext;
         this.main = main;

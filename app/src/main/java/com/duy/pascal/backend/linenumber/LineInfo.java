@@ -3,7 +3,7 @@ package com.duy.pascal.backend.linenumber;
 public class LineInfo {
     public int line;
     public int column = 0;
-    public String sourceFile;
+    private String sourceFile;
 
     public LineInfo(int line, String sourceFile) {
         this.line = line;
@@ -13,6 +13,30 @@ public class LineInfo {
     public LineInfo(int line, int column, String sourceFile) {
         this.line = line;
         this.column = column;
+        this.sourceFile = sourceFile;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public String getSourceFile() {
+        return sourceFile;
+    }
+
+    public void setSourceFile(String sourceFile) {
         this.sourceFile = sourceFile;
     }
 

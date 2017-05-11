@@ -69,11 +69,9 @@ public abstract class AbstractFunction implements NamedEntity {
         if (acceptedTypes.length > 0) {
             if (acceptedTypes[0] instanceof VarargsType)
                 isArray = true;
-//            System.out.println("perfectMatch: " + name() + (acceptedTypes[0] instanceof VarargsType));
         }
 
         if (!isArray && (acceptedTypes.length != arguments.size())) {
-//            System.out.println("return null");
             return null;
         }
 
