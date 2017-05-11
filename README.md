@@ -27,14 +27,15 @@ The application is a Pascal interpreter on Android. This application is confusin
 	    * Code style: many interface for the editor.
 	    * Font size, font, word wrap.
   4. Support library Android (Sensor, battery, record audio, camera...)
-	
+  5. Support Java in pascal
+
 ## Features that the interpreter is missing
 
 - Exceptions
 - Set, and Variant types
 - for ... in ... do loops
 - with ... do statements
-- goto, label (it will never supported)
+- goto, label
 	
 ## Libraries supported for Android
 
@@ -45,8 +46,9 @@ The application is a Pascal interpreter on Android. This application is confusin
 - The **aNotify** library helps display notifications in the status bar. See the example `notify.pas`
 - The **aClipboard** library works with the clipboard in Android. See the `clipboard.pas` example
 - The **aBattery** library retrieves the battery information of the device. See `battery.pas` example
-- The **aMedia** library Provides classes that manage various media interfaces in audio and video. See https://github.com/tranleduy2000/pascalnide/blob/master/wiki/aMedia_library.md
-- **aTone** library provides API to play DTMF tones (ITU-T Recommendation Q.23). See https://github.com/tranleduy2000/pascalnide/blob/master/wiki/aTone_library.md
+- The **aMedia** library Provides classes that manage various media interfaces in audio and video. See [Wiki](wiki/library_document/aMedia_library.md)
+- The **aTone** library provides API to play DTMF tones (ITU-T Recommendation Q.23). See [Wiki](wiki/library_document/aTone_library.md)
+- The **aDilaog** library provides API to show some dialog. See [Wiki](wiki/library_document/aAialog_library.md)
 
 ### Java under pascal - JPascal
 
@@ -99,9 +101,16 @@ All contributions are welcome, from code to documentation to graphics to design 
 
 ## Tutorials
 
+1. [Google Voice](wiki/tutorials/vi/google_voice/google_voice.md)
+1. [Scan Barcode/QR code](wiki/tutorials/vi/google_voice/scan_bar_code.md)
+1. [Text To Speech](wiki/tutorials/vi/google_voice/text_to_speech.md)
+1. [Generate Tone DFMT](wiki/tutorials/vi/google_voice/how_to_make_dtmf_tone.md)
+
 See in https://pascalnide.wordpress.com/
   1. <a href="https://pascalnide.wordpress.com/2017/05/01/tao-ung-dung-giao-tiep-bang-giong-noi-voi-pascal-n-ide/">How to create communication application by voice with Pascal N-IDE></a>
-  
+
+If you want to help me write a tutorial, please email to me.
+
 ## License
 	The code in this repository is licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -122,4 +131,4 @@ See in https://pascalnide.wordpress.com/
 ## Third party library
    * JSPIIJ https://github.com/jeremysalwen/JSPIIJ
    * SL4A https://github.com/damonkohler/sl4a
-   * And more...
+   * ZXing-android-embedded
