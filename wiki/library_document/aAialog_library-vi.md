@@ -11,21 +11,23 @@ Thư viện này giúp cho các bạn có thể tạo các dialog để có th�
 
 Cú pháp
 ```pascal
-function dialogAlert(title, msg: string);
+procedure dialogAlert(title, msg: string; wait: boolean);
 ```
 Tham số;
 * ``title`` là tiêu đề của dialog
 * ``msg`` là nội dung cần thông báo.
+* ``wait`` nếu giá trị là ``true``, chương trình sẽ tạm dừng cho đến khi đóng dialog
 
-Ví dụ 
+Ví dụ
+
 ```pascal
 Uses 
-    ADialog;
+    aDialog;
 Var
-    Result: string;
+    result: string;
 Begin
     Title := 'Xin chào';
-    Hint := 'Đây là phần  mềm Pascal NIDE';
+    Hint := 'Đây là phần mềm Pascal NIDE';
     dialogAlert (title, msg, true);
     Readln;
 End.
@@ -39,7 +41,9 @@ Cú pháp
 ```pascal
 Function dialogGetInput (title, hint, defaultText: string): string;
 ```
-Tham số;
+
+Tham số
+
 * ``title`` là tiêu đề của dialog
 * ``hint`` là gợi ý
 * ``defaultText`` là chuỗi mặc định sẽ được hiển thị
@@ -48,13 +52,13 @@ Tham số;
 Ví dụ 
 ```pascal
 Uses 
-    ADialog;
+    aDialog;
 Var
-    Result: string;
+    result: string;
 Begin
-    Title := 'Nhập tên của bạn';
+    Title := 'Tên của bạn là gì?';
     Hint := 'nhập vào đây';
-    Result := dialogGetInput (title, hint, '');
+    result := dialogGetInput (title, hint, '');
     Writeln('xin chào ' + result);
     Readln;
 End.
@@ -75,13 +79,13 @@ Tham số;
 Ví dụ 
 ```pascal
 Uses 
-    ADialog;
+    aDialog;
 Var
-    Result: string;
+    result: string;
 Begin
     Title := 'Nhập tên của bạn';
     Hint := 'nhập vào đây';
-    Result := dialogGetPassword (title, hint);
+    result := dialogGetPassword (title, hint);
     Writeln('Mật khẩu của bạn là ', result);
     Readln;
 End.
@@ -92,15 +96,18 @@ ___
 Đây là dạng dialog mà sẽ hiển thị một hộp thoại cho người dùng chọn thời gian
 
 Cú pháp
+
 ```pascal
 Function dialogGetTime(defHour, defMinute: integer): org_json_JSONObject;
 ```
+
 JSON là một dạng dữ liệu đặc biệt làm việc theo từng cặp khoá ``<key, value>``
 
 * Muốn lấy giờ ta dùng key ``hour``
 * Muốn lấy phút ta dùng key ``minute``
 
 Ví dụ
+
 ```pascal
 uses
     aDialog;
