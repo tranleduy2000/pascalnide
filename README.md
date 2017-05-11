@@ -8,11 +8,11 @@ See app on Google Play Store
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width = 200/>
 </a>
 
-# Overview
+## Overview
 
 The application is a Pascal interpreter on Android. This application is confusing for everyone to learn Pascal on the mobile without a computer, so that we can practice anytime, anywhere.
 
-# The main features of the IDE:
+## The main features of the IDE:
 
   1. Compile Pascal programs and run them without Internet.
   2. Report error when compiling
@@ -28,16 +28,15 @@ The application is a Pascal interpreter on Android. This application is confusin
 	    * Font size, font, word wrap.
   4. Support library Android (Sensor, battery, record audio, camera...)
 	
-# Features that the interpreter is missing
+## Features that the interpreter is missing
 
-- Pointers
 - Exceptions
 - Set, and Variant types
 - for ... in ... do loops
 - with ... do statements
 - goto, label (it will never supported)
 	
-# Libraries supported for Android
+## Libraries supported for Android
 
 - The **aTTSpeech** library converts text to speech (requires TextToSpeech). See example `text_to_speech.pas`
 - The **aRecognition** library converts speech to text (requires Google Voice). See example `speech_to_text.pas`.
@@ -49,16 +48,61 @@ The application is a Pascal interpreter on Android. This application is confusin
 - The **aMedia** library Provides classes that manage various media interfaces in audio and video. See https://github.com/tranleduy2000/pascalnide/blob/master/wiki/aMedia_library.md
 - **aTone** library provides API to play DTMF tones (ITU-T Recommendation Q.23). See https://github.com/tranleduy2000/pascalnide/blob/master/wiki/aTone_library.md
 
-# How to contribute
+### Java under pascal - JPascal
+
+Pascal N-IDE allows write program with objects class of ``Java``, which seems crazy :), but it is possible. I reprogrammed a whole platform. Therefore, you can completely use the ``class`` of ``Java`` (such as ``java.util.ArrayList`` or ``java.net.Socket`` to program Socket). That's great, isn't it?.
+
+For more information, please read the ``java_under_pascal.md`` wiki for details.
+[Link instruction](wiki/java_under_pascal/create_new_object.md)
+
+Here is an example of using ``Socket``
+
+```pascal
+var
+    sk: java_net_Socket;
+    ipAddress: string;
+    Port: integer;
+
+begin
+    ipaddress := '192.168.1.1';
+    port := 80;
+
+    {Socket sk = new Socket(ipAddress, port)}
+    New(sk, ipAddress, port);
+
+    writeln(sk);
+    writeln(sk.isConnected());
+end.
+```
+
+or ``ArrayList`` in ``Java``
+
+```pascal
+var
+    list: java_util_ArrayList;
+    i: integer;
+begin
+    new(list);
+
+    for i := 1 to 10 do
+        list.add(i);
+
+    for i := 1 to 10 do
+        writeln(list.get(i));
+
+end.
+```
+
+## How to contribute
 
 All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports. Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
 
-# Tutorials
+## Tutorials
 
 See in https://pascalnide.wordpress.com/
   1. <a href="https://pascalnide.wordpress.com/2017/05/01/tao-ung-dung-giao-tiep-bang-giong-noi-voi-pascal-n-ide/">How to create communication application by voice with Pascal N-IDE></a>
   
-# License
+## License
 	The code in this repository is licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
@@ -72,10 +116,10 @@ See in https://pascalnide.wordpress.com/
 	limitations under the License.
 **NOTE**: This software depends on other packages that may be licensed under different open source licenses.
 
-# Developer 
+## Developer
  Trần Lê Duy
  
-# Third party library
+## Third party library
    * JSPIIJ https://github.com/jeremysalwen/JSPIIJ
    * SL4A https://github.com/damonkohler/sl4a
    * And more...
