@@ -49,3 +49,6 @@ begin
     readln;
 end.
 ```
+## Video demo
+
+https://youtu.be/t-DQU5hlhgM
