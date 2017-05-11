@@ -17,7 +17,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="false">
+    android:fitsSystemWindows="false"
+    android:minHeight="200dp"
+    android:minWidth="200dp">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -40,8 +42,8 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             android:scaleType="centerInside"
             app:srcCompat="@mipmap/icon" />

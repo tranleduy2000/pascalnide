@@ -89,6 +89,7 @@ public abstract class PascalActivityTask<T> {
     }
 
     public void startActivity(Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         mActivity.startActivity(intent);
     }
 

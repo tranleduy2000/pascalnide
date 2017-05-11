@@ -17,10 +17,16 @@
 package com.duy.pascal.backend.lib.android.view.dialog;
 
 import android.app.Activity;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.method.PasswordTransformationMethod;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+
+import com.duy.pascal.backend.imageprocessing.ImageUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +47,6 @@ public class AlertDialogTask extends DialogTask {
 
     private final String mTitle;
     private final String mMessage;
-
     private final List<String> mItems;
     private final Set<Integer> mSelectedItems;
     private final Map<String, Object> mResultMap;
@@ -54,6 +59,8 @@ public class AlertDialogTask extends DialogTask {
 
     private EditText mEditText;
     private String mDefaultText;
+    @Nullable
+    private String mHint;
 
     public AlertDialogTask(String title, String message) {
         mTitle = title;
@@ -157,7 +164,7 @@ public class AlertDialogTask extends DialogTask {
     @Override
     public void onCreate() {
         super.onCreate();
-        Builder builder = new Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (mTitle != null) {
             builder.setTitle(mTitle);
         }
@@ -207,18 +214,10 @@ public class AlertDialogTask extends DialogTask {
                 });
                 break;
             case PLAIN_TEXT:
-                mEditText = new EditText(getActivity());
-                if (mDefaultText != null) {
-                    mEditText.setText(mDefaultText);
-                }
-                mEditText.setInputType(mEditInputType);
-                builder.setView(mEditText);
+                setViewTextInput(builder);
                 break;
             case PASSWORD:
-                mEditText = new EditText(getActivity());
-                mEditText.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                mEditText.setTransformationMethod(new PasswordTransformationMethod());
-                builder.setView(mEditText);
+                setViewPasswordInput(builder);
                 break;
             default:
                 // No input operator specified.
@@ -229,11 +228,47 @@ public class AlertDialogTask extends DialogTask {
         mShowLatch.countDown();
     }
 
+    private void setViewPasswordInput(AlertDialog.Builder builder) {
+        mEditText = new EditText(getActivity());
+        mEditText.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        mEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        mEditText.setTransformationMethod(new PasswordTransformationMethod());
+        builder.setView(mEditText);
+    }
+
+    private void setViewTextInput(AlertDialog.Builder builder) {
+        //create TextInputLayout
+        TextInputLayout textInputLayout = new TextInputLayout(getActivity());
+        textInputLayout.setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+        if (mHint != null) {
+            textInputLayout.setHint(mHint);
+        }
+
+        //create EditText
+        mEditText = new EditText(getActivity());
+        mEditText.setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+        if (mDefaultText != null) {
+            mEditText.setText(mDefaultText);
+        }
+        mEditText.setInputType(mEditInputType);
+        textInputLayout.addView(mEditText);
+        int padding = (int) ImageUtils.convertDpToPixel(16, getActivity());
+        textInputLayout.setPadding(padding, padding, padding, padding);
+
+        //set custom view
+        builder.setView(textInputLayout);
+    }
+
     private CharSequence[] getItemsAsCharSequenceArray() {
         return mItems.toArray(new CharSequence[mItems.size()]);
     }
 
-    private Builder addOnCancelListener(final Builder builder, final Activity activity) {
+    private AlertDialog.Builder addOnCancelListener(final AlertDialog.Builder builder, final Activity activity) {
         return builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -243,7 +278,7 @@ public class AlertDialogTask extends DialogTask {
         });
     }
 
-    private void configureButtons(final Builder builder, final Activity activity) {
+    private void configureButtons(final AlertDialog.Builder builder, final Activity activity) {
         DialogInterface.OnClickListener buttonListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -279,6 +314,10 @@ public class AlertDialogTask extends DialogTask {
             mResultMap.put("value", mEditText.getText().toString());
         }
         setResult(mResultMap);
+    }
+
+    public void setHint(String hint) {
+        this.mHint = hint;
     }
 
     private enum InputType {

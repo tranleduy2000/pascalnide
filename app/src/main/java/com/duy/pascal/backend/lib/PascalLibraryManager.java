@@ -45,6 +45,7 @@ import com.duy.pascal.backend.lib.android.temp.AndroidSettingLib;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidBatteryLib;
 import com.duy.pascal.backend.lib.android.utils.AndroidClipboardLib;
+import com.duy.pascal.backend.lib.android.view.AndroidDialogLib;
 import com.duy.pascal.backend.lib.android.view.AndroidNotifyLib;
 import com.duy.pascal.backend.lib.android.voice.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.voice.AndroidTextToSpeechLib;
@@ -101,6 +102,8 @@ public class PascalLibraryManager {
 
         //socket library
         MAP_LIBRARIES.put(SocketIOLib.NAME, SocketIOLib.class);
+
+        MAP_LIBRARIES.put(AndroidDialogLib.NAME, AndroidDialogLib.class);
     }
 
     @NonNull

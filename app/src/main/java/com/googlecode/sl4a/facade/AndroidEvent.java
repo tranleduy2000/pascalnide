@@ -79,7 +79,7 @@ public class AndroidEvent implements PascalLibrary {
     private EventServer mEventServer = null;
 
     public AndroidEvent(AndroidLibraryManager manager) {
-        mContext = manager.getContext().getApplicationContext();
+        mContext = manager.getContext();
     }
 
     /**

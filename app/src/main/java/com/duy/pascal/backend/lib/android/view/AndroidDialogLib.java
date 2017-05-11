@@ -26,8 +26,8 @@ import android.view.View;
 
 import com.duy.pascal.PascalApplication;
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
 import com.duy.pascal.backend.lib.android.view.dialog.AlertDialogTask;
 import com.duy.pascal.backend.lib.android.view.dialog.DatePickerDialogTask;
 import com.duy.pascal.backend.lib.android.view.dialog.DialogTask;
@@ -36,18 +36,17 @@ import com.duy.pascal.backend.lib.android.view.dialog.SeekBarDialogTask;
 import com.duy.pascal.backend.lib.android.view.dialog.TimePickerDialogTask;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.duy.pascal.frontend.R;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.googlecode.sl4a.rpc.RpcOptional;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -119,6 +118,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
 public class AndroidDialogLib implements PascalLibrary {
+    public static final String NAME = "aDialog".toLowerCase();
     // This value should not be used for menu groups outside this class.
     private static final int MENU_GROUP_ID = Integer.MAX_VALUE;
 
@@ -130,7 +130,6 @@ public class AndroidDialogLib implements PascalLibrary {
     private AndroidEvent mEventFacade;
     private AndroidLibraryManager mManager;
     private DialogTask mDialogTask;
-    private List<Integer> mOverrideKeys = Collections.synchronizedList(new ArrayList<Integer>());
 
     public AndroidDialogLib(AndroidLibraryManager manager) {
         mContext = manager.getContext();
@@ -147,17 +146,18 @@ public class AndroidDialogLib implements PascalLibrary {
 
     @PascalMethod(description = "Create a text input dialog.")
     public void createDialogInput(
-            @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("Value")
+            @PascalParameter(name = "title", description = "title of the input box")
             final String title,
-            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:")
-            final String message,
-            @PascalParameter(name = "defaultText", description = "text to insert into the input box") @RpcOptional
+            @PascalParameter(name = "message", description = "message to display above the input box")
+            final String hint,
+            @PascalParameter(name = "defaultText", description = "text to insert into the input box")
             final String text,
-            @PascalParameter(name = "inputType", description = "operator of input data, ie number or text") @RpcOptional
+            @PascalParameter(name = "inputType", description = "operator of input data, ie number or text")
             final String inputType) throws InterruptedException {
         dismissDialog();
-        mDialogTask = new AlertDialogTask(title, message);
+        mDialogTask = new AlertDialogTask(title, "");
         ((AlertDialogTask) mDialogTask).setTextInput(text);
+        ((AlertDialogTask) mDialogTask).setHint(hint);
         if (inputType != null) {
             ((AlertDialogTask) mDialogTask).setEditInputType(inputType);
         }
@@ -172,27 +172,17 @@ public class AndroidDialogLib implements PascalLibrary {
         ((AlertDialogTask) mDialogTask).setPasswordInput();
     }
 
-    /**
-     * The result is the user's input, or None (null) if cancel was hit. <br>
-     * Example (python)
-     * <p>
-     * <pre>
-     * import android
-     * droid=android.Android()
-     *
-     * print droid.dialogGetInput("Title","Message","Default").result
-     * </pre>
-     */
+
     @SuppressWarnings("unchecked")
     @PascalMethod(description = "Queries the user for a text input.")
     public StringBuilder dialogGetInput(
-            @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("Value") final String title,
-            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter value:") final String message,
-            @PascalParameter(name = "defaultText", description = "text to insert into the input box") @RpcOptional final String text)
+            @PascalParameter(name = "title", description = "title of the input box") final String title,
+            @PascalParameter(name = "hint", description = "message to display above the input box") final String hint,
+            @PascalParameter(name = "default", description = "Default text") String def)
             throws InterruptedException {
-        createDialogInput(title, message, text, "text");
-        dialogSetNegativeButtonText("Cancel");
-        dialogSetPositiveButtonText("Ok");
+        createDialogInput(title, hint, def, "text");
+        dialogSetNegativeButtonText(mContext.getString(R.string.cancel));
+        dialogSetPositiveButtonText(mContext.getString(R.string.ok));
         showDialog();
         Map<String, Object> response = (Map<String, Object>) dialogGetResponse();
         if ("positive".equals(response.get("which"))) {
@@ -201,6 +191,29 @@ public class AndroidDialogLib implements PascalLibrary {
             return new StringBuilder("");
         }
     }
+
+    @PascalMethod(description = "Create time picker dialog.")
+    public JSONObject dialogGetTime(
+            @PascalParameter(name = "hour") @RpcDefault("0") int hour,
+            @PascalParameter(name = "minute") @RpcDefault("0") int minute,
+            @PascalParameter(name = "is24hour", description = "Use 24 hour clock") boolean is24hour)
+            throws InterruptedException {
+
+        createTimePicker(hour, minute, is24hour);
+        showDialog();
+        return (JSONObject) dialogGetResponse();
+    }
+
+
+    @PascalMethod(description = "Create date picker dialog.")
+    public JSONObject dialogGetDate(@PascalParameter(name = "year") int year,
+                                    @PascalParameter(name = "month") int month,
+                                    @PascalParameter(name = "day") int day) throws InterruptedException {
+        createDatePicker(year, month, day);
+        showDialog();
+        return (JSONObject) dialogGetResponse();
+    }
+
 
     @SuppressWarnings({"unchecked", "unused"})
     @PascalMethod(description = "Queries the user for a password.")
@@ -222,8 +235,8 @@ public class AndroidDialogLib implements PascalLibrary {
 
 
     @PascalMethod(description = "Create a spinner progress dialog.")
-    public void createDialogProcess(@PascalParameter(name = "title") @RpcOptional String title,
-                                    @PascalParameter(name = "message") @RpcOptional String message,
+    public void createDialogProcess(@PascalParameter(name = "title") String title,
+                                    @PascalParameter(name = "message") String message,
                                     @PascalParameter(name = "maximum progress") @RpcDefault("100") int max) {
         dismissDialog(); // Dismiss any existing dialog.
         mDialogTask = new ProgressDialogTask(ProgressDialog.STYLE_SPINNER, max, title, message, true);
@@ -232,8 +245,8 @@ public class AndroidDialogLib implements PascalLibrary {
 
     @PascalMethod(description = "Create a horizontal progress dialog.")
     public void createDialogHorizontalProgress(
-            @PascalParameter(name = "title") @RpcOptional String title,
-            @PascalParameter(name = "message") @RpcOptional String message,
+            @PascalParameter(name = "title") String title,
+            @PascalParameter(name = "message") String message,
             @PascalParameter(name = "maximum progress") @RpcDefault("100") int max) {
         dismissDialog(); // Dismiss any existing dialog.
         mDialogTask =
@@ -241,8 +254,8 @@ public class AndroidDialogLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Create alert dialog.")
-    public void createAlertDialog(@PascalParameter(name = "title") @RpcOptional String title,
-                                  @PascalParameter(name = "message") @RpcOptional String message) {
+    public void createAlertDialog(@PascalParameter(name = "title") String title,
+                                  @PascalParameter(name = "message") String message) {
         dismissDialog(); // Dismiss any existing dialog.
         mDialogTask = new AlertDialogTask(title, message);
     }
@@ -392,7 +405,7 @@ public class AndroidDialogLib implements PascalLibrary {
     @PascalMethod(description = "Set dialog multiple choice items and selection.")
     public void dialogSetMultiChoiceItems(
             @PascalParameter(name = "items") JSONArray items,
-            @PascalParameter(name = "selected", description = "list of selected items") @RpcOptional JSONArray selected)
+            @PascalParameter(name = "selected", description = "list of selected items") JSONArray selected)
             throws JSONException {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setMultiChoiceItems(items, selected);
@@ -448,7 +461,7 @@ public class AndroidDialogLib implements PascalLibrary {
     public void addContextMenuItem(
             @PascalParameter(name = "label", description = "label for this menu item") String label,
             @PascalParameter(name = "event", description = "event that will be generated on menu item click") String event,
-            @PascalParameter(name = "eventData") @RpcOptional Object data) {
+            @PascalParameter(name = "eventData") Object data) {
         mContextMenuItems.add(new MenuItem(label, event, data, null));
     }
 
@@ -456,8 +469,8 @@ public class AndroidDialogLib implements PascalLibrary {
     public void addOptionsMenuItem(
             @PascalParameter(name = "label", description = "label for this menu item") String label,
             @PascalParameter(name = "event", description = "event that will be generated on menu item click") String event,
-            @PascalParameter(name = "eventData") @RpcOptional Object data,
-            @PascalParameter(name = "iconName", description = "Android system menu icon, see http://developer.android.com/reference/android/R.drawable.html") @RpcOptional String iconName) {
+            @PascalParameter(name = "eventData") Object data,
+            @PascalParameter(name = "iconName", description = "Android system menu icon, see http://developer.android.com/reference/android/R.drawable.html") String iconName) {
         mOptionsMenuItems.add(new MenuItem(label, event, data, iconName));
         mMenuUpdated.set(true);
     }

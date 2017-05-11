@@ -30,9 +30,9 @@ import org.json.JSONObject;
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
 public class DatePickerDialogTask extends DialogTask {
-    public static int mYear;
-    public static int mMonth;
-    public static int mDay;
+    public int mYear;
+    public int mMonth;
+    public int mDay;
 
     public DatePickerDialogTask(int year, int month, int day) {
         mYear = year;
@@ -53,6 +53,7 @@ public class DatePickerDialogTask extends DialogTask {
                     result.put("month", month + 1);
                     result.put("day", day);
                     setResult(result);
+                    finish();
                 } catch (JSONException e) {
                     throw new AndroidRuntimeException(e);
                 }
@@ -68,6 +69,7 @@ public class DatePickerDialogTask extends DialogTask {
                     result.put("month", mMonth + 1);
                     result.put("day", mDay);
                     setResult(result);
+                    finish();
                 } catch (JSONException e) {
                     throw new AndroidRuntimeException(e);
                 }
@@ -83,6 +85,7 @@ public class DatePickerDialogTask extends DialogTask {
                     result.put("month", mMonth + 1);
                     result.put("day", mDay);
                     setResult(result);
+                    finish();
                 } catch (JSONException e) {
                     throw new AndroidRuntimeException(e);
                 }
