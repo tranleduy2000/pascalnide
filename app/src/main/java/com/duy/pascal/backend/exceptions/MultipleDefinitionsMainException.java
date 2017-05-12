@@ -7,7 +7,12 @@ import com.duy.pascal.backend.linenumber.LineInfo;
  */
 
 public class MultipleDefinitionsMainException extends ParsingException {
-    public MultipleDefinitionsMainException(LineInfo line, String message) {
-        super(line, message);
+    public MultipleDefinitionsMainException(LineInfo line) {
+        super(line);
+    }
+
+    @Override
+    public String getMessage() {
+        return "Multiple definitions of main.";
     }
 }

@@ -46,9 +46,6 @@ public class VariableDeclaration implements NamedEntity {
         return line;
     }
 
-    public String get_name() {
-        return name;
-    }
 
     public void initialize(Map<String, Object> map) {
         map.put(name, initialValue == null ? type.initialize() : initialValue);

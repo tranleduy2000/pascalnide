@@ -21,7 +21,7 @@ public class ClassType extends CustomType {
         for (FunctionDeclaration f : memberfunctions) {
             Class[] argtypes = new Class[f.argumentNames.length];
             for (int i = 0; i < f.argumentNames.length; i++) {
-                argtypes[i] = f.argument_types[i].getRuntimeClass();
+                argtypes[i] = f.argumentTypes[i].getRuntimeClass();
             }
             Class returntype = null;
             if (f.resultDefinition != null) {

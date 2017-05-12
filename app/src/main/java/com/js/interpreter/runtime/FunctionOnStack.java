@@ -12,7 +12,7 @@ public class FunctionOnStack extends VariableContext {
     /**
      * map variable
      */
-    private HashMap<String, Object> local_variables = new HashMap<>();
+    private HashMap<String, Object> localVariables = new HashMap<>();
     /**
      * list name of map variable, if you want get all variable, map can not do
      */
@@ -24,36 +24,29 @@ public class FunctionOnStack extends VariableContext {
     private VariableContext parentContext;
     private RuntimeExecutable<?> main;
     @SuppressWarnings("rawtypes")
-    private HashMap<String, PascalReference> reference_variables;
-    private boolean procedure = false;
+    private HashMap<String, PascalReference> referenceVariables;
 
     @SuppressWarnings("rawtypes")
     public FunctionOnStack(VariableContext parentContext,
                            RuntimeExecutable<?> main, FunctionDeclaration declaration,
                            Object[] arguments) {
-        this.procedure = declaration.isProcedure();
         this.prototype = declaration;
         this.parentContext = parentContext;
         this.main = main;
         for (VariableDeclaration v : prototype.declarations.variables) {
-            v.initialize(local_variables);
-            listNameLocalVariable.add(v.get_name());
+            v.initialize(localVariables);
+            listNameLocalVariable.add(v.getName());
         }
-        reference_variables = new HashMap<>();
+        referenceVariables = new HashMap<>();
         for (int i = 0; i < arguments.length; i++) {
-            if (prototype.argument_types[i].writable) {
-                reference_variables.put(prototype.argumentNames[i],
-                        (PascalReference) arguments[i]);
+            if (prototype.argumentTypes[i].writable) {
+                referenceVariables.put(prototype.argumentNames[i], (PascalReference) arguments[i]);
             } else {
-                local_variables.put(prototype.argumentNames[i], arguments[i]);
+                localVariables.put(prototype.argumentNames[i], arguments[i]);
             }
         }
         this.parentContext = parentContext;
         this.prototype = declaration;
-    }
-
-    public HashMap<String, Object> getLocal_variables() {
-        return local_variables;
     }
 
     public FunctionDeclaration getCurrentFunction() {
@@ -64,10 +57,6 @@ public class FunctionOnStack extends VariableContext {
         return main;
     }
 
-    public HashMap<String, PascalReference> getReference_variables() {
-        return reference_variables;
-    }
-
     public ArrayList<String> getListNameLocalVariable() {
         return listNameLocalVariable;
     }
@@ -76,7 +65,7 @@ public class FunctionOnStack extends VariableContext {
         System.out.println("Function call: " + prototype.getName());
         prototype.instructions.execute(this, main);
         //get result of prototype, name of variable is name of prototype
-        return local_variables.get(prototype.name);
+        return localVariables.get(prototype.name);
     }
 
     /**
@@ -84,10 +73,10 @@ public class FunctionOnStack extends VariableContext {
      */
     @Override
     public Object getLocalVar(String name) throws RuntimePascalException {
-        if (local_variables.containsKey(name)) {
-            return local_variables.get(name);
-        } else if (reference_variables.containsKey(name)) {
-            return reference_variables.get(name).get();
+        if (localVariables.containsKey(name)) {
+            return localVariables.get(name);
+        } else if (referenceVariables.containsKey(name)) {
+            return referenceVariables.get(name).get();
         } else {
             return null;
         }
@@ -96,10 +85,10 @@ public class FunctionOnStack extends VariableContext {
     @Override
     @SuppressWarnings("unchecked")
     public boolean setLocalVar(String name, Object val) {
-        if (local_variables.containsKey(name)) {
-            local_variables.put(name, val);
-        } else if (reference_variables.containsKey(name)) {
-            reference_variables.get(name).set(val);
+        if (localVariables.containsKey(name)) {
+            localVariables.put(name, val);
+        } else if (referenceVariables.containsKey(name)) {
+            referenceVariables.get(name).set(val);
         } else {
             return false;
         }
@@ -117,6 +106,6 @@ public class FunctionOnStack extends VariableContext {
     }
 
     public boolean isProcedure() {
-        return procedure;
+        return prototype.isProcedure();
     }
 }

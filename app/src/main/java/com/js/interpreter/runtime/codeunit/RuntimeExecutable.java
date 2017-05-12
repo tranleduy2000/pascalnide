@@ -1,5 +1,7 @@
 package com.js.interpreter.runtime.codeunit;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.exceptions.StackOverflowException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -18,16 +20,17 @@ import java.util.Map;
 
 public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> extends RuntimeCodeUnit<parent>
         implements ScriptControl {
-
-    public static final int MAX_STACK = 4000;
-
     private static final String TAG = "RuntimeExecutable";
-    private long stack = 0;
+
+    private static final long MAX_STACK = 45000;
     private Map<Library, RuntimeLibrary> RuntimeLibs = new HashMap<>();
+
     private volatile ControlMode runMode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
+    private volatile long stack = 0;
+
     private DebugListener debugListener;
-    private boolean debugMode = false;
+    private volatile boolean debugMode = false;
 
     public RuntimeExecutable(parent definition) {
         super(definition);
@@ -167,6 +170,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
 
     public void incStack(LineInfo lineInfo) throws StackOverflowException {
         stack++;
+        Log.d(TAG, "incStack: " + stack);
         if (stack > MAX_STACK) {
             throw new StackOverflowException(lineInfo);
         }

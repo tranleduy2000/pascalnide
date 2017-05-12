@@ -104,7 +104,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                                   ListMultimap<String, AbstractFunction> callableFunctions,
                                   RunnableActivity handler) {
         super(root, parent);
-//        this.callableFunctions = callableFunctions;
         if (callableFunctions != null)
             this.callableFunctions.putAll(callableFunctions);
 

@@ -44,7 +44,7 @@ public class PascalProgram extends ExecutableCodeUnit {
     }
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
-        protected PascalProgramExpressionContext(
+        public PascalProgramExpressionContext(
                 ListMultimap<String, AbstractFunction> f, RunnableActivity handler) {
             super(f, handler);
         }
@@ -52,7 +52,7 @@ public class PascalProgram extends ExecutableCodeUnit {
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             if (main != null) {
-                throw new MultipleDefinitionsMainException(i.peek().lineInfo, "Multiple definitions of main.");
+                throw new MultipleDefinitionsMainException(i.peek().lineInfo);
             }
             main = i.getNextCommand(this);
             if (!(i.peek() instanceof PeriodToken)) {

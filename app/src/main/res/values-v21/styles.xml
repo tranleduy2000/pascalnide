@@ -25,9 +25,9 @@
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:textViewStyle">@style/TextViewStyle</item>
-        <item name="android:buttonStyle">@style/ButtonStyle</item>
-        <item name="android:titleTextStyle">@style/TitleTextStyle</item>
+        <!--<item name="android:textViewStyle">@style/TextViewStyle</item>-->
+        <!--<item name="android:buttonStyle">@style/ButtonStyle</item>-->
+        <!--<item name="android:titleTextStyle">@style/TitleTextStyle</item>-->
     </style>
 
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">

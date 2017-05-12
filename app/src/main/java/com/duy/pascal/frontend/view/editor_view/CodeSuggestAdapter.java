@@ -37,9 +37,7 @@ import java.util.ArrayList;
 /**
  * Created by Duy on 26-Apr-17.
  */
-
 public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
-    private static final String TAG = "CodeSuggestAdapter";
     private final Context context;
     private final int colorKeyWord;
     private final int colorNormal;
@@ -75,6 +73,8 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
+
         protected void publishResults(CharSequence constraint, FilterResults results) {
             ArrayList<SuggestItem> filteredList = (ArrayList<SuggestItem>) results.values;
             clear();
@@ -85,6 +85,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         }
     };
 
+    @SuppressWarnings("unchecked")
     public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<SuggestItem> objects) {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);

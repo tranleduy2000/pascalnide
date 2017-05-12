@@ -47,7 +47,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     /* These go together ----> */
     public String[] argumentNames;
 
-    public RuntimeType[] argument_types;
+    public RuntimeType[] argumentTypes;
     private boolean isProcedure = false;
     private boolean bodyDeclared;
 
@@ -88,7 +88,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public FunctionDeclaration(ExpressionContext p) {
         this.declarations = new FunctionExpressionContext(this, p);
         this.argumentNames = new String[0];
-        this.argument_types = new RuntimeType[0];
+        this.argumentTypes = new RuntimeType[0];
     }
 
     public String getName() {
@@ -174,20 +174,20 @@ public class FunctionDeclaration extends AbstractCallableFunction {
                 }
             }
         }
-        argument_types = typesList.toArray(new RuntimeType[typesList.size()]);
+        argumentTypes = typesList.toArray(new RuntimeType[typesList.size()]);
         argumentNames = new String[namesList.size()];
         for (int j = 0; j < argumentNames.length; j++) {
             WordToken n = namesList.get(j);
             argumentNames[j] = n.name;
             // TODO: 30-Apr-17
-//            declarations.declareVariable(new VariableDeclaration(n.name, argument_types[j].declType, n.lineInfo));
+//            declarations.declareVariable(new VariableDeclaration(n.name, argumentTypes[j].declType, n.lineInfo));
         }
 
     }
 
     @Override
     public ArgumentType[] argumentTypes() {
-        return argument_types;
+        return argumentTypes;
     }
 
     @Override
@@ -197,7 +197,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     public boolean headerMatches(AbstractFunction other) throws ParsingException {
         if (name.equals(other.name())
-                && Arrays.equals(argument_types, other.argumentTypes())) {
+                && Arrays.equals(argumentTypes, other.argumentTypes())) {
             if (resultDefinition == null && other.returnType() == null) {
                 return true;
             }
@@ -265,7 +265,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             }
             for (int i = 0; i < argumentNames.length; i++) {
                 if (argumentNames[i].equals(ident)) {
-                    return new VariableDeclaration(argumentNames[i], argument_types[i].declType, function.line);
+                    return new VariableDeclaration(argumentNames[i], argumentTypes[i].declType, function.line);
                 }
             }
             return null;

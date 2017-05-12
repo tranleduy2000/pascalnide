@@ -137,7 +137,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     protected boolean enableDebug = false;
     protected RuntimeExecutable program;
     protected String programFile;
-    final Runnable runProgram = new Runnable() {
+    private final Runnable runProgram = new Runnable() {
         @Override
         public void run() {
             try {
@@ -149,6 +149,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                             new FileReader(programFile),
                             new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
                             AbstractExecActivity.this);
+
                     program = pascalProgram.run();
                     if (isEnableDebug()) {
                         program.enableDebug();
@@ -250,40 +251,21 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     public void onFunctionCall(final FunctionDeclaration functionDeclaration) {
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-//                debugView.addVariable(new DebugItem(DebugItem.TYPE_MSG, ">_ " + "Call procedure \'"
-//                        + functionDeclaration.getName() + "\'"));
-            }
-        });
+
     }
 
     @Override
     public void onProcedureCall(final FunctionDeclaration functionDeclaration) {
-        if (Dlog.DEBUG) Log.d(TAG, "onProcedureCall: " + functionDeclaration.getName());
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-//                debugView.addVariable(new DebugItem(DebugItem.TYPE_MSG, ">_ " + "Call function \'"
-//                        + functionDeclaration.getName() + "\'"));
-            }
-        });
+
     }
 
     @Override
     public void onNewMessage(final String msg) {
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-//                debugView.addVariable(new DebugItem(DebugItem.TYPE_MSG, ">_ " + msg));
-            }
-        });
+
     }
 
     @Override
     public void onClearDebug() {
-////        debugView.clear();
     }
 
     @Override
@@ -292,12 +274,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     public void onFunctionCall(final String name) {
-        mMessageHandler.post(new Runnable() {
-            @Override
-            public void run() {
-////                debugView.addVariable(new DebugItem(DebugItem.TYPE_MSG, "> " + "Call procedure \'" + name + "\'"));
-            }
-        });
     }
 
     @Override
@@ -309,12 +285,13 @@ public abstract class AbstractExecActivity extends RunnableActivity {
      * force stop
      */
     private void stopProgram() {
-        Log.d(TAG, "stopProgram: ");
         try {
             program.terminate();
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
-            if (Dlog.DEBUG) Log.d(TAG, "onStop: Program is stopped");
+            if (Dlog.DEBUG) {
+                Log.d(TAG, "onStop: Program is stopped");
+            }
         }
     }
 
@@ -337,22 +314,30 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     /**
      * exec program, run program in internal memory
      *
-     * @param path - file pas
+     * @param path - path of file pas
      */
     protected void createAndRunProgram(final String path) {
         String code = mFileManager.readFileAsString(path);
 
-        //clone it to internal storage
+        //clone file to internal storage
         programFile = mFileManager.setContentFileTemp(code);
-        getConsoleView().commitString("execute file: " + path + "\n");
-        getConsoleView().commitString("---------------------------" + "\n");
+
+        //show prompt
+        this.println("execute file: " + path);
+        this.println("---------------------------" + "\n");
+
+        //create new thread and run program
         mMessageHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 ThreadGroup group = new ThreadGroup("threadGroup");
-                new Thread(group, runProgram, path, 2000000).start();
+
+                //increase stack size in API 25 or above with thread group,
+                // if API < 25, it will be throw stack overflow error
+                long stackSize = 10000 * 1024; //10.240.000
+                new Thread(group, runProgram, path, stackSize).start();
             }
-        }, 200);
+        }, 100);
     }
 
     @Override
