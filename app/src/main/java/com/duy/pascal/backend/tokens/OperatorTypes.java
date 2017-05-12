@@ -397,10 +397,12 @@ public enum OperatorTypes {
         }
 
     },
+
     IN(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return GCF == BasicType.Boolean;
+            return !(GCF == BasicType.Boolean
+                    || GCF == BasicType.StringBuilder);
         }
 
         @Override
@@ -413,6 +415,7 @@ public enum OperatorTypes {
             return "in";
         }
     };
+
     public boolean canBeUnary;
     public boolean postfix;
 
