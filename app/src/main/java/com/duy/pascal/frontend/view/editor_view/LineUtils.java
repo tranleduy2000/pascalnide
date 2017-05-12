@@ -88,7 +88,7 @@ public class LineUtils {
         // for every line on the edittext
         for (i = 0; i < lineCount; i++) {
             // check if this line contains "\n"
-            if (text.length() == 0) {
+            if (layout.getLineEnd(i) == 0) {
                 hasNewLineArray[i] = false;
             } else {
                 hasNewLineArray[i] = text.charAt(layout.getLineEnd(i) - 1) == '\n';
