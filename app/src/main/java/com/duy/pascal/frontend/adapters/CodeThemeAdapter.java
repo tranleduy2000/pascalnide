@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.view.code_view.CodeView;
+import com.duy.pascal.frontend.view.editor_view.EditorView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,13 +60,13 @@ public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         if ((mThemes.get(position) instanceof String)) {
-            holder.codeView.setTheme((String) mThemes.get(position));
+            holder.editorView.setTheme((String) mThemes.get(position));
         } else {
-            holder.codeView.setTheme((int) mThemes.get(position));
+            holder.editorView.setTheme((int) mThemes.get(position));
         }
 
 //        holder.codeView.applyTabWidth();
-        holder.codeView.setTextHighlighted(CodeSample.DEMO_THEME);
+        holder.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
         holder.txtTitle.setText(String.valueOf(mThemes.get(position)));
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +85,7 @@ public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.code_view)
-        CodeView codeView;
+        EditorView editorView;
         @BindView(R.id.txt_title)
         TextView txtTitle;
         @BindView(R.id.btn_select)

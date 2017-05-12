@@ -20,7 +20,7 @@
     android:fillViewport="true"
     android:overScrollMode="always">
 
-    <com.duy.pascal.frontend.view.code_view.CodeView
+    <com.duy.pascal.frontend.view.editor_view.EditorView
         android:id="@+id/code_editor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

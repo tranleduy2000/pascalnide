@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.code_view.custom_spans;
+package com.duy.pascal.frontend.view.editor_view.custom_spans;
 
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;

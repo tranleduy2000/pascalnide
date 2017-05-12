@@ -57,12 +57,12 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
         //set code
         final String content = codeSampleEntry.getContent();
 
-        holder.codeView.setTextHighlighted(content);
-        holder.codeView.applyTabWidth();
+        holder.editorView.setTextHighlighted(content);
+        holder.editorView.applyTabWidth();
 
-        holder.codeView.setCanEdit(false);
+        holder.editorView.setCanEdit(false);
         if (codeSampleEntry.getQuery() != null && !codeSampleEntry.getQuery().isEmpty()) {
-            holder.codeView.find(codeSampleEntry.getQuery(), false, false, false);
+            holder.editorView.find(codeSampleEntry.getQuery(), false, false, false);
         }
 
         holder.txtTitle.setText(codeSampleEntry.getName());

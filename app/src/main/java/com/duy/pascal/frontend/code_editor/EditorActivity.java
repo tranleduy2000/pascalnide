@@ -55,8 +55,8 @@ import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureItem;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.view.code_view.CodeView;
-import com.duy.pascal.frontend.view.code_view.SuggestItem;
+import com.duy.pascal.frontend.view.editor_view.EditorView;
+import com.duy.pascal.frontend.view.editor_view.SuggestItem;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.ConstantDefinition;
@@ -377,9 +377,9 @@ public class EditorActivity extends BaseEditorActivity implements
         TextView txtInfo = (TextView) dialog.findViewById(R.id.txt_info);
         assert txtInfo != null;
         txtInfo.setText(info);
-        CodeView codeView = (CodeView) dialog.findViewById(R.id.code_view);
-        assert codeView != null;
-        codeView.setTextHighlighted(mFileManager.readFileAsString(file));
+        EditorView editorView = (EditorView) dialog.findViewById(R.id.code_view);
+        assert editorView != null;
+        editorView.setTextHighlighted(mFileManager.readFileAsString(file));
     }
 
     /**

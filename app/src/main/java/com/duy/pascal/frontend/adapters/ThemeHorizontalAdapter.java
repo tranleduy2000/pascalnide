@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.view.code_view.CodeView;
+import com.duy.pascal.frontend.view.editor_view.EditorView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,14 +71,14 @@ public class ThemeHorizontalAdapter extends PagerAdapter {
     }
 
     private void setupItem(View view, final int position) {
-        CodeView codeView = (CodeView) view.findViewById(R.id.code_view);
+        EditorView editorView = (EditorView) view.findViewById(R.id.code_view);
         if ((mThemes.get(position) instanceof String)) {
-            codeView.setTheme((String) mThemes.get(position));
+            editorView.setTheme((String) mThemes.get(position));
         } else {
-            codeView.setTheme((int) mThemes.get(position));
+            editorView.setTheme((int) mThemes.get(position));
         }
 
-        codeView.setTextHighlighted(CodeSample.DEMO_THEME);
+        editorView.setTextHighlighted(CodeSample.DEMO_THEME);
         TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);
         txtTitle.setText(String.valueOf(mThemes.get(position)));
         view.findViewById(R.id.btn_select).setOnClickListener(new View.OnClickListener() {

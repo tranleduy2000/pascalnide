@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.code_view;
+package com.duy.pascal.frontend.view.editor_view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -46,7 +46,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
-import com.duy.pascal.frontend.view.code_view.custom_spans.CustomTabWidthSpan;
+import com.duy.pascal.frontend.view.editor_view.custom_spans.CustomTabWidthSpan;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.StringReader;

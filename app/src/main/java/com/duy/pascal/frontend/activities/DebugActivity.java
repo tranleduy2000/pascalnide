@@ -38,8 +38,8 @@ import com.duy.pascal.frontend.debug.VariableWatcherAdapter;
 import com.duy.pascal.frontend.debug.VariableWatcherView;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
-import com.duy.pascal.frontend.view.code_view.HighlightEditor;
-import com.duy.pascal.frontend.view.code_view.LineUtils;
+import com.duy.pascal.frontend.view.editor_view.HighlightEditor;
+import com.duy.pascal.frontend.view.editor_view.LineUtils;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;

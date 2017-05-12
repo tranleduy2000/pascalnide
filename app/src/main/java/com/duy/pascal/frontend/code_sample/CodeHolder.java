@@ -21,7 +21,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.view.code_view.CodeView;
+import com.duy.pascal.frontend.view.editor_view.EditorView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +41,7 @@ class CodeHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.img_copy)
     View btnCopy;
     @BindView(R.id.code_view)
-    CodeView codeView;
+    EditorView editorView;
 
 
     public CodeHolder(View itemView) {

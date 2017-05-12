@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.code_view;
+package com.duy.pascal.frontend.view.editor_view;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -52,6 +52,9 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
     private Filter codeFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
+            if (resultValue == null) {
+                return "";
+            }
             return ((SuggestItem) resultValue).getName();
         }
 

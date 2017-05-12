@@ -39,9 +39,9 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
-import com.duy.pascal.frontend.view.code_view.CodeView;
-import com.duy.pascal.frontend.view.code_view.HighlightEditor;
-import com.duy.pascal.frontend.view.code_view.LineUtils;
+import com.duy.pascal.frontend.view.editor_view.EditorView;
+import com.duy.pascal.frontend.view.editor_view.HighlightEditor;
+import com.duy.pascal.frontend.view.editor_view.LineUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +53,7 @@ import java.io.StringReader;
  */
 public class EditorFragment extends Fragment implements EditorListener {
     private static final String TAG = "EditorFragment";
-    private CodeView mCodeEditor;
+    private EditorView mCodeEditor;
     @Nullable
     private LockableScrollView mScrollView;
     private ApplicationFileManager mFileManager;
@@ -78,7 +78,7 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_editor, container, false);
-        mCodeEditor = (CodeView) view.findViewById(R.id.code_editor);
+        mCodeEditor = (EditorView) view.findViewById(R.id.code_editor);
         mScrollView = (LockableScrollView) view.findViewById(R.id.vertical_scroll);
 
         ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
@@ -224,7 +224,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.insert(text);
     }
 
-    public CodeView getEditor() {
+    public EditorView getEditor() {
         return mCodeEditor;
     }
 

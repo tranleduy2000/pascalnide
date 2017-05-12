@@ -314,6 +314,7 @@ public class IOLib implements PascalLibrary {
         variableBoxer.set(scanner.next().charAt(0));
     }
 
+    @SuppressWarnings("unchecked")
     private void setValueForVariables(PascalReference... listVariable) throws RuntimePascalException {
         if (listener == null)
             throw new InputStreamNotFoundException();
