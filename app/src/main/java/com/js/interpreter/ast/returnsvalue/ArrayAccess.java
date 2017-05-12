@@ -30,7 +30,7 @@ public class ArrayAccess extends DebuggableLeftValue {
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         RuntimeType r = (container.getType(f));
-        return new RuntimeType(((ArrayType<?>) r.declType).element_type,
+        return new RuntimeType(((ArrayType<?>) r.declType).elementType,
                 r.writable);
     }
 

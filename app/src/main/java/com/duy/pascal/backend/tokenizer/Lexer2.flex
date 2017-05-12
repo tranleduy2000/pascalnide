@@ -148,15 +148,25 @@ import java.util.Stack;
 	yypopStream();
 %eofval}
 
+Number               = [0-9]+
+
 Identifier = [a-zA-Z_] [a-zA-Z_0-9]*
-Digit = [0-9]
-Char = "#" {Digit}+
-Integer = {Digit}+
-Float	= {Digit}+ "." {Digit}+
+Char = "#" {Number}
 WhiteSpace = ([ \t] | {LineTerminator})+
+
+//Digit = [0-9]
+//Integer = {Digit}+
+//Float	= {Digit}+ "." {Digit}+
 
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r|\n|]
+
+NumInt         = {Number}
+Exp             = [Ee][+-]?{Number}
+NumReal        = {Number}(\.{Number})?{Exp}?
+NumHex         = \$[0-9a-fA-F]+
+NumBin         = (\%[01]+) | ({Number}[bB])
+NumOct         = \&[0-7]+
 
 Comment = {TraditionalComment} | {EndOfLineComment}  | {PascalComment}
 
@@ -191,9 +201,12 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	{Comment} {return new CommentToken(getLine(), yytext());}
 
     {Char} {return new CharacterToken(getLine(),yytext());}
-	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
-	{Integer} {return new IntegerToken(getLine(),(int)Long.parseLong(yytext()));}
-	
+	{NumReal} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
+	{NumInt} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext()));}
+	{NumBin} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 2));}
+	{NumHex} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 16));}
+	{NumOct} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 8));}
+
 	"and" {return new OperatorToken(getLine(),OperatorTypes.AND); }
 	"not" {return new OperatorToken(getLine(),OperatorTypes.NOT); }
 	"or" {return new OperatorToken(getLine(),OperatorTypes.OR); }
@@ -271,7 +284,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	[\n\r]	{return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
 }
 <STRINGPOUND> {
-	{Integer} {literal.append((char)Integer.parseInt(yytext())); yybegin(STRINGDONE);}
+	{NumInt} {literal.append((char)Integer.parseInt(yytext())); yybegin(STRINGDONE);}
 	.|\n      { return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR);}
 	
 }

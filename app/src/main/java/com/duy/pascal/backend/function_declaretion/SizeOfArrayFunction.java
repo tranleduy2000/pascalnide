@@ -123,7 +123,7 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
             @SuppressWarnings("rawtypes")
             ArrayType arr = (ArrayType) array.getValue(f, main);
             int size = arr.getBounds().size;
-            Class storageClass = arr.element_type.getStorageClass();
+            Class storageClass = arr.elementType.getStorageClass();
             if (storageClass == int.class || storageClass == Integer.class) {
                 return size * 4; //32 bit
             } else if (storageClass == long.class || storageClass == Long.class) {

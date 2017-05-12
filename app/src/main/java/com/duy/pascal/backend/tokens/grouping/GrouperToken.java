@@ -455,7 +455,7 @@ public abstract class GrouperToken extends Token {
                     take();
                     //set default value for array
                     if (type instanceof ArrayType) {
-                        DeclaredType elementTypeOfArray = ((ArrayType) type).element_type;
+                        DeclaredType elementTypeOfArray = ((ArrayType) type).elementType;
                         ParenthesizedToken bracketedToken = (ParenthesizedToken) take();
                         int size = ((ArrayType) type).getBounds().size;
                         Object[] objects = new Object[size];
@@ -509,7 +509,7 @@ public abstract class GrouperToken extends Token {
                     ParenthesizedToken child = (ParenthesizedToken) parenthesizedToken.take();
                     Object[] objects = new Object[((ArrayType) elementTypeOfArray).getBounds().size];
                     for (int i = 0; i < objects.length; i++) {
-                        objects[i] = getDefaultValueArray(context, child, ((ArrayType) elementTypeOfArray).element_type);
+                        objects[i] = getDefaultValueArray(context, child, ((ArrayType) elementTypeOfArray).elementType);
                     }
                     if (child.hasNext()) {
                         // TODO: 27-Apr-17  exception

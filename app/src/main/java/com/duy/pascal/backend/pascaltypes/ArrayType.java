@@ -13,18 +13,18 @@ import java.lang.reflect.Array;
 
 public class ArrayType<T extends DeclaredType> implements DeclaredType {
     private static final String TAG = "ArrayType";
-    public final T element_type;
+    public final T elementType;
     private SubrangeType bounds;
 
 
     public ArrayType(T elementclass, SubrangeType bounds) {
-        this.element_type = elementclass;
+        this.elementType = elementclass;
         this.bounds = bounds;
     }
 
 
-    public T getElement_type() {
-        return element_type;
+    public T getElementType() {
+        return elementType;
     }
 
     public SubrangeType getBounds() {
@@ -41,7 +41,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         }
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
-            if (o.element_type.equals(element_type)) {
+            if (o.elementType.equals(elementType)) {
                 if (this.bounds.contains(o.bounds)) {
                     return true;
                 }
@@ -57,7 +57,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         }
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
-            if (o.element_type.equals(element_type)) {
+            if (o.elementType.equals(elementType)) {
                 if (this.bounds.equals(o.bounds)) {
                     return true;
                 }
@@ -68,7 +68,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public int hashCode() {
-        return (element_type.hashCode() * 31 + bounds.hashCode());
+        return (elementType.hashCode() * 31 + bounds.hashCode());
     }
 
     /**
@@ -76,17 +76,17 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
      */
     @Override
     public Object initialize() {
-        Object result = Array.newInstance(element_type.getTransferClass(),
+        Object result = Array.newInstance(elementType.getTransferClass(),
                 bounds.size);
         for (int i = 0; i < bounds.size; i++) {
-            Array.set(result, i, element_type.initialize());
+            Array.set(result, i, elementType.initialize());
         }
         return result;
     }
 
     @Override
     public Class<?> getTransferClass() {
-        String s = element_type.getTransferClass().getName();
+        String s = elementType.getTransferClass().getName();
         StringBuilder b = new StringBuilder();
         b.append('[');
         b.append('L');
@@ -102,11 +102,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder(element_type.toString());
-        result.append('[');
-        result.append(bounds);
-        result.append(']');
-        return result.toString();
+        return elementType.toString() + '[' + bounds + ']';
     }
 
     /**
@@ -134,7 +130,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public Class<?> getStorageClass() {
-        Class c = element_type.getStorageClass();
+        Class c = elementType.getStorageClass();
         if (c.isArray()) {
             try {
                 return Class.forName("[" + c.getName());

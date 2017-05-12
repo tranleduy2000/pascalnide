@@ -41,12 +41,12 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static BinaryOperatorEvaluation generateOp(ExpressionContext f,
+    public static BinaryOperatorEvaluation generateOp(ExpressionContext context,
                                                       ReturnValue v1, ReturnValue v2,
                                                       OperatorTypes operatorTypes,
                                                       LineInfo line) throws ParsingException {
-        DeclaredType t1 = v1.getType(f).declType;
-        DeclaredType t2 = v2.getType(f).declType;
+        DeclaredType t1 = v1.getType(context).declType;
+        DeclaredType t2 = v2.getType(context).declType;
 
         if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
             throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
@@ -56,6 +56,20 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
                 || t2 instanceof ArrayType)) {
             throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
         }
+
+        if (t1 instanceof BasicType
+                && t2 instanceof ArrayType) {
+            ReturnValue converted = ((ArrayType) t2).elementType.convert(v1, context);
+            if (converted != null) {
+                if (operatorTypes == OperatorTypes.IN) {
+                    return new InBiOperatorEval(converted, v2, operatorTypes, line);
+                }
+            } else {
+                // TODO: 12-May-17  exception
+            }
+        }
+
+
         if (t1 == BasicType.StringBuilder
                 || t2 == BasicType.StringBuilder) {
             if (operatorTypes == OperatorTypes.PLUS) {
@@ -63,8 +77,8 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
                 v2 = new AnyToStringType(v2);
                 return new StringBiOperatorEval(v1, v2, operatorTypes, line);
             } else {
-                v1 = BasicType.StringBuilder.convert(v1, f);
-                v2 = BasicType.StringBuilder.convert(v2, f);
+                v1 = BasicType.StringBuilder.convert(v1, context);
+                v2 = BasicType.StringBuilder.convert(v2, context);
                 if (v1 != null && v2 != null) {
                     return new StringBiOperatorEval(v1, v2, operatorTypes, line);
                 } else {
@@ -111,14 +125,6 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
             return new BoolBiOperatorEval(v1, v2, operatorTypes, line);
         }
 
-        if (t1 instanceof BasicType
-                && t2 instanceof ArrayType) {
-            v1 = TypeConverter.forceConvertRequired(BasicType.Boolean,
-                    v1, (BasicType) t1);
-            v2 = TypeConverter.forceConvertRequired(BasicType.Boolean,
-                    v2, (BasicType) t2);
-            return new InBiOperatorEval(v1, v2, operatorTypes, line);
-        }
 
         throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
     }

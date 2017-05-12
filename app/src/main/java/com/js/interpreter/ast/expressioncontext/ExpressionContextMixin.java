@@ -332,7 +332,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         token.take(); //ignore equal name
                         //set default value for array
                         if (type instanceof ArrayType) {
-                            DeclaredType elementTypeOfArray = ((ArrayType) type).element_type;
+                            DeclaredType elementTypeOfArray = ((ArrayType) type).elementType;
                             ParenthesizedToken bracketedToken = (ParenthesizedToken) token.take();
                             int size = ((ArrayType) type).getBounds().size;
                             Object[] objects = new Object[size];

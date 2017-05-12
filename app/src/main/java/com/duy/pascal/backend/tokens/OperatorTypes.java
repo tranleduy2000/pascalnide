@@ -462,7 +462,7 @@ public enum OperatorTypes {
         if (one instanceof BasicType
                 && two instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) two;
-            if (arrayType.element_type.equals(one)) {
+            if (arrayType.elementType.equals(one)) {
                 return BasicType.Boolean;
             }
         }

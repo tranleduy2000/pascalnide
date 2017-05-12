@@ -58,7 +58,7 @@ public class SetLengthFunction implements IMethodDeclaration {
         ReturnValue size = arguments[1];
         @SuppressWarnings("rawtypes")
         DeclaredType elementYype = ((ArrayType)
-                ((PointerType) array.getType(f).declType).pointedToType).element_type;
+                ((PointerType) array.getType(f).declType).pointedToType).elementType;
         return new SetLengthCall(array, size, elementYype, line);
     }
 

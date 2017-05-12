@@ -11,7 +11,7 @@ public interface DeclaredType {
 
     Class getTransferClass();
 
-    ReturnValue convert(ReturnValue returns_value,
+    ReturnValue convert(ReturnValue returnValue,
                         ExpressionContext f) throws ParsingException;
 
     boolean equals(DeclaredType other);
