@@ -24,6 +24,7 @@ public class Assignment extends DebuggableExecutable implements SetValueExecutab
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutable<?> main) throws RuntimePascalException {
         Reference ref = left.getReference(context, main);

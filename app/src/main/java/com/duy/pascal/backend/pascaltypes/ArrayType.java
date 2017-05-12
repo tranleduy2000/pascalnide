@@ -1,9 +1,6 @@
 package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
-import com.duy.pascal.backend.pascaltypes.bytecode.ScopedRegisterAllocator;
-import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ArrayAccess;
@@ -12,12 +9,7 @@ import com.js.interpreter.ast.returnsvalue.cloning.ArrayCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
-import serp.bytecode.Code;
-import serp.bytecode.Instruction;
-import serp.bytecode.JumpInstruction;
 
 public class ArrayType<T extends DeclaredType> implements DeclaredType {
     private static final String TAG = "ArrayType";
@@ -30,50 +22,6 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         this.bounds = bounds;
     }
 
-
-    public static void pushArrayOfNonArrayType(DeclaredType type, Code code,
-                                               RegisterAllocator ra, List<SubrangeType> ranges) {
-        for (SubrangeType i : ranges) {
-            code.constant().setValue(i.size);
-        }
-        // For now we are storing as array of objects always
-        code.multianewarray().setDimensions(ranges.size())
-                .setType("[" + type.getTransferClass().getName());
-        int array = ra.getNextFree();
-        code.astore().setLocal(array);
-        int[] indexes = new int[ranges.size()];
-        JumpInstruction[] fjmp = new JumpInstruction[ranges.size()];
-        Instruction[] jmpbackto = new Instruction[ranges.size() + 1];
-        for (int i = 0; i < indexes.length; i++) {
-            indexes[i] = ra.getNextFree();
-            jmpbackto[i] = code.constant().setValue(0);
-            code.istore().setLocal(indexes[i]);
-            fjmp[i] = code.go2();
-        }
-        jmpbackto[ranges.size()] = code.aload().setLocal(array);
-        for (int i = 0; i < indexes.length - 1; i++) {
-            code.iload().setLocal(indexes[i]);
-            code.aaload();
-        }
-        code.iload().setLocal(indexes[indexes.length - 1]);
-        type.pushDefaultValue(code, new ScopedRegisterAllocator(ra));
-        type.convertStackToStorageType(code);
-        // Because we are not compiling yet, we are using wrapper classes in
-        // arrays.
-        // arrayStoreOperation(code);
-        code.aastore();
-        for (int i = 0; i < indexes.length; i++) {
-            code.iinc().setIncrement(1).setLocal(indexes[i]);
-            fjmp[i].setTarget(code.iload().setLocal(indexes[i]));
-            code.constant().setValue(ranges.get(i).size);
-            code.ificmplt().setTarget(jmpbackto[i + 1]);
-        }
-        for (int indexe : indexes) {
-            ra.free(indexe);
-        }
-        code.aload().setLocal(array);
-        ra.free(array);
-    }
 
     public T getElement_type() {
         return element_type;
@@ -173,109 +121,15 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
     }
 
     @Override
-    public void pushDefaultValue(Code code, RegisterAllocator ra) {
-        ArrayList<SubrangeType> ranges = new ArrayList<>();
-        ranges.add(bounds);
-        element_type.pushArrayOfType(code, ra, ranges);
-    }
-
-    @Override
     public ReturnValue cloneValue(final ReturnValue r) {
         return new ArrayCloner<T>(r);
     }
 
-    private void pushLengthOnStack(Code c, int varindex) {
-        if (varindex >= 0) {
-            c.iload().setLocal(varindex);
-        } else {
-            c.constant().setValue(bounds.size);
-        }
-    }
-
-    @Override
-    public void cloneValueOnStack(final TransformationInput t) {
-        final Code c = t.getCode();
-        t.pushInputOnStack();
-        int varindex = -1;
-        if (this.bounds.size == 0) {
-            varindex = t.getFreeRegister();
-            c.dup();
-            c.arraylength();
-            c.istore().setLocal(varindex);
-        }
-        // STACK=OLD
-        final int cloneeindex = t.getFreeRegister();
-        c.astore().setLocal(cloneeindex);
-        pushLengthOnStack(c, varindex);
-        // STACK=LEN
-        c.dup();
-        // STACK=LEN,LEN
-        c.anewarray().setType(this.element_type.getTransferClass());
-        // Stack=LEN,NEW
-        c.dupx1();
-        c.swap();
-        // STACK=NEW,NEW,LEN
-        final int index = t.getFreeRegister();
-        c.constant().setValue(0);
-        c.dup();
-        c.istore().setLocal(index);
-        // STACK= NEW,NEW,LEN,IND
-        c.dupx1();
-        // STACK=NEW,NEW,IND,LEN,IND
-        JumpInstruction jmp = c.ificmple();
-        // STACK=NEW,NEW,IND
-        element_type.cloneValueOnStack(new TransformationInput() {
-
-            @Override
-            public void pushInputOnStack() {
-                c.aload().setLocal(cloneeindex);
-                c.iload().setLocal(index);
-                c.aload();
-            }
-
-            @Override
-            public int getFreeRegister() {
-                return t.getFreeRegister();
-            }
-
-            @Override
-            public Code getCode() {
-                return c;
-            }
-
-            @Override
-            public void freeRegister(int index) {
-                t.freeRegister(index);
-            }
-        });
-        // STACK=NEW,NEW,IND,NEWVALUE
-        c.aastore();
-        // STACK=NEW
-        c.dup();
-        pushLengthOnStack(c, varindex);
-        c.iload().setLocal(index);
-        c.iinc();
-        // STACK=NEW,NEW,LEN,IND
-        c.go2().setTarget(jmp);
-        jmp.setTarget(c.pop2());
-        c.pop2();
-        t.freeRegister(cloneeindex);
-        t.freeRegister(index);
-        if (varindex != -1) {
-            t.freeRegister(varindex);
-        }
-    }
 
     @Override
     public ReturnValue generateArrayAccess(ReturnValue array,
                                            ReturnValue index) {
         return new ArrayAccess(array, index, bounds.lower);
-    }
-
-    public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<SubrangeType> ranges) {
-        ranges.add(bounds);
-        element_type.pushArrayOfType(code, ra, ranges);
     }
 
     @Override
@@ -305,14 +159,5 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
 
     }
 
-    @Override
-    public void arrayStoreOperation(Code c) {
-        c.aastore();
-    }
-
-    @Override
-    public void convertStackToStorageType(Code c) {
-        // Do nothing.
-    }
 
 }

@@ -3,9 +3,6 @@ package com.duy.pascal.backend.pascaltypes;
 import com.duy.pascal.backend.exceptions.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnsupportedFormatException;
-import com.duy.pascal.backend.pascaltypes.bytecode.RegisterAllocator;
-import com.duy.pascal.backend.pascaltypes.bytecode.TransformationInput;
-import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.duy.pascal.backend.pascaltypes.typeconversion.StringBuilderWithRangeType;
 import com.duy.pascal.backend.pascaltypes.typeconversion.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -18,9 +15,6 @@ import com.ncsa.common.util.TypeUtils;
 
 import java.io.File;
 import java.net.Socket;
-import java.util.List;
-
-import serp.bytecode.Code;
 
 public enum BasicType implements DeclaredType {
     Boolean(Character.class) {
@@ -40,16 +34,7 @@ public enum BasicType implements DeclaredType {
             return "Boolean";
         }
 
-        @Override
-        public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Boolean.class, "valueOf", Boolean.class,
-                    new Class[]{boolean.class});
-        }
 
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.bastore();
-        }
     },
     Character(Character.class) {
         @Override
@@ -67,16 +52,6 @@ public enum BasicType implements DeclaredType {
             return "Char";
         }
 
-        @Override
-        public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Character.class, "valueOf",
-                    Character.class, new Class[]{char.class});
-        }
-
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.castore();
-        }
     },
     StringBuilder(StringBuilder.class) {
         private ReturnValue length; //max size
@@ -92,16 +67,6 @@ public enum BasicType implements DeclaredType {
         }
 
 
-        @Override
-        public void pushDefaultValue(Code constructor_code, RegisterAllocator ra) {
-            constructor_code.anew().setType(StringBuilder.class);
-            constructor_code.dup();
-            try {
-                constructor_code.invokespecial().setMethod(StringBuilder.class.getConstructor());
-            } catch (SecurityException | NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
 
         @Override
         public String toString() {
@@ -138,19 +103,6 @@ public enum BasicType implements DeclaredType {
             return new StringBuilderCloner(value);
         }
 
-        @Override
-        public void cloneValueOnStack(TransformationInput t) {
-            Code c = t.getCode();
-            c.anew().setType(StringBuilder.class);
-            t.pushInputOnStack();
-            try {
-                c.invokespecial().setMethod(
-                        StringBuilder.class.getConstructor(CharSequence.class));
-            } catch (SecurityException | NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-
     },
     Byte(Byte.class) {
         @Override
@@ -168,15 +120,6 @@ public enum BasicType implements DeclaredType {
             return "Short";
         }
 
-        @Override
-        public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Byte.class, "valueOf", Byte.class, new Class[]{byte.class});
-        }
-
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.iastore();
-        }
     },
     Short(Short.class) {
         @Override
@@ -193,15 +136,7 @@ public enum BasicType implements DeclaredType {
             return "Short";
         }
 
-        @Override
-        public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Short.class, "valueOf", Short.class, new Class[]{short.class});
-        }
 
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.iastore();
-        }
     },
     Integer(Integer.class) {
         @Override
@@ -219,15 +154,7 @@ public enum BasicType implements DeclaredType {
             return "Integer";
         }
 
-        @Override
-        public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Integer.class, "valueOf", Integer.class, new Class[]{int.class});
-        }
 
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.iastore();
-        }
     },
     Long(Long.class) {
         @Override
@@ -261,16 +188,7 @@ public enum BasicType implements DeclaredType {
             return "Real";
         }
 
-        @Override
-        public void convertStackToStorageType(Code c) {
-            c.invokestatic().setMethod(Double.class, "valueOf", Double.class,
-                    new Class[]{double.class});
-        }
 
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.dastore();
-        }
     },
     Text(File.class) {
         @Override
@@ -288,14 +206,6 @@ public enum BasicType implements DeclaredType {
             return "File";
         }
 
-        @Override
-        public void convertStackToStorageType(Code c) {
-        }
-
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.iastore();
-        }
     },
     Socket(Socket.class) {
         @Override
@@ -313,14 +223,6 @@ public enum BasicType implements DeclaredType {
             return "Socket";
         }
 
-        @Override
-        public void convertStackToStorageType(Code c) {
-        }
-
-        @Override
-        public void arrayStoreOperation(Code c) {
-            c.iastore();
-        }
     };
 
     private Class c;
@@ -421,20 +323,12 @@ public enum BasicType implements DeclaredType {
         return null;
     }
 
-    @Override
-    public void pushDefaultValue(Code constructor_code, RegisterAllocator ra) {
-        constructor_code.constant().setValue(getDefaultValue());
-    }
 
     @Override
     public ReturnValue cloneValue(final ReturnValue r) {
         return r;
     }
 
-    @Override
-    public void cloneValueOnStack(TransformationInput t) {
-        t.pushInputOnStack();
-    }
 
     @Override
     public ReturnValue generateArrayAccess(ReturnValue array,
@@ -448,22 +342,5 @@ public enum BasicType implements DeclaredType {
         return c2 == null ? c : c2;
     }
 
-    @Override
-    public void arrayStoreOperation(Code c) {
-        c.aastore();
-    }
 
-    @Override
-    public void convertStackToStorageType(Code c) {
-        // By default, nothing is necessary.
-    }
-
-    @Override
-    public void pushArrayOfType(Code code, RegisterAllocator ra,
-                                List<SubrangeType> ranges) {
-        // Because I cannot mix this method into DeclaredType (no multiple
-        // inheritance) I have to duplicate it.
-        ArrayType.pushArrayOfNonArrayType(this, code, ra, ranges);
-
-    }
 }

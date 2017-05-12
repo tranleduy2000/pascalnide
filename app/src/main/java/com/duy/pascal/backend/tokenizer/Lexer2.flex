@@ -65,6 +65,7 @@ import java.util.Stack;
 %column
 %ignorecase
 
+
 %class Lexer
 %{
 	List<ScriptSource> searchDirectories;
@@ -201,6 +202,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"shr" {return new OperatorToken(getLine(),OperatorTypes.SHIFTRIGHT); }
 	"div" {return new OperatorToken(getLine(),OperatorTypes.DIV); }
 	"mod" {return new OperatorToken(getLine(),OperatorTypes.MOD); }
+	"in" {return new OperatorToken(getLine(),OperatorTypes.IN); }
 	"=" {return new OperatorToken(getLine(),OperatorTypes.EQUALS); }
 	"/" {return new OperatorToken(getLine(),OperatorTypes.DIVIDE); }
 	"*" {return new OperatorToken(getLine(),OperatorTypes.MULTIPLY); }

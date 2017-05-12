@@ -25,9 +25,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import java.util.HashMap;
 
 public class WithOnStack extends VariableContext {
-
-
-    private WithDeclaration withStatement;
+    private WithStatement withStatement;
     private VariableContext parentContext;
     private RuntimeExecutable<?> main;
     @SuppressWarnings("rawtypes")
@@ -35,7 +33,7 @@ public class WithOnStack extends VariableContext {
 
     @SuppressWarnings("rawtypes")
     WithOnStack(VariableContext parentContext,
-                RuntimeExecutable<?> main, WithDeclaration declaration) {
+                RuntimeExecutable<?> main, WithStatement declaration) {
         this.withStatement = declaration;
         this.parentContext = parentContext;
         this.main = main;

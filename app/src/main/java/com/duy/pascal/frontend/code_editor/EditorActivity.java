@@ -56,7 +56,7 @@ import com.duy.pascal.frontend.program_structure.viewholder.StructureItem;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.editor_view.EditorView;
-import com.duy.pascal.frontend.view.editor_view.SuggestItem;
+import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.ConstantDefinition;

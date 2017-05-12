@@ -244,6 +244,7 @@ public class EditorFragment extends Fragment implements EditorListener {
 
     public void refreshCodeEditor() {
         mCodeEditor.updateFromSettings();
+        mCodeEditor.refresh();
     }
 
     public String getFilePath() {

@@ -29,7 +29,7 @@ public class KeyWord {
             "const", "var", "operator", "array", "record",
             "shl", "shr",
             "if  then ;", "then", "else",
-            "for  to  do ;", "to", "do", "downto",
+            "for  :=  to  do ;", "to", "do", "downto",
             "while  do  ;", "repeat", "until", "case", "of",
             "and", "or", "xor", "not", "div", "mod",
 

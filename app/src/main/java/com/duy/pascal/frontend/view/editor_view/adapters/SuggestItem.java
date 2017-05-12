@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view;
+package com.duy.pascal.frontend.view.editor_view.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.frontend.view.editor_view.CodeSuggestsEditText;
+
 import java.io.Serializable;
 
 /**
- * item for suggest adapter of {@link AutoSuggestsEditText}
+ * item for suggest adapter of {@link CodeSuggestsEditText}
  */
 public class SuggestItem implements Serializable, Comparable {
     private int type;

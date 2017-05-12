@@ -154,7 +154,9 @@ public class IndentCode {
         } else if (isCloseToken(token)) {
             return new StringBuilder(token.toString());
         } else if (token instanceof CommentToken) {
-            return new StringBuilder().append(token.toString());
+            StringBuilder result = new StringBuilder().append(token.toString());
+            result.append("\n").append(getTab(depth));
+            return result;
         } else if (token instanceof PeriodToken) {
             return new StringBuilder(token.toString());
         }
@@ -475,7 +477,8 @@ public class IndentCode {
     private StringBuilder getTab(int depth) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < depth; i++) {
-            stringBuilder.append("\t");
+//            stringBuilder.append("\t");
+            stringBuilder.append("    ");
         }
         return stringBuilder;
     }

@@ -1,4 +1,4 @@
-package com.js.interpreter.ast.returnsvalue.operators;
+package com.js.interpreter.ast.returnsvalue.operators.number;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -13,10 +13,9 @@ import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
 
-public class StringBiOperatorEval extends BinaryOperatorEvaluation {
+public class CharBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public StringBiOperatorEval(ReturnValue operon1, ReturnValue operon2,
-                                OperatorTypes operator, LineInfo line) {
+    public CharBiOperatorEval(ReturnValue operon1, ReturnValue operon2, OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -25,49 +24,69 @@ public class StringBiOperatorEval extends BinaryOperatorEvaluation {
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         switch (operator_type) {
             case EQUALS:
+            case GREATEREQ:
+            case GREATERTHAN:
+            case LESSEQ:
+            case LESSTHAN:
             case NOTEQUAL:
                 return new RuntimeType(BasicType.Boolean, false);
             default:
-                return new RuntimeType(BasicType.StringBuilder, false);
+                return new RuntimeType(BasicType.Character, false);
         }
     }
 
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        String v1 = value1.toString();
-        String v2 = value2.toString();
+        char v1 = (char) value1;
+        char v2 = (char) value2;
         switch (operator_type) {
+            case AND:
+                return v1 & v2;
+            case DIV:
+                return v1 / v2;
             case EQUALS:
-                return v1.equals(v2);
-            case NOTEQUAL:
-                return !v1.equals(v2);
-            case LESSTHAN:
-                return v1.compareTo(v2) < 0;
-            case LESSEQ:
-                return v1.compareTo(v2) <= 0;
+                return v1 == v2;
             case GREATEREQ:
-                return v1.compareTo(v2) >= 0;
+                return v1 >= v2;
             case GREATERTHAN:
-                return v1.compareTo(v2) > 0;
+                return v1 > v2;
+            case LESSEQ:
+                return v1 <= v2;
+            case LESSTHAN:
+                return v1 < v2;
+            case MINUS:
+                return v1 - v2;
+            case MOD:
+                return v1 % v2;
+            case MULTIPLY:
+                return v1 * v2;
+            case NOTEQUAL:
+                return v1 != v2;
+            case OR:
+                return v1 | v2;
             case PLUS:
-                return new StringBuilder(v1).append(v2);
+                return (char) (v1 + v2);
+            case SHIFTLEFT:
+                return v1 << v2;
+            case SHIFTRIGHT:
+                return v1 >> v2;
+            case XOR:
+                return v1 ^ v2;
             default:
                 throw new InternalInterpreterException(line);
         }
     }
 
     @Override
-    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+    public ReturnValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new StringBiOperatorEval(
+            return new CharBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context),
-                    operator_type,
+                    operon2.compileTimeExpressionFold(context), operator_type,
                     line);
         }
     }

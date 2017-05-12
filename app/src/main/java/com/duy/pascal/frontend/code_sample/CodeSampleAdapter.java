@@ -24,7 +24,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.utils.clipboard.ClipboardManager;
+import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
+import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ import java.util.ArrayList;
  * Created by Duy on 08-Apr-17.
  */
 class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
+    private final ClipboardManagerCompat clipboardManagerCompat;
     private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
     private ArrayList<CodeSampleEntry> originalData = new ArrayList<>();
     private Context context;
@@ -43,6 +45,7 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
     CodeSampleAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        clipboardManagerCompat = ClipboardManagerCompatFactory.getManager(context);
     }
 
     @Override
@@ -82,7 +85,7 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
         holder.btnCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager.setClipboard(context, content);
+                clipboardManagerCompat.setText(content);
             }
         });
     }

@@ -58,7 +58,7 @@ import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.editor_view.SuggestItem;
+import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
 import com.js.interpreter.ast.MethodDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 

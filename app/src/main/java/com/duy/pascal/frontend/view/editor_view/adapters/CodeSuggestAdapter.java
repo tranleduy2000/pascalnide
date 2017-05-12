@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view;
+package com.duy.pascal.frontend.view.editor_view.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;

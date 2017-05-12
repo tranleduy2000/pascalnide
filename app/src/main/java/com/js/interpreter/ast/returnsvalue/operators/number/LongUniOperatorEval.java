@@ -1,4 +1,4 @@
-package com.js.interpreter.ast.returnsvalue.operators;
+package com.js.interpreter.ast.returnsvalue.operators.number;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;

@@ -46,7 +46,6 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
-import com.duy.pascal.frontend.view.editor_view.custom_spans.CustomTabWidthSpan;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.StringReader;
@@ -61,14 +60,13 @@ import static com.duy.pascal.frontend.data.PatternsUtils.numbers;
 import static com.duy.pascal.frontend.data.PatternsUtils.strings;
 import static com.duy.pascal.frontend.data.PatternsUtils.symbols;
 
-public class HighlightEditor extends AutoSuggestsEditText
+public class HighlightEditor extends CodeSuggestsEditText
         implements View.OnKeyListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
     public static final int SHORT_DELAY = 500;
     public static final int LONG_DELAY = 1000;
     private static final int CHARS_TO_COLOR = 2500;
-    private static final String INDEX_CHAR = "M";
-    private static final int TAB_NUMBER = 3;
+
     private final Handler updateHandler = new Handler();
     private final Object objectThread = new Object();
     public boolean showlines = true;
@@ -413,18 +411,6 @@ public class HighlightEditor extends AutoSuggestsEditText
         }
     }
 
-    public void applyTabWidth(Editable text, int start, int end) {
-        String str = text.toString();
-        float tabWidth = getPaint().measureText(INDEX_CHAR) * TAB_NUMBER;
-        while (start < end) {
-            int index = str.indexOf("\t", start);
-            if (index < 0)
-                break;
-            text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            start = index + 1;
-        }
-    }
 
     private void highlightWithoutChange(Editable e) {
         modified = false;
@@ -780,9 +766,7 @@ public class HighlightEditor extends AutoSuggestsEditText
         }
     }
 
-    public void applyTabWidth() {
-        applyTabWidth(getText(), 0, getText().length());
-    }
+
 
     public interface OnTextChangedListener {
         void onTextChanged(String text);

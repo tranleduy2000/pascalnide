@@ -6,7 +6,7 @@ import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
+import com.js.interpreter.ast.returnsvalue.operators.number.BinaryOperatorEvaluation;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 class RangeOfValues implements CaseCondition {

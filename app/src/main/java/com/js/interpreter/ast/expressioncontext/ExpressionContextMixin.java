@@ -37,7 +37,7 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.editor_view.SuggestItem;
+import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;

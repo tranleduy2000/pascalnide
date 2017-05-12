@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright (c) 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,10 +20,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical|start"
     android:minHeight="50dp"
-    android:paddingEnd="8dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingStart="8dp">
+    android:padding="8dp">
 
     <RelativeLayout
         android:id="@+id/container"

@@ -13,7 +13,7 @@ import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.LeftValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
+import com.js.interpreter.ast.returnsvalue.operators.number.BinaryOperatorEvaluation;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;

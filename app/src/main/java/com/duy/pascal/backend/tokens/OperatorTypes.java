@@ -412,8 +412,6 @@ public enum OperatorTypes {
         public String toString() {
             return "in";
         }
-
-        ;
     };
     public boolean canBeUnary;
     public boolean postfix;

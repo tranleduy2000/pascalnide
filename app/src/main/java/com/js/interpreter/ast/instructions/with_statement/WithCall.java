@@ -34,10 +34,10 @@ import java.util.ArrayList;
 public class WithCall extends DebuggableExecutableReturnValue {
 
     public ArrayList<ReturnValue> arguments;
-    private WithDeclaration withStatement;
+    private WithStatement withStatement;
     private LineInfo line;
 
-    public WithCall(WithDeclaration withStatement, ArrayList<ReturnValue> arguments, LineInfo line) {
+    public WithCall(WithStatement withStatement, ArrayList<ReturnValue> arguments, LineInfo line) {
         this.withStatement = withStatement;
         this.line = line;
         this.arguments = arguments;

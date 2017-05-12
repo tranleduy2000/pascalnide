@@ -1,4 +1,4 @@
-package com.js.interpreter.ast.returnsvalue.operators;
+package com.js.interpreter.ast.returnsvalue.operators.number;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -13,24 +13,24 @@ import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
 
-public class DoubleUniOperatorEval extends UnaryOperatorEvaluation {
+public class IntegerUniOperatorEval extends UnaryOperatorEvaluation {
 
-    public DoubleUniOperatorEval(ReturnValue operon, OperatorTypes operator, LineInfo line) {
+    public IntegerUniOperatorEval(ReturnValue operon, OperatorTypes operator, LineInfo line) {
         super(operon, operator, line);
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(BasicType.Double, false);
+        return new RuntimeType(BasicType.Integer, false);
     }
 
     @Override
     public Object operate(Object value) throws PascalArithmeticException, InternalInterpreterException {
         switch (operator) {
             case PLUS:
-                return +(double) value;
+                return +(int) value;
             case MINUS:
-                return -(double) value;
+                return -(int) value;
             default:
                 throw new InternalInterpreterException(line);
         }
@@ -42,7 +42,7 @@ public class DoubleUniOperatorEval extends UnaryOperatorEvaluation {
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new DoubleUniOperatorEval(operon.compileTimeExpressionFold(context), operator,
+            return new IntegerUniOperatorEval(operon.compileTimeExpressionFold(context), operator,
                     line);
         }
     }

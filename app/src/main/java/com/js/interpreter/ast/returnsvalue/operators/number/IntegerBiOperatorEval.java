@@ -1,4 +1,4 @@
-package com.js.interpreter.ast.returnsvalue.operators;
+package com.js.interpreter.ast.returnsvalue.operators.number;
 
 import com.duy.pascal.backend.exceptions.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -13,10 +13,10 @@ import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
 
-public class IntBiOperatorEval extends BinaryOperatorEvaluation {
+public class IntegerBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public IntBiOperatorEval(ReturnValue operon1, ReturnValue operon2,
-                             OperatorTypes operator, LineInfo line) {
+    public IntegerBiOperatorEval(ReturnValue operon1, ReturnValue operon2,
+                                 OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -94,7 +94,7 @@ public class IntBiOperatorEval extends BinaryOperatorEvaluation {
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new IntBiOperatorEval(
+            return new IntegerBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);

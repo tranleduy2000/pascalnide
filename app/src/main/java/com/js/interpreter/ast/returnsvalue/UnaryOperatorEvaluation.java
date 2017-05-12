@@ -13,12 +13,12 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.operators.AddressEval;
-import com.js.interpreter.ast.returnsvalue.operators.BoolUniOperatorEval;
-import com.js.interpreter.ast.returnsvalue.operators.DerefEval;
-import com.js.interpreter.ast.returnsvalue.operators.DoubleUniOperatorEval;
-import com.js.interpreter.ast.returnsvalue.operators.IntUniOperatorEval;
-import com.js.interpreter.ast.returnsvalue.operators.LongUniOperatorEval;
+import com.js.interpreter.ast.returnsvalue.operators.pointer.AddressEval;
+import com.js.interpreter.ast.returnsvalue.operators.number.BoolUniOperatorEval;
+import com.js.interpreter.ast.returnsvalue.operators.pointer.DerefEval;
+import com.js.interpreter.ast.returnsvalue.operators.number.DoubleUniOperatorEval;
+import com.js.interpreter.ast.returnsvalue.operators.number.IntegerUniOperatorEval;
+import com.js.interpreter.ast.returnsvalue.operators.number.LongUniOperatorEval;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
@@ -61,7 +61,7 @@ public abstract class UnaryOperatorEvaluation extends DebuggableReturnValue {
             return new BoolUniOperatorEval(v1, op_type, line);
         }
         if (t1 == BasicType.Integer) {
-            return new IntUniOperatorEval(v1, op_type, line);
+            return new IntegerUniOperatorEval(v1, op_type, line);
         }
         if (t1 == BasicType.Long) {
             return new LongUniOperatorEval(v1, op_type, line);

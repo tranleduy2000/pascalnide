@@ -16,8 +16,6 @@
 
 package com.js.interpreter.ast.instructions.with_statement;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -41,7 +39,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.ArrayList;
 
-public class WithDeclaration {
+public class WithStatement {
     private static final String TAG = "WithDeclaration";
 
     public ExpressionContextMixin declarations;
@@ -51,7 +49,7 @@ public class WithDeclaration {
     public ArrayList<VariableDeclaration> variableDeclarations = new ArrayList<>();
     public ReturnValue[] arguments;
 
-    public WithDeclaration(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
+    public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
         this.declarations = new WithExpressionContext(this, parent);
         this.line = grouperToken.peek().lineInfo;
 
@@ -126,9 +124,9 @@ public class WithDeclaration {
 
 
     private class WithExpressionContext extends ExpressionContextMixin {
-        WithDeclaration withDeclaration;
+        WithStatement withDeclaration;
 
-        public WithExpressionContext(WithDeclaration withDeclaration, ExpressionContext parent) {
+        public WithExpressionContext(WithStatement withDeclaration, ExpressionContext parent) {
             super(parent.root(), parent);
             this.withDeclaration = withDeclaration;
         }
@@ -153,7 +151,6 @@ public class WithDeclaration {
 
         @Override
         public ReturnValue getIdentifierValue(WordToken name) throws ParsingException {
-            Log.d(TAG, "getIdentifierValue() called with: name = [" + name + "]");
             for (int i = 0; i < variableDeclarations.size(); i++) {
                 if (variableDeclarations.get(i).getName().equalsIgnoreCase(name.getName())) {
                     return fields.get(i);

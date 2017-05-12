@@ -76,14 +76,14 @@ import com.js.interpreter.ast.instructions.conditional.ForStatement;
 import com.js.interpreter.ast.instructions.conditional.IfStatement;
 import com.js.interpreter.ast.instructions.conditional.RepeatInstruction;
 import com.js.interpreter.ast.instructions.conditional.WhileStatement;
-import com.js.interpreter.ast.instructions.with_statement.WithDeclaration;
+import com.js.interpreter.ast.instructions.with_statement.WithStatement;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.LeftValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
-import com.js.interpreter.ast.returnsvalue.operators.BinaryOperatorEvaluation;
+import com.js.interpreter.ast.returnsvalue.operators.number.BinaryOperatorEvaluation;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -658,7 +658,7 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof ContinueToken) {
             return new ContinueInstruction(next.lineInfo);
         } else if (next instanceof WithToken) {
-            return (Executable) new WithDeclaration(context, this).generate();
+            return (Executable) new WithStatement(context, this).generate();
         } else if (next instanceof ExitToken) {
             return new ExitInstruction(next.lineInfo);
         } else {

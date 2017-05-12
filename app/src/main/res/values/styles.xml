@@ -25,7 +25,7 @@
 
 
     <!--Theme light for pro version-->
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.NoActionBar.Light" parent="Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
