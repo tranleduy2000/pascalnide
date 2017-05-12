@@ -71,28 +71,32 @@ public class LineUtils {
         return realLines;
     }
 
-    public void updateHasNewLineArray(int startingLine, int lineCount, Layout layout, String text) {
+    public void updateHasNewLineArray(int lineCount, Layout layout, String text) {
         boolean[] hasNewLineArray = new boolean[lineCount];
         toCountLinesArray = new boolean[lineCount];
         realLines = new int[lineCount];
-
         if (TextUtils.isEmpty(text)) {
             toCountLinesArray[0] = false;
             realLines[0] = 0;
             return;
         }
 
+        if (lineCount == 0) return;
+
         int i;
 
         // for every line on the edittext
         for (i = 0; i < lineCount; i++) {
             // check if this line contains "\n"
-            //hasNewLineArray[i] = text.substring(layout.getLineStart(i), layout.getLineEnd(i)).endsWith("\n");
-            hasNewLineArray[i] = text.charAt(layout.getLineEnd(i) - 1) == '\n';
+            if (text.length() == 0) {
+                hasNewLineArray[i] = false;
+            } else {
+                hasNewLineArray[i] = text.charAt(layout.getLineEnd(i) - 1) == '\n';
+            }
             // if true
             if (hasNewLineArray[i]) {
                 int j = i - 1;
-                while (j > -1 && !hasNewLineArray[j]) {
+                while (j >= 0 && !hasNewLineArray[j]) {
                     j--;
                 }
                 toCountLinesArray[j + 1] = true;

@@ -257,7 +257,7 @@ public class HighlightEditor extends AutoSuggestsEditText
         int lineX, baseline;
         if (lineCount != getLineCount()) {
             lineCount = getLineCount();
-            lineUtils.updateHasNewLineArray(0, lineCount, getLayout(), getText().toString());
+            lineUtils.updateHasNewLineArray(lineCount, getLayout(), getText().toString());
             isGoodLineArray = lineUtils.getGoodLines();
             realLines = lineUtils.getRealLines();
         }
