@@ -144,6 +144,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/run">
+        <EditTextPreference
+            android:defaultValue="40000"
+            android:inputType="number"
+            android:key="key_max_stack"
+            android:summary="@string/stack_size_desc"
+            android:title="@string/stack_size">
+
+        </EditTextPreference>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/keyboard_shortcut">
         <ListPreference
             android:defaultValue="@string/volume_down"

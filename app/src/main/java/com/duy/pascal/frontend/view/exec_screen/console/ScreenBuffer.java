@@ -81,15 +81,14 @@ public class ScreenBuffer {
 // TODO: 26-Mar-17
     }
 
-    /**
-     * clear text
-     */
-    public void clearBuffer() {
-    }
-
     public int getFirstIndex() {
         return firstIndex;
     }
 
 
+    public void clearAll() {
+        textOnScreenBuffer = null;
+        textConsole = null;
+        colorScreenBuffer = null;
+    }
 }

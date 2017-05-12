@@ -62,7 +62,6 @@ public class FunctionOnStack extends VariableContext {
     }
 
     public Object execute() throws RuntimePascalException {
-        System.out.println("Function call: " + prototype.getName());
         prototype.instructions.execute(this, main);
         //get result of prototype, name of variable is name of prototype
         return localVariables.get(prototype.name);

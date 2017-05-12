@@ -137,7 +137,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onStop: ");
+        Log.d(TAG, "onDestroy: ");
         if (mPascalPreferences != null)
             mPascalPreferences.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }

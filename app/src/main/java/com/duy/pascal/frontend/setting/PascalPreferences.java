@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.utils.FontManager;
@@ -37,6 +38,7 @@ public class PascalPreferences {
     public static final String LAST_FIND = "LAST_FIND";
     public static final String LAST_REPLACE = "LAST_REPLACE";
     public static final String TAB_POSITION_FILE = "TAB_POSITION_FILE";
+    private static final String TAG = "PascalPreferences";
     @NonNull
     protected SharedPreferences.Editor editor;
     @NonNull
@@ -124,7 +126,15 @@ public class PascalPreferences {
      * @return -1 if not found
      */
     public long getLong(String key) {
-        return sharedPreferences.getLong(key, -1);
+        try {
+            return sharedPreferences.getLong(key, -1);
+        } catch (Exception e) {
+            try {
+                return Long.parseLong(getString(key));
+            } catch (Exception ignored) {
+            }
+        }
+        return -1;
     }
 
     public String getString(String key) {
@@ -262,5 +272,16 @@ public class PascalPreferences {
         max = Math.min(10, max);
         max = Math.max(1, max);
         return max;
+    }
+
+    public long getMaxStackSize() {
+        long maxStack = getLong("key_max_stack");
+        maxStack = Math.max(5000, maxStack);
+        Log.d(TAG, "getMaxStackSize() returned: " + maxStack);
+        return maxStack;
+    }
+
+    public int getMaxLineConsole() {
+        return 10000;
     }
 }

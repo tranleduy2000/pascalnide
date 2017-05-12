@@ -52,7 +52,6 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
             if (main != null) {
                 if (main.isDebugMode()) {
                     main.getDebugListener().onLine(getLineNumber());
-                    System.out.println(getClass().getSimpleName() + " " + getLineNumber());
                 }
                 main.incStack(getLineNumber());
             }

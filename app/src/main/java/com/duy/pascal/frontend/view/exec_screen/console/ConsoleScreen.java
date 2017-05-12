@@ -19,7 +19,9 @@ package com.duy.pascal.frontend.view.exec_screen.console;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 
 /**
@@ -28,7 +30,7 @@ import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 
 public class ConsoleScreen implements ScreenObject {
     private static final String TAG = ConsoleScreen.class.getSimpleName();
-    public int maxLines = 100;
+    public int maxLines = 10000;
     public int consoleRow;
     public int consoleColumn;
     public int firstLine;
@@ -44,6 +46,10 @@ public class ConsoleScreen implements ScreenObject {
     private int leftVisible = 0;
     private Rect visibleRect = new Rect();
     private int screenSize;
+
+    public ConsoleScreen(@NonNull PascalPreferences preferences) {
+        this.maxLines = preferences.getMaxLineConsole();
+    }
 
     public int getMaxLines() {
         return maxLines;
@@ -176,5 +182,9 @@ public class ConsoleScreen implements ScreenObject {
 
     public void setScreenSize(int screenSize) {
         this.screenSize = screenSize;
+    }
+
+    public void clearAll() {
+
     }
 }

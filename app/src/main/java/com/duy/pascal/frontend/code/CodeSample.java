@@ -29,7 +29,6 @@ public class CodeSample {
                     "\treadln;\n" +
                     "end.";
 
-    public static final int DEFAULT_POSITION = 33;
 
     public static final String DEMO_THEME = "program array_example;\n" +
             "var\n" +

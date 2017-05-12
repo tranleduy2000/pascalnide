@@ -151,6 +151,8 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                             AbstractExecActivity.this);
 
                     program = pascalProgram.run();
+                    long maxStackSize = mPascalPreferences.getMaxStackSize();
+                    program.setMaxStackSize(maxStackSize);
                     if (isEnableDebug()) {
                         program.enableDebug();
                     }
@@ -244,7 +246,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         stopInput();
         //stop program
         stopProgram();
-        getConsoleView().onStop();
+        getConsoleView().onDestroy();
 
         super.onDestroy();
     }
@@ -290,7 +292,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
             if (Dlog.DEBUG) {
-                Log.d(TAG, "onStop: Program is stopped");
+                Log.d(TAG, "onDestroy: Program is stopped");
             }
         }
     }
@@ -351,6 +353,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         super.onResume();
         getConsoleView().onResume();
     }
+
 
     public abstract void debugProgram();
 }

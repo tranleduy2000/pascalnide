@@ -36,7 +36,6 @@ public abstract class DebuggableReturnValue implements ReturnValue {
                             || this instanceof StringBuilderBoxer
                             || this instanceof ArrayBoxer
                             || this instanceof CharacterBoxer)) {
-                        System.out.println(getClass().getSimpleName() + " " + getLineNumber());
                         main.getDebugListener().onLine(getLineNumber());
                         main.scriptControlCheck(getLineNumber(), true);
                     } else {
