@@ -4,10 +4,10 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 /**
+ * This exception will be thrown if the variable can not working with ...
+ *
  * Created by Duy on 06-Apr-17.
  */
-
-@SuppressWarnings("DefaultFileTemplate")
 public class OrdinalExpressionExpectedException extends RuntimePascalException {
 
     public OrdinalExpressionExpectedException(LineInfo line) {

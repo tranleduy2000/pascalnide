@@ -3,8 +3,14 @@ package com.duy.pascal.backend.exceptions;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 
-public class ParsingException extends Exception {
-    private static final long serialVersionUID = -5592261827134726938L;
+/**
+ * Exception when parse syntax of the program
+ */
+public  class ParsingException extends Exception {
+
+    /**
+     * The line of line error
+     */
     public LineInfo line;
 
     public ParsingException() {
