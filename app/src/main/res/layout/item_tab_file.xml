@@ -18,14 +18,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="40dp"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
+
     android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txt_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center|start"
         android:padding="4dp"
         android:text="@string/code_sample" />
@@ -35,7 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
+        android:clickable="true"
         android:contentDescription="@string/close"
+        android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
         android:padding="4dp"
         app:srcCompat="@drawable/ic_close_white_24dp" />

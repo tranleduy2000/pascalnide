@@ -157,16 +157,14 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     }
 
     private void invalidateTab() {
-        Log.d(TAG, "invalidateTab: ");
         for (int i = 0; i < pagerAdapter.getCount(); i++) {
             final TabLayout.Tab tab = tabLayout.getTabAt(i);
-            Log.d(TAG, "invalidateTab: " + i + " " + tab);
             View view = null;
             if (tab != null) {
                 tab.setCustomView(R.layout.item_tab_file);
                 view = tab.getCustomView();
-                Log.d(TAG, "invalidateTab: " + view);
             }
+
             if (view != null) {
                 View vClose = view.findViewById(R.id.img_close);
                 final int position = i;
@@ -184,6 +182,12 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                         viewPager.setCurrentItem(position);
                     }
                 });
+            }
+
+            if (i == viewPager.getCurrentItem()) {
+                if (tab != null) {
+                    tab.select();
+                }
             }
         }
     }
@@ -213,6 +217,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         //delete in database
         String filePath = existingFragment.getTag();
         mFileManager.removeTabFile(filePath);
+
         //remove page
         pagerAdapter.remove(position);
         invalidateTab();
