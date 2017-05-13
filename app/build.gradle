@@ -42,6 +42,7 @@ repositories {
     maven {
         url "https://s3.amazonaws.com/repo.commonsware.com"
     }
+    maven {url "https://clojars.org/repo/"}
 }
 
 dependencies {
@@ -74,6 +75,8 @@ dependencies {
     //search view
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
 
-
+    //Android Instance State
+    compile 'frankiesardo:icepick:3.2.0'
+    provided 'frankiesardo:icepick-processor:3.2.0'
 }
 apply plugin: 'com.google.gms.google-services'

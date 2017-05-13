@@ -30,7 +30,7 @@ import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 
 public class ConsoleScreen implements ScreenObject {
     private static final String TAG = ConsoleScreen.class.getSimpleName();
-    public int maxLines = 10000;
+    public int maxLines;
     public int consoleRow;
     public int consoleColumn;
     public int firstLine;
@@ -57,8 +57,6 @@ public class ConsoleScreen implements ScreenObject {
 
     /**
      * number of line text
-     *
-     * @param maxLines
      */
     public void setMaxLines(int maxLines) {
         this.maxLines = maxLines;

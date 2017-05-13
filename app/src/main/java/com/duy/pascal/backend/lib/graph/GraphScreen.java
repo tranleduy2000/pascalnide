@@ -35,7 +35,7 @@ import com.duy.pascal.backend.lib.graph.style.LineWidth;
 import com.duy.pascal.backend.lib.graph.style.TextFont;
 import com.duy.pascal.backend.lib.graph.style.TextJustify;
 import com.duy.pascal.frontend.utils.FontManager;
-import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 
 /**
  * Created by Duy on 30-Mar-17.
@@ -66,7 +66,7 @@ public class GraphScreen {
      * this object used to draw {@link GraphObject}
      */
     private Bitmap mGraphBitmap;
-    private CursorConsole mCursor = new CursorConsole(0, 0, 0xffffffff);
+    private ConsoleCursor mCursor = new ConsoleCursor(0, 0, 0xffffffff);
     private int lineWidth = LineWidth.NormWidth;
     private int lineStyle = LineStyle.SolidLn;
     private int linePattern;
@@ -210,7 +210,7 @@ public class GraphScreen {
         this.mCursor.setCoordinate(x, y);
     }
 
-    public CursorConsole getCursor() {
+    public ConsoleCursor getCursor() {
         return mCursor;
     }
 

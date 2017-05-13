@@ -119,9 +119,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
             mUndoRedoHelper.restorePersistentState(
                     PreferenceManager.getDefaultSharedPreferences(getContext()), key);
         } catch (Exception ignored) {
-
         }
-
     }
 
     /**

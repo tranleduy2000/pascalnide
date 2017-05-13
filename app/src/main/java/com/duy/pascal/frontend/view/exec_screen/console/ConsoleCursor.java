@@ -25,7 +25,7 @@ import android.graphics.Paint;
  * Created by Duy on 26-Mar-17.
  */
 
-public class CursorConsole {
+public class ConsoleCursor {
     public static final int BIG_CURSOR = 1;
     public static final int NORMAL_CURSOR = 0;
 
@@ -38,21 +38,21 @@ public class CursorConsole {
     private boolean cursorBlink = true;
     private int mode = NORMAL_CURSOR;
 
-    public CursorConsole(int x, int y, int cursorColor) {
+    public ConsoleCursor(int x, int y, int cursorColor) {
         this.x = x;
         this.y = y;
         this.cursorColor = cursorColor;
         setupPaint();
     }
 
-    public CursorConsole(int foreColor, int backColor) {
+    public ConsoleCursor(int foreColor, int backColor) {
         this.foreColor = foreColor;
         this.backColor = backColor;
         setupPaint();
 
     }
 
-    public CursorConsole() {
+    public ConsoleCursor() {
         setupPaint();
     }
 

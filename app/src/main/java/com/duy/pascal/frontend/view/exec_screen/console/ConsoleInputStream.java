@@ -16,10 +16,13 @@
 
 package com.duy.pascal.frontend.view.exec_screen.console;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Created by Duy on 10-Feb-17.
  */
-public class StringQueue {
+public class ConsoleInputStream extends InputStream {
     public static final int QUEUE_SIZE = 2 * 1024;
 
     /**
@@ -28,13 +31,13 @@ public class StringQueue {
      */
     public String text[];
 
-
     public int keyEvent[];
+
     public int front;
     public int rear;
     private int size;
 
-    public StringQueue(int size) {
+    public ConsoleInputStream(int size) {
         this.size = size;
         text = new String[size];
         keyEvent = new int[size];
@@ -42,8 +45,13 @@ public class StringQueue {
         rear = 0;
     }
 
-    public StringQueue() {
+    public ConsoleInputStream() {
         this(QUEUE_SIZE);
+    }
+
+    @Override
+    public int read() throws IOException {
+        return 0;
     }
 
     public int getFront() {
@@ -70,7 +78,7 @@ public class StringQueue {
     /**
      * @return the string in the rear of queue
      */
-    public synchronized String getString() {
+    public synchronized String readBuffer() {
         while (front == rear) {
             try {
                 wait();
@@ -83,7 +91,7 @@ public class StringQueue {
         return b;
     }
 
-    public synchronized void putString(String b) {
+    public synchronized void writeBuffer(String b) {
         text[rear] = b;
         rear++;
         if (rear >= text.length) rear = 0;

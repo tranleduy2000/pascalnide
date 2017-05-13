@@ -42,7 +42,7 @@ import com.duy.pascal.backend.lib.graph.graphic_model.TextGraphObject;
 import com.duy.pascal.backend.lib.graph.paint.TextPaint;
 import com.duy.pascal.backend.lib.graph.style.TextJustify;
 import com.duy.pascal.frontend.activities.ExecHandler;
-import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.js.interpreter.runtime.PascalReference;
 
 import java.util.Map;
@@ -231,7 +231,7 @@ public class GraphLib implements PascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void moveRel(int dx, int dy) {
-        CursorConsole point = handler.getConsoleView().getCursorGraph();
+        ConsoleCursor point = handler.getConsoleView().getCursorGraph();
         handler.getConsoleView().setCursorGraphPosition(point.x + dx, point.y + dy);
     }
 
@@ -263,7 +263,7 @@ public class GraphLib implements PascalLibrary {
     @PascalMethod(description = "graph library", returns = "void")
     public void lineTo(int x, int y) {
         if (handler != null) {
-            CursorConsole point = handler.getConsoleView().getCursorGraph();
+            ConsoleCursor point = handler.getConsoleView().getCursorGraph();
             handler.getConsoleView().addGraphObject(new LineObject(point.x, point.y, x, y));
             handler.getConsoleView().setCursorGraphPosition(x, y);
         }
@@ -326,7 +326,7 @@ public class GraphLib implements PascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void outText(String text) {
-        CursorConsole cursorGraph = handler.getConsoleView().getCursorGraph();
+        ConsoleCursor cursorGraph = handler.getConsoleView().getCursorGraph();
         handler.getConsoleView().addGraphObject(new TextGraphObject(text, cursorGraph.getX(),
                 cursorGraph.getY()));
         //get current paint

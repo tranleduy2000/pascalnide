@@ -115,7 +115,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         if (DEBUG) Log.d(TAG, "onSharedPreferenceChanged: " + s);
         if (s.equals(getString(R.string.key_pref_lang))) {
             setLocale(true);
-//            Toast.makeText(this, getString(R.string.change_lang_msg), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, readBuffer(R.string.change_lang_msg), Toast.LENGTH_SHORT).show();
         } else if (s.equalsIgnoreCase(getString(R.string.key_full_screen))) {
             setFullScreen();
         }

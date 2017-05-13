@@ -76,7 +76,7 @@ public class DebugActivity extends AbstractExecActivity {
         variableWatcherView.setEmptyView(emptyView);
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
-        getConsoleView().commitString("enable debug mode");
+        getConsoleView().writeString("enable debug mode");
 
         handler.postDelayed(new Runnable() {
             @Override

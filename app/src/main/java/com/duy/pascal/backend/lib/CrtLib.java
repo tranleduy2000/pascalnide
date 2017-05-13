@@ -19,7 +19,7 @@ package com.duy.pascal.backend.lib;
 import com.duy.pascal.backend.lib.android.media.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.frontend.activities.ExecHandler;
-import com.duy.pascal.frontend.view.exec_screen.console.CursorConsole;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
@@ -161,7 +161,7 @@ public class CrtLib implements PascalLibrary {
     @PascalMethod(description = "crt library", returns = "void")
     public void cursorBig() {
         assertActivityNotNull();
-        handler.getConsoleView().getCursorConsole().setMode(CursorConsole.BIG_CURSOR);
+        handler.getConsoleView().getCursorConsole().setMode(ConsoleCursor.BIG_CURSOR);
     }
 
     /**

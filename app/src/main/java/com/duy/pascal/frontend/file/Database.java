@@ -21,6 +21,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.Serializable;
@@ -46,11 +47,12 @@ public class Database extends SQLiteOpenHelper implements Serializable {
 
     private String TAG = Database.class.getName();
 
-    public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public Database(@NonNull Context context,
+                    @NonNull String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-    public Database(Context context) {
+    public Database(@NonNull Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -68,20 +70,24 @@ public class Database extends SQLiteOpenHelper implements Serializable {
 
     public ArrayList<File> getListFile() {
         ArrayList<File> files = new ArrayList<>();
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_FILE_TAB;
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                String result = cursor.getString(cursor.getColumnIndex(KEY_FILE_PATH));
-                File file = new File(result);
-                if (file.isFile())
-                    files.add(file);
-                else
-                    removeFile(result);
-            } while (cursor.moveToNext());
+        try {
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String query = "SELECT * FROM " + TABLE_FILE_TAB;
+            Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String result = cursor.getString(cursor.getColumnIndex(KEY_FILE_PATH));
+                    File file = new File(result);
+                    if (file.isFile())
+                        files.add(file);
+                    else
+                        removeFile(result);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+
         }
-        cursor.close();
         return files;
     }
 

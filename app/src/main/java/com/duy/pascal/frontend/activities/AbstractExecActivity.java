@@ -101,18 +101,18 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                     case ConsoleView.THE_DELETE_COMMAND:
                         if (inputData.last > 0) {
                             inputData.last--;
-                            getConsoleView().commitString(String.valueOf(str));
+                            getConsoleView().writeString(String.valueOf(str));
                         }
                         break;
                     default:
-                        if ((StringCompare.greaterEqual(str, " ")) && (inputData.last < MAX_INPUT)) {
+                        if ((StringCompare.isGreaterEqual(str, " ")) && (inputData.last < MAX_INPUT)) {
                             inputData.data[inputData.last++] = str;
-                            getConsoleView().commitString(String.valueOf(str));
+                            getConsoleView().writeString(String.valueOf(str));
                         }
                         break;
                 }
             } while (exitFlag == 0 && isCanRead.get());
-            getConsoleView().commitString("\n"); //return new line
+            getConsoleView().writeString("\n"); //return new line
             input = inputData.toString();
             isCanRead.set(false);
             if (mLock != null) {
@@ -194,7 +194,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         mFileManager = new ApplicationFileManager(this);
     }
 
-
     /**
      * set background console
      *
@@ -211,13 +210,13 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     public void print(final CharSequence charSequence) {
-        getConsoleView().commitString(charSequence.toString());
+        getConsoleView().writeString(charSequence.toString());
     }
 
     @Override
     public void println(final CharSequence charSequence) {
-        getConsoleView().commitString(charSequence.toString());
-        getConsoleView().commitString("\n");
+        getConsoleView().writeString(charSequence.toString());
+        getConsoleView().writeString("\n");
     }
 
     @Override
@@ -242,7 +241,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     @Override
     protected void onDestroy() {
         //stop readkey, keypressed event
-        getConsoleView().commitChar("s", false);
+        getConsoleView().write("s", false);
         stopInput();
         //stop program
         stopProgram();

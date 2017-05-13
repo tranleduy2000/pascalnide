@@ -22,15 +22,15 @@ package com.duy.pascal.frontend.utils;
 
 @SuppressWarnings("DefaultFileTemplate")
 public class StringCompare {
-    public static boolean lessThan(String s1, String s2) {
+    public static boolean isLessThan(String s1, String s2) {
         return s1.compareTo(s2) < 0;
     }
 
-    public static boolean greaterThan(String s1, String s2) {
+    public static boolean isGreaterThan(String s1, String s2) {
         return s1.compareTo(s2) > 0;
     }
 
-    public static boolean greaterEqual(String s1, String s2) {
-        return greaterThan(s1, s2) || s1.equals(s2);
+    public static boolean isGreaterEqual(String s1, String s2) {
+        return isGreaterThan(s1, s2) || s1.equals(s2);
     }
 }

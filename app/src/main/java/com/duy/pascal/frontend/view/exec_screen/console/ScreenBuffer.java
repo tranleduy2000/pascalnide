@@ -23,10 +23,9 @@ import java.io.FileOutputStream;
  * Created by Duy on 26-Mar-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
 public class ScreenBuffer {
+
     public int firstIndex;
-    //    public TextConsole[] textOnScreenBuffer;
     public char[] textOnScreenBuffer;
     public TextConsole[] textConsole;
     public int[] colorScreenBuffer;
@@ -34,11 +33,13 @@ public class ScreenBuffer {
     /**
      * store text input, with unicode character
      */
-    public StringQueue stringBuffer = new StringQueue();
+    public ConsoleInputStream textBuffer = new ConsoleInputStream();
+
     /**
      * store key code event
      */
     public CharBuffer keyBuffer = new CharBuffer();
+
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
 

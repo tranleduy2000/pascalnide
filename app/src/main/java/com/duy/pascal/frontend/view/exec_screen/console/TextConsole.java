@@ -27,9 +27,9 @@ import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 
 public class TextConsole implements ScreenObject {
     public String text = "";
-    public int textColor = Color.WHITE; //white
-    public int textBackground = Color.BLACK;//back
+    private int textBackground = Color.BLACK;//back
     public int alpha = 255;
+    private int textColor = Color.WHITE; //white
 
     public TextConsole(String text, int textBackground) {
         this.text = text;
@@ -42,7 +42,12 @@ public class TextConsole implements ScreenObject {
         this.textColor = textColor;
     }
 
+    /**
+     * Constructor
+     */
     public TextConsole() {
+        //default value for the text
+        this.text = "\0";
     }
 
     public int getAlpha() {

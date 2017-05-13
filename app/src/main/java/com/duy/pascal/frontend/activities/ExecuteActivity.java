@@ -55,16 +55,26 @@ public class ExecuteActivity extends AbstractExecActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            filePath = extras.getString(CompileManager.FILE_PATH);
-            if (filePath == null || filePath.isEmpty()) return;
-            File file = new File(filePath);
-            if (!file.exists()) {
-                finish();
-                return;
+            if (savedInstanceState == null) {
+                filePath = extras.getString(CompileManager.FILE_PATH);
+                if (filePath == null || filePath.isEmpty()) return;
+                File file = new File(filePath);
+                if (!file.exists()) {
+                    finish();
+                    return;
+                }
+
+                //set title in in toolbar
+                setTitle(file.getName());
+
+                //disable debug mode
+                setEnableDebug(false);
+
+                //execute file
+                createAndRunProgram(filePath);
+            } else {
+
             }
-            setTitle(file.getName());
-            setEnableDebug(false); //disable debug
-            createAndRunProgram(filePath); //execute file
         } else {
             finish();
         }
@@ -85,7 +95,6 @@ public class ExecuteActivity extends AbstractExecActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_console, menu);
-//        menu.findItem(R.id.action_next_line).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

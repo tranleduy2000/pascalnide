@@ -35,10 +35,13 @@ public class TextRenderer implements ScreenObject {
     public static final int LOW_TEXT_ALPHA = 150;
     public static final int HIGH_TEXT_ALPHA = 255;
 
-    public int charHeight;
-    public int charAscent;
-    public int charDescent;
-    public int charWidth;
+    /**
+     * character attributes
+     */
+    private int charHeight;
+    private int charAscent;
+    private int charDescent;
+    private int charWidth;
 
     private int textMode = 0;
     private Typeface typeface = Typeface.MONOSPACE;

@@ -29,6 +29,7 @@
 
         <activity
             android:name=".code_editor.EditorActivity"
+            android:configChanges="orientation"
             android:launchMode="singleTask" />
         <activity
             android:name=".activities.ActivitySplashScreen"
@@ -85,7 +86,6 @@
 
         <activity
             android:name=".activities.ExecuteActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
             android:windowSoftInputMode="adjustPan" />
 
         <activity

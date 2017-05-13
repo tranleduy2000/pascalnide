@@ -167,19 +167,19 @@ public class PascalPreferences {
     }
 
     public int getConsoleBackground() {
-//        return getInt(context.getString(R.string.key_bg_console));
+//        return getInt(context.readBuffer(R.string.key_bg_console));
         return Color.BLACK;
     }
 
     public int getConsoleTextColor() {
-//        return getInt(context.getString(R.string.key_console_text_color));
+//        return getInt(context.readBuffer(R.string.key_console_text_color));
         return Color.WHITE;
     }
 
     public int getConsoleFontSize() {
 //        int fontsize;
 //        try {
-//            fontsize = getInt(context.getString(R.string.key_console_font_size));
+//            fontsize = getInt(context.readBuffer(R.string.key_console_font_size));
 //        } catch (Exception e) {
 //            fontsize = 14;
 //        }
@@ -282,6 +282,6 @@ public class PascalPreferences {
     }
 
     public int getMaxLineConsole() {
-        return 10000;
+        return 1000;
     }
 }

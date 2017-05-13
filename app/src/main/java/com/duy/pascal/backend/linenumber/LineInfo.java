@@ -28,16 +28,9 @@ public class LineInfo {
         return column;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
-    }
 
     public String getSourceFile() {
         return sourceFile;
-    }
-
-    public void setSourceFile(String sourceFile) {
-        this.sourceFile = sourceFile;
     }
 
     @Override
@@ -45,4 +38,5 @@ public class LineInfo {
         return "Line " + line + (column >= 0 ? ":" + column : "") + " " + sourceFile;
 
     }
+
 }
