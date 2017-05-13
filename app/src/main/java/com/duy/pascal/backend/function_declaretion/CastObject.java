@@ -48,7 +48,7 @@ public class CastObject implements IMethodDeclaration {
 
     @Override
     public String name() {
-        return "new".toLowerCase();
+        return "cast".toLowerCase();
     }
 
     @Override
@@ -118,7 +118,7 @@ public class CastObject implements IMethodDeclaration {
 
         @Override
         protected String getFunctionName() {
-            return "new";
+            return "cast";
         }
 
         @Override

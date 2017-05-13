@@ -288,3 +288,16 @@ May 4, 7:42 PM:
 Yesterday, 10:33 PM:
 
     Improve word wrap feature
+
+v 3.7.8
+
+    Fix case instruction
+    Show/hide appbar when keyboard hide/show (you can see more space)
+    Support Java under Pascal (See wiki in github)
+
+v 3.7.9
+
+    * Supported with..do.. statement
+    * "in" operator
+    * Increase stack and heap size when run program
+    * Support change stack size, increase max lines console

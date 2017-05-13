@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,38 +21,41 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.function_declaretion.abstract_class.IMethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
-import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.PointerType;
+import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.runtime.ObjectBasedPointer;
-import com.js.interpreter.runtime.PascalPointer;
+import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class NewFunction implements IMethodDeclaration {
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+/**
+ * d
+ */
+
+public class NewInstanceObject implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
-            {new RuntimeType(new PointerType(BasicType.create(Object.class)), true)};
+            {new RuntimeType(new JavaClassBasedType(Object.class), true)};
 
     @Override
     public String name() {
-        return "new";
+        return "new".toLowerCase();
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, ReturnValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         ReturnValue pointer = arguments[0];
-        RuntimeType type = pointer.getType(f);
-        return new NewCall(pointer, type, line);
+        return new InstanceObjectCall(pointer, line);
     }
 
     @Override
@@ -72,18 +75,16 @@ public class NewFunction implements IMethodDeclaration {
 
     @Override
     public String description() {
-        return "Dynamically allocate memory for variable";
+        return null;
+
     }
 
-    private class NewCall extends FunctionCall {
-
+    private class InstanceObjectCall extends FunctionCall {
         private ReturnValue value;
-        private RuntimeType type;
         private LineInfo line;
 
-        NewCall(ReturnValue value, RuntimeType type, LineInfo line) {
+        InstanceObjectCall(ReturnValue value, LineInfo line) {
             this.value = value;
-            this.type = type;
             this.line = line;
         }
 
@@ -106,13 +107,13 @@ public class NewFunction implements IMethodDeclaration {
         @Override
         public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new NewCall(value, type, line);
+            return new InstanceObjectCall(value, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new NewCall(value, type, line);
+            return new InstanceObjectCall(value, line);
         }
 
         @Override
@@ -121,30 +122,29 @@ public class NewFunction implements IMethodDeclaration {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
                 throws RuntimePascalException {
-            PascalPointer pointer = (PascalPointer) this.value.getValue(f, main);
-            PointerType pointerType = (PointerType) ((PointerType) type.declType).pointedToType;
-            DeclaredType basicType = pointerType.pointedToType;
-            if (basicType instanceof ArrayType) {
-                pointer.set(new ObjectBasedPointer<>(new Object[]{}));
-            } else if (BasicType.Byte.equals(basicType)) {
-                pointer.set(new ObjectBasedPointer<>((byte) 0));
-            } else if (BasicType.Short.equals(basicType)) {
-                pointer.set(new ObjectBasedPointer<>((short) 0));
-            } else if (BasicType.Integer.equals(basicType)) {
-                pointer.set(new ObjectBasedPointer<>(0));
-            } else if (BasicType.Long.equals(basicType)) {
-                pointer.set(new ObjectBasedPointer<>(0L));
-            } else if (BasicType.Double.equals(basicType)) {
-                pointer.set(new ObjectBasedPointer<>(0d));
-            } else if (BasicType.Character.equals(basicType)) {
-                pointer.set(new ObjectBasedPointer<>((char) 0));
-            } else if (BasicType.StringBuilder.equals(basicType)) {
-                pointer.set(new ObjectBasedPointer<>(""));
+            PascalReference pointer = (PascalReference) this.value.getValue(f, main);
+            Object o = pointer.get(); // o = null
+            Class<?> storageClass = o.getClass();
+            Constructor<?> constructor;
+            try {
+                constructor = storageClass.getConstructor();
+                try {
+                    Object value = constructor.newInstance();
+                    pointer.set(value);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
             }
-            return 0;
+            return null;
         }
+
     }
 }

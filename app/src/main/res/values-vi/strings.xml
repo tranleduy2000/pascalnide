@@ -159,4 +159,7 @@
     <string name="see_in_github">Xem dự án trên https://github.com/tranleduy2000/pascalnide</string>
     <string name="max_history_edit_desc">Số lượng bước tối đa có thể undo redo</string>
     <string name="max_history_edit">Max history edit</string>
+    <string name="copied">Copied</string>
+    <string name="stack_size">Stack size</string>
+    <string name="stack_size_desc">Maximum stack size when running the program. On some devices, this parameter has no effect. The default is 40000. Minimum is 5000</string>
 </resources>

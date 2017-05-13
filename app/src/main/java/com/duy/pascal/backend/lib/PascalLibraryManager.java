@@ -26,7 +26,7 @@ import com.duy.pascal.backend.function_declaretion.HighFunction;
 import com.duy.pascal.backend.function_declaretion.LengthFunction;
 import com.duy.pascal.backend.function_declaretion.LowFunction;
 import com.duy.pascal.backend.function_declaretion.NewFunction;
-import com.duy.pascal.backend.function_declaretion.CastObject;
+import com.duy.pascal.backend.function_declaretion.NewInstanceObject;
 import com.duy.pascal.backend.function_declaretion.NewInstanceParamsObject;
 import com.duy.pascal.backend.function_declaretion.SetLengthFunction;
 import com.duy.pascal.backend.function_declaretion.SizeOfArrayFunction;
@@ -241,8 +241,9 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new LowFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new NewFunction()));
 
-        program.declareFunction(new AbstractMethodDeclaration(new CastObject()));
+//        program.declareFunction(new AbstractMethodDeclaration(new CastObject()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));
+        program.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}

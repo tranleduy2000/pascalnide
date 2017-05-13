@@ -8,12 +8,11 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 
-import java.net.Socket;
-
 
 public class WordToken extends Token {
     public String name;
     private String originalName;
+
     public WordToken(LineInfo line, String s) {
         super(line);
         this.name = s.toLowerCase();
@@ -80,9 +79,9 @@ public class WordToken extends Token {
         } else if (name.equalsIgnoreCase("text")
                 || name.equalsIgnoreCase("textfile")) {
             return BasicType.Text;
-        } else if (name.equalsIgnoreCase("socket")) {
+        } /*else if (name.equalsIgnoreCase("socket")) {
             return new JavaClassBasedType(Socket.class);
-        } else {
+        } */ else {
             DeclaredType type = context.getTypedefType(name);
             if (type != null) {
                 return type;

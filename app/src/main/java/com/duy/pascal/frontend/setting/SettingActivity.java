@@ -24,6 +24,7 @@ import android.view.MotionEvent;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +36,9 @@ public class SettingActivity extends AbstractAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics.getInstance(this).logEvent("open_setting_editor", new Bundle());
+
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

@@ -33,6 +33,7 @@ import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -68,7 +69,11 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics.getInstance(getApplicationContext()).logEvent("open_code_sample", new Bundle());
+
         fileManager = new ApplicationFileManager(getApplicationContext());
+
         setContentView(R.layout.activity_code_sample);
         ButterKnife.bind(this);
 

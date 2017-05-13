@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.function_declaretion.abstract_class;
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
@@ -26,6 +28,9 @@ import com.js.interpreter.ast.returnsvalue.ReturnValue;
 
 
 public interface IMethodDeclaration {
+    /**
+     * @return simple name of method;
+     */
     String name();
 
     FunctionCall generateCall(LineInfo line, ReturnValue[] values,
@@ -37,7 +42,14 @@ public interface IMethodDeclaration {
 
     ArgumentType[] argumentTypes();
 
+    /**
+     * return type of method
+     */
     DeclaredType returnType();
 
+    /**
+     * short description of method, it can be null
+     */
+    @Nullable
     String description();
 }
