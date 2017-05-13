@@ -21,10 +21,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.ListViewCompat;
 import android.util.AttributeSet;
 
-import com.duy.pascal.frontend.file.FragmentSelectFile;
+import com.duy.pascal.frontend.file.FragmentFileManager;
 
 /**
- * This view will be inside {@link FragmentSelectFile}
+ * This view will be inside {@link FragmentFileManager}
  * Created by Duy on 11-Feb-17.
  */
 public class FileListView extends ListViewCompat {

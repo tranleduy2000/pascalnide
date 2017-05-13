@@ -49,8 +49,8 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.file.FileListener;
-import com.duy.pascal.frontend.file.FragmentSelectFile;
+import com.duy.pascal.frontend.file.FileActionListener;
+import com.duy.pascal.frontend.file.FragmentFileManager;
 import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.SymbolListView;
@@ -68,7 +68,7 @@ import butterknife.ButterKnife;
 @SuppressWarnings("DefaultFileTemplate")
 public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for debug
         implements SymbolListView.OnKeyListener,
-        EditorControl, FileListener {
+        EditorControl, FileActionListener {
     protected final static String TAG = BaseEditorActivity.class.getSimpleName();
     protected final boolean SELECT = true;
     protected final boolean SAVE_LAST_FILE = true;
@@ -347,8 +347,8 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                     Toast.makeText(getApplicationContext(), R.string.failed, Toast.LENGTH_SHORT).show();
 
                 //reload file
-                FragmentSelectFile fragmentSelectFile =
-                        (FragmentSelectFile) getSupportFragmentManager().findFragmentByTag("fragment_file_view");
+                FragmentFileManager fragmentSelectFile =
+                        (FragmentFileManager) getSupportFragmentManager().findFragmentByTag("fragment_file_view");
                 if (fragmentSelectFile != null) {
                     fragmentSelectFile.refresh();
                 } else {

@@ -20,10 +20,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -56,28 +56,73 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Locale;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
  * Created by Duy on 15-Mar-17.
  */
 
-public class FragmentSelectFile extends Fragment implements
+public class FragmentFileManager extends Fragment implements
         View.OnClickListener, View.OnLongClickListener,
-        SwipeRefreshLayout.OnRefreshListener, FileAdapterListener {
-    private FileListener listener;
+        SwipeRefreshLayout.OnRefreshListener, FileAdapterListener, SearchView.OnQueryTextListener {
+    private static final int SORT_BY_NAME = 1;
+    private static final int SORT_BY_SIZE = 2;
+    private static final int SORT_BY_DATE = 3;
+    private final Handler handler = new Handler();
+    private FileActionListener listener;
     private FloatingActionMenu fabMenu;
     private RecyclerView listFiles;
     private Activity activity;
     private View root;
     private String currentFolder;
     private boolean wantAFile = true;
-    private MenuItem mSearchViewMenuItem;
     private SearchView mSearchView;
-
     private SwipeRefreshLayout swipeRefreshLayout;
+    @Nullable
+    private Unbinder unbinder;
+    private int sortMode = SORT_BY_NAME;
+    @Nullable
+    private FileListAdapter mAdapter;
+    private String queryText = "";
+    private final Runnable searchHandler = new Runnable() {
+        @Override
+        public void run() {
+            if (mAdapter != null) {
+                mAdapter.query(queryText);
+            }
+        }
+    };
+
+    @OnClick(R.id.img_sort_size)
+    public void doSortBySize(View view) {
+        this.sortMode = SORT_BY_SIZE;
+        swipeRefreshLayout.setRefreshing(true);
+        Toast.makeText(activity, "Sort by size...", Toast.LENGTH_SHORT).show();
+        new UpdateList().execute(currentFolder);
+    }
+
+    @OnClick(R.id.img_sort_name)
+    public void doSortByName(View view) {
+        this.sortMode = SORT_BY_NAME;
+        swipeRefreshLayout.setRefreshing(true);
+        Toast.makeText(activity, "Sort by name...", Toast.LENGTH_SHORT).show();
+        new UpdateList().execute(currentFolder);
+    }
+
+    @OnClick(R.id.img_sort_date)
+    public void doSortByDate(View view) {
+        this.sortMode = SORT_BY_DATE;
+        swipeRefreshLayout.setRefreshing(true);
+        Toast.makeText(activity, "Sort by date...", Toast.LENGTH_SHORT).show();
+        new UpdateList().execute(currentFolder);
+    }
 
     @Override
     public void onResume() {
@@ -90,7 +135,7 @@ public class FragmentSelectFile extends Fragment implements
         super.onAttach(context);
         activity = getActivity();
         try {
-            listener = (FileListener) activity;
+            listener = (FileActionListener) activity;
         } catch (Exception ignored) {
             listener = null;
         }
@@ -104,9 +149,17 @@ public class FragmentSelectFile extends Fragment implements
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        unbinder = ButterKnife.bind(this, view);
+
+        mSearchView = (SearchView) view.findViewById(R.id.search_view);
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setSubmitButtonEnabled(false);
+
         currentFolder = ApplicationFileManager.getApplicationPath();
+
         wantAFile = true; //action == Actions.SelectFile;
         listFiles = (RecyclerView) root.findViewById(R.id.list_file);
         listFiles.setHasFixedSize(true);
@@ -140,15 +193,8 @@ public class FragmentSelectFile extends Fragment implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
-//        if (i == android.R.id.home) {
-//            return true;
-//        } else if (i == R.id.im_select_folder) {
-//            finishWithResult(new File(currentFolder));
-//            return true;
-//        }
         return super.onOptionsItemSelected(item);
     }
-
 
     /**
      * show dialog create new file
@@ -199,7 +245,6 @@ public class FragmentSelectFile extends Fragment implements
         });
 
     }
-
 
     private void createNewFolder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -325,30 +370,15 @@ public class FragmentSelectFile extends Fragment implements
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
+    }
+
     private void doRemoveFile(final File file) {
-//        final ApplicationFileManager mFileManager = new ApplicationFileManager(getContext());
-//        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//        builder.setMessage(getString(R.string.remove_file_msg) + file.getName());
-//        builder.setTitle(R.string.delete_file);
-//        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String filePath = file.getParent();
-//                String msg = mFileManager.removeFile(file);
-//                if (!msg.isEmpty()) {
-//                    Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
-//
-//                }
-//                new UpdateList().execute(filePath);
-//            }
-//        });
-//        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//        builder.create().show();
         listener.doRemoveFile(file);
     }
 
@@ -388,6 +418,19 @@ public class FragmentSelectFile extends Fragment implements
         }
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        this.queryText = newText;
+        handler.removeCallbacks(searchHandler);
+        handler.postDelayed(searchHandler, 100);
+        return true;
+    }
+
     private class UpdateList extends AsyncTask<String, Void, LinkedList<FileDetail>> {
 
         private String exceptionMessage;
@@ -397,7 +440,6 @@ public class FragmentSelectFile extends Fragment implements
             super.onPreExecute();
             if (mSearchView != null) {
                 mSearchView.setIconified(true);
-                MenuItemCompat.collapseActionView(mSearchViewMenuItem);
                 mSearchView.setQuery("", false);
             }
         }
@@ -449,9 +491,13 @@ public class FragmentSelectFile extends Fragment implements
                     }
                 } else {
                     File[] files = tempFolder.listFiles();
-
-                    Arrays.sort(files, getFileNameComparator());
-
+                    if (sortMode == SORT_BY_SIZE) {
+                        Arrays.sort(files, getFileSizeComparator());
+                    } else if (sortMode == SORT_BY_NAME) {
+                        Arrays.sort(files, getFileNameComparator());
+                    } else if (sortMode == SORT_BY_DATE) {
+                        Arrays.sort(files, getFileDateComparator());
+                    }
                     for (final File f : files) {
                         if (f.isDirectory()) {
                             folderDetails.add(new FileDetail(f.getName(),
@@ -477,6 +523,47 @@ public class FragmentSelectFile extends Fragment implements
             }
         }
 
+        private Comparator<? super File> getFileNameComparator() {
+            return new Comparator<File>() {
+                @Override
+                public int compare(File o1, File o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            };
+        }
+
+        private Comparator<? super File> getFileDateComparator() {
+            return new Comparator<File>() {
+                @Override
+                public int compare(File o1, File o2) {
+                    if (o1.lastModified() == o2.lastModified()) {
+                        return 0;
+                    }
+                    if (o1.lastModified() > o2.lastModified()) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            };
+        }
+
+        private Comparator<? super File> getFileSizeComparator() {
+            return new Comparator<File>() {
+                @Override
+                public int compare(File o1, File o2) {
+                    if (o1.length() == o2.length()) {
+                        return 0;
+                    }
+                    if (o1.length() > o2.length()) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            };
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -484,7 +571,7 @@ public class FragmentSelectFile extends Fragment implements
         protected void onPostExecute(final LinkedList<FileDetail> names) {
             if (names != null) {
                 boolean isRoot = currentFolder.equals("/");
-                FileListAdapter mAdapter = new FileListAdapter(activity, names, isRoot, FragmentSelectFile.this);
+                mAdapter = new FileListAdapter(activity, names, isRoot, FragmentFileManager.this);
                 listFiles.setAdapter(mAdapter);
             }
             if (exceptionMessage != null) {
@@ -501,16 +588,5 @@ public class FragmentSelectFile extends Fragment implements
             super.onPostExecute(names);
         }
 
-        final AlphanumComparator getFileNameComparator() {
-            return new AlphanumComparator() {
-                /**
-                 * {@inheritDoc}
-                 */
-                @Override
-                public String getTheString(Object obj) {
-                    return ((File) obj).getName().toLowerCase();
-                }
-            };
-        }
     }
 }

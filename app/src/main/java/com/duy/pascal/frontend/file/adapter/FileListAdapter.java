@@ -36,19 +36,23 @@ public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
     private FileAdapterListener fileAdapterListener;
     // List of file details
     private LinkedList<FileDetail> fileDetails;
+    private LinkedList<FileDetail> originalFileList;
 
+    @SuppressWarnings("unchecked")
     public FileListAdapter(final Context context,
                            final LinkedList<FileDetail> fileDetails,
                            final boolean isRoot,
                            FileAdapterListener fileAdapterListener) {
         this.fileAdapterListener = fileAdapterListener;
         this.fileDetails = fileDetails;
+        this.originalFileList = (LinkedList<FileDetail>) fileDetails.clone();
         this.orig = fileDetails;
         this.inflater = LayoutInflater.from(context);
         if (!isRoot) {
             this.fileDetails.addFirst(new FileDetail("..", context.getString(R.string.folder), ""));
         } else {
-            this.fileDetails.addFirst(new FileDetail(context.getString(R.string.home), context.getString(R.string.folder), ""));
+            this.fileDetails.addFirst(new FileDetail(context.getString(R.string.home),
+                    context.getString(R.string.folder), ""));
         }
     }
 
@@ -108,32 +112,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
     public int getItemCount() {
         return fileDetails.size();
     }
-/*
-    private class CustomFilter extends Filter {
 
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            FilterResults results = new FilterResults();
-            if (constraint == null || constraint.length() == 0) {
-                results.values = orig;
-                results.count = orig.size();
-            } else {
-                LinkedList<FileDetail> nHolderList = new LinkedList<>();
-                for (FileDetail h : orig) {
-                    if (h.getName().toLowerCase().contains(constraint.toString().toLowerCase()))
-                        nHolderList.add(h);
-                }
-                results.values = nHolderList;
-                results.count = nHolderList.size();
+    public boolean query(String newText) {
+        fileDetails.clear();
+        for (FileDetail fileDetail : originalFileList) {
+            if (fileDetail.getName().toLowerCase().contains(newText.toLowerCase())) {
+                fileDetails.add(fileDetail);
             }
-            return results;
         }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            fileDetails = (LinkedList<FileDetail>) results.values;
-            notifyDataSetChanged();
-        }
-    }*/
+        notifyDataSetChanged();
+        return true;
+    }
 }

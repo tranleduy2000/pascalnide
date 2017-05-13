@@ -18,7 +18,7 @@ package com.duy.pascal.frontend.file;
 
 import java.io.File;
 
-public interface FileListener {
+public interface FileActionListener {
     void onFileClick(File file);
 
     void onFileLongClick(File file);

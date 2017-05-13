@@ -42,6 +42,7 @@ public class FileViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.img_delete)
     View imgDelete;
+
     @BindView(R.id.container)
     View root;
 

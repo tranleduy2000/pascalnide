@@ -19,7 +19,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
     android:gravity="center_vertical|start"
     android:minHeight="50dp"
     android:padding="4dp">
@@ -30,6 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/img_delete"
         android:layout_toStartOf="@+id/img_delete"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical|start"
         android:minHeight="50dp">
 
@@ -72,5 +73,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:srcCompat="@drawable/ic_close_white_24dp" />
 </RelativeLayout>
