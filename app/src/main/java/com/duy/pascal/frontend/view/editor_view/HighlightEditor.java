@@ -42,6 +42,7 @@ import android.widget.ScrollView;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
@@ -72,8 +73,12 @@ public class HighlightEditor extends CodeSuggestsEditText
     public boolean showlines = true;
     public float textSize = 13;
     public boolean wordWrap = true;
-    //    public boolean flingToScroll = true;
     public LineInfo lineError = null;
+
+    /**
+     * Thread for automatically interpreting the program to catch errors.
+     * Then show to edit text if there are errors
+     */
     private final Runnable compileProgram = new Runnable() {
         @Override
         public void run() {
@@ -89,10 +94,11 @@ public class HighlightEditor extends CodeSuggestsEditText
                 }
                 e.printStackTrace();
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     };
+
+
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
     protected int mPaddingDP = 4;
@@ -210,7 +216,6 @@ public class HighlightEditor extends CodeSuggestsEditText
                 R.styleable.CodeTheme);
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
-//        setTypeface(FontManager.getInstance(mContext));
     }
 
     public void setTheme(String name) {
@@ -570,6 +575,19 @@ public class HighlightEditor extends CodeSuggestsEditText
                     int lineStart = getLayout().getLineStart(line);
                     int lineEnd = getLayout().getLineEnd(line);
                     lineStart += lineError.column;
+
+                    //check if it contains offset from start index error to
+                    //(start + offset) index
+                    if (lineError instanceof LineError) {
+                        if (((LineError) lineError).getOffset() > -1) {
+                            lineEnd = lineStart + ((LineError) lineError).getOffset();
+                        }
+                    }
+
+                    //normalize
+                    lineStart = Math.max(0, lineStart);
+                    lineEnd = Math.min(lineEnd, getText().length());
+
                     if (lineStart < lineEnd) {
                         e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
                                 lineStart,
@@ -580,6 +598,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                             setSelection(lineStart);
                         }
                     }
+
                 }
             }
         } catch (Exception ignored) {
@@ -765,7 +784,6 @@ public class HighlightEditor extends CodeSuggestsEditText
             }
         }
     }
-
 
 
     public interface OnTextChangedListener {
