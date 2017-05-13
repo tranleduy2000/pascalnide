@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.duy.pascal.backend.exceptions.NonArrayIndexed;
+import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnsupportedFormatException;
+import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
 import com.duy.pascal.backend.pascaltypes.typeconversion.StringBuilderWithRangeType;
 import com.duy.pascal.backend.pascaltypes.typeconversion.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -24,8 +24,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedFormatException {
-            throw new UnsupportedFormatException();
+        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+            throw new UnsupportedOutputFormatException();
 
         }
 
@@ -43,8 +43,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedFormatException {
-            throw new UnsupportedFormatException();
+        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+            throw new UnsupportedOutputFormatException();
         }
 
         @Override
@@ -111,8 +111,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedFormatException {
-            throw new UnsupportedFormatException();
+        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+            throw new UnsupportedOutputFormatException();
         }
 
         @Override
@@ -145,8 +145,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedFormatException {
-            throw new UnsupportedFormatException();
+        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+            throw new UnsupportedOutputFormatException();
         }
 
         @Override
@@ -163,8 +163,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedFormatException {
-            throw new UnsupportedFormatException();
+        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+            throw new UnsupportedOutputFormatException();
         }
 
         @Override
@@ -179,8 +179,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedFormatException {
-            throw new UnsupportedFormatException();
+        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+            throw new UnsupportedOutputFormatException();
         }
 
         @Override
@@ -197,8 +197,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedFormatException {
-            throw new UnsupportedFormatException();
+        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+            throw new UnsupportedOutputFormatException();
         }
 
         @Override
@@ -214,8 +214,8 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedFormatException {
-            throw new UnsupportedFormatException();
+        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+            throw new UnsupportedOutputFormatException();
         }
 
         @Override
@@ -293,7 +293,7 @@ public enum BasicType implements DeclaredType {
      *
      * @param length
      */
-    public abstract void setLength(ReturnValue length) throws UnsupportedFormatException;
+    public abstract void setLength(ReturnValue length) throws UnsupportedOutputFormatException;
 
     @Override
     public Class getTransferClass() {

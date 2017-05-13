@@ -39,7 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
+import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;

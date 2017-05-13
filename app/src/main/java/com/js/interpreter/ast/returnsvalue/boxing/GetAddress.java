@@ -2,7 +2,7 @@ package com.js.interpreter.ast.returnsvalue.boxing;
 
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
+import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;

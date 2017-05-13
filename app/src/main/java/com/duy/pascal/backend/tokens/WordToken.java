@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.tokens;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnrecognizedTypeException;
+import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;

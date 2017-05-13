@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.expressioncontext;
 
-import com.duy.pascal.backend.exceptions.SameNameException;
+import com.duy.pascal.backend.exceptions.define.SameNameException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.ConstantDefinition;

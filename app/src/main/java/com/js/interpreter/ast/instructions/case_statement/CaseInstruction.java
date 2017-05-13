@@ -1,11 +1,11 @@
 package com.js.interpreter.ast.instructions.case_statement;
 
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
-import com.duy.pascal.backend.exceptions.ConstantCalculationException;
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
+import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -22,7 +22,6 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
-import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;

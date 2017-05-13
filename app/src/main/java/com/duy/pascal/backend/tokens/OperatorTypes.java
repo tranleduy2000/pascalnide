@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.tokens;
 
-import com.duy.pascal.backend.exceptions.BadOperationTypeException;
-import com.duy.pascal.backend.exceptions.OperationNotSupportedException;
+import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
+import com.duy.pascal.backend.exceptions.operator.OperationNotSupportedException;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;

@@ -1,9 +1,9 @@
 package com.js.interpreter.ast;
 
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.OverridingFunctionException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.SameNameException;
+import com.duy.pascal.backend.exceptions.define.SameNameException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -102,7 +102,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             i.assertNextSemicolon(take);
         } else {
             if (instructions != null) {
-                throw new OverridingFunctionException(this, i.lineInfo);
+                throw new OverridingFunctionBodyException(this, i.lineInfo);
             }
             while (!bodyDeclared) {
                 declarations.addNextDeclaration(i);

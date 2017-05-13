@@ -3,24 +3,24 @@ package com.duy.pascal.backend.tokens.grouping;
 
 import android.util.Log;
 
-import com.duy.pascal.backend.exceptions.BadOperationTypeException;
-import com.duy.pascal.backend.exceptions.ExpectedAnotherTokenException;
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.MethodNotFoundException;
-import com.duy.pascal.backend.exceptions.MissingCommaTokenException;
-import com.duy.pascal.backend.exceptions.MissingSemicolonTokenException;
-import com.duy.pascal.backend.exceptions.MultipleDefaultValuesException;
-import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
-import com.duy.pascal.backend.exceptions.NonIntegerException;
-import com.duy.pascal.backend.exceptions.NonIntegerIndexException;
-import com.duy.pascal.backend.exceptions.NotAStatementException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.SameNameException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
-import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.exceptions.UnsupportedFormatException;
+import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.exceptions.define.MethodNotFoundException;
+import com.duy.pascal.backend.exceptions.define.MultipleDefaultValuesException;
+import com.duy.pascal.backend.exceptions.define.SameNameException;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
+import com.duy.pascal.backend.exceptions.index.NonIntegerIndexException;
+import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedAnotherTokenException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.syntax.MissingCommaTokenException;
+import com.duy.pascal.backend.exceptions.syntax.MissingSemicolonTokenException;
+import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
+import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
+import com.duy.pascal.backend.exceptions.value.NonIntegerException;
+import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -53,7 +53,6 @@ import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.RepeatToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
-import com.duy.pascal.backend.tokens.basic.ThenToken;
 import com.duy.pascal.backend.tokens.basic.ToToken;
 import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
@@ -442,8 +441,8 @@ public abstract class GrouperToken extends Token {
                     }
                     try {
                         ((BasicType) type).setLength(converted);
-                    } catch (UnsupportedFormatException e) {
-                        throw new UnsupportedFormatException(lineInfo);
+                    } catch (UnsupportedOutputFormatException e) {
+                        throw new UnsupportedOutputFormatException(lineInfo);
                     }
                 }
             }
@@ -568,27 +567,9 @@ public abstract class GrouperToken extends Token {
         Token next = take();
         LineInfo lineNumber = next.lineInfo;
         if (next instanceof IfToken) {
-            ReturnValue condition = getNextExpression(context);
-            next = take();
-            if (!(next instanceof ThenToken)) {
-                throw new ExpectedTokenException("then", next);
-            }
-            Executable command = getNextCommand(context);
-            Executable elseCommand = null;
-            next = peek();
-            if (next instanceof ElseToken) {
-                take();
-                elseCommand = getNextCommand(context);
-            }
-            return new IfStatement(condition, command, elseCommand, lineNumber);
+            return new IfStatement(context, this, lineNumber);
         } else if (next instanceof WhileToken) {
-            ReturnValue condition = getNextExpression(context);
-            next = take();
-            if (!(next instanceof DoToken)) {
-                throw new ExpectedTokenException("do", next);
-            }
-            Executable command = getNextCommand(context);
-            return new WhileStatement(condition, command, lineNumber);
+            return new WhileStatement(context, this, lineNumber);
         } else if (next instanceof BeginEndToken) {
             InstructionGrouper beginEndPreprocessed = new InstructionGrouper(
                     lineNumber);
@@ -672,6 +653,7 @@ public abstract class GrouperToken extends Token {
             if (next instanceof AssignmentToken) {
                 take();
                 LeftValue left = r.asLValue(context);
+
                 if (left == null) {
                     throw new UnAssignableTypeException(r);
                 }

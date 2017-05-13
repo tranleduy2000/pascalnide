@@ -123,6 +123,7 @@ public class IndentCode {
                 StringBuilder next = getLineCommand(depth + 1, true);
                 result.append(next);
             }
+            result.append("\n");
             return result;
         } else if (token instanceof ProgramToken) {
             StringBuilder result = new StringBuilder();
@@ -155,7 +156,7 @@ public class IndentCode {
             return new StringBuilder(token.toString());
         } else if (token instanceof CommentToken) {
             StringBuilder result = new StringBuilder().append(token.toString());
-            result.append("\n").append(getTab(depth));
+            result.append("\n").append(getTab(depth - 1));
             return result;
         } else if (token instanceof PeriodToken) {
             return new StringBuilder(token.toString());

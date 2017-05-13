@@ -1,8 +1,8 @@
 package com.js.interpreter.ast.returnsvalue;
 
 import com.duy.pascal.backend.debugable.DebuggableExecutableReturnValue;
-import com.duy.pascal.backend.exceptions.AmbiguousFunctionCallException;
-import com.duy.pascal.backend.exceptions.BadFunctionCallException;
+import com.duy.pascal.backend.exceptions.define.AmbiguousFunctionCallException;
+import com.duy.pascal.backend.exceptions.define.BadFunctionCallException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.js.interpreter.ast.AbstractFunction;

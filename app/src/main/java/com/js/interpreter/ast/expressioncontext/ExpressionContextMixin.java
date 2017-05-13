@@ -2,22 +2,22 @@ package com.js.interpreter.ast.expressioncontext;
 
 import android.util.Log;
 
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
-import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
-import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
-import com.duy.pascal.backend.exceptions.NonIntegerException;
-import com.duy.pascal.backend.exceptions.OverridingFunctionException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.io.LibraryNotFoundException;
+import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
+import com.duy.pascal.backend.exceptions.value.NonIntegerException;
+import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.SameNameException;
-import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
+import com.duy.pascal.backend.exceptions.define.SameNameException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.SystemConstants;
-import com.duy.pascal.backend.exceptions.UnsupportedFormatException;
+import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
@@ -143,7 +143,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         for (AbstractFunction g : callableFunctions.get(f.name)) {
             if (f.headerMatches(g)) {
                 if (!(g instanceof FunctionDeclaration)) {
-                    throw new OverridingFunctionException(g, f);
+                    throw new OverridingFunctionBodyException(g, f);
                 }
                 return (FunctionDeclaration) g;
             }
@@ -253,8 +253,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         }
                         try {
                             ((BasicType) type).setLength(converted);
-                        }catch (UnsupportedFormatException e){
-                            throw new UnsupportedFormatException(i.lineInfo);
+                        }catch (UnsupportedOutputFormatException e){
+                            throw new UnsupportedOutputFormatException(i.lineInfo);
                         }
                     }
                 }

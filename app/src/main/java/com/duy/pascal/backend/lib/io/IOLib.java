@@ -19,7 +19,7 @@ package com.duy.pascal.backend.lib.io;
 import android.util.Log;
 
 import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.exceptions.InputStreamNotFoundException;
+import com.duy.pascal.backend.exceptions.io.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;

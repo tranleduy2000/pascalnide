@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.tokens.grouping;
 
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;

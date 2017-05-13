@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.codeunit;
 
-import com.duy.pascal.backend.exceptions.MisplacedDeclarationException;
+import com.duy.pascal.backend.exceptions.syntax.MisplacedDeclarationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;

@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.returnsvalue.operators.number;
 
-import com.duy.pascal.backend.exceptions.DivisionByZeroException;
+import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;

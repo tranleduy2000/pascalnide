@@ -50,7 +50,6 @@ public class PascalCompiler {
             List<ScriptSource> librarySearchPath) throws ParsingException {
 
         ListMultimap<String, AbstractFunction> functionTable = ArrayListMultimap.create();
-//        loadPluginsPascal(functionTable);
         loadLibraries(functionTable, librarySearchPath, includeSearchPath);
         return functionTable;
     }

@@ -16,8 +16,8 @@
 
 package com.js.interpreter.ast.instructions.with_statement;
 
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.CustomType;

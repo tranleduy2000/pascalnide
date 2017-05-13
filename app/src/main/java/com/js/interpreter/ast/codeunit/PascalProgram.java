@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.codeunit;
 
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.define.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;

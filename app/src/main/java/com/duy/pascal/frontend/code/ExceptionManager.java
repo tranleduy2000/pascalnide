@@ -26,33 +26,33 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
-import com.duy.pascal.backend.exceptions.BadFunctionCallException;
-import com.duy.pascal.backend.exceptions.BadOperationTypeException;
-import com.duy.pascal.backend.exceptions.ChangeValueConstantException;
-import com.duy.pascal.backend.exceptions.ConstantCalculationException;
-import com.duy.pascal.backend.exceptions.DivisionByZeroException;
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.LibraryNotFoundException;
-import com.duy.pascal.backend.exceptions.MainProgramNotFoundException;
-import com.duy.pascal.backend.exceptions.MissingCommaTokenException;
-import com.duy.pascal.backend.exceptions.MissingSemicolonTokenException;
-import com.duy.pascal.backend.exceptions.MultipleDefaultValuesException;
-import com.duy.pascal.backend.exceptions.MultipleDefinitionsMainException;
-import com.duy.pascal.backend.exceptions.NoSuchFunctionOrVariableException;
-import com.duy.pascal.backend.exceptions.NonArrayIndexed;
-import com.duy.pascal.backend.exceptions.NonConstantExpressionException;
-import com.duy.pascal.backend.exceptions.NonIntegerException;
-import com.duy.pascal.backend.exceptions.NonIntegerIndexException;
-import com.duy.pascal.backend.exceptions.NotAStatementException;
-import com.duy.pascal.backend.exceptions.OverridingFunctionException;
+import com.duy.pascal.backend.exceptions.define.BadFunctionCallException;
+import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
+import com.duy.pascal.backend.exceptions.value.ChangeValueConstantException;
+import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
+import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.io.LibraryNotFoundException;
+import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
+import com.duy.pascal.backend.exceptions.syntax.MissingCommaTokenException;
+import com.duy.pascal.backend.exceptions.syntax.MissingSemicolonTokenException;
+import com.duy.pascal.backend.exceptions.define.MultipleDefaultValuesException;
+import com.duy.pascal.backend.exceptions.define.MultipleDefinitionsMainException;
+import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
+import com.duy.pascal.backend.exceptions.value.NonIntegerException;
+import com.duy.pascal.backend.exceptions.index.NonIntegerIndexException;
+import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
+import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.SameNameException;
-import com.duy.pascal.backend.exceptions.StackOverflowException;
-import com.duy.pascal.backend.exceptions.SubRangeException;
-import com.duy.pascal.backend.exceptions.UnAssignableTypeException;
-import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
+import com.duy.pascal.backend.exceptions.define.SameNameException;
+import com.js.interpreter.runtime.exception.StackOverflowException;
+import com.duy.pascal.backend.exceptions.index.SubRangeException;
+import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.exceptions.UnrecognizedTypeException;
+import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
 import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
 import com.duy.pascal.backend.lib.file.exceptions.DiskReadErrorException;
@@ -157,9 +157,7 @@ public class ExceptionManager {
             if (e instanceof UnConvertibleTypeException) {
                 UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
                 return getMessageResource(e, R.string.UnConvertibleTypeException,
-                        exception.obj, exception.out,
-                        exception.implicit ? context.getString(R.string.implicitly) : "",
-                        exception.in);
+                        exception.obj, exception.out, exception.in);
             }
 
             if (e instanceof LibraryNotFoundException) {
@@ -208,11 +206,11 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.SubRangeException,
                         ((SubRangeException) e).high, ((SubRangeException) e).low);
             }
-            if (e instanceof OverridingFunctionException) {
-                if (!((OverridingFunctionException) e).isMethod) {
+            if (e instanceof OverridingFunctionBodyException) {
+                if (!((OverridingFunctionBodyException) e).isMethod) {
                     return getMessageResource(e, R.string.OverridingFunctionException,
-                            ((OverridingFunctionException) e).functionDeclaration.name(),
-                            ((OverridingFunctionException) e).functionDeclaration.getLineNumber());
+                            ((OverridingFunctionBodyException) e).functionDeclaration.name(),
+                            ((OverridingFunctionBodyException) e).functionDeclaration.getLineNumber());
                 } else {
                     return getMessageResource(e, R.string.OverridingFunctionException);
                 }

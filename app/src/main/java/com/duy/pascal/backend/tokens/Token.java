@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.tokens;
 
 
-import com.duy.pascal.backend.exceptions.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 public abstract class Token {
@@ -10,6 +10,10 @@ public abstract class Token {
 
     public Token(LineInfo line) {
         this.lineInfo = line;
+    }
+
+    public LineInfo getLineInfo() {
+        return lineInfo;
     }
 
     public WordToken getWordValue() throws ParsingException {

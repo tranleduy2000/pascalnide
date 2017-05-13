@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.duy.pascal.backend.exceptions.NonArrayIndexed;
+import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;

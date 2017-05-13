@@ -2,9 +2,16 @@ package com.js.interpreter.ast.instructions.conditional;
 
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.basic.DoToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.debug.DebugManager;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
+import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.NoneInstruction;
@@ -15,10 +22,43 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class WhileStatement extends DebuggableExecutable {
-    ReturnValue condition;
+    private ReturnValue condition;
+    private Executable command;
+    private LineInfo line;
 
-    Executable command;
-    LineInfo line;
+    /**
+     * constructor
+     * Declare while statement
+     * <p>
+     * while <condition> do <command>
+     * <p>
+     */
+    public WhileStatement(ExpressionContext context, GrouperToken grouperToken, LineInfo lineNumber)
+            throws ParsingException {
+
+        //check condition return boolean type
+        ReturnValue condition = grouperToken.getNextExpression(context);
+        ReturnValue convert = BasicType.Boolean.convert(condition, context);
+        if (convert == null) {
+            throw new UnConvertibleTypeException(condition,
+                    condition.getType(context).declType, BasicType.Boolean,
+                    true);
+        }
+
+        //check "do' token
+        Token next;
+        next = grouperToken.take();
+        if (!(next instanceof DoToken)) {
+            throw new ExpectedTokenException("do", next);
+        }
+
+        //get command
+        Executable command = grouperToken.getNextCommand(context);
+
+        this.condition = condition;
+        this.command = command;
+        this.line = lineNumber;
+    }
 
     public WhileStatement(ReturnValue condition, Executable command,
                           LineInfo line) {

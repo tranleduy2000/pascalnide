@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.expressioncontext;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.SameNameException;
+import com.duy.pascal.backend.exceptions.define.SameNameException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;

@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.pascaltypes.typeconversion;
 
-import com.duy.pascal.backend.exceptions.UnConvertibleTypeException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 

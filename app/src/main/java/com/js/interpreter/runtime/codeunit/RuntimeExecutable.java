@@ -1,7 +1,7 @@
 package com.js.interpreter.runtime.codeunit;
 
 import com.duy.pascal.backend.debugable.DebugListener;
-import com.duy.pascal.backend.exceptions.StackOverflowException;
+import com.js.interpreter.runtime.exception.StackOverflowException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.MethodDeclaration;
