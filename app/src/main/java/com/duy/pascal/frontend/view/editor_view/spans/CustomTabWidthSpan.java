@@ -34,6 +34,7 @@ public class CustomTabWidthSpan extends ReplacementSpan {
     }
 
     @Override
-    public void draw(@NonNull Canvas p1, CharSequence p2, int p3, int p4, float p5, int p6, int p7, int p8, @NonNull Paint p9) {
+    public void draw(@NonNull Canvas p1, CharSequence p2, int p3, int p4,
+                     float p5, int p6, int p7, int p8, @NonNull Paint p9) {
     }
 }

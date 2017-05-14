@@ -25,7 +25,6 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.duy.pascal.frontend.view.editor_view.spans.CustomTabWidthSpan;
 
@@ -161,9 +160,6 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
      */
     private CharSequence indentLine(CharSequence source, int start, int end, Spanned dest,
                                     int dstart, int dend) {
-        Log.d(TAG, "indentLine() called with: source = [" + source + "], start = [" + start +
-                "], end = [" + end + "], dest = [" + dest + "], dstart = [" + dstart + "], dend = [" + dend + "]");
-
         String indent = "";
         int indexStart = dstart - 1;
         int indexEnd;
@@ -235,10 +231,10 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
                 return ')';
             case '[':
                 return ']';
-            case '\'':
-                return '\'';
-            case '"':
-                return '"';
+//            case '\'':
+//                return '\'';
+//            case '"':
+//                return '"';
         }
         return 0;
     }

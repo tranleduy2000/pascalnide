@@ -21,8 +21,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.keyboard.KeyListener;
 import com.duy.pascal.frontend.keyboard.KeySettings;
@@ -155,12 +157,11 @@ public class UndoRedoSupportEditText extends HighlightEditor {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (Dlog.DEBUG) Log.w(TAG, "onKeyDown: " + keyCode + " " + event);
+        if (Dlog.DEBUG) Log.w(TAG, "onKeyDown: " + keyCode + " " + event);
         if (handleControlKey(keyCode, event, false)) {
             return true;
         }
-        if (event.isCtrlPressed() || (event.isShiftPressed() && event.isAltPressed())
-                || mKeyListener.mControlKey.isActive()) {
+        if (event.isCtrlPressed() || mKeyListener.mControlKey.isActive()) {
 //            Log.i(TAG, "onKeyDown: process");
             switch (keyCode) {
                 case KeyEvent.KEYCODE_A:
@@ -230,7 +231,9 @@ public class UndoRedoSupportEditText extends HighlightEditor {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-//        if (DEBUG) Log.w(TAG, "onKeyUp " + event);
+        if (Dlog.DEBUG) {
+            Log.w(TAG, "onKeyUp " + event);
+        }
         if (handleControlKey(keyCode, event, false)) {
             return true;
         }

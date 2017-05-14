@@ -26,7 +26,7 @@ import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.data.KeyWord;
+import com.duy.pascal.frontend.code_completion.KeyWord;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.editor_view.adapters.CodeSuggestAdapter;
 import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
@@ -107,7 +107,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         if (!mEditorSetting.isShowSuggestPopup()) {
             return;
         }
-        for (String s : KeyWord.LIST_KEY_WORD) {
+        for (String s : KeyWord.KEY_WORDS) {
             data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }
         CodeSuggestAdapter mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);

@@ -27,7 +27,7 @@ import com.duy.pascal.frontend.adapters.SymbolAdapter;
 
 import java.util.ArrayList;
 
-import static com.duy.pascal.frontend.data.KeyWord.SYMBOL_KEY;
+import static com.duy.pascal.frontend.code_completion.KeyWord.SYMBOL_KEY;
 
 /**
  * Created by Duy on 11-Feb-17.

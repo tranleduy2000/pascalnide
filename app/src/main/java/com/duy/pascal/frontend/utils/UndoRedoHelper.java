@@ -33,7 +33,6 @@ public class UndoRedoHelper {
     private EditHistory mEditHistory;
 
     private EditTextChangeListener mChangeListener;
-
     private TextView mTextView;
 
     public UndoRedoHelper(TextView textView) {
@@ -44,7 +43,9 @@ public class UndoRedoHelper {
     }
 
     public void disconnect() {
-        mTextView.removeTextChangedListener(mChangeListener);
+        if (mTextView != null) {
+            mTextView.removeTextChangedListener(mChangeListener);
+        }
     }
 
     public void setMaxHistorySize(int maxHistorySize) {

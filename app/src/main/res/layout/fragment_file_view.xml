@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,65 +22,58 @@
     android:minWidth="300dp"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?colorPrimary"
+        android:paddingLeft="8dp"
+        app:layout_scrollFlags="snap|enterAlways|scroll">
 
-        <LinearLayout
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_sort_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_sort_by_alpha_white_24dp" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_sort_size"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_format_size_white_24dp" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_sort_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_date_range_white_24dp" />
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/search_view"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?colorPrimary"
-            app:layout_scrollFlags="snap|enterAlways|scroll">
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/img_sort_name"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_sort_by_alpha_white_24dp" />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/img_sort_size"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_format_size_white_24dp" />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/img_sort_date"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_date_range_white_24dp" />
-
-            <android.support.v7.widget.SearchView
-                android:id="@+id/search_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
-        <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/refresh_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -125,4 +118,4 @@
             app:fab_size="normal" />
 
     </com.github.clans.fab.FloatingActionMenu>
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

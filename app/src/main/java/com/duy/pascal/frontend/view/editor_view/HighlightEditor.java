@@ -498,6 +498,7 @@ public class HighlightEditor extends CodeSuggestsEditText
      * @param end   - end index
      */
     private Editable highlight(Editable e, int start, int end) {
+//        if (true) return e;
         try {
             //clear spannable
             clearSpans(e, start, end);
@@ -554,7 +555,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-
+            applyTabWidth(e, start, end);
             highlightLineError(e);
         } catch (Exception ignored) {
             ignored.printStackTrace();
@@ -609,6 +610,7 @@ public class HighlightEditor extends CodeSuggestsEditText
      * remove span from start to end
      */
     private void clearSpans(Editable e, int start, int end) {
+
         {
             ForegroundColorSpan spans[] = e.getSpans(start, end, ForegroundColorSpan.class);
             for (int n = spans.length; n-- > 0; )
@@ -619,11 +621,7 @@ public class HighlightEditor extends CodeSuggestsEditText
             for (int n = spans.length; n-- > 0; )
                 e.removeSpan(spans[n]);
         }
-//        {
-//            StyleSpan[] spans = e.getSpans(start, end, StyleSpan.class);
-//            for (int n = spans.length; n-- > 0; )
-//                e.removeSpan(spans[n]);
-//        }
+
         {
             UnderlineSpan[] spans = e.getSpans(start, end, UnderlineSpan.class);
             for (int n = spans.length; n-- > 0; )
