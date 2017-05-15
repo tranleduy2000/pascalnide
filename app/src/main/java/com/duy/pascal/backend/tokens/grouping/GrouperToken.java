@@ -594,7 +594,7 @@ public abstract class GrouperToken extends Token {
                     || next instanceof OperatorToken)) {
                 throw new ExpectedTokenException("\":=\" or \"in\"", next);
             }
-            Executable result;
+            Executable result = null;
             if (next instanceof AssignmentToken) {
                 ReturnValue firstValue = getNextExpression(context);
                 next = take();
@@ -617,7 +617,11 @@ public abstract class GrouperToken extends Token {
                             lastValue, getNextCommand(context), lineNumber);
                 }
             } else if (next instanceof OperatorToken) {
+                if (((OperatorToken) next).type == OperatorTypes.IN) {
 
+                } else {
+                    throw new ExpectedTokenException("\":=\" or \"in\"", next);
+                }
             }
             return result;
         } else if (next instanceof RepeatToken) {

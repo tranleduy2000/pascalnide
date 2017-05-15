@@ -67,7 +67,6 @@ dependencies {
     compile 'com.rarepebble:colorpicker:2.2.0'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.github.bmelnychuk:atv:1.2.9'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'

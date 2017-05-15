@@ -60,9 +60,9 @@ public class CodeThemeAdapter extends RecyclerView.Adapter<CodeThemeAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         if ((mThemes.get(position) instanceof String)) {
-            holder.editorView.setTheme((String) mThemes.get(position));
+            holder.editorView.setColorTheme((String) mThemes.get(position));
         } else {
-            holder.editorView.setTheme((int) mThemes.get(position));
+            holder.editorView.setColorTheme((int) mThemes.get(position));
         }
 
 //        holder.codeView.applyTabWidth();

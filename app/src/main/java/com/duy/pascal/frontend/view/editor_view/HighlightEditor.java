@@ -26,15 +26,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Layout;
-import android.text.Selection;
 import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.method.ArrowKeyMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
@@ -45,6 +42,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.file.PreferenceHelper;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
 import com.js.interpreter.core.ScriptSource;
@@ -64,17 +62,15 @@ import static com.duy.pascal.frontend.data.PatternsUtils.symbols;
 public class HighlightEditor extends CodeSuggestsEditText
         implements View.OnKeyListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
-    public static final int SHORT_DELAY = 500;
-    public static final int LONG_DELAY = 1000;
-    private static final int CHARS_TO_COLOR = 2500;
-
+    public static final int SYNTAX_DELAY_MILLIS_SHORT = 100;
+    public static final int SYNTAX_DELAY_MILLIS_LONG = 1000;
+    public static final int CHARS_TO_COLOR = 2500;
     private final Handler updateHandler = new Handler();
     private final Object objectThread = new Object();
     public boolean showlines = true;
     public float textSize = 13;
     public boolean wordWrap = true;
     public LineInfo lineError = null;
-
     /**
      * Thread for automatically interpreting the program to catch errors.
      * Then show to edit text if there are errors
@@ -97,8 +93,6 @@ public class HighlightEditor extends CodeSuggestsEditText
             }
         }
     };
-
-
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
     protected int mPaddingDP = 4;
@@ -117,21 +111,45 @@ public class HighlightEditor extends CodeSuggestsEditText
     protected int COLOR_STRINGS;
     private boolean autoCompile = false;
     private Context mContext;
-    private boolean modified = true;
     private boolean canEdit = true;
     @Nullable
     private ScrollView verticalScroll;
-    private final Runnable updateRunnable = new Runnable() {
-        @Override
-        public void run() {
-            highlightWithoutChange(getText());
-        }
-    };
     private int lastPinLine = -1;
     private LineUtils lineUtils;
     private boolean[] isGoodLineArray;
     private int[] realLines;
     private int lineCount;
+
+    private int firstVisibleIndex, firstColoredIndex, lastVisibleIndex;
+    /**
+     * Disconnect this undo/redo from the text
+     * view.
+     */
+    private boolean enabledChangeListener = false;
+    /**
+     * The change listener.
+     */
+    private EditTextChangeListener
+            mChangeListener;
+    private int deviceHeight;
+    private int editorHeight;
+    private boolean wrapContent;
+    private CharSequence textToHighlight;
+    private final Runnable colorRunnable_duringEditing =
+            new Runnable() {
+                @Override
+                public void run() {
+                    replaceTextKeepCursor(null);
+                }
+            };
+    private final Runnable colorRunnable_duringScroll =
+            new Runnable() {
+                @Override
+                public void run() {
+                    replaceTextKeepCursor(null);
+                }
+            };
+    private Matcher m;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -146,12 +164,6 @@ public class HighlightEditor extends CodeSuggestsEditText
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setup(context);
-    }
-
-    @Override
-    protected void onScrollChanged(int horiz, int vert, int oldHoriz, int oldVert) {
-        super.onScrollChanged(horiz, vert, oldHoriz, oldVert);
-
     }
 
     public boolean isAutoCompile() {
@@ -172,7 +184,6 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     private void setup(Context context) {
         this.mContext = context;
-        init();
 
         lineUtils = new LineUtils();
         mPaintNumbers = new Paint();
@@ -188,18 +199,14 @@ public class HighlightEditor extends CodeSuggestsEditText
         mLineBounds = new Rect();
 
         updateFromSettings();
+
+        mChangeListener = new EditTextChangeListener();
+        deviceHeight = getResources().getDisplayMetrics().heightPixels;
+
+        enableTextChangedListener();
     }
 
-    public void extendSelection(int index) {
-        Selection.extendSelection(getText(), index);
-    }
-
-    @Override
-    public void selectAll() {
-        super.selectAll();
-    }
-
-    public void setTheme(int id) {
+    public void setColorTheme(int id) {
         ThemeFromAssets theme = ThemeFromAssets.getTheme(id, mContext);
         setBackgroundColor(theme.getBackground());
         setTextColor(theme.getColor(0));
@@ -218,7 +225,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         typedArray.recycle();
     }
 
-    public void setTheme(String name) {
+    public void setColorTheme(String name) {
         /*
           load theme from xml
          */
@@ -313,9 +320,9 @@ public class HighlightEditor extends CodeSuggestsEditText
         String name = mEditorSetting.getString(mContext.getString(R.string.key_code_theme));
         try {
             Integer id = Integer.parseInt(name);
-            setTheme(id);
+            setColorTheme(id);
         } catch (Exception e) {
-            setTheme(name);
+            setColorTheme(name);
         }
         setTypeface(mEditorSetting.getFont());
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
@@ -324,12 +331,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         showlines = mEditorSetting.isShowLines();
         postInvalidate();
         refreshDrawableState();
-
-//        if (flingToScroll) {
-//            mMaxSize = new Point();
-//        } else {
-//            mMaxSize = null;
-//        }
 
         mLinePadding = mPadding;
         int count = getLineCount();
@@ -355,7 +356,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         return ArrowKeyMovementMethod.getInstance();
     }
 
-
     /**
      * This method used to set text and high light text
      *
@@ -363,64 +363,25 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     public void setTextHighlighted(CharSequence text) {
         lineError = null;
-        modified = false;
-        setText(highlight(new SpannableStringBuilder(text), false));
-        modified = true;
+        setText(text);
     }
 
     public void refresh() {
-        updateHighlightWithDelay(20);
-    }
-
-    public void updateHighlightWithDelay(int delay) {
-        updateHandler.removeCallbacks(updateRunnable);
-        updateHandler.postDelayed(updateRunnable, delay);
+        updateHandler.removeCallbacks(colorRunnable_duringEditing);
+        updateHandler.removeCallbacks(colorRunnable_duringScroll);
+        updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_SHORT);
     }
 
     public String getCleanText() {
         return getText().toString();
     }
 
-    private void init() {
-        addTextChangedListener(new TextWatcher() {
-            int start = 0, end = 0;
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                this.start = start;
-                this.end = start + count;
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable e) {
-                if (!modified || hasSelection())
-                    return;
-                if (!autoCompile) {
-                    lineError = null;
-                }
-                applyTabWidth(e, start, end);
-                updateHighlightWithDelay(LONG_DELAY);
-                startCompile(200);
-            }
-        });
-    }
 
     private void startCompile(int longDelay) {
         if (isAutoCompile()) {
             updateHandler.removeCallbacks(compileProgram);
             updateHandler.postDelayed(compileProgram, longDelay);
         }
-    }
-
-
-    private void highlightWithoutChange(Editable e) {
-        modified = false;
-        highlight(e, false);
-        modified = true;
     }
 
     /**
@@ -465,103 +426,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         return -1;
     }
 
-    private Editable highlight(Editable editable, boolean all) {
-        if (all) {
-            return highlight(editable, 0, editable.length());
-        } else {
-            int editorHeight = getHeightVisible();
-            int firstVisibleIndex;
-            int lastVisibleIndex;
-            if (verticalScroll != null && editorHeight > 0 && getLayout() != null) {
-                Layout layout = getLayout();
-                firstVisibleIndex = layout.getLineStart(getFirstLineIndex());
-                lastVisibleIndex = layout.getLineEnd(getLastLineIndex());
-            } else {
-                firstVisibleIndex = 0;
-                lastVisibleIndex = CHARS_TO_COLOR;
-            }
-            // normalize
-            if (firstVisibleIndex < 0)
-                firstVisibleIndex = 0;
-            if (lastVisibleIndex > editable.length())
-                lastVisibleIndex = editable.length();
-            if (firstVisibleIndex > lastVisibleIndex)
-                firstVisibleIndex = lastVisibleIndex;
-            return highlight(editable, firstVisibleIndex, lastVisibleIndex);
-        }
-    }
-
-    /**
-     * high light text from start to end
-     *
-     * @param start - start index
-     * @param end   - end index
-     */
-    private Editable highlight(Editable e, int start, int end) {
-//        if (true) return e;
-        try {
-            //clear spannable
-            clearSpans(e, start, end);
-
-            CharSequence input = e.subSequence(start, end);
-
-            //high light number
-            for (Matcher m = numbers.matcher(input); m.find(); ) {
-                e.setSpan(new ForegroundColorSpan(COLOR_NUMBER),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            for (Matcher m = keywords.matcher(input); m.find(); ) {
-                e.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            for (Matcher m = functions.matcher(input); m.find(); ) {
-                e.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            //find it
-            for (Matcher m = symbols.matcher(input); m.find(); ) {
-                //if match, you can replace text with other style
-                e.setSpan(new ForegroundColorSpan(COLOR_OPT),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            }
-            for (Matcher m = strings.matcher(input); m.find(); ) {
-                ForegroundColorSpan spans[] = e.getSpans(start + m.start(), start + m.end(),
-                        ForegroundColorSpan.class);
-
-                for (int n = spans.length; n-- > 0; )
-                    e.removeSpan(spans[n]);
-
-                e.setSpan(new ForegroundColorSpan(COLOR_STRINGS),
-                        start + m.start(),
-                        start + m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            for (Matcher m = comments.matcher(input); m.find(); ) {
-                ForegroundColorSpan spans[] = e.getSpans(start + m.start(), start + m.end(),
-                        ForegroundColorSpan.class);
-                for (int n = spans.length; n-- > 0; )
-                    e.removeSpan(spans[n]);
-
-                e.setSpan(new ForegroundColorSpan(COLOR_COMMENT),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            applyTabWidth(e, start, end);
-            highlightLineError(e);
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
-        }
-        return e;
-    }
 
     private void highlightLineError(Editable e) {
         try {
@@ -603,29 +467,6 @@ public class HighlightEditor extends CodeSuggestsEditText
                 }
             }
         } catch (Exception ignored) {
-        }
-    }
-
-    /**
-     * remove span from start to end
-     */
-    private void clearSpans(Editable e, int start, int end) {
-
-        {
-            ForegroundColorSpan spans[] = e.getSpans(start, end, ForegroundColorSpan.class);
-            for (int n = spans.length; n-- > 0; )
-                e.removeSpan(spans[n]);
-        }
-        {
-            BackgroundColorSpan spans[] = e.getSpans(start, end, BackgroundColorSpan.class);
-            for (int n = spans.length; n-- > 0; )
-                e.removeSpan(spans[n]);
-        }
-
-        {
-            UnderlineSpan[] spans = e.getSpans(start, end, UnderlineSpan.class);
-            for (int n = spans.length; n-- > 0; )
-                e.removeSpan(spans[n]);
         }
     }
 
@@ -701,7 +542,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         } catch (Exception ignored) {
         }
     }
-
 
     public void setVerticalScroll(@Nullable ScrollView verticalScroll) {
         this.verticalScroll = verticalScroll;
@@ -783,9 +623,188 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
     }
 
+    public void replaceTextKeepCursor(String textToUpdate) {
+        int cursorPos;
+        int cursorPosEnd;
 
-    public interface OnTextChangedListener {
-        void onTextChanged(String text);
+        if (textToUpdate != null) {
+            cursorPos = 0;
+            cursorPosEnd = 0;
+        } else {
+            cursorPos = getSelectionStart();
+            cursorPosEnd = getSelectionEnd();
+        }
+
+        disableTextChangedListener();
+
+        if (PreferenceHelper.getSyntaxHighlight(getContext())) {
+            setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory
+                    .getInstance().newEditable(textToUpdate), textToUpdate != null));
+        } else {
+            setText(textToUpdate == null ? getEditableText() : textToUpdate);
+        }
+
+        enableTextChangedListener();
+
+        int newCursorPos;
+
+        boolean cursorOnScreen = cursorPos >= firstVisibleIndex && cursorPos <= lastVisibleIndex;
+
+        if (cursorOnScreen) { // if the cursor is on screen
+            newCursorPos = cursorPos; // we dont change its position
+        } else {
+            newCursorPos = firstVisibleIndex; // else we set it to the first visible pos
+        }
+
+        if (newCursorPos > -1 && newCursorPos <= length()) {
+            if (cursorPosEnd != cursorPos)
+                setSelection(cursorPos, cursorPosEnd);
+            else
+                setSelection(newCursorPos);
+        }
     }
 
+    public Editable highlight(Editable editable, boolean newText) {
+        editable.clearSpans();
+
+        if (editable.length() == 0) {
+            return editable;
+        }
+
+        editorHeight = getHeight();
+
+        if (!newText && editorHeight > 0) {
+            firstVisibleIndex = getLayout().getLineStart(LineUtils.getFirstVisibleLine(
+                    verticalScroll, editorHeight, lineCount));
+            lastVisibleIndex = getLayout().getLineEnd(LineUtils.getLastVisibleLine(
+                    verticalScroll, editorHeight, lineCount, deviceHeight) - 1);
+        } else {
+            firstVisibleIndex = 0;
+            lastVisibleIndex = CHARS_TO_COLOR;
+        }
+
+        firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
+
+        // normalize
+        if (firstColoredIndex < 0)
+            firstColoredIndex = 0;
+        if (lastVisibleIndex > editable.length())
+            lastVisibleIndex = editable.length();
+        if (firstColoredIndex > lastVisibleIndex)
+            firstColoredIndex = lastVisibleIndex;
+
+
+        textToHighlight = editable.subSequence(firstColoredIndex, lastVisibleIndex);
+
+
+        color(editable, textToHighlight, firstColoredIndex);
+        return editable;
+    }
+
+    private void color(Editable allText, CharSequence textToHighlight, int start) {
+        try {
+
+            //high light number
+            for (Matcher m = numbers.matcher(textToHighlight); m.find(); ) {
+                allText.setSpan(new ForegroundColorSpan(COLOR_NUMBER),
+                        start + m.start(),
+                        start + m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            for (Matcher m = keywords.matcher(textToHighlight); m.find(); ) {
+                allText.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
+                        start + m.start(),
+                        start + m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            for (Matcher m = functions.matcher(textToHighlight); m.find(); ) {
+                allText.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
+                        start + m.start(),
+                        start + m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            //find it
+            for (Matcher m = symbols.matcher(textToHighlight); m.find(); ) {
+                //if match, you can replace text with other style
+                allText.setSpan(new ForegroundColorSpan(COLOR_OPT),
+                        start + m.start(),
+                        start + m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            }
+            for (Matcher m = strings.matcher(textToHighlight); m.find(); ) {
+                ForegroundColorSpan spans[] = allText.getSpans(start + m.start(), start + m.end(),
+                        ForegroundColorSpan.class);
+
+                for (int n = spans.length; n-- > 0; )
+                    allText.removeSpan(spans[n]);
+
+                allText.setSpan(new ForegroundColorSpan(COLOR_STRINGS),
+                        start + m.start(),
+                        start + m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            for (Matcher m = comments.matcher(textToHighlight); m.find(); ) {
+                ForegroundColorSpan spans[] = allText.getSpans(start + m.start(), start + m.end(),
+                        ForegroundColorSpan.class);
+                for (int n = spans.length; n-- > 0; )
+                    allText.removeSpan(spans[n]);
+
+                allText.setSpan(new ForegroundColorSpan(COLOR_COMMENT),
+                        start + m.start(),
+                        start + m.end(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            highlightLineError(allText);
+        } catch (Exception e) {
+        }
+    }
+
+    public void enableTextChangedListener() {
+        if (!enabledChangeListener) {
+            addTextChangedListener(mChangeListener);
+            enabledChangeListener = true;
+        }
+    }
+
+    public void disableTextChangedListener() {
+        enabledChangeListener = false;
+        removeTextChangedListener(mChangeListener);
+    }
+
+    public void updateTextSyntax() {
+        if (hasSelection() || updateHandler == null)
+            return;
+        updateHandler.removeCallbacks(colorRunnable_duringEditing);
+        updateHandler.removeCallbacks(colorRunnable_duringScroll);
+        updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
+    }
+
+    /**
+     * Class that listens to changes in the text.
+     */
+    private final class EditTextChangeListener
+            implements TextWatcher {
+
+
+        public void beforeTextChanged(
+                CharSequence s, int start, int count,
+                int after) {
+
+
+        }
+
+        public void onTextChanged(CharSequence s,
+                                  int start, int before,
+                                  int count) {
+        }
+
+        public void afterTextChanged(Editable s) {
+            updateTextSyntax();
+
+            if (!autoCompile) {
+                lineError = null;
+            }
+            startCompile(200);
+        }
+    }
 }

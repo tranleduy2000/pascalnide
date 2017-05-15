@@ -40,7 +40,6 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.editor_view.EditorView;
-import com.duy.pascal.frontend.view.editor_view.HighlightEditor;
 import com.duy.pascal.frontend.view.editor_view.LineUtils;
 
 import java.io.File;
@@ -96,7 +95,7 @@ public class EditorFragment extends Fragment implements EditorListener {
             mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
                 @Override
                 public void onScroll(int x, int y) {
-                    mCodeEditor.updateHighlightWithDelay(HighlightEditor.SHORT_DELAY);
+                    mCodeEditor.updateTextSyntax();
                 }
             });
         }
@@ -157,6 +156,7 @@ public class EditorFragment extends Fragment implements EditorListener {
                 String code = getCode();
                 result = mFileManager.saveFile(filePath, code);
                 if (result) {
+                    //do some thing
                 } else {
                     Toast.makeText(getContext(), getString(R.string.can_not_save_file) + " " + (new File(filePath).getName()),
                             Toast.LENGTH_SHORT).show();

@@ -73,9 +73,9 @@ public class ThemeHorizontalAdapter extends PagerAdapter {
     private void setupItem(View view, final int position) {
         EditorView editorView = (EditorView) view.findViewById(R.id.code_view);
         if ((mThemes.get(position) instanceof String)) {
-            editorView.setTheme((String) mThemes.get(position));
+            editorView.setColorTheme((String) mThemes.get(position));
         } else {
-            editorView.setTheme((int) mThemes.get(position));
+            editorView.setColorTheme((int) mThemes.get(position));
         }
 
         editorView.setTextHighlighted(CodeSample.DEMO_THEME);

@@ -108,7 +108,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
      */
     private void hideAppBar() {
         tabLayout.setVisibility(View.GONE);
-        toolbar.setVisibility(View.GONE);
+//        toolbar.setVisibility(View.GONE);
     }
 
     /**
@@ -116,7 +116,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
      */
     private void showAppBar() {
         tabLayout.setVisibility(View.VISIBLE);
-        toolbar.setVisibility(View.VISIBLE);
+//        toolbar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -130,8 +130,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         mFileManager = new ApplicationFileManager(this);
         setupActionBar();
         setupPageView();
-        this.keyBoardListener = new KeyBoardEventListener(this);
-        mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(keyBoardListener);
     }
 
     protected void setupPageView() {
@@ -148,7 +146,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         if (pagerAdapter.getCount() == 0) {
             String fileName = Integer.toHexString((int) System.currentTimeMillis());
             String filePath = mFileManager.createNewFileInMode(fileName);
-            addNewPageEditor(new File(filePath), SELECT, UN_SAVE_LAST_FILE);
+            addNewPageEditor(new File(filePath), SELECT);
         }
 
         int pos = mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE);
@@ -203,6 +201,9 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
+        keyBoardListener = new KeyBoardEventListener(this);
+        mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(keyBoardListener);
     }
 
 
@@ -237,19 +238,12 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
      *
      * @param file          - file need load
      * @param selectNewPage - if <code>true</code>, the tab of file will be selected when initialized
-     * @param saveLastFile  - if <code>true</code>, save last file
      */
-    protected void addNewPageEditor(@NonNull File file, boolean selectNewPage, boolean saveLastFile) {
+    protected void addNewPageEditor(@NonNull File file, boolean selectNewPage) {
         int position = pagerAdapter.getPositionForTag(file.getPath());
         if (position != -1) { //existed in list file
             //check need select tab
             if (selectNewPage) {
-                if (saveLastFile) {
-                    EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
-                    if (currentFragment != null) {
-                        currentFragment.saveFile();
-                    }
-                }
                 TabLayout.Tab tab = tabLayout.getTabAt(position);
                 if (tab != null) {
                     tab.select();
@@ -257,12 +251,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                 }
             }
         } else { //new file
-            if (saveLastFile) {
-                EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
-                if (currentFragment != null) {
-                    currentFragment.saveFile();
-                }
-            }
 
             if (pagerAdapter.getCount() >= mPascalPreferences.getMaxPage()) {
                 Fragment existingFragment = pagerAdapter.getExistingFragment(0);
@@ -304,7 +292,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
             if (intent.getStringExtra(CompileManager.FILE_PATH) != null) {
                 String filePath = intent.getStringExtra(CompileManager.FILE_PATH);
                 //No need save last file because it is the frist file
-                addNewPageEditor(new File(filePath), SELECT, UN_SAVE_LAST_FILE);
+                addNewPageEditor(new File(filePath), SELECT);
                 //Remove path
                 intent.removeExtra(CompileManager.FILE_PATH);
             }
@@ -321,7 +309,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                 Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
                 return;
             }
-            addNewPageEditor(file, SELECT, UN_SAVE_LAST_FILE);
+            addNewPageEditor(file, SELECT);
             //remove path
             intent.removeExtra(CompileManager.FILE_PATH);
         }

@@ -28,8 +28,6 @@ import android.util.AttributeSet;
 
 import com.duy.pascal.frontend.view.editor_view.spans.CustomTabWidthSpan;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,8 +45,6 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
     private static final String INDEX_CHAR = "M";
     private static final int TAB_NUMBER = 4;
 
-    private ArrayList<Character> openBracketList = new ArrayList<>();
-    private ArrayList<String> closeBracketList = new ArrayList<>();
 
 
     public AutoIndentEditText(Context context) {
@@ -87,9 +83,6 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
 
 
     private void init() {
-        Collections.addAll(openBracketList, '[', '{', '\'', '(');
-        Collections.addAll(closeBracketList, "]", "}", "'", ")");
-
         setFilters(new InputFilter[]{
                 new InputFilter() {
                     @Override
@@ -124,7 +117,7 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > start && count == 1) {
+                /*if (s.length() > start && count == 1) {
                     char textToInsert = getCloseBracket(s.charAt(start), start);
                     if (textToInsert != 0) {
                         try {
@@ -133,7 +126,7 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
                         } catch (Exception ignored) {
                         }
                     }
-                }
+                }*/
             }
         });
 

@@ -341,7 +341,7 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     public void onFileClick(File file) {
         //save current file
-        addNewPageEditor(file, SELECT, SAVE_LAST_FILE);
+        addNewPageEditor(file, SELECT);
         //close drawer
         mDrawerLayout.closeDrawers();
     }
@@ -396,7 +396,7 @@ public class EditorActivity extends BaseEditorActivity implements
             public void onFileCreated(File file) {
                 saveFile();
                 //add to view
-                addNewPageEditor(file, SELECT, SAVE_LAST_FILE);
+                addNewPageEditor(file, SELECT);
                 mDrawerLayout.closeDrawers();
             }
 
@@ -488,7 +488,7 @@ public class EditorActivity extends BaseEditorActivity implements
                     try {
                         path = mFileManager.getPath(this, uri);
                         mFileManager.setWorkingFilePath(path);
-                        addNewPageEditor(new File(path), SELECT, SAVE_LAST_FILE);
+                        addNewPageEditor(new File(path), SELECT);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
