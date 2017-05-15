@@ -21,12 +21,9 @@ import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Layout;
-import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-
-import com.duy.pascal.frontend.view.editor_view.spans.CustomTabWidthSpan;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,16 +33,14 @@ import java.util.regex.Pattern;
  */
 
 public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
-    private static final String TAG = "AutoIndentEditText";
+    public static final String TAB_CHARACTER = "    ";
 
-    private static final Pattern OPEN_PATTERN = Pattern.compile("\\b(begin|then|else|do|repeat|of|" +
+    private static final Pattern OPEN_PATTERN
+            = Pattern.compile("\\b(begin|then|else|do|repeat|of|" +
             "var|const)\\b", Pattern.CASE_INSENSITIVE);
-    private static final Pattern END_PATTERN = Pattern.compile("\\b(end)\\b", Pattern.CASE_INSENSITIVE);
 
-    private static final String INDEX_CHAR = "M";
-    private static final int TAB_NUMBER = 4;
-
-
+    private static final Pattern END_PATTERN
+            = Pattern.compile("\\b(end)\\b", Pattern.CASE_INSENSITIVE);
 
     public AutoIndentEditText(Context context) {
         super(context);
@@ -64,8 +59,24 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
         init();
     }
 
+    public static char getCloseBracket(char open, int index) {
+        switch (open) {
+            case '(':
+                return ')';
+            case '{':
+                return '}';
+            case '[':
+                return ']';
+//            case '\'':
+//                return '\'';
+//            case '"':
+//                return '"';
+        }
+        return 0;
+    }
+
     public void applyTabWidth(Editable text, int start, int end) {
-        String str = text.toString();
+        /*String str = text.toString();
         float tabWidth = getPaint().measureText(INDEX_CHAR) * TAB_NUMBER;
         while (start < end) {
             int index = str.indexOf("\t", start);
@@ -74,13 +85,13 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
             text.setSpan(new CustomTabWidthSpan(Float.valueOf(tabWidth).intValue()), index, index + 1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             start = index + 1;
-        }
+        }*/
+
     }
 
     public void applyTabWidth() {
         applyTabWidth(getText(), 0, getText().length());
     }
-
 
     private void init() {
         setFilters(new InputFilter[]{
@@ -117,7 +128,7 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                /*if (s.length() > start && count == 1) {
+                if (s.length() > start && count == 1) {
                     char textToInsert = getCloseBracket(s.charAt(start), start);
                     if (textToInsert != 0) {
                         try {
@@ -126,7 +137,7 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
                         } catch (Exception ignored) {
                         }
                     }
-                }*/
+                }
             }
         });
 
@@ -210,26 +221,10 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
         String prev = dest.subSequence(start, dstart).toString().trim();
         Matcher matcher = OPEN_PATTERN.matcher(prev);
         if (matcher.find()) {
-            indent += "\t";
+            indent += TAB_CHARACTER;
         }
 
         return source + indent;
-    }
-
-    private char getCloseBracket(char open, int index) {
-        switch (open) {
-            case '(':
-                return ')';
-            case '{':
-                return ')';
-            case '[':
-                return ']';
-//            case '\'':
-//                return '\'';
-//            case '"':
-//                return '"';
-        }
-        return 0;
     }
 
 }

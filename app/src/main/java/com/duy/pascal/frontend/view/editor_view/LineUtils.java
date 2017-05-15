@@ -30,8 +30,7 @@ public class LineUtils {
         return scrollView.getChildAt(0).getHeight() / lineCount * line;
     }
 
-    public static int getFirstVisibleLine(@NonNull
-                                                  ScrollView scrollView, int childHeight,
+    public static int getFirstVisibleLine(@NonNull ScrollView scrollView, int childHeight,
                                           int lineCount) throws ArithmeticException {
         if (childHeight == 0) return 0;
         int line = (scrollView.getScrollY() * lineCount) / childHeight;
@@ -39,8 +38,10 @@ public class LineUtils {
         return line;
     }
 
-    public static int getLastVisibleLine(ScrollView scrollView, int childHeight, int lineCount, int deviceHeight) {
-        int line = ((scrollView.getScrollY() + deviceHeight) * lineCount) / childHeight;
+    public static int getLastVisibleLine(@NonNull ScrollView scrollView,
+                                         int childHeight, int lineCount) {
+        if (childHeight == 0) return 0;
+        int line = (scrollView.getScrollY() * lineCount) / childHeight;
         if (line > lineCount) line = lineCount;
         return line;
     }

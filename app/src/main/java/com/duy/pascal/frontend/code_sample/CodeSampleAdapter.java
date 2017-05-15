@@ -60,6 +60,7 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
         //set code
         final String content = codeSampleEntry.getContent();
 
+        holder.editorView.disableTextChangedListener();
         holder.editorView.setTextHighlighted(content);
         holder.editorView.applyTabWidth();
 

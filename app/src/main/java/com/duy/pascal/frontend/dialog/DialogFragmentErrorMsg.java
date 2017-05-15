@@ -24,7 +24,6 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -52,21 +51,11 @@ public class DialogFragmentErrorMsg extends AppCompatDialogFragment {
         return inflater.inflate(R.layout.dialog_show_error, container, false);
     }
 
-    @Override
-    public void onResume() {
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        if (params != null) {
-            params.width = WindowManager.LayoutParams.MATCH_PARENT;
-            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            getDialog().getWindow().setAttributes((WindowManager.LayoutParams) params);
-        }
-        super.onResume();
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView txtLine = (TextView) view.findViewById(R.id.txt_line);
+        TextView txtLine = (TextView) view.findViewById(R.id.txt_content);
         txtLine.setText(getArguments().getCharSequence("line"));
 
         TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);

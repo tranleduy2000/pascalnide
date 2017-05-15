@@ -27,6 +27,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.method.ArrowKeyMovementMethod;
 import android.text.method.MovementMethod;
@@ -88,7 +89,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     }
                 }
                 e.printStackTrace();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
     };
@@ -119,7 +120,8 @@ public class HighlightEditor extends CodeSuggestsEditText
     private int[] realLines;
     private int lineCount;
 
-    private int firstVisibleIndex, firstColoredIndex, lastVisibleIndex;
+    private int firstVisibleIndex;
+    private int lastVisibleIndex;
     /**
      * Disconnect this undo/redo from the text
      * view.
@@ -130,10 +132,6 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     private EditTextChangeListener
             mChangeListener;
-    private int deviceHeight;
-    private int editorHeight;
-    private boolean wrapContent;
-    private CharSequence textToHighlight;
     private final Runnable colorRunnable_duringEditing =
             new Runnable() {
                 @Override
@@ -148,7 +146,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     replaceTextKeepCursor(null);
                 }
             };
-    private Matcher m;
+    private int deviceHeight;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -357,12 +355,12 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     /**
      * This method used to set text and high light text
-     *
-     * @param text
      */
     public void setTextHighlighted(CharSequence text) {
         lineError = null;
-        setText(text);
+        SpannableStringBuilder editable = new SpannableStringBuilder(text);
+        color(editable, editable, 0);
+        setText(editable);
     }
 
     public void refresh() {
@@ -386,8 +384,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     /**
      * Gets the first line that is visible on the screen.
      */
+    @SuppressWarnings("unused")
     public int getFirstLineIndex() {
-        int scrollY = 0;
+        int scrollY;
         if (verticalScroll != null) {
             scrollY = verticalScroll.getScrollY();
         } else {
@@ -405,14 +404,15 @@ public class HighlightEditor extends CodeSuggestsEditText
      *
      * @return last line that is visible on the screen.
      */
+    @SuppressWarnings("unused")
     public int getLastLineIndex() {
-        int height = 0;
+        int height;
         if (verticalScroll != null) {
             height = verticalScroll.getHeight();
         } else {
             height = getHeight();
         }
-        int scrollY = 0;
+        int scrollY;
         if (verticalScroll != null) {
             scrollY = verticalScroll.getScrollY();
         } else {
@@ -484,9 +484,6 @@ public class HighlightEditor extends CodeSuggestsEditText
                 pattern = Pattern.compile(Pattern.quote(what), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
             }
         }
-        String clone = getText().toString();
-        //replace with white space
-//        Matcher m = pattern.matcher(clone);
         setText(getText().toString().replaceAll(pattern.toString(), replace));
     }
 
@@ -659,19 +656,23 @@ public class HighlightEditor extends CodeSuggestsEditText
                 setSelection(cursorPos, cursorPosEnd);
             } else {
                 setSelection(newCursorPos);
+                if (newCursorPos == cursorPos) {
+                    onPopupChangePosition();
+                    updateHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!canEdit) return;
+                            if (getSelectionEnd() > -1 && getSelectionStart() > -1) {
+                                int tokenStart = mTokenizer.findTokenStart(getText(), getSelectionEnd());
+                                performFiltering(getText(), tokenStart, getSelectionEnd(), 0);
+                                showDropDown();
+                            }
+                        }
+                    }, 50);
+                }
             }
+
         }
-
-
-        onPopupChangePosition();
-        updateHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int tokenStart = mTokenizer.findTokenStart(getText(), getSelectionEnd());
-                performFiltering(getText(), tokenStart, getSelectionEnd(), 0);
-                showDropDown();
-            }
-        }, 100);
     }
 
 
@@ -682,39 +683,40 @@ public class HighlightEditor extends CodeSuggestsEditText
             return editable;
         }
 
-        editorHeight = getHeight();
+        int editorHeight = getHeightVisible();
 
         if (!newText && editorHeight > 0) {
-            firstVisibleIndex = getLayout().getLineStart(LineUtils.getFirstVisibleLine(
-                    verticalScroll, editorHeight, lineCount));
-            lastVisibleIndex = getLayout().getLineEnd(LineUtils.getLastVisibleLine(
-                    verticalScroll, editorHeight, lineCount, deviceHeight) - 1);
+            if (verticalScroll != null && getLayout() != null) {
+                firstVisibleIndex = getLayout().getLineStart(getFirstLineIndex());
+            } else {
+                firstVisibleIndex = 0;
+            }
+            if (verticalScroll != null && getLayout() != null) {
+                lastVisibleIndex = getLayout().getLineStart(getLastLineIndex());
+            } else {
+                lastVisibleIndex = getText().length();
+            }
         } else {
             firstVisibleIndex = 0;
             lastVisibleIndex = CHARS_TO_COLOR;
         }
 
-        firstColoredIndex = firstVisibleIndex - (CHARS_TO_COLOR / 5);
-
         // normalize
-        if (firstColoredIndex < 0)
-            firstColoredIndex = 0;
+        if (firstVisibleIndex < 0)
+            firstVisibleIndex = 0;
         if (lastVisibleIndex > editable.length())
             lastVisibleIndex = editable.length();
-        if (firstColoredIndex > lastVisibleIndex)
-            firstColoredIndex = lastVisibleIndex;
+        if (firstVisibleIndex > lastVisibleIndex)
+            firstVisibleIndex = lastVisibleIndex;
 
-
-        textToHighlight = editable.subSequence(firstColoredIndex, lastVisibleIndex);
-
-
-        color(editable, textToHighlight, firstColoredIndex);
+        CharSequence textToHighlight = editable.subSequence(firstVisibleIndex, lastVisibleIndex);
+        color(editable, textToHighlight, firstVisibleIndex);
+        applyTabWidth(editable, firstVisibleIndex, lastVisibleIndex);
         return editable;
     }
 
     private void color(Editable allText, CharSequence textToHighlight, int start) {
         try {
-
             //high light number
             for (Matcher m = numbers.matcher(textToHighlight); m.find(); ) {
                 allText.setSpan(new ForegroundColorSpan(COLOR_NUMBER),
@@ -795,7 +797,8 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     private final class EditTextChangeListener
             implements TextWatcher {
-
+        private int start;
+        private int count;
 
         public void beforeTextChanged(
                 CharSequence s, int start, int count,
@@ -807,6 +810,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         public void onTextChanged(CharSequence s,
                                   int start, int before,
                                   int count) {
+            this.start = start;
+            this.count = count;
         }
 
         public void afterTextChanged(Editable s) {
@@ -816,6 +821,17 @@ public class HighlightEditor extends CodeSuggestsEditText
                 lineError = null;
             }
             startCompile(200);
+            if (s.length() > start && count == 1) {
+                char textToInsert = getCloseBracket(s.charAt(start), start);
+                if (textToInsert != 0) {
+                    try {
+                        s.insert(start + 1, Character.toString(textToInsert));
+                        setSelection(start);
+                    } catch (Exception ignored) {
+                    }
+                }
+            }
+
         }
     }
 }

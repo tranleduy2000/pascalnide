@@ -44,6 +44,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static com.duy.pascal.frontend.view.editor_view.AutoIndentEditText.TAB_CHARACTER;
+
 /**
  * Created by Duy on 07-May-17.
  */
@@ -479,7 +481,7 @@ public class IndentCode {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < depth; i++) {
 //            stringBuilder.append("\t");
-            stringBuilder.append("    ");
+            stringBuilder.append(TAB_CHARACTER);
         }
         return stringBuilder;
     }
