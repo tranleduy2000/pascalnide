@@ -39,8 +39,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
@@ -49,7 +49,6 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
-import com.duy.pascal.frontend.dialog.DialogFragmentErrorMsg;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureItem;
@@ -302,9 +301,11 @@ public class EditorActivity extends BaseEditorActivity implements
 
     private void showErrorDialog(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
-        DialogFragmentErrorMsg dialogFragmentErrorMsg = DialogFragmentErrorMsg
-                .newInstance(exceptionManager.getMessage(e), "");
-        dialogFragmentErrorMsg.show(getSupportFragmentManager(), DialogFragmentErrorMsg.TAG);
+//        DialogFragmentErrorMsg dialogFragmentErrorMsg = DialogFragmentErrorMsg
+//                .newInstance(exceptionManager.getMessage(e), "");
+//        dialogFragmentErrorMsg.show(getSupportFragmentManager(), DialogFragmentErrorMsg.TAG);
+        DialogManager.createDialog(this, getString(R.string.compile_error),
+                exceptionManager.getMessage(e));
         Dlog.e(e);
     }
 
