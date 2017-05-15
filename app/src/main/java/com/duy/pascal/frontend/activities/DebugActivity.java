@@ -89,7 +89,7 @@ public class DebugActivity extends AbstractExecActivity {
     @Override
     public void onError(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
-        DialogManager.createDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
+        DialogManager.createFinishDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
         //debug
         if (DEBUG) e.printStackTrace();
     }

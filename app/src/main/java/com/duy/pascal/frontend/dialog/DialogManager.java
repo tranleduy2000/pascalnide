@@ -33,8 +33,8 @@ import com.duy.pascal.frontend.R;
  */
 
 public class DialogManager {
-    public static android.support.v7.app.AlertDialog createDialog(final Activity activity,
-                                                                  CharSequence title, CharSequence msg) {
+    public static android.support.v7.app.AlertDialog createFinishDialog(final Activity activity,
+                                                                        CharSequence title, CharSequence msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);
         builder.setMessage(msg);
@@ -49,8 +49,24 @@ public class DialogManager {
 
     }
 
-    public static android.support.v7.app.AlertDialog createDialog(final Activity activity,
-                                                                  CharSequence title, CharSequence msg, int resourceIcon) {
+    public static android.support.v7.app.AlertDialog createMsgDialog(final Activity activity,
+                                                                     CharSequence title, CharSequence msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setPositiveButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        return builder.create();
+
+    }
+
+    public static android.support.v7.app.AlertDialog createFinishDialog(final Activity activity,
+                                                                        CharSequence title, CharSequence msg,
+                                                                        int resourceIcon) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);
         builder.setMessage(msg);
@@ -78,24 +94,29 @@ public class DialogManager {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendBug();
+                alertDialog.cancel();
+            }
+
+            private void sendBug() {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                 i.putExtra(Intent.EXTRA_EMAIL, new String[]{"tranleduy1233@gmail.com"});
-                assert editTitle != null;
                 i.putExtra(Intent.EXTRA_SUBJECT, "Report bug: " + editTitle.getText().toString());
-                assert editContent != null;
-                StringBuilder content = new StringBuilder();
-                content.append("Cause: \n");
-                content.append(editContent.getText().toString());
-                content.append("\n ====================== \n");
-                content.append(code);
-                i.putExtra(Intent.EXTRA_TEXT, content.toString());
+
+                String content = "Cause: \n" +
+                        editContent.getText().toString() + "\n " +
+                        "====================== \n" +
+                        code;
+
+                i.putExtra(Intent.EXTRA_TEXT, content);
+
                 try {
-                    activity.startActivity(Intent.createChooser(i, activity.getString(R.string.send_mail)));
+                    activity.startActivity(Intent.createChooser(i,
+                            activity.getString(R.string.send_mail)));
                 } catch (ActivityNotFoundException ex) {
                     Toast.makeText(activity, R.string.no_mail_clients, Toast.LENGTH_SHORT).show();
                 }
-                alertDialog.cancel();
             }
         });
 

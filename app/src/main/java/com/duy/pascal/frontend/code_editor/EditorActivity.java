@@ -282,7 +282,10 @@ public class EditorActivity extends BaseEditorActivity implements
             data.addAll(listVariables);
             EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
             if (currentFragment != null) {
-                currentFragment.getEditor().setSuggestData(data);
+                EditorView editor = currentFragment.getEditor();
+                if (editor != null) {
+                    editor.setSuggestData(data);
+                }
             }
         } catch (FileNotFoundException e) {
             showErrorDialog(e);
@@ -304,8 +307,8 @@ public class EditorActivity extends BaseEditorActivity implements
 //        DialogFragmentErrorMsg dialogFragmentErrorMsg = DialogFragmentErrorMsg
 //                .newInstance(exceptionManager.getMessage(e), "");
 //        dialogFragmentErrorMsg.show(getSupportFragmentManager(), DialogFragmentErrorMsg.TAG);
-        DialogManager.createDialog(this, getString(R.string.compile_error),
-                exceptionManager.getMessage(e));
+        DialogManager.createMsgDialog(this, getString(R.string.compile_error),
+                exceptionManager.getMessage(e)).show();
         Dlog.e(e);
     }
 
@@ -325,8 +328,7 @@ public class EditorActivity extends BaseEditorActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         if (s.equals(getString(R.string.key_show_suggest_popup))
                 || s.equals(getString(R.string.key_show_line_number))
-                || s.equals(getString(R.string.show_suggest_popup))
-                || s.equals(getString(R.string.key_pref_word_wrap))) {
+                || s.equals(getString(R.string.show_suggest_popup))) {
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
             if (editorFragment != null) {
                 editorFragment.refreshCodeEditor();
@@ -334,6 +336,14 @@ public class EditorActivity extends BaseEditorActivity implements
         } else if (s.equals(getString(R.string.key_show_symbol))) {
             mContainerSymbol.setVisibility(mPascalPreferences.isShowListSymbol()
                     ? View.VISIBLE : View.GONE);
+        } else if (s.equals(getString(R.string.key_pref_word_wrap))) {
+            EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
+            if (editorFragment != null) {
+                EditorView editor = editorFragment.getEditor();
+                if (editor != null) {
+                    editor.setSuggestData(new ArrayList<SuggestItem>());
+                }
+            }
         } else {
             super.onSharedPreferenceChanged(sharedPreferences, s);
         }

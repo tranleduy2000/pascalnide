@@ -224,6 +224,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.insert(text);
     }
 
+    @Nullable
     public EditorView getEditor() {
         return mCodeEditor;
     }
