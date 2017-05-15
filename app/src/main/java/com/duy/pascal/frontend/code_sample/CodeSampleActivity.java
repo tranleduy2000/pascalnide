@@ -78,6 +78,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.code_sample);
 
         final ArrayList<PageDescriptor> pages = new ArrayList<>();

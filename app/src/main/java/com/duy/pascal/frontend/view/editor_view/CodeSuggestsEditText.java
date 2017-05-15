@@ -47,12 +47,13 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     public int mCharHeight = 0;
     protected EditorSetting mEditorSetting;
     protected SymbolsTokenizer mTokenizer;
+    private CodeSuggestAdapter mAdapter;
+
 
     public CodeSuggestsEditText(Context context) {
         super(context);
         init();
     }
-
 
     public CodeSuggestsEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -109,12 +110,15 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      */
     public void setSuggestData(ArrayList<SuggestItem> data) {
         if (!mEditorSetting.isShowSuggestPopup()) {
+            if (mAdapter != null && mAdapter.getCount() > 0) {
+                mAdapter.clear();
+            }
             return;
         }
         for (String s : KeyWord.KEY_WORDS) {
             data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
         }
-        CodeSuggestAdapter mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);
+        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);
         setAdapter(mAdapter);
         onDropdownChangeSize();
     }
