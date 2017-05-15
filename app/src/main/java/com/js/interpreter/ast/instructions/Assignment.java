@@ -1,5 +1,7 @@
 package com.js.interpreter.ast.instructions;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -17,7 +19,7 @@ public class Assignment extends DebuggableExecutable implements SetValueExecutab
     private ReturnValue value;
     private LineInfo line;
 
-    public Assignment(LeftValue left, ReturnValue value, LineInfo line) {
+    public Assignment(@NonNull LeftValue left, @NonNull ReturnValue value, @NonNull LineInfo line) {
         this.left = left;
         this.value = value;
         this.line = line;

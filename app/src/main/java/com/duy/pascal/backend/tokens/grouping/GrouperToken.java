@@ -70,8 +70,8 @@ import com.js.interpreter.ast.instructions.ExitInstruction;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
 import com.js.interpreter.ast.instructions.NoneInstruction;
 import com.js.interpreter.ast.instructions.case_statement.CaseInstruction;
-import com.js.interpreter.ast.instructions.conditional.DowntoForStatement;
-import com.js.interpreter.ast.instructions.conditional.ForStatement;
+import com.js.interpreter.ast.instructions.conditional.ForDowntoStatement;
+import com.js.interpreter.ast.instructions.conditional.ForToStatement;
 import com.js.interpreter.ast.instructions.conditional.IfStatement;
 import com.js.interpreter.ast.instructions.conditional.RepeatInstruction;
 import com.js.interpreter.ast.instructions.conditional.WhileStatement;
@@ -590,29 +590,34 @@ public abstract class GrouperToken extends Token {
                 throw new UnAssignableTypeException(tmpVal);
             }
             next = take();
-            if (!(next instanceof AssignmentToken)) {
-                throw new ExpectedTokenException(":=", next);
-            }
-            ReturnValue firstValue = getNextExpression(context);
-            next = take();
-            boolean downto = false;
-            if (next instanceof DowntoToken) {
-                downto = true;
-            } else if (!(next instanceof ToToken)) {
-                throw new ExpectedTokenException("[To] or [Downto]", next);
-            }
-            ReturnValue lastValue = getNextExpression(context);
-            next = take();
-            if (!(next instanceof DoToken)) {
-                throw new ExpectedTokenException("do", next);
+            if (!(next instanceof AssignmentToken
+                    || next instanceof OperatorToken)) {
+                throw new ExpectedTokenException("\":=\" or \"in\"", next);
             }
             Executable result;
-            if (downto) { // TODO probably should merge these two types
-                result = new DowntoForStatement(context, tmpVariable, firstValue,
-                        lastValue, getNextCommand(context), lineNumber);
-            } else {
-                result = new ForStatement(context, tmpVariable, firstValue,
-                        lastValue, getNextCommand(context), lineNumber);
+            if (next instanceof AssignmentToken) {
+                ReturnValue firstValue = getNextExpression(context);
+                next = take();
+                boolean downto = false;
+                if (next instanceof DowntoToken) {
+                    downto = true;
+                } else if (!(next instanceof ToToken)) {
+                    throw new ExpectedTokenException("[To] or [Downto]", next);
+                }
+                ReturnValue lastValue = getNextExpression(context);
+                next = take();
+                if (!(next instanceof DoToken)) {
+                    throw new ExpectedTokenException("do", next);
+                }
+                if (downto) { // TODO probably should merge these two types
+                    result = new ForDowntoStatement(context, tmpVariable, firstValue,
+                            lastValue, getNextCommand(context), lineNumber);
+                } else {
+                    result = new ForToStatement(context, tmpVariable, firstValue,
+                            lastValue, getNextCommand(context), lineNumber);
+                }
+            } else if (next instanceof OperatorToken) {
+
             }
             return result;
         } else if (next instanceof RepeatToken) {

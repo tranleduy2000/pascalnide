@@ -322,6 +322,13 @@ public class IOLib implements PascalLibrary {
         for (PascalReference variableBoxer : listVariable) {
             Log.d(TAG, "setValueForVariables: ");
             while (!scanner.hasNext()) {
+
+                if (scanner.hasNextLine() &&
+                        (variableBoxer.get() instanceof Character
+                                || variableBoxer.get() instanceof StringBuilder)) {
+                    break;
+                }
+
                 listener.startInput(this);
                 pause();
                 String input = listener.getInput();
