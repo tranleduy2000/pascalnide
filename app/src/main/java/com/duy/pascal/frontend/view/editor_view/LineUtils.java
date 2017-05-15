@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.view.editor_view;
 
+import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.widget.ScrollView;
@@ -29,7 +30,10 @@ public class LineUtils {
         return scrollView.getChildAt(0).getHeight() / lineCount * line;
     }
 
-    public static int getFirstVisibleLine(ScrollView scrollView, int childHeight, int lineCount) throws ArithmeticException {
+    public static int getFirstVisibleLine(@NonNull
+                                                  ScrollView scrollView, int childHeight,
+                                          int lineCount) throws ArithmeticException {
+        if (childHeight == 0) return 0;
         int line = (scrollView.getScrollY() * lineCount) / childHeight;
         if (line < 0) line = 0;
         return line;
@@ -43,11 +47,6 @@ public class LineUtils {
 
     /**
      * Gets the line from the index of the letter in the text
-     *
-     * @param index
-     * @param lineCount
-     * @param layout
-     * @return
      */
     public static int getLineFromIndex(int index, int lineCount, Layout layout) {
         int line;
@@ -59,7 +58,6 @@ public class LineUtils {
                 break;
             }
         }
-
         return line;
     }
 

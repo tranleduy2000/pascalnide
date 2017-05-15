@@ -42,7 +42,6 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.file.PreferenceHelper;
 import com.duy.pascal.frontend.theme.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.ThemeFromAssets;
 import com.js.interpreter.core.ScriptSource;
@@ -637,11 +636,10 @@ public class HighlightEditor extends CodeSuggestsEditText
 
         disableTextChangedListener();
 
-        if (PreferenceHelper.getSyntaxHighlight(getContext())) {
-            setText(highlight(textToUpdate == null ? getEditableText() : Editable.Factory
-                    .getInstance().newEditable(textToUpdate), textToUpdate != null));
+        if (textToUpdate == null) {
+            setText(highlight(getEditableText(), false));
         } else {
-            setText(textToUpdate == null ? getEditableText() : textToUpdate);
+            setText(highlight(Editable.Factory.getInstance().newEditable(textToUpdate), true));
         }
 
         enableTextChangedListener();
@@ -657,12 +655,25 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
 
         if (newCursorPos > -1 && newCursorPos <= length()) {
-            if (cursorPosEnd != cursorPos)
+            if (cursorPosEnd != cursorPos) {
                 setSelection(cursorPos, cursorPosEnd);
-            else
+            } else {
                 setSelection(newCursorPos);
+            }
         }
+
+
+        onPopupChangePosition();
+        updateHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int tokenStart = mTokenizer.findTokenStart(getText(), getSelectionEnd());
+                performFiltering(getText(), tokenStart, getSelectionEnd(), 0);
+                showDropDown();
+            }
+        }, 100);
     }
+
 
     public Editable highlight(Editable editable, boolean newText) {
         editable.clearSpans();

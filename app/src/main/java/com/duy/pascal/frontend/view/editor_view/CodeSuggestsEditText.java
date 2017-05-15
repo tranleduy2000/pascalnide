@@ -22,8 +22,10 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.MultiAutoCompleteTextView;
 
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_completion.KeyWord;
@@ -44,17 +46,18 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     public int mCharHeight = 0;
     protected EditorSetting mEditorSetting;
+    protected SymbolsTokenizer mTokenizer;
 
     public CodeSuggestsEditText(Context context) {
         super(context);
         init();
     }
 
+
     public CodeSuggestsEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
-
 
     public CodeSuggestsEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -71,7 +74,8 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     private void init() {
         mEditorSetting = new EditorSetting(getContext());
         invalidateKeyWord();
-        setTokenizer(new SymbolsTokenizer());
+        mTokenizer = new SymbolsTokenizer();
+        setTokenizer(mTokenizer);
         setThreshold(1);
         invalidateCharHeight();
 
@@ -118,6 +122,10 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        if (Dlog.DEBUG) {
+            Log.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h + "], oldw = [" +
+                    oldw + "], oldh = [" + oldh + "]");
+        }
         onDropdownChangeSize();
     }
 
@@ -128,9 +136,15 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         onPopupChangePosition();
     }
 
+    @Override
+    public void showDropDown() {
+        if (!isPopupShowing()) {
+            super.showDropDown();
+        }
+    }
 
-    private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
-        String token = "!@#$%^&*()_+-={}|[]:;'<>/<.?1234567890 \n\t";
+    protected class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
+        String token = "!@#$%^&*()_+-={}|[]:;'<>/<.? \n\t";
 
         @Override
         public int findTokenStart(CharSequence text, int cursor) {
@@ -148,7 +162,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         public int findTokenEnd(CharSequence text, int cursor) {
             int i = cursor;
             int len = text.length();
-
             while (i < len) {
                 if (token.contains(Character.toString(text.charAt(i - 1)))) {
                     return i;
@@ -156,7 +169,6 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                     i++;
                 }
             }
-
             return len;
         }
 
@@ -169,14 +181,14 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             }
 
             if (i > 0 && token.contains(Character.toString(text.charAt(i - 1)))) {
-                return text;
+                return text + " ";
             } else {
                 if (text instanceof Spanned) {
                     SpannableString sp = new SpannableString(text);
                     TextUtils.copySpansFrom((Spanned) text, 0, text.length(), Object.class, sp, 0);
                     return sp;
                 } else {
-                    return text;
+                    return text + " ";
                 }
             }
         }

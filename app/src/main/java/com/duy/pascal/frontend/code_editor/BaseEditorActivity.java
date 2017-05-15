@@ -108,7 +108,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
      */
     private void hideAppBar() {
         tabLayout.setVisibility(View.GONE);
-//        toolbar.setVisibility(View.GONE);
     }
 
     /**
@@ -116,7 +115,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
      */
     private void showAppBar() {
         tabLayout.setVisibility(View.VISIBLE);
-//        toolbar.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -88,34 +88,34 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:menu_fab_size="normal">
 
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/action_new_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_insert_drive_file_white_24dp"
+                app:fab_label="@string/new_file"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/action_new_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_create_new_folder_white_24dp"
+                app:fab_label="@string/new_folder"
+                app:fab_size="normal" />
+
+        </com.github.clans.fab.FloatingActionMenu>
     </FrameLayout>
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:menu_fab_size="normal">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/action_new_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_insert_drive_file_white_24dp"
-            app:fab_label="@string/new_file"
-            app:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/action_new_folder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_create_new_folder_white_24dp"
-            app:fab_label="@string/new_folder"
-            app:fab_size="normal" />
-
-    </com.github.clans.fab.FloatingActionMenu>
 </LinearLayout>
