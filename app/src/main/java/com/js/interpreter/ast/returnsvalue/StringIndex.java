@@ -1,7 +1,7 @@
 package com.js.interpreter.ast.returnsvalue;
 
 
-import com.duy.pascal.backend.debugable.DebuggableLeftValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -13,7 +13,7 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringIndex extends DebuggableLeftValue {
+public class StringIndex extends DebuggableAssignableValue {
     ReturnValue string;
     ReturnValue index;
 

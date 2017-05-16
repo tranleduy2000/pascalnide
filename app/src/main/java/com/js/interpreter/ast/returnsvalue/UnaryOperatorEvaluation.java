@@ -47,7 +47,7 @@ public abstract class UnaryOperatorEvaluation extends DebuggableReturnValue {
             throw new BadOperationTypeException(line, t1, v1, op_type);
         }
         if (op_type == OperatorTypes.ADDRESS) {
-            LeftValue target = v1.asLValue(f);
+            AssignableValue target = v1.asAssignableValue(f);
             if (target != null) {
                 return new AddressEval(target, line);
             }

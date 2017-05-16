@@ -7,8 +7,6 @@ import com.js.interpreter.ast.VariableDeclaration;
 /**
  * Created by Duy on 24-Mar-17.
  */
-
-@SuppressWarnings("DefaultFileTemplate")
 public interface DebugListener {
     void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration);
 

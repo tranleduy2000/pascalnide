@@ -14,7 +14,7 @@ public interface Executable {
      * This should not modify the state of the object, unless it is a plugin
      * call.
      */
-    ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
+    ExecutionResult execute(VariableContext context, RuntimeExecutable<?> main)
             throws RuntimePascalException;
 
     Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException;

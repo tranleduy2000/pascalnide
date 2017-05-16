@@ -1,6 +1,6 @@
 package com.js.interpreter.ast.returnsvalue;
 
-import com.duy.pascal.backend.debugable.DebuggableLeftValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
@@ -16,7 +16,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
 
-public class ArrayAccess extends DebuggableLeftValue {
+public class ArrayAccess extends DebuggableAssignableValue {
     private ReturnValue container;
     private ReturnValue index;
     private int offset;

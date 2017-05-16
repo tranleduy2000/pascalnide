@@ -24,7 +24,7 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.Reference;
 import com.js.interpreter.runtime.VariableContext;
@@ -37,7 +37,7 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class ForInStatement extends DebuggableExecutable {
     private Executable command;
-    private LeftValue item;
+    private AssignableValue item;
     private ReturnValue list;
     private LineInfo line;
 
@@ -45,7 +45,7 @@ public class ForInStatement extends DebuggableExecutable {
             throws ParsingException {
         this.line = lineInfo;
         ReturnValue nextExpression = grouperToken.getNextExpression(context);
-        LeftValue target = nextExpression.asLValue(context);
+        AssignableValue target = nextExpression.asAssignableValue(context);
 
     }
 
@@ -54,7 +54,7 @@ public class ForInStatement extends DebuggableExecutable {
      * <p>
      * for s in ['1', '2', '3'] do
      */
-    public ForInStatement(LeftValue item,
+    public ForInStatement(AssignableValue item,
                           ReturnValue list, Executable command,
                           LineInfo line) throws ParsingException {
         this.item = item;

@@ -3,7 +3,7 @@ package com.duy.pascal.backend.debugable;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -38,7 +38,7 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
     }
 
     @Override
-    public LeftValue asLValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
     }
 
@@ -46,7 +46,7 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
             throws RuntimePascalException;
 
     @Override
-    public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
+    public ExecutionResult execute(VariableContext context, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         try {
             if (main != null) {
@@ -55,7 +55,7 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
                 }
                 main.incStack(getLineNumber());
             }
-            ExecutionResult result = executeImpl(f, main);
+            ExecutionResult result = executeImpl(context, main);
             if (main != null) {
                 main.decStack();
             }

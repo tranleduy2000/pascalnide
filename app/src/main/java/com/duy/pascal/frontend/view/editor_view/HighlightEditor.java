@@ -324,7 +324,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         setTypeface(mEditorSetting.getFont());
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setTextSize(mEditorSetting.getTextSize());
-        mPaintNumbers.setTextSize(getTextSize() * 0.85f);
+        mPaintNumbers.setTextSize(getTextSize() * 0.6f);
         showlines = mEditorSetting.isShowLines();
         postInvalidate();
         refreshDrawableState();
@@ -620,14 +620,14 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void replaceTextKeepCursor(String textToUpdate) {
-        int cursorPos;
+        int cursorPosStart;
         int cursorPosEnd;
 
         if (textToUpdate != null) {
-            cursorPos = 0;
+            cursorPosStart = 0;
             cursorPosEnd = 0;
         } else {
-            cursorPos = getSelectionStart();
+            cursorPosStart = getSelectionStart();
             cursorPosEnd = getSelectionEnd();
         }
 
@@ -643,20 +643,20 @@ public class HighlightEditor extends CodeSuggestsEditText
 
         int newCursorPos;
 
-        boolean cursorOnScreen = cursorPos >= firstVisibleIndex && cursorPos <= lastVisibleIndex;
+        boolean cursorOnScreen = cursorPosStart >= firstVisibleIndex && cursorPosStart <= lastVisibleIndex;
 
         if (cursorOnScreen) { // if the cursor is on screen
-            newCursorPos = cursorPos; // we dont change its position
+            newCursorPos = cursorPosStart; // we dont change its position
         } else {
             newCursorPos = firstVisibleIndex; // else we set it to the first visible pos
         }
 
         if (newCursorPos > -1 && newCursorPos <= length()) {
-            if (cursorPosEnd != cursorPos) {
-                setSelection(cursorPos, cursorPosEnd);
+            if (cursorPosEnd != cursorPosStart) {
+                setSelection(cursorPosStart, cursorPosEnd);
             } else {
                 setSelection(newCursorPos);
-                if (newCursorPos == cursorPos) {
+                if (newCursorPos == cursorPosStart) {
                     onPopupChangePosition();
                     updateHandler.postDelayed(new Runnable() {
                         @Override

@@ -20,6 +20,13 @@
     android:fillViewport="true"
     android:overScrollMode="always">
 
+    <!-- <HorizontalScrollView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:fillViewport="true"
+         android:focusable="true"
+         android:focusableInTouchMode="false">-->
+
     <com.duy.pascal.frontend.view.editor_view.EditorView
         android:id="@+id/code_editor"
         android:layout_width="match_parent"
@@ -31,5 +38,6 @@
         android:hint="@string/write_code_here"
         android:imeOptions="flagNoExtractUi"
         android:inputType="textMultiLine|textNoSuggestions" />
+    <!--</HorizontalScrollView>-->
 
 </com.duy.pascal.frontend.view.LockableScrollView>

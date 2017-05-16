@@ -23,17 +23,17 @@ import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class AddressEval extends DebuggableReturnValue {
-    final LeftValue target;
+    final AssignableValue target;
     final LineInfo line;
 
-    public AddressEval(LeftValue target, LineInfo line) {
+    public AddressEval(AssignableValue target, LineInfo line) {
         this.target = target;
         this.line = line;
     }

@@ -42,7 +42,7 @@ public class CachedReturnValue implements ReturnValue {
     }
 
     @Override
-    public LeftValue asLValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
     }
 

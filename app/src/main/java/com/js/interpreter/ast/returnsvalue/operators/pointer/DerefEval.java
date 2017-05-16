@@ -16,7 +16,7 @@
 
 package com.js.interpreter.ast.returnsvalue.operators.pointer;
 
-import com.duy.pascal.backend.debugable.DebuggableLeftValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -31,7 +31,7 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class DerefEval extends DebuggableLeftValue {
+public class DerefEval extends DebuggableAssignableValue {
     ReturnValue pointer;
     LineInfo line;
 

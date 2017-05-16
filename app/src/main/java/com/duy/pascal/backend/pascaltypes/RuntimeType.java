@@ -2,7 +2,7 @@ package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.boxing.GetAddress;
 import com.js.interpreter.runtime.PascalReference;
@@ -47,7 +47,7 @@ public class RuntimeType implements ArgumentType {
         RuntimeType other = value.getType(f);
         if (writable) {
             if (this.equals(other)) {
-                return new GetAddress((LeftValue) value);
+                return new GetAddress((AssignableValue) value);
             } else {
                 return null;
             }
@@ -99,7 +99,7 @@ public class RuntimeType implements ArgumentType {
         RuntimeType other = val.getType(e);
         if (this.declType.equals(other.declType)) {
             if (writable) {
-                return new GetAddress((LeftValue) val);
+                return new GetAddress((AssignableValue) val);
             } else {
                 return other.declType.cloneValue(val);
             }

@@ -110,8 +110,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      */
     public void setSuggestData(ArrayList<SuggestItem> data) {
         if (!mEditorSetting.isShowSuggestPopup()) {
-            if (mAdapter != null && mAdapter.getCount() > 0) {
+            if (mAdapter != null) {
                 mAdapter.clear();
+            } else {
+                mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint,
+                        new ArrayList<SuggestItem>());
+                setAdapter(mAdapter);
             }
             return;
         }
@@ -133,17 +137,28 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         onDropdownChangeSize();
     }
 
-    private void onDropdownChangeSize() {
-        setDropDownWidth(getWidth() / 2);
+    /**
+     * this method will be change size of popup window
+     */
+    protected void onDropdownChangeSize() {
+        // 1/2 width of screen
+        int width = getWidth() / 2;
+        setDropDownWidth(width);
+
+        // 0.5 height of screen
         int height = getHeightVisible() / 2;
         setDropDownHeight(height);
+
+        //change position
         onPopupChangePosition();
     }
 
     @Override
     public void showDropDown() {
         if (!isPopupShowing()) {
-            super.showDropDown();
+            if (hasFocus()) {
+                super.showDropDown();
+            }
         }
     }
 

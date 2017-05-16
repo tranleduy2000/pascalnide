@@ -7,14 +7,10 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
-/**
- * DEBUG class
- * this class can check stack size
- */
 public abstract class DebuggableExecutable implements Executable {
 
     @Override
-    public ExecutionResult execute(VariableContext f, RuntimeExecutable<?> main)
+    public ExecutionResult execute(VariableContext context, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         try {
             if (main != null) {
@@ -24,7 +20,7 @@ public abstract class DebuggableExecutable implements Executable {
                 main.incStack(getLineNumber());
                 main.scriptControlCheck(getLineNumber());
             }
-            ExecutionResult result = executeImpl(f, main);
+            ExecutionResult result = executeImpl(context, main);
             if (main != null) {
                 main.decStack();
             }

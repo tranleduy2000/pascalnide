@@ -2,7 +2,7 @@ package com.js.interpreter.ast.returnsvalue;
 
 import android.util.Log;
 
-import com.duy.pascal.backend.debugable.DebuggableLeftValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -19,7 +19,7 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
-public class FieldAccess extends DebuggableLeftValue {
+public class FieldAccess extends DebuggableAssignableValue {
     private static final String TAG = "FieldAccess";
     private ReturnValue container;
     private String name;

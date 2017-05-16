@@ -20,12 +20,21 @@ public interface ReturnValue {
      */
     void setOutputFormat(ReturnValue[] formatInfo);
 
+    /**
+     * @return value of variable or function
+     */
     Object getValue(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException;
 
+    /**
+     * get type of variable or return type of function
+     */
     RuntimeType getType(ExpressionContext f)
             throws ParsingException;
 
+    /**
+     * @return line of code
+     */
     LineInfo getLineNumber();
 
     /*
@@ -36,12 +45,8 @@ public interface ReturnValue {
 
     ReturnValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException;
 
-    /*
-     * returns null if not a writable value.
+    /**
+     * reference of variable, set and get value
      */
-//    SetValueExecutable createSetValueInstruction(RValue r)
-//            throws UnAssignableTypeException, ChangeValueConstantException;
-
-
-    LeftValue asLValue(ExpressionContext f);
+    AssignableValue asAssignableValue(ExpressionContext f);
 }

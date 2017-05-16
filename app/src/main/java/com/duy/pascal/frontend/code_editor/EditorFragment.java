@@ -90,8 +90,9 @@ public class EditorFragment extends Fragment implements EditorListener {
             mCodeEditor.setEditorControl((EditorControl) getActivity());
         } catch (Exception ignored) {
         }
-        mCodeEditor.setVerticalScroll(mScrollView);
+
         if (mScrollView != null) {
+            mCodeEditor.setVerticalScroll(mScrollView);
             mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
                 @Override
                 public void onScroll(int x, int y) {

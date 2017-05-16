@@ -8,17 +8,17 @@ import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class GetAddress extends DebuggableReturnValue {
-    private final LeftValue target;
+    private final AssignableValue target;
     private LineInfo line;
 
-    public GetAddress(LeftValue target) throws UnAssignableTypeException {
+    public GetAddress(AssignableValue target) throws UnAssignableTypeException {
         this.line = target.getLineNumber();
         this.target = target;
         this.outputFormat = target.getOutputFormat();

@@ -21,7 +21,7 @@ public class VarargsType implements ArgumentType {
     @Override
     public ReturnValue convertArgType(Iterator<ReturnValue> args,
                                       ExpressionContext f) throws ParsingException {
-        List<ReturnValue> convertedargs = new ArrayList<>();
+        List<ReturnValue> convertedArgs = new ArrayList<>();
         LineInfo line = null;
         while (args.hasNext()) {
             ReturnValue tmp = elementType.convert(args.next(), f);
@@ -29,9 +29,9 @@ public class VarargsType implements ArgumentType {
                 return null;
             }
             line = tmp.getLineNumber();
-            convertedargs.add(tmp);
+            convertedArgs.add(tmp);
         }
-        return new ArrayBoxer(convertedargs.toArray(new ReturnValue[convertedargs.size()]),
+        return new ArrayBoxer(convertedArgs.toArray(new ReturnValue[convertedArgs.size()]),
                 elementType, line);
     }
 
@@ -55,8 +55,7 @@ public class VarargsType implements ArgumentType {
             }
             converted.add(fit);
         }
-        ReturnValue[] convert = converted.toArray(new ReturnValue[converted
-                .size()]);
+        ReturnValue[] convert = converted.toArray(new ReturnValue[converted.size()]);
         return new ArrayBoxer(convert, elementType, line);
     }
 }

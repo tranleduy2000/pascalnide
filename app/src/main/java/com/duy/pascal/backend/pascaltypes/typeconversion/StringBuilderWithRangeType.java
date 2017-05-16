@@ -22,7 +22,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -101,7 +101,7 @@ public class StringBuilderWithRangeType implements ReturnValue {
     }
 
     @Override
-    public LeftValue asLValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
     }
 }

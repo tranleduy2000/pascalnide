@@ -79,7 +79,7 @@ import com.js.interpreter.ast.instructions.with_statement.WithStatement;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
 import com.js.interpreter.ast.returnsvalue.operators.number.BinaryOperatorEvaluation;
@@ -585,7 +585,7 @@ public abstract class GrouperToken extends Token {
             return beginEndPreprocessed;
         } else if (next instanceof ForToken) {
             ReturnValue tmpVal = getNextExpression(context);
-            LeftValue tmpVariable = tmpVal.asLValue(context);
+            AssignableValue tmpVariable = tmpVal.asAssignableValue(context);
             if (tmpVariable == null) {
                 throw new UnAssignableTypeException(tmpVal);
             }
@@ -661,7 +661,7 @@ public abstract class GrouperToken extends Token {
             next = peek();
             if (next instanceof AssignmentToken) {
                 take();
-                LeftValue left = r.asLValue(context);
+                AssignableValue left = r.asAssignableValue(context);
 
                 if (left == null) {
                     throw new UnAssignableTypeException(r);

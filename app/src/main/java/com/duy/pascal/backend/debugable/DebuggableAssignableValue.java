@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.debugable;
 
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.runtime.Reference;
 import com.js.interpreter.runtime.VariableContext;
@@ -9,7 +9,7 @@ import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
-public abstract class DebuggableLeftValue implements LeftValue {
+public abstract class DebuggableAssignableValue implements AssignableValue {
     protected ReturnValue[] outputFormat;
 
     @Override
@@ -38,7 +38,7 @@ public abstract class DebuggableLeftValue implements LeftValue {
     }
 
     @Override
-    public LeftValue asLValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext f) {
         return this;
     }
 

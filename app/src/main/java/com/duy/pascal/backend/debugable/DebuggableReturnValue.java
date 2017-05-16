@@ -2,7 +2,7 @@ package com.duy.pascal.backend.debugable;
 
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.boxing.ArrayBoxer;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
@@ -59,7 +59,7 @@ public abstract class DebuggableReturnValue implements ReturnValue {
     }
 
     @Override
-    public LeftValue asLValue(ExpressionContext f) {
+    public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
     }
 

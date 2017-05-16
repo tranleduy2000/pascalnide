@@ -11,7 +11,7 @@ import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.LeftValue;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.operators.number.BinaryOperatorEvaluation;
 import com.js.interpreter.runtime.VariableContext;
@@ -26,7 +26,7 @@ public class ForToStatement extends DebuggableExecutable {
     private Executable command;
     private LineInfo line;
 
-    public ForToStatement(ExpressionContext context, LeftValue tempVar,
+    public ForToStatement(ExpressionContext context, AssignableValue tempVar,
                           ReturnValue first, ReturnValue last, Executable command,
                           LineInfo line) throws ParsingException {
         this.line = line;

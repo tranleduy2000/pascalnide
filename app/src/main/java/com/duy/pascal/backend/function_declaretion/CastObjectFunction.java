@@ -34,28 +34,26 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 /**
- * d
+ * Casts an object to the class or the interface represented
  */
-
-public class CastObject implements IMethodDeclaration {
+public class CastObjectFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
-            {new RuntimeType(new JavaClassBasedType(Object.class), true)};
+            {new RuntimeType(new JavaClassBasedType(Object.class), true),
+                    new RuntimeType(new JavaClassBasedType(Object.class), false)};
 
     @Override
     public String name() {
-        return "cast".toLowerCase();
+        return "cast";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, ReturnValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         ReturnValue pointer = arguments[0];
-        return new InstanceObjectCall(pointer, line);
+        ReturnValue value = arguments[1];
+        return new InstanceObjectCall(pointer, value, line);
     }
 
     @Override
@@ -76,15 +74,16 @@ public class CastObject implements IMethodDeclaration {
     @Override
     public String description() {
         return null;
-
     }
 
     private class InstanceObjectCall extends FunctionCall {
         private ReturnValue value;
         private LineInfo line;
+        private ReturnValue pointer;
 
-        InstanceObjectCall(ReturnValue value, LineInfo line) {
+        InstanceObjectCall(ReturnValue pointer, ReturnValue value, LineInfo line) {
             this.value = value;
+            this.pointer = pointer;
             this.line = line;
         }
 
@@ -107,13 +106,13 @@ public class CastObject implements IMethodDeclaration {
         @Override
         public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(value, line);
+            return new InstanceObjectCall(pointer, value, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(value, line);
+            return new InstanceObjectCall(pointer, value, line);
         }
 
         @Override
@@ -122,27 +121,25 @@ public class CastObject implements IMethodDeclaration {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
                 throws RuntimePascalException {
-            PascalReference pointer = (PascalReference) this.value.getValue(f, main);
-            Object o = pointer.get(); // o = null
-            Class<?> storageClass = o.getClass();
-            Constructor<?> constructor;
-            try {
-                constructor = storageClass.getConstructor();
-                try {
-                    Object value = constructor.newInstance();
-                    pointer.set(value);
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
+            //get reference of variable
+            PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);
+
+            //get value of arg 2
+            Object value = this.value.getValue(f, main);
+
+            //get value of variable
+            Object o = pointer.get();
+            //get class of variable
+            Class<?> aClass = o.getClass();
+
+            //cast object to type of variable
+            Object casted = aClass.cast(value);
+
+            //set value
+            pointer.set(casted);
             return null;
         }
 

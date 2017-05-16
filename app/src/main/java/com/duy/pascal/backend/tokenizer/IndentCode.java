@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -62,6 +63,10 @@ public class IndentCode {
         parse();
     }
 
+    public IndentCode()  {
+
+    }
+
     public static void main(String[] args) throws IOException {
         File dir = new File("C:\\Users\\Duy\\IdeaProjects\\JSPIIJ\\tests\\basic");
         for (File file : dir.listFiles()) {
@@ -76,6 +81,12 @@ public class IndentCode {
                 }
             }
         }
+    }
+
+    public void setSource(String code) throws IOException {
+        this.source = new StringReader(code);
+        loadInput();
+        parse();
     }
 
     public StringBuilder getResult() {

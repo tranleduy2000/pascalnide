@@ -1,6 +1,6 @@
 package com.duy.pascal.compiler;
 
-import com.duy.pascal.backend.tokenizer.AutoIndentCode;
+import com.duy.pascal.backend.tokenizer.IndentCode;
 
 import org.junit.Before;
 
@@ -11,11 +11,11 @@ import org.junit.Before;
 @SuppressWarnings("DefaultFileTemplate")
 public class IndentTest {
     public static final String TAG = "IndentTest";
-    private AutoIndentCode autoIndentCode;
+    private IndentCode autoIndentCode;
 
     @Before
     public void setup() {
-        autoIndentCode = new AutoIndentCode();
+        autoIndentCode = new IndentCode();
     }
 
 
