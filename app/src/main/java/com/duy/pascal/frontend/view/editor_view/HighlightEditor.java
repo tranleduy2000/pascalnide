@@ -33,6 +33,8 @@ import android.text.method.ArrowKeyMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
@@ -136,17 +138,18 @@ public class HighlightEditor extends CodeSuggestsEditText
             new Runnable() {
                 @Override
                 public void run() {
-                    replaceTextKeepCursor(null);
+                    highlightText();
                 }
             };
     private final Runnable colorRunnable_duringScroll =
             new Runnable() {
                 @Override
                 public void run() {
-                    replaceTextKeepCursor(null);
+                    highlightText();
                 }
             };
     private int deviceHeight;
+    private boolean wrapContent;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -339,8 +342,13 @@ public class HighlightEditor extends CodeSuggestsEditText
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);
         }
-
         autoCompile = mEditorSetting.isAutoCompile();
+        wordWrap = mEditorSetting.isWrapText();
+        if (wordWrap) {
+            setHorizontalScrollBarEnabled(false);
+        } else {
+            setHorizontalScrollBarEnabled(true);
+        }
     }
 
     @Override
@@ -372,7 +380,6 @@ public class HighlightEditor extends CodeSuggestsEditText
     public String getCleanText() {
         return getText().toString();
     }
-
 
     private void startCompile(int longDelay) {
         if (isAutoCompile()) {
@@ -424,7 +431,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
         return -1;
     }
-
 
     private void highlightLineError(Editable e) {
         try {
@@ -619,66 +625,44 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
     }
 
-    public void replaceTextKeepCursor(String textToUpdate) {
-        int cursorPosStart;
-        int cursorPosEnd;
-
-        if (textToUpdate != null) {
-            cursorPosStart = 0;
-            cursorPosEnd = 0;
-        } else {
-            cursorPosStart = getSelectionStart();
-            cursorPosEnd = getSelectionEnd();
-        }
-
+    public void highlightText() {
         disableTextChangedListener();
-
-        if (textToUpdate == null) {
-            setText(highlight(getEditableText(), false));
-        } else {
-            setText(highlight(Editable.Factory.getInstance().newEditable(textToUpdate), true));
-        }
-
+        highlight(getEditableText(), false);
         enableTextChangedListener();
+    }
 
-        int newCursorPos;
-
-        boolean cursorOnScreen = cursorPosStart >= firstVisibleIndex && cursorPosStart <= lastVisibleIndex;
-
-        if (cursorOnScreen) { // if the cursor is on screen
-            newCursorPos = cursorPosStart; // we dont change its position
-        } else {
-            newCursorPos = firstVisibleIndex; // else we set it to the first visible pos
-        }
-
-        if (newCursorPos > -1 && newCursorPos <= length()) {
-            if (cursorPosEnd != cursorPosStart) {
-                setSelection(cursorPosStart, cursorPosEnd);
-            } else {
-                setSelection(newCursorPos);
-                if (newCursorPos == cursorPosStart) {
-                    onPopupChangePosition();
-                    updateHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!canEdit) return;
-                            if (getSelectionEnd() > -1 && getSelectionStart() > -1) {
-                                int tokenStart = mTokenizer.findTokenStart(getText(), getSelectionEnd());
-                                performFiltering(getText(), tokenStart, getSelectionEnd(), 0);
-                                showDropDown();
-                            }
-                        }
-                    }, 50);
-                }
+    /**
+     * remove span from start to end
+     */
+    private void clearSpans(Editable e, int start, int end) {
+        {
+            ForegroundColorSpan spans[] = e.getSpans(start, end, ForegroundColorSpan.class);
+            for (ForegroundColorSpan span : spans) {
+                e.removeSpan(span);
             }
-
+        }
+        {
+            BackgroundColorSpan spans[] = e.getSpans(start, end, BackgroundColorSpan.class);
+            for (BackgroundColorSpan span : spans) {
+                e.removeSpan(span);
+            }
+        }
+        {
+            StyleSpan[] spans = e.getSpans(start, end, StyleSpan.class);
+            for (StyleSpan span : spans) {
+                e.removeSpan(span);
+            }
+        }
+        {
+            UnderlineSpan[] spans = e.getSpans(start, end, UnderlineSpan.class);
+            for (UnderlineSpan span : spans) {
+                e.removeSpan(span);
+            }
         }
     }
 
-
     public Editable highlight(Editable editable, boolean newText) {
-        editable.clearSpans();
-
+//        editable.clearSpans();
         if (editable.length() == 0) {
             return editable;
         }
@@ -708,6 +692,9 @@ public class HighlightEditor extends CodeSuggestsEditText
             lastVisibleIndex = editable.length();
         if (firstVisibleIndex > lastVisibleIndex)
             firstVisibleIndex = lastVisibleIndex;
+
+        //clear all span for firstVisibleIndex to lastVisibleIndex
+        clearSpans(editable, firstVisibleIndex, lastVisibleIndex);
 
         CharSequence textToHighlight = editable.subSequence(firstVisibleIndex, lastVisibleIndex);
         color(editable, textToHighlight, firstVisibleIndex);
@@ -791,6 +778,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         updateHandler.removeCallbacks(colorRunnable_duringScroll);
         updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
     }
+
 
     /**
      * Class that listens to changes in the text.

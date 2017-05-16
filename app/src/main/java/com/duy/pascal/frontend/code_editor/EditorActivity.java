@@ -328,7 +328,7 @@ public class EditorActivity extends BaseEditorActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         if (s.equals(getString(R.string.key_show_suggest_popup))
                 || s.equals(getString(R.string.key_show_line_number))
-                || s.equals(getString(R.string.show_suggest_popup))) {
+                || s.equals(getString(R.string.key_pref_word_wrap))) {
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
             if (editorFragment != null) {
                 editorFragment.refreshCodeEditor();
@@ -336,13 +336,11 @@ public class EditorActivity extends BaseEditorActivity implements
         } else if (s.equals(getString(R.string.key_show_symbol))) {
             mContainerSymbol.setVisibility(mPascalPreferences.isShowListSymbol()
                     ? View.VISIBLE : View.GONE);
-        } else if (s.equals(getString(R.string.key_pref_word_wrap))) {
+        } else if (s.equals(getString(R.string.key_show_suggest_popup))) {
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
             if (editorFragment != null) {
                 EditorView editor = editorFragment.getEditor();
-                if (editor != null) {
-                    editor.setSuggestData(new ArrayList<SuggestItem>());
-                }
+                editor.invalidateKeyWord();
             }
         } else {
             super.onSharedPreferenceChanged(sharedPreferences, s);
