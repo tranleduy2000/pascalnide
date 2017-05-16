@@ -20,6 +20,7 @@ import com.duy.pascal.backend.exceptions.OrdinalExpressionExpectedException;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.backend.lib.runtime_exceptions.RangeCheckError;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.PascalPointer;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -52,6 +53,26 @@ public class SystemLib implements PascalLibrary {
     @PascalMethod(description = "stop")
 
     public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

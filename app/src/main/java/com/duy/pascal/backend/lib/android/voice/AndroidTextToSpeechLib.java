@@ -25,6 +25,7 @@ import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Locale;
 import java.util.Map;
@@ -65,6 +66,26 @@ public class AndroidTextToSpeechLib implements PascalLibrary {
         }
         mTextToSpeech.stop();
         mTextToSpeech.shutdown();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
     @PascalMethod(description = "Speaks the provided message via TTS.")

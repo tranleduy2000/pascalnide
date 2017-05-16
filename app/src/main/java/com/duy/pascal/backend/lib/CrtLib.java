@@ -18,9 +18,12 @@ package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.lib.android.media.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
+import com.js.interpreter.ast.ConstantDefinition;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.exception.WrongArgsException;
 
 import java.util.Map;
@@ -90,6 +93,61 @@ public class CrtLib implements PascalLibrary {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin f) {
+        Map<String, ConstantDefinition> constants = f.getConstants();
+        ConstantDefinition colorConst;
+        colorConst = new ConstantDefinition("black".toLowerCase(), 0, new LineInfo(-1, "black = 0".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("Blue".toLowerCase(), 1, new LineInfo(-1, "Blue = 1".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("Green".toLowerCase(), 2, new LineInfo(-1, "Green = 2".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("Cyan".toLowerCase(), 3, new LineInfo(-1, "Cyan = 3".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("Red".toLowerCase(), 4, new LineInfo(-1, "Red = 4".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("Magenta".toLowerCase(), 5, new LineInfo(-1, "Magenta = 5".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("Brown".toLowerCase(), 6, new LineInfo(-1, "Brown = 6".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("LightGray".toLowerCase(), 7, new LineInfo(-1, "LightGray  = 7".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("DarkGray".toLowerCase(), 8, new LineInfo(-1, "DarkGray = 8".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("LightBlue".toLowerCase(), 9, new LineInfo(-1, "LightBlue = 9".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("LightGreen".toLowerCase(), 10, new LineInfo(-1, "LightGreen = 10".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("LightCyan".toLowerCase(), 11, new LineInfo(-1, "LightCyan = 11".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("LightRed".toLowerCase(), 12, new LineInfo(-1, "LightRed = 12".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("LightMagenta".toLowerCase(), 13, new LineInfo(-1, "LightMagenta = 13".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("Yellow".toLowerCase(), 14, new LineInfo(-1, " Yellow = 14".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("White".toLowerCase(), 15, new LineInfo(-1, "White = 15".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+        colorConst = new ConstantDefinition("pi".toLowerCase(), Math.PI, new LineInfo(-1, " pi = 3.14159265358979323846".toLowerCase()));
+        constants.put(colorConst.name(), colorConst);
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
     /**

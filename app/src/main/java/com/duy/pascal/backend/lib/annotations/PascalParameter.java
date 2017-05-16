@@ -36,7 +36,6 @@ public @interface PascalParameter {
     String name();
 
 
-
     /**
      * Description of the RPC. This should be a short descriptive statement without a full stop, such
      * as 'disables the WiFi mode'.

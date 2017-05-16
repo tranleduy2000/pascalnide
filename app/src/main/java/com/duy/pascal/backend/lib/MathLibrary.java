@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 
@@ -16,6 +17,26 @@ public class MathLibrary implements PascalLibrary {
 
     @Override
     public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

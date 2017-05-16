@@ -20,10 +20,11 @@ import android.content.Intent;
 import android.speech.RecognizerIntent;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -103,5 +104,25 @@ public class AndroidSpeechRecognitionLib implements PascalLibrary {
     @PascalMethod(description = "stop")
 
     public void shutdown() {
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 }

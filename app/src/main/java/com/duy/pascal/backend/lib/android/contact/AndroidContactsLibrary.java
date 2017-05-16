@@ -31,6 +31,7 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.facade.CommonIntentsFacade;
 import com.googlecode.sl4a.rpc.RpcOptional;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -309,6 +310,26 @@ public class AndroidContactsLibrary implements PascalLibrary {
 
     @Override
     public void shutdown() {
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
     @Override

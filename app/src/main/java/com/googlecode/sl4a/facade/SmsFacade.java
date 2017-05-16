@@ -31,6 +31,7 @@ import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -230,5 +231,25 @@ public class SmsFacade implements PascalLibrary {
 
     @Override
     public void shutdown() {
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 }

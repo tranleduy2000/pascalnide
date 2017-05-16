@@ -28,6 +28,7 @@ import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -120,6 +121,26 @@ public class AndroidBatteryLib implements PascalLibrary {
     @PascalMethod(description = "stop")
     public void shutdown() {
         batteryStopMonitoring();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
 

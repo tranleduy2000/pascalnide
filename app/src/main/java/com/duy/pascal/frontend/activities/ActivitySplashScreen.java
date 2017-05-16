@@ -30,10 +30,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.duy.pascal.backend.lib.javaclasspath.JavaClassLoader;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+
+import java.lang.reflect.Method;
 
 
 public class ActivitySplashScreen extends AppCompatActivity {
@@ -74,6 +77,21 @@ public class ActivitySplashScreen extends AppCompatActivity {
     }
 
     private void startMainActivity() {
+        try {
+            JavaClassLoader javaClassLoader = new JavaClassLoader(this);
+            Class classMath = (Class) javaClassLoader.loadClass("java.util.ArrayList");
+            Object o = classMath.newInstance();
+            Method[] declaredMethods = o.getClass().getDeclaredMethods();
+            for (Method declaredMethod : declaredMethods) {
+                Log.i(TAG, "startMainActivity: " + declaredMethod);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (true) return;
+
+
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();

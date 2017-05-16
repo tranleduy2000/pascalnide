@@ -76,10 +76,10 @@ import com.js.interpreter.ast.instructions.conditional.IfStatement;
 import com.js.interpreter.ast.instructions.conditional.RepeatInstruction;
 import com.js.interpreter.ast.instructions.conditional.WhileStatement;
 import com.js.interpreter.ast.instructions.with_statement.WithStatement;
+import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ConstantAccess;
 import com.js.interpreter.ast.returnsvalue.FieldAccess;
 import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.AssignableValue;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.UnaryOperatorEvaluation;
 import com.js.interpreter.ast.returnsvalue.operators.number.BinaryOperatorEvaluation;
@@ -209,7 +209,7 @@ public abstract class GrouperToken extends Token {
 //            throw new UnSupportTokenException(n.lineInfo, n);
             RecordToken r = (RecordToken) n;
             RecordType result = new RecordType();
-            result.variableDeclarations = r.getVariableDeclarations(context);
+            result.setVariableDeclarations(r.getVariableDeclarations(context));
             return result;
         }
         if (n instanceof OperatorToken && ((OperatorToken) n).type == OperatorTypes.DEREF) {
@@ -402,9 +402,9 @@ public abstract class GrouperToken extends Token {
         return getNextExpression(context, precedence.NoPrecedence, first);
     }
 
-    public List<VariableDeclaration> getVariableDeclarations(
+    public ArrayList<VariableDeclaration> getVariableDeclarations(
             ExpressionContext context) throws ParsingException {
-        List<VariableDeclaration> result = new ArrayList<>();
+        ArrayList<VariableDeclaration> result = new ArrayList<>();
         /*
          * reusing it, so it is further out of scope than necessary
 		 */

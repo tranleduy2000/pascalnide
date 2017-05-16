@@ -26,6 +26,7 @@ import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.duy.pascal.frontend.R;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 
@@ -52,6 +53,26 @@ public class AndroidNotifyLib implements PascalLibrary {
     @PascalMethod(description = "stop")
 
     public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

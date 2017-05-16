@@ -1,27 +1,28 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CustomType extends ObjectType {
 
     /**
      * This is a list of the defined variables in the custom operator.
      */
-    public List<VariableDeclaration> variableDeclarations;
-
+    public ArrayList<VariableDeclaration> variableDeclarations;
     private CustomVariable customVariable;
 
     public CustomType() {
         variableDeclarations = new ArrayList<>();
     }
+
 
     /**
      * Adds another sub-variable to this user defined operator.
@@ -84,12 +85,10 @@ public class CustomType extends ObjectType {
                 return v.type;
             }
         }
-        System.err.println("Could not find member " + name);
         return null;
     }
 
-
-
+    @NonNull
     @Override
     public ReturnValue generateArrayAccess(ReturnValue array,
                                            ReturnValue index) throws NonArrayIndexed {
@@ -106,4 +105,11 @@ public class CustomType extends ObjectType {
         return getTransferClass();
     }
 
+    public ArrayList<VariableDeclaration> getVariableDeclarations() {
+        return variableDeclarations;
+    }
+
+    public void setVariableDeclarations(ArrayList<VariableDeclaration> variableDeclarations) {
+        this.variableDeclarations = variableDeclarations;
+    }
 }

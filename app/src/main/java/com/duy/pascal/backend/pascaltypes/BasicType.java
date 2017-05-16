@@ -1,10 +1,12 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
-import com.duy.pascal.backend.pascaltypes.typeconversion.StringBuilderWithRangeType;
-import com.duy.pascal.backend.pascaltypes.typeconversion.TypeConverter;
+import com.duy.pascal.backend.pascaltypes.type_converter.StringBuilderWithRangeType;
+import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.StringIndex;
@@ -92,6 +94,7 @@ public enum BasicType implements DeclaredType {
             return null;
         }
 
+        @NonNull
         @Override
         public ReturnValue generateArrayAccess(ReturnValue array,
                                                ReturnValue index) throws NonArrayIndexed {
@@ -265,7 +268,7 @@ public enum BasicType implements DeclaredType {
             return true;
         }
         if (obj instanceof JavaClassBasedType) {
-            Class other = ((JavaClassBasedType) obj).clazz;
+            Class other = ((JavaClassBasedType) obj).getStorageClass();
             return c == other || c == Object.class || other == Object.class;
         }
         return false;
@@ -330,6 +333,7 @@ public enum BasicType implements DeclaredType {
     }
 
 
+    @NonNull
     @Override
     public ReturnValue generateArrayAccess(ReturnValue array,
                                            ReturnValue index) throws NonArrayIndexed {

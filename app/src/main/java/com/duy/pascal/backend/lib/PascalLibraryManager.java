@@ -59,8 +59,8 @@ import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
-import com.js.interpreter.ast.MethodDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.ast.MethodDeclaration;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -189,6 +189,11 @@ public class PascalLibraryManager {
         }
 
         if (parent != null) {
+            ((PascalLibrary) parent).declareConstants(program);
+            ((PascalLibrary) parent).declareFunctions(program);
+            ((PascalLibrary) parent).declareTypes(program);
+            ((PascalLibrary) parent).declareVariables(program);
+
             for (Method method : t.getDeclaredMethods()) {
                 if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     if (method.isAnnotationPresent(PascalMethod.class)) {

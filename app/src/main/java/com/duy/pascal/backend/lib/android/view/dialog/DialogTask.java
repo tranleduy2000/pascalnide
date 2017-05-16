@@ -18,8 +18,8 @@ package com.duy.pascal.backend.lib.android.view.dialog;
 
 import android.app.Dialog;
 
-import com.googlecode.sl4a.facade.AndroidEvent;
 import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
+import com.googlecode.sl4a.facade.AndroidEvent;
 
 import java.util.concurrent.CountDownLatch;
 

@@ -28,6 +28,7 @@ import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -285,6 +286,26 @@ public class AndroidSensorLib implements PascalLibrary {
     @PascalMethod(description = "stop")
     public void shutdown() {
         stopSensor();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
     @PascalMethod(description = "Return X value of accelerometer sensor")

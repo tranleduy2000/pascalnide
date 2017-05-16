@@ -10,7 +10,10 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 
 
 public class WordToken extends Token {
+
+    //always lower case
     public String name;
+
     private String originalName;
 
     public WordToken(LineInfo line, String s) {

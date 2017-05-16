@@ -23,6 +23,7 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.WrongArgsException;
@@ -575,5 +576,25 @@ public class FileLib implements PascalLibrary {
             }
             filesMap.remove(entry.getKey());
         }
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 }

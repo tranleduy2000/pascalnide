@@ -18,6 +18,7 @@ package com.duy.pascal.backend.lib.math;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.WrongArgsException;
@@ -508,6 +509,26 @@ public class MathLib implements PascalLibrary {
     @PascalMethod(description = "stop")
 
     public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 }

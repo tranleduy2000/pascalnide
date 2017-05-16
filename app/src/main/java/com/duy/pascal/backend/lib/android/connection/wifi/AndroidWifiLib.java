@@ -28,6 +28,7 @@ import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcOptional;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.List;
 import java.util.Map;
@@ -136,5 +137,25 @@ public class AndroidWifiLib implements PascalLibrary {
 
     public void shutdown() {
         wifiLockRelease();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 }

@@ -26,7 +26,7 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
-import com.duy.pascal.backend.pascaltypes.typeconversion.TypeConverter;
+import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;

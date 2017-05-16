@@ -23,7 +23,6 @@ import com.js.interpreter.runtime.variables.ContainsVariables;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,29 +31,29 @@ import java.util.Map;
 @SuppressWarnings("DefaultFileTemplate")
 public class CustomVariable implements ContainsVariables {
     private Map<String, Object> variableMap = new HashMap<>();
-    private List<VariableDeclaration> variableList;
+    private ArrayList<VariableDeclaration> variableList;
 
-    public CustomVariable(List<VariableDeclaration> variableList) {
+    public CustomVariable(ArrayList<VariableDeclaration> variableList) {
         this.variableList = variableList;
         for (VariableDeclaration declaration : variableList) {
             Class returnType = declaration.getType().getTransferClass();
-            if (declaration.initialValue != null) {
-                variableMap.put(declaration.name.toLowerCase(), declaration.initialValue);
+            if (declaration.getInitialValue() != null) {
+                variableMap.put(declaration.name, declaration.getInitialValue());
             } else {
                 if (returnType == int.class || returnType == Integer.class) {
-                    variableMap.put(declaration.name.toLowerCase(), 0);
+                    variableMap.put(declaration.name, 0);
                 } else if (returnType == double.class || returnType == Double.class) {
-                    variableMap.put(declaration.name.toLowerCase(), 0.0d);
+                    variableMap.put(declaration.name, 0.0d);
                 } else if (returnType == char.class || returnType == Character.class) {
-                    variableMap.put(declaration.name.toLowerCase(), ' ');
+                    variableMap.put(declaration.name, ' ');
                 } else if (returnType == boolean.class || returnType == Boolean.class) {
-                    variableMap.put(declaration.name.toLowerCase(), Boolean.FALSE);
+                    variableMap.put(declaration.name, Boolean.FALSE);
                 } else if (returnType == long.class || returnType == Long.class) {
-                    variableMap.put(declaration.name.toLowerCase(), 0L);
+                    variableMap.put(declaration.name, 0L);
                 } else if (returnType == StringBuilder.class) {
-                    variableMap.put(declaration.name.toLowerCase(), new StringBuilder(""));
+                    variableMap.put(declaration.name, new StringBuilder(""));
                 } else if (returnType == String.class) {
-                    variableMap.put(declaration.name.toLowerCase(), "");
+                    variableMap.put(declaration.name, "");
                 } else if (returnType == Array.class) {
                     variableMap.put(declaration.name, new Object[0]);
                 } else if (declaration.type instanceof ArrayType) {
@@ -69,22 +68,18 @@ public class CustomVariable implements ContainsVariables {
 
     @Override
     public Object getVar(String name) throws RuntimePascalException {
-        return variableMap.get(name.toLowerCase());
+        return variableMap.get(name);
     }
 
     @Override
     public void setVar(String name, Object val) {
-        variableMap.put(name.toLowerCase(), val);
+        variableMap.put(name, val);
     }
 
     @Override
+    @SuppressWarnings({"unchecked", "CloneDoesntCallSuperClone"})
     public ContainsVariables clone() {
-        List<VariableDeclaration> listVariable = new ArrayList<>();
-        for (VariableDeclaration variable : variableList) {
-            VariableDeclaration variableDeclaration = new VariableDeclaration(variable.name(),
-                    variable.getType(), variableMap.get(variable.name), variable.getLineNumber());
-            listVariable.add(variableDeclaration);
-        }
+        ArrayList<VariableDeclaration> listVariable = (ArrayList<VariableDeclaration>) variableList.clone();
         return new CustomVariable(listVariable);
     }
 }

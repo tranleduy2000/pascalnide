@@ -1,7 +1,9 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.returnsvalue.ReturnValue;
 import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
@@ -10,7 +12,7 @@ import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
 
 public class JavaClassBasedType implements DeclaredType {
 
-    Class clazz;
+    private Class clazz;
 
     public JavaClassBasedType(Class c) {
         this.clazz = c;
@@ -20,8 +22,7 @@ public class JavaClassBasedType implements DeclaredType {
     public Object initialize() {
         try {
             return clazz.newInstance();
-        } catch (InstantiationException ignored) {
-        } catch (IllegalAccessException ignored) {
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -55,11 +56,7 @@ public class JavaClassBasedType implements DeclaredType {
         }
         if (otherType.declType instanceof JavaClassBasedType) {
             JavaClassBasedType otherClassBasedType = (JavaClassBasedType) otherType.declType;
-            //Object o = (Math) obj;
-            if (this.equals(otherClassBasedType)
-                   /* //Object o = ...
-                    //Math math = (Math) o;
-                    || otherClassBasedType.equals(this)*/) {
+            if (this.equals(otherClassBasedType)) {
                 return value;
             }
         }
@@ -69,7 +66,8 @@ public class JavaClassBasedType implements DeclaredType {
     @Override
     public boolean equals(DeclaredType other) {
         return clazz == Object.class
-                || (other instanceof JavaClassBasedType && ((JavaClassBasedType) other).clazz == clazz);
+                || (other instanceof JavaClassBasedType
+                && ((JavaClassBasedType) other).getStorageClass() == clazz);
     }
 
 
@@ -78,6 +76,7 @@ public class JavaClassBasedType implements DeclaredType {
         return new CloneableObjectCloner(r);
     }
 
+    @NonNull
     @Override
     public ReturnValue generateArrayAccess(ReturnValue array,
                                            ReturnValue index) throws NonArrayIndexed {

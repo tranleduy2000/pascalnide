@@ -18,6 +18,7 @@ package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.EConvertError;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -36,6 +37,26 @@ public class SysUtilsLibrary implements PascalLibrary {
     @Override
     @PascalMethod(description = "stop")
     public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -50,6 +52,7 @@ public class PointerType implements DeclaredType {
         return r;
     }
 
+    @NonNull
     @Override
     public ReturnValue generateArrayAccess(ReturnValue array,
                                            ReturnValue index) throws NonArrayIndexed {

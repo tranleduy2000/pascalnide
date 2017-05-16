@@ -16,6 +16,9 @@
 
 package com.duy.pascal.backend.lib;
 
+
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+
 import java.util.Map;
 
 public interface PascalLibrary {
@@ -27,4 +30,11 @@ public interface PascalLibrary {
      */
     void shutdown();
 
+    void declareConstants(ExpressionContextMixin context);
+
+    void declareTypes(ExpressionContextMixin context);
+
+    void declareVariables(ExpressionContextMixin context);
+
+    void declareFunctions(ExpressionContextMixin context);
 }

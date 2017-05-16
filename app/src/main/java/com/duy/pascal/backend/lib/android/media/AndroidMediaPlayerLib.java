@@ -22,11 +22,12 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.android.exceptions.MediaFileNotAssignException;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.exceptions.MediaFileNotAssignException;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotFoundException;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -202,5 +203,25 @@ public class AndroidMediaPlayerLib implements PascalLibrary {
         }
         mPlayers.clear();
         mUrls.clear();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 }

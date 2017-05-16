@@ -9,11 +9,15 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import java.util.Map;
 
 public class VariableDeclaration implements NamedEntity {
+
+    /**
+     * name of variable, always lower case
+     */
     public String name;
 
     public DeclaredType type;
 
-    public Object initialValue;
+    private Object initialValue;
     private LineInfo line;
 
     public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,

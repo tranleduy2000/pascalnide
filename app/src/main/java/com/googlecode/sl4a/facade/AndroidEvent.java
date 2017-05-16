@@ -35,6 +35,7 @@ import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcOptional;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import org.json.JSONException;
 
@@ -346,6 +347,26 @@ public class AndroidEvent implements PascalLibrary {
         }
         // let others (like webviews) know we're going down
         postEvent("sl4a", "{\"shutdown\": \"event-facade\"}");
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
     public void addNamedEventObserver(String eventName, EventObserver observer) {

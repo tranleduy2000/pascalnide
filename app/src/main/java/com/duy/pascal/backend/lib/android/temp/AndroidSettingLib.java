@@ -26,12 +26,13 @@ import android.view.WindowManager;
 import com.duy.pascal.PascalApplication;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
-import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
 import com.googlecode.sl4a.Log;
-import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
 import com.googlecode.sl4a.rpc.RpcOptional;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -239,5 +240,25 @@ public class AndroidSettingLib implements PascalLibrary {
 
     public void shutdown() {
         // Nothing to do yet.
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 }

@@ -29,14 +29,15 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
+import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
@@ -95,6 +96,26 @@ public class AndroidPhoneLibrary implements PascalLibrary {
     @Override
     public void shutdown() {
         stopTrackingPhoneState();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
     @Override

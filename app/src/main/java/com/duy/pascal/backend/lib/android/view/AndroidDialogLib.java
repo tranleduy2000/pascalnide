@@ -40,6 +40,7 @@ import com.duy.pascal.frontend.R;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
 import com.googlecode.sl4a.rpc.RpcDefault;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import org.json.JSONArray;
@@ -519,6 +520,26 @@ public class AndroidDialogLib implements PascalLibrary {
 
     @Override
     public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

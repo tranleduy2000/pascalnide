@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.pascaltypes;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
@@ -12,7 +14,6 @@ import java.lang.reflect.Array;
 
 
 public class ArrayType<T extends DeclaredType> implements DeclaredType {
-    private static final String TAG = "ArrayType";
     public final T elementType;
     private SubrangeType bounds;
 
@@ -122,6 +123,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
     }
 
 
+    @NonNull
     @Override
     public ReturnValue generateArrayAccess(ReturnValue array,
                                            ReturnValue index) {

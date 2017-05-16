@@ -36,6 +36,7 @@ import com.google.common.collect.Maps;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -127,6 +128,26 @@ public class LocationFacade implements PascalLibrary {
     @Override
     public void shutdown() {
         stopLocating();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
     @Override

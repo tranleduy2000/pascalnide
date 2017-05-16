@@ -16,6 +16,9 @@
 
 package com.duy.pascal.backend.lib;
 
+
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -25,7 +28,7 @@ import java.util.Map;
  */
 
 public class JavaPascalAPI implements PascalLibrary {
-//    @PascalMethod(description = "create object")
+    //    @PascalMethod(description = "create object")
     private Object newInstance(Class<?> c, Class... params) throws NoSuchMethodException,
             IllegalAccessException, InvocationTargetException, InstantiationException {
 
@@ -45,6 +48,26 @@ public class JavaPascalAPI implements PascalLibrary {
 
     @Override
     public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 }

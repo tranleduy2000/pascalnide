@@ -23,6 +23,7 @@ import android.os.PowerManager.WakeLock;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +77,26 @@ public class WakeLockFacade implements PascalLibrary {
     @Override
     public void shutdown() {
         wakeLockRelease();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 
     @Override

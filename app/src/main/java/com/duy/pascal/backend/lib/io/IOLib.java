@@ -23,6 +23,7 @@ import com.duy.pascal.backend.exceptions.io.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
@@ -82,6 +83,26 @@ public class IOLib implements PascalLibrary {
 
     @Override
     public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
 
     }
 

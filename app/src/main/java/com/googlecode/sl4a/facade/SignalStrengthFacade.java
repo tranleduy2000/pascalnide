@@ -28,6 +28,7 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -96,5 +97,25 @@ public class SignalStrengthFacade implements PascalLibrary {
     @Override
     public void shutdown() {
         stopTrackingSignalStrengths();
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin context) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin context) {
+
     }
 }

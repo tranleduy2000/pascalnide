@@ -43,7 +43,6 @@ public class RuntimeType implements ArgumentType {
 
     public ReturnValue convert(ReturnValue value, ExpressionContext f)
             throws ParsingException {
-
         RuntimeType other = value.getType(f);
         if (writable) {
             if (this.equals(other)) {
