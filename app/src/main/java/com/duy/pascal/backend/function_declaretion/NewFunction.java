@@ -146,7 +146,7 @@ public class NewFunction implements IMethodDeclaration {
                 pointer.set(new ObjectBasedPointer<>(""));
             } else if (type instanceof JavaClassBasedType) {
                 Object initialize = type.initialize();
-                pointer.set(initialize);
+                pointer.set(new ObjectBasedPointer<>(initialize));
             }
             return null;
         }
