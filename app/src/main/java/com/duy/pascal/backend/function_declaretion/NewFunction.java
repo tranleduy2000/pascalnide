@@ -24,6 +24,7 @@ import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
@@ -126,25 +127,28 @@ public class NewFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             PascalPointer pointer = (PascalPointer) this.value.getValue(f, main);
             PointerType pointerType = (PointerType) ((PointerType) type.declType).pointedToType;
-            DeclaredType basicType = pointerType.pointedToType;
-            if (basicType instanceof ArrayType) {
+            DeclaredType type = pointerType.pointedToType;
+            if (type instanceof ArrayType) {
                 pointer.set(new ObjectBasedPointer<>(new Object[]{}));
-            } else if (BasicType.Byte.equals(basicType)) {
+            } else if (BasicType.Byte.equals(type)) {
                 pointer.set(new ObjectBasedPointer<>((byte) 0));
-            } else if (BasicType.Short.equals(basicType)) {
+            } else if (BasicType.Short.equals(type)) {
                 pointer.set(new ObjectBasedPointer<>((short) 0));
-            } else if (BasicType.Integer.equals(basicType)) {
+            } else if (BasicType.Integer.equals(type)) {
                 pointer.set(new ObjectBasedPointer<>(0));
-            } else if (BasicType.Long.equals(basicType)) {
+            } else if (BasicType.Long.equals(type)) {
                 pointer.set(new ObjectBasedPointer<>(0L));
-            } else if (BasicType.Double.equals(basicType)) {
+            } else if (BasicType.Double.equals(type)) {
                 pointer.set(new ObjectBasedPointer<>(0d));
-            } else if (BasicType.Character.equals(basicType)) {
+            } else if (BasicType.Character.equals(type)) {
                 pointer.set(new ObjectBasedPointer<>((char) 0));
-            } else if (BasicType.StringBuilder.equals(basicType)) {
+            } else if (BasicType.StringBuilder.equals(type)) {
                 pointer.set(new ObjectBasedPointer<>(""));
+            } else if (type instanceof JavaClassBasedType) {
+                Object initialize = type.initialize();
+                pointer.set(initialize);
             }
-            return 0;
+            return null;
         }
     }
 }
