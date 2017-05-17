@@ -171,7 +171,7 @@ public class MenuEditor {
 
         } else if (id == R.id.action_select_theme) {
             if (listener != null) {
-                listener.selectTheme();
+                listener.selectThemeFont();
             }
 
         } else if (id == R.id.action_more_feature) {

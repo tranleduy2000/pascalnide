@@ -14,36 +14,39 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.adapters;
+package com.duy.pascal.frontend.theme.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.theme.FontManager;
+import com.duy.pascal.frontend.theme.util.FontManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     private LayoutInflater inflater;
-    private PascalPreferences mPascalPreferences;
     private Context context;
-    private List<String> listPathFont;
+    private List<String> listPathFont = new ArrayList<>();
+    private PascalPreferences pascalPreferences;
 
     public FontAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        mPascalPreferences = new PascalPreferences(context);
+        pascalPreferences = new PascalPreferences(context);
         try {
-            String[] fontses = context.getAssets().list("fonts");
-            listPathFont = Arrays.asList(fontses);
+            String[] fonts = context.getAssets().list("fonts");
+            listPathFont = Arrays.asList(fonts);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +62,15 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.txtSample.setTypeface(FontManager.getFontFromAsset(context,
                 listPathFont.get(position)));
+        holder.btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pascalPreferences.setFont(listPathFont.get(position));
+                Toast.makeText(context,
+                        context.getString(R.string.select) + " " + listPathFont.get(position),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -66,12 +78,15 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         return listPathFont.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtSample;
+        Button btnSelect;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtSample = (TextView) itemView.findViewById(R.id.txt_title);
+            txtSample = (TextView) itemView.findViewById(R.id.txt_sample);
+            btnSelect = (Button) itemView.findViewById(R.id.btn_select);
+
         }
     }
 }

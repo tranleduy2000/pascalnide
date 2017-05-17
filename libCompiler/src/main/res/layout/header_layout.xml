@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/app_name"
+            android:text="@string/pascal_nide"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textSize="32sp" />
 

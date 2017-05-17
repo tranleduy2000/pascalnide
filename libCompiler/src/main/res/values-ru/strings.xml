@@ -16,7 +16,7 @@
 
 <resources>
 
-    <string name="app_name">Pascal N-IDE</string>
+
     <string name="auto_save">Авто сохранение</string>
     <string name="back_to_undo">Клавиша \"назад\" = отменить</string>
     <string name="bug">Ошибка</string>

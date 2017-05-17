@@ -44,7 +44,7 @@ import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.SelectThemeActivity;
+import com.duy.pascal.frontend.theme.ThemeFontActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
@@ -551,8 +551,8 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     @Override
-    public void selectTheme() {
-        startActivity(new Intent(this, SelectThemeActivity.class));
+    public void selectThemeFont() {
+        startActivity(new Intent(this, ThemeFontActivity.class));
     }
 
     @Override

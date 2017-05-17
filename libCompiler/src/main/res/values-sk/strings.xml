@@ -16,7 +16,7 @@
   -->
 
 <resources>
-    <string name="app_name">Pascal N-IDE</string>
+
     <string name="cancel">Zrušiť</string>
     <string name="save">Uložiť</string>
     <string name="ok">OK</string>

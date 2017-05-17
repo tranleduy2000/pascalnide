@@ -50,7 +50,7 @@ public class ExecuteActivity extends AbstractExecActivity {
 //        ButterKnife.bind(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mConsoleView = (ConsoleView) findViewById(R.id.console);
-        setupActionBar();
+        setupToolbar();
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
 
@@ -87,7 +87,7 @@ public class ExecuteActivity extends AbstractExecActivity {
     }
 
 
-    private void setupActionBar() {
+    protected void setupToolbar() {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

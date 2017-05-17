@@ -21,7 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.adapters.FontAdapter;
+import com.duy.pascal.frontend.theme.adapter.FontAdapter;
 
 public class FontActivity extends AbstractAppCompatActivity {
 
@@ -30,9 +30,9 @@ public class FontActivity extends AbstractAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_theme);
+        setContentView(R.layout.activity_theme_font);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        setupActionBar();
+        setupToolbar();
 
         FontAdapter codeThemeAdapter = new FontAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -69,21 +69,21 @@ public class InfoActivity extends AbstractAppCompatActivity {
             }
         });
 //        ButterKnife.bind(InfoActivity.this);
-        setupActionBar();
+        setupToolbar();
         initContent();
     }
 
-//    @OnClick(R.id.gotoNcalcApp)
+    //    @OnClick(R.id.gotoNcalcApp)
     public void clickCalc(View view) {
         gotoNcalcApp(view);
     }
 
-//    @OnClick(R.id.gotoSortApp)
+    //    @OnClick(R.id.gotoSortApp)
     public void clickSort(View view) {
         gotoSortApp(view);
     }
 
-    private void setupActionBar() {
+    protected void setupToolbar() {
         setSupportActionBar(toolbar);
         setTitle(R.string.information);
         if (getSupportActionBar() != null)
@@ -100,8 +100,6 @@ public class InfoActivity extends AbstractAppCompatActivity {
 
     private void initContent() {
         new TaskLoadData().execute();
-        Log.d(TAG, "initContent: ");
-
     }
 
 
@@ -111,7 +109,6 @@ public class InfoActivity extends AbstractAppCompatActivity {
         // To count with Play market backstack, After pressing back button,
         // to taken back to our application, we need to add following flags to intent.
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         try {
             startActivity(goToMarket);
@@ -137,9 +134,9 @@ public class InfoActivity extends AbstractAppCompatActivity {
         }
     }
 
-    class TaskLoadData extends AsyncTask<Void, Void, Void> {
-        ArrayList<ItemInfo> dataTranslate;
-        ArrayList<ItemInfo> dataLicense;
+    private class TaskLoadData extends AsyncTask<Void, Void, Void> {
+        private ArrayList<ItemInfo> dataTranslate;
+        private ArrayList<ItemInfo> dataLicense;
 
 
         @Override

@@ -26,7 +26,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.theme.FontManager;
+import com.duy.pascal.frontend.theme.util.FontManager;
 
 /**
  * Setting for application
@@ -221,7 +221,13 @@ public class PascalPreferences {
     }
 
     public Typeface getFont() {
-        return FontManager.getFontFromAsset(context, getString(context.getString(R.string.key_pref_font)));
+        return FontManager.getFontFromAsset(context,
+                getString(context.getString(R.string.key_pref_font)));
+    }
+
+
+    public void setFont(String name) {
+        put("key_pref_font", name);
     }
 
     public boolean isShowLines() {

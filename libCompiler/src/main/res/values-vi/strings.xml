@@ -16,7 +16,7 @@
 
 <resources>
     <string name="default_">Hệ thống</string>
-    <string name="app_name">Pascal N-IDE</string>
+
     <string name="cancel">Trở lại</string>
     <string name="close">Đóng</string>
     <string name="code_sample">Code mẫu</string>

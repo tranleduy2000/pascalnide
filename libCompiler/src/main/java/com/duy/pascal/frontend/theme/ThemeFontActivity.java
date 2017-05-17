@@ -14,45 +14,45 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.activities;
+package com.duy.pascal.frontend.theme;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.adapters.CodeThemeAdapter;
+import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
+import com.duy.pascal.frontend.theme.adapter.SectionPageAdapter;
 
-//import butterknife.BindView;
 
 /**
  * Created by Duy on 12-Mar-17.
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class SelectThemeActivity extends AbstractAppCompatActivity {
+public class ThemeFontActivity extends AbstractAppCompatActivity {
 
-    public Toolbar toolbar;
-    RecyclerView mRecyclerView;
+    private Toolbar toolbar;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_theme);
+        setContentView(R.layout.activity_theme_font);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        setupActionBar();
+        setupToolbar();
 
-        CodeThemeAdapter codeThemeAdapter = new CodeThemeAdapter(this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(codeThemeAdapter);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setAdapter(new SectionPageAdapter(getSupportFragmentManager(), this));
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void setupActionBar() {
+    protected void setupToolbar() {
         setSupportActionBar(toolbar);
         setTitle(R.string.theme);
         if (getSupportActionBar() != null)

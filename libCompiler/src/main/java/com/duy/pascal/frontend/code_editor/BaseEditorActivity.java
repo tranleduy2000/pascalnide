@@ -127,7 +127,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mContainerSymbol = findViewById(R.id.container_symbol);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        setupActionBar();
+        setupToolbar();
         setupPageView();
     }
 
@@ -190,7 +190,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         }
     }
 
-    private void setupActionBar() {
+    protected void setupToolbar() {
         //setup action bar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);

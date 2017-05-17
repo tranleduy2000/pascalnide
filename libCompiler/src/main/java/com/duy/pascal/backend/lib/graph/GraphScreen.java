@@ -34,7 +34,7 @@ import com.duy.pascal.backend.lib.graph.style.LineStyle;
 import com.duy.pascal.backend.lib.graph.style.LineWidth;
 import com.duy.pascal.backend.lib.graph.style.TextFont;
 import com.duy.pascal.backend.lib.graph.style.TextJustify;
-import com.duy.pascal.frontend.theme.FontManager;
+import com.duy.pascal.frontend.theme.util.FontManager;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 
 /**

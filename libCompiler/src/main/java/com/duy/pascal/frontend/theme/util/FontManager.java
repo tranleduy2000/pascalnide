@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme;
+package com.duy.pascal.frontend.theme.util;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -77,6 +77,8 @@ public class FontManager {
                 return get(context, PATH_TO_FONT + "gothic.ttf");
             } else if (name.equalsIgnoreCase("lcd_solid.ttf")) {
                 return get(context, PATH_TO_FONT + "lcd_solid.ttf");
+            } else {
+                return get(context, PATH_TO_FONT + name);
             }
         } catch (Exception e) {
             FirebaseCrash.report(e);

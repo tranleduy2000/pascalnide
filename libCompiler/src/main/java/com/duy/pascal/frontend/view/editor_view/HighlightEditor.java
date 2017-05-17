@@ -45,8 +45,8 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.theme.CodeThemeUtils;
-import com.duy.pascal.frontend.theme.ThemeFromAssets;
+import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
+import com.duy.pascal.frontend.theme.util.ThemeFromAssets;
 import com.js.interpreter.core.ScriptSource;
 
 import java.io.StringReader;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme;
+package com.duy.pascal.frontend.theme.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -31,7 +31,6 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:fitsSystemWindows="false"
-            android:title="@string/app_name"
             app:titleTextAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
     </android.support.design.widget.AppBarLayout>

@@ -53,5 +53,5 @@ public interface EditorControl {
 
     void copyAll();
 
-    void selectTheme();
+    void selectThemeFont();
 }

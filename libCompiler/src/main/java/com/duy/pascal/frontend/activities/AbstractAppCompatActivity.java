@@ -251,7 +251,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     /**
      * set support action bar for activity
      */
-    protected void setupActionBar() {
+    protected void setupToolbar() {
         Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
