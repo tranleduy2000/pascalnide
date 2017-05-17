@@ -158,3 +158,11 @@ begin
     writeln('date = ', day, '/' , month,'/', year);
 end.
 ```
+
+## Some image (all code in CodeSample -> Tab Android)
+
+![Img1](img_adialog/img1.png)
+![Img1](img_adialog/img2.png)
+![Img1](img_adialog/img3.png)
+![Img1](img_adialog/img4.png)
+![Img1](img_adialog/img5.png)
