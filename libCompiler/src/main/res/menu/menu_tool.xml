@@ -171,4 +171,10 @@
         android:icon="@drawable/ic_perm_media_white_24dp"
         android:title="@string/insert_url_media"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_create_shortcut"
+        android:icon="@drawable/ic_widgets_white_24dp"
+        android:title="@string/create_shortcut"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -206,7 +206,8 @@ public class MenuEditor {
             menuItem.setChecked(!menuItem.isChecked());
 
         } else if (id == R.id.action_got_to_blog) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pascalnide.wordpress.com/"));
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://pascalnide.wordpress.com/"));
             activity.startActivity(intent);
 
         } else if (id == R.id.action_open_file) {
@@ -219,6 +220,14 @@ public class MenuEditor {
             activity.startActivityForResult(Intent.createChooser(i, "Complete action using"),
                     EditorActivity.ACTION_PICK_MEDIA_URL);
 
+        } else if (id == R.id.action_create_shortcut) {
+            try {
+                Intent intent = new Intent(activity,
+                        Class.forName("com.duy.pascal.pro.activities.CreateShortcutActivity"));
+                activity.startActivityForResult(intent, EditorActivity.ACTION_CREATE_SHORTCUT);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         return true;
     }

@@ -36,7 +36,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.duy.pascal.PascalApplication;
+import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
@@ -150,7 +150,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, "http://play.google.com/store/apps/details?id="
-                + PascalApplication.APPLICATION_ID);
+                + ((BasePascalApplication) getApplication()).getApplicationID());
         intent.setType("text/plain");
         startActivity(intent);
     }
@@ -187,19 +187,19 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
     }
 
     public void goToPlayStore(View view) {
-        Uri uri = Uri.parse("market://details?id=" + PascalApplication.APPLICATION_ID);
+        Uri uri = Uri.parse("market://details?id=" +
+                ((BasePascalApplication) getApplication()).getApplicationID());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,
         // to taken back to our application, we need to add following flags to intent.
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         try {
             startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id="
-                            + PascalApplication.APPLICATION_ID)));
+                            + ((BasePascalApplication) getApplication()).getApplicationID())));
         }
     }
 
@@ -214,7 +214,6 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
         // To count with Play market backstack, After pressing back button,
         // to taken back to our application, we need to add following flags to intent.
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         try {
             startActivity(goToMarket);

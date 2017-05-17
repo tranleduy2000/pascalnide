@@ -16,7 +16,7 @@
 
 package com.duy.pascal.frontend.theme.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,21 +25,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.editor_view.EditorView;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
-class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> {
-    private ArrayList<Object> mThemes = new ArrayList<>();
+public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> {
+    private LinkedList<Object> mThemes = new LinkedList<>();
     private LayoutInflater inflater;
     private PascalPreferences mPascalPreferences;
-    private Context context;
+    private Activity context;
 
-    ThemeAdapter(Context context) {
+    public ThemeAdapter(Activity context) {
         Collections.addAll(mThemes, context.getResources().getStringArray(R.array.code_themes));
         for (Integer i = 0; i < 20; i++) {
             mThemes.add(i);
@@ -50,13 +51,40 @@ class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.code_theme_item, parent, false);
-        return new ViewHolder(view);
+    public int getItemViewType(int position) {
+        if (((BasePascalApplication) context.getApplication()).isProVersion()) {
+            return 1;
+        }
+        if (position == 0) {
+            return 0; //get pro version
+        } else {
+            return 1;
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == 1) {
+            View view = inflater.inflate(R.layout.list_item_theme, parent, false);
+            return new ViewHolder(view);
+        } else {
+            View view = inflater.inflate(R.layout.list_item_get_pro_theme, parent, false);
+            return new ViewHolder(view);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, final int pos) {
+
+        //free version
+        final int position;
+
+        if (((BasePascalApplication) context.getApplication()).isProVersion()) {
+            position = pos;
+        } else {
+            position = pos - 1;
+        }
+
         if ((mThemes.get(position) instanceof String)) {
             holder.editorView.setColorTheme((String) mThemes.get(position));
         } else {
@@ -74,11 +102,16 @@ class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
-        return mThemes.size();
+        if (((BasePascalApplication) context.getApplication()).isProVersion()) {
+            return mThemes.size();
+        } else {
+            return mThemes.size() + 1;
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

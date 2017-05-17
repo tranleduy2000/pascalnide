@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
+package com.duy.pascal.pro;
 
-import android.app.Application;
+import android.util.Log;
 
-import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
+import org.junit.Test;
 
 /**
- * Created by Duy on 12-Mar-17.
+ * Created by Duy on 20-Apr-17.
  */
-public class PascalApplication extends Application {
-    public static final String APPLICATION_ID = "com.duy.pascal.compiler";
-    private final PascalActivityTaskExecutor mTaskExecutor = new PascalActivityTaskExecutor(this);
 
-    public PascalActivityTaskExecutor getTaskExecutor() {
-        return mTaskExecutor;
+public class StackTest {
+    private static final String TAG = "StackTest";
+
+    @Test
+    public void test1() {
+        testStack(1);
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
+    public void testStack(int depth) {
+        Log.d(TAG, "testStack: " + depth);
+        testStack(depth + 1);
+    } //21793
 }

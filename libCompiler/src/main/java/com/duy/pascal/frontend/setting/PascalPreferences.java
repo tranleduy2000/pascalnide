@@ -177,13 +177,6 @@ public class PascalPreferences {
     }
 
     public int getConsoleFontSize() {
-//        int fontsize;
-//        try {
-//            fontsize = getInt(context.readBuffer(R.string.key_console_font_size));
-//        } catch (Exception e) {
-//            fontsize = 14;
-//        }
-//        return (fontsize >= 1 && fontsize <= 100) ? fontsize : 14;
         return (int) getTextSize();
     }
 
@@ -212,6 +205,9 @@ public class PascalPreferences {
         return getBoolean(context.getString(R.string.key_pref_word_wrap));
     }
 
+    /**
+     * @return size of text in sp unit
+     */
     public float getTextSize() {
         try {
             return Float.parseFloat(getString(context.getString(R.string.key_pref_font_size)));

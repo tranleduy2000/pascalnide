@@ -30,7 +30,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.duy.pascal.PascalApplication;
+import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
@@ -144,7 +144,7 @@ public class AndroidCameraLib implements PascalLibrary {
             }
         };
         PascalActivityTaskExecutor taskQueue =
-                ((PascalApplication) mContext).getTaskExecutor();
+                ((BasePascalApplication) mContext).getTaskExecutor();
         taskQueue.execute(task);
         camera.setPreviewDisplay(task.getResult());
         return task;

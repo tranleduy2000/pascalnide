@@ -1,4 +1,4 @@
-package com.duy.pascal.compiler;
+package com.duy.pascal.pro;
 
 import com.duy.pascal.backend.tokenizer.IndentCode;
 

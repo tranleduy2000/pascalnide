@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,22 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.compiler;
+package com.duy.pascal;
 
-import android.util.Log;
-
-import org.junit.Test;
+import com.duy.pascal.pro.BuildConfig;
 
 /**
- * Created by Duy on 20-Apr-17.
+ * Created by Duy on 17-May-17.
  */
 
-public class StackTest {
-    private static final String TAG = "StackTest";
-
-    @Test
-    public void test1() {
-        testStack(1);
+public class PascalApplication extends BasePascalApplication {
+    @Override
+    public boolean isProVersion() {
+        return false;
     }
 
-    public void testStack(int depth) {
-        Log.d(TAG, "testStack: " + depth);
-        testStack(depth + 1);
-    } //21793
+    @Override
+    public String getApplicationID() {
+        return BuildConfig.APPLICATION_ID;
+    }
 }

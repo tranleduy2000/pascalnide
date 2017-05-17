@@ -30,7 +30,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.duy.pascal.PascalApplication;
+import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
@@ -322,7 +322,7 @@ public class WebCamLib implements PascalLibrary {
             }
         };
         PascalActivityTaskExecutor taskExecutor =
-                ((PascalApplication) mContext).getTaskExecutor();
+                ((BasePascalApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
         mCamera.setPreviewDisplay(task.getResult());
         return task;

@@ -15,5 +15,5 @@
   -->
 
 <resources>
-    <string name="app_name">Pascal (Pro)</string>
+    <string name="app_name" translatable="false">Pascal (Pro)</string>
 </resources>

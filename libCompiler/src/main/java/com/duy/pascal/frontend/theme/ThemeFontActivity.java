@@ -55,8 +55,7 @@ public class ThemeFontActivity extends AbstractAppCompatActivity {
     protected void setupToolbar() {
         setSupportActionBar(toolbar);
         setTitle(R.string.theme);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.duy.compiler">
+    package="com.duy.pascal.pro">
+
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <application
-        android:name="com.duy.pascal.PascalApplication"
+        android:name=".PascalApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,94 +15,15 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <activity
-            android:name="com.duy.pascal.frontend.code_editor.EditorActivity"
-            android:configChanges="orientation"
-            android:launchMode="singleTask" />
-        <activity
-            android:name="com.duy.pascal.frontend.activities.ActivitySplashScreen"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:label="@string/app_name">
+            android:name=".activities.CreateShortcutActivity"
+            android:label="@string/create_shortcut">
             <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="file" />
-                <data android:mimeType="*/*" />
-                <data android:host="*" />
-                <data android:pathPattern=".*\\.pas" />
-                <data android:pathPattern=".*\\.in" />
-                <data android:pathPattern=".*\\.out" />
-                <data android:pathPattern=".*\\.txt" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="file" />
-                <data android:mimeType="text/*" />
             </intent-filter>
 
-            <!-- file filter -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="file" />
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-
-            <!-- Clip board filter -->
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.duy.pascal.frontend.activities.ExecuteActivity"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity
-            android:name="com.duy.pascal.frontend.code_sample.DocumentActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout" />
-        <activity
-            android:name="com.duy.pascal.frontend.code_sample.CodeSampleActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:label="@string/title_activity_code_sample" />
-        <activity
-            android:name="com.duy.pascal.frontend.theme.ThemeFontActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:launchMode="singleTask" />
-        <activity android:name="com.duy.pascal.frontend.info_application.InfoActivity" />
-        <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
-        <activity
-            android:name="com.duy.pascal.frontend.activities.DebugActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.duy.pascal.backend.lib.android.activity.PascalActivity" />
-        <activity android:name="com.duy.pascal.frontend.code_sample.SearchResultSampleActivity" />
-
-        <activity
-            android:name="com.duy.pascal.backend.lib.android.barcode.ZxingActivity"
-            android:label="@string/title_activity_zxing" />
-
-        <activity
-            android:name="com.duy.pascal.backend.lib.android.barcode.ScannerActivity"
-            android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

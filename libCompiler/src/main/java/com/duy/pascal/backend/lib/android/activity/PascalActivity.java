@@ -25,7 +25,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
-import com.duy.pascal.PascalApplication;
+import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.googlecode.sl4a.Constants;
@@ -41,7 +41,7 @@ public class PascalActivity extends AbstractAppCompatActivity {
         if (id == -1) {
             throw new RuntimeException("FutureActivityTask ID is not specified.");
         }
-        PascalActivityTaskExecutor taskQueue = ((PascalApplication) getApplication()).getTaskExecutor();
+        PascalActivityTaskExecutor taskQueue = ((BasePascalApplication) getApplication()).getTaskExecutor();
         mTask = taskQueue.popTask(id);
         if (mTask == null) {
             Toast.makeText(this, "Exception when start activity", Toast.LENGTH_SHORT).show();

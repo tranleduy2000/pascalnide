@@ -23,7 +23,7 @@ import android.os.PowerManager;
 import android.provider.Settings.SettingNotFoundException;
 import android.view.WindowManager;
 
-import com.duy.pascal.PascalApplication;
+import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.android.activity.PascalActivityTask;
@@ -209,7 +209,7 @@ public class AndroidSettingLib implements PascalLibrary {
         };
 
         PascalActivityTaskExecutor taskExecutor =
-                ((PascalApplication) mContext).getTaskExecutor();
+                ((BasePascalApplication) mContext).getTaskExecutor();
         taskExecutor.execute(task);
 
         return oldValue;

@@ -95,16 +95,19 @@ public class ActivitySplashScreen extends AppCompatActivity {
             e.printStackTrace();
         }*/
 
-
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
+        Intent data = getIntent();
+        String action = data.getAction();
+        String type = data.getType();
         final Intent intentEdit = new Intent(ActivitySplashScreen.this, EditorActivity.class);
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if (type.equals("text/plain"))
-                handleActionSend(intent, intentEdit);
+            if (type.equals("text/plain")) {
+                handleActionSend(data, intentEdit);
+            }
         } else if (Intent.ACTION_VIEW.equals(action) && type != null) {
-            handleActionView(intent, intentEdit);
+            handleActionView(data, intentEdit);
+        } else if (action.equalsIgnoreCase("run_from_shortcut")) {
+            handleRunProgram(data);
+            return;
         }
 
         new Handler().postDelayed(new Runnable() {
@@ -116,6 +119,16 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 finish();
             }
         }, 400);
+    }
+
+    private void handleRunProgram(Intent data) {
+        Intent runIntent = new Intent(this, ExecuteActivity.class);
+        runIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        runIntent.putExtra(CompileManager.FILE_PATH,
+                data.getStringExtra(CompileManager.FILE_PATH));
+        overridePendingTransition(0, 0);
+        startActivity(runIntent);
+        finish();
     }
 
     private void handleActionView(Intent from, Intent to) {

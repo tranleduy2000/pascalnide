@@ -38,13 +38,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.theme.ThemeFontActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
@@ -54,6 +54,7 @@ import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureItem;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.theme.ThemeFontActivity;
 import com.duy.pascal.frontend.view.editor_view.EditorView;
 import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
 import com.google.common.collect.ListMultimap;
@@ -75,8 +76,9 @@ import java.util.Map;
 public class EditorActivity extends BaseEditorActivity implements
         DrawerLayout.DrawerListener {
 
-    public static final int ACTION_PICK_MEDIA_URL = 1013;
     public static final int ACTION_FILE_SELECT_CODE = 1012;
+    public static final int ACTION_PICK_MEDIA_URL = 1013;
+    public static final int ACTION_CREATE_SHORTCUT = 1014;
 
     private CompileManager mCompileManager;
     private MenuEditor menuEditor;
@@ -107,6 +109,22 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return menuEditor.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        BasePascalApplication application = (BasePascalApplication) getApplication();
+        if (application.isProVersion()) {
+            menu.findItem(R.id.action_create_shortcut).setEnabled(true);
+        } else {
+            menu.findItem(R.id.action_create_shortcut).setEnabled(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void invalidateOptionsMenu() {
+        super.invalidateOptionsMenu();
     }
 
     void insertTab(View v) {
@@ -395,9 +413,7 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     /**
-     * creat new source file
-     *
-     * @param view
+     * show dialog create new source file
      */
     @Override
     public void createNewSourceFile(View view) {
@@ -515,6 +531,10 @@ public class EditorActivity extends BaseEditorActivity implements
                         currentFragment.insert(path);
                     }
                 }
+                break;
+            case ACTION_CREATE_SHORTCUT:
+                data.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                getApplicationContext().sendBroadcast(data);
                 break;
         }
     }

@@ -74,21 +74,13 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     protected final boolean UN_SAVE_LAST_FILE = false;
     protected ApplicationFileManager mFileManager;
     protected EditorPagerAdapter pagerAdapter;
-    //    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    //    @BindView(R.id.app_bar)
     AppBarLayout appBarLayout;
-    //    @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    //    @BindView(R.id.recycler_view)
     SymbolListView mKeyList;
-    //    @BindView(R.id.navigation_view)
     NavigationView navigationView;
-    //    @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-    //    @BindView(R.id.container_symbol)
     View mContainerSymbol;
-    //    @BindView(R.id.view_pager)
     ViewPager viewPager;
     private KeyBoardEventListener keyBoardListener;
 

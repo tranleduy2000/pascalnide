@@ -84,7 +84,6 @@ public class FragmentFileManager extends Fragment implements
     private SearchView mSearchView;
     private SwipeRefreshLayout swipeRefreshLayout;
     @Nullable
-//    private Unbinder unbinder;
     private int sortMode = SORT_BY_NAME;
     @Nullable
     private FileListAdapter mAdapter;

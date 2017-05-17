@@ -60,6 +60,7 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.txtSample.setTextSize(pascalPreferences.getTextSize());
         holder.txtSample.setTypeface(FontManager.getFontFromAsset(context,
                 listPathFont.get(position)));
 
