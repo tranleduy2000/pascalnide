@@ -229,12 +229,32 @@ public class AlertDialogTask extends DialogTask {
     }
 
     private void setViewPasswordInput(AlertDialog.Builder builder) {
+        TextInputLayout textInputLayout = new TextInputLayout(getActivity());
+        textInputLayout.setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+        if (mHint != null) {
+            textInputLayout.setHint(mHint);
+        }
+
+
+        //dynamic create edittext
         mEditText = new EditText(getActivity());
         mEditText.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        mEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        mEditText.setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
         mEditText.setTransformationMethod(new PasswordTransformationMethod());
-        builder.setView(mEditText);
+
+        //add edit text to parent view
+        textInputLayout.addView(mEditText);
+
+        //set padding for parent view
+        int padding = (int) ImageUtils.convertDpToPixel(16, getActivity());
+        textInputLayout.setPadding(padding, padding, padding, padding);
+
+        //set custom view for dialog
+        builder.setView(textInputLayout);
     }
 
     private void setViewTextInput(AlertDialog.Builder builder) {

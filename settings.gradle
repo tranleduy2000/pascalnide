@@ -1,1 +1,1 @@
-include ':app', ':testapplication', ':pager', ':app-pro', ':libCompiler'
+include ':app', ':pager', ':app-pro', ':libCompiler'

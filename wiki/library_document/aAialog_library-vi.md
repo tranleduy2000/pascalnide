@@ -24,10 +24,10 @@ Ví dụ
 Uses 
     aDialog;
 Var
-    result: string;
+    title, msg, result: string;
 Begin
-    Title := 'Xin chào';
-    Hint := 'Đây là phần mềm Pascal NIDE';
+    title := 'Xin chào';
+    msg := 'Đây là phần mềm Pascal NIDE';
     dialogAlert (title, msg, true);
     Readln;
 End.
@@ -54,9 +54,9 @@ Ví dụ
 Uses 
     aDialog;
 Var
-    result: string;
+    title, hint, result: string;
 Begin
-    Title := 'Tên của bạn là gì?';
+    title := 'Tên của bạn là gì?';
     Hint := 'nhập vào đây';
     result := dialogGetInput (title, hint, '');
     Writeln('xin chào ' + result);
@@ -81,9 +81,9 @@ Ví dụ
 Uses 
     aDialog;
 Var
-    result: string;
+    title, hint, result: string;
 Begin
-    Title := 'Nhập tên của bạn';
+    title := 'Nhập tên của bạn';
     Hint := 'nhập vào đây';
     result := dialogGetPassword (title, hint);
     Writeln('Mật khẩu của bạn là ', result);

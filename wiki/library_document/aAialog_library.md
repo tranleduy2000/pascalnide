@@ -25,10 +25,10 @@ Example
 Uses
     aDialog;
 Var
-    title, hint, result: string;
+    title, msg, result: string;
 Begin
     title := 'Hello';
-    hint := 'This is Pascal NIDE';
+    msg := 'This is Pascal NIDE';
 
     DialogAlert(title, msg, true); //<==
 
@@ -61,7 +61,7 @@ Uses
 Var
     title, hint, result: string;
 Begin
-    title := 'What's your name?';
+    title := 'What''s your name?';
     hint := 'Enter here';
 
     result := dialogGetInput(title, hint, ''); //<==
@@ -142,7 +142,7 @@ Begin
     Minute := result.getInt('minute');
 
     Writeln('time =', hour, ':', minute);
-End
+End.
 ```
 ___
 ### dialogGetDate
@@ -179,3 +179,11 @@ Begin
     Writeln('date =', day, '/', month, '/', year);
 End
 ```
+
+## Some image (all code in CodeSample -> Tab Android)
+
+![Img1](img_adialog/img1.png)
+![Img1](img_adialog/img2.png)
+![Img1](img_adialog/img3.png)
+![Img1](img_adialog/img4.png)
+![Img1](img_adialog/img5.png)

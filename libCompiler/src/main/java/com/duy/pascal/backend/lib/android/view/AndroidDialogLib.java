@@ -261,6 +261,12 @@ public class AndroidDialogLib implements PascalLibrary {
         mDialogTask = new AlertDialogTask(title, message);
     }
 
+    @PascalMethod(description = "Create alert dialog.")
+    public void dialogAlert(@PascalParameter(name = "title") String title,
+                            @PascalParameter(name = "message") String message) {
+        createAlertDialog(title, message);
+    }
+
 
     @PascalMethod(description = "Create seek bar dialog.")
     public void createDialogSeek(

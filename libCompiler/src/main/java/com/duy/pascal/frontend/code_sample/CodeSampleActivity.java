@@ -38,23 +38,19 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
-//import butterknife.BindView;
 
 public class CodeSampleActivity extends AbstractAppCompatActivity implements CodeSampleAdapter.OnCodeClickListener {
 
     final String TAG = getClass().getSimpleName();
 
     private final String[] categories;
-//    @BindView(R.id.view_pager)
     ViewPager viewPager;
-//    @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-//    @BindView(R.id.search_view)
     MaterialSearchView searchView;
-//    @BindView(R.id.toolbar)
     Toolbar toolbar;
     private ApplicationFileManager fileManager;
     private CodePagerAdapter pagerAdapter;
+
     public CodeSampleActivity() {
         if (BuildConfig.DEBUG) {
             categories = new String[]{"Temp", "Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};

@@ -13,5 +13,3 @@ begin
 
     writeln('date = ', day, '/' , month,'/', year);
 end.
-
-
