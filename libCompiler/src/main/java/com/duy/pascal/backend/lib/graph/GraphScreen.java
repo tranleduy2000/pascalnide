@@ -274,9 +274,7 @@ public class GraphScreen {
             case TextFont.EuroFont:
                 font = FontManager.getFontFromAsset(context, "graph_euro.ttf");
                 break;
-            case TextFont.ScriptFont:
-                font = FontManager.getFontFromAsset(context, "graph_script.ttf");
-                break;
+
             case TextFont.BoldFont:
                 font = Typeface.DEFAULT_BOLD;
                 break;

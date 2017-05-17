@@ -62,12 +62,22 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.txtSample.setTypeface(FontManager.getFontFromAsset(context,
                 listPathFont.get(position)));
+
+        String name = listPathFont.get(position);
+        name = name.replace("_", " ").replace("-", " ").toLowerCase();
+        if (name.contains(".")) {
+            holder.txtName.setText(name.substring(0, name.indexOf(".") - 1));
+        } else {
+            holder.txtName.setText(name);
+        }
+
+        final String finalName = name;
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pascalPreferences.setFont(listPathFont.get(position));
                 Toast.makeText(context,
-                        context.getString(R.string.select) + " " + listPathFont.get(position),
+                        context.getString(R.string.select) + " " + finalName,
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -80,11 +90,13 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtSample;
+        TextView txtName;
         Button btnSelect;
 
         public ViewHolder(View itemView) {
             super(itemView);
             txtSample = (TextView) itemView.findViewById(R.id.txt_sample);
+            txtName = (TextView) itemView.findViewById(R.id.txt_name);
             btnSelect = (Button) itemView.findViewById(R.id.btn_select);
 
         }
