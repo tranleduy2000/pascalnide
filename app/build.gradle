@@ -39,6 +39,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile 'junit:junit:4.12'
-    compile project(':compiler')
+    compile project(':libCompiler')
 }
 apply plugin: 'com.google.gms.google-services'

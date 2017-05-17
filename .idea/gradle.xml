@@ -10,7 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app-pro" />
-            <option value="$PROJECT_DIR$/compiler" />
+            <option value="$PROJECT_DIR$/libCompiler" />
             <option value="$PROJECT_DIR$/pager" />
             <option value="$PROJECT_DIR$/testapplication" />
           </set>
