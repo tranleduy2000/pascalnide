@@ -30,8 +30,8 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.ObjectBasedPointer;
 import com.js.interpreter.runtime.PascalPointer;
 import com.js.interpreter.runtime.VariableContext;
@@ -49,15 +49,15 @@ public class NewFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, ReturnValue[] arguments,
+    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        ReturnValue pointer = arguments[0];
+        RuntimeValue pointer = arguments[0];
         RuntimeType type = pointer.getType(f);
         return new NewCall(pointer, type, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, ReturnValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 
@@ -78,11 +78,11 @@ public class NewFunction implements IMethodDeclaration {
 
     private class NewCall extends FunctionCall {
 
-        private ReturnValue value;
+        private RuntimeValue value;
         private RuntimeType type;
         private LineInfo line;
 
-        NewCall(ReturnValue value, RuntimeType type, LineInfo line) {
+        NewCall(RuntimeValue value, RuntimeType type, LineInfo line) {
             this.value = value;
             this.type = type;
             this.line = line;
@@ -105,7 +105,7 @@ public class NewFunction implements IMethodDeclaration {
         }
 
         @Override
-        public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new NewCall(value, type, line);
         }

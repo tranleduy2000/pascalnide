@@ -164,7 +164,7 @@ public class ExceptionManager {
             }
             if (e instanceof NotAStatementException) {
                 return getMessageResource(e, R.string.NotAStatementException,
-                        ((NotAStatementException) e).returnValue.toString());
+                        ((NotAStatementException) e).runtimeValue.toString());
             }
             if (e instanceof SameNameException) {
                 SameNameException exception = (SameNameException) e;
@@ -173,7 +173,7 @@ public class ExceptionManager {
             }
             if (e instanceof UnAssignableTypeException) {
                 return getMessageResource(e, R.string.UnAssignableTypeException,
-                        ((UnAssignableTypeException) e).returnValue.toString());
+                        ((UnAssignableTypeException) e).runtimeValue.toString());
             }
             if (e instanceof UnrecognizedTypeException) {
                 return getMessageResource(e, R.string.UnrecognizedTypeException,

@@ -22,19 +22,19 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.AssignableValue;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.AssignableValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class StringBuilderWithRangeType implements ReturnValue {
-    protected ReturnValue[] outputFormat;
-    private ReturnValue value;
-    private ReturnValue length;
+public class StringBuilderWithRangeType implements RuntimeValue {
+    protected RuntimeValue[] outputFormat;
+    private RuntimeValue value;
+    private RuntimeValue length;
 
 
-    public StringBuilderWithRangeType(ReturnValue value, ReturnValue length) {
+    public StringBuilderWithRangeType(RuntimeValue value, RuntimeValue length) {
         this.value = value;
         this.length = length;
         this.outputFormat = value.getOutputFormat();
@@ -46,12 +46,12 @@ public class StringBuilderWithRangeType implements ReturnValue {
     }
 
     @Override
-    public ReturnValue[] getOutputFormat() {
+    public RuntimeValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnValue[] formatInfo) {
+    public void setOutputFormat(RuntimeValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -95,7 +95,7 @@ public class StringBuilderWithRangeType implements ReturnValue {
 
 
     @Override
-    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new StringBuilderWithRangeType(value.compileTimeExpressionFold(context), length);
     }

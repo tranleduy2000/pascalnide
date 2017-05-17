@@ -17,7 +17,7 @@
 package com.js.interpreter.ast.instructions.with_statement;
 
 import com.js.interpreter.ast.instructions.FieldReference;
-import com.js.interpreter.ast.returnsvalue.FieldAccess;
+import com.js.interpreter.ast.runtime_value.FieldAccess;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;

@@ -23,8 +23,8 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 
 public interface IMethodDeclaration {
@@ -33,11 +33,11 @@ public interface IMethodDeclaration {
      */
     String name();
 
-    FunctionCall generateCall(LineInfo line, ReturnValue[] values,
+    FunctionCall generateCall(LineInfo line, RuntimeValue[] values,
                               ExpressionContext f) throws ParsingException;
 
     FunctionCall generatePerfectFitCall(LineInfo line,
-                                        ReturnValue[] values, ExpressionContext f)
+                                        RuntimeValue[] values, ExpressionContext f)
             throws ParsingException;
 
     ArgumentType[] argumentTypes();

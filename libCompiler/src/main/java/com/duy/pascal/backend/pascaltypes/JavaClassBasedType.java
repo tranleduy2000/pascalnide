@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
-import com.js.interpreter.ast.returnsvalue.boxing.StringBuilderBoxer;
-import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.boxing.CharacterBoxer;
+import com.js.interpreter.ast.runtime_value.boxing.StringBuilderBoxer;
+import com.js.interpreter.ast.runtime_value.cloning.CloneableObjectCloner;
 
 public class JavaClassBasedType implements DeclaredType {
 
@@ -38,7 +38,7 @@ public class JavaClassBasedType implements DeclaredType {
     }
 
     @Override
-    public ReturnValue convert(ReturnValue value, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType otherType = value.getType(f);
         if (otherType.declType instanceof BasicType) {
@@ -72,14 +72,14 @@ public class JavaClassBasedType implements DeclaredType {
 
 
     @Override
-    public ReturnValue cloneValue(ReturnValue r) {
+    public RuntimeValue cloneValue(RuntimeValue r) {
         return new CloneableObjectCloner(r);
     }
 
     @NonNull
     @Override
-    public ReturnValue generateArrayAccess(ReturnValue array,
-                                           ReturnValue index) throws NonArrayIndexed {
+    public RuntimeValue generateArrayAccess(RuntimeValue array,
+                                            RuntimeValue index) throws NonArrayIndexed {
         return null;
     }
 

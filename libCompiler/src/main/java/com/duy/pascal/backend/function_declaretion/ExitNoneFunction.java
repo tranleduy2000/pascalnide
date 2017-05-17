@@ -27,8 +27,8 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -43,13 +43,13 @@ public class ExitNoneFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, ReturnValue[] arguments,
+    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         return new ExitNoneCall(line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, ReturnValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 
@@ -93,7 +93,7 @@ public class ExitNoneFunction implements IMethodDeclaration {
         }
 
         @Override
-        public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new ExitNoneCall(line);
         }

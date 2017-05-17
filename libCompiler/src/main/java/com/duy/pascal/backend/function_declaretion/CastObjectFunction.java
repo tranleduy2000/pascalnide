@@ -27,8 +27,8 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -49,15 +49,15 @@ public class CastObjectFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, ReturnValue[] arguments,
+    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        ReturnValue pointer = arguments[0];
-        ReturnValue value = arguments[1];
+        RuntimeValue pointer = arguments[0];
+        RuntimeValue value = arguments[1];
         return new InstanceObjectCall(pointer, value, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, ReturnValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 
@@ -77,11 +77,11 @@ public class CastObjectFunction implements IMethodDeclaration {
     }
 
     private class InstanceObjectCall extends FunctionCall {
-        private ReturnValue value;
+        private RuntimeValue value;
         private LineInfo line;
-        private ReturnValue pointer;
+        private RuntimeValue pointer;
 
-        InstanceObjectCall(ReturnValue pointer, ReturnValue value, LineInfo line) {
+        InstanceObjectCall(RuntimeValue pointer, RuntimeValue value, LineInfo line) {
             this.value = value;
             this.pointer = pointer;
             this.line = line;
@@ -104,7 +104,7 @@ public class CastObjectFunction implements IMethodDeclaration {
         }
 
         @Override
-        public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new InstanceObjectCall(pointer, value, line);
         }

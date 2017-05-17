@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ArrayAccess;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.cloning.ArrayCloner;
+import com.js.interpreter.ast.runtime_value.ArrayAccess;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.cloning.ArrayCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.Array;
@@ -111,22 +111,22 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
      * except variable length arrays, but they are checked in the {@link
      */
     @Override
-    public ReturnValue convert(ReturnValue value, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType other = value.getType(f);
         return this.superset(other.declType) ? cloneValue(value) : null;
     }
 
     @Override
-    public ReturnValue cloneValue(final ReturnValue r) {
+    public RuntimeValue cloneValue(final RuntimeValue r) {
         return new ArrayCloner<T>(r);
     }
 
 
     @NonNull
     @Override
-    public ReturnValue generateArrayAccess(ReturnValue array,
-                                           ReturnValue index) {
+    public RuntimeValue generateArrayAccess(RuntimeValue array,
+                                            RuntimeValue index) {
         return new ArrayAccess(array, index, bounds.lower);
     }
 

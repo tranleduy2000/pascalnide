@@ -14,7 +14,7 @@ import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.PascalPointer;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
@@ -78,8 +78,8 @@ public class MethodDeclaration extends AbstractCallableFunction {
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException,
             RuntimePascalException {
-        if (owner instanceof ReturnValue) {
-            owner = ((ReturnValue) owner).getValue(parentContext, main);
+        if (owner instanceof RuntimeValue) {
+            owner = ((RuntimeValue) owner).getValue(parentContext, main);
         }
         return method.invoke(owner, arguments);
     }

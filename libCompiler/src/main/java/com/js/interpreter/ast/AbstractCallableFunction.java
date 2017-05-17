@@ -3,9 +3,9 @@ package com.js.interpreter.ast;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.SimpleFunctionCall;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.SimpleFunctionCall;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -28,9 +28,9 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line,
-                                               List<ReturnValue> values, ExpressionContext f)
+                                               List<RuntimeValue> values, ExpressionContext f)
             throws ParsingException {
-        ReturnValue[] args = perfectMatch(values, f);
+        RuntimeValue[] args = perfectMatch(values, f);
         if (args == null) {
             return null;
         }
@@ -38,9 +38,9 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, List<ReturnValue> values,
+    public FunctionCall generateCall(LineInfo line, List<RuntimeValue> values,
                                      ExpressionContext f) throws ParsingException {
-        ReturnValue[] args = formatArgs(values, f);
+        RuntimeValue[] args = formatArgs(values, f);
         if (args == null) {
             return null;
         }

@@ -28,8 +28,8 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.FunctionOnStack;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -45,14 +45,14 @@ public class ExitFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, ReturnValue[] arguments,
+    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        ReturnValue array = arguments[0];
+        RuntimeValue array = arguments[0];
         return new ExitCall(array, line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, ReturnValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 
@@ -74,9 +74,9 @@ public class ExitFunction implements IMethodDeclaration {
     private class ExitCall extends FunctionCall {
 
         private LineInfo line;
-        private ReturnValue value;
+        private RuntimeValue value;
 
-        ExitCall(ReturnValue value, LineInfo line) {
+        ExitCall(RuntimeValue value, LineInfo line) {
             this.value = value;
             this.line = line;
         }
@@ -98,7 +98,7 @@ public class ExitFunction implements IMethodDeclaration {
         }
 
         @Override
-        public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new ExitCall(value.compileTimeExpressionFold(context), line);
         }

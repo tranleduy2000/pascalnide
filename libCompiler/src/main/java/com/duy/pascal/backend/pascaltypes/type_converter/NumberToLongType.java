@@ -6,18 +6,18 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.AssignableValue;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.AssignableValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class NumberToLongType implements ReturnValue {
-    private ReturnValue[] outputFormat;
-    private ReturnValue other;
+public class NumberToLongType implements RuntimeValue {
+    private RuntimeValue[] outputFormat;
+    private RuntimeValue other;
 
 
-    public NumberToLongType(ReturnValue other) {
+    public NumberToLongType(RuntimeValue other) {
         this.other = other;
         this.outputFormat = other.getOutputFormat();
     }
@@ -28,12 +28,12 @@ public class NumberToLongType implements ReturnValue {
     }
 
     @Override
-    public ReturnValue[] getOutputFormat() {
+    public RuntimeValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnValue[] formatInfo) {
+    public void setOutputFormat(RuntimeValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -69,7 +69,7 @@ public class NumberToLongType implements ReturnValue {
 
 
     @Override
-    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new NumberToLongType(other.compileTimeExpressionFold(context));
     }

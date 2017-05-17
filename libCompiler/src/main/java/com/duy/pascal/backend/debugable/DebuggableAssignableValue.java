@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.debugable;
 
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.AssignableValue;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.AssignableValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.Reference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -10,15 +10,15 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
 public abstract class DebuggableAssignableValue implements AssignableValue {
-    protected ReturnValue[] outputFormat;
+    protected RuntimeValue[] outputFormat;
 
     @Override
-    public ReturnValue[] getOutputFormat() {
+    public RuntimeValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnValue[] formatInfo) {
+    public void setOutputFormat(RuntimeValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 

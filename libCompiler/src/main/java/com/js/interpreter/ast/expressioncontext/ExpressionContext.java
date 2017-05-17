@@ -10,12 +10,12 @@ import com.js.interpreter.ast.NamedEntity;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.codeunit.CodeUnit;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 import java.util.List;
 
 public interface ExpressionContext extends CompileTimeContext {
-    ReturnValue getIdentifierValue(WordToken name)
+    RuntimeValue getIdentifierValue(WordToken name)
             throws ParsingException;
 
     void verifyNonConflictingSymbol(NamedEntity n) throws SameNameException;

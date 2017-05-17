@@ -2,7 +2,7 @@ package com.duy.pascal.backend.pascaltypes.type_converter;
 
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -33,8 +33,8 @@ public class TypeConverter {
         precedence.put(double.class, 2);
     }
 
-    public static ReturnValue autoConvert(BasicType outtype,
-                                          ReturnValue target, BasicType intype) {
+    public static RuntimeValue autoConvert(BasicType outtype,
+                                           RuntimeValue target, BasicType intype) {
         if (intype == outtype) {
             return target;
         }
@@ -51,28 +51,28 @@ public class TypeConverter {
         return null;
     }
 
-    public static ReturnValue autoConvertRequired(BasicType outtype,
-                                                  ReturnValue target, BasicType intype)
+    public static RuntimeValue autoConvertRequired(BasicType outtype,
+                                                   RuntimeValue target, BasicType intype)
             throws UnConvertibleTypeException {
-        ReturnValue result = autoConvert(outtype, target, intype);
+        RuntimeValue result = autoConvert(outtype, target, intype);
         if (result == null) {
             throw new UnConvertibleTypeException(target, outtype, intype, true);
         }
         return result;
     }
 
-    public static ReturnValue forceConvertRequired(BasicType outtype,
-                                                   ReturnValue target, BasicType intype)
+    public static RuntimeValue forceConvertRequired(BasicType outtype,
+                                                    RuntimeValue target, BasicType intype)
             throws UnConvertibleTypeException {
-        ReturnValue result = forceConvert(outtype, target, intype);
+        RuntimeValue result = forceConvert(outtype, target, intype);
         if (result == null) {
             throw new UnConvertibleTypeException(target, outtype, intype, false);
         }
         return result;
     }
 
-    public static ReturnValue forceConvert(BasicType outtype,
-                                           ReturnValue target, BasicType intype) {
+    public static RuntimeValue forceConvert(BasicType outtype,
+                                            RuntimeValue target, BasicType intype) {
         if (outtype == intype) {
             return target;
         }

@@ -2,9 +2,9 @@ package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.AssignableValue;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.boxing.GetAddress;
+import com.js.interpreter.ast.runtime_value.AssignableValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.boxing.GetAddress;
 import com.js.interpreter.runtime.PascalReference;
 
 import java.util.Iterator;
@@ -41,7 +41,7 @@ public class RuntimeType implements ArgumentType {
         return false;
     }
 
-    public ReturnValue convert(ReturnValue value, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType other = value.getType(f);
         if (writable) {
@@ -80,8 +80,8 @@ public class RuntimeType implements ArgumentType {
     }
 
     @Override
-    public ReturnValue convertArgType(Iterator<ReturnValue> args,
-                                      ExpressionContext f) throws ParsingException {
+    public RuntimeValue convertArgType(Iterator<RuntimeValue> args,
+                                       ExpressionContext f) throws ParsingException {
         if (!args.hasNext()) {
             return null;
         }
@@ -89,12 +89,12 @@ public class RuntimeType implements ArgumentType {
     }
 
     @Override
-    public ReturnValue perfectFit(Iterator<ReturnValue> args,
-                                  ExpressionContext e) throws ParsingException {
+    public RuntimeValue perfectFit(Iterator<RuntimeValue> args,
+                                   ExpressionContext e) throws ParsingException {
         if (!args.hasNext()) {
             return null;
         }
-        ReturnValue val = args.next();
+        RuntimeValue val = args.next();
         RuntimeType other = val.getType(e);
         if (this.declType.equals(other.declType)) {
             if (writable) {

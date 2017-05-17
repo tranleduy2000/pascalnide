@@ -16,11 +16,11 @@
 
 package com.duy.pascal.backend.exceptions.value;
 
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 public class NonConstantExpressionException extends com.duy.pascal.backend.exceptions.ParsingException {
 
-    public NonConstantExpressionException(ReturnValue value) {
+    public NonConstantExpressionException(RuntimeValue value) {
         super(value.getLineNumber(), "The expression \"" + value
                 + "\" is not constant.");
     }

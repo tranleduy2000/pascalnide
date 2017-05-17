@@ -8,7 +8,7 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +38,12 @@ public class ParenthesizedToken extends GrouperToken {
         return "(";
     }
 
-    public List<ReturnValue> getArgumentsForCall(ExpressionContext context)
+    public List<RuntimeValue> getArgumentsForCall(ExpressionContext context)
             throws ParsingException {
-        List<ReturnValue> result = new ArrayList<>();
+        List<RuntimeValue> result = new ArrayList<>();
         while (hasNext()) {
-            ReturnValue returnValue = getNextExpression(context);
-            result.add(returnValue);
+            RuntimeValue runtimeValue = getNextExpression(context);
+            result.add(runtimeValue);
             if (hasNext()) {
                 Token next = take();
                 if (!(next instanceof CommaToken)) {
@@ -60,11 +60,11 @@ public class ParenthesizedToken extends GrouperToken {
      * - column is number column on the screen use for show variable
      * - size is number of floating point if operator of variable is double or float
      */
-    public List<ReturnValue> getArgumentsForOutput(ExpressionContext context)
+    public List<RuntimeValue> getArgumentsForOutput(ExpressionContext context)
             throws ParsingException {
-        List<ReturnValue> result = new ArrayList<>();
+        List<RuntimeValue> result = new ArrayList<>();
         while (hasNext()) {
-            ReturnValue value = getNextExpression(context);
+            RuntimeValue value = getNextExpression(context);
             Class<?> runtimeClass;
             runtimeClass = value.getType(context).declType.getStorageClass();
             if (hasNext()) {
@@ -74,9 +74,9 @@ public class ParenthesizedToken extends GrouperToken {
                     if (!RuntimeType.canOutputWithFormat(runtimeClass, 1)) {
                         throw new ExpectedTokenException(",", next);
                     }
-                    ReturnValue[] infoOutput = new ReturnValue[2];
-                    ReturnValue column = getNextExpression(context);
-                    ReturnValue lengthFloatingPoint = null;
+                    RuntimeValue[] infoOutput = new RuntimeValue[2];
+                    RuntimeValue column = getNextExpression(context);
+                    RuntimeValue lengthFloatingPoint = null;
                     if (hasNext()) {
                         next = take();
                         if (next instanceof ColonToken) {

@@ -6,16 +6,16 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.AssignableValue;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.AssignableValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class CharToIntType implements ReturnValue {
-    ReturnValue other;
+public class CharToIntType implements RuntimeValue {
+    RuntimeValue other;
 
-    public CharToIntType(ReturnValue other) {
+    public CharToIntType(RuntimeValue other) {
         this.other = other;
     }
 
@@ -25,12 +25,12 @@ public class CharToIntType implements ReturnValue {
     }
 
     @Override
-    public ReturnValue[] getOutputFormat() {
-        return new ReturnValue[0];
+    public RuntimeValue[] getOutputFormat() {
+        return new RuntimeValue[0];
     }
 
     @Override
-    public void setOutputFormat(ReturnValue[] formatInfo) {
+    public void setOutputFormat(RuntimeValue[] formatInfo) {
 
     }
 
@@ -65,7 +65,7 @@ public class CharToIntType implements ReturnValue {
 
 
     @Override
-    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new CharToIntType(other.compileTimeExpressionFold(context));
     }

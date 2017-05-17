@@ -24,7 +24,7 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -33,11 +33,11 @@ import java.util.ArrayList;
 
 public class WithCall extends DebuggableExecutableReturnValue {
 
-    public ArrayList<ReturnValue> arguments;
+    public ArrayList<RuntimeValue> arguments;
     private WithStatement withStatement;
     private LineInfo line;
 
-    public WithCall(WithStatement withStatement, ArrayList<ReturnValue> arguments, LineInfo line) {
+    public WithCall(WithStatement withStatement, ArrayList<RuntimeValue> arguments, LineInfo line) {
         this.withStatement = withStatement;
         this.line = line;
         this.arguments = arguments;
@@ -94,7 +94,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
 
 
     @Override
-    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new WithCall(withStatement, arguments, line);
     }

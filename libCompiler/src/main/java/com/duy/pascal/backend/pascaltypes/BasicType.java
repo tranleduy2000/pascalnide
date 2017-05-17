@@ -8,11 +8,11 @@ import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
 import com.duy.pascal.backend.pascaltypes.type_converter.StringBuilderWithRangeType;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.StringIndex;
-import com.js.interpreter.ast.returnsvalue.boxing.CharacterBoxer;
-import com.js.interpreter.ast.returnsvalue.boxing.StringBoxer;
-import com.js.interpreter.ast.returnsvalue.cloning.StringBuilderCloner;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.StringIndex;
+import com.js.interpreter.ast.runtime_value.boxing.CharacterBoxer;
+import com.js.interpreter.ast.runtime_value.boxing.StringBoxer;
+import com.js.interpreter.ast.runtime_value.cloning.StringBuilderCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.io.File;
@@ -26,7 +26,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
             throw new UnsupportedOutputFormatException();
 
         }
@@ -45,7 +45,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
             throw new UnsupportedOutputFormatException();
         }
 
@@ -56,7 +56,7 @@ public enum BasicType implements DeclaredType {
 
     },
     StringBuilder(StringBuilder.class) {
-        private ReturnValue length; //max size
+        private RuntimeValue length; //max size
 
         @Override
         Object getDefaultValue() {
@@ -64,7 +64,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
+        public void setLength(RuntimeValue length) {
             this.length = length;
         }
 
@@ -76,7 +76,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public ReturnValue convert(ReturnValue valueToAssign, ExpressionContext f)
+        public RuntimeValue convert(RuntimeValue valueToAssign, ExpressionContext f)
                 throws ParsingException {
             RuntimeType otherType = valueToAssign.getType(f);
             if (otherType.declType instanceof BasicType) {
@@ -96,13 +96,13 @@ public enum BasicType implements DeclaredType {
 
         @NonNull
         @Override
-        public ReturnValue generateArrayAccess(ReturnValue array,
-                                               ReturnValue index) throws NonArrayIndexed {
+        public RuntimeValue generateArrayAccess(RuntimeValue array,
+                                                RuntimeValue index) throws NonArrayIndexed {
             return new StringIndex(array, index);
         }
 
         @Override
-        public ReturnValue cloneValue(ReturnValue value) {
+        public RuntimeValue cloneValue(RuntimeValue value) {
             return new StringBuilderCloner(value);
         }
 
@@ -114,7 +114,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
             throw new UnsupportedOutputFormatException();
         }
 
@@ -131,7 +131,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) {
+        public void setLength(RuntimeValue length) {
         }
 
         @Override
@@ -148,7 +148,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
             throw new UnsupportedOutputFormatException();
         }
 
@@ -166,7 +166,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
             throw new UnsupportedOutputFormatException();
         }
 
@@ -182,7 +182,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
             throw new UnsupportedOutputFormatException();
         }
 
@@ -200,7 +200,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
             throw new UnsupportedOutputFormatException();
         }
 
@@ -217,7 +217,7 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(ReturnValue length) throws UnsupportedOutputFormatException {
+        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
             throw new UnsupportedOutputFormatException();
         }
 
@@ -296,7 +296,7 @@ public enum BasicType implements DeclaredType {
      *
      * @param length
      */
-    public abstract void setLength(ReturnValue length) throws UnsupportedOutputFormatException;
+    public abstract void setLength(RuntimeValue length) throws UnsupportedOutputFormatException;
 
     @Override
     public Class getTransferClass() {
@@ -307,7 +307,7 @@ public enum BasicType implements DeclaredType {
     public abstract String toString();
 
     @Override
-    public ReturnValue convert(ReturnValue value, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType otherType = value.getType(f);
         if (otherType.declType instanceof BasicType) {
@@ -328,15 +328,15 @@ public enum BasicType implements DeclaredType {
 
 
     @Override
-    public ReturnValue cloneValue(final ReturnValue r) {
+    public RuntimeValue cloneValue(final RuntimeValue r) {
         return r;
     }
 
 
     @NonNull
     @Override
-    public ReturnValue generateArrayAccess(ReturnValue array,
-                                           ReturnValue index) throws NonArrayIndexed {
+    public RuntimeValue generateArrayAccess(RuntimeValue array,
+                                            RuntimeValue index) throws NonArrayIndexed {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 

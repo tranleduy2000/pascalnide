@@ -6,8 +6,8 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.cloning.CloneableObjectCloner;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.cloning.CloneableObjectCloner;
 
 import java.util.ArrayList;
 
@@ -69,7 +69,7 @@ public class CustomType extends ObjectType {
 
 
     @Override
-    public ReturnValue convert(ReturnValue value, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType other_type = value.getType(f);
         if (this.equals(other_type.declType)) {
@@ -90,13 +90,13 @@ public class CustomType extends ObjectType {
 
     @NonNull
     @Override
-    public ReturnValue generateArrayAccess(ReturnValue array,
-                                           ReturnValue index) throws NonArrayIndexed {
+    public RuntimeValue generateArrayAccess(RuntimeValue array,
+                                            RuntimeValue index) throws NonArrayIndexed {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 
     @Override
-    public ReturnValue cloneValue(ReturnValue r) {
+    public RuntimeValue cloneValue(RuntimeValue r) {
         return new CloneableObjectCloner(r);
     }
 

@@ -10,10 +10,10 @@ import com.js.interpreter.ast.instructions.Assignment;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.SetValueExecutable;
-import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.AssignableValue;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.operators.number.BinaryOperatorEvaluation;
+import com.js.interpreter.ast.runtime_value.ConstantAccess;
+import com.js.interpreter.ast.runtime_value.AssignableValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.operators.number.BinaryOperatorEvaluation;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -21,13 +21,13 @@ import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class ForToStatement extends DebuggableExecutable {
     private SetValueExecutable setfirst;
-    private ReturnValue lessThanLast;
+    private RuntimeValue lessThanLast;
     private SetValueExecutable increment_temp;
     private Executable command;
     private LineInfo line;
 
     public ForToStatement(ExpressionContext context, AssignableValue tempVar,
-                          ReturnValue first, ReturnValue last, Executable command,
+                          RuntimeValue first, RuntimeValue last, Executable command,
                           LineInfo line) throws ParsingException {
         this.line = line;
         setfirst = new Assignment(tempVar, first, line);
@@ -71,7 +71,7 @@ public class ForToStatement extends DebuggableExecutable {
         SetValueExecutable first = setfirst.compileTimeConstantTransform(c);
         SetValueExecutable inc = increment_temp.compileTimeConstantTransform(c);
         Executable comm = command.compileTimeConstantTransform(c);
-        ReturnValue comp = lessThanLast;
+        RuntimeValue comp = lessThanLast;
         Object val = lessThanLast.compileTimeValue(c);
         if (val != null) {
             if (((Boolean) val)) {

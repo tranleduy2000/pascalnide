@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 public interface DeclaredType {
 
@@ -23,8 +23,8 @@ public interface DeclaredType {
      * example
      * byte a = 6 -> integer b = a;
      */
-    ReturnValue convert(ReturnValue returnValue,
-                        ExpressionContext f) throws ParsingException;
+    RuntimeValue convert(RuntimeValue runtimeValue,
+                         ExpressionContext f) throws ParsingException;
 
     /**
      * check equal value
@@ -36,11 +36,11 @@ public interface DeclaredType {
      * clone value
      */
     @Nullable
-    ReturnValue cloneValue(ReturnValue r);
+    RuntimeValue cloneValue(RuntimeValue r);
 
     @NonNull
-    ReturnValue generateArrayAccess(ReturnValue array,
-                                    ReturnValue index) throws NonArrayIndexed;
+    RuntimeValue generateArrayAccess(RuntimeValue array,
+                                     RuntimeValue index) throws NonArrayIndexed;
 
     @Nullable
     Class<?> getStorageClass();

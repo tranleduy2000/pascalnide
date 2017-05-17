@@ -16,14 +16,14 @@
 
 package com.duy.pascal.backend.exceptions.syntax;
 
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 public class NotAStatementException extends com.duy.pascal.backend.exceptions.ParsingException {
-    public ReturnValue returnValue;
+    public RuntimeValue runtimeValue;
 
-    public NotAStatementException(ReturnValue r) {
+    public NotAStatementException(RuntimeValue r) {
         super(r.getLineNumber(), r + " is not an instruction by itself.");
-        this.returnValue = r;
+        this.runtimeValue = r;
     }
 
 }

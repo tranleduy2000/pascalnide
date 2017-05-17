@@ -23,8 +23,8 @@ import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 import java.util.List;
 
@@ -68,9 +68,9 @@ public class AbstractMethodDeclaration extends AbstractFunction {
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line,
-                                               List<ReturnValue> values, ExpressionContext f)
+                                               List<RuntimeValue> values, ExpressionContext f)
             throws ParsingException {
-        ReturnValue[] args = this.perfectMatch(values, f);
+        RuntimeValue[] args = this.perfectMatch(values, f);
         if (args == null) {
             return null;
         }
@@ -78,9 +78,9 @@ public class AbstractMethodDeclaration extends AbstractFunction {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, List<ReturnValue> values,
+    public FunctionCall generateCall(LineInfo line, List<RuntimeValue> values,
                                      ExpressionContext f) throws ParsingException {
-        ReturnValue[] args = this.formatArgs(values, f);
+        RuntimeValue[] args = this.formatArgs(values, f);
         if (args == null) {
             return null;
         }

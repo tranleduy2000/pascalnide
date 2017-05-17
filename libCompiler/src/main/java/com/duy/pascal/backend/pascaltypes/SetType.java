@@ -22,8 +22,8 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.cloning.ArrayCloner;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.cloning.ArrayCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.Array;
@@ -96,9 +96,9 @@ public class SetType<T extends DeclaredType> implements DeclaredType {
     }
 
     @Override
-    public ReturnValue convert(ReturnValue returnValue, ExpressionContext f) throws ParsingException {
-        RuntimeType other = returnValue.getType(f);
-        return this.superset(other.declType) ? cloneValue(returnValue) : null;
+    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
+        RuntimeType other = runtimeValue.getType(f);
+        return this.superset(other.declType) ? cloneValue(runtimeValue) : null;
     }
 
     @Override
@@ -128,13 +128,13 @@ public class SetType<T extends DeclaredType> implements DeclaredType {
     }
 
     @Override
-    public ReturnValue cloneValue(ReturnValue r) {
+    public RuntimeValue cloneValue(RuntimeValue r) {
         return new ArrayCloner<>(r);
     }
 
     @NonNull
     @Override
-    public ReturnValue generateArrayAccess(ReturnValue array, ReturnValue index)
+    public RuntimeValue generateArrayAccess(RuntimeValue array, RuntimeValue index)
             throws NonArrayIndexed {
         throw new NonArrayIndexed(line, this);
     }

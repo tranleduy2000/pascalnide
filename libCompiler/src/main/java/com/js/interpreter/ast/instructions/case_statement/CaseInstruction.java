@@ -22,7 +22,7 @@ import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
 import com.js.interpreter.ast.instructions.InstructionGrouper;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CaseInstruction extends DebuggableExecutable {
-    private ReturnValue mSwitchValue;
+    private RuntimeValue mSwitchValue;
     private CasePossibility[] possibilities;
     private InstructionGrouper otherwise;
     private LineInfo line;
@@ -52,7 +52,7 @@ public class CaseInstruction extends DebuggableExecutable {
         while (!(token.peek() instanceof ElseToken) && !(token.peek() instanceof EOFToken)) {
             List<CaseCondition> conditions = new ArrayList<>();
             while (true) {
-                ReturnValue valueToSwitch = token.getNextExpression(context);
+                RuntimeValue valueToSwitch = token.getNextExpression(context);
 
                 //check type
                 assertType(switchValueType, valueToSwitch, context);
@@ -63,7 +63,7 @@ public class CaseInstruction extends DebuggableExecutable {
                 }
                 if (token.peek() instanceof DotDotToken) {
                     token.take();
-                    ReturnValue upper = token.getNextExpression(context);
+                    RuntimeValue upper = token.getNextExpression(context);
                     Object hi = upper.compileTimeValue(context);
                     if (hi == null) {
                         throw new NonConstantExpressionException(upper);
@@ -98,9 +98,9 @@ public class CaseInstruction extends DebuggableExecutable {
     }
 
     //check type
-    private void assertType(DeclaredType switchValueType, ReturnValue val, ExpressionContext context) throws ParsingException {
+    private void assertType(DeclaredType switchValueType, RuntimeValue val, ExpressionContext context) throws ParsingException {
         DeclaredType inputType = val.getType(context).declType;
-        ReturnValue converted = switchValueType.convert(val, context);
+        RuntimeValue converted = switchValueType.convert(val, context);
         if (converted == null) {
             throw new UnConvertibleTypeException(val, inputType, switchValueType, true);
         }

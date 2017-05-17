@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.ObjectBasedPointer;
 import com.js.interpreter.runtime.PascalReference;
 
@@ -18,11 +18,11 @@ public class PointerType implements DeclaredType {
     }
 
     @Override
-    public ReturnValue convert(ReturnValue returnValue, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other = returnValue.getType(f);
+        RuntimeType other = runtimeValue.getType(f);
         if (this.equals(other.declType)) {
-            return returnValue;
+            return runtimeValue;
         }
         return null;
     }
@@ -48,14 +48,14 @@ public class PointerType implements DeclaredType {
 
     // The pointer itself contains no mutable information.
     @Override
-    public ReturnValue cloneValue(final ReturnValue r) {
+    public RuntimeValue cloneValue(final RuntimeValue r) {
         return r;
     }
 
     @NonNull
     @Override
-    public ReturnValue generateArrayAccess(ReturnValue array,
-                                           ReturnValue index) throws NonArrayIndexed {
+    public RuntimeValue generateArrayAccess(RuntimeValue array,
+                                            RuntimeValue index) throws NonArrayIndexed {
         throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 

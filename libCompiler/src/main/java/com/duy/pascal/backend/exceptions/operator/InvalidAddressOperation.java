@@ -19,11 +19,11 @@ package com.duy.pascal.backend.exceptions.operator;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 public class InvalidAddressOperation extends ParsingException {
 
-    public InvalidAddressOperation(LineInfo line, ReturnValue v) {
+    public InvalidAddressOperation(LineInfo line, RuntimeValue v) {
         super(line, "The expression " + v + " cannot have its address taken.");
     }
 

@@ -14,18 +14,18 @@ import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
 import com.js.interpreter.ast.instructions.ExecutionResult;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class IfStatement extends DebuggableExecutable {
-    private ReturnValue condition;
+    private RuntimeValue condition;
     private Executable instruction;
     private Executable elseInstruction;
     private LineInfo line;
 
-    public IfStatement(ReturnValue condition, Executable instruction,
+    public IfStatement(RuntimeValue condition, Executable instruction,
                        Executable elseInstruction, LineInfo line) {
 
 
@@ -47,8 +47,8 @@ public class IfStatement extends DebuggableExecutable {
     public IfStatement(ExpressionContext context, GrouperToken grouperToken, LineInfo lineNumber) throws ParsingException {
 
         //check condition is boolean value
-        ReturnValue condition = grouperToken.getNextExpression(context);
-        ReturnValue convert = BasicType.Boolean.convert(condition, context);
+        RuntimeValue condition = grouperToken.getNextExpression(context);
+        RuntimeValue convert = BasicType.Boolean.convert(condition, context);
         if (convert == null) {
             throw new UnConvertibleTypeException(condition,
                     condition.getType(context).declType, BasicType.Boolean,

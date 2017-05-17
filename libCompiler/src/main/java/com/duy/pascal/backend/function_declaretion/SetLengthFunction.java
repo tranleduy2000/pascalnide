@@ -30,8 +30,8 @@ import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -52,10 +52,10 @@ public class SetLengthFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, ReturnValue[] arguments,
+    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        ReturnValue array = arguments[0];
-        ReturnValue size = arguments[1];
+        RuntimeValue array = arguments[0];
+        RuntimeValue size = arguments[1];
         @SuppressWarnings("rawtypes")
         DeclaredType elementYype = ((ArrayType)
                 ((PointerType) array.getType(f).declType).pointedToType).elementType;
@@ -63,7 +63,7 @@ public class SetLengthFunction implements IMethodDeclaration {
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, ReturnValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 
@@ -84,13 +84,13 @@ public class SetLengthFunction implements IMethodDeclaration {
 
     private class SetLengthCall extends FunctionCall {
 
-        ReturnValue array;
-        ReturnValue size;
+        RuntimeValue array;
+        RuntimeValue size;
         DeclaredType elemtype;
 
         LineInfo line;
 
-        SetLengthCall(ReturnValue array, ReturnValue size, DeclaredType elemType, LineInfo line) {
+        SetLengthCall(RuntimeValue array, RuntimeValue size, DeclaredType elemType, LineInfo line) {
             this.array = array;
             this.size = size;
             this.elemtype = elemType;
@@ -115,7 +115,7 @@ public class SetLengthFunction implements IMethodDeclaration {
         }
 
         @Override
-        public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new SetLengthCall(array.compileTimeExpressionFold(context),
                     size.compileTimeExpressionFold(context), elemtype, line);

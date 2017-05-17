@@ -17,16 +17,16 @@
 package com.duy.pascal.backend.exceptions.convert;
 
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 public class UnConvertibleTypeException extends com.duy.pascal.backend.exceptions.ParsingException {
 
-    public final ReturnValue obj;
+    public final RuntimeValue obj;
     public final DeclaredType out;
     public final DeclaredType in;
     public final boolean implicit;
 
-    public UnConvertibleTypeException(ReturnValue obj,
+    public UnConvertibleTypeException(RuntimeValue obj,
                                       DeclaredType out, DeclaredType in, boolean implicit) {
         super(obj.getLineNumber(),
                 "The expression or variable \"" + obj + "\" is of type \"" + out + "\""

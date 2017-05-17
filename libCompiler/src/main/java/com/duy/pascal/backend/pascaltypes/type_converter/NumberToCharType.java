@@ -6,28 +6,28 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.AssignableValue;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.AssignableValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class NumberToCharType implements ReturnValue {
-    protected ReturnValue[] outputFormat;
-    ReturnValue other;
+public class NumberToCharType implements RuntimeValue {
+    protected RuntimeValue[] outputFormat;
+    RuntimeValue other;
 
 
-    public NumberToCharType(ReturnValue other) {
+    public NumberToCharType(RuntimeValue other) {
         this.other = other;
     }
 
     @Override
-    public ReturnValue[] getOutputFormat() {
+    public RuntimeValue[] getOutputFormat() {
         return outputFormat;
     }
 
     @Override
-    public void setOutputFormat(ReturnValue[] formatInfo) {
+    public void setOutputFormat(RuntimeValue[] formatInfo) {
         this.outputFormat = formatInfo;
     }
 
@@ -62,7 +62,7 @@ public class NumberToCharType implements ReturnValue {
     }
 
     @Override
-    public ReturnValue compileTimeExpressionFold(CompileTimeContext context)
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new NumberToCharType(other.compileTimeExpressionFold(context));
     }

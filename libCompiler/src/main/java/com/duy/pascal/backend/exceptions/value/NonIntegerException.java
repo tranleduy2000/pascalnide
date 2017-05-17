@@ -17,13 +17,13 @@
 package com.duy.pascal.backend.exceptions.value;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 public class NonIntegerException extends ParsingException {
 
-    public ReturnValue value;
+    public RuntimeValue value;
 
-    public NonIntegerException(ReturnValue value) {
+    public NonIntegerException(RuntimeValue value) {
         super(value.getLineNumber());
         this.value = value;
     }

@@ -3,8 +3,8 @@ package com.duy.pascal.backend.pascaltypes;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.boxing.ArrayBoxer;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.boxing.ArrayBoxer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,19 +19,19 @@ public class VarargsType implements ArgumentType {
     }
 
     @Override
-    public ReturnValue convertArgType(Iterator<ReturnValue> args,
-                                      ExpressionContext f) throws ParsingException {
-        List<ReturnValue> convertedArgs = new ArrayList<>();
+    public RuntimeValue convertArgType(Iterator<RuntimeValue> args,
+                                       ExpressionContext f) throws ParsingException {
+        List<RuntimeValue> convertedArgs = new ArrayList<>();
         LineInfo line = null;
         while (args.hasNext()) {
-            ReturnValue tmp = elementType.convert(args.next(), f);
+            RuntimeValue tmp = elementType.convert(args.next(), f);
             if (tmp == null) {
                 return null;
             }
             line = tmp.getLineNumber();
             convertedArgs.add(tmp);
         }
-        return new ArrayBoxer(convertedArgs.toArray(new ReturnValue[convertedArgs.size()]),
+        return new ArrayBoxer(convertedArgs.toArray(new RuntimeValue[convertedArgs.size()]),
                 elementType, line);
     }
 
@@ -41,12 +41,12 @@ public class VarargsType implements ArgumentType {
     }
 
     @Override
-    public ReturnValue perfectFit(Iterator<ReturnValue> types,
-                                  ExpressionContext e) throws ParsingException {
+    public RuntimeValue perfectFit(Iterator<RuntimeValue> types,
+                                   ExpressionContext e) throws ParsingException {
         LineInfo line = null;
-        List<ReturnValue> converted = new ArrayList<>();
+        List<RuntimeValue> converted = new ArrayList<>();
         while (types.hasNext()) {
-            ReturnValue fit = elementType.perfectFit(types, e);
+            RuntimeValue fit = elementType.perfectFit(types, e);
             if (fit == null) {
                 return null;
             }
@@ -55,7 +55,7 @@ public class VarargsType implements ArgumentType {
             }
             converted.add(fit);
         }
-        ReturnValue[] convert = converted.toArray(new ReturnValue[converted.size()]);
+        RuntimeValue[] convert = converted.toArray(new RuntimeValue[converted.size()]);
         return new ArrayBoxer(convert, elementType, line);
     }
 }

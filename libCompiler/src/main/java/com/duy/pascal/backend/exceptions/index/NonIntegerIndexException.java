@@ -16,13 +16,13 @@
 
 package com.duy.pascal.backend.exceptions.index;
 
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 public class NonIntegerIndexException extends com.duy.pascal.backend.exceptions.ParsingException {
 
-    public ReturnValue value;
+    public RuntimeValue value;
 
-    public NonIntegerIndexException(ReturnValue value) {
+    public NonIntegerIndexException(RuntimeValue value) {
         super(value.getLineNumber());
         this.value = value;
     }

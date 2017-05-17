@@ -31,8 +31,8 @@ import com.js.interpreter.ast.codeunit.Library;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.returnsvalue.FieldAccess;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.FieldAccess;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -45,16 +45,16 @@ public class WithStatement {
     public ExpressionContextMixin declarations;
     public Executable instructions;
     public LineInfo line;
-    public ArrayList<ReturnValue> fields = new ArrayList<>();
+    public ArrayList<RuntimeValue> fields = new ArrayList<>();
     public ArrayList<VariableDeclaration> variableDeclarations = new ArrayList<>();
-    public ReturnValue[] arguments;
+    public RuntimeValue[] arguments;
 
     public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
         this.declarations = new WithExpressionContext(this, parent);
         this.line = grouperToken.peek().lineInfo;
 
         getReferenceVariables(grouperToken, parent);
-        for (ReturnValue argument : arguments) {
+        for (RuntimeValue argument : arguments) {
             if (argument.getType(parent).declType instanceof RecordType) {
                 CustomType customType = (CustomType) argument.getType(parent).declType;
                 for (VariableDeclaration variableDeclaration : customType.variableDeclarations) {
@@ -72,7 +72,7 @@ public class WithStatement {
         instructions = grouperToken.getNextCommand(declarations);
     }
 
-    public ReturnValue generate() {
+    public RuntimeValue generate() {
         return new WithCall(this, fields, line);
     }
 
@@ -110,7 +110,7 @@ public class WithStatement {
             next = grouperToken.peek();
         } while (!(next instanceof DoToken));
 
-        arguments = new ReturnValue[list.size()];
+        arguments = new RuntimeValue[list.size()];
         for (int i = 0; i < list.size(); i++) {
             arguments[i] = parent.getIdentifierValue(
                     new WordToken(list.get(i).getLineNumber(), list.get(i).getName()));
@@ -150,7 +150,7 @@ public class WithStatement {
         }
 
         @Override
-        public ReturnValue getIdentifierValue(WordToken name) throws ParsingException {
+        public RuntimeValue getIdentifierValue(WordToken name) throws ParsingException {
             for (int i = 0; i < variableDeclarations.size(); i++) {
                 if (variableDeclarations.get(i).getName().equalsIgnoreCase(name.getName())) {
                     return fields.get(i);

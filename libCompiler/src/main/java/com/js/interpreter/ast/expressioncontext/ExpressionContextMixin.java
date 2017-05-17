@@ -48,10 +48,10 @@ import com.js.interpreter.ast.VariableDeclaration;
 import com.js.interpreter.ast.WrongIfElseStatement;
 import com.js.interpreter.ast.codeunit.CodeUnit;
 import com.js.interpreter.ast.instructions.Executable;
-import com.js.interpreter.ast.returnsvalue.ConstantAccess;
-import com.js.interpreter.ast.returnsvalue.FunctionCall;
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
-import com.js.interpreter.ast.returnsvalue.VariableAccess;
+import com.js.interpreter.ast.runtime_value.ConstantAccess;
+import com.js.interpreter.ast.runtime_value.FunctionCall;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.ast.runtime_value.VariableAccess;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,11 +157,11 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     @Override
-    public ReturnValue getIdentifierValue(WordToken name)
+    public RuntimeValue getIdentifierValue(WordToken name)
             throws ParsingException {
         if (functionExistsLocal(name.name)) {
             return FunctionCall.generateFunctionCall(name,
-                    new ArrayList<ReturnValue>(0), this);
+                    new ArrayList<RuntimeValue>(0), this);
         } else if (getConstantDefinitionLocal(name.name) != null) {
             ConstantDefinition constantDefinition = getConstantDefinition(name.name);
             return new ConstantAccess(constantDefinition.getValue(), constantDefinition.getType(), name.lineInfo);
@@ -244,8 +244,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     if (i.peek() instanceof BracketedToken) {
                         BracketedToken bracketedToken = (BracketedToken) i.take();
 
-                        ReturnValue unconverted = bracketedToken.getNextExpression(this);
-                        ReturnValue converted = BasicType.Integer.convert(unconverted, this);
+                        RuntimeValue unconverted = bracketedToken.getNextExpression(this);
+                        RuntimeValue converted = BasicType.Integer.convert(unconverted, this);
 
                         if (converted == null) {
                             throw new NonIntegerException(unconverted);
@@ -348,8 +348,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                             Log.d(TAG, "getDefaultValueArray: " + Arrays.toString(objects));
                             defaultValue = objects;
                         } else {
-                            ReturnValue unconverted = token.getNextExpression(this);
-                            ReturnValue converted = type.convert(unconverted, this);
+                            RuntimeValue unconverted = token.getNextExpression(this);
+                            RuntimeValue converted = type.convert(unconverted, this);
                             if (converted == null) {
                                 throw new UnConvertibleTypeException(unconverted,
                                         unconverted.getType(this).declType, type,
@@ -374,7 +374,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 if (((OperatorToken) next).type != OperatorTypes.EQUALS) {
                     throw new ExpectedTokenException("=", constName);
                 }
-                ReturnValue value = token.getNextExpression(this);
+                RuntimeValue value = token.getNextExpression(this);
                 Object compileVal = value.compileTimeValue(this);
                 if (compileVal == null) {
                     throw new NonConstantExpressionException(value);

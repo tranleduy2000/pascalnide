@@ -16,15 +16,15 @@
 
 package com.duy.pascal.backend.exceptions.value;
 
-import com.js.interpreter.ast.returnsvalue.ReturnValue;
+import com.js.interpreter.ast.runtime_value.RuntimeValue;
 
 public class UnAssignableTypeException extends com.duy.pascal.backend.exceptions.ParsingException {
-    public ReturnValue returnValue;
+    public RuntimeValue runtimeValue;
 
-    public UnAssignableTypeException(ReturnValue value) {
+    public UnAssignableTypeException(RuntimeValue value) {
         super(value.getLineNumber(), "The expression " + value
                 + " cannot have a value assigned to it.");
-        this.returnValue = value;
+        this.runtimeValue = value;
     }
 
 }
