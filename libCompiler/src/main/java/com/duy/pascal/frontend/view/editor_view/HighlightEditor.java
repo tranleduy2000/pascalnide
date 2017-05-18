@@ -27,7 +27,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.method.ArrowKeyMovementMethod;
 import android.text.method.MovementMethod;
@@ -366,9 +365,8 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     public void setTextHighlighted(CharSequence text) {
         lineError = null;
-        SpannableStringBuilder editable = new SpannableStringBuilder(text);
-        color(editable, editable, 0);
-        setText(editable);
+        setText(text);
+        refresh();
     }
 
     public void refresh() {

@@ -81,7 +81,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         mScrollView = (LockableScrollView) view.findViewById(R.id.vertical_scroll);
 
         ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
-        String code = fileManager.readFileAsString(getArguments().getString(CompileManager.FILE_PATH));
+        StringBuilder code = fileManager.fileToString(getArguments().getString(CompileManager.FILE_PATH));
         mCodeEditor.setTextHighlighted(code);
         mCodeEditor.clearHistory();
         mCodeEditor.restoreHistory(getFilePath());

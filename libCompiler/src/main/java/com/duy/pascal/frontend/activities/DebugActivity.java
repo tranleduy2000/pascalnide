@@ -152,7 +152,7 @@ public class DebugActivity extends AbstractExecActivity {
                 finish();
                 return;
             }
-            String code = mFileManager.readFileAsString(file);
+            String code = mFileManager.fileToString(file);
             mCodeView.setTextHighlighted(code);
 
             setTitle(file.getName());

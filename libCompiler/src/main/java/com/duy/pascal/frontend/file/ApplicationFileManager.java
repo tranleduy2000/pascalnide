@@ -72,14 +72,14 @@ public class ApplicationFileManager {
         return EXTERNAL_DIR_CODE;
     }
 
-    public static String streamToString(InputStream inputStream) {
-        String result = "";
+    public static StringBuilder streamToString(InputStream inputStream) {
+        StringBuilder result = new StringBuilder();
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(inputStream));
             String mLine;
             while ((mLine = reader.readLine()) != null) {
-                result += mLine + "\n";
+                result.append(mLine).append("\n");
             }
         } catch (IOException e) {
             //log the exception
@@ -158,30 +158,29 @@ public class ApplicationFileManager {
         return dir.mkdir();
     }
 
-    public String readFileAsString(String name) {
-        File file = new File(name);
+    public StringBuilder fileToString(String path) {
+        File file = new File(path);
         if (file.canRead()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                String result = "";
+                StringBuilder stringBuilder = new StringBuilder();
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
-                    result += line + "\n";
+                    stringBuilder.append(line).append("\n");
                 }
-                return result;
+                return stringBuilder;
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
-                return "";
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            return "";
         }
-        return "";
+        return new StringBuilder();
     }
 
-    public String readFileAsString(File file) {
+    public String fileToString(File file) {
         if (file.canRead()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));

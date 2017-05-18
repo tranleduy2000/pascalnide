@@ -397,7 +397,7 @@ public class EditorActivity extends BaseEditorActivity implements
         TextView txtInfo = (TextView) dialog.findViewById(R.id.txt_info);
         txtInfo.setText(file.getPath());
         EditorView editorView = (EditorView) dialog.findViewById(R.id.editor_view);
-        editorView.setTextHighlighted(mFileManager.readFileAsString(file));
+        editorView.setTextHighlighted(mFileManager.fileToString(file));
     }
 
     /**

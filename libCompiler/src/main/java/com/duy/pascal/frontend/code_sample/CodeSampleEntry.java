@@ -21,7 +21,7 @@ package com.duy.pascal.frontend.code_sample;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class CodeSampleEntry  {
+public class CodeSampleEntry {
     /**
      * name of file code
      */
@@ -32,6 +32,11 @@ public class CodeSampleEntry  {
      */
     private String content;
     private String query;
+
+    public CodeSampleEntry(String name, CharSequence content) {
+        this.name = name;
+        this.content = content.toString();
+    }
 
     public CodeSampleEntry(String name, String content) {
         this.name = name;
@@ -61,6 +66,7 @@ public class CodeSampleEntry  {
     public void setQuery(String query) {
         this.query = query;
     }
+
     protected CodeSampleEntry clone() {
         return new CodeSampleEntry(name, content);
     }

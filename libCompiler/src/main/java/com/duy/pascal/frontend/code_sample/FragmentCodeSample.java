@@ -102,7 +102,7 @@ public class FragmentCodeSample extends Fragment {
                     list = assets.list(path);
                     for (String fileName : list) {
                         if (fileName.endsWith(".pas")) {
-                            String content =
+                            StringBuilder content =
                                     ApplicationFileManager.streamToString(assets.open(path + "/" + fileName));
                             codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
                         }

@@ -327,10 +327,10 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     protected void createAndRunProgram(final String path) {
         Log.d(TAG, "createAndRunProgram() called with: path = [" + path + "]");
 
-        String code = mFileManager.readFileAsString(path);
+        StringBuilder code = mFileManager.fileToString(path);
 
         //clone file to internal storage
-        programFile = mFileManager.setContentFileTemp(code);
+        programFile = mFileManager.setContentFileTemp(code.toString());
 
         //show prompt
         this.println("execute file: " + path);
