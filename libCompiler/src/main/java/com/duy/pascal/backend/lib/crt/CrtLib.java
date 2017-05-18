@@ -132,6 +132,7 @@ public class CrtLib implements PascalLibrary {
         constants.put(colorConst.name(), colorConst);
         colorConst = new ConstantDefinition("White".toLowerCase(), 15, new LineInfo(-1, "White = 15".toLowerCase()));
         constants.put(colorConst.name(), colorConst);
+
         colorConst = new ConstantDefinition("pi".toLowerCase(), Math.PI, new LineInfo(-1, " pi = 3.14159265358979323846".toLowerCase()));
         constants.put(colorConst.name(), colorConst);
     }

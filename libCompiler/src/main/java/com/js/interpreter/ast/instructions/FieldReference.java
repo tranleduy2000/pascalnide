@@ -31,9 +31,10 @@ public class FieldReference implements Reference {
         return container.getVar(name);
     }
 
+    @SuppressWarnings("CloneDoesntCallSuperClone")
     @Override
     public Reference clone() {
-        return null;
+        return this;
     }
 
     public RuntimeType getType() {

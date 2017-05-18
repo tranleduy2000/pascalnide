@@ -161,17 +161,13 @@ public class WithStatement {
 
         @Override
         public VariableDeclaration getVariableDefinitionLocal(String ident) {
-            VariableDeclaration unitVariableDecl = super.getVariableDefinitionLocal(ident);
-            if (unitVariableDecl != null) {
-                return unitVariableDecl;
-            }
-
             for (VariableDeclaration variableDeclaration : variableDeclarations) {
                 if (variableDeclaration.getName().equalsIgnoreCase(ident)) {
                     return variableDeclaration;
                 }
             }
-            return null;
+
+            return super.getVariableDefinitionLocal(ident);
         }
     }
 

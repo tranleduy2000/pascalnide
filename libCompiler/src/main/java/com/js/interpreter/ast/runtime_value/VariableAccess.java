@@ -7,7 +7,9 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.ast.instructions.FieldReference;
+import com.js.interpreter.runtime.FunctionOnStack;
 import com.js.interpreter.runtime.Reference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
@@ -52,8 +54,11 @@ public class VariableAccess extends DebuggableAssignableValue {
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutable<?> main)
             throws RuntimePascalException {
         try {
-            RuntimeType type = getType(main.getDefinition().getProgram());
-            return new FieldReference(f, name, type);
+            if (f instanceof FunctionOnStack) {
+                ExpressionContextMixin declarations = ((FunctionOnStack) f).getPrototype().declarations;
+                RuntimeType type = getType(declarations);
+                return new FieldReference(f, name, type);
+            }
         } catch (ParsingException e) {
             e.printStackTrace();
         }

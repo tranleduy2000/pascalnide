@@ -6,6 +6,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
+import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 
 
@@ -82,9 +83,9 @@ public class WordToken extends Token {
         } else if (name.equalsIgnoreCase("text")
                 || name.equalsIgnoreCase("textfile")) {
             return BasicType.Text;
-        } /*else if (name.equalsIgnoreCase("socket")) {
-            return new JavaClassBasedType(Socket.class);
-        } */ else {
+        } else if (name.equalsIgnoreCase("pointer")) {
+            return new PointerType(BasicType.create(Object.class));
+        } else {
             DeclaredType type = context.getTypedefType(name);
             if (type != null) {
                 return type;

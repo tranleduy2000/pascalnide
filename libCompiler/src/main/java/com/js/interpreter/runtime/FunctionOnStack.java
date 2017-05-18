@@ -17,6 +17,11 @@ public class FunctionOnStack extends VariableContext {
      * list name of map variable, if you want get all variable, map can not do
      */
     private ArrayList<String> listNameLocalVariable = new ArrayList<>();
+
+    public FunctionDeclaration getPrototype() {
+        return prototype;
+    }
+
     /**
      * prototype method
      */

@@ -14,9 +14,7 @@ public class VariableDeclaration implements NamedEntity {
      * name of variable, always lower case
      */
     public String name;
-
     public DeclaredType type;
-
     private Object initialValue;
     private LineInfo line;
 
@@ -28,7 +26,8 @@ public class VariableDeclaration implements NamedEntity {
         this.initialValue = initialValue;
     }
 
-    public VariableDeclaration(String name, DeclaredType type, LineInfo line) {
+    public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
+                               LineInfo line) {
         this.name = name;
         this.type = type;
         this.line = line;

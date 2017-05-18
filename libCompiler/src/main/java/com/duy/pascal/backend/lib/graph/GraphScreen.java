@@ -224,11 +224,6 @@ public class GraphScreen {
         graphObject.setLineStyle(lineStyle);
         graphObject.setLineColor(textPaint.getColor());
 
-//        graphObject.setTextDirection(textDirection);
-//        graphObject.setTextStyle(textStyle);
-//        graphObject.setTextFont(currentFont);
-//        graphObject.setTextJustify(textJustify);
-
         graphObject.setTextPaint(textPaint.clonePaint());
 
         graphObject.draw(mGraphBitmap);

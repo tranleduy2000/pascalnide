@@ -250,6 +250,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             return false;
         }
 
+
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             bodyDeclared = true;

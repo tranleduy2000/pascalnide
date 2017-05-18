@@ -24,25 +24,18 @@ import android.graphics.Paint;
  */
 
 public class PixelObject extends GraphObject {
-    /**
-     * It differs from other objects
-     */
-    private Paint mPaint = new Paint();
-    private int x, y;
-
-    public PixelObject(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+    private int x;
+    private int y;
+    private final Paint paint = new Paint();
 
     public PixelObject(int x, int y, int color) {
         this.x = x;
         this.y = y;
-        mPaint.setColor(color);
+        paint.setColor(color);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawPoint(x, y, mPaint);
+        canvas.drawPoint(x, y, paint);
     }
 }
