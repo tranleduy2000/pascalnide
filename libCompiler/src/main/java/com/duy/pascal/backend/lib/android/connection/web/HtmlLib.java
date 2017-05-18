@@ -33,11 +33,11 @@ import java.util.Map;
  */
 
 public class HtmlLib implements PascalLibrary {
-    public static final String NAME = "aHtml";
+    public static final String NAME = "aHtml".toLowerCase();
 
 
     @PascalMethod(description = "return content of web page")
-    public String getContentHtml(String link) {
+    public StringBuilder getContentHtml(String link) {
         try {
             URL url = new URL(link);
             InputStream inputStream = url.openStream();
@@ -47,14 +47,14 @@ public class HtmlLib implements PascalLibrary {
             while ((line = bufferedReader.readLine()) != null) {
                 result.append(line).append("\n");
             }
-            return result.toString();
+            return result;
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "";
+        return new StringBuilder();
     }
 
 
