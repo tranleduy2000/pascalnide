@@ -168,4 +168,10 @@
     <string name="get_pro_version">Get Pro Version</string>
     <string name="shortcut_created">Đã tạo lối tắt</string>
     <string name="theme_font">Giao diện và phông chữ</string>
+    <string name="content">Nội dung</string>
+    <string name="insert_color">Chèn màu sắc</string>
+    <string name="see_in_github_2">Xem trên Github</string>
+    <string name="sort_date">Sắp xếp theo ngày</string>
+    <string name="sort_name">Sắp xếp theo tên</string>
+    <string name="sort_size">Sắp xếp theo kích thước</string>
 </resources>

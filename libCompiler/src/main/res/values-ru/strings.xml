@@ -169,4 +169,10 @@
     <string name="get_pro_version">Получить PRO-версию</string>
     <string name="shortcut_created">Ярлык создан</string>
     <string name="theme_font">Тема и шрифт кода</string>
+    <string name="content">Content</string>
+    <string name="insert_color">Insert color</string>
+    <string name="see_in_github_2">See in Github</string>
+    <string name="sort_date">Sort by date…</string>
+    <string name="sort_name">Sort by name…</string>
+    <string name="sort_size">Sort by size…</string>
 </resources>
