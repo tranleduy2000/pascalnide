@@ -694,6 +694,6 @@ public class EditorActivity extends BaseEditorActivity implements
                     currentFragment.insert(String.valueOf(selectedColor));
                 }
             }
-        });
+        }).build().show();
     }
 }
