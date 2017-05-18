@@ -23,9 +23,9 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.duy.pascal.backend.imageprocessing.FloodFill;
-import com.duy.pascal.backend.lib.ColorUtils;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
+import com.duy.pascal.backend.lib.crt.ColorUtils;
 import com.duy.pascal.backend.lib.graph.graphic_model.ArcEllipseObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.ArcObject;
 import com.duy.pascal.backend.lib.graph.graphic_model.Bar3DObject;
@@ -55,7 +55,7 @@ import com.js.interpreter.runtime.PascalReference;
 
 import java.util.Map;
 
-import static com.duy.pascal.backend.lib.ColorUtils.pascalColorToAndroidColor;
+import static com.duy.pascal.backend.lib.crt.ColorUtils.pascalColorToAndroidColor;
 
 /**
  * Created by Duy on 01-Mar-17.
@@ -459,7 +459,8 @@ public class GraphLib implements PascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public int getMaxColor() {
-        return 15;
+        //max RGB color
+        return 255 * 255 * 255;
     }
 
 

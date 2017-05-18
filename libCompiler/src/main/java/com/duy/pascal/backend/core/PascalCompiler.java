@@ -2,7 +2,7 @@ package com.duy.pascal.backend.core;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.CrtLib;
+import com.duy.pascal.backend.lib.crt.CrtLib;
 import com.duy.pascal.backend.lib.DosLib;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
