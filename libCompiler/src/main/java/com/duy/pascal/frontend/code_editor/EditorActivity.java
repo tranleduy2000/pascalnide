@@ -208,7 +208,7 @@ public class EditorActivity extends BaseEditorActivity implements
      */
     public void showDialogFind() {
         AlertDialog.Builder builder = new AlertDialog.Builder(EditorActivity.this);
-        builder.setView(R.layout.find_dialog);
+        builder.setView(R.layout.dialog_find);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
         final CheckBox ckbRegex = (CheckBox) alertDialog.findViewById(R.id.ckb_regex);

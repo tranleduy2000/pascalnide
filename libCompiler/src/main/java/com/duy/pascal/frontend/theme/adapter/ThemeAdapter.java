@@ -105,6 +105,8 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             Toast.LENGTH_SHORT).show();
                 }
             });
+        } else if (holder instanceof ProHolder) {
+            ((ProHolder) holder).root.setVisibility(View.GONE);
         }
     }
 
@@ -131,15 +133,11 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class ProHolder extends RecyclerView.ViewHolder {
-        EditorView editorView;
-        TextView txtTitle;
-        Button btnSelect;
+        View root;
 
         public ProHolder(View itemView) {
             super(itemView);
-            editorView = (EditorView) itemView.findViewById(R.id.editor_view);
-            txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
-            btnSelect = (Button) itemView.findViewById(R.id.btn_select);
+            root = itemView.findViewById(R.id.container);
         }
     }
 }
