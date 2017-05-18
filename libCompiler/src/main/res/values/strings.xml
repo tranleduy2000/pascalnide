@@ -176,5 +176,6 @@
     <string name="sort_date">Sort by date...</string>
     <string name="sort_name">Sort by name...</string>
     <string name="sort_size">Sort by size...</string>
+    <string name="content">Content</string>
 </resources>
 

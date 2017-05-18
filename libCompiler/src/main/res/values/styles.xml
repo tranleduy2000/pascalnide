@@ -21,6 +21,9 @@
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/dark.color_primary</item>
         <item name="colorPrimaryDark">@color/dark.color_primary_dark</item>
+
+        <item name="toolbarStyle">@style/AppTheme.PopupOverlay.Dark</item>
+        <item name="appbarStyle">@style/AppTheme.AppBarOverlay.Dark</item>
     </style>
 
 
@@ -32,11 +35,16 @@
         <item name="colorPrimary">@color/light.color_primary</item>
         <item name="colorPrimaryDark">@color/light.color_primary_dark</item>
         <item name="colorAccent">@color/light.color_accent</item>
+
+        <item name="toolbarStyle">@style/AppTheme.PopupOverlay.Light</item>
+        <item name="appbarStyle">@style/AppTheme.AppBarOverlay.Light</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.AppBarOverlay.Dark" parent="ThemeOverlay.AppCompat" />
+    <style name="AppTheme.AppBarOverlay.Light" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
+    <style name="AppTheme.PopupOverlay.Dark" parent="ThemeOverlay.AppCompat" />
+    <style name="AppTheme.PopupOverlay.Light" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="TreeNodeStyleCustom">
         <item name="android:paddingLeft">20dp</item>

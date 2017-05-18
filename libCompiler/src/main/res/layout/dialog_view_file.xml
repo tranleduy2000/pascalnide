@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright (c) 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,17 +22,39 @@
     android:padding="8dp">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/path"
+        android:textColor="?colorAccent"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/txt_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
-
-    <com.duy.pascal.frontend.view.editor_view.EditorView
-        android:id="@+id/editor_view"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:editable="false"
-        android:text="begin end for to do"
-        app:can_edit="false" />
+        android:layout_marginTop="16dp"
+        android:text="@string/content"
+        android:textColor="?colorAccent"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <com.duy.pascal.frontend.view.editor_view.EditorView
+            android:id="@+id/editor_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:gravity="top"
+            android:text="begin end for to do"
+            app:can_edit="false" />
+    </ScrollView>
+
 </LinearLayout>

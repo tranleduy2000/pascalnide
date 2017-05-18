@@ -284,7 +284,7 @@ public class PascalPreferences {
     }
 
     public boolean useLightTheme() {
-        return true;
+        return false;
     }
 
     public int getMaxLineConsole() {

@@ -389,26 +389,14 @@ public class EditorActivity extends BaseEditorActivity implements
      * @param file - file to show info
      */
     private void showFileInfo(File file) {
-        String extension = "";
-        int ind = file.getPath().lastIndexOf('.');
-        if (ind > 0) {
-            extension = file.getPath().substring(ind + 1);// this is the extension
-        }
-        String info = "";
-        info += getString(R.string.path) + " " + file.getPath() + "\n" +
-                getString(R.string.extension) + " " + extension + "\n" +
-                getString(R.string.readable) + " " + file.canRead() + "\n" +
-                getString(R.string.writeable) + " " + file.canWrite();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(file.getName());
         builder.setView(R.layout.dialog_view_file);
         AlertDialog dialog = builder.create();
         dialog.show();
         TextView txtInfo = (TextView) dialog.findViewById(R.id.txt_info);
-        assert txtInfo != null;
-        txtInfo.setText(info);
+        txtInfo.setText(file.getPath());
         EditorView editorView = (EditorView) dialog.findViewById(R.id.editor_view);
-        assert editorView != null;
         editorView.setTextHighlighted(mFileManager.readFileAsString(file));
     }
 

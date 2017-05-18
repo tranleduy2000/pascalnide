@@ -119,8 +119,7 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
                 }
             }
         } else {
-            setTheme(R.style.AppTheme_NoActionBar_Dark);
-
+//            setTheme(R.style.AppTheme_NoActionBar_Dark);
         }
     }
 
