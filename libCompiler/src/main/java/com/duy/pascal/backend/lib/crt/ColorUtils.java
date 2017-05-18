@@ -36,37 +36,36 @@ public class ColorUtils {
 
     public static void generateMapColors() {
         mapColorsPascal.put(0, Color.BLACK);
-        mapColorsPascal.put(1, Color.BLUE);
-        mapColorsPascal.put(2, Color.GREEN);
-        mapColorsPascal.put(3, Color.CYAN);
-        mapColorsPascal.put(4, Color.RED);
-        mapColorsPascal.put(5, Color.MAGENTA);
-        mapColorsPascal.put(6, 0xff49281E);
-        mapColorsPascal.put(7, Color.LTGRAY);
-        mapColorsPascal.put(8, Color.DKGRAY);
-        mapColorsPascal.put(9, 0xffadd8e6);
-        mapColorsPascal.put(10, 0xff98fb98);
-        mapColorsPascal.put(11, 0xffe0ffff);
-        mapColorsPascal.put(12, 0xffffa07a);
-        mapColorsPascal.put(13, 0xffff00ff);
-        mapColorsPascal.put(14, Color.YELLOW);
-        mapColorsPascal.put(15, Color.WHITE);
-
         mapColorsAndroid.put(Color.BLACK, 0);
+        mapColorsPascal.put(1, Color.BLUE);
         mapColorsAndroid.put(Color.BLUE, 1);
+        mapColorsPascal.put(2, Color.GREEN);
         mapColorsAndroid.put(Color.GREEN, 2);
+        mapColorsPascal.put(3, Color.CYAN);
         mapColorsAndroid.put(Color.CYAN, 3);
+        mapColorsPascal.put(4, Color.RED);
         mapColorsAndroid.put(Color.RED, 4);
+        mapColorsPascal.put(5, Color.MAGENTA);
         mapColorsAndroid.put(Color.MAGENTA, 5);
+        mapColorsPascal.put(6, 0xff49281E);
         mapColorsAndroid.put(0xff49281E, 6);
+        mapColorsPascal.put(7, Color.LTGRAY);
         mapColorsAndroid.put(Color.LTGRAY, 7);
+        mapColorsPascal.put(8, Color.DKGRAY);
         mapColorsAndroid.put(Color.DKGRAY, 8);
+        mapColorsPascal.put(9, 0xffadd8e6);
         mapColorsAndroid.put(0xffadd8e6, 9);
+        mapColorsPascal.put(10, 0xff98fb98);
         mapColorsAndroid.put(0xff98fb98, 10);
+        mapColorsPascal.put(11, 0xffe0ffff);
         mapColorsAndroid.put(0xffe0ffff, 11);
+        mapColorsPascal.put(12, 0xffffa07a);
         mapColorsAndroid.put(0xffffa07a, 12);
+        mapColorsPascal.put(13, 0xffff00ff);
         mapColorsAndroid.put(0xffff00ff, 13);
+        mapColorsPascal.put(14, Color.YELLOW);
         mapColorsAndroid.put(Color.YELLOW, 14);
+        mapColorsPascal.put(15, Color.WHITE);
         mapColorsAndroid.put(Color.WHITE, 15);
     }
 
@@ -77,15 +76,15 @@ public class ColorUtils {
         System.out.println("androidColor = " + androidColor);
         if (mapColorsAndroid.get(androidColor) != null) {
             return mapColorsAndroid.get(androidColor);
-        } else {
-            return androidColor;
         }
+        return Color.rgb(Color.red(androidColor), Color.green(androidColor),
+                Color.blue(androidColor));
     }
 
     public static int pascalColorToAndroidColor(int pascalColor) {
         if (mapColorsPascal.get(pascalColor) != null) {
             return mapColorsPascal.get(pascalColor);
         }
-        return pascalColor;
+        return Color.rgb(Color.red(pascalColor), Color.green(pascalColor), Color.blue(pascalColor));
     }
 }
