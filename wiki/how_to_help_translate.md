@@ -22,21 +22,21 @@ Android resource files are encoded using the UTF-8 character set. If possible, p
 You'll need both the English version of the files as well as the existing localized versions of the files.
 
 1. Download these two files (they are the U.S. English version of the UI:
-    https://github.com/tranleduy2000/pascalnide/blob/master/app/src/main/res/values/msg_error.xml
-    https://github.com/tranleduy2000/pascalnide/blob/master/app/src/main/res/values/strings.xml
+    https://github.com/tranleduy2000/pascalnide/blob/master/libCompiler/src/main/res/values/msg_error.xml
+    https://github.com/tranleduy2000/pascalnide/blob/master/libCompiler/src/main/res/values/strings.xml
 2. Download the corresponding two files for your locale. (instead of XX use your locale's locale code).
-     https://github.com/tranleduy2000/pascalnide/blob/master/app/src/main/res/values-XX/msg_error.xml
-     https://github.com/tranleduy2000/pascalnide/blob/master/app/src/main/res/values-XX/strings.xml
+    https://github.com/tranleduy2000/pascalnide/blob/master/libCompiler/src/main/res/values-XX/msg_error.xml
+    https://github.com/tranleduy2000/pascalnide/blob/master/libCompiler/src/main/res/values-XX/strings.xml
 3. Edit the localized files to edit string strings from the original English files.
 4. Email the localized copies of those files to tranleduy1233@gmail.com
 
 ### Creating a brand new localization
 
-To contribute a new localization for the Terminal Emulator for Android, please:
+To contribute a new localization for the **Pascal N-IDE**:
 
 1.	Download these two files (they are the U.S. English version of the UI:
-    https://github.com/tranleduy2000/pascalnide/blob/master/app/src/main/res/values/msg_error.xml
-    https://github.com/tranleduy2000/pascalnide/blob/master/app/src/main/res/values/strings.xml
+    https://github.com/tranleduy2000/pascalnide/blob/master/libCompiler/src/main/res/values/msg_error.xml
+    https://github.com/tranleduy2000/pascalnide/blob/master/libCompiler/src/main/res/values/strings.xml
 2.	Edit those two files to change the English strings to your language strings.
 3.	Email the localized copies of those files to tranleduy1233@gmail.com
 
