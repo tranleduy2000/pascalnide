@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.adapter.FontAdapter;
-import com.duy.pascal.frontend.theme.adapter.ThemeAdapter;
 
 /**
  * Created by Duy on 17-May-17.
@@ -40,7 +39,6 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
 
     public static final int FONT = 0;
     public static final int THEME = 1;
-    ThemeAdapter codeThemeAdapter;
     FontAdapter fontAdapter;
     private RecyclerView mRecyclerView;
 
@@ -90,6 +88,5 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         fontAdapter.notifyDataSetChanged();
-        codeThemeAdapter.notifyDataSetChanged();
     }
 }

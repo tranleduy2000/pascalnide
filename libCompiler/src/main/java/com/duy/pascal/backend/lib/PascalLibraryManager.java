@@ -20,6 +20,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.function_declaretion.CastObjectFunction;
 import com.duy.pascal.backend.function_declaretion.ExitFunction;
 import com.duy.pascal.backend.function_declaretion.ExitNoneFunction;
 import com.duy.pascal.backend.function_declaretion.HighFunction;
@@ -55,12 +56,14 @@ import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
+import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.ast.MethodDeclaration;
+import com.js.interpreter.ast.VariableDeclaration;
+import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -193,7 +196,6 @@ public class PascalLibraryManager {
             ((PascalLibrary) parent).declareFunctions(program);
             ((PascalLibrary) parent).declareTypes(program);
             ((PascalLibrary) parent).declareVariables(program);
-
             for (Method method : t.getDeclaredMethods()) {
                 if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
@@ -246,9 +248,11 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new LowFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new NewFunction()));
 
-//        program.declareFunction(new AbstractMethodDeclaration(new CastObject()));
+        program.declareFunction(new AbstractMethodDeclaration(new CastObjectFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
+
+        program.declareVariable(new VariableDeclaration("null", new JavaClassBasedType(null), null, null));
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}

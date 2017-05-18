@@ -49,7 +49,14 @@ public class VariableAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException {
+    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutable<?> main)
+            throws RuntimePascalException {
+        try {
+            RuntimeType type = getType(main.getDefinition().getProgram());
+            return new FieldReference(f, name, type);
+        } catch (ParsingException e) {
+            e.printStackTrace();
+        }
         return new FieldReference(f, name);
     }
 

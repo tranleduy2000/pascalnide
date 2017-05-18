@@ -27,9 +27,9 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
+import com.js.interpreter.ast.instructions.FieldReference;
 import com.js.interpreter.ast.runtime_value.FunctionCall;
 import com.js.interpreter.ast.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -80,11 +80,11 @@ public class NewInstanceObject implements IMethodDeclaration {
     }
 
     private class InstanceObjectCall extends FunctionCall {
-        private RuntimeValue value;
+        private RuntimeValue pointer;
         private LineInfo line;
 
         InstanceObjectCall(RuntimeValue value, LineInfo line) {
-            this.value = value;
+            this.pointer = value;
             this.line = line;
         }
 
@@ -107,13 +107,13 @@ public class NewInstanceObject implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(value, line);
+            return new InstanceObjectCall(pointer, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(value, line);
+            return new InstanceObjectCall(pointer, line);
         }
 
         @Override
@@ -124,12 +124,18 @@ public class NewInstanceObject implements IMethodDeclaration {
         @Override
         public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
                 throws RuntimePascalException {
-            PascalReference pointer = (PascalReference) this.value.getValue(f, main);
-            Object o = pointer.get(); // o = null
-            Class<?> storageClass = o.getClass();
+            //get references of variable
+            FieldReference pointer = (FieldReference) this.pointer.getValue(f, main);
+            RuntimeType type = pointer.getType();
+
+            //get class type of variable
+            JavaClassBasedType javaType = (JavaClassBasedType) type.declType;
+
+            Class<?> clazz = javaType.getStorageClass();
+
             Constructor<?> constructor;
             try {
-                constructor = storageClass.getConstructor();
+                constructor = clazz.getConstructor();
                 try {
                     Object value = constructor.newInstance();
                     pointer.set(value);

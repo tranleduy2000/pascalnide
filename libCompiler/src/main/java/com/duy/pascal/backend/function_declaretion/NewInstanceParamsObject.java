@@ -30,9 +30,9 @@ import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.js.interpreter.ast.expressioncontext.CompileTimeContext;
 import com.js.interpreter.ast.expressioncontext.ExpressionContext;
 import com.js.interpreter.ast.instructions.Executable;
+import com.js.interpreter.ast.instructions.FieldReference;
 import com.js.interpreter.ast.runtime_value.FunctionCall;
 import com.js.interpreter.ast.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -128,13 +128,17 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
         @Override
         public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
                 throws RuntimePascalException {
-            PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);
-            Object o = pointer.get(); // o = null
+            //get references of variable
+            FieldReference pointer = (FieldReference) this.pointer.getValue(f, main);
+            RuntimeType type = pointer.getType();
 
-            Object[] targetObjects = (Object[]) listArg.getValue(f, main);
-            Class<?> clazz = o.getClass();
+            //get class type of variable
+            JavaClassBasedType javaType = (JavaClassBasedType) type.declType;
+
+            Class<?> clazz = javaType.getStorageClass();
             Constructor<?>[] constructors = clazz.getConstructors();
 
+            Object[] targetObjects = (Object[]) listArg.getValue(f, main);
             Object[] convertedObjects = new Object[targetObjects.length];
             for (Constructor<?> constructor : constructors) {
                 Type[] parameterTypes = constructor.getGenericParameterTypes();
