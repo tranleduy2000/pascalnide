@@ -171,6 +171,11 @@
         android:icon="@drawable/ic_perm_media_white_24dp"
         android:title="@string/insert_url_media"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_insert_color"
+        android:icon="@drawable/ic_color_lens_white_24dp"
+        android:title="@string/insert_color"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_create_shortcut"

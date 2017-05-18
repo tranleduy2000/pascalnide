@@ -36,6 +36,8 @@ import com.duy.pascal.frontend.code_sample.CodeSampleActivity;
 import com.duy.pascal.frontend.info_application.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingActivity;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 /**
  * Handler for menu click
@@ -232,7 +234,8 @@ public class MenuEditor {
             Intent intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://github.com/tranleduy2000/pascalnide"));
             activity.startActivity(intent);
-
+        } else if (id == R.id.action_insert_color) {
+           activity.insertColor();
         }
         return true;
     }

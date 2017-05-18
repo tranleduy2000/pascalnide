@@ -57,6 +57,8 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.ThemeFontActivity;
 import com.duy.pascal.frontend.view.editor_view.EditorView;
 import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ast.AbstractFunction;
 import com.js.interpreter.ast.ConstantDefinition;
@@ -683,4 +685,15 @@ public class EditorActivity extends BaseEditorActivity implements
         if (doCompile()) mCompileManager.debug(getCurrentFilePath());
     }
 
+    public void insertColor() {
+        ColorPickerDialogBuilder.with(this).setOnColorSelectedListener(new OnColorSelectedListener() {
+            @Override
+            public void onColorSelected(int selectedColor) {
+                EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
+                if (currentFragment != null) {
+                    currentFragment.insert(String.valueOf(selectedColor));
+                }
+            }
+        });
+    }
 }
