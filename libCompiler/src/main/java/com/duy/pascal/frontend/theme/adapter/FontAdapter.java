@@ -32,14 +32,12 @@ import com.duy.pascal.frontend.theme.FontFragment;
 import com.duy.pascal.frontend.theme.util.FontManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedList;
 
 public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     private LayoutInflater inflater;
     private Context context;
-    private List<String> listPathFont = new ArrayList<>();
+    private LinkedList<String> listPathFont = new LinkedList<>();
     private PascalPreferences pascalPreferences;
     @Nullable
     private FontFragment.OnFontSelectListener onFontSelectListener;
@@ -50,7 +48,10 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         pascalPreferences = new PascalPreferences(context);
         try {
             String[] fonts = context.getAssets().list("fonts");
-            listPathFont = Arrays.asList(fonts);
+            for (String font : fonts) {
+                listPathFont.add(font);
+            }
+            listPathFont.addFirst("Monospace");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,6 +21,7 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.backend.lib.runtime_exceptions.RangeCheckError;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.runtime.ObjectBasedPointer;
 import com.js.interpreter.runtime.PascalPointer;
 import com.js.interpreter.runtime.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
@@ -447,4 +448,16 @@ public class SystemLib implements PascalLibrary {
     public void dispose(PascalPointer<?> pascalPointer) {
         pascalPointer.set(null);
     }
+
+    @PascalMethod(description = "Allocate new memory on the heap")
+    public void getMem(PascalPointer pascalPointer, long size) {
+
+    }
+
+    @PascalMethod(description = "Allocate new memory on the heap")
+    @SuppressWarnings("unchecked")
+    public PascalPointer getMem(long size) {
+        return new ObjectBasedPointer(new Object());
+    }
+
 }

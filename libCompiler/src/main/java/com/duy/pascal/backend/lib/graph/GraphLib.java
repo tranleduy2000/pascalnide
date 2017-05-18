@@ -17,6 +17,7 @@
 package com.duy.pascal.backend.lib.graph;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -53,6 +54,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.js.interpreter.ast.ConstantDefinition;
 import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.PascalReference;
+import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.Map;
 
@@ -231,6 +233,9 @@ public class GraphLib implements PascalLibrary {
         constants.put(constant.name(), constant);
 
         new CrtLib(handler).declareConstants(context);
+
+        constant = new ConstantDefinition("NormalPut".toLowerCase(), 0, new LineInfo(-1, ""));
+        constants.put(constant.name(), constant);
     }
 
     @Override
@@ -738,5 +743,37 @@ public class GraphLib implements PascalLibrary {
             textPaint.setTextJustify(new TextJustify(horizontal, vertical));
         }
     }
+
+    @PascalMethod(description = "Return size to store image")
+    public long ImageSize(int x1, int y1, int x2, int y2) {
+        return Math.abs((x2 - x1) * (y2 - y1));
+    }
+
+    @PascalMethod(description = "Return a copy of a screen area")
+    @SuppressWarnings("unchecked")
+    public void getImage(int x1, int y1, int x2, int y2, PascalReference pascalPointer) {
+        GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
+        Bitmap graphBitmap = graphScreen.getGraphBitmap();
+
+        Bitmap crop = Bitmap.createBitmap(graphBitmap, x1, y1, (x2 - x1), (y2 - y1));
+        pascalPointer.set(crop);
+    }
+
+    @PascalMethod(description = "Draw an in-memory image to the screen")
+    public void putImage(int x1, int y1, PascalReference pascalPointer, int mode)
+            throws RuntimePascalException {
+        //get graph bitmap
+        GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
+        Bitmap graphBitmap = graphScreen.getGraphBitmap();
+
+        //draw bitmap
+        Canvas canvas = new Canvas(graphBitmap);
+        Bitmap bitmap = (Bitmap) pascalPointer.get();
+        canvas.drawBitmap(bitmap, x1, y1, null);
+
+        //invailidate screen
+        handler.getConsoleView().postInvalidate();
+    }
+
 
 }
