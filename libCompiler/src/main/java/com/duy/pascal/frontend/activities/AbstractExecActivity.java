@@ -51,7 +51,7 @@ import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
 public abstract class AbstractExecActivity extends RunnableActivity {
     public static final boolean DEBUG = Dlog.DEBUG;
-    protected static final String TAG = ExecuteActivity.class.getSimpleName();
+    protected static final String TAG = AbstractExecActivity.class.getSimpleName();
     protected static final int COMPLETE = 4;
     protected static final int RUNTIME_ERROR = 5;
     protected static final int SHOW_KEYBOARD = 6;
@@ -151,12 +151,17 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                             AbstractExecActivity.this);
 
                     program = pascalProgram.run();
+
+                    //set stack size for the program
                     long maxStackSize = mPascalPreferences.getMaxStackSize();
                     program.setMaxStackSize(maxStackSize);
+
                     if (isEnableDebug()) {
                         program.enableDebug();
                     }
+
                     program.run();
+
                     mMessageHandler.sendEmptyMessage(COMPLETE);
                 } catch (ScriptTerminatedException e) {
                     mMessageHandler.sendEmptyMessage(COMPLETE);
@@ -240,6 +245,8 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy() called");
+
         //stop readkey, keypressed event
         getConsoleView().write("s", false);
         stopInput();
@@ -318,6 +325,8 @@ public abstract class AbstractExecActivity extends RunnableActivity {
      * @param path - path of file pas
      */
     protected void createAndRunProgram(final String path) {
+        Log.d(TAG, "createAndRunProgram() called with: path = [" + path + "]");
+
         String code = mFileManager.readFileAsString(path);
 
         //clone file to internal storage

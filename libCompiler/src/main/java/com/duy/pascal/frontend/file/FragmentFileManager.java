@@ -101,7 +101,7 @@ public class FragmentFileManager extends Fragment implements
     public void doSortBySize(View view) {
         this.sortMode = SORT_BY_SIZE;
         swipeRefreshLayout.setRefreshing(true);
-        Toast.makeText(activity, "Sort by size...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, R.string.sort_size, Toast.LENGTH_SHORT).show();
         new UpdateList().execute(currentFolder);
     }
 
@@ -109,7 +109,7 @@ public class FragmentFileManager extends Fragment implements
     public void doSortByName(View view) {
         this.sortMode = SORT_BY_NAME;
         swipeRefreshLayout.setRefreshing(true);
-        Toast.makeText(activity, "Sort by name...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, R.string.sort_name, Toast.LENGTH_SHORT).show();
         new UpdateList().execute(currentFolder);
     }
 
@@ -117,7 +117,7 @@ public class FragmentFileManager extends Fragment implements
     public void doSortByDate(View view) {
         this.sortMode = SORT_BY_DATE;
         swipeRefreshLayout.setRefreshing(true);
-        Toast.makeText(activity, "Sort by date...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, R.string.sort_date, Toast.LENGTH_SHORT).show();
         new UpdateList().execute(currentFolder);
     }
 
@@ -166,7 +166,6 @@ public class FragmentFileManager extends Fragment implements
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        unbinder = ButterKnife.bind(this, view);
 
         mSearchView = (SearchView) view.findViewById(R.id.search_view);
         mSearchView.setIconifiedByDefault(true);

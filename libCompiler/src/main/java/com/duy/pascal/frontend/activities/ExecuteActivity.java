@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
@@ -34,23 +35,19 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 
-//import butterknife.BindView;
-
 
 public class ExecuteActivity extends AbstractExecActivity {
-//    @BindView(R.id.console)
     public ConsoleView mConsoleView;
-//    @BindView(R.id.toolbar)
     public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_console);
-//        ButterKnife.bind(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mConsoleView = (ConsoleView) findViewById(R.id.console);
         setupToolbar();
+
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
 
@@ -83,7 +80,6 @@ public class ExecuteActivity extends AbstractExecActivity {
 
     @Override
     public void debugProgram() {
-
     }
 
 
@@ -181,8 +177,10 @@ public class ExecuteActivity extends AbstractExecActivity {
     public void onError(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
         DialogManager.createFinishDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
-        //debug
-        Log.e(TAG, "onError: ", e);
+
+        if (Dlog.DEBUG) {
+            Log.e(TAG, "onError: ", e);
+        }
     }
 
 

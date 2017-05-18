@@ -24,7 +24,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
-import com.duy.pascal.backend.imageprocessing.ImageUtils;
 import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
 import com.duy.pascal.backend.lib.graph.paint.FillPaint;
 import com.duy.pascal.backend.lib.graph.paint.LinePaint;
@@ -51,17 +50,14 @@ public class GraphScreen {
     protected int fillColor = -1;//white
     private int width = 1;
     private int height = 1;
+
     private ViewPort viewPort = new ViewPort(0, 0, width, height);
-    //background
+
     private Paint mBackgroundPaint = new Paint();
     private TextPaint textPaint = new TextPaint();
     private LinePaint linePaint = new LinePaint();
-
-    //    private int textStyle = TextFont.DefaultFont;
-//    private int textDirection = TextDirection.HORIZONTAL_DIR;
-//    private Typeface currentFont;
-//    private TextJustify textJustify = new TextJustify();
     private FillPaint fillPaint = new FillPaint();
+
     /**
      * this object used to draw {@link GraphObject}
      */
@@ -149,7 +145,13 @@ public class GraphScreen {
             if (mGraphBitmap == null) {
                 mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
             } else {
-                mGraphBitmap = ImageUtils.getResizedBitmap(mGraphBitmap, width, height);
+                Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                Canvas canvas = new Canvas(bitmap);
+                canvas.drawBitmap(mGraphBitmap, 0, 0, textPaint);
+                synchronized (mLock) {
+                    mGraphBitmap.recycle();
+                    mGraphBitmap = bitmap;
+                }
             }
         }
     }

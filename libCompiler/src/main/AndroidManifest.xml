@@ -24,13 +24,15 @@
 
         <activity
             android:name="com.duy.pascal.frontend.activities.ActivitySplashScreen"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout">
+            android:configChanges="keyboard|keyboardHidden|orientation">
+
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -45,6 +47,7 @@
                 <data android:pathPattern=".*\\.out" />
                 <data android:pathPattern=".*\\.txt" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -73,31 +76,38 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.duy.pascal.frontend.activities.ExecuteActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name="com.duy.pascal.frontend.code_sample.DocumentActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout" />
+            android:configChanges="keyboard|keyboardHidden|orientation" />
         <activity
             android:name="com.duy.pascal.frontend.code_sample.CodeSampleActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
+            android:configChanges="keyboard|keyboardHidden|orientation"
             android:label="@string/title_activity_code_sample" />
         <activity
             android:name="com.duy.pascal.frontend.theme.ThemeFontActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
+            android:configChanges="keyboard|keyboardHidden|orientation"
             android:launchMode="singleTask" />
         <activity android:name="com.duy.pascal.frontend.info_application.InfoActivity" />
         <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
         <activity
             android:name="com.duy.pascal.frontend.activities.DebugActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout"
+            android:configChanges="keyboard|keyboardHidden|orientation"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.duy.pascal.backend.lib.android.activity.PascalActivity" />
         <activity android:name="com.duy.pascal.frontend.code_sample.SearchResultSampleActivity" />
+
+        <!--Scan bar code activity-->
         <activity
             android:name="com.duy.pascal.backend.lib.android.barcode.ZxingActivity"
             android:label="@string/title_activity_zxing" />
+
         <activity
             android:name="com.duy.pascal.backend.lib.android.barcode.ScannerActivity"
             android:screenOrientation="fullSensor"

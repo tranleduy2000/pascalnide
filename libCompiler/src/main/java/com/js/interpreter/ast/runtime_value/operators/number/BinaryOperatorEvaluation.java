@@ -69,7 +69,6 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
             }
         }
 
-
         if (t1 == BasicType.StringBuilder
                 || t2 == BasicType.StringBuilder) {
             if (operatorTypes == OperatorTypes.PLUS) {
@@ -125,7 +124,13 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
             return new BoolBiOperatorEval(v1, v2, operatorTypes, line);
         }
 
-
+        if (t1 instanceof JavaClassBasedType
+                || t2 instanceof JavaClassBasedType) {
+            if (operatorTypes == OperatorTypes.EQUALS
+                    || operatorTypes == OperatorTypes.NOTEQUAL) {
+                return new JavaBiOperatorEval(v1, v2, operatorTypes, line);
+            }
+        }
         throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
     }
 

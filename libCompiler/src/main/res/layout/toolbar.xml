@@ -23,6 +23,5 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?colorPrimary"
         android:fitsSystemWindows="false" />
 </android.support.design.widget.AppBarLayout>

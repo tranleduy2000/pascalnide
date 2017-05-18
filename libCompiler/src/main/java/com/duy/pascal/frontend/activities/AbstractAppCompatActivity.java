@@ -109,6 +109,19 @@ public abstract class AbstractAppCompatActivity extends AppCompatActivity
      * @param recreate -call method onCreate
      */
     protected void setTheme(boolean recreate) {
+        BasePascalApplication application = (BasePascalApplication) getApplication();
+        if (application.isProVersion()) {
+            if (mPascalPreferences.useLightTheme()) {
+                setTheme(R.style.AppTheme_NoActionBar_Light);
+
+                if (recreate) {
+                    recreate();
+                }
+            }
+        } else {
+            setTheme(R.style.AppTheme_NoActionBar_Dark);
+
+        }
     }
 
     @Override

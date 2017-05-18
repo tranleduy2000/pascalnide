@@ -283,6 +283,10 @@ public class PascalPreferences {
         return maxStack;
     }
 
+    public boolean useLightTheme() {
+        return true;
+    }
+
     public int getMaxLineConsole() {
         return 1000;
     }

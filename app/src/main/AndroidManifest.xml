@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar.Dark">
 
         <activity
             android:name="com.duy.pascal.frontend.code_editor.EditorActivity"

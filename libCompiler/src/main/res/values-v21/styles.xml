@@ -16,7 +16,7 @@
 
 <resources>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat">
+    <style name="AppTheme.NoActionBar.Dark" parent="Theme.AppCompat">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
@@ -28,7 +28,7 @@
     </style>
 
     <!--Theme light for pro version-->
-    <style name="AppTheme.NoActionBar.Light" parent="Theme.AppCompat.Light">
+    <style name="AppTheme.NoActionBar.Light" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 

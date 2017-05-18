@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
@@ -12,16 +13,19 @@ import com.js.interpreter.ast.runtime_value.cloning.CloneableObjectCloner;
 
 public class JavaClassBasedType implements DeclaredType {
 
+    @Nullable
     private Class clazz;
 
-    public JavaClassBasedType(Class c) {
+    public JavaClassBasedType(@Nullable Class c) {
         this.clazz = c;
     }
 
     @Override
     public Object initialize() {
         try {
-            return clazz.newInstance();
+            if (clazz != null) {
+                return clazz.newInstance();
+            }
         } catch (Exception ignored) {
         }
         return null;
@@ -29,7 +33,11 @@ public class JavaClassBasedType implements DeclaredType {
 
     @Override
     public String toString() {
-        return clazz.getSimpleName();
+        if (clazz != null) {
+            return clazz.getSimpleName();
+        } else {
+            return "null";
+        }
     }
 
     @Override
@@ -65,9 +73,13 @@ public class JavaClassBasedType implements DeclaredType {
 
     @Override
     public boolean equals(DeclaredType other) {
-        return clazz == Object.class
-                || (other instanceof JavaClassBasedType
-                && ((JavaClassBasedType) other).getStorageClass() == clazz);
+        if (other instanceof JavaClassBasedType && ((JavaClassBasedType) other).getStorageClass() == clazz) {
+            return true;
+        } else if (clazz == Object.class || other == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -80,7 +92,7 @@ public class JavaClassBasedType implements DeclaredType {
     @Override
     public RuntimeValue generateArrayAccess(RuntimeValue array,
                                             RuntimeValue index) throws NonArrayIndexed {
-        return null;
+        throw new NonArrayIndexed(array.getLineNumber(), this);
     }
 
     @Override
