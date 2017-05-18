@@ -244,7 +244,6 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                 }
             }
         } else { //new file
-
             if (pagerAdapter.getCount() >= mPascalPreferences.getMaxPage()) {
                 Fragment existingFragment = pagerAdapter.getExistingFragment(0);
                 if (existingFragment != null) {

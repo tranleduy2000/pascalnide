@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.theme.adapter;
 
 import android.app.Activity;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.theme.ThemeFragment;
 import com.duy.pascal.frontend.view.editor_view.EditorView;
 
 import java.util.ArrayList;
@@ -40,6 +42,9 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private PascalPreferences mPascalPreferences;
     private Activity context;
     private boolean proVersion;
+
+    @Nullable
+    private ThemeFragment.OnThemeSelectListener onThemeSelectListener;
 
     public ThemeAdapter(Activity context) {
         Collections.addAll(mThemes, context.getResources().getStringArray(R.array.code_themes));
@@ -103,6 +108,9 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     Toast.makeText(context,
                             context.getString(R.string.select) + " " + mThemes.get(position),
                             Toast.LENGTH_SHORT).show();
+                    if (onThemeSelectListener != null) {
+                        onThemeSelectListener.onThemeSelect(String.valueOf(mThemes.get(position)));
+                    }
                 }
             });
         } else if (holder instanceof ProHolder) {
@@ -117,6 +125,15 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         } else {
             return mThemes.size() + 1;
         }
+    }
+
+    @Nullable
+    public ThemeFragment.OnThemeSelectListener getOnThemeSelectListener() {
+        return onThemeSelectListener;
+    }
+
+    public void setOnThemeSelectListener(@Nullable ThemeFragment.OnThemeSelectListener onThemeSelectListener) {
+        this.onThemeSelectListener = onThemeSelectListener;
     }
 
     class CodeThemeHolder extends RecyclerView.ViewHolder {

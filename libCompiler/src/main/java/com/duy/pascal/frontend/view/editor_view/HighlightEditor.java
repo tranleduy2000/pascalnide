@@ -123,6 +123,9 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     private int firstVisibleIndex;
     private int lastVisibleIndex;
+
+    private boolean isFind = false;
+
     /**
      * Disconnect this undo/redo from the text
      * view.
@@ -326,7 +329,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         setTypeface(mEditorSetting.getFont());
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setTextSize(mEditorSetting.getTextSize());
-        mPaintNumbers.setTextSize(getTextSize() * 0.6f);
+        mPaintNumbers.setTextSize(getTextSize() * 0.85f);
         showlines = mEditorSetting.isShowLines();
         postInvalidate();
         refreshDrawableState();
@@ -624,6 +627,8 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void highlightText() {
+        if (isFind) return;
+
         disableTextChangedListener();
         highlight(getEditableText(), false);
         enableTextChangedListener();
@@ -798,6 +803,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                                   int count) {
             this.start = start;
             this.count = count;
+            isFind = false;
         }
 
         public void afterTextChanged(Editable s) {

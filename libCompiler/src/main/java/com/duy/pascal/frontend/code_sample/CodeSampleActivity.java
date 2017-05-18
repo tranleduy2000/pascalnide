@@ -68,7 +68,6 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         fileManager = new ApplicationFileManager(getApplicationContext());
 
         setContentView(R.layout.activity_code_sample);
-//        ButterKnife.bind(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         searchView = (MaterialSearchView) findViewById(R.id.search_view);

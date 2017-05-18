@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.theme.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.theme.FontFragment;
 import com.duy.pascal.frontend.theme.util.FontManager;
 
 import java.io.IOException;
@@ -39,6 +41,8 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     private Context context;
     private List<String> listPathFont = new ArrayList<>();
     private PascalPreferences pascalPreferences;
+    @Nullable
+    private FontFragment.OnFontSelectListener onFontSelectListener;
 
     public FontAdapter(Context context) {
         this.context = context;
@@ -87,6 +91,15 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return listPathFont.size();
+    }
+
+    @Nullable
+    public FontFragment.OnFontSelectListener getOnFontSelectListener() {
+        return onFontSelectListener;
+    }
+
+    public void setOnFontSelectListener(@Nullable FontFragment.OnFontSelectListener onFontSelectListener) {
+        this.onFontSelectListener = onFontSelectListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

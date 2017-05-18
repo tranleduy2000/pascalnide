@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.theme;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,6 +41,8 @@ public class ThemeFragment extends Fragment implements SharedPreferences.OnShare
     public static final int THEME = 1;
     ThemeAdapter codeThemeAdapter;
     private RecyclerView mRecyclerView;
+    @Nullable
+    private OnThemeSelectListener onThemeSelect;
 
     public static ThemeFragment newInstance() {
 
@@ -47,6 +50,16 @@ public class ThemeFragment extends Fragment implements SharedPreferences.OnShare
         ThemeFragment fragment = new ThemeFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            onThemeSelect = (OnThemeSelectListener) getActivity();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -73,6 +86,7 @@ public class ThemeFragment extends Fragment implements SharedPreferences.OnShare
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(codeThemeAdapter);
 
+        codeThemeAdapter.setOnThemeSelectListener(onThemeSelect);
     }
 
     @Override
@@ -87,4 +101,13 @@ public class ThemeFragment extends Fragment implements SharedPreferences.OnShare
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         codeThemeAdapter.notifyDataSetChanged();
     }
+
+    public RecyclerView.Adapter getAdapter() {
+        return codeThemeAdapter;
+    }
+
+    public interface OnThemeSelectListener {
+        void onThemeSelect(String name);
+    }
+
 }

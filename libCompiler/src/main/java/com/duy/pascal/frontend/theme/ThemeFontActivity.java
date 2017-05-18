@@ -34,10 +34,12 @@ import com.duy.pascal.frontend.theme.adapter.SectionPageAdapter;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class ThemeFontActivity extends AbstractAppCompatActivity {
+public class ThemeFontActivity extends AbstractAppCompatActivity
+        implements ThemeFragment.OnThemeSelectListener, FontFragment.OnFontSelectListener {
 
     private Toolbar toolbar;
     private ViewPager viewPager;
+    private SectionPageAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +49,8 @@ public class ThemeFontActivity extends AbstractAppCompatActivity {
         setupToolbar();
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.setAdapter(new SectionPageAdapter(getSupportFragmentManager(), this));
+        adapter = new SectionPageAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -72,4 +75,14 @@ public class ThemeFontActivity extends AbstractAppCompatActivity {
 
     }
 
+    @Override
+    public void onThemeSelect(String name) {
+
+    }
+
+    @Override
+    public void onFontSelect(String name) {
+        ThemeFragment item = (ThemeFragment) adapter.getItem(1);
+        item.getAdapter().notifyDataSetChanged();
+    }
 }

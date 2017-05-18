@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.theme;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -41,6 +42,7 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
     public static final int THEME = 1;
     FontAdapter fontAdapter;
     private RecyclerView mRecyclerView;
+    private OnFontSelectListener onFontSelectListener;
 
     public static FontFragment newInstance() {
 
@@ -75,6 +77,18 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
         mRecyclerView.setAdapter(fontAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
+        fontAdapter.setOnFontSelectListener(onFontSelectListener);
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            onFontSelectListener = (OnFontSelectListener) getActivity();
+        }catch (Exception e){
+
+        }
     }
 
     @Override
@@ -88,5 +102,9 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         fontAdapter.notifyDataSetChanged();
+    }
+
+    public interface OnFontSelectListener {
+        void onFontSelect(String name);
     }
 }
