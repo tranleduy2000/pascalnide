@@ -314,12 +314,12 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
      * delete a file
      *
      * @param file - file need delete
-     * @return true if the file is deleted
+     * @return true if delete success
      */
     @Override
     public boolean doRemoveFile(final File file) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.remove_file_msg) + file.getName());
+        builder.setMessage(getString(R.string.remove_file_msg) + " " + file.getName());
         builder.setTitle(R.string.delete_file);
         builder.setIcon(R.drawable.ic_delete_forever_white_24dp);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

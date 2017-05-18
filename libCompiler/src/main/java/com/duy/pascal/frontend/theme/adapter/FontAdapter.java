@@ -67,7 +67,7 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         String name = listPathFont.get(position);
         name = name.replace("_", " ").replace("-", " ").toLowerCase();
         if (name.contains(".")) {
-            holder.txtName.setText(name.substring(0, name.indexOf(".") - 1));
+            holder.txtName.setText(name.substring(0, name.indexOf(".")));
         } else {
             holder.txtName.setText(name);
         }

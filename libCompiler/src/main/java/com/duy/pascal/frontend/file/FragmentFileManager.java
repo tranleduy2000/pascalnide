@@ -27,6 +27,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -164,6 +165,8 @@ public class FragmentFileManager extends Fragment implements
         listFiles = (RecyclerView) view.findViewById(R.id.list_file);
         listFiles.setHasFixedSize(true);
         listFiles.setLayoutManager(new LinearLayoutManager(activity));
+        listFiles.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_view);
         swipeRefreshLayout.setOnRefreshListener(this);

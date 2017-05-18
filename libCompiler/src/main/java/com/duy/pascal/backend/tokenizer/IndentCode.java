@@ -286,18 +286,19 @@ public class IndentCode {
         result.append(getTab(depth)).append(token).append(" ").append("\n");
         while (peek() != null && !(peek() instanceof UntilToken)) {
             StringBuilder next = new StringBuilder();
-            while (peek() != null &&
-                    !(peek() instanceof UntilToken) &&
+            while (!(peek() instanceof UntilToken) &&
                     !(peek() instanceof SemicolonToken) &&
                     !(peek() instanceof PeriodToken)) {
                 next.append(processNext(depth + 1, take()));
             }
+
             if (peek() instanceof SemicolonToken) {
                 next.append(take());
                 next.append("\n");
             }
             result.append(getTab(depth + 1)).append(next);
         }
+
         if (peek() instanceof UntilToken) {
             result.append(getTab(depth)).append(take()).append(" ");
             result.append(getLineCommand(depth, false));

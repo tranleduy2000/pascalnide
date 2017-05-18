@@ -56,6 +56,8 @@ repositories {
         url "https://s3.amazonaws.com/repo.commonsware.com"
     }
     maven { url "https://clojars.org/repo/" }
+
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -86,4 +88,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     androidTestCompile 'junit:junit:4.12'
     provided 'frankiesardo:icepick-processor:3.2.0'
+
+    compile project(':colorpicker')
 }

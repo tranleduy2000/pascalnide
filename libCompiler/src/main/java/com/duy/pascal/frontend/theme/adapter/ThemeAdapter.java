@@ -31,14 +31,15 @@ import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.view.editor_view.EditorView;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 
-public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> {
-    private LinkedList<Object> mThemes = new LinkedList<>();
+public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ArrayList<Object> mThemes = new ArrayList<>();
     private LayoutInflater inflater;
     private PascalPreferences mPascalPreferences;
     private Activity context;
+    private boolean proVersion;
 
     public ThemeAdapter(Activity context) {
         Collections.addAll(mThemes, context.getResources().getStringArray(R.array.code_themes));
@@ -48,78 +49,93 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
         this.context = context;
         inflater = LayoutInflater.from(context);
         mPascalPreferences = new PascalPreferences(context);
+        BasePascalApplication application = (BasePascalApplication) context.getApplication();
+        this.proVersion = application.isProVersion();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (((BasePascalApplication) context.getApplication()).isProVersion()) {
+        if (proVersion) {
             return 1;
-        }
-        if (position == 0) {
-            return 0; //get pro version
         } else {
-            return 1;
+            if (position == 0) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 1) {
             View view = inflater.inflate(R.layout.list_item_theme, parent, false);
-            return new ViewHolder(view);
+            return new CodeThemeHolder(view);
         } else {
             View view = inflater.inflate(R.layout.list_item_get_pro_theme, parent, false);
-            return new ViewHolder(view);
+            return new ProHolder(view);
         }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int pos) {
-
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int pos) {
         //free version
         final int position;
-
-        if (((BasePascalApplication) context.getApplication()).isProVersion()) {
+        if (proVersion) {
             position = pos;
         } else {
             position = pos - 1;
         }
-
-        if ((mThemes.get(position) instanceof String)) {
-            holder.editorView.setColorTheme((String) mThemes.get(position));
-        } else {
-            holder.editorView.setColorTheme((int) mThemes.get(position));
-        }
-        holder.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
-        holder.txtTitle.setText(String.valueOf(mThemes.get(position)));
-        holder.btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPascalPreferences.put(context.getString(R.string.key_code_theme),
-                        String.valueOf(mThemes.get(position)));
-                Toast.makeText(context,
-                        context.getString(R.string.select) + " " + mThemes.get(position),
-                        Toast.LENGTH_SHORT).show();
+        if (holder instanceof CodeThemeHolder) {
+            CodeThemeHolder holder1 = (CodeThemeHolder) holder;
+            if ((mThemes.get(position) instanceof String)) {
+                holder1.editorView.setColorTheme((String) mThemes.get(position));
+            } else {
+                holder1.editorView.setColorTheme((int) mThemes.get(position));
             }
-        });
-
+            holder1.editorView.setTextHighlighted(CodeSample.DEMO_THEME);
+            holder1.txtTitle.setText(String.valueOf(mThemes.get(position)));
+            holder1.btnSelect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPascalPreferences.put(context.getString(R.string.key_code_theme),
+                            String.valueOf(mThemes.get(position)));
+                    Toast.makeText(context,
+                            context.getString(R.string.select) + " " + mThemes.get(position),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (((BasePascalApplication) context.getApplication()).isProVersion()) {
+        if (proVersion) {
             return mThemes.size();
         } else {
             return mThemes.size() + 1;
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class CodeThemeHolder extends RecyclerView.ViewHolder {
         EditorView editorView;
         TextView txtTitle;
         Button btnSelect;
 
-        public ViewHolder(View itemView) {
+        public CodeThemeHolder(View itemView) {
+            super(itemView);
+            editorView = (EditorView) itemView.findViewById(R.id.editor_view);
+            txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
+            btnSelect = (Button) itemView.findViewById(R.id.btn_select);
+        }
+    }
+
+    class ProHolder extends RecyclerView.ViewHolder {
+        EditorView editorView;
+        TextView txtTitle;
+        Button btnSelect;
+
+        public ProHolder(View itemView) {
             super(itemView);
             editorView = (EditorView) itemView.findViewById(R.id.editor_view);
             txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
