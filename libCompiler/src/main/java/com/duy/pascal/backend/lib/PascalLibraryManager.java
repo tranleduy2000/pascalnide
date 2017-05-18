@@ -37,6 +37,7 @@ import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.lib.android.connection.bluetooth.AndroidBluetoothLib;
 import com.duy.pascal.backend.lib.android.connection.socketio.SocketIOLib;
+import com.duy.pascal.backend.lib.android.connection.web.HtmlLib;
 import com.duy.pascal.backend.lib.android.connection.wifi.AndroidWifiLib;
 import com.duy.pascal.backend.lib.android.hardware.AndroidSensorLib;
 import com.duy.pascal.backend.lib.android.hardware.AndroidVibrateLib;
@@ -102,6 +103,7 @@ public class PascalLibraryManager {
         MAP_LIBRARIES.put(AndroidSpeechRecognitionLib.NAME, AndroidSpeechRecognitionLib.class);
         MAP_LIBRARIES.put(ZXingAPI.NAME, ZXingAPI.class);
         MAP_LIBRARIES.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
+        MAP_LIBRARIES.put(HtmlLib.NAME, HtmlLib.class);
 
         //socket library
         MAP_LIBRARIES.put(SocketIOLib.NAME, SocketIOLib.class);
