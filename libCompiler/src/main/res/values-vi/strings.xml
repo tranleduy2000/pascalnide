@@ -41,7 +41,7 @@
     <string name="failed">Thất bại</string>
     <string name="path">Đường dẫn</string>
     <string name="readable">Đọc: </string>
-    <string name="remove_file_msg">Bạn có muốn xóa tệp</string>
+    <string name="remove_file_msg">Bạn có muốn xóa tệp </string>
     <string name="writeable">Ghi: </string>
     <string name="code_editor">Trình gõ code</string>
     <string name="find">Tìm kiếm</string>

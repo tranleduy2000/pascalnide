@@ -21,6 +21,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -31,14 +32,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
@@ -78,12 +77,10 @@ public class FragmentFileManager extends Fragment implements
     private FloatingActionMenu fabMenu;
     private RecyclerView listFiles;
     private Activity activity;
-    private View root;
     private String currentFolder;
     private boolean wantAFile = true;
     private SearchView mSearchView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    @Nullable
     private int sortMode = SORT_BY_NAME;
     @Nullable
     private FileListAdapter mAdapter;
@@ -96,13 +93,14 @@ public class FragmentFileManager extends Fragment implements
             }
         }
     };
+    private TextView txtPath;
 
     //    @OnClick(R.id.img_sort_size)
     public void doSortBySize(View view) {
         this.sortMode = SORT_BY_SIZE;
         swipeRefreshLayout.setRefreshing(true);
         Toast.makeText(activity, R.string.sort_size, Toast.LENGTH_SHORT).show();
-        new UpdateList().execute(currentFolder);
+        new UpdateList(currentFolder).execute();
     }
 
     //    @OnClick(R.id.img_sort_name)
@@ -110,7 +108,7 @@ public class FragmentFileManager extends Fragment implements
         this.sortMode = SORT_BY_NAME;
         swipeRefreshLayout.setRefreshing(true);
         Toast.makeText(activity, R.string.sort_name, Toast.LENGTH_SHORT).show();
-        new UpdateList().execute(currentFolder);
+        new UpdateList(currentFolder).execute();
     }
 
     //    @OnClick(R.id.img_sort_date)
@@ -118,7 +116,7 @@ public class FragmentFileManager extends Fragment implements
         this.sortMode = SORT_BY_DATE;
         swipeRefreshLayout.setRefreshing(true);
         Toast.makeText(activity, R.string.sort_date, Toast.LENGTH_SHORT).show();
-        new UpdateList().execute(currentFolder);
+        new UpdateList(currentFolder).execute();
     }
 
     @Override
@@ -141,74 +139,47 @@ public class FragmentFileManager extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_file_view, container, false);
-        root.findViewById(R.id.img_sort_date).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSortByDate(v);
-            }
-        });
-        root.findViewById(R.id.img_sort_name).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSortByName(v);
-            }
-        });
-        root.findViewById(R.id.img_sort_size).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSortBySize(v);
-            }
-        });
-        return root;
+        return inflater.inflate(R.layout.fragment_file_view, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        currentFolder = ApplicationFileManager.getApplicationPath();
+        wantAFile = true; //action == Actions.SelectFile;
+
+        bindView(view);
+
+        //load file
+        new UpdateList(currentFolder).execute();
+    }
+
+    private void bindView(View view) {
         mSearchView = (SearchView) view.findViewById(R.id.search_view);
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setSubmitButtonEnabled(false);
 
-        currentFolder = ApplicationFileManager.getApplicationPath();
-
-        wantAFile = true; //action == Actions.SelectFile;
-        listFiles = (RecyclerView) root.findViewById(R.id.list_file);
+        listFiles = (RecyclerView) view.findViewById(R.id.list_file);
         listFiles.setHasFixedSize(true);
         listFiles.setLayoutManager(new LinearLayoutManager(activity));
 
-        disableVerticalScroll();
-
-        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_view);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_view);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_key_word_color));
 
-        fabMenu = (FloatingActionMenu) root.findViewById(R.id.fab_menu);
+        fabMenu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
         fabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
         fabMenu.findViewById(R.id.action_new_folder).setOnClickListener(this);
 
-        new UpdateList().execute(currentFolder);
+        view.findViewById(R.id.img_sort_name).setOnClickListener(this);
+        view.findViewById(R.id.img_sort_date).setOnClickListener(this);
+        view.findViewById(R.id.img_sort_size).setOnClickListener(this);
+
+        txtPath = (TextView) view.findViewById(R.id.txt_path);
     }
 
-    /**
-     * disable scroll vertical of list view when scrolling horizontal
-     */
-    private void disableVerticalScroll() {
-
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        return super.onOptionsItemSelected(item);
-    }
 
     /**
      * show dialog create new file
@@ -250,7 +221,7 @@ public class FragmentFileManager extends Fragment implements
                 File file = new File(currentFolder, fileName);
                 try {
                     file.createNewFile();
-                    new UpdateList().execute(currentFolder);
+                    new UpdateList(currentFolder).execute();
                 } catch (IOException e) {
                     Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -292,7 +263,7 @@ public class FragmentFileManager extends Fragment implements
                 //create new file
                 File file = new File(currentFolder, fileName);
                 file.mkdirs();
-                new UpdateList().execute(currentFolder);
+                new UpdateList(currentFolder).execute();
                 alertDialog.cancel();
             }
         });
@@ -310,6 +281,12 @@ public class FragmentFileManager extends Fragment implements
             createNewFolder();
             fabMenu.close(true);
 
+        } else if (i == R.id.img_sort_date) {
+            doSortByDate(v);
+        } else if (i == R.id.img_sort_name) {
+            doSortByDate(v);
+        } else if (i == R.id.img_sort_size) {
+            doSortBySize(v);
         }
     }
 
@@ -320,7 +297,7 @@ public class FragmentFileManager extends Fragment implements
 
     @Override
     public void onRefresh() {
-        new UpdateList().execute(currentFolder);
+        new UpdateList(currentFolder).execute();
     }
 
     @Override
@@ -328,7 +305,7 @@ public class FragmentFileManager extends Fragment implements
         if (action == ACTION_LONG_CLICK) {
             if (name.equals("..")) {
                 if (currentFolder.equals("/")) {
-                    new UpdateList().execute(PreferenceHelper.getWorkingFolder(activity));
+                    new UpdateList(PreferenceHelper.getWorkingFolder(activity)).execute();
                 } else {
                     File tempFile = new File(currentFolder);
                     if (tempFile.isFile()) {
@@ -337,11 +314,11 @@ public class FragmentFileManager extends Fragment implements
                     } else {
                         tempFile = tempFile.getParentFile();
                     }
-                    new UpdateList().execute(tempFile.getAbsolutePath());
+                    new UpdateList(tempFile.getAbsolutePath()).execute();
                 }
             } else if (name.equals(getString(R.string.home))) {
                 // TODO: 14-Mar-17
-                new UpdateList().execute(PreferenceHelper.getWorkingFolder(activity));
+                new UpdateList(PreferenceHelper.getWorkingFolder(activity)).execute();
             }
 
             final File selectedFile = new File(currentFolder, name);
@@ -355,7 +332,7 @@ public class FragmentFileManager extends Fragment implements
         } else if (action == ACTION_CLICK) {
             if (name.equals("..")) {
                 if (currentFolder.equals("/")) {
-                    new UpdateList().execute(PreferenceHelper.getWorkingFolder(activity));
+                    new UpdateList(PreferenceHelper.getWorkingFolder(activity)).execute();
                 } else {
                     File tempFile = new File(currentFolder);
                     if (tempFile.isFile()) {
@@ -364,12 +341,12 @@ public class FragmentFileManager extends Fragment implements
                     } else {
                         tempFile = tempFile.getParentFile();
                     }
-                    new UpdateList().execute(tempFile.getAbsolutePath());
+                    new UpdateList(tempFile.getAbsolutePath()).execute();
                 }
                 return;
             } else if (name.equals(getString(R.string.home))) {
                 // TODO: 14-Mar-17
-                new UpdateList().execute(PreferenceHelper.getWorkingFolder(activity));
+                new UpdateList(PreferenceHelper.getWorkingFolder(activity)).execute();
                 return;
             }
 
@@ -379,17 +356,9 @@ public class FragmentFileManager extends Fragment implements
                 // TODO: 15-Mar-17
                 if (listener != null) listener.onFileClick(selectedFile);
             } else if (selectedFile.isDirectory()) {
-                new UpdateList().execute(selectedFile.getAbsolutePath());
+                new UpdateList(selectedFile.getAbsolutePath()).execute();
             }
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        if (unbinder != null) {
-//            unbinder.unbind();
-//        }
     }
 
     private void doRemoveFile(final File file) {
@@ -397,14 +366,14 @@ public class FragmentFileManager extends Fragment implements
     }
 
     public void refresh() {
-        new UpdateList().execute(currentFolder);
+        new UpdateList(currentFolder).execute();
     }
 
     @Override
     public void onRemoveClick(View view, String name, int action) {
         if (name.equals("..")) {
             if (currentFolder.equals("/")) {
-                new UpdateList().execute(PreferenceHelper.getWorkingFolder(activity));
+                new UpdateList(PreferenceHelper.getWorkingFolder(activity)).execute();
             } else {
                 File tempFile = new File(currentFolder);
                 if (tempFile.isFile()) {
@@ -413,23 +382,17 @@ public class FragmentFileManager extends Fragment implements
                 } else {
                     tempFile = tempFile.getParentFile();
                 }
-                new UpdateList().execute(tempFile.getAbsolutePath());
+                new UpdateList(tempFile.getAbsolutePath()).execute();
             }
             return;
         } else if (name.equals(getString(R.string.home))) {
             // TODO: 14-Mar-17
-            new UpdateList().execute(PreferenceHelper.getWorkingFolder(activity));
+            new UpdateList(PreferenceHelper.getWorkingFolder(activity)).execute();
             return;
         }
 
-        final File selectedFile = new File(currentFolder, name);
-
-        if (selectedFile.isFile() && wantAFile) {
-            // TODO: 15-Mar-17
-            doRemoveFile(selectedFile);
-        } else if (selectedFile.isDirectory()) {
-            new UpdateList().execute(selectedFile.getAbsolutePath());
-        }
+        File selectedFile = new File(currentFolder, name);
+        doRemoveFile(selectedFile);
     }
 
     @Override
@@ -445,13 +408,18 @@ public class FragmentFileManager extends Fragment implements
         return true;
     }
 
-    private class UpdateList extends AsyncTask<String, Void, LinkedList<FileDetail>> {
-
+    private class UpdateList extends AsyncTask<Void, Void, LinkedList<FileDetail>> {
+        private String path;
         private String exceptionMessage;
+
+        public UpdateList(@NonNull String path) {
+            this.path = path;
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            txtPath.setText(path);
             if (mSearchView != null) {
                 mSearchView.setIconified(true);
                 mSearchView.setQuery("", false);
@@ -462,10 +430,8 @@ public class FragmentFileManager extends Fragment implements
          * {@inheritDoc}
          */
         @Override
-        protected LinkedList<FileDetail> doInBackground(final String... params) {
+        protected LinkedList<FileDetail> doInBackground(final Void... params) {
             try {
-
-                final String path = params[0];
                 if (TextUtils.isEmpty(path)) {
                     return null;
                 }

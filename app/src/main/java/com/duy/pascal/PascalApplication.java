@@ -16,8 +16,6 @@
 
 package com.duy.pascal;
 
-import com.duy.pascal.pro.BuildConfig;
-
 /**
  * Created by Duy on 17-May-17.
  */

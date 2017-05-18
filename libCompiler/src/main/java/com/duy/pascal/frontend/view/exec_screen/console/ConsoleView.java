@@ -740,6 +740,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        Log.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h +
+                "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
+
         mGraphScreen.onSizeChange(w, h);
         updateSize();
     }
@@ -763,7 +766,8 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             if (row > mCursor.y - firstLine) break;
             count = 0;
             while ((count < mConsoleScreen.consoleColumn) &&
-                    isGreaterEqual(mScreenBufferData.textConsole[count + index].getSingleString(), " "))
+                    StringCompare.isGreaterEqual(mScreenBufferData
+                            .textConsole[count + index].getSingleString(), " "))
                 count++;
 
             mTextRenderer.draw(canvas, left, top, mScreenBufferData.textConsole, index, count);
@@ -809,7 +813,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         distanceY += mScrollRemainder;
         int deltaRows = (int) (distanceY / mTextRenderer.getCharHeight());
+
         mScrollRemainder = distanceY - deltaRows * mTextRenderer.getCharHeight();
+
         firstLine = Math.max(0, Math.min(firstLine + deltaRows, mCursor.y));
 
         invalidate();
@@ -819,9 +825,9 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
+        // TODO: add animation man's (non animated) fling
         mScrollRemainder = 0.0f;
-        onScroll(e1, e2, velocityX, -velocityY);
+        onScroll(e1, e2, 2 * velocityX, -2 * velocityY);
         return true;
     }
 

@@ -321,6 +321,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.remove_file_msg) + file.getName());
         builder.setTitle(R.string.delete_file);
+        builder.setIcon(R.drawable.ic_delete_forever_white_24dp);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

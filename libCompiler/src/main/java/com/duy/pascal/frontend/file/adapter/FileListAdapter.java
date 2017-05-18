@@ -21,15 +21,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
-
-import org.apache.commons.io.FilenameUtils;
 
 import java.util.LinkedList;
 
 
-public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
+public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileViewHolder> {
     // Layout Inflater
     private final LayoutInflater inflater;
     private final LinkedList<FileDetail> orig;
@@ -51,18 +51,16 @@ public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
         if (!isRoot) {
             this.fileDetails.addFirst(new FileDetail("..", context.getString(R.string.folder), ""));
         } else {
-            this.fileDetails.addFirst(new FileDetail(context.getString(R.string.home),
-                    context.getString(R.string.folder), ""));
+            this.fileDetails.addFirst(new FileDetail(context.getString(R.string.home), context.getString(R.string.folder), ""));
         }
     }
 
 
     private void setIcon(final FileViewHolder viewHolder, final FileDetail fileDetail) {
         final String fileName = fileDetail.getName();
-        final String ext = FilenameUtils.getExtension(fileName);
         if (fileDetail.isFolder()) {
             viewHolder.icon.setImageResource(R.drawable.ic_folder_white_24dp);
-        } else if (".pas".contains(ext)) {
+        } else if (fileName.endsWith(".pas")) {
             viewHolder.icon.setImageResource(R.drawable.ic_code_white_24dp);
         } else {
             viewHolder.icon.setImageResource(R.drawable.ic_insert_drive_file_white_24dp);
@@ -87,7 +85,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
             @Override
             public void onClick(View v) {
                 if (fileAdapterListener != null)
-                    fileAdapterListener.onItemClick(v, fileName, FileAdapterListener.ACTION_CLICK);
+                    fileAdapterListener.onItemClick(v, fileName,
+                            FileAdapterListener.ACTION_CLICK);
             }
         });
         holder.root.setOnLongClickListener(new View.OnLongClickListener() {
@@ -95,7 +94,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
             public boolean onLongClick(View v) {
 
                 if (fileAdapterListener != null)
-                    fileAdapterListener.onItemClick(v, fileName, FileAdapterListener.ACTION_LONG_CLICK);
+                    fileAdapterListener.onItemClick(v, fileName,
+                            FileAdapterListener.ACTION_LONG_CLICK);
                 return false;
             }
         });
@@ -103,7 +103,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
             @Override
             public void onClick(View v) {
                 if (fileAdapterListener != null)
-                    fileAdapterListener.onRemoveClick(v, fileName, FileAdapterListener.ACTION_REMOVE);
+                    fileAdapterListener.onRemoveClick(v, fileName,
+                            FileAdapterListener.ACTION_REMOVE);
             }
         });
     }
@@ -122,5 +123,28 @@ public class FileListAdapter extends RecyclerView.Adapter<FileViewHolder> {
         }
         notifyDataSetChanged();
         return true;
+    }
+
+
+    static class FileViewHolder extends RecyclerView.ViewHolder {
+
+        // Icon of the file
+        public ImageView icon;
+        // Name of the file
+        TextView txtName;
+        // Size of the file
+        TextView txtDetail;
+        View imgDelete;
+        View root;
+
+        public FileViewHolder(View v) {
+            super(v);
+            txtName = (TextView) v.findViewById(R.id.txt_name);
+            txtDetail = (TextView) v.findViewById(R.id.txt_info);
+            icon = (ImageView) v.findViewById(R.id.img_icon);
+            imgDelete = v.findViewById(R.id.img_delete);
+            root = v.findViewById(R.id.container);
+
+        }
     }
 }
