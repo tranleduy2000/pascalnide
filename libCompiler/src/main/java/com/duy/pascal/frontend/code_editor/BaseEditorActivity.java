@@ -112,6 +112,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         Log.d(TAG, "onCreate: ");
 
         setContentView(R.layout.activity_editor);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mKeyList = (SymbolListView) findViewById(R.id.recycler_view);
         mFileManager = new ApplicationFileManager(this);
@@ -182,12 +183,14 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         }
     }
 
+
     protected void setupToolbar() {
         //setup action bar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+
         setSupportActionBar(toolbar);
-        setTitle("");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -223,6 +226,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        invalidateTab();
     }
 
     /**

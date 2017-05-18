@@ -331,15 +331,15 @@ public class HighlightEditor extends CodeSuggestsEditText
         setTextSize(mEditorSetting.getTextSize());
         mPaintNumbers.setTextSize(getTextSize() * 0.85f);
         showlines = mEditorSetting.isShowLines();
+
         postInvalidate();
         refreshDrawableState();
 
-        mLinePadding = mPadding;
         int count = getLineCount();
         if (showlines) {
             mLinePadding = (int) (Math.floor(Math.log10(count)) + 1);
             mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize())
-                    + mPadding /*+ (textSize * mScale * 0.5)*/);
+                    + mPaintNumbers.getTextSize() * 0.5f);
             setPadding(mLinePadding, mPadding, mPadding, mPadding);
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);

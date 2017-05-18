@@ -51,6 +51,7 @@ public class ThemeFontActivity extends AbstractAppCompatActivity
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         adapter = new SectionPageAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -83,6 +84,6 @@ public class ThemeFontActivity extends AbstractAppCompatActivity
     @Override
     public void onFontSelect(String name) {
         ThemeFragment item = (ThemeFragment) adapter.getItem(1);
-        item.getAdapter().notifyDataSetChanged();
+        item.notifyDataSetChanged();
     }
 }

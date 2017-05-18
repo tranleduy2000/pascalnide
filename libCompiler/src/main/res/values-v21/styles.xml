@@ -25,6 +25,7 @@
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
     </style>
 
     <!--Theme light for pro version-->

@@ -84,6 +84,10 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
                 Toast.makeText(context,
                         context.getString(R.string.select) + " " + finalName,
                         Toast.LENGTH_SHORT).show();
+
+                if (onFontSelectListener != null) {
+                    onFontSelectListener.onFontSelect(finalName);
+                }
             }
         });
     }

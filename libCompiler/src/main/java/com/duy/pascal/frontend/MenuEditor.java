@@ -228,6 +228,11 @@ public class MenuEditor {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+        } else if (id == R.id.action_github) {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/tranleduy2000/pascalnide"));
+            activity.startActivity(intent);
+
         }
         return true;
     }

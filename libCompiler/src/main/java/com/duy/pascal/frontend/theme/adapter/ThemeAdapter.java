@@ -43,6 +43,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private Activity context;
     private boolean proVersion;
 
+
     @Nullable
     private ThemeFragment.OnThemeSelectListener onThemeSelectListener;
 
@@ -56,6 +57,18 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         mPascalPreferences = new PascalPreferences(context);
         BasePascalApplication application = (BasePascalApplication) context.getApplication();
         this.proVersion = application.isProVersion();
+    }
+
+    public void clear() {
+        mThemes.clear();  notifyDataSetChanged();
+    }
+
+    public void reload() {
+        Collections.addAll(mThemes, context.getResources().getStringArray(R.array.code_themes));
+        for (Integer i = 0; i < 20; i++) {
+            mThemes.add(i);
+        }
+        notifyDataSetChanged();
     }
 
     @Override

@@ -177,5 +177,6 @@
     <string name="sort_name">Sort by name...</string>
     <string name="sort_size">Sort by size...</string>
     <string name="content">Content</string>
+    <string name="see_in_github_2">See in Github</string>
 </resources>
 

@@ -17,9 +17,7 @@
 package com.duy.pascal.frontend.theme;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,17 +33,17 @@ import com.duy.pascal.frontend.theme.adapter.ThemeAdapter;
  * Created by Duy on 17-May-17.
  */
 
-public class ThemeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ThemeFragment extends Fragment {
 
     public static final int FONT = 0;
     public static final int THEME = 1;
-    ThemeAdapter codeThemeAdapter;
+    @Nullable
+    private ThemeAdapter codeThemeAdapter;
     private RecyclerView mRecyclerView;
     @Nullable
     private OnThemeSelectListener onThemeSelect;
 
     public static ThemeFragment newInstance() {
-
         Bundle args = new Bundle();
         ThemeFragment fragment = new ThemeFragment();
         fragment.setArguments(args);
@@ -62,12 +60,6 @@ public class ThemeFragment extends Fragment implements SharedPreferences.OnShare
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        PreferenceManager.getDefaultSharedPreferences(getContext())
-                .registerOnSharedPreferenceChangeListener(this);
-    }
 
     @Nullable
     @Override
@@ -89,21 +81,15 @@ public class ThemeFragment extends Fragment implements SharedPreferences.OnShare
         codeThemeAdapter.setOnThemeSelectListener(onThemeSelect);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        PreferenceManager.getDefaultSharedPreferences(getContext())
-                .unregisterOnSharedPreferenceChangeListener(this);
-
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        codeThemeAdapter.notifyDataSetChanged();
-    }
 
     public RecyclerView.Adapter getAdapter() {
         return codeThemeAdapter;
+    }
+
+    public void notifyDataSetChanged() {
+        if (codeThemeAdapter != null) {
+            codeThemeAdapter.notifyDataSetChanged();
+        }
     }
 
     public interface OnThemeSelectListener {

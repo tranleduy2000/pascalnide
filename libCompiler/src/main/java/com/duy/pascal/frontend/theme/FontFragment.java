@@ -101,7 +101,7 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        fontAdapter.notifyDataSetChanged();
+
     }
 
     public interface OnFontSelectListener {
