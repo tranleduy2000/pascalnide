@@ -84,16 +84,12 @@ public class VariableWatcherAdapter extends RecyclerView.Adapter<VariableWatcher
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        //        @BindView(R.id.txt_title)
         TextView txtName;
-        //        @BindView(R.id.txt_value)
         TextView txtValue;
-        //        @BindView(R.id.background)
         View view;
 
         ViewHolder(View itemView) {
             super(itemView);
-//            ButterKnife.bind(this, itemView);
             txtName = (TextView) itemView.findViewById(R.id.txt_name);
             txtValue = (TextView) itemView.findViewById(R.id.txt_value);
             view = itemView.findViewById(R.id.background);

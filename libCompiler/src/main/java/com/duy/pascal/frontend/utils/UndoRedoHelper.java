@@ -66,19 +66,19 @@ public class UndoRedoHelper {
             return;
         }
 
-        Editable text = mTextView.getEditableText();
-        int start = edit.mmStart;
-        int end = start + (edit.mmAfter != null ? edit.mmAfter.length() : 0);
+        Editable editable = mTextView.getEditableText();
+        int start = edit.start;
+        int end = start + (edit.after != null ? edit.after.length() : 0);
 
         mIsUndoOrRedo = true;
-        text.replace(start, end, edit.mmBefore);
+        editable.replace(start, end, edit.before);
         mIsUndoOrRedo = false;
 
-        for (Object o : text.getSpans(0, text.length(), UnderlineSpan.class)) {
-            text.removeSpan(o);
+        for (Object o : editable.getSpans(0, editable.length(), UnderlineSpan.class)) {
+            editable.removeSpan(o);
         }
 
-        Selection.setSelection(text, edit.mmBefore == null ? start : (start + edit.mmBefore.length()));
+        Selection.setSelection(editable, edit.before == null ? start : (start + edit.before.length()));
     }
 
     public boolean getCanRedo() {
@@ -92,11 +92,11 @@ public class UndoRedoHelper {
         }
 
         Editable text = mTextView.getEditableText();
-        int start = edit.mmStart;
-        int end = start + (edit.mmBefore != null ? edit.mmBefore.length() : 0);
+        int start = edit.start;
+        int end = start + (edit.before != null ? edit.before.length() : 0);
 
         mIsUndoOrRedo = true;
-        text.replace(start, end, edit.mmAfter);
+        text.replace(start, end, edit.after);
         mIsUndoOrRedo = false;
 
         // This will get rid of underlines inserted when editor tries to come
@@ -105,8 +105,8 @@ public class UndoRedoHelper {
             text.removeSpan(o);
         }
 
-        Selection.setSelection(text, edit.mmAfter == null ? start
-                : (start + edit.mmAfter.length()));
+        Selection.setSelection(text, edit.after == null ? start
+                : (start + edit.after.length()));
     }
 
     public void storePersistentState(SharedPreferences.Editor editor, String prefix) {
@@ -121,9 +121,9 @@ public class UndoRedoHelper {
         for (EditItem ei : mEditHistory.mmHistory) {
             String pre = prefix + "." + i;
 
-            editor.putInt(pre + ".start", ei.mmStart);
-            editor.putString(pre + ".before", ei.mmBefore.toString());
-            editor.putString(pre + ".after", ei.mmAfter.toString());
+            editor.putInt(pre + ".start", ei.start);
+            editor.putString(pre + ".before", ei.before.toString());
+            editor.putString(pre + ".after", ei.after.toString());
 
             i++;
         }
@@ -250,22 +250,22 @@ public class UndoRedoHelper {
     }
 
     private final class EditItem {
-        private int mmStart;
-        private CharSequence mmBefore;
-        private CharSequence mmAfter;
+        private int start;
+        private CharSequence before;
+        private CharSequence after;
 
         public EditItem(int start, CharSequence before, CharSequence after) {
-            mmStart = start;
-            mmBefore = before;
-            mmAfter = after;
+            this.start = start;
+            this.before = before;
+            this.after = after;
         }
 
         @Override
         public String toString() {
             return "EditItem{" +
-                    "mmStart=" + mmStart +
-                    ", mmBefore=" + mmBefore +
-                    ", mmAfter=" + mmAfter +
+                    "start=" + start +
+                    ", before=" + before +
+                    ", after=" + after +
                     '}';
         }
     }
@@ -298,10 +298,10 @@ public class UndoRedoHelper {
                 mEditHistory.add(new EditItem(start, mBeforeChange, mAfterChange));
             } else {
                 if (at == ActionType.DELETE) {
-                    editItem.mmStart = start;
-                    editItem.mmBefore = mBeforeChange + editItem.mmBefore.toString();
+                    editItem.start = start;
+                    editItem.before = mBeforeChange + editItem.before.toString();
                 } else {
-                    editItem.mmAfter = editItem.mmAfter + mAfterChange.toString();
+                    editItem.after = editItem.after + mAfterChange.toString();
                 }
             }
             lastActionType = at;

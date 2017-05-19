@@ -79,14 +79,26 @@ public class UndoRedoSupportEditText extends HighlightEditor {
      * undo text
      */
     public void undo() {
-        mUndoRedoHelper.undo();
+        if (canUndo()) {
+            try {
+                mUndoRedoHelper.undo();
+            } catch (Exception e) {
+                // TODO: 19-May-17 fix bug index out of bound
+            }
+        }
     }
 
     /**
      * redo text
      */
     public void redo() {
-        mUndoRedoHelper.redo();
+        if (canRedo()) {
+            try {
+                mUndoRedoHelper.redo();
+            } catch (Exception e) {
+                // TODO: 19-May-17 fix bug index out of bound
+            }
+        }
     }
 
     /**
