@@ -32,13 +32,17 @@ import java.io.RandomAccessFile;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 class FileEntry {
-    private final Object lock = new Object();
+    private static final String TAG = "FileEntry";
+    // A pattern for java whitespace
+    private static Pattern WHITESPACE_PATTERN = Pattern.compile(
+            "\\p{javaWhitespace}+");
     private String mFilePath = "";
     private BufferedWriter mWriter;
-    private String bufferReader = "";
-    private Scanner scanner;
+    private Scanner fileScanner;
+    private Scanner lineScanner;
     private boolean opened = false;
     private File file;
 
@@ -46,7 +50,6 @@ class FileEntry {
     FileEntry(String mFilePath) {
         this.mFilePath = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/" + mFilePath;
         this.file = new File(this.mFilePath);
-//        System.out.println("File: " + this.mFilePath);
     }
 
     public String getFileName(String fileName) {
@@ -62,13 +65,16 @@ class FileEntry {
      *
      * @throws FileNotFoundException
      */
-    public void reset() throws FileNotFoundException {
-        scanner = new Scanner(new FileReader(mFilePath));
-        scanner.useLocale(Locale.ENGLISH);
+    public synchronized void reset() throws FileNotFoundException {
+        fileScanner = new Scanner(new FileReader(mFilePath));
+
+        //uses dot symbol for floating number
+        fileScanner.useLocale(Locale.ENGLISH);
+
         setOpened(true);
     }
 
-    public void append() throws IOException {
+    public synchronized void append() throws IOException {
         File f = new File(mFilePath);
         if (!f.exists()) {
             f.createNewFile();
@@ -82,8 +88,9 @@ class FileEntry {
      *
      * @throws IOException
      */
-    public void rewrite() throws IOException {
+    public synchronized void rewrite() throws IOException {
         if (!file.exists()) {
+            file.getParentFile().mkdirs();
             file.createNewFile();
         }
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
@@ -93,52 +100,94 @@ class FileEntry {
         setOpened(true);
     }
 
-    public int readInteger() throws InvalidNumericFormatException, DiskReadErrorException {
-        assertNotEndOfFile();
+    public synchronized int readInteger() throws InvalidNumericFormatException, DiskReadErrorException {
+        checkEndOfLine();
 
         int integer;
         try {
-            integer = scanner.nextInt();
+            integer = lineScanner.nextInt();
         } catch (InputMismatchException e) {
             throw new InvalidNumericFormatException("read file");
         }
-//        System.out.println("readln integer " + integer);
         return integer;
     }
 
-    public long readLong() throws InvalidNumericFormatException, DiskReadErrorException {
+    /**
+     * Check whether the end of a line or not? If the end of the line,
+     * check if the end of the file or not?, if end of file then give an error,
+     * else re-create lineScanner
+     *
+     * @throws DiskReadErrorException - End of file
+     */
+    public synchronized void checkEndOfLine() throws DiskReadErrorException {
+        try {
+            if (lineScanner != null && lineScanner.hasNext()) {
+                return;
+            }
+        } catch (Exception e) {
+            //if lineScanner is closed or no data
+        }
         assertNotEndOfFile();
+        closeLine();
+        String source = fileScanner.nextLine();
+        lineScanner = new Scanner(source);
+        lineScanner.useLocale(Locale.ENGLISH);
+    }
 
+    private void closeLine() {
+        try {
+            if (lineScanner != null) {
+                lineScanner.close();
+            }
+        } catch (Exception ignored) {
+        }
+
+    }
+
+    public synchronized long readLong() throws InvalidNumericFormatException,
+            DiskReadErrorException {
+        checkEndOfLine();
         long l;
         try {
-            l = scanner.nextLong();
+            l = lineScanner.nextLong();
         } catch (InputMismatchException e) {
             throw new InvalidNumericFormatException("read file");
         }
         return l;
     }
 
-    public double readDouble() throws InvalidNumericFormatException, DiskReadErrorException {
-        assertNotEndOfFile();
-
+    public synchronized double readDouble() throws InvalidNumericFormatException,
+            DiskReadErrorException {
+        checkEndOfLine();
         double d;
         try {
-            d = scanner.nextDouble();
+            d = lineScanner.nextDouble();
         } catch (InputMismatchException e) {
             throw new InvalidNumericFormatException("read file");
         }
-//        System.out.println(d);
         return d;
     }
 
-    public String readString() throws DiskReadErrorException {
-        assertNotEndOfFile();
-        return scanner.nextLine();
+    public synchronized String readString() throws DiskReadErrorException {
+        checkEndOfLine();
+        return lineScanner.nextLine();
     }
 
-    public char readChar() throws DiskReadErrorException {
-        assertNotEndOfFile();
-        return scanner.next().charAt(0);
+    public char readChar() throws DiskReadErrorException, IOException {
+        checkEndOfLine();
+       /* int c = 0;
+        if (lineReader != null) {
+            c = lineReader.read();
+            char[] chars = new char[1];
+            lineReader.read(chars);
+            if (c != 0) {
+                return (char) c;
+            } else {
+                throw new DiskReadErrorException(mFilePath);
+            }
+        }
+        return 0;*/
+        return lineScanner.findInLine(".").charAt(0);
     }
 
     /**
@@ -148,43 +197,48 @@ class FileEntry {
      * @throws DiskReadErrorException
      */
     private void assertNotEndOfFile() throws DiskReadErrorException {
-        if (!scanner.hasNext()) {
+        if (!fileScanner.hasNext()) {
             throw new DiskReadErrorException(mFilePath);
         }
     }
 
     public synchronized void writeString(Object[] objects) throws IOException {
-        synchronized (lock) {
-            for (Object o : objects) {
-                mWriter.write(o.toString());
-            }
+        for (Object o : objects) {
+            mWriter.write(o.toString());
         }
     }
 
     /**
      * close file
-     *
-     * @throws IOException
      */
-    public void close() throws IOException {
-        if (scanner != null) {
-            scanner.close();
+    public synchronized void close() throws IOException {
+        if (fileScanner != null) {
+            fileScanner.close();
+            if (lineScanner != null) {
+                lineScanner.close();
+            }
         }
-        if (mWriter != null) {
-            mWriter.flush();
-            mWriter.close();
+        try {
+            if (mWriter != null) {
+                mWriter.flush();
+                mWriter.close();
+            }
+        } catch (IOException ignored) {
         }
         setOpened(false);
     }
 
-
     public boolean isEof() {
-        return !scanner.hasNext();
+        return !fileScanner.hasNext();
     }
 
-    public void nextLine() {
-        if (scanner.hasNext()) {
-            scanner.nextLine();
+    public synchronized void nextLine() {
+        if (fileScanner.hasNext()) {
+            String line = fileScanner.nextLine();
+            if (lineScanner != null) {
+                lineScanner.close();
+            }
+            lineScanner = new Scanner(line);
         }
     }
 
@@ -202,6 +256,14 @@ class FileEntry {
         }
     }
 
-    public void isEndOfLine() {
+    public boolean isEndOfLine() throws DiskReadErrorException {
+        try {
+            if (lineScanner != null && lineScanner.hasNext()) {
+                return false;
+            }
+        } catch (Exception e) {
+            //if lineScanner is closed or no data
+        }
+        return isEof();
     }
 }
