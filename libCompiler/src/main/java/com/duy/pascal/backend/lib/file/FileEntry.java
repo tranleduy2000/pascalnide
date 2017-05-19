@@ -102,7 +102,6 @@ class FileEntry {
 
     public synchronized int readInteger() throws InvalidNumericFormatException, DiskReadErrorException {
         checkEndOfLine();
-
         int integer;
         try {
             integer = lineScanner.nextInt();
@@ -239,6 +238,7 @@ class FileEntry {
                 lineScanner.close();
             }
             lineScanner = new Scanner(line);
+            lineScanner.useLocale(Locale.ENGLISH);
         }
     }
 
