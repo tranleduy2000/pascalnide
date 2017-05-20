@@ -33,6 +33,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -351,7 +352,7 @@ public class ApplicationFileManager {
      * create new file
      *
      * @param path path to file
-     * @return
+     * @return file path
      */
     public String createNewFile(String path) {
         File file = new File(path);
@@ -453,6 +454,47 @@ public class ApplicationFileManager {
 
     public void removeTabFile(String path) {
         mDatabase.removeFile(path);
+    }
+
+    public String createRandomFile() {
+        String filePath;
+        filePath = getApplicationPath() + Integer.toHexString((int) System.currentTimeMillis())
+                + ".pas";
+        return createNewFile(filePath);
+    }
+
+    /**
+     * copy data from in to out
+     */
+    public void copy(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+        in.close();
+
+        out.flush();
+        out.close();
+
+    }
+
+    /**
+     * copy data from file in to file out
+     */
+    public void copy(String pathIn, String pathOut) throws IOException {
+        InputStream in = new FileInputStream(new File(pathIn));
+        OutputStream out = new FileOutputStream(new File(pathOut));
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+        in.close();
+
+        out.flush();
+        out.close();
+
     }
 
     public static class SAVE_MODE {

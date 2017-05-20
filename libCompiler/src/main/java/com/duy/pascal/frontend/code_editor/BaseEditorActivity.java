@@ -198,6 +198,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        //attach listener hide/show keyboard
         keyBoardListener = new KeyBoardEventListener(this);
         mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(keyBoardListener);
     }

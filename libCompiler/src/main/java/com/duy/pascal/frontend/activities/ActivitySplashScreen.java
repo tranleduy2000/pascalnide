@@ -30,12 +30,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_editor.EditorActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 
@@ -67,7 +72,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST: {
                 // If request is cancelled, the result arrays are empty.
@@ -76,36 +82,41 @@ public class ActivitySplashScreen extends AppCompatActivity {
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     startMainActivity();
                 } else {
-                    Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.permission_denied_storage, Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
+    /**
+     * If receive data from other app (it could be file, text from clipboard),
+     * You will be handle data and send to {@link EditorActivity}
+     */
     private void startMainActivity() {
-       /* try {
-            JavaClassLoader javaClassLoader = new JavaClassLoader(this);
-            Class classMath = (Class) javaClassLoader.loadClass("java.util.ArrayList");
-            Object o = classMath.newInstance();
-            Method[] declaredMethods = o.getClass().getDeclaredMethods();
-            for (Method declaredMethod : declaredMethods) {
-                Log.i(TAG, "startMainActivity: " + declaredMethod);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
         Intent data = getIntent();
         String action = data.getAction();
+
+        if (Dlog.DEBUG) Log.d(TAG, "startMainActivity: action = " + action);
+
         String type = data.getType();
         final Intent intentEdit = new Intent(ActivitySplashScreen.this, EditorActivity.class);
         if (Intent.ACTION_SEND.equals(action) && type != null) {
+
+            FirebaseAnalytics.getInstance(this).logEvent("open_from_clipboard", new Bundle());
+
             if (type.equals("text/plain")) {
                 handleActionSend(data, intentEdit);
             }
+
         } else if (Intent.ACTION_VIEW.equals(action) && type != null) {
+
+            FirebaseAnalytics.getInstance(this).logEvent("open_from_another", new Bundle());
+
             handleActionView(data, intentEdit);
         } else if (action.equalsIgnoreCase("run_from_shortcut")) {
+
+            FirebaseAnalytics.getInstance(this).logEvent("run_from_shortcut", new Bundle());
+
             handleRunProgram(data);
             return;
         }
@@ -131,11 +142,28 @@ public class ActivitySplashScreen extends AppCompatActivity {
         finish();
     }
 
-    private void handleActionView(Intent from, Intent to) {
+    private void handleActionView(@NonNull Intent from,
+                                  @NonNull Intent to) {
+        Log.d(TAG, "handleActionView() called with: from = [" + from + "], to = [" + to + "]");
         if (from.getData().toString().endsWith(".pas")) {
             Uri uriPath = from.getData();
             Log.d(TAG, "handleActionView: " + uriPath.getPath());
             to.putExtra(CompileManager.FILE_PATH, uriPath.getPath());
+        } else if (from.getType().equals("text/x-pascal")) {
+            Uri uri = from.getData();
+            try {
+                //clone file
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                ApplicationFileManager fileManager = new ApplicationFileManager(this);
+                String filePath = fileManager.createRandomFile();
+                fileManager.copy(inputStream, new FileOutputStream(filePath));
+
+                to.putExtra(CompileManager.FILE_PATH, filePath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

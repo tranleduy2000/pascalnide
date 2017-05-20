@@ -179,5 +179,6 @@
     <string name="content">Content</string>
     <string name="see_in_github_2">See in Github</string>
     <string name="insert_color">Insert color</string>
+    <string name="permission_denied_storage">Permission denied to read your External storage</string>
 </resources>
 

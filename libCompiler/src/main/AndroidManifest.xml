@@ -21,10 +21,7 @@
         android:fullBackupContent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar.Dark">
-        <activity
-            android:name="com.duy.pascal.frontend.code_editor.EditorActivity"
-            android:configChanges="orientation|screenSize"
-            android:launchMode="singleTask" />
+
 
         <activity
             android:name="com.duy.pascal.frontend.activities.ActivitySplashScreen"
@@ -37,38 +34,34 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
 
+            <!--Filter open file *.pas-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="file" />
-                <data android:mimeType="*/*" />
-                <data android:host="*" />
-                <data android:pathPattern=".*\\.pas" />
-                <data android:pathPattern=".*\\.in" />
-                <data android:pathPattern=".*\\.out" />
-                <data android:pathPattern=".*\\.txt" />
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.pas"
+                    android:scheme="file" />
+
             </intent-filter>
 
+            <!--Filter open file *.PAS-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="file" />
-                <data android:mimeType="text/*" />
-            </intent-filter>
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.PAS"
+                    android:scheme="file" />
 
-            <!-- file filter -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="file" />
-                <data android:mimeType="text/plain" />
             </intent-filter>
 
             <!-- Clip board filter -->
@@ -79,8 +72,21 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-        </activity>
 
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/*" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.duy.pascal.frontend.code_editor.EditorActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask" />
         <activity
             android:name="com.duy.pascal.frontend.activities.ExecuteActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -90,6 +96,7 @@
         <activity
             android:name="com.duy.pascal.frontend.code_sample.DocumentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation" />
+
         <activity
             android:name="com.duy.pascal.frontend.code_sample.CodeSampleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
