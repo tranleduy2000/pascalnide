@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 public interface DeclaredType {
 

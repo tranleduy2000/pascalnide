@@ -26,7 +26,7 @@ import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +77,7 @@ public class AndroidApplicationManagerLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "Returns a list of packages running activities or services.", returns = "List of packages running activities.")
+    @PascalMethod(description = "Returns a list of packages RUNNING activities or services.", returns = "List of packages RUNNING activities.")
     public List<String> getRunningPackages() {
         Set<String> runningPackages = new HashSet<>();
         List<ActivityManager.RunningAppProcessInfo> appProcesses =

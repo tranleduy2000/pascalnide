@@ -2,7 +2,7 @@ package com.duy.pascal.backend.pascaltypes.type_converter;
 
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;

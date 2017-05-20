@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib.android.connection.web;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -11,11 +11,11 @@ public class IntegerToken extends ValueToken {
         value = i;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "integer_value_of[" + value + ']';
     }
-
+*/
     @Override
     public String toCode() {
         return String.valueOf(value);

@@ -35,7 +35,7 @@ import com.googlecode.sl4a.jsonrpc.JsonBuilder;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcDeprecated;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import org.json.JSONException;
 
@@ -327,7 +327,7 @@ public class AndroidEvent implements PascalLibrary {
     @PascalMethod(description = "Stops the event server, you can't read in the port anymore")
     public void stopEventDispatcher() throws RuntimeException {
         if (mEventServer == null) {
-            throw new RuntimeException("Not running");
+            throw new RuntimeException("Not RUNNING");
         }
         mEventServer.shutdown();
         removeEventObserver(mEventServer);

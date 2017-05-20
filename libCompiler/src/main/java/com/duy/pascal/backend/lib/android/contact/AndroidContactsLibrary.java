@@ -31,7 +31,7 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.facade.CommonIntentsFacade;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import org.json.JSONArray;
 import org.json.JSONException;

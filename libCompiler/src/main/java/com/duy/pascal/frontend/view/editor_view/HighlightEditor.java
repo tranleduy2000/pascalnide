@@ -46,7 +46,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.util.ThemeFromAssets;
-import com.js.interpreter.core.ScriptSource;
+import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.StringReader;
 import java.util.ArrayList;

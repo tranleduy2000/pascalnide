@@ -32,7 +32,7 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Method;
 import java.util.Map;

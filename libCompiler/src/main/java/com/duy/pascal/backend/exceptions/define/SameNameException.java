@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.exceptions.define;
 
-import com.js.interpreter.ast.NamedEntity;
+import com.js.interpreter.NamedEntity;
 
 public class SameNameException extends com.duy.pascal.backend.exceptions.ParsingException {
     public String type, name;

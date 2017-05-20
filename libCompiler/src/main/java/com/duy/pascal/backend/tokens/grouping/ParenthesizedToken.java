@@ -7,8 +7,8 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 import java.util.ArrayList;
 import java.util.List;

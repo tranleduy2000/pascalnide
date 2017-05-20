@@ -18,7 +18,7 @@ package com.duy.pascal.backend.exceptions.syntax;
 
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 public class MisplacedDeclarationException extends com.duy.pascal.backend.exceptions.ParsingException {
 

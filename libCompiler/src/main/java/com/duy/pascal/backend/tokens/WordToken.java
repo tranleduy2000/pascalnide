@@ -7,7 +7,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 
 public class WordToken extends Token {

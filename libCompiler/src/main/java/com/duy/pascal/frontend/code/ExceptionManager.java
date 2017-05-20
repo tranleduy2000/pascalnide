@@ -62,7 +62,7 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.R;
-import com.js.interpreter.ast.WrongIfElseStatement;
+import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.PluginCallException;

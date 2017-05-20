@@ -19,7 +19,7 @@ package com.duy.pascal.backend.exceptions.operator;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 public class InvalidAddressOperation extends ParsingException {
 

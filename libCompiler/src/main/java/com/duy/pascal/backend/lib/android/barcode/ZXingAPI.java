@@ -7,7 +7,7 @@ import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.Map;

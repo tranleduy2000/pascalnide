@@ -50,7 +50,7 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
 
     @Override
     public CodeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.code_view_item, parent, false);
+        View view = inflater.inflate(R.layout.list_item_code, parent, false);
         return new CodeHolder(view);
     }
 

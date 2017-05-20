@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.exceptions.convert;
 
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 public class UnConvertibleTypeException extends com.duy.pascal.backend.exceptions.ParsingException {
 

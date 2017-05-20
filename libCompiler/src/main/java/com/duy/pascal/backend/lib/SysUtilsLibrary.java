@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.EConvertError;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.text.DecimalFormat;
 import java.util.Map;

@@ -19,8 +19,8 @@ package com.duy.pascal.backend.lib;
 import android.os.Build;
 
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.PascalReference;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.runtime.references.PascalReference;
 
 import java.util.Date;
 import java.util.Map;

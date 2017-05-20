@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.lib;
 
 
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

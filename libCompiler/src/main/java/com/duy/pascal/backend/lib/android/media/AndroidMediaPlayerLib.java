@@ -27,7 +27,7 @@ import com.duy.pascal.backend.lib.android.exceptions.MediaFileNotAssignException
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotFoundException;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.util.Hashtable;
 import java.util.Map;

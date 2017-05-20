@@ -28,7 +28,7 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 import java.util.concurrent.Callable;

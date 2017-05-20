@@ -1,8 +1,8 @@
 package com.js.interpreter.runtime.codeunit;
 
-import com.js.interpreter.ast.VariableDeclaration;
-import com.js.interpreter.ast.codeunit.CodeUnit;
-import com.js.interpreter.ast.codeunit.RunMode;
+import com.js.interpreter.VariableDeclaration;
+import com.js.interpreter.codeunit.CodeUnit;
+import com.js.interpreter.codeunit.RunMode;
 import com.js.interpreter.runtime.VariableContext;
 
 import java.util.HashMap;

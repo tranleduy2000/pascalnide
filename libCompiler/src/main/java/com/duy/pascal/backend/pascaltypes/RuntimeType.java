@@ -1,11 +1,11 @@
 package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.runtime_value.AssignableValue;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
-import com.js.interpreter.ast.runtime_value.boxing.GetAddress;
-import com.js.interpreter.runtime.PascalReference;
+import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.runtime_value.AssignableValue;
+import com.js.interpreter.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.boxing.GetAddress;
+import com.js.interpreter.runtime.references.PascalReference;
 
 import java.util.Iterator;
 

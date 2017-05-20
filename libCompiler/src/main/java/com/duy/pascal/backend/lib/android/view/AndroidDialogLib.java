@@ -40,7 +40,7 @@ import com.duy.pascal.frontend.R;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import org.json.JSONArray;

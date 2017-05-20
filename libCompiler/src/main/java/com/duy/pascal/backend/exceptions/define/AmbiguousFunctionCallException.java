@@ -19,7 +19,7 @@ package com.duy.pascal.backend.exceptions.define;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.ast.AbstractFunction;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 
 public class AmbiguousFunctionCallException extends ParsingException {
 

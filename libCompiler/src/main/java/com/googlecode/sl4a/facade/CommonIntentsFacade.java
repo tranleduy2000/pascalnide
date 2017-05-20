@@ -27,7 +27,7 @@ import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import org.json.JSONException;
 import org.json.JSONObject;

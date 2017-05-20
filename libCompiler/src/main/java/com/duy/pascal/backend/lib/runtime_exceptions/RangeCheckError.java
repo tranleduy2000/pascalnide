@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.lib.runtime_exceptions;
 
-import com.js.interpreter.runtime.PascalReference;
+import com.js.interpreter.runtime.references.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 /**

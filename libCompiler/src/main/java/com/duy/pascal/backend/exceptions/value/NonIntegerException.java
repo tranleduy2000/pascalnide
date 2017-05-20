@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.exceptions.value;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 public class NonIntegerException extends ParsingException {
 

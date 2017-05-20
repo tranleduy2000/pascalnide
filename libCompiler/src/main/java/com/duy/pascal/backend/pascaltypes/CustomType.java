@@ -4,10 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
-import com.js.interpreter.ast.VariableDeclaration;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
-import com.js.interpreter.ast.runtime_value.cloning.CloneableObjectCloner;
+import com.js.interpreter.VariableDeclaration;
+import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.cloning.CloneableObjectCloner;
+import com.js.interpreter.runtime.variables.CustomVariable;
 
 import java.util.ArrayList;
 

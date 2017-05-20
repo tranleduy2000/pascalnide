@@ -51,9 +51,9 @@ import com.duy.pascal.backend.lib.graph.style.TextJustify;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
-import com.js.interpreter.ast.ConstantDefinition;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.PascalReference;
+import com.js.interpreter.ConstantDefinition;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.runtime.references.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.Map;

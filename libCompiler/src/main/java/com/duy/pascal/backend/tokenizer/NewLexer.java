@@ -11,7 +11,7 @@ import com.duy.pascal.backend.tokens.WarningToken;
 import com.duy.pascal.backend.tokens.closing.ClosingToken;
 import com.duy.pascal.backend.tokens.grouping.BaseGrouperToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.js.interpreter.core.ScriptSource;
+import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.IOException;
 import java.io.Reader;

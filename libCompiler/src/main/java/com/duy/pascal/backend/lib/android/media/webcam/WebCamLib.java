@@ -44,7 +44,7 @@ import com.googlecode.sl4a.SingleThreadExecutor;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -226,7 +226,7 @@ public class WebCamLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    @PascalMethod(description = "Adjusts the quality of the webcam stream while it is running.")
+    @PascalMethod(description = "Adjusts the quality of the webcam stream while it is RUNNING.")
     public void webcamAdjustQuality(
             @PascalParameter(name = "resolutionLevel", description = "increasing this number provides higher resolution") @RpcDefault("0") Integer resolutionLevel,
             @PascalParameter(name = "jpegQuality", description = "a number from 0-100") @RpcDefault("20") Integer jpegQuality)

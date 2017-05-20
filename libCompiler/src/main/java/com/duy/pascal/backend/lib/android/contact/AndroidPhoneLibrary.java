@@ -37,7 +37,7 @@ import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Field;
 import java.net.URLEncoder;

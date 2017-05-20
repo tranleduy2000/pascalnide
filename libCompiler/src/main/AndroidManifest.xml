@@ -22,7 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar.Dark">
 
-
         <activity
             android:name="com.duy.pascal.frontend.activities.ActivitySplashScreen"
             android:configChanges="keyboard|keyboardHidden|orientation">
@@ -83,27 +82,20 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.duy.pascal.frontend.code_editor.EditorActivity"
             android:launchMode="singleTask" />
+
         <activity
             android:name="com.duy.pascal.frontend.activities.ExecuteActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity
-            android:name="com.duy.pascal.frontend.code_sample.DocumentActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation" />
-
-        <activity
-            android:name="com.duy.pascal.frontend.code_sample.CodeSampleActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:label="@string/title_activity_code_sample" />
-        <activity
-            android:name="com.duy.pascal.frontend.theme.ThemeFontActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:launchMode="singleTask" />
+        <activity android:name="com.duy.pascal.frontend.code_sample.DocumentActivity" />
+        <activity android:name="com.duy.pascal.frontend.code_sample.CodeSampleActivity" />
+        <activity android:name="com.duy.pascal.frontend.theme.ThemeFontActivity" />
         <activity android:name="com.duy.pascal.frontend.info_application.InfoActivity" />
         <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
         <activity

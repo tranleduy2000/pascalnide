@@ -37,7 +37,7 @@ import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class AndroidMediaRecorderLib implements PascalLibrary {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Records video from the camera and saves it to the given location. "
             + "\nDuration specifies the maximum duration of the recording session. "
-            + "\nIf duration is 0 this method will return and the recording will only be stopped "
+            + "\nIf duration is 0 this method will return and the recording will only be STOPPED "
             + "\nwhen recorderStop is called or when a scripts exits. "
             + "\nOtherwise it will block for the time period equal to the duration argument."
             + "\nvideoSize: 0=160x120, 1=320x240, 2=352x288, 3=640x480, 4=800x480.")
@@ -170,7 +170,7 @@ public class AndroidMediaRecorderLib implements PascalLibrary {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Records video (and optionally audio) from the camera and saves it to the given location. "
             + "\nDuration specifies the maximum duration of the recording session. "
-            + "\nIf duration is not provided this method will return immediately and the recording will only be stopped "
+            + "\nIf duration is not provided this method will return immediately and the recording will only be STOPPED "
             + "\nwhen recorderStop is called or when a scripts exits. "
             + "\nOtherwise it will block for the time period equal to the duration argument.")
     public void recorderCaptureVideo(@PascalParameter(name = "targetPath") String targetPath,

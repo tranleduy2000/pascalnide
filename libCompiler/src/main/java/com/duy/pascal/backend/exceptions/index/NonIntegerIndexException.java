@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.exceptions.index;
 
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 public class NonIntegerIndexException extends com.duy.pascal.backend.exceptions.ParsingException {
 

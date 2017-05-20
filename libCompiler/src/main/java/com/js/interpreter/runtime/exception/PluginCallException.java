@@ -1,7 +1,7 @@
 package com.js.interpreter.runtime.exception;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.ast.AbstractFunction;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 
 public class PluginCallException extends RuntimePascalException {
     public Throwable cause;

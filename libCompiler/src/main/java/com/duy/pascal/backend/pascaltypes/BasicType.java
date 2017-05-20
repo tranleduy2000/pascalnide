@@ -7,12 +7,12 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
 import com.duy.pascal.backend.pascaltypes.type_converter.StringBuilderWithRangeType;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
-import com.js.interpreter.ast.runtime_value.StringIndex;
-import com.js.interpreter.ast.runtime_value.boxing.CharacterBoxer;
-import com.js.interpreter.ast.runtime_value.boxing.StringBoxer;
-import com.js.interpreter.ast.runtime_value.cloning.StringBuilderCloner;
+import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.StringIndex;
+import com.js.interpreter.runtime_value.boxing.CharacterBoxer;
+import com.js.interpreter.runtime_value.boxing.StringBoxer;
+import com.js.interpreter.runtime_value.cloning.StringBuilderCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.io.File;

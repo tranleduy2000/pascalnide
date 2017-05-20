@@ -14,11 +14,11 @@ import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.js.interpreter.ast.AbstractFunction;
-import com.js.interpreter.ast.MethodDeclaration;
-import com.js.interpreter.ast.codeunit.Library;
-import com.js.interpreter.ast.codeunit.PascalProgram;
-import com.js.interpreter.core.ScriptSource;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
+import com.js.interpreter.codeunit.Library;
+import com.js.interpreter.codeunit.PascalProgram;
+import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.Reader;
 import java.lang.reflect.Constructor;

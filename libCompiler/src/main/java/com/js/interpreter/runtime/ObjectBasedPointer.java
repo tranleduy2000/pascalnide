@@ -1,5 +1,7 @@
 package com.js.interpreter.runtime;
 
+import com.js.interpreter.runtime.references.Reference;
+
 public class ObjectBasedPointer<T> implements Reference<T> {
 	public T obj;
 

@@ -18,8 +18,8 @@ package com.duy.pascal.backend.exceptions.define;
 
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.ast.AbstractFunction;
-import com.js.interpreter.ast.FunctionDeclaration;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 
 public class OverridingFunctionBodyException extends com.duy.pascal.backend.exceptions.ParsingException {
     public AbstractFunction functionDeclaration;

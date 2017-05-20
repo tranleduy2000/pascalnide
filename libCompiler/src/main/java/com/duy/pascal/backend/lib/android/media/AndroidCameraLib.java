@@ -41,7 +41,7 @@ import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.js.interpreter.ast.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.io.File;
 import java.io.FileOutputStream;

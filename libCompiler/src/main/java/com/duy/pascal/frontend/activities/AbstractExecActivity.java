@@ -34,10 +34,10 @@ import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.utils.StringCompare;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.js.interpreter.ast.FunctionDeclaration;
-import com.js.interpreter.ast.VariableDeclaration;
-import com.js.interpreter.ast.codeunit.PascalProgram;
-import com.js.interpreter.core.ScriptSource;
+import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
+import com.js.interpreter.VariableDeclaration;
+import com.js.interpreter.codeunit.PascalProgram;
+import com.js.interpreter.source_include.ScriptSource;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
@@ -298,7 +298,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
             if (Dlog.DEBUG) {
-                Log.d(TAG, "onDestroy: Program is stopped");
+                Log.d(TAG, "onDestroy: Program is STOPPED");
             }
         }
     }

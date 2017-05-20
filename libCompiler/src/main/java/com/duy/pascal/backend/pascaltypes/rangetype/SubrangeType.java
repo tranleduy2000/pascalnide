@@ -25,8 +25,8 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.js.interpreter.ast.expressioncontext.ExpressionContext;
-import com.js.interpreter.ast.runtime_value.RuntimeValue;
+import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 public class SubrangeType {
     public int lower;
