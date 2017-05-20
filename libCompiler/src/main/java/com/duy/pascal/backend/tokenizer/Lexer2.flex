@@ -48,11 +48,15 @@ import com.duy.pascal.backend.tokens.value.CharacterToken;
 import com.duy.pascal.backend.tokens.value.DoubleToken;
 import com.duy.pascal.backend.tokens.value.IntegerToken;
 import com.duy.pascal.backend.tokens.value.StringToken;
-import com.js.interpreter.core.ScriptSource;
+import com.js.interpreter.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
 import com.duy.pascal.backend.tokens.basic.BreakToken;
 import com.duy.pascal.backend.tokens.basic.ContinueToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
+import com.duy.pascal.backend.tokens.basic.InterfaceToken;
+import com.duy.pascal.backend.tokens.basic.InitializationToken;
+import com.duy.pascal.backend.tokens.basic.ImplementationToken;
+import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.CommentToken;
 
 import java.io.FileNotFoundException;
@@ -260,6 +264,10 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"break" {return new BreakToken(getLine());}
 	"continue" {return new ContinueToken(getLine());}
 	"with" {return new WithToken(getLine());}
+	"implementation" {return new ImplementationToken(getLine());}
+	"initialization" {return new InitializationToken(getLine());}
+	"finalization" {return new FinalizationToken(getLine());}
+	"interface" {return new InterfaceToken(getLine());}
 
 	"(" {return new ParenthesizedToken(getLine());}
 	"[" {return new BracketedToken(getLine());}
