@@ -7,8 +7,8 @@ BEGIN
     sum := 0;
     writeln('Sum of 1 to 100 is: ');
     repeat
-        sum := sum + i;
-        i := i + 1;
+        inc(i);
+        inc(sum, i);
     until i = 100;
     writeln(sum);
     readln;

@@ -24,7 +24,7 @@ package com.duy.pascal.frontend.code_completion;
 public class KeyWord {
 
     public static final String[] KEY_WORDS = new String[]{
-            "program", "begin", "end.", "procedure", "function", "uses",
+            "program", "begin", "end", "procedure", "function", "uses",
             "integer;", "real;", "string;", "char;", "longint;", "word;", "byte;", "extended;",
             "const", "var", "operator", "array", "record",
             "shl", "shr",
