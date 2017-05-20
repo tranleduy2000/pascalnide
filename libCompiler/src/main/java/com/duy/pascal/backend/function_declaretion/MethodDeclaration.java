@@ -34,7 +34,7 @@ import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.references.PascalPointer;
 import com.js.interpreter.runtime.references.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.ncsa.common.util.TypeUtils;
 
@@ -90,7 +90,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public Object call(VariableContext parentContext,
-                       RuntimeExecutable<?> main, Object[] arguments)
+                       RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException,
             RuntimePascalException {

@@ -5,7 +5,7 @@ import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ListMultimap;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.js.interpreter.source_include.ScriptSource;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 
 import java.io.Reader;
 import java.util.List;
@@ -22,6 +22,6 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
     }
 
     @Override
-    public abstract RuntimeExecutable<? extends ExecutableCodeUnit> run();
+    public abstract RuntimeExecutableCodeUnit<? extends ExecutableCodeUnit> run();
 
 }

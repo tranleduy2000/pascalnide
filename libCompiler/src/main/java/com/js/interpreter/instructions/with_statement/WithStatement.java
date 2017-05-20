@@ -34,7 +34,7 @@ import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.runtime_value.FieldAccess;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class WithStatement {
     }
 
     public void execute(VariableContext parentcontext,
-                        RuntimeExecutable<?> main)
+                        RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (this.declarations.root() instanceof Library) {
             parentcontext = main.getLibrary((Library) declarations.root());

@@ -11,7 +11,7 @@ import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.source_include.ScriptSource;
 import com.js.interpreter.runtime.FunctionOnStack;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.codeunit.RuntimePascalProgram;
 
 import java.io.Reader;
@@ -39,7 +39,7 @@ public class PascalProgram extends ExecutableCodeUnit {
     }
 
     @Override
-    public RuntimeExecutable<PascalProgram> run() {
+    public RuntimeExecutableCodeUnit<PascalProgram> run() {
         return new RuntimePascalProgram(this, handler);
     }
 

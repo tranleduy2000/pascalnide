@@ -19,7 +19,7 @@ package com.js.interpreter.instructions.with_statement;
 import com.js.interpreter.instructions.FieldReference;
 import com.js.interpreter.runtime_value.FieldAccess;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.HashMap;
@@ -27,13 +27,13 @@ import java.util.HashMap;
 public class WithOnStack extends VariableContext {
     private WithStatement withStatement;
     private VariableContext parentContext;
-    private RuntimeExecutable<?> main;
+    private RuntimeExecutableCodeUnit<?> main;
     @SuppressWarnings("rawtypes")
     private HashMap<String, FieldAccess> fieldsMap;
 
     @SuppressWarnings("rawtypes")
     WithOnStack(VariableContext parentContext,
-                RuntimeExecutable<?> main, WithStatement declaration) {
+                RuntimeExecutableCodeUnit<?> main, WithStatement declaration) {
         this.withStatement = declaration;
         this.parentContext = parentContext;
         this.main = main;
@@ -47,7 +47,7 @@ public class WithOnStack extends VariableContext {
         this.withStatement = declaration;
     }
 
-    public RuntimeExecutable<?> getMain() {
+    public RuntimeExecutableCodeUnit<?> getMain() {
         return main;
     }
 

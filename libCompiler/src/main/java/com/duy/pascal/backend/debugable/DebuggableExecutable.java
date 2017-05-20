@@ -3,14 +3,14 @@ package com.duy.pascal.backend.debugable;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
 public abstract class DebuggableExecutable implements Executable {
 
     @Override
-    public ExecutionResult execute(VariableContext context, RuntimeExecutable<?> main)
+    public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             if (main != null) {
@@ -32,6 +32,6 @@ public abstract class DebuggableExecutable implements Executable {
         }
     }
 
-    public abstract ExecutionResult executeImpl(VariableContext context, RuntimeExecutable<?> main)
+    public abstract ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 }

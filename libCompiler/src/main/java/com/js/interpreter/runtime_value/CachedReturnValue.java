@@ -6,7 +6,7 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class CachedReturnValue implements RuntimeValue {
@@ -58,7 +58,7 @@ public class CachedReturnValue implements RuntimeValue {
 
 
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         cache = other.getValue(f, main);
         return cache;

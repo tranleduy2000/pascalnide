@@ -28,7 +28,7 @@ import com.js.interpreter.runtime_value.ConstantAccess;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.references.Reference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class DerefEval extends DebuggableAssignableValue {
@@ -41,13 +41,13 @@ public class DerefEval extends DebuggableAssignableValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException {
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Reference ref = (Reference) pointer.getValue(f, main);
         return ref.get();
     }
 
     @Override
-    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException {
+    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         return (Reference) pointer.getValue(f, main);
     }
 

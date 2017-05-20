@@ -24,7 +24,7 @@ import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.instructions.InstructionGrouper;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.ArrayList;
@@ -117,7 +117,7 @@ public class CaseInstruction extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object value = mSwitchValue.getValue(context, main);
         for (CasePossibility possibily : possibilities) {
             for (int j = 0; j < possibily.conditions.length; j++) {

@@ -16,12 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> extends RuntimeCodeUnit<parent>
+public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUnit> extends RuntimeCodeUnit<parent>
         implements ScriptControl {
     private static final String TAG = "RuntimeExecutable";
 
     private volatile long MAX_STACK = 45000;
-    private Map<Library, RuntimeLibrary> RuntimeLibs = new HashMap<>();
+    private Map<Library, RuntimeLibrary> runtimeLibs = new HashMap<>();
 
     private volatile ControlMode runMode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
@@ -30,7 +30,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     private DebugListener debugListener;
     private volatile boolean debugMode = false;
 
-    public RuntimeExecutable(parent definition) {
+    public RuntimeExecutableCodeUnit(parent definition) {
         super(definition);
     }
 
@@ -39,7 +39,7 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
      *
      * @param debugListener - callback
      */
-    public RuntimeExecutable(parent definition, DebugListener debugListener) {
+    public RuntimeExecutableCodeUnit(parent definition, DebugListener debugListener) {
         super(definition);
         this.debugListener = debugListener;
     }
@@ -53,10 +53,10 @@ public abstract class RuntimeExecutable<parent extends ExecutableCodeUnit> exten
     }
 
     public RuntimeLibrary getLibrary(Library l) {
-        RuntimeLibrary result = RuntimeLibs.get(l);
+        RuntimeLibrary result = runtimeLibs.get(l);
         if (result == null) {
             result = l.run();
-            RuntimeLibs.put(l, result);
+            runtimeLibs.put(l, result);
         }
         return result;
     }

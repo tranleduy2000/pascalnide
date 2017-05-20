@@ -10,7 +10,7 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime.references.Reference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class StringIndex extends DebuggableAssignableValue {
@@ -23,14 +23,14 @@ public class StringIndex extends DebuggableAssignableValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException {
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         StringBuilder str = (StringBuilder) string.getValue(f, main);
         int ind = (int) index.getValue(f, main);
         return str.charAt(ind - 1);
     }
 
     @Override
-    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException {
+    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         StringBuilder str = (StringBuilder) string.getValue(f, main);
         int ind = (int) index.getValue(f, main);
         return new StringIndexReference(str, ind);

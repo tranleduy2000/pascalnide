@@ -12,7 +12,7 @@ import com.js.interpreter.instructions.FieldReference;
 import com.js.interpreter.runtime.FunctionOnStack;
 import com.js.interpreter.runtime.references.Reference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class VariableAccess extends DebuggableAssignableValue {
@@ -45,13 +45,13 @@ public class VariableAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         return f.getVar(name);
     }
 
     @Override
-    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutable<?> main)
+    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             if (f instanceof FunctionOnStack) {

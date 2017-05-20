@@ -6,7 +6,7 @@ import com.js.interpreter.codeunit.RunMode;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
-public class RuntimePascalProgram extends RuntimeExecutable<PascalProgram> {
+public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgram> {
 
     VariableContext main;
 

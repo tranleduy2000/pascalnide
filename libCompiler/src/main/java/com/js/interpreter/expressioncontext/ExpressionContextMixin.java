@@ -11,8 +11,11 @@ import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.exceptions.define.SameNameException;
 import com.duy.pascal.backend.exceptions.io.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.value.NonIntegerException;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
 import com.duy.pascal.backend.lib.javaclasspath.JavaClassLoader;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
@@ -36,28 +39,33 @@ import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.js.interpreter.ConstantDefinition;
-import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.VariableDeclaration;
-import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.js.interpreter.codeunit.CodeUnit;
+import com.js.interpreter.codeunit.Library;
 import com.js.interpreter.instructions.Executable;
+import com.js.interpreter.runtime.codeunit.RuntimeLibrary;
 import com.js.interpreter.runtime_value.ConstantAccess;
 import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime_value.VariableAccess;
+import com.js.interpreter.source_include.ScriptSource;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class ExpressionContextMixin extends HierarchicalExpressionContext {
     public static final String TAG = ExpressionContextMixin.class.getSimpleName();
@@ -207,26 +215,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             addConstDeclarations(i);
         } else if (next instanceof UsesToken) {
             i.take();
-            do {
-                next = i.take();
-                if (!(next instanceof WordToken)) {
-                    throw new ExpectedTokenException("[Library Identifier]", next);
-                }
-                //check library not found
-                if (PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name) == null) {
-                    throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
-                }
-                librarieNames.add(next.toString());
-                pascalLibraryManager.addMethodFromClass(
-                        PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name)
-                );
-                next = i.peek();
-                if (next instanceof SemicolonToken) {
-                    break;
-                } else {
-                    i.assertNextComma();
-                }
-            } while (true);
+            importLibraries(i);
             i.assertNextSemicolon(i.next);
         } else if (next instanceof TypeToken) {
             i.take();
@@ -273,6 +262,60 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         } */ else {
             handleUnrecognizedDeclaration(i.take(), i);
         }
+    }
+
+    /**
+     * If library has builtin in application, this method will be import it
+     * Else search library in application path, if not found library, throw
+     * exception
+     */
+    private void importLibraries(GrouperToken i) throws ParsingException {
+        Token next;
+        do {
+            next = i.take();
+            if (!(next instanceof WordToken)) {
+                throw new ExpectedTokenException("[Library Identifier]", next);
+            }
+            AtomicBoolean found = new AtomicBoolean(false);
+            //check library not found
+            if (PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name) != null) {
+                found.set(true);
+                librarieNames.add(next.toString());
+                pascalLibraryManager.addMethodFromClass(
+                        PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name));
+
+            } else {
+                String libPath = (ApplicationFileManager.getApplicationPath() + ((WordToken) next).name)
+                        + ".pas";
+                File file = new File(libPath);
+                if (file.exists()) {
+                    found.set(true);
+                    try {
+                        FileReader fileReader = new FileReader(file);
+
+                        Library library = new Library(fileReader, ((WordToken) next).name,
+                                new ArrayList<ScriptSource>());
+                        RuntimeLibrary run = library.run();
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
+                    }
+                } else {
+                }
+            }
+
+
+            if (!found.get()) {
+                throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
+            }
+            next = i.peek();
+            if (next instanceof SemicolonToken) {
+                break;
+            } else {
+                i.assertNextComma();
+            }
+        } while (true);
     }
 
 

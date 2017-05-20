@@ -11,7 +11,7 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.ConstantAccess;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
@@ -24,7 +24,7 @@ public class BoolBiOperatorEval extends BinaryOperatorEvaluation {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         boolean value1 = (boolean) operon1.getValue(f, main);
         if ((operator_type == OperatorTypes.AND && !value1) || (operator_type == OperatorTypes.OR && value1)) {

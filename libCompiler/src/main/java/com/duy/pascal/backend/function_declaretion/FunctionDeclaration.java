@@ -41,7 +41,7 @@ import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.runtime.FunctionOnStack;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.ArrayList;
@@ -140,7 +140,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     @Override
     public Object call(VariableContext parentcontext,
-                       RuntimeExecutable<?> main, Object[] arguments)
+                       RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws RuntimePascalException {
         if (this.declarations.root() instanceof Library) {
             parentcontext = main.getLibrary((Library) declarations.root());

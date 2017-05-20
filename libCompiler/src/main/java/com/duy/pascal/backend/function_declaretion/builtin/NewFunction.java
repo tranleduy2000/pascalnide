@@ -34,7 +34,7 @@ import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.ObjectBasedPointer;
 import com.js.interpreter.runtime.references.PascalPointer;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class NewFunction implements IMethodDeclaration {
@@ -122,7 +122,7 @@ public class NewFunction implements IMethodDeclaration {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             PascalPointer pointer = (PascalPointer) this.value.getValue(f, main);
             PointerType pointerType = (PointerType) ((PointerType) type.declType).pointedToType;

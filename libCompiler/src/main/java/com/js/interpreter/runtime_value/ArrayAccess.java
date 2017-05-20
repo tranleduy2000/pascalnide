@@ -10,7 +10,7 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime.references.ArrayReference;
 import com.js.interpreter.runtime.references.Reference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.IndexOutOfBoundsException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
@@ -53,7 +53,7 @@ public class ArrayAccess extends DebuggableAssignableValue {
 
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object cont = container.getValue(f, main);
         int ind = Integer.valueOf(index.getValue(f, main).toString());
@@ -66,7 +66,7 @@ public class ArrayAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutable<?> main) throws RuntimePascalException {
+    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object cont = container.getValue(f, main);
         int ind = Integer.valueOf(index.getValue(f, main).toString());
         return new ArrayReference(cont, ind, offset);

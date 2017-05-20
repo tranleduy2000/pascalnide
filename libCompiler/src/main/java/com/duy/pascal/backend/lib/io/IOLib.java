@@ -25,7 +25,7 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.runtime.references.PascalReference;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
@@ -42,7 +42,7 @@ public class IOLib implements PascalLibrary {
     private PrintStream stdout;
     private Scanner stdin;
     private InOutListener listener;
-    private RuntimeExecutable.ControlMode state = RuntimeExecutable.ControlMode.PAUSED;
+    private RuntimeExecutableCodeUnit.ControlMode state = RuntimeExecutableCodeUnit.ControlMode.PAUSED;
 
     /**
      * default constructor
@@ -434,7 +434,7 @@ public class IOLib implements PascalLibrary {
      * resume when input user press enter key
      */
     public void resume() {
-        this.state = RuntimeExecutable.ControlMode.PAUSED;
+        this.state = RuntimeExecutableCodeUnit.ControlMode.PAUSED;
         synchronized (this) {
             notify();
         }
@@ -444,7 +444,7 @@ public class IOLib implements PascalLibrary {
      * pause this object, wait for user input data
      */
     public void pause() {
-        this.state = RuntimeExecutable.ControlMode.RUNNING;
+        this.state = RuntimeExecutableCodeUnit.ControlMode.RUNNING;
         synchronized (this) {
             try {
                 wait();
@@ -454,12 +454,12 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    public RuntimeExecutable.ControlMode getState() {
+    public RuntimeExecutableCodeUnit.ControlMode getState() {
         return state;
     }
 
     public boolean isRunning() {
-        return state == RuntimeExecutable.ControlMode.RUNNING;
+        return state == RuntimeExecutableCodeUnit.ControlMode.RUNNING;
     }
 
     @PascalMethod(description = "system library", returns = "void")

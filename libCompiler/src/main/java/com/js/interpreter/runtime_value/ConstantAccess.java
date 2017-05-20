@@ -12,7 +12,7 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 
 public class ConstantAccess extends DebuggableReturnValue {
     public Object constant_value;
@@ -36,7 +36,7 @@ public class ConstantAccess extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main) {
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) {
         return constant_value;
     }
 

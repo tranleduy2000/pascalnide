@@ -1,13 +1,14 @@
 package com.js.interpreter.codeunit;
 
-import com.duy.pascal.backend.exceptions.syntax.MisplacedDeclarationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.syntax.MisplacedDeclarationException;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.duy.pascal.backend.function_declaretion.AbstractFunction;
-import com.js.interpreter.source_include.ScriptSource;
 import com.js.interpreter.runtime.codeunit.RuntimeLibrary;
+import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.Reader;
 import java.util.List;
@@ -21,6 +22,11 @@ public class Library extends CodeUnit {
                    String sourcename, List<ScriptSource> includeDirectories)
             throws ParsingException {
         super(program, functionTable, sourcename, includeDirectories, null);
+    }
+
+    public Library(Reader program, String sourcename, List<ScriptSource> includeDirectories)
+            throws ParsingException {
+        super(program, ArrayListMultimap.<String, AbstractFunction>create(), sourcename, includeDirectories, null);
     }
 
     @Override

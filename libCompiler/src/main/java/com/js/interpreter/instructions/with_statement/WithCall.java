@@ -26,7 +26,7 @@ import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
 
     @Override
     public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object valueImpl = getValueImpl(f, main);
         if (valueImpl == ExecutionResult.EXIT) {
             return ExecutionResult.EXIT;
@@ -65,7 +65,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (main != null) {
             if (main.isDebugMode()) {

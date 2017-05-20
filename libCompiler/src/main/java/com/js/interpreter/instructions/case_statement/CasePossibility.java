@@ -7,7 +7,7 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 class CasePossibility extends DebuggableExecutable {
@@ -29,7 +29,7 @@ class CasePossibility extends DebuggableExecutable {
      */
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         return commands.execute(context, main);
     }
 

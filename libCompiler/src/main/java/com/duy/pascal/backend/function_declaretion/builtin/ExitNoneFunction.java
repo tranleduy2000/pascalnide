@@ -29,7 +29,7 @@ import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class ExitNoneFunction implements IMethodDeclaration {
@@ -109,7 +109,7 @@ public class ExitNoneFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             return ExecutionResult.EXIT;
         }

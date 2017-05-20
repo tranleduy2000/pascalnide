@@ -8,7 +8,7 @@ import com.js.interpreter.runtime_value.boxing.ArrayBoxer;
 import com.js.interpreter.runtime_value.boxing.CharacterBoxer;
 import com.js.interpreter.runtime_value.boxing.StringBuilderBoxer;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
@@ -27,7 +27,7 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
     }
 
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             if (main != null) {
@@ -63,7 +63,7 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
         return null;
     }
 
-    public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+    public abstract Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
 }

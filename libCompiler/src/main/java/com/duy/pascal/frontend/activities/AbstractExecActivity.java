@@ -38,7 +38,7 @@ import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.PascalProgram;
 import com.js.interpreter.source_include.ScriptSource;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
 
@@ -135,7 +135,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
      * set <code>true</code> if enable debug mode, program will be pause every line
      */
     protected boolean enableDebug = false;
-    protected RuntimeExecutable program;
+    protected RuntimeExecutableCodeUnit program;
     protected String programFile;
     private final Runnable runProgram = new Runnable() {
         @Override

@@ -185,8 +185,8 @@ public class IndentCode {
             return completeCloseToken(token);
 
         } else if (token instanceof CommentToken) {
-//            return completeCommentToken(depth, token);
-            return new StringBuilder();
+            return completeCommentToken(depth, token);
+//            return new StringBuilder();
         } else if (token instanceof PeriodToken) {
             return new StringBuilder(token.toString());
 

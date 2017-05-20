@@ -33,7 +33,7 @@ import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.references.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
@@ -133,7 +133,7 @@ public class SetLengthFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             int length = (int) size.getValue(f, main);
             PascalReference a = (PascalReference) array.getValue(f, main);

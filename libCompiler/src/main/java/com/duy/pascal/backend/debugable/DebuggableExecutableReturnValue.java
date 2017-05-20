@@ -6,7 +6,7 @@ import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.runtime_value.AssignableValue;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
@@ -26,7 +26,7 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
     }
 
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             return getValueImpl(f, main);
@@ -42,11 +42,11 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
         return null;
     }
 
-    public abstract Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+    public abstract Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
     @Override
-    public ExecutionResult execute(VariableContext context, RuntimeExecutable<?> main)
+    public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             if (main != null) {
@@ -68,5 +68,5 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
     }
 
     public abstract ExecutionResult executeImpl(VariableContext f,
-                                                RuntimeExecutable<?> main) throws RuntimePascalException;
+                                                RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException;
 }

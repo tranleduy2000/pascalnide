@@ -10,7 +10,7 @@ import com.js.interpreter.runtime_value.AssignableValue;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.references.Reference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class Assignment extends DebuggableExecutable implements SetValueExecutable {
@@ -28,7 +28,7 @@ public class Assignment extends DebuggableExecutable implements SetValueExecutab
     @Override
     @SuppressWarnings("unchecked")
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Reference ref = left.getReference(context, main);
         Object value = this.value.getValue(context, main);
         ref.set(value);

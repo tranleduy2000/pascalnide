@@ -23,7 +23,7 @@ import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime_value.SimpleFunctionCall;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +38,7 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
      * @return The return value of the called function.
      */
     public abstract Object call(VariableContext parentContext,
-                                RuntimeExecutable<?> main, Object[] arguments)
+                                RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws RuntimePascalException, IllegalArgumentException,
             IllegalAccessException, InvocationTargetException;
 

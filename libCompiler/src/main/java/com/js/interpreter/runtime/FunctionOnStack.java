@@ -18,7 +18,7 @@ package com.js.interpreter.runtime;
 
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.js.interpreter.VariableDeclaration;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.references.PascalReference;
 
@@ -44,13 +44,13 @@ public class FunctionOnStack extends VariableContext {
      */
     private FunctionDeclaration prototype;
     private VariableContext parentContext;
-    private RuntimeExecutable<?> main;
+    private RuntimeExecutableCodeUnit<?> main;
     @SuppressWarnings("rawtypes")
     private HashMap<String, PascalReference> referenceVariables;
 
     @SuppressWarnings("rawtypes")
     public FunctionOnStack(VariableContext parentContext,
-                           RuntimeExecutable<?> main, FunctionDeclaration declaration,
+                           RuntimeExecutableCodeUnit<?> main, FunctionDeclaration declaration,
                            Object[] arguments) {
         this.prototype = declaration;
         this.parentContext = parentContext;
@@ -75,7 +75,7 @@ public class FunctionOnStack extends VariableContext {
         return prototype;
     }
 
-    public RuntimeExecutable<?> getMain() {
+    public RuntimeExecutableCodeUnit<?> getMain() {
         return main;
     }
 

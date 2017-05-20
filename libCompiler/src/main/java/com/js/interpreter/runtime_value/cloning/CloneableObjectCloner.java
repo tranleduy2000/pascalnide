@@ -8,7 +8,7 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.AssignableValue;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
@@ -43,7 +43,7 @@ public class CloneableObjectCloner implements RuntimeValue {
     }
 
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object value = r.getValue(f, main);
         if (value instanceof ContainsVariables) {

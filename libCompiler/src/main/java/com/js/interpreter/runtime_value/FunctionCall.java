@@ -10,7 +10,7 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
 
     @Override
     public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutable<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object valueImpl = getValueImpl(f, main);
         if (valueImpl == ExecutionResult.EXIT) {
             return ExecutionResult.EXIT;

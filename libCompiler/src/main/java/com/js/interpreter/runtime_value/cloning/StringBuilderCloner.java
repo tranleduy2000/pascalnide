@@ -8,7 +8,7 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.AssignableValue;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class StringBuilderCloner implements RuntimeValue {
@@ -38,7 +38,7 @@ public class StringBuilderCloner implements RuntimeValue {
 
 
     @Override
-    public Object getValue(VariableContext f, RuntimeExecutable<?> main)
+    public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object result = r.getValue(f, main);
         return new StringBuilder(result.toString());

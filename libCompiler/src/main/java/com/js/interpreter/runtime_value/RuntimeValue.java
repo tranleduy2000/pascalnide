@@ -6,7 +6,7 @@ import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public interface RuntimeValue {
@@ -23,7 +23,7 @@ public interface RuntimeValue {
     /**
      * @return value of variable or function
      */
-    Object getValue(VariableContext f, RuntimeExecutable<?> main)
+    Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
     /**

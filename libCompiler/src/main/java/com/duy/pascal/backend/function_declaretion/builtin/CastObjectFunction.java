@@ -30,7 +30,7 @@ import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.references.PascalReference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutable;
+import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 /**
@@ -121,7 +121,7 @@ public class CastObjectFunction implements IMethodDeclaration {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Object getValueImpl(VariableContext f, RuntimeExecutable<?> main)
+        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             //get reference of variable
             PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);
