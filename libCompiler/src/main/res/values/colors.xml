@@ -18,8 +18,7 @@
 
     <color name="dark.color_primary_dark">#263238</color>
     <color name="dark.color_primary">#37474f</color>
-    <!--<color name="color_primary_dark">#01579b</color>-->
-    <!--<color name="color_primary">#0288d1</color>-->
+    <color name="dark.color_accent">#60d9f1</color>
 
     <color name="light.color_primary_dark">#283593</color>
     <color name="light.color_primary">#3949ab</color>

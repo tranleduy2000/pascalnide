@@ -162,7 +162,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                 vClose.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        removePage(position, SAVE_LAST_FILE);
+                        removePage(position);
                     }
                 });
                 TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);
@@ -204,16 +204,16 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     }
 
 
-    protected void removePage(int position, boolean saveLastFile) {
+    /**
+     * remove a page in <code>position</code>
+     */
+    protected void removePage(int position) {
         Fragment existingFragment = pagerAdapter.getExistingFragment(position);
         if (existingFragment == null) {
             if (Dlog.DEBUG) Log.d(TAG, "removePage: " + "null page " + position);
             return;
         }
-        //save file and remove tab entry
-        if (saveLastFile) {
-            saveFile();
-        }
+
         //delete in database
         String filePath = existingFragment.getTag();
         mFileManager.removeTabFile(filePath);
@@ -253,7 +253,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                 Fragment existingFragment = pagerAdapter.getExistingFragment(0);
                 if (existingFragment != null) {
                     mFileManager.removeTabFile(existingFragment.getTag());
-                    removePage(0, UN_SAVE_LAST_FILE);
+                    removePage(0);
                 }
             }
 
@@ -333,7 +333,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                 boolean success = mFileManager.deleteFile(file);
                 if (success) {
                     if (position >= 0) {
-                        removePage(position, false);
+                        removePage(position);
                     }
                     Toast.makeText(getApplicationContext(), R.string.deleted, Toast.LENGTH_SHORT).show();
                 } else
