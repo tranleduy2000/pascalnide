@@ -90,6 +90,7 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:editable="false"
+            android:focusableInTouchMode="false"
             android:foreground="?attr/selectableItemBackground" />
     </LinearLayout>
 
