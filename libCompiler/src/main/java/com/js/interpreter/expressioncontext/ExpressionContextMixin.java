@@ -209,10 +209,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     public void addNextDeclaration(GrouperToken i) throws ParsingException {
         Token next = i.peek();
 
-//        Check that the keyword is valid, as in the program
-//        that contains the library keyword, throw an exception.
-//        assertAcceptToken(next);
-
         if (next instanceof ProcedureToken || next instanceof FunctionToken) {
             i.take();
             boolean is_procedure = next instanceof ProcedureToken;
@@ -331,8 +327,11 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         LibraryPascal library = new LibraryPascal(fileReader, ((WordToken) next).name,
                                 ArrayListMultimap.<String, AbstractFunction>create(),
                                 new ArrayList<ScriptSource>(), handler);
-                        RuntimePascalLibrary run = library.run();
-
+                        RuntimePascalLibrary runtimePascalLibrary = library.run();
+                        runtimePascalLibrary.declareConstants(this);
+                        runtimePascalLibrary.declareTypes(this);
+                        runtimePascalLibrary.declareVariables(this);
+                        runtimePascalLibrary.declareFunctions(this);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                         throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
