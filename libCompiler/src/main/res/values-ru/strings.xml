@@ -117,9 +117,9 @@
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="navigation_drawer_open">Открыть навигацию</string>
     <string name="other">Другой</string>
-    <string name="pas_file">Файл Pas</string>
+    <string name="pas_file">Файл Pas (*.pas)</string>
     <string name="pascal_for_android">Pascal для Android</string>
-    <string name="inp_file">Файл Inp</string>
+    <string name="inp_file">Файл Inp (*.inp)</string>
     <string name="text_color_console">Цвет текста</string>
     <string name="translate">Перевод</string>
     <string name="frame_rate">Частота кадров</string>
@@ -175,4 +175,5 @@
     <string name="sort_date">Sort by date…</string>
     <string name="sort_name">Sort by name…</string>
     <string name="sort_size">Sort by size…</string>
+    <string name="unit_file">Unit pascal (*.pas)</string>
 </resources>

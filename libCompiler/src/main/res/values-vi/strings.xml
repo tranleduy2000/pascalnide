@@ -115,7 +115,7 @@
     <string name="more_feature">Mở ngăn kéo</string>
     <string name="navigation_drawer_close">CLose navigation</string>
     <string name="navigation_drawer_open">Open navigation</string>
-    <string name="pas_file">Tệp pas</string>
+    <string name="pas_file">Tệp pas (*.pas)</string>
     <string name="pascal_for_android">Pascal cho Android</string>
     <string name="inp_file">Tệp input (*.inp)</string>
     <string name="license">Giấy phép nguồn mở</string>
@@ -174,4 +174,5 @@
     <string name="sort_date">Sắp xếp theo ngày</string>
     <string name="sort_name">Sắp xếp theo tên</string>
     <string name="sort_size">Sắp xếp theo kích thước</string>
+    <string name="unit_file">Unit pascal (*.pas)</string>
 </resources>

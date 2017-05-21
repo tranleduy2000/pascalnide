@@ -92,8 +92,8 @@
     <string name="exit_mgs">Deseas salir de la aplicación?</string>
     <string name="setting_editor">Ajustes del editor</string>
     <string name="cloud_database">Base de datos en la nube</string>
-    <string name="pas_file">Archivo Pas</string>
-    <string name="inp_file">Archivo Inp</string>
+    <string name="pas_file">Archivo Pas (*.pas)</string>
+    <string name="inp_file">Archivo Inp (*.inp)</string>
     <string name="theme">Estilo del código</string>
     <string name="select">Seleccionar</string>
     <string name="folder">Carpeta</string>
@@ -177,6 +177,7 @@
     <string name="sort_date">Sort by date…</string>
     <string name="sort_name">Sort by name…</string>
     <string name="sort_size">Sort by size…</string>
+    <string name="unit_file">Unit pascal (*.pas)</string>
 </resources>
 
 

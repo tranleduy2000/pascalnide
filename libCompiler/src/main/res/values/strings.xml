@@ -95,8 +95,8 @@
     <string name="exit_mgs">Do you want to exit application?</string>
     <string name="setting_editor">Setting editor</string>
     <string name="cloud_database">Cloud database</string>
-    <string name="pas_file">Pas file</string>
-    <string name="inp_file">Inp file</string>
+    <string name="pas_file">Pas file (*.pas)</string>
+    <string name="inp_file">Inp file (*.inp)</string>
     <string name="theme">Code style</string>
     <string name="select">Select</string>
     <string name="folder">Folder</string>
@@ -181,5 +181,6 @@
     <string name="insert_color">Insert color</string>
     <string name="permission_denied_storage">Permission denied to read your External storage</string>
     <string name="inserted_color">Inserted color</string>
+    <string name="unit_file">Unit pascal (*.pas)</string>
 </resources>
 

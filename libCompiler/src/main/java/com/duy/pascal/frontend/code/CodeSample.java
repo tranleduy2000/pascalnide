@@ -21,14 +21,6 @@ package com.duy.pascal.frontend.code;
  */
 @SuppressWarnings("DefaultFileTemplate")
 public class CodeSample {
-    public static final String MAIN =
-            "program abc;\n" +
-                    "uses crt; \n" +
-                    "begin\n" +
-                    "    " +
-                    "    readln;\n" +
-                    "end.";
-
 
     public static final String DEMO_THEME =
             "program test;\n" +

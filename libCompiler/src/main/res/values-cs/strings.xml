@@ -89,8 +89,8 @@
     <string name="exit_mgs">Naozaj chcete opustiť aplikáciu?</string>
     <string name="setting_editor">Úprava nastavení</string>
     <string name="cloud_database">Cloud databáza</string>
-    <string name="pas_file">Súbor Pas</string>
-    <string name="inp_file">Súbor Inp</string>
+    <string name="pas_file">Súbor Pas (*.pas)</string>
+    <string name="inp_file">Súbor Inp (*.inp)</string>
     <string name="theme">Štýl kódu</string>
     <string name="select">Vybrať</string>
     <string name="folder">Priečinok</string>
@@ -175,5 +175,6 @@
     <string name="sort_date">Sort by date…</string>
     <string name="sort_name">Sort by name…</string>
     <string name="sort_size">Sort by size…</string>
+    <string name="unit_file">Unit pascal (*.pas)</string>
 </resources>
 

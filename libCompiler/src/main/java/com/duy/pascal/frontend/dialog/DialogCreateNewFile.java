@@ -28,7 +28,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code.CodeSample;
+import com.duy.pascal.frontend.code_completion.Template;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 
 import java.io.File;
@@ -45,6 +45,7 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
     private OnCreateNewFileListener listener;
     private RadioButton checkBoxPas;
     private RadioButton checkBoxInp;
+    private RadioButton checkBoxUnit;
     private ApplicationFileManager mFileManager;
 
     public static DialogCreateNewFile getInstance() {
@@ -104,6 +105,7 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
         });
         checkBoxPas = (RadioButton) view.findViewById(R.id.rad_pas);
         checkBoxInp = (RadioButton) view.findViewById(R.id.rad_inp);
+        checkBoxInp = (RadioButton) view.findViewById(R.id.rad_unit);
 
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +143,11 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
         String filePath = mFileManager.createNewFile(ApplicationFileManager.getApplicationPath() + fileName);
         file = new File(filePath);
         if (checkBoxPas.isChecked()) {
-            mFileManager.saveFile(file, CodeSample.MAIN);
+            mFileManager.saveFile(file,
+                    Template.createProgramTemplate(file.getName().substring(0, file.getName().indexOf("."))));
+        } else if (checkBoxUnit.isChecked()) {
+            mFileManager.saveFile(file,
+                    Template.createUnitTemplate(file.getName().substring(0, file.getName().indexOf("."))));
         }
         return file;
     }
