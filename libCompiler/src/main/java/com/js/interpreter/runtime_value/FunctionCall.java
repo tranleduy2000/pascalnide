@@ -10,7 +10,7 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.ArrayList;

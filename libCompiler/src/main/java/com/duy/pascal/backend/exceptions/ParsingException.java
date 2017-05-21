@@ -13,10 +13,6 @@ public  class ParsingException extends Exception {
      */
     public LineInfo line;
 
-    public ParsingException() {
-
-    }
-
     public ParsingException(LineInfo line, String message) {
         super(message);
         this.line = line;

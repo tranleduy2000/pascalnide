@@ -16,8 +16,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
-import com.js.interpreter.codeunit.library.LibraryPascal;
-import com.js.interpreter.codeunit.PascalProgram;
+import com.js.interpreter.codeunit.library.UnitPascal;
+import com.js.interpreter.codeunit.program.PascalProgram;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.Reader;
@@ -65,11 +65,11 @@ public class PascalCompiler {
     }
 
 
-    public static LibraryPascal loadLibrary(String sourcename, Reader in,
-                                            List<ScriptSource> includeSearchPath,
-                                            RunnableActivity handler) throws ParsingException {
+    public static UnitPascal loadLibrary(String sourcename, Reader in,
+                                         List<ScriptSource> includeSearchPath,
+                                         RunnableActivity handler) throws ParsingException {
         ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(includeSearchPath);
-        return new LibraryPascal(in, sourcename, functiontable, includeSearchPath, handler);
+        return new UnitPascal(in, sourcename, functiontable, includeSearchPath, handler);
     }
 
     private void loadPluginsPascal(ListMultimap<String, AbstractFunction> functionTable) {

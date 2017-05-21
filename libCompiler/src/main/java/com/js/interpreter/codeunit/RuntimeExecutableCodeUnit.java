@@ -1,15 +1,31 @@
-package com.js.interpreter.runtime.codeunit;
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.js.interpreter.codeunit;
 
 import com.duy.pascal.backend.debugable.DebugListener;
-import com.js.interpreter.runtime.exception.StackOverflowException;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
-import com.js.interpreter.codeunit.ExecutableCodeUnit;
-import com.js.interpreter.codeunit.library.LibraryPascal;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.js.interpreter.codeunit.library.UnitPascal;
 import com.js.interpreter.runtime.ScriptControl;
+import com.js.interpreter.codeunit.library.RuntimeUnitPascal;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
+import com.js.interpreter.runtime.exception.StackOverflowException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -21,12 +37,13 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     private static final String TAG = "RuntimeExecutable";
 
     private volatile long MAX_STACK = 45000;
-    private Map<LibraryPascal, RuntimePascalLibrary> runtimeLibs = new HashMap<>();
+    private Map<UnitPascal, RuntimeUnitPascal> runtimeLibs = new HashMap<>();
     private volatile ControlMode runMode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
     private volatile long stack = 0;
     private DebugListener debugListener;
     private volatile boolean debugMode = false;
+
     public RuntimeExecutableCodeUnit(parent definition) {
         super(definition);
     }
@@ -41,7 +58,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         this.debugListener = debugListener;
     }
 
-    public Map<LibraryPascal, RuntimePascalLibrary> getRuntimeLibs() {
+    public Map<UnitPascal, RuntimeUnitPascal> getRuntimeLibs() {
         return runtimeLibs;
     }
 
@@ -53,13 +70,9 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         this.debugMode = debugMode;
     }
 
-    public RuntimePascalLibrary getLibrary(LibraryPascal l) {
-        RuntimePascalLibrary result = runtimeLibs.get(l);
-        if (result == null) {
-            result = l.run();
-            runtimeLibs.put(l, result);
-        }
-        return result;
+    public RuntimeUnitPascal getLibrary(UnitPascal l) {
+        HashMap<UnitPascal, RuntimeUnitPascal> unitsMap = definition.getContext().getUnitsMap();
+        return unitsMap.get(l);
     }
 
     public void run() throws RuntimePascalException {

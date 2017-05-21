@@ -19,7 +19,7 @@ package com.js.interpreter.instructions.with_statement;
 import com.js.interpreter.instructions.FieldReference;
 import com.js.interpreter.runtime_value.FieldAccess;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.HashMap;

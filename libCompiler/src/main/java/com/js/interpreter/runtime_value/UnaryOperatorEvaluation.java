@@ -20,7 +20,7 @@ import com.js.interpreter.runtime_value.operators.number.DoubleUniOperatorEval;
 import com.js.interpreter.runtime_value.operators.number.IntegerUniOperatorEval;
 import com.js.interpreter.runtime_value.operators.number.LongUniOperatorEval;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;

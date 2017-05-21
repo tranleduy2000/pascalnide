@@ -14,26 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions;
-
-import com.duy.pascal.backend.linenumber.LineInfo;
+package com.js.interpreter.runtime.variables;
 
 /**
- * Created by Duy on 10-May-17.
+ * Created by Duy on 21-May-17.
  */
 
-public class UnsupportedOutputFormatException extends ParsingException {
+public class NullVariable {
 
-    public UnsupportedOutputFormatException(LineInfo lineInfo) {
-        super(lineInfo);
-    }
-
-    public UnsupportedOutputFormatException() {
-        super(null);
-    }
-
-    @Override
-    public String getMessage() {
-        return "Unsupported format";
-    }
 }

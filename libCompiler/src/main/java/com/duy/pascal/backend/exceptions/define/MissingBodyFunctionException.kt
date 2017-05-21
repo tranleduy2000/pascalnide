@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions;
+package com.duy.pascal.backend.exceptions.define
 
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.exceptions.ParsingException
+import com.duy.pascal.backend.linenumber.LineInfo
 
 /**
- * Created by Duy on 10-May-17.
+ * Created by Duy on 21-May-17.
  */
+class MissingBodyFunctionException : ParsingException {
+    private val funName: String
 
-public class UnsupportedOutputFormatException extends ParsingException {
-
-    public UnsupportedOutputFormatException(LineInfo lineInfo) {
-        super(lineInfo);
+    constructor(funName: String, line: LineInfo?) : super(line) {
+        this.funName = funName;
     }
 
-    public UnsupportedOutputFormatException() {
-        super(null);
-    }
+    override fun getLocalizedMessage(): String = "Forward declaration not solved " + funName
 
-    @Override
-    public String getMessage() {
-        return "Unsupported format";
-    }
 }

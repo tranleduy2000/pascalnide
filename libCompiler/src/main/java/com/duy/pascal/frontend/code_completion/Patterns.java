@@ -42,7 +42,8 @@ public class Patterns {
                     "|longint|int64|qword|longword|dword" +
                     "|boolean" +
                     "|char|text" +
-                    "|record)\\b",
+                    "|record" +
+                    "|unit|interface|initialization|finalization|implemention)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final Pattern FUNCTIONS = Pattern.compile(

@@ -183,7 +183,7 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.InvalidNumericFormatException);
             }
             if (e instanceof PascalArithmeticException) {
-                return getMessageResource(e, R.string.PascalArithmeticException, ((PascalArithmeticException) e).error.getMessage());
+                return getMessageResource(e, R.string.PascalArithmeticException, ((PascalArithmeticException) e).error.getLocalizedMessage());
             }
             if (e instanceof CanNotReadVariableException) {
                 return getMessageResource(e, R.string.CanNotReadVariableException);
@@ -205,13 +205,13 @@ public class ExceptionManager {
                 }
             }
             if (e instanceof ParsingException) {
-                return new SpannableString(((ParsingException) e).line + "\n\n" + e.getMessage());
+                return new SpannableString(((ParsingException) e).line + "\n\n" + e.getLocalizedMessage());
             }
 
             if (e instanceof DivisionByZeroException) {
                 return getMessageResource(e, R.string.DivisionByZeroException);
             }
-            return new SpannableString(e.getMessage());
+            return new SpannableString(e.getLocalizedMessage());
         } catch (Exception err) {
 //            FirebaseCrash.report(new Throwable("Error when get exception msg"));
             return new SpannableString(err.toString());
@@ -234,7 +234,7 @@ public class ExceptionManager {
             stringBuilder.append(format);
             return stringBuilder;
         }
-        return new SpannableString(e.getMessage());
+        return new SpannableString(e.getLocalizedMessage());
     }
 
 
@@ -245,7 +245,7 @@ public class ExceptionManager {
         stringBuilder.append("\n").append("\n");
         String format = String.format(
                 context.getString(R.string.ConstantCalculationException),
-                exception.e.getMessage());
+                exception.e.getLocalizedMessage());
         stringBuilder.append(format);
         return stringBuilder;
 
@@ -361,7 +361,7 @@ public class ExceptionManager {
         } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES) {
             return new SpannableString(context.getString(R.string.NEWLINE_IN_QUOTES));
         }
-        return new SpannableString(e.getMessage());
+        return new SpannableString(e.getLocalizedMessage());
     }
 
     private Spannable getBadFunctionCallException(Throwable throwable) {

@@ -15,7 +15,7 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.FieldReference;
 import com.js.interpreter.runtime.references.Reference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 

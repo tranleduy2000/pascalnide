@@ -29,7 +29,7 @@ import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class ExitNoneFunction implements IMethodDeclaration {

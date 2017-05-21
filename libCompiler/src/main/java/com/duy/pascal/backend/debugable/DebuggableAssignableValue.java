@@ -5,7 +5,7 @@ import com.js.interpreter.runtime_value.AssignableValue;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.references.Reference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 
@@ -59,6 +59,7 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
     public abstract Object getValueImpl(VariableContext f,
                                         RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException;
 
-    public abstract Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException;
+    public abstract Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+            throws RuntimePascalException;
 
 }

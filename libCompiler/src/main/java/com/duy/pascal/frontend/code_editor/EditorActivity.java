@@ -60,12 +60,11 @@ import com.duy.pascal.frontend.view.editor_view.EditorView;
 import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.CodeUnit;
-import com.js.interpreter.codeunit.PascalProgram;
+import com.js.interpreter.codeunit.program.PascalProgram;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.source_include.ScriptSource;
 
@@ -75,7 +74,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class EditorActivity extends BaseEditorActivity implements
         DrawerLayout.DrawerListener {
@@ -305,14 +303,6 @@ public class EditorActivity extends BaseEditorActivity implements
 
             if (codeUnit != null) {
                 ExpressionContextMixin program = codeUnit.getProgram();
-                ArrayListMultimap<String, AbstractFunction> callableFunctions = program.getCallableFunctions();
-                Set<String> funName = callableFunctions.keySet();
-                for (String name : funName) {
-                    List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
-                    Log.d(TAG, "declareFunctions: " + abstractFunctions);
-                }
-
-
                 EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
                 if (currentFragment != null) {
                     ArrayList<StructureItem> data = new ArrayList<>();

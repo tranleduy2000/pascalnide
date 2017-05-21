@@ -54,7 +54,8 @@ import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.CodeUnit;
-import com.js.interpreter.codeunit.library.LibraryPascal;
+import com.js.interpreter.codeunit.library.RuntimeUnitPascal;
+import com.js.interpreter.codeunit.library.UnitPascal;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.runtime_value.ConstantAccess;
 import com.js.interpreter.runtime_value.FunctionCall;
@@ -99,7 +100,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     /**
      * defined libraries
      */
-    private HashMap<String, LibraryPascal> librariesMap = new HashMap<>();
+    private HashMap<UnitPascal, RuntimeUnitPascal> unitsMap = new HashMap<>();
 
 
     //list name of constant map,  use for get all constants
@@ -187,14 +188,28 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     public RuntimeValue getIdentifierValue(WordToken name)
             throws ParsingException {
         if (functionExistsLocal(name.name)) {
-            return FunctionCall.generateFunctionCall(name,
-                    new ArrayList<RuntimeValue>(0), this);
+            return FunctionCall.generateFunctionCall(name, new ArrayList<RuntimeValue>(0), this);
+
         } else if (getConstantDefinitionLocal(name.name) != null) {
-            ConstantDefinition constantDefinition = getConstantDefinition(name.name);
-            return new ConstantAccess(constantDefinition.getValue(), constantDefinition.getType(), name.lineInfo);
+            ConstantDefinition c = getConstantDefinition(name.name);
+            return new ConstantAccess(c.getValue(), c.getType(), name.lineInfo);
+
         } else if (getVariableDefinitionLocal(name.name) != null) {
-            return new VariableAccess(name.name, name.lineInfo);
+            VariableAccess variableAccess = new VariableAccess(name.name, name.lineInfo);
+            Log.d(TAG, "getIdentifierValue() returned: " + variableAccess);
+            return variableAccess;
         }
+
+        //find identifier in library
+        for (Map.Entry<UnitPascal, RuntimeUnitPascal> unit : unitsMap.entrySet()) {
+            RuntimeUnitPascal value = unit.getValue();
+            ExpressionContextMixin libContext = value.getDefinition().getContext();
+            RuntimeValue identifierValue = libContext.getIdentifierValue(name);
+            if (identifierValue != null) {
+                return identifierValue;
+            }
+        }
+
         if (parent == null) {
             throw new NoSuchFunctionOrVariableException(name.lineInfo, name.name);
         }
@@ -330,7 +345,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     try {
                         FileReader fileReader = new FileReader(file);
 
-                        LibraryPascal library = new LibraryPascal(fileReader, ((WordToken) next).name,
+                        UnitPascal library = new UnitPascal(fileReader, ((WordToken) next).name,
                                 ArrayListMultimap.<String, AbstractFunction>create(),
                                 new ArrayList<ScriptSource>(), handler);
                         library.declareConstants(this);
@@ -338,7 +353,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         library.declareVariables(this);
                         library.declareFunctions(this);
 
-                        librariesMap.put(((WordToken) next).name, library);
+                        unitsMap.put(library, library.run());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                         throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
@@ -537,7 +552,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         return listNameTypes;
     }
 
-    public HashMap<String, LibraryPascal> getLibrariesMap() {
-        return librariesMap;
+    public HashMap<UnitPascal, RuntimeUnitPascal> getUnitsMap() {
+        return unitsMap;
     }
 }

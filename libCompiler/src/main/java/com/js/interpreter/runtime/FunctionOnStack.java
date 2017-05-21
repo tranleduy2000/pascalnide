@@ -18,7 +18,7 @@ package com.js.interpreter.runtime;
 
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.js.interpreter.VariableDeclaration;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.references.PascalReference;
 

@@ -320,13 +320,15 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),
+    		     EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     }
-    .|\n {return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE);}
+    .|\n {return new GroupingExceptionToken(getLine(),
+                EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE);}
 }
 
 <INCLUDE_SNGL_QUOTE> {
@@ -335,14 +337,16 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),
+    		    EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     }
 	[^\n\r]+ {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
+	[\n\r]	{return new GroupingExceptionToken(getLine(),
+	        EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);}
 }
 <INCLUDE_DBL_QUOTE> {
 	"\"\""	{literal.append('\"');}
@@ -350,14 +354,16 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(),
+    		        EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     	}
 	[^\n\r]+ {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);}
+	[\n\r]	{return new GroupingExceptionToken(getLine(),
+	        EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);}
 }
 
 <END_INCLUDE> {

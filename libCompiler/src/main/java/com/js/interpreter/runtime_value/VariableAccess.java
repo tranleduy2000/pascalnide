@@ -1,21 +1,24 @@
 package com.js.interpreter.runtime_value;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.tokens.WordToken;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.instructions.FieldReference;
 import com.js.interpreter.runtime.FunctionOnStack;
-import com.js.interpreter.runtime.references.Reference;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.references.Reference;
 
 public class VariableAccess extends DebuggableAssignableValue {
+    private static final String TAG = "VariableAccess";
     public String name;
     private LineInfo line;
 
@@ -47,7 +50,11 @@ public class VariableAccess extends DebuggableAssignableValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        return f.getVar(name);
+        Log.d(TAG, "getValueImpl() called with: f = [" + f + "], main = [" + main + "]");
+
+        Object var = f.getVar(name);
+        Log.d(TAG, "getValueImpl() returned: " + var);
+        return var;
     }
 
     @Override

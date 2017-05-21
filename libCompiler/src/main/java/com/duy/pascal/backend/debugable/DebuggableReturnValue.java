@@ -8,7 +8,7 @@ import com.js.interpreter.runtime_value.boxing.ArrayBoxer;
 import com.js.interpreter.runtime_value.boxing.CharacterBoxer;
 import com.js.interpreter.runtime_value.boxing.StringBuilderBoxer;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.UnhandledPascalException;
 

@@ -1,14 +1,21 @@
 package com.js.interpreter.expressioncontext;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.exceptions.define.SameNameException;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.CodeUnit;
+import com.js.interpreter.codeunit.library.RuntimeUnitPascal;
+import com.js.interpreter.codeunit.library.UnitPascal;
 
 import java.util.List;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 public abstract class HierarchicalExpressionContext implements
         ExpressionContext {
@@ -58,11 +65,25 @@ public abstract class HierarchicalExpressionContext implements
             String ident);
 
     @Override
-    public VariableDeclaration getVariableDefinition(String ident) {
-        VariableDeclaration result = getVariableDefinitionLocal(ident);
-        if (result == null && parent != null) {
-            result = parent.getVariableDefinition(ident);
+    public VariableDeclaration getVariableDefinition(String indent) {
+
+        VariableDeclaration result = getVariableDefinitionLocal(indent);
+        if (result != null) return result;
+        if (parent != null) {
+            result = parent.getVariableDefinition(indent);
+            if (result != null) return result;
         }
+
+        //find variable in library
+        ExpressionContextMixin context = (ExpressionContextMixin) this;
+
+        //check all library
+        for (Map.Entry<UnitPascal, RuntimeUnitPascal> unit : context.getUnitsMap().entrySet()) {
+            RuntimeUnitPascal value = unit.getValue();
+            ExpressionContextMixin libContext = value.getDefinition().getContext();
+            result = libContext.getVariableDefinition(indent);
+        }
+
         return result;
     }
 
