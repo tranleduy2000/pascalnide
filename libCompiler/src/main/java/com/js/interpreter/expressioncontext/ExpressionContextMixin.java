@@ -47,7 +47,7 @@ import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
+import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ConstantDefinition;
@@ -56,7 +56,6 @@ import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.CodeUnit;
 import com.js.interpreter.codeunit.library.LibraryPascal;
 import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.runtime.codeunit.RuntimePascalLibrary;
 import com.js.interpreter.runtime_value.ConstantAccess;
 import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
@@ -90,25 +89,32 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     private ArrayListMultimap<String, AbstractFunction> callableFunctions = ArrayListMultimap.create();
 
     //name of function in map callableFunctions, uses for get all function
-    private ArrayList<SuggestItem> listNameFunctions = new ArrayList<>();
+    private ArrayList<StructureItem> listNameFunctions = new ArrayList<>();
 
     /**
-     * list defined constant
+     * defined constants
      */
-    private Map<String, ConstantDefinition> constants = new HashMap<>();
+    private HashMap<String, ConstantDefinition> constants = new HashMap<>();
+
+    /**
+     * defined libraries
+     */
+    private HashMap<String, LibraryPascal> librariesMap = new HashMap<>();
+
+
     //list name of constant map,  use for get all constants
-    private ArrayList<SuggestItem> listNameConstants = new ArrayList<>();
+    private ArrayList<StructureItem> listNameConstants = new ArrayList<>();
 
     /**
      * list custom operator
      */
-    private Map<String, DeclaredType> typedefs = new HashMap<>();
+    private HashMap<String, DeclaredType> typedefs = new HashMap<>();
     //uses for get all operator in map typedefs
-    private ArrayList<SuggestItem> listNameTypes = new ArrayList<>();
+    private ArrayList<StructureItem> listNameTypes = new ArrayList<>();
     /**
      * list library
      */
-    private ArrayList<String> librarieNames = new ArrayList<>();
+    private ArrayList<String> librariesNames = new ArrayList<>();
 
     private PascalLibraryManager pascalLibraryManager;
 
@@ -142,8 +148,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
 
-    public ArrayList<String> getLibrarieNames() {
-        return librarieNames;
+    public ArrayList<String> getLibrariesNames() {
+        return librariesNames;
     }
 
     public ArrayListMultimap<String, AbstractFunction> getCallableFunctions() {
@@ -173,7 +179,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             }
         }
         callableFunctions.put(f.name, f);
-        listNameFunctions.add(new SuggestItem(StructureType.TYPE_FUNCTION, f.name));
+        listNameFunctions.add(new StructureItem(StructureType.TYPE_FUNCTION, f.name));
         return f;
     }
 
@@ -312,13 +318,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             //check library not found
             if (PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name) != null) {
                 found.set(true);
-                librarieNames.add(next.toString());
+                librariesNames.add(next.toString());
                 pascalLibraryManager.addMethodFromClass(
                         PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name));
 
             } else {
-                String libPath = (ApplicationFileManager.getApplicationPath() + ((WordToken) next).name)
-                        + ".pas";
+                String libPath = (ApplicationFileManager.getApplicationPath() + ((WordToken) next).name) + ".pas";
                 File file = new File(libPath);
                 if (file.exists()) {
                     found.set(true);
@@ -328,11 +333,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         LibraryPascal library = new LibraryPascal(fileReader, ((WordToken) next).name,
                                 ArrayListMultimap.<String, AbstractFunction>create(),
                                 new ArrayList<ScriptSource>(), handler);
-                        RuntimePascalLibrary runtimePascalLibrary = library.run();
-                        runtimePascalLibrary.declareConstants(this);
-                        runtimePascalLibrary.declareTypes(this);
-                        runtimePascalLibrary.declareVariables(this);
-                        runtimePascalLibrary.declareFunctions(this);
+                        library.declareConstants(this);
+                        library.declareTypes(this);
+                        library.declareVariables(this);
+                        library.declareFunctions(this);
+
+                        librariesMap.put(((WordToken) next).name, library);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                         throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
@@ -384,7 +390,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void declareTypedef(String name, DeclaredType type) {
         typedefs.put(name, type);
-        listNameTypes.add(new SuggestItem(StructureType.TYPE_DEF, name));
+        listNameTypes.add(new StructureItem(StructureType.TYPE_DEF, name));
     }
 
     public void declareVariable(VariableDeclaration v) {
@@ -393,15 +399,13 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void declareFunction(AbstractFunction f) {
         callableFunctions.put(f.name().toLowerCase(), f);
-        SuggestItem e = new SuggestItem(StructureType.TYPE_FUNCTION, f.name(), f.description());
-        if (!listNameFunctions.contains(e)) {
-            listNameFunctions.add(e);
-        }
+        StructureItem e = new StructureItem(StructureType.TYPE_FUNCTION, f.name(), f.description());
+        listNameFunctions.add(e);
     }
 
     public void declareConst(ConstantDefinition c) {
         constants.put(c.name(), c);
-        listNameConstants.add(new SuggestItem(StructureType.TYPE_CONST, c.name()));
+        listNameConstants.add(new StructureItem(StructureType.TYPE_CONST, c.name()));
     }
 
     public void declareConst(GrouperToken token) throws ParsingException {
@@ -521,15 +525,19 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
 
-    public ArrayList<SuggestItem> getListNameFunctions() {
+    public ArrayList<StructureItem> getListNameFunctions() {
         return listNameFunctions;
     }
 
-    public ArrayList<SuggestItem> getListNameConstants() {
+    public ArrayList<StructureItem> getListNameConstants() {
         return listNameConstants;
     }
 
-    public ArrayList<SuggestItem> getListNameTypes() {
+    public ArrayList<StructureItem> getListNameTypes() {
         return listNameTypes;
+    }
+
+    public HashMap<String, LibraryPascal> getLibrariesMap() {
+        return librariesMap;
     }
 }

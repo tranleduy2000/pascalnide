@@ -84,8 +84,8 @@ public class GraphLib implements PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin context) {
-        Map<String, ConstantDefinition> constants = context.getConstants();
+    public void declareConstants(ExpressionContextMixin parentContext) {
+        Map<String, ConstantDefinition> constants = parentContext.getConstants();
         ConstantDefinition constant;
         constant = new ConstantDefinition("grok".toLowerCase(), 1, new LineInfo(-1, "grok = 1;".toLowerCase()));
         constants.put(constant.name(), constant);
@@ -232,24 +232,24 @@ public class GraphLib implements PascalLibrary {
                 new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
 
-        new CrtLib(handler).declareConstants(context);
+        new CrtLib(handler).declareConstants(parentContext);
 
         constant = new ConstantDefinition("NormalPut".toLowerCase(), 0, new LineInfo(-1, ""));
         constants.put(constant.name(), constant);
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin context) {
+    public void declareTypes(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin context) {
+    public void declareVariables(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin context) {
+    public void declareFunctions(ExpressionContextMixin parentContext) {
 
     }
 

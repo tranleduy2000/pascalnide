@@ -37,15 +37,15 @@ import java.util.ArrayList;
 /**
  * Created by Duy on 26-Apr-17.
  */
-public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
+public class CodeSuggestAdapter extends ArrayAdapter<StructureItem> {
     private final Context context;
     private final int colorKeyWord;
     private final int colorNormal;
     private final int colorVariable = 0xffFFB74D;
     private LayoutInflater inflater;
-    private ArrayList<SuggestItem> items;
-    private ArrayList<SuggestItem> itemsAll;
-    private ArrayList<SuggestItem> suggestion;
+    private ArrayList<StructureItem> items;
+    private ArrayList<StructureItem> itemsAll;
+    private ArrayList<StructureItem> suggestion;
     private int resourceID;
     private Filter codeFilter = new Filter() {
         @Override
@@ -53,7 +53,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
             if (resultValue == null) {
                 return "";
             }
-            return ((SuggestItem) resultValue).getName();
+            return ((StructureItem) resultValue).getName();
         }
 
         @Override
@@ -61,7 +61,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
             FilterResults filterResults = new FilterResults();
             suggestion.clear();
             if (constraint != null) {
-                for (SuggestItem item : itemsAll) {
+                for (StructureItem item : itemsAll) {
                     if (item.compareTo(constraint) == 0) {
                         suggestion.add(item);
                     }
@@ -76,7 +76,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         @SuppressWarnings("unchecked")
 
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<SuggestItem> filteredList = (ArrayList<SuggestItem>) results.values;
+            ArrayList<StructureItem> filteredList = (ArrayList<StructureItem>) results.values;
             clear();
             if (filteredList != null && filteredList.size() > 0) {
                 addAll(filteredList);
@@ -86,23 +86,23 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
     };
 
     @SuppressWarnings("unchecked")
-    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<SuggestItem> objects) {
+    public CodeSuggestAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<StructureItem> objects) {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.items = objects;
-        this.itemsAll = (ArrayList<SuggestItem>) items.clone();
+        this.itemsAll = (ArrayList<StructureItem>) items.clone();
         this.suggestion = new ArrayList<>();
         this.resourceID = resource;
         colorKeyWord = context.getResources().getColor(R.color.color_key_word_color);
         colorNormal = context.getResources().getColor(android.R.color.primary_text_dark);
     }
 
-    public ArrayList<SuggestItem> getItems() {
+    public ArrayList<StructureItem> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<SuggestItem> items) {
+    public void setItems(ArrayList<StructureItem> items) {
         this.items = items;
     }
 
@@ -112,7 +112,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<SuggestItem> {
         if (convertView == null) {
             convertView = inflater.inflate(resourceID, null);
         }
-        final SuggestItem item = items.get(position);
+        final StructureItem item = items.get(position);
 
         TextView txtName = (TextView) convertView.findViewById(R.id.txt_title);
         txtName.setText(item.getName());

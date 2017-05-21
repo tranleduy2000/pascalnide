@@ -104,7 +104,7 @@ public class IntentBuilders {
     /**
      * Creates a pending intent that can be used to start the trigger service.
      *
-     * @param context the context under whose authority to launch the intent
+     * @param context the mContext under whose authority to launch the intent
      * @return {@link PendingIntent} object for running the trigger service
      */
     public static PendingIntent buildTriggerServicePendingIntent(Context context) {

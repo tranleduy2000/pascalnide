@@ -31,7 +31,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_completion.KeyWord;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.editor_view.adapters.CodeSuggestAdapter;
-import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
+import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
 
 import java.util.ArrayList;
 
@@ -69,7 +69,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * slipt string in edittext and put it to list keyword
      */
     public void invalidateKeyWord() {
-        setSuggestData(new ArrayList<SuggestItem>());
+        setSuggestData(new ArrayList<StructureItem>());
     }
 
     private void init() {
@@ -108,19 +108,19 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     /**
      * invalidate data for auto suggest
      */
-    public void setSuggestData(ArrayList<SuggestItem> data) {
+    public void setSuggestData(ArrayList<StructureItem> data) {
         if (!mEditorSetting.isShowSuggestPopup()) {
             if (mAdapter != null) {
                 mAdapter.clear();
             } else {
                 mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint,
-                        new ArrayList<SuggestItem>());
+                        new ArrayList<StructureItem>());
                 setAdapter(mAdapter);
             }
             return;
         }
         for (String s : KeyWord.KEY_WORDS) {
-            data.add(new SuggestItem(StructureType.TYPE_KEY_WORD, s));
+            data.add(new StructureItem(StructureType.TYPE_KEY_WORD, s));
         }
         mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);
         setAdapter(mAdapter);

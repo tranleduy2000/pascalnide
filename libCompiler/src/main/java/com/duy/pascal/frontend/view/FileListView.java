@@ -53,7 +53,7 @@ public class FileListView extends ListViewCompat {
     /**
      * set up recycle view, include layout manager, adapter , listener
      *
-     * @param context - android context
+     * @param context - android mContext
      */
     private void setup(Context context) {
 

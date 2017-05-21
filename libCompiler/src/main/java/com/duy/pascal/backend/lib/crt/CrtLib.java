@@ -97,8 +97,8 @@ public class CrtLib implements PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin f) {
-        Map<String, ConstantDefinition> constants = f.getConstants();
+    public void declareConstants(ExpressionContextMixin parentContext) {
+        Map<String, ConstantDefinition> constants = parentContext.getConstants();
         ConstantDefinition colorConst;
         colorConst = new ConstantDefinition("black".toLowerCase(), 0, new LineInfo(-1, "black = 0".toLowerCase()));
         constants.put(colorConst.name(), colorConst);
@@ -138,17 +138,17 @@ public class CrtLib implements PascalLibrary {
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin context) {
+    public void declareTypes(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin context) {
+    public void declareVariables(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin context) {
+    public void declareFunctions(ExpressionContextMixin parentContext) {
 
     }
 

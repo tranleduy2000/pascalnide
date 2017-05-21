@@ -464,7 +464,7 @@ public class AndroidDialogLib implements PascalLibrary {
     /**
      * Context menus are used primarily with {@link #showWebView}
      */
-    @PascalMethod(description = "Adds a new item to context menu.")
+    @PascalMethod(description = "Adds a new item to mContext menu.")
     public void addContextMenuItem(
             @PascalParameter(name = "label", description = "label for this menu item") String label,
             @PascalParameter(name = "event", description = "event that will be generated on menu item click") String event,
@@ -483,7 +483,7 @@ public class AndroidDialogLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "Removes all items previously added to context menu.")
+    @PascalMethod(description = "Removes all items previously added to mContext menu.")
     public void clearContextMenu() {
         mContextMenuItems.clear();
     }
@@ -530,22 +530,22 @@ public class AndroidDialogLib implements PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin context) {
+    public void declareConstants(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin context) {
+    public void declareTypes(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin context) {
+    public void declareVariables(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin context) {
+    public void declareFunctions(ExpressionContextMixin parentContext) {
 
     }
 

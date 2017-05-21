@@ -42,7 +42,7 @@ public final class PreferenceHelper {
     }
 
     public static boolean getUseMonospace(Context context) {
-//        return getPrefs(context).getBoolean("use_monospace", false);
+//        return getPrefs(mContext).getBoolean("use_monospace", false);
         return true;
     }
 
@@ -55,17 +55,17 @@ public final class PreferenceHelper {
     }
 
     public static boolean getlines(Context context) {
-//        return getPrefs(context).getBoolean("editor_line_numbers", true);
+//        return getPrefs(mContext).getBoolean("editor_line_numbers", true);
         return true;
     }
 
     public static boolean getSyntaxHighlight(Context context) {
-//        return getPrefs(context).getBoolean("editor_syntax_highlight", false);
+//        return getPrefs(mContext).getBoolean("editor_syntax_highlight", false);
         return true;
     }
 
     public static boolean getWrapContent(Context context) {
-//        return getPrefs(context).getBoolean("editor_wrap_content", true);
+//        return getPrefs(mContext).getBoolean("editor_wrap_content", true);
         return false;
     }
 
@@ -86,7 +86,7 @@ public final class PreferenceHelper {
     }
 
     public static boolean getSuggestionActive(Context context) {
-//        return getPrefs(context).getBoolean("suggestion_active", false);
+//        return getPrefs(mContext).getBoolean("suggestion_active", false);
         return false;
     }
 
@@ -103,7 +103,7 @@ public final class PreferenceHelper {
     }
 
     public static int getFontSize(Context context) {
-//        return getPrefs(context).getInt("font_size", 16);
+//        return getPrefs(mContext).getInt("font_size", 16);
         return 14;
     }
 
@@ -116,7 +116,7 @@ public final class PreferenceHelper {
         } else {
             folder = Environment.getExternalStorageDirectory().getAbsolutePath();
         }
-        //folder = context.getExternalFilesDir(null).getAbsolutePath();
+        //folder = mContext.getExternalFilesDir(null).getAbsolutePath();
         //folder = Environment.getExternalStorageDirectory().getAbsolutePath();
         return folder;
     }

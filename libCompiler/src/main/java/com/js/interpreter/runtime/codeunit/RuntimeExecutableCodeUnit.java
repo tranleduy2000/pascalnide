@@ -22,14 +22,11 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
 
     private volatile long MAX_STACK = 45000;
     private Map<LibraryPascal, RuntimePascalLibrary> runtimeLibs = new HashMap<>();
-
     private volatile ControlMode runMode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
     private volatile long stack = 0;
-
     private DebugListener debugListener;
     private volatile boolean debugMode = false;
-
     public RuntimeExecutableCodeUnit(parent definition) {
         super(definition);
     }
@@ -42,6 +39,10 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     public RuntimeExecutableCodeUnit(parent definition, DebugListener debugListener) {
         super(definition);
         this.debugListener = debugListener;
+    }
+
+    public Map<LibraryPascal, RuntimePascalLibrary> getRuntimeLibs() {
+        return runtimeLibs;
     }
 
     public boolean isDebugMode() {

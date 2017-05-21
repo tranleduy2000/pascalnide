@@ -243,22 +243,22 @@ public class AndroidSettingLib implements PascalLibrary {
     }
 
     @Override
-    public void declareConstants(ExpressionContextMixin context) {
+    public void declareConstants(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareTypes(ExpressionContextMixin context) {
+    public void declareTypes(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareVariables(ExpressionContextMixin context) {
+    public void declareVariables(ExpressionContextMixin parentContext) {
 
     }
 
     @Override
-    public void declareFunctions(ExpressionContextMixin context) {
+    public void declareFunctions(ExpressionContextMixin parentContext) {
 
     }
 }

@@ -19,12 +19,12 @@ import java.io.Reader;
 import java.util.List;
 
 public abstract class CodeUnit {
-    public final ExpressionContextMixin context;
+    public final ExpressionContextMixin mContext;
     protected String programName;
 
     public CodeUnit(ListMultimap<String, AbstractFunction> functionTable,
                     RunnableActivity handler) {
-        this.context = getExpressionContextInstance(functionTable, handler);
+        this.mContext = getExpressionContextInstance(functionTable, handler);
     }
 
     public CodeUnit(Reader program, ListMultimap<String, AbstractFunction> functionTable,
@@ -37,8 +37,12 @@ public abstract class CodeUnit {
         parseTree(grouper.tokenQueue);
     }
 
+    public ExpressionContextMixin getContext() {
+        return mContext;
+    }
+
     public ExpressionContextMixin getProgram() {
-        return context;
+        return mContext;
     }
 
     protected abstract CodeUnitExpressionContext getExpressionContextInstance(
@@ -46,7 +50,7 @@ public abstract class CodeUnit {
 
     private void parseTree(GrouperToken tokens) throws ParsingException {
         while (tokens.hasNext()) {
-            context.addNextDeclaration(tokens);
+            mContext.addNextDeclaration(tokens);
         }
     }
 

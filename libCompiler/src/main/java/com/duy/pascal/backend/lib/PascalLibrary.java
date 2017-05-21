@@ -30,11 +30,11 @@ public interface PascalLibrary {
      */
     void shutdown();
 
-    void declareConstants(ExpressionContextMixin context);
+    void declareConstants(ExpressionContextMixin parentContext);
 
-    void declareTypes(ExpressionContextMixin context);
+    void declareTypes(ExpressionContextMixin parentContext);
 
-    void declareVariables(ExpressionContextMixin context);
+    void declareVariables(ExpressionContextMixin parentContext);
 
-    void declareFunctions(ExpressionContextMixin context);
+    void declareFunctions(ExpressionContextMixin parentContext);
 }

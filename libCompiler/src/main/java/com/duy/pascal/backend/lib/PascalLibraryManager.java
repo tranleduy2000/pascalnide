@@ -62,7 +62,7 @@ import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
+import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
@@ -125,8 +125,8 @@ public class PascalLibraryManager {
         facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
     }
 
-    public static ArrayList<SuggestItem> getAllMethodDescription(Class<?>... classes) {
-        ArrayList<SuggestItem> suggestItems = new ArrayList<>();
+    public static ArrayList<StructureItem> getAllMethodDescription(Class<?>... classes) {
+        ArrayList<StructureItem> suggestItems = new ArrayList<>();
         for (Class<?> aClass : classes) {
             Method[] methods = aClass.getDeclaredMethods();
             for (Method method : methods) {
@@ -134,11 +134,11 @@ public class PascalLibraryManager {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
                         PascalMethod annotation = method.getAnnotation(PascalMethod.class);
                         String description = annotation.description();
-                        suggestItems.add(new SuggestItem(StructureType.TYPE_FUNCTION, method.getName(), description));
+                        suggestItems.add(new StructureItem(StructureType.TYPE_FUNCTION, method.getName(), description));
                     }
                 } else {
                     if (Modifier.isPublic(method.getModifiers())) {
-                        suggestItems.add(new SuggestItem(StructureType.TYPE_FUNCTION, method.getName()));
+                        suggestItems.add(new StructureItem(StructureType.TYPE_FUNCTION, method.getName()));
                     }
                 }
             }

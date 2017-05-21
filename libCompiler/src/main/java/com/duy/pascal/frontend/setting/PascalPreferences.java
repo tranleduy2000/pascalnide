@@ -167,12 +167,12 @@ public class PascalPreferences {
     }
 
     public int getConsoleBackground() {
-//        return getInt(context.readBuffer(R.string.key_bg_console));
+//        return getInt(mContext.readBuffer(R.string.key_bg_console));
         return Color.BLACK;
     }
 
     public int getConsoleTextColor() {
-//        return getInt(context.readBuffer(R.string.key_console_text_color));
+//        return getInt(mContext.readBuffer(R.string.key_console_text_color));
         return Color.WHITE;
     }
 

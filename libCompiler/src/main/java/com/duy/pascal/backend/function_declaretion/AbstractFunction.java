@@ -25,6 +25,7 @@ import com.js.interpreter.NamedEntity;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,14 +47,7 @@ public abstract class AbstractFunction implements NamedEntity {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder(name());
-        result.append('(');
-        for (ArgumentType c : argumentTypes()) {
-            result.append(c);
-            result.append(',');
-        }
-        result.append(')');
-        return result.toString();
+        return name() + '(' + Arrays.toString(argumentTypes()) + ')';
     }
 
     /**

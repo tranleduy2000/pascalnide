@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * item for suggest adapter of {@link CodeSuggestsEditText}
  */
-public class SuggestItem implements Serializable, Comparable {
+public class StructureItem implements Serializable, Comparable {
     private int type;
     @NonNull
     private String name = "";
@@ -34,21 +34,21 @@ public class SuggestItem implements Serializable, Comparable {
     private CharSequence show;
     private String compare = "";
 
-    public SuggestItem(int type, @NonNull String name, String description, CharSequence show) {
+    public StructureItem(int type, @NonNull String name, String description, CharSequence show) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.show = show;
     }
 
-    public SuggestItem(int type, @NonNull String name, String description) {
+    public StructureItem(int type, @NonNull String name, String description) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.compare = name.toLowerCase();
     }
 
-    public SuggestItem(int type, @NonNull String name) {
+    public StructureItem(int type, @NonNull String name) {
         this.name = name;
         this.type = type;
         this.compare = name.toLowerCase();

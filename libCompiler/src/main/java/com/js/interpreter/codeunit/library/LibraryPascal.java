@@ -23,6 +23,8 @@ import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.syntax.MisplacedDeclarationException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
+import com.duy.pascal.backend.lib.PascalLibrary;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
@@ -35,16 +37,23 @@ import com.duy.pascal.backend.tokens.basic.UnitToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.js.interpreter.ConstantDefinition;
+import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.ExecutableCodeUnit;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.runtime.codeunit.RuntimePascalLibrary;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class LibraryPascal extends ExecutableCodeUnit {
+public class LibraryPascal extends ExecutableCodeUnit implements PascalLibrary {
     private RunnableActivity handler;
 
     public LibraryPascal(Reader program,
@@ -66,6 +75,61 @@ public class LibraryPascal extends ExecutableCodeUnit {
     @Override
     public RuntimePascalLibrary run() {
         return new RuntimePascalLibrary(this);
+    }
+
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
+
+    @Override
+    public void shutdown() {
+
+    }
+
+    @Override
+    public void declareConstants(ExpressionContextMixin parentContext) {
+
+        Map<String, ConstantDefinition> constants = mContext.getConstants();
+        for (Map.Entry<String, ConstantDefinition> constant : constants.entrySet()) {
+            parentContext.declareConst(constant.getValue());
+        }
+    }
+
+    @Override
+    public void declareTypes(ExpressionContextMixin parentContext) {
+
+        Map<String, DeclaredType> typedefs = mContext.getTypedefs();
+        for (Map.Entry<String, DeclaredType> type : typedefs.entrySet()) {
+            parentContext.declareTypedef(type.getKey(), type.getValue());
+        }
+    }
+
+    @Override
+    public void declareVariables(ExpressionContextMixin parentContext) {
+        ArrayList<VariableDeclaration> variables = mContext.getVariables();
+        for (VariableDeclaration variable : variables) {
+            parentContext.declareVariable(variable);
+        }
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin parentContext) {
+
+
+        //get list name instead of get map function
+        // because I don't want to add built in function twice,
+        //this is bad performance when match argument and leak memory
+        ArrayList<StructureItem> listNameFunctions = mContext.getListNameFunctions();
+
+        ArrayListMultimap<String, AbstractFunction> callableFunctions = mContext.getCallableFunctions();
+        for (StructureItem item : listNameFunctions) {
+            List<AbstractFunction> abstractFunctions = callableFunctions.get(item.getName());
+            for (AbstractFunction function : abstractFunctions) {
+                parentContext.declareFunction(function);
+            }
+        }
+
     }
 
     public class LibraryExpressionContext extends CodeUnitExpressionContext {
@@ -160,7 +224,15 @@ public class LibraryPascal extends ExecutableCodeUnit {
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             throw new MisplacedDeclarationException(i.peek().lineInfo,
-                    "main function", LibraryPascal.this.context);
+                    "main function", LibraryPascal.this.mContext);
+        }
+
+        public Executable getInitInstruction() {
+            return initInstruction;
+        }
+
+        public Executable getFinalInstruction() {
+            return finalInstruction;
         }
     }
 

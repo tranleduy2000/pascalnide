@@ -34,7 +34,7 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
     /**
      * This invokes a function call of any operator.
      *
-     * @param parentContext The program context.
+     * @param parentContext The program mContext.
      * @return The return value of the called function.
      */
     public abstract Object call(VariableContext parentContext,
