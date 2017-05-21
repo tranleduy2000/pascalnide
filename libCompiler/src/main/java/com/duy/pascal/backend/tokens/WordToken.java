@@ -101,7 +101,7 @@ public class WordToken extends Token {
 
                 Object constVal = context.getConstantDefinition(name);
                 if (constVal == null) {
-                    throw new UnrecognizedTypeException(lineInfo, name);
+                    throw new UnrecognizedTypeException(getLineInfo(), name);
                 }
                 return BasicType.create(constVal.getClass());
             }

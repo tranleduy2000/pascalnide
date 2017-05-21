@@ -24,7 +24,7 @@ public class MissingSemicolonTokenException extends ParsingException {
     private Token token;
 
     public MissingSemicolonTokenException(Token instead) {
-        super(instead.lineInfo);
+        super(instead.getLineInfo());
         this.token = instead;
     }
 

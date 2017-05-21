@@ -20,7 +20,8 @@ import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit
 import com.js.interpreter.runtime.VariableContext
 import com.js.interpreter.runtime.exception.RuntimePascalException
 
-class RuntimeUnitPascal(l: UnitPascal) : RuntimeExecutableCodeUnit<UnitPascal>(l) {
+class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
+    constructor(unitPascal: UnitPascal) : super(unitPascal)
 
     /**
      * run instruction initialization
@@ -28,8 +29,7 @@ class RuntimeUnitPascal(l: UnitPascal) : RuntimeExecutableCodeUnit<UnitPascal>(l
     @Throws(RuntimePascalException::class)
     fun runInit() {
         val context = definition.context as UnitPascal.UnitExpressionContext
-        val initInstruction = context.initInstruction
-        initInstruction?.execute(this, this)
+        context.initInstruction?.execute(this, this)
     }
 
     /**
@@ -38,8 +38,7 @@ class RuntimeUnitPascal(l: UnitPascal) : RuntimeExecutableCodeUnit<UnitPascal>(l
     @Throws(RuntimePascalException::class)
     fun runFinal() {
         val context = definition.context as UnitPascal.UnitExpressionContext
-        val finalInstruction = context.finalInstruction
-        finalInstruction?.execute(this, this)
+        context.finalInstruction?.execute(this, this)
     }
 
     @Throws(RuntimePascalException::class)
@@ -50,10 +49,5 @@ class RuntimeUnitPascal(l: UnitPascal) : RuntimeExecutableCodeUnit<UnitPascal>(l
     override fun getParentContext(): VariableContext? {
         return null
     }
-
-    companion object {
-        private val TAG = "RuntimePascalLibrary"
-    }
-
 
 }

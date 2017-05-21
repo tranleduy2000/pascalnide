@@ -21,7 +21,7 @@ public class EndToken extends ClosingToken {
                 || t instanceof RecordToken) {
             return null;
         } else {
-            return new EnumeratedGroupingException(lineInfo,
+            return new EnumeratedGroupingException(getLineInfo(),
                     GroupingExceptionTypes.EXTRA_END);
         }
     }

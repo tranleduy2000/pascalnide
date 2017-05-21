@@ -16,7 +16,7 @@ public class EndBracketToken extends ClosingToken {
     @Override
     public GroupingException getClosingException(GrouperToken t) {
         return t instanceof BracketedToken ? null
-                : new EnumeratedGroupingException(lineInfo,
+                : new EnumeratedGroupingException(getLineInfo(),
                 GroupingExceptionTypes.MISMATCHED_BRACKETS);
     }
 

@@ -192,10 +192,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         } else if (getConstantDefinitionLocal(name.name) != null) {
             ConstantDefinition c = getConstantDefinition(name.name);
-            return new ConstantAccess(c.getValue(), c.getType(), name.lineInfo);
+            return new ConstantAccess(c.getValue(), c.getType(), name.getLineInfo());
 
         } else if (getVariableDefinitionLocal(name.name) != null) {
-            VariableAccess variableAccess = new VariableAccess(name.name, name.lineInfo);
+            VariableAccess variableAccess = new VariableAccess(name.name, name.getLineInfo());
             Log.d(TAG, "getIdentifierValue() returned: " + variableAccess);
             return variableAccess;
         }
@@ -211,7 +211,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         }
 
         if (parent == null) {
-            throw new NoSuchFunctionOrVariableException(name.lineInfo, name.name);
+            throw new NoSuchFunctionOrVariableException(name.getLineInfo(), name.name);
         }
         return parent.getIdentifierValue(name);
     }
@@ -306,7 +306,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     try {
                         ((BasicType) type).setLength(converted);
                     } catch (UnsupportedOutputFormatException e) {
-                        throw new UnsupportedOutputFormatException(i.lineInfo);
+                        throw new UnsupportedOutputFormatException(i.getLineInfo());
                     }
                 }
             }
@@ -356,7 +356,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         unitsMap.put(library, library.run());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                        throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
+                        throw new LibraryNotFoundException(next.getLineInfo(), ((WordToken) next).name);
                     }
                 } else {
                 }
@@ -364,7 +364,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
 
             if (!found.get()) {
-                throw new LibraryNotFoundException(next.lineInfo, ((WordToken) next).name);
+                throw new LibraryNotFoundException(next.getLineInfo(), ((WordToken) next).name);
             }
             next = i.peek();
             if (next instanceof SemicolonToken) {
@@ -464,7 +464,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
                         }
                         ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
-                                type, defaultValue, constName.lineInfo);
+                                type, defaultValue, constName.getLineInfo());
                         declareConst(constantDefinition);
                         token.assertNextSemicolon(token.next);
                     }
@@ -481,7 +481,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     throw new NonConstantExpressionException(value);
                 }
                 ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
-                        compileVal, constName.lineInfo);
+                        compileVal, constName.getLineInfo());
                 this.constants.put(constantDefinition.name(), constantDefinition);
                 token.assertNextSemicolon(token);
             } else {

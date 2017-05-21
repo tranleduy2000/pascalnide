@@ -38,7 +38,7 @@ public class CaseInstruction extends DebuggableExecutable {
 
     public CaseInstruction(CaseToken token, ExpressionContext context)
             throws ParsingException {
-        this.line = token.lineInfo;
+        this.line = token.getLineInfo();
         mSwitchValue = token.getNextExpression(context);
         Token next = token.take();
         if (!(next instanceof OfToken)) {
@@ -86,7 +86,7 @@ public class CaseInstruction extends DebuggableExecutable {
             possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
         }
 
-        otherwise = new InstructionGrouper(token.peek().lineInfo);
+        otherwise = new InstructionGrouper(token.peek().getLineInfo());
         if (token.peek() instanceof ElseToken) {
             token.take();
             while (token.hasNext()) {

@@ -60,7 +60,7 @@ public class NewLexer implements Runnable {
                 } else if (t instanceof ClosingToken) {
                     GroupingException g = ((ClosingToken) t).getClosingException(topOfStack);
                     if (g == null) {
-                        topOfStack.put(new EOFToken(t.lineInfo));
+                        topOfStack.put(new EOFToken(t.getLineInfo()));
                         groupers.pop();
                         continue;
                     } else {
@@ -79,7 +79,7 @@ public class NewLexer implements Runnable {
                     groupers.push((GrouperToken) t);
                 }
             } catch (IOException e) {
-                EnumeratedGroupingException g = new EnumeratedGroupingException(topOfStack.lineInfo,
+                EnumeratedGroupingException g = new EnumeratedGroupingException(topOfStack.getLineInfo(),
                         EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
                 g.caused = e;
                 TossException(g);

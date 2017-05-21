@@ -72,14 +72,14 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public FunctionDeclaration(ExpressionContext parent, GrouperToken grouperToken,
                                boolean isProcedure) throws ParsingException {
         this.declarations = new FunctionExpressionContext(this, parent);
-        this.line = grouperToken.peek().lineInfo;
+        this.line = grouperToken.peek().getLineInfo();
         this.isProcedure = isProcedure;
         name = grouperToken.nextWordValue();
 
         getArgumentsForDeclaration(grouperToken, isProcedure);
         Token next = grouperToken.peek();
         if (isProcedure == next instanceof ColonToken) {
-            throw new ParsingException(next.lineInfo,
+            throw new ParsingException(next.getLineInfo(),
                     "Functions must have a return operator, and procedures cannot have one");
         }
         if (!isProcedure) {
@@ -120,7 +120,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             i.assertNextSemicolon(take);
         } else {
             if (instructions != null) {
-                throw new OverridingFunctionBodyException(this, i.lineInfo);
+                throw new OverridingFunctionBodyException(this, i.getLineInfo());
             }
             while (!bodyDeclared) {
                 declarations.addNextDeclaration(i);

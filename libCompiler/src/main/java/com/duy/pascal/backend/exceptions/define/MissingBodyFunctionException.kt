@@ -26,7 +26,7 @@ class MissingBodyFunctionException : ParsingException {
     private val funName: String
 
     constructor(funName: String, line: LineInfo?) : super(line) {
-        this.funName = funName;
+        this.funName = funName
     }
 
     override fun getLocalizedMessage(): String = "Forward declaration not solved " + funName

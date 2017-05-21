@@ -16,7 +16,7 @@ public class EndParenToken extends ClosingToken {
     @Override
     public GroupingException getClosingException(GrouperToken t) {
         return t instanceof ParenthesizedToken ? null
-                : new EnumeratedGroupingException(lineInfo,
+                : new EnumeratedGroupingException(getLineInfo(),
                 GroupingExceptionTypes.MISMATCHED_PARENTHESES);
     }
 

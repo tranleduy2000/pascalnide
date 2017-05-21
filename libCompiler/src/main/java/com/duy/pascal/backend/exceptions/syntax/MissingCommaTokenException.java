@@ -24,7 +24,7 @@ public class MissingCommaTokenException extends ParsingException {
     private Token token;
 
     public MissingCommaTokenException(Token instead) {
-        super(instead.lineInfo);
+        super(instead.getLineInfo());
         this.token = instead;
     }
 

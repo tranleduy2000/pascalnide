@@ -51,7 +51,7 @@ public class WithStatement {
 
     public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
         this.declarations = new WithExpressionContext(this, parent);
-        this.line = grouperToken.peek().lineInfo;
+        this.line = grouperToken.peek().getLineInfo();
 
         getReferenceVariables(grouperToken, parent);
         for (RuntimeValue argument : arguments) {

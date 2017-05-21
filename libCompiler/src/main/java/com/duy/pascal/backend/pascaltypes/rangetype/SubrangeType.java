@@ -69,7 +69,7 @@ public class SubrangeType {
             throw new NonConstantExpressionException(high);
         }
         if ((int) max < lower) {
-            throw new SubRangeException(lower, (int) max, i.lineInfo);
+            throw new SubRangeException(lower, (int) max, i.getLineInfo());
         }
         size = (((int) max) - lower) + 1;
     }
