@@ -26,6 +26,7 @@ import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
@@ -151,7 +152,8 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
         public void declareInterface(GrouperToken i) throws ParsingException {
             while (!(i.peek() instanceof ImplementationToken ||
                     i.peek() instanceof EndToken || i.peek() instanceof InitializationToken ||
-                    i.peek() instanceof FinalizationToken)) {
+                    i.peek() instanceof FinalizationToken ||
+                    i.peek() instanceof EOFToken)) {
                 this.addNextDeclaration(i);
             }
         }
@@ -161,16 +163,14 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                 throws ParsingException {
 
             if (next instanceof UnitToken) {
-                programName = i.nextWordValue();
-                i.assertNextSemicolon(i);
+                GrouperToken container = (GrouperToken) next;
+                programName = container.nextWordValue();
+                container.assertNextSemicolon(container);
 
-                while (!(i.peekNoEOF() instanceof EndToken)) {
-                    this.addNextDeclaration(i);
+                while (container.hasNext()){
+                    this.addNextDeclaration(container);
                 }
-                //end token
-                if (i.peek() instanceof EndToken) {
-                    i.take();
-                }
+
                 // dot token
                 if (i.peek() instanceof PeriodToken) {
                     i.take();
@@ -203,7 +203,8 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
         private void declareImplementation(GrouperToken i) throws ParsingException {
             Token next = i.peek();
             while (!(next instanceof InitializationToken ||
-                    next instanceof EndToken || next instanceof FinalizationToken)) {
+                    next instanceof EndToken || next instanceof FinalizationToken
+                    || i.peek() instanceof EOFToken)) {
                 super.addNextDeclaration(i);
                 next = i.peek();
             }

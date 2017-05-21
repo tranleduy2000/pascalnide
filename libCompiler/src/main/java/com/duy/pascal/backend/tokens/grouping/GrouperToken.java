@@ -158,6 +158,18 @@ public abstract class GrouperToken extends Token {
         }
     }
 
+    public Token takeEOF() throws GroupingException {
+        Token result = getNext();
+        while (true) {
+            try {
+                next = queue.take();
+                exceptionCheck(next);
+                return result;
+            } catch (InterruptedException ignored) {
+            }
+        }
+    }
+
     public Token peek() throws GroupingException {
         return getNext();
     }

@@ -116,8 +116,9 @@ public class IndentCode {
     }
 
 
-    private StringBuilder processNext(int depth, Token token) {
-        if (token instanceof EOFToken || token instanceof GroupingExceptionToken) {
+    private StringBuilder processNext(int depth, @Nullable Token token) {
+        if (token instanceof EOFToken || token instanceof GroupingExceptionToken
+                || token == null) {
             return new StringBuilder(); //end of file
         }
 
@@ -214,6 +215,7 @@ public class IndentCode {
         }
     }
 
+    @Nullable
     private Token peek() {
         if (stack.size() == 0) {
             return null;
@@ -328,9 +330,8 @@ public class IndentCode {
 
         while (peek() != null && !(peek() instanceof UntilToken)) {
             StringBuilder next = new StringBuilder();
-            while (!(peek() instanceof UntilToken) &&
-                    !(peek() instanceof SemicolonToken) &&
-                    !(peek() instanceof PeriodToken)) {
+            while (!(peek() == null || peek() instanceof UntilToken
+                    || peek() instanceof SemicolonToken || peek() instanceof PeriodToken)) {
                 next.append(processNext(depth + 1, take()));
             }
 
@@ -348,7 +349,7 @@ public class IndentCode {
         return result;
     }
 
-    private StringBuilder completeWhile(int depth, Token token) {
+    private StringBuilder completeWhile(int depth, @NonNull Token token) {
         StringBuilder whileStatement = new StringBuilder();
         whileStatement.append(token.toString()).append(" ");
 

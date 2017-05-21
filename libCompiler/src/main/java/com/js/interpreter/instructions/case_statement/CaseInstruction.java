@@ -78,7 +78,7 @@ public class CaseInstruction extends DebuggableExecutable {
                     token.take();
                     break;
                 } else {
-                    throw new ExpectedTokenException("[comma or colon]", token.take());
+                    throw new ExpectedTokenException("[comma (,) or colon (:)]", token.take());
                 }
             }
             Executable command = token.getNextCommand(context);
