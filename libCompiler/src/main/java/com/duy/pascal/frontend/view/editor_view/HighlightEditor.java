@@ -147,8 +147,6 @@ public class HighlightEditor extends CodeSuggestsEditText
                     highlightText();
                 }
             };
-    private int deviceHeight;
-    private boolean wrapContent;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -200,7 +198,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         updateFromSettings();
 
         mChangeListener = new EditTextChangeListener();
-        deviceHeight = getResources().getDisplayMetrics().heightPixels;
 
         enableTextChangedListener();
     }

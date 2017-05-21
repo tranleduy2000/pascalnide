@@ -708,6 +708,8 @@ public class EditorActivity extends BaseEditorActivity implements
                 EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
                 if (currentFragment != null) {
                     currentFragment.insert(String.valueOf(selectedColor));
+                    Toast.makeText(EditorActivity.this, getString(R.string.inserted_color) + selectedColor,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         }).build().show();

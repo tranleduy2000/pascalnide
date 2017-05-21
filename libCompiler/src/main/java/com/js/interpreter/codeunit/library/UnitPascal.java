@@ -20,8 +20,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.MissingBodyFunctionException;
+import com.duy.pascal.backend.exceptions.define.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.syntax.MisplacedDeclarationException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.lib.PascalLibrary;
@@ -167,7 +167,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                 programName = container.nextWordValue();
                 container.assertNextSemicolon(container);
 
-                while (container.hasNext()){
+                while (container.hasNext()) {
                     this.addNextDeclaration(container);
                 }
 
@@ -250,8 +250,19 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
 
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
-            throw new MisplacedDeclarationException(i.peek().getLineInfo(),
-                    "main function", UnitPascal.this.mContext);
+            if (initInstruction != null) {
+                throw new MultipleDefinitionsMainException(i.getLineInfo());
+            } else {
+                initInstruction = i.getNextCommand(this);
+
+                // dot token
+                if (i.peek() instanceof PeriodToken) {
+                    i.take();
+                } else {
+                    throw new ExpectedTokenException(".", i.take());
+                }
+
+            }
         }
 
         @Nullable
