@@ -64,11 +64,11 @@ public class HighlightEditor extends CodeSuggestsEditText
         implements View.OnKeyListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
     public static final int SYNTAX_DELAY_MILLIS_SHORT = 100;
-    public static final int SYNTAX_DELAY_MILLIS_LONG = 1000;
+    public static final int SYNTAX_DELAY_MILLIS_LONG = 700;
     public static final int CHARS_TO_COLOR = 2500;
     private final Handler updateHandler = new Handler();
     private final Object objectThread = new Object();
-    public boolean showlines = true;
+    public boolean showLines = true;
     public float textSize = 13;
     public boolean wordWrap = true;
     public LineInfo lineError = null;
@@ -80,7 +80,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         @Override
         public void run() {
             try {
-                new PascalCompiler(null).loadPascal("temp", new StringReader(getCleanText()),
+                PascalCompiler.loadPascal("temp", new StringReader(getCleanText()),
                         new ArrayList<ScriptSource>(), null);
                 lineError = null;
             } catch (ParsingException e) {
@@ -120,9 +120,6 @@ public class HighlightEditor extends CodeSuggestsEditText
     private boolean[] isGoodLineArray;
     private int[] realLines;
     private int lineCount;
-
-    private int firstVisibleIndex;
-    private int lastVisibleIndex;
 
     private boolean isFind = false;
 
@@ -273,7 +270,7 @@ public class HighlightEditor extends CodeSuggestsEditText
             isGoodLineArray = lineUtils.getGoodLines();
             realLines = lineUtils.getRealLines();
         }
-        if (showlines) {
+        if (showLines) {
             int padding = (int) (Math.floor(Math.log10(lineCount)) + 1);
             padding = (int) ((padding * mPaintNumbers.getTextSize())
                     + mPadding + (textSize * mScale * 0.5));
@@ -302,11 +299,11 @@ public class HighlightEditor extends CodeSuggestsEditText
             if ((i == mHighlightedLine) && (!wordWrap)) {
                 canvas.drawRect(mLineBounds, mPaintHighlight);
             }
-            if (showlines && isGoodLineArray[i]) {
+            if (showLines && isGoodLineArray[i]) {
                 int realLine = realLines[i];
                 canvas.drawText("" + (realLine), mDrawingRect.left + mPadding, baseline, mPaintNumbers);
             }
-            if (showlines) {
+            if (showLines) {
                 canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
             }
         }
@@ -330,13 +327,13 @@ public class HighlightEditor extends CodeSuggestsEditText
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setTextSize(mEditorSetting.getTextSize());
         mPaintNumbers.setTextSize(getTextSize() * 0.85f);
-        showlines = mEditorSetting.isShowLines();
+        showLines = mEditorSetting.isShowLines();
 
         postInvalidate();
         refreshDrawableState();
 
         int count = getLineCount();
-        if (showlines) {
+        if (showLines) {
             mLinePadding = (int) (Math.floor(Math.log10(count)) + 1);
             mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize())
                     + mPaintNumbers.getTextSize() * 0.5f);
@@ -672,6 +669,8 @@ public class HighlightEditor extends CodeSuggestsEditText
 
         int editorHeight = getHeightVisible();
 
+        int firstVisibleIndex;
+        int lastVisibleIndex;
         if (!newText && editorHeight > 0) {
             if (verticalScroll != null && getLayout() != null) {
                 firstVisibleIndex = getLayout().getLineStart(getFirstLineIndex());
@@ -794,8 +793,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         public void beforeTextChanged(
                 CharSequence s, int start, int count,
                 int after) {
-
-
         }
 
         public void onTextChanged(CharSequence s,
