@@ -27,9 +27,9 @@ public class Patterns {
 
     //Words
     public static final Pattern line = Pattern.compile(".*\\n");
-    public static final Pattern numbers = Pattern.compile(
+    public static final Pattern NUMBERS = Pattern.compile(
             "\\b(\\d*[.]?\\d+)\\b");
-    public static final Pattern keywords = Pattern.compile(
+    public static final Pattern KEYWORDS = Pattern.compile(
             "\\b(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
                     "|downto|to|mod|of" +
                     "|procedure|program|repeat|until|shl|shr" +
@@ -45,22 +45,20 @@ public class Patterns {
                     "|record)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-    public static final Pattern functions = Pattern.compile(
+    public static final Pattern FUNCTIONS = Pattern.compile(
             "\\b(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
-                    "|odd|int|halt|odd)\\b",  Pattern.CASE_INSENSITIVE );
+                    "|odd|int|halt|odd)\\b", Pattern.CASE_INSENSITIVE);
 
-    public static final Pattern comments = Pattern.compile(
+    public static final Pattern COMMENTS = Pattern.compile(
             "(//.*)|(/\\*(?:.|[\\n\\r])*?\\*/)" +
                     "|(\\{(?:.|[\\n\\r])*?\\})" +
                     "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))");
 
-    public static final Pattern symbols = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;]");
+    public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;]");
 
-//    public static final Pattern trailingWhiteSpace = Pattern.compile("[\\t ]+$", Pattern.MULTILINE);
-
-    public static final Pattern strings = Pattern.compile("('(.*?)')|('(.*?)\\n$)");
+    public static final Pattern STRINGS = Pattern.compile("('(.*?)')|('(.*?)[\\r\\n]+)");
 
 
 }

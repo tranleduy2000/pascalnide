@@ -53,12 +53,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.duy.pascal.frontend.code_completion.Patterns.comments;
-import static com.duy.pascal.frontend.code_completion.Patterns.functions;
-import static com.duy.pascal.frontend.code_completion.Patterns.keywords;
-import static com.duy.pascal.frontend.code_completion.Patterns.numbers;
-import static com.duy.pascal.frontend.code_completion.Patterns.strings;
-import static com.duy.pascal.frontend.code_completion.Patterns.symbols;
+import static com.duy.pascal.frontend.code_completion.Patterns.COMMENTS;
+import static com.duy.pascal.frontend.code_completion.Patterns.FUNCTIONS;
+import static com.duy.pascal.frontend.code_completion.Patterns.KEYWORDS;
+import static com.duy.pascal.frontend.code_completion.Patterns.NUMBERS;
+import static com.duy.pascal.frontend.code_completion.Patterns.STRINGS;
+import static com.duy.pascal.frontend.code_completion.Patterns.SYMBOLS;
 
 public class HighlightEditor extends CodeSuggestsEditText
         implements View.OnKeyListener {
@@ -708,26 +708,26 @@ public class HighlightEditor extends CodeSuggestsEditText
     private void color(Editable allText, CharSequence textToHighlight, int start) {
         try {
             //high light number
-            for (Matcher m = numbers.matcher(textToHighlight); m.find(); ) {
+            for (Matcher m = NUMBERS.matcher(textToHighlight); m.find(); ) {
                 allText.setSpan(new ForegroundColorSpan(COLOR_NUMBER),
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            for (Matcher m = keywords.matcher(textToHighlight); m.find(); ) {
+            for (Matcher m = KEYWORDS.matcher(textToHighlight); m.find(); ) {
                 allText.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            for (Matcher m = functions.matcher(textToHighlight); m.find(); ) {
+            for (Matcher m = FUNCTIONS.matcher(textToHighlight); m.find(); ) {
                 allText.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             //find it
-            for (Matcher m = symbols.matcher(textToHighlight); m.find(); ) {
+            for (Matcher m = SYMBOLS.matcher(textToHighlight); m.find(); ) {
                 //if match, you can replace text with other style
                 allText.setSpan(new ForegroundColorSpan(COLOR_OPT),
                         start + m.start(),
@@ -735,7 +735,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             }
-            for (Matcher m = strings.matcher(textToHighlight); m.find(); ) {
+            for (Matcher m = STRINGS.matcher(textToHighlight); m.find(); ) {
                 ForegroundColorSpan spans[] = allText.getSpans(start + m.start(), start + m.end(),
                         ForegroundColorSpan.class);
 
@@ -746,7 +746,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                         start + m.start(),
                         start + m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            for (Matcher m = comments.matcher(textToHighlight); m.find(); ) {
+            for (Matcher m = COMMENTS.matcher(textToHighlight); m.find(); ) {
                 ForegroundColorSpan spans[] = allText.getSpans(start + m.start(), start + m.end(),
                         ForegroundColorSpan.class);
                 for (int n = spans.length; n-- > 0; )

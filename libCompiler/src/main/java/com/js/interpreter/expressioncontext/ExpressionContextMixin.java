@@ -85,9 +85,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     @Nullable
     private RunnableActivity handler;
     /**
-     * list function and procedure pascal
+     * list function and procedure pascal, support overload function
      */
-    private ListMultimap<String, AbstractFunction> callableFunctions = ArrayListMultimap.create();
+    private ArrayListMultimap<String, AbstractFunction> callableFunctions = ArrayListMultimap.create();
+
     //name of function in map callableFunctions, uses for get all function
     private ArrayList<SuggestItem> listNameFunctions = new ArrayList<>();
 
@@ -145,7 +146,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         return librarieNames;
     }
 
-    public ListMultimap<String, AbstractFunction> getCallableFunctions() {
+    public ArrayListMultimap<String, AbstractFunction> getCallableFunctions() {
         return callableFunctions;
     }
 
@@ -392,7 +393,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void declareFunction(AbstractFunction f) {
         callableFunctions.put(f.name().toLowerCase(), f);
-        listNameFunctions.add(new SuggestItem(StructureType.TYPE_FUNCTION, f.name(), f.description()));
+        SuggestItem e = new SuggestItem(StructureType.TYPE_FUNCTION, f.name(), f.description());
+        if (!listNameFunctions.contains(e)) {
+            listNameFunctions.add(e);
+        }
     }
 
     public void declareConst(ConstantDefinition c) {

@@ -62,7 +62,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <br>
  * The UI facade provides access to a selection of dialog boxes for general user interaction, and
  * also hosts the {@link #showWebView} call which allows interactive use of html pages.<br>
- * The general use of the dialog functions is as follows:<br>
+ * The general use of the dialog FUNCTIONS is as follows:<br>
  * <ol>
  * <li>Create a dialog using one of the following calls:
  * <ul>
@@ -111,8 +111,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Not every dialogSet function is relevant to every dialog operator, ie, dialogSetMaxProgress obviously
  * only applies to dialogs created with a progress bar. Also, an Alert Dialog may have a message or
  * items, not both. If you set both, items will take priority.<br>
- * In addition to the above functions, {@link #dialogGetInput} and {@link #dialogGetPassword} are
- * convenience functions that create, display and return the relevant dialogs in one call.<br>
+ * In addition to the above FUNCTIONS, {@link #dialogGetInput} and {@link #dialogGetPassword} are
+ * convenience FUNCTIONS that create, display and return the relevant dialogs in one call.<br>
  * There is only ever one instance of a dialog. Any dialogCreate call will cause the existing dialog
  * to be destroyed.
  *

@@ -46,7 +46,7 @@ public @interface PascalMethod {
     String[] params() default {};
 
     /**
-     * Gives a brief description of the functions return value (and the underlying data structure).
+     * Gives a brief description of the FUNCTIONS return value (and the underlying data structure).
      */
     String returns() default "";
 }

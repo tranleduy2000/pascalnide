@@ -219,28 +219,10 @@ public class PascalLibraryManager {
     }
 
     /**
-     * load all method of the list classes
-     *
-     * @param source       - current library
-     * @param newLibraries - list name of libraries to import
-     * @param handler-     - handler for handle output, input, graph, ...
-     * @param program      - main program for declare function
-     */
-    public void loadLibrary(ArrayList<String> source, ArrayList<String> newLibraries,
-                            @Nullable RunnableActivity handler,
-                            @NonNull ExpressionContextMixin program) {
-        source.addAll(newLibraries);
-        ArrayList<Class<? extends PascalLibrary>> classes = new ArrayList<>();
-        for (String name : newLibraries) {
-            classes.add(MAP_LIBRARIES.get(name.toLowerCase()));
-        }
-        addMethodFromClasses(classes, Modifier.PUBLIC);
-    }
-
-    /**
      * load system method
      */
     public void loadSystemLibrary() {
+        //load builtin function
         program.declareFunction(new AbstractMethodDeclaration(new SetLengthFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new LengthFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new SizeOfObjectFunction()));

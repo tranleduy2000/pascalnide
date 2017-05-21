@@ -3,7 +3,7 @@ package com.js.interpreter.runtime.codeunit;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.library.LibraryPascal;
@@ -12,10 +12,14 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RuntimePascalLibrary extends RuntimeExecutableCodeUnit<LibraryPascal>
         implements PascalLibrary {
+
+    private static final String TAG = "RuntimePascalLibrary";
 
     public RuntimePascalLibrary(LibraryPascal l) {
         super(l);
@@ -25,7 +29,6 @@ public class RuntimePascalLibrary extends RuntimeExecutableCodeUnit<LibraryPasca
     public void runImpl() throws RuntimePascalException {
 
     }
-
 
     @Override
     public VariableContext getParentContext() {
@@ -71,9 +74,15 @@ public class RuntimePascalLibrary extends RuntimeExecutableCodeUnit<LibraryPasca
 
     @Override
     public void declareFunctions(ExpressionContextMixin context) {
-        ListMultimap<String, AbstractFunction> callableFunctions = context.getCallableFunctions();
-        for (Map.Entry<String, AbstractFunction> function : callableFunctions.entries()) {
-            context.declareFunction(function.getValue());
+        ExpressionContextMixin program = getDefinition().getProgram();
+        ArrayListMultimap<String, AbstractFunction> callableFunctions = program.getCallableFunctions();
+        Set<String> funName = callableFunctions.keySet();
+        for (String name : funName) {
+            List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
+            for (AbstractFunction abstractFunction : abstractFunctions) {
+                context.declareFunction(abstractFunction);
+            }
         }
+
     }
 }

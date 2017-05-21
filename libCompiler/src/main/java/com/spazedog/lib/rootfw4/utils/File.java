@@ -19,19 +19,6 @@
 
 package com.spazedog.lib.rootfw4.utils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -51,6 +38,19 @@ import com.spazedog.lib.rootfw4.utils.Filesystem.DiskStat;
 import com.spazedog.lib.rootfw4.utils.Filesystem.MountStat;
 import com.spazedog.lib.rootfw4.utils.io.FileReader;
 import com.spazedog.lib.rootfw4.utils.io.FileWriter;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class File {
 	public static final String TAG = Common.TAG + ".File";
