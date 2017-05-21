@@ -1,5 +1,6 @@
 package com.js.interpreter.expressioncontext;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -28,10 +29,15 @@ import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.ConstToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
+import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
+import com.duy.pascal.backend.tokens.basic.ImplementationToken;
+import com.duy.pascal.backend.tokens.basic.InitializationToken;
+import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.TypeToken;
+import com.duy.pascal.backend.tokens.basic.UnitToken;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
@@ -48,9 +54,9 @@ import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.CodeUnit;
-import com.js.interpreter.codeunit.Library;
+import com.js.interpreter.codeunit.library.LibraryPascal;
 import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.runtime.codeunit.RuntimeLibrary;
+import com.js.interpreter.runtime.codeunit.RuntimePascalLibrary;
 import com.js.interpreter.runtime_value.ConstantAccess;
 import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
@@ -76,6 +82,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     /**
      * activity target, uses for input and output
      */
+    @Nullable
     private RunnableActivity handler;
     /**
      * list function and procedure pascal
@@ -109,14 +116,19 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      */
     private JavaClassLoader mClassLoader;
 
+    private boolean isLibrary = false;
+
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
         super(root, parent);
     }
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent,
                                   ListMultimap<String, AbstractFunction> callableFunctions,
-                                  RunnableActivity handler) {
+                                  @Nullable RunnableActivity handler, boolean isLibrary) {
         super(root, parent);
+
+        this.isLibrary = isLibrary;
+
         if (callableFunctions != null)
             this.callableFunctions.putAll(callableFunctions);
 
@@ -149,7 +161,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         return variables;
     }
 
-    public FunctionDeclaration getExistingFunction(FunctionDeclaration f)
+    public FunctionDeclaration checkExistFunction(FunctionDeclaration f)
             throws ParsingException {
         for (AbstractFunction g : callableFunctions.get(f.name)) {
             if (f.headerMatches(g)) {
@@ -196,11 +208,16 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void addNextDeclaration(GrouperToken i) throws ParsingException {
         Token next = i.peek();
+
+//        Check that the keyword is valid, as in the program
+//        that contains the library keyword, throw an exception.
+//        assertAcceptToken(next);
+
         if (next instanceof ProcedureToken || next instanceof FunctionToken) {
             i.take();
             boolean is_procedure = next instanceof ProcedureToken;
             FunctionDeclaration declaration = new FunctionDeclaration(this, i, is_procedure);
-            declaration = getExistingFunction(declaration);
+            declaration = checkExistFunction(declaration);
             declaration.parseFunctionBody(i);
         } else if (next instanceof BeginEndToken) {
             handleBeginEnd(i);
@@ -212,55 +229,73 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             }
         } else if (next instanceof ConstToken) {
             i.take();
-            addConstDeclarations(i);
+            declareConst(i);
         } else if (next instanceof UsesToken) {
             i.take();
             importLibraries(i);
             i.assertNextSemicolon(i.next);
         } else if (next instanceof TypeToken) {
             i.take();
-            while (i.peek() instanceof WordToken) {
-                String name = i.nextWordValue();
-                next = i.take();
-                if (!(next instanceof OperatorToken && ((OperatorToken) next).type == OperatorTypes.EQUALS)) {
-                    throw new ExpectedTokenException("=", next);
-                }
+            addDeclareTypes(i);
+        } else {
+            Token token = i.take();
+            handleUnrecognizedDeclaration(token, i);
+        }
+    }
 
-                DeclaredType type = i.getNextPascalType(this);
 
-                //process string with define length
-                if (type.equals(BasicType.StringBuilder)) {
-                    if (i.peek() instanceof BracketedToken) {
-                        BracketedToken bracketedToken = (BracketedToken) i.take();
+    /**
+     * Check that the keyword is valid, as in the program
+     * that contains the library keyword, throw an exception.
+     *
+     * @param next - keyword is checked
+     */
+    private void assertAcceptToken(Token next) throws UnrecognizedTokenException {
+        if (next instanceof UnitToken || next instanceof InterfaceToken ||
+                next instanceof InitializationToken || next instanceof FinalizationToken ||
+                next instanceof ImplementationToken)
+            if (!isLibrary) {
+                throw new UnrecognizedTokenException(next);
+            }
+    }
 
-                        RuntimeValue unconverted = bracketedToken.getNextExpression(this);
-                        RuntimeValue converted = BasicType.Integer.convert(unconverted, this);
+    protected void addDeclareTypes(GrouperToken i) throws ParsingException {
+        Token next;
+        while (i.peek() instanceof WordToken) {
+            String name = i.nextWordValue();
+            next = i.take();
+            if (!(next instanceof OperatorToken && ((OperatorToken) next).type == OperatorTypes.EQUALS)) {
+                throw new ExpectedTokenException("=", next);
+            }
 
-                        if (converted == null) {
-                            throw new NonIntegerException(unconverted);
-                        }
+            DeclaredType type = i.getNextPascalType(this);
 
-                        if (bracketedToken.hasNext()) {
-                            throw new ExpectedTokenException("]", bracketedToken.take());
-                        }
-                        try {
-                            ((BasicType) type).setLength(converted);
-                        } catch (UnsupportedOutputFormatException e) {
-                            throw new UnsupportedOutputFormatException(i.lineInfo);
-                        }
+            //process string with define length
+            if (type.equals(BasicType.StringBuilder)) {
+                if (i.peek() instanceof BracketedToken) {
+                    BracketedToken bracketedToken = (BracketedToken) i.take();
+
+                    RuntimeValue unconverted = bracketedToken.getNextExpression(this);
+                    RuntimeValue converted = BasicType.Integer.convert(unconverted, this);
+
+                    if (converted == null) {
+                        throw new NonIntegerException(unconverted);
+                    }
+
+                    if (bracketedToken.hasNext()) {
+                        throw new ExpectedTokenException("]", bracketedToken.take());
+                    }
+                    try {
+                        ((BasicType) type).setLength(converted);
+                    } catch (UnsupportedOutputFormatException e) {
+                        throw new UnsupportedOutputFormatException(i.lineInfo);
                     }
                 }
-
-                declareTypedef(name, type);
-
-                i.assertNextSemicolon(i.next);
             }
-        } /*else if (next instanceof CommentToken) {
-            i.take();
-            //fix bug when comment in the top of the file
-            addConstDeclarations(i);
-        } */ else {
-            handleUnrecognizedDeclaration(i.take(), i);
+
+            declareTypedef(name, type);
+
+            i.assertNextSemicolon(i.next);
         }
     }
 
@@ -269,7 +304,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * Else search library in application path, if not found library, throw
      * exception
      */
-    private void importLibraries(GrouperToken i) throws ParsingException {
+    protected void importLibraries(GrouperToken i) throws ParsingException {
         Token next;
         do {
             next = i.take();
@@ -293,9 +328,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     try {
                         FileReader fileReader = new FileReader(file);
 
-                        Library library = new Library(fileReader, ((WordToken) next).name,
-                                new ArrayList<ScriptSource>());
-                        RuntimeLibrary run = library.run();
+                        LibraryPascal library = new LibraryPascal(fileReader, ((WordToken) next).name,
+                                ArrayListMultimap.<String, AbstractFunction>create(),
+                                new ArrayList<ScriptSource>(), handler);
+                        RuntimePascalLibrary run = library.run();
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -365,7 +401,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         listNameConstants.add(new SuggestItem(StructureType.TYPE_CONST, c.name()));
     }
 
-    public void addConstDeclarations(GrouperToken token) throws ParsingException {
+    public void declareConst(GrouperToken token) throws ParsingException {
         Token next;
         while (token.peek() instanceof WordToken) {
             WordToken constName = (WordToken) token.take(); //const a : integer = 2; const a = 2;

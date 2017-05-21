@@ -82,7 +82,7 @@ public class DebugActivity extends AbstractExecActivity {
         variableWatcherView.setEmptyView(emptyView);
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
-        getConsoleView().writeString("enable debug mode");
+        getConsoleView().writeString("enable DEBUG mode");
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -96,7 +96,7 @@ public class DebugActivity extends AbstractExecActivity {
     public void onError(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
         DialogManager.createFinishDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
-        //debug
+        //DEBUG
         if (DEBUG) e.printStackTrace();
     }
 
@@ -156,7 +156,7 @@ public class DebugActivity extends AbstractExecActivity {
             mCodeView.setTextHighlighted(code);
 
             setTitle(file.getName());
-            setEnableDebug(false); //disable debug
+            setEnableDebug(false); //disable DEBUG
             createAndRunProgram(filePath); //execute file
         } else {
             finish();

@@ -57,6 +57,7 @@ import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.InitializationToken;
 import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
+import com.duy.pascal.backend.tokens.basic.UnitToken;
 import com.duy.pascal.backend.tokens.CommentToken;
 
 import java.io.FileNotFoundException;
@@ -268,6 +269,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"initialization" {return new InitializationToken(getLine());}
 	"finalization" {return new FinalizationToken(getLine());}
 	"interface" {return new InterfaceToken(getLine());}
+	"unit" {return new UnitToken(getLine());}
 
 	"(" {return new ParenthesizedToken(getLine());}
 	"[" {return new BracketedToken(getLine());}

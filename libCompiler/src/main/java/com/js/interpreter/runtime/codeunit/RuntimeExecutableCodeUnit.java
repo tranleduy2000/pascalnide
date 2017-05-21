@@ -6,7 +6,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.js.interpreter.codeunit.ExecutableCodeUnit;
-import com.js.interpreter.codeunit.Library;
+import com.js.interpreter.codeunit.library.LibraryPascal;
 import com.js.interpreter.runtime.ScriptControl;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
@@ -21,7 +21,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     private static final String TAG = "RuntimeExecutable";
 
     private volatile long MAX_STACK = 45000;
-    private Map<Library, RuntimeLibrary> runtimeLibs = new HashMap<>();
+    private Map<LibraryPascal, RuntimePascalLibrary> runtimeLibs = new HashMap<>();
 
     private volatile ControlMode runMode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
@@ -35,7 +35,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     }
 
     /**
-     * if enable debug, uses this constructor
+     * if enable DEBUG, uses this constructor
      *
      * @param debugListener - callback
      */
@@ -52,8 +52,8 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         this.debugMode = debugMode;
     }
 
-    public RuntimeLibrary getLibrary(Library l) {
-        RuntimeLibrary result = runtimeLibs.get(l);
+    public RuntimePascalLibrary getLibrary(LibraryPascal l) {
+        RuntimePascalLibrary result = runtimeLibs.get(l);
         if (result == null) {
             result = l.run();
             runtimeLibs.put(l, result);
@@ -115,7 +115,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     /**
      * check mode program
      *
-     * @param debug - is debug enable
+     * @param debug - is DEBUG enable
      * @throws ScriptTerminatedException - stop program
      */
     public void scriptControlCheck(LineInfo line, boolean debug)
@@ -189,6 +189,6 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     }
 
     public enum ControlMode {
-        RUNNING, PAUSED, TERMINATED, debug
+        RUNNING, PAUSED, TERMINATED, DEBUG
     }
 }

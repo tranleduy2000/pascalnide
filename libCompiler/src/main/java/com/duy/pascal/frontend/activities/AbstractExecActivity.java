@@ -128,11 +128,11 @@ public abstract class AbstractExecActivity extends RunnableActivity {
      */
     protected char keyCodeBuffer;
     /**
-     * set <code>true</code> if you want to debug program
+     * set <code>true</code> if you want to DEBUG program
      */
     protected boolean debugging = false;
     /**
-     * set <code>true</code> if enable debug mode, program will be pause every line
+     * set <code>true</code> if enable DEBUG mode, program will be pause every line
      */
     protected boolean enableDebug = false;
     protected RuntimeExecutableCodeUnit program;
@@ -147,7 +147,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                     PascalProgram pascalProgram = pascalCompiler.loadPascal(
                             new File(programFile).getName(),
                             new FileReader(programFile),
-                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(),
+                            new ArrayList<ScriptSource>(),
                             AbstractExecActivity.this);
 
                     program = pascalProgram.run();

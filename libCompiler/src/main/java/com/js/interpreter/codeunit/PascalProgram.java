@@ -1,18 +1,20 @@
 package com.js.interpreter.codeunit;
 
-import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.define.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.define.MultipleDefinitionsMainException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
+import com.duy.pascal.backend.tokens.basic.ProgramToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ListMultimap;
-import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.source_include.ScriptSource;
 import com.js.interpreter.runtime.FunctionOnStack;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.codeunit.RuntimePascalProgram;
+import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.Reader;
 import java.util.List;
@@ -46,8 +48,20 @@ public class PascalProgram extends ExecutableCodeUnit {
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
         public PascalProgramExpressionContext(
                 ListMultimap<String, AbstractFunction> f, RunnableActivity handler) {
-            super(f, handler);
+            super(f, handler, false);
         }
+
+        @Override
+        protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken grouperToken)
+                throws ParsingException {
+            if (next instanceof ProgramToken) {
+                programName = grouperToken.nextWordValue();
+                grouperToken.assertNextSemicolon(grouperToken);
+                return true;
+            }
+            return false;
+        }
+
 
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {

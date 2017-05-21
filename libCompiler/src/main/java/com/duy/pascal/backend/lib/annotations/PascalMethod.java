@@ -21,6 +21,8 @@ import android.os.Build;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
@@ -30,6 +32,7 @@ import java.lang.annotation.Target;
 @Documented
 // Make this annotation accessible at runtime via reflection.
 @Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public @interface PascalMethod {
     /**

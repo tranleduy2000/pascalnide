@@ -53,12 +53,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.duy.pascal.frontend.data.PatternsUtils.comments;
-import static com.duy.pascal.frontend.data.PatternsUtils.functions;
-import static com.duy.pascal.frontend.data.PatternsUtils.keywords;
-import static com.duy.pascal.frontend.data.PatternsUtils.numbers;
-import static com.duy.pascal.frontend.data.PatternsUtils.strings;
-import static com.duy.pascal.frontend.data.PatternsUtils.symbols;
+import static com.duy.pascal.frontend.code_completion.Patterns.comments;
+import static com.duy.pascal.frontend.code_completion.Patterns.functions;
+import static com.duy.pascal.frontend.code_completion.Patterns.keywords;
+import static com.duy.pascal.frontend.code_completion.Patterns.numbers;
+import static com.duy.pascal.frontend.code_completion.Patterns.strings;
+import static com.duy.pascal.frontend.code_completion.Patterns.symbols;
 
 public class HighlightEditor extends CodeSuggestsEditText
         implements View.OnKeyListener {
@@ -81,7 +81,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         public void run() {
             try {
                 new PascalCompiler(null).loadPascal("temp", new StringReader(getCleanText()),
-                        new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
+                        new ArrayList<ScriptSource>(), null);
                 lineError = null;
             } catch (ParsingException e) {
                 if (e.line != null) {

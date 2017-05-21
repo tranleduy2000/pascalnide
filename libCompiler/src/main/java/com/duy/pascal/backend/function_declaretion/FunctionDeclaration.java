@@ -16,10 +16,10 @@
 
 package com.duy.pascal.backend.function_declaretion;
 
-import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.exceptions.define.SameNameException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -35,7 +35,7 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.VariableDeclaration;
-import com.js.interpreter.codeunit.Library;
+import com.js.interpreter.codeunit.library.LibraryPascal;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.instructions.Executable;
@@ -142,8 +142,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public Object call(VariableContext parentcontext,
                        RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws RuntimePascalException {
-        if (this.declarations.root() instanceof Library) {
-            parentcontext = main.getLibrary((Library) declarations.root());
+        if (this.declarations.root() instanceof LibraryPascal) {
+            parentcontext = main.getLibrary((LibraryPascal) declarations.root());
         }
         return new FunctionOnStack(parentcontext, main, this, arguments).execute();
     }

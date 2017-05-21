@@ -16,7 +16,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
-import com.js.interpreter.codeunit.Library;
+import com.js.interpreter.codeunit.library.LibraryPascal;
 import com.js.interpreter.codeunit.PascalProgram;
 import com.js.interpreter.source_include.ScriptSource;
 
@@ -45,12 +45,9 @@ public class PascalCompiler {
         this.handler = handler;
     }
 
-    public ListMultimap<String, AbstractFunction> loadFunctionTable(
-            List<ScriptSource> includeSearchPath,
-            List<ScriptSource> librarySearchPath) throws ParsingException {
-        ListMultimap<String, AbstractFunction> functionTable = ArrayListMultimap.create();
-        loadLibraries(functionTable, librarySearchPath, includeSearchPath);
-        return functionTable;
+    public static ListMultimap<String, AbstractFunction> loadFunctionTable(
+            List<ScriptSource> includeSearchPath) throws ParsingException {
+        return ArrayListMultimap.create();
     }
 
     /**
@@ -60,32 +57,19 @@ public class PascalCompiler {
      * @param in         - Input Reader
      * @param handler    - handler for variable and function, debug, input and output to screen, ....
      */
-    public PascalProgram loadPascal(String sourcename, Reader in,
-                                    List<ScriptSource> includeSearchPath,
-                                    List<ScriptSource> librarySearchPath,
-                                    RunnableActivity handler) throws ParsingException {
-
-        ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(
-                includeSearchPath, librarySearchPath);
+    public static PascalProgram loadPascal(String sourcename, Reader in,
+                                           List<ScriptSource> includeSearchPath,
+                                           RunnableActivity handler) throws ParsingException {
+        ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(includeSearchPath);
         return new PascalProgram(in, functiontable, sourcename, includeSearchPath, handler);
     }
 
 
-    public void loadLibraries(ListMultimap<String, AbstractFunction> functionTable,
-                              List<ScriptSource> librarySearchPath,
-                              List<ScriptSource> includeSearchPath) throws ParsingException {
-        for (ScriptSource directory : librarySearchPath) {
-            for (String sourceFile : directory.list()) {
-                Reader in = directory.read(sourceFile);
-                if (in != null) {
-                    // Automatically adds its definitions to the function table.
-                    new Library(in, functionTable, sourceFile, includeSearchPath);
-                } else {
-                    System.err.println("Warning, unable to read library " + sourceFile);
-                }
-
-            }
-        }
+    public static LibraryPascal loadLibrary(String sourcename, Reader in,
+                                            List<ScriptSource> includeSearchPath,
+                                            RunnableActivity handler) throws ParsingException {
+        ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(includeSearchPath);
+        return new LibraryPascal(in, sourcename, functiontable, includeSearchPath, handler);
     }
 
     private void loadPluginsPascal(ListMultimap<String, AbstractFunction> functionTable) {

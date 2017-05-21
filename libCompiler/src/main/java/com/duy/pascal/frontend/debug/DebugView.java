@@ -55,7 +55,7 @@ public class DebugView extends RecyclerView {
     }
 
     /**
-     * clear debug
+     * clear DEBUG
      */
     public void clear() {
         mAdapter.clear();

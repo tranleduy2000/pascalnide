@@ -13,8 +13,8 @@ import java.util.List;
 public abstract class ExecutableCodeUnit extends CodeUnit {
 
     public ExecutableCodeUnit(Reader r,
-                              ListMultimap<String, AbstractFunction> functionTable, //current functions
-                              String sourceName, //for debug
+                              ListMultimap<String, AbstractFunction> functionTable,
+                              String sourceName, //for DEBUG
                               List<ScriptSource> includeDirectories,
                               RunnableActivity handler)
             throws ParsingException {

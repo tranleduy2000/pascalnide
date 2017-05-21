@@ -227,8 +227,8 @@ public class PascalLibraryManager {
      * @param program      - main program for declare function
      */
     public void loadLibrary(ArrayList<String> source, ArrayList<String> newLibraries,
-                            RunnableActivity handler,
-                            ExpressionContextMixin program) {
+                            @Nullable RunnableActivity handler,
+                            @NonNull ExpressionContextMixin program) {
         source.addAll(newLibraries);
         ArrayList<Class<? extends PascalLibrary>> classes = new ArrayList<>();
         for (String name : newLibraries) {

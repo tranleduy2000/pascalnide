@@ -16,9 +16,9 @@
 
 package com.js.interpreter.instructions.with_statement;
 
-import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.CustomType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
@@ -27,15 +27,15 @@ import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.js.interpreter.VariableDeclaration;
-import com.js.interpreter.codeunit.Library;
+import com.js.interpreter.codeunit.library.LibraryPascal;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.runtime_value.FieldAccess;
-import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.runtime.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime_value.FieldAccess;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 import java.util.ArrayList;
 
@@ -79,8 +79,8 @@ public class WithStatement {
     public void execute(VariableContext parentcontext,
                         RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        if (this.declarations.root() instanceof Library) {
-            parentcontext = main.getLibrary((Library) declarations.root());
+        if (this.declarations.root() instanceof LibraryPascal) {
+            parentcontext = main.getLibrary((LibraryPascal) declarations.root());
         }
         new WithOnStack(parentcontext, main, this).execute();
     }
@@ -158,7 +158,6 @@ public class WithStatement {
             }
             return super.getIdentifierValue(name);
         }
-
         @Override
         public VariableDeclaration getVariableDefinitionLocal(String ident) {
             for (VariableDeclaration variableDeclaration : variableDeclarations) {

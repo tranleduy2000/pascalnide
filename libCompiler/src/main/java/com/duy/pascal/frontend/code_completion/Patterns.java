@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.data;
+package com.duy.pascal.frontend.code_completion;
 
 import java.util.regex.Pattern;
 
@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class PatternsUtils {
+public class Patterns {
 
     //Words
     public static final Pattern line = Pattern.compile(".*\\n");

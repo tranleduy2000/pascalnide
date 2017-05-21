@@ -42,6 +42,8 @@ import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
@@ -60,10 +62,9 @@ import com.duy.pascal.frontend.view.editor_view.adapters.SuggestItem;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.common.collect.ListMultimap;
-import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.js.interpreter.ConstantDefinition;
-import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.js.interpreter.VariableDeclaration;
+import com.js.interpreter.codeunit.CodeUnit;
 import com.js.interpreter.codeunit.PascalProgram;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.source_include.ScriptSource;
@@ -285,31 +286,47 @@ public class EditorActivity extends BaseEditorActivity implements
         String filePath = getCurrentFilePath();
         if (filePath.isEmpty()) return false;
         try {
-            PascalProgram pascalProgram = new PascalCompiler(null)
-                    .loadPascal(new File(filePath).getName(), new FileReader(filePath),
-                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
-            if (pascalProgram.main == null) {
-                showErrorDialog(new MainProgramNotFoundException());
-                return false;
-            }
-            ExpressionContextMixin program = pascalProgram.getProgram();
-            ArrayList<SuggestItem> data = new ArrayList<>();
-            data.addAll(program.getListNameConstants());
-            data.addAll(program.getListNameFunctions());
-            data.addAll(program.getListNameTypes());
-            ArrayList<VariableDeclaration> variables = program.getVariables();
-            ArrayList<SuggestItem> listVariables = new ArrayList<>();
-            for (VariableDeclaration variableDeclaration : variables) {
-                listVariables.add(new SuggestItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
-            }
-            data.addAll(listVariables);
-            EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
-            if (currentFragment != null) {
-                EditorView editor = currentFragment.getEditor();
-                if (editor != null) {
-                    editor.setSuggestData(data);
+            CodeUnit codeUnit;
+            if (getCode().trim().toLowerCase().startsWith("unit")) {
+                codeUnit = PascalCompiler.loadLibrary(new File(filePath).getName(),
+                        new FileReader(filePath), new ArrayList<ScriptSource>(), null);
+            } else {
+                codeUnit = PascalCompiler.loadPascal(new File(filePath).getName(),
+                        new FileReader(filePath), new ArrayList<ScriptSource>(), null);
+                if (codeUnit != null) {
+                    if (((PascalProgram) codeUnit).main == null) {
+                        showErrorDialog(new MainProgramNotFoundException());
+                        return false;
+                    }
                 }
+
             }
+
+            if (codeUnit != null) {
+                ExpressionContextMixin program = codeUnit.getProgram();
+                EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
+                if (currentFragment != null) {
+                    ArrayList<SuggestItem> data = new ArrayList<>();
+                    data.addAll(program.getListNameConstants());
+                    data.addAll(program.getListNameFunctions());
+                    data.addAll(program.getListNameTypes());
+                    ArrayList<VariableDeclaration> variables = program.getVariables();
+                    ArrayList<SuggestItem> listVariables = new ArrayList<>();
+                    for (VariableDeclaration variableDeclaration : variables) {
+                        listVariables.add(new SuggestItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
+                    }
+                    data.addAll(listVariables);
+
+
+                    EditorView editor = currentFragment.getEditor();
+                    if (editor != null) {
+                        editor.setSuggestData(data);
+                    }
+                }
+
+            }
+
+
         } catch (FileNotFoundException e) {
             showErrorDialog(e);
             return false;
@@ -621,7 +638,7 @@ public class EditorActivity extends BaseEditorActivity implements
             String filePath = getCurrentFilePath();
             PascalProgram pascalProgram = new PascalCompiler(null)
                     .loadPascal(filePath, new FileReader(filePath),
-                            new ArrayList<ScriptSource>(), new ArrayList<ScriptSource>(), null);
+                            new ArrayList<ScriptSource>(), null);
 
             if (pascalProgram.main == null) {
                 showErrorDialog(new MainProgramNotFoundException());
