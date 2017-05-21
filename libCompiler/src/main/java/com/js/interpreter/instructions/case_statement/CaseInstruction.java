@@ -90,7 +90,7 @@ public class CaseInstruction extends DebuggableExecutable {
         if (token.peek() instanceof ElseToken) {
             token.take();
             while (token.hasNext()) {
-                otherwise.add_command(token.getNextCommand(context));
+                otherwise.addCommand(token.getNextCommand(context));
                 token.assertNextSemicolon(token);
             }
         }

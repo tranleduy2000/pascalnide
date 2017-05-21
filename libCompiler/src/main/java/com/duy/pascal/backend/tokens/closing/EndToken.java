@@ -1,13 +1,16 @@
 package com.duy.pascal.backend.tokens.closing;
 
-import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
-import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes;
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType.GroupExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.RecordToken;
+import com.duy.pascal.backend.tokens.grouping.UnitToken;
 
 public class EndToken extends ClosingToken {
 
@@ -16,13 +19,13 @@ public class EndToken extends ClosingToken {
     }
 
     @Override
+    @Nullable
     public GroupingException getClosingException(GrouperToken t) {
-        if (t instanceof BeginEndToken || t instanceof CaseToken
-                || t instanceof RecordToken) {
+        if (t instanceof BeginEndToken || t instanceof CaseToken || t instanceof RecordToken
+                || t instanceof UnitToken) {
             return null;
         } else {
-            return new EnumeratedGroupingException(getLineInfo(),
-                    GroupingExceptionTypes.EXTRA_END);
+            return new GroupingExceptionType(getLineInfo(), GroupExceptionType.EXTRA_END);
         }
     }
 

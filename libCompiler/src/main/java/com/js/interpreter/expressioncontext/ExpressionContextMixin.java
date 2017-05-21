@@ -37,7 +37,7 @@ import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.TypeToken;
-import com.duy.pascal.backend.tokens.basic.UnitToken;
+import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
@@ -230,21 +230,22 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void addNextDeclaration(GrouperToken i) throws ParsingException {
         Token next = i.peek();
-
         if (next instanceof ProcedureToken || next instanceof FunctionToken) {
             i.take();
-            boolean is_procedure = next instanceof ProcedureToken;
-            FunctionDeclaration declaration = new FunctionDeclaration(this, i, is_procedure);
-            declaration = checkExistFunction(declaration);
-            declaration.parseFunctionBody(i);
+            boolean isProcedure = next instanceof ProcedureToken;
+            FunctionDeclaration function = new FunctionDeclaration(this, i, isProcedure);
+            function = checkExistFunction(function);
+            function.parseFunctionBody(i);
         } else if (next instanceof BeginEndToken) {
             handleBeginEnd(i);
+
         } else if (next instanceof VarToken) {
             i.take();
             List<VariableDeclaration> d = i.getVariableDeclarations(this);
             for (VariableDeclaration dec : d) {
                 declareVariable(dec);
             }
+
         } else if (next instanceof ConstToken) {
             i.take();
             declareConst(i);

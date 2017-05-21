@@ -570,18 +570,19 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof WhileToken) {
             return new WhileStatement(context, this, lineNumber);
         } else if (next instanceof BeginEndToken) {
-            InstructionGrouper beginEndPreprocessed = new InstructionGrouper(
-                    lineNumber);
+
+            InstructionGrouper beginEndPreprocessed = new InstructionGrouper(lineNumber);
             BeginEndToken castToken = (BeginEndToken) next;
 
             while (castToken.hasNext()) {
-                beginEndPreprocessed.add_command(castToken.getNextCommand(context));
+                beginEndPreprocessed.addCommand(castToken.getNextCommand(context));
                 Token token = castToken.next;
                 if (castToken.hasNext()) {
                     castToken.assertNextSemicolon(token);
                 }
             }
             return beginEndPreprocessed;
+
         } else if (next instanceof ForToken) {
             RuntimeValue tmpVal = getNextExpression(context);
             AssignableValue tmpVariable = tmpVal.asAssignableValue(context);
@@ -627,7 +628,7 @@ public abstract class GrouperToken extends Token {
             InstructionGrouper command = new InstructionGrouper(lineNumber);
 
             while (!(peekNoEOF() instanceof UntilToken)) {
-                command.add_command(getNextCommand(context));
+                command.addCommand(getNextCommand(context));
                 if (!(peekNoEOF() instanceof UntilToken)) {
                     assertNextSemicolon(next);
                 }

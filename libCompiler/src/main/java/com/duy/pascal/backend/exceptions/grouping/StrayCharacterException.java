@@ -2,7 +2,7 @@ package com.duy.pascal.backend.exceptions.grouping;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 
-public class StrayCharacterException extends com.duy.pascal.backend.exceptions.grouping.GroupingException {
+public class StrayCharacterException extends GroupingException {
     public char charCode;
 
     public StrayCharacterException(LineInfo line, char character) {

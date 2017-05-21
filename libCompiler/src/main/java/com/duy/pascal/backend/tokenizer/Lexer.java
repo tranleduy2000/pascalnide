@@ -2,7 +2,7 @@
 
 package com.duy.pascal.backend.tokenizer;
 
-import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -59,7 +59,7 @@ import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.InitializationToken;
 import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
-import com.duy.pascal.backend.tokens.basic.UnitToken;
+import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.backend.tokens.CommentToken;
 
 import java.io.FileNotFoundException;
@@ -1019,7 +1019,7 @@ class Lexer {
         case 96: break;
         case 35: 
           { return new GroupingExceptionToken(getLine(),
-				EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BRACKETS);
+				GroupingExceptionType.GroupExceptionType.MISMATCHED_BRACKETS);
           }
         case 97: break;
         case 33: 
@@ -1080,7 +1080,7 @@ class Lexer {
           }
         case 111: break;
         case 28: 
-          { return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR);
+          { return new GroupingExceptionToken(getLine(), GroupingExceptionType.GroupExceptionType.INCOMPLETE_CHAR);
           }
         case 112: break;
         case 60: 
@@ -1091,7 +1091,7 @@ class Lexer {
           { try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		EnumeratedGroupingException t = new EnumeratedGroupingException(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+    		GroupingExceptionType t = new GroupingExceptionType(getLine(), GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
 			t.caused = e;
 			return new GroupingExceptionToken(t);
     	}
@@ -1107,7 +1107,7 @@ class Lexer {
           }
         case 116: break;
         case 24: 
-          { return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES);
+          { return new GroupingExceptionToken(getLine(), GroupingExceptionType.GroupExceptionType.NEWLINE_IN_QUOTES);
           }
         case 117: break;
         case 20: 
@@ -1351,7 +1351,7 @@ class Lexer {
           }
         case 177: break;
         case 34: 
-          { return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+          { return new GroupingExceptionToken(getLine(), GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
           }
         case 178: break;
         case 36: 
@@ -1359,7 +1359,7 @@ class Lexer {
           }
         case 179: break;
         case 31: 
-          { return new GroupingExceptionToken(getLine(), EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE);
+          { return new GroupingExceptionToken(getLine(), GroupingExceptionType.GroupExceptionType.MISSING_INCLUDE);
           }
         case 180: break;
         case 49: 

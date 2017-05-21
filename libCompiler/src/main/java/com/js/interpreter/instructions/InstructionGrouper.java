@@ -25,7 +25,7 @@ public class InstructionGrouper extends DebuggableExecutable {
         return line;
     }
 
-    public void add_command(Executable e) {
+    public void addCommand(Executable e) {
         instructions.add(e);
     }
 

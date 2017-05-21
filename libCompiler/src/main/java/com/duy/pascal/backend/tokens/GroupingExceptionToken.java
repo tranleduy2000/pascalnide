@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.tokens;
 
-import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
@@ -12,9 +12,9 @@ public class GroupingExceptionToken extends Token {
         this.exception = g;
     }
 
-    public GroupingExceptionToken(LineInfo line, EnumeratedGroupingException.GroupingExceptionTypes type) {
+    public GroupingExceptionToken(LineInfo line, GroupingExceptionType.GroupExceptionType type) {
         super(line);
-        this.exception = new EnumeratedGroupingException(line, type);
+        this.exception = new GroupingExceptionType(line, type);
     }
 
     @Override

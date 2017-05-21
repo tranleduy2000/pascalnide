@@ -53,7 +53,7 @@ import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
-import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
 import com.duy.pascal.backend.lib.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.backend.lib.file.exceptions.FileException;
@@ -113,8 +113,8 @@ public class ExceptionManager {
             if (e instanceof MultipleDefinitionsMainException) {
                 return new SpannableString(context.getString(R.string.multi_define_main));
             }
-            if (e instanceof EnumeratedGroupingException) {
-                return getEnumeratedGroupingException((EnumeratedGroupingException) e);
+            if (e instanceof GroupingExceptionType) {
+                return getEnumeratedGroupingException((GroupingExceptionType) e);
             }
             if (e instanceof UnrecognizedTokenException) {
                 return getUnrecognizedTokenException((UnrecognizedTokenException) e);
@@ -336,29 +336,29 @@ public class ExceptionManager {
         return span;
     }
 
-    private Spannable getEnumeratedGroupingException(EnumeratedGroupingException e) {
-        EnumeratedGroupingException.GroupingExceptionTypes exceptionTypes = e.exceptionTypes;
-        if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION) {
+    private Spannable getEnumeratedGroupingException(GroupingExceptionType e) {
+        GroupingExceptionType.GroupExceptionType exceptionTypes = e.exceptionTypes;
+        if (exceptionTypes == GroupingExceptionType.GroupExceptionType.IO_EXCEPTION) {
             return new SpannableString(context.getString(R.string.IO_EXCEPTION));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.EXTRA_END) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.EXTRA_END) {
             return new SpannableString(context.getString(R.string.EXTRA_END));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.INCOMPLETE_CHAR) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.INCOMPLETE_CHAR) {
             return new SpannableString(context.getString(R.string.INCOMPLETE_CHAR));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BEGIN_END) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_BEGIN_END) {
             return new SpannableString(context.getString(R.string.MISMATCHED_BEGIN_END));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_BRACKETS) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_BRACKETS) {
             return new SpannableString(context.getString(R.string.MISMATCHED_BRACKETS));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISMATCHED_PARENTHESES) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_PARENTHESES) {
             return new SpannableString(context.getString(R.string.MISMATCHED_PARENTHESES));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.UNFINISHED_BEGIN_END) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_BEGIN_END) {
             return new SpannableString(context.getString(R.string.UNFINISHED_BEGIN_END));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.UNFINISHED_PARENTHESES) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_PARENTHESES) {
             return new SpannableString(context.getString(R.string.UNFINISHED_PARENTHESES));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.UNFINISHED_BRACKETS) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_BRACKETS) {
             return new SpannableString(context.getString(R.string.UNFINISHED_BRACKETS));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.MISSING_INCLUDE) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISSING_INCLUDE) {
             return new SpannableString(context.getString(R.string.MISSING_INCLUDE));
-        } else if (exceptionTypes == EnumeratedGroupingException.GroupingExceptionTypes.NEWLINE_IN_QUOTES) {
+        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.NEWLINE_IN_QUOTES) {
             return new SpannableString(context.getString(R.string.NEWLINE_IN_QUOTES));
         }
         return new SpannableString(e.getLocalizedMessage());

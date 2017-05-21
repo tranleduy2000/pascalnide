@@ -34,9 +34,9 @@ import com.duy.pascal.backend.tokens.basic.InitializationToken;
 import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
-import com.duy.pascal.backend.tokens.basic.UnitToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -130,6 +130,8 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
     }
 
     public class UnitExpressionContext extends CodeUnitExpressionContext {
+        private boolean isParsed = false;
+
         @Nullable
         private Executable initInstruction;
         @Nullable
@@ -147,7 +149,9 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
         }
 
         public void declareInterface(GrouperToken i) throws ParsingException {
-            while (!(i.peek() instanceof ImplementationToken)) {
+            while (!(i.peek() instanceof ImplementationToken ||
+                    i.peek() instanceof EndToken || i.peek() instanceof InitializationToken ||
+                    i.peek() instanceof FinalizationToken)) {
                 this.addNextDeclaration(i);
             }
         }
@@ -155,9 +159,24 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
         @Override
         protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken i)
                 throws ParsingException {
+
             if (next instanceof UnitToken) {
                 programName = i.nextWordValue();
                 i.assertNextSemicolon(i);
+
+                while (!(i.peekNoEOF() instanceof EndToken)) {
+                    this.addNextDeclaration(i);
+                }
+                //end token
+                if (i.peek() instanceof EndToken) {
+                    i.take();
+                }
+                // dot token
+                if (i.peek() instanceof PeriodToken) {
+                    i.take();
+                } else {
+                    throw new ExpectedTokenException(".", i.take());
+                }
                 return true;
             } else if (next instanceof InterfaceToken) {
                 declareInterface(i);
@@ -177,8 +196,6 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                 return true;
 
             }
-
-
             //end region
             return false;
         }
@@ -213,11 +230,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
         public void declareFinal(GrouperToken grouperToken) throws ParsingException {
             this.finalInstruction = grouperToken.getNextCommand(this);
             grouperToken.assertNextSemicolon(null);
-            if (grouperToken.peek() instanceof PeriodToken) {
-                grouperToken.take();
-            } else {
-                throw new ExpectedTokenException(".", grouperToken.peek());
-            }
+
         }
 
         @Override

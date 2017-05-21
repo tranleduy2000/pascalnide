@@ -269,17 +269,16 @@ public class HighlightEditor extends CodeSuggestsEditText
             lineUtils.updateHasNewLineArray(lineCount, getLayout(), getText().toString());
             isGoodLineArray = lineUtils.getGoodLines();
             realLines = lineUtils.getRealLines();
-
-            if (showLines) {
-                int padding = (int) (Math.floor(Math.log10(lineCount)));
-                padding = (int) ((padding * mPaintNumbers.getTextSize()));
-                if (mLinePadding != padding) {
-                    mLinePadding = padding;
-                    setPadding(mLinePadding, mPadding, mPadding, mPadding);
-                }
+        }
+        if (showLines) {
+            int padding = (int) (Math.floor(Math.log10(lineCount)) + 1);
+            padding = (int) ((padding * mPaintNumbers.getTextSize())
+                    + mPadding + (textSize * mScale * 0.5));
+            if (mLinePadding != padding) {
+                mLinePadding = padding;
+                setPadding(mLinePadding, mPadding, mPadding, mPadding);
             }
         }
-
 
         getDrawingRect(mDrawingRect);
         lineX = (int) (mDrawingRect.left + mLinePadding - (textSize * mScale * 0.5));
@@ -335,9 +334,9 @@ public class HighlightEditor extends CodeSuggestsEditText
 
         int count = getLineCount();
         if (showLines) {
-            mLinePadding = (int) (Math.floor(Math.log10(count)));
-            mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize() * 0.85f)
-                /*    + mPaintNumbers.getTextSize() * 0.1f*/);
+            mLinePadding = (int) (Math.floor(Math.log10(count)) + 1);
+            mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize())
+                    + mPaintNumbers.getTextSize() * 0.5f);
             setPadding(mLinePadding, mPadding, mPadding, mPadding);
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);

@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.tokenizer;
 
 
-import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -38,7 +38,7 @@ public class NewLexer implements Runnable {
         }
     }
 
-    private void TossException(LineInfo line, EnumeratedGroupingException.GroupingExceptionTypes t) {
+    private void TossException(LineInfo line, GroupingExceptionType.GroupExceptionType t) {
         GroupingExceptionToken gt = new GroupingExceptionToken(line, t);
         for (GrouperToken g : groupers) {
             g.put(gt);
@@ -79,10 +79,11 @@ public class NewLexer implements Runnable {
                     groupers.push((GrouperToken) t);
                 }
             } catch (IOException e) {
-                EnumeratedGroupingException g = new EnumeratedGroupingException(topOfStack.getLineInfo(),
-                        EnumeratedGroupingException.GroupingExceptionTypes.IO_EXCEPTION);
+                GroupingExceptionType g = new GroupingExceptionType(topOfStack.getLineInfo(),
+                        GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
                 g.caused = e;
                 TossException(g);
+                e.printStackTrace();
                 return;
             }
         }

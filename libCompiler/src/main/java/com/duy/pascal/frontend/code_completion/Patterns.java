@@ -43,7 +43,7 @@ public class Patterns {
                     "|boolean" +
                     "|char|text" +
                     "|record" +
-                    "|unit|interface|initialization|finalization|implemention)\\b",
+                    "|unit|interface|initialization|finalization|implementation)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final Pattern FUNCTIONS = Pattern.compile(

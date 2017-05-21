@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.tokens.closing;
 
-import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException;
-import com.duy.pascal.backend.exceptions.grouping.EnumeratedGroupingException.GroupingExceptionTypes;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType.GroupExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
@@ -16,8 +16,8 @@ public class EndBracketToken extends ClosingToken {
     @Override
     public GroupingException getClosingException(GrouperToken t) {
         return t instanceof BracketedToken ? null
-                : new EnumeratedGroupingException(getLineInfo(),
-                GroupingExceptionTypes.MISMATCHED_BRACKETS);
+                : new GroupingExceptionType(getLineInfo(),
+                GroupExceptionType.MISMATCHED_BRACKETS);
     }
 
     @Override

@@ -31,7 +31,8 @@ public class KeyWord {
             "if ", "then", "else",
             "for", "to", "do", "downto",
             "while", "repeat", "until", "case", "of",
-            "and", "or", "xor", "not", "div", "mod",
+            "and", "or", "xor", "not", "div", "mod", "unit", "interface", "initialization", "finalization",
+            "implementation"
     };
 
 
