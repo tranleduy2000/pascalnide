@@ -22,8 +22,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.theme.FontFragment;
-import com.duy.pascal.frontend.theme.ThemeFragment;
+import com.duy.pascal.frontend.theme.fragment.FontFragment;
+import com.duy.pascal.frontend.theme.fragment.ThemeFragment;
 
 /**
  * Created by Duy on 17-May-17.

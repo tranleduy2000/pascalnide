@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.duy.pascal.frontend">
+    package="com.duy.pascal.frontend"
+    android:versionCode="87">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -95,7 +96,7 @@
 
         <activity android:name="com.duy.pascal.frontend.code_sample.DocumentActivity" />
         <activity android:name="com.duy.pascal.frontend.code_sample.CodeSampleActivity" />
-        <activity android:name="com.duy.pascal.frontend.theme.ThemeFontActivity" />
+        <activity android:name="com.duy.pascal.frontend.theme.fragment.ThemeFontActivity" />
         <activity android:name="com.duy.pascal.frontend.info_application.InfoActivity" />
         <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
         <activity

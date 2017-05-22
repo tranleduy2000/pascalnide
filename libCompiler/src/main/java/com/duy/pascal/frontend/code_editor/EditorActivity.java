@@ -55,7 +55,7 @@ import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.theme.ThemeFontActivity;
+import com.duy.pascal.frontend.theme.fragment.ThemeFontActivity;
 import com.duy.pascal.frontend.view.editor_view.EditorView;
 import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
 import com.flask.colorpicker.OnColorSelectedListener;

@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 public class Patterns {
 
     //Words
-    public static final Pattern line = Pattern.compile(".*\\n");
+    public static final Pattern LINE = Pattern.compile(".*\\n");
     public static final Pattern NUMBERS = Pattern.compile(
             "\\b(\\d*[.]?\\d+)\\b");
     public static final Pattern KEYWORDS = Pattern.compile(
@@ -42,7 +42,7 @@ public class Patterns {
                     "|longint|int64|qword|longword|dword" +
                     "|boolean" +
                     "|char|text" +
-                    "|record" +
+                    "|record|continue" +
                     "|unit|interface|initialization|finalization|implementation)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 

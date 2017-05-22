@@ -28,7 +28,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.theme.FontFragment;
+import com.duy.pascal.frontend.theme.fragment.FontFragment;
 import com.duy.pascal.frontend.theme.util.FontManager;
 
 import java.io.IOException;

@@ -45,7 +45,7 @@ import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
-import com.duy.pascal.frontend.theme.util.ThemeFromAssets;
+import com.duy.pascal.frontend.theme.util.CodeTheme;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.StringReader;
@@ -103,14 +103,8 @@ public class HighlightEditor extends CodeSuggestsEditText
     protected int mHighlightStart;
     protected Rect mDrawingRect, mLineBounds;
     //Colors
-    protected int COLOR_ERROR;
-    protected int COLOR_NUMBER;
-    protected int COLOR_KEYWORD;
-    protected int COLOR_COMMENT;
-    protected int COLOR_OPT;
-    protected int COLOR_BOOLEANS;
-    protected int COLOR_STRINGS;
     private boolean autoCompile = false;
+    private CodeTheme codeTheme;
     private Context mContext;
     private boolean canEdit = true;
     @Nullable
@@ -203,16 +197,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void setColorTheme(int id) {
-        ThemeFromAssets theme = ThemeFromAssets.getTheme(id, mContext);
-        setBackgroundColor(theme.getBackground());
-        setTextColor(theme.getColor(0));
-        COLOR_ERROR = theme.getColor(7);
-        COLOR_NUMBER = theme.getColor(1);
-        COLOR_KEYWORD = theme.getColor(2);
-        COLOR_COMMENT = theme.getColor(6);
-        COLOR_STRINGS = theme.getColor(3);
-        COLOR_BOOLEANS = theme.getColor(8);
-        COLOR_OPT = theme.getColor(9);
+        codeTheme = CodeTheme.getTheme(id, mContext);
+        setBackgroundColor(codeTheme.getBackground());
+        setTextColor(codeTheme.getTextColor());
 
         int style = CodeThemeUtils.getCodeTheme(mContext, "");
         TypedArray typedArray = mContext.obtainStyledAttributes(style,
@@ -226,27 +213,28 @@ public class HighlightEditor extends CodeSuggestsEditText
           load theme from xml
          */
 
+        codeTheme = new CodeTheme(true);
         int style = CodeThemeUtils.getCodeTheme(mContext, name);
         TypedArray typedArray = mContext.obtainStyledAttributes(style,
                 R.styleable.CodeTheme);
-        typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
-                R.color.color_bg_editor_color);
-        COLOR_ERROR = typedArray.getInteger(R.styleable.CodeTheme_error_color,
-                R.color.color_error_color);
-        COLOR_NUMBER = typedArray.getInteger(R.styleable.CodeTheme_number_color,
-                R.color.color_number_color);
-        COLOR_KEYWORD = typedArray.getInteger(R.styleable.CodeTheme_key_word_color,
-                R.color.color_key_word_color);
-        COLOR_COMMENT = typedArray.getInteger(R.styleable.CodeTheme_comment_color,
-                R.color.color_comment_color);
-        COLOR_STRINGS = typedArray.getInteger(R.styleable.CodeTheme_string_color,
-                R.color.color_string_color);
-        COLOR_BOOLEANS = typedArray.getInteger(R.styleable.CodeTheme_boolean_color,
-                R.color.color_boolean_color);
-        COLOR_OPT = typedArray.getInteger(R.styleable.CodeTheme_opt_color,
-                R.color.color_opt_color);
-        setBackgroundColor(typedArray.getInteger(R.styleable.CodeTheme_bg_editor_color,
-                R.color.color_bg_editor_color));
+        typedArray.getInteger(R.styleable.CodeTheme_background_color,
+                R.color.color_background_color);
+        codeTheme.setErrorColor(typedArray.getInteger(R.styleable.CodeTheme_error_color,
+                R.color.color_error_color));
+        codeTheme.setNumberColor(typedArray.getInteger(R.styleable.CodeTheme_number_color,
+                R.color.color_number_color));
+        codeTheme.setKeyWordColor(typedArray.getInteger(R.styleable.CodeTheme_key_word_color,
+                R.color.color_key_word_color));
+        codeTheme.setCommentColor(typedArray.getInteger(R.styleable.CodeTheme_comment_color,
+                R.color.color_comment_color));
+        codeTheme.setStringColor(typedArray.getInteger(R.styleable.CodeTheme_string_color,
+                R.color.color_string_color));
+        codeTheme.setBooleanColor(typedArray.getInteger(R.styleable.CodeTheme_boolean_color,
+                R.color.color_boolean_color));
+        codeTheme.setOptColor(typedArray.getInteger(R.styleable.CodeTheme_opt_color,
+                R.color.color_opt_color));
+        setBackgroundColor(typedArray.getInteger(R.styleable.CodeTheme_background_color,
+                R.color.color_background_color));
         setTextColor(typedArray.getInteger(R.styleable.CodeTheme_normal_text_color,
                 R.color.color_normal_text_color));
 
@@ -454,7 +442,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     lineEnd = Math.min(lineEnd, getText().length());
 
                     if (lineStart < lineEnd) {
-                        e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                        e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
                                 lineStart,
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -582,7 +570,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         //set span
 
         for (Matcher m = pattern.matcher(e); m.find(); ) {
-            e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+            e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
                     m.start(),
                     m.end(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -609,7 +597,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                 int lineEnd = getLayout().getLineEnd(lineInfo.line);
                 lineStart = lineStart + lineInfo.column;
                 if (lineStart < lineEnd) {
-                    e.setSpan(new BackgroundColorSpan(COLOR_ERROR),
+                    e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
                             lineStart,
                             lineEnd,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -705,19 +693,19 @@ public class HighlightEditor extends CodeSuggestsEditText
         try {
             //high light number
             for (Matcher m = NUMBERS.matcher(textToHighlight); m.find(); ) {
-                allText.setSpan(new ForegroundColorSpan(COLOR_NUMBER),
+                allText.setSpan(new ForegroundColorSpan(codeTheme.getNumberColor()),
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             for (Matcher m = KEYWORDS.matcher(textToHighlight); m.find(); ) {
-                allText.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
+                allText.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()),
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             for (Matcher m = FUNCTIONS.matcher(textToHighlight); m.find(); ) {
-                allText.setSpan(new ForegroundColorSpan(COLOR_KEYWORD),
+                allText.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()),
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -725,7 +713,7 @@ public class HighlightEditor extends CodeSuggestsEditText
             //find it
             for (Matcher m = SYMBOLS.matcher(textToHighlight); m.find(); ) {
                 //if match, you can replace text with other style
-                allText.setSpan(new ForegroundColorSpan(COLOR_OPT),
+                allText.setSpan(new ForegroundColorSpan(codeTheme.getOptColor()),
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -738,7 +726,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                 for (int n = spans.length; n-- > 0; )
                     allText.removeSpan(spans[n]);
 
-                allText.setSpan(new ForegroundColorSpan(COLOR_STRINGS),
+                allText.setSpan(new ForegroundColorSpan(codeTheme.getStringColor()),
                         start + m.start(),
                         start + m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -748,7 +736,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                 for (int n = spans.length; n-- > 0; )
                     allText.removeSpan(spans[n]);
 
-                allText.setSpan(new ForegroundColorSpan(COLOR_COMMENT),
+                allText.setSpan(new ForegroundColorSpan(codeTheme.getCommentColor()),
                         start + m.start(),
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

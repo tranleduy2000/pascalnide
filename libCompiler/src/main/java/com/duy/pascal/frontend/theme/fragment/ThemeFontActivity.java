@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme;
+package com.duy.pascal.frontend.theme.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
