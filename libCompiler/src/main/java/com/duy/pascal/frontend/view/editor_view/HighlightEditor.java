@@ -140,6 +140,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     highlightText();
                 }
             };
+    private int numberWidth = 0;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -263,7 +264,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
 
         getDrawingRect(mDrawingRect);
-        lineX = mDrawingRect.left + mLinePadding;
+        lineX = mDrawingRect.left + mLinePadding - (mPadding / 2);
         int min = 0;
         int max = lineCount;
         getLineBounds(0, mLineBounds);
@@ -330,15 +331,14 @@ public class HighlightEditor extends CodeSuggestsEditText
         refreshDrawableState();
     }
 
-
     private int calculateLinePadding() {
         int count = getLineCount();
         int result = (int) (Math.floor(Math.log10(count)) + 1);
 
         Rect bounds = new Rect();
         mPaintNumbers.getTextBounds("0", 0, 1, bounds);
-        int width = bounds.width();
-        result = (result * width);
+        numberWidth = bounds.width();
+        result = (result * numberWidth) + mPadding;
         return result;
     }
 

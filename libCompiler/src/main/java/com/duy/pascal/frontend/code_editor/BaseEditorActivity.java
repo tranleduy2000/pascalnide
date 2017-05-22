@@ -221,7 +221,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         //remove page
         pagerAdapter.remove(position);
         invalidateTab();
-        Toast.makeText(this, getString(R.string.closed) + " " + filePath, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.closed) + " " + new File(filePath).getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
