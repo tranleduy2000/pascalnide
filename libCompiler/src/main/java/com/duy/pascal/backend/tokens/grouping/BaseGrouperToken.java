@@ -11,12 +11,12 @@ public class BaseGrouperToken extends GrouperToken {
 
     @Override
     public String toCode() {
-        return getClosingText();
+        return "";
     }
 
     @Override
     protected String getClosingText() {
-        return "[End of file]";
+        return "[EOF]";
     }
 
 }

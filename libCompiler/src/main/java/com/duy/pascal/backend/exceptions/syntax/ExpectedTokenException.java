@@ -21,12 +21,22 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.tokens.Token;
 
 public class ExpectedTokenException extends ParsingException {
-    public String token, instead;
+    public String expected, current;
 
-    public ExpectedTokenException(String token, Token instead) {
-        super(instead.getLineInfo(), "Expected the following name to appear: " + token + " " +
-                "instead.\nThere was the following name: " + instead);
-        this.instead = instead.toString();
-        this.token = token;
+    public ExpectedTokenException(String expected, Token current) {
+        super(current.getLineInfo());
+        this.current = current.toString();
+        this.expected = expected;
+    }
+
+    public ExpectedTokenException(Token expected, Token current) {
+        super(current.getLineInfo());
+        this.current = current.toString();
+        this.expected = expected.toString();
+    }
+
+    @Override
+    public String getLocalizedMessage() {
+        return "Syntax error, \"" + expected + "\" expected but \"" + current + "\" found";
     }
 }

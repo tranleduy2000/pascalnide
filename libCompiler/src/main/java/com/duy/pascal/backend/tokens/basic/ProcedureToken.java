@@ -11,4 +11,9 @@ public class ProcedureToken extends BasicToken {
     public String toString() {
         return "procedure";
     }
+
+    @Override
+    public boolean canDeclareInInterface() {
+        return true;
+    }
 }

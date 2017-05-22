@@ -17,6 +17,7 @@
 <resources>
     <string name="ExpectedTokenException">Expected the following name to appear:</string>
     <string name="ExpectedTokenException_2">There was the following name:</string>
+    <string name="ExpectedTokenException_3">Syntax error, \"%1$s\" expected but \"%2$s\" found</string>
     <string name="bad_function_msg1">"One or more arguments has an incorrect type when calling function "</string>
     <string name="bad_function_msg2">"Either too few or two many arguments are being passed to function "</string>
     <string name="can_not_call_func">Can not call function</string>

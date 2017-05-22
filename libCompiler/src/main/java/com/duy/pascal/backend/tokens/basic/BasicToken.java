@@ -9,4 +9,5 @@ public abstract class BasicToken extends Token {
         super(line);
     }
 
+
 }

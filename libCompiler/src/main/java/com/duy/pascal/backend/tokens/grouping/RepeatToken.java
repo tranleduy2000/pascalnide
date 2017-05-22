@@ -17,6 +17,7 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokens.Token;
 
 public class RepeatToken extends GrouperToken {
 
@@ -26,7 +27,15 @@ public class RepeatToken extends GrouperToken {
 
     @Override
     public String toCode() {
-        return "repeat";
+        StringBuilder result = new StringBuilder("repeat ");
+        if (next != null) {
+            result.append(next).append(' ');
+        }
+        for (Token t : this.queue) {
+            result.append(t).append(' ');
+        }
+        result.append("end");
+        return result.toString();
     }
 
     @Override

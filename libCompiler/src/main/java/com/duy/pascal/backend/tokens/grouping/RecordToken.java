@@ -10,15 +10,7 @@ public class RecordToken extends GrouperToken {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("record ");
-        if (next != null) {
-            result.append(next).append(' ');
-        }
-        for (Token t : this.queue) {
-            result.append(t).append(' ');
-        }
-        result.append("end");
-        return result.toString();
+        return "record";
     }
 
     @Override
@@ -28,6 +20,14 @@ public class RecordToken extends GrouperToken {
 
     @Override
     public String toCode() {
-        return "record";
+        StringBuilder result = new StringBuilder("record ");
+        if (next != null) {
+            result.append(next).append(' ');
+        }
+        for (Token t : this.queue) {
+            result.append(t).append(' ');
+        }
+        result.append("end");
+        return result.toString();
     }
 }

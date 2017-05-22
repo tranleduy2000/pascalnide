@@ -23,4 +23,13 @@ abstract class Token(var lineInfo: LineInfo) {
         Dereferencing, Negation, Multiplicative, Additive, Relational, NoPrecedence
     }
 
+    /**
+     * @return `true` if this token can declare in interface region in unit,
+     * * otherwise return `false`
+     */
+
+    open fun canDeclareInInterface(): Boolean {
+        return false;
+    }
+
 }

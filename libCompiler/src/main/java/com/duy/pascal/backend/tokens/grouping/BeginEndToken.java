@@ -12,11 +12,6 @@ public class BeginEndToken extends GrouperToken {
 
     @Override
     public String toCode() {
-        return "begin";
-    }
-
-    @Override
-    public String toString() {
         StringBuilder builder = new StringBuilder("begin ");
         if (next != null) {
             builder.append(next);
@@ -26,6 +21,11 @@ public class BeginEndToken extends GrouperToken {
         }
         builder.append("end ");
         return builder.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "begin";
     }
 
     @Override

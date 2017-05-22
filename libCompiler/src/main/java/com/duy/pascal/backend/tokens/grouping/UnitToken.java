@@ -30,11 +30,6 @@ public class UnitToken extends GrouperToken {
 
     @Override
     public String toCode() {
-        return "unit";
-    }
-
-    @Override
-    public String toString() {
         StringBuilder builder = new StringBuilder("unit ");
         if (next != null) {
             builder.append(next);
@@ -46,6 +41,10 @@ public class UnitToken extends GrouperToken {
         return builder.toString();
     }
 
+    @Override
+    public String toString() {
+        return "unit";
+    }
 
     @Override
     protected String getClosingText() {

@@ -12,6 +12,10 @@ public class CaseToken extends GrouperToken {
 
     @Override
     public String toString() {
+        return "case";
+    }
+
+    public String toCode() {
         StringBuilder tmp = new StringBuilder("case ");
         if (next != null) {
             tmp.append(next);
@@ -22,10 +26,6 @@ public class CaseToken extends GrouperToken {
         tmp.append("end");
         return tmp.toString();
 
-    }
-
-    public String toCode() {
-        return "case";
     }
 
     protected String getClosingText() {

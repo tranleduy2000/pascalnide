@@ -5,13 +5,13 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class CharacterToken extends ValueToken {
     private char aChar;
-    private String nonParse;
+    private String origin;
     private boolean isRaw = false;
 
     public CharacterToken(LineInfo line, char character) {
         super(line);
         this.aChar = character;
-        this.nonParse = "#" + ((int) character);
+        this.origin = "#" + ((int) character);
     }
 
     public CharacterToken(LineInfo line, String nonParse) {
@@ -24,7 +24,7 @@ public class CharacterToken extends ValueToken {
             aChar = '?';
         }
         this.isRaw = true;
-        this.nonParse = nonParse;
+        this.origin = nonParse;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class CharacterToken extends ValueToken {
         if (!isRaw) {
             return "\'" + Character.toString(aChar) + "\'";
         } else {
-            return nonParse;
+            return origin;
         }
     }
 

@@ -11,4 +11,10 @@ public class FunctionToken extends BasicToken {
     public String toString() {
         return "function";
     }
+
+
+    @Override
+    public boolean canDeclareInInterface() {
+        return true;
+    }
 }

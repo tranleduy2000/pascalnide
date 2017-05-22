@@ -21,6 +21,11 @@ public class ParenthesizedToken extends GrouperToken {
 
     @Override
     public String toString() {
+        return "(";
+    }
+
+    @Override
+    public String toCode() {
         StringBuilder builder = new StringBuilder("(");
         if (next != null) {
             builder.append(next).append(',');
@@ -30,12 +35,6 @@ public class ParenthesizedToken extends GrouperToken {
         }
         builder.append(')');
         return builder.toString();
-
-    }
-
-    @Override
-    public String toCode() {
-        return "(";
     }
 
     public List<RuntimeValue> getArgumentsForCall(ExpressionContext context)
@@ -80,7 +79,7 @@ public class ParenthesizedToken extends GrouperToken {
                     if (hasNext()) {
                         next = take();
                         if (next instanceof ColonToken) {
-                                lengthFloatingPoint = getNextExpression(context);
+                            lengthFloatingPoint = getNextExpression(context);
                             if (hasNext()) {
                                 next = take();
                                 if (!(next instanceof CommaToken)) {

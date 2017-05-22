@@ -11,11 +11,6 @@ public class ClassToken extends GrouperToken {
 
     @Override
     public String toCode() {
-        return toString();
-    }
-
-    @Override
-    public String toString() {
         StringBuilder result = new StringBuilder("class ");
         if (next != null) {
             result.append(next).append(' ');
@@ -25,6 +20,11 @@ public class ClassToken extends GrouperToken {
         }
         result.append("end");
         return result.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "class";
     }
 
     @Override

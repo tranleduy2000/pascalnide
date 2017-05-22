@@ -20,8 +20,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.MissingBodyFunctionException;
-import com.duy.pascal.backend.exceptions.define.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.syntax.MisplacedDeclarationException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.lib.PascalLibrary;
@@ -29,6 +29,7 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
+import com.duy.pascal.backend.tokens.basic.ForwardToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
 import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.InitializationToken;
@@ -149,14 +150,6 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
             return forwardFunctions;
         }
 
-        public void declareInterface(GrouperToken i) throws ParsingException {
-            while (!(i.peek() instanceof ImplementationToken ||
-                    i.peek() instanceof EndToken || i.peek() instanceof InitializationToken ||
-                    i.peek() instanceof FinalizationToken ||
-                    i.peek() instanceof EOFToken)) {
-                this.addNextDeclaration(i);
-            }
-        }
 
         @Override
         protected boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken i)
@@ -166,6 +159,9 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                 GrouperToken container = (GrouperToken) next;
                 programName = container.nextWordValue();
                 container.assertNextSemicolon(container);
+
+                if (!(container.peek() instanceof InterfaceToken))
+                    throw new ExpectedTokenException("interface", container.peek());
 
                 while (container.hasNext()) {
                     this.addNextDeclaration(container);
@@ -200,6 +196,19 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
             return false;
         }
 
+        private void declareInterface(GrouperToken i) throws ParsingException {
+            while (!(i.peek() instanceof ImplementationToken ||
+                    i.peek() instanceof EndToken || i.peek() instanceof InitializationToken ||
+                    i.peek() instanceof FinalizationToken ||
+                    i.peek() instanceof EOFToken)) {
+                Token next = i.peek();
+                if (next.canDeclareInInterface())
+                    this.addNextDeclaration(i);
+                else
+                    throw new ExpectedTokenException("implementation", next);
+            }
+        }
+
         private void declareImplementation(GrouperToken i) throws ParsingException {
             Token next = i.peek();
             while (!(next instanceof InitializationToken ||
@@ -223,12 +232,12 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
             }
         }
 
-        public void declareInit(GrouperToken grouperToken) throws ParsingException {
+        private void declareInit(GrouperToken grouperToken) throws ParsingException {
             this.initInstruction = grouperToken.getNextCommand(this);
             grouperToken.assertNextSemicolon(null);
         }
 
-        public void declareFinal(GrouperToken grouperToken) throws ParsingException {
+        private void declareFinal(GrouperToken grouperToken) throws ParsingException {
             this.finalInstruction = grouperToken.getNextCommand(this);
             grouperToken.assertNextSemicolon(null);
 
@@ -242,6 +251,12 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                 boolean is_procedure = next instanceof ProcedureToken;
                 FunctionDeclaration declaration = new FunctionDeclaration(this, i, is_procedure);
                 checkExistFunction(declaration);
+
+                //check exception
+                if (i.peek() instanceof ForwardToken) {
+                    throw new MisplacedDeclarationException(i.peek().getLineInfo(), "forward", this);
+                }
+
                 forwardFunctions.add(declaration.name());
             } else {
                 super.addNextDeclaration(i);
@@ -250,7 +265,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
 
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
-            if (initInstruction != null) {
+         /*   if (initInstruction != null) {
                 throw new MultipleDefinitionsMainException(i.getLineInfo());
             } else {
                 initInstruction = i.getNextCommand(this);
@@ -261,8 +276,9 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                 } else {
                     throw new ExpectedTokenException(".", i.take());
                 }
-
-            }
+            }*/
+            throw new MisplacedDeclarationException(i.peek().getLineInfo(),
+                    "main function", this);
         }
 
         @Nullable

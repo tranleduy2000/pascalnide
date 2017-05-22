@@ -17,7 +17,7 @@ public class EOFToken extends ClosingToken {
 
     @Override
     public String toString() {
-        return "EOF";
+        return " ";
     }
 
     @Override

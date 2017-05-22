@@ -175,7 +175,7 @@ public class IndentCode {
             return completeRepeatUntil(depth, token);
 
         } else if (token instanceof GrouperToken) {
-            return new StringBuilder(((GrouperToken) token).toCode());
+            return new StringBuilder(((GrouperToken) token).toString());
 
         } else if (token instanceof SemicolonToken) {
             return new StringBuilder(token.toString()).append(" \n");
@@ -248,9 +248,9 @@ public class IndentCode {
     private StringBuilder completeValue(ValueToken token) {
         if (!(peek() instanceof WordToken)
                 && !isStatement(peek())) {
-            return new StringBuilder(token.toCode());
+            return new StringBuilder(token.toString());
         } else {
-            return new StringBuilder(token.toCode()).append(" ");
+            return new StringBuilder(token.toString()).append(" ");
         }
     }
 
@@ -270,7 +270,7 @@ public class IndentCode {
         StringBuilder caseStatement = new StringBuilder();
 
         //append "case .. of .."
-        caseStatement.append(getTab(depth)).append(((CaseToken) token).toCode()).append(" ");
+        caseStatement.append(getTab(depth)).append(((CaseToken) token).toString()).append(" ");
 
         StringBuilder next = new StringBuilder();
         while (peek() != null && !(peek() instanceof OfToken)
@@ -302,7 +302,7 @@ public class IndentCode {
 
     private StringBuilder completeRecordToken(int depth, Token token) {
         StringBuilder record = new StringBuilder();
-        record.append(((RecordToken) token).toCode());
+        record.append(token.toString());
         record.append("\n");
 
         while (peek() != null && !(peek() instanceof EndToken)) {
@@ -323,7 +323,7 @@ public class IndentCode {
                 || peek() instanceof PeriodToken)) {
             end.append("\n");
         }
-        end.append(endToken.toCode());
+        end.append(endToken.toString());
         return end;
     }
 
@@ -420,7 +420,7 @@ public class IndentCode {
     private StringBuilder completeBeginToken(int depth, @NonNull Token token) {
         //append "begin"
         StringBuilder beginEnd = new StringBuilder();
-        beginEnd.append(getTab(depth)).append(((BeginEndToken) token).toCode()).append("\n");
+        beginEnd.append(getTab(depth)).append(((BeginEndToken) token).toString()).append("\n");
 
         StringBuilder body = new StringBuilder();
         while (peek() != null && !(peek() instanceof EndToken))
@@ -439,7 +439,7 @@ public class IndentCode {
             }
 
             beginEnd.append(getTab(depth));
-            beginEnd.append(((EndToken) token).toCode());
+            beginEnd.append(((EndToken) token).toString());
         }
 
         return beginEnd;

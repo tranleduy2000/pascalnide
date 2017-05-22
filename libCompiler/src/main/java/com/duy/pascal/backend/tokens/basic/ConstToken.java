@@ -12,4 +12,9 @@ public class ConstToken extends BasicToken {
     public String toString() {
         return "const";
     }
+
+    @Override
+    public boolean canDeclareInInterface() {
+        return true;
+    }
 }

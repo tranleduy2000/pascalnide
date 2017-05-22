@@ -28,4 +28,10 @@ public class MisplacedDeclarationException extends com.duy.pascal.backend.except
                 + " is not appropriate here: " + loc);
     }
 
+    public MisplacedDeclarationException(LineInfo line, String declarationType,
+                                         String loc) {
+        super(line, "Definition of " + declarationType
+                + " is not appropriate here: " + loc);
+    }
+
 }

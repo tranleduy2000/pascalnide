@@ -12,6 +12,10 @@ public class BracketedToken extends GrouperToken {
 
     @Override
     public String toString() {
+        return "[";
+    }
+
+    public String toCode() {
         StringBuilder tmp = new StringBuilder("[");
         if (next != null) {
             tmp.append(next);
@@ -21,11 +25,6 @@ public class BracketedToken extends GrouperToken {
         }
         tmp.append(']');
         return tmp.toString();
-
-    }
-
-    public String toCode() {
-        return "[";
     }
 
     @Override

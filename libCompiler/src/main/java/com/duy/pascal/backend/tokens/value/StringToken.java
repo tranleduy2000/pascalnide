@@ -13,11 +13,12 @@ public class StringToken extends ValueToken {
 
     @Override
     public String toString() {
-        return "\"" + value + '"';
+        return "\'" + value + "\'";
+
     }
 
     public String toCode() {
-        return "\'" + value + "\'";
+        return "\"" + value + '"';
     }
 
     @Override

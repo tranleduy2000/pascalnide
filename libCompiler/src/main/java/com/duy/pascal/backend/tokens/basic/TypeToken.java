@@ -12,4 +12,8 @@ public class TypeToken extends BasicToken {
         return "type";
     }
 
+    @Override
+    public boolean canDeclareInInterface() {
+        return true;
+    }
 }

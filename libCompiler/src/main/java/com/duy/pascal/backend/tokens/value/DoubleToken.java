@@ -11,11 +11,6 @@ public class DoubleToken extends ValueToken {
         value = d;
     }
 
-   /* @Override
-    public String toString() {
-        return "double_of_value[" + value + ']';
-    }
-*/
     @Override
     public String toCode() {
         return String.valueOf(getValue());

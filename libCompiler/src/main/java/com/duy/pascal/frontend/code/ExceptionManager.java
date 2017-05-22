@@ -26,35 +26,35 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.BadFunctionCallException;
-import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
-import com.duy.pascal.backend.exceptions.value.ChangeValueConstantException;
-import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
-import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
-import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.io.LibraryNotFoundException;
 import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
-import com.duy.pascal.backend.exceptions.syntax.MissingCommaTokenException;
-import com.duy.pascal.backend.exceptions.syntax.MissingSemicolonTokenException;
 import com.duy.pascal.backend.exceptions.define.MultipleDefaultValuesException;
 import com.duy.pascal.backend.exceptions.define.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
-import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
-import com.duy.pascal.backend.exceptions.value.NonIntegerException;
-import com.duy.pascal.backend.exceptions.index.NonIntegerIndexException;
-import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
 import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
-import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.SameNameException;
-import com.js.interpreter.runtime.exception.StackOverflowException;
-import com.duy.pascal.backend.exceptions.index.SubRangeException;
-import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
-import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
+import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.exceptions.index.NonIntegerIndexException;
+import com.duy.pascal.backend.exceptions.index.SubRangeException;
+import com.duy.pascal.backend.exceptions.io.LibraryNotFoundException;
+import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
+import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
+import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.syntax.MissingCommaTokenException;
+import com.duy.pascal.backend.exceptions.syntax.MissingSemicolonTokenException;
+import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
+import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
+import com.duy.pascal.backend.exceptions.value.ChangeValueConstantException;
+import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
+import com.duy.pascal.backend.exceptions.value.NonIntegerException;
+import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
 import com.duy.pascal.backend.lib.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.backend.lib.file.exceptions.FileException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
@@ -62,11 +62,14 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
+import com.duy.pascal.frontend.code_completion.Patterns;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.PluginCallException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.exception.StackOverflowException;
+
+import java.util.regex.Matcher;
 
 /**
  * Created by Duy on 11-Mar-17.
@@ -403,22 +406,15 @@ public class ExceptionManager {
 
 
     private Spanned getExpectedTokenException(ExpectedTokenException e) {
-        String msg1 = context.getString(R.string.ExpectedTokenException) + " ";
-        String msg2 = context.getString(R.string.ExpectedTokenException_2) + " ";
-        String expected = e.token + "\n";
-        String current = e.instead + "\n";
-        String msg = msg1 + expected + msg2 + current;
-        Spannable span = new SpannableString(msg);
-        span.setSpan(new ForegroundColorSpan(Color.YELLOW), msg1.length(), msg1.length() + expected.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        span.setSpan(new StyleSpan(Typeface.BOLD), msg1.length(), msg1.length() + expected.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        span.setSpan(new ForegroundColorSpan(Color.YELLOW), msg1.length() + expected.length() + msg2.length(), msg.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new StyleSpan(Typeface.BOLD), msg1.length() + expected.length() + msg2.length(), msg.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return span;
+        String msg = String.format(context.getString(R.string.ExpectedTokenException_3), e.expected, e.current);
+        SpannableString spannableString = new SpannableString(msg);
+        Matcher matcher = Patterns.REPLACE.matcher(spannableString);
+        while (matcher.find()) {
+            spannableString.setSpan(new ForegroundColorSpan(Color.YELLOW), matcher.start(),
+                    matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new StyleSpan(Typeface.BOLD), matcher.start(),
+                    matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return spannableString;
     }
 }

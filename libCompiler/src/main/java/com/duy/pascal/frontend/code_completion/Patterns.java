@@ -60,6 +60,5 @@ public class Patterns {
     public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;]");
 
     public static final Pattern STRINGS = Pattern.compile("('(.*?)')|('(.*?)[\\r\\n]+)");
-
-
+    public static final Pattern REPLACE = Pattern.compile("\"(.*?)\"");
 }

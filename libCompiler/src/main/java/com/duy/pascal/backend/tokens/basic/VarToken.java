@@ -11,4 +11,9 @@ public class VarToken extends BasicToken {
     public String toString() {
         return "var";
     }
+
+    @Override
+    public boolean canDeclareInInterface() {
+        return true;
+    }
 }
