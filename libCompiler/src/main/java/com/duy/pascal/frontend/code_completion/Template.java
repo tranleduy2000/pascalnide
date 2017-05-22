@@ -32,9 +32,9 @@ public class Template {
     public static final String UNIT_TEMPlATE =
             "unit {name};\n" +
                     "interface\n" +
-                    "    " +
+                    "    \n" +
                     "implementation\n" +
-                    "    " +
+                    "    \n" +
                     "initialization\n" +
                     "    (* here may be placed code that is *)\n" +
                     "    (* executed as the unit gets loaded *)\n" +

@@ -37,7 +37,7 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
 
     private static final Pattern OPEN_PATTERN
             = Pattern.compile("\\b(begin|then|else|do|repeat|of|" +
-            "var|const)\\b", Pattern.CASE_INSENSITIVE);
+            "var|const|interface|int|implementation)\\b", Pattern.CASE_INSENSITIVE);
 
     private static final Pattern END_PATTERN
             = Pattern.compile("\\b(end)\\b", Pattern.CASE_INSENSITIVE);

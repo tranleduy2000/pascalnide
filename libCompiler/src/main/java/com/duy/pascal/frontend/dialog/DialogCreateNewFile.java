@@ -105,7 +105,7 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
         });
         checkBoxPas = (RadioButton) view.findViewById(R.id.rad_pas);
         checkBoxInp = (RadioButton) view.findViewById(R.id.rad_inp);
-        checkBoxInp = (RadioButton) view.findViewById(R.id.rad_unit);
+        checkBoxUnit = (RadioButton) view.findViewById(R.id.rad_unit);
 
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,10 +144,10 @@ public class DialogCreateNewFile extends AppCompatDialogFragment {
         file = new File(filePath);
         if (checkBoxPas.isChecked()) {
             mFileManager.saveFile(file,
-                    Template.createProgramTemplate(file.getName().substring(0, file.getName().indexOf("."))));
+                    Template.createProgramTemplate(file.getName()));
         } else if (checkBoxUnit.isChecked()) {
             mFileManager.saveFile(file,
-                    Template.createUnitTemplate(file.getName().substring(0, file.getName().indexOf("."))));
+                    Template.createUnitTemplate(file.getName()));
         }
         return file;
     }

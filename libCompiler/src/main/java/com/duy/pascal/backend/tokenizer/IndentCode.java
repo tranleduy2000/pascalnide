@@ -15,9 +15,13 @@ import com.duy.pascal.backend.tokens.basic.AssignmentToken;
 import com.duy.pascal.backend.tokens.basic.ConstToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
+import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.basic.ForToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
 import com.duy.pascal.backend.tokens.basic.IfToken;
+import com.duy.pascal.backend.tokens.basic.ImplementationToken;
+import com.duy.pascal.backend.tokens.basic.InitializationToken;
+import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
@@ -134,7 +138,11 @@ public class IndentCode {
         } else if (token instanceof VarToken
                 || token instanceof TypeToken
                 || token instanceof ConstToken
-                || token instanceof UsesToken) {
+                || token instanceof UsesToken
+                || token instanceof InterfaceToken
+                || token instanceof ImplementationToken
+                || token instanceof FinalizationToken
+                || token instanceof InitializationToken) {
 
             StringBuilder result = new StringBuilder();
             result.append(getTab(depth));
@@ -414,10 +422,12 @@ public class IndentCode {
         StringBuilder beginEnd = new StringBuilder();
         beginEnd.append(getTab(depth)).append(((BeginEndToken) token).toCode()).append("\n");
 
-        while (peek() != null && !(peek() instanceof EndToken)) {
-            StringBuilder next = getLineCommand(depth + 1, true);
-            beginEnd.append(next);
-        }
+        StringBuilder body = new StringBuilder();
+        while (peek() != null && !(peek() instanceof EndToken))
+            body.append(getLineCommand(depth + 1, true));
+
+        if (!body.toString().trim().isEmpty()) beginEnd.append(body);
+        else beginEnd.append("\n");
 
         if (peek() instanceof EndToken) {
             token = take();
