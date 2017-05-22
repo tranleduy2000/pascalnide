@@ -44,8 +44,8 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
+import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.StringReader;
@@ -69,7 +69,6 @@ public class HighlightEditor extends CodeSuggestsEditText
     private final Handler updateHandler = new Handler();
     private final Object objectThread = new Object();
     public boolean showLines = true;
-    public float textSize = 13;
     public boolean wordWrap = true;
     public LineInfo lineError = null;
     /**
@@ -256,9 +255,7 @@ public class HighlightEditor extends CodeSuggestsEditText
             realLines = lineUtils.getRealLines();
         }
         if (showLines) {
-            int padding = (int) (Math.floor(Math.log10(lineCount)) + 1);
-            padding = (int) ((padding * mPaintNumbers.getTextSize())
-                    + mPadding + (textSize * mScale * 0.5));
+            int padding = calculateLinePadding();
             if (mLinePadding != padding) {
                 mLinePadding = padding;
                 setPadding(mLinePadding, mPadding, mPadding, mPadding);
@@ -266,7 +263,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
 
         getDrawingRect(mDrawingRect);
-        lineX = (int) (mDrawingRect.left + mLinePadding - (textSize * mScale * 0.5));
+        lineX = mDrawingRect.left + mLinePadding;
         int min = 0;
         int max = lineCount;
         getLineBounds(0, mLineBounds);
@@ -286,11 +283,11 @@ public class HighlightEditor extends CodeSuggestsEditText
             }
             if (showLines && isGoodLineArray[i]) {
                 int realLine = realLines[i];
-                canvas.drawText("" + (realLine), mDrawingRect.left + mPadding, baseline, mPaintNumbers);
+                canvas.drawText("" + (realLine), mDrawingRect.left, baseline, mPaintNumbers);
             }
-            if (showLines) {
-                canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
-            }
+        }
+        if (showLines) {
+            canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
         }
         super.onDraw(canvas);
     }
@@ -311,17 +308,13 @@ public class HighlightEditor extends CodeSuggestsEditText
         setTypeface(mEditorSetting.getFont());
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setTextSize(mEditorSetting.getTextSize());
-        mPaintNumbers.setTextSize(getTextSize() * 0.85f);
-        showLines = mEditorSetting.isShowLines();
+        mPaintNumbers.setTextSize(getTextSize());
 
-        postInvalidate();
-        refreshDrawableState();
+        showLines = mEditorSetting.isShowLines();
 
         int count = getLineCount();
         if (showLines) {
-            mLinePadding = (int) (Math.floor(Math.log10(count)) + 1);
-            mLinePadding = (int) ((mLinePadding * mPaintNumbers.getTextSize())
-                    + mPaintNumbers.getTextSize() * 0.5f);
+            mLinePadding = calculateLinePadding();
             setPadding(mLinePadding, mPadding, mPadding, mPadding);
         } else {
             setPadding(mPadding, mPadding, mPadding, mPadding);
@@ -333,6 +326,20 @@ public class HighlightEditor extends CodeSuggestsEditText
         } else {
             setHorizontalScrollBarEnabled(true);
         }
+        postInvalidate();
+        refreshDrawableState();
+    }
+
+
+    private int calculateLinePadding() {
+        int count = getLineCount();
+        int result = (int) (Math.floor(Math.log10(count)) + 1);
+
+        Rect bounds = new Rect();
+        mPaintNumbers.getTextBounds("0", 0, 1, bounds);
+        int width = bounds.width();
+        result = (result * width);
+        return result;
     }
 
     @Override
