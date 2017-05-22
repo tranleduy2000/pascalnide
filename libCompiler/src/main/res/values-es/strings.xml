@@ -178,6 +178,9 @@
     <string name="sort_name">Sort by name…</string>
     <string name="sort_size">Sort by size…</string>
     <string name="unit_file">Unit pascal (*.pas)</string>
+    <string name="inserted_color">Inserted color</string>
+    <string name="permission_denied_storage">Permission denied to read your External storage</string>
+    <string name="what_expect">What do you expect?</string>
 </resources>
 
 

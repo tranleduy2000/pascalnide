@@ -175,4 +175,7 @@
     <string name="sort_name">Sắp xếp theo tên</string>
     <string name="sort_size">Sắp xếp theo kích thước</string>
     <string name="unit_file">Unit pascal (*.pas)</string>
+    <string name="inserted_color">Đã chèn màu</string>
+    <string name="permission_denied_storage">Quyền đọc bộ nhớ ngoài bị từ chối.</string>
+    <string name="what_expect">Bạn mong chờ điều gì?</string>
 </resources>
