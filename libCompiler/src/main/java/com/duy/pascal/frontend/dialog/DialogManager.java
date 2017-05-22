@@ -82,7 +82,7 @@ public class DialogManager {
 
     }
 
-    public static void createDialogReportBug(final Activity activity, final String code) {
+    public static AlertDialog createDialogReportBug(final Activity activity, final String code) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(R.string.report_bug).setView(R.layout.report_bug_dialog).setIcon(R.drawable.ic_bug_report_white_24dp);
         final AlertDialog alertDialog = builder.create();
@@ -90,6 +90,7 @@ public class DialogManager {
         final EditText editTitle = (EditText) alertDialog.findViewById(R.id.edit_title);
         final EditText editContent = (EditText) alertDialog.findViewById(R.id.edit_content);
         final Button btnSend = (Button) alertDialog.findViewById(R.id.btn_email);
+        final EditText editExpect = (EditText) alertDialog.findViewById(R.id.edit_expect);
         assert btnSend != null;
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,23 +103,24 @@ public class DialogManager {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                 i.putExtra(Intent.EXTRA_EMAIL, new String[]{"tranleduy1233@gmail.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "Report bug: " + editTitle.getText().toString());
+                i.putExtra(Intent.EXTRA_SUBJECT, "Report bug for PASCAL NIDE: " + editTitle.getText().toString());
 
-                String content = "Cause: \n" +
-                        editContent.getText().toString() + "\n " +
-                        "====================== \n" +
-                        code;
+                String content = "Cause: \n" + editContent.getText().toString() + "\n" +
+                        "Expect:  " + editExpect.getText().toString() + "\n" + "Code:\n" + code;
 
                 i.putExtra(Intent.EXTRA_TEXT, content);
 
                 try {
-                    activity.startActivity(Intent.createChooser(i,
-                            activity.getString(R.string.send_mail)));
+                    activity.startActivity(Intent.createChooser(i, activity.getString(R.string.send_mail)));
                 } catch (ActivityNotFoundException ex) {
                     Toast.makeText(activity, R.string.no_mail_clients, Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        return alertDialog;
+    }
+
+    public void onDestroy() {
 
     }
 }
