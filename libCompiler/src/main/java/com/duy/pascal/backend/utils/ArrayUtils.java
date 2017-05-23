@@ -80,6 +80,8 @@ public class ArrayUtils {
             }
             b.append(", ");
         }
+        if (argumentTypes.length == 0)
+            b.append(")");
         return b.toString();
     }
 
