@@ -53,6 +53,7 @@ import com.duy.pascal.backend.lib.android.voice.AndroidSpeechRecognitionLib;
 import com.duy.pascal.backend.lib.android.voice.AndroidTextToSpeechLib;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.crt.CrtLib;
+import com.duy.pascal.backend.lib.crt.WinCrt;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
@@ -82,6 +83,7 @@ public class PascalLibraryManager {
 
     static {
         MAP_LIBRARIES.put(CrtLib.NAME, CrtLib.class);
+        MAP_LIBRARIES.put(WinCrt.NAME, WinCrt.class);
         MAP_LIBRARIES.put(DosLib.NAME, DosLib.class);
         MAP_LIBRARIES.put(MathLib.NAME, MathLib.class);
         MAP_LIBRARIES.put(GraphLib.NAME, GraphLib.class);

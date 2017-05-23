@@ -31,10 +31,11 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ * CRT - Turbo Pascal screen and keyboard handling unit
+ * See https://www.freepascal.org/docs-html/rtl/crt/index.html
+ * <p>
  * Created by Duy on 28-Feb-17.
  */
-
-@SuppressWarnings("DefaultFileTemplate")
 public class CrtLib implements PascalLibrary {
     public static final String TAG = CrtLib.class.getSimpleName();
     public static final String NAME = "crt";
@@ -74,7 +75,7 @@ public class CrtLib implements PascalLibrary {
      * @param x - x coordinate of screen
      * @param y - y coordinate of screen
      */
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "crt library")
     public void gotoXY(int x, int y) {
         if (handler == null) return;
         handler.getConsoleView().gotoXY(x, y);
@@ -133,8 +134,13 @@ public class CrtLib implements PascalLibrary {
         colorConst = new ConstantDefinition("White".toLowerCase(), 15, new LineInfo(-1, "White = 15".toLowerCase()));
         constants.put(colorConst.name(), colorConst);
 
-        colorConst = new ConstantDefinition("pi".toLowerCase(), Math.PI, new LineInfo(-1, " pi = 3.14159265358979323846".toLowerCase()));
-        constants.put(colorConst.name(), colorConst);
+        constants.put(colorConst.name(), new ConstantDefinition("pi", Math.PI));
+        constants.put("bw40", new ConstantDefinition("bw40", 0));
+        constants.put("bw80", new ConstantDefinition("bw80", 2));
+        constants.put("co40", new ConstantDefinition("co40", 1));
+        constants.put("co80", new ConstantDefinition("co80", 3));
+        constants.put("c80", new ConstantDefinition("c80", 3));
+        constants.put("mono", new ConstantDefinition("mono", 7));
     }
 
     @Override
@@ -155,7 +161,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * clear screen
      */
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "crt library")
     public void clrscr() {
         if (handler == null) return;
         handler.getConsoleView().clearScreen();
@@ -164,7 +170,7 @@ public class CrtLib implements PascalLibrary {
     /**
      * set text linePaint color
      */
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "crt library")
     public void textColor(int code) {
         if (handler == null) return;
         int color = ColorUtils.pascalColorToAndroidColor(code);
@@ -174,20 +180,20 @@ public class CrtLib implements PascalLibrary {
     /**
      * set background console
      */
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "crt library")
     public void textBackground(int code) {
         if (handler == null) return;
         int color = ColorUtils.pascalColorToAndroidColor(code);
         handler.getConsoleView().setConsoleTextBackground(color);
     }
 
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Return X (horizontal) cursor position")
     public int whereX() {
         if (handler == null) return 0;
         return handler.getConsoleView().whereX();
     }
 
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Return Y (vertical) cursor position")
     public int whereY() {
         if (handler == null) return 0;
         return handler.getConsoleView().whereY();
@@ -197,52 +203,43 @@ public class CrtLib implements PascalLibrary {
         if (handler == null) throw new RuntimeException("Can not define screen");
     }
 
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Return to normal (startup) modes")
     public void NormVideo() {
         assertActivityNotNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.NORMAL_TEXT_ALPHA);
     }
 
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Switch to highlighted text mode")
     public void HighVideo() {
         assertActivityNotNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.HIGH_TEXT_ALPHA);
     }
 
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Switch to low intensity colors")
     public void LowVideo() {
         assertActivityNotNull();
         handler.getConsoleView().getTextRenderer().setAlpha(TextRenderer.LOW_TEXT_ALPHA);
     }
 
-    /**
-     * Show big cursor
-     */
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Show big cursor")
     public void cursorBig() {
         assertActivityNotNull();
         handler.getConsoleView().getCursorConsole().setMode(ConsoleCursor.BIG_CURSOR);
     }
 
-    /**
-     * Hide cursor
-     */
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Hide cursor")
     public void cursorOff() {
         assertActivityNotNull();
         handler.getConsoleView().getCursorConsole().setVisible(false);
     }
 
-    /**
-     * Display cursor
-     */
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Display cursor")
     public void cursorOn() {
         assertActivityNotNull();
         handler.getConsoleView().getCursorConsole().setVisible(true);
     }
 
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Sound system speaker")
     public void sound(Long frequency) throws WrongArgsException {
         if (frequency != null) {
             this.finalFrequency = frequency;
@@ -256,15 +253,26 @@ public class CrtLib implements PascalLibrary {
         }
     }
 
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Sound system speaker")
     public void sound(Integer frequency) throws WrongArgsException {
         this.sound(Long.valueOf(frequency));
     }
 
-    @PascalMethod(description = "crt library", returns = "void")
+    @PascalMethod(description = "Stop system speaker")
     public void noSound() {
         canPlaySound.set(false);
     }
 
+    @PascalMethod(description = "Delay program execution.")
+    public void delay(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ignored) {
+        }
+    }
 
+    @PascalMethod(description = "Set screen mode.")
+    public void textMode(int mode) {
+        // TODO: 24-May-17
+    }
 }

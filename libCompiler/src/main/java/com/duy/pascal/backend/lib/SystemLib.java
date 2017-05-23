@@ -41,7 +41,6 @@ import java.util.Random;
  */
 public class SystemLib implements PascalLibrary {
 
-
     private Random random = new Random();
 
 
@@ -78,13 +77,7 @@ public class SystemLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "system lib")
-    public void delay(long ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException ignored) {
-        }
-    }
+
 
     @PascalMethod(description = "system lib")
     public int Byte(boolean b) {

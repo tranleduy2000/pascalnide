@@ -20,6 +20,7 @@ package com.js.interpreter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 
@@ -28,10 +29,17 @@ public class ConstantDefinition implements NamedEntity {
     private String name;
     private Object value;
     private LineInfo line;
+
     public ConstantDefinition(@NonNull String name, @NonNull Object value, LineInfo line) {
         this.name = name;
         this.value = value;
         this.line = line;
+    }
+
+    public ConstantDefinition(@NonNull String name, @NonNull Object value) {
+        this.name = name;
+        this.value = value;
+        this.line = new LineError(-1, name);//null line
     }
 
     public ConstantDefinition(@NonNull String name, @Nullable DeclaredType type, @NonNull Object init, LineInfo line) {

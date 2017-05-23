@@ -46,6 +46,11 @@ public @interface PascalMethod {
     String[] params() default {};
 
     /**
+     *
+     */
+    int resID() default -1;
+
+    /**
      * Gives a brief getDescription of the FUNCTIONS return value (and the underlying data structure).
      */
     String returns() default "";
