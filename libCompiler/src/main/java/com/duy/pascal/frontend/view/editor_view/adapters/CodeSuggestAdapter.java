@@ -150,9 +150,5 @@ public class CodeSuggestAdapter extends ArrayAdapter<StructureItem> {
         return codeFilter;
     }
 
-    public void clearAll() {
-        clear();
-        items.clear();
-        suggestion.clear();
-    }
+
 }

@@ -49,13 +49,20 @@ import com.duy.pascal.backend.lib.graph.style.TextDirection;
 import com.duy.pascal.backend.lib.graph.style.TextFont;
 import com.duy.pascal.backend.lib.graph.style.TextJustify;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.js.interpreter.ConstantDefinition;
+import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.references.PascalReference;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime.references.PascalReference;
+import com.js.interpreter.runtime.variables.ContainsVariables;
+import com.js.interpreter.runtime.variables.CustomVariable;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -240,6 +247,23 @@ public class GraphLib implements PascalLibrary {
 
     @Override
     public void declareTypes(ExpressionContextMixin parentContext) {
+        RecordType arcType = new RecordType();
+        ArrayList<VariableDeclaration> vars = new ArrayList<>();
+        vars.add(new VariableDeclaration("x", BasicType.Integer));
+        vars.add(new VariableDeclaration("y", BasicType.Integer));
+        vars.add(new VariableDeclaration("xstart", BasicType.Integer));
+        vars.add(new VariableDeclaration("ystart", BasicType.Integer));
+        vars.add(new VariableDeclaration("xend", BasicType.Integer));
+        vars.add(new VariableDeclaration("yend", BasicType.Integer));
+        arcType.setVariableDeclarations(vars);
+        parentContext.declareTypedef("ArcCoordsType", arcType);
+
+        RecordType point = new RecordType();
+        vars = new ArrayList<>();
+        vars.add(new VariableDeclaration("x", BasicType.Integer));
+        vars.add(new VariableDeclaration("y", BasicType.Integer));
+        point.setVariableDeclarations(vars);
+        parentContext.declareTypedef("pointtype", point);
 
     }
 
@@ -660,8 +684,7 @@ public class GraphLib implements PascalLibrary {
      * GetAspectRatio determines the effective resolution of the screen. The aspect ration can then
      * be calculated as Xasp/Yasp.
      */
-
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "Return screen resolution")
     public void getAspectRatio(PascalReference<Integer> x, PascalReference<Integer> y) {
         x.set(getMaxX());
         y.set(getMaxY());
@@ -775,5 +798,57 @@ public class GraphLib implements PascalLibrary {
         handler.getConsoleView().postInvalidate();
     }
 
+    @PascalMethod(description = "Return coordinates of last drawn arc or ellipse.")
+    public void getArcCoords(PascalReference<ContainsVariables> var) {
+        ArrayList<VariableDeclaration> vars = new ArrayList<>();
+        vars.add(new VariableDeclaration("x", BasicType.Integer, 1, null));
+        vars.add(new VariableDeclaration("y", BasicType.Integer, 1, null));
+        vars.add(new VariableDeclaration("xstart", BasicType.Integer, 1, null));
+        vars.add(new VariableDeclaration("ystart", BasicType.Integer, 1, null));
+        vars.add(new VariableDeclaration("xend", BasicType.Integer, 1, null));
+        vars.add(new VariableDeclaration("yend", BasicType.Integer, 1, null));
+
+        CustomVariable customVariable = new CustomVariable(vars);
+        var.set(customVariable);
+    }
+
+    @PascalMethod(description = "Return height (in pixels) of the given string")
+    public int TextHeight(String text) {
+        GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
+        TextPaint textPaint = graphScreen.getTextPaint();
+        Rect rect = new Rect();
+        textPaint.getTextBounds(text, 0, text.length(), rect);
+        return rect.height();
+    }
+
+    @PascalMethod(description = "Return width (in pixels) of the given string")
+    public int TextWidth(String text) {
+        GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
+        TextPaint textPaint = graphScreen.getTextPaint();
+        Rect rect = new Rect();
+        textPaint.getTextBounds(text, 0, text.length(), rect);
+        return rect.width();
+    }
+
+    @PascalMethod(description = "Restore text screen")
+    public void RestoreCrtMode() {
+        ConsoleView consoleView = handler.getConsoleView();
+        consoleView.setGraphMode(false);
+        consoleView.postInvalidate();
+    }
+
+    @PascalMethod(description = "Set graphical mode")
+    public void SetGraphMode(int mode) {
+        ConsoleView consoleView = handler.getConsoleView();
+        consoleView.setGraphMode(true);
+        consoleView.postInvalidate();
+    }
+
+    // ignore
+    @PascalMethod(description = "Return lowest and highest modus of current driver")
+    public void GetModeRange(int graphMode, PascalReference<Integer> low, PascalReference<Integer> high) {
+        low.set(-1);
+        high.set(-1);
+    }
 
 }

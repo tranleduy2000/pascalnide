@@ -21,12 +21,10 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.view.editor_view.CodeSuggestsEditText;
 
-import java.io.Serializable;
-
 /**
  * item for suggest adapter of {@link CodeSuggestsEditText}
  */
-public class StructureItem implements Serializable, Comparable {
+public class StructureItem implements  Comparable {
     private int type;
     @NonNull
     private String name = "";

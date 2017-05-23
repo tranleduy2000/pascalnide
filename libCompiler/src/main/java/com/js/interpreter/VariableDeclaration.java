@@ -31,7 +31,9 @@ public class VariableDeclaration implements NamedEntity {
      */
     public String name;
     public DeclaredType type;
+    private String desc;
     private Object initialValue;
+    @Nullable
     private LineInfo line;
 
     public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
@@ -47,6 +49,17 @@ public class VariableDeclaration implements NamedEntity {
         this.name = name;
         this.type = type;
         this.line = line;
+    }
+
+    public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type, String desc) {
+        this.name = name;
+        this.type = type;
+        this.desc = desc;
     }
 
     public String getName() {
