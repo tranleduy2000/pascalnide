@@ -79,7 +79,7 @@ public class WinCrt implements PascalLibrary {
 
     @Override
     public void declareConstants(ExpressionContextMixin parentContext) {
-
+        crtLib.declareConstants(parentContext);
     }
 
     @Override
