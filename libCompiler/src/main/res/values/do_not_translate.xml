@@ -58,7 +58,6 @@
     <string name="font.consolas" translatable="false">Consolas</string>
     <string name="font.courier_new" translatable="false">Courier New</string>
     <string name="font.lucida_sans_typewriter" translatable="false">Lucida Sans Typewriter</string>
-    <string name="font.roboto" translatable="false">Roboto</string>
     <string name="font.source_code_pro" translatable="false">Source Code Pro</string>
     <string name="font.monospace" translatable="false">Monospace</string>
 
