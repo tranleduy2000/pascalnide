@@ -48,11 +48,11 @@ import java.util.regex.Matcher;
  * <p>
  * Created by Duy on 23-May-17.
  */
-public class AutoFitError {
-    private static final String TAG = "AutoFit";
+public class AutoFixError {
+    private static final String TAG = "AutoFix";
     private HighlightEditor editable;
 
-    public AutoFitError(@NonNull HighlightEditor editText) {
+    public AutoFixError(@NonNull HighlightEditor editText) {
         this.editable = editText;
     }
 
@@ -63,7 +63,7 @@ public class AutoFitError {
      * First, we find the "type" keyword, if not found we will be create new keyword
      * Then, we insert a structure <code>"name" = "type"</code>
      */
-    public void autoFitType(UnrecognizedTypeException e) {
+    public void autoFixType(UnrecognizedTypeException e) {
         //don't work if has selection
         if (editable.hasSelection()) return;
 
@@ -104,7 +104,7 @@ public class AutoFitError {
         }
     }
 
-    public void autoFitDefine(NoSuchFunctionOrVariableException e) {
+    public void autoFixDefine(NoSuchFunctionOrVariableException e) {
         if (e.getFitType() == DefineType.DECLARE_VAR) {
             declareVar(e);
         } else if (e.getFitType() == DefineType.DECLARE_CONST) {

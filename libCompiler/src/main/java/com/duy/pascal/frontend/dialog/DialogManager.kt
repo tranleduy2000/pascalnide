@@ -90,7 +90,7 @@ class DialogManager {
             dialog.findViewById(R.id.btn_cancel)?.setOnClickListener { dialog.dismiss() }
 
             if (e is ParsingException) {
-                if (e.isAutoFit) {
+                if (e.isAutoFix) {
                     if (e is NoSuchFunctionOrVariableException) {
                         val container = dialog.findViewById(R.id.container_define)!! as RadioGroup
                         container.visibility = View.VISIBLE
@@ -107,7 +107,7 @@ class DialogManager {
                     //set event for button Auto fix
                     dialog.findViewById(R.id.btn_auto_fix)?.visibility = View.VISIBLE
                     dialog.findViewById(R.id.btn_auto_fix)?.setOnClickListener {
-                        activity.autoFit(e)
+                        activity.autoFix(e)
                         dialog.cancel()
                     }
                 }

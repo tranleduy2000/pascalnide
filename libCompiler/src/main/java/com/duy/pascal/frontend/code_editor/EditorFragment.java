@@ -130,11 +130,11 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.updateFromSettings();
     }
 
-    public void autoFit(ParsingException e) {
+    public void autoFix(ParsingException e) {
         if (e instanceof UnrecognizedTypeException) {
-            mCodeEditor.getAutoFitError().autoFitType((UnrecognizedTypeException) e);
+            mCodeEditor.getAutoFixError().autoFixType((UnrecognizedTypeException) e);
         } else if (e instanceof NoSuchFunctionOrVariableException) {
-            mCodeEditor.getAutoFitError().autoFitDefine((NoSuchFunctionOrVariableException) e);
+            mCodeEditor.getAutoFixError().autoFixDefine((NoSuchFunctionOrVariableException) e);
         }
     }
 

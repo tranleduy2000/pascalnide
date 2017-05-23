@@ -28,7 +28,7 @@ public class ParsingException extends Exception {
         return line + ":" + getMessage();
     }
 
-    public boolean isAutoFit() {
+    public boolean isAutoFix() {
         return false;
     }
 }

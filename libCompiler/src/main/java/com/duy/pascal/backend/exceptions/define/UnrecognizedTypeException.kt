@@ -25,5 +25,5 @@ open class UnrecognizedTypeException(var line: LineInfo, type: String)
 
     @JvmField val missingType: String = type
 
-    override fun isAutoFit(): Boolean = true;
+    override fun isAutoFix(): Boolean = true;
 }

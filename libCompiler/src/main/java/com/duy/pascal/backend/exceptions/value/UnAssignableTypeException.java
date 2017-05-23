@@ -28,7 +28,7 @@ public class UnAssignableTypeException extends com.duy.pascal.backend.exceptions
     }
 
     @Override
-    public boolean isAutoFit() {
+    public boolean isAutoFix() {
         return true;
     }
 }

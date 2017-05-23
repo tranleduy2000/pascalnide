@@ -732,10 +732,10 @@ public class EditorActivity extends BaseEditorActivity implements
         }).build().show();
     }
 
-    public void autoFit(ParsingException e) {
+    public void autoFix(ParsingException e) {
         EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
         if (currentFragment != null) {
-            currentFragment.autoFit(e);
+            currentFragment.autoFix(e);
         }
     }
 }

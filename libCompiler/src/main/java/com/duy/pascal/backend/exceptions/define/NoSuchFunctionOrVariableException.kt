@@ -26,7 +26,7 @@ class NoSuchFunctionOrVariableException(line: LineInfo, var name: String)
 
     var token: String? = null
     var fitType: DefineType? = DefineType.DECLARE_VAR;
-    override fun isAutoFit(): Boolean {
+    override fun isAutoFix(): Boolean {
         return true
     }
 }

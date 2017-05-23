@@ -46,7 +46,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
-import com.duy.pascal.frontend.code_editor.editor_view.autofit.AutoFitError;
+import com.duy.pascal.frontend.code_editor.editor_view.autofit.AutoFixError;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.StringReader;
@@ -125,7 +125,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                 }
             };
     private int numberWidth = 0;
-    private AutoFitError mAutoFitError;
+    private AutoFixError mAutoFixError;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -142,8 +142,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         setup(context);
     }
 
-    public AutoFitError getAutoFitError() {
-        return mAutoFitError;
+    public AutoFixError getAutoFixError() {
+        return mAutoFixError;
     }
 
     public boolean isAutoCompile() {
@@ -164,7 +164,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     private void setup(Context context) {
         this.mContext = context;
-        mAutoFitError = new AutoFitError(this);
+        mAutoFixError = new AutoFixError(this);
 
         lineUtils = new LineUtils();
         mPaintNumbers = new Paint();
