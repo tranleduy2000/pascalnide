@@ -91,22 +91,22 @@ class DialogManager {
 
             if (e is ParsingException) {
                 if (e.isAutoFix) {
-                    if (e is NoSuchFunctionOrVariableException) {
-                        val container = dialog.findViewById(R.id.container_define)!! as RadioGroup
-                        container.visibility = View.VISIBLE
-                        val checkedRadioButtonId = container.checkedRadioButtonId
-                        if (checkedRadioButtonId != -1) {
-                            when (checkedRadioButtonId) {
-                                1 -> e.fitType = DefineType.DECLARE_VAR
-                                2 -> e.fitType = DefineType.DECLARE_FUNCTION
-                                3 -> e.fitType = DefineType.DECLARE_CONST
-                            }
-                        }
-                    }
-
                     //set event for button Auto fix
                     dialog.findViewById(R.id.btn_auto_fix)?.visibility = View.VISIBLE
                     dialog.findViewById(R.id.btn_auto_fix)?.setOnClickListener {
+                        if (e is NoSuchFunctionOrVariableException) {
+                            val container = dialog.findViewById(R.id.container_define)!! as RadioGroup
+                            container.visibility = View.VISIBLE
+                            val checkedRadioButtonId = container.checkedRadioButtonId
+                            if (checkedRadioButtonId != -1) {
+                                when (checkedRadioButtonId) {
+                                    R.id.rad_var -> e.fitType = DefineType.DECLARE_VAR
+                                    R.id.rad_fun -> e.fitType = DefineType.DECLARE_FUNCTION
+                                    R.id.rad_const -> e.fitType = DefineType.DECLARE_CONST
+                                }
+                            }
+                        }
+
                         activity.autoFix(e)
                         dialog.cancel()
                     }

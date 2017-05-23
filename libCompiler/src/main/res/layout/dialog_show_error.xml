@@ -40,27 +40,27 @@
 
     <RadioGroup
         android:id="@+id/container_define"
-        android:layout_width="match_parent"      android:visibility="gone"
-        android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/rad_var"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="@string/declare_variable"
-      />
+            android:text="@string/declare_variable" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/rad_fun"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/declare_function" />
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/rad_const"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

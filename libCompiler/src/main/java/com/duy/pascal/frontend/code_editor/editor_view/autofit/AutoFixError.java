@@ -18,6 +18,7 @@ package com.duy.pascal.frontend.code_editor.editor_view.autofit;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
@@ -105,6 +106,8 @@ public class AutoFixError {
     }
 
     public void autoFixDefine(NoSuchFunctionOrVariableException e) {
+        Log.d(TAG, "autoFixDefine() called with: e = [" + e + "]" + " " + e.getFitType());
+
         if (e.getFitType() == DefineType.DECLARE_VAR) {
             declareVar(e);
         } else if (e.getFitType() == DefineType.DECLARE_CONST) {
@@ -118,11 +121,14 @@ public class AutoFixError {
      * declare const, the const usually in the top of program, below "program" or "uses" keyword
      */
     private void declareConst(NoSuchFunctionOrVariableException e) {
-        Editable text = editable.getText();
+        //sub string from 0 to postion error
+        CharSequence text =
+                editable.getText().subSequence(0, editable.getLayout().getLineStart(e.line.line) + e.line.column);
+
         String textToInsert = "";
         int insertPosition = 0;
-
         String name = e.getName();
+
         Matcher matcher = Patterns.CONST.matcher(text);
         if (matcher.find()) {
             insertPosition = matcher.end();
@@ -135,28 +141,36 @@ public class AutoFixError {
             } else if ((matcher = Patterns.TYPE.matcher(text)).find()) {
                 insertPosition = matcher.end();
             }
-            textToInsert = "const \n" + AutoIndentEditText.TAB_CHARACTER + name + " = %v ;";
+            textToInsert = "\nconst \n" + AutoIndentEditText.TAB_CHARACTER + name + " = %v ;";
         }
 
 
         matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
         matcher.find();
+        textToInsert = textToInsert.replaceAll("%\\w", "");
 
         editable.getText().insert(insertPosition, textToInsert);
         editable.setSelection(insertPosition + matcher.start(), insertPosition + matcher.end());
     }
 
     private void declareFunction(NoSuchFunctionOrVariableException e) {
-
     }
 
+    /**
+     * match position and insert new variable
+     *
+     * @param e
+     */
     private void declareVar(NoSuchFunctionOrVariableException e) {
 
-        Editable text = editable.getText();
+        //sub string from 0 to postion error
+        CharSequence text =
+                editable.getText().subSequence(0, editable.getLayout().getLineStart(e.line.line) + e.line.column);
+
         String textToInsert = "";
         int insertPosition = 0;
-
         String name = e.getName();
+
         Matcher matcher = Patterns.VAR.matcher(text);
         if (matcher.find()) {
             insertPosition = matcher.end();
@@ -175,10 +189,12 @@ public class AutoFixError {
 
         matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
         matcher.find();
-
         textToInsert = textToInsert.replaceAll("%\\w", "");
+
         editable.getText().insert(insertPosition, textToInsert);
         editable.setSelection(insertPosition + matcher.start());
+
+        //set suggest data
         editable.restoreAfterClick(KeyWord.DATA_TYPE);
 
     }

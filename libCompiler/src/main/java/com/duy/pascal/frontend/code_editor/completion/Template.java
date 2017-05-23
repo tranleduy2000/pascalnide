@@ -48,6 +48,12 @@ public class Template {
                     "end;\n" +
                     "end.";
 
+    public static final String FUNCTION_TEMPLATE =
+            "\nfunction {name}( ) : ;\n" +
+                    "begin\n" +
+                    "    \n" +
+                    "end;\n";
+
     public static String createProgramTemplate(String name) {
         return PROGRAM_TEMPLATE.replace("{name}", name);
     }
