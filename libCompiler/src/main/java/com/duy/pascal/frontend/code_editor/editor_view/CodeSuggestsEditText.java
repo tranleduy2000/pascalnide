@@ -180,6 +180,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 setSuggestData(suggestData);
+
+                //don't handle twice
+                setOnItemSelectedListener(null);
             }
         });
     }

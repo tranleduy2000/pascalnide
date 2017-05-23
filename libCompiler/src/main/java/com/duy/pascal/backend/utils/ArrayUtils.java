@@ -19,8 +19,10 @@ package com.duy.pascal.backend.utils;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.view.exec_screen.console.TextConsole;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Duy on 24-Mar-17.
@@ -61,5 +63,30 @@ public class ArrayUtils {
             }
         }
         return result;
+    }
+
+    /**
+     * uses for function pascal, such as textColor(integer)
+     */
+    public static String argToString(Object[] argumentTypes) {
+        int iMax = argumentTypes.length - 1;
+        StringBuilder b = new StringBuilder();
+        b.append('(');
+        for (int i = 0; i < argumentTypes.length; i++) {
+            b.append(argumentTypes[i].toString());
+            if (i == iMax) {
+                b.append(')');
+                break;
+            }
+            b.append(", ");
+        }
+        return b.toString();
+    }
+
+    /**
+     * uses for function pascal, such as textColor(integer)
+     */
+    public static String argToString(List<RuntimeValue> args) {
+        return argToString(args.toArray());
     }
 }

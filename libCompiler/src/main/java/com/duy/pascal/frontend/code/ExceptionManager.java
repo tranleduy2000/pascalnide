@@ -61,6 +61,7 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
+import com.duy.pascal.backend.utils.ArrayUtils;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
@@ -69,6 +70,7 @@ import com.js.interpreter.runtime.exception.PluginCallException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.StackOverflowException;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 
 /**
@@ -246,8 +248,7 @@ public class ExceptionManager {
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         stringBuilder.append(exception.line.toString());
         stringBuilder.append("\n").append("\n");
-        String format = String.format(
-                context.getString(R.string.ConstantCalculationException),
+        String format = String.format(context.getString(R.string.ConstantCalculationException),
                 exception.e.getLocalizedMessage());
         stringBuilder.append(format);
         return stringBuilder;
@@ -272,11 +273,9 @@ public class ExceptionManager {
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         stringBuilder.append(exception.line.toString());
         stringBuilder.append("\n").append("\n");
-        String format = String.format(
-                context.getString(R.string.NonIntegerIndexException),
-                exception.value.toString());
+        String format = String.format(context.getString(R.string.NonIntegerIndexException), exception.value.toString());
         stringBuilder.append(format);
-        return stringBuilder;
+        return highlight(stringBuilder);
     }
 
     private Spanned getPluginCallException(Throwable e) {
@@ -321,11 +320,9 @@ public class ExceptionManager {
     private Spannable getBadOperationTypeException(BadOperationTypeException e) {
         String source;
         if (e.value1 == null) {
-            source = String.format(context.getString(R.string.BadOperationTypeException2),
-                    e.operatorTypes);
+            source = String.format(context.getString(R.string.BadOperationTypeException2), e.operatorTypes);
         } else {
-            source = String.format(context.getString(R.string.BadOperationTypeException),
-                    e.operatorTypes, e.value1, e.value2, e.declaredType, e.declaredType1);
+            source = String.format(context.getString(R.string.BadOperationTypeException), e.operatorTypes, e.value1, e.value2, e.declaredType, e.declaredType1);
         }
         return new SpannableString(source);
     }
@@ -369,45 +366,33 @@ public class ExceptionManager {
 
     private Spannable getBadFunctionCallException(Throwable throwable) {
         BadFunctionCallException e = (BadFunctionCallException) throwable;
-        String functionName = e.functionName + " ";
-        boolean functionExists = e.functionExists;
-        boolean numargsMatch = e.numargsMatch;
+        boolean functionExists = e.getFunctionExists();
+        boolean numargsMatch = e.getNumargsMatch();
         if (functionExists) {
             if (numargsMatch) {
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                spannableStringBuilder.append(e.line.toString());
-                spannableStringBuilder.append("\n\n");
-
-                String msg = context.getString(R.string.bad_function_msg1) + " ";
-                Spannable span = new SpannableString(msg + functionName);
-                span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                        msg.length(), msg.length() + functionName.length(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                spannableStringBuilder.append(span);
-                return spannableStringBuilder;
+                String msg = String.format(context.getString(R.string.BadFunctionCallException_1),
+                        e.getFunctionName() + ArrayUtils.argToString(e.getArgs()));
+                return highlight(new SpannableString(msg));
             } else {
-                String msg = context.getString(R.string.bad_function_msg2) + " ";
-                Spannable span = new SpannableString(msg + functionName);
-                span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                        msg.length(), msg.length() + functionName.length(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                return span;
+                String msg = String.format(context.getString(R.string.BadFunctionCallException_2),
+                        e.getFunctionName() + ArrayUtils.argToString(e.getArgs()));
+                return highlight(new SpannableString(msg));
             }
         } else {
-            String msg1 = context.getString(R.string.can_not_call_func) + " ";
-            String msg2 = context.getString(R.string.func_not_define) + " ";
-            Spannable span = new SpannableString(msg1 + functionName + msg2);
-            span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                    msg1.length(), msg1.length() + functionName.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return span;
+            String msg = String.format(context.getString(R.string.BadFunctionCallException_3), e.getFunctionName());
+            SpannableString spannableString = new SpannableString(msg);
+            return highlight(spannableString);
         }
     }
 
-
     private Spanned getExpectedTokenException(ExpectedTokenException e) {
-        String msg = String.format(context.getString(R.string.ExpectedTokenException_3), e.expected, e.current);
+        String msg = String.format(context.getString(R.string.ExpectedTokenException_3),
+                Arrays.toString(e.getExpected()), e.getCurrent());
         SpannableString spannableString = new SpannableString(msg);
+        return highlight(spannableString);
+    }
+
+    private Spannable highlight(Spannable spannableString) {
         Matcher matcher = Patterns.REPLACE_HIGHLIGHT.matcher(spannableString);
         while (matcher.find()) {
             spannableString.setSpan(new ForegroundColorSpan(Color.YELLOW), matcher.start(),

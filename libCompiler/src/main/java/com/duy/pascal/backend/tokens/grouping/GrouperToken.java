@@ -614,7 +614,7 @@ public abstract class GrouperToken extends Token {
                 if (next instanceof DowntoToken) {
                     downto = true;
                 } else if (!(next instanceof ToToken)) {
-                    throw new ExpectedTokenException("['To' or 'Downto'", next);
+                    throw new ExpectedTokenException(next, "to", "downto");
                 }
                 RuntimeValue lastValue = getNextExpression(context);
                 next = take();
@@ -632,7 +632,7 @@ public abstract class GrouperToken extends Token {
                 if (((OperatorToken) next).type == OperatorTypes.IN) {
 
                 } else {
-                    throw new ExpectedTokenException("':=' or 'in'", next);
+                    throw new ExpectedTokenException(next, ":=", "in");
                 }
             }
             return result;

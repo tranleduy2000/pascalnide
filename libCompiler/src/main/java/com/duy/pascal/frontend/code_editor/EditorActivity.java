@@ -45,6 +45,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
+import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
@@ -358,6 +359,7 @@ public class EditorActivity extends BaseEditorActivity implements
     private void showErrorDialog(Exception e) {
         this.mDialog = DialogManager.Companion.createErrorDialog(this, e);
         this.mDialog.show();
+        Dlog.e(e);
     }
 
     @Override
@@ -440,8 +442,8 @@ public class EditorActivity extends BaseEditorActivity implements
      */
     @Override
     public void createNewSourceFile(View view) {
-        DialogCreateNewFile dialogCreateNewFile = DialogCreateNewFile.getInstance();
-        dialogCreateNewFile.show(getSupportFragmentManager(), DialogCreateNewFile.TAG);
+        DialogCreateNewFile dialogCreateNewFile = DialogCreateNewFile.Companion.getInstance();
+        dialogCreateNewFile.show(getSupportFragmentManager(), DialogCreateNewFile.Companion.getTAG());
         dialogCreateNewFile.setListener(new DialogCreateNewFile.OnCreateNewFileListener() {
             @Override
             public void onFileCreated(File file) {

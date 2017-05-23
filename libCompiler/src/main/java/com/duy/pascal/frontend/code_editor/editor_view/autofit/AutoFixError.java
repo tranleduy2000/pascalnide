@@ -150,7 +150,7 @@ public class AutoFixError {
         textToInsert = textToInsert.replaceAll("%\\w", "");
 
         editable.getText().insert(insertPosition, textToInsert);
-        editable.setSelection(insertPosition + matcher.start(), insertPosition + matcher.end());
+        editable.setSelection(insertPosition + matcher.start());
     }
 
     private void declareFunction(NoSuchFunctionOrVariableException e) {

@@ -65,8 +65,8 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
             }
         }
         if (runtimeValue == null) {
-            throw new BadFunctionCallException(name.getLineInfo(), name.name,
-                    !possibilities.isEmpty(), matching);
+            throw new BadFunctionCallException(name.getLineInfo(),
+                    name.name, !possibilities.isEmpty(), matching, arguments);
         } else if (!perfectFit && ambiguous != null) {
             throw new AmbiguousFunctionCallException(name.getLineInfo(), chosen, ambiguous);
         } else {

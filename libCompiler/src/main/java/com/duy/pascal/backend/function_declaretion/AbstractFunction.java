@@ -21,6 +21,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
+import com.duy.pascal.backend.utils.ArrayUtils;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
@@ -31,6 +32,7 @@ import java.util.List;
 public abstract class AbstractFunction implements NamedEntity {
 
     public static final String TAG = AbstractFunction.class.getSimpleName();
+
 
     @Override
     public abstract String name();
@@ -44,19 +46,7 @@ public abstract class AbstractFunction implements NamedEntity {
         if (argumentTypes().length == 0) {
             return name();
         } else {
-            int iMax = argumentTypes().length - 1;
-            StringBuilder b = new StringBuilder();
-            b.append(name());
-            b.append('(');
-            for (int i = 0; ; i++) {
-                b.append(argumentTypes()[i].toString());
-                if (i == iMax) {
-                    b.append(')');
-                    break;
-                }
-                b.append(", ");
-            }
-            return b.toString();
+            return name() + ArrayUtils.argToString(argumentTypes());
         }
     }
 

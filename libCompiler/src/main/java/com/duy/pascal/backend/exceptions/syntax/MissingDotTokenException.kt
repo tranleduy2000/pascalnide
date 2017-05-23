@@ -14,29 +14,15 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_editor;
+package com.duy.pascal.backend.exceptions.syntax
 
-import com.commonsware.cwac.pager.SimplePageDescriptor;
-
-import java.io.File;
+import com.duy.pascal.backend.exceptions.ParsingException
+import com.duy.pascal.backend.linenumber.LineInfo
 
 /**
- * Created by Duy on 29-Apr-17.
+ * Created by Duy on 23-May-17.
  */
-public class PageEditInfo extends SimplePageDescriptor {
+class MissingDotTokenException(line: LineInfo) : ParsingException(line) {
 
-    private File file;
-
-    public PageEditInfo(File file) {
-        super(file.getPath(), file.getName());
-        this.file = file;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
+    override fun getLocalizedMessage(): String = "missing dot (.) token near line " + line
 }

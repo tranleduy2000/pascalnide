@@ -14,30 +14,23 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_editor;
+package com.duy.pascal.frontend.code_editor
 
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager
 
-import com.commonsware.cwac.pager.PageDescriptor;
-import com.commonsware.cwac.pager.v4.ArrayPagerAdapter;
-
-import java.util.List;
+import com.commonsware.cwac.pager.PageDescriptor
+import com.commonsware.cwac.pager.v4.ArrayPagerAdapter
 
 /**
  * Created by Duy on 29-Apr-17.
  */
 
-public class EditorPagerAdapter extends ArrayPagerAdapter<EditorFragment> {
-    private int MAX_PAGE = 5;
+class EditorPagerAdapter(fragmentManager: FragmentManager, descriptors: List<PageDescriptor>)
+    : ArrayPagerAdapter<EditorFragment>(fragmentManager, descriptors) {
+    private val MAX_PAGE = 5
 
-    public EditorPagerAdapter(FragmentManager fragmentManager, List<PageDescriptor> descriptors) {
-        super(fragmentManager, descriptors);
-    }
-
-
-    @Override
-    protected EditorFragment createFragment(PageDescriptor pageDescriptor) {
-        return EditorFragment.newInstance(pageDescriptor.getFragmentTag());
+    override fun createFragment(pageDescriptor: PageDescriptor): EditorFragment {
+        return EditorFragment.newInstance(pageDescriptor.fragmentTag)
     }
 
 }
