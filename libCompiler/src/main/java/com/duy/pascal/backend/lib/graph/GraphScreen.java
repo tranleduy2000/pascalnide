@@ -24,7 +24,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
-import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
+import com.duy.pascal.backend.lib.graph.model.GraphObject;
 import com.duy.pascal.backend.lib.graph.paint.FillPaint;
 import com.duy.pascal.backend.lib.graph.paint.LinePaint;
 import com.duy.pascal.backend.lib.graph.paint.TextPaint;
@@ -266,20 +266,19 @@ public class GraphScreen {
                 font = Typeface.SANS_SERIF;
                 break;
             case TextFont.TriplexFont:
-                font = FontManager.getFontFromAsset(context, "lcd_solid.ttf");
+                font = FontManager.getFontFromAsset(context, "graph/lcd_solid.ttf");
                 break;
             case TextFont.EuroFont:
-                font = FontManager.getFontFromAsset(context, "graph_euro.ttf");
+                font = FontManager.getFontFromAsset(context, "graph/graph_euro.ttf");
                 break;
-
             case TextFont.BoldFont:
                 font = Typeface.DEFAULT_BOLD;
                 break;
             case TextFont.GothicFont:
-                font = FontManager.getFontFromAsset(context, "gothic.ttf");
+                font = FontManager.getFontFromAsset(context, "graph/gothic.ttf");
                 break;
             default:
-                font = Typeface.DEFAULT;
+                font = Typeface.MONOSPACE;
                 break;
         }
         textPaint.setTextFont(font);

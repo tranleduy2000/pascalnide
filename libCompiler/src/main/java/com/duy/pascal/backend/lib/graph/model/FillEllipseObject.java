@@ -14,38 +14,42 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.graph.graphic_model;
+package com.duy.pascal.backend.lib.graph.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
 /**
- * Created by Duy on 02-Mar-17.
+ * Created by Duy on 19-Apr-17.
  */
 
-public class ArcObject extends GraphObject {
-    private int x, y, stAngle, enAngle, radius;
+public class FillEllipseObject extends GraphObject {
+    private int x, y, rx, ry;
 
-    public ArcObject(int x, int y, int stAngle, int enAngle, int radius) {
+    /**
+     * @param x  - x coordinate
+     * @param y  - y coordinate
+     * @param rx - horizontal radius
+     * @param ry - vertical radius
+     */
+    public FillEllipseObject(int x, int y, int rx, int ry) {
         this.x = x;
         this.y = y;
-        this.stAngle = stAngle;
-        this.enAngle = enAngle;
-        this.radius = radius;
+        this.rx = rx;
+        this.ry = ry;
         linePaint.setStyle(Paint.Style.STROKE);
     }
 
+
     @Override
     public void draw(Canvas canvas) {
-        //bound of arc
-        RectF rectF = new RectF(x - radius, y - radius, x + radius, y + radius);
+        float dx = rx;
+        float dy = ry;
 
-        //rotate
-        canvas.save();
-        canvas.rotate(-90, x, y);
-        canvas.drawArc(rectF, stAngle, enAngle, false, linePaint);
-        canvas.restore();
+        //bound
+        RectF rectF = new RectF(x - dx, y - dy, x + dx, y + dy);
+        canvas.drawOval(rectF, linePaint);
+        canvas.drawOval(rectF, fillPaint);
     }
-
 }

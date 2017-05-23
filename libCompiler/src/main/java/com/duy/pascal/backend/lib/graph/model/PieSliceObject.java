@@ -14,42 +14,43 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.graph.graphic_model;
+package com.duy.pascal.backend.lib.graph.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
 /**
- * Created by Duy on 19-Apr-17.
+ * Created by Duy on 09-Apr-17.
  */
 
-public class FillEllipseObject extends GraphObject {
-    private int x, y, rx, ry;
+@SuppressWarnings("DefaultFileTemplate")
+public class PieSliceObject extends GraphObject {
+    private int x, y, radius, startAngel, endAngle;
 
-    /**
-     * @param x  - x coordinate
-     * @param y  - y coordinate
-     * @param rx - horizontal radius
-     * @param ry - vertical radius
-     */
-    public FillEllipseObject(int x, int y, int rx, int ry) {
+    public PieSliceObject(int x, int y, int startAngel, int endAngle, int radius) {
         this.x = x;
         this.y = y;
-        this.rx = rx;
-        this.ry = ry;
+        this.radius = radius;
+        this.startAngel = startAngel;
+        this.endAngle = endAngle;
         linePaint.setStyle(Paint.Style.STROKE);
     }
 
 
     @Override
     public void draw(Canvas canvas) {
-        float dx = rx;
-        float dy = ry;
-
+        float dx = radius;
         //bound
-        RectF rectF = new RectF(x - dx, y - dy, x + dx, y + dy);
-        canvas.drawOval(rectF, linePaint);
-        canvas.drawOval(rectF, fillPaint);
+        RectF rectF = new RectF(x - dx, y - dx, x + dx, y + dx);
+
+        canvas.save();
+        //rotate canvas by 180 degree
+        canvas.rotate(-180, x, y);
+        //reverse canvas
+        canvas.scale(-1, 1, x, y);
+        canvas.drawArc(rectF, startAngel, endAngle - startAngel, true, fillPaint);
+        canvas.drawArc(rectF, startAngel, endAngle - startAngel, true, linePaint);
+        canvas.restore();
     }
 }

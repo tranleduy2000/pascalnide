@@ -14,28 +14,40 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.graph.graphic_model;
+package com.duy.pascal.backend.lib.graph.model;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.RectF;
 
 /**
- * Created by Duy on 02-Mar-17.
+ * Created by Duy on 09-Apr-17.
  */
 
-public class PixelObject extends GraphObject {
-    private int x;
-    private int y;
-    private final Paint paint = new Paint();
+@SuppressWarnings("DefaultFileTemplate")
+public class EllipseObject extends GraphObject {
+    private int x, y, rx, ry;
 
-    public PixelObject(int x, int y, int color) {
+    /**
+     * @param x  - x coordinate
+     * @param y  - y coordinate
+     * @param rx - horizontal radius
+     * @param ry - vertical radius
+     */
+    public EllipseObject(int x, int y, int rx, int ry) {
         this.x = x;
         this.y = y;
-        paint.setColor(color);
+        this.rx = rx;
+        this.ry = ry;
     }
+
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawPoint(x, y, paint);
+        float dx = rx;
+        float dy = ry;
+
+        //bound
+        RectF rectF = new RectF(x - dx, y - dy, x + dx, y + dy);
+        canvas.drawOval(rectF, linePaint);
     }
 }

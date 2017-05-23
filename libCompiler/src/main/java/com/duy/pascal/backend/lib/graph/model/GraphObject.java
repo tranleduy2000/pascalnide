@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.graph.graphic_model;
+package com.duy.pascal.backend.lib.graph.model;
 
 import android.content.Context;
 import android.content.res.Resources;

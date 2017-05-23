@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.graph.graphic_model;
+package com.duy.pascal.backend.lib.graph.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 
 /**
  * Created by Duy on 09-Apr-17.
  */
 
-public class ArcEllipseObject extends GraphObject {
+@SuppressWarnings("DefaultFileTemplate")
+public class SectorObject extends GraphObject {
     private int x, y, rx, ry, startAngel, endAngle;
 
-    public ArcEllipseObject(int x, int y, int startAngel, int endAngle, int rx, int ry) {
+    public SectorObject(int x, int y, int startAngel, int endAngle, int rx, int ry) {
         this.x = x;
         this.y = y;
         this.rx = rx;
@@ -51,7 +53,10 @@ public class ArcEllipseObject extends GraphObject {
         canvas.rotate(-180, x, y);
         //reverse canvas
         canvas.scale(-1, 1, x, y);
-        canvas.drawArc(rectF, startAngel, endAngle, false, linePaint);
+        canvas.drawArc(rectF, startAngel, endAngle, true, fillPaint);
+        canvas.drawArc(rectF, startAngel, endAngle, true, linePaint);
         canvas.restore();
+
+        Path path = new Path();
     }
 }

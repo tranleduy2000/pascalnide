@@ -42,7 +42,7 @@ import android.view.inputmethod.InputContentInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.backend.lib.graph.GraphScreen;
-import com.duy.pascal.backend.lib.graph.graphic_model.GraphObject;
+import com.duy.pascal.backend.lib.graph.model.GraphObject;
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.utils.StringCompare;
