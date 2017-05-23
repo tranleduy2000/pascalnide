@@ -668,6 +668,9 @@ public class HighlightEditor extends CodeSuggestsEditText
             firstVisibleIndex = 0;
             lastVisibleIndex = CHARS_TO_COLOR;
         }
+        int delta = (lastVisibleIndex - firstVisibleIndex) / 5;
+        firstVisibleIndex -= delta;
+        lastVisibleIndex += delta;
 
         // normalize
         if (firstVisibleIndex < 0)
