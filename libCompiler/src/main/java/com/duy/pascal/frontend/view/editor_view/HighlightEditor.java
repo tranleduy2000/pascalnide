@@ -338,7 +338,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         Rect bounds = new Rect();
         mPaintNumbers.getTextBounds("0", 0, 1, bounds);
         numberWidth = bounds.width();
-        result = (result * numberWidth) + mPadding;
+        result = (result * numberWidth) + numberWidth + mPadding;
         return result;
     }
 
