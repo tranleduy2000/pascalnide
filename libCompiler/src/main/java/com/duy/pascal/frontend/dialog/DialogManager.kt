@@ -45,7 +45,7 @@ class DialogManager {
             val builder = AlertDialog.Builder(activity)
             builder.setTitle(title)
             builder.setMessage(msg)
-            builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, which ->
+            builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
                 activity.finish()
             }
@@ -58,7 +58,7 @@ class DialogManager {
             val builder = AlertDialog.Builder(activity)
             builder.setTitle(title)
             builder.setMessage(msg)
-            builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
+            builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
             return builder.create()
 
         }
@@ -124,7 +124,7 @@ class DialogManager {
             builder.setTitle(title)
             builder.setMessage(msg)
             builder.setIcon(resourceIcon)
-            builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, which ->
+            builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
                 activity.finish()
             }

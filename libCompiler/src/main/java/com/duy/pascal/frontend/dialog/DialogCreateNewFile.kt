@@ -67,7 +67,7 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mEditFileName = view!!.findViewById(R.id.edit_file_name) as EditText
-        mEditFileName!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        mEditFileName!!.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 val file = doCreateFile()
                 if (listener != null && file != null) {

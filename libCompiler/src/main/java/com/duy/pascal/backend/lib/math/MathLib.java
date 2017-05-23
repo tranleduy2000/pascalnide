@@ -75,14 +75,14 @@ public class MathLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "")
-    public int celi(double d) {
+    @PascalMethod(description = "Return the lowest integer number greater than or equal to argument")
+    public int ceil(double d) {
         return (int) Math.ceil(d);
     }
 
 
-    @PascalMethod(description = "")
-    public long celi64(double d) {
+    @PascalMethod(description = "Round to the nearest bigger int64 value")
+    public long ceil64(double d) {
         return (long) Math.ceil(d);
     }
 
@@ -185,7 +185,7 @@ public class MathLib implements PascalLibrary {
     }
 
 
-    @PascalMethod(description = "")
+    @PascalMethod(description = "Round to the nearest smaller int64 value")
     public long floor64(double d) {
         return (int) Math.floor(d);
     }

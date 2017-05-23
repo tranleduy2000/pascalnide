@@ -1,5 +1,5 @@
-program test_time;
-uses dos;
+program test_get_time_func;
+uses dos,crt;
 var
     a, b, c, d : integer;
 
@@ -15,9 +15,19 @@ begin
 end;
 
 begin
-    GetTime(a,b,c,d);
-    WriteLn('Current time');
-    WriteLn(print(a),':',print(b),':',print(c));
+    while not keyPressed do
+    begin
+        clrscr;
+        GetTime(a,b,c,d);
+        gotoXY(15,8);
+        textColor(White);
+        WriteLn('Current time');
+        gotoXY(17,9);
+        textColor(Yellow);
+
+        WriteLn(print(a),':',print(b),':',print(c));
+        delay(1000);
+    end;
     readln;
 end.
 {if you want to improve this code, please send code to me
