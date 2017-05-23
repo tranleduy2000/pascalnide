@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.Dlog;
@@ -34,13 +35,12 @@ import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.utils.StringCompare;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.js.interpreter.VariableDeclaration;
-import com.js.interpreter.codeunit.program.PascalProgram;
-import com.js.interpreter.source_include.ScriptSource;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.codeunit.program.PascalProgram;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.ScriptTerminatedException;
+import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.File;
 import java.io.FileReader;
@@ -328,6 +328,10 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         Log.d(TAG, "createAndRunProgram() called with: path = [" + path + "]");
 
         StringBuilder code = mFileManager.fileToString(path);
+        if (code.toString().toLowerCase().startsWith("unit ")) {
+            onError(new RuntimeException(getString(R.string.can_not_exec_unit)));
+            return;
+        }
 
         //clone file to internal storage
         programFile = mFileManager.setContentFileTemp(code.toString());

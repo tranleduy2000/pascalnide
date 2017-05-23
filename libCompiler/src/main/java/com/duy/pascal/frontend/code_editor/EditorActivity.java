@@ -288,7 +288,7 @@ public class EditorActivity extends BaseEditorActivity implements
         if (filePath.isEmpty()) return false;
         try {
             CodeUnit codeUnit;
-            if (getCode().trim().toLowerCase().startsWith("unit")) {
+            if (getCode().trim().toLowerCase().startsWith("unit ")) {
                 codeUnit = PascalCompiler.loadLibrary(new File(filePath).getName(),
                         new FileReader(filePath), new ArrayList<ScriptSource>(), null);
             } else {

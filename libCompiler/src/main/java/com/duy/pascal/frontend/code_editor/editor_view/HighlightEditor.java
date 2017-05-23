@@ -808,7 +808,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
     }
 
-    class CompileRunnable implements Runnable {
+    private class CompileRunnable implements Runnable {
         @Override
         public void run() {
             try {
