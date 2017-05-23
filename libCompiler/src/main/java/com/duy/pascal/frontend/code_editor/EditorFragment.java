@@ -28,6 +28,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
@@ -37,10 +40,10 @@ import com.duy.pascal.backend.tokenizer.IndentCode;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
+import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
-import com.duy.pascal.frontend.view.editor_view.EditorView;
-import com.duy.pascal.frontend.view.editor_view.LineUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -125,6 +128,14 @@ public class EditorFragment extends Fragment implements EditorListener {
     public void onResume() {
         super.onResume();
         mCodeEditor.updateFromSettings();
+    }
+
+    public void autoFit(ParsingException e) {
+        if (e instanceof UnrecognizedTypeException) {
+            mCodeEditor.getAutoFitError().autoFitType((UnrecognizedTypeException) e);
+        } else if (e instanceof NoSuchFunctionOrVariableException) {
+            mCodeEditor.getAutoFitError().autoFitDefine((NoSuchFunctionOrVariableException) e);
+        }
     }
 
     @Override

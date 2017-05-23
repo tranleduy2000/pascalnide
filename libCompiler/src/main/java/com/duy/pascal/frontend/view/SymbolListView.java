@@ -24,10 +24,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.duy.pascal.frontend.adapters.SymbolAdapter;
+import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 
 import java.util.ArrayList;
-
-import static com.duy.pascal.frontend.code_completion.KeyWord.SYMBOL_KEY;
 
 /**
  * Created by Duy on 11-Feb-17.
@@ -66,7 +65,7 @@ public class SymbolListView extends RecyclerView {
 
     private void setup(Context context) {
         mAdapter = new SymbolAdapter();
-        mAdapter.setListKey(SYMBOL_KEY);
+        mAdapter.setListKey(KeyWord.SYMBOL_KEY);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         setLayoutManager(linearLayoutManager);

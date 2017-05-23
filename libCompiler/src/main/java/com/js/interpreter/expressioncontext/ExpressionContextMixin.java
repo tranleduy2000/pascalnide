@@ -47,7 +47,7 @@ import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.StructureItem;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ConstantDefinition;
@@ -415,7 +415,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void declareFunction(AbstractFunction f) {
         callableFunctions.put(f.name().toLowerCase(), f);
-        StructureItem e = new StructureItem(StructureType.TYPE_FUNCTION, f.name(), f.description());
+        StructureItem e = new StructureItem(StructureType.TYPE_FUNCTION, f.name(), f.getDescription());
         listNameFunctions.add(e);
     }
 

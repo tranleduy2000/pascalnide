@@ -62,7 +62,7 @@ import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.StructureItem;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;

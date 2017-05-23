@@ -53,7 +53,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static com.duy.pascal.frontend.view.editor_view.AutoIndentEditText.TAB_CHARACTER;
+import static com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText.TAB_CHARACTER;
 
 /**
  * This class will be reformat code pascal

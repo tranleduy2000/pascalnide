@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view.adapters;
+package com.duy.pascal.frontend.code_editor.editor_view.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.frontend.view.editor_view.CodeSuggestsEditText;
+import com.duy.pascal.frontend.code_editor.editor_view.CodeSuggestsEditText;
 
 /**
  * item for suggest adapter of {@link CodeSuggestsEditText}

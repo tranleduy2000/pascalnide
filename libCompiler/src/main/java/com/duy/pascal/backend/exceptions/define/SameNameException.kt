@@ -17,13 +17,20 @@
 package com.duy.pascal.backend.exceptions.define
 
 import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.js.interpreter.NamedEntity
 
-/**
- * Created by Duy on 21-May-17.
- */
-class MissingBodyFunctionException(private val funName: String, line: LineInfo?) : ParsingException(line) {
+class SameNameException(previous: NamedEntity, current: NamedEntity) :
+        ParsingException(current.lineNumber,
+                "${current.entityType} ${current.name()} conflicts with previously defined ${previous.entityType} with the same name defined at ${previous.lineNumber}") {
+    var type: String
+    var name: String
+    var preType: String
+    var preLine: String
 
-    override fun getLocalizedMessage(): String = "Forward declaration not solved " + funName
-
+    init {
+        this.type = current.entityType
+        this.name = current.name()
+        this.preType = previous.entityType
+        this.preLine = previous.lineNumber.toString()
+    }
 }

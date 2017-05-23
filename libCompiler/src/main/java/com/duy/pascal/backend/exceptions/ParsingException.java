@@ -6,7 +6,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 /**
  * Exception when parse syntax of the program
  */
-public  class ParsingException extends Exception {
+public class ParsingException extends Exception {
 
     /**
      * The line of line error
@@ -26,5 +26,9 @@ public  class ParsingException extends Exception {
     @Override
     public String toString() {
         return line + ":" + getMessage();
+    }
+
+    public boolean isAutoFit() {
+        return false;
     }
 }

@@ -183,5 +183,9 @@
     <string name="inserted_color">Inserted color</string>
     <string name="unit_file">Unit pascal (*.pas)</string>
     <string name="what_expect">What do you expect?</string>
+    <string name="auto_fix">Auto fix</string>
+    <string name="declare_variable">Declare variable</string>
+    <string name="declare_function">Declare function</string>
+    <string name="declare_constant">Declare constant</string>
 </resources>
 

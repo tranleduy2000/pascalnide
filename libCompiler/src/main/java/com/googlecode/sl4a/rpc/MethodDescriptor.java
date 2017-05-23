@@ -205,10 +205,10 @@ public final class MethodDescriptor {
     }
 
     /**
-     * Extracts the parameter description from its annotations.
+     * Extracts the parameter getDescription from its annotations.
      *
      * @param annotations the annotations of the parameter
-     * @return the description of the parameter
+     * @return the getDescription of the parameter
      */
     private static String getDescription(Annotation[] annotations) {
         for (Annotation a : annotations) {
@@ -216,7 +216,7 @@ public final class MethodDescriptor {
                 return ((PascalParameter) a).description();
             }
         }
-        throw new IllegalStateException("No parameter description");
+        throw new IllegalStateException("No parameter getDescription");
     }
 
     /**
@@ -474,7 +474,7 @@ public final class MethodDescriptor {
         for (int index = 0; index < hints.length; index++) {
             String name = getName(parametersAnnotations[index]);
             String description = getDescription(parametersAnnotations[index]);
-            String hint = "No paramenter description.";
+            String hint = "No paramenter getDescription.";
             if (!name.equals("") && !description.equals("")) {
                 hint = name + ": " + description;
             } else if (!name.equals("")) {

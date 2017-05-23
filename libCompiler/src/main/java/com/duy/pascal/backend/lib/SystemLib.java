@@ -395,7 +395,7 @@ public class SystemLib implements PascalLibrary {
         return s.indexOf(substring) + 1;
     }
 
-//    @PascalMethod(description = "Returns length of a string or array.")
+//    @PascalMethod(getDescription = "Returns length of a string or array.")
 //    public int length(StringBuilder s) {
 //        return s.length();
 //    }

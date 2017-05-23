@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define;
+package com.duy.pascal.frontend.code_editor.editor_view.bracket;
 
+import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
+/**
+ * Created by Duy on 12-May-17.
+ */
 
-public class UnrecognizedTypeException extends ParsingException {
-    public String type;
+public interface IBracket {
 
-    public UnrecognizedTypeException(LineInfo line, String name) {
-        super(line, "Type " + name + " is not defined");
-        type = name;
-    }
+    @NonNull
+    CharSequence getClose();
+
+    @NonNull
+    CharSequence getOpen();
 
 }

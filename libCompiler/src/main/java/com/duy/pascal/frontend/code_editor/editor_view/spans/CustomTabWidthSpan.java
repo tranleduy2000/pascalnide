@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view.spans;
+package com.duy.pascal.frontend.code_editor.editor_view.spans;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

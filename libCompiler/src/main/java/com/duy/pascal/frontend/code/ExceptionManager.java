@@ -62,7 +62,7 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code_completion.Patterns;
+import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.PluginCallException;
@@ -108,7 +108,7 @@ public class ExceptionManager {
                         ((StrayCharacterException) e).charCode);
             }
             if (e instanceof NoSuchFunctionOrVariableException) {
-                return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).name);
+                return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).getName());
             }
             if (e instanceof BadFunctionCallException) {
                 return getBadFunctionCallException(e);
@@ -171,8 +171,8 @@ public class ExceptionManager {
             }
             if (e instanceof SameNameException) {
                 SameNameException exception = (SameNameException) e;
-                return getMessageResource(e, R.string.SameNameException, exception.type,
-                        exception.name, exception.preType, exception.preLine);
+                return getMessageResource(e, R.string.SameNameException, exception.getType(),
+                        exception.getName(), exception.getPreType(), exception.getPreLine());
             }
             if (e instanceof UnAssignableTypeException) {
                 return getMessageResource(e, R.string.UnAssignableTypeException,
@@ -180,7 +180,7 @@ public class ExceptionManager {
             }
             if (e instanceof UnrecognizedTypeException) {
                 return getMessageResource(e, R.string.UnrecognizedTypeException,
-                        ((UnrecognizedTypeException) e).type);
+                        ((UnrecognizedTypeException) e).missingType);
             }
             if (e instanceof InvalidNumericFormatException) {
                 return getMessageResource(e, R.string.InvalidNumericFormatException);
@@ -408,7 +408,7 @@ public class ExceptionManager {
     private Spanned getExpectedTokenException(ExpectedTokenException e) {
         String msg = String.format(context.getString(R.string.ExpectedTokenException_3), e.expected, e.current);
         SpannableString spannableString = new SpannableString(msg);
-        Matcher matcher = Patterns.REPLACE.matcher(spannableString);
+        Matcher matcher = Patterns.REPLACE_HIGHLIGHT.matcher(spannableString);
         while (matcher.find()) {
             spannableString.setSpan(new ForegroundColorSpan(Color.YELLOW), matcher.start(),
                     matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

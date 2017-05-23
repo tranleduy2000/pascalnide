@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view;
+package com.duy.pascal.frontend.code_editor.editor_view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -46,6 +46,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
+import com.duy.pascal.frontend.code_editor.editor_view.autofit.AutoFitError;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.StringReader;
@@ -53,12 +54,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.duy.pascal.frontend.code_completion.Patterns.COMMENTS;
-import static com.duy.pascal.frontend.code_completion.Patterns.FUNCTIONS;
-import static com.duy.pascal.frontend.code_completion.Patterns.KEYWORDS;
-import static com.duy.pascal.frontend.code_completion.Patterns.NUMBERS;
-import static com.duy.pascal.frontend.code_completion.Patterns.STRINGS;
-import static com.duy.pascal.frontend.code_completion.Patterns.SYMBOLS;
+import static com.duy.pascal.frontend.code_editor.completion.Patterns.COMMENTS;
+import static com.duy.pascal.frontend.code_editor.completion.Patterns.FUNCTIONS;
+import static com.duy.pascal.frontend.code_editor.completion.Patterns.KEYWORDS;
+import static com.duy.pascal.frontend.code_editor.completion.Patterns.NUMBERS;
+import static com.duy.pascal.frontend.code_editor.completion.Patterns.STRINGS;
+import static com.duy.pascal.frontend.code_editor.completion.Patterns.SYMBOLS;
 
 public class HighlightEditor extends CodeSuggestsEditText
         implements View.OnKeyListener {
@@ -68,31 +69,14 @@ public class HighlightEditor extends CodeSuggestsEditText
     public static final int CHARS_TO_COLOR = 2500;
     private final Handler updateHandler = new Handler();
     private final Object objectThread = new Object();
-    public boolean showLines = true;
-    public boolean wordWrap = true;
-    public LineInfo lineError = null;
     /**
      * Thread for automatically interpreting the program to catch errors.
      * Then show to edit text if there are errors
      */
-    private final Runnable compileProgram = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                PascalCompiler.loadPascal("temp", new StringReader(getCleanText()),
-                        new ArrayList<ScriptSource>(), null);
-                lineError = null;
-            } catch (ParsingException e) {
-                if (e.line != null) {
-                    synchronized (objectThread) {
-                        lineError = e.line;
-                    }
-                }
-                e.printStackTrace();
-            } catch (Exception ignored) {
-            }
-        }
-    };
+    private final Runnable compileProgram = new CompileRunnable();
+    public boolean showLines = true;
+    public boolean wordWrap = true;
+    public LineInfo lineError = null;
     protected Paint mPaintNumbers;
     protected Paint mPaintHighlight;
     protected int mPaddingDP = 4;
@@ -141,6 +125,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                 }
             };
     private int numberWidth = 0;
+    private AutoFitError mAutoFitError;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -155,6 +140,10 @@ public class HighlightEditor extends CodeSuggestsEditText
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setup(context);
+    }
+
+    public AutoFitError getAutoFitError() {
+        return mAutoFitError;
     }
 
     public boolean isAutoCompile() {
@@ -175,6 +164,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     private void setup(Context context) {
         this.mContext = context;
+        mAutoFitError = new AutoFitError(this);
 
         lineUtils = new LineUtils();
         mPaintNumbers = new Paint();
@@ -264,7 +254,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
 
         getDrawingRect(mDrawingRect);
-        lineX = mDrawingRect.left + mLinePadding - (mPadding / 2);
+        lineX = mDrawingRect.left + mLinePadding - mPadding;
         int min = 0;
         int max = lineCount;
         getLineBounds(0, mLineBounds);
@@ -773,7 +763,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
     }
 
-
     /**
      * Class that listens to changes in the text.
      */
@@ -814,5 +803,26 @@ public class HighlightEditor extends CodeSuggestsEditText
             }
 
         }
+    }
+
+    class CompileRunnable implements Runnable {
+        @Override
+        public void run() {
+            try {
+                PascalCompiler.loadPascal("temp", new StringReader(getCleanText()),
+                        new ArrayList<ScriptSource>(), null);
+                lineError = null;
+            } catch (ParsingException e) {
+                if (e.line != null) {
+                    synchronized (objectThread) {
+                        lineError = e.line;
+                    }
+                }
+                e.printStackTrace();
+            } catch (Exception ignored) {
+            }
+        }
+
+
     }
 }

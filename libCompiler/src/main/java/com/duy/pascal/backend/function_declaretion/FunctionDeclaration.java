@@ -134,7 +134,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return null;
     }
 

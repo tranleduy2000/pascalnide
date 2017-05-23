@@ -31,7 +31,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.fragment.ThemeFragment;
-import com.duy.pascal.frontend.view.editor_view.EditorView;
+import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 
 import java.util.ArrayList;
 import java.util.Collections;

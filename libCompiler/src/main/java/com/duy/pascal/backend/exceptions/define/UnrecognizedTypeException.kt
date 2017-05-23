@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.js.interpreter;
+package com.duy.pascal.backend.exceptions.define
 
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.exceptions.ParsingException
+import com.duy.pascal.backend.linenumber.LineInfo
 
-public interface NamedEntity {
-    LineInfo getLineNumber();
 
-    String getEntityType();
+open class UnrecognizedTypeException(var line: LineInfo, type: String)
+    : ParsingException(line, "Type $type is not define") {
 
-    String name();
+    @JvmField val missingType: String = type
 
-    String getDescription();
+    override fun isAutoFit(): Boolean = true;
 }

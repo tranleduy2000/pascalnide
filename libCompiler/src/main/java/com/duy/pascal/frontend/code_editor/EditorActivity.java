@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.code_editor;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,11 +45,11 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
-import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.code.ExceptionManager;
+import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.StructureItem;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogManager;
@@ -56,10 +57,9 @@ import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.fragment.ThemeFontActivity;
-import com.duy.pascal.frontend.view.editor_view.EditorView;
-import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.VariableDeclaration;
@@ -74,6 +74,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EditorActivity extends BaseEditorActivity implements
         DrawerLayout.DrawerListener {
@@ -85,6 +86,7 @@ public class EditorActivity extends BaseEditorActivity implements
     private CompileManager mCompileManager;
     private MenuEditor menuEditor;
     private Handler handler = new Handler();
+    private Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +155,6 @@ public class EditorActivity extends BaseEditorActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         return menuEditor.onCreateOptionsMenu(menu);
     }
-
 
     /**
      * create dialog find and replace
@@ -298,34 +299,8 @@ public class EditorActivity extends BaseEditorActivity implements
                         return false;
                     }
                 }
-
             }
-
-            if (codeUnit != null) {
-                ExpressionContextMixin program = codeUnit.getProgram();
-                EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
-                if (currentFragment != null) {
-                    ArrayList<StructureItem> data = new ArrayList<>();
-                    data.addAll(program.getListNameConstants());
-                    data.addAll(program.getListNameFunctions());
-                    data.addAll(program.getListNameTypes());
-                    ArrayList<VariableDeclaration> variables = program.getVariables();
-                    ArrayList<StructureItem> listVariables = new ArrayList<>();
-                    for (VariableDeclaration variableDeclaration : variables) {
-                        listVariables.add(new StructureItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
-                    }
-                    data.addAll(listVariables);
-
-
-                    EditorView editor = currentFragment.getEditor();
-                    if (editor != null) {
-                        editor.setSuggestData(data);
-                    }
-                }
-
-            }
-
-
+            buildSuggestData(codeUnit);
         } catch (FileNotFoundException e) {
             showErrorDialog(e);
             return false;
@@ -341,14 +316,56 @@ public class EditorActivity extends BaseEditorActivity implements
         return true;
     }
 
+    private void buildSuggestData(CodeUnit codeUnit) {
+        if (codeUnit != null) {
+            ExpressionContextMixin program = codeUnit.getProgram();
+            EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
+            if (currentFragment != null) {
+                ArrayList<StructureItem> data = new ArrayList<>();
+
+                ArrayListMultimap<String, AbstractFunction> callableFunctions = program.getCallableFunctions();
+                Set<String> names = callableFunctions.keySet();
+                for (String name : names) {
+                    List<AbstractFunction> functions = callableFunctions.get(name);
+                    for (AbstractFunction function : functions) {
+                        String funName = function.toString();
+                        data.add(new StructureItem(StructureType.TYPE_FUNCTION, funName,
+                                function.getDescription()));
+                    }
+                }
+
+                data.addAll(program.getListNameConstants());
+                data.addAll(program.getListNameTypes());
+
+                ArrayList<VariableDeclaration> variables = program.getVariables();
+                ArrayList<StructureItem> listVariables = new ArrayList<>();
+
+                for (VariableDeclaration variableDeclaration : variables) {
+                    listVariables.add(new StructureItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
+                }
+                data.addAll(listVariables);
+
+
+                EditorView editor = currentFragment.getEditor();
+                if (editor != null) {
+                    editor.setSuggestData(data);
+                }
+            }
+
+        }
+    }
+
     private void showErrorDialog(Exception e) {
-        ExceptionManager exceptionManager = new ExceptionManager(this);
-//        DialogFragmentErrorMsg dialogFragmentErrorMsg = DialogFragmentErrorMsg
-//                .newInstance(exceptionManager.getMessage(e), "");
-//        dialogFragmentErrorMsg.show(getSupportFragmentManager(), DialogFragmentErrorMsg.TAG);
-        DialogManager.createMsgDialog(this, getString(R.string.compile_error),
-                exceptionManager.getMessage(e)).show();
-        Dlog.e(e);
+        this.mDialog = DialogManager.Companion.createErrorDialog(this, e);
+        this.mDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
+        }
     }
 
     @Override
@@ -484,7 +501,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public void reportBug() {
-        DialogManager.createDialogReportBug(this, getCode());
+        DialogManager.Companion.createDialogReportBug(this, getCode());
     }
 
     @Override
@@ -713,5 +730,12 @@ public class EditorActivity extends BaseEditorActivity implements
                 }
             }
         }).build().show();
+    }
+
+    public void autoFit(ParsingException e) {
+        EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
+        if (currentFragment != null) {
+            currentFragment.autoFit(e);
+        }
     }
 }

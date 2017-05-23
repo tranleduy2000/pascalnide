@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view;
+package com.duy.pascal.frontend.code_editor.editor_view;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
@@ -67,10 +67,6 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
                 return '}';
             case '[':
                 return ']';
-//            case '\'':
-//                return '\'';
-//            case '"':
-//                return '"';
         }
         return 0;
     }
@@ -86,7 +82,6 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             start = index + 1;
         }*/
-
     }
 
     public void applyTabWidth() {

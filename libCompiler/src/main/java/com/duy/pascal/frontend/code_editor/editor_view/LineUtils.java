@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view;
+package com.duy.pascal.frontend.code_editor.editor_view;
 
 import android.support.annotation.NonNull;
 import android.text.Layout;

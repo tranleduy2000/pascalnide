@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view.bracket;
+package com.duy.pascal.frontend.code_editor.editor_view.bracket;
 
 import android.support.annotation.NonNull;
 
@@ -22,12 +22,16 @@ import android.support.annotation.NonNull;
  * Created by Duy on 12-May-17.
  */
 
-public interface IBracket {
+public class Parentheses implements IBracket {
+    @NonNull
+    @Override
+    public CharSequence getClose() {
+        return ")";
+    }
 
     @NonNull
-    CharSequence getClose();
-
-    @NonNull
-    CharSequence getOpen();
-
+    @Override
+    public CharSequence getOpen() {
+        return "(";
+    }
 }

@@ -14,27 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view;
+package com.duy.pascal.backend.exceptions.define
 
-import android.content.Context;
-import android.util.AttributeSet;
+import com.duy.pascal.backend.exceptions.ParsingException
+import com.duy.pascal.backend.linenumber.LineError
+import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.frontend.code_editor.editor_view.autofit.DefineType
 
-/**
- * Created by Duy on 15-Mar-17.
- */
+class NoSuchFunctionOrVariableException(line: LineInfo, var name: String)
+    : ParsingException(LineError(line, name.length), name + " is not a variable or function name") {
 
-public class EditorView extends UndoRedoSupportEditText {
-    private static final String TAG = EditorView.class.getSimpleName();
-
-    public EditorView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public EditorView(Context context) {
-        super(context);
-
-    }
-    public EditorView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    var token: String? = null
+    var fitType: DefineType? = DefineType.DECLARE_VAR;
+    override fun isAutoFit(): Boolean {
+        return true
     }
 }

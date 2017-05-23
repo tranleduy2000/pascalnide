@@ -47,7 +47,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <com.duy.pascal.frontend.view.editor_view.EditorView
+        <com.duy.pascal.frontend.code_editor.editor_view.EditorView
             android:id="@+id/editor_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

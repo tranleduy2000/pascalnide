@@ -614,7 +614,7 @@ public abstract class GrouperToken extends Token {
                 if (next instanceof DowntoToken) {
                     downto = true;
                 } else if (!(next instanceof ToToken)) {
-                    throw new ExpectedTokenException("[To] or [Downto]", next);
+                    throw new ExpectedTokenException("['To' or 'Downto'", next);
                 }
                 RuntimeValue lastValue = getNextExpression(context);
                 next = take();
@@ -628,11 +628,11 @@ public abstract class GrouperToken extends Token {
                     result = new ForToStatement(context, tmpVariable, firstValue,
                             lastValue, getNextCommand(context), lineNumber);
                 }
-            } else if (next instanceof OperatorToken) {
+            } else {
                 if (((OperatorToken) next).type == OperatorTypes.IN) {
 
                 } else {
-                    throw new ExpectedTokenException("\":=\" or \"in\"", next);
+                    throw new ExpectedTokenException("':=' or 'in'", next);
                 }
             }
             return result;

@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view.bracket;
-
-import android.support.annotation.NonNull;
+package com.duy.pascal.frontend.code_editor.editor_view.autofit;
 
 /**
- * Created by Duy on 12-May-17.
+ * Created by Duy on 23-May-17.
  */
 
-public class Parentheses implements IBracket {
-    @NonNull
-    @Override
-    public CharSequence getClose() {
-        return ")";
-    }
-
-    @NonNull
-    @Override
-    public CharSequence getOpen() {
-        return "(";
-    }
+public enum DefineType {
+    DECLARE_TYPE, DECLARE_VAR, DECLARE_FUNCTION, DECLARE_PROCEDURE, ADD_MISSING, DECLARE_CONST
 }

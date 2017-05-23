@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
-import com.duy.pascal.frontend.view.editor_view.EditorView;
+import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 
 //import butterknife.BindView;
 

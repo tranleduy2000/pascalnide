@@ -104,7 +104,7 @@ public class VariableDeclaration implements NamedEntity {
     }
 
     @Override
-    public String description() {
+    public String getDescription() {
         return null;
     }
 }

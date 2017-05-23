@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.utils;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.frontend.view.exec_screen.console.TextConsole;
 
 import java.util.Arrays;
@@ -43,5 +45,21 @@ public class ArrayUtils {
             res.append(textObject);
         }
         return res.toString();
+    }
+
+    public static String[] join(@NonNull String[]... objects) {
+        int size = 0;
+        for (String[] object : objects) {
+            size += object.length;
+        }
+        String[] result = new String[size];
+        int index = 0;
+        for (String[] object : objects) {
+            for (String t : object) {
+                result[index] = t;
+                index++;
+            }
+        }
+        return result;
     }
 }

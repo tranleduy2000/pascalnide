@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_completion;
+package com.duy.pascal.frontend.code_editor.completion;
 
 import java.util.regex.Pattern;
 
@@ -28,9 +28,9 @@ public class Patterns {
     //Words
     public static final Pattern LINE = Pattern.compile(".*\\n");
     public static final Pattern NUMBERS = Pattern.compile(
-            "\\b(\\d*[.]?\\d+)\\b");
+            "\\s(\\d*[.]?\\d+)\\s");
     public static final Pattern KEYWORDS = Pattern.compile(
-            "\\b(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
+            "\\s(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
                     "|downto|to|mod|of" +
                     "|procedure|program|repeat|until|shl|shr" +
                     "|then|type|var|end|function" +
@@ -43,14 +43,14 @@ public class Patterns {
                     "|boolean" +
                     "|char|text" +
                     "|record|continue" +
-                    "|unit|interface|initialization|finalization|implementation)\\b",
+                    "|unit|interface|initialization|finalization|implementation)\\s",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final Pattern FUNCTIONS = Pattern.compile(
-            "\\b(sin|cos|sqrt|length" +
+            "\\s(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
-                    "|odd|int|halt|odd)\\b", Pattern.CASE_INSENSITIVE);
+                    "|odd|int|halt|odd)\\s", Pattern.CASE_INSENSITIVE);
 
     public static final Pattern COMMENTS = Pattern.compile(
             "(//.*)|(/\\*(?:.|[\\n\\r])*?\\*/)" +
@@ -60,5 +60,13 @@ public class Patterns {
     public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;]");
 
     public static final Pattern STRINGS = Pattern.compile("('(.*?)')|('(.*?)[\\r\\n]+)");
-    public static final Pattern REPLACE = Pattern.compile("\"(.*?)\"");
+    public static final Pattern REPLACE_HIGHLIGHT = Pattern.compile("\"(.*?)\"");
+
+    public static final Pattern REPLACE_CURSOR = Pattern.compile("%\\w");
+
+    public static final Pattern VAR = Pattern.compile("\\s(var)\\s", Pattern.CASE_INSENSITIVE);
+    public static final Pattern TYPE = Pattern.compile("\\s(type)\\s", Pattern.CASE_INSENSITIVE);
+    public static final Pattern PROGRAM = Pattern.compile("\\s(program)[\\s](.*?);\\s", Pattern.CASE_INSENSITIVE);
+    public static final Pattern USES = Pattern.compile("\\s(uses)[\\s](.*?);\\s", Pattern.CASE_INSENSITIVE);
+    public static final Pattern CONST = Pattern.compile("\\s(const)\\s", Pattern.CASE_INSENSITIVE);
 }

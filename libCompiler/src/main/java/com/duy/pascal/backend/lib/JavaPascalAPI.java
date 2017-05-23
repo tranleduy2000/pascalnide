@@ -28,7 +28,7 @@ import java.util.Map;
  */
 
 public class JavaPascalAPI implements PascalLibrary {
-    //    @PascalMethod(description = "create object")
+    //    @PascalMethod(getDescription = "create object")
     private Object newInstance(Class<?> c, Class... params) throws NoSuchMethodException,
             IllegalAccessException, InvocationTargetException, InstantiationException {
 

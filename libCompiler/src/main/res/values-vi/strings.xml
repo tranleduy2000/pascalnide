@@ -178,4 +178,8 @@
     <string name="inserted_color">Đã chèn màu</string>
     <string name="permission_denied_storage">Quyền đọc bộ nhớ ngoài bị từ chối.</string>
     <string name="what_expect">Bạn mong chờ điều gì?</string>
+    <string name="declare_variable">Khai báo biến</string>
+    <string name="declare_function">Khai báo hàm</string>
+    <string name="declare_constant">Khai báo hằng</string>
+    <string name="auto_fix">Auto fix</string>
 </resources>

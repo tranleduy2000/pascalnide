@@ -55,7 +55,7 @@ public class DialogFragmentErrorMsg extends AppCompatDialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView txtLine = (TextView) view.findViewById(R.id.txt_content);
+        TextView txtLine = (TextView) view.findViewById(R.id.txt_message);
         txtLine.setText(getArguments().getCharSequence("line"));
 
         TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);

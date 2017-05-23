@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view.adapters;
+package com.duy.pascal.frontend.code_editor.editor_view.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -99,12 +99,10 @@ public class CodeSuggestAdapter extends ArrayAdapter<StructureItem> {
     }
 
     public ArrayList<StructureItem> getItems() {
-        return items;
+        return itemsAll;
     }
 
-    public void setItems(ArrayList<StructureItem> items) {
-        this.items = items;
-    }
+
 
     @NonNull
     @Override

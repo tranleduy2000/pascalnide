@@ -14,18 +14,27 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define;
+package com.duy.pascal.frontend.code_editor.editor_view;
 
-import com.duy.pascal.backend.linenumber.LineError;
-import com.duy.pascal.backend.linenumber.LineInfo;
+import android.content.Context;
+import android.util.AttributeSet;
 
-public class NoSuchFunctionOrVariableException extends com.duy.pascal.backend.exceptions.ParsingException {
-    public String name, token;
+/**
+ * Created by Duy on 15-Mar-17.
+ */
 
-    public NoSuchFunctionOrVariableException(LineInfo line, String token) {
-        super(new LineError(line, token.length()),
-                token + " is not a variable or function name");
-        this.name = token;
+public class EditorView extends UndoRedoSupportEditText {
+    private static final String TAG = EditorView.class.getSimpleName();
+
+    public EditorView(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
+    public EditorView(Context context) {
+        super(context);
+
+    }
+    public EditorView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
 }

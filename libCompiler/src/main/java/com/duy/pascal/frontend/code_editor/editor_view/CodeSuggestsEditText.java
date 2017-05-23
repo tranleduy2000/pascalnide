@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.view.editor_view;
+package com.duy.pascal.frontend.code_editor.editor_view;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code_completion.KeyWord;
+import com.duy.pascal.frontend.code_editor.completion.KeyWord;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.CodeSuggestAdapter;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.StructureItem;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.editor_view.adapters.CodeSuggestAdapter;
-import com.duy.pascal.frontend.view.editor_view.adapters.StructureItem;
 
 import java.util.ArrayList;
 
@@ -48,6 +47,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     protected EditorSetting mEditorSetting;
     protected SymbolsTokenizer mTokenizer;
     private CodeSuggestAdapter mAdapter;
+    private boolean enoughToFilter = false;
 
 
     public CodeSuggestsEditText(Context context) {
@@ -108,23 +108,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     /**
      * invalidate data for auto suggest
      */
-    public void setSuggestData(ArrayList<StructureItem> data) {
-        if (!mEditorSetting.isShowSuggestPopup()) {
-            if (mAdapter != null) {
-                mAdapter.clear();
-            } else {
-                mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint,
-                        new ArrayList<StructureItem>());
-                setAdapter(mAdapter);
-            }
-            return;
+    public void setSuggestData(String[] data) {
+        ArrayList<StructureItem> items = new ArrayList<>();
+        for (String s : data) {
+            items.add(new StructureItem(StructureType.TYPE_KEY_WORD, s));
         }
-        for (String s : KeyWord.KEY_WORDS) {
-            data.add(new StructureItem(StructureType.TYPE_KEY_WORD, s));
-        }
-        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);
-        setAdapter(mAdapter);
-        onDropdownChangeSize();
+        setSuggestData(items);
     }
 
     @Override
@@ -162,7 +151,66 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         }
     }
 
-    protected class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
+    public void setEnoughToFilter(boolean enoughToFilter) {
+        this.enoughToFilter = enoughToFilter;
+    }
+
+    @Override
+    public boolean enoughToFilter() {
+        if (enoughToFilter) {
+            return true;
+        }
+        return super.enoughToFilter();
+    }
+
+    public void restoreAfterClick(final String[] data) {
+        final ArrayList<StructureItem> suggestData = (ArrayList<StructureItem>) getSuggestData().clone();
+        setSuggestData(data);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setEnoughToFilter(true);
+                showDropDown();
+                setEnoughToFilter(false);
+            }
+        }, 50);
+
+        //when user click item, restore data
+        setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setSuggestData(suggestData);
+            }
+        });
+    }
+
+    public ArrayList<StructureItem> getSuggestData() {
+        return mAdapter.getItems();
+    }
+
+    /**
+     * invalidate data for auto suggest
+     */
+    public void setSuggestData(ArrayList<StructureItem> data) {
+        if (!mEditorSetting.isShowSuggestPopup()) {
+            if (mAdapter != null) {
+                mAdapter.clear();
+            } else {
+                mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint,
+                        new ArrayList<StructureItem>());
+                setAdapter(mAdapter);
+            }
+            return;
+        }
+        for (String s : KeyWord.ALL_KEY_WORD) {
+            data.add(new StructureItem(StructureType.TYPE_KEY_WORD, s));
+        }
+        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);
+        setAdapter(mAdapter);
+        onDropdownChangeSize();
+    }
+
+    private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
         String token = "!@#$%^&*()_+-={}|[]:;'<>/<.? \n\t";
 
         @Override
@@ -198,18 +246,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             while (i > 0 && text.charAt(i - 1) == ' ') {
                 i--;
             }
-
-            if (i > 0 && token.contains(Character.toString(text.charAt(i - 1)))) {
-                return text + " ";
-            } else {
-                if (text instanceof Spanned) {
-                    SpannableString sp = new SpannableString(text);
-                    TextUtils.copySpansFrom((Spanned) text, 0, text.length(), Object.class, sp, 0);
-                    return sp;
-                } else {
-                    return text + " ";
-                }
-            }
+            return text;
         }
     }
 }

@@ -19,7 +19,7 @@ package com.googlecode.sl4a.rpc;
 import java.lang.reflect.Type;
 
 /**
- * RPC parameter description.
+ * RPC parameter getDescription.
  *
  * @author igor.v.karp@gmail.com (Igor Karp)
  */

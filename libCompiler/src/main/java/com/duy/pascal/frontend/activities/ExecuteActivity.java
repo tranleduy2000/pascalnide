@@ -176,7 +176,7 @@ public class ExecuteActivity extends AbstractExecActivity {
     @Override
     public void onError(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
-        DialogManager.createFinishDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
+        DialogManager.Companion.createFinishDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
 
         if (Dlog.DEBUG) {
             Log.e(TAG, "onError: ", e);

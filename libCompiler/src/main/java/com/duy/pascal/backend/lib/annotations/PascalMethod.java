@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public @interface PascalMethod {
     /**
-     * Returns brief description of the function. Should be limited to one or two sentences.
+     * Returns brief getDescription of the function. Should be limited to one or two sentences.
      */
     String description();
 
@@ -46,7 +46,7 @@ public @interface PascalMethod {
     String[] params() default {};
 
     /**
-     * Gives a brief description of the FUNCTIONS return value (and the underlying data structure).
+     * Gives a brief getDescription of the FUNCTIONS return value (and the underlying data structure).
      */
     String returns() default "";
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_completion;
+package com.duy.pascal.frontend.code_editor.completion;
 
 /**
  * Created by Duy on 22-May-17.
