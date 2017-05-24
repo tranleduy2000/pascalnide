@@ -111,7 +111,7 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
         }
         if (checkBoxInp!!.isChecked && !fileName.contains(".")) {
             fileName += ".inp"
-        } else if (checkBoxPas!!.isChecked && !fileName.contains(".")) {
+        } else if ((checkBoxPas!!.isChecked || checkBoxUnit!!.isChecked) && !fileName.contains(".")) {
             fileName += ".pas"
         }
         var file = File(ApplicationFileManager.getApplicationPath() + fileName)
@@ -124,10 +124,10 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
         file = File(filePath)
         if (checkBoxPas!!.isChecked) {
             mFileManager!!.saveFile(file,
-                    Template.createProgramTemplate(file.name))
+                    Template.createProgramTemplate(file.nameWithoutExtension))
         } else if (checkBoxUnit!!.isChecked) {
             mFileManager!!.saveFile(file,
-                    Template.createUnitTemplate(file.name))
+                    Template.createUnitTemplate(file.nameWithoutExtension))
         }
         return file
     }
