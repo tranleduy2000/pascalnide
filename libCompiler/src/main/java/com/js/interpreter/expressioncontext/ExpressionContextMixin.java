@@ -46,7 +46,7 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
+import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;

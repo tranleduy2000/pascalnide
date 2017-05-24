@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.program_structure;
+package com.duy.pascal.frontend.structure;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -24,8 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.program_structure.viewholder.StructureItem;
-import com.duy.pascal.frontend.program_structure.viewholder.ViewHolder;
+import com.duy.pascal.frontend.structure.viewholder.StructureItem;
+import com.duy.pascal.frontend.structure.viewholder.ViewHolder;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 

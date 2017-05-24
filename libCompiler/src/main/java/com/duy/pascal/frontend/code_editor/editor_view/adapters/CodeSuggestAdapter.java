@@ -30,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
+import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
 import java.util.ArrayList;
 

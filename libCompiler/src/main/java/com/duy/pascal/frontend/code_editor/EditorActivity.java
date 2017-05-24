@@ -54,8 +54,8 @@ import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogManager;
-import com.duy.pascal.frontend.program_structure.DialogProgramStructure;
-import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
+import com.duy.pascal.frontend.structure.DialogProgramStructure;
+import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.fragment.ThemeFontActivity;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -658,7 +658,7 @@ public class EditorActivity extends BaseEditorActivity implements
             }
             ExpressionContextMixin program = pascalProgram.getProgram();
 
-            com.duy.pascal.frontend.program_structure.viewholder.StructureItem node = getNode(program, pascalProgram.getProgramName(), StructureType.TYPE_PROGRAM, 0);
+            com.duy.pascal.frontend.structure.viewholder.StructureItem node = getNode(program, pascalProgram.getProgramName(), StructureType.TYPE_PROGRAM, 0);
 
             DialogProgramStructure dialog = DialogProgramStructure.newInstance(node);
             dialog.show(getSupportFragmentManager(), DialogProgramStructure.TAG);
@@ -667,28 +667,28 @@ public class EditorActivity extends BaseEditorActivity implements
         }
     }
 
-    private com.duy.pascal.frontend.program_structure.viewholder.StructureItem getNode(ExpressionContextMixin context, String nameOfNode, int type, int depth) {
-        com.duy.pascal.frontend.program_structure.viewholder.StructureItem node = new com.duy.pascal.frontend.program_structure.viewholder.StructureItem(type, nameOfNode);
+    private com.duy.pascal.frontend.structure.viewholder.StructureItem getNode(ExpressionContextMixin context, String nameOfNode, int type, int depth) {
+        com.duy.pascal.frontend.structure.viewholder.StructureItem node = new com.duy.pascal.frontend.structure.viewholder.StructureItem(type, nameOfNode);
         String tab = "";
         for (int i = 0; i < depth; i++) tab += "\t";
         Map<String, ConstantDefinition> constants = context.getConstants();
         ArrayList<InfoItem> listNameConstants = context.getListNameConstants();
         for (InfoItem name : listNameConstants) {
-            node.addNode(new com.duy.pascal.frontend.program_structure.viewholder.StructureItem(StructureType.TYPE_CONST,
+            node.addNode(new com.duy.pascal.frontend.structure.viewholder.StructureItem(StructureType.TYPE_CONST,
                     name + " = " + constants.get(name.getName().toLowerCase()).getValue()));
         }
 
         ArrayList<String> libraries = context.getLibrariesNames();
         for (String name : libraries) {
             Log.d(TAG, tab + "showProgramStructure: library " + name);
-            node.addNode(new com.duy.pascal.frontend.program_structure.viewholder.StructureItem(StructureType.TYPE_LIBRARY, name));
+            node.addNode(new com.duy.pascal.frontend.structure.viewholder.StructureItem(StructureType.TYPE_LIBRARY, name));
         }
 
         List<VariableDeclaration> variables = context.getVariables();
         for (VariableDeclaration variableDeclaration : variables) {
             Log.d(TAG, tab + "showProgramStructure: var " + variableDeclaration.getName() + " = "
                     + variableDeclaration.getInitialValue() + " " + variableDeclaration.getType());
-            node.addNode(new com.duy.pascal.frontend.program_structure.viewholder.StructureItem(StructureType.TYPE_VARIABLE,
+            node.addNode(new com.duy.pascal.frontend.structure.viewholder.StructureItem(StructureType.TYPE_VARIABLE,
                     variableDeclaration.getName() + ": " + variableDeclaration.getType()));
         }
 
@@ -699,7 +699,7 @@ public class EditorActivity extends BaseEditorActivity implements
             for (AbstractFunction function : abstractFunctions) {
                 if (function instanceof FunctionDeclaration) {
                     FunctionDeclaration functionInPascal = (FunctionDeclaration) function;
-                    com.duy.pascal.frontend.program_structure.viewholder.StructureItem child = getNode(
+                    com.duy.pascal.frontend.structure.viewholder.StructureItem child = getNode(
                             functionInPascal.declarations,
                             ((FunctionDeclaration) function).name,
                             functionInPascal.isProcedure() ? StructureType.TYPE_PROCEDURE : StructureType.TYPE_FUNCTION,

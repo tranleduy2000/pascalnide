@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.program_structure.viewholder;
+package com.duy.pascal.frontend.structure.viewholder;
 
 import android.content.Context;
 import android.view.LayoutInflater;
