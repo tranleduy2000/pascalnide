@@ -38,7 +38,7 @@
     <string name="NoSuchFunctionOrVariableException">"%1$s\" không phải là biến hoặc hàm (vui lòng khai báo nếu bị thiếu)</string>
     <string name="NotAStatementException">"%1$s\" không phải là một chỉ dẫn của chính nó.</string>
     <string name="OverridingFunctionException">Lỗi khi định nghĩa lại phần thân của hàm "%1$s", nó đã được định nghĩa ở dòng "%1$s"</string>
-    <string name="SameNameException">"%1$s\" \"%2$s\" xung đột với các khai báo %3$s với tên giống nhau được định nghĩa ở dòng %4$s</string>
+    <string name="SameNameException">\"%1$s\" \"%2$s\" xung đột với các khai báo %3$s với tên giống nhau được định nghĩa ở dòng %4$s</string>
     <string name="UnAssignableTypeException">Biểu thức "%1$s" không thể có giá trị được gán cho nó.</string>
     <string name="UnrecognizedTypeException">Kiểu "%1$s" chưa được khai báo.</string>
     <string name="PascalArithmeticException">Lỗi khi tính toán: "%1$s"</string>

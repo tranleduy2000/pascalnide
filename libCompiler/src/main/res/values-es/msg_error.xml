@@ -35,7 +35,7 @@
     <string name="NoSuchFunctionOrVariableException">"%1$s\" no es una variable o nombre de una función</string>
     <string name="NotAStatementException">"%1$s\" no es una instrucción por si misma.</string>
     <string name="OverridingFunctionException">Reedifiniendo función a "%1$s", que previamente estaba definida a "%1$s"</string>
-    <string name="SameNameException">"%1$s\" \"%2$s\" conflictos con %3$s previamente definida con el mismo nombre que %4$s</string>
+    <string name="SameNameException">\"%1$s\" \"%2$s\" conflictos con %3$s previamente definida con el mismo nombre que %4$s</string>
     <string name="UnAssignableTypeException">La expreción "%1$s" no puede tener un valor asignada.</string>
     <string name="UnrecognizedTypeException">El tipo "%1$s" no esta definido.</string>
     <string name="PascalArithmeticException">Expreción aritmetica: "%1$s"</string>
