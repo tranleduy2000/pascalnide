@@ -28,8 +28,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/img_info"
+        android:layout_toLeftOf="@+id/img_info"
+        android:ellipsize="end"
         android:gravity="center|left"
+        android:maxLines="1"
         android:singleLine="true"
         android:text="@string/save"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />

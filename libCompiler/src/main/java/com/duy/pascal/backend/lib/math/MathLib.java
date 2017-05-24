@@ -180,7 +180,7 @@ public class MathLib implements PascalLibrary {
 
 
     @PascalMethod(description = "Return the largest integer smaller than or equal to argument")
-    public long floor(double d) {
+    public int floor(double d) {
         return (int) Math.floor(d);
     }
 

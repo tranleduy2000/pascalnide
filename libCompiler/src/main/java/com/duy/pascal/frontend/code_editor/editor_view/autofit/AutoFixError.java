@@ -90,7 +90,7 @@ public class AutoFixError {
             }
             //if not found var keyword, insert "type" above "uses" keyword
             else if ((matcher = Patterns.USES.matcher(text)).find()) {
-                insertPosition = matcher.start();
+                insertPosition = matcher.end();
             }
             String textToInsert = "\ntype\n" + "    " + type + "=   ;\n";
             //if not found uses keyword
