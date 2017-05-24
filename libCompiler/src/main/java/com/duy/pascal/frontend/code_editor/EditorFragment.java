@@ -109,15 +109,17 @@ public class EditorFragment extends Fragment implements EditorListener {
         return view;
     }
 
+
     @Override
     public void onStop() {
-        super.onStop();
         saveFile();
         if (mCodeEditor != null && getFilePath() != null) {
             mCodeEditor.saveHistory(getFilePath());
         } else {
             Log.d(TAG, "onDestroy: " + " null editor");
         }
+
+        super.onStop();
     }
 
     @Override
@@ -236,7 +238,7 @@ public class EditorFragment extends Fragment implements EditorListener {
     }
 
     @Override
-    public void insert( CharSequence text) {
+    public void insert(CharSequence text) {
         mCodeEditor.insert(text);
     }
 
