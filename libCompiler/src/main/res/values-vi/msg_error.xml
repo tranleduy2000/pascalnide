@@ -20,7 +20,6 @@
     <string name="BadFunctionCallException_1">Một hoặc nhiều tham số không đúng kiểu dữ liệu khi gọi hàm \"%1$s\"</string>
     <string name="BadFunctionCallException_2">Có quá ít hoặc quá nhiều tham số khi gọi hàm \"%1$s\"</string>
     <string name="BadFunctionCallException_3">Không thể gọi hàm \"%1$s\" , hàm chưa được khai báo.</string>
-    <string name="func_not_define">""</string>
     <string name="multi_define_main">Quá nhiều chương trình chính được định nghĩa</string>
     <string name="EXTRA_END">Dư từ khóa \'end\' trong chương trình của bạn</string>
     <string name="token_not_belong">"Từ khóa hoặc cú pháp không tồn tại: "</string>
