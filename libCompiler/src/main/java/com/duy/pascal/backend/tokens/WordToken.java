@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.tokens;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -44,6 +46,7 @@ public class WordToken extends Token {
         return originalName;
     }
 
+    @NonNull
     @Override
     public WordToken getWordValue() throws ParsingException {
         return this;

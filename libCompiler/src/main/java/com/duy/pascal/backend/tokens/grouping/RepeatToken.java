@@ -17,15 +17,15 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.basic.BasicToken;
 
-public class RepeatToken extends GrouperToken {
+public class RepeatToken extends BasicToken {
 
     public RepeatToken(LineInfo line) {
         super(line);
     }
 
-    @Override
+/*    @Override
     public String toCode() {
         StringBuilder result = new StringBuilder("repeat ");
         if (next != null) {
@@ -36,15 +36,15 @@ public class RepeatToken extends GrouperToken {
         }
         result.append("end");
         return result.toString();
-    }
+    }*/
 
     @Override
     public String toString() {
         return "repeat";
     }
-
+/*
     @Override
     protected String getClosingText() {
         return "until";
-    }
+    }*/
 }

@@ -16,9 +16,9 @@
 
 package com.duy.pascal.backend.exceptions.syntax;
 
+import com.duy.pascal.backend.tokens.Token;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.tokens.Token;
 
 public class MissingCommaTokenException extends ParsingException {
     private Token token;

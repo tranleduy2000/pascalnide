@@ -31,9 +31,9 @@ public abstract class CodeUnit {
                     @Nullable RunnableActivity handler)
             throws ParsingException {
         this(functionTable, handler);
-        NewLexer grouper = new NewLexer(program, sourceName, includeDirectories);
-        grouper.parse();
-        parseTree(grouper.tokenQueue);
+        NewLexer lexer = new NewLexer(program, sourceName, includeDirectories);
+        lexer.parse();
+        parseTree(lexer.getTokenQueue());
     }
 
     public ExpressionContextMixin getContext() {

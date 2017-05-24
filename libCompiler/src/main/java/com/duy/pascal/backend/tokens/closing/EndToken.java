@@ -21,7 +21,8 @@ public class EndToken extends ClosingToken {
     @Override
     @Nullable
     public GroupingException getClosingException(GrouperToken t) {
-        if (t instanceof BeginEndToken || t instanceof CaseToken || t instanceof RecordToken
+        if (t instanceof BeginEndToken
+                || t instanceof CaseToken || t instanceof RecordToken
                 || t instanceof UnitToken) {
             return null;
         } else {

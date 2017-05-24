@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.tokenizer;
 
 
-import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
@@ -18,17 +18,20 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Stack;
 
-public class NewLexer implements Runnable {
-    public BaseGrouperToken tokenQueue;
+public class NewLexer {
+    private BaseGrouperToken tokenQueue;
     private Stack<GrouperToken> groupers;
     private Lexer lexer;
-
     public NewLexer(Reader reader, String sourcename,
                     List<ScriptSource> searchDirectories) throws GroupingException {
         this.lexer = new Lexer(reader, sourcename, searchDirectories);
         groupers = new Stack<>();
         tokenQueue = new BaseGrouperToken(new LineInfo(0, sourcename));
         groupers.push(tokenQueue);
+    }
+
+    public BaseGrouperToken getTokenQueue() {
+        return tokenQueue;
     }
 
     private void TossException(GroupingException e) {
@@ -89,8 +92,4 @@ public class NewLexer implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        parse();
-    }
 }

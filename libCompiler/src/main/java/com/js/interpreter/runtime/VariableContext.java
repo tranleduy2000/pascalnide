@@ -1,5 +1,7 @@
 package com.js.interpreter.runtime;
 
+import android.support.annotation.Nullable;
+
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.variables.ContainsVariables;
 
@@ -18,6 +20,7 @@ public abstract class VariableContext implements ContainsVariables {
     public abstract boolean setLocalVar(String name, Object val);
 
     @Override
+    @Nullable
     public Object getVar(String name) throws RuntimePascalException {
         Object result = this.getLocalVar(name);
         VariableContext parentcontext = getParentContext();

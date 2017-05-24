@@ -19,9 +19,11 @@ import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.syntax.MissingCommaTokenException;
 import com.duy.pascal.backend.exceptions.syntax.MissingSemicolonTokenException;
 import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
+import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.value.NonIntegerException;
 import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
+import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -54,13 +56,11 @@ import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.ToToken;
-import com.duy.pascal.backend.tokens.basic.UntilToken;
+import com.duy.pascal.backend.tokens.closing.UntilToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
-import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.js.interpreter.VariableDeclaration;
-import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Assignment;
 import com.js.interpreter.instructions.BreakInstruction;
@@ -678,12 +678,12 @@ public abstract class GrouperToken extends Token {
         Executable result = null;
         if (next instanceof AssignmentToken) {
             RuntimeValue firstValue = getNextExpression(context);
-            RuntimeValue converted = tmpVariable.getType(context).convert(firstValue, context);
-            if (converted == null) {
+//            RuntimeValue converted = tmpVal.getType(context).convert(firstValue, context);
+       /*     if (converted == null) {
                 throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType,
                         firstValue.getType(context).declType, tmpVal);
-            }
-            firstValue = converted;
+            }*/
+//            firstValue = converted;
 
             next = take();
             boolean downto = false;
