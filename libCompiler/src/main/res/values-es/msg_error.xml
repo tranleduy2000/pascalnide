@@ -32,10 +32,10 @@
     <string name="NonArrayIndexed">Se intento hacer acceso indexado en algo que no es de tipo array o string. Era un "%1$s"</string>
     <string name="NonConstantExpressionException">La expresión "%1$s" no es una constante.</string>
     <string name="NonIntegerIndexException">Los valores indexados de array deben ser enteros: "%1$s"</string>
-    <string name="NoSuchFunctionOrVariableException">%1$s no es una variable o nombre de una función</string>
-    <string name="NotAStatementException">%1$s no es una instrucción por si misma.</string>
+    <string name="NoSuchFunctionOrVariableException">"%1$s\" no es una variable o nombre de una función</string>
+    <string name="NotAStatementException">"%1$s\" no es una instrucción por si misma.</string>
     <string name="OverridingFunctionException">Reedifiniendo función a "%1$s", que previamente estaba definida a "%1$s"</string>
-    <string name="SameNameException">%1$s \"%2$s\" conflictos con %3$s previamente definida con el mismo nombre que %4$s</string>
+    <string name="SameNameException">"%1$s\" \"%2$s\" conflictos con %3$s previamente definida con el mismo nombre que %4$s</string>
     <string name="UnAssignableTypeException">La expreción "%1$s" no puede tener un valor asignada.</string>
     <string name="UnrecognizedTypeException">El tipo "%1$s" no esta definido.</string>
     <string name="PascalArithmeticException">Expreción aritmetica: "%1$s"</string>

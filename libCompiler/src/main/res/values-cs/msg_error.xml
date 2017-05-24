@@ -29,10 +29,10 @@
     <string name="NonArrayIndexed">Pokus použít indexy na něčem, co není array ani string, ale "%1$s"</string>
     <string name="NonConstantExpressionException">Výraz "%1$s" není konstantní.</string>
     <string name="NonIntegerIndexException">Indexy pole musí být typu integer: "%1$s"</string>
-    <string name="NoSuchFunctionOrVariableException">%1$s není proměnná ani název funkce</string>
-    <string name="NotAStatementException">%1$s není samostatní příkaz.</string>
+    <string name="NoSuchFunctionOrVariableException">"%1$s\" není proměnná ani název funkce</string>
+    <string name="NotAStatementException">"%1$s\" není samostatní příkaz.</string>
     <string name="OverridingFunctionException">Redefining function body for "%1$s", which was previous define at "%1$s"</string>
-    <string name="SameNameException">%1$s \"%2$s\" je v rozporu s předtím definovanou %3$s s rovnakým názvem definovaným na %4$s</string>
+    <string name="SameNameException">"%1$s\" \"%2$s\" je v rozporu s předtím definovanou %3$s s rovnakým názvem definovaným na %4$s</string>
     <string name="UnAssignableTypeException">Výraz "%1$s" nemůže mít přiřazenou hodnotu.</string>
     <string name="UnrecognizedTypeException">Typ "%1$s" není definován.</string>
     <string name="PascalArithmeticException">Aritmetická chyba: "%1$s"</string>
