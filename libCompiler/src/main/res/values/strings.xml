@@ -129,7 +129,6 @@
     <string name="frame_rate">Frame rate</string>
 
     <string name="max_buffer">Max buffer length</string>
-
     <string name="write_code_here">Write code here…</string>
     <string name="can_not_save_file">Can not save file!</string>
     <string name="saved">Saved</string>
