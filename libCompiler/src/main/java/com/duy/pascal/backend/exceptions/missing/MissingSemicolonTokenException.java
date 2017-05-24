@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.missing;
 
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineError
-import com.duy.pascal.backend.linenumber.LineInfo
-import com.duy.pascal.frontend.code_editor.autofix.DefineType
 
-class NoSuchFunctionOrVariableException(line: LineInfo, var name: String)
-    : ParsingException(LineError(line, name.length), name + " is not a variable or function name") {
+import android.support.annotation.NonNull;
 
-    var token: String? = null
-    var fitType: DefineType? = DefineType.DECLARE_VAR;
-    override fun isAutoFix(): Boolean {
-        return true
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokens.Token;
+
+public class MissingSemicolonTokenException extends MissingTokenException {
+
+    public MissingSemicolonTokenException(LineInfo line, @NonNull Token token) {
+        super(line, token);
     }
+
 }

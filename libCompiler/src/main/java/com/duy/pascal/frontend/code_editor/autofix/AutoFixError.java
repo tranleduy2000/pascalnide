@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_editor.editor_view.autofit;
+package com.duy.pascal.frontend.code_editor.autofix;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

@@ -28,10 +28,10 @@ import com.duy.pascal.backend.linenumber.LineInfo;
  */
 
 public abstract class Token {
-    @NonNull
+    @Nullable
     private LineInfo lineInfo;
 
-    public Token(@NonNull LineInfo lineInfo) {
+    public Token(@Nullable LineInfo lineInfo) {
         this.lineInfo = lineInfo;
     }
 

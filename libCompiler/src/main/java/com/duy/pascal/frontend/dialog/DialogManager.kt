@@ -21,13 +21,13 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import com.duy.pascal.backend.exceptions.ParsingException
+import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.code.ExceptionManager
 import com.duy.pascal.frontend.code_editor.EditorActivity
+import com.duy.pascal.frontend.code_editor.autofix.DefineType
 
 /**
  * Created by Duy on 29-Mar-17.
@@ -89,7 +89,7 @@ class DialogManager {
             //set event for button
             dialog.findViewById(R.id.btn_cancel)?.setOnClickListener { dialog.cancel() }
 
-           /* if (e is ParsingException) {
+            if (e is ParsingException) {
                 if (e.isAutoFix) {
                     var container: RadioGroup? = null
                     if (e is NoSuchFunctionOrVariableException) {
@@ -112,7 +112,6 @@ class DialogManager {
                     }
                 }
             }
-*/
             return dialog
 
         }

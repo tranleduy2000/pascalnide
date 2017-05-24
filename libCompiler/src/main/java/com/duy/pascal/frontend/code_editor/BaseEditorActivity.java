@@ -136,7 +136,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         invalidateTab();
 
         if (pagerAdapter.getCount() == 0) {
-            String fileName = Integer.toHexString((int) System.currentTimeMillis());
+            String fileName = Integer.toHexString((int) System.currentTimeMillis()) + ".pas";
             String filePath = mFileManager.createNewFileInMode(fileName);
             addNewPageEditor(new File(filePath), SELECT);
         }
