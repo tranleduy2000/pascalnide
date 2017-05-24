@@ -31,15 +31,11 @@
     <string name="setting">Nastavenia</string>
     <string name="document">Zobraziť dokument</string>
     <string name="code_sample">Ukážky kódu</string>
-    <string name="title_activity_code_sample">Ukážky kódu</string>
     <string name="edit">Upraviť</string>
     <string name="copy">Kopírovať</string>
     <string name="save_as">Uložiť ako</string>
     <string name="enter_new_file_name">Zadajte názov nového súboru</string>
     <string name="path">"Cesta: "</string>
-    <string name="extension">Extension:</string>
-    <string name="readable">"Čitateľné: "</string>
-    <string name="writeable">"Zapisovateľné: "</string>
     <string name="remove_file_msg">"Chcete odstrániť súbor "</string>
     <string name="delete_file">Odstrániť súbor</string>
     <string name="deleted">Odstránené</string>
@@ -66,9 +62,6 @@
     <string name="information">Informácie</string>
     <string name="report_bug">Nahlásiť bug</string>
     <string name="check_update">Vyhľadať aktualizácie</string>
-    <string name="email">Email</string>
-    <string name="describe_causes_an_error">Opíšte dôvody chyby (v Anglickom jazyku prosím)</string>
-    <string name="bug">Bug</string>
     <string name="word_wrap_desc">Automatic screen down the line when overflow</string>
     <string name="show_line_desc">Zobrazovať čísla riadkov naľavo od editora kódu</string>
     <string name="hide_status_bar">Skryť stavový riadok</string>
@@ -77,7 +70,6 @@
     <string name="show_hint_desc">Zobrazovať návrhy pri písaní</string>
     <string name="compile">Kompilovať</string>
     <string name="file">Súbor</string>
-    <string name="change_lang_msg">Pre zmenu jazyka reštartujte aplikáciu.</string>
     <string name="data">Dáta</string>
     <string name="show_key_board">Zobraziť klávesnicu</string>
     <string name="undo">Vrátiť späť</string>
@@ -102,7 +94,6 @@
     <string name="cant_redo">Nie je možné znova vykonať</string>
     <string name="back_to_undo">Stlačte späť pre vrátenie úpravy späť</string>
     <string name="more_feature">Zobraziť viac</string>
-    <string name="cant_close_file">Nie je možné zatvoriť súbor</string>
     <string name="closed">Zatvorené</string>
     <string name="complete">Dokončené</string>
     <string name="view_console">Zobraziť konzolu</string>
@@ -113,15 +104,8 @@
     <string name="rerun">Znova spustiť program</string>
     <string name="translate">Preklad</string>
     <string name="license">Licencia</string>
-    <string name="console_screen">Konzola</string>
-    <string name="background_console">Pozadie konzole</string>
-    <string name="text_color_console">Farba textu v konzole</string>
-    <string name="frame_rate">Snímky za sekundu</string>
-    <string name="max_buffer">Maximálna veľkosť vyrovnávacej pamäte</string>
     <string name="write_code_here">Sem môžete písať kód…</string>
     <string name="can_not_save_file">Nie je možné uložiť súbor!</string>
-    <string name="saved">Uložené</string>
-    <string name="file_exist">Súbor už existuje, zadajte prosím iný názov!</string>
     <string name="send_mail">Poslať mail…</string>
     <string name="no_mail_clients">Nie je nainštalovaný žiaden e-mailový klient.</string>
 
@@ -133,7 +117,6 @@
     <string name="BrightYellow">Bright Yellow</string>
     <string name="DarkGray">Dark Gray</string>
     <string name="other">Ostatné</string>
-    <string name="ExpectedTokenException_2">Bol tam nasledujúci názov: </string>
     <string name="auto_compile">Automaticky kompilovať</string>
     <string name="auto_compile_summary">Automaticky kompilovať počas písania. Výkon aplikácie bude nižší, ale pomôže nám to nahlásiť chybu skôr.</string>
 
@@ -147,10 +130,8 @@
     <string name="var_name">Variable name</string>
     <string name="program_stopped">Program is stopped</string>
     <string name="no_document">No document</string>
-    <string name="implicitly">implicitly</string>
     <string name="max_page">Max page</string>
     <string name="max_page_desc">Number of maximum page display on the screen</string>
-    <string name="enter_key_word">Enter your keyword…</string>
     <string name="blog">Blog of Pascal N-IDE</string>
     <string name="title_activity_zxing">ZxingActivity</string>
     <string name="turn_off_flashlight">Turn off flashlight</string>
@@ -163,11 +144,9 @@
     <string name="copied">Copied</string>
     <string name="stack_size">Stack size</string>
     <string name="stack_size_desc">Maximum stack size when running the program. On some devices, this parameter has no effect. The default is 40000. Minimum is 5000</string>
-    <string name="create_shortcut_msg">Select file to create shortcut</string>
     <string name="do_you_want_to_create_your_theme">Do you want to create your theme?</string>
     <string name="create_shortcut">Create shortcut (Pro)</string>
     <string name="get_pro_version">Get Pro Version</string>
-    <string name="shortcut_created">Shortcut created</string>
     <string name="theme_font">Code theme and font</string>
     <string name="content">Content</string>
     <string name="insert_color">Insert color</string>
@@ -178,11 +157,10 @@
     <string name="unit_file">Unit pascal (*.pas)</string>
     <string name="inserted_color">Inserted color</string>
     <string name="permission_denied_storage">Permission denied to read your External storage</string>
-    <string name="what_expect">What do you expect?</string>
-    <string name="ExpectedTokenException_3">Syntax error, \"%1$s\" expected but \"%2$s\" found</string>
     <string name="declare_variable">Declare variable</string>
     <string name="declare_function">Declare function</string>
     <string name="declare_constant">Declare constant</string>
     <string name="auto_fix">Auto fix</string>
+    <string name="can_not_exec_unit">Can not executing unit</string>
 </resources>
 

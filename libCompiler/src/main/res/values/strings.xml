@@ -35,15 +35,11 @@
     <string name="setting">Setting</string>
     <string name="document">See document</string>
     <string name="code_sample">Code sample</string>
-    <string name="title_activity_code_sample">Code Sample</string>
     <string name="edit">Edit</string>
     <string name="copy">Copy</string>
     <string name="save_as">Save as</string>
     <string name="enter_new_file_name">Enter new file name</string>
     <string name="path">"Path: "</string>
-    <string name="extension">Extension:</string>
-    <string name="readable">"Readable: "</string>
-    <string name="writeable">"Writable: "</string>
     <string name="remove_file_msg">"Do you want to delete file "</string>
     <string name="delete_file">Delete file</string>
     <string name="deleted">Deleted</string>
@@ -70,9 +66,6 @@
     <string name="information">Information</string>
     <string name="report_bug">Report bug</string>
     <string name="check_update">Check update</string>
-    <string name="email">Email</string>
-    <string name="describe_causes_an_error">Describe causes an error</string>
-    <string name="bug">Bug</string>
     <string name="word_wrap_desc">Automatic screen down the line when overflow</string>
     <string name="show_line_desc">Display the line numbers to the left of the code editor</string>
 
@@ -83,7 +76,6 @@
     <string name="show_hint_desc">Show suggestions while typing</string>
     <string name="compile">Compile</string>
     <string name="file">File</string>
-    <string name="change_lang_msg">Restart the application to change the language.</string>
     <string name="data">Data</string>
     <string name="show_key_board">Show key board</string>
     <string name="undo">Undo</string>
@@ -109,7 +101,6 @@
     <string name="cant_redo">Can not redo</string>
     <string name="back_to_undo">Press back to undo</string>
     <string name="more_feature">Open drawer</string>
-    <string name="cant_close_file">Can not close file</string>
     <string name="closed">Closed</string>
     <string name="complete">Complete</string>
     <string name="view_console">View console</string>
@@ -122,18 +113,8 @@
     <string name="translate">Translate</string>
     <string name="license">License</string>
 
-    <string name="console_screen">Console</string>
-    <string name="background_console">Background console</string>
-    <string name="text_color_console">Text color console</string>
-
-    <string name="frame_rate">Frame rate</string>
-
-    <string name="max_buffer">Max buffer length</string>
-
     <string name="write_code_here">Write code here…</string>
     <string name="can_not_save_file">Can not save file!</string>
-    <string name="saved">Saved</string>
-    <string name="file_exist">File is exist, please enter value name!</string>
     <string name="send_mail">Send mail…</string>
     <string name="no_mail_clients">There are no email clients installed.</string>
     <string name="your_language">Your language</string>
@@ -152,8 +133,6 @@
     <string name="no_document">No document</string>
     <string name="max_page_desc">Number of maximum page display on the screen</string>
     <string name="max_page">Max page</string>
-    <string name="implicitly">implicitly</string>
-    <string name="enter_key_word">Enter your keyword…</string>
     <string name="blog">Blog of Pascal N-IDE</string>
     <string name="title_activity_zxing">ZxingActivity</string>
     <string name="turn_on_flashlight">Turn on flashlight</string>
@@ -171,8 +150,6 @@
     <string name="do_you_want_to_create_your_theme">Do you want to create your theme?</string>
     <string name="get_pro_version">Get Pro Version</string>
     <string name="create_shortcut">Create shortcut (Pro)</string>
-    <string name="create_shortcut_msg">Select file to create shortcut</string>
-    <string name="shortcut_created">Shortcut created</string>
     <string name="sort_date">Sort by date…</string>
     <string name="sort_name">Sort by name…</string>
     <string name="sort_size">Sort by size…</string>
@@ -182,12 +159,10 @@
     <string name="permission_denied_storage">Permission denied to read your External storage</string>
     <string name="inserted_color">Inserted color</string>
     <string name="unit_file">Unit pascal (*.pas)</string>
-    <string name="what_expect">What do you expect?</string>
     <string name="auto_fix">Auto fix</string>
     <string name="declare_variable">Declare variable</string>
     <string name="declare_function">Declare function</string>
     <string name="declare_constant">Declare constant</string>
     <string name="can_not_exec_unit">Can not executing unit</string>
-    <string name="or">or</string>
 </resources>
 

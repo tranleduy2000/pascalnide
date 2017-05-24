@@ -229,13 +229,14 @@ public class EditorFragment extends Fragment implements EditorListener {
         mCodeEditor.copyAll();
     }
 
+    @NonNull
     @Override
     public String getCode() {
         return mCodeEditor.getCleanText();
     }
 
     @Override
-    public void insert(CharSequence text) {
+    public void insert( CharSequence text) {
         mCodeEditor.insert(text);
     }
 

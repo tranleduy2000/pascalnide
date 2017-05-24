@@ -47,14 +47,6 @@
         <item>ro</item>
     </string-array>
 
-    <string-array name="fonts_arr" translatable="false">
-        <item>@string/font.consolas</item>
-        <item>@string/font.courier_new</item>
-        <item>@string/font.lucida_sans_typewriter</item>
-        <item>@string/font.source_code_pro</item>
-        <item>@string/font.monospace</item>
-    </string-array>
-
     <string name="font.consolas" translatable="false">Consolas</string>
     <string name="font.courier_new" translatable="false">Courier New</string>
     <string name="font.lucida_sans_typewriter" translatable="false">Lucida Sans Typewriter</string>
@@ -62,10 +54,8 @@
     <string name="font.monospace" translatable="false">Monospace</string>
 
     <string name="key_console_frame_rate" translatable="false">key_frame_rate</string>
-    <string name="key_bg_console" translatable="false">key_bg_console</string>
     <string name="key_full_screen" translatable="false">key_full_screen</string>
 
-    <string name="key_console_text_color" translatable="false">key_text_color_console</string>
     <string name="key_console_max_buffer_size" translatable="false">key_max_buffer_size</string>
     <string name="key_console_font_size" translatable="false">key_console_font_size</string>
 

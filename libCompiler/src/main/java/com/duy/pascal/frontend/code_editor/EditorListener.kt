@@ -14,37 +14,37 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_editor;
+package com.duy.pascal.frontend.code_editor
 
-public interface EditorListener {
-    void saveAs();
+interface EditorListener {
+    fun saveAs()
 
-    void doFindAndReplace(String from, String to, boolean regex, boolean matchCase);
+    fun doFindAndReplace(from: String, to: String, regex: Boolean, matchCase: Boolean)
 
-    void doFind(String find, boolean regex, boolean wordOnly, boolean matchCase);
+    fun doFind(find: String, regex: Boolean, wordOnly: Boolean, matchCase: Boolean)
 
-    void saveFile();
+    fun saveFile()
 
-    void goToLine(int line);
+    fun goToLine(line: Int)
 
     /**
      * beautiful code
      */
-    void formatCode();
+    fun formatCode()
 
-    void undo();
+    fun undo()
 
-    void redo();
+    fun redo()
 
-    void paste();
+    fun paste()
 
-    void copyAll();
+    fun copyAll()
 
     /**
      * @return current content of editor
      */
-    String getCode();
+    val code: String
 
-    void insert(CharSequence text);
+    fun insert(text: CharSequence)
 
 }
