@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~  Copyright (c) 2017 Tran Le Duy
   ~
@@ -15,10 +16,12 @@
   -->
 
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="toolbar_height">40dp</dimen>
-    <dimen name="bottom_editor_height">40dp</dimen>
-    <dimen name="navigation_drawer_width">300dp</dimen>
+    <color name="primary">#673AB7</color>
+    <color name="primary_dark">#512DA8</color>
+    <color name="primary_light">#D1C4E9</color>
+    <color name="accent">#FF5722</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
 </resources>

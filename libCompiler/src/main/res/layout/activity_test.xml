@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~  Copyright (c) 2017 Tran Le Duy
   ~
@@ -14,11 +15,10 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.duy.pascal.frontend.code_editor.TestActivity">
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="toolbar_height">40dp</dimen>
-    <dimen name="bottom_editor_height">40dp</dimen>
-    <dimen name="navigation_drawer_width">300dp</dimen>
-</resources>
+</android.support.constraint.ConstraintLayout>

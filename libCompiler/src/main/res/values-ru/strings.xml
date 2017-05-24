@@ -19,10 +19,13 @@
 
     <string name="auto_save">Авто сохранение</string>
     <string name="back_to_undo">Клавиша \"назад\" = отменить</string>
+    <string name="bug">Ошибка</string>
     <string name="cancel">Отмена</string>
+    <string name="cant_close_file">Невозможно закрыть файл</string>
     <string name="cant_redo">Невозможно повторить</string>
     <string name="cant_undo">Невозможно отменить</string>
     <string name="change_key_board">Сменить клавиатуру</string>
+    <string name="change_lang_msg">Перезапустите приложение</string>
     <string name="check_update">Проверить обновление</string>
     <string name="close">Закрыть</string>
     <string name="closed">Закрыто</string>
@@ -39,13 +42,16 @@
     <string name="default_">Системный</string>
     <string name="delete_file">Удалить файл</string>
     <string name="deleted">Удалено</string>
+    <string name="describe_causes_an_error">Причина</string>
     <string name="document">См. документ</string>
     <string name="edit">Редактировать</string>
+    <string name="email">Email</string>
     <string name="enter_new_file_name">Новое имя файла</string>
     <string name="enter_new_folder_name">Имя папки</string>
     <string name="exit">Выход</string>
     <string name="exit_mgs">Выйти из приложения?</string>
 
+    <string name="extension">Расширение:</string>
     <string name="failed">Ошибка</string>
     <string name="file">Файл</string>
     <string name="find">Найти</string>
@@ -70,6 +76,7 @@
     <string name="paste">Вставить</string>
     <string name="path">"Путь: "</string>
     <string name="rate">Оценить приложение</string>
+    <string name="readable">"Чтение: "</string>
     <string name="redo">Повторить</string>
     <string name="regex">Регулярное выражение</string>
     <string name="remove_file_msg">"Вы хотите удалить файл "</string>
@@ -91,6 +98,7 @@
     <string name="show_line">Номера строк</string>
     <string name="show_line_desc">Показать номера строк в левой части экрана</string>
     <string name="theme">Стиль кода</string>
+    <string name="title_activity_code_sample">Примеры кода</string>
     <string name="tool">Инструменты</string>
     <string name="undo">Отменить</string>
     <string name="user_interface">Пользовательский интерфейс</string>
@@ -98,6 +106,7 @@
     <string name="word_only">Только Word</string>
     <string name="word_wrap">Перенос содержимого</string>
     <string name="word_wrap_desc">Авто перенос на новую строку при переполнении</string>
+    <string name="writeable">"Запись: "</string>
     <string name="BrightYellow">Ярко-жёлтый</string>
     <string name="DarkGray">Тёмно-зелёный</string>
     <string name="EspressoLibre">Кофе</string>
@@ -111,11 +120,18 @@
     <string name="pas_file">Файл Pas (*.pas)</string>
     <string name="pascal_for_android">Pascal для Android</string>
     <string name="inp_file">Файл Inp (*.inp)</string>
+    <string name="text_color_console">Цвет текста</string>
     <string name="translate">Перевод</string>
+    <string name="frame_rate">Частота кадров</string>
+    <string name="background_console">Цвет фона</string>
+    <string name="console_screen">Консоль</string>
     <string name="license">Лицензия</string>
     <string name="hide_status_bar_desc">Скрывать статусбар, когда приложение запущено</string>
+    <string name="max_buffer">Максимальный размер, буфера</string>
     <string name="write_code_here">Напишите код здесь…</string>
     <string name="can_not_save_file">Не удаётся сохранить файл!</string>
+    <string name="saved">Сохранено</string>
+    <string name="file_exist">Файл с таким именем уже существует!</string>
     <string name="send_mail">Отправить письмо…</string>
     <string name="no_mail_clients">Нет установленных почтовых клиентов.</string>
     <string name="your_language">Ваш язык</string>
@@ -131,8 +147,10 @@
     <string name="var_name">Имя переменной</string>
     <string name="program_stopped">Программа остановлена</string>
     <string name="no_document">Нет документа</string>
+    <string name="implicitly">косвенно</string>
     <string name="max_page">Максимум страниц</string>
     <string name="max_page_desc">Максимальное число страниц на экране</string>
+    <string name="enter_key_word">Введите ключевое слово...</string>
     <string name="blog">Блог Pascal N-IDE</string>
     <string name="title_activity_zxing">ZxingActivity</string>
     <string name="turn_off_flashlight">Выключить фонарик</string>
@@ -145,9 +163,11 @@
     <string name="copied">Скопированный</string>
     <string name="stack_size">Размер стека</string>
     <string name="stack_size_desc">Максимальный размер стека при запуске программы. На некоторых устройствах этот параметр не действует. По умолчанию 40000. Минимальное значение - 5000.</string>
+    <string name="create_shortcut_msg">Выберите файл для создания ярлыка</string>
     <string name="do_you_want_to_create_your_theme">Вы хотите создать свою тему?</string>
     <string name="create_shortcut">Создать ярлык (PRO)</string>
     <string name="get_pro_version">Получить PRO-версию</string>
+    <string name="shortcut_created">Ярлык создан</string>
     <string name="theme_font">Тема и шрифт кода</string>
     <string name="content">Content</string>
     <string name="insert_color">Insert color</string>
@@ -158,6 +178,7 @@
     <string name="unit_file">Unit pascal (*.pas)</string>
     <string name="inserted_color">Inserted color</string>
     <string name="permission_denied_storage">Permission denied to read your External storage</string>
+    <string name="what_expect">What do you expect?</string>
     <string name="declare_variable">Declare variable</string>
     <string name="declare_function">Declare function</string>
     <string name="declare_constant">Declare constant</string>

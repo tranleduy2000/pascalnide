@@ -35,11 +35,15 @@
     <string name="setting">Setare</string>
     <string name="document">Vizualizare document</string>
     <string name="code_sample">Exemple de cod</string>
+    <string name="title_activity_code_sample">Exemple de Cod</string>
     <string name="edit">Editare</string>
     <string name="copy">Copiere</string>
     <string name="save_as">Salvare ca</string>
     <string name="enter_new_file_name">Introduceți un nume de fișier nou: </string>
     <string name="path">"Cale: "</string>
+    <string name="extension">Extensie:</string>
+    <string name="readable">"Citibil: "</string>
+    <string name="writeable">"Inscriptibil: "</string>
     <string name="remove_file_msg">"Dorești să ștergi acest fișier? "</string>
     <string name="delete_file">Ștergeți fișierul</string>
     <string name="deleted">Șters</string>
@@ -66,6 +70,9 @@
     <string name="information">Informații</string>
     <string name="report_bug">Raportează o eroare</string>
     <string name="check_update">Caută actualizări</string>
+    <string name="email">Email</string>
+    <string name="describe_causes_an_error">Descrieți cauzele erorii</string>
+    <string name="bug">Eroare</string>
     <string name="word_wrap_desc">Glisarea automată a ecranului la bază în cazul unui overflow</string>
     <string name="show_line_desc">Afișează numerele liniilor în stânga editorului de cod</string>
 
@@ -76,6 +83,7 @@
     <string name="show_hint_desc">Arată sugestii în timp ce se tastează</string>
     <string name="compile">Compilează</string>
     <string name="file">Fișier</string>
+    <string name="change_lang_msg">Repornește​ aplicația pentru a aplica schimbarea limbii</string>
     <string name="data">Data</string>
     <string name="show_key_board">Arată tastatura</string>
     <string name="undo">Anulează modificarea</string>
@@ -101,6 +109,7 @@
     <string name="cant_redo">Nu se poate reface modificarea</string>
     <string name="back_to_undo">Apasă butonul înapoi pentru a anula modificarea</string>
     <string name="more_feature">Deschide meniu</string>
+    <string name="cant_close_file">Nu se poate închide fișierul</string>
     <string name="closed">Închis</string>
     <string name="complete">Complet</string>
     <string name="view_console">Vizualizează consola</string>
@@ -113,8 +122,18 @@
     <string name="translate">Traduce</string>
     <string name="license">Licență</string>
 
+    <string name="console_screen">Consolă</string>
+    <string name="background_console">Consolă de fundal</string>
+    <string name="text_color_console">Culoarea textului din consolă</string>
+
+    <string name="frame_rate">Număr de cadre</string>
+
+    <string name="max_buffer">Lungimea maximă a tamponului</string>
+
     <string name="write_code_here">Introduceți codul aici…</string>
     <string name="can_not_save_file">Nu se poate salva fișierul!</string>
+    <string name="saved">Salvat</string>
+    <string name="file_exist">Fișierul există deja, vă rugăm să introduceți un alt nume!</string>
     <string name="send_mail">Trimiteți un email…</string>
     <string name="no_mail_clients">Nu sunt instalate aplicații de email.</string>
     <string name="your_language">Limba ta</string>
@@ -133,6 +152,7 @@
     <string name="no_document">Niciun document</string>
     <string name="max_page_desc">Numărul maxim de pagini afișate pe ecran</string>
     <string name="max_page">Max pagină</string>
+    <string name="implicitly">Implicit</string>
 
     <string name="KFT2">KFT2</string>
     <string name="Idel">Idel</string>
@@ -140,6 +160,7 @@
     <string name="DarkGray">Dark Gray</string>
     <string name="BrightYellow">Bright Yellow</string>
     <string name="Modnokai_Coffee">Modnokai Coffee</string>
+    <string name="enter_key_word">Enter your keyword…</string>
     <string name="blog">Blog of Pascal N-IDE</string>
     <string name="title_activity_zxing">ZxingActivity</string>
     <string name="turn_off_flashlight">Turn off flashlight</string>
@@ -152,9 +173,11 @@
     <string name="copied">Copied</string>
     <string name="stack_size">Stack size</string>
     <string name="stack_size_desc">Maximum stack size when running the program. On some devices, this parameter has no effect. The default is 40000. Minimum is 5000</string>
+    <string name="create_shortcut_msg">Select file to create shortcut</string>
     <string name="do_you_want_to_create_your_theme">Do you want to create your theme?</string>
     <string name="create_shortcut">Create shortcut (Pro)</string>
     <string name="get_pro_version">Get Pro Version</string>
+    <string name="shortcut_created">Shortcut created</string>
     <string name="theme_font">Code theme and font</string>
     <string name="content">Content</string>
     <string name="insert_color">Insert color</string>
@@ -165,6 +188,7 @@
     <string name="unit_file">Unit pascal (*.pas)</string>
     <string name="inserted_color">Inserted color</string>
     <string name="permission_denied_storage">Permission denied to read your External storage</string>
+    <string name="what_expect">What do you expect?</string>
     <string name="declare_variable">Declare variable</string>
     <string name="declare_function">Declare function</string>
     <string name="declare_constant">Declare constant</string>
