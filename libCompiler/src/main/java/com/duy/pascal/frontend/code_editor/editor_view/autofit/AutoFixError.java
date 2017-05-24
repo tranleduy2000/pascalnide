@@ -227,6 +227,7 @@ public class AutoFixError {
 
                     editable.getText().delete(start + matcher.start(), start + matcher.end());
                     editable.getText().insert(start + matcher.start(), insertText);
+                    editable.setSelection(start + name.length() + 2, start + name.length() + 2 + e.valueType.toString().length());
                 }
             }
         } else if (e.targetValue instanceof FunctionCall) {
