@@ -204,6 +204,28 @@ public class AutoFixError {
 
     }
 
+    /**
+     * Auto wrong type
+     * For example
+     * <code>
+     * var
+     * c: integer;
+     * begin
+     * c := 'hello';            <=== this is wrong type
+     * end.
+     * </code>
+     * <p>
+     * This method will be match position of variable or function and change to
+     * <code>
+     * var
+     * c: string;             <== change to String
+     * begin
+     * c := 'hello';
+     * end.
+     * </code>
+     *
+     * @param e
+     */
     public void autoFixConvertType(UnConvertibleTypeException e) {
 
         CharSequence text = getText(e);
@@ -227,7 +249,8 @@ public class AutoFixError {
 
                     editable.getText().delete(start + matcher.start(), start + matcher.end());
                     editable.getText().insert(start + matcher.start(), insertText);
-                    editable.setSelection(start + name.length() + 2, start + name.length() + 2 + e.valueType.toString().length());
+                    start = start + matcher.start() + name.length() + 2;
+                    editable.setSelection(start, e.valueType.toString().length());
                 }
             }
         } else if (e.targetValue instanceof FunctionCall) {

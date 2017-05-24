@@ -24,6 +24,7 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 
@@ -35,7 +36,7 @@ import java.util.regex.Matcher;
 
 public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
     public static final String TAB_CHARACTER = "    ";
-
+    private static final String TAG = "AutoIndentEditText";
 
     public AutoIndentEditText(Context context) {
         super(context);
@@ -154,6 +155,7 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
      */
     private CharSequence indentLine(CharSequence source, int start, int end, Spanned dest,
                                     int dstart, int dend) {
+
         String indent = "";
         int indexStart = dstart - 1;
         int indexEnd;
@@ -199,16 +201,17 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
             indent += dest.subSequence(indexStart, indexEnd);
         }
         if (parenthesesCount < 0)
-            indent += "\t";
+            indent += TAB_CHARACTER;
 
 
         start = dstart - 1; //because charAt(dstart) always is '\n'
         while (start > 0 && dest.charAt(start) != '\n') {
             start--;
         }
-        if (start <= 0) return null;
+        if (start < 0) return source + indent;
 
         String prev = dest.subSequence(start, dstart).toString().trim();
+        Log.d(TAG, "indentLine: " + prev);
         Matcher matcher = Patterns.OPEN_PATTERN.matcher(prev);
         if (matcher.find()) {
             indent += TAB_CHARACTER;
