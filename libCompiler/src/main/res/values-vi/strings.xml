@@ -182,4 +182,5 @@
     <string name="declare_function">Khai báo hàm</string>
     <string name="declare_constant">Khai báo hằng</string>
     <string name="auto_fix">Auto fix</string>
+    <string name="can_not_exec_unit">Can not executing unit</string>
 </resources>
