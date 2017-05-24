@@ -187,6 +187,5 @@
     <string name="declare_function">Declare function</string>
     <string name="declare_constant">Declare constant</string>
     <string name="can_not_exec_unit">Can not executing unit</string>
-    <string name="or">or</string>
 </resources>
 

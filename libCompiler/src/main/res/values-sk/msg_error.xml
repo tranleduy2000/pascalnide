@@ -20,7 +20,6 @@
     <string name="BadFunctionCallException_1">Jeden alebo viac argumentov má pri volaní funkcie nesprávny typ \"%1$s\"</string>
     <string name="BadFunctionCallException_2">Funkcii bolo odovzdaných príliš málo alebo príliš ve¾a argumentov \"%1$s\"</string>
     <string name="BadFunctionCallException_3">Nemožno vola  funkciu \"%1$s\" , ktorá nie je definovaná.</string>
-    <string name="func_not_define">""</string>
     <string name="multi_define_main">Viacero definícii hlavnej</string>
     <string name="EXTRA_END">Vo Vašom programe sa nachádza jedno prebytoèné \'end\' </string>
     <string name="IO_EXCEPTION">Pri èítaní vstupu sa vyskytla IOException </string>
