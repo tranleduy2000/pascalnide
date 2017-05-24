@@ -46,8 +46,8 @@
     <string name="NonArrayIndexed">S-a încercat accesarea indexată a unei entități care nu este de tip vector sau șir. Entitatea este de tipul "%1$s"</string>
     <string name="NonConstantExpressionException">Expresia "%1$s" nu este o constantă.</string>
     <string name="NonIntegerIndexException">Index-ul sau indecșii unui vector trebuie să fie de tip integer: "%1$s"</string>
-    <string name="NoSuchFunctionOrVariableException">"%1$s\" nu este o variabilă sau un nume al unei funcții</string>
-    <string name="NotAStatementException">"%1$s\" nu constituie o instrucțiune.</string>
+    <string name="NoSuchFunctionOrVariableException">\"%1$s\" nu este o variabilă sau un nume al unei funcții</string>
+    <string name="NotAStatementException">\"%1$s\" nu constituie o instrucțiune.</string>
     <string name="OverridingFunctionException">Se încearcă redefinirea corpului funcției "%1$s", care a fost definită anterior la "%1$s"</string>
     <string name="SameNameException">\"%1$s\" \"%2$s\" este în conflict cu %3$s, definit (ă) anterior, cu același nume definit la %4$s</string>
     <string name="UnAssignableTypeException">Expresia "%1$s" nu poate avea o valoare atribuită ei înseși.</string>

@@ -37,8 +37,8 @@
     <string name="NonArrayIndexed">Пытался сделать индексированный доступ на том, что не было массивом или строкой. Это "%1$s"</string>
     <string name="NonConstantExpressionException">Выражение "%1$s" не является константой.</string>
     <string name="NonIntegerIndexException">Индексы массивов должны быть целыми: "%1$s"</string>
-    <string name="NoSuchFunctionOrVariableException">"%1$s\" не является именем переменной или функции</string>
-    <string name="NotAStatementException">"%1$s\" не является инструкцией.</string>
+    <string name="NoSuchFunctionOrVariableException">\"%1$s\" не является именем переменной или функции</string>
+    <string name="NotAStatementException">\"%1$s\" не является инструкцией.</string>
     <string name="OverridingFunctionException">Переопределение тела функции для "%1$s", которое было ранее определено в "%1$s"</string>
     <string name="SameNameException">\"%1$s\" \"%2$s\" конфликтуют с ранее определённым %3$s с тем же именем, определённым в %4$s</string>
     <string name="UnAssignableTypeException">Выражение "%1$s" не может иметь назначенного ему значения.</string>

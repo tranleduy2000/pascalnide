@@ -33,8 +33,8 @@
     <string name="NonArrayIndexed">Pokus použi  indexy na nieèom, èo nie je array ani string, ale "%1$s"</string>
     <string name="NonConstantExpressionException">Výraz "%1$s" nie je konštantný.</string>
     <string name="NonIntegerIndexException">Indexy po¾a musia by  typu integer: "%1$s"</string>
-    <string name="NoSuchFunctionOrVariableException">"%1$s\" nie je premenná ani názov funkcie</string>
-    <string name="NotAStatementException">"%1$s\" nie je samostatný príkaz.</string>
+    <string name="NoSuchFunctionOrVariableException">\"%1$s\" nie je premenná ani názov funkcie</string>
+    <string name="NotAStatementException">\"%1$s\" nie je samostatný príkaz.</string>
     <string name="OverridingFunctionException">Redefining function body for "%1$s", which was previous define at "%1$s"</string>
     <string name="SameNameException">\"%1$s\" \"%2$s\" je v rozpore s predtým definovanou %3$s s rovnakým názvom definovaným na %4$s</string>
     <string name="UnAssignableTypeException">Výraz "%1$s" nemôže ma  priradenú hodnotu.</string>
