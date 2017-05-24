@@ -20,14 +20,18 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText;
 import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
+import com.js.interpreter.runtime_value.FunctionCall;
+import com.js.interpreter.runtime_value.VariableAccess;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class is used to automatically correct some errors when compiling
@@ -200,4 +204,33 @@ public class AutoFixError {
 
     }
 
+    public void autoFixConvertType(UnConvertibleTypeException e) {
+
+        CharSequence text = getText(e);
+
+        if (e.targetValue instanceof VariableAccess) {
+            String name = ((VariableAccess) e.targetValue).getName();
+            Pattern pattern = Pattern.compile("\\b(var)(.*?)(" + name + ")\\s?:(.*?);",
+
+                    Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+            Matcher matcher = pattern.matcher(text);
+
+            if (matcher.find()) {
+                int start = matcher.start();
+                Log.d(TAG, "autoFixConvertType: match at " + matcher);
+                text = text.subSequence(start, matcher.end());
+                pattern = Pattern.compile(name + "\\s?:(.*?);", Pattern.CASE_INSENSITIVE);
+                matcher = pattern.matcher(text);
+
+                if (matcher.find()) {
+                    String insertText = name + ": " + e.valueType.toString() + ";";
+
+                    editable.getText().delete(start + matcher.start(), start + matcher.end());
+                    editable.getText().insert(start + matcher.start(), insertText);
+                }
+            }
+        } else if (e.targetValue instanceof FunctionCall) {
+
+        }
+    }
 }

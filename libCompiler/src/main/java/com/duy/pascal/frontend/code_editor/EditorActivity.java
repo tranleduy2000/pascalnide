@@ -49,6 +49,7 @@ import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText;
 import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
@@ -132,7 +133,7 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     void insertTab(View v) {
-        onKeyClick(v, "\t");
+        onKeyClick(v, AutoIndentEditText.TAB_CHARACTER);
     }
 
     @Override

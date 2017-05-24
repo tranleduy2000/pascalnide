@@ -73,4 +73,11 @@ public class Patterns {
     public static final Pattern PROGRAM = Pattern.compile("\\b(program)[\\s](.*?);\\b", Pattern.CASE_INSENSITIVE);
     public static final Pattern USES = Pattern.compile("\\b(uses)[\\s](.*?);\\b", Pattern.CASE_INSENSITIVE);
     public static final Pattern CONST = Pattern.compile("\\b(const)\\b", Pattern.CASE_INSENSITIVE);
+
+    public static final Pattern OPEN_PATTERN
+            = Pattern.compile("\\b(begin|then|else|do|repeat|of|var|const|interface|implementation)\\b", Pattern.CASE_INSENSITIVE);
+
+    public static final Pattern END_PATTERN
+            = Pattern.compile("\\b(end|until)\\b", Pattern.CASE_INSENSITIVE);
+
 }

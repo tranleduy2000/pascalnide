@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
@@ -135,6 +136,8 @@ public class EditorFragment extends Fragment implements EditorListener {
             mCodeEditor.getAutoFixError().autoFixType((UnrecognizedTypeException) e);
         } else if (e instanceof NoSuchFunctionOrVariableException) {
             mCodeEditor.getAutoFixError().autoFixDefine((NoSuchFunctionOrVariableException) e);
+        } else if (e instanceof UnConvertibleTypeException) {
+            mCodeEditor.getAutoFixError().autoFixConvertType((UnConvertibleTypeException) e);
         }
     }
 

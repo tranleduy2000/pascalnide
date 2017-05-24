@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.theme.adapter.SectionPageAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 /**
@@ -47,6 +48,8 @@ public class ThemeFontActivity extends AbstractAppCompatActivity
         setContentView(R.layout.activity_theme_font);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setupToolbar();
+
+        FirebaseAnalytics.getInstance(this).logEvent("open_choose_font_theme", new Bundle());
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         adapter = new SectionPageAdapter(getSupportFragmentManager(), this);

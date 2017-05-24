@@ -17,7 +17,9 @@
 package com.duy.pascal.backend.exceptions.convert;
 
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.VariableAccess;
 
 public class UnConvertibleTypeException extends com.duy.pascal.backend.exceptions.ParsingException {
 
@@ -49,11 +51,16 @@ public class UnConvertibleTypeException extends com.duy.pascal.backend.exception
         super(value.getLineNumber(),
                 "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                         + ", which cannot be "
-                        + "converted to the type \"" + targetType + "\"");
+                        + "converted to the type \"" + targetType + "\" of expression or variable " + targetValue);
 
         this.value = value;
         this.valueType = valueType;
         this.targetType = targetType;
         this.targetValue = targetValue;
+    }
+
+    @Override
+    public boolean isAutoFix() {
+        return targetValue instanceof VariableAccess || targetValue instanceof FunctionCall;
     }
 }

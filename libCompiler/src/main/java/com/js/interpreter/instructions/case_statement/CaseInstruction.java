@@ -26,6 +26,7 @@ import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.js.interpreter.runtime_value.VariableAccess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class CaseInstruction extends DebuggableExecutable {
             throws ParsingException {
         this.line = token.getLineInfo();
         mSwitchValue = token.getNextExpression(context);
+
         Token next = token.take();
         if (!(next instanceof OfToken)) {
             throw new ExpectedTokenException("of", next);
