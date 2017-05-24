@@ -60,7 +60,6 @@ public class ThemeFragment extends Fragment {
         }
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,7 +76,6 @@ public class ThemeFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(codeThemeAdapter);
-
         codeThemeAdapter.setOnThemeSelectListener(onThemeSelect);
     }
 

@@ -680,7 +680,8 @@ public abstract class GrouperToken extends Token {
             RuntimeValue firstValue = getNextExpression(context);
             RuntimeValue converted = tmpVariable.getType(context).convert(firstValue, context);
             if (converted == null) {
-                throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType, firstValue.getType(context).declType, false);
+                throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType,
+                        firstValue.getType(context).declType, tmpVal);
             }
             firstValue = converted;
 

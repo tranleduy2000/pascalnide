@@ -21,13 +21,16 @@ import com.js.interpreter.runtime_value.RuntimeValue;
 
 public class UnConvertibleTypeException extends com.duy.pascal.backend.exceptions.ParsingException {
 
-    public final RuntimeValue value;
-    public final DeclaredType valueType;
-    public final DeclaredType targetType;
-    public final boolean implicit;
+    public RuntimeValue value;
+    public DeclaredType valueType;
+    public DeclaredType targetType;
+    public RuntimeValue targetValue;
+    public boolean implicit;
+
 
     public UnConvertibleTypeException(RuntimeValue value,
-                                      DeclaredType targetType, DeclaredType valueType, boolean implicit) {
+                                      DeclaredType targetType,
+                                      DeclaredType valueType, boolean implicit) {
         super(value.getLineNumber(),
                 "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                         + ", which cannot be " + (implicit ? "implicitly " : "")
@@ -37,5 +40,20 @@ public class UnConvertibleTypeException extends com.duy.pascal.backend.exception
         this.valueType = valueType;
         this.targetType = targetType;
         this.implicit = implicit;
+    }
+
+    public UnConvertibleTypeException(RuntimeValue value,
+                                      DeclaredType targetType,
+                                      DeclaredType valueType,
+                                      RuntimeValue targetValue) {
+        super(value.getLineNumber(),
+                "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
+                        + ", which cannot be "
+                        + "converted to the type \"" + targetType + "\"");
+
+        this.value = value;
+        this.valueType = valueType;
+        this.targetType = targetType;
+        this.targetValue = targetValue;
     }
 }

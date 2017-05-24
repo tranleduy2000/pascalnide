@@ -79,5 +79,6 @@
         Syntax: "if condition then S1 else S2;" \n\n
         Where, S1 and S2 are different statements. Please note that the statement S1 is not followed by a "semicolon" (;).</string>
     <string name="ExpectedTokenException_3">Lỗi cú pháp, \"%1$s\" dự kiến nhưng \"%2$s\" được tìm thấy</string>
+    <string name="UnConvertibleTypeException2">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\" of expression or variable \"%4$s\"</string>
 
 </resources>

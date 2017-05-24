@@ -141,9 +141,10 @@ public class CodeTheme {
     }
 
     private static Integer loadColor(Properties properties, int id, String name)
-            throws IOException {
+            throws Exception {
         String color = properties.getProperty("theme." + id + "." + name);
-        return Color.parseColor(color != null ? color.trim() : "#FF000000");
+        if (color == null) throw new RuntimeException("Can not find properties " + name);
+        return Color.parseColor(color.trim());
     }
 
     public static String[] getThemes(Context ctx) {

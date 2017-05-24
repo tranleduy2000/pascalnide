@@ -62,6 +62,7 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.backend.utils.ArrayUtils;
+import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
@@ -97,21 +98,21 @@ public class ExceptionManager {
                 return getExpectedTokenException((ExpectedTokenException) e);
 
             if (e instanceof StackOverflowException)
-                return getMessageResource(e, string.StackOverflowException);
+                return getMessageResource(e, R.string.StackOverflowException);
 
             if (e instanceof MissingSemicolonTokenException)
-                return getMessageResource(e, string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.line);
+                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.line);
 
             if (e instanceof MissingCommaTokenException)
-                return getMessageResource(e, string.MissingCommaTokenException,
+                return getMessageResource(e, R.string.MissingCommaTokenException,
                         ((MissingCommaTokenException) e).line.line);
 
             if (e instanceof StrayCharacterException)
-                return getMessageResource(e, string.StrayCharacterException,
+                return getMessageResource(e, R.string.StrayCharacterException,
                         ((StrayCharacterException) e).charCode);
 
             if (e instanceof NoSuchFunctionOrVariableException) {
-                return getMessageResource(e, string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).getName());
+                return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).getName());
             }
             if (e instanceof BadFunctionCallException) return getBadFunctionCallException(e);
 
@@ -138,67 +139,73 @@ public class ExceptionManager {
                 return getConstantCalculationException(e);
 
             if (e instanceof ChangeValueConstantException) {
-                return getMessageResource(e, string.ChangeValueConstantException);
+                return getMessageResource(e, R.string.ChangeValueConstantException);
             }
 
             if (e instanceof UnConvertibleTypeException) {
                 UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
-                return getMessageResource(e, string.UnConvertibleTypeException,
-                        exception.value, exception.valueType, exception.targetType);
+                if (exception.targetValue == null) {
+                    return getMessageResource(e, R.string.UnConvertibleTypeException,
+                            exception.value, exception.valueType, exception.targetType);
+                } else {
+
+                    return getMessageResource(e, R.string.UnConvertibleTypeException2,
+                            exception.value, exception.valueType, exception.targetType, exception.targetValue);
+                }
             }
             if (e instanceof LibraryNotFoundException) {
-                return getMessageResource(e, string.LibraryNotFoundException,
+                return getMessageResource(e, R.string.LibraryNotFoundException,
                         ((LibraryNotFoundException) e).name);
             }
             if (e instanceof MultipleDefaultValuesException) {
-                return getMessageResource(e, string.MultipleDefaultValuesException);
+                return getMessageResource(e, R.string.MultipleDefaultValuesException);
             }
             if (e instanceof NonArrayIndexed) {
-                return getMessageResource(e, string.NonArrayIndexed, ((NonArrayIndexed) e).t.toString());
+                return getMessageResource(e, R.string.NonArrayIndexed, ((NonArrayIndexed) e).t.toString());
             }
             if (e instanceof NonConstantExpressionException) {
-                return getMessageResource(e, string.NonConstantExpressionException);
+                return getMessageResource(e, R.string.NonConstantExpressionException);
             }
             if (e instanceof NotAStatementException) {
-                return getMessageResource(e, string.NotAStatementException,
+                return getMessageResource(e, R.string.NotAStatementException,
                         ((NotAStatementException) e).runtimeValue.toString());
             }
             if (e instanceof SameNameException) {
                 SameNameException exception = (SameNameException) e;
-                return getMessageResource(e, string.SameNameException, exception.getType(),
+                return getMessageResource(e, R.string.SameNameException, exception.getType(),
                         exception.getName(), exception.getPreType(), exception.getPreLine());
             }
             if (e instanceof UnAssignableTypeException) {
-                return getMessageResource(e, string.UnAssignableTypeException,
+                return getMessageResource(e, R.string.UnAssignableTypeException,
                         ((UnAssignableTypeException) e).runtimeValue.toString());
             }
             if (e instanceof UnrecognizedTypeException) {
-                return getMessageResource(e, string.UnrecognizedTypeException,
+                return getMessageResource(e, R.string.UnrecognizedTypeException,
                         ((UnrecognizedTypeException) e).missingType);
             }
             if (e instanceof InvalidNumericFormatException) {
-                return getMessageResource(e, string.InvalidNumericFormatException);
+                return getMessageResource(e, R.string.InvalidNumericFormatException);
             }
             if (e instanceof PascalArithmeticException) {
-                return getMessageResource(e, string.PascalArithmeticException, ((PascalArithmeticException) e).error.getLocalizedMessage());
+                return getMessageResource(e, R.string.PascalArithmeticException, ((PascalArithmeticException) e).error.getLocalizedMessage());
             }
             if (e instanceof CanNotReadVariableException) {
-                return getMessageResource(e, string.CanNotReadVariableException);
+                return getMessageResource(e, R.string.CanNotReadVariableException);
             }
             if (e instanceof WrongIfElseStatement) {
-                return getMessageResource(e, string.WrongIfElseStatement);
+                return getMessageResource(e, R.string.WrongIfElseStatement);
             }
             if (e instanceof SubRangeException) {
-                return getMessageResource(e, string.SubRangeException,
+                return getMessageResource(e, R.string.SubRangeException,
                         ((SubRangeException) e).high, ((SubRangeException) e).low);
             }
             if (e instanceof OverridingFunctionBodyException) {
                 if (!((OverridingFunctionBodyException) e).isMethod) {
-                    return getMessageResource(e, string.OverridingFunctionException,
+                    return getMessageResource(e, R.string.OverridingFunctionException,
                             ((OverridingFunctionBodyException) e).functionDeclaration.name(),
                             ((OverridingFunctionBodyException) e).functionDeclaration.getLineNumber());
                 } else {
-                    return getMessageResource(e, string.OverridingFunctionException);
+                    return getMessageResource(e, R.string.OverridingFunctionException);
                 }
             }
             if (e instanceof ParsingException) {
@@ -206,7 +213,7 @@ public class ExceptionManager {
             }
 
             if (e instanceof DivisionByZeroException) {
-                return getMessageResource(e, string.DivisionByZeroException);
+                return getMessageResource(e, R.string.DivisionByZeroException);
             }
             return new SpannableString(e.getLocalizedMessage());
         } catch (Exception err) {
