@@ -80,7 +80,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      */
     public ArrayList<VariableDeclaration> variables = new ArrayList<>();
     /**
-     * activity target, uses for input and output
+     * activity value, uses for input and output
      */
     @Nullable
     private RunnableActivity handler;
@@ -453,8 +453,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                             RuntimeValue unconverted = token.getNextExpression(this);
                             RuntimeValue converted = type.convert(unconverted, this);
                             if (converted == null) {
-                                throw new UnConvertibleTypeException(unconverted,
-                                        unconverted.getType(this).declType, type,
+                                throw new UnConvertibleTypeException(unconverted, type, unconverted.getType(this).declType,
                                         true);
                             }
                             defaultValue = converted.compileTimeValue(this);

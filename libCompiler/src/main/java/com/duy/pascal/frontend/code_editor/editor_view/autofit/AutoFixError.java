@@ -17,9 +17,9 @@
 package com.duy.pascal.frontend.code_editor.editor_view.autofit;
 
 import android.support.annotation.NonNull;
-import android.text.Editable;
 import android.util.Log;
 
+import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
@@ -66,16 +66,16 @@ public class AutoFixError {
      */
     public void autoFixType(UnrecognizedTypeException e) {
         //don't work if has selection
-        if (editable.hasSelection()) return;
-
-        Editable text = editable.getEditableText();
+        //sub string from 0 to postion error
+        CharSequence text = getText(e);
         String type = e.missingType;
+        String textToInsert;
         Matcher matcher = Patterns.TYPE.matcher(text);
+        int insertPosition = 0;
+
         if (matcher.find()) {
-            int insertPosition = matcher.end();
-            String textToInsert = "\n" + "    " + type + " =  %a ;";
-            editable.getText().insert(insertPosition, textToInsert);
-            editable.setSelection(insertPosition + textToInsert.length());
+            insertPosition = matcher.end();
+            textToInsert = "\n" + "    " + type + " = %t ;";
         } else {
             /*
             if not found "type" keyword, insert new type keyword
@@ -84,7 +84,6 @@ public class AutoFixError {
             var
                 ....
             */
-            int insertPosition = -1;
             if ((matcher = Patterns.VAR.matcher(text)).find()) {
                 insertPosition = matcher.start();
             }
@@ -92,17 +91,23 @@ public class AutoFixError {
             else if ((matcher = Patterns.USES.matcher(text)).find()) {
                 insertPosition = matcher.end();
             }
-            String textToInsert = "\ntype\n" + "    " + type + "=   ;\n";
-            //if not found uses keyword
-            if (insertPosition != -1) {
-                editable.getText().insert(insertPosition, textToInsert);
-                editable.setSelection(insertPosition + textToInsert.length());
-            } else {
-                insertPosition = 0; //reset cursor at the top of the editor
-                editable.getText().insert(insertPosition, textToInsert);
-                editable.setSelection(insertPosition + textToInsert.length());
-            }
+            textToInsert = "\ntype\n" + "    " + type + " = %t ;\n";
         }
+
+        matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
+        matcher.find();
+        textToInsert = textToInsert.replaceAll("%\\w", "");
+
+        editable.getText().insert(insertPosition, textToInsert);
+        editable.setSelection(insertPosition + matcher.start());
+
+
+        //set suggest data
+        editable.restoreAfterClick(KeyWord.DATA_TYPE);
+    }
+
+    private CharSequence getText(ParsingException e) {
+        return editable.getText().subSequence(0, editable.getLayout().getLineStart(e.line.line) + e.line.column);
     }
 
     public void autoFixDefine(NoSuchFunctionOrVariableException e) {
@@ -122,8 +127,7 @@ public class AutoFixError {
      */
     private void declareConst(NoSuchFunctionOrVariableException e) {
         //sub string from 0 to postion error
-        CharSequence text =
-                editable.getText().subSequence(0, editable.getLayout().getLineStart(e.line.line) + e.line.column);
+        CharSequence text = getText(e);
 
         String textToInsert = "";
         int insertPosition = 0;
@@ -139,7 +143,7 @@ public class AutoFixError {
             } else if ((matcher = Patterns.USES.matcher(text)).find()) {
                 insertPosition = matcher.end();
             } else if ((matcher = Patterns.TYPE.matcher(text)).find()) {
-                insertPosition = matcher.end();
+                insertPosition = matcher.start();
             }
             textToInsert = "\nconst \n" + AutoIndentEditText.TAB_CHARACTER + name + " = %v ;";
         }
@@ -158,14 +162,11 @@ public class AutoFixError {
 
     /**
      * match position and insert new variable
-     *
-     * @param e
      */
     private void declareVar(NoSuchFunctionOrVariableException e) {
 
         //sub string from 0 to postion error
-        CharSequence text =
-                editable.getText().subSequence(0, editable.getLayout().getLineStart(e.line.line) + e.line.column);
+        CharSequence text = getText(e);
 
         String textToInsert = "";
         int insertPosition = 0;

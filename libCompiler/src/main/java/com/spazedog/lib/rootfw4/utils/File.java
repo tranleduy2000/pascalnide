@@ -1631,7 +1631,7 @@ public class File {
 	
 	/**
 	 * Get the canonical path of this file or folder. 
-	 * This means that if this is a link, you will get the path to the target, no matter how many links are in between.
+	 * This means that if this is a link, you will get the path to the value, no matter how many links are in between.
 	 * It also means that things like <code>/folder1/../folder2</code> will be resolved to <code>/folder2</code>.
 	 * 
 	 * @return

@@ -13,7 +13,7 @@ begin
     For i:=1 to 1000 do
         If Random > 0.5 then inc(Count);
     Writeln ('Generated ',Count,' numbers > 0.5');
-    Writeln ('out of 1000 generated numbers.');
+    Writeln ('inType of 1000 generated numbers.');
     count := 0;
     For i:=1 to 5 do
     begin
@@ -21,5 +21,5 @@ begin
         readln(Guess);
         If Guess = Random(5) + 1 then inc(count);
     end;
-    Writeln ('You guessed ',Count,' out of 5 correct.');
+    Writeln ('You guessed ',Count,' inType of 5 correct.');
 end.

@@ -464,7 +464,7 @@ public class ApplicationFileManager {
     }
 
     /**
-     * copy data from in to out
+     * copy data from in to inType
      */
     public void copy(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
@@ -480,7 +480,7 @@ public class ApplicationFileManager {
     }
 
     /**
-     * copy data from file in to file out
+     * copy data from file in to file inType
      */
     public void copy(String pathIn, String pathOut) throws IOException {
         InputStream in = new FileInputStream(new File(pathIn));

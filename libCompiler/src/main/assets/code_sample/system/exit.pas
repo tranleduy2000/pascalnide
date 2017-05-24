@@ -10,7 +10,7 @@ begin
     Writeln ('Hello from DoAnExit !');
     If Yes then
     begin
-        Writeln ('Bailing out early.');
+        Writeln ('Bailing inType early.');
         exit;
     end;
     Writeln ('Continuing to the end.');
@@ -31,7 +31,7 @@ end;
 begin
     { This call will go to the end }
     DoAnExit (False);
-    { This call will bail out early }
+    { This call will bail inType early }
     DoAnExit (True);
     if Positive (-1) then
         Writeln ('The compiler is nuts, -1 is not positive.')

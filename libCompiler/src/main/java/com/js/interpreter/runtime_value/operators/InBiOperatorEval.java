@@ -46,7 +46,7 @@ public class InBiOperatorEval extends BinaryOperatorEvaluation {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        //target object
+        //value object
         Object value1 = operon1.getValue(f, main);
 
         //array

@@ -1,6 +1,7 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -274,6 +275,7 @@ public abstract class GrouperToken extends Token {
         return new ArrayType<>(elementType, bound);
     }
 
+    @NonNull
     public RuntimeValue getNextExpression(ExpressionContext context,
                                           precedence precedence, Token next) throws ParsingException {
 
@@ -371,9 +373,10 @@ public abstract class GrouperToken extends Token {
             throws ParsingException {
         if (next instanceof ParenthesizedToken) {
             return ((ParenthesizedToken) next).getSingleValue(context);
+
         } else if (next instanceof ValueToken) {
-            return new ConstantAccess(((ValueToken) next).getValue(),
-                    next.getLineInfo());
+            return new ConstantAccess(((ValueToken) next).getValue(), next.getLineInfo());
+
         } else if (next instanceof WordToken) {
             WordToken name = ((WordToken) next);
             next = peek();
@@ -417,7 +420,7 @@ public abstract class GrouperToken extends Token {
             ExpressionContext context) throws ParsingException {
         ArrayList<VariableDeclaration> result = new ArrayList<>();
         /*
-         * reusing it, so it is further out of scope than necessary
+         * reusing it, so it is further inType of scope than necessary
 		 */
         List<WordToken> names = new ArrayList<>();
         Token next;
@@ -481,8 +484,7 @@ public abstract class GrouperToken extends Token {
                         RuntimeValue unConvert = getNextExpression(context);
                         RuntimeValue converted = type.convert(unConvert, context);
                         if (converted == null) {
-                            throw new UnConvertibleTypeException(unConvert,
-                                    unConvert.getType(context).declType, type,
+                            throw new UnConvertibleTypeException(unConvert, type, unConvert.getType(context).declType,
                                     true);
                         }
                         defaultValue = converted.compileTimeValue(context);
@@ -596,46 +598,7 @@ public abstract class GrouperToken extends Token {
             return beginEndPreprocessed;
 
         } else if (next instanceof ForToken) {
-            RuntimeValue tmpVal = getNextExpression(context);
-            AssignableValue tmpVariable = tmpVal.asAssignableValue(context);
-            if (tmpVariable == null) {
-                throw new UnAssignableTypeException(tmpVal);
-            }
-            next = take();
-            if (!(next instanceof AssignmentToken
-                    || next instanceof OperatorToken)) {
-                throw new ExpectedTokenException("\":=\" or \"in\"", next);
-            }
-            Executable result = null;
-            if (next instanceof AssignmentToken) {
-                RuntimeValue firstValue = getNextExpression(context);
-                next = take();
-                boolean downto = false;
-                if (next instanceof DowntoToken) {
-                    downto = true;
-                } else if (!(next instanceof ToToken)) {
-                    throw new ExpectedTokenException(next, "to", "downto");
-                }
-                RuntimeValue lastValue = getNextExpression(context);
-                next = take();
-                if (!(next instanceof DoToken)) {
-                    throw new ExpectedTokenException("do", next);
-                }
-                if (downto) { // TODO probably should merge these two types
-                    result = new ForDowntoStatement(context, tmpVariable, firstValue,
-                            lastValue, getNextCommand(context), lineNumber);
-                } else {
-                    result = new ForToStatement(context, tmpVariable, firstValue,
-                            lastValue, getNextCommand(context), lineNumber);
-                }
-            } else {
-                if (((OperatorToken) next).type == OperatorTypes.IN) {
-
-                } else {
-                    throw new ExpectedTokenException(next, ":=", "in");
-                }
-            }
-            return result;
+            return generateForStatement(context, lineNumber);
         } else if (next instanceof RepeatToken) {
             InstructionGrouper command = new InstructionGrouper(lineNumber);
 
@@ -686,8 +649,7 @@ public abstract class GrouperToken extends Token {
 				 */
                 RuntimeValue converted = outputType.convert(valueToAssign, context);
                 if (converted == null) {
-                    throw new UnConvertibleTypeException(valueToAssign,
-                            inputType, outputType, true);
+                    throw new UnConvertibleTypeException(valueToAssign, outputType, inputType, true);
                 }
                 return new Assignment(left, outputType.cloneValue(converted), next.getLineInfo());
             } else if (r instanceof Executable) {
@@ -700,6 +662,55 @@ public abstract class GrouperToken extends Token {
                 throw new NotAStatementException(r);
             }
         }
+    }
+
+    private Executable generateForStatement(ExpressionContext context, LineInfo lineNumber) throws ParsingException {
+        RuntimeValue tmpVal = getNextExpression(context);
+        AssignableValue tmpVariable = tmpVal.asAssignableValue(context);
+        if (tmpVariable == null) {
+            throw new UnAssignableTypeException(tmpVal);
+        }
+        Token next = take();
+        if (!(next instanceof AssignmentToken
+                || next instanceof OperatorToken)) {
+            throw new ExpectedTokenException("\":=\" or \"in\"", next);
+        }
+        Executable result = null;
+        if (next instanceof AssignmentToken) {
+            RuntimeValue firstValue = getNextExpression(context);
+            RuntimeValue converted = tmpVariable.getType(context).convert(firstValue, context);
+            if (converted == null) {
+                throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType, firstValue.getType(context).declType, false);
+            }
+            firstValue = converted;
+
+            next = take();
+            boolean downto = false;
+            if (next instanceof DowntoToken) {
+                downto = true;
+            } else if (!(next instanceof ToToken)) {
+                throw new ExpectedTokenException(next, "to", "downto");
+            }
+            RuntimeValue lastValue = getNextExpression(context);
+            next = take();
+            if (!(next instanceof DoToken)) {
+                throw new ExpectedTokenException("do", next);
+            }
+            if (downto) { // TODO probably should merge these two types
+                result = new ForDowntoStatement(context, tmpVariable, firstValue,
+                        lastValue, getNextCommand(context), lineNumber);
+            } else {
+                result = new ForToStatement(context, tmpVariable, firstValue,
+                        lastValue, getNextCommand(context), lineNumber);
+            }
+        } else {
+            if (((OperatorToken) next).type == OperatorTypes.IN) {
+
+            } else {
+                throw new ExpectedTokenException(next, ":=", "in");
+            }
+        }
+        return result;
     }
 
     private RuntimeValue getMethodFromClass(ExpressionContext context, RuntimeValue container, String

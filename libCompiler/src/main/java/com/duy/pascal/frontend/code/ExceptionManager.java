@@ -62,7 +62,6 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.backend.utils.ArrayUtils;
-import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
@@ -72,6 +71,8 @@ import com.js.interpreter.runtime.exception.StackOverflowException;
 
 import java.util.List;
 import java.util.regex.Matcher;
+
+import static com.duy.pascal.frontend.R.string;
 
 /**
  * Created by Duy on 11-Mar-17.
@@ -92,121 +93,112 @@ public class ExceptionManager {
             return new SpannableString("null");
         }
         try {
-            if (e instanceof ExpectedTokenException) {
+            if (e instanceof ExpectedTokenException)
                 return getExpectedTokenException((ExpectedTokenException) e);
-            }
-            if (e instanceof StackOverflowException) {
-                return getMessageResource(e, R.string.StackOverflowException);
-            }
-            if (e instanceof MissingSemicolonTokenException) {
-                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.line);
-            }
-            if (e instanceof MissingCommaTokenException) {
-                return getMessageResource(e, R.string.MissingCommaTokenException,
+
+            if (e instanceof StackOverflowException)
+                return getMessageResource(e, string.StackOverflowException);
+
+            if (e instanceof MissingSemicolonTokenException)
+                return getMessageResource(e, string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.line);
+
+            if (e instanceof MissingCommaTokenException)
+                return getMessageResource(e, string.MissingCommaTokenException,
                         ((MissingCommaTokenException) e).line.line);
-            }
-            if (e instanceof StrayCharacterException) {
-                return getMessageResource(e, R.string.StrayCharacterException,
+
+            if (e instanceof StrayCharacterException)
+                return getMessageResource(e, string.StrayCharacterException,
                         ((StrayCharacterException) e).charCode);
-            }
+
             if (e instanceof NoSuchFunctionOrVariableException) {
-                return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).getName());
+                return getMessageResource(e, string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).getName());
             }
-            if (e instanceof BadFunctionCallException) {
-                return getBadFunctionCallException(e);
-            }
-            if (e instanceof MultipleDefinitionsMainException) {
-                return new SpannableString(context.getString(R.string.multi_define_main));
-            }
-            if (e instanceof GroupingExceptionType) {
+            if (e instanceof BadFunctionCallException) return getBadFunctionCallException(e);
+
+            if (e instanceof MultipleDefinitionsMainException)
+                return new SpannableString(context.getString(string.multi_define_main));
+
+            if (e instanceof GroupingExceptionType)
                 return getEnumeratedGroupingException((GroupingExceptionType) e);
-            }
-            if (e instanceof UnrecognizedTokenException) {
+
+            if (e instanceof UnrecognizedTokenException)
                 return getUnrecognizedTokenException((UnrecognizedTokenException) e);
-            }
+
             if (e instanceof MainProgramNotFoundException) {
-                return new SpannableString(context.getString(R.string.main_program_not_define));
+                return new SpannableString(context.getString(string.main_program_not_define));
             }
             if (e instanceof BadOperationTypeException) {
                 return getBadOperationTypeException((BadOperationTypeException) e);
             }
-            if (e instanceof FileException) {
-                return getFileException((FileException) e);
-            }
-            if (e instanceof PluginCallException) {
-                return getPluginCallException(e);
-            }
-            if (e instanceof NonIntegerIndexException) {
-                return getNonIntegerIndexException(e);
-            }
-            if (e instanceof NonIntegerException) {
-                return getNonIntegerException(e);
-            }
-            if (e instanceof ConstantCalculationException) {
+            if (e instanceof FileException) return getFileException((FileException) e);
+            if (e instanceof PluginCallException) return getPluginCallException(e);
+            if (e instanceof NonIntegerIndexException) return getNonIntegerIndexException(e);
+            if (e instanceof NonIntegerException) return getNonIntegerException(e);
+            if (e instanceof ConstantCalculationException)
                 return getConstantCalculationException(e);
-            }
+
             if (e instanceof ChangeValueConstantException) {
-                return getMessageResource(e, R.string.ChangeValueConstantException);
-            }
-            if (e instanceof UnConvertibleTypeException) {
-                UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
-                return getMessageResource(e, R.string.UnConvertibleTypeException,
-                        exception.obj, exception.out, exception.in);
+                return getMessageResource(e, string.ChangeValueConstantException);
             }
 
+            if (e instanceof UnConvertibleTypeException) {
+                UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
+                return getMessageResource(e, string.UnConvertibleTypeException,
+                        exception.value, exception.valueType, exception.targetType);
+            }
             if (e instanceof LibraryNotFoundException) {
-                return getMessageResource(e, R.string.LibraryNotFoundException,
+                return getMessageResource(e, string.LibraryNotFoundException,
                         ((LibraryNotFoundException) e).name);
             }
             if (e instanceof MultipleDefaultValuesException) {
-                return getMessageResource(e, R.string.MultipleDefaultValuesException);
+                return getMessageResource(e, string.MultipleDefaultValuesException);
             }
             if (e instanceof NonArrayIndexed) {
-                return getMessageResource(e, R.string.NonArrayIndexed, ((NonArrayIndexed) e).t.toString());
+                return getMessageResource(e, string.NonArrayIndexed, ((NonArrayIndexed) e).t.toString());
             }
             if (e instanceof NonConstantExpressionException) {
-                return getMessageResource(e, R.string.NonConstantExpressionException);
+                return getMessageResource(e, string.NonConstantExpressionException);
             }
             if (e instanceof NotAStatementException) {
-                return getMessageResource(e, R.string.NotAStatementException,
+                return getMessageResource(e, string.NotAStatementException,
                         ((NotAStatementException) e).runtimeValue.toString());
             }
             if (e instanceof SameNameException) {
                 SameNameException exception = (SameNameException) e;
-                return getMessageResource(e, R.string.SameNameException, exception.getType(),
+                return getMessageResource(e, string.SameNameException, exception.getType(),
                         exception.getName(), exception.getPreType(), exception.getPreLine());
             }
             if (e instanceof UnAssignableTypeException) {
-                return getMessageResource(e, R.string.UnAssignableTypeException,
+                return getMessageResource(e, string.UnAssignableTypeException,
                         ((UnAssignableTypeException) e).runtimeValue.toString());
             }
             if (e instanceof UnrecognizedTypeException) {
-                return getMessageResource(e, R.string.UnrecognizedTypeException,
+                return getMessageResource(e, string.UnrecognizedTypeException,
                         ((UnrecognizedTypeException) e).missingType);
             }
             if (e instanceof InvalidNumericFormatException) {
-                return getMessageResource(e, R.string.InvalidNumericFormatException);
+                return getMessageResource(e, string.InvalidNumericFormatException);
             }
             if (e instanceof PascalArithmeticException) {
-                return getMessageResource(e, R.string.PascalArithmeticException, ((PascalArithmeticException) e).error.getLocalizedMessage());
+                return getMessageResource(e, string.PascalArithmeticException, ((PascalArithmeticException) e).error.getLocalizedMessage());
             }
             if (e instanceof CanNotReadVariableException) {
-                return getMessageResource(e, R.string.CanNotReadVariableException);
+                return getMessageResource(e, string.CanNotReadVariableException);
             }
             if (e instanceof WrongIfElseStatement) {
-                return getMessageResource(e, R.string.WrongIfElseStatement);
+                return getMessageResource(e, string.WrongIfElseStatement);
             }
             if (e instanceof SubRangeException) {
-                return getMessageResource(e, R.string.SubRangeException,
+                return getMessageResource(e, string.SubRangeException,
                         ((SubRangeException) e).high, ((SubRangeException) e).low);
             }
             if (e instanceof OverridingFunctionBodyException) {
                 if (!((OverridingFunctionBodyException) e).isMethod) {
-                    return getMessageResource(e, R.string.OverridingFunctionException,
+                    return getMessageResource(e, string.OverridingFunctionException,
                             ((OverridingFunctionBodyException) e).functionDeclaration.name(),
                             ((OverridingFunctionBodyException) e).functionDeclaration.getLineNumber());
                 } else {
-                    return getMessageResource(e, R.string.OverridingFunctionException);
+                    return getMessageResource(e, string.OverridingFunctionException);
                 }
             }
             if (e instanceof ParsingException) {
@@ -214,7 +206,7 @@ public class ExceptionManager {
             }
 
             if (e instanceof DivisionByZeroException) {
-                return getMessageResource(e, R.string.DivisionByZeroException);
+                return getMessageResource(e, string.DivisionByZeroException);
             }
             return new SpannableString(e.getLocalizedMessage());
         } catch (Exception err) {
@@ -224,20 +216,19 @@ public class ExceptionManager {
     }
 
     private Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
+        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         if (e instanceof ParsingException) {
-            SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
             stringBuilder.append(((ParsingException) e).line.toString());
             stringBuilder.append("\n").append("\n");
             String format = String.format(context.getString(resourceID), arg);
             stringBuilder.append(format);
-            return stringBuilder;
+            return highlight(stringBuilder);
         } else if (e instanceof RuntimePascalException) {
-            SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
             stringBuilder.append(((RuntimePascalException) e).line.toString());
             stringBuilder.append("\n").append("\n");
             String format = String.format(context.getString(resourceID), arg);
             stringBuilder.append(format);
-            return stringBuilder;
+            return highlight(stringBuilder);
         }
         return new SpannableString(e.getLocalizedMessage());
     }
@@ -248,7 +239,7 @@ public class ExceptionManager {
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         stringBuilder.append(exception.line.toString());
         stringBuilder.append("\n").append("\n");
-        String format = String.format(context.getString(R.string.ConstantCalculationException),
+        String format = String.format(context.getString(string.ConstantCalculationException),
                 exception.e.getLocalizedMessage());
         stringBuilder.append(format);
         return stringBuilder;
@@ -262,7 +253,7 @@ public class ExceptionManager {
         stringBuilder.append(exception.line.toString());
         stringBuilder.append("\n").append("\n");
         String format = String.format(
-                context.getString(R.string.NonIntegerException),
+                context.getString(string.NonIntegerException),
                 exception.value.toString());
         stringBuilder.append(format);
         return stringBuilder;
@@ -273,7 +264,7 @@ public class ExceptionManager {
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         stringBuilder.append(exception.line.toString());
         stringBuilder.append("\n").append("\n");
-        String format = String.format(context.getString(R.string.NonIntegerIndexException), exception.value.toString());
+        String format = String.format(context.getString(string.NonIntegerIndexException), exception.value.toString());
         stringBuilder.append(format);
         return highlight(stringBuilder);
     }
@@ -282,7 +273,7 @@ public class ExceptionManager {
         PluginCallException exception = (PluginCallException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         String format = String.format(
-                context.getString(R.string.PluginCallException),
+                context.getString(string.PluginCallException),
                 exception.function.toString(),
                 exception.cause.getClass().getSimpleName());
         stringBuilder.append(format);
@@ -295,7 +286,7 @@ public class ExceptionManager {
 
     private Spanned getFileException(FileException e) {
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(context.getString(R.string.file));
+        stringBuilder.append(context.getString(string.file));
         stringBuilder.append(": ");
         stringBuilder.append(e.filePath);
         stringBuilder.setSpan(new ForegroundColorSpan(Color.YELLOW), 0,
@@ -304,15 +295,15 @@ public class ExceptionManager {
         stringBuilder.append("\n");
 
         if (e instanceof DiskReadErrorException) {
-            stringBuilder.append(context.getString(R.string.DiskReadErrorException));
+            stringBuilder.append(context.getString(string.DiskReadErrorException));
         } else if (e instanceof FileNotAssignException) {
-            stringBuilder.append(context.getString(R.string.FileNotAssignException));
+            stringBuilder.append(context.getString(string.FileNotAssignException));
         } else if (e instanceof com.duy.pascal.backend.lib.file.exceptions.FileNotFoundException) {
-            stringBuilder.append(context.getString(R.string.FileNotFoundException));
+            stringBuilder.append(context.getString(string.FileNotFoundException));
         } else if (e instanceof FileNotOpenException) {
-            stringBuilder.append(context.getString(R.string.FileNotOpenException));
+            stringBuilder.append(context.getString(string.FileNotOpenException));
         } else if (e instanceof FileNotOpenForInputException) {
-            stringBuilder.append(context.getString(R.string.FileNotOpenForInputException));
+            stringBuilder.append(context.getString(string.FileNotOpenForInputException));
         }
         return stringBuilder;
     }
@@ -320,15 +311,15 @@ public class ExceptionManager {
     private Spannable getBadOperationTypeException(BadOperationTypeException e) {
         String source;
         if (e.value1 == null) {
-            source = String.format(context.getString(R.string.BadOperationTypeException2), e.operatorTypes);
+            source = String.format(context.getString(string.BadOperationTypeException2), e.operatorTypes);
         } else {
-            source = String.format(context.getString(R.string.BadOperationTypeException), e.operatorTypes, e.value1, e.value2, e.declaredType, e.declaredType1);
+            source = String.format(context.getString(string.BadOperationTypeException), e.operatorTypes, e.value1, e.value2, e.declaredType, e.declaredType1);
         }
         return new SpannableString(source);
     }
 
     private Spannable getUnrecognizedTokenException(UnrecognizedTokenException e) {
-        String msg = context.getString(R.string.token_not_belong) + " ";
+        String msg = context.getString(string.token_not_belong) + " ";
         Spannable span = new SpannableString(msg + e.token.toString());
         span.setSpan(new ForegroundColorSpan(Color.YELLOW),
                 msg.length(), msg.length() + e.token.toString().length(),
@@ -339,27 +330,27 @@ public class ExceptionManager {
     private Spannable getEnumeratedGroupingException(GroupingExceptionType e) {
         GroupingExceptionType.GroupExceptionType exceptionTypes = e.exceptionTypes;
         if (exceptionTypes == GroupingExceptionType.GroupExceptionType.IO_EXCEPTION) {
-            return new SpannableString(context.getString(R.string.IO_EXCEPTION));
+            return new SpannableString(context.getString(string.IO_EXCEPTION));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.EXTRA_END) {
-            return new SpannableString(context.getString(R.string.EXTRA_END));
+            return new SpannableString(context.getString(string.EXTRA_END));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.INCOMPLETE_CHAR) {
-            return new SpannableString(context.getString(R.string.INCOMPLETE_CHAR));
+            return new SpannableString(context.getString(string.INCOMPLETE_CHAR));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_BEGIN_END) {
-            return new SpannableString(context.getString(R.string.MISMATCHED_BEGIN_END));
+            return new SpannableString(context.getString(string.MISMATCHED_BEGIN_END));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_BRACKETS) {
-            return new SpannableString(context.getString(R.string.MISMATCHED_BRACKETS));
+            return new SpannableString(context.getString(string.MISMATCHED_BRACKETS));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_PARENTHESES) {
-            return new SpannableString(context.getString(R.string.MISMATCHED_PARENTHESES));
+            return new SpannableString(context.getString(string.MISMATCHED_PARENTHESES));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_BEGIN_END) {
-            return new SpannableString(context.getString(R.string.UNFINISHED_BEGIN_END));
+            return new SpannableString(context.getString(string.UNFINISHED_BEGIN_END));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_PARENTHESES) {
-            return new SpannableString(context.getString(R.string.UNFINISHED_PARENTHESES));
+            return new SpannableString(context.getString(string.UNFINISHED_PARENTHESES));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_BRACKETS) {
-            return new SpannableString(context.getString(R.string.UNFINISHED_BRACKETS));
+            return new SpannableString(context.getString(string.UNFINISHED_BRACKETS));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISSING_INCLUDE) {
-            return new SpannableString(context.getString(R.string.MISSING_INCLUDE));
+            return new SpannableString(context.getString(string.MISSING_INCLUDE));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.NEWLINE_IN_QUOTES) {
-            return new SpannableString(context.getString(R.string.NEWLINE_IN_QUOTES));
+            return new SpannableString(context.getString(string.NEWLINE_IN_QUOTES));
         }
         return new SpannableString(e.getLocalizedMessage());
     }
@@ -372,10 +363,10 @@ public class ExceptionManager {
             SpannableStringBuilder result = new SpannableStringBuilder();
             result.append(e.line.toString()).append("\n\n");
             if (argsMatch) { //wrong type
-                String msg = String.format(context.getString(R.string.BadFunctionCallException_1), e.getFunctionName());
+                String msg = String.format(context.getString(string.BadFunctionCallException_1), e.getFunctionName());
                 result.append(msg);
             } else { //wrong size of args
-                String msg = String.format(context.getString(R.string.BadFunctionCallException_2), e.getFunctionName());
+                String msg = String.format(context.getString(string.BadFunctionCallException_2), e.getFunctionName());
                 result.append(msg);
             }
 
@@ -391,14 +382,14 @@ public class ExceptionManager {
 
             return highlight(result);
         } else {
-            String msg = String.format(context.getString(R.string.BadFunctionCallException_3), e.getFunctionName());
+            String msg = String.format(context.getString(string.BadFunctionCallException_3), e.getFunctionName());
             SpannableString spannableString = new SpannableString(msg);
             return highlight(spannableString);
         }
     }
 
     private Spanned getExpectedTokenException(ExpectedTokenException e) {
-        String msg = String.format(context.getString(R.string.ExpectedTokenException_3),
+        String msg = String.format(context.getString(string.ExpectedTokenException_3),
                 ArrayUtils.expectToString(e.getExpected(), context), e.getCurrent());
         SpannableString spannableString = new SpannableString(msg);
         return highlight(spannableString);

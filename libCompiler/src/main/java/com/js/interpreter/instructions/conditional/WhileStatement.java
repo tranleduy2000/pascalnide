@@ -40,9 +40,7 @@ public class WhileStatement extends DebuggableExecutable {
         RuntimeValue condition = grouperToken.getNextExpression(context);
         RuntimeValue convert = BasicType.Boolean.convert(condition, context);
         if (convert == null) {
-            throw new UnConvertibleTypeException(condition,
-                    condition.getType(context).declType, BasicType.Boolean,
-                    true);
+            throw new UnConvertibleTypeException(condition, BasicType.Boolean, condition.getType(context).declType, true);
         }
 
         //check "do' token

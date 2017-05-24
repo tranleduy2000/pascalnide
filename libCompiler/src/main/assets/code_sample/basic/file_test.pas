@@ -23,7 +23,7 @@ begin
     Assign(f1, 'input.in');
     Reset(f1);
 
-    Assign(f2, 'output.out');
+    Assign(f2, 'output.inType');
     Rewrite(f2);
 
     {read string in file}

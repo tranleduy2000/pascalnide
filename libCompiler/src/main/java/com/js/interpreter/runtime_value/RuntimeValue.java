@@ -32,7 +32,6 @@ public interface RuntimeValue {
     /**
      * get type of variable or return type of function
      */
-    @Nullable
     RuntimeType getType(ExpressionContext f) throws ParsingException;
 
     /**

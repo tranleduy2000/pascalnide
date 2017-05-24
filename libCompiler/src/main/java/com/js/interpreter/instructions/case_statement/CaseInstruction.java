@@ -99,10 +99,10 @@ public class CaseInstruction extends DebuggableExecutable {
 
     //check type
     private void assertType(DeclaredType switchValueType, RuntimeValue val, ExpressionContext context) throws ParsingException {
-        DeclaredType inputType = val.getType(context).declType;
+        DeclaredType valueType = val.getType(context).declType;
         RuntimeValue converted = switchValueType.convert(val, context);
         if (converted == null) {
-            throw new UnConvertibleTypeException(val, inputType, switchValueType, true);
+            throw new UnConvertibleTypeException(val, switchValueType, valueType, true);
         }
 
     } // end check type

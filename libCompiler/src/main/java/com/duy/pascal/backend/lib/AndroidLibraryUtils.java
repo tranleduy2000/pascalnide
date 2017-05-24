@@ -39,7 +39,7 @@ public class AndroidLibraryUtils {
     }
 
 
-    // TODO(damonkohler): Pull this out into proper argument deserialization and support
+    // TODO(damonkohler): Pull this inType into proper argument deserialization and support
     // complex/nested types being passed in.
     public static void putExtrasFromJsonObject(JSONObject extras, Intent intent) throws JSONException {
         JSONArray names = extras.names();

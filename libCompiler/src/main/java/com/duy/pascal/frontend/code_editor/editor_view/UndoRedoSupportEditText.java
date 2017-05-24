@@ -83,7 +83,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
             try {
                 mUndoRedoHelper.undo();
             } catch (Exception e) {
-                // TODO: 19-May-17 fix bug index out of bound
+                // TODO: 19-May-17 fix bug index inType of bound
             }
         }
     }
@@ -96,7 +96,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
             try {
                 mUndoRedoHelper.redo();
             } catch (Exception e) {
-                // TODO: 19-May-17 fix bug index out of bound
+                // TODO: 19-May-17 fix bug index inType of bound
             }
         }
     }

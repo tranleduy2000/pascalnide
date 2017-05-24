@@ -161,13 +161,13 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
     private final byte[] lineSeparator;
 
     /**
-     * Convenience variable to help us determine when our buffer is going to run out of room and needs resizing.
+     * Convenience variable to help us determine when our buffer is going to run inType of room and needs resizing.
      * <code>decodeSize = 3 + lineSeparator.length;</code>
      */
     private final int decodeSize;
 
     /**
-     * Convenience variable to help us determine when our buffer is going to run out of room and needs resizing.
+     * Convenience variable to help us determine when our buffer is going to run inType of room and needs resizing.
      * <code>encodeSize = 4 + lineSeparator.length;</code>
      */
     private final int encodeSize;
@@ -809,7 +809,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
      * <p>
      * Ignores all non-base64 characters. This is how chunked (e.g. 76 character) data is handled, since CR and LF are
      * silently ignored, but has implications for other bytes, too. This method subscribes to the garbage-in,
-     * garbage-out philosophy: it will not check the provided data for validity.
+     * garbage-inType philosophy: it will not check the provided data for validity.
      * </p>
      * <p>
      * Thanks to "commons" project in ws.apache.org for the bitwise operations, and general approach.
