@@ -24,7 +24,6 @@ import android.text.Layout;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 
@@ -211,7 +210,6 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
         if (start < 0) return source + indent;
 
         String prev = dest.subSequence(start, dstart).toString().trim();
-        Log.d(TAG, "indentLine: " + prev);
         Matcher matcher = Patterns.OPEN_PATTERN.matcher(prev);
         if (matcher.find()) {
             indent += TAB_CHARACTER;

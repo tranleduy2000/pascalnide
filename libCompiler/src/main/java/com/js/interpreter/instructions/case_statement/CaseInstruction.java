@@ -1,11 +1,11 @@
 package com.js.interpreter.instructions.case_statement;
 
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
+import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -17,16 +17,15 @@ import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.instructions.InstructionGrouper;
-import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime_value.VariableAccess;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,10 +121,10 @@ public class CaseInstruction extends DebuggableExecutable {
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object value = mSwitchValue.getValue(context, main);
-        for (CasePossibility possibily : possibilities) {
-            for (int j = 0; j < possibily.conditions.length; j++) {
-                if (possibily.conditions[j].fits(value)) {
-                    return possibily.execute(context, main);
+        for (CasePossibility possibility : possibilities) {
+            for (int j = 0; j < possibility.conditions.length; j++) {
+                if (possibility.conditions[j].fits(value)) {
+                    return possibility.execute(context, main);
                 }
             }
         }
