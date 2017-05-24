@@ -8,9 +8,10 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class TypeConverter {
-    private static HashMap<Class, Integer> precedence = new HashMap<>();
+    private static final HashMap<Class, Integer> precedence = new HashMap<>();
 
     static {
+        //region integer
         precedence.put(Character.class, 1);
         precedence.put(char.class, 1);
 
@@ -25,12 +26,15 @@ public class TypeConverter {
 
         precedence.put(Long.class, 1);
         precedence.put(long.class, 1);
+        //end region
 
+        //region real
         precedence.put(Float.class, 2);
         precedence.put(float.class, 2);
 
         precedence.put(Double.class, 2);
         precedence.put(double.class, 2);
+        //end region
     }
 
     public static RuntimeValue autoConvert(BasicType outtype,

@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.function_declaretion;
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.exceptions.define.SameNameException;
@@ -209,6 +211,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
+    @Nullable
     public DeclaredType returnType() {
         return resultDefinition == null ? null : resultDefinition.type;
     }

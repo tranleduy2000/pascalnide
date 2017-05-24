@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.utils;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.view.exec_screen.console.TextConsole;
@@ -90,5 +91,19 @@ public class ArrayUtils {
      */
     public static String argToString(List<RuntimeValue> args) {
         return argToString(args.toArray());
+    }
+
+    public static String expectToString(String[] expected, Context context) {
+        if (expected.length == 0) return "";
+        if (expected.length == 1) return expected[0];
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < expected.length; i++) {
+            result.append(expected[i]);
+            if (i == expected.length - 1) {
+                break;
+            }
+            result.append(" | ");
+        }
+        return result.toString();
     }
 }

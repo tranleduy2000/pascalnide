@@ -36,6 +36,11 @@ public class VarargsType implements ArgumentType {
     }
 
     @Override
+    public String toString() {
+        return "args...";
+    }
+
+    @Override
     public Class getRuntimeClass() {
         return elementType.getClass();
     }

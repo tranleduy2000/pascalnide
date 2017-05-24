@@ -24,10 +24,12 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txt_title"
-        android:gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/img_info"
+        android:gravity="center|left"
         android:singleLine="true"
         android:text="@string/save"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />

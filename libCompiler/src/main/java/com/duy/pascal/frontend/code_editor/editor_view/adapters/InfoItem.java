@@ -24,29 +24,28 @@ import com.duy.pascal.frontend.code_editor.editor_view.CodeSuggestsEditText;
 /**
  * item for suggest adapter of {@link CodeSuggestsEditText}
  */
-public class StructureItem implements  Comparable {
+public class InfoItem implements Comparable<String> {
     private int type;
     @NonNull
     private String name = "";
+    @Nullable
     private String description = null;
-    private CharSequence show;
+    @Nullable
+    private CharSequence show = null;
     private String compare = "";
 
-    public StructureItem(int type, @NonNull String name, String description, CharSequence show) {
-        this.name = name;
-        this.description = description;
-        this.type = type;
+    public InfoItem(int type, @NonNull String name, @Nullable String description, @Nullable String show) {
+        this(type, name, description);
         this.show = show;
     }
 
-    public StructureItem(int type, @NonNull String name, String description) {
-        this.name = name;
+    public InfoItem(int type, @NonNull String name, @Nullable String description) {
+        this(type, name);
         this.description = description;
-        this.type = type;
         this.compare = name.toLowerCase();
     }
 
-    public StructureItem(int type, @NonNull String name) {
+    public InfoItem(int type, @NonNull String name) {
         this.name = name;
         this.type = type;
         this.compare = name.toLowerCase();
@@ -69,6 +68,7 @@ public class StructureItem implements  Comparable {
         this.name = name;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }
@@ -77,6 +77,7 @@ public class StructureItem implements  Comparable {
         this.description = description;
     }
 
+    @Nullable
     public CharSequence getShow() {
         return show;
     }
@@ -86,8 +87,13 @@ public class StructureItem implements  Comparable {
     }
 
     @Override
-    public int compareTo(@NonNull Object o) {
-        String s = o.toString().toLowerCase();
+    public int compareTo(@NonNull String o) {
+        String s = o.toLowerCase();
         return compare.startsWith(s) ? 0 : -1;
+    }
+
+    @Override
+    public String toString() {
+        return name + " - " + description + " - " + show;
     }
 }

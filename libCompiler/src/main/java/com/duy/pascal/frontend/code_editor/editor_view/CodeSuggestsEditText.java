@@ -29,7 +29,7 @@ import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.CodeSuggestAdapter;
-import com.duy.pascal.frontend.code_editor.editor_view.adapters.StructureItem;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
 
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * slipt string in edittext and put it to list keyword
      */
     public void invalidateKeyWord() {
-        setSuggestData(new ArrayList<StructureItem>());
+        setSuggestData(new ArrayList<InfoItem>());
     }
 
     private void init() {
@@ -109,9 +109,9 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(String[] data) {
-        ArrayList<StructureItem> items = new ArrayList<>();
+        ArrayList<InfoItem> items = new ArrayList<>();
         for (String s : data) {
-            items.add(new StructureItem(StructureType.TYPE_KEY_WORD, s));
+            items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
         }
         setSuggestData(items);
     }
@@ -164,7 +164,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     public void restoreAfterClick(final String[] data) {
-        final ArrayList<StructureItem> suggestData = (ArrayList<StructureItem>) getSuggestData().clone();
+        final ArrayList<InfoItem> suggestData = (ArrayList<InfoItem>) getSuggestData().clone();
         setSuggestData(data);
         postDelayed(new Runnable() {
             @Override
@@ -187,28 +187,28 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
         });
     }
 
-    public ArrayList<StructureItem> getSuggestData() {
+    public ArrayList<InfoItem> getSuggestData() {
         return mAdapter.getItems();
     }
 
     /**
      * invalidate data for auto suggest
      */
-    public void setSuggestData(ArrayList<StructureItem> data) {
+    public void setSuggestData(ArrayList<InfoItem> data) {
         if (!mEditorSetting.isShowSuggestPopup()) {
             if (mAdapter != null) {
                 mAdapter.clear();
             } else {
-                mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint,
-                        new ArrayList<StructureItem>());
+                mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest,
+                        new ArrayList<InfoItem>());
                 setAdapter(mAdapter);
             }
             return;
         }
         for (String s : KeyWord.ALL_KEY_WORD) {
-            data.add(new StructureItem(StructureType.TYPE_KEY_WORD, s));
+            data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
         }
-        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.code_hint, data);
+        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
         setAdapter(mAdapter);
         onDropdownChangeSize();
     }

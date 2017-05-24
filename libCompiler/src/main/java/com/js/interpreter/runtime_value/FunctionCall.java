@@ -38,7 +38,6 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
 
         for (List<AbstractFunction> l : possibilities) {
             for (AbstractFunction function : l) {
-
                 result = function.generatePerfectFitCall(name.getLineInfo(), arguments, expressionContext);
                 if (result != null) {
                     if (perfectFit) {
@@ -47,7 +46,6 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
                     perfectFit = true;
                     chosen = function;
                     runtimeValue = result;
-//                    continue;
                     break;
                 }
                 result = function.generateCall(name.getLineInfo(), arguments, expressionContext);
@@ -65,8 +63,18 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
             }
         }
         if (runtimeValue == null) {
+            ArrayList<String> argsType = new ArrayList<>();
+            for (int i = 0; i < arguments.size(); i++) {
+                argsType.add(String.valueOf(arguments.get(i).getType(expressionContext)));
+            }
+            ArrayList<String> listFunctions = new ArrayList<>();
+            for (List<AbstractFunction> possibility : possibilities) {
+                for (AbstractFunction function : possibility) {
+                    listFunctions.add(function.toString());
+                }
+            }
             throw new BadFunctionCallException(name.getLineInfo(),
-                    name.name, !possibilities.isEmpty(), matching, arguments);
+                    name.name, !possibilities.isEmpty(), matching, argsType, listFunctions);
         } else if (!perfectFit && ambiguous != null) {
             throw new AmbiguousFunctionCallException(name.getLineInfo(), chosen, ambiguous);
         } else {

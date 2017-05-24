@@ -70,7 +70,7 @@ import com.js.interpreter.runtime.exception.PluginCallException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.StackOverflowException;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 
 /**
@@ -367,17 +367,29 @@ public class ExceptionManager {
     private Spannable getBadFunctionCallException(Throwable throwable) {
         BadFunctionCallException e = (BadFunctionCallException) throwable;
         boolean functionExists = e.getFunctionExists();
-        boolean numargsMatch = e.getNumargsMatch();
-        if (functionExists) {
-            if (numargsMatch) {
-                String msg = String.format(context.getString(R.string.BadFunctionCallException_1),
-                        e.getFunctionName() + ArrayUtils.argToString(e.getArgs()));
-                return highlight(new SpannableString(msg));
-            } else {
-                String msg = String.format(context.getString(R.string.BadFunctionCallException_2),
-                        e.getFunctionName() + ArrayUtils.argToString(e.getArgs()));
-                return highlight(new SpannableString(msg));
+        boolean argsMatch = e.getArgsMatch();
+        if (functionExists) { //function is exist, but wrong argument
+            SpannableStringBuilder result = new SpannableStringBuilder();
+            result.append(e.line.toString()).append("\n\n");
+            if (argsMatch) { //wrong type
+                String msg = String.format(context.getString(R.string.BadFunctionCallException_1), e.getFunctionName());
+                result.append(msg);
+            } else { //wrong size of args
+                String msg = String.format(context.getString(R.string.BadFunctionCallException_2), e.getFunctionName());
+                result.append(msg);
             }
+
+            //add list function
+            List<String> functions = e.getFunctions();
+            if (functions != null) {
+                result.append("\n\n");
+                result.append("Accept functions: ").append("\n");
+                for (String function : functions) {
+                    result.append(function).append("\n");
+                }
+            }
+
+            return highlight(result);
         } else {
             String msg = String.format(context.getString(R.string.BadFunctionCallException_3), e.getFunctionName());
             SpannableString spannableString = new SpannableString(msg);
@@ -387,19 +399,19 @@ public class ExceptionManager {
 
     private Spanned getExpectedTokenException(ExpectedTokenException e) {
         String msg = String.format(context.getString(R.string.ExpectedTokenException_3),
-                Arrays.toString(e.getExpected()), e.getCurrent());
+                ArrayUtils.expectToString(e.getExpected(), context), e.getCurrent());
         SpannableString spannableString = new SpannableString(msg);
         return highlight(spannableString);
     }
 
-    private Spannable highlight(Spannable spannableString) {
-        Matcher matcher = Patterns.REPLACE_HIGHLIGHT.matcher(spannableString);
+    private Spannable highlight(Spannable spannable) {
+        Matcher matcher = Patterns.REPLACE_HIGHLIGHT.matcher(spannable);
         while (matcher.find()) {
-            spannableString.setSpan(new ForegroundColorSpan(Color.YELLOW), matcher.start(),
+            spannable.setSpan(new ForegroundColorSpan(Color.YELLOW), matcher.start(),
                     matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannableString.setSpan(new StyleSpan(Typeface.BOLD), matcher.start(),
+            spannable.setSpan(new StyleSpan(Typeface.BOLD), matcher.start(),
                     matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        return spannableString;
+        return spannable;
     }
 }

@@ -19,27 +19,30 @@ package com.duy.pascal.backend.exceptions.define
 
 import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
-import com.js.interpreter.runtime_value.RuntimeValue
 
 class BadFunctionCallException : ParsingException {
 
     var functionName: String
     var functionExists: Boolean
-    var numargsMatch: Boolean
-    var args: List<RuntimeValue>? = null;
+    var argsMatch: Boolean
+    var args: List<String>? = null;
+    var functions: List<String>? = null;
 
     constructor(line: LineInfo, functionName: String,
-                functionExists: Boolean, numargsMatch: Boolean,
-                args: MutableList<RuntimeValue>) : super(line) {
+                functionExists: Boolean,
+                numargsMatch: Boolean,
+                args: ArrayList<String>,
+                function: ArrayList<String>) : super(line) {
         this.functionName = functionName
         this.functionExists = functionExists
-        this.numargsMatch = numargsMatch
+        this.argsMatch = numargsMatch
         this.args = args;
+        this.functions = function;
     }
 
     override fun getLocalizedMessage(): String {
         if (functionExists) {
-            if (numargsMatch) {
+            if (argsMatch) {
                 return "One or more arguments has an incorrect operator when calling function \"$functionName\"."
             } else {
                 return "Either too few or two many arguments are being passed to function \"$functionName\"."

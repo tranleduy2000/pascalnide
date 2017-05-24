@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.function_declaretion;
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
@@ -39,20 +41,24 @@ public abstract class AbstractFunction implements NamedEntity {
 
     public abstract ArgumentType[] argumentTypes();
 
+    @Nullable
     public abstract DeclaredType returnType();
 
     @Override
     public String toString() {
+        DeclaredType declaredType = returnType();
         if (argumentTypes().length == 0) {
-            return name();
+            return name() + (declaredType != null ? ":" + declaredType.toString() : "");
         } else {
-            return name() + ArrayUtils.argToString(argumentTypes());
+            return name() + ArrayUtils.argToString(argumentTypes())
+                    + (declaredType != null ? ":" + declaredType.toString() : "");
         }
     }
 
     /**
      * @return converted arguments, or null, if they do not fit.
      */
+    @Nullable
     public RuntimeValue[] formatArgs(List<RuntimeValue> values,
                                      ExpressionContext expressionContext) throws ParsingException {
         ArgumentType[] accepted_types = argumentTypes();
@@ -71,6 +77,7 @@ public abstract class AbstractFunction implements NamedEntity {
         return result;
     }
 
+    @Nullable
     public RuntimeValue[] perfectMatch(List<RuntimeValue> arguments,
                                        ExpressionContext context) throws ParsingException {
         ArgumentType[] acceptedTypes = argumentTypes();

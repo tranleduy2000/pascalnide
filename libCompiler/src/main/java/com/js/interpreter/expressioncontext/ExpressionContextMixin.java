@@ -47,7 +47,7 @@ import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.program_structure.viewholder.StructureType;
-import com.duy.pascal.frontend.code_editor.editor_view.adapters.StructureItem;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.ConstantDefinition;
@@ -90,7 +90,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     private ArrayListMultimap<String, AbstractFunction> callableFunctions = ArrayListMultimap.create();
 
     //name of function in map callableFunctions, uses for get all function
-    private ArrayList<StructureItem> listNameFunctions = new ArrayList<>();
+    private ArrayList<InfoItem> listNameFunctions = new ArrayList<>();
 
     /**
      * defined constants
@@ -104,14 +104,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
 
     //list name of constant map,  use for get all constants
-    private ArrayList<StructureItem> listNameConstants = new ArrayList<>();
+    private ArrayList<InfoItem> listNameConstants = new ArrayList<>();
 
     /**
      * list custom operator
      */
     private HashMap<String, DeclaredType> typedefs = new HashMap<>();
     //uses for get all operator in map typedefs
-    private ArrayList<StructureItem> listNameTypes = new ArrayList<>();
+    private ArrayList<InfoItem> listNameTypes = new ArrayList<>();
     /**
      * list library
      */
@@ -180,7 +180,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             }
         }
         callableFunctions.put(f.name, f);
-        listNameFunctions.add(new StructureItem(StructureType.TYPE_FUNCTION, f.name));
+        listNameFunctions.add(new InfoItem(StructureType.TYPE_FUNCTION, f.name));
         return f;
     }
 
@@ -406,7 +406,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void declareTypedef(String name, DeclaredType type) {
         typedefs.put(name, type);
-        listNameTypes.add(new StructureItem(StructureType.TYPE_DEF, name));
+        listNameTypes.add(new InfoItem(StructureType.TYPE_DEF, name));
     }
 
     public void declareVariable(VariableDeclaration v) {
@@ -415,13 +415,13 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public void declareFunction(AbstractFunction f) {
         callableFunctions.put(f.name().toLowerCase(), f);
-        StructureItem e = new StructureItem(StructureType.TYPE_FUNCTION, f.name(), f.getDescription());
+        InfoItem e = new InfoItem(StructureType.TYPE_FUNCTION, f.name(), f.getDescription(), f.toString());
         listNameFunctions.add(e);
     }
 
     public void declareConst(ConstantDefinition c) {
         constants.put(c.name(), c);
-        listNameConstants.add(new StructureItem(StructureType.TYPE_CONST, c.name()));
+        listNameConstants.add(new InfoItem(StructureType.TYPE_CONST, c.name()));
     }
 
     public void declareConst(GrouperToken token) throws ParsingException {
@@ -541,15 +541,15 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
 
-    public ArrayList<StructureItem> getListNameFunctions() {
+    public ArrayList<InfoItem> getListNameFunctions() {
         return listNameFunctions;
     }
 
-    public ArrayList<StructureItem> getListNameConstants() {
+    public ArrayList<InfoItem> getListNameConstants() {
         return listNameConstants;
     }
 
-    public ArrayList<StructureItem> getListNameTypes() {
+    public ArrayList<InfoItem> getListNameTypes() {
         return listNameTypes;
     }
 

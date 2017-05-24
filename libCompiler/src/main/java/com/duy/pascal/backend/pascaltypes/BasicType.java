@@ -69,7 +69,6 @@ public enum BasicType implements DeclaredType {
         }
 
 
-
         @Override
         public String toString() {
             return "String";
@@ -120,7 +119,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public String toString() {
-            return "Short";
+            return "Byte";
         }
 
     },
@@ -136,7 +135,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public String toString() {
-            return "Short";
+            return "Shortint";
         }
 
 
@@ -172,7 +171,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public String toString() {
-            return "Long";
+            return "Longint";
         }
     },
     Double(Double.class) {
@@ -206,7 +205,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public String toString() {
-            return "File";
+            return "Text";
         }
 
     },

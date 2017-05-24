@@ -50,7 +50,7 @@ import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
-import com.duy.pascal.frontend.code_editor.editor_view.adapters.StructureItem;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogManager;
@@ -75,7 +75,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class EditorActivity extends BaseEditorActivity implements
         DrawerLayout.DrawerListener {
@@ -322,16 +321,12 @@ public class EditorActivity extends BaseEditorActivity implements
             ExpressionContextMixin program = codeUnit.getProgram();
             EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
             if (currentFragment != null) {
-                ArrayList<StructureItem> data = new ArrayList<>();
+                ArrayList<InfoItem> data = new ArrayList<>();
 
                 ArrayListMultimap<String, AbstractFunction> callableFunctions = program.getCallableFunctions();
-                Set<String> names = callableFunctions.keySet();
-                for (String name : names) {
-                    List<AbstractFunction> functions = callableFunctions.get(name);
-                    for (AbstractFunction function : functions) {
-                        String funName = function.toString();
-                        data.add(new StructureItem(StructureType.TYPE_FUNCTION, funName,
-                                function.getDescription()));
+                for (String name : callableFunctions.keySet()) {
+                    for (AbstractFunction f : callableFunctions.get(name)) {
+                        data.add(new InfoItem(StructureType.TYPE_FUNCTION, f.name(), f.getDescription(), f.toString()));
                     }
                 }
 
@@ -339,10 +334,10 @@ public class EditorActivity extends BaseEditorActivity implements
                 data.addAll(program.getListNameTypes());
 
                 ArrayList<VariableDeclaration> variables = program.getVariables();
-                ArrayList<StructureItem> listVariables = new ArrayList<>();
+                ArrayList<InfoItem> listVariables = new ArrayList<>();
 
                 for (VariableDeclaration variableDeclaration : variables) {
-                    listVariables.add(new StructureItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
+                    listVariables.add(new InfoItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
                 }
                 data.addAll(listVariables);
 
@@ -677,8 +672,8 @@ public class EditorActivity extends BaseEditorActivity implements
         String tab = "";
         for (int i = 0; i < depth; i++) tab += "\t";
         Map<String, ConstantDefinition> constants = context.getConstants();
-        ArrayList<StructureItem> listNameConstants = context.getListNameConstants();
-        for (StructureItem name : listNameConstants) {
+        ArrayList<InfoItem> listNameConstants = context.getListNameConstants();
+        for (InfoItem name : listNameConstants) {
             node.addNode(new com.duy.pascal.frontend.program_structure.viewholder.StructureItem(StructureType.TYPE_CONST,
                     name + " = " + constants.get(name.getName().toLowerCase()).getValue()));
         }
@@ -698,8 +693,8 @@ public class EditorActivity extends BaseEditorActivity implements
         }
 
         ListMultimap<String, AbstractFunction> callableFunctions = context.getCallableFunctions();
-        ArrayList<StructureItem> listNameFunctions = context.getListNameFunctions();
-        for (StructureItem name : listNameFunctions) {
+        ArrayList<InfoItem> listNameFunctions = context.getListNameFunctions();
+        for (InfoItem name : listNameFunctions) {
             List<AbstractFunction> abstractFunctions = callableFunctions.get(name.getName().toLowerCase());
             for (AbstractFunction function : abstractFunctions) {
                 if (function instanceof FunctionDeclaration) {
