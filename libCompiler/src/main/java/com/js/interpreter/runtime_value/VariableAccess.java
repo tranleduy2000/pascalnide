@@ -38,7 +38,7 @@ public class VariableAccess extends DebuggableAssignableValue {
 
     public VariableAccess(WordToken t) {
         this.name = t.name;
-        this.line = t.getLineInfo();
+        this.line = t.getLineNumber();
     }
 
     public VariableAccess(String name, LineInfo line) {

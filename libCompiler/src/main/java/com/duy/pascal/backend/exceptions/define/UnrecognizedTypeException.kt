@@ -20,7 +20,7 @@ import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
 
 
- class UnrecognizedTypeException( line: LineInfo, type: String)
+class UnrecognizedTypeException(line: LineInfo?, type: String)
     : ParsingException(line, "Type $type is not define") {
 
     @JvmField val missingType: String = type

@@ -26,7 +26,7 @@ public class EndToken extends ClosingToken {
                 || t instanceof UnitToken) {
             return null;
         } else {
-            return new GroupingExceptionType(getLineInfo(), GroupExceptionType.EXTRA_END);
+            return new GroupingExceptionType(getLineNumber(), GroupExceptionType.EXTRA_END);
         }
     }
 

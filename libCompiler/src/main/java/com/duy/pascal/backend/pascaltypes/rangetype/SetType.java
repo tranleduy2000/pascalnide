@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.pascaltypes;
+package com.duy.pascal.backend.pascaltypes.rangetype;
 
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.InfoType;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime_value.cloning.ArrayCloner;
@@ -34,7 +37,7 @@ import java.util.LinkedList;
  * <p>
  * Created by Duy on 16-May-17.
  */
-public class SetType<T extends DeclaredType> implements DeclaredType {
+public class SetType<T extends DeclaredType> extends InfoType {
     private T elementType;
     private int size;
     private LineInfo line;
@@ -188,6 +191,11 @@ public class SetType<T extends DeclaredType> implements DeclaredType {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public String getEntityType() {
+        return "set type";
     }
 
     public int getSize() {

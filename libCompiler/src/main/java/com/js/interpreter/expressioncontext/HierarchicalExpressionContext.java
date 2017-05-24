@@ -1,7 +1,5 @@
 package com.js.interpreter.expressioncontext;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.define.SameNameException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -14,8 +12,6 @@ import com.js.interpreter.codeunit.library.UnitPascal;
 
 import java.util.List;
 import java.util.Map;
-
-import static android.content.ContentValues.TAG;
 
 public abstract class HierarchicalExpressionContext implements
         ExpressionContext {

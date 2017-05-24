@@ -254,7 +254,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
 
                 //check exception
                 if (i.peek() instanceof ForwardToken) {
-                    throw new MisplacedDeclarationException(i.peek().getLineInfo(), "forward", this);
+                    throw new MisplacedDeclarationException(i.peek().getLineNumber(), "forward", this);
                 }
 
                 forwardFunctions.add(declaration.name());
@@ -266,7 +266,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
          /*   if (initInstruction != null) {
-                throw new MultipleDefinitionsMainException(i.getLineInfo());
+                throw new MultipleDefinitionsMainException(i.getLineNumber());
             } else {
                 initInstruction = i.getNextCommand(this);
 
@@ -277,7 +277,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                     throw new ExpectedTokenException(".", i.take());
                 }
             }*/
-            throw new MisplacedDeclarationException(i.peek().getLineInfo(),
+            throw new MisplacedDeclarationException(i.peek().getLineNumber(),
                     "main function", this);
         }
 

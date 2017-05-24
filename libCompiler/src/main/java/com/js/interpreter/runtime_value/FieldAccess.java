@@ -33,7 +33,7 @@ public class FieldAccess extends DebuggableAssignableValue {
     }
 
     public FieldAccess(RuntimeValue container, WordToken name) {
-        this(container, name.name, name.getLineInfo());
+        this(container, name.name, name.getLineNumber());
     }
 
 

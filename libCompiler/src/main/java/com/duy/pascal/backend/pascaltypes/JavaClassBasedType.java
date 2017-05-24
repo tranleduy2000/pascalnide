@@ -5,13 +5,14 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime_value.boxing.CharacterBoxer;
 import com.js.interpreter.runtime_value.boxing.StringBuilderBoxer;
 import com.js.interpreter.runtime_value.cloning.CloneableObjectCloner;
 
-public class JavaClassBasedType implements DeclaredType {
+public class JavaClassBasedType extends InfoType {
 
     @Nullable
     private Class clazz;
@@ -100,5 +101,28 @@ public class JavaClassBasedType implements DeclaredType {
         return clazz;
     }
 
+    @Override
+    public LineInfo getLineNumber() {
+        return null;
+    }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+    }
+
+    @Override
+    public String getEntityType() {
+        return "java class type";
+    }
+
+    @Override
+    public String name() {
+        return null;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
 
 }

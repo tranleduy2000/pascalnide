@@ -13,7 +13,7 @@ import com.ncsa.common.util.TypeUtils;
 import java.lang.reflect.Array;
 
 
-public class ArrayType<T extends DeclaredType> implements DeclaredType {
+public class ArrayType<T extends DeclaredType> extends InfoType {
     public final T elementType;
     private SubrangeType bounds;
 
@@ -156,6 +156,13 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         }
 
     }
+
+
+    @Override
+    public String getEntityType() {
+        return "array type";
+    }
+
 
 
 }

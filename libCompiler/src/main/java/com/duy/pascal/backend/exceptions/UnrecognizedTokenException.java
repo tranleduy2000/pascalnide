@@ -6,7 +6,7 @@ public class UnrecognizedTokenException extends com.duy.pascal.backend.exception
     public Token token;
 
     public UnrecognizedTokenException(Token t) {
-        super(t.getLineInfo(), "The following name doesn't belong here: " + t);
+        super(t.getLineNumber(), "The following name doesn't belong here: " + t);
         this.token = t;
     }
 }

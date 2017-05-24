@@ -16,9 +16,12 @@
 
 package com.js.interpreter;
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 public interface NamedEntity {
+    @Nullable
     LineInfo getLineNumber();
 
     String getEntityType();

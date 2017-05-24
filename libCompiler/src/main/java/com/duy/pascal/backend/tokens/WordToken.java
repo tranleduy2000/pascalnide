@@ -9,11 +9,10 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
-import com.js.interpreter.NamedEntity;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 
 
-public class WordToken extends Token implements NamedEntity {
+public class WordToken extends Token {
 
     //always lower case
     public String name;
@@ -55,6 +54,7 @@ public class WordToken extends Token implements NamedEntity {
 
     public DeclaredType toBasicType(ExpressionContext context)
             throws UnrecognizedTypeException {
+        DeclaredType returnType = null;
         String name = this.name.toLowerCase().intern();
         if (name.equalsIgnoreCase("integer")
                 || name.equalsIgnoreCase("byte")
@@ -62,73 +62,56 @@ public class WordToken extends Token implements NamedEntity {
                 || name.equalsIgnoreCase("shortint")
                 || name.equalsIgnoreCase("smallint")
                 || name.equalsIgnoreCase("cardinal")) {
-            return BasicType.Integer;
+            returnType = BasicType.Integer;
         } else if (name.equalsIgnoreCase("string")
                 || name.equalsIgnoreCase("ansistring")
                 || name.equalsIgnoreCase("shortstring")) {
-            return BasicType.StringBuilder;
+            returnType = BasicType.StringBuilder;
         } else if (name.equalsIgnoreCase("single")
                 || name.equalsIgnoreCase("extended")
                 || name.equalsIgnoreCase("real")
                 || name.equalsIgnoreCase("comp")
                 || name.equalsIgnoreCase("curreny")
                 || name.equalsIgnoreCase("double")) {
-            return BasicType.Double;
+            returnType = BasicType.Double;
         } else if (name.equalsIgnoreCase("longint")
                 || name.equalsIgnoreCase("int64")
                 || name.equalsIgnoreCase("qword")
                 || name.equalsIgnoreCase("longword")
                 || name.equalsIgnoreCase("dword")) {
-            return BasicType.Long;
+            returnType = BasicType.Long;
         } else if (name.equalsIgnoreCase("boolean")) {
-            return BasicType.Boolean;
+            returnType = BasicType.Boolean;
         } else if (name.equalsIgnoreCase("char")) {
-            return BasicType.Character;
+            returnType = BasicType.Character;
         } else if (name.equalsIgnoreCase("text")
                 || name.equalsIgnoreCase("textfile")) {
-            return BasicType.Text;
+            returnType = BasicType.Text;
         } else if (name.equalsIgnoreCase("pointer")) {
-            return new PointerType(BasicType.create(Object.class));
+            returnType = new PointerType(BasicType.create(Object.class));
         } else {
             DeclaredType type = context.getTypedefType(name);
             if (type != null) {
-                return type;
+                returnType = type;
             } else {
-
                 try {
                     String clone = originalName.replace("_", ".");
                     Class clazz = Class.forName(clone);
-                    return new JavaClassBasedType(clazz);
+                    returnType = new JavaClassBasedType(clazz);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-
-                Object constVal = context.getConstantDefinition(name);
-                if (constVal == null) {
-                    throw new UnrecognizedTypeException(getLineInfo(), name);
+                if (returnType == null) {
+                    Object constVal = context.getConstantDefinition(name);
+                    if (constVal == null) {
+                        throw new UnrecognizedTypeException(lineNumber, name);
+                    }
+                    returnType = BasicType.create(constVal.getClass());
                 }
-                return BasicType.create(constVal.getClass());
             }
         }
+        return returnType;
     }
 
-    @Override
-    public LineInfo getLineNumber() {
-        return getLineInfo();
-    }
 
-    @Override
-    public String getEntityType() {
-        return "word";
-    }
-
-    @Override
-    public String name() {
-        return name;
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
-    }
 }

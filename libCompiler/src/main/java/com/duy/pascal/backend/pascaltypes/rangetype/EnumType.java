@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.pascaltypes;
+package com.duy.pascal.backend.pascaltypes.rangetype;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +22,9 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.InfoType;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
@@ -33,10 +36,11 @@ import java.util.LinkedList;
  * Created by Duy on 25-May-17.
  */
 
-public class EnumType<T extends DeclaredType> implements DeclaredType, Containable {
+public class EnumType<T extends DeclaredType> extends InfoType implements Containable {
     private LineInfo line;
     @NonNull
     private LinkedList<ConstantDefinition> list;
+    private LineInfo lineNumber;
 
 
     public EnumType(@NonNull LinkedList<ConstantDefinition> list, LineInfo lineInfo) {
@@ -133,8 +137,23 @@ public class EnumType<T extends DeclaredType> implements DeclaredType, Containab
     }
 
     @Override
-    public boolean contain(Object value) {
+    public LineInfo getLineNumber() {
+        return lineNumber;
+    }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+        this.lineNumber = lineNumber;
+    }
+
+    @Override
+    public String getEntityType() {
+        return "enum type";
+    }
+
+
+    @Override
+    public boolean contain(Object value) {
         return false;
     }
 }

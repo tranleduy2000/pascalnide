@@ -1,6 +1,8 @@
 package com.duy.pascal.backend.exceptions;
 
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 /**
@@ -13,7 +15,7 @@ public class ParsingException extends Exception {
      */
     public LineInfo line;
 
-    public ParsingException(LineInfo line, String message) {
+    public ParsingException(@Nullable LineInfo line, String message) {
         super(message);
         this.line = line;
     }

@@ -24,17 +24,17 @@ class ExpectedTokenException : ParsingException {
     var expected: Array<String?>
     var current: String
 
-    constructor(expected: String, current: Token) : super(current.lineInfo) {
+    constructor(expected: String, current: Token) : super(current.lineNumber) {
         this.current = current.toString()
         this.expected = arrayOf(expected)
     }
 
-    constructor(expected: Token, current: Token) : super(current.lineInfo) {
+    constructor(expected: Token, current: Token) : super(current.lineNumber) {
         this.current = current.toString()
         this.expected = arrayOf(expected.toString())
     }
 
-    constructor(current: Token, vararg expectToken: String) : super(current.lineInfo) {
+    constructor(current: Token, vararg expectToken: String) : super(current.lineNumber) {
         this.current = current.toString()
         this.expected = arrayOfNulls<String>(expectToken.size);
         expectToken.forEachIndexed { index, token -> expected[index] = token }

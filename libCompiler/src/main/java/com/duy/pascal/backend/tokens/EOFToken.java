@@ -23,16 +23,16 @@ public class EOFToken extends ClosingToken {
     @Override
     public GroupingException getClosingException(GrouperToken t) {
         if (t instanceof ParenthesizedToken) {
-            return new GroupingExceptionType(t.getLineInfo(),
+            return new GroupingExceptionType(t.getLineNumber(),
                     GroupExceptionType.UNFINISHED_PARENTHESES);
         } else if (t instanceof BeginEndToken) {
-            return new GroupingExceptionType(t.getLineInfo(),
+            return new GroupingExceptionType(t.getLineNumber(),
                     GroupExceptionType.UNFINISHED_BEGIN_END);
         } else if (t instanceof BracketedToken) {
-            return new GroupingExceptionType(t.getLineInfo(),
+            return new GroupingExceptionType(t.getLineNumber(),
                     GroupExceptionType.UNFINISHED_BRACKETS);
         } else {
-            return new GroupingExceptionType(t.getLineInfo(),
+            return new GroupingExceptionType(t.getLineNumber(),
                     GroupExceptionType.UNFINISHED_CONSTRUCT);
         }
     }

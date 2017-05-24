@@ -16,10 +16,42 @@
 
 package com.duy.pascal.backend.pascaltypes;
 
+import com.duy.pascal.backend.linenumber.LineInfo;
+
 /**
  * Created by Duy on 25-May-17.
  */
 
-public interface Containable {
-    boolean contain(Object value);
+public abstract class InfoType implements DeclaredType {
+    protected LineInfo lineInfo;
+    protected String name;
+
+    @Override
+    public LineInfo getLineNumber() {
+        return lineInfo;
+    }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+        this.lineInfo = lineNumber;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+
+    @Override
+    abstract public String getEntityType();
 }

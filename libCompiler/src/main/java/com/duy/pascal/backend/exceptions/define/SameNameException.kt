@@ -21,7 +21,8 @@ import com.js.interpreter.NamedEntity
 
 class SameNameException(previous: NamedEntity, current: NamedEntity) :
         ParsingException(current.lineNumber,
-                "${current.entityType} ${current.name()} conflicts with previously defined ${previous.entityType} with the same name defined at ${previous.lineNumber}") {
+                "${current.entityType} ${current.name()} conflicts with previously defined " +
+                        "${previous.entityType} with the same name defined at ${previous.lineNumber}") {
     var type: String
     var name: String
     var preType: String

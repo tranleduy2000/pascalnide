@@ -2,14 +2,14 @@ package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.ObjectBasedPointer;
 import com.js.interpreter.runtime.references.PascalReference;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
-public class PointerType implements DeclaredType {
+public class PointerType extends InfoType {
 
     public DeclaredType pointedToType;
 
@@ -64,6 +64,10 @@ public class PointerType implements DeclaredType {
         return getTransferClass();
     }
 
+    @Override
+    public String getEntityType() {
+        return "pointer type";
+    }
 
     @Override
     public String toString() {

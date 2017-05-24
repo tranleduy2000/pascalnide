@@ -2,9 +2,11 @@ package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
+import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.linenumber.LineError;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.type_converter.StringBuilderWithRangeType;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.js.interpreter.expressioncontext.ExpressionContext;
@@ -99,6 +101,7 @@ public enum BasicType implements DeclaredType {
                                                 RuntimeValue index) throws NonArrayIndexed {
             return new StringIndex(array, index);
         }
+
 
         @Override
         public RuntimeValue cloneValue(RuntimeValue value) {
@@ -228,6 +231,8 @@ public enum BasicType implements DeclaredType {
     };
 
     private Class c;
+    private LineInfo lineInfo;
+    private String name;
 
     BasicType(Class name) {
         c = name;
@@ -257,7 +262,6 @@ public enum BasicType implements DeclaredType {
         }
         return new JavaClassBasedType(c);
     }
-
 
     abstract Object getDefaultValue();
 
@@ -325,12 +329,10 @@ public enum BasicType implements DeclaredType {
         return null;
     }
 
-
     @Override
     public RuntimeValue cloneValue(final RuntimeValue r) {
         return r;
     }
-
 
     @NonNull
     @Override
@@ -345,5 +347,35 @@ public enum BasicType implements DeclaredType {
         return c2 == null ? c : c2;
     }
 
+    @Override
+    public LineInfo getLineNumber() {
+        if (lineInfo == null) {
+            return new LineError(-1, "");
+        }
+        return lineInfo;
+    }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+        this.lineInfo = lineNumber;
+    }
+
+    @Override
+    public String getEntityType() {
+        return "basic type";
+    }
+
+    @Override
+    public String getDescription() {
+        return "basic type";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 }

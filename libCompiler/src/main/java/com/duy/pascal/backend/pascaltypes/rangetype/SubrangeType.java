@@ -22,7 +22,6 @@ import com.duy.pascal.backend.exceptions.index.SubRangeException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.pascaltypes.Containable;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
@@ -70,7 +69,7 @@ public class SubrangeType implements Containable {
             throw new NonConstantExpressionException(high);
         }
         if ((int) max < lower) {
-            throw new SubRangeException(lower, (int) max, i.getLineInfo());
+            throw new SubRangeException(lower, (int) max, i.getLineNumber());
         }
         size = (((int) max) - lower) + 1;
     }

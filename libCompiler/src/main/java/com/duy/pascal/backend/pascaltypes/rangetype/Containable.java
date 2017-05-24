@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.pascaltypes;
+package com.duy.pascal.backend.pascaltypes.rangetype;
 
-import com.js.interpreter.VariableDeclaration;
+/**
+ * Created by Duy on 25-May-17.
+ */
 
-public class RecordType extends CustomType {
-    @Override
-    public String toString() {
-        StringBuilder out = new StringBuilder();
-        out.append("\n");
-        for (VariableDeclaration variableType : variableDeclarations) {
-            out.append(variableType.toString()).append("\n");
-        }
-        return out.toString();
-    }
-
-    @Override
-    public String getEntityType() {
-        return "record type";
-    }
-
+public interface Containable {
+    boolean contain(Object value);
 }

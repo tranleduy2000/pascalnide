@@ -29,10 +29,10 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 
 public abstract class Token {
     @Nullable
-    private LineInfo lineInfo;
+    protected LineInfo lineNumber;
 
     public Token(@Nullable LineInfo lineInfo) {
-        this.lineInfo = lineInfo;
+        this.lineNumber = lineInfo;
     }
 
     @NonNull
@@ -49,13 +49,13 @@ public abstract class Token {
         return false;
     }
 
-    @NonNull
-    public final LineInfo getLineInfo() {
-        return this.lineInfo;
+    @Nullable
+    public LineInfo getLineNumber() {
+        return this.lineNumber;
     }
 
-    public final void setLineInfo(@NonNull LineInfo var1) {
-        this.lineInfo = var1;
+    public final void setLineNumber(@NonNull LineInfo var1) {
+        this.lineNumber = var1;
     }
 
     public enum precedence {

@@ -51,13 +51,13 @@ public class WithStatement {
 
     public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
         this.declarations = new WithExpressionContext(this, parent);
-        this.line = grouperToken.peek().getLineInfo();
+        this.line = grouperToken.peek().getLineNumber();
 
         getReferenceVariables(grouperToken, parent);
         for (RuntimeValue argument : arguments) {
             if (argument.getType(parent).declType instanceof RecordType) {
-                CustomType customType = (CustomType) argument.getType(parent).declType;
-                for (VariableDeclaration variableDeclaration : customType.variableDeclarations) {
+                CustomType containsType = (CustomType) argument.getType(parent).declType;
+                for (VariableDeclaration variableDeclaration : containsType.variableDeclarations) {
                     FieldAccess fieldAccess = new FieldAccess(argument, variableDeclaration.name(),
                             variableDeclaration.getLineNumber());
                     fields.add(fieldAccess);

@@ -82,7 +82,7 @@ public class PascalProgram extends ExecutableCodeUnit {
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             if (main != null) {
-                throw new MultipleDefinitionsMainException(i.peek().getLineInfo());
+                throw new MultipleDefinitionsMainException(i.peek().getLineNumber());
             }
             main = i.getNextCommand(this);
             if (!(i.peek() instanceof PeriodToken)) {

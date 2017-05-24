@@ -4,11 +4,12 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
 
-public interface DeclaredType  {
+public interface DeclaredType extends NamedEntity {
 
     /**
      * init value for variable,
@@ -48,5 +49,19 @@ public interface DeclaredType  {
     @Nullable
     Class<?> getStorageClass();
 
+    @Override
+    LineInfo getLineNumber();
 
+    void setLineNumber(LineInfo lineNumber);
+
+    @Override
+    String getEntityType();
+
+    @Override
+    String name();
+
+    @Override
+    String getDescription();
+
+    void setName(String name);
 }

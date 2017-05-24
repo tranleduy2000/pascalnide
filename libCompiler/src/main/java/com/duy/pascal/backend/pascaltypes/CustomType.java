@@ -6,9 +6,9 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.runtime.variables.CustomVariable;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime_value.cloning.CloneableObjectCloner;
-import com.js.interpreter.runtime.variables.CustomVariable;
 
 import java.util.ArrayList;
 
@@ -105,6 +105,12 @@ public class CustomType extends ObjectType {
     public Class<?> getStorageClass() {
         return getTransferClass();
     }
+
+    @Override
+    public String getEntityType() {
+        return "custom type";
+    }
+
 
     public ArrayList<VariableDeclaration> getVariableDeclarations() {
         return variableDeclarations;

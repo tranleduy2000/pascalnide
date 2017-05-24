@@ -21,7 +21,7 @@ import com.duy.pascal.backend.linenumber.LineError
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.frontend.code_editor.autofix.DefineType
 
-class NoSuchFunctionOrVariableException(line: LineInfo, var name: String)
+class NoSuchFunctionOrVariableException(line: LineInfo?, var name: String)
     : ParsingException(LineError(line, name.length), name + " is not a variable or function name") {
 
     var token: String? = null
