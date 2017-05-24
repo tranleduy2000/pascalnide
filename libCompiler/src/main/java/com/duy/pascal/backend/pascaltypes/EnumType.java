@@ -17,121 +17,86 @@
 package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime_value.cloning.ArrayCloner;
-import com.ncsa.common.util.TypeUtils;
 
-import java.lang.reflect.Array;
 import java.util.LinkedList;
 
 /**
  * Created by Duy on 25-May-17.
  */
 
-public class EnumType<T extends DeclaredType> implements DeclaredType {
-    private T elementType;
-    private int size;
+public class EnumType<T extends DeclaredType> implements DeclaredType, Containable {
     private LineInfo line;
-    private LinkedList<T> list = new LinkedList<>();
+    @NonNull
+    private LinkedList<ConstantDefinition> list;
 
-    public EnumType(T elementType, int size, LineInfo lineInfo) {
-        this.elementType = elementType;
-        this.size = size;
+
+    public EnumType(@NonNull LinkedList<ConstantDefinition> list, LineInfo lineInfo) {
+        this.list = list;
         this.line = lineInfo;
     }
 
-    public EnumType(T elementType, LineInfo lineInfo) {
-        this.elementType = elementType;
-        this.size = size;
-        this.line = lineInfo;
-    }
-
-    public void add(T element) {
+    public void add(ConstantDefinition element) {
         list.add(element);
     }
 
-    public boolean remove(T element) {
-        return list.remove(element);
+    /**
+     * @param position - index of value in list object
+     */
+    @Nullable
+    public ConstantDefinition get(int position) {
+        if (position > list.size() - 1) {
+            return null;
+        }
+        return list.get(position);
     }
 
-    public T peek() {
-        return list.peek();
-    }
-
-    public T pop() {
-        return list.pop();
-    }
-
-    public T getElementType() {
-        return elementType;
+    @Nullable
+    public ConstantDefinition get(String element) {
+        for (ConstantDefinition pair : list) {
+            if (pair.name().equalsIgnoreCase(element)) {
+                return pair;
+            }
+        }
+        return null;
     }
 
     @Override
     public Object initialize() {
-        //create new array with element type is elementType via java reflect
-        Object result = Array.newInstance(elementType.getTransferClass(), size);
-
-        //init value for element
-        for (int i = 0; i < size; i++) {
-            Array.set(result, i, elementType.initialize());
-        }
-        return result;
+        return new LinkedList<>();
     }
 
     @Override
     public Class getTransferClass() {
-        String s = elementType.getTransferClass().getName();
-        StringBuilder b = new StringBuilder();
-        b.append('[');
-        b.append('L');
-        b.append(s);
-        b.append(';');
-        try {
-            return Class.forName(b.toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return LinkedList.class;
     }
 
-    /**
-     * This basically tells if the types are assignable from each other
-     * according to Pascal.
-     */
-    public boolean superset(DeclaredType obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof EnumType) {
-            EnumType<?> o = (EnumType<?>) obj;
-            if (o.elementType.equals(elementType)) {
-                if (this.size >= o.size) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     @Override
     public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
         RuntimeType other = runtimeValue.getType(f);
-        return this.superset(other.declType) ? cloneValue(runtimeValue) : null;
+        if (!(other.declType instanceof EnumType)) {
+            return null;
+        }
+        return cloneValue(runtimeValue);
     }
 
     @Override
     public String toString() {
-        return "set of " + elementType;
+        return list.toString();
     }
 
     @Override
     public int hashCode() {
-        return (elementType.hashCode() * 31 + size);
+        return (31 + list.size());
     }
 
     @Override
@@ -140,12 +105,12 @@ public class EnumType<T extends DeclaredType> implements DeclaredType {
             return true;
         }
         if (other instanceof EnumType) {
-            EnumType other1 = (EnumType) other;
-            if (other1.elementType.equals(elementType)) {
-                if (this.size == other1.size) {
-                    return true;
-                }
+            EnumType enumType = (EnumType) other;
+            if (this.list.size() != enumType.list.size()) {
+                return false;
             }
+
+            return true;
         }
         return false;
     }
@@ -164,32 +129,12 @@ public class EnumType<T extends DeclaredType> implements DeclaredType {
 
     @Override
     public Class<?> getStorageClass() {
-        Class c = elementType.getStorageClass();
-        if (c == null) return null;
-        if (c.isArray()) {
-            try {
-                return Class.forName("[" + c.getName());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } else if (c.isPrimitive()) {
-            c = TypeUtils.getClassForType(c);
-        }
-        StringBuilder b = new StringBuilder();
-        b.append('[');
-        b.append('L');
-        b.append(c.getName());
-        b.append(';');
-        try {
-            return Class.forName(b.toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return LinkedList.class;
     }
 
-    public int getSize() {
-        return size;
+    @Override
+    public boolean contain(Object value) {
+
+        return false;
     }
 }

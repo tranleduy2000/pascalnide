@@ -43,7 +43,7 @@ public class ArrayType<T extends DeclaredType> implements DeclaredType {
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
             if (o.elementType.equals(elementType)) {
-                if (this.bounds.contains(o.bounds)) {
+                if (this.bounds.contain(o.bounds)) {
                     return true;
                 }
             }

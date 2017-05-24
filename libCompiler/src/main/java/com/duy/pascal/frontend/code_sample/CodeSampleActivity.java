@@ -26,7 +26,6 @@ import android.view.MenuItem;
 
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
-import com.duy.pascal.frontend.BuildConfig;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
@@ -52,11 +51,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     private CodePagerAdapter pagerAdapter;
 
     public CodeSampleActivity() {
-        if (BuildConfig.DEBUG) {
-            categories = new String[]{"Temp", "Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};
-        } else {
-            categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};
-        }
+        categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "More"};
     }
 
     @Override

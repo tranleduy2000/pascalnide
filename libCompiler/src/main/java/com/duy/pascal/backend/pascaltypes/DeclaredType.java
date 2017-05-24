@@ -4,10 +4,11 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.js.interpreter.NamedEntity;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
 
-public interface DeclaredType {
+public interface DeclaredType  {
 
     /**
      * init value for variable,
@@ -46,4 +47,6 @@ public interface DeclaredType {
 
     @Nullable
     Class<?> getStorageClass();
+
+
 }

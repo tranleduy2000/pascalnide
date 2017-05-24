@@ -27,6 +27,7 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.ClassType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.EnumType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
@@ -61,6 +62,7 @@ import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.closing.UntilToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
+import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Assignment;
@@ -218,29 +220,54 @@ public abstract class GrouperToken extends Token {
         Token n = take();
         if (n instanceof ArrayToken) {
             return getArrayType(context);
-        }
-        if (n instanceof SetToken) {
+        } else if (n instanceof SetToken) {
             return getSetType(context, n.getLineInfo());
-        }
-        if (n instanceof RecordToken) {
+        } else if (n instanceof ParenthesizedToken) {
+            return getEnumType(context, (ParenthesizedToken) n);
+        } else if (n instanceof RecordToken) {
             RecordToken r = (RecordToken) n;
             RecordType result = new RecordType();
             result.setVariableDeclarations(r.getVariableDeclarations(context));
             return result;
-        }
-        if (n instanceof OperatorToken && ((OperatorToken) n).type == OperatorTypes.DEREF) {
+        } else if (n instanceof OperatorToken && ((OperatorToken) n).type == OperatorTypes.DEREF) {
             DeclaredType pointed_type = getNextPascalType(context);
             return new PointerType(pointed_type);
-        }
-        if (n instanceof ClassToken) {
+        } else if (n instanceof ClassToken) {
             ClassToken o = (ClassToken) n;
             ClassType result = new ClassType();
             throw new ExpectedTokenException("[]", n);
-        }
-        if (!(n instanceof WordToken)) {
+        } else if (!(n instanceof WordToken)) {
             throw new ExpectedTokenException("[Type Identifier]", n);
         }
         return ((WordToken) n).toBasicType(context);
+    }
+
+    private DeclaredType getEnumType(ExpressionContext c, ParenthesizedToken n) throws ParsingException {
+        LinkedList<ConstantDefinition> elements = new LinkedList<>();
+        while (n.hasNext()) {
+            Token token = n.take();
+            if (!(token instanceof WordToken)) {
+                throw new ExpectedTokenException("identifier", token);
+            }
+            if (n.peek() instanceof OperatorToken) {
+                OperatorToken operator = (OperatorToken) n.take();
+                if (operator.type == OperatorTypes.EQUALS) {
+                    RuntimeValue value = n.getNextExpression(c);
+                    Object o = value.compileTimeValue(c);
+                    elements.add(new ConstantDefinition(((WordToken) token).name,
+                            value.getType(c).declType, o, token.getLineInfo()));
+                } else {
+                    throw new ExpectedTokenException(operator, ",", "=");
+                }
+            } else {
+                elements.add(new ConstantDefinition(((WordToken) token).name, token.getLineInfo()));
+            }
+
+            if (n.hasNext()) {
+                n.assertNextComma();
+            }
+        }
+        return new EnumType(elements, n.getLineInfo());
     }
 
     private DeclaredType getSetType(ExpressionContext context, LineInfo lineInfo) throws ParsingException {

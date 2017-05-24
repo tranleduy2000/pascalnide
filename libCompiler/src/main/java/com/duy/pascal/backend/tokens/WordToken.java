@@ -9,10 +9,11 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
+import com.js.interpreter.NamedEntity;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 
 
-public class WordToken extends Token {
+public class WordToken extends Token implements NamedEntity {
 
     //always lower case
     public String name;
@@ -109,5 +110,25 @@ public class WordToken extends Token {
                 return BasicType.create(constVal.getClass());
             }
         }
+    }
+
+    @Override
+    public LineInfo getLineNumber() {
+        return getLineInfo();
+    }
+
+    @Override
+    public String getEntityType() {
+        return "word";
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }

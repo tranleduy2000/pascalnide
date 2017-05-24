@@ -22,13 +22,14 @@ import com.duy.pascal.backend.exceptions.index.SubRangeException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.Containable;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
 
-public class SubrangeType {
+public class SubrangeType implements Containable {
     public int lower;
     /**
      * if size = -1, the size of array will be ignore while comparing
@@ -110,7 +111,15 @@ public class SubrangeType {
         return lower == other.lower && size == other.size;
     }
 
-    public boolean contains(Object obj) {
+
+
+    @Override
+    public String toString() {
+        return lower + ".." + (lower + size - 1);
+    }
+
+    @Override
+    public boolean contain(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -123,10 +132,5 @@ public class SubrangeType {
         SubrangeType other = (SubrangeType) obj;
         return lower <= other.lower
                 && (lower + size) >= (other.lower + other.size);
-    }
-
-    @Override
-    public String toString() {
-        return lower + ".." + (lower + size - 1);
     }
 }

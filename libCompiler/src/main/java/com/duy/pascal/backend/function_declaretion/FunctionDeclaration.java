@@ -234,7 +234,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     @Override
     public String getEntityType() {
-        return "function";
+        return isProcedure ? "procedure" : "function";
     }
 
     @Override

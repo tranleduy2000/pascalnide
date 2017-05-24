@@ -280,8 +280,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     protected void addDeclareTypes(GrouperToken i) throws ParsingException {
         Token next;
+        WordToken wordToken;
         while (i.peek() instanceof WordToken) {
-            String name = i.nextWordValue();
+            wordToken = (WordToken) i.take();
+            String name = wordToken.name();
             next = i.take();
             if (!(next instanceof OperatorToken && ((OperatorToken) next).type == OperatorTypes.EQUALS)) {
                 throw new ExpectedTokenException("=", next);
@@ -311,9 +313,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     }
                 }
             }
-
+            verifyNonConflictingSymbol(wordToken);
             declareTypedef(name, type);
-
             i.assertNextSemicolon(i.next);
         }
     }

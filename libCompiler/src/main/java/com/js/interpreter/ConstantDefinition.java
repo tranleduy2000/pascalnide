@@ -42,7 +42,7 @@ public class ConstantDefinition implements NamedEntity {
         this.line = new LineError(-1, name);//null line
     }
 
-    public ConstantDefinition(@NonNull String name, @Nullable DeclaredType type, @NonNull Object init, LineInfo line) {
+    public ConstantDefinition(@NonNull String name, @Nullable DeclaredType type, @Nullable Object init, LineInfo line) {
         this.name = name;
         this.type = type;
         this.value = init;

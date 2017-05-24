@@ -236,7 +236,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public String getEntityType() {
-        return "function";
+        return returnType() != null ? "function" : "procedure";
     }
 
     @Override
