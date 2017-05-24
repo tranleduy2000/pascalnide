@@ -57,6 +57,7 @@ import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.InitializationToken;
 import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
+import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.backend.tokens.CommentToken;
 
@@ -213,8 +214,15 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"not" {return new OperatorToken(getLine(),OperatorTypes.NOT); }
 	"or" {return new OperatorToken(getLine(),OperatorTypes.OR); }
 	"xor" {return new OperatorToken(getLine(),OperatorTypes.XOR); }
+
+    //shift left operator
 	"shl" {return new OperatorToken(getLine(),OperatorTypes.SHIFTLEFT); }
+	"<<" {return new OperatorToken(getLine(),OperatorTypes.SHIFTLEFT); }
+
+	//shift right operator
 	"shr" {return new OperatorToken(getLine(),OperatorTypes.SHIFTRIGHT); }
+	">>" {return new OperatorToken(getLine(),OperatorTypes.SHIFTRIGHT); }
+
 	"div" {return new OperatorToken(getLine(),OperatorTypes.DIV); }
 	"mod" {return new OperatorToken(getLine(),OperatorTypes.MOD); }
 	"in" {return new OperatorToken(getLine(),OperatorTypes.IN); }
@@ -270,6 +278,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"finalization" {return new FinalizationToken(getLine());}
 	"interface" {return new InterfaceToken(getLine());}
 	"unit" {return new UnitToken(getLine());}
+	"set" {return new SetToken(getLine());}
 
 	"(" {return new ParenthesizedToken(getLine());}
 	"[" {return new BracketedToken(getLine());}

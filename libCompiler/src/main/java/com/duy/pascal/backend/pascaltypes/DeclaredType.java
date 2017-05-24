@@ -1,6 +1,5 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -14,8 +13,10 @@ public interface DeclaredType {
      * init value for variable,
      * example init value for integer variable is 0, long is 0, string is ""
      */
+    @Nullable
     Object initialize();
 
+    @Nullable
     Class getTransferClass();
 
     /**
@@ -23,6 +24,7 @@ public interface DeclaredType {
      * example
      * byte a = 6 -> integer b = a;
      */
+    @Nullable
     RuntimeValue convert(RuntimeValue runtimeValue,
                          ExpressionContext f) throws ParsingException;
 
@@ -38,7 +40,7 @@ public interface DeclaredType {
     @Nullable
     RuntimeValue cloneValue(RuntimeValue r);
 
-    @NonNull
+    @Nullable
     RuntimeValue generateArrayAccess(RuntimeValue array,
                                      RuntimeValue index) throws NonArrayIndexed;
 

@@ -16,8 +16,6 @@ import com.duy.pascal.backend.exceptions.index.NonIntegerIndexException;
 import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.syntax.MissingCommaTokenException;
-import com.duy.pascal.backend.exceptions.syntax.MissingSemicolonTokenException;
 import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
 import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
@@ -27,11 +25,13 @@ import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.ClassType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.SetType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -55,10 +55,11 @@ import com.duy.pascal.backend.tokens.basic.IfToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
+import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.basic.ToToken;
-import com.duy.pascal.backend.tokens.closing.UntilToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
+import com.duy.pascal.backend.tokens.closing.UntilToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.expressioncontext.ExpressionContext;
@@ -87,6 +88,7 @@ import com.js.interpreter.runtime_value.operators.number.BinaryOperatorEvaluatio
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -200,14 +202,14 @@ public abstract class GrouperToken extends Token {
     public void assertNextSemicolon(Token last) throws ParsingException {
         Token t = take();
         if (!(t instanceof SemicolonToken)) {
-            throw new MissingSemicolonTokenException(t);
+            throw new ExpectedTokenException(new SemicolonToken(null), t);
         }
     }
 
     public void assertNextComma() throws ParsingException {
         Token t = take();
         if (!(t instanceof CommaToken)) {
-            throw new MissingCommaTokenException(t);
+            throw new ExpectedTokenException(new CommaToken(null), t);
         }
     }
 
@@ -217,8 +219,10 @@ public abstract class GrouperToken extends Token {
         if (n instanceof ArrayToken) {
             return getArrayType(context);
         }
+        if (n instanceof SetToken) {
+            return getSetType(context, n.getLineInfo());
+        }
         if (n instanceof RecordToken) {
-//            throw new UnSupportTokenException(n.lineInfo, n);
             RecordToken r = (RecordToken) n;
             RecordType result = new RecordType();
             result.setVariableDeclarations(r.getVariableDeclarations(context));
@@ -228,15 +232,25 @@ public abstract class GrouperToken extends Token {
             DeclaredType pointed_type = getNextPascalType(context);
             return new PointerType(pointed_type);
         }
-        /*if (n instanceof ClassToken) {
-            ClassToken o = (ClassToken)n;
-			ClassType result = new ClassType();
-			throw new ExpectedTokenException("[asdf]", n);
-		}*/
+        if (n instanceof ClassToken) {
+            ClassToken o = (ClassToken) n;
+            ClassType result = new ClassType();
+            throw new ExpectedTokenException("[]", n);
+        }
         if (!(n instanceof WordToken)) {
             throw new ExpectedTokenException("[Type Identifier]", n);
         }
         return ((WordToken) n).toBasicType(context);
+    }
+
+    private DeclaredType getSetType(ExpressionContext context, LineInfo lineInfo) throws ParsingException {
+        Token n = peekNoEOF();
+        if (!(n instanceof OfToken)) {
+            throw new ExpectedTokenException(new OfToken(null), n);
+        }
+        take();
+        DeclaredType elementType = getNextPascalType(context);
+        return new SetType<>(elementType, lineInfo);
     }
 
     private DeclaredType getArrayType(ExpressionContext context)
@@ -468,18 +482,9 @@ public abstract class GrouperToken extends Token {
                     take();
                     //set default value for array
                     if (type instanceof ArrayType) {
-                        DeclaredType elementTypeOfArray = ((ArrayType) type).elementType;
-                        ParenthesizedToken bracketedToken = (ParenthesizedToken) take();
-                        int size = ((ArrayType) type).getBounds().size;
-                        Object[] objects = new Object[size];
-                        for (int i = 0; i < size; i++) {
-                            if (!bracketedToken.hasNext()) {
-                                // TODO: 27-Apr-17  exception
-                            }
-                            objects[i] = getDefaultValueArray(context, bracketedToken, elementTypeOfArray);
-                        }
-                        Log.d(TAG, "getDefaultValueArray: " + Arrays.toString(objects));
-                        defaultValue = objects;
+                        defaultValue = getArrayConstant(context, type);
+                    } else if (type instanceof SetType) {
+                        defaultValue = getSetConstant(context, type);
                     } else { //set default single value
                         RuntimeValue unConvert = getNextExpression(context);
                         RuntimeValue converted = type.convert(unConvert, context);
@@ -501,8 +506,7 @@ public abstract class GrouperToken extends Token {
 
             assertNextSemicolon(next);
             for (WordToken s : names) {
-                VariableDeclaration v = new VariableDeclaration(s.name, type,
-                        defaultValue, s.getLineInfo());
+                VariableDeclaration v = new VariableDeclaration(s.name, type, defaultValue, s.getLineInfo());
                 verifyNonConflictingSymbol(context, result, v);
                 result.add(v);
             }
@@ -512,32 +516,65 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public Object getDefaultValueArray(ExpressionContext context,
-                                       ParenthesizedToken parenthesizedToken,
-                                       DeclaredType elementTypeOfArray) throws ParsingException {
+    //set of
+    protected LinkedList<Object> getSetConstant(ExpressionContext context, DeclaredType elementType) throws ParsingException {
+        if (!(peek() instanceof ParenthesizedToken)) {
+            throw new ExpectedTokenException(new ParenthesizedToken(null), peek());
+        }
+        ParenthesizedToken container = (ParenthesizedToken) take();
+        LinkedList<Object> linkedList = new LinkedList<>();
+        while (container.hasNext()) {
+            linkedList.add(getConstantElement(context, container, elementType));
+            if (container.hasNext()) {
+                container.assertNextSemicolon(container);
+            }
+        }
+        return linkedList;
+    }
+
+    private Object getArrayConstant(ExpressionContext context, DeclaredType type) throws ParsingException {
+        DeclaredType elementTypeOfArray = ((ArrayType) type).elementType;
+        ParenthesizedToken bracketedToken = (ParenthesizedToken) take();
+        int size = ((ArrayType) type).getBounds().size;
+        Object[] objects = new Object[size];
+        for (int i = 0; i < size; i++) {
+            if (!bracketedToken.hasNext()) {
+                throw new ExpectedTokenException(",", peek());
+            }
+            objects[i] = getConstantElement(context, bracketedToken, elementTypeOfArray);
+        }
+        Log.d(TAG, "getConstantElement: " + Arrays.toString(objects));
+        return objects;
+    }
+
+    public Object getConstantElement(@NonNull ExpressionContext context,
+                                     @NonNull ParenthesizedToken parenthesizedToken,
+                                     @NonNull DeclaredType elementTypeOfArray) throws ParsingException {
         if (parenthesizedToken.hasNext()) {
             if (elementTypeOfArray instanceof ArrayType) {
                 if (parenthesizedToken.peek() instanceof ParenthesizedToken) {
                     ParenthesizedToken child = (ParenthesizedToken) parenthesizedToken.take();
                     Object[] objects = new Object[((ArrayType) elementTypeOfArray).getBounds().size];
                     for (int i = 0; i < objects.length; i++) {
-                        objects[i] = getDefaultValueArray(context, child, ((ArrayType) elementTypeOfArray).elementType);
+                        objects[i] = getConstantElement(context, child, ((ArrayType) elementTypeOfArray).elementType);
                     }
                     if (child.hasNext()) {
-                        // TODO: 27-Apr-17  exception
+                        throw new ExpectedTokenException(new CommaToken(null), child.peek());
                     }
                     if (parenthesizedToken.hasNext()) {
                         parenthesizedToken.assertNextComma();
                     }
                     return objects;
                 } else {
-                    // TODO: 27-Apr-17 throw exception
+                    throw new ExpectedTokenException(new ParenthesizedToken(null),
+                            parenthesizedToken.peek());
                 }
             } else {
                 RuntimeValue unconvert = parenthesizedToken.getNextExpression(context);
                 RuntimeValue converted = elementTypeOfArray.convert(unconvert, context);
-                if (context == null) {
-                    // TODO: 27-Apr-17  throw exception
+                if (converted == null) {
+                    throw new UnConvertibleTypeException(unconvert, elementTypeOfArray,
+                            unconvert.getType(context).declType, false);
                 }
                 if (parenthesizedToken.hasNext()) {
                     parenthesizedToken.assertNextComma();
@@ -545,9 +582,8 @@ public abstract class GrouperToken extends Token {
                 return converted.compileTimeValue(context);
             }
         } else {
-            // TODO: 27-Apr-17  throw exception
+            throw new ExpectedTokenException(new CommaToken(null), peek());
         }
-        return null;
     }
 
     /**

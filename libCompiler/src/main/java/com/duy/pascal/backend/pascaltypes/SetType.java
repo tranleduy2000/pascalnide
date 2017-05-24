@@ -27,6 +27,7 @@ import com.js.interpreter.runtime_value.cloning.ArrayCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.Array;
+import java.util.LinkedList;
 
 /**
  * set type in pascal
@@ -37,11 +38,34 @@ public class SetType<T extends DeclaredType> implements DeclaredType {
     private T elementType;
     private int size;
     private LineInfo line;
+    private LinkedList<T> list = new LinkedList<>();
 
     public SetType(T elementType, int size, LineInfo lineInfo) {
         this.elementType = elementType;
         this.size = size;
         this.line = lineInfo;
+    }
+
+    public SetType(T elementType, LineInfo lineInfo) {
+        this.elementType = elementType;
+        this.size = size;
+        this.line = lineInfo;
+    }
+
+    public void add(T element) {
+        list.add(element);
+    }
+
+    public boolean remove(T element) {
+        return list.remove(element);
+    }
+
+    public T peek() {
+        return list.peek();
+    }
+
+    public T pop() {
+        return list.pop();
     }
 
     public T getElementType() {

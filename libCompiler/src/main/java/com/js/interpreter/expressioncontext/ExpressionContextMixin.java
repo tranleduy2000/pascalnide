@@ -445,9 +445,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                                 if (!bracketedToken.hasNext()) {
                                     // TODO: 27-Apr-17  exception
                                 }
-                                objects[i] = token.getDefaultValueArray(this, bracketedToken, elementTypeOfArray);
+                                objects[i] = token.getConstantElement(this, bracketedToken, elementTypeOfArray);
                             }
-                            Log.d(TAG, "getDefaultValueArray: " + Arrays.toString(objects));
+                            Log.d(TAG, "getConstantElement: " + Arrays.toString(objects));
                             defaultValue = objects;
                         } else {
                             RuntimeValue unconverted = token.getNextExpression(this);
