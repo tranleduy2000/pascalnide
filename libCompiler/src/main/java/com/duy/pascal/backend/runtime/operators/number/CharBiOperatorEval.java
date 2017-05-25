@@ -13,7 +13,7 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
-public class CharBiOperatorEval extends BinaryOperatorEvaluation {
+public class CharBiOperatorEval extends BinaryOperatorEval {
 
     public CharBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2, OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);

@@ -13,7 +13,7 @@ import com.js.interpreter.instructions.SetValueExecutable;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.AssignableValue;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
@@ -31,9 +31,9 @@ public class ForToStatement extends DebuggableExecutable {
                           LineInfo line) throws ParsingException {
         this.line = line;
         setfirst = new Assignment(tempVar, first, line);
-        lessThanLast = BinaryOperatorEvaluation.generateOp(context, tempVar, last,
+        lessThanLast = BinaryOperatorEval.generateOp(context, tempVar, last,
                 OperatorTypes.LESSEQ, this.line);
-        increment_temp = new Assignment(tempVar, BinaryOperatorEvaluation.generateOp(
+        increment_temp = new Assignment(tempVar, BinaryOperatorEval.generateOp(
                 context, tempVar, new ConstantAccess(1, this.line),
                 OperatorTypes.PLUS, this.line), line);
 

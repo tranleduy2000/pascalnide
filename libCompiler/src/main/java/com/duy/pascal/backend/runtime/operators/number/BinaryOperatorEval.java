@@ -26,15 +26,15 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 
 
-public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
+public abstract class BinaryOperatorEval extends DebuggableReturnValue {
     protected OperatorTypes operator_type;
 
     protected RuntimeValue operon1;
     protected RuntimeValue operon2;
     protected LineInfo line;
 
-    public BinaryOperatorEvaluation(RuntimeValue operon1, RuntimeValue operon2,
-                                    OperatorTypes operator, LineInfo line) {
+    public BinaryOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+                              OperatorTypes operator, LineInfo line) {
         this.operator_type = operator;
         this.operon1 = operon1;
         this.operon2 = operon2;
@@ -42,10 +42,10 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static BinaryOperatorEvaluation generateOp(ExpressionContext context,
-                                                      RuntimeValue v1, RuntimeValue v2,
-                                                      OperatorTypes operatorTypes,
-                                                      LineInfo line) throws ParsingException {
+    public static BinaryOperatorEval generateOp(ExpressionContext context,
+                                                RuntimeValue v1, RuntimeValue v2,
+                                                OperatorTypes operatorTypes,
+                                                LineInfo line) throws ParsingException {
         DeclaredType t1 = v1.getType(context).declType;
         DeclaredType t2 = v2.getType(context).declType;
 

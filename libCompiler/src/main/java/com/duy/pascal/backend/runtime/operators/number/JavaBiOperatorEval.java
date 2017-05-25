@@ -28,7 +28,7 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
-public class JavaBiOperatorEval extends BinaryOperatorEvaluation {
+public class JavaBiOperatorEval extends BinaryOperatorEval {
 
     public JavaBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
                               OperatorTypes operator, LineInfo line) {

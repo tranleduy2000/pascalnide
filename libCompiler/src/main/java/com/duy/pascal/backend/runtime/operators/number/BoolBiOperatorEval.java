@@ -16,7 +16,7 @@ import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
-public class BoolBiOperatorEval extends BinaryOperatorEvaluation {
+public class BoolBiOperatorEval extends BinaryOperatorEval {
 
     public BoolBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
                               OperatorTypes operator, LineInfo line) {

@@ -67,7 +67,7 @@ public class RuntimeType implements ArgumentType {
 
     @Override
     public String toString() {
-        return (writable ? "^" : "")  + declType.toString();
+        return (writable ? "^" : "") + declType.toString();
     }
 
     @Override

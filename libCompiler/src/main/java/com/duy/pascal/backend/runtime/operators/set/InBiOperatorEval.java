@@ -26,7 +26,7 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
@@ -36,7 +36,7 @@ import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterExce
 /**
  * The IN operator checks to see whether an element is in an array
  */
-public class InBiOperatorEval extends BinaryOperatorEvaluation {
+public class InBiOperatorEval extends BinaryOperatorEval {
 
     public InBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
                             OperatorTypes operator, LineInfo line) {

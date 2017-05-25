@@ -25,14 +25,14 @@ import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 
 import java.util.LinkedList;
 
 
-public class SetBiOperatorEval extends BinaryOperatorEvaluation {
+public class SetBiOperatorEval extends BinaryOperatorEval {
 
     public SetBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
                              OperatorTypes operator, LineInfo line) {

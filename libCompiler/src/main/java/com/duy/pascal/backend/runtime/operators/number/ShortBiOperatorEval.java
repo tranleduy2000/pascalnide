@@ -29,7 +29,7 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
-public class ShortBiOperatorEval extends BinaryOperatorEvaluation {
+public class ShortBiOperatorEval extends BinaryOperatorEval {
 
     public ShortBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
                                OperatorTypes operator, LineInfo line) {

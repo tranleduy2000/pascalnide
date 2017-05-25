@@ -89,7 +89,7 @@ import com.duy.pascal.backend.runtime.value.FieldAccess;
 import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.UnaryOperatorEvaluation;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -414,7 +414,7 @@ public abstract class GrouperToken extends Token {
                     throw new BadOperationTypeException(next.getLineNumber(), type1,
                             type2, nextTerm, nextValue, operationType);
                 }
-                nextTerm = BinaryOperatorEvaluation.generateOp(context,
+                nextTerm = BinaryOperatorEval.generateOp(context,
                         nextTerm, nextValue, operationType,
                         nextOperator.getLineNumber());
             } else if (next instanceof PeriodToken) {
@@ -818,6 +818,23 @@ public abstract class GrouperToken extends Token {
         Executable result = null;
         if (next instanceof AssignmentToken) {
             RuntimeValue firstValue = getNextExpression(context);
+
+            if (firstValue.compileTimeValue(context) != null) { //this is constant
+                RuntimeValue converted = tmpVal.getType(context).declType.convert(firstValue, context);
+                if (converted == null) {
+                    throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType,
+                            firstValue.getType(context).declType, tmpVal);
+                }
+                firstValue = converted;
+            } else {//if firstValue is not constant, check type
+                RuntimeValue convert = tmpVariable.getType(context).convert(firstValue, context);
+                if (convert == null) {
+                    throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType,
+                            firstValue.getType(context).declType, tmpVal);
+                }
+                firstValue = convert;
+            }
+
             next = take();
             boolean downto = false;
             if (next instanceof DowntoToken) {

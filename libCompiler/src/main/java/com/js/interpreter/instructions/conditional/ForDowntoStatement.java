@@ -13,7 +13,7 @@ import com.js.interpreter.instructions.SetValueExecutable;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.AssignableValue;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
@@ -21,31 +21,31 @@ import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 public class ForDowntoStatement extends DebuggableExecutable {
     private SetValueExecutable setfirst;
     private RuntimeValue lessthanlast;
-    private SetValueExecutable increment_temp;
+    private SetValueExecutable increment;
     private Executable command;
     private LineInfo line;
 
-    public ForDowntoStatement(ExpressionContext f, AssignableValue temp_var,
+    public ForDowntoStatement(ExpressionContext f, AssignableValue assignableVar,
                               RuntimeValue first, RuntimeValue last, Executable command,
                               LineInfo line) throws ParsingException {
         this.line = line;
-        setfirst = new Assignment(temp_var, first, line);
-        lessthanlast = BinaryOperatorEvaluation.generateOp(f, temp_var, last,
-                OperatorTypes.GREATEREQ, this.line);
-        increment_temp = new Assignment(temp_var, BinaryOperatorEvaluation.generateOp(
-                f, temp_var, new ConstantAccess(1, this.line),
-                OperatorTypes.MINUS, this.line), line);
+        setfirst = new Assignment(assignableVar, first, line);
+        lessthanlast = BinaryOperatorEval.generateOp(f, assignableVar, last, OperatorTypes.GREATEREQ, this.line);
+
+        increment = new Assignment(assignableVar,
+                BinaryOperatorEval.generateOp(f, assignableVar, new ConstantAccess(1, this.line), OperatorTypes.MINUS, line),
+                line);
 
         this.command = command;
     }
 
     public ForDowntoStatement(SetValueExecutable setfirst,
-                              RuntimeValue lessthanlast, SetValueExecutable increment_temp,
+                              RuntimeValue lessthanlast, SetValueExecutable increment,
                               Executable command, LineInfo line) {
         super();
         this.setfirst = setfirst;
         this.lessthanlast = lessthanlast;
-        this.increment_temp = increment_temp;
+        this.increment = increment;
         this.command = command;
         this.line = line;
     }
@@ -64,7 +64,7 @@ public class ForDowntoStatement extends DebuggableExecutable {
                 case CONTINUE:
                     continue while_loop;
             }
-            increment_temp.execute(context, main);
+            increment.execute(context, main);
         }
         return ExecutionResult.NONE;
     }
@@ -78,7 +78,7 @@ public class ForDowntoStatement extends DebuggableExecutable {
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
         SetValueExecutable first = setfirst.compileTimeConstantTransform(c);
-        SetValueExecutable inc = increment_temp.compileTimeConstantTransform(c);
+        SetValueExecutable inc = increment.compileTimeConstantTransform(c);
         Executable comm = command.compileTimeConstantTransform(c);
         RuntimeValue comp = lessthanlast;
         Object val = lessthanlast.compileTimeValue(c);

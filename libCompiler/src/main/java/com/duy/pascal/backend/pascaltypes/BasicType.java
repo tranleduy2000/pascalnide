@@ -237,22 +237,22 @@ public enum BasicType implements DeclaredType {
     }
 
     public static DeclaredType create(Class c) {
-        if (c == Integer.class) {
+        if (c == Integer.class || c == int.class) {
             return Integer;
         }
-        if (c == Double.class) {
+        if (c == Double.class || c == double.class) {
             return Double;
         }
         if (c == StringBuilder.class) {
             return StringBuilder;
         }
-        if (c == Long.class) {
+        if (c == Long.class || c == long.class) {
             return Long;
         }
-        if (c == Character.class) {
+        if (c == Character.class || c == char.class) {
             return Character;
         }
-        if (c == Boolean.class) {
+        if (c == Boolean.class || c == boolean.class) {
             return Boolean;
         }
         if (c == File.class) {

@@ -12,7 +12,7 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 
 
-public class LongBiOperatorEval extends BinaryOperatorEvaluation {
+public class LongBiOperatorEval extends BinaryOperatorEval {
 
     public LongBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
                               OperatorTypes operator, LineInfo line) {
