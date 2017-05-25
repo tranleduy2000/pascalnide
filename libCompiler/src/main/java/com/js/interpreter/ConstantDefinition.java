@@ -36,6 +36,9 @@ public class ConstantDefinition implements NamedEntity {
         this.line = line;
     }
 
+    /**
+     * constructor use for system constant
+     */
     public ConstantDefinition(@NonNull String name, @NonNull Object value) {
         this.name = name;
         this.value = value;
@@ -46,6 +49,15 @@ public class ConstantDefinition implements NamedEntity {
         this.name = name;
         this.type = type;
         this.value = init;
+        this.line = line;
+    }
+
+    /**
+     * constructor used for enum
+     */
+    public ConstantDefinition(@NonNull String name, @Nullable DeclaredType type, LineInfo line) {
+        this.name = name;
+        this.type = type;
         this.line = line;
     }
 
@@ -67,7 +79,7 @@ public class ConstantDefinition implements NamedEntity {
     }
 
     @Override
-   public String getName() {
+    public String getName() {
         return name;
     }
 

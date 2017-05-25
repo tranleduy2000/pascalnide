@@ -24,6 +24,9 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 
 public abstract class InfoType implements DeclaredType {
     protected LineInfo lineInfo;
+    /**
+     * the name of type, variable, function, ...
+     */
     protected String name;
 
     @Override
@@ -37,7 +40,7 @@ public abstract class InfoType implements DeclaredType {
     }
 
     @Override
-   public String getName() {
+    public String getName() {
         return name;
     }
 

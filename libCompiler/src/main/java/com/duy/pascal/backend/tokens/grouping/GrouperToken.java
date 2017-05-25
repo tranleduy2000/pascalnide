@@ -27,12 +27,13 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.ClassType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.EnumType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.SetType;
+import com.duy.pascal.backend.pascaltypes.enumtype.EnumElementValue;
+import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -243,32 +244,47 @@ public abstract class GrouperToken extends Token {
     }
 
     private DeclaredType getEnumType(ExpressionContext c, ParenthesizedToken n) throws ParsingException {
-        LinkedList<ConstantDefinition> elements = new LinkedList<>();
+        LinkedList<EnumElementValue> elements = new LinkedList<>();
+        EnumGroupType enumGroupType = new EnumGroupType(elements);
+
         while (n.hasNext()) {
             Token token = n.take();
             if (!(token instanceof WordToken)) {
                 throw new ExpectedTokenException("identifier", token);
             }
+            WordToken wordToken = (WordToken) token;
             if (n.peek() instanceof OperatorToken) {
                 OperatorToken operator = (OperatorToken) n.take();
                 if (operator.type == OperatorTypes.EQUALS) {
                     RuntimeValue value = n.getNextExpression(c);
                     Object o = value.compileTimeValue(c);
-                    elements.add(new ConstantDefinition(((WordToken) token).name,
-                            value.getType(c).declType, o, token.getLineNumber()));
+                    //create new enum
+                    EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, o, token.getLineNumber());
+                    //add to parent
+                    elements.add(e);
+                    //add as constant
+                    ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, o, e.getLineNumber());
+
+                    c.verifyNonConflictingSymbol(constant);
+                    c.declareConst(constant);
                 } else {
                     throw new ExpectedTokenException(operator, ",", "=");
                 }
             } else {
-                elements.add(new ConstantDefinition(((WordToken) token).name, token.getLineNumber()));
+                //create new enum
+                EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, wordToken.name, token.getLineNumber());
+                //add to container
+                elements.add(e);
+                //add as constant
+                ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, wordToken.name, e.getLineNumber());
+                c.declareConst(constant);
             }
-
+            //if has next, check comma token
             if (n.hasNext()) {
-
                 n.assertNextComma();
             }
         }
-        return new EnumType(elements, n.getLineNumber());
+        return enumGroupType;
     }
 
     private DeclaredType getSetType(ExpressionContext context, LineInfo lineInfo) throws ParsingException {

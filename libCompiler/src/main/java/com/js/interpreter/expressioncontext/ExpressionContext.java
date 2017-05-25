@@ -6,6 +6,7 @@ import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.CodeUnit;
@@ -23,10 +24,11 @@ public interface ExpressionContext extends CompileTimeContext {
 
     VariableDeclaration getVariableDefinition(String ident);
 
-    void getCallableFunctions(String name,
-                              List<List<AbstractFunction>> listsofar);
+    void getCallableFunctions(String name, List<List<AbstractFunction>> listsofar);
 
     boolean functionExists(String name);
+
+    public abstract void declareConst(ConstantDefinition c);
 
     CodeUnit root();
 

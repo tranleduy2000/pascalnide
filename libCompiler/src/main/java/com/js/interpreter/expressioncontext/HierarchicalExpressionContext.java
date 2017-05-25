@@ -27,6 +27,20 @@ public abstract class HierarchicalExpressionContext implements
 
     protected abstract ConstantDefinition getConstantDefinitionLocal(String indent);
 
+    protected abstract DeclaredType getTypedefTypeLocal(String ident);
+
+    protected abstract void verifyNonConflictingSymbolLocal(NamedEntity n)
+            throws SameNameException;
+
+    protected abstract VariableDeclaration getVariableDefinitionLocal(
+            String ident);
+
+    protected abstract List<AbstractFunction> getCallableFunctionsLocal(
+            String name);
+
+    protected abstract boolean functionExistsLocal(String name);
+
+
     @Override
     public ConstantDefinition getConstantDefinition(String ident) {
         ConstantDefinition result = getConstantDefinitionLocal(ident);
@@ -36,7 +50,6 @@ public abstract class HierarchicalExpressionContext implements
         return result;
     }
 
-    protected abstract DeclaredType getTypedefTypeLocal(String ident);
 
     @Override
     public DeclaredType getTypedefType(String ident) {
@@ -47,18 +60,12 @@ public abstract class HierarchicalExpressionContext implements
         return result;
     }
 
-    protected abstract void verifyNonConflictingSymbolLocal(NamedEntity n)
-            throws SameNameException;
-
     @Override
     public void verifyNonConflictingSymbol(NamedEntity n)
             throws SameNameException {
         verifyNonConflictingSymbolLocal(n);
         //Don't check with parent, because pascal allows nested conflicting symbols.
     }
-
-    protected abstract VariableDeclaration getVariableDefinitionLocal(
-            String ident);
 
     @Override
     public VariableDeclaration getVariableDefinition(String indent) {
@@ -83,8 +90,6 @@ public abstract class HierarchicalExpressionContext implements
         return result;
     }
 
-    protected abstract List<AbstractFunction> getCallableFunctionsLocal(
-            String name);
 
     @Override
     public void getCallableFunctions(String name,
@@ -98,7 +103,6 @@ public abstract class HierarchicalExpressionContext implements
         }
     }
 
-    protected abstract boolean functionExistsLocal(String name);
 
     @Override
     public boolean functionExists(String name) {

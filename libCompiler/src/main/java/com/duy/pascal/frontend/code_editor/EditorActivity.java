@@ -327,7 +327,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 ArrayListMultimap<String, AbstractFunction> callableFunctions = program.getCallableFunctions();
                 for (String name : callableFunctions.keySet()) {
                     for (AbstractFunction f : callableFunctions.get(name)) {
-                        data.add(new InfoItem(StructureType.TYPE_FUNCTION, f.name(), f.getDescription(), f.toString()));
+                        data.add(new InfoItem(StructureType.TYPE_FUNCTION, f.getName(), f.getDescription(), f.toString()));
                     }
                 }
 
@@ -338,7 +338,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 ArrayList<InfoItem> listVariables = new ArrayList<>();
 
                 for (VariableDeclaration variableDeclaration : variables) {
-                    listVariables.add(new InfoItem(StructureType.TYPE_VARIABLE, variableDeclaration.name()));
+                    listVariables.add(new InfoItem(StructureType.TYPE_VARIABLE, variableDeclaration.getName()));
                 }
                 data.addAll(listVariables);
 
