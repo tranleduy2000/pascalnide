@@ -1,7 +1,6 @@
-package com.duy.pascal.backend.runtime.value.operators.number;
+package com.duy.pascal.backend.runtime.operators.number;
 
 
-import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -14,12 +13,12 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
-public class DoubleBiOperatorEval extends BinaryOperatorEvaluation {
+public class CharBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public DoubleBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
-                                OperatorTypes operator, LineInfo line) {
+    public CharBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2, OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
+
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
@@ -32,20 +31,19 @@ public class DoubleBiOperatorEval extends BinaryOperatorEvaluation {
             case NOTEQUAL:
                 return new RuntimeType(BasicType.Boolean, false);
             default:
-                return new RuntimeType(BasicType.Double, false);
+                return new RuntimeType(BasicType.Character, false);
         }
     }
 
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        double v1 = Double.valueOf(String.valueOf(value1));
-        double v2 = Double.valueOf(String.valueOf(value2));
+        char v1 = (char) value1;
+        char v2 = (char) value2;
         switch (operator_type) {
-            case DIVIDE:
-                if (Math.abs(v2) == 0d) {
-                    throw new DivisionByZeroException(line);
-                }
+            case AND:
+                return v1 & v2;
+            case DIV:
                 return v1 / v2;
             case EQUALS:
                 return v1 == v2;
@@ -59,12 +57,22 @@ public class DoubleBiOperatorEval extends BinaryOperatorEvaluation {
                 return v1 < v2;
             case MINUS:
                 return v1 - v2;
+            case MOD:
+                return v1 % v2;
             case MULTIPLY:
                 return v1 * v2;
             case NOTEQUAL:
                 return v1 != v2;
+            case OR:
+                return v1 | v2;
             case PLUS:
-                return v1 + v2;
+                return (char) (v1 + v2);
+            case SHIFTLEFT:
+                return v1 << v2;
+            case SHIFTRIGHT:
+                return v1 >> v2;
+            case XOR:
+                return v1 ^ v2;
             default:
                 throw new InternalInterpreterException(line);
         }
@@ -76,7 +84,7 @@ public class DoubleBiOperatorEval extends BinaryOperatorEvaluation {
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new DoubleBiOperatorEval(
+            return new CharBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);

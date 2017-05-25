@@ -89,7 +89,7 @@ import com.duy.pascal.backend.runtime.value.FieldAccess;
 import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.UnaryOperatorEvaluation;
-import com.duy.pascal.backend.runtime.value.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEvaluation;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

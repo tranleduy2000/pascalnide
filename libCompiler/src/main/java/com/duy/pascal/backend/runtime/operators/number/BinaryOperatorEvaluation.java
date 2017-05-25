@@ -1,4 +1,4 @@
-package com.duy.pascal.backend.runtime.value.operators.number;
+package com.duy.pascal.backend.runtime.operators.number;
 
 
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
@@ -18,8 +18,8 @@ import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.operators.set.InBiOperatorEval;
-import com.duy.pascal.backend.runtime.value.operators.set.SetBiOperatorEval;
+import com.duy.pascal.backend.runtime.operators.set.InBiOperatorEval;
+import com.duy.pascal.backend.runtime.operators.set.SetBiOperatorEval;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;

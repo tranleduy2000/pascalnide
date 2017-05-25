@@ -1,4 +1,20 @@
-package com.duy.pascal.backend.runtime.value.operators.number;
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.backend.runtime.operators.set;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -10,27 +26,32 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEvaluation;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
-public class BoolBiOperatorEval extends BinaryOperatorEvaluation {
+/**
+ * The IN operator checks to see whether an element is in an array
+ */
+public class InBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public BoolBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
-                              OperatorTypes operator, LineInfo line) {
+    public InBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+                            OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        boolean value1 = (boolean) operon1.getValue(f, main);
-        if ((operator_type == OperatorTypes.AND && !value1) || (operator_type == OperatorTypes.OR && value1)) {
-            return value1;
-        }
-        boolean value2 = (boolean) operon2.getValue(f, main);
+        //value object
+        Object value1 = operon1.getValue(f, main);
+
+        //array
+        Object[] value2 = (Object[]) operon2.getValue(f, main);
+
         return operate(value1, value2);
     }
 
@@ -43,22 +64,15 @@ public class BoolBiOperatorEval extends BinaryOperatorEvaluation {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        boolean v1 = (boolean) value1;
-        boolean v2 = (boolean) value2;
-        switch (operator_type) {
-            case AND:
-                return v1 & v2;
-            case EQUALS:
-                return v1 == v2;
-            case NOTEQUAL:
-                return v1 != v2;
-            case OR:
-                return v1 | v2;
-            case XOR:
-                return v1 ^ v2;
-            default:
-                throw new InternalInterpreterException(line);
+        Object[] v2 = (Object[]) value2;
+
+        //check contain
+        for (Object o : v2) {
+            if (o.equals(value1)) {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
@@ -67,7 +81,7 @@ public class BoolBiOperatorEval extends BinaryOperatorEvaluation {
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new BoolBiOperatorEval(
+            return new InBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);

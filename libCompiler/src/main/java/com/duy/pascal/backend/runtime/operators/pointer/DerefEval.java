@@ -14,38 +14,47 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.runtime.value.operators.pointer;
+package com.duy.pascal.backend.runtime.operators.pointer;
 
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
+import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.value.AssignableValue;
+import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.references.Reference;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
-public class AddressEval extends DebuggableReturnValue {
-    final AssignableValue target;
-    final LineInfo line;
+public class DerefEval extends DebuggableAssignableValue {
+    RuntimeValue pointer;
+    LineInfo line;
 
-    public AddressEval(AssignableValue target, LineInfo line) {
-        this.target = target;
+    public DerefEval(RuntimeValue pointer, LineInfo line) {
+        this.pointer = pointer;
         this.line = line;
     }
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return target.getReference(f, main);
+        Reference ref = (Reference) pointer.getValue(f, main);
+        return ref.get();
+    }
+
+    @Override
+    public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+        return (Reference) pointer.getValue(f, main);
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(new PointerType(target.getType(f).declType), false);
+        RuntimeType pointertype = pointer.getType(f);
+        return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
     }
 
     @Override
@@ -55,11 +64,26 @@ public class AddressEval extends DebuggableReturnValue {
 
     @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+        Reference<?> ref = (Reference<?>) pointer.compileTimeValue(context);
+        if (ref != null) {
+            try {
+                return ref.get();
+            } catch (RuntimePascalException e) {
+                throw new ConstantCalculationException(e);
+            }
+        }
+
         return null;
     }
 
+
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
-        return this;
+        Object val = this.compileTimeValue(context);
+        if (val != null) {
+            return new ConstantAccess(val, line);
+        } else {
+            return new DerefEval(pointer.compileTimeExpressionFold(context), line);
+        }
     }
 }

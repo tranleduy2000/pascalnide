@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.runtime.value.operators.set;
+package com.duy.pascal.backend.runtime.operators.set;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -25,7 +25,7 @@ import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEvaluation;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 

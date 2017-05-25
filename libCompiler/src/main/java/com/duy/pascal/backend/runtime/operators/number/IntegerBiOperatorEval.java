@@ -1,5 +1,6 @@
-package com.duy.pascal.backend.runtime.value.operators.number;
+package com.duy.pascal.backend.runtime.operators.number;
 
+import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -10,17 +11,14 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
+import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
+public class IntegerBiOperatorEval extends BinaryOperatorEvaluation {
 
-public class LongBiOperatorEval extends BinaryOperatorEvaluation {
-
-    public LongBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
-                              OperatorTypes operator, LineInfo line) {
+    public IntegerBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+                                 OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
-
-
-
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
@@ -35,23 +33,27 @@ public class LongBiOperatorEval extends BinaryOperatorEvaluation {
             case DIVIDE:
                 return new RuntimeType(BasicType.Double, false);
             default:
-                return new RuntimeType(BasicType.Long, false);
+                return new RuntimeType(BasicType.Integer, false);
         }
     }
 
     @Override
     public Object operate(Object value1, Object value2)
-            throws PascalArithmeticException {
-//        long v1 = (long) value1;
-        long v1 = Long.parseLong(String.valueOf(value1));
-//        long v2 = (long) value2;
-        long v2 = Long.parseLong(String.valueOf(value2));
+            throws PascalArithmeticException, InternalInterpreterException {
+        int v1 = Integer.parseInt(String.valueOf(value1));
+        int v2 = Integer.parseInt(String.valueOf(value2));
         switch (operator_type) {
             case AND:
                 return v1 & v2;
             case DIV:
+                if (v2 == 0) {
+                    throw new DivisionByZeroException(line);
+                }
                 return v1 / v2;
             case DIVIDE:
+                if (Math.abs(v2) == 0) {
+                    throw new DivisionByZeroException(line);
+                }
                 return (double) v1 / (double) v2;
             case EQUALS:
                 return v1 == v2;
@@ -82,18 +84,17 @@ public class LongBiOperatorEval extends BinaryOperatorEvaluation {
             case XOR:
                 return v1 ^ v2;
             default:
-                return null;
+                throw new InternalInterpreterException(line);
         }
     }
 
     @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
-            throws ParsingException {
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new LongBiOperatorEval(
+            return new IntegerBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);

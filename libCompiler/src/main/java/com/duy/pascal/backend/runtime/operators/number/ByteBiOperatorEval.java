@@ -1,4 +1,20 @@
-package com.duy.pascal.backend.runtime.value.operators.number;
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.backend.runtime.operators.number;
 
 import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -13,10 +29,10 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
-public class IntegerBiOperatorEval extends BinaryOperatorEvaluation {
+public class ByteBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public IntegerBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
-                                 OperatorTypes operator, LineInfo line) {
+    public ByteBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+                              OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -94,7 +110,7 @@ public class IntegerBiOperatorEval extends BinaryOperatorEvaluation {
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new IntegerBiOperatorEval(
+            return new ByteBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);

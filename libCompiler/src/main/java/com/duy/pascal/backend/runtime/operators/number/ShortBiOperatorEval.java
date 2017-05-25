@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.runtime.value.operators.number;
+package com.duy.pascal.backend.runtime.operators.number;
 
 import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -29,10 +29,10 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 
-public class ByteBiOperatorEval extends BinaryOperatorEvaluation {
+public class ShortBiOperatorEval extends BinaryOperatorEvaluation {
 
-    public ByteBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
-                              OperatorTypes operator, LineInfo line) {
+    public ShortBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
+                               OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
 
@@ -110,7 +110,7 @@ public class ByteBiOperatorEval extends BinaryOperatorEvaluation {
         if (val != null) {
             return new ConstantAccess(val, line);
         } else {
-            return new ByteBiOperatorEval(
+            return new ShortBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);
