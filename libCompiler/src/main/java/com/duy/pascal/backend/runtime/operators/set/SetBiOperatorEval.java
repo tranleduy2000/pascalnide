@@ -46,6 +46,7 @@ public class SetBiOperatorEval extends BinaryOperatorEvaluation {
             case PLUS:
             case MULTIPLY:
             case MINUS:
+            case DIFFERENT:
                 SetType type1 = (SetType) operon1.getType(f).declType;
                 SetType setType = new SetType(type1.getElementType(), line);
                 return new RuntimeType(setType, false);
@@ -56,7 +57,7 @@ public class SetBiOperatorEval extends BinaryOperatorEvaluation {
             case LESSEQ:
             case GREATERTHAN:
             case GREATEREQ:
-            case DIFFERENT:
+
                 return new RuntimeType(BasicType.Boolean, false);
             default:
                 return null;
