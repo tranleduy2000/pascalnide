@@ -31,7 +31,7 @@ import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.SetType;
+import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.pascaltypes.enumtype.EnumElementValue;
 import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
@@ -94,6 +94,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
@@ -246,7 +247,7 @@ public abstract class GrouperToken extends Token {
     private DeclaredType getEnumType(ExpressionContext c, ParenthesizedToken n) throws ParsingException {
         LinkedList<EnumElementValue> elements = new LinkedList<>();
         EnumGroupType enumGroupType = new EnumGroupType(elements);
-
+        AtomicInteger index = new AtomicInteger(0);
         while (n.hasNext()) {
             Token token = n.take();
             if (!(token instanceof WordToken)) {
@@ -263,7 +264,7 @@ public abstract class GrouperToken extends Token {
                     //add to parent
                     elements.add(e);
                     //add as constant
-                    ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, o, e.getLineNumber());
+                    ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, e, e.getLineNumber());
 
                     c.verifyNonConflictingSymbol(constant);
                     c.declareConst(constant);
@@ -272,13 +273,14 @@ public abstract class GrouperToken extends Token {
                 }
             } else {
                 //create new enum
-                EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, wordToken.name, token.getLineNumber());
+                EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, index.get(), token.getLineNumber());
                 //add to container
                 elements.add(e);
                 //add as constant
-                ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, wordToken.name, e.getLineNumber());
+                ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, e, e.getLineNumber());
                 c.declareConst(constant);
             }
+            index.getAndIncrement();
             //if has next, check comma token
             if (n.hasNext()) {
                 n.assertNextComma();

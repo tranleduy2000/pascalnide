@@ -106,8 +106,11 @@ public class EnumElementValue implements RuntimeValue {
         this.value = value;
     }
 
+    /**
+     * uses for print to console
+     */
     @Override
     public String toString() {
-        return type.getName();
+        return name;
     }
 }
