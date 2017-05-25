@@ -818,13 +818,6 @@ public abstract class GrouperToken extends Token {
         Executable result = null;
         if (next instanceof AssignmentToken) {
             RuntimeValue firstValue = getNextExpression(context);
-//            RuntimeValue converted = tmpVal.getType(context).convert(firstValue, context);
-       /*     if (converted == null) {
-                throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType,
-                        firstValue.getType(context).declType, tmpVal);
-            }*/
-//            firstValue = converted;
-
             next = take();
             boolean downto = false;
             if (next instanceof DowntoToken) {

@@ -112,8 +112,6 @@ public class ExecuteActivity extends AbstractExecActivity {
 
         } else if (i == R.id.action_rerun) {
             CompileManager.execute(this, filePath);
-            finish();
-
         }
         return super.onOptionsItemSelected(item);
     }
