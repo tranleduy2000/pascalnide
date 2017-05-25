@@ -43,6 +43,7 @@ public class CompileManager {
     public static void execute(Activity activity, String name) {
         Intent intent = new Intent(activity, ExecuteActivity.class);
         intent.putExtra(FILE_PATH, name);
+        activity.finish();
         activity.startActivity(intent);
     }
 
