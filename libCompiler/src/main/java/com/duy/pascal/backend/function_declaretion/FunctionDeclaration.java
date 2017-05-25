@@ -55,7 +55,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     /**
      * name of function or procedure
      */
-   public String getName;
+    public String name;
     public Executable instructions;
     /**
      * this is the store class of function
@@ -128,11 +128,6 @@ public class FunctionDeclaration extends AbstractCallableFunction {
                 declarations.addNextDeclaration(i);
             }
         }
-    }
-
-    @Override
-   public String getName() {
-        return name;
     }
 
     @Override
@@ -217,7 +212,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     public boolean headerMatches(AbstractFunction other) throws ParsingException {
-        if (name.equals(other.name())
+        if (name.equals(other.getName())
                 && Arrays.equals(argumentTypes, other.argumentTypes())) {
             if (resultDefinition == null && other.returnType() == null) {
                 return true;

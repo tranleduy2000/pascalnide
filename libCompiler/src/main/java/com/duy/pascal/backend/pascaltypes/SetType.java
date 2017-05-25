@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.pascaltypes.rangetype;
+package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.InfoType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime_value.cloning.ArrayCloner;

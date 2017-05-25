@@ -35,9 +35,6 @@ public abstract class AbstractFunction implements NamedEntity {
 
     public static final String TAG = AbstractFunction.class.getSimpleName();
 
-    @Override
-    public abstract String getName();
-
     public abstract ArgumentType[] argumentTypes();
 
     @Nullable

@@ -48,7 +48,7 @@ public class AbstractMethodDeclaration extends AbstractFunction {
 
     @Override
    public String getName() {
-        return t.name();
+        return t.getName();
     }
 
     @Override

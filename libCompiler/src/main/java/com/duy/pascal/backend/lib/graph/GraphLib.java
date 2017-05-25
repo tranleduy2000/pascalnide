@@ -95,154 +95,154 @@ public class GraphLib implements PascalLibrary {
         Map<String, ConstantDefinition> constants = parentContext.getConstants();
         ConstantDefinition constant;
         constant = new ConstantDefinition("grok".toLowerCase(), 1, new LineInfo(-1, "grok = 1;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("NormWidth".toLowerCase(), LineWidth.NormWidth,
                 new LineInfo(-1, "const NormWidth = 1;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("ThickWidth".toLowerCase(), LineWidth.ThickWidth,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("SolidLn".toLowerCase(), LineStyle.SolidLn,
                 new LineInfo(-1, "const SolidLn = 0;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("DottedLn".toLowerCase(), LineStyle.DottedLn,
                 new LineInfo(-1, "const DottedLn = 1;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("CenterLn".toLowerCase(), LineStyle.CenterLn,
                 new LineInfo(-1, "const CenterLn = 2;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("DashedLn".toLowerCase(), LineStyle.DashedLn,
                 new LineInfo(-1, "const DashedLn = 3;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         //Font number: Normal font
         constant = new ConstantDefinition("DefaultFont".toLowerCase(), TextFont.TriplexFont,
                 new LineInfo(-1, "const DefaultFont = 0;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         //        Font number: Triplex font
         constant = new ConstantDefinition("TriplexFont".toLowerCase(), TextFont.TriplexFont,
                 new LineInfo(-1, "const TriplexFont = 1;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("SmallFont".toLowerCase(), TextFont.SmallFont,
                 new LineInfo(-1, "const SmallFont = 2;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("SansSerifFont".toLowerCase(), TextFont.SansSerifFont,
                 new LineInfo(-1, "const SansSerifFont = 3;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("GothicFont".toLowerCase(), TextFont.GothicFont,
                 new LineInfo(-1, "const GothicFont = 4;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("ScriptFont".toLowerCase(), TextFont.ScriptFont,
                 new LineInfo(-1, "const ScriptFont = 5;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("SimpleFont".toLowerCase(), TextFont.SimpleFont,
                 new LineInfo(-1, "const SimpleFont = 6;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("TSCRFont".toLowerCase(), TextFont.TSCRFont,
                 new LineInfo(-1, "const TSCRFont = 7;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("LCOMFont".toLowerCase(), TextFont.LCOMFont,
                 new LineInfo(-1, "const LCOMFont = 8;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("EuroFont".toLowerCase(), TextFont.EuroFont,
                 new LineInfo(-1, "const EuroFont  = 9;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("BoldFont".toLowerCase(), TextFont.BoldFont,
                 new LineInfo(-1, "const EuroFont  = 10;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         //text direction
         constant = new ConstantDefinition("HorizDir".toLowerCase(), TextDirection.HORIZONTAL_DIR,
                 new LineInfo(-1, "const HorizDir = 0;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("VertDir".toLowerCase(), TextDirection.VERTICAL_DIR,
                 new LineInfo(-1, "const VertDir   = 1;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("HorizDir".toLowerCase(), TextDirection.HORIZONTAL_DIR,
                 new LineInfo(-1, "const HorizDir = 0;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         ///////////////////////////
         constant = new ConstantDefinition("LeftText".toLowerCase(), TextJustify.HORIZONTAL_STYLE.LeftText,
                 new LineInfo(-1, "const LeftText   = 0;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("CenterText".toLowerCase(), TextJustify.HORIZONTAL_STYLE.CenterText,
                 new LineInfo(-1, "const CenterText   = 1;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("RightText".toLowerCase(), TextJustify.HORIZONTAL_STYLE.RightText,
                 new LineInfo(-1, "const RightText   = 2;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("BottomText".toLowerCase(), TextJustify.VERTICAL_STYLE.BottomText,
                 new LineInfo(-1, "const BottomText   = 0;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("TopText".toLowerCase(), TextJustify.VERTICAL_STYLE.TopText,
                 new LineInfo(-1, "const TopText   = 2;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("topoff".toLowerCase(), false,
                 new LineInfo(-1, "const TopText   = 2;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("topon".toLowerCase(), true,
                 new LineInfo(-1, "const TopText   = 2;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("EmptyFill".toLowerCase(), FillType.EmptyFill,
                 new LineInfo(-1, "grok = 1;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("SolidFill".toLowerCase(), FillType.SolidFill,
                 new LineInfo(-1, "const NormWidth = 1;".toLowerCase()));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("LineFill".toLowerCase(), FillType.LineFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("ltSlashFill".toLowerCase(), FillType.ltSlashFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("SlashFill".toLowerCase(), FillType.SlashFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("BkSlashFill".toLowerCase(), FillType.BkSlashFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("LtBkSlashFill".toLowerCase(), FillType.LtBkSlashFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
         constant = new ConstantDefinition("HatchFill".toLowerCase(), FillType.HatchFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("XHatchFill".toLowerCase(), FillType.XHatchFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("InterLeaveFill".toLowerCase(), FillType.InterLeaveFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("WideDotFill".toLowerCase(), FillType.WideDotFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         constant = new ConstantDefinition("CloseDotFill".toLowerCase(), FillType.CloseDotFill,
                 new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
 
         new CrtLib(handler).declareConstants(parentContext);
 
         constant = new ConstantDefinition("NormalPut".toLowerCase(), 0, new LineInfo(-1, ""));
-        constants.put(constant.name(), constant);
+        constants.put(constant.getName(), constant);
     }
 
     @Override

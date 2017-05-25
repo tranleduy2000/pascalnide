@@ -15,7 +15,7 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 public class WordToken extends Token {
 
     //always lower case
-   public String getName;
+   public String name;
 
     private String originalName;
 

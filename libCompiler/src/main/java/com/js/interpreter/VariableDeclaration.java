@@ -29,7 +29,7 @@ public class VariableDeclaration implements NamedEntity {
     /**
      * name of variable, always lower case
      */
-   public String getName;
+    public String name;
     public DeclaredType type;
     private String desc;
     private Object initialValue;
@@ -98,10 +98,7 @@ public class VariableDeclaration implements NamedEntity {
         return "var " + name + " = " + initialValue;
     }
 
-    @Override
-   public String getName() {
-        return name;
-    }
+
 
     @Override
     public String getDescription() {

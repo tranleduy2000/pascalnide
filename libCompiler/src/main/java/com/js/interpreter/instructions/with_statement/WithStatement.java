@@ -58,7 +58,7 @@ public class WithStatement {
             if (argument.getType(parent).declType instanceof RecordType) {
                 CustomType containsType = (CustomType) argument.getType(parent).declType;
                 for (VariableDeclaration variableDeclaration : containsType.variableDeclarations) {
-                    FieldAccess fieldAccess = new FieldAccess(argument, variableDeclaration.name(),
+                    FieldAccess fieldAccess = new FieldAccess(argument, variableDeclaration.getName(),
                             variableDeclaration.getLineNumber());
                     fields.add(fieldAccess);
                     variableDeclarations.add(variableDeclaration);

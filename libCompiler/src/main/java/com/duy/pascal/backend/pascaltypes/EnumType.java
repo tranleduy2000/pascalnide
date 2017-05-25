@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.pascaltypes.rangetype;
+package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,9 +22,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.InfoType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.Containable;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.runtime_value.RuntimeValue;
@@ -66,7 +64,7 @@ public class EnumType<T extends DeclaredType> extends InfoType implements Contai
     @Nullable
     public ConstantDefinition get(String element) {
         for (ConstantDefinition pair : list) {
-            if (pair.name().equalsIgnoreCase(element)) {
+            if (pair.getName().equalsIgnoreCase(element)) {
                 return pair;
             }
         }

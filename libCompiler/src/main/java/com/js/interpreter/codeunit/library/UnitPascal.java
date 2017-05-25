@@ -224,7 +224,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                 for (AbstractFunction f : abstractFunctions) {
                     if (f instanceof FunctionDeclaration) {
                         if (((FunctionDeclaration) f).instructions == null) {
-                            throw new MissingBodyFunctionException(f.name(),
+                            throw new MissingBodyFunctionException(f.getName(),
                                     ((FunctionDeclaration) f).line);
                         }
                     }
@@ -257,7 +257,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                     throw new MisplacedDeclarationException(i.peek().getLineNumber(), "forward", this);
                 }
 
-                forwardFunctions.add(declaration.name());
+                forwardFunctions.add(declaration.getName());
             } else {
                 super.addNextDeclaration(i);
             }

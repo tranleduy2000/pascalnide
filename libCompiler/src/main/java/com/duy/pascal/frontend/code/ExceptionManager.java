@@ -202,7 +202,7 @@ public class ExceptionManager {
             if (e instanceof OverridingFunctionBodyException) {
                 if (!((OverridingFunctionBodyException) e).isMethod) {
                     return getMessageResource(e, R.string.OverridingFunctionException,
-                            ((OverridingFunctionBodyException) e).functionDeclaration.name(),
+                            ((OverridingFunctionBodyException) e).functionDeclaration.getName(),
                             ((OverridingFunctionBodyException) e).functionDeclaration.getLineNumber());
                 } else {
                     return getMessageResource(e, R.string.OverridingFunctionException);

@@ -80,7 +80,7 @@ public class CustomVariable implements ContainsVariables {
     public ContainsVariables clone() {
         ArrayList<VariableDeclaration> vars = new ArrayList<>();
         for (VariableDeclaration mVariable : mVariables) {
-            vars.add(new VariableDeclaration(mVariable.name(), mVariable.getType(),
+            vars.add(new VariableDeclaration(mVariable.getName(), mVariable.getType(),
                     variableMap.get(mVariable.getName().toLowerCase()), mVariable.getLineNumber()));
         }
         return new CustomVariable(vars);

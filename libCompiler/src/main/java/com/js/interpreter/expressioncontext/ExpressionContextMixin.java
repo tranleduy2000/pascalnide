@@ -171,7 +171,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public FunctionDeclaration checkExistFunction(FunctionDeclaration f)
             throws ParsingException {
-        for (AbstractFunction g : callableFunctions.get(f.name)) {
+        for (AbstractFunction g : callableFunctions.get(f.getName())) {
             if (f.headerMatches(g)) {
                 if (!(g instanceof FunctionDeclaration)) {
                     throw new OverridingFunctionBodyException(g, f);
@@ -179,23 +179,23 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 return (FunctionDeclaration) g;
             }
         }
-        callableFunctions.put(f.name, f);
-        listNameFunctions.add(new InfoItem(StructureType.TYPE_FUNCTION, f.name));
+        callableFunctions.put(f.getName(), f);
+        listNameFunctions.add(new InfoItem(StructureType.TYPE_FUNCTION, f.getName()));
         return f;
     }
 
     @Override
     public RuntimeValue getIdentifierValue(WordToken name)
             throws ParsingException {
-        if (functionExistsLocal(name.name)) {
+        if (functionExistsLocal(name.getName())) {
             return FunctionCall.generateFunctionCall(name, new ArrayList<RuntimeValue>(0), this);
 
-        } else if (getConstantDefinitionLocal(name.name) != null) {
-            ConstantDefinition c = getConstantDefinition(name.name);
+        } else if (getConstantDefinitionLocal(name.getName()) != null) {
+            ConstantDefinition c = getConstantDefinition(name.getName());
             return new ConstantAccess(c.getValue(), c.getType(), name.getLineNumber());
 
-        } else if (getVariableDefinitionLocal(name.name) != null) {
-            VariableAccess variableAccess = new VariableAccess(name.name, name.getLineNumber());
+        } else if (getVariableDefinitionLocal(name.getName()) != null) {
+            VariableAccess variableAccess = new VariableAccess(name.getName(), name.getLineNumber());
             Log.d(TAG, "getIdentifierValue() returned: " + variableAccess);
             return variableAccess;
         }
@@ -211,16 +211,16 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         }
 
         if (parent == null) {
-            throw new NoSuchFunctionOrVariableException(name.getLineNumber(), name.name);
+            throw new NoSuchFunctionOrVariableException(name.getLineNumber(), name.getName());
         }
         return parent.getIdentifierValue(name);
     }
 
     public void verifyNonConflictingSymbolLocal(NamedEntity namedEntity)
             throws SameNameException {
-        String name = namedEntity.name();
+        String name = namedEntity.getName();
         if (functionExistsLocal(name)) {
-            throw new SameNameException(getCallableFunctionsLocal(namedEntity.name()).get(0), namedEntity);
+            throw new SameNameException(getCallableFunctionsLocal(namedEntity.getName()).get(0), namedEntity);
         } else if (getVariableDefinitionLocal(name) != null) {
             throw new SameNameException(getVariableDefinitionLocal(name), namedEntity);
         } else if (getConstantDefinitionLocal(name) != null) {
@@ -314,10 +314,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 }
             }
             type.setLineNumber(name.getLineNumber());
-            type.setName(name.name);
+            type.setName(name.getName());
 
             verifyNonConflictingSymbol(type);
-            declareTypedef(name.name, type);
+            declareTypedef(name.getName(), type);
             i.assertNextSemicolon(i.next);
         }
     }
@@ -336,21 +336,21 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             }
             AtomicBoolean found = new AtomicBoolean(false);
             //check library not found
-            if (PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name) != null) {
+            if (PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).getName()) != null) {
                 found.set(true);
                 librariesNames.add(next.toString());
                 pascalLibraryManager.addMethodFromClass(
-                        PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).name));
+                        PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).getName()));
 
             } else {
-                String libPath = (ApplicationFileManager.getApplicationPath() + ((WordToken) next).name) + ".pas";
+                String libPath = (ApplicationFileManager.getApplicationPath() + ((WordToken) next).getName()) + ".pas";
                 File file = new File(libPath);
                 if (file.exists()) {
                     found.set(true);
                     try {
                         FileReader fileReader = new FileReader(file);
 
-                        UnitPascal library = new UnitPascal(fileReader, ((WordToken) next).name,
+                        UnitPascal library = new UnitPascal(fileReader, ((WordToken) next).getName(),
                                 ArrayListMultimap.<String, AbstractFunction>create(),
                                 new ArrayList<ScriptSource>(), handler);
                         library.declareConstants(this);
@@ -361,14 +361,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         unitsMap.put(library, library.run());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                        throw new LibraryNotFoundException(next.getLineNumber(), ((WordToken) next).name);
+                        throw new LibraryNotFoundException(next.getLineNumber(), ((WordToken) next).getName());
                     }
                 } else {
                 }
             }
 
             if (!found.get()) {
-                throw new LibraryNotFoundException(next.getLineNumber(), ((WordToken) next).name);
+                throw new LibraryNotFoundException(next.getLineNumber(), ((WordToken) next).getName());
             }
             next = i.peek();
             if (next instanceof SemicolonToken) {
@@ -384,7 +384,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public VariableDeclaration getVariableDefinitionLocal(String ident) {
         for (VariableDeclaration v : variables) {
-            if (v.name.equalsIgnoreCase(ident)) {
+            if (v.getName().equalsIgnoreCase(ident)) {
                 return v;
             }
         }
@@ -422,14 +422,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     public void declareFunction(AbstractFunction f) {
-        callableFunctions.put(f.name().toLowerCase(), f);
-        InfoItem e = new InfoItem(StructureType.TYPE_FUNCTION, f.name(), f.getDescription(), f.toString());
+        callableFunctions.put(f.getName().toLowerCase(), f);
+        InfoItem e = new InfoItem(StructureType.TYPE_FUNCTION, f.getName(), f.getDescription(), f.toString());
         listNameFunctions.add(e);
     }
 
     public void declareConst(ConstantDefinition c) {
-        constants.put(c.name(), c);
-        listNameConstants.add(new InfoItem(StructureType.TYPE_CONST, c.name()));
+        constants.put(c.getName(), c);
+        listNameConstants.add(new InfoItem(StructureType.TYPE_CONST, c.getName()));
     }
 
     public void declareConst(GrouperToken token) throws ParsingException {
@@ -471,7 +471,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
 
                         }
-                        ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
+                        ConstantDefinition constantDefinition = new ConstantDefinition(constName.getName(),
                                 type, defaultValue, constName.getLineNumber());
                         declareConst(constantDefinition);
                         token.assertNextSemicolon(token.next);
@@ -488,9 +488,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 if (compileVal == null) {
                     throw new NonConstantExpressionException(value);
                 }
-                ConstantDefinition constantDefinition = new ConstantDefinition(constName.name,
+                ConstantDefinition constantDefinition = new ConstantDefinition(constName.getName(),
                         compileVal, constName.getLineNumber());
-                this.constants.put(constantDefinition.name(), constantDefinition);
+                this.constants.put(constantDefinition.getName(), constantDefinition);
                 token.assertNextSemicolon(token);
             } else {
                 throw new ExpectedTokenException("=", constName);

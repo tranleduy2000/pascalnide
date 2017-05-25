@@ -31,7 +31,7 @@ public interface IMethodDeclaration {
     /**
      * @return simple name of method;
      */
-    String name();
+    String getName();
 
     FunctionCall generateCall(LineInfo line, RuntimeValue[] values,
                               ExpressionContext f) throws ParsingException;

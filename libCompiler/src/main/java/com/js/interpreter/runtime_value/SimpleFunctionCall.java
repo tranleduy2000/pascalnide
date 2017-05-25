@@ -113,7 +113,7 @@ public class SimpleFunctionCall extends FunctionCall {
 
     @Override
     protected String getFunctionName() {
-        return function.name();
+        return function.getName();
     }
 
     @Override
