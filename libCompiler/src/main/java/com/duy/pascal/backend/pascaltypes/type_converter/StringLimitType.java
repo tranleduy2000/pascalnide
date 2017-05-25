@@ -28,13 +28,13 @@ import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
-public class StringBuilderWithRangeType implements RuntimeValue {
+public class StringLimitType implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
     private RuntimeValue value;
     private RuntimeValue length;
 
 
-    public StringBuilderWithRangeType(RuntimeValue value, RuntimeValue length) {
+    public StringLimitType(RuntimeValue value, RuntimeValue length) {
         this.value = value;
         this.length = length;
         this.outputFormat = value.getOutputFormat();
@@ -74,7 +74,7 @@ public class StringBuilderWithRangeType implements RuntimeValue {
     @Override
     public RuntimeType getType(ExpressionContext f)
             throws ParsingException {
-        return new RuntimeType(BasicType.create(StringBuilder.class), false);
+        return new RuntimeType(BasicType.StringBuilder, false);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class StringBuilderWithRangeType implements RuntimeValue {
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new StringBuilderWithRangeType(value.compileTimeExpressionFold(context), length);
+        return new StringLimitType(value.compileTimeExpressionFold(context), length);
     }
 
     @Override

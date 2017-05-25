@@ -25,7 +25,7 @@ import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
+import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 

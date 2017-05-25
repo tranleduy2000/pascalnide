@@ -5,6 +5,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.enumtype.EnumElementValue;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.references.ArrayIndexReference;
@@ -56,7 +57,13 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object cont = container.getValue(f, main);
-        int ind = Integer.valueOf(index.getValue(f, main).toString());
+        Object i = index.getValue(f, main);
+        int ind;
+        if (i instanceof EnumElementValue) {
+            ind = ((EnumElementValue) i).getIndex();
+        } else {
+            ind = Integer.parseInt(i.toString());
+        }
         try {
             return Array.get(cont, ind - offset);
         } catch (ArrayIndexOutOfBoundsException e) {

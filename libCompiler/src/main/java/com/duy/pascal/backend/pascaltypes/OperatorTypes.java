@@ -413,8 +413,7 @@ public enum OperatorTypes {
     IN(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder);
+            return GCF == BasicType.Boolean;
         }
 
         @Override

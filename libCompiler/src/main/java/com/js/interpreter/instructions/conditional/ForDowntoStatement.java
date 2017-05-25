@@ -3,6 +3,7 @@ package com.js.interpreter.instructions.conditional;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
@@ -13,7 +14,7 @@ import com.js.interpreter.instructions.SetValueExecutable;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.AssignableValue;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
+import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
@@ -30,11 +31,12 @@ public class ForDowntoStatement extends DebuggableExecutable {
                               LineInfo line) throws ParsingException {
         this.line = line;
         setfirst = new Assignment(assignableVar, first, line);
+
         lessthanlast = BinaryOperatorEval.generateOp(f, assignableVar, last, OperatorTypes.GREATEREQ, this.line);
 
         increment = new Assignment(assignableVar,
-                BinaryOperatorEval.generateOp(f, assignableVar, new ConstantAccess(1, this.line), OperatorTypes.MINUS, line),
-                line);
+                BinaryOperatorEval.generateOp(f, assignableVar, new ConstantAccess(1, BasicType.Integer,
+                        this.line), OperatorTypes.MINUS, line), line);
 
         this.command = command;
     }
@@ -54,6 +56,7 @@ public class ForDowntoStatement extends DebuggableExecutable {
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         setfirst.execute(context, main);
+
         while_loop:
         while ((Boolean) lessthanlast.getValue(context, main)) {
             switch (command.execute(context, main)) {

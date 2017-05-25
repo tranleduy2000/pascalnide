@@ -40,12 +40,15 @@ public class EnumElementValue implements RuntimeValue {
     private Integer index;
     @Nullable
     private LineInfo lineInfo;
-
     public EnumElementValue(String name, @NonNull EnumGroupType type, @Nullable Integer index, @Nullable LineInfo lineInfo) {
         this.name = name;
         this.type = type;
         this.index = index;
         this.lineInfo = lineInfo;
+    }
+
+    public EnumGroupType getEnumGroupType() {
+        return type;
     }
 
     @Nullable

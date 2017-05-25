@@ -7,7 +7,7 @@ import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.type_converter.StringBuilderWithRangeType;
+import com.duy.pascal.backend.pascaltypes.type_converter.StringLimitType;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
@@ -80,7 +80,7 @@ public enum BasicType implements DeclaredType {
             RuntimeType otherType = valueToAssign.getType(f);
             if (otherType.declType instanceof BasicType) {
                 if (this.equals(otherType.declType)) {
-                    return new StringBuilderWithRangeType(valueToAssign, length);
+                    return new StringLimitType(valueToAssign, length);
                 }
                 if (otherType.declType == BasicType.Character) {
                     return new CharacterBoxer(valueToAssign);
@@ -99,7 +99,6 @@ public enum BasicType implements DeclaredType {
                                                 RuntimeValue index) throws NonArrayIndexed {
             return new StringIndex(array, index);
         }
-
 
         @Override
         public RuntimeValue cloneValue(RuntimeValue value) {

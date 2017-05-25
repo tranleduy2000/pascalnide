@@ -29,6 +29,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.ClassType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
@@ -38,11 +39,17 @@ import com.duy.pascal.backend.pascaltypes.rangetype.EnumSubrangeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.duy.pascal.backend.pascaltypes.set.SetType;
+import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.runtime.value.AssignableValue;
+import com.duy.pascal.backend.runtime.value.ConstantAccess;
+import com.duy.pascal.backend.runtime.value.FieldAccess;
+import com.duy.pascal.backend.runtime.value.FunctionCall;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.UnaryOperatorEvaluation;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
-import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ArrayToken;
@@ -83,13 +90,6 @@ import com.js.interpreter.instructions.conditional.IfStatement;
 import com.js.interpreter.instructions.conditional.RepeatInstruction;
 import com.js.interpreter.instructions.conditional.WhileStatement;
 import com.js.interpreter.instructions.with_statement.WithStatement;
-import com.duy.pascal.backend.runtime.value.AssignableValue;
-import com.duy.pascal.backend.runtime.value.ConstantAccess;
-import com.duy.pascal.backend.runtime.value.FieldAccess;
-import com.duy.pascal.backend.runtime.value.FunctionCall;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.UnaryOperatorEvaluation;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -469,9 +469,6 @@ public abstract class GrouperToken extends Token {
 
                     converted = bounds.getEnumGroupType().convert(unconvert, f);
                     if (converted != null) {
-                        ConstantAccess value = (ConstantAccess) converted;
-                        converted = new ConstantAccess(((EnumElementValue) value.compileTimeValue(f)).getIndex(),
-                                BasicType.Integer, value.getLineNumber());
                     }
                 }
             }

@@ -26,12 +26,14 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.number.BinaryOperatorEval;
+import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
+
+import java.util.LinkedList;
 
 /**
  * The IN operator checks to see whether an element is in an array
@@ -49,9 +51,7 @@ public class InBiOperatorEval extends BinaryOperatorEval {
         //value object
         Object value1 = operon1.getValue(f, main);
 
-        //array
-        Object[] value2 = (Object[]) operon2.getValue(f, main);
-
+        LinkedList value2 = (LinkedList) operon2.getValue(f, main);
         return operate(value1, value2);
     }
 
@@ -64,15 +64,8 @@ public class InBiOperatorEval extends BinaryOperatorEval {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        Object[] v2 = (Object[]) value2;
-
-        //check contain
-        for (Object o : v2) {
-            if (o.equals(value1)) {
-                return true;
-            }
-        }
-        return false;
+        LinkedList v2 = (LinkedList) value2;
+        return v2.contains(value1);
     }
 
     @Override
