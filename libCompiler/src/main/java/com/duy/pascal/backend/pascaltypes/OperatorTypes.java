@@ -1,11 +1,24 @@
-package com.duy.pascal.backend.tokens;
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.backend.pascaltypes;
 
 import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.operator.OperationNotSupportedException;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
-import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.tokens.Token.precedence;
 
 public enum OperatorTypes {
@@ -149,7 +162,6 @@ public enum OperatorTypes {
 
         @Override
         public String toString() {
-
             return "+";
         }
     },
@@ -414,6 +426,22 @@ public enum OperatorTypes {
         public String toString() {
             return "in";
         }
+    },
+    DIFFERENT(false, false) {
+        @Override
+        public boolean verifyBinaryOperation(DeclaredType GCF) {
+            return GCF instanceof SetType;
+        }
+
+        @Override
+        public precedence getPrecedence() {
+            return precedence.Relational;
+        }
+
+        @Override
+        public String toString() {
+            return "><";
+        }
     };
 
     public boolean canBeUnary;
@@ -467,6 +495,11 @@ public enum OperatorTypes {
             ArrayType arrayType = (ArrayType) two;
             if (arrayType.elementType.equals(one)) {
                 return BasicType.Boolean;
+            }
+        }
+        if (one instanceof SetType && two instanceof SetType) {
+            if (((SetType) one).getElementType().equals(((SetType) two).getElementType())) {
+                return one;
             }
         }
         return null;

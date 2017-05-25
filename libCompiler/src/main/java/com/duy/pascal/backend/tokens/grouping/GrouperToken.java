@@ -42,7 +42,7 @@ import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
-import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ArrayToken;
@@ -514,8 +514,10 @@ public abstract class GrouperToken extends Token {
 
         } else if (next instanceof BracketedToken) {
             LinkedList<Object> setConstant = getSetConstant(context, (BracketedToken) next, null);
-
-            throw new UnrecognizedTokenException(next);
+            Log.d(TAG, "getNextTerm: " + setConstant);
+            SetType setType = new SetType(BasicType.Character, setConstant, lineNumber);
+            ConstantAccess constantAccess = new ConstantAccess(setType.initialize(), setType, lineNumber);
+            return constantAccess;
         } else {
             if (next instanceof ElseToken) {
                 throw new WrongIfElseStatement(next);
@@ -621,19 +623,9 @@ public abstract class GrouperToken extends Token {
                                                 @Nullable DeclaredType elementType) throws ParsingException {
         LinkedList<Object> linkedList = new LinkedList<>();
         while (bracketedToken.hasNext()) {
-            Object constantElement;
-            //detect type
-            if (elementType == null) {
-                constantElement = getConstantElement(context, bracketedToken, BasicType.create(Object.class));
-            } else {
-                constantElement = getConstantElement(context, bracketedToken, elementType);
-            }
-            if (elementType == null) {
-                elementType = BasicType.create(constantElement.getClass());
-            }
-            linkedList.add(constantElement);
+            linkedList.add(getConstantElement(context, bracketedToken, elementType));
             if (bracketedToken.hasNext()) {
-                bracketedToken.assertNextSemicolon(bracketedToken);
+                bracketedToken.assertNextComma();
             }
         }
         return linkedList;
@@ -657,7 +649,7 @@ public abstract class GrouperToken extends Token {
 
     public Object getConstantElement(@NonNull ExpressionContext context,
                                      @NonNull GrouperToken parentheses,
-                                     @NonNull DeclaredType elementType) throws ParsingException {
+                                     @Nullable DeclaredType elementType) throws ParsingException {
         if (parentheses.hasNext()) {
             if (elementType instanceof ArrayType) {
                 if (parentheses.peek() instanceof ParenthesizedToken) {
@@ -679,15 +671,19 @@ public abstract class GrouperToken extends Token {
                 }
             } else {
                 RuntimeValue unconvert = parentheses.getNextExpression(context);
-                RuntimeValue converted = elementType.convert(unconvert, context);
-                if (converted == null) {
-                    throw new UnConvertibleTypeException(unconvert, elementType,
-                            unconvert.getType(context).declType, false);
+                if (elementType != null) {
+                    RuntimeValue converted = elementType.convert(unconvert, context);
+                    if (converted == null) {
+                        throw new UnConvertibleTypeException(unconvert, elementType,
+                                unconvert.getType(context).declType, false);
+                    }
+                    if (parentheses.hasNext()) {
+                        parentheses.assertNextComma();
+                    }
+                    return converted.compileTimeValue(context);
+                } else {
+                    return unconvert.compileTimeValue(context);
                 }
-                if (parentheses.hasNext()) {
-                    parentheses.assertNextComma();
-                }
-                return converted.compileTimeValue(context);
             }
         } else {
             throw new ExpectedTokenException(new CommaToken(null), peek());

@@ -38,6 +38,6 @@ begin
     c := [red, blue, yellow, green, white, black, orange] * [green, white];
     displayColors(c);
 
-    c := [red, blue, yellow, green] > < [yellow, green, white, black];
+    c := [red, blue, yellow, green] >< [yellow, green, white, black];
     displayColors(c);
 end.

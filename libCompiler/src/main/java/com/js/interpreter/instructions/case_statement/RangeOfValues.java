@@ -2,7 +2,7 @@ package com.js.interpreter.instructions.case_statement;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;

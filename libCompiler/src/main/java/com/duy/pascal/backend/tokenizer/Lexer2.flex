@@ -6,7 +6,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
-import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WarningToken;
 import com.duy.pascal.backend.tokens.WordToken;
@@ -232,6 +232,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"+" {return new OperatorToken(getLine(),OperatorTypes.PLUS); }
 	"-" {return new OperatorToken(getLine(),OperatorTypes.MINUS); }
 	"<>" {return new OperatorToken(getLine(),OperatorTypes.NOTEQUAL); }
+	"><" {return new OperatorToken(getLine(),OperatorTypes.DIFFERENT); }
 	"<=" {return new OperatorToken(getLine(),OperatorTypes.LESSEQ); }
 	">=" {return new OperatorToken(getLine(),OperatorTypes.GREATEREQ); }
 	">" {return new OperatorToken(getLine(),OperatorTypes.GREATERTHAN); }

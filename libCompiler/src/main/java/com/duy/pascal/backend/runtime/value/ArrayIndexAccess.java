@@ -7,7 +7,7 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.references.ArrayReference;
+import com.duy.pascal.backend.runtime.references.ArrayIndexReference;
 import com.duy.pascal.backend.runtime.references.Reference;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
@@ -69,7 +69,7 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object cont = container.getValue(f, main);
         int ind = Integer.valueOf(index.getValue(f, main).toString());
-        return new ArrayReference(cont, ind, offset);
+        return new ArrayIndexReference(cont, ind, offset);
     }
 
     @Override

@@ -24,12 +24,12 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.InfoType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.cloning.ArrayCloner;
+import com.duy.pascal.backend.runtime.value.SetIndexAccess;
+import com.duy.pascal.backend.runtime.value.cloning.SetCloner;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.ncsa.common.util.TypeUtils;
 
-import java.lang.reflect.Array;
 import java.util.LinkedList;
 
 /**
@@ -39,20 +39,17 @@ import java.util.LinkedList;
  */
 public class SetType<T extends DeclaredType> extends InfoType {
     private T elementType;
-    private int size;
-    private LineInfo line;
     private LinkedList<T> list = new LinkedList<>();
 
-    public SetType(T elementType, int size, LineInfo lineInfo) {
+    public SetType(T elementType, LinkedList<T> linkedList, LineInfo lineInfo) {
         this.elementType = elementType;
-        this.size = size;
-        this.line = lineInfo;
+        this.list = linkedList;
+        this.lineInfo = lineInfo;
     }
 
     public SetType(T elementType, LineInfo lineInfo) {
         this.elementType = elementType;
-        this.size = size;
-        this.line = lineInfo;
+        this.lineInfo = lineInfo;
     }
 
     public void add(T element) {
@@ -78,54 +75,22 @@ public class SetType<T extends DeclaredType> extends InfoType {
     @Override
     public Object initialize() {
         //create new array with element type is elementType via java reflect
-        Object result = Array.newInstance(elementType.getTransferClass(), size);
-
-        //init value for element
-        for (int i = 0; i < size; i++) {
-            Array.set(result, i, elementType.initialize());
-        }
-        return result;
+        return this.list;
     }
 
     @Override
     public Class getTransferClass() {
-        String s = elementType.getTransferClass().getName();
-        StringBuilder b = new StringBuilder();
-        b.append('[');
-        b.append('L');
-        b.append(s);
-        b.append(';');
-        try {
-            return Class.forName(b.toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return LinkedList.class;
     }
 
-    /**
-     * This basically tells if the types are assignable from each other
-     * according to Pascal.
-     */
-    public boolean superset(DeclaredType obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof SetType) {
-            SetType<?> o = (SetType<?>) obj;
-            if (o.elementType.equals(elementType)) {
-                if (this.size >= o.size) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     @Override
     public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
         RuntimeType other = runtimeValue.getType(f);
-        return this.superset(other.declType) ? cloneValue(runtimeValue) : null;
+        if (other.declType instanceof SetType) {
+            return cloneValue(runtimeValue);
+        }
+        return null;
     }
 
     @Override
@@ -135,7 +100,7 @@ public class SetType<T extends DeclaredType> extends InfoType {
 
     @Override
     public int hashCode() {
-        return (elementType.hashCode() * 31 + size);
+        return (elementType.hashCode() * 31 + list.size());
     }
 
     @Override
@@ -145,10 +110,9 @@ public class SetType<T extends DeclaredType> extends InfoType {
         }
         if (other instanceof SetType) {
             SetType other1 = (SetType) other;
-            if (other1.elementType.equals(elementType)) {
-                if (this.size == other1.size) {
-                    return true;
-                }
+            if (other1.elementType.equals(elementType)
+                    && list.equals(((SetType) other).list)) {
+                return true;
             }
         }
         return false;
@@ -156,14 +120,14 @@ public class SetType<T extends DeclaredType> extends InfoType {
 
     @Override
     public RuntimeValue cloneValue(RuntimeValue r) {
-        return new ArrayCloner<>(r);
+        return new SetCloner<>(r);
     }
 
     @NonNull
     @Override
     public RuntimeValue generateArrayAccess(RuntimeValue array, RuntimeValue index)
             throws NonArrayIndexed {
-        throw new NonArrayIndexed(line, this);
+        return new SetIndexAccess(array, index);
     }
 
     @Override
@@ -198,7 +162,4 @@ public class SetType<T extends DeclaredType> extends InfoType {
         return "set type";
     }
 
-    public int getSize() {
-        return size;
-    }
 }

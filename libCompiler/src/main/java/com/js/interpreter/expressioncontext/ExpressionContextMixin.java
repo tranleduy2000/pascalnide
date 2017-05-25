@@ -23,7 +23,7 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.OperatorToken;
-import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;

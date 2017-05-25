@@ -10,7 +10,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.operators.pointer.AddressEval;

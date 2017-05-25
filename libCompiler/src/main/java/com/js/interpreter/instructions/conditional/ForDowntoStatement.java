@@ -3,7 +3,7 @@ package com.js.interpreter.instructions.conditional;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Assignment;

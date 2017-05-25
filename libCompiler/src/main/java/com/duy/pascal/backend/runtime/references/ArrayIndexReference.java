@@ -20,12 +20,12 @@ import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
 
-public class ArrayReference implements Reference {
+public class ArrayIndexReference implements Reference {
     private Object array;
     private int index;
     private int offset;
 
-    public ArrayReference(Object array, int index, int offset) {
+    public ArrayIndexReference(Object array, int index, int offset) {
         this.array = array;
         this.index = index;
         this.offset = offset;
@@ -40,7 +40,7 @@ public class ArrayReference implements Reference {
     }
 
     @Override
-    public ArrayReference clone() {
+    public ArrayIndexReference clone() {
         return null;
     }
 }

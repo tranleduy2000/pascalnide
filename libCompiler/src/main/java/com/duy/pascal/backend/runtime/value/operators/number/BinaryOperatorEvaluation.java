@@ -13,23 +13,23 @@ import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.pascaltypes.type_converter.AnyToStringType;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
-import com.duy.pascal.backend.tokens.OperatorTypes;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.operators.set.InBiOperatorEval;
+import com.duy.pascal.backend.runtime.value.operators.set.SetBiOperatorEval;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.expressioncontext.CompileTimeContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 
 public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
     protected OperatorTypes operator_type;
 
     protected RuntimeValue operon1;
-
     protected RuntimeValue operon2;
     protected LineInfo line;
 
@@ -67,6 +67,12 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
                 }
             } else {
                 // TODO: 12-May-17  exception
+            }
+        }
+
+        if (t1 instanceof SetType && t2 instanceof SetType) {
+            if (((SetType) t1).getElementType().equals(((SetType) t2).getElementType())) {
+                return new SetBiOperatorEval(v1, v2, operatorTypes, line);
             }
         }
 

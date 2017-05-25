@@ -19,7 +19,7 @@ package com.duy.pascal.backend.exceptions.operator;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 public class BadOperationTypeException extends ParsingException {
