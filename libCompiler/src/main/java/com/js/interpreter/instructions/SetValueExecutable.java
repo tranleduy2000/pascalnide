@@ -2,7 +2,7 @@ package com.js.interpreter.instructions;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 public interface SetValueExecutable extends Executable {
     void setAssignedValue(RuntimeValue value);

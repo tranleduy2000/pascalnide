@@ -26,7 +26,7 @@ import com.duy.pascal.backend.pascaltypes.InfoType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.Containable;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 import java.util.LinkedList;
 

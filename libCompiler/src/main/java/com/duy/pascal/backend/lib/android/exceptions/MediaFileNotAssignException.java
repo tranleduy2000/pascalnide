@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.lib.android.exceptions;
 
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 /**
  * Created by Duy on 08-May-17.

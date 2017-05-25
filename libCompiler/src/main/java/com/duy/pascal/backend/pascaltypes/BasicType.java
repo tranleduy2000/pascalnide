@@ -10,11 +10,11 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.type_converter.StringBuilderWithRangeType;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime_value.StringIndex;
-import com.js.interpreter.runtime_value.boxing.CharacterBoxer;
-import com.js.interpreter.runtime_value.boxing.StringBoxer;
-import com.js.interpreter.runtime_value.cloning.StringBuilderCloner;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.StringIndex;
+import com.duy.pascal.backend.runtime.value.boxing.CharacterBoxer;
+import com.duy.pascal.backend.runtime.value.boxing.StringBoxer;
+import com.duy.pascal.backend.runtime.value.cloning.StringBuilderCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.io.File;

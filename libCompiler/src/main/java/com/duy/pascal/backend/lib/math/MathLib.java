@@ -19,9 +19,9 @@ package com.duy.pascal.backend.lib.math;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.references.PascalReference;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.exception.WrongArgsException;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.WrongArgsException;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.util.FastMath;

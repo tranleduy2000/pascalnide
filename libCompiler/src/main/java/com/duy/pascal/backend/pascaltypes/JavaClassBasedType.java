@@ -7,10 +7,10 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime_value.boxing.CharacterBoxer;
-import com.js.interpreter.runtime_value.boxing.StringBuilderBoxer;
-import com.js.interpreter.runtime_value.cloning.CloneableObjectCloner;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.boxing.CharacterBoxer;
+import com.duy.pascal.backend.runtime.value.boxing.StringBuilderBoxer;
+import com.duy.pascal.backend.runtime.value.cloning.CloneableObjectCloner;
 
 public class JavaClassBasedType extends InfoType {
 

@@ -26,7 +26,7 @@ import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.duy.pascal.backend.utils.ArrayUtils;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 import java.util.Iterator;
 import java.util.List;

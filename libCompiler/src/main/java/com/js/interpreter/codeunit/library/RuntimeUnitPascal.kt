@@ -17,8 +17,8 @@
 package com.js.interpreter.codeunit.library
 
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit
-import com.js.interpreter.runtime.VariableContext
-import com.js.interpreter.runtime.exception.RuntimePascalException
+import com.duy.pascal.backend.runtime.VariableContext
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException
 
 class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
     constructor(unitPascal: UnitPascal) : super(unitPascal)

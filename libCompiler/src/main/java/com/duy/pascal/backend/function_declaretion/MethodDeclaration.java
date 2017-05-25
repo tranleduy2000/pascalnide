@@ -30,12 +30,12 @@ import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
 import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime.references.PascalPointer;
-import com.js.interpreter.runtime.references.PascalReference;
-import com.js.interpreter.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.references.PascalPointer;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.GenericArrayType;

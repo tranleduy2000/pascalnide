@@ -19,12 +19,12 @@ package com.duy.pascal.backend.function_declaretion;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.FunctionCall;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime_value.SimpleFunctionCall;
-import com.js.interpreter.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.value.FunctionCall;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.SimpleFunctionCall;
+import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;

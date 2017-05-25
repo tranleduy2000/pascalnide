@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime.ObjectBasedPointer;
-import com.js.interpreter.runtime.references.PascalReference;
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.ObjectBasedPointer;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 public class PointerType extends InfoType {
 

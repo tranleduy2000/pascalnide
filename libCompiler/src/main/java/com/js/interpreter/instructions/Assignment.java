@@ -6,12 +6,12 @@ import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.runtime_value.AssignableValue;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime.references.Reference;
-import com.js.interpreter.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.value.AssignableValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.references.Reference;
+import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 public class Assignment extends DebuggableExecutable implements SetValueExecutable {
     private AssignableValue left;

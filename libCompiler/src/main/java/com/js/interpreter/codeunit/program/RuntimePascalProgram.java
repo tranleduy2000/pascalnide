@@ -21,8 +21,8 @@ import com.js.interpreter.codeunit.RunMode;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.codeunit.library.RuntimeUnitPascal;
 import com.js.interpreter.codeunit.library.UnitPascal;
-import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 import java.util.HashMap;
 import java.util.Map;

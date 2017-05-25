@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.ArrayAccess;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime_value.cloning.ArrayCloner;
+import com.duy.pascal.backend.runtime.value.ArrayIndexAccess;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.cloning.ArrayCloner;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.Array;
@@ -127,7 +127,7 @@ public class ArrayType<T extends DeclaredType> extends InfoType {
     @Override
     public RuntimeValue generateArrayAccess(RuntimeValue array,
                                             RuntimeValue index) {
-        return new ArrayAccess(array, index, bounds.lower);
+        return new ArrayIndexAccess(array, index, bounds.lower);
     }
 
     @Override

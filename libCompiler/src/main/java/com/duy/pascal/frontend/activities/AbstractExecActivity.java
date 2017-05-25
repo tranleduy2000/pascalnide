@@ -38,8 +38,8 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.codeunit.program.PascalProgram;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.exception.ScriptTerminatedException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.ScriptTerminatedException;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.File;

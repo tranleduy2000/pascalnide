@@ -3,8 +3,8 @@ package com.duy.pascal.backend.pascaltypes;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime_value.boxing.ArrayBoxer;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.boxing.ArrayBoxer;
 
 import java.util.ArrayList;
 import java.util.Iterator;

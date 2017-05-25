@@ -1,9 +1,9 @@
 package com.js.interpreter.instructions;
 
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.js.interpreter.runtime.references.Reference;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.variables.ContainsVariables;
+import com.duy.pascal.backend.runtime.references.Reference;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.variables.ContainsVariables;
 
 public class FieldReference implements Reference {
     private ContainsVariables container;

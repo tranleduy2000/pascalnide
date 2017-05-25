@@ -23,8 +23,8 @@ import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.FunctionCall;
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.FunctionCall;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 import java.util.List;
 

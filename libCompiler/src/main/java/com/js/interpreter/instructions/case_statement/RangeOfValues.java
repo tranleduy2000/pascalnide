@@ -4,10 +4,10 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.OperatorTypes;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.ConstantAccess;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime_value.operators.number.BinaryOperatorEvaluation;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.value.ConstantAccess;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 class RangeOfValues implements CaseCondition {
 

@@ -6,7 +6,7 @@ import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.exception.WrongArgsException;
+import com.duy.pascal.backend.runtime.exception.WrongArgsException;
 
 import java.util.Map;
 

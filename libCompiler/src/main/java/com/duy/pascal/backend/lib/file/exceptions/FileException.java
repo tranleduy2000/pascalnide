@@ -18,7 +18,7 @@ package com.duy.pascal.backend.lib.file.exceptions;
 
 import android.support.annotation.NonNull;
 
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 import java.io.File;
 

@@ -12,7 +12,7 @@ import com.js.interpreter.NamedEntity;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.CodeUnit;
 import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 import java.util.List;
 

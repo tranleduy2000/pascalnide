@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.lib.runtime_exceptions;
 
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 /**
  * Created by Duy on 12-Apr-17.

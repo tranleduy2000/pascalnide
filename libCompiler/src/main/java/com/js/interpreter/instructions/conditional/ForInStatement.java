@@ -24,12 +24,12 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
-import com.js.interpreter.runtime_value.AssignableValue;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime.references.Reference;
-import com.js.interpreter.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.value.AssignableValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.references.Reference;
+import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 /**
  * Created by Duy on 14-May-17.

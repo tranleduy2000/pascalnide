@@ -57,10 +57,10 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.references.PascalReference;
-import com.js.interpreter.runtime.variables.ContainsVariables;
-import com.js.interpreter.runtime.variables.CustomVariable;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.backend.runtime.variables.ContainsVariables;
+import com.duy.pascal.backend.runtime.variables.CustomVariable;
 
 import java.util.ArrayList;
 import java.util.Map;

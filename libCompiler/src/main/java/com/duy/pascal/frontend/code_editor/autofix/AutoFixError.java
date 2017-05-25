@@ -27,8 +27,8 @@ import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText;
 import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
-import com.js.interpreter.runtime_value.FunctionCall;
-import com.js.interpreter.runtime_value.VariableAccess;
+import com.duy.pascal.backend.runtime.value.FunctionCall;
+import com.duy.pascal.backend.runtime.value.VariableAccess;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

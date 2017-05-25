@@ -7,7 +7,7 @@ import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.NamedEntity;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 public interface DeclaredType extends NamedEntity {
 

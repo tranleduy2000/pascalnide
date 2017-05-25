@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.exceptions.io;
 
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 public class InputStreamNotFoundException extends RuntimePascalException {
 

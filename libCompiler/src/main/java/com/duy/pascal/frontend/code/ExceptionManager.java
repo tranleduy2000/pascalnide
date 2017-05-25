@@ -64,11 +64,11 @@ import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException
 import com.duy.pascal.backend.utils.ArrayUtils;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
-import com.js.interpreter.runtime.exception.InvalidNumericFormatException;
-import com.js.interpreter.runtime.exception.PascalArithmeticException;
-import com.js.interpreter.runtime.exception.PluginCallException;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.exception.StackOverflowException;
+import com.duy.pascal.backend.runtime.exception.InvalidNumericFormatException;
+import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
+import com.duy.pascal.backend.runtime.exception.PluginCallException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.StackOverflowException;
 
 import java.util.List;
 import java.util.regex.Matcher;

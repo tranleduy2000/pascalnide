@@ -25,7 +25,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.exception.WrongArgsException;
+import com.duy.pascal.backend.runtime.exception.WrongArgsException;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;

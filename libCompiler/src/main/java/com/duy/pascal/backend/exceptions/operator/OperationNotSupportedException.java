@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.exceptions.operator;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 /**
  * Created by Duy on 26-Feb-17.

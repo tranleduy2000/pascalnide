@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.exceptions.value;
 
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 public class NonConstantExpressionException extends com.duy.pascal.backend.exceptions.ParsingException {
 

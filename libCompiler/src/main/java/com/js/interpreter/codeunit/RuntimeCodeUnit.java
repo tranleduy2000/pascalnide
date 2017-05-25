@@ -17,7 +17,7 @@
 package com.js.interpreter.codeunit;
 
 import com.js.interpreter.VariableDeclaration;
-import com.js.interpreter.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.VariableContext;
 
 import java.util.HashMap;
 import java.util.Map;

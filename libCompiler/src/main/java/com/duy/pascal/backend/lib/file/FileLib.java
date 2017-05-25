@@ -24,9 +24,9 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.references.PascalReference;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.exception.WrongArgsException;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.WrongArgsException;
 
 import java.io.File;
 import java.io.FileNotFoundException;

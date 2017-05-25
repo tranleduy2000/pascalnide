@@ -29,7 +29,7 @@ import com.google.common.collect.ListMultimap;
 import com.js.interpreter.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.runtime.FunctionOnStack;
+import com.duy.pascal.backend.runtime.FunctionOnStack;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.Reader;

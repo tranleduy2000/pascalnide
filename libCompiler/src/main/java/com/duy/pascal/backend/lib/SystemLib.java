@@ -21,12 +21,12 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.backend.lib.runtime_exceptions.RangeCheckError;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.js.interpreter.runtime.ObjectBasedPointer;
-import com.js.interpreter.runtime.references.PascalPointer;
-import com.js.interpreter.runtime.references.PascalReference;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.exception.ScriptTerminatedException;
-import com.js.interpreter.runtime.exception.WrongArgsException;
+import com.duy.pascal.backend.runtime.ObjectBasedPointer;
+import com.duy.pascal.backend.runtime.references.PascalPointer;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.ScriptTerminatedException;
+import com.duy.pascal.backend.runtime.exception.WrongArgsException;
 
 import java.util.Map;
 import java.util.Random;

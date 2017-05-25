@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.exceptions.operator;
 
-import com.js.interpreter.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 public class ConstantCalculationException extends com.duy.pascal.backend.exceptions.ParsingException {
     public RuntimePascalException e;

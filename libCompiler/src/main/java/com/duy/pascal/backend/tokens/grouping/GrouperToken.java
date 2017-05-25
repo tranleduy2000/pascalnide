@@ -2,6 +2,7 @@ package com.duy.pascal.backend.tokens.grouping;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -82,13 +83,13 @@ import com.js.interpreter.instructions.conditional.IfStatement;
 import com.js.interpreter.instructions.conditional.RepeatInstruction;
 import com.js.interpreter.instructions.conditional.WhileStatement;
 import com.js.interpreter.instructions.with_statement.WithStatement;
-import com.js.interpreter.runtime_value.AssignableValue;
-import com.js.interpreter.runtime_value.ConstantAccess;
-import com.js.interpreter.runtime_value.FieldAccess;
-import com.js.interpreter.runtime_value.FunctionCall;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime_value.UnaryOperatorEvaluation;
-import com.js.interpreter.runtime_value.operators.number.BinaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.value.AssignableValue;
+import com.duy.pascal.backend.runtime.value.ConstantAccess;
+import com.duy.pascal.backend.runtime.value.FieldAccess;
+import com.duy.pascal.backend.runtime.value.FunctionCall;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.UnaryOperatorEvaluation;
+import com.duy.pascal.backend.runtime.value.operators.number.BinaryOperatorEvaluation;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -511,6 +512,10 @@ public abstract class GrouperToken extends Token {
                 return context.getIdentifierValue(name);
             }
 
+        } else if (next instanceof BracketedToken) {
+            LinkedList<Object> setConstant = getSetConstant(context, (BracketedToken) next, null);
+
+            throw new UnrecognizedTokenException(next);
         } else {
             if (next instanceof ElseToken) {
                 throw new WrongIfElseStatement(next);
@@ -563,9 +568,12 @@ public abstract class GrouperToken extends Token {
                     take();
                     //set default value for array
                     if (type instanceof ArrayType) {
-                        defaultValue = getArrayConstant(context, type);
+                        defaultValue = getArrayConstant(context, (ArrayType) type);
                     } else if (type instanceof SetType) {
-                        defaultValue = getSetConstant(context, type);
+                        if (!(peek() instanceof ParenthesizedToken)) {
+                            throw new ExpectedTokenException(new ParenthesizedToken(null), peek());
+                        }
+                        defaultValue = getEnumConstant(context, (ParenthesizedToken) take(), type);
                     } else { //set default single value
                         RuntimeValue unConvert = getNextExpression(context);
                         RuntimeValue converted = type.convert(unConvert, context);
@@ -597,26 +605,45 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    //set of
-    protected LinkedList<Object> getSetConstant(ExpressionContext context, DeclaredType elementType) throws ParsingException {
-        if (!(peek() instanceof ParenthesizedToken)) {
-            throw new ExpectedTokenException(new ParenthesizedToken(null), peek());
-        }
-        ParenthesizedToken container = (ParenthesizedToken) take();
+    protected LinkedList<Object> getEnumConstant(ExpressionContext context, ParenthesizedToken parentheses,
+                                                 DeclaredType elementType) throws ParsingException {
         LinkedList<Object> linkedList = new LinkedList<>();
-        while (container.hasNext()) {
-            linkedList.add(getConstantElement(context, container, elementType));
-            if (container.hasNext()) {
-                container.assertNextSemicolon(container);
+        while (parentheses.hasNext()) {
+            linkedList.add(getConstantElement(context, parentheses, elementType));
+            if (parentheses.hasNext()) {
+                parentheses.assertNextSemicolon(parentheses);
             }
         }
         return linkedList;
     }
 
-    private Object getArrayConstant(ExpressionContext context, DeclaredType type) throws ParsingException {
-        DeclaredType elementTypeOfArray = ((ArrayType) type).elementType;
+    protected LinkedList<Object> getSetConstant(ExpressionContext context, BracketedToken bracketedToken,
+                                                @Nullable DeclaredType elementType) throws ParsingException {
+        LinkedList<Object> linkedList = new LinkedList<>();
+        while (bracketedToken.hasNext()) {
+            Object constantElement;
+            //detect type
+            if (elementType == null) {
+                constantElement = getConstantElement(context, bracketedToken, BasicType.create(Object.class));
+            } else {
+                constantElement = getConstantElement(context, bracketedToken, elementType);
+            }
+            if (elementType == null) {
+                elementType = BasicType.create(constantElement.getClass());
+            }
+            linkedList.add(constantElement);
+            if (bracketedToken.hasNext()) {
+                bracketedToken.assertNextSemicolon(bracketedToken);
+            }
+        }
+        return linkedList;
+    }
+
+
+    private Object getArrayConstant(ExpressionContext context, ArrayType type) throws ParsingException {
+        DeclaredType elementTypeOfArray = type.elementType;
         ParenthesizedToken bracketedToken = (ParenthesizedToken) take();
-        int size = ((ArrayType) type).getBounds().size;
+        int size = type.getBounds().size;
         Object[] objects = new Object[size];
         for (int i = 0; i < size; i++) {
             if (!bracketedToken.hasNext()) {
@@ -629,36 +656,36 @@ public abstract class GrouperToken extends Token {
     }
 
     public Object getConstantElement(@NonNull ExpressionContext context,
-                                     @NonNull ParenthesizedToken parenthesizedToken,
-                                     @NonNull DeclaredType elementTypeOfArray) throws ParsingException {
-        if (parenthesizedToken.hasNext()) {
-            if (elementTypeOfArray instanceof ArrayType) {
-                if (parenthesizedToken.peek() instanceof ParenthesizedToken) {
-                    ParenthesizedToken child = (ParenthesizedToken) parenthesizedToken.take();
-                    Object[] objects = new Object[((ArrayType) elementTypeOfArray).getBounds().size];
+                                     @NonNull GrouperToken parentheses,
+                                     @NonNull DeclaredType elementType) throws ParsingException {
+        if (parentheses.hasNext()) {
+            if (elementType instanceof ArrayType) {
+                if (parentheses.peek() instanceof ParenthesizedToken) {
+                    GrouperToken child = (GrouperToken) parentheses.take();
+                    Object[] objects = new Object[((ArrayType) elementType).getBounds().size];
                     for (int i = 0; i < objects.length; i++) {
-                        objects[i] = getConstantElement(context, child, ((ArrayType) elementTypeOfArray).elementType);
+                        objects[i] = getConstantElement(context, child, ((ArrayType) elementType).elementType);
                     }
                     if (child.hasNext()) {
                         throw new ExpectedTokenException(new CommaToken(null), child.peek());
                     }
-                    if (parenthesizedToken.hasNext()) {
-                        parenthesizedToken.assertNextComma();
+                    if (parentheses.hasNext()) {
+                        parentheses.assertNextComma();
                     }
                     return objects;
                 } else {
                     throw new ExpectedTokenException(new ParenthesizedToken(null),
-                            parenthesizedToken.peek());
+                            parentheses.peek());
                 }
             } else {
-                RuntimeValue unconvert = parenthesizedToken.getNextExpression(context);
-                RuntimeValue converted = elementTypeOfArray.convert(unconvert, context);
+                RuntimeValue unconvert = parentheses.getNextExpression(context);
+                RuntimeValue converted = elementType.convert(unconvert, context);
                 if (converted == null) {
-                    throw new UnConvertibleTypeException(unconvert, elementTypeOfArray,
+                    throw new UnConvertibleTypeException(unconvert, elementType,
                             unconvert.getType(context).declType, false);
                 }
-                if (parenthesizedToken.hasNext()) {
-                    parenthesizedToken.assertNextComma();
+                if (parentheses.hasNext()) {
+                    parentheses.assertNextComma();
                 }
                 return converted.compileTimeValue(context);
             }

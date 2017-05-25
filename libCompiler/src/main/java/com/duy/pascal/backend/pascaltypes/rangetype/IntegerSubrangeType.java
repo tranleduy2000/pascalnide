@@ -26,7 +26,7 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 public class IntegerSubrangeType extends SubrangeType {
     public IntegerSubrangeType() {

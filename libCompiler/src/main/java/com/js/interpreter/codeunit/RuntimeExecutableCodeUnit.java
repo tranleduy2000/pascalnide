@@ -21,11 +21,11 @@ import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.js.interpreter.codeunit.library.UnitPascal;
-import com.js.interpreter.runtime.ScriptControl;
+import com.duy.pascal.backend.runtime.ScriptControl;
 import com.js.interpreter.codeunit.library.RuntimeUnitPascal;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
-import com.js.interpreter.runtime.exception.ScriptTerminatedException;
-import com.js.interpreter.runtime.exception.StackOverflowException;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.ScriptTerminatedException;
+import com.duy.pascal.backend.runtime.exception.StackOverflowException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
