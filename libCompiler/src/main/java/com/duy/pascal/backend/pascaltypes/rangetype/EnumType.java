@@ -137,20 +137,9 @@ public class EnumType<T extends DeclaredType> extends InfoType implements Contai
     }
 
     @Override
-    public LineInfo getLineNumber() {
-        return lineNumber;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-        this.lineNumber = lineNumber;
-    }
-
-    @Override
     public String getEntityType() {
         return "enum type";
     }
-
 
     @Override
     public boolean contain(Object value) {

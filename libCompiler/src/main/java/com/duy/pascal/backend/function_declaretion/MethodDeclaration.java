@@ -212,7 +212,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public String name() {
+   public String getName() {
         return method.getName();
     }
 

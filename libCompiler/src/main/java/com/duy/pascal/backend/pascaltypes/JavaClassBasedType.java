@@ -116,7 +116,7 @@ public class JavaClassBasedType extends InfoType {
     }
 
     @Override
-    public String name() {
+   public String getName() {
         return null;
     }
 

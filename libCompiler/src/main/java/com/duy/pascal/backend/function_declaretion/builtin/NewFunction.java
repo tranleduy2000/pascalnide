@@ -43,7 +43,7 @@ public class NewFunction implements IMethodDeclaration {
             {new RuntimeType(new PointerType(BasicType.create(Object.class)), true)};
 
     @Override
-    public String name() {
+   public String getName() {
         return "new";
     }
 

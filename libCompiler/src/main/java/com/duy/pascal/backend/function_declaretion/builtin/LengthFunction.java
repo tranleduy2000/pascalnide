@@ -46,7 +46,7 @@ public class LengthFunction implements IMethodDeclaration {
             new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
-    public String name() {
+   public String getName() {
         return "length";
     }
 

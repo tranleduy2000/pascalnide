@@ -26,7 +26,7 @@ public interface NamedEntity {
 
     String getEntityType();
 
-    String name();
+    String getName();
 
     String getDescription();
 }

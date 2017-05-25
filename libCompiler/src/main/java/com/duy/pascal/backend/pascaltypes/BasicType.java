@@ -37,8 +37,6 @@ public enum BasicType implements DeclaredType {
         public String toString() {
             return "Boolean";
         }
-
-
     },
     Character(Character.class) {
         @Override
@@ -370,6 +368,7 @@ public enum BasicType implements DeclaredType {
         return "basic type";
     }
 
+    @Override
     public String getName() {
         return name;
     }

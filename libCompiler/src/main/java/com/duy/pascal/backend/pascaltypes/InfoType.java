@@ -37,7 +37,7 @@ public abstract class InfoType implements DeclaredType {
     }
 
     @Override
-    public String name() {
+   public String getName() {
         return name;
     }
 

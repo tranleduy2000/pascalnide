@@ -24,7 +24,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
  */
 
 public class ChangeValueConstantException extends ParsingException {
-    public String name;
+   public String getName;
     public Object value;
 
     public ChangeValueConstantException(LineInfo line, String message, String name) {

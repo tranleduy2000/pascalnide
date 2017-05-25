@@ -39,7 +39,7 @@ public class HighFunction implements IMethodDeclaration {
     private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
-    public String name() {
+   public String getName() {
         return "high";
     }
 

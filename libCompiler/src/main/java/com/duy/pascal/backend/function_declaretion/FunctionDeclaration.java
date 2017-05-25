@@ -55,7 +55,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     /**
      * name of function or procedure
      */
-    public String name;
+   public String getName;
     public Executable instructions;
     /**
      * this is the store class of function
@@ -131,7 +131,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public String name() {
+   public String getName() {
         return name;
     }
 

@@ -42,7 +42,7 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
                     false)};
 
     @Override
-    public String name() {
+   public String getName() {
         return "sizeof";
     }
 

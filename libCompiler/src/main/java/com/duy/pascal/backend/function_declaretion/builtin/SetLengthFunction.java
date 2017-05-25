@@ -46,7 +46,7 @@ public class SetLengthFunction implements IMethodDeclaration {
             new RuntimeType(BasicType.Integer, false)};
 
     @Override
-    public String name() {
+   public String getName() {
         return "setlength";
     }
 

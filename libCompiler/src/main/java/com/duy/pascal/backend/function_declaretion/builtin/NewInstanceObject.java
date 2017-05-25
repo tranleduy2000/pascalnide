@@ -46,7 +46,7 @@ public class NewInstanceObject implements IMethodDeclaration {
             {new RuntimeType(new JavaClassBasedType(Object.class), true)};
 
     @Override
-    public String name() {
+   public String getName() {
         return "new".toLowerCase();
     }
 

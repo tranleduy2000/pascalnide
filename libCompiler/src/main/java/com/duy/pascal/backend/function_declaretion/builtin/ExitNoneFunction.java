@@ -37,7 +37,7 @@ public class ExitNoneFunction implements IMethodDeclaration {
     private ArgumentType[] argumentTypes = new ArgumentType[]{};
 
     @Override
-    public String name() {
+   public String getName() {
         return "exit";
     }
 

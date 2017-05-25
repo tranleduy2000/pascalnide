@@ -21,7 +21,7 @@ import com.js.interpreter.NamedEntity
 
 class SameNameException(previous: NamedEntity, current: NamedEntity) :
         ParsingException(current.lineNumber,
-                "${current.entityType} ${current.name()} conflicts with previously defined " +
+                "${current.entityType} ${current.name} conflicts with previously defined " +
                         "${previous.entityType} with the same name defined at ${previous.lineNumber}") {
     var type: String
     var name: String
@@ -30,7 +30,7 @@ class SameNameException(previous: NamedEntity, current: NamedEntity) :
 
     init {
         this.type = current.entityType
-        this.name = current.name()
+        this.name = current.name
         this.preType = previous.entityType
         this.preLine = previous.lineNumber.toString()
     }

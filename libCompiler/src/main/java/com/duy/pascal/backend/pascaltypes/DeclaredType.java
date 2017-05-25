@@ -58,7 +58,7 @@ public interface DeclaredType extends NamedEntity {
     String getEntityType();
 
     @Override
-    String name();
+    String getName();
 
     @Override
     String getDescription();

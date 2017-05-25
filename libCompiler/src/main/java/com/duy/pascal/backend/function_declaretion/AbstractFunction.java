@@ -36,7 +36,7 @@ public abstract class AbstractFunction implements NamedEntity {
     public static final String TAG = AbstractFunction.class.getSimpleName();
 
     @Override
-    public abstract String name();
+    public abstract String getName();
 
     public abstract ArgumentType[] argumentTypes();
 
@@ -47,9 +47,9 @@ public abstract class AbstractFunction implements NamedEntity {
     public String toString() {
         DeclaredType declaredType = returnType();
         if (argumentTypes().length == 0) {
-            return name() + (declaredType != null ? ":" + declaredType.toString() : "");
+            return getName() + (declaredType != null ? ":" + declaredType.toString() : "");
         } else {
-            return name() + ArrayUtils.argToString(argumentTypes())
+            return getName() + ArrayUtils.argToString(argumentTypes())
                     + (declaredType != null ? ":" + declaredType.toString() : "");
         }
     }

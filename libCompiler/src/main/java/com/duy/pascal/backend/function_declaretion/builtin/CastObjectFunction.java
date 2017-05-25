@@ -43,7 +43,7 @@ public class CastObjectFunction implements IMethodDeclaration {
                     new RuntimeType(new JavaClassBasedType(Object.class), false)};
 
     @Override
-    public String name() {
+   public String getName() {
         return "cast";
     }
 

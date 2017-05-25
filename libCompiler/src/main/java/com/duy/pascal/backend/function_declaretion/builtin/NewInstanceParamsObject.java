@@ -47,7 +47,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
                     new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
 
     @Override
-    public String name() {
+   public String getName() {
         return "new".toLowerCase();
     }
 
