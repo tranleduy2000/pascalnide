@@ -37,14 +37,14 @@ import com.js.interpreter.runtime_value.RuntimeValue;
 public class EnumElementValue implements RuntimeValue {
     private String name;
     private EnumGroupType type;
-    private Object value;
+    private Integer index;
     @Nullable
     private LineInfo lineInfo;
 
-    public EnumElementValue(String name, @NonNull EnumGroupType type, @Nullable Object value, @Nullable LineInfo lineInfo) {
+    public EnumElementValue(String name, @NonNull EnumGroupType type, @Nullable Integer index, @Nullable LineInfo lineInfo) {
         this.name = name;
         this.type = type;
-        this.value = value;
+        this.index = index;
         this.lineInfo = lineInfo;
     }
 
@@ -61,12 +61,12 @@ public class EnumElementValue implements RuntimeValue {
 
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return value;
+        return index;
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(type, false);
+        return new RuntimeType(type, false);//this is a constant
     }
 
     @Override
@@ -77,7 +77,7 @@ public class EnumElementValue implements RuntimeValue {
     @Nullable
     @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
-        return value;
+        return index;//this is a constant
     }
 
     @Override
@@ -98,12 +98,12 @@ public class EnumElementValue implements RuntimeValue {
         this.name = name;
     }
 
-    public Object getValue() {
-        return value;
+    public Integer getIndex() {
+        return index;
     }
 
-    public void setValue(Object value) {
-        this.value = value;
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 
     /**

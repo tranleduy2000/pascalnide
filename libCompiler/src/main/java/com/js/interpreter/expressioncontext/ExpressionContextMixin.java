@@ -89,7 +89,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      */
     private ArrayListMultimap<String, AbstractFunction> callableFunctions = ArrayListMultimap.create();
 
-    //name of function in map callableFunctions, uses for get all function
+    //name of function in map callableFunctions, uses for indexOf all function
     private ArrayList<InfoItem> listNameFunctions = new ArrayList<>();
 
     /**
@@ -103,14 +103,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     private HashMap<UnitPascal, RuntimeUnitPascal> unitsMap = new HashMap<>();
 
 
-    //list name of constant map,  use for get all constants
+    //list name of constant map,  use for indexOf all constants
     private ArrayList<InfoItem> listNameConstants = new ArrayList<>();
 
     /**
      * list custom operator
      */
     private HashMap<String, DeclaredType> typedefs = new HashMap<>();
-    //uses for get all operator in map typedefs
+    //uses for indexOf all operator in map typedefs
     private ArrayList<InfoItem> listNameTypes = new ArrayList<>();
     /**
      * list library

@@ -24,22 +24,23 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
+import com.js.interpreter.runtime.VariableContext;
+import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime_value.FunctionCall;
 import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.runtime.exception.RuntimePascalException;
 
 public class HighFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
-   public String getName() {
+    public String getName() {
         return "high";
     }
 
@@ -63,7 +64,7 @@ public class HighFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.Integer;
+        return BasicType.create(Object.class);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class HighFunction implements IMethodDeclaration {
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.Integer, false);
+            return new RuntimeType(BasicType.create(Object.class), false);
         }
 
         @Override
@@ -135,10 +136,13 @@ public class HighFunction implements IMethodDeclaration {
                 return Long.MAX_VALUE;
             } else if (BasicType.Double.equals(declType)) {
                 return Double.MAX_VALUE;
-            }else if (BasicType.Character.equals(declType)) {
+            } else if (BasicType.Character.equals(declType)) {
                 return Character.MAX_VALUE;
+            } else if (declType instanceof EnumGroupType) {
+                EnumGroupType enumGroupType = (EnumGroupType) declType;
+                return enumGroupType.get(enumGroupType.getSize() - 1);
             }
-            return 0;
+            return null;
         }
     }
 }

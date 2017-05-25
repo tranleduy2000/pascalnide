@@ -149,7 +149,7 @@ public class PascalLibraryManager {
     }
 
     /**
-     * get method of class, call by java reflect
+     * indexOf method of class, call by java reflect
      *
      * @param classes  - list class
      * @param modifier - allow method modifier

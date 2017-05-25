@@ -25,7 +25,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
@@ -42,7 +42,7 @@ public class SetLengthFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {
             new RuntimeType(new ArrayType<>(BasicType.create(Object.class),
-                    new SubrangeType()), true),
+                    new IntegerSubrangeType()), true),
             new RuntimeType(BasicType.Integer, false)};
 
     @Override

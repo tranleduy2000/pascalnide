@@ -24,23 +24,8 @@ public abstract class HierarchicalExpressionContext implements
         this.root = root;
     }
 
-
-    protected abstract ConstantDefinition getConstantDefinitionLocal(String indent);
-
-    protected abstract DeclaredType getTypedefTypeLocal(String ident);
-
-    protected abstract void verifyNonConflictingSymbolLocal(NamedEntity n)
+    abstract void verifyNonConflictingSymbolLocal(NamedEntity n)
             throws SameNameException;
-
-    protected abstract VariableDeclaration getVariableDefinitionLocal(
-            String ident);
-
-    protected abstract List<AbstractFunction> getCallableFunctionsLocal(
-            String name);
-
-    protected abstract boolean functionExistsLocal(String name);
-
-
     @Override
     public ConstantDefinition getConstantDefinition(String ident) {
         ConstantDefinition result = getConstantDefinitionLocal(ident);

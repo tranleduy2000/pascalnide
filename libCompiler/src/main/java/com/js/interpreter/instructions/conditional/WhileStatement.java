@@ -50,7 +50,7 @@ public class WhileStatement extends DebuggableExecutable {
             throw new ExpectedTokenException("do", next);
         }
 
-        //get command
+        //indexOf command
         Executable command = grouperToken.getNextCommand(context);
 
         this.condition = condition;

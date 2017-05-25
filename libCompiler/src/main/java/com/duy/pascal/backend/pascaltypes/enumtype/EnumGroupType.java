@@ -132,6 +132,21 @@ public class EnumGroupType<T extends EnumElementValue> extends InfoType implemen
 
     @Override
     public boolean contain(Object value) {
+        if (value instanceof EnumElementValue) {
+            if (list.contains(value)) return true;
+        }
         return false;
+    }
+
+    public int getSize() {
+        return list.size();
+    }
+
+    public LinkedList<EnumElementValue> getList() {
+        return list;
+    }
+
+    public int indexOf(EnumElementValue key) {
+        return this.list.indexOf(key);
     }
 }

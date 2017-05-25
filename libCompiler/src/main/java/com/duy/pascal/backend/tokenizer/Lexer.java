@@ -992,7 +992,7 @@ class Lexer {
                         zzCurrentPos = zzCurrentPosL;
                         zzMarkedPos = zzMarkedPosL;
                         boolean eof = zzRefill();
-                        // get translated positions and possibly new buffer
+                        // indexOf translated positions and possibly new buffer
                         zzCurrentPosL = zzCurrentPos;
                         zzMarkedPosL = zzMarkedPos;
                         zzBufferL = zzBuffer;

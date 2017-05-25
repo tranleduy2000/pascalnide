@@ -148,7 +148,7 @@ public class SystemLib implements PascalLibrary {
         } else {
             //throw exception
             throw new WrongArgsException("inc");
-//            boxer.set((long) boxer.get() - 1);
+//            boxer.set((long) boxer.indexOf() - 1);
         }
     }
 
@@ -201,7 +201,7 @@ public class SystemLib implements PascalLibrary {
         } else {
             //throw exception
             throw new WrongArgsException("dec");
-//            boxer.set((long) boxer.get() - 1);
+//            boxer.set((long) boxer.indexOf() - 1);
         }
     }
 

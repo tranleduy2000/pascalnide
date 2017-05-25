@@ -3,6 +3,7 @@ package com.js.interpreter.expressioncontext;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.SameNameException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
@@ -28,7 +29,17 @@ public interface ExpressionContext extends CompileTimeContext {
 
     boolean functionExists(String name);
 
-    public abstract void declareConst(ConstantDefinition c);
+    void declareConst(ConstantDefinition c);
+
+     ConstantDefinition getConstantDefinitionLocal(String indent);
+
+     DeclaredType getTypedefTypeLocal(String ident);
+
+     VariableDeclaration getVariableDefinitionLocal(String ident);
+
+     List<AbstractFunction> getCallableFunctionsLocal(String name);
+
+     boolean functionExistsLocal(String name);
 
     CodeUnit root();
 

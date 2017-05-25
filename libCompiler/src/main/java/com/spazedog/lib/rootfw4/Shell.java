@@ -116,7 +116,7 @@ public class Shell {
 	}
 	
 	/**
-	 * This interface is used to get information about connection changes.
+	 * This interface is used to indexOf information about connection changes.
 	 */
 	public interface OnShellConnectionListener {
 		/**

@@ -31,10 +31,12 @@ import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.pascaltypes.enumtype.EnumElementValue;
 import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
+import com.duy.pascal.backend.pascaltypes.rangetype.EnumSubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
@@ -241,7 +243,32 @@ public abstract class GrouperToken extends Token {
         } else if (!(n instanceof WordToken)) {
             throw new ExpectedTokenException("[Type Identifier]", n);
         }
-        return ((WordToken) n).toBasicType(context);
+        DeclaredType declaredType = ((WordToken) n).toBasicType(context);
+        //process string with define length
+        if (declaredType.equals(BasicType.StringBuilder)) {
+            if (peek() instanceof BracketedToken) {
+                BracketedToken bracketedToken = (BracketedToken) take();
+
+                RuntimeValue unconverted = bracketedToken.getNextExpression(context);
+                RuntimeValue converted = BasicType.Integer.convert(unconverted, context);
+
+                if (converted == null) {
+                    throw new NonIntegerException(unconverted);
+                }
+
+                if (bracketedToken.hasNext()) {
+                    throw new ExpectedTokenException("]", bracketedToken.take());
+                }
+                try {
+                    ((BasicType) declaredType).setLength(converted);
+                } catch (UnsupportedOutputFormatException e) {
+                    throw new UnsupportedOutputFormatException(getLineNumber());
+                }
+            }
+        }
+
+
+        return declaredType;
     }
 
     private DeclaredType getEnumType(ExpressionContext c, ParenthesizedToken n) throws ParsingException {
@@ -258,9 +285,16 @@ public abstract class GrouperToken extends Token {
                 OperatorToken operator = (OperatorToken) n.take();
                 if (operator.type == OperatorTypes.EQUALS) {
                     RuntimeValue value = n.getNextExpression(c);
-                    Object o = value.compileTimeValue(c);
+                    value = value.compileTimeExpressionFold(c);
+                    RuntimeValue convert = BasicType.Integer.convert(value, c);
+                    if (convert == null) {
+                        throw new UnConvertibleTypeException(value, BasicType.Integer,
+                                value.getType(c).declType, false);
+                    }
+
                     //create new enum
-                    EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, o, token.getLineNumber());
+                    EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, (Integer) convert.compileTimeValue(c),
+                            token.getLineNumber());
                     //add to parent
                     elements.add(e);
                     //add as constant
@@ -308,7 +342,7 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof OfToken) {
             take();
             DeclaredType elementType = getNextPascalType(context);
-            return new ArrayType<>(elementType, new SubrangeType());
+            return new ArrayType<>(elementType, new IntegerSubrangeType());
         } else {
             throw new ExpectedTokenException("of", n);
         }
@@ -316,7 +350,13 @@ public abstract class GrouperToken extends Token {
 
     private DeclaredType getArrayType(BracketedToken bounds, ExpressionContext context)
             throws ParsingException {
-        SubrangeType bound = new SubrangeType(bounds, context);
+        SubrangeType bound;
+        try {
+            bound = new EnumSubrangeType(bounds, context);
+        } catch (Exception e) {
+            e.printStackTrace();
+            bound = new IntegerSubrangeType(bounds, context);
+        }
         DeclaredType elementType;
         if (bounds.hasNext()) {
             Token t = bounds.take();
@@ -331,7 +371,6 @@ public abstract class GrouperToken extends Token {
             }
             elementType = getNextPascalType(context);
         }
-        Log.d(TAG, "getArrayType: " + elementType.toString());
         return new ArrayType<>(elementType, bound);
     }
 
@@ -393,35 +432,54 @@ public abstract class GrouperToken extends Token {
                 }
             } else if (next instanceof BracketedToken) {
                 take(); //comma token
-                BracketedToken b = (BracketedToken) next;
+                BracketedToken bracket = (BracketedToken) next;
+                nextTerm = generateArrayAccess(nextTerm, context, bracket);
 
-                RuntimeType mRuntimeType = nextTerm.getType(context);
-                RuntimeValue mUnConverted = b.getNextExpression(context);
-                RuntimeValue mConverted = BasicType.Integer.convert(mUnConverted, context);
-
-                if (mConverted == null) {
-                    throw new NonIntegerIndexException(mUnConverted);
-                }
-
-                nextTerm = mRuntimeType.declType.generateArrayAccess(nextTerm, mConverted);
-
-                while (b.hasNext()) {
-                    next = b.take();
+                while (bracket.hasNext()) {
+                    next = bracket.take();
                     if (!(next instanceof CommaToken)) {
                         throw new ExpectedTokenException("]", next);
                     }
-                    RuntimeType type = nextTerm.getType(context);
-                    RuntimeValue unConvert = b.getNextExpression(context);
-                    RuntimeValue convert = BasicType.Integer.convert(unConvert, context);
-
-                    if (convert == null) {
-                        throw new NonIntegerIndexException(unConvert);
-                    }
-                    nextTerm = type.declType.generateArrayAccess(nextTerm, convert);
+                    nextTerm = generateArrayAccess(nextTerm, context, bracket);
                 }
             }
         }
         return nextTerm;
+    }
+
+    private RuntimeValue generateArrayAccess(RuntimeValue parent, ExpressionContext f,
+                                             BracketedToken b)
+            throws ParsingException {
+
+        RuntimeType type = parent.getType(f);
+        RuntimeValue unconvert = b.getNextExpression(f);
+
+        //try convert to integer
+        RuntimeValue converted = BasicType.Integer.convert(unconvert, f);
+
+        if (converted == null) { //can not convert to integer -> it can be enum index
+            if (type.declType instanceof ArrayType) {//check if container is array
+                ArrayType arrayType = (ArrayType) type.declType;
+
+                //if the type of index is enum type
+                if (arrayType.getBounds() instanceof EnumSubrangeType
+                        && unconvert.getType(f).declType instanceof EnumGroupType) {
+                    EnumSubrangeType bounds = (EnumSubrangeType) arrayType.getBounds();
+
+                    converted = bounds.getEnumGroupType().convert(unconvert, f);
+                    if (converted != null) {
+                        ConstantAccess value = (ConstantAccess) converted;
+                        converted = new ConstantAccess(((EnumElementValue) value.compileTimeValue(f)).getIndex(),
+                                BasicType.Integer, value.getLineNumber());
+                    }
+                }
+            }
+        }
+
+        if (converted == null) {
+            throw new NonIntegerIndexException(unconvert);
+        }
+        return type.declType.generateArrayAccess(parent, converted);
     }
 
     public RuntimeValue getNextExpression(ExpressionContext context,
@@ -497,29 +555,6 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException(":", next);
             }
             DeclaredType type = getNextPascalType(context);
-
-            //process string with define length
-            if (type.equals(BasicType.StringBuilder)) {
-                if (peek() instanceof BracketedToken) {
-                    BracketedToken bracketedToken = (BracketedToken) take();
-
-                    RuntimeValue unconverted = bracketedToken.getNextExpression(context);
-                    RuntimeValue converted = BasicType.Integer.convert(unconverted, context);
-
-                    if (converted == null) {
-                        throw new NonIntegerException(unconverted);
-                    }
-
-                    if (bracketedToken.hasNext()) {
-                        throw new ExpectedTokenException("]", bracketedToken.take());
-                    }
-                    try {
-                        ((BasicType) type).setLength(converted);
-                    } catch (UnsupportedOutputFormatException e) {
-                        throw new UnsupportedOutputFormatException(getLineNumber());
-                    }
-                }
-            }
 
 
             Object defaultValue = null;
@@ -806,7 +841,7 @@ public abstract class GrouperToken extends Token {
             JavaClassBasedType javaType = (JavaClassBasedType) type.declType;
             Class<?> storageClass = javaType.getStorageClass();
 
-            //get arguments
+            //indexOf arguments
             List<RuntimeValue> argumentsForCall = new ArrayList<>();
             if (hasNext()) {
                 if (peek() instanceof ParenthesizedToken) {
@@ -815,7 +850,7 @@ public abstract class GrouperToken extends Token {
                 }
             }
 
-            //get method, ignore case
+            //indexOf method, ignore case
             Method[] declaredMethods = storageClass.getDeclaredMethods();
             for (Method declaredMethod : declaredMethods) {
                 if (declaredMethod.getName().equalsIgnoreCase(methodName)) {

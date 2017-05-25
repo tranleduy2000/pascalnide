@@ -77,11 +77,11 @@ public class ArrayType<T extends DeclaredType> extends InfoType {
      */
     @Override
     public Object initialize() {
-        Object result = Array.newInstance(elementType.getTransferClass(),
-                bounds.size);
-        for (int i = 0; i < bounds.size; i++) {
+        Object result = Array.newInstance(elementType.getTransferClass(), bounds.size);
+
+        for (int i = 0; i < bounds.size; i++)
             Array.set(result, i, elementType.initialize());
-        }
+
         return result;
     }
 
@@ -162,7 +162,6 @@ public class ArrayType<T extends DeclaredType> extends InfoType {
     public String getEntityType() {
         return "array type";
     }
-
 
 
 }

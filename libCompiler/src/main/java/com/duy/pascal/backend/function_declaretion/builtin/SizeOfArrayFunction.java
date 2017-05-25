@@ -24,7 +24,7 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
@@ -38,7 +38,7 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
 
     private static final String TAG = "LengthFunction";
     private ArgumentType[] argumentTypes = {
-            new RuntimeType(new ArrayType<>(BasicType.create(Object.class), new SubrangeType(0, -1)),
+            new RuntimeType(new ArrayType<>(BasicType.create(Object.class), new IntegerSubrangeType(0, -1)),
                     false)};
 
     @Override

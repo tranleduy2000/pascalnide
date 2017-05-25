@@ -116,7 +116,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
 
     @Override
     public void declareFunctions(ExpressionContextMixin parentContext) {
-        // get list name interface instead of get map function
+        // indexOf list name interface instead of indexOf map function
         // because I don't want to add built in function twice,
         //this is bad performance when match argument and leak memory
         ArrayList<String> forwardFunctions = ((UnitExpressionContext) mContext).getForwardFunctions();

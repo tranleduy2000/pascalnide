@@ -31,7 +31,7 @@ public class FunctionOnStack extends VariableContext {
      */
     private HashMap<String, Object> localVariables = new HashMap<>();
     /**
-     * list name of map variable, if you want get all variable, map can not do
+     * list name of map variable, if you want indexOf all variable, map can not do
      */
     private ArrayList<String> listNameLocalVariable = new ArrayList<>();
 
@@ -85,7 +85,7 @@ public class FunctionOnStack extends VariableContext {
 
     public Object execute() throws RuntimePascalException {
         prototype.instructions.execute(this, main);
-        //get result of prototype, name of variable is name of prototype
+        //indexOf result of prototype, name of variable is name of prototype
         return localVariables.get(prototype.name);
     }
 

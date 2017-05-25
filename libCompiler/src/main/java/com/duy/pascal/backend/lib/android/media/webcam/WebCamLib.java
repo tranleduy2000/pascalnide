@@ -65,7 +65,7 @@ import java.util.concurrent.Executor;
  * <br>
  * <h3>Usage Notes</h3>
  * <br><b>webCamStart</b> and <b>webCamStop</b> are used to start and stop an Mpeg stream on a given port. <b>webcamAdjustQuality</b> is used to ajust the quality of the streaming video.
- * <br><b>cameraStartPreview</b> is used to get access to the camera preview screen. It will generate "preview" events as images become available.
+ * <br><b>cameraStartPreview</b> is used to indexOf access to the camera preview screen. It will generate "preview" events as images become available.
  * <br>The preview has two modes: data or file. If you pass a non-blank, writable file path to the <b>cameraStartPreview</b> it will store jpg images in that folder.
  * It is up to the caller to clean up these files after the fact. If no file element is provided,
  * the event will include the image data as a base64 encoded string.

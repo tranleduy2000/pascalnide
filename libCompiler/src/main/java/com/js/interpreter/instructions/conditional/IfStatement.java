@@ -59,7 +59,7 @@ public class IfStatement extends DebuggableExecutable {
             throw new ExpectedTokenException("then", next);
         }
 
-        //get command after then token
+        //indexOf command after then token
         Executable command = grouperToken.getNextCommand(context);
 
         //if it in include else command

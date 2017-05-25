@@ -2,26 +2,27 @@ package com.js.interpreter.runtime_value.operators.number;
 
 
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
-import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
+import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
+import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.pascaltypes.type_converter.AnyToStringType;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.duy.pascal.backend.tokens.OperatorTypes;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.runtime_value.RuntimeValue;
-import com.js.interpreter.runtime_value.operators.InBiOperatorEval;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.PascalArithmeticException;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.internal.InternalInterpreterException;
+import com.js.interpreter.runtime_value.RuntimeValue;
+import com.js.interpreter.runtime_value.operators.InBiOperatorEval;
 
 
 public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
@@ -48,18 +49,18 @@ public abstract class BinaryOperatorEvaluation extends DebuggableReturnValue {
         DeclaredType t1 = v1.getType(context).declType;
         DeclaredType t2 = v2.getType(context).declType;
 
-        if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
+       /* if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
             throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
         }
-
-        if (!(t2 instanceof BasicType || t2 instanceof JavaClassBasedType
+*/
+       /* if (!(t2 instanceof BasicType || t2 instanceof JavaClassBasedType
                 || t2 instanceof ArrayType)) {
             throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
-        }
+        }*/
 
-        if (t1 instanceof BasicType
-                && t2 instanceof ArrayType) {
-            RuntimeValue converted = ((ArrayType) t2).elementType.convert(v1, context);
+        if (t1 instanceof EnumGroupType
+                && t2 instanceof SetType) {
+            RuntimeValue converted = ((SetType) t2).getElementType().convert(v1, context);
             if (converted != null) {
                 if (operatorTypes == OperatorTypes.IN) {
                     return new InBiOperatorEval(converted, v2, operatorTypes, line);

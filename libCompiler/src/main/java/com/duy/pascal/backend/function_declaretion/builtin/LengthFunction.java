@@ -24,18 +24,17 @@ import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.runtime_value.FunctionCall;
-import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.runtime.exception.RuntimePascalException;
 import com.js.interpreter.runtime.exception.TypeMismatchException;
-
-import java.lang.reflect.Array;
+import com.js.interpreter.runtime_value.FunctionCall;
+import com.js.interpreter.runtime_value.RuntimeValue;
 
 /**
  * length of one dimension array
@@ -46,7 +45,7 @@ public class LengthFunction implements IMethodDeclaration {
             new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
-   public String getName() {
+    public String getName() {
         return "length";
     }
 
@@ -127,18 +126,19 @@ public class LengthFunction implements IMethodDeclaration {
         public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             Object value = array.getValue(f, main);
-            if (value instanceof Object[]) {
-                Object[] arr = (Object[]) value;
-                return Array.getLength(arr);
+            if (type instanceof ArrayType) {
+                return ((ArrayType) type).getBounds().getSize();
             } else if (value instanceof StringBuilder) {
                 return ((StringBuilder) value).length();
             } else if (value instanceof String) {
                 return ((String) value).length();
+            } else if (type instanceof EnumGroupType) {
+                return ((EnumGroupType) type).getSize();
             } else {
                 // TODO: 02-May-17  check exception
                 throw new TypeMismatchException(line, getFunctionName(),
                         new DeclaredType[]{BasicType.StringBuilder,
-                                new ArrayType<>(BasicType.create(Object.class), new SubrangeType())},
+                                new ArrayType<>(BasicType.create(Object.class), new IntegerSubrangeType())},
                         type);
             }
         }

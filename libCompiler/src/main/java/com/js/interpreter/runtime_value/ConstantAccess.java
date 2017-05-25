@@ -15,7 +15,7 @@ import com.js.interpreter.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 
 public class ConstantAccess extends DebuggableReturnValue {
-    public Object constant_value;
+    private Object constant_value;
     private DeclaredType type;
     private LineInfo line;
 

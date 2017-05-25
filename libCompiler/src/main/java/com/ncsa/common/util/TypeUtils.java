@@ -341,7 +341,7 @@ public class TypeUtils {
                 value = convertPrim(clazz, value);
             } catch (ClassNotFoundException t) {
                 throw new TypeConversionException
-                        ("could not get class for " + castTo);
+                        ("could not indexOf class for " + castTo);
             }
         }
         return value;

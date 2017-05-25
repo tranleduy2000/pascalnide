@@ -29,7 +29,7 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.VarargsType;
-import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.js.interpreter.runtime_value.RuntimeValue;
 import com.js.interpreter.runtime.references.PascalPointer;
 import com.js.interpreter.runtime.references.PascalReference;
@@ -132,16 +132,16 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     private DeclaredType convertArrayType(Type javatype,
-                                          Iterator<SubrangeType> arraysizes) {
+                                          Iterator<IntegerSubrangeType> arraysizes) {
         Type subtype;
-        SubrangeType arrayinfo;
+        IntegerSubrangeType arrayinfo;
         if (javatype instanceof GenericArrayType) {
             subtype = ((GenericArrayType) javatype).getGenericComponentType();
-            arrayinfo = new SubrangeType();
+            arrayinfo = new IntegerSubrangeType();
         } else if (javatype instanceof Class<?>
                 && ((Class<?>) javatype).isArray()) {
             subtype = ((Class<?>) javatype).getComponentType();
-            arrayinfo = new SubrangeType();
+            arrayinfo = new IntegerSubrangeType();
         } else {
             subtype = Object.class;
             arrayinfo = null;
@@ -159,7 +159,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     private RuntimeType convertReferenceType(Type javatype,
-                                             Iterator<SubrangeType> arraysizes) {
+                                             Iterator<IntegerSubrangeType> arraysizes) {
         Type subtype = javatype;
         boolean reference_argument = javatype == PascalReference.class
                 || (javatype instanceof ParameterizedType && ((ParameterizedType) javatype)
@@ -174,15 +174,15 @@ public class MethodDeclaration extends AbstractCallableFunction {
     private RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(Type javatype,
                                                                    ArrayBoundsInfo annotation) {
 
-        List<SubrangeType> arrayinfo = new ArrayList<>();
+        List<IntegerSubrangeType> arrayinfo = new ArrayList<>();
         if (annotation != null && annotation.starts().length > 0) {
             int[] starts = annotation.starts();
             int[] lengths = annotation.lengths();
             for (int i = 0; i < starts.length; i++) {
-                arrayinfo.add(new SubrangeType(starts[i], lengths[i]));
+                arrayinfo.add(new IntegerSubrangeType(starts[i], lengths[i]));
             }
         }
-        Iterator<SubrangeType> iterator = arrayinfo.iterator();
+        Iterator<IntegerSubrangeType> iterator = arrayinfo.iterator();
 
         return convertReferenceType(javatype, iterator);
     }

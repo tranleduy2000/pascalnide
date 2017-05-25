@@ -984,7 +984,7 @@ public class ViewInflater {
 
     private String getProperty(View v, String attr) {
         String name = PCase(attr);
-        Method m = tryMethod(v, "get" + name);
+        Method m = tryMethod(v, "indexOf" + name);
         if (m == null) {
             m = tryMethod(v, "is" + name);
         }
