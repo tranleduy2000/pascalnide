@@ -149,6 +149,20 @@ public enum BasicType implements DeclaredType {
             return "Longint";
         }
     },
+    Float(Float.class) {
+        @Override
+        Object getDefaultValue() {
+            return 0d;
+        }
+
+
+        @Override
+        public String toString() {
+            return "Real";
+        }
+
+
+    },
     Double(Double.class) {
         @Override
         Object getDefaultValue() {

@@ -130,6 +130,8 @@ public class LowFunction implements IMethodDeclaration {
                 return Long.MIN_VALUE;
             } else if (BasicType.Double.equals(declType)) {
                 return Double.MIN_VALUE;
+            } else if (BasicType.Float.equals(declType)) {
+                return Float.MIN_VALUE;
             } else if (BasicType.Character.equals(declType)) {
                 return Character.MIN_VALUE;
             } else if (declType instanceof EnumGroupType) {

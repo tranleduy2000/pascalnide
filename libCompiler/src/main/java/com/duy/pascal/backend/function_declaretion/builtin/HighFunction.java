@@ -26,14 +26,14 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.instructions.Executable;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.expressioncontext.CompileTimeContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.instructions.Executable;
 
 public class HighFunction implements IMethodDeclaration {
 
@@ -134,6 +134,8 @@ public class HighFunction implements IMethodDeclaration {
                 return Integer.MAX_VALUE;
             } else if (BasicType.Long.equals(declType)) {
                 return Long.MAX_VALUE;
+            } else if (BasicType.Float.equals(declType)) {
+                return Float.MAX_VALUE;
             } else if (BasicType.Double.equals(declType)) {
                 return Double.MAX_VALUE;
             } else if (BasicType.Character.equals(declType)) {
