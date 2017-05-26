@@ -32,9 +32,7 @@ The application is a Pascal interpreter on Android. This application is confusin
 ## Features that the interpreter is missing
 
 - Exceptions
-- Set, and Variant types
-- for ... in ... do loops
-- with ... do statements
+- Variant types
 - goto, label
 	
 ## Libraries supported for Android
