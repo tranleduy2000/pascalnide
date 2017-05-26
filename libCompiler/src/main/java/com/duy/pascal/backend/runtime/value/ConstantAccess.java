@@ -1,6 +1,5 @@
 package com.duy.pascal.backend.runtime.value;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
@@ -9,22 +8,22 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.expressioncontext.CompileTimeContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 public class ConstantAccess extends DebuggableReturnValue {
     private Object constant_value;
     private DeclaredType type;
     private LineInfo line;
 
-    public ConstantAccess(@NonNull Object o, @Nullable LineInfo line) {
+    public ConstantAccess(@Nullable Object o, @Nullable LineInfo line) {
         this.constant_value = o;
         this.line = line;
     }
 
-    public ConstantAccess(@NonNull Object o, @Nullable DeclaredType type, LineInfo line) {
+    public ConstantAccess(@Nullable Object o, @Nullable DeclaredType type, @Nullable LineInfo line) {
         this.constant_value = o;
         this.type = type;
         this.line = line;

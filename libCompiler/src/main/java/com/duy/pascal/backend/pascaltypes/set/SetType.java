@@ -24,6 +24,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.InfoType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.SetIndexAccess;
 import com.duy.pascal.backend.runtime.value.cloning.SetCloner;
@@ -39,9 +40,9 @@ import java.util.LinkedList;
  */
 public class SetType<T extends DeclaredType> extends InfoType {
     private T elementType;
-    private LinkedList<T> list = new LinkedList<>();
+    private LinkedList<Object> list = new LinkedList<>();
 
-    public SetType(T elementType, LinkedList<T> linkedList, LineInfo lineInfo) {
+    public SetType(T elementType, LinkedList<Object> linkedList, LineInfo lineInfo) {
         this.elementType = elementType;
         this.list = linkedList;
         this.lineInfo = lineInfo;
@@ -60,11 +61,11 @@ public class SetType<T extends DeclaredType> extends InfoType {
         return list.remove(element);
     }
 
-    public T peek() {
+    public Object peek() {
         return list.peek();
     }
 
-    public T pop() {
+    public Object pop() {
         return list.pop();
     }
 
@@ -88,7 +89,9 @@ public class SetType<T extends DeclaredType> extends InfoType {
     public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
         RuntimeType other = runtimeValue.getType(f);
         if (other.declType instanceof SetType) {
-            return cloneValue(runtimeValue);
+            if (((SetType) other.declType).getElementType().equals(this.getElementType())) {
+                return cloneValue(runtimeValue);
+            }
         }
         return null;
     }

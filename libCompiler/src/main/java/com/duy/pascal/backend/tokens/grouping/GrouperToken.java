@@ -99,6 +99,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
@@ -513,11 +514,10 @@ public abstract class GrouperToken extends Token {
             }
 
         } else if (next instanceof BracketedToken) {
-            LinkedList<Object> setConstant = getSetConstant(context, (BracketedToken) next, null);
-            Log.d(TAG, "getNextIdentifier: " + setConstant);
-            SetType setType = new SetType(BasicType.Character, setConstant, lineNumber);
-            ConstantAccess constantAccess = new ConstantAccess(setType.initialize(), setType, lineNumber);
-            return constantAccess;
+            AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(null);
+            LinkedList<Object> setConstant = getSetConstant(context, (BracketedToken) next, elementTypeReference);
+            SetType<DeclaredType> setType = new SetType<>(elementTypeReference.get(), setConstant, lineNumber);
+            return new ConstantAccess(setType.initialize(), setType, lineNumber);
         } else {
             if (next instanceof ElseToken) {
                 throw new WrongIfElseStatement(next);
@@ -585,7 +585,8 @@ public abstract class GrouperToken extends Token {
                         if (!(peek() instanceof BracketedToken)) {
                             throw new ExpectedTokenException(new BracketedToken(null), peek());
                         }
-                        defaultValue = getSetConstant(context, (BracketedToken) take(), ((SetType) type).getElementType());
+                        AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) type).getElementType());
+                        defaultValue = getSetConstant(context, (BracketedToken) take(), elementTypeReference);
                     } else { //set default single value
                         RuntimeValue unConvert = getNextExpression(context);
                         RuntimeValue converted = type.convert(unConvert, context);
@@ -635,14 +636,21 @@ public abstract class GrouperToken extends Token {
     }
 
     /**
-     * @param elementType - type of set (example: set of char => type is "char")
+     * @param elementTypeReference - type of set (example: set of char => type is "char")
      * @return the set constant, I define the enum as {@link LinkedList}
      */
     protected LinkedList<Object> getSetConstant(ExpressionContext context, BracketedToken bracketedToken,
-                                                @Nullable DeclaredType elementType) throws ParsingException {
+                                              AtomicReference<DeclaredType> elementTypeReference) throws ParsingException {
         LinkedList<Object> linkedList = new LinkedList<>();
         while (bracketedToken.hasNext()) {
-            linkedList.add(getConstantElement(context, bracketedToken, elementType));
+            if (elementTypeReference.get() == null) {
+                Object constantElement = getConstantElement(context, bracketedToken, null);
+                elementTypeReference.set(BasicType.create(constantElement.getClass()));
+                linkedList.add(constantElement);
+            } else {
+                Object constantElement = getConstantElement(context, bracketedToken, elementTypeReference.get());
+                linkedList.add(constantElement);
+            }
         }
         return linkedList;
     }
@@ -686,15 +694,28 @@ public abstract class GrouperToken extends Token {
                 }
             } else if (elementType instanceof EnumGroupType) {
                 if (grouperToken.peek() instanceof ParenthesizedToken) {
-                    return getEnumConstant(context, (ParenthesizedToken) grouperToken.take(), elementType);
+                    LinkedList<Object> enumConstant = getEnumConstant(context, (ParenthesizedToken) grouperToken.take(), elementType);
+
+                    if (grouperToken.hasNext()) {
+                        grouperToken.assertNextComma();
+                    }
+
+                    return enumConstant;
                 } else {
                     throw new ExpectedTokenException(new ParenthesizedToken(null),
                             grouperToken.peek());
                 }
             } else if (elementType instanceof SetType) {
                 if (grouperToken.peek() instanceof BracketedToken) {
-                    return getSetConstant(context, (BracketedToken) grouperToken.take(),
-                            ((SetType) elementType).getElementType());
+                    AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) elementType).getElementType());
+                    LinkedList<Object> setConstant = getSetConstant(context, (BracketedToken) grouperToken.take(),
+                            elementTypeReference);
+
+                    if (grouperToken.hasNext()) {
+                        grouperToken.assertNextComma();
+                    }
+
+                    return setConstant;
                 } else {
                     throw new ExpectedTokenException(new ParenthesizedToken(null),
                             grouperToken.peek());
@@ -712,6 +733,9 @@ public abstract class GrouperToken extends Token {
                     }
                     return converted.compileTimeValue(context);
                 } else {
+                    if (grouperToken.hasNext()) {
+                        grouperToken.assertNextComma();
+                    }
                     return unconvert.compileTimeValue(context);
                 }
             }
@@ -723,11 +747,12 @@ public abstract class GrouperToken extends Token {
     /**
      * check duplicate declare variable
      */
-    private void verifyNonConflictingSymbol(ExpressionContext context, List<VariableDeclaration> result, VariableDeclaration variable) throws SameNameException {
+    private void verifyNonConflictingSymbol(ExpressionContext context, List<VariableDeclaration> result,
+                                            VariableDeclaration var) throws SameNameException {
         for (VariableDeclaration variableDeclaration : result) {
-            context.verifyNonConflictingSymbol(variable);
-            if (variableDeclaration.getName().equalsIgnoreCase(variable.getName())) {
-                throw new SameNameException(variableDeclaration, variable);
+            context.verifyNonConflictingSymbol(var);
+            if (variableDeclaration.getName().equalsIgnoreCase(var.getName())) {
+                throw new SameNameException(variableDeclaration, var);
             }
         }
     }
