@@ -647,7 +647,6 @@ public abstract class GrouperToken extends Token {
         return linkedList;
     }
 
-
     private Object getArrayConstant(ExpressionContext context, ArrayType type) throws ParsingException {
         DeclaredType elementTypeOfArray = type.elementType;
         ParenthesizedToken bracketedToken = (ParenthesizedToken) take();
@@ -664,12 +663,12 @@ public abstract class GrouperToken extends Token {
     }
 
     public Object getConstantElement(@NonNull ExpressionContext context,
-                                     @NonNull GrouperToken parentheses,
+                                     @NonNull GrouperToken grouperToken,
                                      @Nullable DeclaredType elementType) throws ParsingException {
-        if (parentheses.hasNext()) {
+        if (grouperToken.hasNext()) {
             if (elementType instanceof ArrayType) {
-                if (parentheses.peek() instanceof ParenthesizedToken) {
-                    GrouperToken child = (GrouperToken) parentheses.take();
+                if (grouperToken.peek() instanceof ParenthesizedToken) {
+                    GrouperToken child = (GrouperToken) grouperToken.take();
                     Object[] objects = new Object[((ArrayType) elementType).getBounds().size];
                     for (int i = 0; i < objects.length; i++) {
                         objects[i] = getConstantElement(context, child, ((ArrayType) elementType).elementType);
@@ -677,24 +676,39 @@ public abstract class GrouperToken extends Token {
                     if (child.hasNext()) {
                         throw new ExpectedTokenException(new CommaToken(null), child.peek());
                     }
-                    if (parentheses.hasNext()) {
-                        parentheses.assertNextComma();
+                    if (grouperToken.hasNext()) {
+                        grouperToken.assertNextComma();
                     }
                     return objects;
                 } else {
                     throw new ExpectedTokenException(new ParenthesizedToken(null),
-                            parentheses.peek());
+                            grouperToken.peek());
+                }
+            } else if (elementType instanceof EnumGroupType) {
+                if (grouperToken.peek() instanceof ParenthesizedToken) {
+                    return getEnumConstant(context, (ParenthesizedToken) grouperToken.take(), elementType);
+                } else {
+                    throw new ExpectedTokenException(new ParenthesizedToken(null),
+                            grouperToken.peek());
+                }
+            } else if (elementType instanceof SetType) {
+                if (grouperToken.peek() instanceof BracketedToken) {
+                    return getSetConstant(context, (BracketedToken) grouperToken.take(),
+                            ((SetType) elementType).getElementType());
+                } else {
+                    throw new ExpectedTokenException(new ParenthesizedToken(null),
+                            grouperToken.peek());
                 }
             } else {
-                RuntimeValue unconvert = parentheses.getNextExpression(context);
+                RuntimeValue unconvert = grouperToken.getNextExpression(context);
                 if (elementType != null) {
                     RuntimeValue converted = elementType.convert(unconvert, context);
                     if (converted == null) {
                         throw new UnConvertibleTypeException(unconvert, elementType,
                                 unconvert.getType(context).declType, false);
                     }
-                    if (parentheses.hasNext()) {
-                        parentheses.assertNextComma();
+                    if (grouperToken.hasNext()) {
+                        grouperToken.assertNextComma();
                     }
                     return converted.compileTimeValue(context);
                 } else {
