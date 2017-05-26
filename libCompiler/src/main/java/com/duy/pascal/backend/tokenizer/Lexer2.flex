@@ -318,7 +318,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 				//return new CharacterToken(getLine(),literal.toString());
 			} else {
 			    LineInfo lineInfo = getLine();
-                lineInfo.column = lineInfo.column - literal.length();
+                lineInfo.column = lineInfo.column - literal.length() - 2; //-2 by two quote
                 return new StringToken(lineInfo, literal.toString());
 			}
 		}

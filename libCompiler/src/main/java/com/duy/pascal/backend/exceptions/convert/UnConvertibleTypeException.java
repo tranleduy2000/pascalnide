@@ -16,12 +16,13 @@
 
 package com.duy.pascal.backend.exceptions.convert;
 
+import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.VariableAccess;
 
-public class UnConvertibleTypeException extends com.duy.pascal.backend.exceptions.ParsingException {
+public class UnConvertibleTypeException extends ParsingException {
 
     public RuntimeValue value;
     public DeclaredType valueType;

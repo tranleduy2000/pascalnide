@@ -382,17 +382,17 @@ public abstract class GrouperToken extends Token {
     public RuntimeValue getNextExpression(ExpressionContext context,
                                           precedence precedence, Token next) throws ParsingException {
 
-        RuntimeValue nextTerm;
+        RuntimeValue identifier;
         if (next instanceof OperatorToken) {
             OperatorToken nextOperator = (OperatorToken) next;
             if (!nextOperator.canBeUnary() || nextOperator.postfix()) {
                 throw new BadOperationTypeException(next.getLineNumber(),
                         nextOperator.type);
             }
-            nextTerm = UnaryOperatorEvaluation.generateOp(context, getNextExpression(context,
+            identifier = UnaryOperatorEvaluation.generateOp(context, getNextExpression(context,
                     nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.getLineNumber());
         } else {
-            nextTerm = getNextIdentifier(context, next);
+            identifier = getNextIdentifier(context, next);
         }
 
         while ((next = peek()).getOperatorPrecedence() != null) {
@@ -403,22 +403,22 @@ public abstract class GrouperToken extends Token {
                 }
                 take();
                 if (nextOperator.postfix()) {
-                    return UnaryOperatorEvaluation.generateOp(context, nextTerm, nextOperator.type,
+                    return UnaryOperatorEvaluation.generateOp(context, identifier, nextOperator.type,
                             nextOperator.getLineNumber());
                 }
                 RuntimeValue nextValue = getNextExpression(context,
                         nextOperator.type.getPrecedence());
                 OperatorTypes operationType = ((OperatorToken) next).type;
-                DeclaredType type1 = nextTerm.getType(context).declType;
+                DeclaredType type1 = identifier.getType(context).declType;
                 DeclaredType type2 = nextValue.getType(context).declType;
                 try {
                     operationType.verifyBinaryOperation(type1, type2);
                 } catch (BadOperationTypeException e) {
                     throw new BadOperationTypeException(next.getLineNumber(), type1,
-                            type2, nextTerm, nextValue, operationType);
+                            type2, identifier, nextValue, operationType);
                 }
-                nextTerm = BinaryOperatorEval.generateOp(context,
-                        nextTerm, nextValue, operationType,
+                identifier = BinaryOperatorEval.generateOp(context,
+                        identifier, nextValue, operationType,
                         nextOperator.getLineNumber());
             } else if (next instanceof PeriodToken) {
                 take();
@@ -427,28 +427,28 @@ public abstract class GrouperToken extends Token {
                     throw new ExpectedTokenException("[Element Name]", next);
                 }
                 //need call method of java class
-                RuntimeType type = nextTerm.getType(context);
+                RuntimeType type = identifier.getType(context);
                 //access method of java class
                 if (type.declType instanceof JavaClassBasedType) {
-                    nextTerm = getMethodFromClass(context, nextTerm, ((WordToken) next).getName());
+                    identifier = getMethodFromClass(context, identifier, ((WordToken) next).getName());
                 } else {
-                    nextTerm = new FieldAccess(nextTerm, (WordToken) next);
+                    identifier = new FieldAccess(identifier, (WordToken) next);
                 }
             } else if (next instanceof BracketedToken) {
                 take(); //comma token
                 BracketedToken bracket = (BracketedToken) next;
-                nextTerm = generateArrayAccess(nextTerm, context, bracket);
+                identifier = generateArrayAccess(identifier, context, bracket);
 
                 while (bracket.hasNext()) {
                     next = bracket.take();
                     if (!(next instanceof CommaToken)) {
                         throw new ExpectedTokenException("]", next);
                     }
-                    nextTerm = generateArrayAccess(nextTerm, context, bracket);
+                    identifier = generateArrayAccess(identifier, context, bracket);
                 }
             }
         }
-        return nextTerm;
+        return identifier;
     }
 
     private RuntimeValue generateArrayAccess(RuntimeValue parent, ExpressionContext f,
