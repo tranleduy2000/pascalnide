@@ -541,8 +541,8 @@ public abstract class GrouperToken extends Token {
         return getNextExpression(context, precedence.NoPrecedence, first);
     }
 
-    public ArrayList<VariableDeclaration> getVariableDeclarations(
-            ExpressionContext context) throws ParsingException {
+    public ArrayList<VariableDeclaration> getVariableDeclarations(ExpressionContext context)
+            throws ParsingException {
         ArrayList<VariableDeclaration> result = new ArrayList<>();
         /*
          * reusing it, so it is further inType of scope than necessary
@@ -550,6 +550,7 @@ public abstract class GrouperToken extends Token {
         List<WordToken> names = new ArrayList<>();
         Token next;
         do {
+            //get list name of variable
             do {
                 next = take();
                 if (!(next instanceof WordToken)) {
@@ -557,13 +558,17 @@ public abstract class GrouperToken extends Token {
                 }
                 names.add((WordToken) next);
                 next = take();
-            } while (next instanceof CommaToken);
+            }
+            while (next instanceof CommaToken); //multi variable, example <code>var a, b, c: integer</code>
+
             if (!(next instanceof ColonToken)) {
                 throw new ExpectedTokenException(":", next);
             }
+
+            //type of list variable
             DeclaredType type = getNextPascalType(context);
 
-
+            //default value
             Object defaultValue = null;
             if (peek() instanceof OperatorToken) {
                 if (((OperatorToken) peek()).type == OperatorTypes.EQUALS) {
@@ -599,11 +604,14 @@ public abstract class GrouperToken extends Token {
                     }
                 }
             }
+
             if (hasNext()) {
                 assertNextSemicolon(next);
             }
+
             for (WordToken s : names) {
                 VariableDeclaration v = new VariableDeclaration(s.name, type, defaultValue, s.getLineNumber());
+                //check duplicate name
                 verifyNonConflictingSymbol(context, result, v);
                 result.add(v);
             }
@@ -613,24 +621,28 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
+    /**
+     * @param elementType - type of enum
+     * @return the enum constant, I define the enum as {@link LinkedList}
+     */
     protected LinkedList<Object> getEnumConstant(ExpressionContext context, ParenthesizedToken parentheses,
                                                  DeclaredType elementType) throws ParsingException {
         LinkedList<Object> linkedList = new LinkedList<>();
         while (parentheses.hasNext()) {
             linkedList.add(getConstantElement(context, parentheses, elementType));
-            if (parentheses.hasNext()) {
-                parentheses.assertNextSemicolon(parentheses);
-            }
         }
         return linkedList;
     }
 
+    /**
+     * @param elementType - type of set (example: set of char => type is "char")
+     * @return the set constant, I define the enum as {@link LinkedList}
+     */
     protected LinkedList<Object> getSetConstant(ExpressionContext context, BracketedToken bracketedToken,
                                                 @Nullable DeclaredType elementType) throws ParsingException {
         LinkedList<Object> linkedList = new LinkedList<>();
         while (bracketedToken.hasNext()) {
             linkedList.add(getConstantElement(context, bracketedToken, elementType));
-
         }
         return linkedList;
     }
