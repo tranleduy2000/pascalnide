@@ -599,8 +599,9 @@ public abstract class GrouperToken extends Token {
                     }
                 }
             }
-
-            assertNextSemicolon(next);
+            if (hasNext()) {
+                assertNextSemicolon(next);
+            }
             for (WordToken s : names) {
                 VariableDeclaration v = new VariableDeclaration(s.name, type, defaultValue, s.getLineNumber());
                 verifyNonConflictingSymbol(context, result, v);
