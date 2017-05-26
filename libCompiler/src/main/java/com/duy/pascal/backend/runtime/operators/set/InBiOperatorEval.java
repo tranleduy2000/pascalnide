@@ -20,18 +20,15 @@ package com.duy.pascal.backend.runtime.operators.set;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
-import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
+import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
+import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException;
+import com.js.interpreter.expressioncontext.CompileTimeContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 import java.util.LinkedList;
 
@@ -46,26 +43,27 @@ public class InBiOperatorEval extends BinaryOperatorEval {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
-            throws RuntimePascalException {
-        //value object
-        Object value1 = operon1.getValue(f, main);
-
-        LinkedList value2 = (LinkedList) operon2.getValue(f, main);
-        return operate(value1, value2);
-    }
-
-
-    @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(BasicType.Boolean, false);
+        switch (operator_type) {
+            case IN:
+                return new RuntimeType(BasicType.Boolean, false);
+        }
+        return null;
     }
 
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
-        LinkedList v2 = (LinkedList) value2;
-        return v2.contains(value1);
+        if (value2 instanceof LinkedList) {
+            LinkedList v2 = (LinkedList) value2;
+            return v2.contains(value1);
+        } else if (value2 instanceof Object[]) {
+            Object[] objects = (Object[]) value2;
+            for (Object object : objects) {
+                if (value1.equals(object)) return true;
+            }
+        }
+        return false;
     }
 
     @Override

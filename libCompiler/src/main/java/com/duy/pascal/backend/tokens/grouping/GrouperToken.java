@@ -288,13 +288,16 @@ public abstract class GrouperToken extends Token {
                     value = value.compileTimeExpressionFold(c);
                     RuntimeValue convert = BasicType.Integer.convert(value, c);
                     if (convert == null) {
-                        throw new UnConvertibleTypeException(value, BasicType.Integer,
-                                value.getType(c).declType, false);
+                        throw new UnConvertibleTypeException(value, BasicType.Integer, value.getType(c).declType, false);
+                    }
+                    Object oddValue = convert.compileTimeValue(c);
+                    if (oddValue == null) {
+                        throw new NonConstantExpressionException(convert);
                     }
 
                     //create new enum
-                    EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, (Integer) convert.compileTimeValue(c),
-                            token.getLineNumber());
+                    EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, index.get(), token.getLineNumber());
+                    e.setValue((Integer) oddValue);
                     //add to parent
                     elements.add(e);
                     //add as constant
@@ -308,6 +311,7 @@ public abstract class GrouperToken extends Token {
             } else {
                 //create new enum
                 EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, index.get(), token.getLineNumber());
+                e.setValue(index.get());
                 //add to container
                 elements.add(e);
                 //add as constant
@@ -388,7 +392,7 @@ public abstract class GrouperToken extends Token {
             nextTerm = UnaryOperatorEvaluation.generateOp(context, getNextExpression(context,
                     nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.getLineNumber());
         } else {
-            nextTerm = getNextTerm(context, next);
+            nextTerm = getNextIdentifier(context, next);
         }
 
         while ((next = peek()).getOperatorPrecedence() != null) {
@@ -484,7 +488,7 @@ public abstract class GrouperToken extends Token {
         return getNextExpression(context, precedence, take());
     }
 
-    public RuntimeValue getNextTerm(ExpressionContext context, Token next)
+    public RuntimeValue getNextIdentifier(ExpressionContext context, Token next)
             throws ParsingException {
         if (next instanceof ParenthesizedToken) {
             return ((ParenthesizedToken) next).getSingleValue(context);
@@ -510,7 +514,7 @@ public abstract class GrouperToken extends Token {
 
         } else if (next instanceof BracketedToken) {
             LinkedList<Object> setConstant = getSetConstant(context, (BracketedToken) next, null);
-            Log.d(TAG, "getNextTerm: " + setConstant);
+            Log.d(TAG, "getNextIdentifier: " + setConstant);
             SetType setType = new SetType(BasicType.Character, setConstant, lineNumber);
             ConstantAccess constantAccess = new ConstantAccess(setType.initialize(), setType, lineNumber);
             return constantAccess;
@@ -522,9 +526,9 @@ public abstract class GrouperToken extends Token {
         }
     }
 
-    public RuntimeValue getNextTerm(ExpressionContext context)
+    public RuntimeValue getNextIdentifier(ExpressionContext context)
             throws ParsingException {
-        return getNextTerm(context, take());
+        return getNextIdentifier(context, take());
     }
 
     public RuntimeValue getNextExpression(ExpressionContext context)
@@ -576,7 +580,7 @@ public abstract class GrouperToken extends Token {
                         if (!(peek() instanceof BracketedToken)) {
                             throw new ExpectedTokenException(new BracketedToken(null), peek());
                         }
-                        defaultValue = getSetConstant(context, (BracketedToken) take(), type);
+                        defaultValue = getSetConstant(context, (BracketedToken) take(), ((SetType) type).getElementType());
                     } else { //set default single value
                         RuntimeValue unConvert = getNextExpression(context);
                         RuntimeValue converted = type.convert(unConvert, context);
@@ -625,9 +629,7 @@ public abstract class GrouperToken extends Token {
         LinkedList<Object> linkedList = new LinkedList<>();
         while (bracketedToken.hasNext()) {
             linkedList.add(getConstantElement(context, bracketedToken, elementType));
-            if (bracketedToken.hasNext()) {
-                bracketedToken.assertNextComma();
-            }
+
         }
         return linkedList;
     }
@@ -806,12 +808,12 @@ public abstract class GrouperToken extends Token {
     }
 
     private Executable generateForStatement(ExpressionContext context, LineInfo lineNumber) throws ParsingException {
-        RuntimeValue tmpVal = getNextExpression(context);
-        AssignableValue tmpVariable = tmpVal.asAssignableValue(context);
-        RuntimeType variableType = tmpVal.getType(context);
+        RuntimeValue varIdentifier = getNextIdentifier(context);
+        AssignableValue varAssignable = varIdentifier.asAssignableValue(context);
+        RuntimeType varType = varIdentifier.getType(context);
 
-        if (tmpVariable == null) {
-            throw new UnAssignableTypeException(tmpVal);
+        if (varAssignable == null) {
+            throw new UnAssignableTypeException(varIdentifier);
         }
         Token next = take();
         if (!(next instanceof AssignmentToken
@@ -823,17 +825,17 @@ public abstract class GrouperToken extends Token {
             RuntimeValue firstValue = getNextExpression(context);
 
             if (firstValue.compileTimeValue(context) != null) { //this is constant
-                RuntimeValue converted = tmpVal.getType(context).declType.convert(firstValue, context);
+                RuntimeValue converted = varIdentifier.getType(context).declType.convert(firstValue, context);
                 if (converted == null) {
-                    throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType,
-                            firstValue.getType(context).declType, tmpVal);
+                    throw new UnConvertibleTypeException(firstValue, varAssignable.getType(context).declType,
+                            firstValue.getType(context).declType, varIdentifier);
                 }
                 firstValue = converted;
             } else {//if firstValue is not constant, check type
-                RuntimeValue convert = tmpVariable.getType(context).convert(firstValue, context);
+                RuntimeValue convert = varAssignable.getType(context).convert(firstValue, context);
                 if (convert == null) {
-                    throw new UnConvertibleTypeException(firstValue, tmpVariable.getType(context).declType,
-                            firstValue.getType(context).declType, tmpVal);
+                    throw new UnConvertibleTypeException(firstValue, varAssignable.getType(context).declType,
+                            firstValue.getType(context).declType, varIdentifier);
                 }
                 firstValue = convert;
             }
@@ -851,31 +853,38 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException("do", next);
             }
             if (downto) { // TODO probably should merge these two types
-                result = new ForDowntoStatement(context, tmpVariable, firstValue,
+                result = new ForDowntoStatement(context, varAssignable, firstValue,
                         lastValue, getNextCommand(context), lineNumber);
             } else {
-                result = new ForToStatement(context, tmpVariable, firstValue,
+                result = new ForToStatement(context, varAssignable, firstValue,
                         lastValue, getNextCommand(context), lineNumber);
             }
         } else {
             if (((OperatorToken) next).type == OperatorTypes.IN) {
                 RuntimeValue enumList = getNextExpression(context);
                 DeclaredType enumType = enumList.getType(context).declType;
-                if (!(enumList instanceof EnumGroupType || enumList instanceof ArrayType)) {
-                    throw new UnConvertibleTypeException(enumList, variableType.declType, enumType, false);
+                if (!(enumType instanceof EnumGroupType || enumType instanceof ArrayType
+                        || enumType instanceof SetType)) {
+                    throw new UnConvertibleTypeException(enumList, varType.declType, enumType, false);
                 }
                 if (enumType instanceof EnumGroupType) {
-                    RuntimeValue converted = variableType.convert(enumList, context);
+                    RuntimeValue converted = varType.convert(enumList, context);
                     if (converted == null) {
                         throw new UnConvertibleTypeException(enumList,
-                                variableType.declType, enumType, false);
+                                varType.declType, enumType, false);
                     }
                 } else if (enumType instanceof ArrayType) { //array type
                     ArrayType arrayType = (ArrayType) enumType;
-                    if (variableType.declType.equals(arrayType.getElementType())) {
+                    RuntimeValue convert = arrayType.getElementType().convert(varIdentifier, context);
+                    if (convert == null) {
+                        throw new UnConvertibleTypeException(varIdentifier, arrayType.getElementType(), varType.declType, false);
+                    }
+                } else if (enumList instanceof SetType) {
+                    SetType setType = (SetType) enumType;
+                    if (varType.declType.equals(setType.getElementType())) {
 
                     } else {
-                        // TODO: 26-May-17 excception
+                        // TODO: 26-May-17 exception
                     }
                 }
 
@@ -883,9 +892,10 @@ public abstract class GrouperToken extends Token {
                 if (!(peek() instanceof DoToken)) {
                     throw new ExpectedTokenException(new DoToken(null), peek());
                 }
+                take(); //ignore do token
                 //statement
                 Executable command = getNextCommand(context);
-                return new ForInStatement(tmpVariable, enumList, command, lineNumber);
+                return new ForInStatement(varAssignable, enumList, command, lineNumber);
             } else {
                 throw new ExpectedTokenException(next, ":=", "in");
             }

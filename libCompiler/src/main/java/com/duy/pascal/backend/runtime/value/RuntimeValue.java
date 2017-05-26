@@ -30,7 +30,7 @@ public interface RuntimeValue {
             throws RuntimePascalException;
 
     /**
-     * indexOf type of variable or return type of function
+     * return type of variable or return type of function
      */
     RuntimeType getType(ExpressionContext f) throws ParsingException;
 

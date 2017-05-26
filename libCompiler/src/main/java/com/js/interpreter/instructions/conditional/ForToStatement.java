@@ -26,7 +26,7 @@ import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 public class ForToStatement extends DebuggableExecutable {
     private SetValueExecutable setfirst;
     private RuntimeValue lessThanLast;
-    private SetValueExecutable increment_temp;
+    private SetValueExecutable increment;
     private Executable command;
     private LineInfo line;
 
@@ -37,7 +37,7 @@ public class ForToStatement extends DebuggableExecutable {
         setfirst = new Assignment(tempVar, first, line);
         lessThanLast = BinaryOperatorEval.generateOp(context, tempVar, last,
                 OperatorTypes.LESSEQ, this.line);
-        increment_temp = new Assignment(tempVar, BinaryOperatorEval.generateOp(
+        increment = new Assignment(tempVar, BinaryOperatorEval.generateOp(
                 context, tempVar, new ConstantAccess(1, this.line),
                 OperatorTypes.PLUS, this.line), line);
 
@@ -59,7 +59,7 @@ public class ForToStatement extends DebuggableExecutable {
                 case CONTINUE:
 
             }
-            increment_temp.execute(context, main);
+            increment.execute(context, main);
         }
         return ExecutionResult.NONE;
     }
@@ -73,7 +73,7 @@ public class ForToStatement extends DebuggableExecutable {
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
         SetValueExecutable first = setfirst.compileTimeConstantTransform(c);
-        SetValueExecutable inc = increment_temp.compileTimeConstantTransform(c);
+        SetValueExecutable inc = increment.compileTimeConstantTransform(c);
         Executable comm = command.compileTimeConstantTransform(c);
         RuntimeValue comp = lessThanLast;
         Object val = lessThanLast.compileTimeValue(c);

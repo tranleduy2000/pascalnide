@@ -37,9 +37,12 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 public class EnumElementValue implements RuntimeValue {
     private String name;
     private EnumGroupType type;
+    private Integer value;
+
     private Integer index;
     @Nullable
     private LineInfo lineInfo;
+
     public EnumElementValue(String name, @NonNull EnumGroupType type, @Nullable Integer index, @Nullable LineInfo lineInfo) {
         this.name = name;
         this.type = type;
@@ -115,5 +118,13 @@ public class EnumElementValue implements RuntimeValue {
     @Override
     public String toString() {
         return name;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
 }
