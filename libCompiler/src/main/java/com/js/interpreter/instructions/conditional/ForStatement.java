@@ -1,36 +1,51 @@
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.js.interpreter.instructions.conditional;
 
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.runtime.value.AssignableValue;
+import com.duy.pascal.backend.runtime.value.ConstantAccess;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Assignment;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.instructions.SetValueExecutable;
-import com.duy.pascal.backend.runtime.value.ConstantAccess;
-import com.duy.pascal.backend.runtime.value.AssignableValue;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 /**
- * For to do loop
- * <p>
- * see in https://www.freepascal.org/docs-html/ref/refsu58.html#x164-18600013.2.4
+ * Created by Duy on 26-May-17.
  */
-public class ForToStatement extends DebuggableExecutable {
+
+public class ForStatement extends DebuggableExecutable {
     private SetValueExecutable setfirst;
     private RuntimeValue lessThanLast;
     private SetValueExecutable increment_temp;
     private Executable command;
     private LineInfo line;
 
-    public ForToStatement(ExpressionContext context, AssignableValue tempVar,
+    public ForStatement(ExpressionContext context, AssignableValue tempVar,
                           RuntimeValue first, RuntimeValue last, Executable command,
                           LineInfo line) throws ParsingException {
         this.line = line;

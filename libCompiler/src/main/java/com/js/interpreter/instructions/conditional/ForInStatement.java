@@ -19,68 +19,112 @@ package com.js.interpreter.instructions.conditional;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.instructions.ExecutionResult;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.references.Reference;
 import com.duy.pascal.backend.runtime.value.AssignableValue;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.references.Reference;
-import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.js.interpreter.expressioncontext.CompileTimeContext;
+import com.js.interpreter.instructions.Executable;
+import com.js.interpreter.instructions.ExecutionResult;
+
+import java.util.LinkedList;
 
 /**
+ * For ... in ... do loop
+ * <p>
+ * see in https://www.freepascal.org/docs-html/ref/refsu59.html#x165-18700013.2.5
+ * <p>
  * Created by Duy on 14-May-17.
  */
-
 public class ForInStatement extends DebuggableExecutable {
+    /**
+     * the statement of loop
+     */
     private Executable command;
-    private AssignableValue item;
-    private RuntimeValue list;
-    private LineInfo line;
-
-    public ForInStatement(ExpressionContext context, GrouperToken grouperToken, LineInfo lineInfo)
-            throws ParsingException {
-        this.line = lineInfo;
-        RuntimeValue nextExpression = grouperToken.getNextExpression(context);
-        AssignableValue target = nextExpression.asAssignableValue(context);
-
-    }
 
     /**
-     * foreach loop
-     * <p>
-     * for s in ['1', '2', '3'] do
+     * variable identifier
+     */
+    private AssignableValue item;
+
+    /**
+     * enum list or expression with return type is enum
+     */
+    private RuntimeValue list;
+
+    /**
+     * the line in code
+     */
+    private LineInfo line;
+
+    /**
+     * @param item     - variable identifier
+     * @param enumList - enum type or expression with type is enum
+     * @param command  - command for execute
      */
     public ForInStatement(AssignableValue item,
-                          RuntimeValue list, Executable command,
-                          LineInfo line) throws ParsingException {
+                          RuntimeValue enumList, //enum
+                          Executable command,
+                          LineInfo line) {
         this.item = item;
-        this.list = list;
+        this.list = enumList;
         this.line = line;
         this.command = command;
     }
 
+    /**
+     * Execute for statement
+     * I specified the enum by a {@link LinkedList} see {@link com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object[] array = (Object[]) list.getValue(context, main);
-        for (Object o : array) {
-            Reference reference = item.getReference(context, main);
-            reference.set(o);
-            ExecutionResult result = command.execute(context, main);
-            switch (result) {
-                case BREAK:
-                    break;
-                case EXIT:
-                    return ExecutionResult.EXIT;
-                case CONTINUE:
-                    continue;
+
+        //get value of enum
+        Object value = this.list.getValue(context, main);
+        if (value instanceof LinkedList) {
+            LinkedList list = (LinkedList) value;
+            //get reference if variable
+            Reference reference = this.item.getReference(context, main);
+            //for each all item in list
+            for (Object item : list) {
+                reference.set(item); //set value for variable identifier
+                //execute command of for loop and receive a result
+                ExecutionResult result = command.execute(context, main);
+                //check exit, break, continue command
+                switch (result) {
+                    case BREAK:
+                        break;
+                    case EXIT:
+                        return ExecutionResult.EXIT;
+                    case CONTINUE:
+                        continue;
+                }
+            }
+        } else { //array
+            Object[] list = (Object[]) value;
+            //get reference if variable
+            Reference reference = this.item.getReference(context, main);
+            //for each all item in list
+            for (Object item : list) {
+                reference.set(item); //set value for variable identifier
+                //execute command of for loop and receive a result
+                ExecutionResult result = command.execute(context, main);
+                //check exit, break, continue command
+                switch (result) {
+                    case BREAK:
+                        break;
+                    case EXIT:
+                        return ExecutionResult.EXIT;
+                    case CONTINUE:
+                        continue;
+                }
             }
         }
+
         return ExecutionResult.NONE;
     }
 

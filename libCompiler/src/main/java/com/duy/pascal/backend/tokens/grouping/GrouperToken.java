@@ -85,6 +85,7 @@ import com.js.interpreter.instructions.InstructionGrouper;
 import com.js.interpreter.instructions.NoneInstruction;
 import com.js.interpreter.instructions.case_statement.CaseInstruction;
 import com.js.interpreter.instructions.conditional.ForDowntoStatement;
+import com.js.interpreter.instructions.conditional.ForInStatement;
 import com.js.interpreter.instructions.conditional.ForToStatement;
 import com.js.interpreter.instructions.conditional.IfStatement;
 import com.js.interpreter.instructions.conditional.RepeatInstruction;
@@ -566,11 +567,16 @@ public abstract class GrouperToken extends Token {
                     //set default value for array
                     if (type instanceof ArrayType) {
                         defaultValue = getArrayConstant(context, (ArrayType) type);
-                    } else if (type instanceof SetType) {
+                    } else if (type instanceof EnumGroupType) {
                         if (!(peek() instanceof ParenthesizedToken)) {
                             throw new ExpectedTokenException(new ParenthesizedToken(null), peek());
                         }
                         defaultValue = getEnumConstant(context, (ParenthesizedToken) take(), type);
+                    } else if (type instanceof SetType) {
+                        if (!(peek() instanceof BracketedToken)) {
+                            throw new ExpectedTokenException(new BracketedToken(null), peek());
+                        }
+                        defaultValue = getSetConstant(context, (BracketedToken) take(), type);
                     } else { //set default single value
                         RuntimeValue unConvert = getNextExpression(context);
                         RuntimeValue converted = type.convert(unConvert, context);
@@ -802,6 +808,8 @@ public abstract class GrouperToken extends Token {
     private Executable generateForStatement(ExpressionContext context, LineInfo lineNumber) throws ParsingException {
         RuntimeValue tmpVal = getNextExpression(context);
         AssignableValue tmpVariable = tmpVal.asAssignableValue(context);
+        RuntimeType variableType = tmpVal.getType(context);
+
         if (tmpVariable == null) {
             throw new UnAssignableTypeException(tmpVal);
         }
@@ -851,7 +859,33 @@ public abstract class GrouperToken extends Token {
             }
         } else {
             if (((OperatorToken) next).type == OperatorTypes.IN) {
+                RuntimeValue enumList = getNextExpression(context);
+                DeclaredType enumType = enumList.getType(context).declType;
+                if (!(enumList instanceof EnumGroupType || enumList instanceof ArrayType)) {
+                    throw new UnConvertibleTypeException(enumList, variableType.declType, enumType, false);
+                }
+                if (enumType instanceof EnumGroupType) {
+                    RuntimeValue converted = variableType.convert(enumList, context);
+                    if (converted == null) {
+                        throw new UnConvertibleTypeException(enumList,
+                                variableType.declType, enumType, false);
+                    }
+                } else if (enumType instanceof ArrayType) { //array type
+                    ArrayType arrayType = (ArrayType) enumType;
+                    if (variableType.declType.equals(arrayType.getElementType())) {
 
+                    } else {
+                        // TODO: 26-May-17 excception
+                    }
+                }
+
+                //check do token
+                if (!(peek() instanceof DoToken)) {
+                    throw new ExpectedTokenException(new DoToken(null), peek());
+                }
+                //statement
+                Executable command = getNextCommand(context);
+                return new ForInStatement(tmpVariable, enumList, command, lineNumber);
             } else {
                 throw new ExpectedTokenException(next, ":=", "in");
             }

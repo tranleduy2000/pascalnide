@@ -83,7 +83,10 @@ public class EnumGroupType<T extends EnumElementValue> extends InfoType implemen
         if (!(other.declType instanceof EnumGroupType)) {
             return null;
         }
-        return cloneValue(runtimeValue);
+        if (this.equals(other.declType)) {
+            return cloneValue(runtimeValue);
+        }
+        return null;
     }
 
     @Override
