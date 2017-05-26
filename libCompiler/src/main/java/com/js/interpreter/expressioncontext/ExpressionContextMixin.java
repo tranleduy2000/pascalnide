@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
@@ -22,8 +21,12 @@ import com.duy.pascal.backend.lib.javaclasspath.JavaClassLoader;
 import com.duy.pascal.backend.pascaltypes.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
+import com.duy.pascal.backend.runtime.value.ConstantAccess;
+import com.duy.pascal.backend.runtime.value.FunctionCall;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.runtime.value.VariableAccess;
+import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
@@ -57,10 +60,6 @@ import com.js.interpreter.codeunit.CodeUnit;
 import com.js.interpreter.codeunit.library.RuntimeUnitPascal;
 import com.js.interpreter.codeunit.library.UnitPascal;
 import com.js.interpreter.instructions.Executable;
-import com.duy.pascal.backend.runtime.value.ConstantAccess;
-import com.duy.pascal.backend.runtime.value.FunctionCall;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.VariableAccess;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.File;
@@ -306,11 +305,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     if (bracketedToken.hasNext()) {
                         throw new ExpectedTokenException("]", bracketedToken.take());
                     }
-                    try {
+//                    type = BasicType.StringLimit;
+                   /* try {
                         ((BasicType) type).setLength(converted);
                     } catch (UnsupportedOutputFormatException e) {
                         throw new UnsupportedOutputFormatException(i.getLineNumber());
-                    }
+                    }*/
                 }
             }
             type.setLineNumber(name.getLineNumber());

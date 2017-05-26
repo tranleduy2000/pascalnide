@@ -3,22 +3,21 @@ package com.duy.pascal.backend.pascaltypes;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.type_converter.StringLimitType;
+import com.duy.pascal.backend.pascaltypes.type_converter.StringLimitBoxer;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
-import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.StringIndex;
 import com.duy.pascal.backend.runtime.value.boxing.CharacterBoxer;
 import com.duy.pascal.backend.runtime.value.boxing.StringBoxer;
+import com.duy.pascal.backend.runtime.value.boxing.StringBuilderBoxer;
 import com.duy.pascal.backend.runtime.value.cloning.StringBuilderCloner;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.ncsa.common.util.TypeUtils;
 
 import java.io.File;
-import java.net.Socket;
 
 public enum BasicType implements DeclaredType {
     Boolean(Character.class) {
@@ -27,11 +26,6 @@ public enum BasicType implements DeclaredType {
             return false;
         }
 
-        @Override
-        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
-            throw new UnsupportedOutputFormatException();
-
-        }
 
         @Override
         public String toString() {
@@ -44,10 +38,6 @@ public enum BasicType implements DeclaredType {
             return '\0';
         }
 
-        @Override
-        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
-            throw new UnsupportedOutputFormatException();
-        }
 
         @Override
         public String toString() {
@@ -56,18 +46,10 @@ public enum BasicType implements DeclaredType {
 
     },
     StringBuilder(StringBuilder.class) {
-        private RuntimeValue length; //max size
-
         @Override
         Object getDefaultValue() {
             return new StringBuilder();
         }
-
-        @Override
-        public void setLength(RuntimeValue length) {
-            this.length = length;
-        }
-
 
         @Override
         public String toString() {
@@ -80,17 +62,24 @@ public enum BasicType implements DeclaredType {
             RuntimeType otherType = valueToAssign.getType(f);
             if (otherType.declType instanceof BasicType) {
                 if (this.equals(otherType.declType)) {
-                    return new StringLimitType(valueToAssign, length);
+                    return new StringBuilderBoxer(valueToAssign);
                 }
                 if (otherType.declType == BasicType.Character) {
                     return new CharacterBoxer(valueToAssign);
                 }
-                if (((BasicType) otherType.declType).c == String.class) {
+                if (((BasicType) otherType.declType).clazz == String.class) {
                     return new StringBoxer(valueToAssign);
                 }
                 return TypeConverter.autoConvert(this, valueToAssign, (BasicType) otherType.declType);
+            } else if (otherType.declType instanceof StringLimitType) {
+                return new StringLimitBoxer(valueToAssign, ((StringLimitType) otherType.declType).getLength());
             }
             return null;
+        }
+
+        @Override
+        public boolean equals(DeclaredType obj) {
+            return super.equals(obj);
         }
 
         @NonNull
@@ -102,6 +91,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public RuntimeValue cloneValue(RuntimeValue value) {
+            //do not bring length to another variable
             return new StringBuilderCloner(value);
         }
 
@@ -112,10 +102,6 @@ public enum BasicType implements DeclaredType {
             return 0;
         }
 
-        @Override
-        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
-            throw new UnsupportedOutputFormatException();
-        }
 
         @Override
         public String toString() {
@@ -129,9 +115,6 @@ public enum BasicType implements DeclaredType {
             return 0;
         }
 
-        @Override
-        public void setLength(RuntimeValue length) {
-        }
 
         @Override
         public String toString() {
@@ -146,10 +129,6 @@ public enum BasicType implements DeclaredType {
             return 0;
         }
 
-        @Override
-        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
-            throw new UnsupportedOutputFormatException();
-        }
 
         @Override
         public String toString() {
@@ -164,10 +143,6 @@ public enum BasicType implements DeclaredType {
             return 0L;
         }
 
-        @Override
-        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
-            throw new UnsupportedOutputFormatException();
-        }
 
         @Override
         public String toString() {
@@ -177,13 +152,9 @@ public enum BasicType implements DeclaredType {
     Double(Double.class) {
         @Override
         Object getDefaultValue() {
-            return 0.0D;
+            return 0d;
         }
 
-        @Override
-        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
-            throw new UnsupportedOutputFormatException();
-        }
 
         @Override
         public String toString() {
@@ -199,40 +170,18 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
-            throw new UnsupportedOutputFormatException();
-        }
-
-        @Override
         public String toString() {
             return "Text";
         }
 
-    },
-    Socket(Socket.class) {
-        @Override
-        Object getDefaultValue() {
-            return null;
-        }
+    },;
 
-        @Override
-        public void setLength(RuntimeValue length) throws UnsupportedOutputFormatException {
-            throw new UnsupportedOutputFormatException();
-        }
-
-        @Override
-        public String toString() {
-            return "Socket";
-        }
-
-    };
-
-    private Class c;
+    public Class clazz;
     private LineInfo lineInfo;
     private String name;
 
     BasicType(Class name) {
-        c = name;
+        clazz = name;
     }
 
     public static DeclaredType create(Class c) {
@@ -269,7 +218,7 @@ public enum BasicType implements DeclaredType {
         }
         if (obj instanceof JavaClassBasedType) {
             Class other = ((JavaClassBasedType) obj).getStorageClass();
-            return c == other || c == Object.class || other == Object.class;
+            return clazz == other || clazz == Object.class;
         }
         return false;
     }
@@ -281,7 +230,7 @@ public enum BasicType implements DeclaredType {
             return result;
         } else {
             try {
-                return c.newInstance();
+                return clazz.newInstance();
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -291,16 +240,9 @@ public enum BasicType implements DeclaredType {
         }
     }
 
-    /**
-     * set length of string operator
-     *
-     * @param length
-     */
-    public abstract void setLength(RuntimeValue length) throws UnsupportedOutputFormatException;
-
     @Override
     public Class getTransferClass() {
-        return c;
+        return clazz;
     }
 
     @Override
@@ -340,8 +282,8 @@ public enum BasicType implements DeclaredType {
 
     @Override
     public Class<?> getStorageClass() {
-        Class c2 = TypeUtils.getTypeForClass(c);
-        return c2 == null ? c : c2;
+        Class c2 = TypeUtils.getTypeForClass(clazz);
+        return c2 == null ? clazz : c2;
     }
 
     @Override

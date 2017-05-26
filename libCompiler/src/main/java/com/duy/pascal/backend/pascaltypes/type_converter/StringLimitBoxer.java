@@ -28,16 +28,19 @@ import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
-public class StringLimitType implements RuntimeValue {
+public class StringLimitBoxer implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
     private RuntimeValue value;
     private RuntimeValue length;
 
-
-    public StringLimitType(RuntimeValue value, RuntimeValue length) {
+    public StringLimitBoxer(RuntimeValue value, RuntimeValue length) {
         this.value = value;
         this.length = length;
         this.outputFormat = value.getOutputFormat();
+    }
+
+    public void setLength(RuntimeValue length) {
+        this.length = length;
     }
 
     @Override
@@ -97,7 +100,7 @@ public class StringLimitType implements RuntimeValue {
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new StringLimitType(value.compileTimeExpressionFold(context), length);
+        return new StringLimitBoxer(value.compileTimeExpressionFold(context), length);
     }
 
     @Override

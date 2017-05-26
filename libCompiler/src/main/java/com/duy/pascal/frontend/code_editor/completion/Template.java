@@ -23,7 +23,7 @@ package com.duy.pascal.frontend.code_editor.completion;
 public class Template {
     public static final String PROGRAM_TEMPLATE =
             "program {name};\n" +
-                    "uses crt;" +
+                    "uses crt;\n" +
                     "begin\n" +
                     "    " +
                     "    readln;\n" +

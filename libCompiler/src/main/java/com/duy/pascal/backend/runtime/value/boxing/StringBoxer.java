@@ -15,16 +15,16 @@ import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 public class StringBoxer extends DebuggableReturnValue {
 
-    final RuntimeValue s;
+    private RuntimeValue value;
 
-    public StringBoxer(RuntimeValue tobox) {
-        this.s = tobox;
-        this.outputFormat = s.getOutputFormat();
+    public StringBoxer(RuntimeValue value) {
+        this.value = value;
+        this.outputFormat = value.getOutputFormat();
     }
 
     @Override
     public LineInfo getLineNumber() {
-        return s.getLineNumber();
+        return value.getLineNumber();
     }
 
 
@@ -36,15 +36,15 @@ public class StringBoxer extends DebuggableReturnValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        return new StringBuilder(s.getValue(f, main).toString());
+        return new StringBuilder(value.getValue(f, main).toString());
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object o = s.compileTimeValue(context);
-        if (o != null) {
-            return new StringBuilder(o.toString());
+        Object value = this.value.compileTimeValue(context);
+        if (value != null) {
+            return new StringBuilder(value.toString());
         } else {
             return null;
         }
@@ -55,9 +55,9 @@ public class StringBoxer extends DebuggableReturnValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, s.getLineNumber());
+            return new ConstantAccess(val, value.getLineNumber());
         } else {
-            return new StringBoxer(s.compileTimeExpressionFold(context));
+            return new StringBoxer(value.compileTimeExpressionFold(context));
         }
     }
 

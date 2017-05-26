@@ -14,10 +14,10 @@ import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 public class AnyToStringType implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
-    private RuntimeValue other;
+    private RuntimeValue value;
 
-    public AnyToStringType(RuntimeValue other) {
-        this.other = other;
+    public AnyToStringType(RuntimeValue value) {
+        this.value = value;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class AnyToStringType implements RuntimeValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        return other.getValue(f, main).toString();
+        return value.getValue(f, main).toString();
     }
 
     @Override
@@ -50,13 +50,13 @@ public class AnyToStringType implements RuntimeValue {
 
     @Override
     public LineInfo getLineNumber() {
-        return other.getLineNumber();
+        return value.getLineNumber();
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object o = other.compileTimeValue(context);
+        Object o = value.compileTimeValue(context);
         if (o != null) {
             return o.toString();
         } else {
@@ -67,7 +67,7 @@ public class AnyToStringType implements RuntimeValue {
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new AnyToStringType(other.compileTimeExpressionFold(context));
+        return new AnyToStringType(value.compileTimeExpressionFold(context));
     }
 
     @Override

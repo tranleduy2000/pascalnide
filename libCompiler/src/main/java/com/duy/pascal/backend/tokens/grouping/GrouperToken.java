@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.exceptions.UnsupportedOutputFormatException;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.MethodNotFoundException;
 import com.duy.pascal.backend.exceptions.define.MultipleDefaultValuesException;
@@ -33,6 +32,7 @@ import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.StringLimitType;
 import com.duy.pascal.backend.pascaltypes.enumtype.EnumElementValue;
 import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.rangetype.EnumSubrangeType;
@@ -250,21 +250,19 @@ public abstract class GrouperToken extends Token {
             if (peek() instanceof BracketedToken) {
                 BracketedToken bracketedToken = (BracketedToken) take();
 
-                RuntimeValue unconverted = bracketedToken.getNextExpression(context);
-                RuntimeValue converted = BasicType.Integer.convert(unconverted, context);
+                RuntimeValue lengthRaw = bracketedToken.getNextExpression(context);
+                RuntimeValue lengthInteger = BasicType.Integer.convert(lengthRaw, context);
 
-                if (converted == null) {
-                    throw new NonIntegerException(unconverted);
+                if (lengthInteger == null) {
+                    throw new NonIntegerException(lengthRaw);
                 }
 
                 if (bracketedToken.hasNext()) {
                     throw new ExpectedTokenException("]", bracketedToken.take());
                 }
-                try {
-                    ((BasicType) declaredType).setLength(converted);
-                } catch (UnsupportedOutputFormatException e) {
-                    throw new UnsupportedOutputFormatException(getLineNumber());
-                }
+                StringLimitType stringLimitType = new StringLimitType();
+                stringLimitType.setLength(lengthInteger);
+                return stringLimitType;
             }
         }
 

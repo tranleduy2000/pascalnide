@@ -3,27 +3,26 @@ package com.duy.pascal.backend.runtime.value.cloning;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.value.AssignableValue;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.VariableContext;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.js.interpreter.expressioncontext.CompileTimeContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 public class StringBuilderCloner implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
-    RuntimeValue r;
+    private RuntimeValue[] outputFormat;
+    private RuntimeValue value;
 
-    public StringBuilderCloner(RuntimeValue r) {
-        this.r = r;
-        this.outputFormat = r.getOutputFormat();
+    public StringBuilderCloner(RuntimeValue value) {
+        this.value = value;
+        this.outputFormat = value.getOutputFormat();
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f)
-            throws ParsingException {
-        return r.getType(f);
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        return value.getType(f);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class StringBuilderCloner implements RuntimeValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object result = r.getValue(f, main);
+        Object result = value.getValue(f, main);
         return new StringBuilder(result.toString());
     }
 
@@ -51,14 +50,14 @@ public class StringBuilderCloner implements RuntimeValue {
 
     @Override
     public LineInfo getLineNumber() {
-        return r.getLineNumber();
+        return value.getLineNumber();
     }
 
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object val = r.compileTimeValue(context);
+        Object val = value.compileTimeValue(context);
         if (val != null) {
             return new StringBuilder((StringBuilder) val);
         }
@@ -68,7 +67,7 @@ public class StringBuilderCloner implements RuntimeValue {
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new StringBuilderCloner(r);
+        return new StringBuilderCloner(value);
     }
 
     @Override

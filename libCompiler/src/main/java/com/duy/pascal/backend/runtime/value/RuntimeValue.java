@@ -37,6 +37,7 @@ public interface RuntimeValue {
     /**
      * @return line of code
      */
+    @Nullable
     LineInfo getLineNumber();
 
     /*
@@ -45,10 +46,12 @@ public interface RuntimeValue {
     @Nullable
     Object compileTimeValue(CompileTimeContext context) throws ParsingException;
 
+    @Nullable
     RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException;
 
     /**
      * reference of variable, set and indexOf value
      */
+    @Nullable
     AssignableValue asAssignableValue(ExpressionContext f);
 }
