@@ -28,7 +28,7 @@
 - fixed bug #1003569 (Cannot use lookahead with ignorecase)
 - converted dangerous lookahead error to warning
 - print info for EOF actions as well in %debug mode
-- fixed line number count for EOF actions
+- fixed mLineNumber number count for EOF actions
 - internal: removed unused methods in LexScan.flex and IntCharSet
 
 * JFlex 1.4 (April 12, 2004)
@@ -63,7 +63,7 @@
 - fixed bug #611118 (no wrong macro warnings on regexp negation)
 - fixed bug #655528 (%cupsym now also affects %cupdebug)
   Thanks to Eric Schweitz for the fix.
-- fixed bug #510010 (single-line %initthrow works now 
+- fixed bug #510010 (single-mLineNumber %initthrow works now
   in case of extra whitespace before newline)
 - yyreset() does no longer close the associated reader (use yyclose() 
   explicitly for that). Makes some reader objects reusable (feature
@@ -103,23 +103,23 @@
 - fixed all reported bugs except #39 (lookahead check at generation
   time may fail).  Thanks to Axel Schwolow, Karl Meissner, Angelo
   Borsotti, and Paolo Di Francesco for their excellent bug reports.
-- enhanced %debug output. JFlex scanners in debug mode now print line,
-  column, matched text, and executed action (with line number in spec)
+- enhanced %debug output. JFlex scanners in debug mode now print mLineNumber,
+  column, matched text, and executed action (with mLineNumber number in spec)
   for each processed token.  Thanks to 
   <a href="http://meissner.v0.net/msd.htm">Karl Meissner</a> for the 
   suggestion.  
 - introduced %cupdebug directive for readable CUP debugging. Generated
-  scanners print line, column, matched text, and CUP symbol name for
+  scanners print mLineNumber, column, matched text, and CUP symbol name for
   each returned token. Again thanks to Karl Meissner for tips and
   contributed Java reflection code.
 - new %cupsym to customize CUP generated symbols class name. Thanks 
   to Karl Meissner and Paolo Di Francesco.
 - new %throws as shorthand for %yylexthrow
-- code generation now customizable at command line with --table,
+- code generation now customizable at command mLineNumber with --table,
   --pack, and --switch 
-- command line switch --info prints system and JVM information (useful
+- command mLineNumber switch --info prints system and JVM information (useful
   for bug reports) 
-- command line switch --nobak for not generating backup files
+- command mLineNumber switch --nobak for not generating backup files
 - an Ant task for the Ant build tool http://jakarta.apache.org/ant/
   contributed by Rafal Mantiuk. Many thanks to him.
 - better error message for missing ] in char class. Thanks to Karl
@@ -130,7 +130,7 @@
   insights, tips, and fruitful discussions.
 - a new warning if a rule can never be matched 
 - macros and regular expression can now span multiple lines (note
-  that <tt>|</tt> at the end of a line in a rule is a special action, 
+  that <tt>|</tt> at the end of a mLineNumber in a rule is a special action,
   not the <tt>|</tt> operator)
 - updated the manual to contain more information about the generated
   class, clarified the description of lexical states. Thanks to Michael 
@@ -185,7 +185,7 @@
   yet. It is included as preview, comments are welcome, please try it out and
   tell me what you think. For information on graphviz see
   http://www.research.att.com:80/sw/tools/graphviz/
-- changed to --style long command line switches (single - still recognized).
+- changed to --style long command mLineNumber switches (single - still recognized).
 - moved part of the project to http://sourceforge.net/projects/jflex/
 
 
@@ -201,7 +201,7 @@
 - New char yycharat(int) for efficient access to single characters in matched text. 
 - Split up of too large lex tables for even larger scanner sizes. 
 - New additional external skeleton with support for nested input streams. 
-- JLex compatibility: BOL ^ and EOL $ use unicode line separators as in 
+- JLex compatibility: BOL ^ and EOL $ use unicode mLineNumber separators as in
   http://www.unicode.org/unicode/reports/tr18/tr18-5.1.html. 
 - New resetStream method for reusing scanner objects. 
 _ BYacc/J support (%byaccj) + BYacc/J example. 
@@ -214,7 +214,7 @@ _ BYacc/J support (%byaccj) + BYacc/J example.
 - Eliminated some remaining platform dependent newlines in the generated source code 
   (affecting the readabilty of the generated code only, no functional changes). 
 - Minor improvements in error reporting (out of memory). 
-- Added a --version command line option for printing the current jflex version. 
+- Added a --version command mLineNumber option for printing the current jflex version.
 - Updated the Java 1.2 lexer/parser example to CUP 0.10j. 
 
   
@@ -229,7 +229,7 @@ _ BYacc/J support (%byaccj) + BYacc/J example.
 - JFlex now works again with Solaris JIT. 
 - Significant Unicode optimizations in scanning and generation performance, 
 - changed the empty string match wrt. EOF behavior to the one that is commonly expected. 
-- added command line switches for more customization
+- added command mLineNumber switches for more customization
 - external skeleton files
 - new GUI without any console output
 - <<EOF>> as in lex/flex

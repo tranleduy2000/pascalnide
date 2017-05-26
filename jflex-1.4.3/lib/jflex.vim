@@ -38,7 +38,7 @@ syn match jflexOption "^%states" contained
 syn match jflexOption "^%xstate" contained
 syn match jflexOption "^%xstates" contained
 syn match jflexOption "^%char" contained
-syn match jflexOption "^%line" contained
+syn match jflexOption "^%mLineNumber" contained
 syn match jflexOption "^%column" contained
 syn match jflexOption "^%byaccj" contained
 syn match jflexOption "^%cup" contained

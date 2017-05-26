@@ -7,7 +7,7 @@
   private int comment_count = 0;
 %} 
 
-%line
+%mLineNumber
 %char
 %state COMMENT
 %full

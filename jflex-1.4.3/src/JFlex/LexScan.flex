@@ -45,7 +45,7 @@ import java.util.Stack;
 %unicode
 
 %column
-%line
+%mLineNumber
 
 %eofclose
 
@@ -137,7 +137,7 @@ import java.util.Stack;
     return new Symbol(type, yyline, yycolumn);
   }
    
-  // updates line and column count to the beginning of the first
+  // updates mLineNumber and column count to the beginning of the first
   // non whitespace character in yytext, but leaves yyline+yycolumn 
   // untouched
   private Symbol symbol_countUpdate(int type, Object value) {
@@ -280,7 +280,7 @@ JavaCode = ({JavaRest}|{StringLiteral}|{CharLiteral}|{JavaComment})+
 
 <MACROS> {
   "%char"                     { charCount = true;  }
-  "%line"                     { lineCount = true;  }
+  "%mLineNumber"                     { lineCount = true;  }
   "%column"                   { columnCount = true; }
   "%byaccj"                   { isInteger = true;
                                 if (eofVal == null)

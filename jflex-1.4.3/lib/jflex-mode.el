@@ -62,7 +62,7 @@
      "^%xstate"
      "^%x"
      "^%char"  
-     "^%line"     
+     "^%mLineNumber"
      "^%column"
      "^%byaccj"
      "^%cupsym"

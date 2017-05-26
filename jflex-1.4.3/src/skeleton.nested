@@ -60,7 +60,7 @@
   private int yycolumn;
 
   /** 
-   * zzAtBOL == true <=> the scanner is currently at the beginning of a line
+   * zzAtBOL == true <=> the scanner is currently at the beginning of a mLineNumber
    */
   private boolean zzAtBOL = true;
 
@@ -185,7 +185,7 @@
 
   /**
    * Stores the current input stream on a stack, and
-   * reads from a new stream. Lexical state, line,
+   * reads from a new stream. Lexical state, mLineNumber,
    * char, and column counting remain untouched.
    *
    * The current input stream can be restored with
@@ -387,7 +387,7 @@
       char [] zzBufferL = zzBuffer;
       char [] zzCMapL = ZZ_CMAP;
 
---- start admin (line, char, col count)
+--- start admin (mLineNumber, char, col count)
       zzAction = -1;
 
       zzCurrentPosL = zzCurrentPos = zzStartRead = zzMarkedPosL;
@@ -397,10 +397,10 @@
       zzForAction: {
         while (true) {
     
---- next input, line, col, char count, next transition, isFinal action
+--- next input, mLineNumber, col, char count, next transition, isFinal action
             zzAction = zzState;
             zzMarkedPosL = zzCurrentPosL;
---- line count update
+--- mLineNumber count update
           }
 
         }

@@ -12,19 +12,19 @@ begin
 
     SetColor(blue);
 
-    //    draws a solid line.
+    //    draws a solid mLineNumber.
     SetLineStyle(SolidLn, 0, ThickWidth);
     rectangle(10, 10, 300, 110);
 
-    //    Draws a dotted line.
+    //    Draws a dotted mLineNumber.
     SetLineStyle(DottedLn, 0, ThickWidth);
     rectangle(10, 120, 300, 220);
 
-    //    draws a non-broken centered line.
+    //    draws a non-broken centered mLineNumber.
     SetLineStyle(CenterLn, 0, ThickWidth);
     rectangle(10, 230, 300, 330);
 
-    //    draws a dashed line.
+    //    draws a dashed mLineNumber.
     SetLineStyle(DashedLn, 0, ThickWidth);
     rectangle(10, 340, 300, 440);
 

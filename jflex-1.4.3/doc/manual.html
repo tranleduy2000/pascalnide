@@ -382,7 +382,7 @@ Then you run JFlex with:
 
 <P>
 The input files and options are in both cases optional. If you don't provide a file name on
-the command line, JFlex will pop up a window to ask you for one.
+the command mLineNumber, JFlex will pop up a window to ask you for one.
 
 <P>
 JFlex knows about the following options:
@@ -528,7 +528,7 @@ import java_cup.runtime.*;
 %class Lexer
 %unicode
 %cup
-%line
+%mLineNumber
 %column
 </PRE><FONT SIZE="-1">
 <A NAME="CodeScannerCode"></A></FONT><PRE>
@@ -639,7 +639,7 @@ As with JLex, the specification consists of three parts, divided by <TT>%%</TT>:
 Code to include
 </H2>
 Let's take a look at the first section, ``user code'': The text up to the
-first line starting with <TT>%%</TT> is copied verbatim to the top 
+first mLineNumber starting with <TT>%%</TT> is copied verbatim to the top
 of the generated lexer class (before the actual class declaration). 
 Beside <TT>package</TT> and <TT>import</TT> statements there is usually not much 
 to do here. If the code ends with a javadoc class comment, the generated class
@@ -653,7 +653,7 @@ Options and Macros
 The second section ``options and declarations'' is more interesting. It consists
 of a set of options, code that is included inside the generated scanner
 class, lexical states and macro declarations. Each JFlex option must begin
-a line of the specification and starts with a <TT>%</TT>. In our example
+a mLineNumber of the specification and starts with a <TT>%</TT>. In our example
 the following options are used:
 
 <P>
@@ -676,8 +676,8 @@ the following options are used:
 
 <P>
 </LI>
-<LI><TT><A HREF="#CodeOptions">%line</A></TT> switches line counting on (the
-  current line number can be accessed via the variable <TT>yyline</TT>)
+<LI><TT><A HREF="#CodeOptions">%mLineNumber</A></TT> switches mLineNumber counting on (the
+  current mLineNumber number can be accessed via the variable <TT>yyline</TT>)
 
 <P>
 </LI>
@@ -698,7 +698,7 @@ in which we will store parts of string literals and two helper functions
 with position information of the current token (see section <A HREF="#CUPWork">8.1</A>
 <A HREF="#CUPWork"><I>JFlex and CUP</I></A> 
 for how to interface with the parser generator CUP). As JFlex options, both 
-<code>%{</code> and <code>\%}</code> must begin a line. 
+<code>%{</code> and <code>\%}</code> must begin a mLineNumber.
 <A NAME="ExampleMacros"></A>
 <P>
 The specification continues with macro declarations. Macros are
@@ -763,8 +763,8 @@ lexical specification is a lexical state declaration:
 <TT><A HREF="#CodeStateDecl">%state STRING</A></TT>
 declares a lexical state <TT>STRING</TT> that can be
 used in the ``lexical rules'' part of the specification. A state declaration
-is a line starting with <TT>%state</TT> followed by a space or comma
-separated list of state identifiers. There can be more than one line starting
+is a mLineNumber starting with <TT>%state</TT> followed by a space or comma
+separated list of state identifiers. There can be more than one mLineNumber starting
 with <TT>%state</TT>.
 
 <P>
@@ -859,7 +859,7 @@ rule demonstrates how to refer to the input that has been matched:
 The expression <code>[^\n\r\"]+</code> matches
 all characters in the input up to the next backslash (indicating an
 escape sequence such as <code>\n</code>), double quote (indicating the end
-of the string), or line terminator (which must not occur in a string literal).
+of the string), or mLineNumber terminator (which must not occur in a string literal).
 The matched region of the input is referred to with <TT><A HREF="#CodeRulesYYtext">yytext()</A></TT>
 and appended to the content of the string literal parsed so far.
 <A NAME="ExampleRuleLast"></A>
@@ -914,7 +914,7 @@ use CUP, generate your parser classes first)
 Lexical Specifications
 </H1>
 As shown above, a lexical specification file for JFlex consists of three
-parts divided by a single line starting with <TT>%%</TT>:
+parts divided by a single mLineNumber starting with <TT>%%</TT>:
 
 <P>
 <TT><A HREF="#SpecUsercode">UserCode</A></TT>
@@ -925,7 +925,7 @@ parts divided by a single line starting with <TT>%%</TT>:
 
 <P>
 In all parts of the specification comments of the form
-<TT>/* comment text */</TT> and the Java style end of line comments starting with <TT>//</TT>
+<TT>/* comment text */</TT> and the Java style end of mLineNumber comments starting with <TT>//</TT>
 are permitted. JFlex comments do nest - so the number of <TT>/*</TT> and <TT>*/</TT> 
 should be balanced.
 
@@ -954,7 +954,7 @@ different parts of the lexer), declarations of <A HREF="#StateDecl">lexical stat
 <A HREF="#LexRules">``Lexical rules''</A> of the lexical specification file.
 <A NAME="SpecOptDirectives"></A>
 <P>
-Each JFlex directive must be situated at the beginning of  a line
+Each JFlex directive must be situated at the beginning of  a mLineNumber
 and starts with the <TT>%</TT> character. Directives that have one or
 more parameters are described as follows:
 
@@ -962,7 +962,7 @@ more parameters are described as follows:
 <TT>%class "classname"</TT>
 
 <P>
-means that you start a line with <TT>%class</TT> followed by a space followed
+means that you start a mLineNumber with <TT>%class</TT> followed by a space followed
 by the name of the class for the generated scanner (the double quotes are
 <I>not</I> to be entered, see the <A HREF="#CodeOptions">example specification</A> in
 section <A HREF="#CodeOptions">3</A>).
@@ -981,7 +981,7 @@ generated scanner class.
 <P>
 Tells JFlex to give the generated class the name "<TT>classname</TT>" and to
 write the generated code to a file "<TT>classname.java</TT>". If the 
-<TT>-d &lt;directory&gt;</TT> command line option is not used, the code
+<TT>-d &lt;directory&gt;</TT> command mLineNumber option is not used, the code
 will be written to the directory where the specification file resides. If
 no <TT>%class</TT> directive is present in the specification, the generated
 class will get the name "<TT>Yylex</TT>" and will be written to a file
@@ -1052,7 +1052,7 @@ code (see next switch).
 The code enclosed in <code>%{</code> and <code>%}</code> is copied verbatim
 into the generated class. Here you can define your own member variables
 and functions in the generated scanner. Like all options, both <code>%{</code>
-and <code>%}</code> must start a line in the specification. If more than one
+and <code>%}</code> must start a mLineNumber in the specification. If more than one
 class code directive <code>%{...%}</code> is present, the code is concatenated
 in order of appearance in the specification.
 
@@ -1076,7 +1076,7 @@ in order of appearance in the specification.
 <BR><B><code>%initthrow}</code></B>
 
 <P>
-or (on a single line) just
+or (on a single mLineNumber) just
 
 <P>
 <B><TT>%initthrow "exception1" [,  "exception2", ...]</TT></B>
@@ -1202,7 +1202,7 @@ The <TT>%type</TT> directive overrides settings of the
 <BR><B><code>%yylexthrow}</code></B>
 
 <P>
-or (on a single line) just
+or (on a single mLineNumber) just
 
 <P>
 <B><TT>%yylexthrow "exception1" [,  "exception2", ...]</TT></B>
@@ -1294,7 +1294,7 @@ The code included in <code>%{eof ... %eof}</code> will be executed
 <BR>  <B><code>%eofthrow}</code></B>
 
 <P>
-or (on a single line) just
+or (on a single mLineNumber) just
 
 <P>
 <B><TT>%eofthrow "exception1" [,  "exception2", ...]</TT></B>
@@ -1341,11 +1341,11 @@ Standalone scanners
 
 <P>
 Creates a main function in the generated class that expects the name
-of an input file on the command line and then runs the scanner on this
+of an input file on the command mLineNumber and then runs the scanner on this
 input file by printing information about each returned token to the Java 
 console until the end of file is reached. The information includes:
-line number (if line counting is enabled), column (if column counting is enabled),
-the matched text, and the executed action (with line number in the specification).
+mLineNumber number (if mLineNumber counting is enabled), column (if column counting is enabled),
+the matched text, and the executed action (with mLineNumber number in the specification).
 
 <P>
 </LI>
@@ -1353,7 +1353,7 @@ the matched text, and the executed action (with line number in the specification
 
 <P>
 Creates a main function in the generated class that expects the name
-of an input file on the command line and then runs the scanner on this
+of an input file on the command mLineNumber and then runs the scanner on this
 input file. The values returned by the scanner are ignored, but any unmatched
 text is printed to the Java console instead (as the C/C++ tool flex does, if
 run as standalone program). To avoid having to use an extra token class, the
@@ -1398,7 +1398,7 @@ to the following set of directives:
 <P>
 The value of <TT>&lt;CUPSYM&gt;</TT> defaults to <TT>sym</TT> and can be
 changed with the <TT>%cupsym</TT> directive. In JLex compatibility
-mode (<TT>-jlex</TT> switch on the command line), <TT>%eofclose</TT>
+mode (<TT>-jlex</TT> switch on the command mLineNumber), <TT>%eofclose</TT>
 will not be turned on.
 
 <P>
@@ -1416,8 +1416,8 @@ The directive should not be used after <TT>%cup</TT>, but before.
 
 <P>
 Creates a main function in the generated class that expects the name
-of an input file on the command line and then runs the scanner on this
-input file. Prints line, column, matched text, and CUP symbol name for
+of an input file on the command mLineNumber and then runs the scanner on this
+input file. Prints mLineNumber, column, matched text, and CUP symbol name for
 each returned token to standard out.
 
 <P>
@@ -1577,7 +1577,7 @@ There will be no runtime overflow when using this set of input characters.
 time. What is read and what constitutes a character depends on the runtime
 platform. See also section <A HREF="#sec:encodings">5</A> for more information about
 character encodings. This is the default unless the JLex compatibility mode is
-used (command line option <TT>-jlex</TT>).
+used (command mLineNumber option <TT>-jlex</TT>).
 
 <P>
 <A NAME="caseless"></A></LI>
@@ -1596,7 +1596,7 @@ effect character classes. So <TT>[a]</TT> still only matches the character
 lowercase letters, is defined by the Unicode standard and determined by JFlex
 with the Java methods <TT>Character.toUpperCase</TT> and
 <TT>Character.toLowerCase</TT>. In JLex compatibility mode (<TT>-jlex</TT>
-switch on the command line), <TT>%caseless</TT> and <TT>%ignorecase</TT>
+switch on the command mLineNumber), <TT>%caseless</TT> and <TT>%ignorecase</TT>
 also affect character classes.
 
 <P>
@@ -1616,10 +1616,10 @@ of input to the beginning of the current token.
 
 <P>
 </LI>
-<LI><B><TT>%line</TT></B>
+<LI><B><TT>%mLineNumber</TT></B>
 
 <P>
-Turns line counting on. The <TT>int</TT> member variable <TT>yyline</TT>
+Turns mLineNumber counting on. The <TT>int</TT> member variable <TT>yyline</TT>
 contains the number of lines (starting with 0) from the beginning of input
 to the beginning of the current token.
 
@@ -1630,7 +1630,7 @@ to the beginning of the current token.
 <P>
 Turns column counting on. The <TT>int</TT> member variable <TT>yycolumn</TT>
 contains the number of characters (starting with 0) from the beginning
-of the current line to the beginning of the current token.
+of the current mLineNumber to the beginning of the current token.
 
 <P>
 </LI>
@@ -1647,9 +1647,9 @@ Obsolete JLex options
 
 <P>
 This JLex option is obsolete in JFlex but still recognised as valid directive.
-It used to switch between Windows and Unix kind of line terminators (<code>\r\n</code>
+It used to switch between Windows and Unix kind of mLineNumber terminators (<code>\r\n</code>
 and <code>\n</code>) for the <TT>$</TT> operator in regular expressions. JFlex
-always recognises both styles of platform dependent line terminators.
+always recognises both styles of platform dependent mLineNumber terminators.
 
 <P>
 </LI>
@@ -1673,7 +1673,7 @@ State declarations have the following from:
 <BR><TT>%x[state] "state identifier" [, "state identifier", ... ]</TT> for exclusive states
 
 <P>
-There may be more than one line of state declarations, each starting with
+There may be more than one mLineNumber of state declarations, each starting with
 <TT>%state</TT> or <TT>%xstate</TT> (the first character is sufficient,
 <TT>%s</TT> and <TT>%x</TT> works, too). State identifiers are letters followed 
 by a sequence of letters, digits or underscores. State identifiers can be separated 
@@ -1855,8 +1855,8 @@ PredefinedClass ::= '[:jletter:]'
 
 <P>
 Please note that the <code>\n</code> escape sequence stands for the ASCII
-LF character - not for the end of line. If you would like to match the
-line terminator, you should use the expression <code>\r|\n|\r\n</code> if you want
+LF character - not for the end of mLineNumber. If you would like to match the
+mLineNumber terminator, you should use the expression <code>\r|\n|\r\n</code> if you want
 the Java conventions, or <code>\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u0085</code>
 if you want to be fully Unicode compliant (see also [<A
  HREF="manual.html#unicode_rep">5</A>]).
@@ -2083,31 +2083,31 @@ is equivalent to <TT>n</TT> times the concatenation of <TT>a</TT>.
 
 <P>
 In a lexical rule, a regular expression <TT>r</TT> may be preceded by a
-'<code>^</code>' (the beginning of line operator). <TT>r</TT> is then
-only matched at the beginning of a line in the input. A line begins
+'<code>^</code>' (the beginning of mLineNumber operator). <TT>r</TT> is then
+only matched at the beginning of a mLineNumber in the input. A mLineNumber begins
 after each occurrence of <code>\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u0085</code> 
 (see also [<A
  HREF="manual.html#unicode_rep">5</A>]) and at the beginning of input.  
-The preceding line terminator in the input is not consumed and can 
+The preceding mLineNumber terminator in the input is not consumed and can
 be matched by another rule.
 
 <P>
 In a lexical rule, a regular expression <TT>r</TT> may be followed by a
 look-ahead expression. A look-ahead expression is either a '<TT>$</TT>'
-(the end of line operator) or a <code>'/'</code> followed by an arbitrary
+(the end of mLineNumber operator) or a <code>'/'</code> followed by an arbitrary
 regular expression. In both cases the look-ahead is not consumed and
 not included in the matched text region, but it <EM>is</EM> considered
 while determining which rule has the longest match (see also 
 <A HREF="#HowMatched">4.3.3</A> <A HREF="#HowMatched"><I>How the input is matched</I></A>). 
 
 <P>
-In the '<TT>$</TT>' case <TT>r</TT> is only matched at the end of a line in
-the input. The end of a line is denoted by the regular expression
+In the '<TT>$</TT>' case <TT>r</TT> is only matched at the end of a mLineNumber in
+the input. The end of a mLineNumber is denoted by the regular expression
 <code>\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u0085</code>. 
 So <code>a$</code> is equivalent to <code>a / \r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u0085</code>.This is a bit different to the situation described in [<A
  HREF="manual.html#unicode_rep">5</A>]:
 since in JFlex <code>$</code> is a true trailing context, the end of file
-does <B>not</B> count as end of line.
+does <B>not</B> count as end of mLineNumber.
 
 <P>
 <A NAME="trailingContext"></A>For arbitrary look-ahead (also called <EM>trailing context</EM>) the 
@@ -2222,8 +2222,8 @@ expr1                   { yybegin(A); action }
   &lt;B,C&gt; expr4           { action }
 }
 </PRE>
-The first line declares two (inclusive) lexical states <TT>A</TT> and <TT>B</TT>,
-the second line an exclusive lexical state <TT>C</TT>.
+The first mLineNumber declares two (inclusive) lexical states <TT>A</TT> and <TT>B</TT>,
+the second mLineNumber an exclusive lexical state <TT>C</TT>.
 The default (inclusive) state <TT>YYINITIAL</TT> is always implicitly there and
 doesn't need to be declared. The rule with <TT>expr1</TT> has no
 states listed, and is thus matched in all states but the exclusive
@@ -2344,7 +2344,7 @@ Currently, the API consists of the following methods and member fields:
 </LI>
 <LI><TT>void yypushStream(java.io.Reader reader)</TT>
 <BR> Stores the current input stream on a stack, and
- reads from a new stream. Lexical state, line,
+ reads from a new stream. Lexical state, mLineNumber,
  char, and column counting remain untouched.
  The current input stream can be restored with
  <TT>yypopstream</TT> (usually in an <TT>&#171;EOF&#187;</TT> action).
@@ -2420,8 +2420,8 @@ This method is only available in the skeleton file
 <P>
 </LI>
 <LI><TT>int yyline</TT>
-<BR>  contains the current line of input (starting with 0, only active with
-  the <TT><A HREF="#Counting">%line</A></TT> directive)
+<BR>  contains the current mLineNumber of input (starting with 0, only active with
+  the <TT><A HREF="#Counting">%mLineNumber</A></TT> directive)
 
 <P>
 </LI>
@@ -2432,7 +2432,7 @@ This method is only available in the skeleton file
 <P>
 </LI>
 <LI><TT>int yycolumn</TT>
-<BR>  contains the current column of the current line (starting with 0, only
+<BR>  contains the current column of the current mLineNumber (starting with 0, only
   active with the <TT><A HREF="#Counting">%column</A></TT> directive)
 
 <P>
@@ -2562,7 +2562,7 @@ Cp1252 and ISO 8859-1 are the same, but for the byte values <code>\x80</code>
 to <code>\x9f</code> they disagree: ISO 8859-1 is undefined there. You can fix
 the problem by telling Java explicitly which encoding to use. When
 constructing the <TT>InputStreamReader</TT>, you can give the encoding
-as argument. The line
+as argument. The mLineNumber
 <DIV ALIGN="CENTER">
 <TT>Reader r = new InputStreamReader(input, "Cp1252"); </TT>
 
@@ -3123,19 +3123,19 @@ some kind of variable length identifiers.
 
 <P>
 </LI>
-<LI>Avoid line and column counting
+<LI>Avoid mLineNumber and column counting
 
 <P>
 It costs multiple additional comparisons per input character and the
   matched text has to be re-scanned for counting. In most scanners it
-  is possible to do the line counting in the specification by
-  incrementing <TT>yyline</TT> each time a line terminator has been
+  is possible to do the mLineNumber counting in the specification by
+  incrementing <TT>yyline</TT> each time a mLineNumber terminator has been
   matched.  Column counting could also be included in actions. This
   will be faster, but can in some cases become quite messy.
 
 <P>
 </LI>
-<LI>Avoid look-ahead expressions and the end of line operator '$'
+<LI>Avoid look-ahead expressions and the end of mLineNumber operator '$'
 
 <P>
 In the best case, the trailing context will first have to be read and 
@@ -3156,7 +3156,7 @@ In the best case, the trailing context will first have to be read and
 
 <P>
 </LI>
-<LI>Avoid the beginning of line operator '<code>^</code>'
+<LI>Avoid the beginning of mLineNumber operator '<code>^</code>'
 
 <P>
 It costs multiple additional comparisons per match. In some
@@ -3365,11 +3365,11 @@ may be implemented in a future JFlex version).
 <H3><A NAME="SECTION00082300000000000000">
 Lexical Rules</A>
 </H3>
-Since flex is mostly Unix based, the '<code>^</code>' (beginning of line) and
-'<code>$</code>' (end of line) operators, consider the <code>\n</code> character as only line terminator. This should usually cause not much problems, but you
+Since flex is mostly Unix based, the '<code>^</code>' (beginning of mLineNumber) and
+'<code>$</code>' (end of mLineNumber) operators, consider the <code>\n</code> character as only mLineNumber terminator. This should usually cause not much problems, but you
 should be prepared for occurrences of <code>\r</code> or <code>\r\n</code> or one of
 the characters <code>\u2028</code>, <code>\u2029</code>, <code>\u000B</code>, <code>\u000C</code>, 
-or <code>\u0085</code>. They are considered to be line terminators in Unicode and 
+or <code>\u0085</code>. They are considered to be mLineNumber terminators in Unicode and
 therefore may not be consumed when 
 <code>^</code> or <code>$</code> is present in a rule.
 <P>
@@ -3423,7 +3423,7 @@ is started from the a main program like this:
 <H3><A NAME="SECTION00091200000000000000">
 Custom symbol interface</A>
 </H3>
-If you have used the <TT>-symbol</TT> command line switch of CUP to change
+If you have used the <TT>-symbol</TT> command mLineNumber switch of CUP to change
 the name of the generated symbol interface, you have to tell JFlex about
 this change of interface so that correct end-of-file code is generated. 
 You can do so either by using an <code>%eofval{</code> directive or by using

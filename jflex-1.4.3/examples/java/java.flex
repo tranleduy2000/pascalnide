@@ -40,7 +40,7 @@ import java_cup.runtime.*;
 
 %unicode
 
-%line
+%mLineNumber
 %column
 
 %cup
@@ -286,7 +286,7 @@ SingleCharacter = [^\r\n\'\\]
   
   /* error cases */
   \\.                            { throw new RuntimeException("Illegal escape sequence \""+yytext()+"\""); }
-  {LineTerminator}               { throw new RuntimeException("Unterminated string at end of line"); }
+  {LineTerminator}               { throw new RuntimeException("Unterminated string at end of mLineNumber"); }
 }
 
 <CHARLITERAL> {
@@ -307,10 +307,10 @@ SingleCharacter = [^\r\n\'\\]
   
   /* error cases */
   \\.                            { throw new RuntimeException("Illegal escape sequence \""+yytext()+"\""); }
-  {LineTerminator}               { throw new RuntimeException("Unterminated character literal at end of line"); }
+  {LineTerminator}               { throw new RuntimeException("Unterminated character literal at end of mLineNumber"); }
 }
 
 /* error fallback */
 .|\n                             { throw new RuntimeException("Illegal character \""+yytext()+
-                                                              "\" at line "+yyline+", column "+yycolumn); }
+                                                              "\" at mLineNumber "+yyline+", column "+yycolumn); }
 <<EOF>>                          { return symbol(EOF); }

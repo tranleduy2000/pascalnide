@@ -3,7 +3,7 @@
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex" />
 
   <target name="run" depends="compile">
-    <java classname="Subst"> <arg line="sample.inp"/> </java>
+    <java classname="Subst"> <arg mLineNumber="sample.inp"/> </java>
   </target>
 
   <target name="compile" depends="jflex"> 

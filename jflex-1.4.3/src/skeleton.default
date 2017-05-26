@@ -60,7 +60,7 @@
   private int yycolumn;
 
   /** 
-   * zzAtBOL == true <=> the scanner is currently at the beginning of a line
+   * zzAtBOL == true <=> the scanner is currently at the beginning of a mLineNumber
    */
   private boolean zzAtBOL = true;
 
@@ -286,7 +286,7 @@
     while (true) {
       zzMarkedPosL = zzMarkedPos;
 
---- start admin (line, char, col count)
+--- start admin (mLineNumber, char, col count)
       zzAction = -1;
 
       zzCurrentPosL = zzCurrentPos = zzStartRead = zzMarkedPosL;
@@ -296,10 +296,10 @@
       zzForAction: {
         while (true) {
     
---- next input, line, col, char count, next transition, isFinal action
+--- next input, mLineNumber, col, char count, next transition, isFinal action
             zzAction = zzState;
             zzMarkedPosL = zzCurrentPosL;
---- line count update
+--- mLineNumber count update
           }
 
         }

@@ -68,7 +68,7 @@ import java.util.Stack;
 
 %%
 %unicode
-%line
+%mLineNumber
 %column
 %ignorecase
 

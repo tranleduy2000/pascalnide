@@ -29,8 +29,8 @@ begin
     // Display the file contents
     while not Eof(myFile) do
     begin
-        // Proces one line at a time
-        writeln('Start of a new line :');
+        // Proces one mLineNumber at a time
+        writeln('Start of a new mLineNumber :');
         while not Eoln(myFile) do
         begin
             Read(myFile, letter);   // Read and display one letter at a time

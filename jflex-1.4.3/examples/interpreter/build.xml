@@ -6,7 +6,7 @@
   <target name="build" depends="realclean,compile" />
 
   <target name="run" depends="compile">
-    <java classname="Main"> <arg line="example.as"/> </java>
+    <java classname="Main"> <arg mLineNumber="example.as"/> </java>
   </target>
 
   <target name="compile" depends="jflex,cup">

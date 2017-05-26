@@ -19,7 +19,7 @@
   analyzer generator on a grammar file.
 </p>
 <p>
- To use the JFlex task, the following line must be placed in the Ant build file:
+ To use the JFlex task, the following mLineNumber must be placed in the Ant build file:
 </p>
 <pre>&lt;taskdef classname=&quot;JFlex.anttask.JFlexTask&quot; name=&quot;jflex&quot; /&gt;</pre>
 
@@ -54,7 +54,7 @@
     <td valign="top">
       The directory to write the generated files to.  If not set, the files
       are written to the directory containing the grammar file. Note that unlike 
-      JFlex's "-d" command line option, <i>destdir</i> causes the generated file to be written to 
+      JFlex's "-d" command mLineNumber option, <i>destdir</i> causes the generated file to be written to
       {destdir}/<b>{package name}</b>. This behaviour is similar to <i>javac -d dir</i>.
     </td>
     <td valign="top" align="center">No</td>
@@ -65,7 +65,7 @@
     <td valign="top">
       The directory to write the generated files to.  If not set, the files
       are written to the directory containing the grammar file. This options works 
-      exactly like JFlex's "-d" command line option, it causes the output file to
+      exactly like JFlex's "-d" command mLineNumber option, it causes the output file to
       be written to <i>dir</i> regardless of the package name.
     </td>
     <td valign="top" align="center">No</td>

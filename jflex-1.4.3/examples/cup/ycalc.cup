@@ -22,10 +22,10 @@
 import java_cup.runtime.*;
    
 /* Parser code to change the way the parser reports errors (include
-   line and column number of the error). */
+   mLineNumber and column number of the error). */
 parser code {:
     
-    /* Change the method report_error so it will display the line and
+    /* Change the method report_error so it will display the mLineNumber and
        column of where the error occurred in the input as well as the
        reason for the error which is passed into the method in the
        String 'message'. */
@@ -42,12 +42,12 @@ parser code {:
                as a java_cup.runtime.Symbol object. */
             java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
    
-            /* Check if the line number in the input is greater or
+            /* Check if the mLineNumber number in the input is greater or
                equal to zero. */
             if (s.left >= 0) {                
                 /* Add to the end of the StringBuffer error message
-                   the line number of the error in the input. */
-                m.append(" in line "+(s.left+1));   
+                   the mLineNumber number of the error in the input. */
+                m.append(" in mLineNumber "+(s.left+1));
                 /* Check if the column number in the input is greater
                    or equal to zero. */
                 if (s.right >= 0)                    
@@ -62,12 +62,12 @@ parser code {:
         m.append(" : "+message);
    
         /* Print the contents of the StringBuffer 'm', which contains
-           an error message, out on a line. */
+           an error message, out on a mLineNumber. */
         System.err.println(m);
     }
    
     /* Change the method report_fatal_error so when it reports a fatal
-       error it will display the line and column number of where the
+       error it will display the mLineNumber and column number of where the
        fatal error occurred in the input as well as the reason for the
        fatal error which is passed into the method in the object
        'message' and then exit.*/
@@ -85,7 +85,7 @@ parser code {:
 
    Terminals that have no value are listed first and then terminals
    that do have an value, in this case an integer value, are listed on
-   the next line down. */
+   the next mLineNumber down. */
 terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
 terminal Integer   NUMBER, ID;
    
@@ -108,7 +108,7 @@ non terminal Integer    expr, factor, term;
   than PLUS.
   
   The precedence defined here would look something like this where the
-  lower line always will have higher precedence than the line before it.
+  lower mLineNumber always will have higher precedence than the mLineNumber before it.
    
   precedence left PLUS, MINUS; 
   precedence left TIMES, DIVIDE; 
@@ -153,7 +153,7 @@ non terminal Integer    expr, factor, term;
    after the non terminal 'expr' is a label an is used to access the
    value of 'expr' which will be an integer.  The action for the
    production lies between {: and :}.  This action will print out the
-   line " = + e" where e is the value of 'expr'.  Before the action
+   mLineNumber " = + e" where e is the value of 'expr'.  Before the action
    takes places we need to go deeper into the grammar since 'expr' is
    a non terminal.  Whenever a non terminal is encountered on the rhs
    of a production we need to find the rhs of that non terminal until

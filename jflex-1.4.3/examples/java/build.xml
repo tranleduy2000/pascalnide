@@ -7,12 +7,12 @@
 
   <target name="run" depends="compile">
     <java classname="JavaParser"> 
-      <arg line="JavaParser.java"/> 
-      <arg line="JavaSymbol.java"/> 
-      <arg line="UnicodeEscapes.java"/> 
-      <arg line="parser.java"/> 
-      <arg line="sym.java"/> 
-      <arg line="Scanner.java"/> 
+      <arg mLineNumber="JavaParser.java"/>
+      <arg mLineNumber="JavaSymbol.java"/>
+      <arg mLineNumber="UnicodeEscapes.java"/>
+      <arg mLineNumber="parser.java"/>
+      <arg mLineNumber="sym.java"/>
+      <arg mLineNumber="Scanner.java"/>
     </java>
   </target>
 

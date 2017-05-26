@@ -34,8 +34,8 @@ action code {:
   Timer       t           = new Timer();
   EOFActions  eofActions  = new EOFActions();
 
-  void fatalError(ErrorMessages message, int line, int col) {
-    syntaxError(message, line, col);
+  void fatalError(ErrorMessages message, int mLineNumber, int col) {
+    syntaxError(message, mLineNumber, col);
     throw new GeneratorException();
   }
 
@@ -48,12 +48,12 @@ action code {:
     Out.error(scanner.file, message, scanner.currentLine(), -1);
   }
   
-  void syntaxError(ErrorMessages message, int line) {
-    Out.error(scanner.file, message, line, -1);
+  void syntaxError(ErrorMessages message, int mLineNumber) {
+    Out.error(scanner.file, message, mLineNumber, -1);
   }
 
-  void syntaxError(ErrorMessages message, int line, int col) {
-    Out.error(scanner.file, message, line, col);
+  void syntaxError(ErrorMessages message, int mLineNumber, int col) {
+    Out.error(scanner.file, message, mLineNumber, col);
   }
 
 
@@ -117,15 +117,15 @@ action code {:
     return result;
   }
   
-  private RegExp makeRepeat(RegExp r, int n1, int n2, int line, int col) {
+  private RegExp makeRepeat(RegExp r, int n1, int n2, int mLineNumber, int col) {
 
     if (n1 <= 0 && n2 <= 0) {
-      syntaxError(ErrorMessages.REPEAT_ZERO, line, col);
+      syntaxError(ErrorMessages.REPEAT_ZERO, mLineNumber, col);
       return null;
     }
 
     if (n1 > n2) {
-      syntaxError(ErrorMessages.REPEAT_GREATER, line, col);
+      syntaxError(ErrorMessages.REPEAT_GREATER, mLineNumber, col);
       return null;
     }
     
@@ -157,7 +157,7 @@ action code {:
     list.addElement(new Interval('\u0085','\u0085'));
     list.addElement(new Interval('\u2028','\u2029'));
 
-	// assumption: line feeds are caseless
+	// assumption: mLineNumber feeds are caseless
     charClasses.makeClass(list, false);
     charClasses.makeClass('\n', false);
     charClasses.makeClass('\r', false);

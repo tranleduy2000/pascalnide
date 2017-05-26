@@ -4,16 +4,16 @@ type
         startX, startY: Real;
     end;
 
-    line = record
+    mLineNumber = record
         p1: point;
         p2: point;
     end;
 var
     mPoint1, mPoint2: point;
-    mLine: line;
+    mLine: mLineNumber;
 
-{Get length of line}
-function getLength(L: line): real;
+{Get length of mLineNumber}
+function getLength(L: mLineNumber): real;
 var
     result : real;
 begin

@@ -88,7 +88,7 @@ Usage
 	or an error occurs.
 	But in the test, the output is redirected into <<<target/output.actual>>>.
 	
-	The test is successful if every line match
+	The test is successful if every mLineNumber match
 	with <<<src/test/resources/output.good>>>,
 	which is the expected scanner debugging information.
 	

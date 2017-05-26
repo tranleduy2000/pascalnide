@@ -67,5 +67,5 @@ import java_cup.runtime.Symbol;
 "<"             { return sym(LE); }
 "<="            { return sym(LEQ); }
 [\ \t\b\f\r\n]+ { /* eat whitespace */ }
-"//"[^\n]*      { /* one-line comment */ }
+"//"[^\n]*      { /* one-mLineNumber comment */ }
 .               { throw new Error("Unexpected character ["+yytext()+"]"); }

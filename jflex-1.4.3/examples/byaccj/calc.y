@@ -39,10 +39,10 @@
 %%
 
 input:   /* empty string */
-       | input line
+       | input mLineNumber
        ;
       
-line:    NL      { if (interactive) System.out.print("Expression: "); }
+mLineNumber:    NL      { if (interactive) System.out.print("Expression: "); }
        | exp NL  { System.out.println(" = " + $1); 
                    if (interactive) System.out.print("Expression: "); }
        ;

@@ -13,35 +13,39 @@ import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 
-public class ConstantAccess extends DebuggableReturnValue {
-    private Object constant_value;
+public class ConstantAccess<T> extends DebuggableReturnValue {
+    private T value;
     private DeclaredType type;
-    private LineInfo line;
+    private LineInfo mLineNumber;
 
-    public ConstantAccess(@Nullable Object o, @Nullable LineInfo line) {
-        this.constant_value = o;
-        this.line = line;
+    public ConstantAccess(@Nullable T o, @Nullable LineInfo mLineNumber) {
+        this.value = o;
+        this.mLineNumber = mLineNumber;
     }
 
-    public ConstantAccess(@Nullable Object o, @Nullable DeclaredType type, @Nullable LineInfo line) {
-        this.constant_value = o;
+    public ConstantAccess(@Nullable T o, @Nullable DeclaredType type, @Nullable LineInfo mLineNumber) {
+        this.value = o;
         this.type = type;
-        this.line = line;
+        this.mLineNumber = mLineNumber;
+    }
+
+    public T getValue() {
+        return value;
     }
 
     @Override
     public LineInfo getLineNumber() {
-        return line;
+        return mLineNumber;
     }
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) {
-        return constant_value;
+        return value;
     }
 
     @Override
     public String toString() {
-        return constant_value.toString();
+        return value.toString();
     }
 
 
@@ -50,12 +54,12 @@ public class ConstantAccess extends DebuggableReturnValue {
         if (type != null) {
             return new RuntimeType(type, false);
         }
-        return new RuntimeType(BasicType.create(constant_value.getClass()), false);
+        return new RuntimeType(BasicType.create(value.getClass()), false);
     }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context) {
-        return constant_value;
+        return value;
     }
 
     @Override

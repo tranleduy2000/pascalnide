@@ -33,10 +33,10 @@ import java_cup.runtime.*;
 %class Lexer
 
 /*
-  The current line number can be accessed with the variable yyline
+  The current mLineNumber number can be accessed with the variable yyline
   and the current column number with the variable yycolumn.
 */
-%line
+%mLineNumber
 %column
     
 /* 
@@ -49,7 +49,7 @@ import java_cup.runtime.*;
   Declarations
    
   Code between %{ and %}, both of which must be at the beginning of a
-  line, will be copied letter to letter into the lexer class source.
+  mLineNumber, will be copied letter to letter into the lexer class source.
   Here you declare member variables and functions that are used inside
   scanner actions.  
 */
@@ -76,11 +76,11 @@ import java_cup.runtime.*;
   in the Lexical Rules Section.  
 */
    
-/* A line terminator is a \r (carriage return), \n (line feed), or
+/* A mLineNumber terminator is a \r (carriage return), \n (mLineNumber feed), or
    \r\n. */
 LineTerminator = \r|\n|\r\n
    
-/* White space is a line terminator, space, tab, or line feed. */
+/* White space is a mLineNumber terminator, space, tab, or mLineNumber feed. */
 WhiteSpace     = {LineTerminator} | [ \t\f]
    
 /* A literal integer is is a number beginning with a number between
