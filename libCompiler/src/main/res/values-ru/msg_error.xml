@@ -78,7 +78,7 @@
     <string name="WrongIfElseStatement">НЕПРАВИЛЬНО УПОТРЕБЛЁН ОПЕРАТОР IF ELSE\n\n
         Синтаксис: "if УСЛОВИЕ then S1 else S2;" \n\n
         Где S1 и S2 - разные утверждения. Обратите внимание, что за выражением S1 нет «точки с запятой» (;).</string>
-    <string name="ExpectedTokenException_3">Syntax error, \"%1$s\" expected but \"%2$s\" found</string>
+ <string name="ExpectedTokenException_3">Синтаксическая ошибка, \"%1$s\" ожидается, но найден \"%2$s\"</string>
     <string name="UnConvertibleTypeException2">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\" of expression or variable \"%4$s\"</string>
 
 </resources>
