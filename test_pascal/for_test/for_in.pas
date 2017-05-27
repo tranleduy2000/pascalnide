@@ -6,6 +6,5 @@ var
 begin
     for i in a do write(i, ' ');
     for c in b do write(c, ' ');
-    for i in i do write(i); //error
     readln;
 end.
