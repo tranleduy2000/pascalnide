@@ -46,6 +46,7 @@ import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,8 +89,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
         StringBuilder code = fileManager.fileToString(getArguments().getString(CompileManager.FILE_PATH));
         mCodeEditor.setTextHighlighted(code);
-        mCodeEditor.clearHistory();
-        mCodeEditor.restoreHistory(getFilePath());
+
 
         try {
             mCodeEditor.setEditorControl((EditorControl) getActivity());
@@ -115,9 +115,11 @@ public class EditorFragment extends Fragment implements EditorListener {
     public void onStop() {
         saveFile();
         if (mCodeEditor != null && getFilePath() != null) {
+            Log.i(TAG, "onStop: save edit history " + getFilePath());
             mCodeEditor.saveHistory(getFilePath());
         } else {
-            Log.d(TAG, "onDestroy: " + " null editor");
+            android.util.Log.e(TAG, "can not save edit history");
+            FirebaseAnalytics.getInstance(getContext()).logEvent("can_not_save_edit_history", new Bundle());
         }
 
         super.onStop();
@@ -132,6 +134,7 @@ public class EditorFragment extends Fragment implements EditorListener {
     public void onResume() {
         super.onResume();
         mCodeEditor.updateFromSettings();
+        mCodeEditor.restoreHistory(getFilePath());
     }
 
     public void autoFix(ParsingException e) {

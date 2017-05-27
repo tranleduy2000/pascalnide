@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.frontend.view.exec_screen.console.TextConsole;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,16 +51,16 @@ public class ArrayUtils {
         return res.toString();
     }
 
-    public static String[] join(@NonNull String[]... objects) {
+    public static <T> T[] join(Class<T> c, @NonNull T[]... objects) {
         int size = 0;
-        for (String[] object : objects) {
+        for (T[] object : objects) {
             size += object.length;
         }
-        String[] result = new String[size];
+        T[] result = (T[]) Array.newInstance(c, size);
         int index = 0;
-        for (String[] object : objects) {
-            for (String t : object) {
-                result[index] = t;
+        for (T[] object : objects) {
+            for (T t : object) {
+                Array.set(result, index, t);
                 index++;
             }
         }
