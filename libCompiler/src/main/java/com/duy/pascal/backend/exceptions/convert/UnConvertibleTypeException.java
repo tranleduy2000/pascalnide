@@ -18,16 +18,23 @@ package com.duy.pascal.backend.exceptions.convert;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.VariableAccess;
 
 public class UnConvertibleTypeException extends ParsingException {
 
+    /**
+     * identifier    :=    value;
+     * [targetType]        [valueType]
+     */
+
     public RuntimeValue value;
     public DeclaredType valueType;
+
     public DeclaredType targetType;
-    public RuntimeValue targetValue;
+    public RuntimeValue identifier;
 
 
     public UnConvertibleTypeException(RuntimeValue value,
@@ -42,23 +49,30 @@ public class UnConvertibleTypeException extends ParsingException {
         this.targetType = targetType;
     }
 
+    /**
+     * @param identifier - variable identifier, constant, function
+     */
     public UnConvertibleTypeException(RuntimeValue value,
-                                      DeclaredType targetType,
+                                      DeclaredType identifierType,
                                       DeclaredType valueType,
-                                      RuntimeValue targetValue) {
+                                      RuntimeValue identifier) {
         super(value.getLineNumber(),
                 "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                         + ", which cannot be "
-                        + "converted to the type \"" + targetType + "\" of expression or variable " + targetValue);
+                        + "converted to the type \"" + identifierType + "\" of expression or variable " + identifier);
 
         this.value = value;
         this.valueType = valueType;
-        this.targetType = targetType;
-        this.targetValue = targetValue;
+        this.targetType = identifierType;
+        this.identifier = identifier;
     }
 
     @Override
     public boolean isAutoFix() {
-        return targetValue instanceof VariableAccess || targetValue instanceof FunctionCall;
+        if (identifier == null) {
+            return false;
+        }
+        return identifier instanceof VariableAccess || identifier instanceof FunctionCall
+                || identifier instanceof ConstantAccess;
     }
 }

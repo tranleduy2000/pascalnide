@@ -89,7 +89,7 @@ class DialogManager {
             //set event for button
             dialog.findViewById(R.id.btn_cancel)?.setOnClickListener { dialog.cancel() }
 
-            /*   if (e is ParsingException) {
+             if (e is ParsingException) {
                    if (e.isAutoFix) {
                        var container: RadioGroup? = null
                        if (e is NoSuchFunctionOrVariableException) {
@@ -111,7 +111,7 @@ class DialogManager {
                            dialog.cancel()
                        }
                    }
-               }*/
+               }
             return dialog
 
         }

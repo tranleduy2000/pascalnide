@@ -144,13 +144,13 @@ public class ExceptionManager {
 
             if (e instanceof UnConvertibleTypeException) {
                 UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
-                if (exception.targetValue == null) {
+                if (exception.identifier == null) {
                     return getMessageResource(e, R.string.UnConvertibleTypeException,
                             exception.value, exception.valueType, exception.targetType);
                 } else {
 
                     return getMessageResource(e, R.string.UnConvertibleTypeException2,
-                            exception.value, exception.valueType, exception.targetType, exception.targetValue);
+                            exception.value, exception.valueType, exception.targetType, exception.identifier);
                 }
             }
             if (e instanceof LibraryNotFoundException) {

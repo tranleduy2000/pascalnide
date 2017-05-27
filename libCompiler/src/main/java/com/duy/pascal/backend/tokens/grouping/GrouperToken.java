@@ -846,34 +846,36 @@ public abstract class GrouperToken extends Token {
             } catch (ParsingException ignored) {
             }
 
-            RuntimeValue r = getNextExpression(context, next);
+            RuntimeValue varIdentifier = getNextExpression(context, next);
             next = peek();
             if (next instanceof AssignmentToken) {
                 take();
-                AssignableValue left = r.asAssignableValue(context);
+                AssignableValue left = varIdentifier.asAssignableValue(context);
 
                 if (left == null) {
-                    throw new UnAssignableTypeException(r);
+                    throw new UnAssignableTypeException(varIdentifier);
                 }
-                RuntimeValue valueToAssign = getNextExpression(context);
-                DeclaredType outputType = left.getType(context).declType;
-                DeclaredType inputType = valueToAssign.getType(context).declType;
+                RuntimeValue value = getNextExpression(context);
+                DeclaredType valueType = value.getType(context).declType;
+
+                DeclaredType variableType = left.getType(context).declType;
+
                 /*
                  * Does not have to be writable to assign value to variable.
 				 */
-                RuntimeValue converted = outputType.convert(valueToAssign, context);
+                RuntimeValue converted = variableType.convert(value, context);
                 if (converted == null) {
-                    throw new UnConvertibleTypeException(valueToAssign, outputType, inputType);
+                    throw new UnConvertibleTypeException(value, variableType, valueType, varIdentifier);
                 }
-                return new Assignment(left, outputType.cloneValue(converted), next.getLineNumber());
-            } else if (r instanceof Executable) {
-                return (Executable) r;
-            } else if (r instanceof FieldAccess) {
-                FieldAccess fieldAccess = (FieldAccess) r;
+                return new Assignment(left, variableType.cloneValue(converted), next.getLineNumber());
+            } else if (varIdentifier instanceof Executable) {
+                return (Executable) varIdentifier;
+            } else if (varIdentifier instanceof FieldAccess) {
+                FieldAccess fieldAccess = (FieldAccess) varIdentifier;
                 RuntimeValue container = fieldAccess.getContainer();
                 return (Executable) getMethodFromClass(context, container, fieldAccess.getName());
             } else {
-                throw new NotAStatementException(r);
+                throw new NotAStatementException(varIdentifier);
             }
         }
     }
