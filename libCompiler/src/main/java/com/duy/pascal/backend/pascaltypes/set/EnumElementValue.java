@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.pascaltypes.enumtype;
+package com.duy.pascal.backend.pascaltypes.set;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

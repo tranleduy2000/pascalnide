@@ -19,6 +19,7 @@ package com.js.interpreter.instructions.conditional;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.references.Reference;
@@ -76,7 +77,7 @@ public class ForInStatement extends DebuggableExecutable {
 
     /**
      * Execute for statement
-     * I specified the enum by a {@link LinkedList} see {@link com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType}
+     * I specified the enum by a {@link LinkedList} see {@link EnumGroupType}
      */
     @Override
     @SuppressWarnings("unchecked")

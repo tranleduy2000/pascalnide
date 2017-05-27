@@ -26,7 +26,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
-import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
+import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.pascaltypes.type_converter.AnyToStringType;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;

@@ -18,7 +18,7 @@ import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
 import com.duy.pascal.backend.lib.javaclasspath.JavaClassLoader;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
+import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;

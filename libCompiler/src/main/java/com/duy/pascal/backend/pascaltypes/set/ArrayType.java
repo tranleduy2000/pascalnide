@@ -1,19 +1,37 @@
-package com.duy.pascal.backend.pascaltypes;
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.backend.pascaltypes.set;
 
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
-import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.ArrayIndexAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.cloning.ArrayCloner;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.ncsa.common.util.TypeUtils;
 
 import java.lang.reflect.Array;
 
 
-public class ArrayType<T extends DeclaredType> extends InfoType {
+public class ArrayType<T extends DeclaredType> extends BaseSetType {
     public final T elementType;
     private SubrangeType bounds;
 
@@ -23,9 +41,14 @@ public class ArrayType<T extends DeclaredType> extends InfoType {
         this.bounds = bounds;
     }
 
-
+    @Override
     public T getElementType() {
         return elementType;
+    }
+
+    @Override
+    public int getSize() {
+        return bounds.size;
     }
 
     public SubrangeType getBounds() {
@@ -78,10 +101,8 @@ public class ArrayType<T extends DeclaredType> extends InfoType {
     @Override
     public Object initialize() {
         Object result = Array.newInstance(elementType.getTransferClass(), bounds.size);
-
         for (int i = 0; i < bounds.size; i++)
             Array.set(result, i, elementType.initialize());
-
         return result;
     }
 
@@ -154,9 +175,7 @@ public class ArrayType<T extends DeclaredType> extends InfoType {
             e.printStackTrace();
             return null;
         }
-
     }
-
 
     @Override
     public String getEntityType() {

@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.runtime.variables;
 
-import com.duy.pascal.backend.pascaltypes.ArrayType;
+import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.js.interpreter.VariableDeclaration;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 

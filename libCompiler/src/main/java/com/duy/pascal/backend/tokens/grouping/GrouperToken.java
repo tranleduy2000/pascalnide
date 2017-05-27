@@ -25,7 +25,7 @@ import com.duy.pascal.backend.exceptions.value.NonIntegerException;
 import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.ArrayType;
+import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.ClassType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -35,8 +35,8 @@ import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.StringLimitType;
-import com.duy.pascal.backend.pascaltypes.enumtype.EnumElementValue;
-import com.duy.pascal.backend.pascaltypes.enumtype.EnumGroupType;
+import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
+import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.rangetype.EnumSubrangeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
@@ -290,35 +290,33 @@ public abstract class GrouperToken extends Token {
                     value = value.compileTimeExpressionFold(c);
                     RuntimeValue convert = BasicType.Integer.convert(value, c);
                     if (convert == null) {
-                        throw new UnConvertibleTypeException(value, BasicType.Integer, value.getType(c).declType);
+                        throw new UnConvertibleTypeException(value, BasicType.Integer,
+                                value.getType(c).declType);
                     }
                     Object oddValue = convert.compileTimeValue(c);
                     if (oddValue == null) {
                         throw new NonConstantExpressionException(convert);
                     }
-
-                    //create new enum
-                    EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, index.get(), token.getLineNumber());
+                    EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType,
+                            index.get(), token.getLineNumber());   //create new enum
                     e.setValue((Integer) oddValue);
-                    //add to parent
-                    elements.add(e);
-                    //add as constant
-                    ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, e, e.getLineNumber());
-
-                    c.verifyNonConflictingSymbol(constant);
-                    c.declareConst(constant);
+                    elements.add(e);                    //add to parent
+                    ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType,
+                            e, e.getLineNumber());
+                    c.verifyNonConflictingSymbol(constant); //check duplicate value
+                    c.declareConst(constant);                    //add as constant
                 } else {
                     throw new ExpectedTokenException(operator, ",", "=");
                 }
             } else {
-                //create new enum
-                EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, index.get(), token.getLineNumber());
+
+                EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, index.get(),
+                        token.getLineNumber()); //create new enum
                 e.setValue(index.get());
-                //add to container
-                elements.add(e);
-                //add as constant
-                ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, e, e.getLineNumber());
-                c.declareConst(constant);
+                elements.add(e);        //add to container
+                ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, e,
+                        e.getLineNumber());
+                c.declareConst(constant);  //add as constant
             }
             index.getAndIncrement();
             //if has next, check comma token
@@ -955,11 +953,11 @@ public abstract class GrouperToken extends Token {
                     }
                 } else if (enumList instanceof SetType) {
                     SetType setType = (SetType) enumType;
-                    if (varType.declType.equals(setType.getElementType())) {
-
-                    } else {
-                        // TODO: 26-May-17 exception
+                    RuntimeValue convert = setType.getElementType().convert(varIdentifier, context);
+                    if (convert == null) {
+                        throw new UnConvertibleTypeException(varIdentifier, setType.getElementType(), varType.declType);
                     }
+
                 } else {
                     throw new NonArrayOrSetException(enumList);
                 }

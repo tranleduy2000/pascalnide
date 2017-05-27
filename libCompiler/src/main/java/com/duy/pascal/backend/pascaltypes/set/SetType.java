@@ -22,13 +22,11 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.InfoType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.SetIndexAccess;
 import com.duy.pascal.backend.runtime.value.cloning.SetCloner;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.ncsa.common.util.TypeUtils;
 
 import java.util.LinkedList;
 
@@ -37,8 +35,11 @@ import java.util.LinkedList;
  * <p>
  * Created by Duy on 16-May-17.
  */
-public class SetType<T extends DeclaredType> extends InfoType {
+public class SetType<T extends DeclaredType> extends BaseSetType {
     private T elementType;
+    /**
+     * dynamic element
+     */
     private LinkedList list = new LinkedList<>();
 
     public SetType(T elementType, LinkedList linkedList, LineInfo lineInfo) {
@@ -52,6 +53,7 @@ public class SetType<T extends DeclaredType> extends InfoType {
         this.lineInfo = lineInfo;
     }
 
+    @SuppressWarnings("unchecked")
     public void add(T element) {
         list.add(element);
     }
@@ -73,8 +75,12 @@ public class SetType<T extends DeclaredType> extends InfoType {
     }
 
     @Override
+    public int getSize() {
+        return list.size();
+    }
+
+    @Override
     public Object initialize() {
-        //create new array with element type is elementType via java reflect
         return this.list;
     }
 
@@ -82,7 +88,6 @@ public class SetType<T extends DeclaredType> extends InfoType {
     public Class getTransferClass() {
         return LinkedList.class;
     }
-
 
     @Override
     public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
@@ -134,29 +139,7 @@ public class SetType<T extends DeclaredType> extends InfoType {
 
     @Override
     public Class<?> getStorageClass() {
-        Class c = elementType.getStorageClass();
-        if (c == null) return null;
-        if (c.isArray()) {
-            try {
-                return Class.forName("[" + c.getName());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } else if (c.isPrimitive()) {
-            c = TypeUtils.getClassForType(c);
-        }
-        StringBuilder b = new StringBuilder();
-        b.append('[');
-        b.append('L');
-        b.append(c.getName());
-        b.append(';');
-        try {
-            return Class.forName(b.toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return LinkedList.class;
     }
 
     @Override
