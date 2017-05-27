@@ -36,8 +36,8 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     private SubrangeType bounds;
 
 
-    public ArrayType(T elementclass, SubrangeType bounds) {
-        this.elementType = elementclass;
+    public ArrayType(T elementType, SubrangeType bounds) {
+        this.elementType = elementType;
         this.bounds = bounds;
     }
 
@@ -124,7 +124,7 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
 
     @Override
     public String toString() {
-        return elementType.toString() + '[' + bounds + ']';
+        return "array[" + bounds + "] of " + elementType;
     }
 
     /**

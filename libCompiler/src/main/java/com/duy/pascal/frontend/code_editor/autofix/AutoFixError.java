@@ -35,8 +35,6 @@ import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.R.attr.name;
-
 /**
  * This class is used to automatically correct some errors when compiling
  * Such as declare variable , type, function, ..
@@ -236,44 +234,37 @@ public class AutoFixError {
         CharSequence text = getText(e);
 
         if (e.identifier instanceof VariableAccess) {
-            String name = ((VariableAccess) e.identifier).getName();
+            final String name = ((VariableAccess) e.identifier).getName();
             Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
-                            "(" + name + ")" + //name of variable                       //2
-                            "(\\s?)" +//one or more white space                         //3
-                            "(:)" + //colon                                             //4
-                            "(.*?)" + //any type                                        //5
+                            "(.*?)" + //other variable                                  //2
+                            "(" + name + ")" + //name of variable                       //3
+                            "(\\s?)" +//one or more white space                         //4
+                            "(:)" + //colon                                             //5
+                            "(.*?)" + //any type                                        //6
                             "(;)",
                     Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
             Matcher matcher = pattern.matcher(text);
+            Log.d(TAG, "autoFixConvertType: " + text);
 
             if (matcher.find()) {
-                int start = matcher.start(2);
-                int end = matcher.end(5);
+                Log.d(TAG, "autoFixConvertType: match " + matcher);
+                final int start = matcher.start(3);
+                int end = matcher.end(6);
 
-                String insertText = name + ": " + e.valueType.toString();
+                final String insertText = name + ": " + e.valueType.toString();
                 editable.getEditableText().replace(start, end, insertText);
-                editable.setSelection(start + name.length() + 2, start + insertText.length());
+                editable.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        editable.setSelection(start + name.length() + 2, start + insertText.length());
+                    }
+                });
+            } else {
+                Log.d(TAG, "autoFixConvertType: can not find " + pattern);
             }
         } else if (e.identifier instanceof FunctionCall) {
-            Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
-                            "(" + name + ")" + //name of variable                       //2
-                            "(\\s?)" +//one or more white space                         //3
-                            "(:)" + //colon                                             //4
-                            "(.*?)" + //any type                                        //5
-                            "(;)",
-                    Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
-            Matcher matcher = pattern.matcher(text);
-
-            if (matcher.find()) {
-                int start = matcher.start(2);
-                int end = matcher.end(5);
-
-                String insertText = name + ": " + e.valueType.toString() + ";";
-                editable.getEditableText().replace(start, end, insertText);
-                editable.setSelection(start, start + insertText.length());
-            }
         } else if (e.identifier instanceof ConstantAccess) {
             ConstantAccess constantAccess = (ConstantAccess) e.identifier;
             DeclaredType type = constantAccess.getType(null).declType;

@@ -88,4 +88,9 @@ public class EnumSubrangeType extends SubrangeType {
     public int indexOf(EnumElementValue key) {
         return this.enumGroupType.indexOf(key);
     }
+
+    @Override
+    public String toString() {
+        return null;
+    }
 }

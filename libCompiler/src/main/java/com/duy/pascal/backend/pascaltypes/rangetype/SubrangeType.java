@@ -35,5 +35,5 @@ public abstract class SubrangeType implements Containable {
         return size;
     }
 
-
+    public abstract String toString();
 }
