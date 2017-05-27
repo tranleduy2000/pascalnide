@@ -24,7 +24,6 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.InfoType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.SetIndexAccess;
 import com.duy.pascal.backend.runtime.value.cloning.SetCloner;
@@ -40,9 +39,9 @@ import java.util.LinkedList;
  */
 public class SetType<T extends DeclaredType> extends InfoType {
     private T elementType;
-    private LinkedList<Object> list = new LinkedList<>();
+    private LinkedList list = new LinkedList<>();
 
-    public SetType(T elementType, LinkedList<Object> linkedList, LineInfo lineInfo) {
+    public SetType(T elementType, LinkedList linkedList, LineInfo lineInfo) {
         this.elementType = elementType;
         this.list = linkedList;
         this.lineInfo = lineInfo;

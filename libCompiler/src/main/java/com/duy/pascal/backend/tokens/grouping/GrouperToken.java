@@ -19,6 +19,7 @@ import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
 import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.duy.pascal.backend.exceptions.value.DuplicateElementException;
+import com.duy.pascal.backend.exceptions.value.NonArrayOrSetException;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.value.NonIntegerException;
 import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
@@ -289,7 +290,7 @@ public abstract class GrouperToken extends Token {
                     value = value.compileTimeExpressionFold(c);
                     RuntimeValue convert = BasicType.Integer.convert(value, c);
                     if (convert == null) {
-                        throw new UnConvertibleTypeException(value, BasicType.Integer, value.getType(c).declType, false);
+                        throw new UnConvertibleTypeException(value, BasicType.Integer, value.getType(c).declType);
                     }
                     Object oddValue = convert.compileTimeValue(c);
                     if (oddValue == null) {
@@ -577,32 +578,27 @@ public abstract class GrouperToken extends Token {
                     take();
                     //set default value for array
                     if (type instanceof ArrayType) {
-                        defaultValue = getArrayConstant(context, (ArrayType) type);
+                        defaultValue = getArrayConstant(context, (ArrayType) type).getValue();
                     } else if (type instanceof EnumGroupType) {
-                        if (!(peek() instanceof ParenthesizedToken)) {
-                            throw new ExpectedTokenException(new ParenthesizedToken(null), peek());
-                        }
-                        defaultValue = getEnumConstant(context, (ParenthesizedToken) take(), type);
+                        defaultValue = getEnumConstant(context, take(), type).getValue();
                     } else if (type instanceof SetType) {
                         if (!(peek() instanceof BracketedToken)) {
                             throw new ExpectedTokenException(new BracketedToken(null), peek());
                         }
                         AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) type).getElementType());
-                        defaultValue = getSetConstant(context, (BracketedToken) take(), elementTypeReference);
+                        defaultValue = getSetConstant(context, (BracketedToken) take(), elementTypeReference).getValue();
                     } else { //set default single value
                         RuntimeValue unConvert = getNextExpression(context);
                         RuntimeValue converted = type.convert(unConvert, context);
                         if (converted == null) {
-                            throw new UnConvertibleTypeException(unConvert, type, unConvert.getType(context).declType,
-                                    true);
+                            throw new UnConvertibleTypeException(unConvert, type, unConvert.getType(context).declType);
                         }
                         defaultValue = converted.compileTimeValue(context);
                         if (defaultValue == null) {
                             throw new NonConstantExpressionException(converted);
                         }
                         if (names.size() != 1) {
-                            throw new MultipleDefaultValuesException(
-                                    converted.getLineNumber());
+                            throw new MultipleDefaultValuesException(converted.getLineNumber());
                         }
                     }
                 }
@@ -625,16 +621,31 @@ public abstract class GrouperToken extends Token {
     }
 
     /**
-     * @param elementType - type of enum
+     * @param targetType - type of enum
      * @return the enum constant, I define the enum as {@link LinkedList}
      */
-    protected ConstantAccess<LinkedList> getEnumConstant(ExpressionContext context, ParenthesizedToken parentheses,
-                                                         DeclaredType elementType) throws ParsingException {
+    protected ConstantAccess<EnumElementValue> getEnumConstant(ExpressionContext context, Token token,
+                                                               DeclaredType targetType) throws ParsingException {
+        RuntimeValue expression = getNextExpression(context, token);
+        Object constant = expression.compileTimeValue(context);
+        if (constant == null) {
+            throw new NonConstantExpressionException(expression);
+        }
+        RuntimeValue convert = targetType.convert(expression, context);
+        if (convert == null) {
+            throw new UnConvertibleTypeException(expression, targetType, expression.getType(context).declType);
+        }
+        Object o = convert.compileTimeValue(context);
+        return new ConstantAccess<>((EnumElementValue) o, targetType, token.getLineNumber());
+    }
+
+    protected ConstantAccess<LinkedList> getEnumGroupConstant(ExpressionContext context, ParenthesizedToken parentheses,
+                                                              DeclaredType targetType) throws ParsingException {
         LinkedList<Object> linkedList = new LinkedList<>();
         while (parentheses.hasNext()) {
-            linkedList.add(getConstantElement(context, parentheses, elementType));
+            linkedList.add(getConstantElement(context, parentheses, targetType));
         }
-        return new ConstantAccess<LinkedList>(linkedList, elementType, parentheses.getLineNumber());
+        return new ConstantAccess<LinkedList>(linkedList, targetType, parentheses.getLineNumber());
     }
 
     /**
@@ -706,7 +717,7 @@ public abstract class GrouperToken extends Token {
             } else if (elementType instanceof EnumGroupType) {
                 if (grouperToken.peek() instanceof ParenthesizedToken) {
                     Token next = grouperToken.take();
-                    ConstantAccess<LinkedList> constant = getEnumConstant(context, (ParenthesizedToken) next, elementType);
+                    ConstantAccess<LinkedList> constant = getEnumGroupConstant(context, (ParenthesizedToken) next, elementType);
                     LinkedList enumConstant = constant.getValue();
 
                     if (grouperToken.hasNext()) {
@@ -737,7 +748,7 @@ public abstract class GrouperToken extends Token {
                     RuntimeValue converted = elementType.convert(unconvert, context);
                     if (converted == null) {
                         throw new UnConvertibleTypeException(unconvert, elementType,
-                                unconvert.getType(context).declType, false);
+                                unconvert.getType(context).declType);
                     }
                     if (grouperToken.hasNext()) {
                         grouperToken.assertNextComma();
@@ -855,7 +866,7 @@ public abstract class GrouperToken extends Token {
 				 */
                 RuntimeValue converted = outputType.convert(valueToAssign, context);
                 if (converted == null) {
-                    throw new UnConvertibleTypeException(valueToAssign, outputType, inputType, true);
+                    throw new UnConvertibleTypeException(valueToAssign, outputType, inputType);
                 }
                 return new Assignment(left, outputType.cloneValue(converted), next.getLineNumber());
             } else if (r instanceof Executable) {
@@ -928,19 +939,19 @@ public abstract class GrouperToken extends Token {
                 DeclaredType enumType = enumList.getType(context).declType;
                 if (!(enumType instanceof EnumGroupType || enumType instanceof ArrayType
                         || enumType instanceof SetType)) {
-                    throw new UnConvertibleTypeException(enumList, varType.declType, enumType, false);
+                    throw new UnConvertibleTypeException(enumList, varType.declType, enumType);
                 }
                 if (enumType instanceof EnumGroupType) {
                     RuntimeValue converted = varType.convert(enumList, context);
                     if (converted == null) {
                         throw new UnConvertibleTypeException(enumList,
-                                varType.declType, enumType, false);
+                                varType.declType, enumType);
                     }
                 } else if (enumType instanceof ArrayType) { //array type
                     ArrayType arrayType = (ArrayType) enumType;
                     RuntimeValue convert = arrayType.getElementType().convert(varIdentifier, context);
                     if (convert == null) {
-                        throw new UnConvertibleTypeException(varIdentifier, arrayType.getElementType(), varType.declType, false);
+                        throw new UnConvertibleTypeException(varIdentifier, arrayType.getElementType(), varType.declType);
                     }
                 } else if (enumList instanceof SetType) {
                     SetType setType = (SetType) enumType;
@@ -949,6 +960,8 @@ public abstract class GrouperToken extends Token {
                     } else {
                         // TODO: 26-May-17 exception
                     }
+                } else {
+                    throw new NonArrayOrSetException(enumList);
                 }
 
                 //check do token

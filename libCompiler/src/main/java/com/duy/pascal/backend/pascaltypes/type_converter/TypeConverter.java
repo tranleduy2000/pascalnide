@@ -60,7 +60,7 @@ public class TypeConverter {
             throws UnConvertibleTypeException {
         RuntimeValue result = autoConvert(outtype, target, intype);
         if (result == null) {
-            throw new UnConvertibleTypeException(target, outtype, intype, true);
+            throw new UnConvertibleTypeException(target, outtype, intype);
         }
         return result;
     }
@@ -70,7 +70,7 @@ public class TypeConverter {
             throws UnConvertibleTypeException {
         RuntimeValue result = forceConvert(outtype, target, intype);
         if (result == null) {
-            throw new UnConvertibleTypeException(target, outtype, intype, false);
+            throw new UnConvertibleTypeException(target, outtype, intype);
         }
         return result;
     }

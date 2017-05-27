@@ -28,21 +28,18 @@ public class UnConvertibleTypeException extends ParsingException {
     public DeclaredType valueType;
     public DeclaredType targetType;
     public RuntimeValue targetValue;
-    public boolean implicit;
 
 
     public UnConvertibleTypeException(RuntimeValue value,
                                       DeclaredType targetType,
-                                      DeclaredType valueType, boolean implicit) {
+                                      DeclaredType valueType) {
         super(value.getLineNumber(),
                 "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
-                        + ", which cannot be " + (implicit ? "implicitly " : "")
-                        + "converted to the type \"" + targetType + "\"");
+                        + ", which cannot be converted to the type \"" + targetType + "\"");
 
         this.value = value;
         this.valueType = valueType;
         this.targetType = targetType;
-        this.implicit = implicit;
     }
 
     public UnConvertibleTypeException(RuntimeValue value,
