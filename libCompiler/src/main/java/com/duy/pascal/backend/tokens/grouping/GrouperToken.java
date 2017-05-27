@@ -19,13 +19,11 @@ import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
 import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.duy.pascal.backend.exceptions.value.DuplicateElementException;
-import com.duy.pascal.backend.exceptions.value.NonArrayOrSetException;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
 import com.duy.pascal.backend.exceptions.value.NonIntegerException;
 import com.duy.pascal.backend.exceptions.value.UnAssignableTypeException;
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.ClassType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -35,11 +33,12 @@ import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.StringLimitType;
-import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
-import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.rangetype.EnumSubrangeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.set.ArrayType;
+import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
+import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.runtime.value.AssignableValue;
@@ -931,13 +930,18 @@ public abstract class GrouperToken extends Token {
                         lastValue, getNextCommand(context), lineNumber);
             }
         } else {
+            //for in statement
             if (((OperatorToken) next).type == OperatorTypes.IN) {
+                //assign value
                 RuntimeValue enumList = getNextExpression(context);
-                DeclaredType enumType = enumList.getType(context).declType;
+                DeclaredType enumType = enumList.getType(context).declType; //type of var
+
+                //accept foreach : enum, set, array
                 if (!(enumType instanceof EnumGroupType || enumType instanceof ArrayType
                         || enumType instanceof SetType)) {
                     throw new UnConvertibleTypeException(enumList, varType.declType, enumType);
                 }
+
                 if (enumType instanceof EnumGroupType) {
                     RuntimeValue converted = varType.convert(enumList, context);
                     if (converted == null) {
@@ -950,15 +954,12 @@ public abstract class GrouperToken extends Token {
                     if (convert == null) {
                         throw new UnConvertibleTypeException(varIdentifier, arrayType.getElementType(), varType.declType);
                     }
-                } else if (enumList instanceof SetType) {
+                } else {
                     SetType setType = (SetType) enumType;
                     RuntimeValue convert = setType.getElementType().convert(varIdentifier, context);
                     if (convert == null) {
                         throw new UnConvertibleTypeException(varIdentifier, setType.getElementType(), varType.declType);
                     }
-
-                } else {
-                    throw new NonArrayOrSetException(enumList);
                 }
 
                 //check do token
