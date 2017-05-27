@@ -15,7 +15,7 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 public class WordToken extends Token {
 
     //always lower case
-   public String name;
+    public String name;
 
     private String originalName;
 
@@ -65,7 +65,10 @@ public class WordToken extends Token {
             returnType = BasicType.Integer;
         } else if (name.equalsIgnoreCase("string")
                 || name.equalsIgnoreCase("ansistring")
-                || name.equalsIgnoreCase("shortstring")) {
+                || name.equalsIgnoreCase("shortstring")
+                || name.equalsIgnoreCase("UnicodeString")
+                || name.equalsIgnoreCase("OpenString")
+                || name.equalsIgnoreCase("WideString")) {
             returnType = BasicType.StringBuilder;
         } else if (name.equalsIgnoreCase("single")
                 || name.equalsIgnoreCase("extended")
@@ -78,17 +81,32 @@ public class WordToken extends Token {
                 || name.equalsIgnoreCase("int64")
                 || name.equalsIgnoreCase("qword")
                 || name.equalsIgnoreCase("longword")
-                || name.equalsIgnoreCase("dword")) {
+                || name.equalsIgnoreCase("dword")
+                || name.equalsIgnoreCase("uint64")) {
             returnType = BasicType.Long;
-        } else if (name.equalsIgnoreCase("boolean")) {
+        } else if (name.equalsIgnoreCase("boolean")
+                || name.equalsIgnoreCase("boolean16")
+                || name.equalsIgnoreCase("boolean32")
+                || name.equalsIgnoreCase("boolean64")
+                || name.equalsIgnoreCase("ByteBool")
+                || name.equalsIgnoreCase("WordBool")
+                || name.equalsIgnoreCase("LongBool")
+                ) {
             returnType = BasicType.Boolean;
-        } else if (name.equalsIgnoreCase("char")) {
+        } else if (name.equalsIgnoreCase("char")
+                || name.equalsIgnoreCase("AnsiChar")
+                || name.equalsIgnoreCase("char")) {
             returnType = BasicType.Character;
         } else if (name.equalsIgnoreCase("text")
                 || name.equalsIgnoreCase("textfile")) {
             returnType = BasicType.Text;
         } else if (name.equalsIgnoreCase("pointer")) {
             returnType = new PointerType(BasicType.create(Object.class));
+        } else if (name.equalsIgnoreCase("pchar")
+                || name.equalsIgnoreCase("PAnsiChar")) {
+            returnType = new PointerType(BasicType.create(Character.class));
+        } else if (name.equalsIgnoreCase("PShortString")) {
+            returnType = new PointerType(BasicType.create(StringBuilder.class));
         } else {
             DeclaredType type = context.getTypedefType(name);
             if (type != null) {

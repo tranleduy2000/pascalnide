@@ -20,6 +20,8 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
+import com.duy.pascal.backend.function_declaretion.builtin.AbstractMethodDeclaration;
 import com.duy.pascal.backend.function_declaretion.builtin.CastObjectFunction;
 import com.duy.pascal.backend.function_declaretion.builtin.ExitFunction;
 import com.duy.pascal.backend.function_declaretion.builtin.ExitNoneFunction;
@@ -32,7 +34,6 @@ import com.duy.pascal.backend.function_declaretion.builtin.NewInstanceParamsObje
 import com.duy.pascal.backend.function_declaretion.builtin.SetLengthFunction;
 import com.duy.pascal.backend.function_declaretion.builtin.SizeOfArrayFunction;
 import com.duy.pascal.backend.function_declaretion.builtin.SizeOfObjectFunction;
-import com.duy.pascal.backend.function_declaretion.builtin.AbstractMethodDeclaration;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.lib.android.connection.bluetooth.AndroidBluetoothLib;
@@ -59,13 +60,14 @@ import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
+import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
+import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.RunnableActivity;
-import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
-import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
-import com.js.interpreter.VariableDeclaration;
+import com.duy.pascal.frontend.structure.viewholder.StructureType;
+import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Constructor;
@@ -239,7 +241,13 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
 
-        program.declareVariable(new VariableDeclaration("null", new JavaClassBasedType(null), null, null));
+        program.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), null, null));
+        program.declareConst(new ConstantDefinition("nil", new PointerType(null), null, null));
+
+        program.declareConst(new ConstantDefinition("maxint", BasicType.Integer, Integer.MAX_VALUE, null));
+        program.declareConst(new ConstantDefinition("maxlongint", BasicType.Long, Long.MAX_VALUE, null));
+
+        program.declareConst(new ConstantDefinition("pi", BasicType.Long, Long.MAX_VALUE, null));
 
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}
@@ -247,8 +255,6 @@ public class PascalLibraryManager {
         addMethodFromClass(FileLib.class);
         addMethodFromClass(IOLib.class);
         addMethodFromClass(SystemLib.class);
-
-
     }
 
 }

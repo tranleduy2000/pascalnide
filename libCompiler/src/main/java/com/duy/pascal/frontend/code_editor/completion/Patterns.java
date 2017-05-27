@@ -47,7 +47,8 @@ public class Patterns {
                     "|boolean" +
                     "|char|text" +
                     "|record|continue" +
-                    "|unit|interface|initialization|finalization|implementation)\\b",
+                    "|unit|interface|initialization|finalization|implementation|" +
+                    "null|nil|set|new)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final Pattern BUILDIN_FUNCTIONS = Pattern.compile(
