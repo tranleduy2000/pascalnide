@@ -904,12 +904,11 @@ public abstract class GrouperToken extends Token {
                 }
                 firstValue = converted;
             } else {//if firstValue is not constant, check type
-                RuntimeValue convert = varAssignable.getType(context).convert(firstValue, context);
+                RuntimeValue convert = varIdentifier.getType(context).convert(firstValue, context);
                 if (convert == null) {
                     throw new UnConvertibleTypeException(firstValue, varAssignable.getType(context).declType,
                             firstValue.getType(context).declType, varIdentifier);
                 }
-                firstValue = convert;
             }
 
             next = take();
