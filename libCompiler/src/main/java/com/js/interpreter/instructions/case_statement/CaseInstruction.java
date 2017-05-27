@@ -104,7 +104,7 @@ public class CaseInstruction extends DebuggableExecutable {
         DeclaredType valueType = val.getType(context).declType;
         RuntimeValue converted = switchValueType.convert(val, context);
         if (converted == null) {
-            throw new UnConvertibleTypeException(val, switchValueType, valueType, mSwitchValue);
+            throw new UnConvertibleTypeException(val, switchValueType, valueType, mSwitchValue, context);
         }
 
     } // end check type

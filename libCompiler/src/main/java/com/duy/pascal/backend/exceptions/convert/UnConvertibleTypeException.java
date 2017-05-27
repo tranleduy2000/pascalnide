@@ -22,6 +22,7 @@ import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.VariableAccess;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 public class UnConvertibleTypeException extends ParsingException {
 
@@ -30,16 +31,27 @@ public class UnConvertibleTypeException extends ParsingException {
      * [targetType]        [valueType]
      */
 
+    /**
+     * expression
+     */
     public RuntimeValue value;
     public DeclaredType valueType;
 
+    /**
+     * identifier
+     */
     public DeclaredType targetType;
     public RuntimeValue identifier;
+
+    /**
+     * the context of variable
+     */
+    private ExpressionContext context;
 
 
     public UnConvertibleTypeException(RuntimeValue value,
                                       DeclaredType targetType,
-                                      DeclaredType valueType) {
+                                      DeclaredType valueType, ExpressionContext context) {
         super(value.getLineNumber(),
                 "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                         + ", which cannot be converted to the type \"" + targetType + "\"");
@@ -47,6 +59,7 @@ public class UnConvertibleTypeException extends ParsingException {
         this.value = value;
         this.valueType = valueType;
         this.targetType = targetType;
+        this.context = context;
     }
 
     /**
@@ -55,7 +68,7 @@ public class UnConvertibleTypeException extends ParsingException {
     public UnConvertibleTypeException(RuntimeValue value,
                                       DeclaredType identifierType,
                                       DeclaredType valueType,
-                                      RuntimeValue identifier) {
+                                      RuntimeValue identifier, ExpressionContext context) {
         super(value.getLineNumber(),
                 "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                         + ", which cannot be "
@@ -65,6 +78,7 @@ public class UnConvertibleTypeException extends ParsingException {
         this.valueType = valueType;
         this.targetType = identifierType;
         this.identifier = identifier;
+        this.context = context;
     }
 
     @Override
@@ -74,5 +88,13 @@ public class UnConvertibleTypeException extends ParsingException {
         }
         return identifier instanceof VariableAccess || identifier instanceof FunctionCall
                 || identifier instanceof ConstantAccess;
+    }
+
+    public ExpressionContext getContext() {
+        return context;
+    }
+
+    public void setContext(ExpressionContext context) {
+        this.context = context;
     }
 }

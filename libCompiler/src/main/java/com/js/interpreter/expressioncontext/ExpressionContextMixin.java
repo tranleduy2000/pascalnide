@@ -461,8 +461,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                             RuntimeValue unconverted = token.getNextExpression(this);
                             RuntimeValue converted = type.convert(unconverted, this);
                             if (converted == null) {
-                                throw new UnConvertibleTypeException(unconverted, type, unconverted.getType(this).declType
-                                );
+                                throw new UnConvertibleTypeException(unconverted, type, unconverted.getType(this).declType, this);
                             }
                             defaultValue = converted.compileTimeValue(this);
                             if (defaultValue == null) {

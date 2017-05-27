@@ -23,9 +23,9 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
-import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.VariableAccess;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
@@ -234,47 +234,98 @@ public class AutoFixError {
         CharSequence text = getText(e);
 
         if (e.identifier instanceof VariableAccess) {
-            final String name = ((VariableAccess) e.identifier).getName();
-            Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
-                            "(.*?)" + //other variable                                  //2
-                            "(" + name + ")" + //name of variable                       //3
-                            "(\\s?)" +//one or more white space                         //4
-                            "(:)" + //colon                                             //5
-                            "(.*?)" + //any type                                        //6
-                            "(;)",
-                    Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-
-            Matcher matcher = pattern.matcher(text);
-            Log.d(TAG, "autoFixConvertType: " + text);
-
-            if (matcher.find()) {
-                Log.d(TAG, "autoFixConvertType: match " + matcher);
-                final int start = matcher.start(3);
-                int end = matcher.end(6);
-
-                final String insertText = name + ": " + e.valueType.toString();
-                editable.getEditableText().replace(start, end, insertText);
-                editable.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        editable.setSelection(start + name.length() + 2, start + insertText.length());
-                    }
-                });
+            if (e.getContext() instanceof FunctionDeclaration.FunctionExpressionContext) {
+                String name = ((FunctionDeclaration.FunctionExpressionContext) e.getContext()).function.getName();
+                //this is function name
+                if (name.equalsIgnoreCase(((VariableAccess) e.identifier).getName())) {
+                    e.setContext(null); //leak
+                    changeTypeFunction(name, text, e);
+                } else {
+                    changeTypeVar(text, e);
+                }
             } else {
-                Log.d(TAG, "autoFixConvertType: can not find " + pattern);
+                changeTypeVar(text, e);
             }
-        } else if (e.identifier instanceof FunctionCall) {
-
         } else if (e.identifier instanceof ConstantAccess) {
-            ConstantAccess constantAccess = (ConstantAccess) e.identifier;
-            DeclaredType type = constantAccess.getType(null).declType;
+            changeTypeConst(text, e);
+        }
+    }
 
-            String name = ((VariableAccess) e.identifier).getName();
-            Pattern pattern = Pattern.compile("\\b(var)(.*?)(" + name + ")\\s?:(.*?);",
+    private void changeTypeConst(CharSequence text, UnConvertibleTypeException e) {
+        Log.d(TAG, "autoFixConvertType: constant " + e.identifier);
+        ConstantAccess constantAccess = (ConstantAccess) e.identifier;
+        DeclaredType type = constantAccess.getType(null).declType;
 
-                    Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-            Matcher matcher = pattern.matcher(text);
+        String name = ((VariableAccess) e.identifier).getName();
+        Pattern pattern = Pattern.compile("\\b(var)(.*?)(" + name + ")\\s?:(.*?);",
 
+                Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(text);
+
+    }
+
+    /**
+     * @param name - name of function
+     * @param text - a part text of the edit start at 0 and end at line where then function place
+     * @param e    - info
+     */
+    private void changeTypeFunction(final String name, CharSequence text, UnConvertibleTypeException e) {
+        Pattern pattern = Pattern.compile(
+                "(^function\\s+|\\s+function\\s+)" + //function token //1
+                        "(" + name + ")" + //name of function         //2
+                        "(\\s?)" + //white space                      //3
+                        "(:)" +                                       //4
+                        "(.*?)" + //type of function                  //5
+                        ";"); //end                                   //6
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            Log.d(TAG, "changeTypeFunction: match " + matcher);
+            final int start = matcher.start(5);
+            final int end = matcher.end(5);
+
+            final String insertText = e.valueType.toString();
+            editable.getEditableText().replace(start, end, insertText);
+            editable.post(new Runnable() {
+                @Override
+                public void run() {
+                    editable.setSelection(start, start + insertText.length());
+                }
+            });
+        } else {
+            Log.d(TAG, "changeTypeFunction: can not find " + pattern);
+        }
+    }
+
+    private void changeTypeVar(CharSequence text, UnConvertibleTypeException e) {
+        Log.d(TAG, "autoFixConvertType: variable");
+        final String name = ((VariableAccess) e.identifier).getName();
+        Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
+                        "(.*?)" + //other variable                                  //2
+                        "(" + name + ")" + //name of variable                       //3
+                        "(\\s?)" +//one or more white space                         //4
+                        "(:)" + //colon                                             //5
+                        "(.*?)" + //any type                                        //6
+                        "(;)",
+                Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+
+        Matcher matcher = pattern.matcher(text);
+        Log.d(TAG, "autoFixConvertType: " + text);
+
+        if (matcher.find()) {
+            Log.d(TAG, "autoFixConvertType: match " + matcher);
+            final int start = matcher.start(6);
+            int end = matcher.end(6);
+
+            final String insertText = e.valueType.toString();
+            editable.getEditableText().replace(start, end, insertText);
+            editable.post(new Runnable() {
+                @Override
+                public void run() {
+                    editable.setSelection(start, start + insertText.length());
+                }
+            });
+        } else {
+            Log.d(TAG, "autoFixConvertType: can not find " + pattern);
         }
     }
 }

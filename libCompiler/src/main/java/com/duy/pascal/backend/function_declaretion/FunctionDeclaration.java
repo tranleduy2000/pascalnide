@@ -241,8 +241,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return isProcedure;
     }
 
-    private class FunctionExpressionContext extends ExpressionContextMixin {
-        FunctionDeclaration function;
+    public class FunctionExpressionContext extends ExpressionContextMixin {
+        public FunctionDeclaration function;
 
         public FunctionExpressionContext(FunctionDeclaration function, ExpressionContext parent) {
             super(parent.root(), parent);

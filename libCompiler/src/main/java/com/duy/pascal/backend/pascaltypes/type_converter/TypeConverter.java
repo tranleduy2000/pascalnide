@@ -3,6 +3,7 @@ package com.duy.pascal.backend.pascaltypes.type_converter;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -55,22 +56,22 @@ public class TypeConverter {
         return null;
     }
 
-    public static RuntimeValue autoConvertRequired(BasicType outtype,
-                                                   RuntimeValue target, BasicType intype)
+    public static RuntimeValue autoConvertRequired(BasicType outtype, RuntimeValue target,
+                                                   BasicType intype, ExpressionContext c)
             throws UnConvertibleTypeException {
         RuntimeValue result = autoConvert(outtype, target, intype);
         if (result == null) {
-            throw new UnConvertibleTypeException(target, outtype, intype);
+            throw new UnConvertibleTypeException(target, outtype, intype, c);
         }
         return result;
     }
 
     public static RuntimeValue forceConvertRequired(BasicType outtype,
-                                                    RuntimeValue target, BasicType intype)
+                                                    RuntimeValue target, BasicType intype, ExpressionContext c)
             throws UnConvertibleTypeException {
         RuntimeValue result = forceConvert(outtype, target, intype);
         if (result == null) {
-            throw new UnConvertibleTypeException(target, outtype, intype);
+            throw new UnConvertibleTypeException(target, outtype, intype, c);
         }
         return result;
     }
