@@ -48,7 +48,7 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                                      ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
         return new SizeOfArrayCall(array, line);
     }

@@ -14,30 +14,28 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
+package com.duy.pascal
 
-import android.app.Application;
+import android.app.Application
 
-import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor;
+import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor
 
 /**
  * Created by Duy on 12-Mar-17.
  */
-public abstract class BasePascalApplication extends Application {
-    public static final String APPLICATION_ID = "com.duy.pascal.compiler";
-    private final PascalActivityTaskExecutor mTaskExecutor = new PascalActivityTaskExecutor(this);
+abstract class BasePascalApplication : Application() {
+    val taskExecutor = PascalActivityTaskExecutor(this)
 
-    public abstract boolean isProVersion();
+    abstract val isProVersion: Boolean
 
-    public abstract String getApplicationID();
+    abstract val applicationID: String
 
-    public PascalActivityTaskExecutor getTaskExecutor() {
-        return mTaskExecutor;
+    override fun onCreate() {
+        super.onCreate()
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    companion object {
+        val APPLICATION_ID = "com.duy.pascal.compiler"
     }
 
 }

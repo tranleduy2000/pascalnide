@@ -171,7 +171,7 @@ public class EditorActivity extends BaseEditorActivity implements
         final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
         final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
         final EditText editReplace = (EditText) alertDialog.findViewById(R.id.edit_replace);
-        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
+        editFind.setText(getMPascalPreferences().getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,7 +183,7 @@ public class EditorActivity extends BaseEditorActivity implements
                             ckbRegex.isChecked(),
                             ckbMatch.isChecked());
                 }
-                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
+                getMPascalPreferences().put(PascalPreferences.LAST_FIND, editFind.getText().toString());
                 alertDialog.dismiss();
             }
         });
@@ -219,7 +219,7 @@ public class EditorActivity extends BaseEditorActivity implements
         final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
         final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
         final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
-        editFind.setText(mPascalPreferences.getString(PascalPreferences.LAST_FIND));
+        editFind.setText(getMPascalPreferences().getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,7 +230,7 @@ public class EditorActivity extends BaseEditorActivity implements
                             ckbWordOnly.isChecked(),
                             ckbMatch.isChecked());
                 }
-                mPascalPreferences.put(PascalPreferences.LAST_FIND, editFind.getText().toString());
+                getMPascalPreferences().put(PascalPreferences.LAST_FIND, editFind.getText().toString());
                 alertDialog.dismiss();
             }
         });
@@ -369,7 +369,7 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPascalPreferences.isShowListSymbol()) {
+        if (getMPascalPreferences().isShowListSymbol()) {
             mKeyList.setListener(this);
             mContainerSymbol.setVisibility(View.VISIBLE);
         } else {
@@ -388,7 +388,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 editorFragment.refreshCodeEditor();
             }
         } else if (s.equals(getString(R.string.key_show_symbol))) {
-            mContainerSymbol.setVisibility(mPascalPreferences.isShowListSymbol()
+            mContainerSymbol.setVisibility(getMPascalPreferences().isShowListSymbol()
                     ? View.VISIBLE : View.GONE);
         } else if (s.equals(getString(R.string.key_show_suggest_popup))) {
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
@@ -612,7 +612,7 @@ public class EditorActivity extends BaseEditorActivity implements
         /*
           check can undo
          */
-        if (mPascalPreferences.getBoolean(getString(R.string.key_back_undo))) {
+        if (getMPascalPreferences().getBoolean(getString(R.string.key_back_undo))) {
             undo();
             return;
         }

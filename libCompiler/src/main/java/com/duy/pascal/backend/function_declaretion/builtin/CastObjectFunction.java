@@ -49,7 +49,7 @@ public class CastObjectFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
         RuntimeValue value = arguments[1];
         return new InstanceObjectCall(pointer, value, line);

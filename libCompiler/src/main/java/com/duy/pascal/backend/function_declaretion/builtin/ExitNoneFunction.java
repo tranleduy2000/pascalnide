@@ -43,7 +43,7 @@ public class ExitNoneFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                                      ExpressionContext f) throws ParsingException {
         return new ExitNoneCall(line);
     }
 

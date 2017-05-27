@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.duy.pascal.backend.function_declaretion.builtin.AbstractMethodDeclaration;
+import com.duy.pascal.backend.function_declaretion.builtin.AddressFunction;
 import com.duy.pascal.backend.function_declaretion.builtin.CastObjectFunction;
 import com.duy.pascal.backend.function_declaretion.builtin.ExitFunction;
 import com.duy.pascal.backend.function_declaretion.builtin.ExitNoneFunction;
@@ -240,6 +241,7 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new CastObjectFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
+        program.declareFunction(new AbstractMethodDeclaration(new AddressFunction()));
 
         program.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), null, null));
         program.declareConst(new ConstantDefinition("nil", new PointerType(null), null, null));

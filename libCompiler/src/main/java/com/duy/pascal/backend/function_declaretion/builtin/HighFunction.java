@@ -46,7 +46,7 @@ public class HighFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                                      ExpressionContext f) throws ParsingException {
         RuntimeValue value = arguments[0];
         RuntimeType type = value.getType(f);
         return new HighCall(type, value, line);

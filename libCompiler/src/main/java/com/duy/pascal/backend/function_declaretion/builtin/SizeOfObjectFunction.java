@@ -46,7 +46,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                     ExpressionContext f) throws ParsingException {
+                                                      ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
         Log.d(TAG, "generateCall: ");
         return new SizeOfObjectCall(array, line);

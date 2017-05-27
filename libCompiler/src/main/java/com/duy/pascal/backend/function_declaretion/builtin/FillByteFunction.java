@@ -20,35 +20,40 @@ package com.duy.pascal.backend.function_declaretion.builtin;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.js.interpreter.instructions.Executable;
 import com.duy.pascal.backend.runtime.VariableContext;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.expressioncontext.CompileTimeContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.js.interpreter.instructions.Executable;
 
-public class LowFunction implements IMethodDeclaration {
+public class FillByteFunction implements IMethodDeclaration {
 
-    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
+
+    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), true),
+            new RuntimeType(BasicType.Integer, false),
+            new RuntimeType(BasicType.Byte, false)};
+
 
     @Override
     public String getName() {
-        return "low";
+        return "fillchar";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                                       ExpressionContext f) throws ParsingException {
-        RuntimeValue object = arguments[0];
-        RuntimeType type = object.getType(f);
-        return new LowCall(type, line);
+        RuntimeValue value = arguments[0];
+        RuntimeType type = value.getType(f);
+        return new FillCharCall(type, value, line);
     }
 
     @Override
@@ -71,13 +76,15 @@ public class LowFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class LowCall extends FunctionCall {
+    private static class FillCharCall extends FunctionCall {
 
+        private RuntimeValue value;
         private LineInfo line;
         private RuntimeType type;
 
-        LowCall(RuntimeType type, LineInfo line) {
+        FillCharCall(RuntimeType type, RuntimeValue value, LineInfo line) {
             this.type = type;
+            this.value = value;
             this.line = line;
         }
 
@@ -100,18 +107,18 @@ public class LowFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new LowCall(type, line);
+            return new FillCharCall(type, value, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new LowCall(type, line);
+            return new FillCharCall(type, value, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "low";
+            return "fillchar";
         }
 
         @Override
@@ -119,24 +126,27 @@ public class LowFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             DeclaredType declType = type.declType;
             if (declType instanceof ArrayType) {
-                return ((ArrayType) declType).getBounds().lower;
+                SubrangeType bounds = ((ArrayType) declType).getBounds();
+                Object[] value = (Object[]) this.value.getValue(f, main);
+                int size = value.length - 1;
+                return bounds.lower + size - 1;
             } else if (BasicType.Byte.equals(declType)) {
-                return Byte.MIN_VALUE;
+                return Byte.MAX_VALUE;
             } else if (BasicType.Short.equals(declType)) {
-                return Short.MIN_VALUE;
+                return Short.MAX_VALUE;
             } else if (BasicType.Integer.equals(declType)) {
-                return Integer.MIN_VALUE;
+                return Integer.MAX_VALUE;
             } else if (BasicType.Long.equals(declType)) {
-                return Long.MIN_VALUE;
-            } else if (BasicType.Double.equals(declType)) {
-                return Double.MIN_VALUE;
+                return Long.MAX_VALUE;
             } else if (BasicType.Float.equals(declType)) {
-                return Float.MIN_VALUE;
+                return Float.MAX_VALUE;
+            } else if (BasicType.Double.equals(declType)) {
+                return Double.MAX_VALUE;
             } else if (BasicType.Character.equals(declType)) {
-                return Character.MIN_VALUE;
+                return Character.MAX_VALUE;
             } else if (declType instanceof EnumGroupType) {
                 EnumGroupType enumGroupType = (EnumGroupType) declType;
-                return enumGroupType.get(0);
+                return enumGroupType.get(enumGroupType.getSize() - 1);
             }
             return null;
         }

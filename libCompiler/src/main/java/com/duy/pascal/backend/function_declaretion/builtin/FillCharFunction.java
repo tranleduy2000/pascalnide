@@ -20,35 +20,34 @@ package com.duy.pascal.backend.function_declaretion.builtin;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.backend.runtime.value.FunctionCall;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.value.FunctionCall;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
-public class LowFunction implements IMethodDeclaration {
+public class FillCharFunction implements IMethodDeclaration {
 
-    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
+    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), true),
+            new RuntimeType(BasicType.Integer, false),
+            new RuntimeType(BasicType.Character, false)};
 
     @Override
     public String getName() {
-        return "low";
+        return "fillchar";
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
-        RuntimeValue object = arguments[0];
-        RuntimeType type = object.getType(f);
-        return new LowCall(type, line);
+    public FillCharCall generateCall(LineInfo line, RuntimeValue[] arguments,
+                                     ExpressionContext f) throws ParsingException {
+        return new FillCharCall(arguments, line);
     }
 
     @Override
@@ -71,19 +70,19 @@ public class LowFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class LowCall extends FunctionCall {
+    private static class FillCharCall extends FunctionCall {
 
+        private final RuntimeValue[] arguments;
         private LineInfo line;
-        private RuntimeType type;
 
-        LowCall(RuntimeType type, LineInfo line) {
-            this.type = type;
+        public FillCharCall(RuntimeValue[] arguments, LineInfo line) {
+            this.arguments = arguments;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.create(Object.class), false);
+            return null;
         }
 
         @Override
@@ -100,43 +99,55 @@ public class LowFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new LowCall(type, line);
+            return new FillCharCall(arguments, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new LowCall(type, line);
+            return new FillCharCall(arguments, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "low";
+            return "fillchar";
         }
 
         @Override
         public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            DeclaredType declType = type.declType;
-            if (declType instanceof ArrayType) {
-                return ((ArrayType) declType).getBounds().lower;
-            } else if (BasicType.Byte.equals(declType)) {
-                return Byte.MIN_VALUE;
-            } else if (BasicType.Short.equals(declType)) {
-                return Short.MIN_VALUE;
-            } else if (BasicType.Integer.equals(declType)) {
-                return Integer.MIN_VALUE;
-            } else if (BasicType.Long.equals(declType)) {
-                return Long.MIN_VALUE;
-            } else if (BasicType.Double.equals(declType)) {
-                return Double.MIN_VALUE;
-            } else if (BasicType.Float.equals(declType)) {
-                return Float.MIN_VALUE;
-            } else if (BasicType.Character.equals(declType)) {
-                return Character.MIN_VALUE;
-            } else if (declType instanceof EnumGroupType) {
-                EnumGroupType enumGroupType = (EnumGroupType) declType;
-                return enumGroupType.get(0);
+            PascalReference array = (PascalReference) arguments[0].getValue(f, main);
+            int size = (int) arguments[1].getValue(f, main);
+            char value = (char) arguments[2].getValue(f, main);
+            if (array.get() instanceof StringBuilder) {
+                StringBuilder s = (StringBuilder) array.get();
+                if (s == null || s.length() < size) {
+                    s = new StringBuilder();
+                    for (int i = 0; i < size; i++) {
+                        s.append(value);
+                    }
+                    array.set(s);
+                    return null;
+                }
+                for (int i = 0; i < size; i++) {
+                    s.setCharAt(i, value);
+                }
+            } else if (array.get() instanceof String) {
+                String s = (String) array.get();
+                if (s == null || s.length() < size) {
+                    StringBuilder tmp = new StringBuilder();
+                    for (int i = 0; i < size; i++) {
+                        tmp.append(value);
+                    }
+                    array.set(s.toString());
+                    return null;
+                }
+                StringBuilder stringBuilder = new StringBuilder(s);
+                for (int i = 0; i < size; i++) {
+                    stringBuilder.setCharAt(i, value);
+                }
+                array.set(stringBuilder.toString());
+            } else if (array.get() instanceof Object[]) {
             }
             return null;
         }

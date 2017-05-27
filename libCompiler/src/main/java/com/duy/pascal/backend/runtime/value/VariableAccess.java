@@ -32,7 +32,6 @@ import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.references.Reference;
 
 public class VariableAccess extends DebuggableAssignableValue {
-    private static final String TAG = "VariableAccess";
     private String name;
     private LineInfo line;
 

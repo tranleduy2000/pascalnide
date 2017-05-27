@@ -1,7 +1,5 @@
 program test;
 uses crt;
-type
-    int = integer;
 var
     i, j: Integer;
 begin

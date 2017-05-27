@@ -44,7 +44,7 @@ public class DerefEval extends DebuggableAssignableValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Reference ref = (Reference) pointer.getValue(f, main);
         return ref.get();
-    }
+}
 
     @Override
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {

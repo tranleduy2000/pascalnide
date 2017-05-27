@@ -141,7 +141,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
             addNewPageEditor(new File(filePath), SELECT);
         }
 
-        int pos = mPascalPreferences.getInt(PascalPreferences.TAB_POSITION_FILE);
+        int pos = getMPascalPreferences().getInt(PascalPreferences.TAB_POSITION_FILE);
         if (pagerAdapter.getCount() > pos) {
             viewPager.setCurrentItem(pos);
         }
@@ -249,7 +249,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                 }
             }
         } else { //new file
-            if (pagerAdapter.getCount() >= mPascalPreferences.getMaxPage()) {
+            if (pagerAdapter.getCount() >= getMPascalPreferences().getMaxPage()) {
                 Fragment existingFragment = pagerAdapter.getExistingFragment(0);
                 if (existingFragment != null) {
                     mFileManager.removeTabFile(existingFragment.getTag());
@@ -278,7 +278,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     @Override
     protected void onPause() {
         super.onPause();
-        mPascalPreferences.put(PascalPreferences.TAB_POSITION_FILE, tabLayout.getSelectedTabPosition());
+        getMPascalPreferences().put(PascalPreferences.TAB_POSITION_FILE, tabLayout.getSelectedTabPosition());
     }
 
     @Override
