@@ -442,9 +442,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 if (grouperToken.peek() instanceof OperatorToken) {
                     if (((OperatorToken) grouperToken.peek()).type == OperatorTypes.EQUALS) {
                         grouperToken.take(); //ignore equal name
-                        constVal = grouperToken.getConstantValue(this, type);
-                        ConstantDefinition c = new ConstantDefinition(name.getName(), type, constVal, name.getLineNumber());
+                        ConstantDefinition c = new ConstantDefinition(name.getName(), type, name.getLineNumber());
                         declareConst(c);
+
+                        //value of constant
+                        constVal = grouperToken.getConstantValue(this, type,
+                                getIdentifierValue(name)); //identifier for auto fix if can not convert type
+                        c.setValue(constVal);
+
                         grouperToken.assertNextSemicolon(grouperToken.next);
                     }
                 } else {

@@ -592,7 +592,13 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    public Object getConstantValue(ExpressionContext context, DeclaredType type) throws ParsingException {
+    public Object getConstantValue(ExpressionContext context, DeclaredType type)
+            throws ParsingException {
+        return getConstantValue(context, type, null);
+    }
+
+    public Object getConstantValue(ExpressionContext context, DeclaredType type,
+                                   @Nullable RuntimeValue left) throws ParsingException {
         Object defaultValue;
         //set default value for array
         if (type instanceof ArrayType) {
@@ -612,7 +618,8 @@ public abstract class GrouperToken extends Token {
             RuntimeValue converted = type.convert(unConvert, context);
 
             if (converted == null) {
-                throw new UnConvertibleTypeException(unConvert, type, unConvert.getType(context).declType, context);
+                throw new UnConvertibleTypeException(unConvert, type,
+                        unConvert.getType(context).declType, left, context);
             }
 
             defaultValue = converted.compileTimeValue(context);

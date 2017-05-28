@@ -118,7 +118,7 @@ public class AutoFixError {
      * @return the part of text start a 0 and end at e.line
      */
     private CharSequence getText(ParsingException e) {
-        return editable.getText().subSequence(0, editable.getLayout().getLineStart(e.line.line) + e.line.column);
+        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.line.line));
     }
 
     /**
@@ -274,9 +274,12 @@ public class AutoFixError {
         Log.d(TAG, "autoFixConvertType: constant " + e.identifier);
         ConstantAccess constant = (ConstantAccess) e.identifier;
 
-        if (constant.getName() == null) return; //can not replace because it is not a identifier
+        if (constant.getName() == null) { //can not replace because it is not a identifier
+            Log.d(TAG, "changeTypeConst: this is not identifier");
+            return;
+        }
 
-        String name = ((VariableAccess) e.identifier).getName();
+        String name = ((ConstantAccess) e.identifier).getName();
         Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
                         "(.*?)" + //other const                                  //2
                         "(" + name + ")" + //name of const                       //3

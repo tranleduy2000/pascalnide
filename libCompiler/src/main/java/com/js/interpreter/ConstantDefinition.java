@@ -87,4 +87,8 @@ public class ConstantDefinition implements NamedEntity {
     public String getDescription() {
         return null;
     }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
 }

@@ -47,7 +47,11 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
 
     @Override
     public String toString() {
-        return value.toString();
+        if (name == null) {
+            return String.valueOf(value);
+        } else {
+            return name + (value != null ? " = " + value : "");
+        }
     }
 
 
@@ -70,12 +74,12 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Nullable
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
