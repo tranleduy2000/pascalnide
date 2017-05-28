@@ -65,6 +65,7 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
         this.line = line;
     }
 
+    @SuppressWarnings("unchecked")
     public static BinaryOperatorEval generateOp(ExpressionContext context,
                                                 RuntimeValue v1, RuntimeValue v2,
                                                 OperatorTypes operatorTypes,

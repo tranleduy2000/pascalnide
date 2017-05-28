@@ -596,21 +596,25 @@ public abstract class GrouperToken extends Token {
         Object defaultValue;
         //set default value for array
         if (type instanceof ArrayType) {
-            defaultValue = getArrayConstant(context, (ArrayType) type).getValue();
+            defaultValue = getArrayConstant(context, take(), (ArrayType) type).getValue();
+
         } else if (type instanceof EnumGroupType) {
             defaultValue = getEnumConstant(context, take(), type).getValue();
+
         } else if (type instanceof SetType) {
-            if (!(peek() instanceof BracketedToken)) {
-                throw new ExpectedTokenException(new BracketedToken(null), peek());
-            }
+
             AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) type).getElementType());
-            defaultValue = getSetConstant(context, (BracketedToken) take(), elementTypeReference).getValue();
+            defaultValue = getSetConstant(context, take(), elementTypeReference).getValue();
+
         } else { //set default single value
+
             RuntimeValue unConvert = getNextExpression(context);
             RuntimeValue converted = type.convert(unConvert, context);
+
             if (converted == null) {
                 throw new UnConvertibleTypeException(unConvert, type, unConvert.getType(context).declType, context);
             }
+
             defaultValue = converted.compileTimeValue(context);
             if (defaultValue == null) {
                 throw new NonConstantExpressionException(converted);
@@ -641,11 +645,15 @@ public abstract class GrouperToken extends Token {
         return new ConstantAccess<>((EnumElementValue) o, targetType, token.getLineNumber());
     }
 
-    public ConstantAccess<LinkedList> getEnumGroupConstant(ExpressionContext context, ParenthesizedToken parentheses,
+    public ConstantAccess<LinkedList> getEnumGroupConstant(ExpressionContext context, Token token,
                                                            DeclaredType targetType) throws ParsingException {
+        if (!(token instanceof ParenthesizedToken)) {
+            throw new ExpectedTokenException("(", token);
+        }
+        ParenthesizedToken parentheses = (ParenthesizedToken) token;
         LinkedList<Object> linkedList = new LinkedList<>();
         while (parentheses.hasNext()) {
-            linkedList.add(getConstantElement(context, parentheses, targetType));
+            linkedList.add(getConstantElement(context, parentheses, targetType).getValue());
         }
         return new ConstantAccess<LinkedList>(linkedList, targetType, parentheses.getLineNumber());
     }
@@ -654,10 +662,13 @@ public abstract class GrouperToken extends Token {
      * @param typeReference - type of set (example: set of char => type is "char")
      * @return the set constant, I define the enum as {@link LinkedList}
      */
-    public ConstantAccess<LinkedList> getSetConstant(ExpressionContext context, BracketedToken bracketedToken,
+    public ConstantAccess<LinkedList> getSetConstant(ExpressionContext context, Token token,
                                                      AtomicReference<DeclaredType> typeReference) throws ParsingException {
-        Log.d(TAG, "getSetConstant() called with: context = [" + context + "], bracketedToken = [" + bracketedToken + "], typeReference = [" + typeReference + "]");
-
+        Log.d(TAG, "getSetConstant() called with: context = [" + context + "], bracketedToken = [" + token + "], typeReference = [" + typeReference + "]");
+        if (!(token instanceof BracketedToken)) {
+            throw new ExpectedTokenException(new BracketedToken(null), token);
+        }
+        BracketedToken bracketedToken = (BracketedToken) token;
         LinkedList<Object> linkedList = new LinkedList<>();
         while (bracketedToken.hasNext()) {
             ConstantAccess element;
@@ -677,18 +688,23 @@ public abstract class GrouperToken extends Token {
         return new ConstantAccess<LinkedList>(linkedList, typeReference.get(), bracketedToken.getLineNumber());
     }
 
-    public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context, ArrayType type) throws ParsingException {
+    public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context, Token group, ArrayType type) throws ParsingException {
+
         Log.d(TAG, "getArrayConstant() called with: context = [" + context + "], type = [" + type + "]");
 
+        if (!(group instanceof ParenthesizedToken)) {
+            throw new ExpectedTokenException("[", group);
+        }
+
         DeclaredType elementTypeOfArray = type.elementType;
-        ParenthesizedToken bracketedToken = (ParenthesizedToken) take();
+        ParenthesizedToken bracketedToken = (ParenthesizedToken) group;
         int size = type.getBounds().size;
         Object[] objects = new Object[size];
         for (int i = 0; i < size; i++) {
             if (!bracketedToken.hasNext()) {
                 throw new ExpectedTokenException(",", peek());
             }
-            objects[i] = getConstantElement(context, bracketedToken, elementTypeOfArray);
+            objects[i] = getConstantElement(context, bracketedToken, elementTypeOfArray).getValue();
         }
         return new ConstantAccess<>(objects, type, bracketedToken.getLineNumber());
     }
@@ -698,38 +714,31 @@ public abstract class GrouperToken extends Token {
                                              @Nullable DeclaredType elementType) throws ParsingException {
         if (grouperToken.hasNext()) {
             if (elementType instanceof ArrayType) {
-                if (grouperToken.peek() instanceof ParenthesizedToken) {
-                    GrouperToken child = (GrouperToken) grouperToken.take();
-                    Object[] array = new Object[((ArrayType) elementType).getBounds().size];
-                    for (int i = 0; i < array.length; i++) {
-                        ConstantAccess constant = getConstantElement(context, child, ((ArrayType) elementType).elementType);
-                        array[i] = constant.getValue();
-                    }
-                    if (child.hasNext()) {
-                        throw new ExpectedTokenException(new CommaToken(null), child.peek());
-                    }
-                    if (grouperToken.hasNext()) {
-                        grouperToken.assertNextComma();
-                    }
-                    return new ConstantAccess<>(array, child.mLineNumber);
-                } else {
-                    throw new ExpectedTokenException(new ParenthesizedToken(null),
-                            grouperToken.peek());
+                GrouperToken child = (GrouperToken) grouperToken.take();
+                Object[] array = new Object[((ArrayType) elementType).getBounds().size];
+                for (int i = 0; i < array.length; i++) {
+                    ConstantAccess constant = getConstantElement(context, child, ((ArrayType) elementType).elementType);
+                    array[i] = constant.getValue();
                 }
-            } else if (elementType instanceof EnumGroupType) {
-                if (grouperToken.peek() instanceof ParenthesizedToken) {
-                    Token next = grouperToken.take();
-                    ConstantAccess<LinkedList> constant = getEnumGroupConstant(context, (ParenthesizedToken) next, elementType);
-                    LinkedList enumConstant = constant.getValue();
+                if (child.hasNext()) {
+                    throw new ExpectedTokenException(new CommaToken(null), child.peek());
+                }
+                if (grouperToken.hasNext()) {
+                    grouperToken.assertNextComma();
+                }
+                getArrayConstant(context, child, (ArrayType) elementType);
+                return new ConstantAccess<>(array, child.mLineNumber);
 
-                    if (grouperToken.hasNext()) {
-                        grouperToken.assertNextComma();
-                    }
-                    return new ConstantAccess<>(enumConstant, elementType, next.getLineNumber());
-                } else {
-                    throw new ExpectedTokenException(new ParenthesizedToken(null),
-                            grouperToken.peek());
+            } else if (elementType instanceof EnumGroupType) {
+                Token next = grouperToken.take();
+                ConstantAccess<LinkedList> constant = getEnumGroupConstant(context, next, elementType);
+                LinkedList enumConstant = constant.getValue();
+
+                if (grouperToken.hasNext()) {
+                    grouperToken.assertNextComma();
                 }
+                return new ConstantAccess<>(enumConstant, elementType, next.getLineNumber());
+
             } else if (elementType instanceof SetType) {
                 if (grouperToken.peek() instanceof BracketedToken) {
                     AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) elementType).getElementType());

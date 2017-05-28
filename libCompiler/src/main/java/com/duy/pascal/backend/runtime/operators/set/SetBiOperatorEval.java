@@ -51,9 +51,8 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
             case MULTIPLY:
             case MINUS:
             case DIFFERENT:
-                SetType type1 = (SetType) operon1.getType(f).declType;
-                SetType setType = new SetType(type1.getElementType(), line);
-                return new RuntimeType(setType, false);
+                SetType type = (SetType) operon1.getType(f).declType;
+                return new RuntimeType(type, false);
 
             case EQUALS:
             case NOTEQUAL:
@@ -69,6 +68,7 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException {
         LinkedList v1 = (LinkedList) value1;
@@ -148,7 +148,7 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, line);
+            return new ConstantAccess<>(val, line);
         } else {
             return new SetBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
