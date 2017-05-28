@@ -68,18 +68,21 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     /**
      * slipt string in edittext and put it to list keyword
      */
-    public void invalidateKeyWord() {
-        setSuggestData(new ArrayList<InfoItem>());
+    public void setDefaultKeyword() {
+        ArrayList<InfoItem> data = new ArrayList<>();
+        for (String s : KeyWord.ALL_KEY_WORD) {
+            data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+        }
+        setSuggestData(data);
     }
 
     private void init() {
         mEditorSetting = new EditorSetting(getContext());
-        invalidateKeyWord();
+        setDefaultKeyword();
         mTokenizer = new SymbolsTokenizer();
         setTokenizer(mTokenizer);
         setThreshold(1);
         invalidateCharHeight();
-
     }
 
     /**
@@ -172,45 +175,48 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
                 setEnoughToFilter(true);
                 showDropDown();
                 setEnoughToFilter(false);
+
+                //when user click item, restore data
+                setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        setSuggestData(suggestData);
+
+                        //don't handle twice
+                        setOnItemClickListener(null);
+                    }
+                });
+
             }
         }, 50);
-
-        //when user click item, restore data
-        setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setSuggestData(suggestData);
-
-                //don't handle twice
-                setOnItemSelectedListener(null);
-            }
-        });
     }
 
     public ArrayList<InfoItem> getSuggestData() {
-        return mAdapter.getItems();
+        return mAdapter.getAllItems();
     }
 
     /**
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<InfoItem> data) {
-        if (!mEditorSetting.isShowSuggestPopup()) {
-            if (mAdapter != null) {
-                mAdapter.clear();
-            } else {
-                mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest,
-                        new ArrayList<InfoItem>());
-                setAdapter(mAdapter);
-            }
-            return;
+        Log.d(TAG, "setSuggestData: ");
+        if (mAdapter == null) {
+            mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
+        } else {
+            mAdapter.clearAllData();
+            mAdapter.addData(data);
         }
-        for (String s : KeyWord.ALL_KEY_WORD) {
-            data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
-        }
-        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
         setAdapter(mAdapter);
         onDropdownChangeSize();
+    }
+
+    public void addKeywords(String[] allKeyWord) {
+        Log.d(TAG, "addKeywords: ");
+        ArrayList<InfoItem> items = new ArrayList<>();
+        for (String s : allKeyWord) {
+            items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+        }
+        mAdapter.addData(items);
     }
 
     private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {

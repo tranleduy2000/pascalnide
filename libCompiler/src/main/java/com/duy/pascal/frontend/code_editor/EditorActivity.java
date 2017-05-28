@@ -398,7 +398,7 @@ public class EditorActivity extends BaseEditorActivity implements
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
             if (editorFragment != null) {
                 EditorView editor = editorFragment.getEditor();
-                editor.invalidateKeyWord();
+                editor.setSuggestData(new ArrayList<InfoItem>());
             }
         } else {
             super.onSharedPreferenceChanged(sharedPreferences, s);

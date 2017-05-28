@@ -33,6 +33,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Duy on 26-Apr-17.
@@ -44,8 +45,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
     private final int colorNormal;
     private final int colorVariable = 0xffFFB74D;
     private LayoutInflater inflater;
-    private ArrayList<InfoItem> items;
-    private ArrayList<InfoItem> itemsAll;
+    private ArrayList<InfoItem> clone;
     private ArrayList<InfoItem> suggestion;
     private int resourceID;
     private Filter codeFilter = new Filter() {
@@ -62,7 +62,7 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
             FilterResults filterResults = new FilterResults();
             suggestion.clear();
             if (constraint != null) {
-                for (InfoItem item : itemsAll) {
+                for (InfoItem item : clone) {
                     if (item.compareTo(constraint.toString()) == 0) {
                         suggestion.add(item);
                     }
@@ -91,16 +91,15 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
         super(context, resource, objects);
         this.inflater = LayoutInflater.from(context);
         this.context = context;
-        this.items = objects;
-        this.itemsAll = (ArrayList<InfoItem>) items.clone();
+        this.clone = (ArrayList<InfoItem>) objects.clone();
         this.suggestion = new ArrayList<>();
         this.resourceID = resource;
         colorKeyWord = context.getResources().getColor(R.color.color_key_word_color);
         colorNormal = context.getResources().getColor(android.R.color.primary_text_dark);
     }
 
-    public ArrayList<InfoItem> getItems() {
-        return itemsAll;
+    public ArrayList<InfoItem> getAllItems() {
+        return clone;
     }
 
 
@@ -110,7 +109,8 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
         if (convertView == null) {
             convertView = inflater.inflate(resourceID, null);
         }
-        final InfoItem item = items.get(position);
+
+        final InfoItem item = getItem(position);
 
         TextView txtName = (TextView) convertView.findViewById(R.id.txt_title);
         txtName.setText(item.getShow() != null ? item.getShow() : item.getName());
@@ -140,6 +140,17 @@ public class CodeSuggestAdapter extends ArrayAdapter<InfoItem> {
             }
         });
         return convertView;
+    }
+
+
+    public void clearAllData() {
+        super.clear();
+        clone.clear();
+    }
+
+    public void addData(@NonNull Collection<? extends InfoItem> collection) {
+        addAll(collection);
+        clone.addAll(collection);
     }
 
     @NonNull

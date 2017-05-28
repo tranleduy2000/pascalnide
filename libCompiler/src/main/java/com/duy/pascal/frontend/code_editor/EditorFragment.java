@@ -102,12 +102,12 @@ public class EditorFragment extends Fragment implements EditorListener {
             mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
                 @Override
                 public void onScroll(int x, int y) {
-                    mCodeEditor.updateTextSyntax();
+                    mCodeEditor.updateTextHighlight();
                 }
             });
         }
-        mCodeEditor.setSuggestData(PascalLibraryManager.getAllMethodDescription(SystemLib.class,
-                IOLib.class, FileLib.class));
+        mCodeEditor.setSuggestData(PascalLibraryManager.getAllMethodDescription(SystemLib.class, IOLib.class, FileLib.class));
+//        mCodeEditor.addKeywords(KeyWord.ALL_KEY_WORD);
         return view;
     }
 

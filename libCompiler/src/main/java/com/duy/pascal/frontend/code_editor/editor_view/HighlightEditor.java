@@ -757,7 +757,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         removeTextChangedListener(mChangeListener);
     }
 
-    public void updateTextSyntax() {
+    public void updateTextHighlight() {
         if (hasSelection() || updateHandler == null)
             return;
         updateHandler.removeCallbacks(colorRunnable_duringEditing);
@@ -787,7 +787,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
 
         public void afterTextChanged(Editable s) {
-            updateTextSyntax();
+            updateTextHighlight();
 
             if (!autoCompile) {
                 lineError = null;

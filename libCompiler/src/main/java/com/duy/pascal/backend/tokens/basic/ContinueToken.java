@@ -11,4 +11,9 @@ public class ContinueToken extends BasicToken {
     public ContinueToken(LineInfo line) {
         super(line);
     }
+
+    @Override
+    public String toString() {
+        return "continue";
+    }
 }

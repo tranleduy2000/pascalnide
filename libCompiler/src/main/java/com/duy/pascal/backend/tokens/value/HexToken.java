@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens.basic;
+package com.duy.pascal.backend.tokens.value;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 
-public class RepeatToken extends BasicToken {
+/**
+ * Created by Duy on 28-May-17.
+ */
 
-    public RepeatToken(LineInfo line) {
+public class HexToken extends ValueToken {
+    public HexToken(LineInfo line, long value) {
         super(line);
     }
+
     @Override
-    public String toString() {
-        return "repeat";
+    public Object getValue() {
+        return null;
+    }
+
+    @Override
+    public String toCode() {
+        return null;
     }
 }
