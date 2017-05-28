@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions
 
-import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
 
+/**
+ * Created by Duy on 10-May-17.
+ */
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+class UnsupportedOutputFormatException : ParsingException {
 
-    @JvmField val missingType: String = type
+    constructor(lineInfo: LineInfo) : super(lineInfo) {}
 
-    override val isAutoFix: Boolean
-        get() = true
+    constructor() : super(null) {}
+
+    override val message: String?
+        get() = "Unsupported format"
 }

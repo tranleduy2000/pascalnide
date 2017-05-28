@@ -84,7 +84,7 @@ public class NewLexer {
             } catch (IOException e) {
                 GroupingExceptionType g = new GroupingExceptionType(topOfStack.getLineNumber(),
                         GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
-                g.caused = e;
+                g.setCaused(e);
                 TossException(g);
                 e.printStackTrace();
                 return;

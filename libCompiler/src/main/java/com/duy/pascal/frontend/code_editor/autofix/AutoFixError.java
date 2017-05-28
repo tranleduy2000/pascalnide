@@ -123,7 +123,7 @@ public class AutoFixError {
      * @return the part of text start a 0 and end at e.lineInfo
      */
     private CharSequence getText(ParsingException e) {
-        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.lineInfo.getLine()));
+        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.getLineInfo().getLine()));
     }
 
     /**
@@ -254,38 +254,38 @@ public class AutoFixError {
     public void autoFixUnConvertType(UnConvertibleTypeException e) {
         //get a part of text
         CharSequence text = getText(e);
-        if (e.identifier instanceof VariableAccess) {
+        if (e.getIdentifier() instanceof VariableAccess) {
             if (e.getContext() instanceof FunctionDeclaration.FunctionExpressionContext) {
                 String name = ((FunctionDeclaration.FunctionExpressionContext) e.getContext()).function.getName();
                 //this is function name
-                if (name.equalsIgnoreCase(((VariableAccess) e.identifier).getName())) {
+                if (name.equalsIgnoreCase(((VariableAccess) e.getIdentifier()).getName())) {
                     e.setContext(null); //leak
-                    changeTypeFunction(name, text, e.valueType);
+                    changeTypeFunction(name, text, e.getValueType());
                 } else {
-                    changeTypeVar(text, (VariableAccess) e.identifier, e.valueType);
+                    changeTypeVar(text, (VariableAccess) e.getIdentifier(), e.getValueType());
                 }
             } else {
-                changeTypeVar(text, (VariableAccess) e.identifier, e.valueType);
+                changeTypeVar(text, (VariableAccess) e.getIdentifier(), e.getValueType());
             }
-        } else if (e.identifier instanceof ConstantAccess) {
-            changeTypeConst(text, (ConstantAccess) e.identifier, e.valueType);
+        } else if (e.getIdentifier() instanceof ConstantAccess) {
+            changeTypeConst(text, (ConstantAccess) e.getIdentifier(), e.getValueType());
 
-        } else if (e.value instanceof VariableAccess) {
+        } else if (e.getValue() instanceof VariableAccess) {
             if (e.getContext() instanceof FunctionDeclaration.FunctionExpressionContext) {
                 String name = ((FunctionDeclaration.FunctionExpressionContext) e.getContext()).function.getName();
                 //this is function name
-                if (name.equalsIgnoreCase(((VariableAccess) e.value).getName())) {
+                if (name.equalsIgnoreCase(((VariableAccess) e.getValue()).getName())) {
                     e.setContext(null); //leak
-                    changeTypeFunction(name, text, e.targetType);
+                    changeTypeFunction(name, text, e.getTargetType());
                 } else {
-                    changeTypeVar(text, (VariableAccess) e.value, e.targetType);
+                    changeTypeVar(text, (VariableAccess) e.getValue(), e.getTargetType());
                 }
             } else {
-                changeTypeVar(text, (VariableAccess) e.value, e.targetType);
+                changeTypeVar(text, (VariableAccess) e.getValue(), e.getTargetType());
             }
 
-        } else if (e.value instanceof ConstantAccess) {
-            changeTypeConst(text, (ConstantAccess) e.value, e.targetType);
+        } else if (e.getValue() instanceof ConstantAccess) {
+            changeTypeConst(text, (ConstantAccess) e.getValue(), e.getTargetType());
 
         }
     }
@@ -458,7 +458,7 @@ public class AutoFixError {
     }
 
     public void insertToken(MissingTokenException e) {
-        final int start = LineUtils.getStartIndexAtLine(editable, e.lineInfo.getLine()) + e.getLineInfo().getColumn();
+        final int start = LineUtils.getStartIndexAtLine(editable, e.getLineInfo().getLine()) + e.getLineInfo().getColumn();
         final String insertText = e.getMissingToken();
         editable.getEditableText().insert(start, insertText);
         editable.post(new Runnable() {

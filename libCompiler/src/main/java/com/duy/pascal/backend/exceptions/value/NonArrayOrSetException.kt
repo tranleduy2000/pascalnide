@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.value
 
 import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.value.RuntimeValue
 
+/**
+ * Created by Duy on 27-May-17.
+ */
+class NonArrayOrSetException(val value: RuntimeValue) : ParsingException(value.lineNumber) {
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+    override val message: String?
+        get() = value.toString() + " not is array or enum or set type"
 }

@@ -265,10 +265,10 @@ public class EditorActivity extends BaseEditorActivity implements
 
     private void showLineError(final ParsingException e) {
         if (e != null) {
-            if (e.lineInfo != null) {
+            if (e.getLineInfo() != null) {
                 EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
                 if (editorFragment != null) {
-                    editorFragment.setLineError(e.lineInfo);
+                    editorFragment.setLineError(e.getLineInfo());
                 }
             }
         }

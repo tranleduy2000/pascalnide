@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.value
 
 import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.value.RuntimeValue
 
+class NonIntegerException(var value: RuntimeValue) : ParsingException(value.lineNumber) {
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+    override val message: String?
+        get() = "Value must be integers: " + value
 }

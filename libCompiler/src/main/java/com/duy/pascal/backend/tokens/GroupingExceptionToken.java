@@ -8,7 +8,7 @@ public class GroupingExceptionToken extends Token {
     public GroupingException exception;
 
     public GroupingExceptionToken(GroupingException g) {
-        super(g.lineInfo);
+        super(g.getLineInfo());
         this.exception = g;
     }
 

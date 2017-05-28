@@ -16,15 +16,13 @@
 
 package com.duy.pascal.backend.exceptions.define
 
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
-
-
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
-}
+/**
+ * This exception will be thrown if main program not found. It mean not found
+ * `
+ * begin
+ * ...
+ * end.
+` *
+ * Created by Duy on 18-Mar-17.
+ */
+class MainProgramNotFoundException : Exception()

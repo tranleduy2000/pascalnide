@@ -101,15 +101,15 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.StackOverflowException);
 
             if (e instanceof MissingSemicolonTokenException)
-                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).lineInfo.getLine());
+                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).getLineInfo().getLine());
 
             if (e instanceof MissingCommaTokenException)
                 return getMessageResource(e, R.string.MissingCommaTokenException,
-                        ((MissingCommaTokenException) e).lineInfo.getLine());
+                        ((MissingCommaTokenException) e).getLineInfo().getLine());
 
             if (e instanceof StrayCharacterException)
                 return getMessageResource(e, R.string.StrayCharacterException,
-                        ((StrayCharacterException) e).charCode);
+                        ((StrayCharacterException) e).getCharCode());
 
             if (e instanceof NoSuchFunctionOrVariableException) {
                 return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).getName());
@@ -144,13 +144,13 @@ public class ExceptionManager {
 
             if (e instanceof UnConvertibleTypeException) {
                 UnConvertibleTypeException exception = (UnConvertibleTypeException) e;
-                if (exception.identifier == null) {
+                if (exception.getIdentifier() == null) {
                     return getMessageResource(e, R.string.UnConvertibleTypeException,
-                            exception.value, exception.valueType, exception.targetType);
+                            exception.getValue(), exception.getValueType(), exception.getTargetType());
                 } else {
 
                     return getMessageResource(e, R.string.UnConvertibleTypeException2,
-                            exception.value, exception.valueType, exception.targetType, exception.identifier);
+                            exception.getValue(), exception.getValueType(), exception.getTargetType(), exception.getIdentifier());
                 }
             }
             if (e instanceof LibraryNotFoundException) {
@@ -161,14 +161,14 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.MultipleDefaultValuesException);
             }
             if (e instanceof NonArrayIndexed) {
-                return getMessageResource(e, R.string.NonArrayIndexed, ((NonArrayIndexed) e).t.toString());
+                return getMessageResource(e, R.string.NonArrayIndexed, ((NonArrayIndexed) e).getT().toString());
             }
             if (e instanceof NonConstantExpressionException) {
                 return getMessageResource(e, R.string.NonConstantExpressionException);
             }
             if (e instanceof NotAStatementException) {
                 return getMessageResource(e, R.string.NotAStatementException,
-                        ((NotAStatementException) e).runtimeValue.toString());
+                        ((NotAStatementException) e).getRuntimeValue().toString());
             }
             if (e instanceof SameNameException) {
                 SameNameException exception = (SameNameException) e;
@@ -177,7 +177,7 @@ public class ExceptionManager {
             }
             if (e instanceof UnAssignableTypeException) {
                 return getMessageResource(e, R.string.UnAssignableTypeException,
-                        ((UnAssignableTypeException) e).runtimeValue.toString());
+                        ((UnAssignableTypeException) e).getRuntimeValue().toString());
             }
             if (e instanceof UnrecognizedTypeException) {
                 return getMessageResource(e, R.string.UnrecognizedTypeException,
@@ -197,19 +197,19 @@ public class ExceptionManager {
             }
             if (e instanceof SubRangeException) {
                 return getMessageResource(e, R.string.SubRangeException,
-                        ((SubRangeException) e).high, ((SubRangeException) e).low);
+                        ((SubRangeException) e).getHigh(), ((SubRangeException) e).getLow());
             }
             if (e instanceof OverridingFunctionBodyException) {
-                if (!((OverridingFunctionBodyException) e).isMethod) {
+                if (!((OverridingFunctionBodyException) e).getIsMethod()) {
                     return getMessageResource(e, R.string.OverridingFunctionException,
-                            ((OverridingFunctionBodyException) e).functionDeclaration.getName(),
-                            ((OverridingFunctionBodyException) e).functionDeclaration.getLineNumber());
+                            ((OverridingFunctionBodyException) e).getFunctionDeclaration().getName(),
+                            ((OverridingFunctionBodyException) e).getFunctionDeclaration().getLineNumber());
                 } else {
                     return getMessageResource(e, R.string.OverridingFunctionException);
                 }
             }
             if (e instanceof ParsingException) {
-                return new SpannableString(((ParsingException) e).lineInfo + "\n\n" + e.getLocalizedMessage());
+                return new SpannableString(((ParsingException) e).getLineInfo() + "\n\n" + e.getLocalizedMessage());
             }
 
             if (e instanceof DivisionByZeroException) {
@@ -225,7 +225,7 @@ public class ExceptionManager {
     private Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         if (e instanceof ParsingException) {
-            stringBuilder.append(((ParsingException) e).lineInfo.toString());
+            stringBuilder.append(((ParsingException) e).getLineInfo().toString());
             stringBuilder.append("\n").append("\n");
             String format = String.format(context.getString(resourceID), arg);
             stringBuilder.append(format);
@@ -244,10 +244,10 @@ public class ExceptionManager {
     private Spanned getConstantCalculationException(Throwable e) {
         ConstantCalculationException exception = (ConstantCalculationException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.lineInfo.toString());
+        stringBuilder.append(exception.getLineInfo().toString());
         stringBuilder.append("\n").append("\n");
         String format = String.format(context.getString(string.ConstantCalculationException),
-                exception.e.getLocalizedMessage());
+                exception.getE().getLocalizedMessage());
         stringBuilder.append(format);
         return stringBuilder;
 
@@ -257,11 +257,11 @@ public class ExceptionManager {
     private Spanned getNonIntegerException(Throwable e) {
         NonIntegerIndexException exception = (NonIntegerIndexException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.lineInfo.toString());
+        stringBuilder.append(exception.getLineInfo().toString());
         stringBuilder.append("\n").append("\n");
         String format = String.format(
                 context.getString(string.NonIntegerException),
-                exception.value.toString());
+                exception.getValue().toString());
         stringBuilder.append(format);
         return stringBuilder;
     }
@@ -269,9 +269,9 @@ public class ExceptionManager {
     private Spanned getNonIntegerIndexException(Throwable e) {
         NonIntegerIndexException exception = (NonIntegerIndexException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.lineInfo.toString());
+        stringBuilder.append(exception.getLineInfo().toString());
         stringBuilder.append("\n").append("\n");
-        String format = String.format(context.getString(string.NonIntegerIndexException), exception.value.toString());
+        String format = String.format(context.getString(string.NonIntegerIndexException), exception.getValue().toString());
         stringBuilder.append(format);
         return highlight(stringBuilder);
     }
@@ -317,27 +317,27 @@ public class ExceptionManager {
 
     private Spannable getBadOperationTypeException(BadOperationTypeException e) {
         String source;
-        if (e.value1 == null) {
-            source = String.format(context.getString(string.BadOperationTypeException2), e.operatorTypes);
+        if (e.getValue1() == null) {
+            source = String.format(context.getString(string.BadOperationTypeException2), e.getOperatorTypes());
         } else {
-            source = String.format(context.getString(string.BadOperationTypeException), e.operatorTypes, e.value1, e.value2, e.declaredType, e.declaredType1);
+            source = String.format(context.getString(string.BadOperationTypeException), e.getOperatorTypes(), e.getValue1(), e.getValue2(), e.getDeclaredType(), e.getDeclaredType1());
         }
-        SpannableStringBuilder spannable = new SpannableStringBuilder(e.lineInfo.toString());
+        SpannableStringBuilder spannable = new SpannableStringBuilder(e.getLineInfo().toString());
         spannable.append("\n\n").append(source);
         return highlight(spannable);
     }
 
     private Spannable getUnrecognizedTokenException(UnrecognizedTokenException e) {
         String msg = context.getString(string.token_not_belong) + " ";
-        Spannable span = new SpannableString(msg + e.token.toString());
+        Spannable span = new SpannableString(msg + e.getToken().toString());
         span.setSpan(new ForegroundColorSpan(Color.YELLOW),
-                msg.length(), msg.length() + e.token.toString().length(),
+                msg.length(), msg.length() + e.getToken().toString().length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return span;
     }
 
     private Spannable getEnumeratedGroupingException(GroupingExceptionType e) {
-        GroupingExceptionType.GroupExceptionType exceptionTypes = e.exceptionTypes;
+        GroupingExceptionType.GroupExceptionType exceptionTypes = e.getExceptionTypes();
         if (exceptionTypes == GroupingExceptionType.GroupExceptionType.IO_EXCEPTION) {
             return new SpannableString(context.getString(string.IO_EXCEPTION));
         } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.EXTRA_END) {
@@ -370,7 +370,7 @@ public class ExceptionManager {
         boolean argsMatch = e.getArgsMatch();
         if (functionExists) { //function is exist, but wrong argument
             SpannableStringBuilder result = new SpannableStringBuilder();
-            result.append(e.lineInfo.toString()).append("\n\n");
+            result.append(e.getLineInfo().toString()).append("\n\n");
             if (argsMatch) { //wrong type
                 String msg = String.format(context.getString(string.BadFunctionCallException_1), e.getFunctionName());
                 result.append(msg);

@@ -44,7 +44,6 @@ class ExpectedTokenException : ParsingException {
         return "Syntax error, \"$expected\" expected but \"$current\" found"
     }
 
-    override fun isAutoFix(): Boolean {
-        return true
-    }
+    override val isAutoFix: Boolean
+        get() = true
 }

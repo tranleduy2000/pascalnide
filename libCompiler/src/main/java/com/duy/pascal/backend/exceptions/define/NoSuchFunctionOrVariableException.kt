@@ -25,12 +25,11 @@ class NoSuchFunctionOrVariableException(line: LineInfo?, var name: String)
 
     var token: String? = null
     var fitType: DefineType?
-    override fun isAutoFix(): Boolean {
-        return true
-    }
+    override val isAutoFix: Boolean
+        get() = true
 
     init {
-        this.lineInfo.length = name.length
+        this.lineInfo?.length = name.length
         this.fitType = DefineType.DECLARE_VAR
     }
 }

@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.syntax
 
 import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.tokens.Token
 
+/**
+ * Created by Duy on 07-May-17.
+ */
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+class WrongIfElseStatement(next: Token) : ParsingException(next.lineNumber) {
+    override val message: String?
+        get() = "if condition then S1 else S2;\nWhere, S1 and S2 are different statements." +
+                " Please note that the statement S1 is not followed by a semicolon."
 }

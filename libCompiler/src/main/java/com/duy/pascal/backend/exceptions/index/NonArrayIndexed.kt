@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.index
 
 import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.pascaltypes.DeclaredType
 
+class NonArrayIndexed(line: LineInfo, var t: DeclaredType) : ParsingException(line) {
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+    override val message: String?
+        get() = "Tried to do indexed access on something which wasn't an array or a string. It was a " + t.toString()
 
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
 }

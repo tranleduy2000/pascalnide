@@ -1389,7 +1389,7 @@ class Lexer {
                     } catch (FileNotFoundException e) {
                         GroupingExceptionType t = new GroupingExceptionType(getLine(),
                                 GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
-                        t.caused = e;
+                        t.setCaused(e);
                         return new GroupingExceptionToken(t);
                     }
                     yybegin(END_INCLUDE);
@@ -1407,7 +1407,7 @@ class Lexer {
                     } catch (FileNotFoundException e) {
                         GroupingExceptionType t = new GroupingExceptionType(getLine(),
                                 GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
-                        t.caused = e;
+                        t.setCaused(e);
                         return new GroupingExceptionToken(t);
                     }
                     yybegin(END_INCLUDE);
@@ -1533,7 +1533,7 @@ class Lexer {
                     } catch (FileNotFoundException e) {
                         GroupingExceptionType t = new GroupingExceptionType(getLine(),
                                 GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
-                        t.caused = e;
+                        t.setCaused(e);
                         return new GroupingExceptionToken(t);
                     }
                     yybegin(END_INCLUDE);

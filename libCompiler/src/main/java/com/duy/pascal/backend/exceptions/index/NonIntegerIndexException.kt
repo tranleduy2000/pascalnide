@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.index
 
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.value.RuntimeValue
 
+class NonIntegerIndexException(var value: RuntimeValue) : com.duy.pascal.backend.exceptions.ParsingException(value.lineNumber) {
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+    override val message: String?
+        get() = "Array indexes must be integers: " + value
 }

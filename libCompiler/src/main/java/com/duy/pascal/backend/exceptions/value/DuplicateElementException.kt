@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.value
 
 import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
 
+/**
+ * Created by Duy on 27-May-17.
+ */
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+class DuplicateElementException : ParsingException {
 
-    @JvmField val missingType: String = type
+    private val element: Any
+    private val container: Any
 
-    override val isAutoFix: Boolean
-        get() = true
+    constructor(element: Any, container: Any, line: LineInfo?) : super(line) {
+        this.element = element
+        this.container = container
+    }
+
+    override fun getLocalizedMessage(): String {
+        return "Duplicate element $element in $container"
+    }
 }

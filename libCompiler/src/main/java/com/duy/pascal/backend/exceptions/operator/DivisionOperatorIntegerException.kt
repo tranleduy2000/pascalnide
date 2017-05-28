@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.operator
 
-import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.exception.internal.InternalInterpreterException
 
+/**
+ * Created by Duy on 01-Mar-17.
+ */
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+class DivisionOperatorIntegerException(line: LineInfo) : InternalInterpreterException(line) {
 
-    @JvmField val missingType: String = type
+    override fun getInternalError(): String {
+        return "Can not uses / (division) operator with integer"
+    }
 
-    override val isAutoFix: Boolean
-        get() = true
+    override val message: String?
+        get() = internalError
 }

@@ -14,17 +14,27 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.value
 
 import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
 
+/**
+ * Created by Duy on 13-Apr-17.
+ */
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+class ChangeValueConstantException : ParsingException {
+    var name: String = ""
+    var value: Any? = null
 
-    @JvmField val missingType: String = type
+    constructor(line: LineInfo, message: String, name: String) : super(line, message) {
+        this.name = name
+    }
 
-    override val isAutoFix: Boolean
-        get() = true
+    constructor(line: LineInfo, message: String, name: String, value: Any) : super(line, message) {
+        this.name = name
+        this.value = value
+    }
+
+    constructor(line: LineInfo) : super(line) {}
 }

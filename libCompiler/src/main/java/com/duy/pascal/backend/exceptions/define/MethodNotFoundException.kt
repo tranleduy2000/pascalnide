@@ -19,12 +19,12 @@ package com.duy.pascal.backend.exceptions.define
 import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
 
+/**
+ * Created by Duy on 10-May-17.
+ */
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+class MethodNotFoundException(lineNumber: LineInfo, private val name: String, private val className: String) : ParsingException(lineNumber) {
 
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+    override val message: String?
+        get() = "Can not find method \"$name\" in class $className"
 }

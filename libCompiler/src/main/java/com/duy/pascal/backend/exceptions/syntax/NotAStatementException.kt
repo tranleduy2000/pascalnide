@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.syntax
 
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.value.RuntimeValue
 
-
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
-}
+class NotAStatementException(var runtimeValue: RuntimeValue) : com.duy.pascal.backend.exceptions.ParsingException(runtimeValue.lineNumber, runtimeValue.toString() + " is not an instruction by itself.")

@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.operator
 
-import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException
 
+/**
+ * Created by Duy on 26-Feb-17.
+ */
+class OperationNotSupportedException : RuntimePascalException {
+    constructor() {}
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+    constructor(line: LineInfo) : super(line) {}
 
-    @JvmField val missingType: String = type
+    constructor(line: LineInfo, mes: String) : super(line, mes) {}
 
-    override val isAutoFix: Boolean
-        get() = true
+    constructor(mes: String) : super(null, mes) {}
 }

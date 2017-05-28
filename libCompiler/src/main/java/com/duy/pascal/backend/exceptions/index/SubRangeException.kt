@@ -14,17 +14,29 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.index
 
 import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
 
+/**
+ * This exception will be throw if the lower > the upper of array
+ *
+ *
+ * Created by Duy on 14-Apr-17.
+ */
+class SubRangeException : ParsingException {
+    var low: Int = 0
+    var high: Int = 0
+    var size: Int = 0
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+    constructor(low: Int, high: Int, lineInfo: LineInfo, message: String) : super(lineInfo, message) {
+        this.low = low
+        this.high = high
+    }
 
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+    constructor(low: Int, high: Int, lineInfo: LineInfo) : super(lineInfo) {
+        this.low = low
+        this.high = high
+    }
 }

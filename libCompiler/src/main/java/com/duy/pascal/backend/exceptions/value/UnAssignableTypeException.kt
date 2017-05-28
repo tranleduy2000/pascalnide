@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.value
 
 import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.value.RuntimeValue
 
+class UnAssignableTypeException : ParsingException {
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+    var runtimeValue: RuntimeValue
 
-    @JvmField val missingType: String = type
+    constructor(runtimeValue: RuntimeValue) : super(runtimeValue.lineNumber,
+            "The expression $runtimeValue cannot have a value assigned to it.") {
+        this.runtimeValue = runtimeValue
+    }
 
     override val isAutoFix: Boolean
         get() = true

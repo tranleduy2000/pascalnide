@@ -16,15 +16,6 @@
 
 package com.duy.pascal.backend.exceptions.define
 
-import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
 
-
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
-}
+class MultipleDefaultValuesException(line: LineInfo) : com.duy.pascal.backend.exceptions.ParsingException(line)

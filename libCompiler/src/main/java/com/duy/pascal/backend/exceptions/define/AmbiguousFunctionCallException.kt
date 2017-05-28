@@ -16,15 +16,10 @@
 
 package com.duy.pascal.backend.exceptions.define
 
+
 import com.duy.pascal.backend.exceptions.ParsingException
+import com.duy.pascal.backend.function_declaretion.AbstractFunction
 import com.duy.pascal.backend.linenumber.LineInfo
 
-
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
-}
+class AmbiguousFunctionCallException(line: LineInfo, possible: AbstractFunction, alternative: AbstractFunction) : ParsingException(line, "Ambiguous function call could be interpreted as "
+        + possible + " or as " + alternative)

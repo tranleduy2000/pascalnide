@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.operator
 
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException
 
-
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
-}
+class ConstantCalculationException(var e: RuntimePascalException) : com.duy.pascal.backend.exceptions.ParsingException(e.line, "Error while computing constant value: " + e.message)

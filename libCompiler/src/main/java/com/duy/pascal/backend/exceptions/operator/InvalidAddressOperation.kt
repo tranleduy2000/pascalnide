@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.operator
+
 
 import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.value.RuntimeValue
 
+class InvalidAddressOperation : ParsingException {
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+    constructor(line: LineInfo, v: RuntimeValue) : super(line, "The expression $v cannot have its address taken.") {}
 
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+    constructor(line: LineInfo) : super(line) {}
 }

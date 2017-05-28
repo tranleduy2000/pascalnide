@@ -16,15 +16,10 @@
 
 package com.duy.pascal.backend.exceptions.define
 
-import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.pascaltypes.DeclaredType
 
-
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
-}
+class IncompatableFunctionDeclaration(line: LineInfo,
+                                      returntype: DeclaredType, previousreturntype: DeclaredType) : com.duy.pascal.backend.exceptions.ParsingException(line, "Function declaration declares conflicting return operator "
+        + returntype + ".  It previously was defined as "
+        + previousreturntype)

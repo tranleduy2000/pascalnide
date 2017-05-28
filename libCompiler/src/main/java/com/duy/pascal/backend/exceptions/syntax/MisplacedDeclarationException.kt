@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.syntax
 
-import com.duy.pascal.backend.exceptions.ParsingException
+
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.js.interpreter.expressioncontext.ExpressionContext
 
+class MisplacedDeclarationException : com.duy.pascal.backend.exceptions.ParsingException {
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+    constructor(line: LineInfo, declarationType: String,
+                loc: ExpressionContext) : super(line, "Definition of " + declarationType
+            + " is not appropriate here: " + loc) {
+    }
 
-    @JvmField val missingType: String = type
+    constructor(line: LineInfo, declarationType: String,
+                loc: String) : super(line, "Definition of " + declarationType
+            + " is not appropriate here: " + loc) {
+    }
 
-    override val isAutoFix: Boolean
-        get() = true
 }

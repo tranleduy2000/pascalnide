@@ -824,9 +824,9 @@ public class HighlightEditor extends CodeSuggestsEditText
                         new ArrayList<ScriptSource>(), null);
                 lineError = null;
             } catch (ParsingException e) {
-                if (e.lineInfo != null) {
+                if (e.getLineInfo() != null) {
                     synchronized (objectThread) {
-                        lineError = e.lineInfo;
+                        lineError = e.getLineInfo();
                     }
                 }
                 e.printStackTrace();

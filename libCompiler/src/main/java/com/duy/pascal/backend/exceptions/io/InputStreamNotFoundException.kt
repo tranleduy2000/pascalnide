@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.io
 
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException
 
+class InputStreamNotFoundException : RuntimePascalException {
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
+    constructor(message: String) : super(null, message) {}
 
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+    constructor() : super("InputStreamNotFoundException") {}
 }

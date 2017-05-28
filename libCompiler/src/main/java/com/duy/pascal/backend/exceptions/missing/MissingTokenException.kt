@@ -36,12 +36,8 @@ abstract class MissingTokenException : ParsingException {
         this.token = current
     }
 
-    /**
-     * can auto fix by insert this token
-     */
-    override fun isAutoFix(): Boolean {
-        return true
-    }
+    override val isAutoFix: Boolean
+        get() = true
 
     abstract fun getMissingToken(): String
 
