@@ -182,7 +182,7 @@ public class FloodFill {
     }
 
     /**
-     * Fills the line at (x, y). Then fills the line above and below the current line.
+     * Fills the lineInfo at (x, y). Then fills the lineInfo above and below the current lineInfo.
      * The border is defined as any color except the start color. Non-recursive version,
      * doesn't have JVM stack size limitations.
      */

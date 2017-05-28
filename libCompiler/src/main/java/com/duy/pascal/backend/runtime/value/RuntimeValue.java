@@ -5,11 +5,11 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 public interface RuntimeValue {
     @Nullable
@@ -35,7 +35,7 @@ public interface RuntimeValue {
     RuntimeType getType(ExpressionContext f) throws ParsingException;
 
     /**
-     * @return line of code
+     * @return lineInfo of code
      */
     @Nullable
     LineInfo getLineNumber();

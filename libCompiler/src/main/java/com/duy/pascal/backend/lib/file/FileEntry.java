@@ -112,7 +112,7 @@ class FileEntry {
     }
 
     /**
-     * Check whether the end of a line or not? If the end of the line,
+     * Check whether the end of a lineInfo or not? If the end of the lineInfo,
      * check if the end of the file or not?, if end of file then give an error,
      * else re-create lineScanner
      *

@@ -14,23 +14,38 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.define
+package com.duy.pascal.backend.exceptions.missing
 
 import com.duy.pascal.backend.exceptions.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
-import com.duy.pascal.frontend.code_editor.autofix.DefineType
+import com.duy.pascal.backend.tokens.Token
 
-class NoSuchFunctionOrVariableException(line: LineInfo?, var name: String)
-    : ParsingException(line, name + " is not a variable or function name") {
+/**
+ * Created by Duy on 25-May-17.
+ */
 
-    var token: String? = null
-    var fitType: DefineType?
+abstract class MissingTokenException : ParsingException {
+    var token: Token? = null
+
+    constructor(line: LineInfo, token: Token) : super(line) {
+        this.token = token
+        this.lineInfo = line
+    }
+
+    constructor(current: Token) : super(current.lineNumber) {
+        this.token = current
+    }
+
+    /**
+     * can auto fix by insert this token
+     */
     override fun isAutoFix(): Boolean {
         return true
     }
 
-    init {
-        this.lineInfo.length = name.length
-        this.fitType = DefineType.DECLARE_VAR
+    abstract fun getMissingToken(): String
+
+    override fun getLocalizedMessage(): String {
+        return "Missing token $token at $lineInfo"
     }
 }

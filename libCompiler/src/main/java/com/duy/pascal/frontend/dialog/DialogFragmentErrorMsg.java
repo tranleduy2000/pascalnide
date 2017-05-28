@@ -38,7 +38,7 @@ public class DialogFragmentErrorMsg extends AppCompatDialogFragment {
 
     public static DialogFragmentErrorMsg newInstance(CharSequence lineError, CharSequence msg) {
         Bundle bundle = new Bundle();
-        bundle.putCharSequence("line", lineError);
+        bundle.putCharSequence("lineInfo", lineError);
         bundle.putCharSequence("msg", msg);
         DialogFragmentErrorMsg dialogFragmentErrorMsg = new DialogFragmentErrorMsg();
         dialogFragmentErrorMsg.setArguments(bundle);
@@ -56,7 +56,7 @@ public class DialogFragmentErrorMsg extends AppCompatDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView txtLine = (TextView) view.findViewById(R.id.txt_message);
-        txtLine.setText(getArguments().getCharSequence("line"));
+        txtLine.setText(getArguments().getCharSequence("lineInfo"));
 
         TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);
         txtTitle.setText(getString(R.string.compile_error));

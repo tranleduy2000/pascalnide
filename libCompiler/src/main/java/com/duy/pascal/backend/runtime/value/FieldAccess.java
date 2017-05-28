@@ -3,21 +3,21 @@ package com.duy.pascal.backend.runtime.value;
 import android.util.Log;
 
 import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
-import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.ObjectType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.references.Reference;
+import com.duy.pascal.backend.runtime.variables.ContainsVariables;
 import com.duy.pascal.backend.tokens.WordToken;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.FieldReference;
-import com.duy.pascal.backend.runtime.references.Reference;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.variables.ContainsVariables;
 
 public class FieldAccess extends DebuggableAssignableValue {
     private static final String TAG = "FieldAccess";
@@ -26,7 +26,7 @@ public class FieldAccess extends DebuggableAssignableValue {
     private LineInfo line;
 
     public FieldAccess(RuntimeValue container, String name, LineInfo line) {
-        Log.d(TAG, "FieldAccess() called with: container = [" + container + "], name = [" + name + "], line = [" + line + "]");
+        Log.d(TAG, "FieldAccess() called with: container = [" + container + "], name = [" + name + "], lineInfo = [" + line + "]");
         this.container = container;
         this.name = name;
         this.line = line;

@@ -702,7 +702,7 @@ public abstract class GrouperToken extends Token {
      *
      * @param group - parentheses token: the container of array. Example (1, 2, 3)
      * @param type  - element type of array
-     * @return - the {@link ConstantAccess} include array object and line number
+     * @return - the {@link ConstantAccess} include array object and lineInfo number
      * @throws ParsingException - some token is not expect
      */
     public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context, Token group, ArrayType type) throws ParsingException {

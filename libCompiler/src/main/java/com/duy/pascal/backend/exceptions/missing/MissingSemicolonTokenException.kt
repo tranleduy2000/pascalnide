@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.missing;
+package com.duy.pascal.backend.exceptions.missing
 
 
-import android.support.annotation.NonNull;
+import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.tokens.Token
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.Token;
+class MissingSemicolonTokenException(line: LineInfo, token: Token) : MissingTokenException(line, token) {
 
-public class MissingSemicolonTokenException extends MissingTokenException {
-
-    public MissingSemicolonTokenException(LineInfo line, @NonNull Token token) {
-        super(line, token);
+    override fun getMissingToken(): String {
+        return ";"
     }
-
 }

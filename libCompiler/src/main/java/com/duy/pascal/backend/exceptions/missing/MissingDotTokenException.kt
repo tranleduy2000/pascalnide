@@ -16,14 +16,15 @@
 
 package com.duy.pascal.backend.exceptions.missing
 
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.tokens.Token
 
 /**
  * Created by Duy on 23-May-17.
  */
-class MissingDotTokenException(line: LineInfo, token: Token) : MissingTokenException(line, token) {
+class MissingDotTokenException(token: Token) : MissingTokenException(token) {
 
-    override fun getLocalizedMessage(): String = "missing dot (.) token near line " + line
+    override fun getMissingToken(): String {
+        return ".";
+    }
+
 }

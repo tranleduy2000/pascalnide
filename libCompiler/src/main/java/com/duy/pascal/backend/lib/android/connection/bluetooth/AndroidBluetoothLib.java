@@ -231,7 +231,7 @@ public class AndroidBluetoothLib implements PascalLibrary {
     }
 
     @SuppressWarnings("unused")
-    @PascalMethod(description = "Read the next line.")
+    @PascalMethod(description = "Read the next lineInfo.")
     public String bluetoothReadLine(
             @PascalParameter(name = "connID", description = "Connection id") @RpcOptional @RpcDefault("") String connID)
             throws IOException {

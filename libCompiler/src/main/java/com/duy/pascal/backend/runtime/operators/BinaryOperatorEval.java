@@ -74,12 +74,12 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
         DeclaredType t2 = v2.getType(context).declType;
 
        /* if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
-            throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
+            throw new BadOperationTypeException(lineInfo, t1, t2, v1, v2, operatorTypes);
         }
 */
        /* if (!(t2 instanceof BasicType || t2 instanceof JavaClassBasedType
                 || t2 instanceof ArrayType)) {
-            throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
+            throw new BadOperationTypeException(lineInfo, t1, t2, v1, v2, operatorTypes);
         }*/
 
         if (t1 instanceof EnumGroupType

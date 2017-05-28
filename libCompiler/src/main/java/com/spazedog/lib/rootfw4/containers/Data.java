@@ -52,8 +52,8 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	 */
 	public interface DataReplace {
 		/**
-		 * This method is used to alter the lines in the text array. Each line is parsed to this method, and whatever is returned will replace the current line.
-		 * 
+         * This method is used to alter the lines in the text array. Each lineInfo is parsed to this method, and whatever is returned will replace the current lineInfo.
+         *
 		 * @param input
 		 *     One line of the text array
 		 */
@@ -71,8 +71,8 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This can be used to replace part of a line, or the whole line. It uses the replace() method in the DataSorting interface where custom replacement of a line can be done. It parses the original line as an argument, and requires the new line to be returned.
-	 * 
+     * This can be used to replace part of a lineInfo, or the whole lineInfo. It uses the replace() method in the DataSorting interface where custom replacement of a lineInfo can be done. It parses the original lineInfo as an argument, and requires the new lineInfo to be returned.
+     *
 	 * @return
 	 *     This instance
 	 */
@@ -132,11 +132,11 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to remove lines from the text array. Each line will be compared to the argument. If the line contains anything from the argument, it will be removed from the text array.
-	 * 
+     * This is used to determine whether or not to remove lines from the text array. Each lineInfo will be compared to the argument. If the lineInfo contains anything from the argument, it will be removed from the text array.
+     *
 	 * @param contains
-	 *     A string to locate within each line to determine whether or not to remove the line
-	 *     
+     *     A string to locate within each lineInfo to determine whether or not to remove the lineInfo
+     *
 	 * @return
 	 *     This instance
 	 */
@@ -172,11 +172,11 @@ public class Data<DATATYPE extends Data<DATATYPE>> extends BasicContainer {
 	}
 	
 	/**
-	 * This is used to determine whether or not to keep lines in the text array. Each line will be compared to the argument. If the line contains anything from the argument, it will not be removed from the text array.
-	 * 
+     * This is used to determine whether or not to keep lines in the text array. Each lineInfo will be compared to the argument. If the lineInfo contains anything from the argument, it will not be removed from the text array.
+     *
 	 * @param contains
-	 *     A string to locate within each line to determine whether or not to remove the line
-	 *     
+     *     A string to locate within each lineInfo to determine whether or not to remove the lineInfo
+     *
 	 * @return
 	 *     This instance
 	 */

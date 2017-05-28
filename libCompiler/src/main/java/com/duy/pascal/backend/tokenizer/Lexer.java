@@ -99,7 +99,7 @@ class Lexer {
     /**
      * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
      * ZZ_LEXSTATE[l+1] is the state in the DFA for the lexical state l
-     * at the beginning of a line
+     * at the beginning of a lineInfo
      * l is of the form l = 2*k, k a non negative integer
      */
     private static final int ZZ_LEXSTATE[] = {
@@ -532,7 +532,7 @@ class Lexer {
      */
     private int yycolumn;
     /**
-     * zzAtBOL == true <=> the scanner is currently at the beginning of a line
+     * zzAtBOL == true <=> the scanner is currently at the beginning of a lineInfo
      */
     private boolean zzAtBOL = true;
     /**
@@ -954,7 +954,7 @@ class Lexer {
             }
 
             if (zzR) {
-                // peek one character ahead if it is \n (if we have counted one line too much)
+                // peek one character ahead if it is \n (if we have counted one lineInfo too much)
                 boolean zzPeek;
                 if (zzMarkedPosL < zzEndReadL)
                     zzPeek = zzBufferL[zzMarkedPosL] == '\n';

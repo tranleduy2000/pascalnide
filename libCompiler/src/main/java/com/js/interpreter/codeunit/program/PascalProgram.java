@@ -18,8 +18,9 @@ package com.js.interpreter.codeunit.program;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.MultipleDefinitionsMainException;
-import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.missing.MissingDotTokenException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.runtime.FunctionOnStack;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProgramToken;
@@ -29,7 +30,6 @@ import com.google.common.collect.ListMultimap;
 import com.js.interpreter.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.instructions.Executable;
-import com.duy.pascal.backend.runtime.FunctionOnStack;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.Reader;
@@ -86,7 +86,7 @@ public class PascalProgram extends ExecutableCodeUnit {
             }
             main = i.getNextCommand(this);
             if (!(i.peek() instanceof PeriodToken)) {
-                throw new ExpectedTokenException(".", i.peek());
+                throw new MissingDotTokenException(i.peek());
             }
             i.take();
         }

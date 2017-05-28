@@ -19,14 +19,6 @@
 
 package com.spazedog.lib.rootfw4.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.regex.Pattern;
-
 import android.text.TextUtils;
 
 import com.spazedog.lib.rootfw4.Common;
@@ -34,6 +26,14 @@ import com.spazedog.lib.rootfw4.Shell;
 import com.spazedog.lib.rootfw4.Shell.Result;
 import com.spazedog.lib.rootfw4.containers.BasicContainer;
 import com.spazedog.lib.rootfw4.utils.File.FileData;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Filesystem {
 	public static final String TAG = Common.TAG + ".Filesystem";
@@ -609,7 +609,7 @@ public class Filesystem {
 				Result result = mShell.createAttempts(command).execute();
 
 				if (result != null && result.wasSuccessful() && result.size() > 1) {
-					/* Depending on how long the line is, the df command some times breaks a line into two */
+                    /* Depending on how long the lineInfo is, the df command some times breaks a lineInfo into two */
 					String[] parts = oPatternSpaceSearch.split(result.sort(1).trim().getString(" ").trim());
 					
 					/*

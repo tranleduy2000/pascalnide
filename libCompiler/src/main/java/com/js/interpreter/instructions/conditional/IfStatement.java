@@ -42,7 +42,7 @@ public class IfStatement extends DebuggableExecutable {
      * <p>
      * if <condition> then <command> else <commnad>
      *
-     * @param lineNumber - the line of begin if token
+     * @param lineNumber - the lineInfo of begin if token
      */
     public IfStatement(ExpressionContext context, GrouperToken grouperToken, LineInfo lineNumber) throws ParsingException {
 

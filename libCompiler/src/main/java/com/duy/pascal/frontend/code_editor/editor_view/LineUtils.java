@@ -48,7 +48,7 @@ public class LineUtils {
     }
 
     /**
-     * Gets the line from the index of the letter in the text
+     * Gets the lineInfo from the index of the letter in the text
      */
     public static int getLineFromIndex(int index, int lineCount, Layout layout) {
         int line;
@@ -93,9 +93,9 @@ public class LineUtils {
 
         int i;
 
-        // for every line on the edittext
+        // for every lineInfo on the edittext
         for (i = 0; i < lineCount; i++) {
-            // check if this line contains "\n"
+            // check if this lineInfo contains "\n"
             if (layout.getLineEnd(i) == 0) {
                 hasNewLineArray[i] = false;
             } else {

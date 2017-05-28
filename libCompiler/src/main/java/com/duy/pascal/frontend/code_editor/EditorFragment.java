@@ -153,7 +153,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         } else if (e instanceof UnConvertibleTypeException) {
             mCodeEditor.getAutoFixError().autoFixUnConvertType((UnConvertibleTypeException) e);
         } else if (e instanceof MissingTokenException) {
-
+            mCodeEditor.getAutoFixError().insertToken((MissingTokenException) e);
         } else if (e instanceof ExpectedTokenException) {
 
         }

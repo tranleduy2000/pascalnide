@@ -101,11 +101,11 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.StackOverflowException);
 
             if (e instanceof MissingSemicolonTokenException)
-                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.getLine());
+                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).lineInfo.getLine());
 
             if (e instanceof MissingCommaTokenException)
                 return getMessageResource(e, R.string.MissingCommaTokenException,
-                        ((MissingCommaTokenException) e).line.getLine());
+                        ((MissingCommaTokenException) e).lineInfo.getLine());
 
             if (e instanceof StrayCharacterException)
                 return getMessageResource(e, R.string.StrayCharacterException,
@@ -209,7 +209,7 @@ public class ExceptionManager {
                 }
             }
             if (e instanceof ParsingException) {
-                return new SpannableString(((ParsingException) e).line + "\n\n" + e.getLocalizedMessage());
+                return new SpannableString(((ParsingException) e).lineInfo + "\n\n" + e.getLocalizedMessage());
             }
 
             if (e instanceof DivisionByZeroException) {
@@ -225,7 +225,7 @@ public class ExceptionManager {
     private Spanned getMessageResource(Throwable e, int resourceID, Object... arg) {
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         if (e instanceof ParsingException) {
-            stringBuilder.append(((ParsingException) e).line.toString());
+            stringBuilder.append(((ParsingException) e).lineInfo.toString());
             stringBuilder.append("\n").append("\n");
             String format = String.format(context.getString(resourceID), arg);
             stringBuilder.append(format);
@@ -244,7 +244,7 @@ public class ExceptionManager {
     private Spanned getConstantCalculationException(Throwable e) {
         ConstantCalculationException exception = (ConstantCalculationException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.line.toString());
+        stringBuilder.append(exception.lineInfo.toString());
         stringBuilder.append("\n").append("\n");
         String format = String.format(context.getString(string.ConstantCalculationException),
                 exception.e.getLocalizedMessage());
@@ -257,7 +257,7 @@ public class ExceptionManager {
     private Spanned getNonIntegerException(Throwable e) {
         NonIntegerIndexException exception = (NonIntegerIndexException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.line.toString());
+        stringBuilder.append(exception.lineInfo.toString());
         stringBuilder.append("\n").append("\n");
         String format = String.format(
                 context.getString(string.NonIntegerException),
@@ -269,7 +269,7 @@ public class ExceptionManager {
     private Spanned getNonIntegerIndexException(Throwable e) {
         NonIntegerIndexException exception = (NonIntegerIndexException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        stringBuilder.append(exception.line.toString());
+        stringBuilder.append(exception.lineInfo.toString());
         stringBuilder.append("\n").append("\n");
         String format = String.format(context.getString(string.NonIntegerIndexException), exception.value.toString());
         stringBuilder.append(format);
@@ -322,7 +322,7 @@ public class ExceptionManager {
         } else {
             source = String.format(context.getString(string.BadOperationTypeException), e.operatorTypes, e.value1, e.value2, e.declaredType, e.declaredType1);
         }
-        SpannableStringBuilder spannable = new SpannableStringBuilder(e.line.toString());
+        SpannableStringBuilder spannable = new SpannableStringBuilder(e.lineInfo.toString());
         spannable.append("\n\n").append(source);
         return highlight(spannable);
     }
@@ -370,7 +370,7 @@ public class ExceptionManager {
         boolean argsMatch = e.getArgsMatch();
         if (functionExists) { //function is exist, but wrong argument
             SpannableStringBuilder result = new SpannableStringBuilder();
-            result.append(e.line.toString()).append("\n\n");
+            result.append(e.lineInfo.toString()).append("\n\n");
             if (argsMatch) { //wrong type
                 String msg = String.format(context.getString(string.BadFunctionCallException_1), e.getFunctionName());
                 result.append(msg);

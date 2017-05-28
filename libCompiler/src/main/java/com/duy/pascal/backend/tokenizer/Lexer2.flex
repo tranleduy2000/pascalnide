@@ -319,9 +319,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 			yypushback(1);
 			yybegin(YYINITIAL); 
 			if(literal.length()==1) {
-			    LineInfo line = getLine();
-                line.column = line.column - 1;
-				return new CharacterToken(line,literal.toString().charAt(0));
+			    LineInfo lineInfo = getLine();
+                lineInfo.column = lineInfo.column - 1;
+				return new CharacterToken(lineInfo,literal.toString().charAt(0));
 			} else {
 			    LineInfo lineInfo = getLine();
                 lineInfo.column = lineInfo.column - literal.length() - 2; //-2 by two quote

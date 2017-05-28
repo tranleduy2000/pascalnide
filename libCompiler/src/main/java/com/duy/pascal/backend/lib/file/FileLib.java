@@ -22,11 +22,11 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.runtime.references.PascalReference;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.WrongArgsException;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -178,7 +178,7 @@ public class FileLib implements PascalLibrary {
         return filesMap.get(fileVariable.get().getPath()).isEof();
     }
 
-    @PascalMethod(description = "Check for end of line")
+    @PascalMethod(description = "Check for end of lineInfo")
     public boolean eoln(PascalReference<File> fileVariable) throws RuntimePascalException {
         assertFileOpened(fileVariable);
         assertFileOpenForInput(fileVariable);
@@ -235,7 +235,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * move cursor to next line
+     * move cursor to next lineInfo
      */
     @PascalMethod(description = "library file", returns = "null")
     public void read(File fileVariable) throws RuntimePascalException {
@@ -287,7 +287,7 @@ public class FileLib implements PascalLibrary {
 
 
     /**
-     * move cursor to next line
+     * move cursor to next lineInfo
      */
     @PascalMethod(description = "library file", returns = "null")
     public void readln(File fileVariable) throws RuntimePascalException {
@@ -296,7 +296,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineInfo
      */
     @PascalMethod(description = "library file", returns = "null")
     public void readln(File fileVariable, PascalReference<Object> out)
@@ -309,7 +309,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineInfo
      */
     @PascalMethod(description = "library file", returns = "null")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2)
@@ -322,7 +322,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineInfo
      */
     @PascalMethod(description = "library file", returns = "null")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
@@ -336,7 +336,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineInfo
      */
     @PascalMethod(description = "library file", returns = "null")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
@@ -350,7 +350,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineInfo
      */
     @PascalMethod(description = "library file", returns = "null")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
@@ -364,7 +364,7 @@ public class FileLib implements PascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new line
+     * read file and  move cursor to new lineInfo
      */
     @PascalMethod(description = "library file", returns = "null")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,

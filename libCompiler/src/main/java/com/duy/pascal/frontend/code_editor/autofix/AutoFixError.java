@@ -25,6 +25,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.exceptions.missing.MissingTokenException;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
@@ -118,11 +119,11 @@ public class AutoFixError {
     }
 
     /**
-     * @param e - include line error
-     * @return the part of text start a 0 and end at e.line
+     * @param e - include lineInfo error
+     * @return the part of text start a 0 and end at e.lineInfo
      */
     private CharSequence getText(ParsingException e) {
-        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.line.getLine()));
+        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.lineInfo.getLine()));
     }
 
     /**
@@ -336,7 +337,7 @@ public class AutoFixError {
 
     /**
      * @param name - name of function
-     * @param text - a part text of the edit start at 0 and end at line where then function place
+     * @param text - a part text of the edit start at 0 and end at lineInfo where then function place
      */
     private void changeTypeFunction(final String name, CharSequence text, DeclaredType valueType) {
         Pattern pattern = Pattern.compile(
@@ -406,12 +407,12 @@ public class AutoFixError {
      * @param current - current token
      * @param expect  - token for replace
      * @param insert  - true if insert, <code>false</code> if replace
-     * @param line    - current line
-     * @param column  - start at column of @line
+     * @param line    - current lineInfo
+     * @param column  - start at column of @lineInfo
      */
     public void fixExpectToken(String current, String expect, boolean insert, int line, int column) {
-        Log.d(TAG, "fixExpectToken() called with: current = [" + current + "], expect = [" + expect + "], insert = [" + insert + "], line = [" + line + "], column = [" + column + "]");
-        //get text in line
+        Log.d(TAG, "fixExpectToken() called with: current = [" + current + "], expect = [" + expect + "], insert = [" + insert + "], lineInfo = [" + line + "], column = [" + column + "]");
+        //get text in lineInfo
         CharSequence textInLine = getTextInLine(line, column);
 
         //position from 0 to current token
@@ -440,7 +441,7 @@ public class AutoFixError {
     }
 
     /**
-     * get text in line
+     * get text in lineInfo
      */
     private CharSequence getTextInLine(int line, int column) {
         Editable text = editable.getText();
@@ -454,5 +455,18 @@ public class AutoFixError {
             return text.subSequence(lineStart, lineEnd);
         }
         return "";
+    }
+
+    public void insertToken(MissingTokenException e) {
+        final int start = LineUtils.getStartIndexAtLine(editable, e.lineInfo.getLine()) + e.getLineInfo().getColumn();
+        final String insertText = e.getMissingToken();
+        editable.getEditableText().insert(start, insertText);
+        editable.post(new Runnable() {
+            @Override
+            public void run() {
+                editable.setSelection(start, insertText.length() + start);
+            }
+        });
+        editable.showKeyboard();
     }
 }

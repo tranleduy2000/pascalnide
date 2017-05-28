@@ -1,14 +1,14 @@
 package com.duy.pascal.backend.tokens;
 
-import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
+import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class GroupingExceptionToken extends Token {
     public GroupingException exception;
 
     public GroupingExceptionToken(GroupingException g) {
-        super(g.line);
+        super(g.lineInfo);
         this.exception = g;
     }
 

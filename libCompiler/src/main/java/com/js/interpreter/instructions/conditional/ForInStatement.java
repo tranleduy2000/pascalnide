@@ -56,7 +56,7 @@ public class ForInStatement extends DebuggableExecutable {
     private RuntimeValue list;
 
     /**
-     * the line in code
+     * the lineInfo in code
      */
     private LineInfo line;
 

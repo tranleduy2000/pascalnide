@@ -369,7 +369,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     /**
-     * Gets the first line that is visible on the screen.
+     * Gets the first lineInfo that is visible on the screen.
      */
     @SuppressWarnings("unused")
     public int getFirstLineIndex() {
@@ -387,9 +387,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     /**
-     * Gets the last visible line number on the screen.
+     * Gets the last visible lineInfo number on the screen.
      *
-     * @return last line that is visible on the screen.
+     * @return last lineInfo that is visible on the screen.
      */
     @SuppressWarnings("unused")
     public int getLastLineIndex() {
@@ -414,7 +414,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
     private void highlightLineError(Editable e) {
         try {
-            //high light error line
+            //high light error lineInfo
             if (lineError != null) {
                 Layout layout = getLayout();
                 int line = lineError.getLine();
@@ -474,9 +474,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     /**
-     * move cursor to line
+     * move cursor to lineInfo
      *
-     * @param line - line in editor, start at 0
+     * @param line - lineInfo in editor, start at 0
      */
     public void goToLine(int line) {
         Layout layout = getLayout();
@@ -822,9 +822,9 @@ public class HighlightEditor extends CodeSuggestsEditText
                         new ArrayList<ScriptSource>(), null);
                 lineError = null;
             } catch (ParsingException e) {
-                if (e.line != null) {
+                if (e.lineInfo != null) {
                     synchronized (objectThread) {
-                        lineError = e.line;
+                        lineError = e.lineInfo;
                     }
                 }
                 e.printStackTrace();

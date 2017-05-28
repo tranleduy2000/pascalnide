@@ -11,23 +11,31 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 public class ParsingException extends Exception {
 
     /**
-     * The line of line error
+     * The lineInfo of lineInfo error
      */
-    public LineInfo line;
+    public LineInfo lineInfo;
 
-    public ParsingException(@Nullable LineInfo line, String message) {
+    public ParsingException(@Nullable LineInfo lineInfo, String message) {
         super(message);
-        this.line = line;
+        this.lineInfo = lineInfo;
     }
 
-    public ParsingException(LineInfo line) {
+    public ParsingException(LineInfo lineInfo) {
         super();
-        this.line = line;
+        this.lineInfo = lineInfo;
+    }
+
+    public LineInfo getLineInfo() {
+        return lineInfo;
+    }
+
+    public void setLineInfo(LineInfo lineInfo) {
+        this.lineInfo = lineInfo;
     }
 
     @Override
     public String toString() {
-        return line + ":" + getMessage();
+        return lineInfo + ":" + getMessage();
     }
 
     public boolean isAutoFix() {

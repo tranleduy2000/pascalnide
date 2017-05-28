@@ -511,7 +511,7 @@ public class IndentCode {
                 || token instanceof CaseToken;
     }
 
-    //end of line by ;
+    //end of lineInfo by ;
     private StringBuilder getLineCommand(int depth, boolean tab) {
         StringBuilder result = new StringBuilder();
         if (tab && !isGroupToken(peek())) {

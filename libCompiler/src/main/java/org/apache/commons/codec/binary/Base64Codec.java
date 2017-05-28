@@ -214,7 +214,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
     /**
      * Creates a Base64 codec used for decoding (all modes) and encoding in URL-unsafe mode.
      * <p>
-     * When encoding the line length is 76, the line separator is CRLF, and the encoding table is STANDARD_ENCODE_TABLE.
+     * When encoding the lineInfo length is 76, the lineInfo separator is CRLF, and the encoding table is STANDARD_ENCODE_TABLE.
      * </p>
      * <p>
      * <p>
@@ -228,7 +228,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
     /**
      * Creates a Base64 codec used for decoding (all modes) and encoding in the given URL-safe mode.
      * <p>
-     * When encoding the line length is 76, the line separator is CRLF, and the encoding table is STANDARD_ENCODE_TABLE.
+     * When encoding the lineInfo length is 76, the lineInfo separator is CRLF, and the encoding table is STANDARD_ENCODE_TABLE.
      * </p>
      * <p>
      * <p>
@@ -246,7 +246,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
     /**
      * Creates a Base64 codec used for decoding (all modes) and encoding in URL-unsafe mode.
      * <p>
-     * When encoding the line length is given in the constructor, the line separator is CRLF, and the encoding table is
+     * When encoding the lineInfo length is given in the constructor, the lineInfo separator is CRLF, and the encoding table is
      * STANDARD_ENCODE_TABLE.
      * </p>
      * <p>
@@ -267,7 +267,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
     /**
      * Creates a Base64 codec used for decoding (all modes) and encoding in URL-unsafe mode.
      * <p>
-     * When encoding the line length and line separator are given in the constructor, and the encoding table is
+     * When encoding the lineInfo length and lineInfo separator are given in the constructor, and the encoding table is
      * STANDARD_ENCODE_TABLE.
      * </p>
      * <p>
@@ -290,7 +290,7 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
     /**
      * Creates a Base64 codec used for decoding (all modes) and encoding in URL-unsafe mode.
      * <p>
-     * When encoding the line length and line separator are given in the constructor, and the encoding table is
+     * When encoding the lineInfo length and lineInfo separator are given in the constructor, and the encoding table is
      * STANDARD_ENCODE_TABLE.
      * </p>
      * <p>

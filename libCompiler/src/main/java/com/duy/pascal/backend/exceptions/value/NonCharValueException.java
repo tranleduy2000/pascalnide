@@ -30,7 +30,7 @@ public class NonCharValueException extends ParsingException {
 
     public NonCharValueException(LineInfo line, CharacterToken characterToken) {
         super(line);
-        this.line = line;
+        this.lineInfo = line;
         this.characterToken = characterToken;
     }
 }

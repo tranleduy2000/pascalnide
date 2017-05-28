@@ -28,7 +28,7 @@ public class GroupingExceptionType extends GroupingException {
         IO_EXCEPTION("IOException occurred while reading the input"),
         INCOMPLETE_CHAR("Incomplete character literal"),
         MISSING_INCLUDE("Missing file to include"),
-        NEWLINE_IN_QUOTES("You must close your quotes before starting a new line");
+        NEWLINE_IN_QUOTES("You must close your quotes before starting a new lineInfo");
         public String message;
 
         GroupExceptionType(String message) {

@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.missing;
+package com.duy.pascal.backend.exceptions.missing
 
-import android.support.annotation.NonNull;
+import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.tokens.Token
 
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.Token;
-
-public class MissingCommaTokenException extends MissingTokenException {
-
-    public MissingCommaTokenException(LineInfo line, @NonNull Token token) {
-        super(line, token);
+class MissingCommaTokenException(line: LineInfo, token: Token) : MissingTokenException(line, token) {
+    override fun getMissingToken(): String {
+        return ","
     }
 }

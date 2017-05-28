@@ -135,7 +135,7 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
     }
 
     /**
-     * @return the text in previous line
+     * @return the text in previous lineInfo
      */
     private CharSequence getPrevLine(Editable editable, Layout layout, int currentLine) {
         int lineStart = layout.getLineStart(currentLine - 1);
@@ -145,8 +145,8 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
 
     /**
      * This method will be called when the character which user have just input is \n
-     * First, get the text of the previous line. Then we will uses pattern matching for check some
-     * key word: if the text of the previous line is 'OPEN_PATTERN', we will return <code>source</code>
+     * First, get the text of the previous lineInfo. Then we will uses pattern matching for check some
+     * key word: if the text of the previous lineInfo is 'OPEN_PATTERN', we will return <code>source</code>
      * with a new tab "\t", and so on...
      * example
      * source is "OPEN_PATTERN \n"
