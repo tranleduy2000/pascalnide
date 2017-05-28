@@ -264,7 +264,7 @@ public class EditorFragment extends Fragment implements EditorListener {
             public void run() {
                 if (mScrollView != null) {
                     mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                            mCodeEditor.getLineCount(), lineInfo.line));
+                            mCodeEditor.getLineCount(), lineInfo.getLine()));
                 }
             }
         }, 100);
@@ -283,5 +283,6 @@ public class EditorFragment extends Fragment implements EditorListener {
             return path;
         }
     }
+
 
 }

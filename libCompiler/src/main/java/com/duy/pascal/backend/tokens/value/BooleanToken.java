@@ -9,6 +9,8 @@ public class BooleanToken extends ValueToken {
     public BooleanToken(LineInfo line, boolean b) {
         super(line);
         this.b = b;
+
+        mLineNumber.setLength(toCode().length());
     }
 
     @Override

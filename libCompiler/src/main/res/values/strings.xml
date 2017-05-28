@@ -188,5 +188,8 @@
     <string name="declare_function">Declare function</string>
     <string name="declare_constant">Declare constant</string>
     <string name="can_not_exec_unit">Can not executing unit</string>
+    <string name="insert">Insert</string>
+    <string name="select_mode">Select mode</string>
+    <string name="select_token">Select token</string>
 </resources>
 

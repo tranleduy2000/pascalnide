@@ -9,6 +9,8 @@ public class IntegerToken extends ValueToken {
     public IntegerToken(LineInfo line, int i) {
         super(line);
         value = i;
+        mLineNumber.setLength(toCode().length());
+
     }
 
     @Override

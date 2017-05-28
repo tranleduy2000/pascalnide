@@ -17,16 +17,20 @@
 package com.duy.pascal.backend.exceptions.define
 
 import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineError
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.frontend.code_editor.autofix.DefineType
 
 class NoSuchFunctionOrVariableException(line: LineInfo?, var name: String)
-    : ParsingException(LineError(line, name.length), name + " is not a variable or function name") {
+    : ParsingException(line, name + " is not a variable or function name") {
 
     var token: String? = null
-    var fitType: DefineType? = DefineType.DECLARE_VAR;
+    var fitType: DefineType?
     override fun isAutoFix(): Boolean {
         return true
+    }
+
+    init {
+        this.line.length = name.length
+        this.fitType = DefineType.DECLARE_VAR
     }
 }

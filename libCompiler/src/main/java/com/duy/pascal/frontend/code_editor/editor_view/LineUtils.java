@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.code_editor.editor_view;
 import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextUtils;
+import android.widget.EditText;
 import android.widget.ScrollView;
 
 public class LineUtils {
@@ -60,6 +61,14 @@ public class LineUtils {
             }
         }
         return line;
+    }
+
+    public static int getStartIndexAtLine(EditText editable, int line) {
+        Layout layout = editable.getLayout();
+        if (layout != null) {
+            return layout.getLineStart(line);
+        }
+        return 0;
     }
 
     public boolean[] getGoodLines() {
@@ -133,5 +142,4 @@ public class LineUtils {
         }
         return fakeLine;
     }
-
 }

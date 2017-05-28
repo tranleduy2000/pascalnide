@@ -17,6 +17,8 @@
 package com.duy.pascal.frontend.code_editor.autofix;
 
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.Layout;
 import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -30,6 +32,7 @@ import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText;
 import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
+import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -118,7 +121,7 @@ public class AutoFixError {
      * @return the part of text start a 0 and end at e.line
      */
     private CharSequence getText(ParsingException e) {
-        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.line.line));
+        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.line.getLine()));
     }
 
     /**
@@ -371,5 +374,60 @@ public class AutoFixError {
         } else {
             Log.d(TAG, "autoFixUnConvertType: can not find " + pattern);
         }
+    }
+
+    /**
+     * replace current token by expect token exactly
+     *
+     * @param current - current token
+     * @param expect  - token for replace
+     * @param insert  - true if insert, <code>false</code> if replace
+     * @param line    - current line
+     * @param column  - start at column of @line
+     */
+    public void fixExpectToken(String current, String expect, boolean insert, int line, int column) {
+        Log.d(TAG, "fixExpectToken() called with: current = [" + current + "], expect = [" + expect + "], insert = [" + insert + "], line = [" + line + "], column = [" + column + "]");
+        //get text in line
+        CharSequence textInLine = getTextInLine(line, column);
+
+        //position from 0 to current token
+        int offset = LineUtils.getStartIndexAtLine(editable, line) + column;
+
+        //find token
+        Pattern pattern = Pattern.compile("(" + current + ")"); //current token
+        Matcher matcher = pattern.matcher(textInLine);
+        if (matcher.find()) {
+
+            int start = matcher.start();
+            int end = matcher.end();
+
+            //insert or replace other token
+            Editable text = editable.getText();
+            if (!insert) {
+                text.replace(offset + start, offset + start + end, expect);
+                editable.setSelection(offset + start, offset + start + expect.length());
+            } else {
+                expect = " " + expect + " ";
+                text.insert(offset + start, expect);
+                editable.setSelection(offset + start, offset + start + expect.length());
+            }
+        }
+    }
+
+    /**
+     * get text in line
+     */
+    private CharSequence getTextInLine(int line, int column) {
+        Editable text = editable.getText();
+        Layout layout = editable.getLayout();
+        if (layout != null) {
+            int lineStart = layout.getLineStart(line);
+            int lineEnd = layout.getLineEnd(line);
+            lineStart = lineStart + column;
+            if (lineStart > text.length()) lineStart = text.length();
+            if (lineStart > lineEnd) lineStart = lineEnd;
+            return text.subSequence(lineStart, lineEnd);
+        }
+        return "";
     }
 }

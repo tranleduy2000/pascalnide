@@ -9,6 +9,8 @@ public class LongToken extends ValueToken {
     public LongToken(LineInfo line, long i) {
         super(line);
         value = i;
+        mLineNumber.setLength(toCode().length());
+
     }
 
     @Override

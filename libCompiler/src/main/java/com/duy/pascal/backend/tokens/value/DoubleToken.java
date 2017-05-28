@@ -9,6 +9,8 @@ public class DoubleToken extends ValueToken {
     public DoubleToken(LineInfo line, double d) {
         super(line);
         value = d;
+        mLineNumber.setLength(toCode().length());
+
     }
 
     @Override

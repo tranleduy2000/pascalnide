@@ -27,12 +27,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.BasePascalApplication;
-import com.duy.pascal.backend.linenumber.LineError;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
+import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.fragment.ThemeFragment;
-import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,7 +107,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
         if (holder instanceof CodeThemeHolder) {
             CodeThemeHolder holder1 = (CodeThemeHolder) holder;
-            holder1.editorView.setLineError(new LineError(3, 0, ""));
+            holder1.editorView.setLineError(new LineInfo(3, 0, ""));
             if ((mThemes.get(position) instanceof String)) {
                 holder1.editorView.setColorTheme((String) mThemes.get(position));
             } else {

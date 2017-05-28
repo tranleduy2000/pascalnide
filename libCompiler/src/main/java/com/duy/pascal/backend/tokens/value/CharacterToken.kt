@@ -11,6 +11,8 @@ class CharacterToken : ValueToken {
     constructor(line: LineInfo, character: Char) : super(line) {
         this.aChar = character
         this.origin = "#" + character.toInt()
+
+        mLineNumber!!.length = toCode().length
     }
 
     constructor(line: LineInfo, nonParse: String) : super(line) {
@@ -26,7 +28,7 @@ class CharacterToken : ValueToken {
         this.origin = nonParse
     }
 
-    override fun toCode(): String{
+    override fun toCode(): String {
         if (!isRaw) {
             return "\'" + Character.toString(aChar) + "\'"
         } else {

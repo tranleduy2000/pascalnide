@@ -41,12 +41,11 @@ import android.widget.ScrollView;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code_editor.autofix.AutoFixError;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
-import com.duy.pascal.frontend.code_editor.autofix.AutoFixError;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.StringReader;
@@ -54,8 +53,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.duy.pascal.frontend.code_editor.completion.Patterns.COMMENTS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.BUILDIN_FUNCTIONS;
+import static com.duy.pascal.frontend.code_editor.completion.Patterns.COMMENTS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.KEYWORDS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.NUMBERS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.STRINGS;
@@ -417,20 +416,20 @@ public class HighlightEditor extends CodeSuggestsEditText
             //high light error line
             if (lineError != null) {
                 Layout layout = getLayout();
-                int line = lineError.line;
+                int line = lineError.getLine();
                 int temp = line;
                 while (realLines[temp] < line) temp++;
                 line = temp;
                 if (layout != null && line < getLineCount()) {
                     int lineStart = getLayout().getLineStart(line);
                     int lineEnd = getLayout().getLineEnd(line);
-                    lineStart += lineError.column;
+                    lineStart += lineError.getColumn();
 
                     //check if it contains offset from start index error to
                     //(start + offset) index
-                    if (lineError instanceof LineError) {
-                        if (((LineError) lineError).getOffset() > -1) {
-                            lineEnd = lineStart + ((LineError) lineError).getOffset();
+                    if (lineError instanceof LineInfo) {
+                        if (lineError.getLength() > -1) {
+                            lineEnd = lineStart + lineError.getLength();
                         }
                     }
 
@@ -578,7 +577,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         if (lineInfo == null) return;
         Layout layout = getLayout();
         Editable e = getEditableText();
-        if (layout != null && lineInfo.line < getLineCount()) {
+        if (layout != null && lineInfo.getLine() < getLineCount()) {
             try {
                 if (lastPinLine < getLineCount() && lastPinLine >= 0) {
                     int lineStart = getLayout().getLineStart(lastPinLine);
@@ -590,16 +589,16 @@ public class HighlightEditor extends CodeSuggestsEditText
                     }
                 }
 
-                int lineStart = getLayout().getLineStart(lineInfo.line);
-                int lineEnd = getLayout().getLineEnd(lineInfo.line);
-                lineStart = lineStart + lineInfo.column;
+                int lineStart = getLayout().getLineStart(lineInfo.getLine());
+                int lineEnd = getLayout().getLineEnd(lineInfo.getLine());
+                lineStart = lineStart + lineInfo.getColumn();
                 if (lineStart < lineEnd) {
                     e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
                             lineStart,
                             lineEnd,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
-                lastPinLine = lineInfo.line;
+                lastPinLine = lineInfo.getLine();
             } catch (Exception ignored) {
             }
         }

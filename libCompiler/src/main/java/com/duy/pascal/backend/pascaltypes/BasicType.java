@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
-import com.duy.pascal.backend.linenumber.LineError;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.type_converter.StringLimitBoxer;
 import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
@@ -303,7 +302,7 @@ public enum BasicType implements DeclaredType {
     @Override
     public LineInfo getLineNumber() {
         if (lineInfo == null) {
-            return new LineError(-1, "");
+            return new LineInfo(-1, "");
         }
         return lineInfo;
     }

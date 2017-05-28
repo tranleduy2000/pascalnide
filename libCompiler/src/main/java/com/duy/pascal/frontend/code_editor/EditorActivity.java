@@ -43,6 +43,7 @@ import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.frontend.Dlog;
@@ -54,10 +55,11 @@ import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.code_sample.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
+import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
 import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
-import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.fragment.ThemeFontActivity;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
@@ -70,6 +72,8 @@ import com.js.interpreter.codeunit.program.PascalProgram;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.source_include.ScriptSource;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -78,7 +82,7 @@ import java.util.List;
 import java.util.Map;
 
 public class EditorActivity extends BaseEditorActivity implements
-        DrawerLayout.DrawerListener {
+        DrawerLayout.DrawerListener, DialogFragmentFixExpectToken.OnSelectExpectListener {
 
     public static final int ACTION_FILE_SELECT_CODE = 1012;
     public static final int ACTION_PICK_MEDIA_URL = 1013;
@@ -731,9 +735,23 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     public void autoFix(ParsingException e) {
-        EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
-        if (currentFragment != null) {
-            currentFragment.autoFix(e);
+        if (e instanceof ExpectedTokenException) {
+            DialogFragmentFixExpectToken dialog =
+                    DialogFragmentFixExpectToken.Companion.newInstance((ExpectedTokenException) e);
+            dialog.show(getSupportFragmentManager(), dialog.getTag());
+        } else {
+            EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
+            if (currentFragment != null) {
+                currentFragment.autoFix(e);
+            }
+        }
+    }
+
+    @Override
+    public void onSelectedExpect(@NotNull String current, @NotNull String expect, boolean insert, int line, int column) {
+        EditorFragment f = pagerAdapter.getCurrentFragment();
+        if (f != null && f.getEditor() != null) {
+            f.getEditor().getAutoFixError().fixExpectToken(current, expect, insert, line, column);
         }
     }
 }

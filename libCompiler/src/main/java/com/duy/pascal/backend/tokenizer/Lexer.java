@@ -36,11 +36,13 @@ import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.basic.ProgramToken;
+import com.duy.pascal.backend.tokens.basic.RepeatToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.basic.ThenToken;
 import com.duy.pascal.backend.tokens.basic.ToToken;
 import com.duy.pascal.backend.tokens.basic.TypeToken;
+import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
@@ -48,13 +50,11 @@ import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.closing.EndBracketToken;
 import com.duy.pascal.backend.tokens.closing.EndParenToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
-import com.duy.pascal.backend.tokens.closing.UntilToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.backend.tokens.grouping.RecordToken;
-import com.duy.pascal.backend.tokens.grouping.RepeatToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.backend.tokens.value.BooleanToken;
 import com.duy.pascal.backend.tokens.value.CharacterToken;
@@ -1043,12 +1043,12 @@ class Lexer {
                     yybegin(YYINITIAL);
                     if (literal.length() == 1) {
                         LineInfo line = getLine();
-                        line.column = line.column - 3;
+                        line.setColumn(line.getColumn() - 3);
                         return new CharacterToken(line, literal.toString().charAt(0));
                         //return new CharacterToken(getLine(),literal.toString());
                     } else {
                         LineInfo lineInfo = getLine();
-                        lineInfo.column = lineInfo.column - literal.length() - 2; //-2 by two quote
+                        lineInfo.setColumn(lineInfo.getColumn() - literal.length() - 2); //-2 by two quote
                         return new StringToken(lineInfo, literal.toString());
                     }
                 }
@@ -1338,7 +1338,7 @@ class Lexer {
                 case 40: {
                     LineInfo lineInfo = getLine();
                     String text = yytext();
-                    lineInfo.column = lineInfo.column - text.length() - 2;
+                    lineInfo.setColumn(lineInfo.getColumn() - text.length() - 2);
                     return new CharacterToken(lineInfo, text);
                 }
                 case 156:

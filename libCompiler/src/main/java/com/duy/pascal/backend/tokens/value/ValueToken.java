@@ -8,6 +8,8 @@ public abstract class ValueToken extends Token {
 
     public ValueToken(LineInfo line) {
         super(line);
+        mLineNumber.setLength(toCode().length());
+
     }
 
     public abstract Object getValue();

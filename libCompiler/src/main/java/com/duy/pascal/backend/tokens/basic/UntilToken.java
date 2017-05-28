@@ -14,37 +14,18 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens.grouping;
+package com.duy.pascal.backend.tokens.basic;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.basic.BasicToken;
 
-public class RepeatToken extends BasicToken {
+public class UntilToken extends BasicToken {
 
-    public RepeatToken(LineInfo line) {
+    public UntilToken(LineInfo line) {
         super(line);
     }
 
-/*    @Override
-    public String toCode() {
-        StringBuilder result = new StringBuilder("repeat ");
-        if (next != null) {
-            result.append(next).append(' ');
-        }
-        for (Token t : this.queue) {
-            result.append(t).append(' ');
-        }
-        result.append("end");
-        return result.toString();
-    }*/
-
     @Override
     public String toString() {
-        return "repeat";
-    }
-/*
-    @Override
-    protected String getClosingText() {
         return "until";
-    }*/
+    }
 }

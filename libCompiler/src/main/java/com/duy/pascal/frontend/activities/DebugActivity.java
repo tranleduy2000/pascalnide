@@ -33,13 +33,13 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
+import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
+import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
 import com.duy.pascal.frontend.debug.VariableItem;
 import com.duy.pascal.frontend.debug.VariableWatcherAdapter;
 import com.duy.pascal.frontend.debug.VariableWatcherView;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
-import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
-import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
@@ -176,7 +176,7 @@ public class DebugActivity extends AbstractExecActivity {
             public void run() {
                 mCodeView.pinLine(lineInfo);
                 mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                        mCodeView.getLineCount(), lineInfo.line));
+                        mCodeView.getLineCount(), lineInfo.getLine()));
             }
         });
     }

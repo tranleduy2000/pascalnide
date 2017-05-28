@@ -43,12 +43,12 @@ import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.exceptions.index.NonIntegerIndexException;
 import com.duy.pascal.backend.exceptions.index.SubRangeException;
 import com.duy.pascal.backend.exceptions.io.LibraryNotFoundException;
+import com.duy.pascal.backend.exceptions.missing.MissingCommaTokenException;
+import com.duy.pascal.backend.exceptions.missing.MissingSemicolonTokenException;
 import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
 import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.operator.DivisionByZeroException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.missing.MissingCommaTokenException;
-import com.duy.pascal.backend.exceptions.missing.MissingSemicolonTokenException;
 import com.duy.pascal.backend.exceptions.syntax.NotAStatementException;
 import com.duy.pascal.backend.exceptions.syntax.WrongIfElseStatement;
 import com.duy.pascal.backend.exceptions.value.ChangeValueConstantException;
@@ -61,14 +61,14 @@ import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
-import com.duy.pascal.backend.utils.ArrayUtils;
-import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.duy.pascal.backend.runtime.exception.InvalidNumericFormatException;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime.exception.PluginCallException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.StackOverflowException;
+import com.duy.pascal.backend.utils.ArrayUtils;
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code_editor.completion.Patterns;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -101,11 +101,11 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.StackOverflowException);
 
             if (e instanceof MissingSemicolonTokenException)
-                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.line);
+                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).line.getLine());
 
             if (e instanceof MissingCommaTokenException)
                 return getMessageResource(e, R.string.MissingCommaTokenException,
-                        ((MissingCommaTokenException) e).line.line);
+                        ((MissingCommaTokenException) e).line.getLine());
 
             if (e instanceof StrayCharacterException)
                 return getMessageResource(e, R.string.StrayCharacterException,
