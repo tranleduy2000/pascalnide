@@ -50,6 +50,7 @@ import com.duy.pascal.frontend.Dlog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText;
 import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
@@ -324,8 +325,8 @@ public class EditorActivity extends BaseEditorActivity implements
     private void buildSuggestData(CodeUnit codeUnit) {
         if (codeUnit != null) {
             ExpressionContextMixin program = codeUnit.getProgram();
-            EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
-            if (currentFragment != null) {
+            EditorFragment fragment = pagerAdapter.getCurrentFragment();
+            if (fragment != null && fragment.getEditor() != null) {
                 ArrayList<InfoItem> data = new ArrayList<>();
 
                 ArrayListMultimap<String, AbstractFunction> callableFunctions = program.getCallableFunctions();
@@ -347,10 +348,11 @@ public class EditorActivity extends BaseEditorActivity implements
                 data.addAll(listVariables);
 
 
-                EditorView editor = currentFragment.getEditor();
-                if (editor != null) {
-                    editor.setSuggestData(data);
+                EditorView editor = fragment.getEditor();
+                for (String s : KeyWord.ALL_KEY_WORD) {
+                    data.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
                 }
+                editor.setSuggestData(data);
             }
 
         }

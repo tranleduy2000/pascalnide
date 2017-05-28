@@ -200,23 +200,20 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      */
     public void setSuggestData(ArrayList<InfoItem> data) {
         Log.d(TAG, "setSuggestData: ");
-        if (mAdapter == null) {
             mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
-        } else {
-            mAdapter.clearAllData();
-            mAdapter.addData(data);
-        }
+
         setAdapter(mAdapter);
         onDropdownChangeSize();
     }
 
     public void addKeywords(String[] allKeyWord) {
-        Log.d(TAG, "addKeywords: ");
-        ArrayList<InfoItem> items = new ArrayList<>();
+        ArrayList<InfoItem> newData = new ArrayList<>();
         for (String s : allKeyWord) {
-            items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+            newData.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
         }
-        mAdapter.addData(items);
+        ArrayList<InfoItem> oldItems = mAdapter.getAllItems();
+        oldItems.addAll(newData);
+        setSuggestData(oldItems);
     }
 
     private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {

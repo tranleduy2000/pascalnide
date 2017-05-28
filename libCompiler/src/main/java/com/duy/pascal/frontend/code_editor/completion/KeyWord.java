@@ -108,6 +108,7 @@ public class KeyWord {
         ALL_KEY_WORD = ArrayUtils.join(String.class, SPINETS, RESERVED_KEY_WORDS, REAL_TYPE, INTEGER_TYPE, STRING_TYPE, BOOLEAN_TYPE);
 
         SYMBOL_KEY = new String[]{":=", ";", ".", "[", "]", ":", "'", "(", ")", "<", ">", "=", "<>", "<=", ">=", "{", "}", "+", "-", "*", "/", "_"};
+
     }
 
 

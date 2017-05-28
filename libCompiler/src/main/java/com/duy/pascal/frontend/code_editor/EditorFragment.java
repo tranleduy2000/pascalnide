@@ -43,15 +43,19 @@ import com.duy.pascal.backend.tokenizer.IndentCode;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
+import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
 import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
+import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 /**
  * Created by Duy on 15-Mar-17.
@@ -106,8 +110,11 @@ public class EditorFragment extends Fragment implements EditorListener {
                 }
             });
         }
-        mCodeEditor.setSuggestData(PascalLibraryManager.getAllMethodDescription(SystemLib.class, IOLib.class, FileLib.class));
-//        mCodeEditor.addKeywords(KeyWord.ALL_KEY_WORD);
+        ArrayList<InfoItem> items = PascalLibraryManager.getAllMethodDescription(SystemLib.class, IOLib.class, FileLib.class);
+        for (String s : KeyWord.ALL_KEY_WORD) {
+            items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
+        }
+        mCodeEditor.setSuggestData(items);
         return view;
     }
 
