@@ -83,7 +83,8 @@ public class UnConvertibleTypeException extends ParsingException {
     @Override
     public boolean isAutoFix() {
         return identifier instanceof VariableAccess || value instanceof VariableAccess
-                || identifier instanceof ConstantAccess || value instanceof ConstantAccess;
+                || (identifier instanceof ConstantAccess && ((ConstantAccess) identifier).getName() != null) ||
+                (value instanceof ConstantAccess && ((ConstantAccess) value).getName() != null);
     }
 
     public ExpressionContext getContext() {

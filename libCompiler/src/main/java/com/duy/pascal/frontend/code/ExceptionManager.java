@@ -322,7 +322,9 @@ public class ExceptionManager {
         } else {
             source = String.format(context.getString(string.BadOperationTypeException), e.operatorTypes, e.value1, e.value2, e.declaredType, e.declaredType1);
         }
-        return new SpannableString(source);
+        SpannableStringBuilder spannable = new SpannableStringBuilder(e.line.toString());
+        spannable.append("\n\n").append(source);
+        return highlight(spannable);
     }
 
     private Spannable getUnrecognizedTokenException(UnrecognizedTokenException e) {
