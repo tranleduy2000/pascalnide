@@ -12,15 +12,15 @@ import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 
-class RangeOfValues  implements Containable {
+public class RangeValue implements Containable {
 
     private LineInfo line;
 
     private BinaryOperatorEval greaterThanLower;
     private BinaryOperatorEval lessThanHigher;
 
-    RangeOfValues(ExpressionContext context, RuntimeValue value, Object lower, Object higher,
-                  LineInfo line) throws ParsingException {
+    RangeValue(ExpressionContext context, RuntimeValue value, Object lower, Object higher,
+               LineInfo line) throws ParsingException {
         ConstantAccess<Object> low = new ConstantAccess<>(lower, line);
         ConstantAccess<Object> high = new ConstantAccess<>(higher, line);
         greaterThanLower = BinaryOperatorEval.generateOp(context, value, low, OperatorTypes.GREATEREQ, line);

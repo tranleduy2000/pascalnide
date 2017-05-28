@@ -69,7 +69,7 @@ public class CaseInstruction extends DebuggableExecutable {
                     if (hi == null) {
                         throw new NonConstantExpressionException(upper);
                     }
-                    conditions.add(new RangeOfValues(context, mSwitchValue, v, hi, valueToSwitch.getLineNumber()));
+                    conditions.add(new RangeValue(context, mSwitchValue, v, hi, valueToSwitch.getLineNumber()));
                 } else {
                     conditions.add(new SingleValue(v, valueToSwitch.getLineNumber()));
                 }
