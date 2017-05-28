@@ -51,7 +51,7 @@ public class IfStatement extends DebuggableExecutable {
         RuntimeValue convert = BasicType.Boolean.convert(condition, context);
         if (convert == null) {
             throw new UnConvertibleTypeException(condition, BasicType.Boolean,
-                    condition.getType(context).declType, condition, context);
+                    condition.getType(context).declType, context);
         }
 
         //check then token

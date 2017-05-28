@@ -46,7 +46,7 @@ public class RepeatInstruction extends DebuggableExecutable {
         RuntimeValue convert = BasicType.Boolean.convert(condition, f);
         if (convert == null) {
             throw new UnConvertibleTypeException(condition, BasicType.Boolean,
-                    condition.getType(f).declType, condition, f);
+                    condition.getType(f).declType, f);
         }
 
         this.command = command;
