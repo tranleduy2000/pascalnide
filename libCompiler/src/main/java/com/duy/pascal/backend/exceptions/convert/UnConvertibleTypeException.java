@@ -19,7 +19,6 @@ package com.duy.pascal.backend.exceptions.convert;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
-import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.VariableAccess;
 import com.js.interpreter.expressioncontext.ExpressionContext;
@@ -83,11 +82,8 @@ public class UnConvertibleTypeException extends ParsingException {
 
     @Override
     public boolean isAutoFix() {
-        if (identifier == null) {
-            return false;
-        }
-        return identifier instanceof VariableAccess || identifier instanceof FunctionCall
-                || identifier instanceof ConstantAccess;
+        return identifier instanceof VariableAccess || value instanceof VariableAccess
+                || identifier instanceof ConstantAccess || value instanceof ConstantAccess;
     }
 
     public ExpressionContext getContext() {

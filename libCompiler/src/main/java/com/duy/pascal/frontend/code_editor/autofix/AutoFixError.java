@@ -26,6 +26,7 @@ import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.VariableAccess;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
@@ -252,40 +253,58 @@ public class AutoFixError {
     public void autoFixUnConvertType(UnConvertibleTypeException e) {
         //get a part of text
         CharSequence text = getText(e);
-
         if (e.identifier instanceof VariableAccess) {
             if (e.getContext() instanceof FunctionDeclaration.FunctionExpressionContext) {
                 String name = ((FunctionDeclaration.FunctionExpressionContext) e.getContext()).function.getName();
                 //this is function name
                 if (name.equalsIgnoreCase(((VariableAccess) e.identifier).getName())) {
                     e.setContext(null); //leak
-                    changeTypeFunction(name, text, e);
+                    changeTypeFunction(name, text, e.valueType);
                 } else {
-                    changeTypeVar(text, e);
+                    changeTypeVar(text, (VariableAccess) e.identifier, e.valueType);
                 }
             } else {
-                changeTypeVar(text, e);
+                changeTypeVar(text, (VariableAccess) e.identifier, e.valueType);
             }
         } else if (e.identifier instanceof ConstantAccess) {
-            changeTypeConst(text, e);
+            changeTypeConst(text, (ConstantAccess) e.identifier, e.valueType);
+
+        } else if (e.value instanceof VariableAccess) {
+            if (e.getContext() instanceof FunctionDeclaration.FunctionExpressionContext) {
+                String name = ((FunctionDeclaration.FunctionExpressionContext) e.getContext()).function.getName();
+                //this is function name
+                if (name.equalsIgnoreCase(((VariableAccess) e.value).getName())) {
+                    e.setContext(null); //leak
+                    changeTypeFunction(name, text, e.targetType);
+                } else {
+                    changeTypeVar(text, (VariableAccess) e.value, e.targetType);
+                }
+            } else {
+                changeTypeVar(text, (VariableAccess) e.value, e.targetType);
+            }
+
+        } else if (e.value instanceof ConstantAccess) {
+            changeTypeConst(text, (ConstantAccess) e.value, e.targetType);
+
         }
     }
 
     /**
-     * This method will be change type of constant if constant is define with type
+     * This method will be Change type constant to type of value
+     * if constant is define with type
+     *
      * Example
      * const a: integer = 'adsda'; => change to string
      */
-    private void changeTypeConst(CharSequence text, UnConvertibleTypeException e) {
-        Log.d(TAG, "autoFixUnConvertType: constant " + e.identifier);
-        ConstantAccess constant = (ConstantAccess) e.identifier;
+    private void changeTypeConst(CharSequence text, ConstantAccess identifier, DeclaredType valueType) {
+        Log.d(TAG, "autoFixUnConvertType: constant " + identifier);
 
-        if (constant.getName() == null) { //can not replace because it is not a identifier
+        if (identifier.getName() == null) { //can not replace because it is not a identifier
             Log.d(TAG, "changeTypeConst: this is not identifier");
             return;
         }
 
-        String name = ((ConstantAccess) e.identifier).getName();
+        String name = identifier.getName();
         Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
                         "(.*?)" + //other const                                  //2
                         "(" + name + ")" + //name of const                       //3
@@ -303,7 +322,7 @@ public class AutoFixError {
             final int start = matcher.start(6);
             int end = matcher.end(6);
 
-            final String insertText = e.valueType.toString();
+            final String insertText = valueType.toString();
             editable.getEditableText().replace(start, end, insertText);
             editable.post(new Runnable() {
                 @Override
@@ -318,9 +337,8 @@ public class AutoFixError {
     /**
      * @param name - name of function
      * @param text - a part text of the edit start at 0 and end at line where then function place
-     * @param e    - info
      */
-    private void changeTypeFunction(final String name, CharSequence text, UnConvertibleTypeException e) {
+    private void changeTypeFunction(final String name, CharSequence text, DeclaredType valueType) {
         Pattern pattern = Pattern.compile(
                 "(^function\\s+|\\s+function\\s+)" + //function token //1
                         "(" + name + ")" + //name of function         //2
@@ -334,7 +352,7 @@ public class AutoFixError {
             final int start = matcher.start(5);
             final int end = matcher.end(5);
 
-            final String insertText = e.valueType.toString();
+            final String insertText = valueType.toString();
             editable.getEditableText().replace(start, end, insertText);
             editable.post(new Runnable() {
                 @Override
@@ -348,9 +366,9 @@ public class AutoFixError {
         }
     }
 
-    private void changeTypeVar(CharSequence text, UnConvertibleTypeException e) {
+    private void changeTypeVar(CharSequence text, VariableAccess identifier, DeclaredType valueType) {
         Log.d(TAG, "autoFixUnConvertType: variable");
-        final String name = ((VariableAccess) e.identifier).getName();
+        final String name = ((VariableAccess) identifier).getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
                         "(.*?)" + //other variable                                  //2
                         "(" + name + ")" + //name of variable                       //3
@@ -368,7 +386,7 @@ public class AutoFixError {
             final int start = matcher.start(6);
             int end = matcher.end(6);
 
-            final String insertText = e.valueType.toString();
+            final String insertText = valueType.toString();
             editable.getEditableText().replace(start, end, insertText);
             editable.post(new Runnable() {
                 @Override

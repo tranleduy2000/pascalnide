@@ -507,7 +507,9 @@ public abstract class GrouperToken extends Token {
                 }
                 return FunctionCall.generateFunctionCall(name, arguments, context);
             } else {
-                return context.getIdentifierValue(name);
+                RuntimeValue identifier = context.getIdentifierValue(name);
+                identifier.getLineNumber().setLength(name.name.length());
+                return identifier;
             }
 
         } else if (next instanceof BracketedToken) {
