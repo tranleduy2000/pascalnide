@@ -22,7 +22,7 @@
     <string name="BadFunctionCallException_3">Không thể gọi hàm \"%1$s\" , hàm chưa được khai báo.</string>
     <string name="multi_define_main">Quá nhiều chương trình chính được định nghĩa</string>
     <string name="EXTRA_END">Dư từ khóa \'end\' trong chương trình của bạn</string>
-    <string name="token_not_belong">"Từ khóa hoặc cú pháp không tồn tại: "</string>
+    <string name="token_not_belong">"Từ khóa không thể đặt ở đây"</string>
     <string name="main_program_not_define">Không tìm thấy chương trình chính</string>
 
     <string name="BadOperationTypeException">Phép toán \"%1$s\" không thể áp dụng cho tham số \"%2$s\" và \"%3$s\".\n

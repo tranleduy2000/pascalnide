@@ -924,7 +924,7 @@ public abstract class GrouperToken extends Token {
         Token next = take();
         if (!(next instanceof AssignmentToken
                 || next instanceof OperatorToken)) {
-            throw new ExpectedTokenException("\":=\" or \"in\"", next);
+            throw new ExpectedTokenException(next, ":=", "in");
         }
         Executable result = null;
         if (next instanceof AssignmentToken) {

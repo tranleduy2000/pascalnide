@@ -37,6 +37,7 @@ import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 
 import com.duy.pascal.backend.core.PascalCompiler;
@@ -763,6 +764,12 @@ public class HighlightEditor extends CodeSuggestsEditText
         updateHandler.removeCallbacks(colorRunnable_duringEditing);
         updateHandler.removeCallbacks(colorRunnable_duringScroll);
         updateHandler.postDelayed(colorRunnable_duringEditing, SYNTAX_DELAY_MILLIS_LONG);
+    }
+
+    public void showKeyboard() {
+        requestFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
     }
 
     /**

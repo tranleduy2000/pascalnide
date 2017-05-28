@@ -215,14 +215,17 @@ public class AutoFixError {
 
 
         matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
-        matcher.find();
-        textToInsert = textToInsert.replaceAll("%\\w", "");
+        if (matcher.find()) {
+            textToInsert = textToInsert.replaceAll("%\\w", "");
 
-        editable.getText().insert(insertPosition, textToInsert);
-        editable.setSelection(insertPosition + matcher.start());
+            editable.getText().insert(insertPosition, textToInsert);
+            editable.setSelection(insertPosition + matcher.start());
+            editable.showKeyboard();
 
-        //set suggest data
-        editable.restoreAfterClick(KeyWord.DATA_TYPE);
+            //set suggest data
+            editable.restoreAfterClick(KeyWord.DATA_TYPE);
+        }
+
 
     }
 
@@ -308,6 +311,7 @@ public class AutoFixError {
                     editable.setSelection(start, start + insertText.length());
                 }
             });
+            editable.showKeyboard();
         }
     }
 
@@ -338,6 +342,7 @@ public class AutoFixError {
                     editable.setSelection(start, start + insertText.length());
                 }
             });
+            editable.showKeyboard();
         } else {
             Log.d(TAG, "changeTypeFunction: can not find " + pattern);
         }
@@ -371,6 +376,7 @@ public class AutoFixError {
                     editable.setSelection(start, start + insertText.length());
                 }
             });
+            editable.showKeyboard();
         } else {
             Log.d(TAG, "autoFixUnConvertType: can not find " + pattern);
         }
@@ -405,12 +411,13 @@ public class AutoFixError {
             Editable text = editable.getText();
             if (!insert) {
                 text.replace(offset + start, offset + start + end, expect);
-                editable.setSelection(offset + start, offset + start + expect.length());
             } else {
                 expect = " " + expect + " ";
                 text.insert(offset + start, expect);
-                editable.setSelection(offset + start, offset + start + expect.length());
+
             }
+            editable.setSelection(offset + start, offset + start + expect.length());
+            editable.showKeyboard();
         }
     }
 
