@@ -571,7 +571,7 @@ public abstract class GrouperToken extends Token {
             Object defaultValue = null;
             if (peek() instanceof OperatorToken) {
                 if (((OperatorToken) peek()).type == OperatorTypes.EQUALS) {
-                    take();
+                    take(); //ignore equal token
                     defaultValue = getConstantValue(context, type);
                 }
             }
@@ -688,45 +688,56 @@ public abstract class GrouperToken extends Token {
         return new ConstantAccess<LinkedList>(linkedList, typeReference.get(), bracketedToken.getLineNumber());
     }
 
+    /**
+     * parse array constant
+     *
+     * @param group - parentheses token: the container of array. Example (1, 2, 3)
+     * @param type  - element type of array
+     * @return - the {@link ConstantAccess} include array object and line number
+     * @throws ParsingException - some token is not expect
+     */
     public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context, Token group, ArrayType type) throws ParsingException {
 
         Log.d(TAG, "getArrayConstant() called with: context = [" + context + "], type = [" + type + "]");
 
         if (!(group instanceof ParenthesizedToken)) {
-            throw new ExpectedTokenException("[", group);
+            throw new ExpectedTokenException("(", group);
         }
 
-        DeclaredType elementTypeOfArray = type.elementType;
-        ParenthesizedToken bracketedToken = (ParenthesizedToken) group;
+        DeclaredType elementType = type.elementType;
+        ParenthesizedToken container = (ParenthesizedToken) group;
+
+        //size of array
         int size = type.getBounds().size;
+        //create new array
         Object[] objects = new Object[size];
+//        Object o = Array.newInstance(elementType.getStorageClass(), size);
         for (int i = 0; i < size; i++) {
-            if (!bracketedToken.hasNext()) {
+            if (!container.hasNext()) {
                 throw new ExpectedTokenException(",", peek());
             }
-            objects[i] = getConstantElement(context, bracketedToken, elementTypeOfArray).getValue();
+            objects[i] = getConstantElement(context, container, elementType).getValue();
         }
-        return new ConstantAccess<>(objects, type, bracketedToken.getLineNumber());
+        return new ConstantAccess<>(objects, type, container.getLineNumber());
     }
 
+    /**
+     * @param grouperToken - parent
+     * @param elementType  - the type of element
+     * @return constant object
+     */
     public ConstantAccess getConstantElement(@NonNull ExpressionContext context,
                                              @NonNull GrouperToken grouperToken,
                                              @Nullable DeclaredType elementType) throws ParsingException {
         if (grouperToken.hasNext()) {
             if (elementType instanceof ArrayType) {
                 GrouperToken child = (GrouperToken) grouperToken.take();
-                Object[] array = new Object[((ArrayType) elementType).getBounds().size];
-                for (int i = 0; i < array.length; i++) {
-                    ConstantAccess constant = getConstantElement(context, child, ((ArrayType) elementType).elementType);
-                    array[i] = constant.getValue();
-                }
-                if (child.hasNext()) {
-                    throw new ExpectedTokenException(new CommaToken(null), child.peek());
-                }
+                Object[] array = getArrayConstant(context, child, (ArrayType) elementType).getValue();
+
                 if (grouperToken.hasNext()) {
                     grouperToken.assertNextComma();
                 }
-                getArrayConstant(context, child, (ArrayType) elementType);
+
                 return new ConstantAccess<>(array, child.mLineNumber);
 
             } else if (elementType instanceof EnumGroupType) {
