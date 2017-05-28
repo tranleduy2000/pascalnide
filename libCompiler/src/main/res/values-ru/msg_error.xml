@@ -31,19 +31,19 @@
 
 
     <string name="BadOperationTypeException2">Оператор \"%1$s\" не является унарным оператором</string>
-    <string name="ConstantCalculationException">Ошибка при вычислении постоянного значения: "%1$s"</string>
-    <string name="LibraryNotFoundException">Не удается найти библиотеку "%1$s"</string>
+    <string name="ConstantCalculationException">Ошибка при вычислении постоянного значения: \"%1$s\"</string>
+    <string name="LibraryNotFoundException">Не удается найти библиотеку \"%1$s\"</string>
     <string name="MultipleDefaultValuesException">Значения по умолчанию могут использоваться только при объявлении переменных (один за раз).</string>
-    <string name="NonArrayIndexed">Пытался сделать индексированный доступ на том, что не было массивом или строкой. Это "%1$s"</string>
-    <string name="NonConstantExpressionException">Выражение "%1$s" не является константой.</string>
-    <string name="NonIntegerIndexException">Индексы массивов должны быть целыми: "%1$s"</string>
+    <string name="NonArrayIndexed">Пытался сделать индексированный доступ на том, что не было массивом или строкой. Это \"%1$s\"</string>
+    <string name="NonConstantExpressionException">Выражение \"%1$s\" не является константой.</string>
+    <string name="NonIntegerIndexException">Индексы массивов должны быть целыми: \"%1$s\"</string>
     <string name="NoSuchFunctionOrVariableException">\"%1$s\" не является именем переменной или функции</string>
     <string name="NotAStatementException">\"%1$s\" не является инструкцией.</string>
-    <string name="OverridingFunctionException">Переопределение тела функции для "%1$s", которое было ранее определено в "%1$s"</string>
-    <string name="SameNameException">\"%1$s\" \"%2$s\" конфликтуют с ранее определённым %3$s с тем же именем, определённым в %4$s</string>
-    <string name="UnAssignableTypeException">Выражение "%1$s" не может иметь назначенного ему значения.</string>
-    <string name="UnrecognizedTypeException">Тип "%1$s" не определён.</string>
-    <string name="PascalArithmeticException">Арифметическое исключение: "%1$s"</string>
+    <string name="OverridingFunctionException">Переопределение тела функции для \"%1$s\", которое было ранее определено в \"%1$s\"</string>
+    <string name="SameNameException">\"%1$s\" \"%2$s\" конфликтуют с ранее определённым \"%3$s\" с тем же именем, определённым в %4$s</string>
+    <string name="UnAssignableTypeException">Выражение \"%1$s\" не может иметь назначенного ему значения.</string>
+    <string name="UnrecognizedTypeException">Тип \"%1$s\" не определён.</string>
+    <string name="PascalArithmeticException">Арифметическое исключение: \"%1$s\"</string>
 
     <string name="DiskReadErrorException">Произошла ошибка при чтении с диска.</string>
     <string name="FileNotAssignException">Об этом сообщает Reset, Rewrite, Append, Rename и Erase, если вы вызываете их с неназначенным файлом в качестве параметра.</string>
@@ -54,7 +54,7 @@
     <string name="DivisionByZeroException">Приложение попыталось разделить число на ноль.</string>
 
     <string name="InvalidNumericFormatException">Сообщается, когда нечисловое значение считывается из текстового файла, и ожидается числовое значение.</string>
-    <string name="NonIntegerException">Значение должно быть целым числом: "%1$s"</string>
+    <string name="NonIntegerException">Значение должно быть целым числом: \"%1$s\"</string>
     <string name="ChangeValueConstantException">Значение, сохраненное в константе, не может быть изменено.</string>
     <string name="EXTRA_END">У Вас есть дополнительный \'end\' в программе</string>
 
@@ -67,12 +67,12 @@
     <string name="CanNotReadVariableException">Невозможно прочитать переменную этого типа</string>
     <string name="BadOperationTypeException">Оператор \"%1$s\" не может применяться к аргументам \"%2$s\" и \"%3$s\".\n
     У одного тип \"%4$s\", а у другого \"%5$s\"</string>
-    <string name="PluginCallException">При вызове функции или процедуры "%1$s", произошло следующее исключение java: "%2$s"</string>
+    <string name="PluginCallException">При вызове функции или процедуры \"%1$s\", произошло следующее исключение java: \"%2$s\"</string>
     <string name="SubRangeException">Верхняя граница диапазона меньше нижней.\n
-        Нижний предел "%1$s", а верхний "%2$s"</string>
-    <string name="MissingSemicolonTokenException">Отсутствует токен с запятой в строке "%1$s"</string>
-    <string name="MissingCommaTokenException">Отсутствует запятая (,) в строке "%1$s"</string>
-    <string name="StrayCharacterException">Неверный знак в программе: "%1$s"</string>
+        Нижний предел \"%1$s\", а верхний \"%2$s\"</string>
+    <string name="MissingSemicolonTokenException">Отсутствует токен с запятой в строке \"%1$s\"</string>
+    <string name="MissingCommaTokenException">Отсутствует запятая (,) в строке \"%1$s\"</string>
+    <string name="StrayCharacterException">Неверный знак в программе: \"%1$s\"</string>
     <string name="StackOverflowException">Ошибка переполнения стека.</string>
     <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\"</string>
     <string name="WrongIfElseStatement">НЕПРАВИЛЬНО УПОТРЕБЛЁН ОПЕРАТОР IF ELSE\n\n

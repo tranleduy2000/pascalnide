@@ -26,19 +26,19 @@
     <string name="main_program_not_define">Programa principal no encontrado</string>
 
     <string name="BadOperationTypeException2">El operador \"%1$s\" no es un operador unario</string>
-    <string name="ConstantCalculationException">Ocurrio un error mientras se computaba el valor de la constante: "%1$s"</string>
-    <string name="LibraryNotFoundException">No se puede encontrar la libreria "%1$s"</string>
+    <string name="ConstantCalculationException">Ocurrio un error mientras se computaba el valor de la constante: \"%1$s\"</string>
+    <string name="LibraryNotFoundException">No se puede encontrar la libreria \"%1$s\"</string>
     <string name="MultipleDefaultValuesException">Los valores por defecto solo pueden ser usados si se declara una variable a la vez.</string>
-    <string name="NonArrayIndexed">Se intento hacer acceso indexado en algo que no es de tipo array o string. Era un "%1$s"</string>
-    <string name="NonConstantExpressionException">La expresión "%1$s" no es una constante.</string>
-    <string name="NonIntegerIndexException">Los valores indexados de array deben ser enteros: "%1$s"</string>
+    <string name="NonArrayIndexed">Se intento hacer acceso indexado en algo que no es de tipo array o string. Era un \"%1$s\"</string>
+    <string name="NonConstantExpressionException">La expresión \"%1$s\" no es una constante.</string>
+    <string name="NonIntegerIndexException">Los valores indexados de array deben ser enteros: \"%1$s\"</string>
     <string name="NoSuchFunctionOrVariableException">\"%1$s\" no es una variable o nombre de una función</string>
     <string name="NotAStatementException">\"%1$s\" no es una instrucción por si misma.</string>
-    <string name="OverridingFunctionException">Reedifiniendo función a "%1$s", que previamente estaba definida a "%1$s"</string>
-    <string name="SameNameException">\"%1$s\" \"%2$s\" conflictos con %3$s previamente definida con el mismo nombre que %4$s</string>
-    <string name="UnAssignableTypeException">La expreción "%1$s" no puede tener un valor asignada.</string>
-    <string name="UnrecognizedTypeException">El tipo "%1$s" no esta definido.</string>
-    <string name="PascalArithmeticException">Expreción aritmetica: "%1$s"</string>
+    <string name="OverridingFunctionException">Reedifiniendo función a \"%1$s\", que previamente estaba definida a \"%1$s\"</string>
+    <string name="SameNameException">\"%1$s\" \"%2$s\" conflictos con \"%3$s\" previamente definida con el mismo nombre que %4$s</string>
+    <string name="UnAssignableTypeException">La expreción \"%1$s\" no puede tener un valor asignada.</string>
+    <string name="UnrecognizedTypeException">El tipo \"%1$s\" no esta definido.</string>
+    <string name="PascalArithmeticException">Expreción aritmetica: \"%1$s\"</string>
 
 
     <string name="DiskReadErrorException">Ocurrio un error mientras se leeía desde el disco. Normalmente sucede cuando intentas leer pasado el final del archivo.</string>
@@ -50,7 +50,7 @@
     <string name="DivisionByZeroException">La aplicación intento dividir un numero por cero.</string>
 
     <string name="InvalidNumericFormatException">Informado cuando un valor no-numerico se intenta leer desde un archivo de texto, startY se esperaba un valor numerico.</string>
-    <string name="NonIntegerException">El valor debe ser integer: "%1$s"</string>
+    <string name="NonIntegerException">El valor debe ser integer: \"%1$s\"</string>
     <string name="ChangeValueConstantException">El valor guardado en una constante no puede ser cambiado.</string>
 
     <string name="ExpectedTokenException_2">Se encontro el siguiente nombre:</string>
@@ -58,10 +58,10 @@
     <string name="BadOperationTypeException">El operador \"%1$s\" no se puede aplicar a los argumentos \"%2$s\" y \"%3$s\".\n
     Unos es de tipo \"%4$s\" y el otro de \"%5$s\"</string>
     <string name="SubRangeException">El limite superior del rango es menor que el limite inferior del mismo.\n
-        Actualmente el inferior es "%1$s" y el superior es "%2$s"</string>
-    <string name="MissingSemicolonTokenException">Falta punto y coma (;) cerca de la linea "%1$s"</string>
-    <string name="MissingCommaTokenException">Falta coma (,) cerca de la linea "%1$s"</string>
-    <string name="StrayCharacterException">Caracter extraviado en el programa: "%1$s"</string>
+        Actualmente el inferior es \"%1$s\" y el superior es \"%2$s\"</string>
+    <string name="MissingSemicolonTokenException">Falta punto y coma (;) cerca de la linea \"%1$s\"</string>
+    <string name="MissingCommaTokenException">Falta coma (,) cerca de la linea \"%1$s\"</string>
+    <string name="StrayCharacterException">Caracter extraviado en el programa: \"%1$s\"</string>
 
     <string name="UNFINISHED_BEGIN_END">Estructura begin - end sin terminar</string>
     <string name="UNFINISHED_PARENTHESES">Se te olvido cerrar uno o más parentesis</string>
@@ -73,7 +73,7 @@
     <string name="MISMATCHED_BEGIN_END">Error en la construcción de la estructura begin - end.</string>
     <string name="EXTRA_END">Tienes un \'end\' extra en tu programa</string>
     <string name="IO_EXCEPTION">Ocurrio un problema IOException mientras se leía la entrada</string>
-    <string name="PluginCallException">Cuando se llama a la funcion o procedimiento "%1$s", ocurre la siguiente excepción de Java: "%2$s"</string>
+    <string name="PluginCallException">Cuando se llama a la funcion o procedimiento \"%1$s\", ocurre la siguiente excepción de Java: \"%2$s\"</string>
     <string name="StackOverflowException">Error por desbordamiento de pila.</string>
     <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\"</string>
     <string name="WrongIfElseStatement">WRONG IF ELSE STATEMENT\n\n

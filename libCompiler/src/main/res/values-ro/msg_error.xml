@@ -40,21 +40,21 @@
     <string name="BadOperationTypeException">Operatorul \"%1$s\" nu poate fi aplicat argumentelor \"%2$s\" și \"%3$s\".\n
     Unul dintre argumente este de tipul \"%4$s\", iar celălalt este de tipul \"%5$s\"</string>
     <string name="BadOperationTypeException2">Operatorul \"%1$s\" nu este de tip unar</string>
-    <string name="ConstantCalculationException">Eroare în timpul calculării valorii constantei: "%1$s"</string>
-    <string name="LibraryNotFoundException">Librăria "%1$s" nu poate fi găsită</string>
+    <string name="ConstantCalculationException">Eroare în timpul calculării valorii constantei: \"%1$s\"</string>
+    <string name="LibraryNotFoundException">Librăria \"%1$s\" nu poate fi găsită</string>
     <string name="MultipleDefaultValuesException">Valorile Predefinite pot fi folosite doar când variabilele de declară pe rând.</string>
-    <string name="NonArrayIndexed">S-a încercat accesarea indexată a unei entități care nu este de tip vector sau șir. Entitatea este de tipul "%1$s"</string>
-    <string name="NonConstantExpressionException">Expresia "%1$s" nu este o constantă.</string>
-    <string name="NonIntegerIndexException">Index-ul sau indecșii unui vector trebuie să fie de tip integer: "%1$s"</string>
+    <string name="NonArrayIndexed">S-a încercat accesarea indexată a unei entități care nu este de tip vector sau șir. Entitatea este de tipul \"%1$s\"</string>
+    <string name="NonConstantExpressionException">Expresia \"%1$s\" nu este o constantă.</string>
+    <string name="NonIntegerIndexException">Index-ul sau indecșii unui vector trebuie să fie de tip integer: \"%1$s\"</string>
     <string name="NoSuchFunctionOrVariableException">\"%1$s\" nu este o variabilă sau un nume al unei funcții</string>
     <string name="NotAStatementException">\"%1$s\" nu constituie o instrucțiune.</string>
-    <string name="OverridingFunctionException">Se încearcă redefinirea corpului funcției "%1$s", care a fost definită anterior la "%1$s"</string>
+    <string name="OverridingFunctionException">Se încearcă redefinirea corpului funcției \"%1$s\", care a fost definită anterior la \"%1$s\"</string>
     <string name="SameNameException">\"%1$s\" \"%2$s\" este în conflict cu %3$s, definit (ă) anterior, cu același nume definit la %4$s</string>
-    <string name="UnAssignableTypeException">Expresia "%1$s" nu poate avea o valoare atribuită ei înseși.</string>
-    <string name="UnrecognizedTypeException">Tipul "%1$s" nu este definit.</string>
-    <string name="PascalArithmeticException">Excepție aritmetică: "%1$s"</string>
+    <string name="UnAssignableTypeException">Expresia \"%1$s\" nu poate avea o valoare atribuită ei înseși.</string>
+    <string name="UnrecognizedTypeException">Tipul \"%1$s\" nu este definit.</string>
+    <string name="PascalArithmeticException">Excepție aritmetică: \"%1$s\"</string>
 
-    <string name="PluginCallException">La apelul Funcției sau a Procedurii "%1$s" a apărut următoarea excepție Java: "%2$s"</string>
+    <string name="PluginCallException">La apelul Funcției sau a Procedurii \"%1$s\" a apărut următoarea excepție Java: \"%2$s\"</string>
 
     <string name="DiskReadErrorException">A apărut o excepție la citirea din memoria internă. Aceasta se întâmplă, de obicei, când se încearcă citirea după sfârșitul fișierului.</string>
     <string name="FileNotAssignException">Această eroare este raportată de către Reset, Rewrite, Append, Rename sau Erase dacă sunt apelate cu un parametru pentru care nu s-a apelat anterior procedura Assign.</string>
@@ -66,14 +66,14 @@
     <string name="CanNotReadVariableException">Nu se pot citi variabile de acest tip</string>
 
     <string name="InvalidNumericFormatException">Raportat în momentul în care o valoare non-numerică este citită dintr-un fișier text, fiind așteptată o valoare numerică.</string>
-    <string name="NonIntegerException">Valoarea trebuie să fie de tip întreg: "%1$s"</string>
+    <string name="NonIntegerException">Valoarea trebuie să fie de tip întreg: \"%1$s\"</string>
     <string name="ChangeValueConstantException">Valoarea stocată într-o constantă nu poate fi schimbată.</string>
     <string name="token_not_belong">Următorul nume nu aparține aici: </string>
     <string name="SubRangeException">Capătul superior al intervalului este mai mic decât capătul inferior.\n
-        Capătul inferior este "%1$s", iar cel superior este "%2$s"</string>
-    <string name="MissingSemicolonTokenException">Un marcator "punct și virgulă" (;) lipsește în apropierea liniei "%1$s"</string>
-    <string name="MissingCommaTokenException">Un marcator "virgulă" (,) lipsește în apropierea liniei "%1$s"</string>
-    <string name="StrayCharacterException">Caracter rătăcit în cadrul programului: "%1$s"</string>
+        Capătul inferior este \"%1$s\", iar cel superior este \"%2$s\"</string>
+    <string name="MissingSemicolonTokenException">Un marcator "punct și virgulă" (;) lipsește în apropierea liniei \"%1$s\"</string>
+    <string name="MissingCommaTokenException">Un marcator "virgulă" (,) lipsește în apropierea liniei \"%1$s\"</string>
+    <string name="StrayCharacterException">Caracter rătăcit în cadrul programului: \"%1$s\"</string>
     <string name="StackOverflowException">Eroare apărută la supraîncărcarea unei stive (stack overflow).</string>
     <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\"</string>
     <string name="WrongIfElseStatement">WRONG IF ELSE STATEMENT\n\n

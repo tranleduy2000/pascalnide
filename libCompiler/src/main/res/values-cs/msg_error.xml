@@ -23,19 +23,19 @@
     <string name="token_not_belong">"Nasledující název sem nepatří: "</string>
     <string name="main_program_not_define">Hlavní program nenalezen</string>
     <string name="BadOperationTypeException2">Operace \"%1$s\" není unární operace</string>
-    <string name="ConstantCalculationException">Chyba při výpočtu konstantní hodnoty: "%1$s"</string>
-    <string name="LibraryNotFoundException">Nelze najít knihovnu "%1$s"</string>
+    <string name="ConstantCalculationException">Chyba při výpočtu konstantní hodnoty: \"%1$s\"</string>
+    <string name="LibraryNotFoundException">Nelze najít knihovnu \"%1$s\"</string>
     <string name="MultipleDefaultValuesException">Východiskové hodnoty mohou být použité jen při deklaraci jedné promněnné najednou.</string>
-    <string name="NonArrayIndexed">Pokus použít indexy na něčem, co není array ani string, ale "%1$s"</string>
-    <string name="NonConstantExpressionException">Výraz "%1$s" není konstantní.</string>
-    <string name="NonIntegerIndexException">Indexy pole musí být typu integer: "%1$s"</string>
+    <string name="NonArrayIndexed">Pokus použít indexy na něčem, co není array ani string, ale \"%1$s\"</string>
+    <string name="NonConstantExpressionException">Výraz \"%1$s\" není konstantní.</string>
+    <string name="NonIntegerIndexException">Indexy pole musí být typu integer: \"%1$s\"</string>
     <string name="NoSuchFunctionOrVariableException">\"%1$s\" není proměnná ani název funkce</string>
     <string name="NotAStatementException">\"%1$s\" není samostatní příkaz.</string>
-    <string name="OverridingFunctionException">Redefining function body for "%1$s", which was previous define at "%1$s"</string>
-    <string name="SameNameException">\"%1$s\" \"%2$s\" je v rozporu s předtím definovanou %3$s s rovnakým názvem definovaným na %4$s</string>
-    <string name="UnAssignableTypeException">Výraz "%1$s" nemůže mít přiřazenou hodnotu.</string>
-    <string name="UnrecognizedTypeException">Typ "%1$s" není definován.</string>
-    <string name="PascalArithmeticException">Aritmetická chyba: "%1$s"</string>
+    <string name="OverridingFunctionException">Redefining function body for \"%1$s\", which was previous define at \"%1$s\"</string>
+    <string name="SameNameException">\"%1$s\" \"%2$s\" je v rozporu s předtím definovanou \"%3$s\" s rovnakým názvem definovaným na %4$s</string>
+    <string name="UnAssignableTypeException">Výraz \"%1$s\" nemůže mít přiřazenou hodnotu.</string>
+    <string name="UnrecognizedTypeException">Typ \"%1$s\" není definován.</string>
+    <string name="PascalArithmeticException">Aritmetická chyba: \"%1$s\"</string>
     <string name="DiskReadErrorException">Při čtení z disku nastala chyba. Většinou nastává při pokusu číst za koncem souboru.</string>
     <string name="FileNotAssignException">Toto nahlásí Reset, Rewrite, Append, Rename a Erase při pokusu volat je s nepřiděleným souborem jako s parametrem.</string>
     <string name="FileNotFoundException">Nahlásené při pokusu zmazat, prějmenovat nebo otevřít neexistující soubor.</string>
@@ -43,7 +43,7 @@
     <string name="FileNotOpenForInputException">Nahlásí Read, BlockRead, Eof, Eoln, SeekEof nebo SeekEoln ak soubor není otevřený pomocí Reset.</string>
     <string name="DivisionByZeroException">Aplikace se pokusila vydělit číslo nulou.</string>
     <string name="InvalidNumericFormatException">Nahlásené, ak byla z textového souboru přečtená nečíslná hodnota a byla očekávána číselná hodnota.</string>
-    <string name="NonIntegerException">Hodnota musí být celočíselná: "%1$s"</string>
+    <string name="NonIntegerException">Hodnota musí být celočíselná: \"%1$s\"</string>
     <string name="ChangeValueConstantException">Hodnota uchovávána v konstantní nemůže být změnená.</string>
     <string name="UNFINISHED_BEGIN_END">Nedokončená konstrukce begin - end </string>
     <string name="UNFINISHED_PARENTHESES">Zapomněli jste zavřít kulaté závorky</string>
@@ -60,12 +60,12 @@
     <string name="CanNotReadVariableException">Can not read variable of this type</string>
     <string name="BadOperationTypeException">Operator \"%1$s\" cannot be applied to arguments \"%2$s\" and \"%3$s\".\n
     One has type \"%4$s\" and the other has type \"%5$s\"</string>
-    <string name="PluginCallException">When calling Function or Procedure "%1$s", the following java exception: "%2$s"</string>
+    <string name="PluginCallException">When calling Function or Procedure \"%1$s\", the following java exception: \"%2$s\"</string>
     <string name="SubRangeException">Upper bound of range is less than lower bound.\n
-        Current lower is "%1$s" and upper is "%2$s"</string>
-    <string name="MissingSemicolonTokenException">Missing semicolon (;) token near mLineNumber "%1$s"</string>
-    <string name="MissingCommaTokenException">Missing comma (,) token near mLineNumber "%1$s"</string>
-    <string name="StrayCharacterException">Stray character in program: "%1$s"</string>
+        Current lower is \"%1$s\" and upper is \"%2$s\"</string>
+    <string name="MissingSemicolonTokenException">Missing semicolon (;) token near mLineNumber \"%1$s\"</string>
+    <string name="MissingCommaTokenException">Missing comma (,) token near mLineNumber \"%1$s\"</string>
+    <string name="StrayCharacterException">Stray character in program: \"%1$s\"</string>
     <string name="StackOverflowException">Stack overflow error.</string>
     <string name="UnConvertibleTypeException">The expression or variable \"%1$s\" is of type \"%2$s\" which cannot be convert to the type \"%3$s\"</string>
     <string name="WrongIfElseStatement">WRONG IF ELSE STATEMENT\n\n

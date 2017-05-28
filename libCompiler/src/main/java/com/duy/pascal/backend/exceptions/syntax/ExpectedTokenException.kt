@@ -43,4 +43,8 @@ class ExpectedTokenException : ParsingException {
     override fun getLocalizedMessage(): String {
         return "Syntax error, \"$expected\" expected but \"$current\" found"
     }
+
+    override fun isAutoFix(): Boolean {
+        return true
+    }
 }

@@ -33,6 +33,7 @@ import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.exceptions.missing.MissingTokenException;
+import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
@@ -139,12 +140,14 @@ public class EditorFragment extends Fragment implements EditorListener {
 
     public void autoFix(ParsingException e) {
         if (e instanceof UnrecognizedTypeException) {
-            mCodeEditor.getAutoFixError().autoFixType((UnrecognizedTypeException) e);
+            mCodeEditor.getAutoFixError().autoFixMissingType((UnrecognizedTypeException) e);
         } else if (e instanceof NoSuchFunctionOrVariableException) {
-            mCodeEditor.getAutoFixError().autoFixDefine((NoSuchFunctionOrVariableException) e);
+            mCodeEditor.getAutoFixError().autoFixMissingDefine((NoSuchFunctionOrVariableException) e);
         } else if (e instanceof UnConvertibleTypeException) {
-            mCodeEditor.getAutoFixError().autoFixConvertType((UnConvertibleTypeException) e);
+            mCodeEditor.getAutoFixError().autoFixUnConvertType((UnConvertibleTypeException) e);
         } else if (e instanceof MissingTokenException) {
+
+        } else if (e instanceof ExpectedTokenException) {
 
         }
     }

@@ -69,7 +69,7 @@ public class AutoFixError {
      * First, we find the "type" keyword, if not found we will be create new keyword
      * Then, we insert a structure <code>"name" = "type"</code>
      */
-    public void autoFixType(UnrecognizedTypeException e) {
+    public void autoFixMissingType(UnrecognizedTypeException e) {
         //don't work if has selection
         //sub string from 0 to postion error
         CharSequence text = getText(e);
@@ -125,8 +125,8 @@ public class AutoFixError {
      * This method will be add missing define, such as variable,
      * constant, function or procedure
      */
-    public void autoFixDefine(NoSuchFunctionOrVariableException e) {
-        Log.d(TAG, "autoFixDefine() called with: e = [" + e + "]" + " " + e.getFitType());
+    public void autoFixMissingDefine(NoSuchFunctionOrVariableException e) {
+        Log.d(TAG, "autoFixMissingDefine() called with: e = [" + e + "]" + " " + e.getFitType());
         if (e.getFitType() == DefineType.DECLARE_VAR) {
             //add missign var
             declareVar(e);
@@ -243,7 +243,7 @@ public class AutoFixError {
      *
      * @param e
      */
-    public void autoFixConvertType(UnConvertibleTypeException e) {
+    public void autoFixUnConvertType(UnConvertibleTypeException e) {
         //get a part of text
         CharSequence text = getText(e);
 
@@ -271,7 +271,7 @@ public class AutoFixError {
      * const a: integer = 'adsda'; => change to string
      */
     private void changeTypeConst(CharSequence text, UnConvertibleTypeException e) {
-        Log.d(TAG, "autoFixConvertType: constant " + e.identifier);
+        Log.d(TAG, "autoFixUnConvertType: constant " + e.identifier);
         ConstantAccess constant = (ConstantAccess) e.identifier;
 
         if (constant.getName() == null) { //can not replace because it is not a identifier
@@ -293,7 +293,7 @@ public class AutoFixError {
         Matcher matcher = pattern.matcher(text);
 
         if (matcher.find()) {
-            Log.d(TAG, "autoFixConvertType: match " + matcher);
+            Log.d(TAG, "autoFixUnConvertType: match " + matcher);
             final int start = matcher.start(6);
             int end = matcher.end(6);
 
@@ -341,7 +341,7 @@ public class AutoFixError {
     }
 
     private void changeTypeVar(CharSequence text, UnConvertibleTypeException e) {
-        Log.d(TAG, "autoFixConvertType: variable");
+        Log.d(TAG, "autoFixUnConvertType: variable");
         final String name = ((VariableAccess) e.identifier).getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
                         "(.*?)" + //other variable                                  //2
@@ -353,10 +353,10 @@ public class AutoFixError {
                 Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
         Matcher matcher = pattern.matcher(text);
-        Log.d(TAG, "autoFixConvertType: " + text);
+        Log.d(TAG, "autoFixUnConvertType: " + text);
 
         if (matcher.find()) {
-            Log.d(TAG, "autoFixConvertType: match " + matcher);
+            Log.d(TAG, "autoFixUnConvertType: match " + matcher);
             final int start = matcher.start(6);
             int end = matcher.end(6);
 
@@ -369,7 +369,7 @@ public class AutoFixError {
                 }
             });
         } else {
-            Log.d(TAG, "autoFixConvertType: can not find " + pattern);
+            Log.d(TAG, "autoFixUnConvertType: can not find " + pattern);
         }
     }
 }
