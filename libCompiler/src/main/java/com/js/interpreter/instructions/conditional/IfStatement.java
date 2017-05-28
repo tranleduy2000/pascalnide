@@ -6,6 +6,9 @@ import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.ThenToken;
@@ -15,9 +18,6 @@ import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 public class IfStatement extends DebuggableExecutable {
     private RuntimeValue condition;
@@ -50,7 +50,8 @@ public class IfStatement extends DebuggableExecutable {
         RuntimeValue condition = grouperToken.getNextExpression(context);
         RuntimeValue convert = BasicType.Boolean.convert(condition, context);
         if (convert == null) {
-            throw new UnConvertibleTypeException(condition, BasicType.Boolean, condition.getType(context).declType, context);
+            throw new UnConvertibleTypeException(condition, BasicType.Boolean,
+                    condition.getType(context).declType, condition, context);
         }
 
         //check then token

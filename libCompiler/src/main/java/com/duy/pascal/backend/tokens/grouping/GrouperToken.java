@@ -70,7 +70,6 @@ import com.duy.pascal.backend.tokens.basic.RepeatToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.basic.ToToken;
-import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
@@ -847,20 +846,7 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof ForToken) {
             return generateForStatement(context, lineNumber);
         } else if (next instanceof RepeatToken) {
-            InstructionGrouper command = new InstructionGrouper(lineNumber);
-
-            while (!(peekNoEOF() instanceof UntilToken)) {
-                command.addCommand(getNextCommand(context));
-                if (!(peekNoEOF() instanceof UntilToken)) {
-                    assertNextSemicolon(next);
-                }
-            }
-            next = take();
-            if (!(next instanceof UntilToken)) {
-                throw new ExpectedTokenException("until", next);
-            }
-            RuntimeValue condition = getNextExpression(context);
-            return new RepeatInstruction(command, condition, lineNumber);
+            return new RepeatInstruction(context, this, lineNumber);
         } else if (next instanceof CaseToken) {
             return new CaseInstruction((CaseToken) next, context);
         } else if (next instanceof SemicolonToken) {
