@@ -62,9 +62,12 @@ public class Patterns {
                     "|(\\{(?:.|[\\n\\r])*?\\})" + //{ } comment
                     "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))"); // (* *) comment
 
-    public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;]");
+    public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;@\\^,.]");
 
-    public static final Pattern STRINGS = Pattern.compile("('(.*?)')|('(.*?)[\\r\\n]+)");
+    public static final Pattern STRINGS = Pattern.compile(
+            "((')(.*?)('))" +//'string'
+                    "|((')(.*+))", Pattern.DOTALL); // no end string 'asdasdasd
+
     public static final Pattern REPLACE_HIGHLIGHT = Pattern.compile("\"(.*?)\"");
 
     public static final Pattern REPLACE_CURSOR = Pattern.compile("%\\w");
