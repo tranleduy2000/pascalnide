@@ -203,7 +203,12 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	
 	{Comment} {return new CommentToken(getLine(), yytext());}
 
-    {Char} {return new CharacterToken(getLine(),yytext());}
+    {Char} {
+         LineInfo lineInfo = getLine();
+         String text = yytext();
+         lineInfo.column = lineInfo.column - text.length() - 1;
+         return new CharacterToken(lineInfo, text);
+    }
 	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
 	{Integer} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext()));}
 //	{NumBin} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 2));}
@@ -314,8 +319,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 			yypushback(1);
 			yybegin(YYINITIAL); 
 			if(literal.length()==1) {
-				return new CharacterToken(getLine(),literal.toString().charAt(0));
-				//return new CharacterToken(getLine(),literal.toString());
+			    LineInfo line = getLine();
+                line.column = line.column - 1;
+				return new CharacterToken(line,literal.toString().charAt(0));
 			} else {
 			    LineInfo lineInfo = getLine();
                 lineInfo.column = lineInfo.column - literal.length() - 2; //-2 by two quote

@@ -1042,7 +1042,9 @@ class Lexer {
                     yypushback(1);
                     yybegin(YYINITIAL);
                     if (literal.length() == 1) {
-                        return new CharacterToken(getLine(), literal.toString().charAt(0));
+                        LineInfo line = getLine();
+                        line.column = line.column - 3;
+                        return new CharacterToken(line, literal.toString().charAt(0));
                         //return new CharacterToken(getLine(),literal.toString());
                     } else {
                         LineInfo lineInfo = getLine();
@@ -1334,7 +1336,10 @@ class Lexer {
                 case 155:
                     break;
                 case 40: {
-                    return new CharacterToken(getLine(), yytext());
+                    LineInfo lineInfo = getLine();
+                    String text = yytext();
+                    lineInfo.column = lineInfo.column - text.length() - 2;
+                    return new CharacterToken(lineInfo, text);
                 }
                 case 156:
                     break;
