@@ -1,6 +1,8 @@
 package com.duy.pascal.backend.runtime.value;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
+import com.duy.pascal.backend.function_declaretion.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
@@ -120,6 +122,23 @@ public class SimpleFunctionCall extends FunctionCall {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new SimpleFunctionCall(function, compileTimeExpressionFoldArguments(context), line);
+    }
+
+    @Override
+    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+        Object[] args = new Object[arguments.length];
+        for (int i = 0; i < arguments.length; i++) {
+            args[i] = arguments[i].compileTimeValue(context);
+            if (args[i] == null) return null;
+        }
+        if (function instanceof MethodDeclaration || function instanceof IMethodDeclaration) {
+            try {
+                return function.call(null, null, args);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
     }
 
     @Override

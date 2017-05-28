@@ -54,10 +54,14 @@ public class InBiOperatorEval extends BinaryOperatorEval {
     @Override
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException, InternalInterpreterException {
+        //if the type of value2 is enum or set
         if (value2 instanceof LinkedList) {
             LinkedList v2 = (LinkedList) value2;
             return v2.contains(value1);
-        } else if (value2 instanceof Object[]) {
+
+        }
+        //array type
+        else if (value2 instanceof Object[]) {
             Object[] objects = (Object[]) value2;
             for (Object object : objects) {
                 if (value1.equals(object)) return true;

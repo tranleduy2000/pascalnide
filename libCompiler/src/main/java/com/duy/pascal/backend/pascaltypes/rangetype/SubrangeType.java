@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.pascaltypes.rangetype;
 
+import com.duy.pascal.backend.linenumber.LineInfo;
+
 /**
  * Created by Duy on 25-May-17.
  */
@@ -26,6 +28,7 @@ public abstract class SubrangeType implements Containable {
      * if size = -1, the size of array will be ignore while comparing
      */
     public int size;
+    protected LineInfo lineInfo;
 
     public int getLower() {
         return lower;
@@ -34,6 +37,16 @@ public abstract class SubrangeType implements Containable {
     public int getSize() {
         return size;
     }
+
+    @Override
+    public LineInfo getLineNumber() {
+        return lineInfo;
+    }
+
+    public void setLineNumber(LineInfo lineInfo) {
+        this.lineInfo = lineInfo;
+    }
+
 
     public abstract String toString();
 }

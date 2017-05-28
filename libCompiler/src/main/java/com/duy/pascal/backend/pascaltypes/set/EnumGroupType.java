@@ -25,8 +25,10 @@ import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.InfoType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.Containable;
-import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.runtime.VariableContext;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 import java.util.LinkedList;
 
@@ -134,7 +136,8 @@ public class EnumGroupType<T extends EnumElementValue> extends InfoType implemen
     }
 
     @Override
-    public boolean contain(Object value) {
+    public boolean contain(@Nullable VariableContext f,
+                           @Nullable RuntimeExecutableCodeUnit<?> main, Object value) {
         if (value instanceof EnumElementValue) {
             if (list.contains(value)) return true;
         }

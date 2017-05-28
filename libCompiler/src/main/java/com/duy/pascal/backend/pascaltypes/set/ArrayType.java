@@ -22,6 +22,7 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.rangetype.SubrangeType;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.value.ArrayIndexAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.cloning.ArrayCloner;
@@ -66,8 +67,12 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
             if (o.elementType.equals(elementType)) {
-                if (this.bounds.contain(o.bounds)) {
-                    return true;
+                try {
+                    if (this.bounds.contain(null, null, o.bounds)) {
+                        return true;
+                    }
+                } catch (RuntimePascalException e) {
+                    e.printStackTrace();
                 }
             }
         }

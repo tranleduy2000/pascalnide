@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
-import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.exceptions.define.SameNameException;
@@ -18,10 +17,10 @@ import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
 import com.duy.pascal.backend.lib.javaclasspath.JavaClassLoader;
-import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.FunctionCall;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
@@ -45,7 +44,6 @@ import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.frontend.activities.RunnableActivity;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
@@ -66,7 +64,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -432,67 +429,40 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         listNameConstants.add(new InfoItem(StructureType.TYPE_CONST, c.getName()));
     }
 
-    public void declareConst(GrouperToken token) throws ParsingException {
+    public void declareConst(GrouperToken grouperToken) throws ParsingException {
         Token next;
-        while (token.peek() instanceof WordToken) {
-            WordToken constName = (WordToken) token.take(); //const a : integer = 2; const a = 2;
-            next = token.take();
+        while (grouperToken.peek() instanceof WordToken) {
+            WordToken name = (WordToken) grouperToken.take(); //const a : integer = 2; const a = 2;
+            next = grouperToken.take();
             if (next instanceof ColonToken) {// const a : array[1..3] of integer = (1, 2, 3);
-                DeclaredType type = token.getNextPascalType(this);
-                Object defaultValue;
-                if (token.peek() instanceof OperatorToken) {
-                    if (((OperatorToken) token.peek()).type == OperatorTypes.EQUALS) {
-                        token.take(); //ignore equal name
-                        //set default value for array
-                        if (type instanceof ArrayType) {
-                            DeclaredType elementTypeOfArray = ((ArrayType) type).elementType;
-                            ParenthesizedToken bracketedToken = (ParenthesizedToken) token.take();
-                            int size = ((ArrayType) type).getBounds().size;
-                            Object[] objects = new Object[size];
-                            for (int i = 0; i < size; i++) {
-                                if (!bracketedToken.hasNext()) {
-                                    // TODO: 27-Apr-17  exception
-                                }
-                                objects[i] = token.getConstantElement(this, bracketedToken, elementTypeOfArray);
-                            }
-                            Log.d(TAG, "getConstantElement: " + Arrays.toString(objects));
-                            defaultValue = objects;
-                        } else {
-                            RuntimeValue unconverted = token.getNextExpression(this);
-                            RuntimeValue converted = type.convert(unconverted, this);
-                            if (converted == null) {
-                                throw new UnConvertibleTypeException(unconverted, type, unconverted.getType(this).declType, this);
-                            }
-                            defaultValue = converted.compileTimeValue(this);
-                            if (defaultValue == null) {
-                                throw new NonConstantExpressionException(converted);
-                            }
-
-
-                        }
-                        ConstantDefinition constantDefinition = new ConstantDefinition(constName.getName(),
-                                type, defaultValue, constName.getLineNumber());
-                        declareConst(constantDefinition);
-                        token.assertNextSemicolon(token.next);
+                DeclaredType type = grouperToken.getNextPascalType(this);
+                Object constVal;
+                if (grouperToken.peek() instanceof OperatorToken) {
+                    if (((OperatorToken) grouperToken.peek()).type == OperatorTypes.EQUALS) {
+                        grouperToken.take(); //ignore equal name
+                        constVal = grouperToken.getConstantValue(this, type);
+                        ConstantDefinition c = new ConstantDefinition(name.getName(), type, constVal, name.getLineNumber());
+                        declareConst(c);
+                        grouperToken.assertNextSemicolon(grouperToken.next);
                     }
                 } else {
-                    // TODO: 08-Apr-17
+                    throw new ExpectedTokenException("[init value]", grouperToken.peek());
                 }
             } else if (next instanceof OperatorToken) { //const a = 2; , non define operator
                 if (((OperatorToken) next).type != OperatorTypes.EQUALS) {
-                    throw new ExpectedTokenException("=", constName);
+                    throw new ExpectedTokenException("=", name);
                 }
-                RuntimeValue value = token.getNextExpression(this);
-                Object compileVal = value.compileTimeValue(this);
-                if (compileVal == null) {
+                RuntimeValue value = grouperToken.getNextExpression(this);
+                RuntimeType type = value.getType(this);
+                Object constVal = value.compileTimeValue(this);
+                if (constVal == null) {
                     throw new NonConstantExpressionException(value);
                 }
-                ConstantDefinition constantDefinition = new ConstantDefinition(constName.getName(),
-                        compileVal, constName.getLineNumber());
-                this.constants.put(constantDefinition.getName(), constantDefinition);
-                token.assertNextSemicolon(token);
+                ConstantDefinition c = new ConstantDefinition(name.getName(), type.declType, constVal, name.getLineNumber());
+                this.constants.put(c.getName(), c);
+                grouperToken.assertNextSemicolon(grouperToken);
             } else {
-                throw new ExpectedTokenException("=", constName);
+                throw new ExpectedTokenException("=", name);
             }
         }
 

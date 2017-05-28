@@ -9,7 +9,6 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.MethodNotFoundException;
-import com.duy.pascal.backend.exceptions.define.MultipleDefaultValuesException;
 import com.duy.pascal.backend.exceptions.define.SameNameException;
 import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.exceptions.index.NonIntegerIndexException;
@@ -573,31 +572,7 @@ public abstract class GrouperToken extends Token {
             if (peek() instanceof OperatorToken) {
                 if (((OperatorToken) peek()).type == OperatorTypes.EQUALS) {
                     take();
-                    //set default value for array
-                    if (type instanceof ArrayType) {
-                        defaultValue = getArrayConstant(context, (ArrayType) type).getValue();
-                    } else if (type instanceof EnumGroupType) {
-                        defaultValue = getEnumConstant(context, take(), type).getValue();
-                    } else if (type instanceof SetType) {
-                        if (!(peek() instanceof BracketedToken)) {
-                            throw new ExpectedTokenException(new BracketedToken(null), peek());
-                        }
-                        AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) type).getElementType());
-                        defaultValue = getSetConstant(context, (BracketedToken) take(), elementTypeReference).getValue();
-                    } else { //set default single value
-                        RuntimeValue unConvert = getNextExpression(context);
-                        RuntimeValue converted = type.convert(unConvert, context);
-                        if (converted == null) {
-                            throw new UnConvertibleTypeException(unConvert, type, unConvert.getType(context).declType, context);
-                        }
-                        defaultValue = converted.compileTimeValue(context);
-                        if (defaultValue == null) {
-                            throw new NonConstantExpressionException(converted);
-                        }
-                        if (names.size() != 1) {
-                            throw new MultipleDefaultValuesException(converted.getLineNumber());
-                        }
-                    }
+                    defaultValue = getConstantValue(context, type);
                 }
             }
 
@@ -617,12 +592,42 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
+    public Object getConstantValue(ExpressionContext context, DeclaredType type) throws ParsingException {
+        Object defaultValue;
+        //set default value for array
+        if (type instanceof ArrayType) {
+            defaultValue = getArrayConstant(context, (ArrayType) type).getValue();
+        } else if (type instanceof EnumGroupType) {
+            defaultValue = getEnumConstant(context, take(), type).getValue();
+        } else if (type instanceof SetType) {
+            if (!(peek() instanceof BracketedToken)) {
+                throw new ExpectedTokenException(new BracketedToken(null), peek());
+            }
+            AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) type).getElementType());
+            defaultValue = getSetConstant(context, (BracketedToken) take(), elementTypeReference).getValue();
+        } else { //set default single value
+            RuntimeValue unConvert = getNextExpression(context);
+            RuntimeValue converted = type.convert(unConvert, context);
+            if (converted == null) {
+                throw new UnConvertibleTypeException(unConvert, type, unConvert.getType(context).declType, context);
+            }
+            defaultValue = converted.compileTimeValue(context);
+            if (defaultValue == null) {
+                throw new NonConstantExpressionException(converted);
+            }
+           /* if (names.size() != 1) {
+                throw new MultipleDefaultValuesException(converted.getLineNumber());
+            }*/
+        }
+        return defaultValue;
+    }
+
     /**
      * @param targetType - type of enum
      * @return the enum constant, I define the enum as {@link LinkedList}
      */
-    protected ConstantAccess<EnumElementValue> getEnumConstant(ExpressionContext context, Token token,
-                                                               DeclaredType targetType) throws ParsingException {
+    public ConstantAccess<EnumElementValue> getEnumConstant(ExpressionContext context, Token token,
+                                                            DeclaredType targetType) throws ParsingException {
         RuntimeValue expression = getNextExpression(context, token);
         Object constant = expression.compileTimeValue(context);
         if (constant == null) {
@@ -636,8 +641,8 @@ public abstract class GrouperToken extends Token {
         return new ConstantAccess<>((EnumElementValue) o, targetType, token.getLineNumber());
     }
 
-    protected ConstantAccess<LinkedList> getEnumGroupConstant(ExpressionContext context, ParenthesizedToken parentheses,
-                                                              DeclaredType targetType) throws ParsingException {
+    public ConstantAccess<LinkedList> getEnumGroupConstant(ExpressionContext context, ParenthesizedToken parentheses,
+                                                           DeclaredType targetType) throws ParsingException {
         LinkedList<Object> linkedList = new LinkedList<>();
         while (parentheses.hasNext()) {
             linkedList.add(getConstantElement(context, parentheses, targetType));
@@ -649,8 +654,8 @@ public abstract class GrouperToken extends Token {
      * @param typeReference - type of set (example: set of char => type is "char")
      * @return the set constant, I define the enum as {@link LinkedList}
      */
-    protected ConstantAccess<LinkedList> getSetConstant(ExpressionContext context, BracketedToken bracketedToken,
-                                                        AtomicReference<DeclaredType> typeReference) throws ParsingException {
+    public ConstantAccess<LinkedList> getSetConstant(ExpressionContext context, BracketedToken bracketedToken,
+                                                     AtomicReference<DeclaredType> typeReference) throws ParsingException {
         Log.d(TAG, "getSetConstant() called with: context = [" + context + "], bracketedToken = [" + bracketedToken + "], typeReference = [" + typeReference + "]");
 
         LinkedList<Object> linkedList = new LinkedList<>();
@@ -672,7 +677,7 @@ public abstract class GrouperToken extends Token {
         return new ConstantAccess<LinkedList>(linkedList, typeReference.get(), bracketedToken.getLineNumber());
     }
 
-    private ConstantAccess<Object[]> getArrayConstant(ExpressionContext context, ArrayType type) throws ParsingException {
+    public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context, ArrayType type) throws ParsingException {
         Log.d(TAG, "getArrayConstant() called with: context = [" + context + "], type = [" + type + "]");
 
         DeclaredType elementTypeOfArray = type.elementType;

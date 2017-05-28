@@ -16,10 +16,22 @@
 
 package com.duy.pascal.backend.pascaltypes.rangetype;
 
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+
 /**
  * Created by Duy on 25-May-17.
  */
-
 public interface Containable {
-    boolean contain(Object value);
+    boolean contain(@Nullable VariableContext f, @Nullable RuntimeExecutableCodeUnit<?> main,
+                    Object value) throws RuntimePascalException;
+
+    /**
+     * the line of code
+     */
+    LineInfo getLineNumber();
 }

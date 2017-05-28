@@ -3,11 +3,14 @@ package com.js.interpreter.instructions.case_statement;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.exceptions.operator.ConstantCalculationException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.exceptions.value.NonConstantExpressionException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.rangetype.Containable;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
@@ -23,9 +26,6 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
 import com.js.interpreter.instructions.InstructionGrouper;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class CaseInstruction extends DebuggableExecutable {
         List<CasePossibility> possibilities = new ArrayList<>();
 
         while (!(token.peek() instanceof ElseToken) && !(token.peek() instanceof EOFToken)) {
-            List<CaseCondition> conditions = new ArrayList<>();
+            List<Containable> conditions = new ArrayList<>();
             while (true) {
                 RuntimeValue valueToSwitch = token.getNextExpression(context);
 
@@ -84,7 +84,7 @@ public class CaseInstruction extends DebuggableExecutable {
             }
             Executable command = token.getNextCommand(context);
             assertNextSemicolon(token);
-            possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
+            possibilities.add(new CasePossibility(conditions.toArray(new Containable[conditions.size()]), command));
         }
 
         otherwise = new InstructionGrouper(token.peek().getLineNumber());
@@ -123,7 +123,7 @@ public class CaseInstruction extends DebuggableExecutable {
         Object value = mSwitchValue.getValue(context, main);
         for (CasePossibility possibility : possibilities) {
             for (int j = 0; j < possibility.conditions.length; j++) {
-                if (possibility.conditions[j].fits(value)) {
+                if (possibility.conditions[j].contain(context, main, value)) {
                     return possibility.execute(context, main);
                 }
             }
@@ -136,17 +136,18 @@ public class CaseInstruction extends DebuggableExecutable {
         return line;
     }
 
+
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        Object value = mSwitchValue.compileTimeValue(c);
+      /*  Object value = mSwitchValue.compileTimeValue(c);
         if (value == null) {
             return this;
         }
         try {
             for (CasePossibility possibily : possibilities) {
                 for (int j = 0; j < possibily.conditions.length; j++) {
-                    if (possibily.conditions[j].fits(value)) {
+                    if (possibily.conditions[j].fits(null, null, value)) {
                         return possibily;
                     }
                 }
@@ -154,6 +155,7 @@ public class CaseInstruction extends DebuggableExecutable {
             return otherwise;
         } catch (RuntimePascalException e) {
             throw new ConstantCalculationException(e);
-        }
+        }*/
+        return null;
     }
 }

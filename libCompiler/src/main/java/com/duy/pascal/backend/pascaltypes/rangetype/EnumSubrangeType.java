@@ -22,8 +22,10 @@ import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
 import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
+import com.duy.pascal.backend.runtime.VariableContext;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 
 /**
@@ -31,7 +33,7 @@ import com.js.interpreter.expressioncontext.ExpressionContext;
  */
 
 public class EnumSubrangeType extends SubrangeType {
-    private EnumGroupType enumGroupType;
+    private EnumGroupType<EnumElementValue> enumGroupType;
 
     public EnumSubrangeType(GrouperToken bound, ExpressionContext context)
             throws ParsingException {
@@ -78,11 +80,11 @@ public class EnumSubrangeType extends SubrangeType {
     }
 
     @Override
-    public boolean contain(Object value) {
+    public boolean contain(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object value) {
         if (!(value instanceof EnumElementValue)) {
             return false;
         }
-        return this.enumGroupType.contain(value);
+        return this.enumGroupType.contain(f, main, value);
     }
 
     public int indexOf(EnumElementValue key) {

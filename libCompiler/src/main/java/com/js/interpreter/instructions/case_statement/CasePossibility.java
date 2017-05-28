@@ -3,6 +3,7 @@ package com.js.interpreter.instructions.case_statement;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.pascaltypes.rangetype.Containable;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.instructions.ExecutionResult;
@@ -15,9 +16,9 @@ class CasePossibility extends DebuggableExecutable {
     /**
      * This class represents a line in a case statement.
      */
-    CaseCondition[] conditions;
+    Containable[] conditions;
 
-    CasePossibility(CaseCondition[] conditions, Executable commands) {
+    CasePossibility(Containable[] conditions, Executable commands) {
         this.conditions = conditions;
         this.commands = commands;
     }
@@ -35,7 +36,7 @@ class CasePossibility extends DebuggableExecutable {
 
     @Override
     public LineInfo getLineNumber() {
-        return conditions[0].getLine();
+        return conditions[0].getLineNumber();
     }
 
     @Override
