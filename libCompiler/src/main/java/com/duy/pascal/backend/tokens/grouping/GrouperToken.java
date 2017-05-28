@@ -668,11 +668,11 @@ public abstract class GrouperToken extends Token {
                 element = getConstantElement(context, bracketedToken, typeReference.get());
             }
             for (Object o : linkedList) {
-                if (o.equals(element)) {
+                if (o.equals(element.getValue())) {
                     throw new DuplicateElementException(element.getValue(), linkedList, element.getLineNumber());
                 }
             }
-            linkedList.add(element);
+            linkedList.add(element.getValue());
         }
         return new ConstantAccess<LinkedList>(linkedList, typeReference.get(), bracketedToken.getLineNumber());
     }
