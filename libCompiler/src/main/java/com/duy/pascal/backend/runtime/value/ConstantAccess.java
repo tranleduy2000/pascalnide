@@ -17,6 +17,8 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
     private T value;
     private DeclaredType type;
     private LineInfo mLineNumber;
+    @Nullable
+    private String name = null;
 
     public ConstantAccess(@Nullable T o, @Nullable LineInfo mLineNumber) {
         this.value = o;
@@ -68,4 +70,12 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         return this;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Nullable
+    public String getName() {
+        return name;
+    }
 }

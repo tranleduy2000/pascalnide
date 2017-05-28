@@ -24,7 +24,6 @@ import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.VariableAccess;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
@@ -114,23 +113,37 @@ public class AutoFixError {
         editable.restoreAfterClick(KeyWord.DATA_TYPE);
     }
 
+    /**
+     * @param e - include line error
+     * @return the part of text start a 0 and end at e.line
+     */
     private CharSequence getText(ParsingException e) {
         return editable.getText().subSequence(0, editable.getLayout().getLineStart(e.line.line) + e.line.column);
     }
 
+    /**
+     * This method will be add missing define, such as variable,
+     * constant, function or procedure
+     */
     public void autoFixDefine(NoSuchFunctionOrVariableException e) {
         Log.d(TAG, "autoFixDefine() called with: e = [" + e + "]" + " " + e.getFitType());
         if (e.getFitType() == DefineType.DECLARE_VAR) {
+            //add missign var
             declareVar(e);
         } else if (e.getFitType() == DefineType.DECLARE_CONST) {
+            //add missing const
             declareConst(e);
         } else if (e.getFitType() == DefineType.DECLARE_FUNCTION) {
+            //add missing function
             declareFunction(e);
+        } else if (e.getFitType() == DefineType.DECLARE_PROCEDURE) {
+            //add missing procedure
         }
     }
 
     /**
-     * declare const, the const usually in the top of program, below "program" or "uses" keyword
+     * This method will be declare const, the constant pascal
+     * usually in the top of program, below "program" or "uses" keyword
      */
     private void declareConst(NoSuchFunctionOrVariableException e) {
         //sub string from 0 to postion error
@@ -168,11 +181,14 @@ public class AutoFixError {
     }
 
     /**
-     * match position and insert new variable
+     * This method will be declare variable, the variable often below the
+     * "const", "uses", "program" keyword,
+     * First, match position of list keyword
+     * Then insert new variable
      */
     private void declareVar(NoSuchFunctionOrVariableException e) {
 
-        //sub string from 0 to postion error
+        //sub string from 0 to position error
         CharSequence text = getText(e);
 
         String textToInsert = "";
@@ -211,8 +227,7 @@ public class AutoFixError {
      * Auto wrong type
      * For example
      * <code>
-     * var
-     * c: integer;
+     * var c: integer;
      * begin
      * c := 'hello';            <=== this is wrong type
      * end.
@@ -220,8 +235,7 @@ public class AutoFixError {
      * <p>
      * This method will be match position of variable or function and change to
      * <code>
-     * var
-     * c: string;             <== change to String
+     * var c: string;             <== change to String
      * begin
      * c := 'hello';
      * end.
@@ -251,17 +265,44 @@ public class AutoFixError {
         }
     }
 
+    /**
+     * This method will be change type of constant if constant is define with type
+     * Example
+     * const a: integer = 'adsda'; => change to string
+     */
     private void changeTypeConst(CharSequence text, UnConvertibleTypeException e) {
         Log.d(TAG, "autoFixConvertType: constant " + e.identifier);
-        ConstantAccess constantAccess = (ConstantAccess) e.identifier;
-        DeclaredType type = constantAccess.getType(null).declType;
+        ConstantAccess constant = (ConstantAccess) e.identifier;
+
+        if (constant.getName() == null) return; //can not replace because it is not a identifier
 
         String name = ((VariableAccess) e.identifier).getName();
-        Pattern pattern = Pattern.compile("\\b(var)(.*?)(" + name + ")\\s?:(.*?);",
-
+        Pattern pattern = Pattern.compile("(^const\\s+|\\s+const\\s+)" + //match "const"  //1
+                        "(.*?)" + //other const                                  //2
+                        "(" + name + ")" + //name of const                       //3
+                        "(\\s?)" +//one or more white space                         //4
+                        "(:)" + //colon                                             //5
+                        "(.*?)" + //type????                                        //6
+                        "(=)" +
+                        "(.*?)" +
+                        "(;)",
                 Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
         Matcher matcher = pattern.matcher(text);
 
+        if (matcher.find()) {
+            Log.d(TAG, "autoFixConvertType: match " + matcher);
+            final int start = matcher.start(6);
+            int end = matcher.end(6);
+
+            final String insertText = e.valueType.toString();
+            editable.getEditableText().replace(start, end, insertText);
+            editable.post(new Runnable() {
+                @Override
+                public void run() {
+                    editable.setSelection(start, start + insertText.length());
+                }
+            });
+        }
     }
 
     /**

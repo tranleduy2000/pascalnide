@@ -188,7 +188,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         } else if (getConstantDefinitionLocal(name.getName()) != null) {
             ConstantDefinition c = getConstantDefinition(name.getName());
-            return new ConstantAccess(c.getValue(), c.getType(), name.getLineNumber());
+            ConstantAccess<Object> constant = new ConstantAccess<>(c.getValue(), c.getType(), name.getLineNumber());
+            constant.setName(name.name);
+            return constant;
 
         } else if (getVariableDefinitionLocal(name.getName()) != null) {
             VariableAccess variableAccess = new VariableAccess(name.getName(), name.getLineNumber());
