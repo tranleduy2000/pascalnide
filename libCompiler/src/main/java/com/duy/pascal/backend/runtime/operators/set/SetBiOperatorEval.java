@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.runtime.operators.set;
 
+import android.util.Log;
+
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -34,11 +36,13 @@ import java.util.LinkedList;
 
 public class SetBiOperatorEval extends BinaryOperatorEval {
 
+    private static final String TAG = "SetBiOperatorEval";
+
+
     public SetBiOperatorEval(RuntimeValue operon1, RuntimeValue operon2,
                              OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
-
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
@@ -68,19 +72,28 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException {
         LinkedList v1 = (LinkedList) value1;
+        Log.d(TAG, "operate: v1 = " + v1);
         LinkedList v2 = (LinkedList) value2;
+        Log.d(TAG, "operate: v2 = " + v2);
+
         LinkedList result = new LinkedList<>();
 
         switch (operator_type) {
             case PLUS:
-                for (Object element : v2) if (!v1.contains(element)) v1.add(element);
-                return v1;
+                result.clear();
+                for (Object element : v2) if (!v1.contains(element)) result.add(element);
+                Log.d(TAG, "operate() returned: " + result);
+                return result;
             case MINUS:
-                for (Object element : v2) if (v1.contains(element)) v1.remove(element);
-                return v1;
+                result.addAll(v1);
+                for (Object element : v2) if (v1.contains(element)) result.remove(element);
+                Log.d(TAG, "operate() returned: " + result);
+                return result;
+
             case MULTIPLY:
                 result.clear();
                 for (Object element : v2) if (v1.contains(element)) result.add(element);
+                Log.d(TAG, "operate() returned: " + result);
                 return result;
 
             case DIFFERENT:
