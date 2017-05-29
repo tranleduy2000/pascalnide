@@ -16,8 +16,6 @@
 
 package com.duy.pascal.test;
 
-import static com.duy.pascal.Compiler.runProgram;
-
 /**
  * Created by Duy on 29-May-17.
  */
@@ -29,12 +27,18 @@ public class FileTest extends BaseTestCase {
     }
 
     public void testWriteFile() {
-        try {
-            runProgram(dir + "test_write_file.pas");
-            assertTrue(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+        run("test_write_file.pas");
+    }
+
+    public void testRead() {
+        run("test_read.pas");
+    }
+
+    public void testFileInSubProgram() {
+        run("test_file_in_fun.pas");
+    }
+
+    public void testTextFile() {
+        run("test_text_file.pas");
     }
 }
