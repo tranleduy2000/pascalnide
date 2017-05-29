@@ -97,13 +97,18 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
         } else if (t1 instanceof EnumGroupType && t2 == BasicType.Integer) {
             return new EnumBiOperatorEval(v1, v2, operatorTypes, line);
         } else if (t1 instanceof SetType && t2 instanceof SetType) {
+
             if (((SetType) t1).getElementType().equals(((SetType) t2).getElementType())) {
                 return new SetBiOperatorEval(v1, v2, operatorTypes, line);
             }
+
         } else if (t2 instanceof SetType) {
-            if (t1.equals(((SetType) t2).getElementType())) {
-                return new InBiOperatorEval(v1, v2, operatorTypes, line);
+            if (operatorTypes == OperatorTypes.IN) {
+                if (t1.equals(((SetType) t2).getElementType())) {
+                    return new InBiOperatorEval(v1, v2, operatorTypes, line);
+                }
             }
+
         } else if (t1 == BasicType.StringBuilder
                 || t2 == BasicType.StringBuilder) {
             if (operatorTypes == OperatorTypes.PLUS) {

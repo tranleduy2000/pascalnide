@@ -20,13 +20,13 @@ package com.duy.pascal.test;
  * Created by Duy on 29-May-17.
  */
 
-public class StringTest extends BaseTestCase {
-    public void testAll() {
-        super.runAll();
-    }
-
+public class UnitTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_string";
+        return "test_unit";
+    }
+
+    public void testCustomUnit() {
+        run("test_create_unit.pas");
     }
 }

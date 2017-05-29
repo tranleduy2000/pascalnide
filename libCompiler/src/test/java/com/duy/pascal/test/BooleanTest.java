@@ -27,6 +27,6 @@ public class BooleanTest extends BaseTestCase {
     }
 
     public void testAll() {
-        super.testAll();
+        super.runAll();
     }
 }

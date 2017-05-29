@@ -750,7 +750,7 @@ public abstract class GrouperToken extends Token {
         if (grouperToken.hasNext()) {
             if (elementType instanceof ArrayType) {
                 GrouperToken child = (GrouperToken) grouperToken.take();
-                Object[] array = getArrayConstant(context, child, (ArrayType) elementType).getValue();
+                Object[] array = grouperToken.getArrayConstant(context, child, (ArrayType) elementType).getValue();
 
                 if (grouperToken.hasNext()) {
                     grouperToken.assertNextComma();
@@ -760,7 +760,8 @@ public abstract class GrouperToken extends Token {
 
             } else if (elementType instanceof EnumGroupType) {
                 Token next = grouperToken.take();
-                ConstantAccess<EnumElementValue> constant = getEnumConstant(context, next, elementType);
+                ConstantAccess<EnumElementValue> constant = grouperToken.getEnumConstant(context, next, elementType);
+
                 EnumElementValue enumConstant = constant.getValue();
 
                 if (grouperToken.hasNext()) {
@@ -772,7 +773,9 @@ public abstract class GrouperToken extends Token {
                 if (grouperToken.peek() instanceof BracketedToken) {
                     AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) elementType).getElementType());
                     BracketedToken bracketedToken = (BracketedToken) grouperToken.take();
-                    ConstantAccess<LinkedList> constant = getSetConstant(context, bracketedToken, elementTypeReference);
+
+                    ConstantAccess<LinkedList> constant = grouperToken.getSetConstant(context, bracketedToken, elementTypeReference);
+
                     LinkedList setConstant = constant.getValue();
                     if (grouperToken.hasNext()) {
                         grouperToken.assertNextComma();

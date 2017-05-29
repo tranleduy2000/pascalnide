@@ -28,7 +28,7 @@ import static com.duy.pascal.Compiler.runProgram;
  * Created by Duy on 29-May-17.
  */
 
-public class AllStatementTest extends TestCase {
+public class StatementTest extends TestCase {
     String dir;
 
     @Override

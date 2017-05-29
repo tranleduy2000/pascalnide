@@ -20,13 +20,29 @@ package com.duy.pascal.test;
  * Created by Duy on 29-May-17.
  */
 
-public class StringTest extends BaseTestCase {
-    public void testAll() {
-        super.runAll();
-    }
-
+public class ArrayTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_string";
+        return "test_array";
+    }
+
+    public void testAccess() {
+        run("test1.pas");
+    }
+
+    public void testDynamic() {
+        run("test_dynamic_array.pas");
+    }
+
+    public void testMultiDimenArray() {
+        run("test_multi_dimensional_array.pas");
+    }
+
+    public void testPacked() {
+        run("test_packed_arrray.pas");
+    }
+
+    public void testParseArrayInFun() {
+        run("test_parse_array_in_function.pas");
     }
 }

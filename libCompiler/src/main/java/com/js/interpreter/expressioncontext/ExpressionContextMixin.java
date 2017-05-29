@@ -344,6 +344,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             } else {
                 String libPath = (ApplicationFileManager.getApplicationPath() + ((WordToken) next).getName()) + ".pas";
                 File file = new File(libPath);
+                if (!file.exists()) {
+                    file = new File(((WordToken) next).getName());
+                }
                 if (file.exists()) {
                     found.set(true);
                     try {

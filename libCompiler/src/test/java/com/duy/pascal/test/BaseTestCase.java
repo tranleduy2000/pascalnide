@@ -75,7 +75,7 @@ abstract class BaseTestCase extends TestCase {
         }
     }
 
-    public void testAll() {
+    public void runAll() {
         boolean success = true;
         File parent = new File(dir);
         for (File file : parent.listFiles()) {
