@@ -3,7 +3,6 @@ package com.duy.pascal.backend.tokenizer;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -43,6 +42,7 @@ import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.RecordToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
+import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.File;
@@ -116,7 +116,7 @@ public class IndentCode {
         while (peek() != null) {
             mResult.append(processNext(0));
         }
-        Log.d(TAG, "parse: eof");
+        DLog.d(TAG, "parse: eof");
     }
 
 
@@ -210,12 +210,12 @@ public class IndentCode {
         result.append(token.toString());
         result.append("\n");
         result.append(getTab(depth - 1));
-        Log.d(TAG, "completeCommentToken() returned: " + result);
+        DLog.d(TAG, "completeCommentToken() returned: " + result);
         return result;
     }
 
     private StringBuilder completeCloseToken(Token token) {
-        Log.d(TAG, "completeCloseToken: next = " + peek());
+        DLog.d(TAG, "completeCloseToken: next = " + peek());
         if (peek() instanceof WordToken) {
             return new StringBuilder(token.toString()).append(" ");
         } else {
@@ -387,7 +387,7 @@ public class IndentCode {
         next.append(getLineCommand(currentDepth + 1, true));
         result.append(next);
 
-        Log.d(TAG, "completeDo() returned: \n" + next);
+        DLog.d(TAG, "completeDo() returned: \n" + next);
         return result;
     }
 
@@ -413,7 +413,7 @@ public class IndentCode {
             StringBuilder doStatement = completeDo(depth, take());
             forStatement.append(doStatement);
         }
-        Log.d(TAG, "completeFor() returned: \n" + forStatement);
+        DLog.d(TAG, "completeFor() returned: \n" + forStatement);
         return forStatement;
     }
 
@@ -519,13 +519,13 @@ public class IndentCode {
         }
 
         if (isGroupToken(peek())) { //group command
-            Log.d(TAG, "getLineCommand: group " + peek());
+            DLog.d(TAG, "getLineCommand: group " + peek());
             result.append(processNext(depth, take()));
             if (peek() instanceof SemicolonToken) {
                 result.append(take()).append("\n");
             }
         } else if (isStatement(peek())) {
-            Log.d(TAG, "getLineCommand: statement " + peek());
+            DLog.d(TAG, "getLineCommand: statement " + peek());
             result.append(processNext(depth, take()));
             if (peek() instanceof SemicolonToken) {
                 result.append(take()).append("\n");
@@ -544,7 +544,7 @@ public class IndentCode {
                 result.append(take()).append("\n");
             }
         }
-        Log.d(TAG, "getLineCommand() returned: \n" + result);
+        DLog.d(TAG, "getLineCommand() returned: \n" + result);
         return result;
     }
 

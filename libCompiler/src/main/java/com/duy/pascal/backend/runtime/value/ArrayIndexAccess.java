@@ -3,17 +3,17 @@ package com.duy.pascal.backend.runtime.value;
 import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
-import com.js.interpreter.expressioncontext.CompileTimeContext;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.references.ArrayIndexReference;
-import com.duy.pascal.backend.runtime.references.Reference;
 import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.IndexOutOfBoundsException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.references.ArrayIndexReference;
+import com.duy.pascal.backend.runtime.references.Reference;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.expressioncontext.CompileTimeContext;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 import java.lang.reflect.Array;
 
@@ -75,7 +75,13 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     @Override
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object cont = container.getValue(f, main);
-        int ind = Integer.valueOf(index.getValue(f, main).toString());
+        Object value = index.getValue(f, main);
+        int ind = 0;
+        if (value instanceof Integer) {
+            ind = (int) value;
+        } else if (value instanceof EnumElementValue) {
+            ind = ((EnumElementValue) value).getIndex();
+        }
         return new ArrayIndexReference(cont, ind, offset);
     }
 

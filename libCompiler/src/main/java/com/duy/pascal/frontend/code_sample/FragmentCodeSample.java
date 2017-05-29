@@ -28,7 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.duy.pascal.frontend.Dlog;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.google.firebase.crash.FirebaseCrash;
@@ -108,7 +108,7 @@ public class FragmentCodeSample extends Fragment {
                         }
                     }
                 } catch (IOException ignored) {
-                    Dlog.e(ignored);
+                    DLog.e(ignored);
                 }
                 codeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
             } catch (Exception e) {

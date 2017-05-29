@@ -19,8 +19,9 @@ package com.duy.pascal.backend.lib.android.view.dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.util.AndroidRuntimeException;
-import android.util.Log;
 import android.widget.TimePicker;
+
+import com.duy.pascal.frontend.DLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +49,7 @@ public class TimePickerDialogTask extends DialogTask {
         mDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hour, int minute) {
-                Log.d(TAG, "onTimeSet() called with: view = [" + view + "], hour = [" + hour + "], minute = [" + minute + "]");
+                DLog.d(TAG, "onTimeSet() called with: view = [" + view + "], hour = [" + hour + "], minute = [" + minute + "]");
                 JSONObject result = new JSONObject();
                 try {
                     result.put("which", "positive");
@@ -64,7 +65,7 @@ public class TimePickerDialogTask extends DialogTask {
         mDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface view) {
-                Log.d(TAG, "onCancel() called with: view = [" + view + "]");
+                DLog.d(TAG, "onCancel() called with: view = [" + view + "]");
                 JSONObject result = new JSONObject();
                 try {
                     result.put("which", "neutral");
@@ -80,7 +81,7 @@ public class TimePickerDialogTask extends DialogTask {
         mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                Log.d(TAG, "onDismiss() called with: dialog = [" + dialog + "]");
+                DLog.d(TAG, "onDismiss() called with: dialog = [" + dialog + "]");
                 JSONObject result = new JSONObject();
                 try {
                     result.put("which", "negative");

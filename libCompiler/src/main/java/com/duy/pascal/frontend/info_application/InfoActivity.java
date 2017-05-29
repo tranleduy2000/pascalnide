@@ -25,10 +25,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 
@@ -50,7 +50,7 @@ public class InfoActivity extends AbstractAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
+        DLog.d(TAG, "onCreate: ");
 
         setContentView(R.layout.activity_info);
         mListTranslate = (RecyclerView) findViewById(R.id.list_translate);

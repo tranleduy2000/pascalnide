@@ -19,7 +19,6 @@ package com.duy.pascal.backend.lib.android.media;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.Log;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
@@ -27,6 +26,7 @@ import com.duy.pascal.backend.lib.android.exceptions.MediaFileNotAssignException
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotFoundException;
+import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.util.Hashtable;
@@ -82,7 +82,7 @@ public class AndroidMediaPlayerLib implements PascalLibrary {
             @PascalParameter(name = "url", description = "url of media resource") String url,
             @PascalParameter(name = "key", description = "identifying resource") String key)
             throws FileNotFoundException {
-        Log.d(TAG, "assignMedia() called with: url = [" + url + "], key = [" + key + "]");
+        DLog.d(TAG, "assignMedia() called with: url = [" + url + "], key = [" + key + "]");
         remove(key);
         MediaPlayer player;
         try {
@@ -111,7 +111,7 @@ public class AndroidMediaPlayerLib implements PascalLibrary {
 
     @PascalMethod(description = "Play a media with key")
     public void playMedia(String key) throws MediaFileNotAssignException {
-        Log.d(TAG, "playMedia() called with: key = [" + key + "]");
+        DLog.d(TAG, "playMedia() called with: key = [" + key + "]");
 
         assertPlayerNonNull(key);
         MediaPlayer player = getPlayer(key);

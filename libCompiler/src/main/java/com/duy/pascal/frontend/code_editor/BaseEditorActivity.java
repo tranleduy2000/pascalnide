@@ -35,7 +35,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -44,7 +43,7 @@ import android.widget.Toast;
 
 import com.commonsware.cwac.pager.PageDescriptor;
 import com.commonsware.cwac.pager.SimplePageDescriptor;
-import com.duy.pascal.frontend.Dlog;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
@@ -109,7 +108,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
+        DLog.d(TAG, "onCreate: ");
 
         setContentView(R.layout.activity_editor);
 
@@ -210,7 +209,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     protected void removePage(int position) {
         Fragment existingFragment = pagerAdapter.getExistingFragment(position);
         if (existingFragment == null) {
-            if (Dlog.DEBUG) Log.d(TAG, "removePage: " + "null page " + position);
+            if (DLog.DEBUG) DLog.d(TAG, "removePage: " + "null page " + position);
             return;
         }
 
@@ -345,7 +344,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                 if (fragmentSelectFile != null) {
                     fragmentSelectFile.refresh();
                 } else {
-                    Log.d(TAG, "onClick: Fragment file is null");
+                    DLog.d(TAG, "onClick: Fragment file is null");
                 }
             }
         });

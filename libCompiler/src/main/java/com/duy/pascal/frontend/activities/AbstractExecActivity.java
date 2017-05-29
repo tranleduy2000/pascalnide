@@ -17,11 +17,11 @@
 package com.duy.pascal.frontend.activities;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.core.PascalCompiler;
@@ -29,7 +29,9 @@ import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.frontend.Dlog;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.exception.ScriptTerminatedException;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
@@ -38,8 +40,6 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.codeunit.program.PascalProgram;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.exception.ScriptTerminatedException;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.File;
@@ -50,38 +50,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
 public abstract class AbstractExecActivity extends RunnableActivity {
-    public static final boolean DEBUG = Dlog.DEBUG;
-    protected static final String TAG = AbstractExecActivity.class.getSimpleName();
-    protected static final int COMPLETE = 4;
-    protected static final int RUNTIME_ERROR = 5;
-    protected static final int SHOW_KEYBOARD = 6;
-    protected final AtomicBoolean mIsRunning = new AtomicBoolean(true);
-    protected final Handler mMessageHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (!mIsRunning.get()) return;
-            switch (msg.what) {
-                case RUNTIME_ERROR:
-                    if (!isFinishing()) {
-                        onError((Exception) msg.obj);
-                    }
-                    break;
-                case COMPLETE:
-                    if (!isFinishing()) {
-                        showDialogComplete();
-                    }
-                    break;
-                case SHOW_KEYBOARD:
-                    showKeyBoard();
-                    break;
-            }
-        }
-    };
-    protected final AtomicBoolean isCanRead = new AtomicBoolean(false);
-    protected String input = "";
-    protected String filePath;
-    protected Object mLock;
     protected final Runnable runnableInput = new Runnable() {
         @Override
         public void run() {
@@ -117,12 +85,50 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             isCanRead.set(false);
             if (mLock != null) {
                 if (mLock instanceof IOLib) {
-                    ((IOLib) mLock).resume();
+                    ((IOLib) mLock).setInputBuffer(input);
                 }
             }
         }
 
     };
+
+    public static final boolean DEBUG = DLog.DEBUG;
+    protected static final String TAG = AbstractExecActivity.class.getSimpleName();
+    protected static final int COMPLETE = 4;
+    protected static final int RUNTIME_ERROR = 5;
+    protected static final int SHOW_KEYBOARD = 6;
+    protected final AtomicBoolean mIsRunning = new AtomicBoolean(true);
+    protected final Handler mMessageHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (!mIsRunning.get()) return;
+            switch (msg.what) {
+                case RUNTIME_ERROR:
+                    if (!isFinishing()) {
+                        onError((Exception) msg.obj);
+                    }
+                    break;
+                case COMPLETE:
+                    if (!isFinishing()) {
+                        showDialogComplete();
+                    }
+                    break;
+                case SHOW_KEYBOARD:
+                    showKeyBoard();
+                    break;
+            }
+        }
+    };
+    protected final AtomicBoolean isCanRead = new AtomicBoolean(false);
+    protected String input = "";
+    protected String filePath;
+    protected Object mLock;
+
+    @Override
+    public Context getApplicationContext() {
+        return super.getApplicationContext();
+    }
     /**
      * this object use store buffer key
      */
@@ -207,12 +213,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     public void setTextBackground(final int color) {
         getConsoleView().setConsoleTextBackground(color);
     }
-
-
-    public String getInput() {
-        return input;
-    }
-
     @Override
     public void print(final CharSequence charSequence) {
         getConsoleView().writeString(charSequence.toString());
@@ -245,7 +245,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "onDestroy() called");
+        DLog.d(TAG, "onDestroy() called");
 
         //stop readkey, keypressed event
         getConsoleView().write("s", false);
@@ -286,7 +286,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     public void onLine(LineInfo lineInfo) {
-        Log.d(TAG, "onLine: " + lineInfo);
+        DLog.d(TAG, "onLine: " + lineInfo);
     }
 
     /**
@@ -297,8 +297,8 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             program.terminate();
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         } catch (Exception ignored) {
-            if (Dlog.DEBUG) {
-                Log.d(TAG, "onDestroy: Program is STOPPED");
+            if (DLog.DEBUG) {
+                DLog.d(TAG, "onDestroy: Program is STOPPED");
             }
         }
     }
@@ -306,14 +306,12 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     @Override
     public synchronized void startInput(IOLib lock) {
         this.mLock = lock;
-        if (Dlog.DEBUG) Log.d(TAG, "startInput: ");
+        if (DLog.DEBUG) DLog.d(TAG, "startInput: ");
         mMessageHandler.sendEmptyMessage(SHOW_KEYBOARD);
         isCanRead.set(true);
         new Thread(runnableInput).start();
     }
 
-
-    @Override
     public void stopInput() {
         //stop in put thread
         isCanRead.set(false);
@@ -325,7 +323,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
      * @param path - path of file pas
      */
     protected void createAndRunProgram(final String path) {
-        Log.d(TAG, "createAndRunProgram() called with: path = [" + path + "]");
+        DLog.d(TAG, "createAndRunProgram() called with: path = [" + path + "]");
 
         StringBuilder code = mFileManager.fileToString(path);
         if (code.toString().toLowerCase().startsWith("unit ")) {

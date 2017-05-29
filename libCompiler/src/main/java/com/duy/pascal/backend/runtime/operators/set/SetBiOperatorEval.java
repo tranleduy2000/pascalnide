@@ -16,8 +16,6 @@
 
 package com.duy.pascal.backend.runtime.operators.set;
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -25,9 +23,10 @@ import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.runtime.exception.PascalArithmeticException;
+import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.operators.BinaryOperatorEval;
+import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 
@@ -72,9 +71,9 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException {
         LinkedList v1 = (LinkedList) value1;
-        Log.d(TAG, "operate: v1 = " + v1);
+        DLog.d(TAG, "operate: v1 = " + v1);
         LinkedList v2 = (LinkedList) value2;
-        Log.d(TAG, "operate: v2 = " + v2);
+        DLog.d(TAG, "operate: v2 = " + v2);
 
         LinkedList result = new LinkedList<>();
 
@@ -82,18 +81,18 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
             case PLUS:
                 result.clear();
                 for (Object element : v2) if (!v1.contains(element)) result.add(element);
-                Log.d(TAG, "operate() returned: " + result);
+                DLog.d(TAG, "operate() returned: " + result);
                 return result;
             case MINUS:
                 result.addAll(v1);
                 for (Object element : v2) if (v1.contains(element)) result.remove(element);
-                Log.d(TAG, "operate() returned: " + result);
+                DLog.d(TAG, "operate() returned: " + result);
                 return result;
 
             case MULTIPLY:
                 result.clear();
                 for (Object element : v2) if (v1.contains(element)) result.add(element);
-                Log.d(TAG, "operate() returned: " + result);
+                DLog.d(TAG, "operate() returned: " + result);
                 return result;
 
             case DIFFERENT:

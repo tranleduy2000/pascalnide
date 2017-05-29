@@ -23,8 +23,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.theme.util.FontManager;
 
@@ -279,7 +279,7 @@ public class PascalPreferences {
     public long getMaxStackSize() {
         long maxStack = getLong("key_max_stack");
         maxStack = Math.max(5000, maxStack);
-        Log.d(TAG, "getMaxStackSize() returned: " + maxStack);
+        DLog.d(TAG, "getMaxStackSize() returned: " + maxStack);
         return maxStack;
     }
 

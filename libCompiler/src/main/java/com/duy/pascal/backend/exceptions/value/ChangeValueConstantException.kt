@@ -17,24 +17,18 @@
 package com.duy.pascal.backend.exceptions.value
 
 import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.runtime.value.ConstantAccess
 
 /**
  * Created by Duy on 13-Apr-17.
  */
 
-class ChangeValueConstantException : ParsingException {
+class ChangeValueConstantException(var const: ConstantAccess<Any>) : ParsingException(const.lineNumber) {
     var name: String = ""
-    var value: Any? = null
 
-    constructor(line: LineInfo, message: String, name: String) : super(line, message) {
-        this.name = name
-    }
+    override val message: String?
+        get() = "can not change value of constant " + const;
 
-    constructor(line: LineInfo, message: String, name: String, value: Any) : super(line, message) {
-        this.name = name
-        this.value = value
-    }
-
-    constructor(line: LineInfo) : super(line) {}
+    override val isAutoFix: Boolean
+        get() = true
 }

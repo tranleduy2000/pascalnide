@@ -34,6 +34,7 @@ import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableExceptio
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.exceptions.missing.MissingTokenException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.exceptions.value.ChangeValueConstantException;
 import com.duy.pascal.backend.lib.PascalLibraryManager;
 import com.duy.pascal.backend.lib.SystemLib;
 import com.duy.pascal.backend.lib.file.FileLib;
@@ -156,6 +157,8 @@ public class EditorFragment extends Fragment implements EditorListener {
             mCodeEditor.getAutoFixError().insertToken((MissingTokenException) e);
         } else if (e instanceof ExpectedTokenException) {
 
+        } else if (e instanceof ChangeValueConstantException) {
+            mCodeEditor.getAutoFixError().changeConstToVar((ChangeValueConstantException) e);
         }
     }
 

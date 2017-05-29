@@ -8,7 +8,7 @@ import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.tokenizer.NewLexer;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 import com.js.interpreter.instructions.Executable;
@@ -22,13 +22,13 @@ public abstract class CodeUnit {
     protected String programName;
 
     public CodeUnit(ListMultimap<String, AbstractFunction> functionTable,
-                    RunnableActivity handler) {
+                    IRunnablePascal handler) {
         this.mContext = getExpressionContextInstance(functionTable, handler);
     }
 
     public CodeUnit(Reader program, ListMultimap<String, AbstractFunction> functionTable,
                     String sourceName, List<ScriptSource> includeDirectories,
-                    @Nullable RunnableActivity handler)
+                    @Nullable IRunnablePascal handler)
             throws ParsingException {
         this(functionTable, handler);
         NewLexer lexer = new NewLexer(program, sourceName, includeDirectories);
@@ -45,7 +45,7 @@ public abstract class CodeUnit {
     }
 
     protected abstract CodeUnitExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, RunnableActivity handler);
+            ListMultimap<String, AbstractFunction> functionTable, IRunnablePascal handler);
 
     private void parseTree(GrouperToken tokens) throws ParsingException {
         while (tokens.hasNext()) {
@@ -61,7 +61,7 @@ public abstract class CodeUnit {
 
     protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {
         public CodeUnitExpressionContext(ListMultimap<String, AbstractFunction> functionTable,
-                                         @Nullable RunnableActivity handler,
+                                         @Nullable IRunnablePascal handler,
                                          boolean isLibrary) {
             super(CodeUnit.this, null, functionTable, handler, isLibrary);
         }

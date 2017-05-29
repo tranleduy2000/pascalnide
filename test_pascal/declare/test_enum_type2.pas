@@ -1,4 +1,3 @@
-program exEnumeration;
 type
     beverage = (coffee, tea, milk, water, coke, limejuice);
 

@@ -43,7 +43,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.backend.lib.graph.GraphScreen;
 import com.duy.pascal.backend.lib.graph.model.GraphObject;
-import com.duy.pascal.frontend.Dlog;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.utils.StringCompare;
 
@@ -354,7 +354,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
         mConsoleScreen.consoleRow = newRow;
         if (newColumn != mConsoleScreen.consoleColumn) {
             int newScreenSize = mConsoleScreen.getMaxLines() * newColumn;
-            Log.d(TAG, "updateSize: " + newScreenSize + " " + mConsoleScreen.getMaxLines() + " " + newColumn);
+            DLog.d(TAG, "updateSize: " + newScreenSize + " " + mConsoleScreen.getMaxLines() + " " + newColumn);
             TextConsole newScreenBuffer[] = new TextConsole[newScreenSize];
             for (i = 0; i < newScreenSize; i++) {
                 newScreenBuffer[i] = new TextConsole();
@@ -415,7 +415,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             private boolean mInBatchEdit;
 
             private void sendText(CharSequence text) {
-                Log.d(TAG, "sendText: " + text);
+                DLog.d(TAG, "sendText: " + text);
                 int n = text.length();
                 for (int i = 0; i < n; i++) {
                     mScreenBufferData.keyBuffer.putChar(text.charAt(i));
@@ -426,7 +426,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
             @Override
             public boolean performEditorAction(int actionCode) {
-                Log.d(TAG, "performEditorAction: " + actionCode);
+                DLog.d(TAG, "performEditorAction: " + actionCode);
                 if (actionCode == EditorInfo.IME_ACTION_DONE
                         || actionCode == EditorInfo.IME_ACTION_GO
                         || actionCode == EditorInfo.IME_ACTION_NEXT
@@ -440,7 +440,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
 
             public boolean beginBatchEdit() {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "beginBatchEdit");
                 }
                 setImeBuffer("");
@@ -452,14 +452,14 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean clearMetaKeyStates(int arg0) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "clearMetaKeyStates " + arg0);
                 }
                 return false;
             }
 
             public boolean commitCompletion(CompletionInfo arg0) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "commitCompletion " + arg0);
                 }
                 return false;
@@ -471,7 +471,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean endBatchEdit() {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "endBatchEdit");
                 }
                 mInBatchEdit = false;
@@ -479,7 +479,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean finishComposingText() {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "finishComposingText");
                 }
                 sendText(mImeBuffer);
@@ -491,7 +491,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public int getCursorCapsMode(int arg0) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "getCursorCapsMode(" + arg0 + ")");
                 }
                 return 0;
@@ -499,14 +499,14 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
             public ExtractedText getExtractedText(ExtractedTextRequest arg0,
                                                   int arg1) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "getExtractedText" + arg0 + "," + arg1);
                 }
                 return null;
             }
 
             public CharSequence getTextAfterCursor(int n, int flags) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "getTextAfterCursor(" + n + "," + flags + ")");
                 }
                 int len = Math.min(n, mImeBuffer.length() - mCursor);
@@ -517,7 +517,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public CharSequence getTextBeforeCursor(int n, int flags) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "getTextBeforeCursor(" + n + "," + flags + ")");
                 }
                 int len = Math.min(n, mCursor);
@@ -528,14 +528,14 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean performContextMenuAction(int arg0) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "performContextMenuAction" + arg0);
                 }
                 return true;
             }
 
             public boolean performPrivateCommand(String arg0, Bundle arg1) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "performPrivateCommand" + arg0 + "," + arg1);
                 }
                 return true;
@@ -562,7 +562,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean reportFullscreenMode(boolean arg0) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "reportFullscreenMode" + arg0);
                 }
                 return true;
@@ -570,7 +570,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
 
             public boolean commitText(CharSequence text, int newCursorPosition) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "commitText(\"" + text + "\", " + newCursorPosition + ")");
                 }
                 char[] characters = text.toString().toCharArray();
@@ -598,7 +598,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean deleteSurroundingText(int leftLength, int rightLength) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "deleteSurroundingText(" + leftLength +
                             "," + rightLength + ")");
                 }
@@ -621,7 +621,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
 
             public boolean sendKeyEvent(KeyEvent event) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "sendKeyEvent(" + event + ")");
                 }
                 // Some keys are sent here rather than to commitText.
@@ -633,7 +633,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean setComposingText(CharSequence text, int newCursorPosition) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "setComposingText(\"" + text + "\", " + newCursorPosition + ")");
                 }
 
@@ -646,7 +646,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean setSelection(int start, int end) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "setSelection" + start + "," + end);
                 }
                 int length = mImeBuffer.length();
@@ -662,7 +662,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             }
 
             public boolean setComposingRegion(int start, int end) {
-                if (Dlog.DEBUG) {
+                if (DLog.DEBUG) {
                     Log.w(TAG, "setComposingRegion " + start + "," + end);
                 }
                 if (start < end && start > 0 && end < mImeBuffer.length()) {
@@ -676,7 +676,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
             public CharSequence getSelectedText(int flags) {
                 try {
 
-                    if (Dlog.DEBUG) {
+                    if (DLog.DEBUG) {
                         Log.w(TAG, "getSelectedText " + flags);
                     }
 
@@ -697,7 +697,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
     }
 
     private void setImeBuffer(String buffer) {
-        Log.d(TAG, "setImeBuffer: " + buffer);
+        DLog.d(TAG, "setImeBuffer: " + buffer);
         //delete last buffer in screen
         for (int i = 0; i < mImeBuffer.length(); i++) {
             write(THE_DELETE_COMMAND, false);
@@ -710,7 +710,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (Dlog.DEBUG) Log.d(TAG, "onKeyDown: " + event);
+        if (DLog.DEBUG) DLog.d(TAG, "onKeyDown: " + event);
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
@@ -731,7 +731,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (Dlog.DEBUG) Log.d(TAG, "onKeyUp: " + event);
+        if (DLog.DEBUG) DLog.d(TAG, "onKeyUp: " + event);
         if (event.isSystem()) {
             return super.onKeyUp(keyCode, event);
         }
@@ -740,7 +740,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        Log.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h +
+        DLog.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h +
                 "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
 
         mGraphScreen.onSizeChange(w, h);
@@ -880,7 +880,7 @@ public class ConsoleView extends View implements GestureDetector.OnGestureListen
 
     //pascal
     public void setConsoleTextColor(int textColor) {
-        Log.d(TAG, "setConsoleTextColor: " + textColor);
+        DLog.d(TAG, "setConsoleTextColor: " + textColor);
         mTextRenderer.setTextColor(textColor);
     }
 

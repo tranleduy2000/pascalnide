@@ -82,4 +82,5 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
     public void setName(String name) {
         this.name = name;
     }
+
 }

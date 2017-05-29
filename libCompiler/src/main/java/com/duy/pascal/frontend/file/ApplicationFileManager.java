@@ -391,8 +391,8 @@ public class ApplicationFileManager {
      */
     public String setContentFileTemp(String content) {
         String name = getCurrentPath(SAVE_MODE.INTERNAL) + FILE_TEMP_NAME;
-//        Log.d(TAG, "setContentFileTemp: " + name);
-//        Log.d(TAG, "setContentFileTemp: " + content);
+//        Dlog.d(TAG, "setContentFileTemp: " + name);
+//        Dlog.d(TAG, "setContentFileTemp: " + content);
         File file = new File(name);
         FileOutputStream outputStream;
         try {
@@ -415,7 +415,7 @@ public class ApplicationFileManager {
      */
     public File getTempFile() {
         String name = getCurrentPath(SAVE_MODE.INTERNAL) + File.separatorChar + FILE_TEMP_NAME;
-//        Log.d(TAG, "getTempFile: " + name);
+//        Dlog.d(TAG, "getTempFile: " + name);
         File file = new File(name);
         if (!file.exists()) {
             createNewFileInMode(name);

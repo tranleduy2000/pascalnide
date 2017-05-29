@@ -26,7 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
-import com.duy.pascal.frontend.Dlog;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
@@ -176,7 +176,7 @@ public class ExecuteActivity extends AbstractExecActivity {
         ExceptionManager exceptionManager = new ExceptionManager(this);
         DialogManager.Companion.createFinishDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
 
-        if (Dlog.DEBUG) {
+        if (DLog.DEBUG) {
             Log.e(TAG, "onError: ", e);
         }
     }

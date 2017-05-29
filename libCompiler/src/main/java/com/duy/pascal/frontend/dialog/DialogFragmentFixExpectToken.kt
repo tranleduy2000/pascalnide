@@ -38,8 +38,8 @@ open class DialogFragmentFixExpectToken : BottomSheetDialogFragment() {
             val dialog = DialogFragmentFixExpectToken();
             val bundle = Bundle();
             bundle.putString("current", e.current);
-            bundle.putInt("lineInfo", e.lineInfo.line)
-            bundle.putInt("column", e.lineInfo.column)
+            bundle.putInt("lineInfo", e.lineInfo?.line!!)
+            bundle.putInt("column", e.lineInfo?.column!!)
             bundle.putStringArray("expect", e.expected);
             dialog.arguments = bundle;
             return dialog

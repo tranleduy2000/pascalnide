@@ -16,14 +16,11 @@
 
 package com.duy.pascal.frontend.activities;
 
-import com.duy.pascal.backend.debugable.DebugListener;
-import com.duy.pascal.backend.lib.io.InOutListener;
-
 /**
  * Created by Duy on 21-Apr-17.
  */
 
 public abstract class RunnableActivity extends AbstractAppCompatActivity implements
-        ExecHandler, InOutListener, DebugListener {
+     IRunnablePascal {
 
 }

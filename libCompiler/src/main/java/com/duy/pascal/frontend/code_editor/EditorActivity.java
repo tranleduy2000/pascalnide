@@ -30,7 +30,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +45,7 @@ import com.duy.pascal.backend.exceptions.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.function_declaretion.AbstractFunction;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
-import com.duy.pascal.frontend.Dlog;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
@@ -361,7 +360,7 @@ public class EditorActivity extends BaseEditorActivity implements
     private void showErrorDialog(Exception e) {
         this.mDialog = DialogManager.Companion.createErrorDialog(this, e);
         this.mDialog.show();
-        Dlog.e(e);
+        DLog.e(e);
     }
 
     @Override
@@ -687,13 +686,13 @@ public class EditorActivity extends BaseEditorActivity implements
 
         ArrayList<String> libraries = context.getLibrariesNames();
         for (String name : libraries) {
-            Log.d(TAG, tab + "showProgramStructure: library " + name);
+            DLog.d(TAG, tab + "showProgramStructure: library " + name);
             node.addNode(new com.duy.pascal.frontend.structure.viewholder.StructureItem(StructureType.TYPE_LIBRARY, name));
         }
 
         List<VariableDeclaration> variables = context.getVariables();
         for (VariableDeclaration variableDeclaration : variables) {
-            Log.d(TAG, tab + "showProgramStructure: var " + variableDeclaration.getName() + " = "
+            DLog.d(TAG, tab + "showProgramStructure: var " + variableDeclaration.getName() + " = "
                     + variableDeclaration.getInitialValue() + " " + variableDeclaration.getType());
             node.addNode(new com.duy.pascal.frontend.structure.viewholder.StructureItem(StructureType.TYPE_VARIABLE,
                     variableDeclaration.getName() + ": " + variableDeclaration.getType()));

@@ -1,7 +1,6 @@
 package com.js.interpreter.expressioncontext;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.UnrecognizedTokenException;
@@ -45,7 +44,8 @@ import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
-import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
@@ -79,7 +79,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * activity value, uses for input and output
      */
     @Nullable
-    private RunnableActivity handler;
+    private IRunnablePascal handler;
     /**
      * list function and procedure pascal, support overload function
      */
@@ -128,7 +128,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent,
                                   ListMultimap<String, AbstractFunction> callableFunctions,
-                                  @Nullable RunnableActivity handler, boolean isLibrary) {
+                                  @Nullable IRunnablePascal handler, boolean isLibrary) {
         super(root, parent);
 
         this.isLibrary = isLibrary;
@@ -194,7 +194,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         } else if (getVariableDefinitionLocal(name.getName()) != null) {
             VariableAccess variableAccess = new VariableAccess(name.getName(), name.getLineNumber());
-            Log.d(TAG, "getIdentifierValue() returned: " + variableAccess);
+            DLog.d(TAG, "getIdentifierValue() returned: " + variableAccess);
             return variableAccess;
         }
 

@@ -65,7 +65,7 @@ import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
 import com.duy.pascal.frontend.activities.ExecHandler;
-import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.js.interpreter.ConstantDefinition;
@@ -120,11 +120,11 @@ public class PascalLibraryManager {
     @NonNull
     private ExpressionContextMixin program;
     @Nullable
-    private RunnableActivity handler;
+    private IRunnablePascal handler;
     private AndroidLibraryManager facadeManager;
 
     public PascalLibraryManager(@NonNull ExpressionContextMixin program,
-                                @Nullable RunnableActivity handler) {
+                                @Nullable IRunnablePascal handler) {
         this.program = program;
         this.handler = handler;
         facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);

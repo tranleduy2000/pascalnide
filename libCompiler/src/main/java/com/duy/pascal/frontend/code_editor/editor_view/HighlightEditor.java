@@ -35,7 +35,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -721,7 +720,6 @@ public class HighlightEditor extends CodeSuggestsEditText
 
             }
             for (Matcher m = STRINGS.matcher(textToHighlight); m.find(); ) {
-                Log.d(TAG, "color: " + m);
                 ForegroundColorSpan spans[] = allText.getSpans(start + m.start(), start + m.end(),
                         ForegroundColorSpan.class);
 

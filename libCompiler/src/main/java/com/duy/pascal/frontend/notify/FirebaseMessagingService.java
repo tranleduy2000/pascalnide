@@ -21,8 +21,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.ActivitySplashScreen;
 import com.google.firebase.messaging.RemoteMessage;
@@ -41,14 +41,14 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         super.onMessageReceived(remoteMessage);
 
         //handle FCM massages here
-        Log.d(TAG, "onMessageReceived: " + remoteMessage.getFrom());
+        DLog.d(TAG, "onMessageReceived: " + remoteMessage.getFrom());
 
         if (remoteMessage.getData().size() > 0) {
 
         }
 
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "onMessageReceived: " + remoteMessage.getNotification().getBody());
+            DLog.d(TAG, "onMessageReceived: " + remoteMessage.getNotification().getBody());
             RemoteMessage.Notification contentNotification = remoteMessage.getNotification();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             builder.setSmallIcon(R.mipmap.ic_launcher);

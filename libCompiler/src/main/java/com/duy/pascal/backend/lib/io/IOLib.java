@@ -16,18 +16,19 @@
 
 package com.duy.pascal.backend.lib.io;
 
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.io.InputStreamNotFoundException;
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
-import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.runtime.references.PascalReference;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime.exception.InvalidNumericFormatException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.frontend.DLog;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
@@ -43,6 +44,8 @@ public class IOLib implements PascalLibrary {
     private Scanner stdin;
     private InOutListener listener;
     private RuntimeExecutableCodeUnit.ControlMode state = RuntimeExecutableCodeUnit.ControlMode.PAUSED;
+    @NonNull
+    private String inputBuffer = "";
 
     /**
      * default constructor
@@ -341,7 +344,7 @@ public class IOLib implements PascalLibrary {
             throw new InputStreamNotFoundException();
         Scanner scanner = new Scanner("");
         for (PascalReference variableBoxer : listVariable) {
-            Log.d(TAG, "setValueForVariables: ");
+            DLog.d(TAG, "setValueForVariables: ");
             while (!scanner.hasNext()) {
 
                 if (scanner.hasNextLine() &&
@@ -352,8 +355,7 @@ public class IOLib implements PascalLibrary {
 
                 listener.startInput(this);
                 pause();
-                String input = listener.getInput();
-                scanner = new Scanner(input);
+                scanner = new Scanner(getInputBuffer());
                 scanner.useLocale(Locale.ENGLISH);
             }
             if (variableBoxer.get() instanceof Character) {
@@ -372,6 +374,10 @@ public class IOLib implements PascalLibrary {
                 throw new CanNotReadVariableException(variableBoxer.get());
             }
         }
+    }
+
+    public String getInputBuffer() {
+        return inputBuffer;
     }
 
     @PascalMethod(description = "system library", returns = "void")
@@ -425,35 +431,6 @@ public class IOLib implements PascalLibrary {
         setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
     }
 
-    @PascalMethod(description = "system library", returns = "void")
-    public void printf(String format, Object... args) {
-        if (stdout != null) stdout.printf(format, args);
-    }
-
-    /**
-     * resume when input user press enter key
-     */
-    public void resume() {
-        this.state = RuntimeExecutableCodeUnit.ControlMode.PAUSED;
-        synchronized (this) {
-            notify();
-        }
-    }
-
-    /**
-     * pause this object, wait for user input data
-     */
-    public void pause() {
-        this.state = RuntimeExecutableCodeUnit.ControlMode.RUNNING;
-        synchronized (this) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public RuntimeExecutableCodeUnit.ControlMode getState() {
         return state;
     }
@@ -464,7 +441,7 @@ public class IOLib implements PascalLibrary {
 
     @PascalMethod(description = "system library", returns = "void")
     public char readKey() {
-        Log.d(TAG, "readKey: ");
+        DLog.d(TAG, "readKey: ");
         if (listener != null) {
             return listener.getKeyBuffer();
         }
@@ -476,4 +453,34 @@ public class IOLib implements PascalLibrary {
         return listener != null && listener.keyPressed();
     }
 
+    public void setInputBuffer(@NonNull String inputBuffer) {
+        this.inputBuffer = inputBuffer;
+        synchronized (this) {
+            this.notify();
+        }
+    }
+
+    /**
+     * resume when input user press enter key
+     */
+    public synchronized void resume() {
+        this.state = RuntimeExecutableCodeUnit.ControlMode.PAUSED;
+        synchronized (this) {
+            this.notify();
+        }
+    }
+
+    /**
+     * pause this object, wait for user input data
+     */
+    public synchronized void pause() {
+        this.state = RuntimeExecutableCodeUnit.ControlMode.RUNNING;
+        synchronized (this) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

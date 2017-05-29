@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.io;
+package com.duy.pascal.declare;
 
+import static com.duy.pascal.Compiler.runProgram;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
+/**
+ * Created by Duy on 29-May-17.
+ */
 
-public class LibraryNotFoundException extends ParsingException {
-   public String name;
+public class Debug {
 
-    public LibraryNotFoundException(LineInfo lineInfo, String name) {
-        super(lineInfo);
-        this.name = name;
+    public static void main(String[] args) {
+        testIndexEnum();
     }
+
+    public static void testIndexEnum() {
+        try {
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

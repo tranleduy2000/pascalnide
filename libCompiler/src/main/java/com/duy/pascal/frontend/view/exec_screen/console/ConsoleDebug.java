@@ -16,7 +16,7 @@
 
 package com.duy.pascal.frontend.view.exec_screen.console;
 
-import android.util.Log;
+import com.duy.pascal.frontend.DLog;
 
 /**
  * Created by Duy on 26-Mar-17.
@@ -28,11 +28,11 @@ public class ConsoleDebug {
     private static boolean DEBUG = false;
 
     public static void log(char c) {
-        if (DEBUG) Log.d(TAG, "emit char: " + Character.toString(c));
+        if (DEBUG) DLog.d(TAG, "emit char: " + Character.toString(c));
     }
 
     public static void log(String s) {
-        if (DEBUG) Log.d(TAG, "emit string: " + s);
+        if (DEBUG) DLog.d(TAG, "emit string: " + s);
     }
 
     public static String bytesToString(byte[] data, int base, int length) {

@@ -42,7 +42,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.googlecode.sl4a.Log;
+import com.duy.pascal.frontend.DLog;
 
 import org.json.JSONArray;
 import org.xmlpull.v1.XmlPullParser;
@@ -324,7 +324,7 @@ public class ViewInflater {
     }
 
     private void addln(Object msg) {
-        Log.d(msg.toString());
+        DLog.d(msg.toString());
     }
 
     @SuppressWarnings("rawtypes")

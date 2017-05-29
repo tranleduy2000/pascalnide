@@ -36,12 +36,12 @@ import com.duy.pascal.backend.lib.android.view.dialog.SeekBarDialogTask;
 import com.duy.pascal.backend.lib.android.view.dialog.TimePickerDialogTask;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.frontend.R;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -263,7 +263,8 @@ public class AndroidDialogLib implements PascalLibrary {
 
     @PascalMethod(description = "Create alert dialog.")
     public void dialogAlert(@PascalParameter(name = "title") String title,
-                            @PascalParameter(name = "message") String message) {
+                            @PascalParameter(name = "message") String message,
+                            @PascalParameter(name = "lock") boolean look) {
         createAlertDialog(title, message);
     }
 

@@ -23,13 +23,13 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
@@ -142,7 +142,7 @@ public class DebugActivity extends AbstractExecActivity {
 
     @Override
     public void debugProgram() {
-        Log.d(TAG, "debugProgram: ");
+        DLog.d(TAG, "debugProgram: ");
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             filePath = extras.getString(CompileManager.FILE_PATH);

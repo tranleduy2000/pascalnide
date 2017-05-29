@@ -19,12 +19,11 @@ package com.duy.pascal.frontend.code_editor.editor_view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
 
-import com.duy.pascal.frontend.Dlog;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
@@ -122,8 +121,8 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if (Dlog.DEBUG) {
-            Log.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h + "], oldw = [" +
+        if (DLog.DEBUG) {
+            DLog.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h + "], oldw = [" +
                     oldw + "], oldh = [" + oldh + "]");
         }
         onDropdownChangeSize();
@@ -199,7 +198,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      * invalidate data for auto suggest
      */
     public void setSuggestData(ArrayList<InfoItem> data) {
-        Log.d(TAG, "setSuggestData: ");
+        DLog.d(TAG, "setSuggestData: ");
             mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
 
         setAdapter(mAdapter);

@@ -39,7 +39,7 @@ import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
-import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.codeunit.ExecutableCodeUnit;
@@ -53,13 +53,13 @@ import java.util.List;
 import java.util.Map;
 
 public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
-    private RunnableActivity handler;
+    private IRunnablePascal handler;
 
     public UnitPascal(Reader program,
                       String sourceName,
                       ListMultimap<String, AbstractFunction> functionTable,
                       List<ScriptSource> includeDirectories,
-                      @Nullable RunnableActivity handler)
+                      @Nullable IRunnablePascal handler)
             throws ParsingException {
         super(program, functionTable, sourceName, includeDirectories, handler);
         this.handler = handler;
@@ -67,7 +67,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
 
     @Override
     protected UnitExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, RunnableActivity handler) {
+            ListMultimap<String, AbstractFunction> functionTable, IRunnablePascal handler) {
         return new UnitExpressionContext(functionTable, handler);
     }
 
@@ -142,7 +142,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
         private ArrayList<String> forwardFunctions = new ArrayList<>();
 
         public UnitExpressionContext(ListMultimap<String, AbstractFunction> function,
-                                     RunnableActivity handler) {
+                                     IRunnablePascal handler) {
             super(function, handler, true);
         }
 

@@ -25,7 +25,7 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProgramToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ListMultimap;
 import com.js.interpreter.codeunit.ExecutableCodeUnit;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
@@ -39,12 +39,12 @@ public class PascalProgram extends ExecutableCodeUnit {
     public Executable main;
 
     private FunctionOnStack mainRunning;
-    private RunnableActivity handler;
+    private IRunnablePascal handler;
 
     public PascalProgram(Reader program,
                          ListMultimap<String, AbstractFunction> functionTable,
                          String sourceName, List<ScriptSource> includeDirectories,
-                         RunnableActivity handler)
+                         IRunnablePascal handler)
             throws ParsingException {
         super(program, functionTable, sourceName, includeDirectories, handler);
         this.handler = handler;
@@ -52,7 +52,7 @@ public class PascalProgram extends ExecutableCodeUnit {
 
     @Override
     protected PascalProgramExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, RunnableActivity handler) {
+            ListMultimap<String, AbstractFunction> functionTable, IRunnablePascal handler) {
         return new PascalProgramExpressionContext(functionTable, handler);
     }
 
@@ -63,7 +63,7 @@ public class PascalProgram extends ExecutableCodeUnit {
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
         public PascalProgramExpressionContext(
-                ListMultimap<String, AbstractFunction> f, RunnableActivity handler) {
+                ListMultimap<String, AbstractFunction> f, IRunnablePascal handler) {
             super(f, handler, false);
         }
 

@@ -27,7 +27,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import com.duy.pascal.frontend.Dlog
+import com.duy.pascal.frontend.DLog
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.code.CompileManager
 import com.duy.pascal.frontend.code_editor.EditorActivity
@@ -87,7 +87,7 @@ class ActivitySplashScreen : AppCompatActivity() {
         val data = intent
         val action = data.action
 
-        if (Dlog.DEBUG) Log.d(TAG, "startMainActivity: action = " + action)
+        if (DLog.DEBUG) DLog.d(TAG, "startMainActivity: action = " + action)
 
         val type = data.type
         val intentEdit = Intent(this@ActivitySplashScreen, EditorActivity::class.java)
@@ -132,10 +132,10 @@ class ActivitySplashScreen : AppCompatActivity() {
 
     private fun handleActionView(from: Intent,
                                  to: Intent) {
-        Log.d(TAG, "handleActionView() called with: from = [$from], to = [$to]")
+        DLog.d(TAG, "handleActionView() called with: from = [$from], to = [$to]")
         if (from.data.toString().endsWith(".pas")) {
             val uriPath = from.data
-            Log.d(TAG, "handleActionView: " + uriPath.path)
+            DLog.d(TAG, "handleActionView: " + uriPath.path)
             to.putExtra(CompileManager.FILE_PATH, uriPath.path)
         } else if (from.type == "text/x-pascal") {
             val uri = from.data

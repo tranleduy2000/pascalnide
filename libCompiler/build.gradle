@@ -65,6 +65,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
     compile project(':pager')
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'junit:junit:4.12'
 
     //Android Instance State
     compile 'com.android.support:appcompat-v7:25.3.1'

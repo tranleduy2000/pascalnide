@@ -18,7 +18,8 @@ package com.duy.pascal.backend.lib.graph.model;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
+
+import com.duy.pascal.frontend.DLog;
 
 /**
  * Created by Duy on 02-Mar-17.
@@ -38,7 +39,7 @@ public class RectangleObject extends GraphObject {
 
     @Override
     public void draw(Canvas canvas) {
-        Log.d(TAG, "RectangleObject: (" + x1 + "," + y1 + ") (" + x2 + "," + y2 + ")");
+        DLog.d(TAG, "RectangleObject: (" + x1 + "," + y1 + ") (" + x2 + "," + y2 + ")");
         canvas.drawRect(x1, y1, x2, y2, linePaint);
     }
 }

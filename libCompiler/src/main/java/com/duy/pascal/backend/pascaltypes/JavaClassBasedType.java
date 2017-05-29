@@ -6,11 +6,11 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.runtime.value.RuntimeValue;
 import com.duy.pascal.backend.runtime.value.boxing.CharacterBoxer;
 import com.duy.pascal.backend.runtime.value.boxing.StringBuilderBoxer;
 import com.duy.pascal.backend.runtime.value.cloning.CloneableObjectCloner;
+import com.js.interpreter.expressioncontext.ExpressionContext;
 
 public class JavaClassBasedType extends InfoType {
 
@@ -35,9 +35,11 @@ public class JavaClassBasedType extends InfoType {
     @Override
     public String toString() {
         if (clazz != null) {
-            return clazz.getSimpleName();
+            String name = clazz.getName();
+            name = name.replace(".", "_");
+            return name;
         } else {
-            return "null";
+            return "";
         }
     }
 

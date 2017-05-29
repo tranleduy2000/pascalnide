@@ -3,9 +3,9 @@ package com.duy.pascal.backend.lib.android.barcode;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -38,7 +38,7 @@ public class ZxingActivity extends CaptureActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-                Log.d("MainActivity", "Cancelled scan");
+                DLog.d("MainActivity", "Cancelled scan");
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 String contents = result.getContents();

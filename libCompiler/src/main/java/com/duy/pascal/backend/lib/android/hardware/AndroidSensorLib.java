@@ -21,12 +21,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.duy.pascal.frontend.DLog;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
@@ -408,7 +408,7 @@ public class AndroidSensorLib implements PascalLibrary {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            Log.d(TAG, "onSensorChanged: " + Arrays.toString(event.values));
+            DLog.d(TAG, "onSensorChanged: " + Arrays.toString(event.values));
             if (System.currentTimeMillis() - lastTime >= delayTime) {
                 switch (event.sensor.getType()) {
                     case Sensor.TYPE_ACCELEROMETER:

@@ -28,13 +28,12 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.duy.pascal.BasePascalApplication
-import com.duy.pascal.frontend.Dlog
+import com.duy.pascal.frontend.DLog
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.setting.PascalPreferences
 import java.util.*
@@ -58,7 +57,7 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
         val locale: Locale
         val code = mPascalPreferences!!.sharedPreferences.getString(getString(R.string.key_pref_lang), "default_lang")
         if (code == "default_lang") {
-            if (DEBUG) Log.d(TAG, "setLocale: default")
+            if (DEBUG) DLog.d(TAG, "setLocale: default")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 locale = Resources.getSystem().configuration.locales.get(0)
             } else {
@@ -99,7 +98,7 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
     protected fun setTheme(recreate: Boolean) {}
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, s: String) {
-        if (DEBUG) Log.d(TAG, "onSharedPreferenceChanged: " + s)
+        if (DEBUG) DLog.d(TAG, "onSharedPreferenceChanged: " + s)
         if (s == getString(R.string.key_pref_lang)) {
             setLocale(true)
             //            Toast.makeText(this, readBuffer(R.string.change_lang_msg), Toast.LENGTH_SHORT).show();
@@ -122,7 +121,7 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy: ")
+        DLog.d(TAG, "onDestroy: ")
         if (mPascalPreferences != null)
             mPascalPreferences!!.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
@@ -239,6 +238,6 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
 
     companion object {
         val TAG = AbstractAppCompatActivity::class.java.simpleName
-        private val DEBUG = Dlog.DEBUG
+        private val DEBUG = DLog.DEBUG
     }
 }

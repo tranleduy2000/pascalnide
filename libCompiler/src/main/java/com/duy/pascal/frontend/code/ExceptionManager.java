@@ -155,7 +155,7 @@ public class ExceptionManager {
             }
             if (e instanceof LibraryNotFoundException) {
                 return getMessageResource(e, R.string.LibraryNotFoundException,
-                        ((LibraryNotFoundException) e).name);
+                        ((LibraryNotFoundException) e).getName());
             }
             if (e instanceof MultipleDefaultValuesException) {
                 return getMessageResource(e, R.string.MultipleDefaultValuesException);
@@ -200,7 +200,7 @@ public class ExceptionManager {
                         ((SubRangeException) e).getHigh(), ((SubRangeException) e).getLow());
             }
             if (e instanceof OverridingFunctionBodyException) {
-                if (!((OverridingFunctionBodyException) e).getIsMethod()) {
+                if (!((OverridingFunctionBodyException) e).isMethod()) {
                     return getMessageResource(e, R.string.OverridingFunctionException,
                             ((OverridingFunctionBodyException) e).getFunctionDeclaration().getName(),
                             ((OverridingFunctionBodyException) e).getFunctionDeclaration().getLineNumber());

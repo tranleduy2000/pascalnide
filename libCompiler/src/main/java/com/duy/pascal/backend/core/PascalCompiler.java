@@ -2,20 +2,20 @@ package com.duy.pascal.backend.core;
 
 
 import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.lib.crt.CrtLib;
+import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.duy.pascal.backend.lib.DosLib;
 import com.duy.pascal.backend.lib.SystemLib;
+import com.duy.pascal.backend.lib.crt.CrtLib;
 import com.duy.pascal.backend.lib.file.FileLib;
 import com.duy.pascal.backend.lib.graph.GraphLib;
 import com.duy.pascal.backend.lib.io.IOLib;
 import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.math.MathLib;
 import com.duy.pascal.frontend.activities.ExecHandler;
-import com.duy.pascal.frontend.activities.RunnableActivity;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.duy.pascal.backend.function_declaretion.AbstractFunction;
-import com.duy.pascal.backend.function_declaretion.MethodDeclaration;
 import com.js.interpreter.codeunit.library.UnitPascal;
 import com.js.interpreter.codeunit.program.PascalProgram;
 import com.js.interpreter.source_include.ScriptSource;
@@ -33,7 +33,7 @@ public class PascalCompiler {
     public static final boolean android = true;
     public static final boolean DEBUG = false;
 
-    public RunnableActivity handler;
+    public IRunnablePascal handler;
 
     private SystemLib systemLib = new SystemLib();
     private IOLib ioLib = new IOLib(null);
@@ -41,7 +41,7 @@ public class PascalCompiler {
     private GraphLib graphLib = new GraphLib(null);
     private FileLib fileLib = new FileLib();
 
-    public PascalCompiler(RunnableActivity handler) {
+    public PascalCompiler(IRunnablePascal handler) {
         this.handler = handler;
     }
 
@@ -59,7 +59,7 @@ public class PascalCompiler {
      */
     public static PascalProgram loadPascal(String sourcename, Reader in,
                                            List<ScriptSource> includeSearchPath,
-                                           RunnableActivity handler) throws ParsingException {
+                                           IRunnablePascal handler) throws ParsingException {
         ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(includeSearchPath);
         return new PascalProgram(in, functiontable, sourcename, includeSearchPath, handler);
     }
@@ -67,7 +67,7 @@ public class PascalCompiler {
 
     public static UnitPascal loadLibrary(String sourcename, Reader in,
                                          List<ScriptSource> includeSearchPath,
-                                         RunnableActivity handler) throws ParsingException {
+                                         IRunnablePascal handler) throws ParsingException {
         ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(includeSearchPath);
         return new UnitPascal(in, sourcename, functiontable, includeSearchPath, handler);
     }

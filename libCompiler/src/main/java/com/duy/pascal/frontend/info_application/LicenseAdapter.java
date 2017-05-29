@@ -18,12 +18,12 @@ package com.duy.pascal.frontend.info_application;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class LicenseAdapter extends RecyclerView.Adapter<LicenseAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_list_info, parent, false);
-        Log.d(TAG, "onCreateViewHolder: ");
+        DLog.d(TAG, "onCreateViewHolder: ");
         return new ViewHolder(view);
     }
 

@@ -17,22 +17,21 @@
 package com.duy.pascal.backend.function_declaretion.builtin;
 
 
-import android.util.Log;
-
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.value.FunctionCall;
+import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.frontend.DLog;
+import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.expressioncontext.CompileTimeContext;
 import com.js.interpreter.expressioncontext.ExpressionContext;
 import com.js.interpreter.instructions.Executable;
-import com.duy.pascal.backend.runtime.value.FunctionCall;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 
 public class SizeOfObjectFunction implements IMethodDeclaration {
 
@@ -48,13 +47,13 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                                       ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
-        Log.d(TAG, "generateCall: ");
+        DLog.d(TAG, "generateCall: ");
         return new SizeOfObjectCall(array, line);
     }
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
-        Log.d(TAG, "generatePerfectFitCall: ");
+        DLog.d(TAG, "generatePerfectFitCall: ");
         return generateCall(line, values, f);
     }
 

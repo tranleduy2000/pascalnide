@@ -26,18 +26,5 @@ var
     c : colors;
 
 begin
-    c := [red, blue, yellow, green, white, black, orange];
-    displayColors(c);
 
-    c := [red, blue] + [yellow, green];
-    displayColors(c);
-
-    c := [red, blue, yellow, green, white, black, orange] - [green, white];
-    displayColors(c);
-
-    c := [red, blue, yellow, green, white, black, orange] * [green, white];
-    displayColors(c);
-
-    c := [red, blue, yellow, green] >< [yellow, green, white, black];
-    displayColors(c);
 end.

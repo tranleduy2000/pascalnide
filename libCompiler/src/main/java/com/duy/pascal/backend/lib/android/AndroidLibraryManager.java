@@ -16,12 +16,12 @@
 
 package com.duy.pascal.backend.lib.android;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.lib.PascalLibrary;
 import com.duy.pascal.backend.lib.android.temp.AndroidUtilsLib;
+import com.duy.pascal.frontend.activities.ActivityHandler;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 
 import java.lang.reflect.Method;
@@ -31,7 +31,7 @@ public class AndroidLibraryManager extends RpcReceiverManager {
     private Context mContext;
     private int mSdkLevel;
 
-    public AndroidLibraryManager(int sdkLevel, Activity context) {
+    public AndroidLibraryManager(int sdkLevel, ActivityHandler context) {
         mSdkLevel = sdkLevel;
         if (context != null) {
             mContext = context.getApplicationContext();

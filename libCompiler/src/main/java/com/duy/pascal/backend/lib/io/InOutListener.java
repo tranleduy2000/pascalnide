@@ -24,10 +24,6 @@ package com.duy.pascal.backend.lib.io;
 public interface InOutListener {
     void startInput(IOLib lock);
 
-    void stopInput();
-
-    String getInput();
-
     void print(CharSequence charSequence);
 
     void println(CharSequence charSequence);

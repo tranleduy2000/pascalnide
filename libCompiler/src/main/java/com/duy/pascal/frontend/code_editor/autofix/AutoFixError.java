@@ -19,17 +19,19 @@ package com.duy.pascal.frontend.code_editor.autofix;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Layout;
-import android.util.Log;
 
 import com.duy.pascal.backend.exceptions.ParsingException;
 import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
 import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.exceptions.missing.MissingTokenException;
+import com.duy.pascal.backend.exceptions.value.ChangeValueConstantException;
 import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.runtime.value.ConstantAccess;
 import com.duy.pascal.backend.runtime.value.VariableAccess;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText;
@@ -126,14 +128,18 @@ public class AutoFixError {
         return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.getLineInfo().getLine()));
     }
 
+    private CharSequence getText(int line) {
+        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(line));
+    }
+
     /**
      * This method will be add missing define, such as variable,
      * constant, function or procedure
      */
     public void autoFixMissingDefine(NoSuchFunctionOrVariableException e) {
-        Log.d(TAG, "autoFixMissingDefine() called with: e = [" + e + "]" + " " + e.getFitType());
+        DLog.d(TAG, "autoFixMissingDefine() called with: e = [" + e + "]" + " " + e.getFitType());
         if (e.getFitType() == DefineType.DECLARE_VAR) {
-            //add missign var
+            //add missing var
             declareVar(e);
         } else if (e.getFitType() == DefineType.DECLARE_CONST) {
             //add missing const
@@ -192,18 +198,29 @@ public class AutoFixError {
      * Then insert new variable
      */
     private void declareVar(NoSuchFunctionOrVariableException e) {
+        declareVar(e.getLineInfo(), e.getName(),
+                "",//unknown type
+                null); //non init value
+    }
 
+    private boolean declareVar(LineInfo endLine, String name, String type, String initValue) {
         //sub string from 0 to position error
-        CharSequence text = getText(e);
+        CharSequence text = getText(endLine.getLine());
 
         String textToInsert = "";
         int insertPosition = 0;
-        String name = e.getName();
+        int startSelect;
+        int endSelect;
 
         Matcher matcher = Patterns.VAR.matcher(text);
         if (matcher.find()) {
             insertPosition = matcher.end();
-            textToInsert = AutoIndentEditText.TAB_CHARACTER + name + ": %t ;\n";
+            textToInsert = AutoIndentEditText.TAB_CHARACTER + name + ": ";
+
+            startSelect = textToInsert.length();
+            endSelect = startSelect + type.length();
+
+            textToInsert += type + (initValue != null ? " = " + initValue : "") + ";\n";
         } else {
             if ((matcher = Patterns.TYPE.matcher(text)).find()) {
                 insertPosition = matcher.end();
@@ -212,23 +229,24 @@ public class AutoFixError {
             } else if ((matcher = Patterns.PROGRAM.matcher(text)).find()) {
                 insertPosition = matcher.end();
             }
-            textToInsert = "var\n" + AutoIndentEditText.TAB_CHARACTER + name + ": %t ;\n";
+            textToInsert = "\nvar\n" + AutoIndentEditText.TAB_CHARACTER + name + ": ";
+
+            startSelect = textToInsert.length();
+            endSelect = startSelect + type.length();
+
+            textToInsert += type + (initValue != null ? " = " + initValue : "") + ";\n";
         }
 
+        editable.getText().insert(insertPosition, textToInsert);
+        editable.setSelection(insertPosition + startSelect, insertPosition + endSelect);
 
-        matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
-        if (matcher.find()) {
-            textToInsert = textToInsert.replaceAll("%\\w", "");
+        //set suggest data
+        editable.restoreAfterClick(KeyWord.DATA_TYPE);
 
-            editable.getText().insert(insertPosition, textToInsert);
-            editable.setSelection(insertPosition + matcher.start());
-            editable.showKeyboard();
-
-            //set suggest data
-            editable.restoreAfterClick(KeyWord.DATA_TYPE);
-        }
+        editable.showKeyboard();
 
 
+        return true;
     }
 
     /**
@@ -298,10 +316,10 @@ public class AutoFixError {
      * const a: integer = 'adsda'; => change to string
      */
     private void changeTypeConst(CharSequence text, ConstantAccess identifier, DeclaredType valueType) {
-        Log.d(TAG, "autoFixUnConvertType: constant " + identifier);
+        DLog.d(TAG, "autoFixUnConvertType: constant " + identifier);
 
         if (identifier.getName() == null) { //can not replace because it is not a identifier
-            Log.d(TAG, "changeTypeConst: this is not identifier");
+            DLog.d(TAG, "changeTypeConst: this is not identifier");
             return;
         }
 
@@ -319,7 +337,7 @@ public class AutoFixError {
         Matcher matcher = pattern.matcher(text);
 
         if (matcher.find()) {
-            Log.d(TAG, "autoFixUnConvertType: match " + matcher);
+            DLog.d(TAG, "autoFixUnConvertType: match " + matcher);
             final int start = matcher.start(6);
             int end = matcher.end(6);
 
@@ -349,7 +367,7 @@ public class AutoFixError {
                         ";"); //end                                   //6
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
-            Log.d(TAG, "changeTypeFunction: match " + matcher);
+            DLog.d(TAG, "changeTypeFunction: match " + matcher);
             final int start = matcher.start(5);
             final int end = matcher.end(5);
 
@@ -363,12 +381,12 @@ public class AutoFixError {
             });
             editable.showKeyboard();
         } else {
-            Log.d(TAG, "changeTypeFunction: can not find " + pattern);
+            DLog.d(TAG, "changeTypeFunction: can not find " + pattern);
         }
     }
 
     private void changeTypeVar(CharSequence text, VariableAccess identifier, DeclaredType valueType) {
-        Log.d(TAG, "autoFixUnConvertType: variable");
+        DLog.d(TAG, "autoFixUnConvertType: variable");
         final String name = ((VariableAccess) identifier).getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
                         "(.*?)" + //other variable                                  //2
@@ -380,10 +398,10 @@ public class AutoFixError {
                 Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
         Matcher matcher = pattern.matcher(text);
-        Log.d(TAG, "autoFixUnConvertType: " + text);
+        DLog.d(TAG, "autoFixUnConvertType: " + text);
 
         if (matcher.find()) {
-            Log.d(TAG, "autoFixUnConvertType: match " + matcher);
+            DLog.d(TAG, "autoFixUnConvertType: match " + matcher);
             final int start = matcher.start(6);
             int end = matcher.end(6);
 
@@ -397,7 +415,7 @@ public class AutoFixError {
             });
             editable.showKeyboard();
         } else {
-            Log.d(TAG, "autoFixUnConvertType: can not find " + pattern);
+            DLog.d(TAG, "autoFixUnConvertType: can not find " + pattern);
         }
     }
 
@@ -411,7 +429,7 @@ public class AutoFixError {
      * @param column  - start at column of @lineInfo
      */
     public void fixExpectToken(String current, String expect, boolean insert, int line, int column) {
-        Log.d(TAG, "fixExpectToken() called with: current = [" + current + "], expect = [" + expect + "], insert = [" + insert + "], lineInfo = [" + line + "], column = [" + column + "]");
+        DLog.d(TAG, "fixExpectToken() called with: current = [" + current + "], expect = [" + expect + "], insert = [" + insert + "], lineInfo = [" + line + "], column = [" + column + "]");
         //get text in lineInfo
         CharSequence textInLine = getTextInLine(line, column);
 
@@ -469,4 +487,60 @@ public class AutoFixError {
         });
         editable.showKeyboard();
     }
+
+    public void changeConstToVar(ChangeValueConstantException e) {
+        DLog.d(TAG, "changeConstToVar: " + e);
+
+        CharSequence text = getText(e);
+/*
+        //const a = 1;
+        Pattern pattern = Pattern.compile("(^(const\\+)|(\\s+const\\s+))" +
+                "(" + e.getName() + ")" +
+                "(\\s?)(=)(\\s?)(.*?)(;)");*/
+
+        Pattern pattern;
+        //const a = 2;
+        //      b = 3; <== change b to var
+        ConstantAccess<Object> constant = e.getConst();
+        pattern = Pattern.compile(
+                "(^const\\s+|\\s+const\\s+)" + //1
+                        "(" + constant.getName() + ")" + //2
+                        "(\\s?)" + //3
+                        "(=)" +//4
+                        "(.*?)" +//5
+                        "(;)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            DLog.d(TAG, "changeConstToVar: " + matcher);
+            int start = matcher.start(2);
+            int end = matcher.end(6);
+            editable.getEditableText().delete(start, end);
+            declareVar(e.getLineInfo(), constant.getName(), constant.getType(null).declType.toString(),
+                    constant.getValue().toString());
+        } else {
+            pattern = Pattern.compile(
+                    "(^const\\s+|\\s+const\\s+)" + //1
+                            "(" + constant.getName() + ")" + //2
+                            "(\\s?)" + //3
+                            "(:)" + //4
+                            "(\\s?)" +//5
+                            "([a-zA-z0-9]?)" +//5 type
+                            "(=)" + //6
+                            "(.?*)" +//7
+                            "(;)" //8
+                    , Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
+            matcher = pattern.matcher(text);
+            int start = matcher.start(2);
+            int end = matcher.end(8);
+
+            editable.getEditableText().delete(start, end);
+            declareVar(e.getLineInfo(), constant.getName(), constant.getType(null).declType.toString(),
+                    constant.getValue().toString());
+
+        }
+    }
+
+
 }

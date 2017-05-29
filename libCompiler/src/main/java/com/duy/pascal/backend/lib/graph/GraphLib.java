@@ -21,7 +21,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.duy.pascal.backend.imageprocessing.FloodFill;
 import com.duy.pascal.backend.lib.PascalLibrary;
@@ -51,16 +50,17 @@ import com.duy.pascal.backend.lib.graph.style.TextJustify;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.references.PascalReference;
+import com.duy.pascal.backend.runtime.variables.ContainsVariables;
+import com.duy.pascal.backend.runtime.variables.CustomVariable;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.js.interpreter.ConstantDefinition;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.references.PascalReference;
-import com.duy.pascal.backend.runtime.variables.ContainsVariables;
-import com.duy.pascal.backend.runtime.variables.CustomVariable;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -402,7 +402,7 @@ public class GraphLib implements PascalLibrary {
      */
     @PascalMethod(description = "graph library", returns = "void")
     public void setColor(int index) {
-        Log.d(TAG, "setColor: " + index + ColorUtils.pascalColorToAndroidColor(index));
+        DLog.d(TAG, "setColor: " + index + ColorUtils.pascalColorToAndroidColor(index));
         handler.getConsoleView().setPaintGraphColor(ColorUtils.pascalColorToAndroidColor(index));
     }
 
@@ -622,7 +622,7 @@ public class GraphLib implements PascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void setFillStyle(int pattern, int color) {
-        Log.d(TAG, "setFillPattern: " + pattern + " " + color);
+        DLog.d(TAG, "setFillPattern: " + pattern + " " + color);
         // TODO: 09-Apr-17
         if (handler != null) {
             GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
@@ -729,7 +729,7 @@ public class GraphLib implements PascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void FillEllipse(int x, int y, int rx, int ry) {
-        Log.d(TAG, "FillEllipse: ");
+        DLog.d(TAG, "FillEllipse: ");
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new FillEllipseObject(x, y, rx, ry));
         }
@@ -738,7 +738,7 @@ public class GraphLib implements PascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void FloodFill(int x, int y, int borderColorIndex) {
-        Log.d(TAG, "FloodFill: ");
+        DLog.d(TAG, "FloodFill: ");
         if (handler != null) {
             GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
             Bitmap graphBitmap = graphScreen.getGraphBitmap();
