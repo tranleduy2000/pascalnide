@@ -16,24 +16,33 @@
 
 package com.duy.pascal.test;
 
+import java.io.File;
+
 import static com.duy.pascal.Compiler.runProgram;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class Debug {
+public class FunctionTest extends BaseTestCase {
 
-    public static void main(String[] args) {
-        testIndexEnum();
-    }
-
-    public static void testIndexEnum() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas");
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void testAllFunction() throws Exception {
+        File parent = new File(dir);
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                try {
+                    runProgram(file.getPath());
+                    assertTrue(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    assertTrue(false);
+                }
+            }
         }
     }
 
+    @Override
+    public String getDirTest() {
+        return "test_function";
+    }
 }

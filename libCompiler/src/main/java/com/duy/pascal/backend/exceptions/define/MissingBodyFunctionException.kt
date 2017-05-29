@@ -24,6 +24,6 @@ import com.duy.pascal.backend.linenumber.LineInfo
  */
 class MissingBodyFunctionException(private val funName: String, line: LineInfo?) : ParsingException(line) {
 
-    override fun getLocalizedMessage(): String = "Forward declaration not solved " + funName
+     override val message: String? get() = "Forward declaration not solved " + funName
 
 }

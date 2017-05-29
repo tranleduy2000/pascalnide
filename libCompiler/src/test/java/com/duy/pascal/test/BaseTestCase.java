@@ -28,8 +28,11 @@ import static com.duy.pascal.Compiler.runProgram;
  * Created by Duy on 29-May-17.
  */
 
-public class LoopTest extends TestCase {
+abstract class BaseTestCase extends TestCase {
+
     String dir;
+
+    public abstract String getDirTest();
 
     @Override
     protected void setUp() throws Exception {
@@ -38,12 +41,17 @@ public class LoopTest extends TestCase {
 
         dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
-        dir += File.separator + "test_pascal" + File.separator + "test_loop" + File.separator;
+        dir += File.separator + "test_pascal" + File.separator + getDirTest() + File.separator;
     }
 
-    public void testBreak() {
+    /**
+     * run a pascal file
+     *
+     * @param file - path of program file
+     */
+    protected void run(String file) {
         try {
-            runProgram(dir + "test_break.pas");
+            runProgram(dir + file);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,9 +59,15 @@ public class LoopTest extends TestCase {
         }
     }
 
-    public void testContinue() {
+    /**
+     * run a pascal file
+     *
+     * @param file - path of program file
+     * @param in   - path of input file for read input if need
+     */
+    protected void run(String file, String in) {
         try {
-            runProgram(dir + "test_continue.pas");
+            runProgram(dir + file);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,43 +75,19 @@ public class LoopTest extends TestCase {
         }
     }
 
-    public void testFor() {
-        try {
-            runProgram(dir + "test_for.pas");
-            assertTrue(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
+    public void testAll() {
+        boolean success = true;
+        File parent = new File(dir);
+        for (File file : parent.listFiles()) {
+            try {
+                if (file.getName().endsWith(".pas")) {
+                    run(file.getName());
+                    System.out.println("complete test " + file.getName());
+                }
+            } catch (Exception e) {
+                success = false;
+            }
         }
-    }
-
-    public void testNested() {
-        try {
-            runProgram(dir + "test_nested.pas");
-            assertTrue(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
-    }
-
-    public void testRepeat() {
-        try {
-            runProgram(dir + "test_repeat.pas");
-            assertTrue(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
-    }
-
-    public void testWhile() {
-        try {
-            runProgram(dir + "test_while.pas");
-            assertTrue(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+        assertTrue("state ", success);
     }
 }

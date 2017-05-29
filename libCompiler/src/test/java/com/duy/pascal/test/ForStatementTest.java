@@ -35,7 +35,7 @@ public class ForStatementTest extends TestCase {
 
     public void testForInEnum() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_enum.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_enum.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class ForStatementTest extends TestCase {
 
     public void testForInSet() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_set.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_set.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +55,7 @@ public class ForStatementTest extends TestCase {
 
     public void testForInArray() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_array.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_array.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();

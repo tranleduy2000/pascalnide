@@ -43,7 +43,7 @@ public class AllStatementTest extends TestCase {
 
     public void testCase() {
         try {
-            runProgram(dir + "test_case.pas", null);
+            runProgram(dir + "test_case.pas");
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class AllStatementTest extends TestCase {
 
     public void testCaseElse() {
         try {
-            runProgram(dir + "test_case_else.pas", null);
+            runProgram(dir + "test_case_else.pas");
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class AllStatementTest extends TestCase {
 
     public void testCaseNested() {
         try {
-            runProgram(dir + "test_case_nested.pas", null);
+            runProgram(dir + "test_case_nested.pas");
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class AllStatementTest extends TestCase {
 
     public void testIfElse() {
         try {
-            runProgram(dir + "test_ifelse.pas", null);
+            runProgram(dir + "test_ifelse.pas");
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,7 +83,7 @@ public class AllStatementTest extends TestCase {
 
     public void testIfElseIfElse() {
         try {
-            runProgram(dir + "test_ifelse_ifelse.pas", null);
+            runProgram(dir + "test_ifelse_ifelse.pas");
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,7 +93,7 @@ public class AllStatementTest extends TestCase {
 
     public void testNestedIfElse() {
         try {
-            runProgram(dir + "test_nested_ifelse.pas", null);
+            runProgram(dir + "test_nested_ifelse.pas");
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();

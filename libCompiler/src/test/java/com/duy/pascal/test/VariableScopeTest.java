@@ -14,26 +14,34 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.value
-
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+package com.duy.pascal.test;
 
 /**
- * Created by Duy on 27-May-17.
+ * Created by Duy on 29-May-17.
  */
 
-class DuplicateElementException : ParsingException {
+public class VariableScopeTest extends BaseTestCase {
 
-    private val element: Any
-    private val container: Any
-
-    constructor(element: Any, container: Any, line: LineInfo?) : super(line) {
-        this.element = element
-        this.container = container
+    public void testLocal() {
+        run("test_local.pas");
     }
 
-    override val message: String? get() {
-        return "Duplicate element $element in $container"
+    public void testLocal1() {
+        run("test_local1.pas");
     }
+
+    public void testGobal() {
+        run("test_gobal.pas");
+    }
+
+    public void testGobal1() {
+        run("test_gobal1.pas");
+    }
+
+    @Override
+    public String getDirTest() {
+        return "test_scope";
+    }
+
+
 }

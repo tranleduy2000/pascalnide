@@ -456,7 +456,7 @@ public class IOLib implements PascalLibrary {
     public void setInputBuffer(@NonNull String inputBuffer) {
         this.inputBuffer = inputBuffer;
         synchronized (this) {
-            this.notify();
+            this.notifyAll();
         }
     }
 
@@ -466,7 +466,7 @@ public class IOLib implements PascalLibrary {
     public synchronized void resume() {
         this.state = RuntimeExecutableCodeUnit.ControlMode.PAUSED;
         synchronized (this) {
-            this.notify();
+            this.notifyAll();
         }
     }
 

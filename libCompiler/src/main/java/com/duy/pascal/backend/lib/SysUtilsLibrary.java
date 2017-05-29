@@ -18,6 +18,8 @@ package com.duy.pascal.backend.lib;
 
 import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.runtime_exceptions.EConvertError;
+import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime.references.PascalReference;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.text.DecimalFormat;
@@ -60,6 +62,10 @@ public class SysUtilsLibrary implements PascalLibrary {
 
     }
 
+    @PascalMethod(description = "Append one ansistring to another.")
+    public void appendStr(PascalReference<StringBuilder> dest, StringBuilder s) throws RuntimePascalException {
+        dest.set(dest.get().append(s));
+    }
     @PascalMethod(description = "Convert a string to an integer value.", returns = "int")
     public int strToInt(StringBuilder s) throws EConvertError {
         try {

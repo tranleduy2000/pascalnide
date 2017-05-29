@@ -41,7 +41,7 @@ abstract class MissingTokenException : ParsingException {
 
     abstract fun getMissingToken(): String
 
-    override fun getLocalizedMessage(): String {
+    override val message: String? get() {
         return "Missing token $token at $lineInfo"
     }
 }

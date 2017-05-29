@@ -37,7 +37,7 @@ public class DeclareTest extends TestCase {
 
     public void testDeclareArray() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_array.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_array.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class DeclareTest extends TestCase {
 
     public void testDeclareBasic() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_basic.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_basic.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,7 +57,7 @@ public class DeclareTest extends TestCase {
 
     public void testIndexEnum() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class DeclareTest extends TestCase {
 
     public void testInitArray() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_array.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_array.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class DeclareTest extends TestCase {
 
     public void testInitEnum() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_enum.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_enum.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class DeclareTest extends TestCase {
 
     public void testInitSet() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_set.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_set.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +97,7 @@ public class DeclareTest extends TestCase {
 
     public void testInitVariable() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_variable.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_variable.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,7 +107,7 @@ public class DeclareTest extends TestCase {
 
     public void testSetType() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_basic.pas", null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_basic.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,8 +117,8 @@ public class DeclareTest extends TestCase {
 
     public void testSetType2() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_set_type2.pas",
-                    null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_set_type2.pas"
+            );
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,8 +128,8 @@ public class DeclareTest extends TestCase {
 
     public void testSetAssignValue() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_set_assign_value.pas",
-                    null);
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_set_assign_value.pas"
+            );
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();

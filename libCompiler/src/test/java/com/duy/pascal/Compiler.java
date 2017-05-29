@@ -17,7 +17,6 @@
 package com.duy.pascal;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.exceptions.ParsingException;
@@ -47,12 +46,18 @@ import java.util.Scanner;
 public class Compiler {
     private static Scanner input;
 
-    public static boolean runProgram(String programPath, @Nullable String pathIn)
+    public static boolean runProgram(String programPath)
             throws RuntimePascalException, ParsingException, java.io.FileNotFoundException {
         DLog.d("Program path = " + programPath);
         File programFile = new File(programPath);
-        if (pathIn != null) {
-            input = new Scanner(new FileReader(programFile));
+        String pathIn = programFile.getParent() + File.separatorChar
+                + programFile.getName().substring(0, programFile.getName().indexOf("."))
+                + ".in";
+
+        File fileIn = new File(pathIn);
+        if (fileIn.exists()) {
+            DLog.d("path in " + pathIn);
+            input = new Scanner(new FileReader(fileIn));
         }
         final StringBuilder output = new StringBuilder();
         PascalProgram pascalProgram = PascalCompiler.loadPascal(
@@ -106,12 +111,23 @@ public class Compiler {
                     }
 
                     @Override
-                    public void startInput(IOLib lock) {
+                    public void startInput(final IOLib lock) {
                         if (input == null) {
                             throw new RuntimeException("can not find input reader");
                         }
                         String s = input.nextLine();
                         lock.setInputBuffer(s);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(10);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                lock.resume();
+                            }
+                        }).start();
                     }
 
                     @Override
@@ -152,10 +168,11 @@ public class Compiler {
         String pathOut = programFile.getParent() + File.separatorChar
                 + programFile.getName().substring(0, programFile.getName().indexOf("."))
                 + ".out";
-        DLog.d("path out " + pathOut);
+
         File fileOut = new File(pathOut);
 
         if (fileOut.exists()) {
+            DLog.d("path out " + pathOut);
             try {
                 String expectOutput = IOUtils.streamToString(new FileInputStream(fileOut)).toString();
                 if (output.toString().equals(expectOutput)) {

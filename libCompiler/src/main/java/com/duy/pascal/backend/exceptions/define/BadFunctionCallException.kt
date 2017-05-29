@@ -40,7 +40,8 @@ class BadFunctionCallException : ParsingException {
         this.functions = function;
     }
 
-    override fun getLocalizedMessage(): String {
+    override val message: String?
+        get() {
         if (functionExists) {
             if (argsMatch) {
                 return "One or more arguments has an incorrect operator when calling function \"$functionName\"."

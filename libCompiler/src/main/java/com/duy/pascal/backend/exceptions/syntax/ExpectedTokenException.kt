@@ -40,7 +40,8 @@ class ExpectedTokenException : ParsingException {
         expectToken.forEachIndexed { index, token -> expected[index] = token }
     }
 
-    override fun getLocalizedMessage(): String {
+
+    override val message: String? get() {
         return "Syntax error, \"$expected\" expected but \"$current\" found"
     }
 

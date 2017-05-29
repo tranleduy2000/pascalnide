@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.exceptions.value
-
-import com.duy.pascal.backend.exceptions.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
+package com.duy.pascal.test;
 
 /**
- * Created by Duy on 27-May-17.
+ * Created by Duy on 29-May-17.
  */
 
-class DuplicateElementException : ParsingException {
-
-    private val element: Any
-    private val container: Any
-
-    constructor(element: Any, container: Any, line: LineInfo?) : super(line) {
-        this.element = element
-        this.container = container
+public class StringTest extends BaseTestCase {
+    public void testAll() {
+        super.testAll();
     }
 
-    override val message: String? get() {
-        return "Duplicate element $element in $container"
+    @Override
+    public String getDirTest() {
+        return "test_string";
     }
 }

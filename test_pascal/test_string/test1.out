@@ -1,0 +1,4 @@
+appendstr( str3, str1) : Hello
+appendstr( str1, str2) : Hello There!
+Now str4 is: Hello There! There!
+Length of the final string str4: 18
