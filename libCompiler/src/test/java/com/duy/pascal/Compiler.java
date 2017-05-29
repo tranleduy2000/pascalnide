@@ -30,6 +30,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.codeunit.program.PascalProgram;
+import com.js.interpreter.source_include.FileScriptSource;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.File;
@@ -49,7 +50,7 @@ public class Compiler {
     public static boolean runProgram(String programPath)
             throws RuntimePascalException, ParsingException, java.io.FileNotFoundException {
         DLog.d("Program path = " + programPath);
-        File programFile = new File(programPath);
+        final File programFile = new File(programPath);
         String pathIn = programFile.getParent() + File.separatorChar
                 + programFile.getName().substring(0, programFile.getName().indexOf("."))
                 + ".in";
@@ -60,11 +61,16 @@ public class Compiler {
             input = new Scanner(new FileReader(fileIn));
         }
         final StringBuilder output = new StringBuilder();
+        ArrayList<ScriptSource> searchPath = new ArrayList<>();
+        searchPath.add(new FileScriptSource(new File(programPath).getParent()));
         PascalProgram pascalProgram = PascalCompiler.loadPascal(
-                new File(programPath).getName(),
-                new FileReader(programPath),
-                new ArrayList<ScriptSource>(),
+                new File(programPath).getName(), new FileReader(programPath), searchPath,
                 new IRunnablePascal() {
+                    @Override
+                    public String getCurrentDirectory() {
+                        return programFile.getParent();
+                    }
+
                     @Override
                     public Context getApplicationContext() {
                         return null;

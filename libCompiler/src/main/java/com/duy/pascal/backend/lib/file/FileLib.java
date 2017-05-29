@@ -25,7 +25,7 @@ import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.WrongArgsException;
 import com.duy.pascal.backend.runtime.references.PascalReference;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.io.File;
@@ -35,27 +35,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileLib implements PascalLibrary {
-
-    public static final String TAG = FileLib.class.getSimpleName();
-
+    private static final String TAG = "FileLib";
     /**
      * map file
      * key is the path of file
      */
     private HashMap<String, FileEntry> filesMap = new HashMap<>();
     private int numberFiles = 0;
+    private IRunnablePascal handler;
+
+    public FileLib(IRunnablePascal handler) {
+        this.handler = handler;
+    }
 
     /**
      * assign file,
      */
     @PascalMethod(description = "library file", returns = "null")
     public void assign(PascalReference<File> fileVariable, String name) throws RuntimePascalException {
-        String path = ApplicationFileManager.getApplicationPath() + name;
-        fileVariable.set(new File(path));
+        File file = new File(handler.getCurrentDirectory(), name);
+        fileVariable.set(file);
 
         //put to map
         FileEntry fileEntry = new FileEntry(name);
-        filesMap.put(path, fileEntry);
+        filesMap.put(file.getPath(), fileEntry);
     }
 
     @PascalMethod(description = "library file", returns = "null")

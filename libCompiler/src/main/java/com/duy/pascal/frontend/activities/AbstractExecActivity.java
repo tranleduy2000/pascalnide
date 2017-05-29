@@ -123,8 +123,17 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     };
     protected final AtomicBoolean isCanRead = new AtomicBoolean(false);
     protected String input = "";
-    protected String filePath;
+    protected String filePath = "";
     protected Object mLock;
+
+    @Override
+    public String getCurrentDirectory() {
+        try {
+            return new File(filePath).getParent();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
     @Override
     public Context getApplicationContext() {

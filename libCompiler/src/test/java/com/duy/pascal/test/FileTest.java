@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.lib.io;
+package com.duy.pascal.test;
+
+import static com.duy.pascal.Compiler.runProgram;
 
 /**
- * Created by Duy on 21-Apr-17.
+ * Created by Duy on 29-May-17.
  */
 
-@SuppressWarnings("DefaultFileTemplate")
-public interface InOutListener {
-    void startInput(IOLib lock);
+public class FileTest extends BaseTestCase {
+    @Override
+    public String getDirTest() {
+        return "test_file";
+    }
 
-    void print(CharSequence charSequence);
-
-    void println(CharSequence charSequence);
-
-    char getKeyBuffer();
-
-    boolean keyPressed();
-
-    String getCurrentDirectory();
+    public void testWriteFile() {
+        try {
+            runProgram(dir + "test_write_file.pas");
+            assertTrue(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
 }

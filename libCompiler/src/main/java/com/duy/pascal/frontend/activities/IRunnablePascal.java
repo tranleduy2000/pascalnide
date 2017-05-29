@@ -33,6 +33,9 @@ import com.js.interpreter.VariableDeclaration;
 
 public interface IRunnablePascal extends ExecHandler, InOutListener, DebugListener, ActivityHandler {
     @Override
+    String getCurrentDirectory();
+
+    @Override
     Context getApplicationContext();
 
     @Override
