@@ -245,9 +245,9 @@ public enum BasicType implements DeclaredType {
             try {
                 return clazz.newInstance();
             } catch (InstantiationException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
             return null;
         }

@@ -17,13 +17,14 @@
 package com.duy.pascal.backend.runtime.variables;
 
 import com.duy.pascal.backend.pascaltypes.set.ArrayType;
-import com.js.interpreter.VariableDeclaration;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.js.interpreter.VariableDeclaration;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Duy on 17-Apr-17.
@@ -68,6 +69,17 @@ public class CustomVariable implements ContainsVariables {
     @Override
     public Object getVar(String name) throws RuntimePascalException {
         return variableMap.get(name.toLowerCase());
+    }
+
+    @Override
+    public String toString() {
+        Set<Map.Entry<String, Object>> entries = variableMap.entrySet();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<String, Object> entry : entries) {
+            stringBuilder.append(entry.getKey()).append(" = ").append(entry.getValue());
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     @Override

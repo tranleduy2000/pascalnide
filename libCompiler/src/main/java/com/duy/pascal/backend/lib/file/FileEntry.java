@@ -16,8 +16,6 @@
 
 package com.duy.pascal.backend.lib.file;
 
-import android.os.Environment;
-
 import com.duy.pascal.backend.lib.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.runtime.exception.InvalidNumericFormatException;
@@ -47,9 +45,14 @@ class FileEntry {
     private File file;
 
 
-    FileEntry(String mFilePath) {
-        this.mFilePath = Environment.getExternalStorageDirectory().getPath() + "/PascalCompiler/" + mFilePath;
+    FileEntry(String filePath) {
+        this.mFilePath = filePath;
         this.file = new File(this.mFilePath);
+    }
+
+    public FileEntry(File file) {
+        this.mFilePath = file.getPath();
+        this.file = file;
     }
 
     public String getFileName(String fileName) {

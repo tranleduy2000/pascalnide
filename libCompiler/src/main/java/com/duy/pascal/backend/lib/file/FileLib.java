@@ -21,11 +21,12 @@ import com.duy.pascal.backend.lib.annotations.PascalMethod;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenException;
 import com.duy.pascal.backend.lib.file.exceptions.FileNotOpenForInputException;
+import com.duy.pascal.backend.lib.io.InOutListener;
 import com.duy.pascal.backend.lib.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime.exception.WrongArgsException;
 import com.duy.pascal.backend.runtime.references.PascalReference;
-import com.duy.pascal.frontend.activities.IRunnablePascal;
+import com.duy.pascal.frontend.DLog;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
 
 import java.io.File;
@@ -42,9 +43,9 @@ public class FileLib implements PascalLibrary {
      */
     private HashMap<String, FileEntry> filesMap = new HashMap<>();
     private int numberFiles = 0;
-    private IRunnablePascal handler;
+    private InOutListener handler;
 
-    public FileLib(IRunnablePascal handler) {
+    public FileLib(InOutListener handler) {
         this.handler = handler;
     }
 
@@ -53,11 +54,14 @@ public class FileLib implements PascalLibrary {
      */
     @PascalMethod(description = "library file", returns = "null")
     public void assign(PascalReference<File> fileVariable, String name) throws RuntimePascalException {
+        DLog.d(TAG, "assign() called with: fileVariable = [" + fileVariable + "], name = [" + name + "]");
+
         File file = new File(handler.getCurrentDirectory(), name);
+        DLog.d("File " + file);
         fileVariable.set(file);
 
         //put to map
-        FileEntry fileEntry = new FileEntry(name);
+        FileEntry fileEntry = new FileEntry(file);
         filesMap.put(file.getPath(), fileEntry);
     }
 
