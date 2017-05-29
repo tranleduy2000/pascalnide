@@ -7,13 +7,13 @@ begin
 
     case (a) of
     100: begin
-        writeln('This  is part of outer statement' );
+        writeln('This is part of outer statement' );
         case (b) of
-        200: writeln('This  is part of inner statement' );
+        200: writeln('This is part of inner statement' );
         end;
     end;
     end;
 
-    writeln('Exact value of a is : ', a );
-    writeln('Exact value of b is : ', b );
+    writeln('Exact value of a is: ', a );
+    writeln('Exact value of b is: ', b );
 end.

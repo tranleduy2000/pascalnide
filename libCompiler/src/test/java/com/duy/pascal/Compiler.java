@@ -121,7 +121,6 @@ public class Compiler {
 
                     @Override
                     public void print(CharSequence charSequence) {
-                        System.out.println("print " + charSequence.toString());
                         output.append(charSequence);
                     }
 

@@ -13,5 +13,5 @@ begin
     else
             (* if condition is false then print the following *)
         writeln('a is not less than 20' );
-    writeln('value of a is : ', a);
+    writeln('value of a is: ', a);
 end.

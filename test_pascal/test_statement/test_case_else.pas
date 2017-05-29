@@ -13,5 +13,5 @@ begin
         writeln('You really did not study right!' );
     end;
 
-    writeln('Your grade is  ', grade );
+    writeln('Your grade is ', grade );
 end.
