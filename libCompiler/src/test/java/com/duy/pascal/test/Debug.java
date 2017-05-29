@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.declare;
+package com.duy.pascal.test;
 
 import static com.duy.pascal.Compiler.runProgram;
 

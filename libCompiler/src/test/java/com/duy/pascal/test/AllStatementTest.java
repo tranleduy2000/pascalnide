@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.loop;
+package com.duy.pascal.test;
 
 import com.duy.pascal.frontend.DLog;
 
@@ -28,7 +28,7 @@ import static com.duy.pascal.Compiler.runProgram;
  * Created by Duy on 29-May-17.
  */
 
-public class TestLoop extends TestCase {
+public class AllStatementTest extends TestCase {
     String dir;
 
     @Override
@@ -38,12 +38,12 @@ public class TestLoop extends TestCase {
 
         dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
-        dir += File.separator + "test_pascal" + File.separator + "test_loop" + File.separator;
+        dir += File.separator + "test_pascal" + File.separator + "test_statement" + File.separator;
     }
 
-    public void testBreak() {
+    public void testCase() {
         try {
-            runProgram(dir + "test_break.pas", null);
+            runProgram(dir + "test_case.pas", null);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,9 +51,9 @@ public class TestLoop extends TestCase {
         }
     }
 
-    public void testContinue() {
+    public void testCaseElse() {
         try {
-            runProgram(dir + "test_continue.pas", null);
+            runProgram(dir + "test_case_else.pas", null);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,9 +61,9 @@ public class TestLoop extends TestCase {
         }
     }
 
-    public void testFor() {
+    public void testCaseNested() {
         try {
-            runProgram(dir + "test_for.pas", null);
+            runProgram(dir + "test_case_nested.pas", null);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,9 +71,9 @@ public class TestLoop extends TestCase {
         }
     }
 
-    public void testNested() {
+    public void testIfElse() {
         try {
-            runProgram(dir + "test_nested.pas", null);
+            runProgram(dir + "test_ifelse.pas", null);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,9 +81,9 @@ public class TestLoop extends TestCase {
         }
     }
 
-    public void testRepeat() {
+    public void testIfElseIfElse() {
         try {
-            runProgram(dir + "test_repeat.pas", null);
+            runProgram(dir + "test_ifelse_ifelse.pas", null);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,13 +91,14 @@ public class TestLoop extends TestCase {
         }
     }
 
-    public void testWhile() {
+    public void testNestedIfElse() {
         try {
-            runProgram(dir + "test_while.pas", null);
+            runProgram(dir + "test_nested_ifelse.pas", null);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
         }
     }
+
 }

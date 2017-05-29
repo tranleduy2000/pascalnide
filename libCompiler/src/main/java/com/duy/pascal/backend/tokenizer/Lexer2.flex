@@ -68,7 +68,7 @@ import java.util.Stack;
 
 %%
 %unicode
-%mLineNumber
+%line
 %column
 %ignorecase
 
@@ -176,6 +176,7 @@ Comment = {TraditionalComment} | {EndOfLineComment}  | {PascalComment}
 CommentStarter		 =  "(*" | "{"
 CommentEnder		 =   "*)" | "}"
 PascalComment        = "{" [^*] ~"}" | "(*" [^*] ~"*)"
+//PascalComment        = "{" [^*] ~"}" | "(*" [^*] ~"*)"
 BracesComment		 = {CommentStarter} {RestOfComment}
 
 RestOfComment		 = ([^*] | \*[^)}])* "}"
@@ -206,7 +207,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     {Char} {
          LineInfo lineInfo = getLine();
          String text = yytext();
-         lineInfo.column = lineInfo.column - text.length() - 1;
+         lineInfo.setColumn(lineInfo.getColumn() - text.length() - 1);
          return new CharacterToken(lineInfo, text);
     }
 	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
@@ -320,11 +321,11 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 			yybegin(YYINITIAL); 
 			if(literal.length()==1) {
 			    LineInfo lineInfo = getLine();
-                lineInfo.column = lineInfo.column - 1;
+                 lineInfo.setColumn(lineInfo.getColumn() - 1);
 				return new CharacterToken(lineInfo,literal.toString().charAt(0));
 			} else {
 			    LineInfo lineInfo = getLine();
-                lineInfo.column = lineInfo.column - literal.length() - 2; //-2 by two quote
+                lineInfo.setColumn(lineInfo.getColumn() - literal.length() - 2);  //-2 by two quote
                 return new StringToken(lineInfo, literal.toString());
 			}
 		}
@@ -340,7 +341,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	}catch( FileNotFoundException e) {
     		GroupingExceptionType t = new GroupingExceptionType(getLine(),
     		     GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
-			t.caused = e;
+			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
@@ -357,7 +358,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	}catch( FileNotFoundException e) {
     		GroupingExceptionType t = new GroupingExceptionType(getLine(),
     		    GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
-			t.caused = e;
+			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
@@ -374,7 +375,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	}catch( FileNotFoundException e) {
     		GroupingExceptionType t = new GroupingExceptionType(getLine(),
     		        GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
-			t.caused = e;
+			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
