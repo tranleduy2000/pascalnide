@@ -70,6 +70,7 @@ import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.CodeUnit;
 import com.js.interpreter.codeunit.program.PascalProgram;
 import com.js.interpreter.expressioncontext.ExpressionContextMixin;
+import com.js.interpreter.source_include.FileScriptSource;
 import com.js.interpreter.source_include.ScriptSource;
 
 import org.jetbrains.annotations.NotNull;
@@ -293,11 +294,20 @@ public class EditorActivity extends BaseEditorActivity implements
         try {
             CodeUnit codeUnit;
             if (getCode().trim().toLowerCase().startsWith("unit ")) {
+
+                ArrayList<ScriptSource> searchPath = new ArrayList<>();
+                searchPath.add(new FileScriptSource(new File(filePath).getParent()));
                 codeUnit = PascalCompiler.loadLibrary(new File(filePath).getName(),
-                        new FileReader(filePath), new ArrayList<ScriptSource>(), null);
+                        new FileReader(filePath),
+                        searchPath,
+                        null);
             } else {
+
+                ArrayList<ScriptSource> searchPath = new ArrayList<>();
+                searchPath.add(new FileScriptSource(new File(filePath).getParent()));
+
                 codeUnit = PascalCompiler.loadPascal(new File(filePath).getName(),
-                        new FileReader(filePath), new ArrayList<ScriptSource>(), null);
+                        new FileReader(filePath), searchPath, null);
                 if (codeUnit != null) {
                     if (((PascalProgram) codeUnit).main == null) {
                         showErrorDialog(new MainProgramNotFoundException());

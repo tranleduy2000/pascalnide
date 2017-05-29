@@ -66,10 +66,10 @@ public class PascalCompiler {
 
 
     public static UnitPascal loadLibrary(String sourcename, Reader in,
-                                         List<ScriptSource> includeSearchPath,
+                                         List<ScriptSource> searchPath,
                                          IRunnablePascal handler) throws ParsingException {
-        ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(includeSearchPath);
-        return new UnitPascal(in, sourcename, functiontable, includeSearchPath, handler);
+        ListMultimap<String, AbstractFunction> functiontable = loadFunctionTable(searchPath);
+        return new UnitPascal(in, sourcename, functiontable, searchPath, handler);
     }
 
     private void loadPluginsPascal(ListMultimap<String, AbstractFunction> functionTable) {

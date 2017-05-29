@@ -47,7 +47,6 @@ import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -60,9 +59,7 @@ import com.js.interpreter.codeunit.library.UnitPascal;
 import com.js.interpreter.instructions.Executable;
 import com.js.interpreter.source_include.ScriptSource;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -342,17 +339,15 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).getName()));
 
             } else {
-                String libPath = (ApplicationFileManager.getApplicationPath() + ((WordToken) next).getName()) + ".pas";
-                File file = new File(libPath);
-                if (!file.exists()) {
-                    file = new File(((WordToken) next).getName());
+                String libName = ((WordToken) next).getName() + ".pas";
+                Reader reader = null;
+                for (ScriptSource scriptSource : this.root().getIncludeDirectories()) {
+                    reader = scriptSource.read(libName);
+                    if (reader != null) break;
                 }
-                if (file.exists()) {
+                if (reader != null) {
                     found.set(true);
-                    try {
-                        FileReader fileReader = new FileReader(file);
-
-                        UnitPascal library = new UnitPascal(fileReader, ((WordToken) next).getName(),
+                    UnitPascal library = new UnitPascal(reader, ((WordToken) next).getName(),
                                 ArrayListMultimap.<String, AbstractFunction>create(),
                                 new ArrayList<ScriptSource>(), handler);
                         library.declareConstants(this);
@@ -361,11 +356,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                         library.declareFunctions(this);
 
                         unitsMap.put(library, library.run());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                        throw new LibraryNotFoundException(next.getLineNumber(), ((WordToken) next).getName());
-                    }
-                } else {
                 }
             }
 

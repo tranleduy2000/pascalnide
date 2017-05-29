@@ -1,5 +1,7 @@
 package com.js.interpreter.source_include;
 
+import android.support.annotation.Nullable;
+
 import java.io.Reader;
 
 public interface ScriptSource {
@@ -8,6 +10,7 @@ public interface ScriptSource {
      *
      * @return list of source names
      */
+    @Nullable
     String[] list();
 
     /**
@@ -16,5 +19,6 @@ public interface ScriptSource {
      * @param scriptname The name of the source
      * @return A reader attached to that source
      */
+    @Nullable
     Reader read(String scriptname);
 }

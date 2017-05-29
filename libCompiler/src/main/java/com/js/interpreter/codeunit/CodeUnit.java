@@ -20,6 +20,7 @@ import java.util.List;
 public abstract class CodeUnit {
     public final ExpressionContextMixin mContext;
     protected String programName;
+    private List<ScriptSource> includeDirectories;
 
     public CodeUnit(ListMultimap<String, AbstractFunction> functionTable,
                     IRunnablePascal handler) {
@@ -31,6 +32,8 @@ public abstract class CodeUnit {
                     @Nullable IRunnablePascal handler)
             throws ParsingException {
         this(functionTable, handler);
+        this.includeDirectories = includeDirectories;
+
         NewLexer lexer = new NewLexer(program, sourceName, includeDirectories);
         lexer.parse();
         parseTree(lexer.getTokenQueue());
@@ -57,6 +60,14 @@ public abstract class CodeUnit {
 
     public String getProgramName() {
         return programName;
+    }
+
+    public List<ScriptSource> getIncludeDirectories() {
+        return includeDirectories;
+    }
+
+    public void setIncludeDirectories(List<ScriptSource> includeDirectories) {
+        this.includeDirectories = includeDirectories;
     }
 
     protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {

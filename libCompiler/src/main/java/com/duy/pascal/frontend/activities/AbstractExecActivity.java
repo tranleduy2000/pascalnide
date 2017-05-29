@@ -40,6 +40,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.js.interpreter.VariableDeclaration;
 import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
 import com.js.interpreter.codeunit.program.PascalProgram;
+import com.js.interpreter.source_include.FileScriptSource;
 import com.js.interpreter.source_include.ScriptSource;
 
 import java.io.File;
@@ -150,10 +151,12 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                 //compile
                 PascalCompiler pascalCompiler = new PascalCompiler(AbstractExecActivity.this);
                 try {
+                    ArrayList<ScriptSource> searchPath = new ArrayList<>();
+                    searchPath.add(new FileScriptSource(new File(filePath).getParent()));
                     PascalProgram pascalProgram = pascalCompiler.loadPascal(
                             new File(programFile).getName(),
                             new FileReader(programFile),
-                            new ArrayList<ScriptSource>(),
+                            searchPath,
                             AbstractExecActivity.this);
 
                     program = pascalProgram.run();
