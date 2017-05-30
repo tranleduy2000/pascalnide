@@ -20,17 +20,18 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Layout;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
-import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
-import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
-import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.VariableAccess;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
+import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
+import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
@@ -492,15 +493,7 @@ public class AutoFixError {
         DLog.d(TAG, "changeConstToVar: " + e);
 
         CharSequence text = getText(e);
-/*
-        //const a = 1;
-        Pattern pattern = Pattern.compile("(^(const\\+)|(\\s+const\\s+))" +
-                "(" + e.getName() + ")" +
-                "(\\s?)(=)(\\s?)(.*?)(;)");*/
-
         Pattern pattern;
-        //const a = 2;
-        //      b = 3; <== change b to var
         ConstantAccess<Object> constant = e.getConst();
         pattern = Pattern.compile(
                 "(^const\\s+|\\s+const\\s+)" + //1
@@ -543,4 +536,18 @@ public class AutoFixError {
     }
 
 
+    /**
+     * Insert "end" into the final position of the editor
+     */
+    public void fixGroupException(GroupingException e) {
+        if (e.getExceptionTypes() == GroupingException.Type.UNFINISHED_BEGIN_END) {
+            String text = "\nend";
+            editable.getEditableText().insert(editable.length(), text); //insert
+
+            //select the "end" token and show keyboard
+            editable.setSelection(editable.length() - text.length() + 1, //don't selected newline character
+                    editable.length());
+            editable.showKeyboard();
+        }
+    }
 }

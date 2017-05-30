@@ -337,28 +337,28 @@ public class ExceptionManager {
     }
 
     private Spannable getEnumeratedGroupingException(GroupingException e) {
-        GroupingException.GroupExceptionType exceptionTypes = e.getExceptionTypes();
-        if (exceptionTypes == GroupingException.GroupExceptionType.IO_EXCEPTION) {
+        GroupingException.Type exceptionTypes = e.getExceptionTypes();
+        if (exceptionTypes == GroupingException.Type.IO_EXCEPTION) {
             return new SpannableString(context.getString(string.IO_EXCEPTION));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.EXTRA_END) {
+        } else if (exceptionTypes == GroupingException.Type.EXTRA_END) {
             return new SpannableString(context.getString(string.EXTRA_END));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.INCOMPLETE_CHAR) {
+        } else if (exceptionTypes == GroupingException.Type.INCOMPLETE_CHAR) {
             return new SpannableString(context.getString(string.INCOMPLETE_CHAR));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.MISMATCHED_BEGIN_END) {
+        } else if (exceptionTypes == GroupingException.Type.MISMATCHED_BEGIN_END) {
             return new SpannableString(context.getString(string.MISMATCHED_BEGIN_END));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.MISMATCHED_BRACKETS) {
+        } else if (exceptionTypes == GroupingException.Type.MISMATCHED_BRACKETS) {
             return new SpannableString(context.getString(string.MISMATCHED_BRACKETS));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.MISMATCHED_PARENTHESES) {
+        } else if (exceptionTypes == GroupingException.Type.MISMATCHED_PARENTHESES) {
             return new SpannableString(context.getString(string.MISMATCHED_PARENTHESES));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.UNFINISHED_BEGIN_END) {
+        } else if (exceptionTypes == GroupingException.Type.UNFINISHED_BEGIN_END) {
             return new SpannableString(context.getString(string.UNFINISHED_BEGIN_END));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.UNFINISHED_PARENTHESES) {
+        } else if (exceptionTypes == GroupingException.Type.UNFINISHED_PARENTHESES) {
             return new SpannableString(context.getString(string.UNFINISHED_PARENTHESES));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.UNFINISHED_BRACKETS) {
+        } else if (exceptionTypes == GroupingException.Type.UNFINISHED_BRACKETS) {
             return new SpannableString(context.getString(string.UNFINISHED_BRACKETS));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.MISSING_INCLUDE) {
+        } else if (exceptionTypes == GroupingException.Type.MISSING_INCLUDE) {
             return new SpannableString(context.getString(string.MISSING_INCLUDE));
-        } else if (exceptionTypes == GroupingException.GroupExceptionType.NEWLINE_IN_QUOTES) {
+        } else if (exceptionTypes == GroupingException.Type.NEWLINE_IN_QUOTES) {
             return new SpannableString(context.getString(string.NEWLINE_IN_QUOTES));
         }
         return new SpannableString(e.getLocalizedMessage());

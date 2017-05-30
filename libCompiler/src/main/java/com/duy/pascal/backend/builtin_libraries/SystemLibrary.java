@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.builtin_libraries;
 
-import com.duy.pascal.backend.parse_exception.OrdinalExpressionExpectedException;
+import com.duy.pascal.backend.parse_exception.value.OrdinalExpressionExpectedException;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.InvalidFloatingPointOperation;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.RangeCheckError;

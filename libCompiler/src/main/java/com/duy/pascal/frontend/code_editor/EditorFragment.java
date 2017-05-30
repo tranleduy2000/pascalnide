@@ -28,18 +28,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
-import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
-import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
 import com.duy.pascal.backend.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.SystemLibrary;
 import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
+import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
+import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
 import com.duy.pascal.backend.tokenizer.IndentCode;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
@@ -155,10 +155,10 @@ public class EditorFragment extends Fragment implements EditorListener {
             mCodeEditor.getAutoFixError().autoFixUnConvertType((UnConvertibleTypeException) e);
         } else if (e instanceof MissingTokenException) {
             mCodeEditor.getAutoFixError().insertToken((MissingTokenException) e);
-        } else if (e instanceof ExpectedTokenException) {
-
         } else if (e instanceof ChangeValueConstantException) {
             mCodeEditor.getAutoFixError().changeConstToVar((ChangeValueConstantException) e);
+        } else if (e instanceof GroupingException) {
+            mCodeEditor.getAutoFixError().fixGroupException((GroupingException) e);
         }
     }
 

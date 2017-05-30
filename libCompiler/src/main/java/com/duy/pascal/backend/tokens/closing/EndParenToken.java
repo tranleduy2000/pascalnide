@@ -1,8 +1,7 @@
 package com.duy.pascal.backend.tokens.closing;
 
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
-import com.duy.pascal.backend.parse_exception.grouping.GroupingException.GroupExceptionType;
-import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException.Type;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
@@ -17,7 +16,7 @@ public class EndParenToken extends ClosingToken {
     public GroupingException getClosingException(GrouperToken t) {
         return t instanceof ParenthesizedToken ? null
                 : new GroupingException(getLineNumber(),
-                GroupExceptionType.MISMATCHED_PARENTHESES);
+                Type.MISMATCHED_PARENTHESES);
     }
 
     public String toCode() {

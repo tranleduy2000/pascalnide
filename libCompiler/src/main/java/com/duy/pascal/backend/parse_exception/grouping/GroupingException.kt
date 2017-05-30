@@ -10,9 +10,9 @@ open class GroupingException : ParsingException {
 
     constructor(line: LineInfo?) : super(line) {}
 
-    var exceptionTypes: GroupExceptionType? = null
+    var exceptionTypes: Type? = null
 
-    constructor(line: LineInfo?, exceptionTypes: GroupExceptionType) : super(line) {
+    constructor(line: LineInfo?, exceptionTypes: Type) : super(line) {
         this.exceptionTypes = exceptionTypes
     }
 
@@ -23,7 +23,7 @@ open class GroupingException : ParsingException {
                 if (caused == null) "" else ": " + caused!!.message
 
 
-    enum class GroupExceptionType(var message: String) {
+    enum class Type(var message: String) {
         MISMATCHED_PARENTHESES("Mismatched parentheses"),
         MISMATCHED_BRACKETS("Mismatched brackets"),
         MISMATCHED_BEGIN_END("Mismatched begin - end construct"),
@@ -40,7 +40,7 @@ open class GroupingException : ParsingException {
 
     override val isAutoFix: Boolean
         get(){
-            if (exceptionTypes == GroupExceptionType.UNFINISHED_BEGIN_END){
+            if (exceptionTypes == Type.UNFINISHED_BEGIN_END){
                 return true;
             }
             return false;
