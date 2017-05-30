@@ -63,7 +63,7 @@ import java.util.LinkedList;
  */
 public class IndentCode {
     private static final String TAG = "IndentCode";
-    private static final String THE_TAB = "    ";
+    private static final String THE_TAB = "    "; //4 space
     private Reader source;
     private LinkedList<Token> stack = new LinkedList<>();
     private StringBuilder mResult;
@@ -108,6 +108,7 @@ public class IndentCode {
         }
         return result;
     }
+
     public StringBuilder getResult() {
         String string = mResult.toString();
         while (string.indexOf("\n\n\n") > 0)
@@ -209,8 +210,8 @@ public class IndentCode {
             return completeCloseToken(token);
 
         } else if (token instanceof CommentToken) {
-//            return completeCommentToken(depth, token);
-            return new StringBuilder(token.toString());
+            return completeCommentToken(null, depth, (CommentToken) token);
+//            return new StringBuilder(token.toString());
         } else if (token instanceof PeriodToken) {
             return new StringBuilder(token.toString());
 
@@ -219,16 +220,17 @@ public class IndentCode {
     }
 
     private StringBuilder completeCommentToken(StringBuilder last, int depth, CommentToken token) {
-        int i = last.length() - 1;
-        String text = last.toString();
-        while (i > 0 && (text.charAt(i) == ' ' || text.charAt(i) == '\t')) {
-            i--;
-        }
+//        int i = last.length() - 1;
+//        String text = last.toString();
+//        while (i > 0 && (text.charAt(i) == ' ' || text.charAt(i) == '\t')) {
+//            i--;
+//        }
         StringBuilder result = new StringBuilder();
-
-        CharSequence space = text.subSequence(i, text.length() - 1);
-        result.append(space);
-        result.append(token).append("\n").append(space);
+//
+//        CharSequence space = "";
+//        if (text.length() > 0)
+//            space = text.subSequence(i, text.length() - 1);
+        result.append("\n").append(getTab(depth)).append(token).append("\n").append(getTab(depth));
         return result;
     }
 
@@ -425,7 +427,7 @@ public class IndentCode {
 
         StringBuilder body = new StringBuilder();
         while (peek() != null && !(peek() instanceof EndToken)) {
-            body.append(getLineCommand(depth + 1, true));
+            body.append(getLineCommand(depth + 1, true, SemicolonToken.class, EndToken.class, PeriodToken.class));
             if (peek() instanceof SemicolonToken) {
                 body.append(take()).append("\n");
             }
@@ -433,6 +435,7 @@ public class IndentCode {
 
         if (!body.toString().trim().isEmpty()) beginEnd.append(body);
         else beginEnd.append("\n");
+
         token = peek();
         if (token instanceof EndToken) {
             take();
@@ -443,7 +446,7 @@ public class IndentCode {
             }
 
             beginEnd.append(getTab(depth));
-            beginEnd.append(token.toString());
+            beginEnd.append(token.toString()).append(" ");
         }
 
         return replaceNewLine(beginEnd);
@@ -532,36 +535,29 @@ public class IndentCode {
         }
         return result;
     }
+
     //end of lineInfo by ;
     private StringBuilder getLineCommand(int depth, boolean tab, Class... stopToken) {
         StringBuilder result = new StringBuilder();
         if (tab && !isGroupToken(peek())) {
             result.append(getTab(depth));
         }
-       /* if (isGroupToken(peek())) { //group command
-            DLog.d(TAG, "getLineCommand: group " + peek());
-            result.append(processNext(depth, take()));
-            if (peek() instanceof SemicolonToken) {
-                result.append(take()).append("\n");
-            }
-        } else if (isStatement(peek())) {
+        /*else if (isStatement(peek())) {
             DLog.d(TAG, "getLineCommand: statement " + peek());
             result.append(processNext(depth, take()));
             if (peek() instanceof SemicolonToken) {
                 result.append(take()).append("\n");
             }
         } else*/
-        {
-            if (peek() instanceof CommentToken) {
-                result.append(completeCommentToken(result, depth, (CommentToken) take()));
-                return result;
-            }
-
-            while (peek() != null && !isIn(peek().getClass(), stopToken)) {
-                StringBuilder next = processNext(depth, take());
-                result.append(next);
-            }
+        if (peek() instanceof CommentToken) {
+            result.append(completeCommentToken(result, depth, (CommentToken) take()));
         }
+
+        while (peek() != null && !isIn(peek().getClass(), stopToken)) {
+            StringBuilder next = processNext(depth, take());
+            result.append(next);
+        }
+        //  System.out.println("result = " + result);
         return result;
     }
 
