@@ -1,4 +1,4 @@
-program packedarray;
+program test_packed_array;
 var
     a: packed array [0..3, 0..3] of integer;
     i, j : integer;

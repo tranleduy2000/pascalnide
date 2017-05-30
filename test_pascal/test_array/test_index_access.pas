@@ -1,4 +1,4 @@
-program exArrays;
+program test_index_access;
 var
     n: array [1..10] of integer;   (* n is an array of 10 integers *)
     i, j: integer;

@@ -27,7 +27,7 @@ public class ArrayTest extends BaseTestCase {
     }
 
     public void testAccess() {
-        run("test1.pas");
+        run("test_index_access.pas");
     }
 
     public void testDynamic() {
@@ -39,7 +39,7 @@ public class ArrayTest extends BaseTestCase {
     }
 
     public void testPacked() {
-        run("test_packed_arrray.pas");
+        run("test_packed_array.pas");
     }
 
     public void testParseArrayInFun() {

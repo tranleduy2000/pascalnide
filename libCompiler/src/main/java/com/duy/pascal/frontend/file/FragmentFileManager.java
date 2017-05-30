@@ -287,7 +287,7 @@ public class FragmentFileManager extends Fragment implements
         } else if (i == R.id.img_sort_date) {
             doSortByDate(v);
         } else if (i == R.id.img_sort_name) {
-            doSortByDate(v);
+            doSortByName(v);
         } else if (i == R.id.img_sort_size) {
             doSortBySize(v);
         }
