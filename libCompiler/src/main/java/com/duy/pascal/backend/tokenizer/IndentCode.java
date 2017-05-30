@@ -430,11 +430,13 @@ public class IndentCode {
             body.append(getLineCommand(depth + 1, true, SemicolonToken.class, EndToken.class, PeriodToken.class));
             if (peek() instanceof SemicolonToken) {
                 body.append(take()).append("\n");
+            } else if (peek() instanceof PeriodToken) {
+                body.append(take()).append("\n");
             }
         }
 
-        if (!body.toString().trim().isEmpty()) beginEnd.append(body);
-        else beginEnd.append("\n");
+         beginEnd.append(body);
+         beginEnd.append("\n");
 
         token = peek();
         if (token instanceof EndToken) {
@@ -557,7 +559,7 @@ public class IndentCode {
             StringBuilder next = processNext(depth, take());
             result.append(next);
         }
-        //  System.out.println("result = " + result);
+          System.out.println("result = " + result);
         return result;
     }
 
