@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.parse_exception;
+package com.duy.pascal.backend.parse_exception.define
 
-/**
- * Created by Duy on 28-May-17.
- */
+import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.parse_exception.ParsingException
 
-public class ClassUtils {
-    public static boolean instanceOf(Class target, Class<?>... classes) {
-        for (Class<?> aClass : classes) {
-            if (target == aClass) {
-                return true;
-            }
-        }
-        return false;
-    }
+
+class TypeIdentifierExpectException(line: LineInfo?, type: String)
+    : ParsingException(line, "Type $type is not define") {
+
+    @JvmField val missingType: String = type
+
+    override val isAutoFix: Boolean
+        get() = true
 }

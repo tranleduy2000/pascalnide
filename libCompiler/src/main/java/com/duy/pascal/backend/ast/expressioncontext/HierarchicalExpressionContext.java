@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.ast.expressioncontext;
 
-import com.duy.pascal.backend.parse_exception.define.SameNameException;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
 import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.ast.ConstantDefinition;
@@ -25,7 +25,7 @@ public abstract class HierarchicalExpressionContext implements
     }
 
     abstract void verifyNonConflictingSymbolLocal(NamedEntity n)
-            throws SameNameException;
+            throws DuplicateIdentifierException;
     @Override
     public ConstantDefinition getConstantDefinition(String ident) {
         ConstantDefinition result = getConstantDefinitionLocal(ident);
@@ -47,7 +47,7 @@ public abstract class HierarchicalExpressionContext implements
 
     @Override
     public void verifyNonConflictingSymbol(NamedEntity n)
-            throws SameNameException {
+            throws DuplicateIdentifierException {
         verifyNonConflictingSymbolLocal(n);
         //Don't check with parent, because pascal allows nested conflicting symbols.
     }

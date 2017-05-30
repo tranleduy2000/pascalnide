@@ -24,7 +24,7 @@ import android.view.View
 import android.widget.*
 import com.duy.pascal.BasePascalApplication
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.parse_exception.define.NoSuchFunctionOrVariableException
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.code.ExceptionManager
 import com.duy.pascal.frontend.code_editor.EditorActivity
@@ -95,14 +95,14 @@ class DialogManager {
                 if (e is ParsingException) {
                     if (e.isAutoFix) {
                         var container: RadioGroup? = null
-                        if (e is NoSuchFunctionOrVariableException) {
+                        if (e is UnknownIdentifierException) {
                             container = dialog.findViewById(R.id.container_define)!! as RadioGroup
                             container.visibility = View.VISIBLE
                         }
                         //set event for button Auto fix
                         dialog.findViewById(R.id.btn_auto_fix)?.visibility = View.VISIBLE
                         dialog.findViewById(R.id.btn_auto_fix)?.setOnClickListener {
-                            if (e is NoSuchFunctionOrVariableException) {
+                            if (e is UnknownIdentifierException) {
                                 val checkedRadioButtonId = container?.checkedRadioButtonId
                                 when (checkedRadioButtonId) {
                                     R.id.rad_var -> e.fitType = DefineType.DECLARE_VAR

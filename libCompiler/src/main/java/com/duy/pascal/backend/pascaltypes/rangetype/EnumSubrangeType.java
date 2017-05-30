@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.pascaltypes.rangetype;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
@@ -42,7 +42,7 @@ public class EnumSubrangeType extends SubrangeType {
                 WordToken name = (WordToken) bound.take();
                 DeclaredType type = context.getTypedefType(name.name);
                 if (type == null) {
-                    throw new UnrecognizedTypeException(name.getLineNumber(), name.name);
+                    throw new TypeIdentifierExpectException(name.getLineNumber(), name.name);
                 }
 
                 if (type instanceof EnumGroupType) {

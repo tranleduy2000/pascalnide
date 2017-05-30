@@ -22,8 +22,8 @@ import android.text.Layout;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.parse_exception.define.NoSuchFunctionOrVariableException;
-import com.duy.pascal.backend.parse_exception.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
 import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
@@ -71,12 +71,12 @@ public class AutoFixError {
 
     /**
      * This method will be import new type for program
-     * the {@link UnrecognizedTypeException} contains missing type.
+     * the {@link TypeIdentifierExpectException} contains missing type.
      * <p>
      * First, we find the "type" keyword, if not found we will be create new keyword
      * Then, we insert a structure <code>"name" = "type"</code>
      */
-    public void autoFixMissingType(UnrecognizedTypeException e) {
+    public void autoFixMissingType(TypeIdentifierExpectException e) {
         //don't work if has selection
         //sub string from 0 to postion error
         CharSequence text = getText(e);
@@ -136,7 +136,7 @@ public class AutoFixError {
      * This method will be add missing define, such as variable,
      * constant, function or procedure
      */
-    public void autoFixMissingDefine(NoSuchFunctionOrVariableException e) {
+    public void autoFixMissingDefine(UnknownIdentifierException e) {
         DLog.d(TAG, "autoFixMissingDefine() called with: e = [" + e + "]" + " " + e.getFitType());
         if (e.getFitType() == DefineType.DECLARE_VAR) {
             //add missing var
@@ -156,7 +156,7 @@ public class AutoFixError {
      * This method will be declare const, the constant pascal
      * usually in the top of program, below "program" or "uses" keyword
      */
-    private void declareConst(NoSuchFunctionOrVariableException e) {
+    private void declareConst(UnknownIdentifierException e) {
         //sub string from 0 to postion error
         CharSequence text = getText(e);
 
@@ -188,7 +188,7 @@ public class AutoFixError {
         editable.setSelection(insertPosition + matcher.start());
     }
 
-    private void declareFunction(NoSuchFunctionOrVariableException e) {
+    private void declareFunction(UnknownIdentifierException e) {
     }
 
     /**
@@ -197,7 +197,7 @@ public class AutoFixError {
      * First, match position of list keyword
      * Then insert new variable
      */
-    private void declareVar(NoSuchFunctionOrVariableException e) {
+    private void declareVar(UnknownIdentifierException e) {
         declareVar(e.getLineInfo(), e.getName(),
                 "",//unknown type
                 null); //non init value

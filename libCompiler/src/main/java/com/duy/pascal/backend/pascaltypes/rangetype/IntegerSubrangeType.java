@@ -22,7 +22,7 @@ import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
-import com.duy.pascal.backend.parse_exception.index.SubRangeException;
+import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
@@ -67,7 +67,7 @@ public class IntegerSubrangeType extends SubrangeType {
             throw new NonConstantExpressionException(high);
         }
         if ((int) max < lower) {
-            throw new SubRangeException(lower, (int) max, i.getLineNumber());
+            throw new LowerGreaterUpperBoundException(lower, (int) max, i.getLineNumber());
         }
         size = (((int) max) - lower) + 1;
 

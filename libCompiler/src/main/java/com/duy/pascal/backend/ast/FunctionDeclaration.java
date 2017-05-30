@@ -20,7 +20,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
-import com.duy.pascal.backend.parse_exception.define.SameNameException;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
@@ -95,11 +95,11 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         instructions = null;
         NamedEntity n = parent.getConstantDefinition(name);
         if (n != null) {
-            throw new SameNameException(n, this);
+            throw new DuplicateIdentifierException(n, this);
         }
         n = parent.getVariableDefinition(name);
         if (n != null) {
-            throw new SameNameException(n, this);
+            throw new DuplicateIdentifierException(n, this);
         }
     }
 

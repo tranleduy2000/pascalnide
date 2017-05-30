@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.parse_exception.define
+package com.duy.pascal.backend.javaunderpascal;
 
-import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
-import com.duy.pascal.frontend.code_editor.autofix.DefineType
+/**
+ * Created by Duy on 28-May-17.
+ */
 
-class NoSuchFunctionOrVariableException(line: LineInfo?, var name: String)
-    : ParsingException(line, name + " is not a variable or function name") {
-
-    var token: String? = null
-    var fitType: DefineType?
-    override val isAutoFix: Boolean
-        get() = true
-
-    init {
-        this.lineInfo?.length = name.length
-        this.fitType = DefineType.DECLARE_VAR
+public class ClassUtils {
+    public static boolean instanceOf(Class target, Class<?>... classes) {
+        for (Class<?> aClass : classes) {
+            if (target == aClass) {
+                return true;
+            }
+        }
+        return false;
     }
 }

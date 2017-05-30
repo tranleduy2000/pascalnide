@@ -33,15 +33,15 @@ import com.duy.pascal.backend.parse_exception.define.BadFunctionCallException;
 import com.duy.pascal.backend.parse_exception.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.parse_exception.define.MultipleDefaultValuesException;
 import com.duy.pascal.backend.parse_exception.define.MultipleDefinitionsMainException;
-import com.duy.pascal.backend.parse_exception.define.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
-import com.duy.pascal.backend.parse_exception.define.SameNameException;
-import com.duy.pascal.backend.parse_exception.define.UnrecognizedTypeException;
-import com.duy.pascal.backend.parse_exception.grouping.GroupingExceptionType;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.grouping.StrayCharacterException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
-import com.duy.pascal.backend.parse_exception.index.SubRangeException;
+import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
 import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
 import com.duy.pascal.backend.parse_exception.missing.MissingCommaTokenException;
 import com.duy.pascal.backend.parse_exception.missing.MissingSemicolonTokenException;
@@ -111,16 +111,16 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.StrayCharacterException,
                         ((StrayCharacterException) e).getCharCode());
 
-            if (e instanceof NoSuchFunctionOrVariableException) {
-                return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((NoSuchFunctionOrVariableException) e).getName());
+            if (e instanceof UnknownIdentifierException) {
+                return getMessageResource(e, R.string.NoSuchFunctionOrVariableException, ((UnknownIdentifierException) e).getName());
             }
             if (e instanceof BadFunctionCallException) return getBadFunctionCallException(e);
 
             if (e instanceof MultipleDefinitionsMainException)
                 return new SpannableString(context.getString(string.multi_define_main));
 
-            if (e instanceof GroupingExceptionType)
-                return getEnumeratedGroupingException((GroupingExceptionType) e);
+            if (e instanceof GroupingException)
+                return getEnumeratedGroupingException((GroupingException) e);
 
             if (e instanceof UnrecognizedTokenException)
                 return getUnrecognizedTokenException((UnrecognizedTokenException) e);
@@ -170,8 +170,8 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.NotAStatementException,
                         ((NotAStatementException) e).getRuntimeValue().toString());
             }
-            if (e instanceof SameNameException) {
-                SameNameException exception = (SameNameException) e;
+            if (e instanceof DuplicateIdentifierException) {
+                DuplicateIdentifierException exception = (DuplicateIdentifierException) e;
                 return getMessageResource(e, R.string.SameNameException, exception.getType(),
                         exception.getName(), exception.getPreType(), exception.getPreLine());
             }
@@ -179,9 +179,9 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.UnAssignableTypeException,
                         ((UnAssignableTypeException) e).getRuntimeValue().toString());
             }
-            if (e instanceof UnrecognizedTypeException) {
+            if (e instanceof TypeIdentifierExpectException) {
                 return getMessageResource(e, R.string.UnrecognizedTypeException,
-                        ((UnrecognizedTypeException) e).missingType);
+                        ((TypeIdentifierExpectException) e).missingType);
             }
             if (e instanceof InvalidNumericFormatException) {
                 return getMessageResource(e, R.string.InvalidNumericFormatException);
@@ -195,9 +195,9 @@ public class ExceptionManager {
             if (e instanceof WrongIfElseStatement) {
                 return getMessageResource(e, R.string.WrongIfElseStatement);
             }
-            if (e instanceof SubRangeException) {
+            if (e instanceof LowerGreaterUpperBoundException) {
                 return getMessageResource(e, R.string.SubRangeException,
-                        ((SubRangeException) e).getHigh(), ((SubRangeException) e).getLow());
+                        ((LowerGreaterUpperBoundException) e).getHigh(), ((LowerGreaterUpperBoundException) e).getLow());
             }
             if (e instanceof OverridingFunctionBodyException) {
                 if (!((OverridingFunctionBodyException) e).isMethod()) {
@@ -336,29 +336,29 @@ public class ExceptionManager {
         return span;
     }
 
-    private Spannable getEnumeratedGroupingException(GroupingExceptionType e) {
-        GroupingExceptionType.GroupExceptionType exceptionTypes = e.getExceptionTypes();
-        if (exceptionTypes == GroupingExceptionType.GroupExceptionType.IO_EXCEPTION) {
+    private Spannable getEnumeratedGroupingException(GroupingException e) {
+        GroupingException.GroupExceptionType exceptionTypes = e.getExceptionTypes();
+        if (exceptionTypes == GroupingException.GroupExceptionType.IO_EXCEPTION) {
             return new SpannableString(context.getString(string.IO_EXCEPTION));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.EXTRA_END) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.EXTRA_END) {
             return new SpannableString(context.getString(string.EXTRA_END));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.INCOMPLETE_CHAR) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.INCOMPLETE_CHAR) {
             return new SpannableString(context.getString(string.INCOMPLETE_CHAR));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_BEGIN_END) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.MISMATCHED_BEGIN_END) {
             return new SpannableString(context.getString(string.MISMATCHED_BEGIN_END));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_BRACKETS) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.MISMATCHED_BRACKETS) {
             return new SpannableString(context.getString(string.MISMATCHED_BRACKETS));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISMATCHED_PARENTHESES) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.MISMATCHED_PARENTHESES) {
             return new SpannableString(context.getString(string.MISMATCHED_PARENTHESES));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_BEGIN_END) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.UNFINISHED_BEGIN_END) {
             return new SpannableString(context.getString(string.UNFINISHED_BEGIN_END));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_PARENTHESES) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.UNFINISHED_PARENTHESES) {
             return new SpannableString(context.getString(string.UNFINISHED_PARENTHESES));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.UNFINISHED_BRACKETS) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.UNFINISHED_BRACKETS) {
             return new SpannableString(context.getString(string.UNFINISHED_BRACKETS));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.MISSING_INCLUDE) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.MISSING_INCLUDE) {
             return new SpannableString(context.getString(string.MISSING_INCLUDE));
-        } else if (exceptionTypes == GroupingExceptionType.GroupExceptionType.NEWLINE_IN_QUOTES) {
+        } else if (exceptionTypes == GroupingException.GroupExceptionType.NEWLINE_IN_QUOTES) {
             return new SpannableString(context.getString(string.NEWLINE_IN_QUOTES));
         }
         return new SpannableString(e.getLocalizedMessage());

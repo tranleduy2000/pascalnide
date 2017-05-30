@@ -16,15 +16,22 @@
 
 package com.duy.pascal.backend.parse_exception.define
 
+import com.duy.pascal.backend.ast.NamedEntity
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.linenumber.LineInfo
 
+class DuplicateIdentifierException(previous: NamedEntity, current: NamedEntity) :
+        ParsingException(current.lineNumber,
+                "${current.entityType} ${current.name} conflicts with previously defined " +
+                        "${previous.entityType} with the same name defined at ${previous.lineNumber}") {
+    var type: String
+    var name: String
+    var preType: String
+    var preLine: String
 
-class UnrecognizedTypeException(line: LineInfo?, type: String)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
-
-    override val isAutoFix: Boolean
-        get() = true
+    init {
+        this.type = current.entityType
+        this.name = current.name
+        this.preType = previous.entityType
+        this.preLine = previous.lineNumber.toString()
+    }
 }

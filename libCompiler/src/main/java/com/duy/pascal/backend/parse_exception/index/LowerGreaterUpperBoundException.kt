@@ -25,7 +25,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException
  *
  * Created by Duy on 14-Apr-17.
  */
-class SubRangeException : ParsingException {
+class LowerGreaterUpperBoundException : ParsingException {
     var low: Int = 0
     var high: Int = 0
     var size: Int = 0

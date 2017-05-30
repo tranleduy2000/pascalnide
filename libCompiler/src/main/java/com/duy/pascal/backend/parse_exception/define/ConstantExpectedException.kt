@@ -16,22 +16,18 @@
 
 package com.duy.pascal.backend.parse_exception.define
 
+import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.ast.NamedEntity
 
-class SameNameException(previous: NamedEntity, current: NamedEntity) :
-        ParsingException(current.lineNumber,
-                "${current.entityType} ${current.name} conflicts with previously defined " +
-                        "${previous.entityType} with the same name defined at ${previous.lineNumber}") {
-    var type: String
+/**
+ * Created by Duy on 30-May-17.
+ */
+
+class ConstantExpectedException : ParsingException {
     var name: String
-    var preType: String
-    var preLine: String
 
-    init {
-        this.type = current.entityType
-        this.name = current.name
-        this.preType = previous.entityType
-        this.preLine = previous.lineNumber.toString()
+    constructor(line: LineInfo, name: String) : super(line) {
+        this.name = name;
     }
+
 }

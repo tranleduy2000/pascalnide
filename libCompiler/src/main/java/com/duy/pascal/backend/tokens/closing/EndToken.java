@@ -2,8 +2,8 @@ package com.duy.pascal.backend.tokens.closing;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.grouping.GroupingExceptionType;
-import com.duy.pascal.backend.parse_exception.grouping.GroupingExceptionType.GroupExceptionType;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException.GroupExceptionType;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
@@ -26,7 +26,7 @@ public class EndToken extends ClosingToken {
                 || t instanceof UnitToken) {
             return null;
         } else {
-            return new GroupingExceptionType(getLineNumber(), GroupExceptionType.EXTRA_END);
+            return new GroupingException(getLineNumber(), GroupExceptionType.EXTRA_END);
         }
     }
 

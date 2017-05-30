@@ -2,7 +2,7 @@
 
 package com.duy.pascal.backend.tokenizer;
 
-import com.duy.pascal.backend.parse_exception.grouping.GroupingExceptionType;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.grouping.StrayCharacterException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
@@ -1085,7 +1085,7 @@ class Lexer {
           break;
         case 36: {
           return new GroupingExceptionToken(getLine(),
-                  GroupingExceptionType.GroupExceptionType.NEWLINE_IN_QUOTES);
+                  GroupingException.GroupExceptionType.NEWLINE_IN_QUOTES);
         }
         case 102:
           break;
@@ -1198,8 +1198,8 @@ class Lexer {
           try {
             addInclude(yytext());
           } catch (FileNotFoundException e) {
-            GroupingExceptionType t = new GroupingExceptionType(getLine(),
-                    GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
+            GroupingException t = new GroupingException(getLine(),
+                    GroupingException.GroupExceptionType.IO_EXCEPTION);
             t.setCaused(e);
             return new GroupingExceptionToken(t);
           }
@@ -1234,7 +1234,7 @@ class Lexer {
           break;
         case 34: {
           return new GroupingExceptionToken(getLine(),
-                  GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
+                  GroupingException.GroupExceptionType.IO_EXCEPTION);
         }
         case 127:
           break;
@@ -1295,7 +1295,7 @@ class Lexer {
         case 138:
           break;
         case 28: {
-          return new GroupingExceptionToken(getLine(), GroupingExceptionType.GroupExceptionType.INCOMPLETE_CHAR);
+          return new GroupingExceptionToken(getLine(), GroupingException.GroupExceptionType.INCOMPLETE_CHAR);
         }
         case 139:
           break;
@@ -1340,7 +1340,7 @@ class Lexer {
         case 147:
           break;
         case 24: {
-          return new GroupingExceptionToken(getLine(), GroupingExceptionType.GroupExceptionType.NEWLINE_IN_QUOTES);
+          return new GroupingExceptionToken(getLine(), GroupingException.GroupExceptionType.NEWLINE_IN_QUOTES);
         }
         case 148:
           break;
@@ -1366,7 +1366,7 @@ class Lexer {
           break;
         case 38: {
           return new GroupingExceptionToken(getLine(),
-                  GroupingExceptionType.GroupExceptionType.MISMATCHED_BRACKETS);
+                  GroupingException.GroupExceptionType.MISMATCHED_BRACKETS);
         }
         case 153:
           break;
@@ -1379,8 +1379,8 @@ class Lexer {
           try {
             addInclude(yytext());
           } catch (FileNotFoundException e) {
-            GroupingExceptionType t = new GroupingExceptionType(getLine(),
-                    GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
+            GroupingException t = new GroupingException(getLine(),
+                    GroupingException.GroupExceptionType.IO_EXCEPTION);
             t.setCaused(e);
             return new GroupingExceptionToken(t);
           }
@@ -1397,8 +1397,8 @@ class Lexer {
           try {
             addInclude(yytext());
           } catch (FileNotFoundException e) {
-            GroupingExceptionType t = new GroupingExceptionType(getLine(),
-                    GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
+            GroupingException t = new GroupingException(getLine(),
+                    GroupingException.GroupExceptionType.IO_EXCEPTION);
             t.setCaused(e);
             return new GroupingExceptionToken(t);
           }
@@ -1503,7 +1503,7 @@ class Lexer {
           break;
         case 31: {
           return new GroupingExceptionToken(getLine(),
-                  GroupingExceptionType.GroupExceptionType.MISSING_INCLUDE);
+                  GroupingException.GroupExceptionType.MISSING_INCLUDE);
         }
         case 177:
           break;

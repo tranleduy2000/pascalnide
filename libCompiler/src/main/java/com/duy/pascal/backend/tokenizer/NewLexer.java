@@ -2,7 +2,7 @@ package com.duy.pascal.backend.tokenizer;
 
 
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
-import com.duy.pascal.backend.parse_exception.grouping.GroupingExceptionType;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
@@ -41,7 +41,7 @@ public class NewLexer {
         }
     }
 
-    private void TossException(LineInfo line, GroupingExceptionType.GroupExceptionType t) {
+    private void TossException(LineInfo line, GroupingException.GroupExceptionType t) {
         GroupingExceptionToken gt = new GroupingExceptionToken(line, t);
         for (GrouperToken g : groupers) {
             g.put(gt);
@@ -70,11 +70,11 @@ public class NewLexer {
                         TossException(g);
                         return;
                     }
-                }
-                if (t instanceof WarningToken) {
-                    // TODO handle warnings...
-                    continue;
-                }
+                         }
+            if (t instanceof WarningToken) {
+                // TODO handle warnings...
+                continue;
+            }
 
                 // Everything else passes through normally.
                 topOfStack.put(t);
@@ -82,8 +82,8 @@ public class NewLexer {
                     groupers.push((GrouperToken) t);
                 }
             } catch (IOException e) {
-                GroupingExceptionType g = new GroupingExceptionType(topOfStack.getLineNumber(),
-                        GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
+                GroupingException g = new GroupingException(topOfStack.getLineNumber(),
+                        GroupingException.GroupExceptionType.IO_EXCEPTION);
                 g.setCaused(e);
                 TossException(g);
                 e.printStackTrace();

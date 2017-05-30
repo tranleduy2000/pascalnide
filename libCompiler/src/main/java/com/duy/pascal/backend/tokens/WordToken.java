@@ -3,7 +3,7 @@ package com.duy.pascal.backend.tokens;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -53,7 +53,7 @@ public class WordToken extends Token {
     }
 
     public DeclaredType toBasicType(ExpressionContext context)
-            throws UnrecognizedTypeException {
+            throws TypeIdentifierExpectException {
         DeclaredType returnType = null;
         String name = this.name.toLowerCase().intern();
         if (name.equalsIgnoreCase("integer")
@@ -122,7 +122,7 @@ public class WordToken extends Token {
                 if (returnType == null) {
                     Object constVal = context.getConstantDefinition(name);
                     if (constVal == null) {
-                        throw new UnrecognizedTypeException(mLineNumber, name);
+                        throw new TypeIdentifierExpectException(mLineNumber, name);
                     }
                     returnType = BasicType.create(constVal.getClass());
                 }

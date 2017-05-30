@@ -30,8 +30,8 @@ import android.widget.Toast;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.parse_exception.define.NoSuchFunctionOrVariableException;
-import com.duy.pascal.backend.parse_exception.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
@@ -147,10 +147,10 @@ public class EditorFragment extends Fragment implements EditorListener {
     }
 
     public void autoFix(ParsingException e) {
-        if (e instanceof UnrecognizedTypeException) {
-            mCodeEditor.getAutoFixError().autoFixMissingType((UnrecognizedTypeException) e);
-        } else if (e instanceof NoSuchFunctionOrVariableException) {
-            mCodeEditor.getAutoFixError().autoFixMissingDefine((NoSuchFunctionOrVariableException) e);
+        if (e instanceof TypeIdentifierExpectException) {
+            mCodeEditor.getAutoFixError().autoFixMissingType((TypeIdentifierExpectException) e);
+        } else if (e instanceof UnknownIdentifierException) {
+            mCodeEditor.getAutoFixError().autoFixMissingDefine((UnknownIdentifierException) e);
         } else if (e instanceof UnConvertibleTypeException) {
             mCodeEditor.getAutoFixError().autoFixUnConvertType((UnConvertibleTypeException) e);
         } else if (e instanceof MissingTokenException) {

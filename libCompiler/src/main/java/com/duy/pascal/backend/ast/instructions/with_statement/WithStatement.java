@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.CustomType;
@@ -95,7 +95,7 @@ public class WithStatement {
                 String name = ((WordToken) next).name;
                 VariableDeclaration variable = parent.getVariableDefinition(name);
                 if (variable == null) {
-                    throw new NoSuchFunctionOrVariableException(line, name);
+                    throw new UnknownIdentifierException(line, name);
                 }
                 list.add(variable);
                 if (!(grouperToken.peek() instanceof DoToken)) {

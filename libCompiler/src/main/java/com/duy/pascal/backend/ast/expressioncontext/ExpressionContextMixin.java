@@ -19,9 +19,9 @@ import com.duy.pascal.backend.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.backend.javaunderpascal.classpath.JavaClassLoader;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
-import com.duy.pascal.backend.parse_exception.define.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
-import com.duy.pascal.backend.parse_exception.define.SameNameException;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
 import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.WrongIfElseStatement;
@@ -206,22 +206,22 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         }
 
         if (parent == null) {
-            throw new NoSuchFunctionOrVariableException(name.getLineNumber(), name.getName());
+            throw new UnknownIdentifierException(name.getLineNumber(), name.getName());
         }
         return parent.getIdentifierValue(name);
     }
 
     public void verifyNonConflictingSymbolLocal(NamedEntity namedEntity)
-            throws SameNameException {
+            throws DuplicateIdentifierException {
         String name = namedEntity.getName();
         if (functionExistsLocal(name)) {
-            throw new SameNameException(getCallableFunctionsLocal(namedEntity.getName()).get(0), namedEntity);
+            throw new DuplicateIdentifierException(getCallableFunctionsLocal(namedEntity.getName()).get(0), namedEntity);
         } else if (getVariableDefinitionLocal(name) != null) {
-            throw new SameNameException(getVariableDefinitionLocal(name), namedEntity);
+            throw new DuplicateIdentifierException(getVariableDefinitionLocal(name), namedEntity);
         } else if (getConstantDefinitionLocal(name) != null) {
-            throw new SameNameException(getConstantDefinitionLocal(name), namedEntity);
+            throw new DuplicateIdentifierException(getConstantDefinitionLocal(name), namedEntity);
         } else if (getTypedefTypeLocal(name) != null) {
-            throw new SameNameException(getTypedefTypeLocal(name), namedEntity);
+            throw new DuplicateIdentifierException(getTypedefTypeLocal(name), namedEntity);
         }
     }
 

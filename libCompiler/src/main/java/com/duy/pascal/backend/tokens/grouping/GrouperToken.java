@@ -36,7 +36,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.parse_exception.define.MethodNotFoundException;
-import com.duy.pascal.backend.parse_exception.define.SameNameException;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
 import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
@@ -833,11 +833,11 @@ public abstract class GrouperToken extends Token {
      * check duplicate declare variable
      */
     private void verifyNonConflictingSymbol(ExpressionContext context, List<VariableDeclaration> result,
-                                            VariableDeclaration var) throws SameNameException {
+                                            VariableDeclaration var) throws DuplicateIdentifierException {
         for (VariableDeclaration variableDeclaration : result) {
             context.verifyNonConflictingSymbol(var);
             if (variableDeclaration.getName().equalsIgnoreCase(var.getName())) {
-                throw new SameNameException(variableDeclaration, var);
+                throw new DuplicateIdentifierException(variableDeclaration, var);
             }
         }
     }

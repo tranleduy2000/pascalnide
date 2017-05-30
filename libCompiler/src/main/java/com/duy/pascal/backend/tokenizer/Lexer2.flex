@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.tokenizer;
 
-import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
+import com.duy.pascal.backend.exceptions.grouping.GroupingException;
 import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -304,11 +304,11 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"''"	{literal.append('\'');}
 	"'"		{yybegin(STRINGDONE);}
 	[^'\n\r]* {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(), GroupingExceptionType.GroupExceptionType.NEWLINE_IN_QUOTES);}
+	[\n\r]	{return new GroupingExceptionToken(getLine(), GroupingException.GroupExceptionType.NEWLINE_IN_QUOTES);}
 }
 <STRINGPOUND> {
 	{Integer} {literal.append((char)Integer.parseInt(yytext())); yybegin(STRINGDONE);}
-	.|\n      { return new GroupingExceptionToken(getLine(), GroupingExceptionType.GroupExceptionType.INCOMPLETE_CHAR);}
+	.|\n      { return new GroupingExceptionToken(getLine(), GroupingException.GroupExceptionType.INCOMPLETE_CHAR);}
 	
 }
 <STRINGDONE> {
@@ -339,15 +339,15 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		GroupingExceptionType t = new GroupingExceptionType(getLine(),
-    		     GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
+    		GroupingException t = new GroupingException(getLine(),
+    		     GroupingException.GroupExceptionType.IO_EXCEPTION);
 			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     }
     .|\n {return new GroupingExceptionToken(getLine(),
-                GroupingExceptionType.GroupExceptionType.MISSING_INCLUDE);}
+                GroupingException.GroupExceptionType.MISSING_INCLUDE);}
 }
 
 <INCLUDE_SNGL_QUOTE> {
@@ -356,8 +356,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		GroupingExceptionType t = new GroupingExceptionType(getLine(),
-    		    GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
+    		GroupingException t = new GroupingException(getLine(),
+    		    GroupingException.GroupExceptionType.IO_EXCEPTION);
 			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
@@ -365,7 +365,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     }
 	[^\n\r]+ {literal.append(yytext());}
 	[\n\r]	{return new GroupingExceptionToken(getLine(),
-	        GroupingExceptionType.GroupExceptionType.NEWLINE_IN_QUOTES);}
+	        GroupingException.GroupExceptionType.NEWLINE_IN_QUOTES);}
 }
 <INCLUDE_DBL_QUOTE> {
 	"\"\""	{literal.append('\"');}
@@ -373,8 +373,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	try {
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
-    		GroupingExceptionType t = new GroupingExceptionType(getLine(),
-    		        GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);
+    		GroupingException t = new GroupingException(getLine(),
+    		        GroupingException.GroupExceptionType.IO_EXCEPTION);
 			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
@@ -382,13 +382,13 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	}
 	[^\n\r]+ {literal.append(yytext());}
 	[\n\r]	{return new GroupingExceptionToken(getLine(),
-	        GroupingExceptionType.GroupExceptionType.IO_EXCEPTION);}
+	        GroupingException.GroupExceptionType.IO_EXCEPTION);}
 }
 
 <END_INCLUDE> {
 	{RestOfComment}	{yybegin(YYINITIAL); commitInclude(); }
 	.|\n {return new GroupingExceptionToken(getLine(),
-				GroupingExceptionType.GroupExceptionType.MISMATCHED_BRACKETS);}
+				GroupingException.GroupExceptionType.MISMATCHED_BRACKETS);}
 }
 
 /* error fallback */

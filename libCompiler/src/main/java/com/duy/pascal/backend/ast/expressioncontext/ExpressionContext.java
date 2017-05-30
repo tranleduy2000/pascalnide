@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.ast.expressioncontext;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.SameNameException;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
 import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.tokens.Token;
@@ -21,7 +21,7 @@ public interface ExpressionContext extends CompileTimeContext {
     RuntimeValue getIdentifierValue(WordToken name)
             throws ParsingException;
 
-    void verifyNonConflictingSymbol(NamedEntity n) throws SameNameException;
+    void verifyNonConflictingSymbol(NamedEntity n) throws DuplicateIdentifierException;
 
     VariableDeclaration getVariableDefinition(String ident);
 
