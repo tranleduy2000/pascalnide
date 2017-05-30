@@ -136,7 +136,8 @@ public class IndentCodeTest extends TestCase {
                 Thread.sleep(10);
             }
         }
-    } public void testAll3() throws InterruptedException {
+    }
+    public void testAll3() throws InterruptedException {
         File parent = new File("C:\\github\\pascalnide\\test_pascal\\data");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
@@ -153,6 +154,7 @@ public class IndentCodeTest extends TestCase {
             }
         }
     }
+
 
     public void atestAll() throws IOException, InterruptedException {
         File parent = new File(dir);
