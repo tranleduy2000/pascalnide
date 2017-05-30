@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.pascaltypes;
 
-import com.js.interpreter.VariableDeclaration;
+import com.duy.pascal.backend.ast.VariableDeclaration;
 
 public class RecordType extends CustomType {
     @Override

@@ -16,17 +16,17 @@
 
 package com.duy.pascal.backend.pascaltypes.rangetype;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
-import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
 import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
-import com.duy.pascal.backend.runtime.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 
 /**
  * Created by Duy on 25-May-17.

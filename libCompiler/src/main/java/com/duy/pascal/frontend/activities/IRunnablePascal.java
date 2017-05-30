@@ -20,12 +20,12 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.debugable.DebugListener;
-import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
-import com.duy.pascal.backend.lib.io.IOLib;
-import com.duy.pascal.backend.lib.io.InOutListener;
+import com.duy.pascal.backend.ast.FunctionDeclaration;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
+import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.js.interpreter.VariableDeclaration;
+import com.duy.pascal.backend.ast.VariableDeclaration;
 
 /**
  * Created by Duy on 29-May-17.

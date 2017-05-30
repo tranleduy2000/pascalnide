@@ -2,14 +2,14 @@ package com.duy.pascal.backend.tokens;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.define.UnrecognizedTypeException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
-import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 
 
 public class WordToken extends Token {

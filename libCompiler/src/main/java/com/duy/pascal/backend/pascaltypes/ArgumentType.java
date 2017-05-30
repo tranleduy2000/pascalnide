@@ -1,9 +1,9 @@
 package com.duy.pascal.backend.pascaltypes;
 
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 
 import java.util.Iterator;
 

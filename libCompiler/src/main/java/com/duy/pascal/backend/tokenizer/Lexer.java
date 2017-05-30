@@ -2,8 +2,8 @@
 
 package com.duy.pascal.backend.tokenizer;
 
-import com.duy.pascal.backend.exceptions.grouping.GroupingExceptionType;
-import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingExceptionType;
+import com.duy.pascal.backend.parse_exception.grouping.StrayCharacterException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.OperatorTypes;
 import com.duy.pascal.backend.tokens.CommentToken;
@@ -61,7 +61,7 @@ import com.duy.pascal.backend.tokens.value.CharacterToken;
 import com.duy.pascal.backend.tokens.value.DoubleToken;
 import com.duy.pascal.backend.tokens.value.IntegerToken;
 import com.duy.pascal.backend.tokens.value.StringToken;
-import com.js.interpreter.source_include.ScriptSource;
+import com.duy.pascal.backend.source_include.ScriptSource;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;

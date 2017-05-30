@@ -18,7 +18,7 @@ package com.duy.pascal
 
 import android.app.Application
 
-import com.duy.pascal.backend.lib.android.activity.PascalActivityTaskExecutor
+import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor
 
 /**
  * Created by Duy on 12-Mar-17.

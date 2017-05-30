@@ -19,10 +19,10 @@ package com.googlecode.sl4a.rpc;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.duy.pascal.backend.lib.AndroidLibraryUtils;
-import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.duy.pascal.backend.lib.annotations.PascalParameter;
+import com.duy.pascal.backend.builtin_libraries.AndroidLibraryUtils;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
 
 import org.json.JSONArray;

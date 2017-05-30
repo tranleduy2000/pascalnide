@@ -3,14 +3,14 @@ package com.duy.pascal.backend.pascaltypes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.boxing.CharacterBoxer;
-import com.duy.pascal.backend.runtime.value.boxing.StringBuilderBoxer;
-import com.duy.pascal.backend.runtime.value.cloning.CloneableObjectCloner;
-import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBuilderBoxer;
+import com.duy.pascal.backend.ast.runtime_value.value.cloning.CloneableObjectCloner;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 
 public class JavaClassBasedType extends InfoType {
 

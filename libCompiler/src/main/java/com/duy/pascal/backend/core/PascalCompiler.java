@@ -1,14 +1,14 @@
 package com.duy.pascal.backend.core;
 
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.function_declaretion.AbstractFunction;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.js.interpreter.codeunit.library.UnitPascal;
-import com.js.interpreter.codeunit.program.PascalProgram;
-import com.js.interpreter.source_include.ScriptSource;
+import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
+import com.duy.pascal.backend.source_include.ScriptSource;
 
 import java.io.Reader;
 import java.util.List;

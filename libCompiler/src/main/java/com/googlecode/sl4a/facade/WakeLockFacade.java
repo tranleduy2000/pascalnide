@@ -20,10 +20,10 @@ import android.content.Context;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
-import com.duy.pascal.backend.lib.PascalLibrary;
-import com.duy.pascal.backend.lib.android.AndroidLibraryManager;
-import com.duy.pascal.backend.lib.annotations.PascalMethod;
-import com.js.interpreter.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
+import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.HashMap;
 import java.util.Map;

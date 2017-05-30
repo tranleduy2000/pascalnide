@@ -1,11 +1,11 @@
 package com.duy.pascal.backend.debugable;
 
-import com.js.interpreter.instructions.Executable;
-import com.js.interpreter.instructions.ExecutionResult;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.exception.UnhandledPascalException;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.instructions.ExecutionResult;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
 
 public abstract class DebuggableExecutable implements Executable {
 

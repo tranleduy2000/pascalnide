@@ -19,19 +19,19 @@ package com.duy.pascal;
 import android.content.Context;
 
 import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.function_declaretion.FunctionDeclaration;
-import com.duy.pascal.backend.lib.io.IOLib;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.ast.FunctionDeclaration;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.js.interpreter.VariableDeclaration;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.js.interpreter.codeunit.program.PascalProgram;
-import com.js.interpreter.source_include.FileScriptSource;
-import com.js.interpreter.source_include.ScriptSource;
+import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
+import com.duy.pascal.backend.source_include.FileScriptSource;
+import com.duy.pascal.backend.source_include.ScriptSource;
 
 import java.io.File;
 import java.io.FileInputStream;

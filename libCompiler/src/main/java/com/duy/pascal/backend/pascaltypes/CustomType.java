@@ -2,13 +2,13 @@ package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
-import com.js.interpreter.VariableDeclaration;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.variables.CustomVariable;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.cloning.CloneableObjectCloner;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.cloning.CloneableObjectCloner;
 
 import java.util.ArrayList;
 

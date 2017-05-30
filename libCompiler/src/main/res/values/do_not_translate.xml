@@ -15,6 +15,8 @@
   -->
 
 <resources>
+    <string name="pascal_nide" translatable="false">Pascal N-IDE</string>
+
     <string name="key_pref_word_wrap" translatable="false">pref_word_wrap</string>
     <string name="key_show_line_number" translatable="false">pref_show_line_number</string>
     <string name="key_pref_font_size" translatable="false">key_pref_font_size</string>
@@ -34,6 +36,7 @@
         <item>Čeština</item>
         <item>Slovenčina</item>
         <item>Română</item>
+        <item>Chinese simplified</item>
     </string-array>
 
     <string-array name="language_code" translatable="false">
@@ -44,7 +47,7 @@
         <item>es</item>
         <item>cs</item>
         <item>sk</item>
-        <item>ro</item>
+        <item>zh-rCN</item>
     </string-array>
 
     <string-array name="fonts_arr" translatable="false">

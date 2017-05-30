@@ -2,12 +2,12 @@ package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.NamedEntity;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
+import com.duy.pascal.backend.ast.NamedEntity;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 
 public interface DeclaredType extends NamedEntity {
 

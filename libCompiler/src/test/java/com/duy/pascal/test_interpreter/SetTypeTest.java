@@ -27,15 +27,13 @@ public class SetTypeTest extends BaseTestCase {
         return "test_set";
     }
 
+    public void testAccess() {
+        run("test_access.pas");
+    }
+
     public void testSetOperate() {
         run("test_set_operate.pas");
     }
 
-    public void test1() {
-        run("test1.pas");
-    }
 
-    public void test2() {
-        run("test2.pas");
-    }
 }

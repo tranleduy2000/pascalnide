@@ -1,13 +1,13 @@
 package com.duy.pascal.backend.debugable;
 
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.value.AssignableValue;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.references.Reference;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.exception.UnhandledPascalException;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
 
 public abstract class DebuggableAssignableValue implements AssignableValue {
     protected RuntimeValue[] outputFormat;

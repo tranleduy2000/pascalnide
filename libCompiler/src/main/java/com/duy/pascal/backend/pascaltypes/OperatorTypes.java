@@ -16,8 +16,8 @@
 
 package com.duy.pascal.backend.pascaltypes;
 
-import com.duy.pascal.backend.exceptions.operator.BadOperationTypeException;
-import com.duy.pascal.backend.exceptions.operator.OperationNotSupportedException;
+import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
+import com.duy.pascal.backend.parse_exception.operator.OperationNotSupportedException;
 import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.set.SetType;
 import com.duy.pascal.backend.tokens.Token.precedence;

@@ -23,7 +23,7 @@ package com.duy.pascal.test_interpreter;
 public class StringTest extends BaseTestCase {
 
     public void test1() {
-        run("test1.pas");
+        run("testAccess.pas");
     }
 
     public void test2() {

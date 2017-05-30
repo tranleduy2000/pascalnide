@@ -28,17 +28,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.exceptions.define.NoSuchFunctionOrVariableException;
-import com.duy.pascal.backend.exceptions.define.UnrecognizedTypeException;
-import com.duy.pascal.backend.exceptions.missing.MissingTokenException;
-import com.duy.pascal.backend.exceptions.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.exceptions.value.ChangeValueConstantException;
-import com.duy.pascal.backend.lib.PascalLibraryManager;
-import com.duy.pascal.backend.lib.SystemLib;
-import com.duy.pascal.backend.lib.file.FileLib;
-import com.duy.pascal.backend.lib.io.IOLib;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.parse_exception.define.NoSuchFunctionOrVariableException;
+import com.duy.pascal.backend.parse_exception.define.UnrecognizedTypeException;
+import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
+import com.duy.pascal.backend.builtin_libraries.PascalLibraryManager;
+import com.duy.pascal.backend.builtin_libraries.SystemLibrary;
+import com.duy.pascal.backend.builtin_libraries.file.FileLib;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokenizer.IndentCode;
 import com.duy.pascal.frontend.EditorControl;
@@ -111,7 +111,7 @@ public class EditorFragment extends Fragment implements EditorListener {
                 }
             });
         }
-        ArrayList<InfoItem> items = PascalLibraryManager.getAllMethodDescription(SystemLib.class, IOLib.class, FileLib.class);
+        ArrayList<InfoItem> items = PascalLibraryManager.getAllMethodDescription(SystemLibrary.class, IOLib.class, FileLib.class);
         for (String s : KeyWord.ALL_KEY_WORD) {
             items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));
         }

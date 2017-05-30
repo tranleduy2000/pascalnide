@@ -18,10 +18,10 @@ package com.duy.pascal.backend.pascaltypes.rangetype;
 
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 /**
  * Created by Duy on 25-May-17.

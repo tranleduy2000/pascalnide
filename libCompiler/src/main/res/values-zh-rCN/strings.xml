@@ -166,7 +166,6 @@
     <string name="stack_size_desc">运行程序时的最大堆栈大小。在某些设备上，此参数不生效。默认值为40000。最小值为5000。</string>
     <string name="stack_size">堆栈大小</string>
     <string name="copied">已复制</string>
-    <string name="pascal_nide" translatable="false">Pascal N-IDE</string>
     <string name="theme_font">代码主题和字体</string>
     <string name="do_you_want_to_create_your_theme">您是否要创建你的专属主题？</string>
     <string name="get_pro_version">获取专业版</string>

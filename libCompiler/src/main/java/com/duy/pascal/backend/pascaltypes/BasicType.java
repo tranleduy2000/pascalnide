@@ -2,19 +2,19 @@ package com.duy.pascal.backend.pascaltypes;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.type_converter.StringLimitBoxer;
-import com.duy.pascal.backend.pascaltypes.type_converter.TypeConverter;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.StringIndex;
-import com.duy.pascal.backend.runtime.value.boxing.CharacterBoxer;
-import com.duy.pascal.backend.runtime.value.boxing.StringBoxer;
-import com.duy.pascal.backend.runtime.value.boxing.StringBuilderBoxer;
-import com.duy.pascal.backend.runtime.value.cloning.StringBuilderCloner;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.ncsa.common.util.TypeUtils;
+import com.duy.pascal.backend.pascaltypes.converter.StringLimitBoxer;
+import com.duy.pascal.backend.pascaltypes.converter.TypeConverter;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.StringIndex;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBoxer;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBuilderBoxer;
+import com.duy.pascal.backend.ast.runtime_value.value.cloning.StringBuilderCloner;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.pascaltypes.util.TypeUtils;
 
 import java.io.File;
 

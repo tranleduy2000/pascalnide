@@ -1,16 +1,16 @@
 package com.duy.pascal.backend.debugable;
 
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.value.ConstantAccess;
-import com.duy.pascal.backend.runtime.value.AssignableValue;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.boxing.ArrayBoxer;
-import com.duy.pascal.backend.runtime.value.boxing.CharacterBoxer;
-import com.duy.pascal.backend.runtime.value.boxing.StringBuilderBoxer;
-import com.duy.pascal.backend.runtime.VariableContext;
-import com.js.interpreter.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime.exception.UnhandledPascalException;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBuilderBoxer;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
 
 public abstract class DebuggableReturnValue implements RuntimeValue {
 

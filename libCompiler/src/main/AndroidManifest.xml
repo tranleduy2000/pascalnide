@@ -102,16 +102,16 @@
             android:name="com.duy.pascal.frontend.activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.duy.pascal.backend.lib.android.activity.PascalActivity" />
+        <activity android:name="com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivity" />
         <activity android:name="com.duy.pascal.frontend.code_sample.SearchResultSampleActivity" />
 
         <!--Scan bar code activity-->
         <activity
-            android:name="com.duy.pascal.backend.lib.android.barcode.ZxingActivity"
+            android:name="com.duy.pascal.backend.builtin_libraries.android.barcode.ZxingActivity"
             android:label="@string/title_activity_zxing" />
 
         <activity
-            android:name="com.duy.pascal.backend.lib.android.barcode.ScannerActivity"
+            android:name="com.duy.pascal.backend.builtin_libraries.android.barcode.ScannerActivity"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
 

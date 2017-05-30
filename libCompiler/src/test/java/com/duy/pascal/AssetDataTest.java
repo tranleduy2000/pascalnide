@@ -16,8 +16,8 @@
 
 package com.duy.pascal;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.runtime.exception.RuntimePascalException;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.frontend.DLog;
 
 import junit.framework.TestCase;

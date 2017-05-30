@@ -1,10 +1,10 @@
 package com.duy.pascal.backend.pascaltypes;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.js.interpreter.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.boxing.ArrayBoxer;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
 
 import java.util.ArrayList;
 import java.util.Iterator;

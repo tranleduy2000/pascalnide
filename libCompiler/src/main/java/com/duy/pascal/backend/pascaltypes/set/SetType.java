@@ -18,15 +18,15 @@ package com.duy.pascal.backend.pascaltypes.set;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.exceptions.ParsingException;
-import com.duy.pascal.backend.exceptions.index.NonArrayIndexed;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.runtime.value.RuntimeValue;
-import com.duy.pascal.backend.runtime.value.SetIndexAccess;
-import com.duy.pascal.backend.runtime.value.cloning.SetCloner;
-import com.js.interpreter.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.SetIndexAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.cloning.SetCloner;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 
 import java.util.LinkedList;
 

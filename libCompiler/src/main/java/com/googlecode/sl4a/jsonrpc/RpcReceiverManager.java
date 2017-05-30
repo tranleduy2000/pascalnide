@@ -16,7 +16,7 @@
 
 package com.googlecode.sl4a.jsonrpc;
 
-import com.duy.pascal.backend.lib.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 
