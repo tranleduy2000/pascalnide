@@ -21,8 +21,13 @@ package com.duy.pascal.test;
  */
 
 public class StringTest extends BaseTestCase {
-    public void testAll() {
-        super.runAll();
+
+    public void test1() {
+        run("test1.pas");
+    }
+
+    public void test2() {
+        run("test2.pas");
     }
 
     @Override

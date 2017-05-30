@@ -41,4 +41,8 @@ public class FileTest extends BaseTestCase {
     public void testTextFile() {
         run("test_text_file.pas");
     }
+
+    public void testAppend() {
+        run("test_append.pas");
+    }
 }

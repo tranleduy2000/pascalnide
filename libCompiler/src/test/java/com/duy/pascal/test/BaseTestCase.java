@@ -47,7 +47,7 @@ abstract class BaseTestCase extends TestCase {
     /**
      * run a pascal file
      *
-     * @param file - path of program file
+     * @param file - dir of program file
      */
     protected void run(String file) {
         try {
@@ -62,8 +62,8 @@ abstract class BaseTestCase extends TestCase {
     /**
      * run a pascal file
      *
-     * @param file - path of program file
-     * @param in   - path of input file for read input if need
+     * @param file - dir of program file
+     * @param in   - dir of input file for read input if need
      */
     protected void run(String file, String in) {
         try {

@@ -137,12 +137,12 @@
     </string-array>
 
     <string name="default_theme" translatable="false">DPascal</string>
-    <string name="BrightYellow">Bright Yellow</string>
-    <string name="DarkGray">Dark Gray</string>
-    <string name="EspressoLibre">Espresso Libre</string>
-    <string name="Idel">Idel</string>
-    <string name="KFT2">KFT2</string>
-    <string name="Modnokai_Coffee">Modnokai Coffee</string>
+    <string name="BrightYellow" translatable="false">Bright Yellow</string>
+    <string name="DarkGray" translatable="false">Dark Gray</string>
+    <string name="EspressoLibre" translatable="false">Espresso Libre</string>
+    <string name="Idel" translatable="false">Idel</string>
+    <string name="KFT2" translatable="false">KFT2</string>
+    <string name="Modnokai_Coffee" translatable="false">Modnokai Coffee</string>
 
     <color name="color.key_word_color">#60d9f1</color>
     <color name="color.comment_color">#766c4a</color>

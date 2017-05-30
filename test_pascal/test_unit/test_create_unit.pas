@@ -1,11 +1,10 @@
 program AreaCalculation;
-uses CalculateArea,crt;
+uses CalculateArea;
 
 var
     l, w, r, a, b, c, area: real;
 
 begin
-    clrscr;
     l := 5.4;
     w := 4.7;
     area := RectangleArea(l, w);

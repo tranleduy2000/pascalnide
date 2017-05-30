@@ -107,12 +107,12 @@
     <string name="word_wrap">Перенос содержимого</string>
     <string name="word_wrap_desc">Авто перенос на новую строку при переполнении</string>
     <string name="writeable">"Запись: "</string>
-    <string name="BrightYellow">Ярко-жёлтый</string>
-    <string name="DarkGray">Тёмно-зелёный</string>
-    <string name="EspressoLibre">Кофе</string>
-    <string name="Idel">Idel</string>
-    <string name="KFT2">KFT2</string>
-    <string name="Modnokai_Coffee">Кофе моднокай</string>
+    <!--  <string name="BrightYellow">Ярко-жёлтый</string>
+      <string name="DarkGray">Тёмно-зелёный</string>
+      <string name="EspressoLibre">Кофе</string>
+      <string name="Idel">Idel</string>
+      <string name="KFT2">KFT2</string>-->
+    <!--<string name="Modnokai_Coffee">Кофе моднокай</string>-->
     <string name="more_feature">Открыть меню</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="navigation_drawer_open">Открыть навигацию</string>
@@ -184,4 +184,7 @@
     <string name="declare_constant">Объявить константу</string>
     <string name="auto_fix">Автоисправление</string>
     <string name="can_not_exec_unit">Can not executing unit</string>
+    <string name="select_mode">Select mode</string>
+    <string name="select_token">Select mode</string>
+    <string name="insert">Insert</string>
 </resources>

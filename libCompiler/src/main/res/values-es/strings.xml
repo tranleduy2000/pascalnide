@@ -128,12 +128,12 @@
     <string name="file_exist">Ese archivo ya existe, por favor introduzca otro nombre!</string>
     <string name="send_mail">Enviar correo…</string>
     <string name="no_mail_clients">No existen clientes de email instalados.</string>
-    <string name="KFT2">KFT2</string>
-    <string name="Idel">Idel</string>
-    <string name="EspressoLibre">Espresso Libre</string>
-    <string name="DarkGray">Dark Gray</string>
-    <string name="BrightYellow">Bright Yellow</string>
-    <string name="Modnokai_Coffee">Modnokai Coffee</string>
+    <!--<string name="KFT2">KFT2</string>-->
+    <!--<string name="Idel">Idel</string>-->
+    <!--<string name="EspressoLibre">Espresso Libre</string>-->
+    <!--<string name="DarkGray">Dark Gray</string>-->
+    <!--<string name="BrightYellow">Bright Yellow</string>-->
+    <!--<string name="Modnokai_Coffee">Modnokai Coffee</string>-->
     <string name="other">Otro</string>
 
     <string name="your_language">Tu idioma</string>
@@ -186,6 +186,9 @@
     <string name="declare_constant">Declare constant</string>
     <string name="auto_fix">Auto fix</string>
     <string name="can_not_exec_unit">Can not executing unit</string>
+    <string name="select_mode">Select mode</string>
+    <string name="select_token">Select mode</string>
+    <string name="insert">Insert</string>
 </resources>
 
 

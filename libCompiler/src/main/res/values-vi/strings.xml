@@ -106,12 +106,12 @@
     <string name="rerun">Chạy lại chương trình</string>
     <string name="resume_program">Tiếp tục chương trình</string>
     <string name="send_to_me">Gửi  đến nhà phát triển</string>
-    <string name="BrightYellow">Vàng sáng</string>
-    <string name="DarkGray">Đen xám</string>
-    <string name="EspressoLibre">Espresso Libre</string>
-    <string name="Idel">Idel</string>
-    <string name="KFT2">KFT2</string>
-    <string name="Modnokai_Coffee">Modnokai Coffee</string>
+    <!--<string name="BrightYellow">Vàng sáng</string>-->
+    <!--<string name="DarkGray">Đen xám</string>-->
+    <!--<string name="EspressoLibre">Espresso Libre</string>-->
+    <!--<string name="Idel">Idel</string>-->
+    <!--<string name="KFT2">KFT2</string>-->
+    <!--<string name="Modnokai_Coffee">Modnokai Coffee</string>-->
     <string name="more_feature">Mở ngăn kéo</string>
     <string name="navigation_drawer_close">CLose navigation</string>
     <string name="navigation_drawer_open">Open navigation</string>
@@ -183,4 +183,7 @@
     <string name="declare_constant">Khai báo hằng</string>
     <string name="auto_fix">Auto fix</string>
     <string name="can_not_exec_unit">Can not executing unit</string>
+    <string name="insert">Insert</string>
+    <string name="select_mode">Select mode</string>
+    <string name="select_token">Select mode</string>
 </resources>

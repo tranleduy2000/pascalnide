@@ -83,6 +83,7 @@ class FileEntry {
             f.createNewFile();
         }
         mWriter = new BufferedWriter(new FileWriter(f));
+        setOpened(true);
     }
 
     /**
