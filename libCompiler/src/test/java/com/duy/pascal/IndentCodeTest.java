@@ -155,6 +155,9 @@ public class IndentCodeTest extends TestCase {
         }
     }
 
+    public void test5() {
+        run("C:\\github\\pascalnide\\test_pascal\\autofix\\grouping\\missing_end.pas");
+    }
 
     public void atestAll() throws IOException, InterruptedException {
         File parent = new File(dir);
@@ -169,7 +172,12 @@ public class IndentCodeTest extends TestCase {
     public void run(String fileName) {
         IndentCode indentCode = null;
         try {
-            indentCode = new IndentCode(new FileReader(new File(dir, fileName)));
+            File file = new File(fileName);
+            if (file.exists()) {
+                indentCode = new IndentCode(new FileReader(fileName));
+            } else {
+                indentCode = new IndentCode(new FileReader(new File(dir, fileName)));
+            }
         } catch (IOException e) {
             e.printStackTrace();
             assertTrue(false);
