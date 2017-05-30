@@ -14,34 +14,35 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test;
+package com.duy.pascal.test_interpreter;
+
+import java.io.File;
+
+import static com.duy.pascal.Compiler.runProgram;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class VariableScopeTest extends BaseTestCase {
+public class FunctionTest extends BaseTestCase {
 
-    public void testLocal() {
-        run("test_local.pas");
-    }
-
-    public void testLocal1() {
-        run("test_local1.pas");
-    }
-
-    public void testGobal() {
-        run("test_gobal.pas");
-    }
-
-    public void testGobal1() {
-        run("test_gobal1.pas");
+    public void testAllFunction() throws Exception {
+        File parent = new File(dir);
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                try {
+                    runProgram(file.getPath());
+                    assertTrue(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    assertTrue(false);
+                }
+            }
+        }
     }
 
     @Override
     public String getDirTest() {
-        return "test_scope";
+        return "test_function";
     }
-
-
 }

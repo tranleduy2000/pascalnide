@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test;
+package com.duy.pascal.test_interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class UnitTest extends BaseTestCase {
+public class RecordTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_unit";
+        return "test_record";
     }
 
-    public void testCustomUnit() {
-        run("test_create_unit.pas");
+    public void testAccess() {
+        run("test_access_field.pas");
     }
+
+    public void testParseRecordInFun() {
+        run("test_record_function.pas");
+    }
+
+    public void testRecordPointer() {
+        run("test_record_pointer.pas");
+    }
+
 }

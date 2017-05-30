@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test;
+package com.duy.pascal.test_interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class ConstTest extends BaseTestCase {
+public class BooleanTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_const";
+        return "test_boolean";
     }
 
     public void testAll() {
-        runAll();
+        super.runAll();
     }
 }

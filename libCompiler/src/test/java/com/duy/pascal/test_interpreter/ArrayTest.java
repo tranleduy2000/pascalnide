@@ -14,26 +14,35 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test;
-
-import static com.duy.pascal.Compiler.runProgram;
+package com.duy.pascal.test_interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class Debug {
-
-    public static void main(String[] args) {
-        testIndexEnum();
+public class ArrayTest extends BaseTestCase {
+    @Override
+    public String getDirTest() {
+        return "test_array";
     }
 
-    public static void testIndexEnum() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void testAccess() {
+        run("test_index_access.pas");
     }
 
+    public void testDynamic() {
+        run("test_dynamic_array.pas");
+    }
+
+    public void testMultiDimenArray() {
+        run("test_multi_dimensional_array.pas");
+    }
+
+    public void testPacked() {
+        run("test_packed_array.pas");
+    }
+
+    public void testParseArrayInFun() {
+        run("test_parse_array_in_function.pas");
+    }
 }

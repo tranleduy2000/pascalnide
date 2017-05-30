@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test;
+package com.duy.pascal.test_interpreter;
+
+import static com.duy.pascal.Compiler.runProgram;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class ScopeTest extends BaseTestCase {
+public class Debug {
 
-    @Override
-    public String getDirTest() {
-        return "test_scope";
+    public static void main(String[] args) {
+        testIndexEnum();
     }
 
-    public void testAll() {
-        runAll();
+    public static void testIndexEnum() {
+        try {
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }

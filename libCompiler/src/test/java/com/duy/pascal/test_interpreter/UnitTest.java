@@ -14,35 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test;
+package com.duy.pascal.test_interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class ArrayTest extends BaseTestCase {
+public class UnitTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_array";
+        return "test_unit";
     }
 
-    public void testAccess() {
-        run("test_index_access.pas");
-    }
-
-    public void testDynamic() {
-        run("test_dynamic_array.pas");
-    }
-
-    public void testMultiDimenArray() {
-        run("test_multi_dimensional_array.pas");
-    }
-
-    public void testPacked() {
-        run("test_packed_array.pas");
-    }
-
-    public void testParseArrayInFun() {
-        run("test_parse_array_in_function.pas");
+    public void testCustomUnit() {
+        run("test_create_unit.pas");
     }
 }

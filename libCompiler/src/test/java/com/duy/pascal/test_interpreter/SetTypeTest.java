@@ -14,35 +14,28 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test;
+package com.duy.pascal.test_interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class FileTest extends BaseTestCase {
+public class SetTypeTest extends BaseTestCase {
+
     @Override
     public String getDirTest() {
-        return "test_file";
+        return "test_set";
     }
 
-    public void testWriteFile() {
-        run("test_write_file.pas");
+    public void testSetOperate() {
+        run("test_set_operate.pas");
     }
 
-    public void testRead() {
-        run("test_read.pas");
+    public void test1() {
+        run("test1.pas");
     }
 
-    public void testFileInSubProgram() {
-        run("test_file_in_fun.pas");
-    }
-
-    public void testTextFile() {
-        run("test_text_file.pas");
-    }
-
-    public void testAppend() {
-        run("test_append.pas");
+    public void test2() {
+        run("test2.pas");
     }
 }

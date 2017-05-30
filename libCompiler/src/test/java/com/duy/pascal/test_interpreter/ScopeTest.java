@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test;
+package com.duy.pascal.test_interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class BooleanTest extends BaseTestCase {
+public class ScopeTest extends BaseTestCase {
+
     @Override
     public String getDirTest() {
-        return "test_boolean";
+        return "test_scope";
     }
 
     public void testAll() {
-        super.runAll();
+        runAll();
     }
 }
