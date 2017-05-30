@@ -51,7 +51,7 @@ public class Patterns {
                     "null|nil|set|new)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-    public static final Pattern BUILDIN_FUNCTIONS = Pattern.compile(
+    public static final Pattern BUILTIN_FUNCTIONS = Pattern.compile(
             "\\b(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +

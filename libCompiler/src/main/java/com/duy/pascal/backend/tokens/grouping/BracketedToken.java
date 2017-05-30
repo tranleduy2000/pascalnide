@@ -32,8 +32,8 @@ public class BracketedToken extends GrouperToken   {
     }
 
     @Override
-    public precedence getOperatorPrecedence() {
-        return precedence.Dereferencing;
+    public Precedence getOperatorPrecedence() {
+        return Precedence.Dereferencing;
     }
 
 

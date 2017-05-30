@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.duy.pascal.frontend.code_editor.completion.Patterns.BUILDIN_FUNCTIONS;
+import static com.duy.pascal.frontend.code_editor.completion.Patterns.BUILTIN_FUNCTIONS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.COMMENTS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.KEYWORDS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.NUMBERS;
@@ -704,7 +704,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                         start + m.end(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            for (Matcher m = BUILDIN_FUNCTIONS.matcher(textToHighlight); m.find(); ) {
+            for (Matcher m = BUILTIN_FUNCTIONS.matcher(textToHighlight); m.find(); ) {
                 allText.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()),
                         start + m.start(),
                         start + m.end(),

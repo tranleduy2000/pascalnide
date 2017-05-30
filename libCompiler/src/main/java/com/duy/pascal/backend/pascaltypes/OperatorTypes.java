@@ -20,7 +20,7 @@ import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException
 import com.duy.pascal.backend.parse_exception.operator.OperationNotSupportedException;
 import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.set.SetType;
-import com.duy.pascal.backend.tokens.Token.precedence;
+import com.duy.pascal.backend.tokens.Token.Precedence;
 
 public enum OperatorTypes {
     NOT(true, false) {
@@ -40,8 +40,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Negation;
+        public Precedence getPrecedence() {
+            return Precedence.Negation;
         }
 
         @Override
@@ -60,8 +60,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Multiplicative;
+        public Precedence getPrecedence() {
+            return Precedence.Multiplicative;
         }
 
         @Override
@@ -79,8 +79,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Multiplicative;
+        public Precedence getPrecedence() {
+            return Precedence.Multiplicative;
         }
 
         @Override
@@ -97,8 +97,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Multiplicative;
+        public Precedence getPrecedence() {
+            return Precedence.Multiplicative;
         }
 
         @Override
@@ -114,8 +114,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Multiplicative;
+        public Precedence getPrecedence() {
+            return Precedence.Multiplicative;
         }
 
         @Override
@@ -125,8 +125,8 @@ public enum OperatorTypes {
     },
     AND(false, false) {
         @Override
-        public precedence getPrecedence() {
-            return precedence.Multiplicative;
+        public Precedence getPrecedence() {
+            return Precedence.Multiplicative;
         }
 
         @Override
@@ -157,8 +157,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Additive;
+        public Precedence getPrecedence() {
+            return Precedence.Additive;
         }
 
         @Override
@@ -184,8 +184,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Additive;
+        public Precedence getPrecedence() {
+            return Precedence.Additive;
         }
 
         @Override
@@ -201,8 +201,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Additive;
+        public Precedence getPrecedence() {
+            return Precedence.Additive;
         }
 
         @Override
@@ -217,8 +217,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Additive;
+        public Precedence getPrecedence() {
+            return Precedence.Additive;
         }
 
         @Override
@@ -234,8 +234,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Multiplicative;
+        public Precedence getPrecedence() {
+            return Precedence.Multiplicative;
         }
 
         @Override
@@ -252,8 +252,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Multiplicative;
+        public Precedence getPrecedence() {
+            return Precedence.Multiplicative;
         }
 
         @Override
@@ -270,8 +270,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Relational;
+        public Precedence getPrecedence() {
+            return Precedence.Relational;
         }
 
         @Override
@@ -287,8 +287,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Relational;
+        public Precedence getPrecedence() {
+            return Precedence.Relational;
         }
 
         @Override
@@ -309,8 +309,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Relational;
+        public Precedence getPrecedence() {
+            return Precedence.Relational;
         }
 
         @Override
@@ -326,8 +326,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Relational;
+        public Precedence getPrecedence() {
+            return Precedence.Relational;
         }
 
         @Override
@@ -344,8 +344,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Relational;
+        public Precedence getPrecedence() {
+            return Precedence.Relational;
         }
 
         @Override
@@ -367,8 +367,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Relational;
+        public Precedence getPrecedence() {
+            return Precedence.Relational;
         }
 
         @Override
@@ -384,8 +384,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Dereferencing;
+        public Precedence getPrecedence() {
+            return Precedence.Dereferencing;
         }
 
         @Override
@@ -400,8 +400,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Dereferencing;
+        public Precedence getPrecedence() {
+            return Precedence.Dereferencing;
         }
 
         @Override
@@ -418,8 +418,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Relational;
+        public Precedence getPrecedence() {
+            return Precedence.Relational;
         }
 
         @Override
@@ -434,8 +434,8 @@ public enum OperatorTypes {
         }
 
         @Override
-        public precedence getPrecedence() {
-            return precedence.Relational;
+        public Precedence getPrecedence() {
+            return Precedence.Relational;
         }
 
         @Override
@@ -561,7 +561,7 @@ public enum OperatorTypes {
 
     }
 
-    public precedence getPrecedence() {
+    public Precedence getPrecedence() {
         return null;
     }
 

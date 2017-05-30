@@ -4,6 +4,34 @@ package com.duy.pascal.backend.tokens.grouping;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.ConstantDefinition;
+import com.duy.pascal.backend.ast.MethodDeclaration;
+import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.instructions.Assignment;
+import com.duy.pascal.backend.ast.instructions.BreakInstruction;
+import com.duy.pascal.backend.ast.instructions.ContinueInstruction;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.instructions.ExitInstruction;
+import com.duy.pascal.backend.ast.instructions.InstructionGrouper;
+import com.duy.pascal.backend.ast.instructions.NoneInstruction;
+import com.duy.pascal.backend.ast.instructions.case_statement.CaseInstruction;
+import com.duy.pascal.backend.ast.instructions.conditional.ForDowntoStatement;
+import com.duy.pascal.backend.ast.instructions.conditional.ForInStatement;
+import com.duy.pascal.backend.ast.instructions.conditional.ForToStatement;
+import com.duy.pascal.backend.ast.instructions.conditional.IfStatement;
+import com.duy.pascal.backend.ast.instructions.conditional.RepeatInstruction;
+import com.duy.pascal.backend.ast.instructions.conditional.WhileStatement;
+import com.duy.pascal.backend.ast.instructions.with_statement.WithStatement;
+import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.FieldAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.UnaryOperatorEvaluation;
+import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
@@ -21,8 +49,6 @@ import com.duy.pascal.backend.parse_exception.value.DuplicateElementException;
 import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
 import com.duy.pascal.backend.parse_exception.value.NonIntegerException;
 import com.duy.pascal.backend.parse_exception.value.UnAssignableTypeException;
-import com.duy.pascal.backend.ast.MethodDeclaration;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.ClassType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
@@ -39,13 +65,6 @@ import com.duy.pascal.backend.pascaltypes.set.ArrayType;
 import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
 import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
 import com.duy.pascal.backend.pascaltypes.set.SetType;
-import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
-import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.FieldAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.UnaryOperatorEvaluation;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
@@ -74,24 +93,6 @@ import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.backend.ast.ConstantDefinition;
-import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.Assignment;
-import com.duy.pascal.backend.ast.instructions.BreakInstruction;
-import com.duy.pascal.backend.ast.instructions.ContinueInstruction;
-import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.instructions.ExitInstruction;
-import com.duy.pascal.backend.ast.instructions.InstructionGrouper;
-import com.duy.pascal.backend.ast.instructions.NoneInstruction;
-import com.duy.pascal.backend.ast.instructions.case_statement.CaseInstruction;
-import com.duy.pascal.backend.ast.instructions.conditional.ForDowntoStatement;
-import com.duy.pascal.backend.ast.instructions.conditional.ForInStatement;
-import com.duy.pascal.backend.ast.instructions.conditional.ForToStatement;
-import com.duy.pascal.backend.ast.instructions.conditional.IfStatement;
-import com.duy.pascal.backend.ast.instructions.conditional.RepeatInstruction;
-import com.duy.pascal.backend.ast.instructions.conditional.WhileStatement;
-import com.duy.pascal.backend.ast.instructions.with_statement.WithStatement;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -380,7 +381,7 @@ public abstract class GrouperToken extends Token {
 
     @NonNull
     public RuntimeValue getNextExpression(ExpressionContext context,
-                                          precedence precedence, Token next) throws ParsingException {
+                                          Precedence precedence, Token next) throws ParsingException {
 
         RuntimeValue identifier;
         if (next instanceof OperatorToken) {
@@ -406,8 +407,7 @@ public abstract class GrouperToken extends Token {
                     return UnaryOperatorEvaluation.generateOp(context, identifier, nextOperator.type,
                             nextOperator.getLineNumber());
                 }
-                RuntimeValue nextValue = getNextExpression(context,
-                        nextOperator.type.getPrecedence());
+                RuntimeValue nextValue = getNextExpression(context, nextOperator.type.getPrecedence());
                 OperatorTypes operationType = ((OperatorToken) next).type;
                 DeclaredType type1 = identifier.getType(context).declType;
                 DeclaredType type2 = nextValue.getType(context).declType;
@@ -484,7 +484,7 @@ public abstract class GrouperToken extends Token {
     }
 
     public RuntimeValue getNextExpression(ExpressionContext context,
-                                          precedence precedence) throws ParsingException {
+                                          Precedence precedence) throws ParsingException {
         return getNextExpression(context, precedence, take());
     }
 
@@ -537,12 +537,12 @@ public abstract class GrouperToken extends Token {
 
     public RuntimeValue getNextExpression(ExpressionContext context)
             throws ParsingException {
-        return getNextExpression(context, precedence.NoPrecedence);
+        return getNextExpression(context, Precedence.NoPrecedence);
     }
 
     public RuntimeValue getNextExpression(ExpressionContext context, Token first)
             throws ParsingException {
-        return getNextExpression(context, precedence.NoPrecedence, first);
+        return getNextExpression(context, Precedence.NoPrecedence, first);
     }
 
     public ArrayList<VariableDeclaration> getVariableDeclarations(ExpressionContext context)
@@ -602,6 +602,17 @@ public abstract class GrouperToken extends Token {
         return getConstantValue(context, type, null);
     }
 
+    /**
+     * This method will be parse and get a constant
+     *
+     * @param context -scope
+     * @param type    - the target type of constant. If the type of constant
+     *                will be got not equal or can not convert to {type}, this
+     *                method will be throw an {@link UnConvertibleTypeException}
+     * @param left    - The variable can be assign by constant, it can be null.
+     *                (Example <code>x := 1</code> with x is variable)
+     * @return then constant with expect type
+     */
     public Object getConstantValue(ExpressionContext context, DeclaredType type,
                                    @Nullable RuntimeValue left) throws ParsingException {
         Object defaultValue;
@@ -616,6 +627,9 @@ public abstract class GrouperToken extends Token {
 
             AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) type).getElementType());
             defaultValue = getSetConstant(context, take(), elementTypeReference).getValue();
+
+        } else if (type instanceof RecordType) {
+            defaultValue = getRecordConstant(context, take(), type);
 
         } else { //set default single value
 
@@ -636,6 +650,11 @@ public abstract class GrouperToken extends Token {
             }*/
         }
         return defaultValue;
+    }
+
+    private ConstantAccess<CustomVariable> getRecordConstant(ExpressionContext context, Token take, DeclaredType type) {
+
+        return null;
     }
 
     /**

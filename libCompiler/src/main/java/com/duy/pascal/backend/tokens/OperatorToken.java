@@ -25,7 +25,7 @@ public class OperatorToken extends Token {
     }
 
     @Override
-    public precedence getOperatorPrecedence() {
+    public Precedence getOperatorPrecedence() {
         return type.getPrecedence();
     }
 }

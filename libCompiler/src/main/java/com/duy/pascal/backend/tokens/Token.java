@@ -41,7 +41,7 @@ public abstract class Token {
     }
 
     @Nullable
-    public Token.precedence getOperatorPrecedence() {
+    public Precedence getOperatorPrecedence() {
         return null;
     }
 
@@ -58,7 +58,7 @@ public abstract class Token {
         this.mLineNumber = var1;
     }
 
-    public enum precedence {
+    public enum Precedence {
         Dereferencing,
         Negation,
         Multiplicative,

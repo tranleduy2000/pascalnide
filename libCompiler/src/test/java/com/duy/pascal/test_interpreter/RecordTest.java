@@ -38,4 +38,7 @@ public class RecordTest extends BaseTestCase {
         run("test_record_pointer.pas");
     }
 
+    public void testInitRecord() {
+        run("test_init_record.pas");
+    }
 }

@@ -13,7 +13,7 @@ public class PeriodToken extends BasicToken {
     }
 
     @Override
-    public precedence getOperatorPrecedence() {
-        return precedence.Dereferencing;
+    public Precedence getOperatorPrecedence() {
+        return Precedence.Dereferencing;
     }
 }
