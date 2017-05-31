@@ -816,9 +816,8 @@ public abstract class GrouperToken extends Token {
 
                     return new ConstantAccess<>(converted.compileTimeValue(context), elementType, unconvert.getLineNumber());
                 } else {
-                    if (grouperToken.hasNext()) {
-                        grouperToken.assertNextComma();
-                    }
+                    assertNextCommaForNextConstant(context, grouperToken, elementType);
+
                     return new ConstantAccess<>(unconvert.compileTimeValue(context), unconvert.getLineNumber());
                 }
             }
@@ -851,7 +850,7 @@ public abstract class GrouperToken extends Token {
                 }
                 throw new MissingCommaTokenException(t.getLineNumber());
             } else {
-                take();
+                grouperToken.take();
             }
         }
     }

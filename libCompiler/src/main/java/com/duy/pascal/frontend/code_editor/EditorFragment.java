@@ -35,6 +35,7 @@ import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.parse_exception.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
@@ -148,17 +149,19 @@ public class EditorFragment extends Fragment implements EditorListener {
 
     public void autoFix(ParsingException e) {
         if (e instanceof TypeIdentifierExpectException) {
-            mCodeEditor.getAutoFixError().autoFixMissingType((TypeIdentifierExpectException) e);
+            mCodeEditor.getAutoFixError().fixMissingType((TypeIdentifierExpectException) e);
         } else if (e instanceof UnknownIdentifierException) {
-            mCodeEditor.getAutoFixError().autoFixMissingDefine((UnknownIdentifierException) e);
+            mCodeEditor.getAutoFixError().fixMissingDefine((UnknownIdentifierException) e);
         } else if (e instanceof UnConvertibleTypeException) {
-            mCodeEditor.getAutoFixError().autoFixUnConvertType((UnConvertibleTypeException) e);
+            mCodeEditor.getAutoFixError().fixUnConvertType((UnConvertibleTypeException) e);
         } else if (e instanceof MissingTokenException) {
             mCodeEditor.getAutoFixError().insertToken((MissingTokenException) e);
         } else if (e instanceof ChangeValueConstantException) {
             mCodeEditor.getAutoFixError().changeConstToVar((ChangeValueConstantException) e);
         } else if (e instanceof GroupingException) {
             mCodeEditor.getAutoFixError().fixGroupException((GroupingException) e);
+        } else if (e instanceof MainProgramNotFoundException) {
+            mCodeEditor.getAutoFixError().fixProgramNotFound();
         }
     }
 

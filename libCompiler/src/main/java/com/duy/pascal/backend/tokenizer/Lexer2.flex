@@ -321,7 +321,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 			yybegin(YYINITIAL); 
 			if(literal.length()==1) {
 			    LineInfo lineInfo = getLine();
-                 lineInfo.setColumn(lineInfo.getColumn() - 1);
+                 lineInfo.setColumn(lineInfo.getColumn() - 3);
 				return new CharacterToken(lineInfo,literal.toString().charAt(0));
 			} else {
 			    LineInfo lineInfo = getLine();

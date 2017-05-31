@@ -35,19 +35,20 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 
 import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_editor.autofix.AutoFixError;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
-import com.duy.pascal.backend.source_include.ScriptSource;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -428,10 +429,9 @@ public class HighlightEditor extends CodeSuggestsEditText
 
                     //check if it contains offset from start index error to
                     //(start + offset) index
-                    if (lineError instanceof LineInfo) {
-                        if (lineError.getLength() > -1) {
-                            lineEnd = lineStart + lineError.getLength();
-                        }
+                    if (lineError.getLength() > -1) {
+                        lineEnd = lineStart + lineError.getLength() - 1;
+                        Log.d(TAG, "highlightLineError: " + lineError.getLength());
                     }
 
                     //normalize
