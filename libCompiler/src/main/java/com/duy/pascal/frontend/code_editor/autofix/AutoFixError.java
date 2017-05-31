@@ -84,7 +84,7 @@ public class AutoFixError {
         //sub string from 0 to postion error
         TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
 
-        String type = e.missingType;
+        String type = e.getMissingType();
         String textToInsert;
         Matcher matcher = Patterns.TYPE.matcher(text.getText());
         int insertPosition = 0;
@@ -226,7 +226,7 @@ public class AutoFixError {
 
 
     private boolean declareVar(LineInfo[] lines, String name, String type, String initValue) {
-        if (lines.length != 0) throw new RuntimeException("The length line array must be 2");
+        if (lines.length != 2) throw new RuntimeException("The length line array must be 2");
         TextData text = getText(lines[0], lines[1]);
         return declareVar(text, name, type, initValue);
     }

@@ -181,7 +181,7 @@ public class ExceptionManager {
             }
             if (e instanceof TypeIdentifierExpectException) {
                 return getMessageResource(e, R.string.UnrecognizedTypeException,
-                        ((TypeIdentifierExpectException) e).missingType);
+                        ((TypeIdentifierExpectException) e).getMissingType());
             }
             if (e instanceof InvalidNumericFormatException) {
                 return getMessageResource(e, R.string.InvalidNumericFormatException);

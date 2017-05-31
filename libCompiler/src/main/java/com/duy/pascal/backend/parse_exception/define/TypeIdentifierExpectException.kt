@@ -21,10 +21,8 @@ import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 
 
-class TypeIdentifierExpectException(line: LineInfo?, type: String, var scope: ExpressionContext)
-    : ParsingException(line, "Type $type is not define") {
-
-    @JvmField val missingType: String = type
+class TypeIdentifierExpectException(line: LineInfo?,var missingType: String, var scope: ExpressionContext)
+    : ParsingException(line, "Type $missingType is not define") {
 
     override val isAutoFix: Boolean
         get() = true

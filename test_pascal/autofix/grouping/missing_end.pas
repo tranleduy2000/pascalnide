@@ -1,6 +1,4 @@
+program a;
 begin
 begin
 begin
-end
-end
-end.

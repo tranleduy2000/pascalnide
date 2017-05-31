@@ -87,7 +87,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (!isProcedure) {
             next = grouperToken.take();
             //define variable result of function, the name of variable same as name function
-            resultDefinition = new VariableDeclaration(name, grouperToken.getNextPascalType(declarations), line);
+            resultDefinition = new VariableDeclaration(name, grouperToken.getNextPascalType(parent), line);
             this.declarations.declareVariable(resultDefinition);
         }
 

@@ -1,7 +1,7 @@
 var
     a: Integer;
 begin
-    for a to 100 do
+    for a := 100 do 1000 do
 
 begin
 end;
