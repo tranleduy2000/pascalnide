@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.code_editor.autofix;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Layout;
@@ -38,6 +39,7 @@ import com.duy.pascal.frontend.code_editor.completion.Patterns;
 import com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText;
 import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
 import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -226,7 +228,10 @@ public class AutoFixError {
     private boolean declareVar(LineInfo[] lines, String name, String type, String initValue) {
         if (lines.length != 0) throw new RuntimeException("The length line array must be 2");
         TextData text = getText(lines[0], lines[1]);
+        return declareVar(text, name, type, initValue);
+    }
 
+    private boolean declareVar(TextData text, String name, String type, String initValue) {
         String textToInsert = "";
         int insertPosition = 0;
         int startSelect;
@@ -265,8 +270,6 @@ public class AutoFixError {
         editable.restoreAfterClick(KeyWord.DATA_TYPE);
 
         editable.showKeyboard();
-
-
         return true;
     }
 
@@ -508,27 +511,30 @@ public class AutoFixError {
     }
 
     public void changeConstToVar(ChangeValueConstantException e) {
+        FirebaseAnalytics.getInstance(editable.getContext()).logEvent("changeConstToVar", new Bundle());
+
         DLog.d(TAG, "changeConstToVar: " + e);
 
         TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
-        Pattern pattern;
         ConstantAccess<Object> constant = e.getConst();
-        pattern = Pattern.compile(
+        Pattern pattern = Pattern.compile(
                 "(^const\\s+|\\s+const\\s+)" + //1
                         "(" + constant.getName() + ")" + //2
                         "(\\s?)" + //3
                         "(=)" +//4
                         "(.*?)" +//5
-                        "(;)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+                        "(;)",//6
+                Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
         Matcher matcher = pattern.matcher(text.getText());
         if (matcher.find()) {
             DLog.d(TAG, "changeConstToVar: " + matcher);
-            int start = matcher.start(2);
-            int end = matcher.end(6);
+            int start = matcher.start(2) + text.getOffset() - 1;
+            int end = matcher.end(6) + text.getOffset();
+
             editable.getEditableText().delete(start, end);
 
-            declareVar(new LineInfo[]{e.getScope().getStartLine(), e.getLineInfo()},
+            declareVar(text,
                     constant.getName(), //name
                     constant.getType(null).declType.toString(), //type
                     constant.toCode()); //initialization value
@@ -547,11 +553,12 @@ public class AutoFixError {
 
             matcher = pattern.matcher(text.getText());
             if (matcher.find()) {
-                int start = matcher.start(2);
-                int end = matcher.end(9);
+                int start = matcher.start(2) + text.getOffset() - 1;
+                int end = matcher.end(9) + text.getOffset();
 
                 editable.getEditableText().delete(start, end);
-                declareVar(new LineInfo[]{e.getScope().getStartLine(), e.getLineInfo()},
+
+                declareVar(text,
                         constant.getName(),  //name
                         constant.getType(null).declType.toString(), //type
                         constant.toCode());//initialization value
