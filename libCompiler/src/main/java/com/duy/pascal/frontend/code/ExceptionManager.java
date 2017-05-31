@@ -101,7 +101,8 @@ public class ExceptionManager {
                 return getMessageResource(e, R.string.StackOverflowException);
 
             if (e instanceof MissingSemicolonTokenException)
-                return getMessageResource(e, R.string.MissingSemicolonTokenException, ((MissingSemicolonTokenException) e).getLineInfo().getLine());
+                return getMessageResource(e, R.string.MissingSemicolonTokenException,
+                        ((MissingSemicolonTokenException) e).getLineInfo().getLine());
 
             if (e instanceof MissingCommaTokenException)
                 return getMessageResource(e, R.string.MissingCommaTokenException,

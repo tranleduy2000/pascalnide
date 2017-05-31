@@ -17,9 +17,8 @@
 package com.duy.pascal.backend.parse_exception.missing
 
 import com.duy.pascal.backend.linenumber.LineInfo
-import com.duy.pascal.backend.tokens.basic.CommaToken
 
-class MissingCommaTokenException(line: LineInfo) : MissingTokenException(line, CommaToken(null)) {
+class MissingCommaTokenException(line: LineInfo) : MissingTokenException(line) {
     override fun getMissingToken(): String {
         return ","
     }

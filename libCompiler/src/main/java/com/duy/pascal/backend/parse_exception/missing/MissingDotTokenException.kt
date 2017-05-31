@@ -16,12 +16,12 @@
 
 package com.duy.pascal.backend.parse_exception.missing
 
-import com.duy.pascal.backend.tokens.Token
+import com.duy.pascal.backend.linenumber.LineInfo
 
 /**
  * Created by Duy on 23-May-17.
  */
-class MissingDotTokenException(token: Token) : MissingTokenException(token) {
+class MissingDotTokenException(line: LineInfo) : MissingTokenException(line) {
 
     override fun getMissingToken(): String {
         return ".";

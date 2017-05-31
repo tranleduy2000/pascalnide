@@ -95,7 +95,7 @@ public class PascalProgram extends ExecutableCodeUnit {
             }
             main = i.getNextCommand(this);
             if (!(i.peek() instanceof PeriodToken)) {
-                throw new MissingDotTokenException(i.peek());
+                throw new MissingDotTokenException(i.peek().getLineNumber());
             }
             i.take();
         }

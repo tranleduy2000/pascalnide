@@ -1,25 +1,27 @@
 package com.duy.pascal.backend.ast.instructions.conditional;
 
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.tokens.Token;
-import com.duy.pascal.backend.tokens.basic.DoToken;
-import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.debug.DebugManager;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
 import com.duy.pascal.backend.ast.instructions.NoneInstruction;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectDoTokenException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.basic.BasicToken;
+import com.duy.pascal.backend.tokens.basic.DoToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.frontend.debug.DebugManager;
 
 public class WhileStatement extends DebuggableExecutable {
     private RuntimeValue condition;
@@ -48,7 +50,11 @@ public class WhileStatement extends DebuggableExecutable {
         Token next;
         next = grouperToken.take();
         if (!(next instanceof DoToken)) {
-            throw new ExpectedTokenException("do", next);
+            if (next instanceof BasicToken) {
+                throw new ExpectedTokenException("do", next);
+            } else {
+                throw new ExpectDoTokenException(next.getLineNumber());
+            }
         }
 
         //indexOf command

@@ -41,6 +41,7 @@ import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
 import com.duy.pascal.backend.parse_exception.missing.MissingCommaTokenException;
 import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectDoTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.NotAStatementException;
@@ -74,6 +75,7 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ArrayToken;
 import com.duy.pascal.backend.tokens.basic.AssignmentToken;
+import com.duy.pascal.backend.tokens.basic.BasicToken;
 import com.duy.pascal.backend.tokens.basic.BreakToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
@@ -890,8 +892,10 @@ public abstract class GrouperToken extends Token {
         LineInfo lineNumber = next.getLineNumber();
         if (next instanceof IfToken) {
             return new IfStatement(context, this, lineNumber);
+
         } else if (next instanceof WhileToken) {
             return new WhileStatement(context, this, lineNumber);
+
         } else if (next instanceof BeginEndToken) {
 
             InstructionGrouper beginEndPreprocessed = new InstructionGrouper(lineNumber);
@@ -1006,10 +1010,17 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException(next, "to", "downto");
             }
             RuntimeValue lastValue = getNextExpression(context);
+
             next = take();
+
             if (!(next instanceof DoToken)) {
-                throw new ExpectedTokenException("do", next);
+                if (next instanceof BasicToken) {
+                    throw new ExpectedTokenException("do", next);
+                } else {
+                    throw new ExpectDoTokenException(next.getLineNumber());
+                }
             }
+
             if (downto) { // TODO probably should merge these two types
                 result = new ForDowntoStatement(context, varAssignable, firstValue,
                         lastValue, getNextCommand(context), lineNumber);

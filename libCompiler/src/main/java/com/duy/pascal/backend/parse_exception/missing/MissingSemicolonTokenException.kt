@@ -18,9 +18,8 @@ package com.duy.pascal.backend.parse_exception.missing
 
 
 import com.duy.pascal.backend.linenumber.LineInfo
-import com.duy.pascal.backend.tokens.Token
 
-class MissingSemicolonTokenException(line: LineInfo, token: Token) : MissingTokenException(line, token) {
+class MissingSemicolonTokenException(line: LineInfo) : MissingTokenException(line) {
 
     override fun getMissingToken(): String {
         return ";"

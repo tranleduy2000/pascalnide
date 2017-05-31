@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.parse_exception.missing
+package com.duy.pascal.backend.parse_exception.syntax;
 
-import com.duy.pascal.backend.linenumber.LineInfo
-import com.duy.pascal.backend.parse_exception.ParsingException
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Created by Duy on 25-May-17.
+ * Created by Duy on 31-May-17.
  */
 
-abstract class MissingTokenException : ParsingException {
+public class ExpectThenTokenException extends MissingTokenException {
 
-    constructor(line: LineInfo) : super(line) {
-        this.lineInfo = line
+    public ExpectThenTokenException(@Nullable LineInfo lineInfo) {
+        super(lineInfo);
     }
 
-    override val isAutoFix: Boolean
-        get() = true
-
-    abstract fun getMissingToken(): String
-
-    override val message: String? get() {
-        return "Missing token ${getMissingToken()} at $lineInfo"
+    @NotNull
+    @Override
+    public String getMissingToken() {
+        return "then";
     }
 }

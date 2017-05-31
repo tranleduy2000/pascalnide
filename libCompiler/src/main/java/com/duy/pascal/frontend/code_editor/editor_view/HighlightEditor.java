@@ -430,7 +430,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                     //check if it contains offset from start index error to
                     //(start + offset) index
                     if (lineError.getLength() > -1) {
-                        lineEnd = lineStart + lineError.getLength() - 1;
+                        lineEnd = lineStart + lineError.getLength();
                         Log.d(TAG, "highlightLineError: " + lineError.getLength());
                     }
 
