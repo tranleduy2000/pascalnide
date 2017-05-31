@@ -64,7 +64,11 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
                 locale = Resources.getSystem().configuration.locale
             }
         } else {
-            locale = Locale(code)
+            if (code == "zh_CN") {
+                locale = Locale.SIMPLIFIED_CHINESE
+            }else{
+                locale = Locale(code)
+            }
         }
         Locale.setDefault(locale)
         val config = Configuration()

@@ -444,8 +444,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                                 lineEnd,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         if (!isAutoCompile()) {
-                            lineStart = Math.max(0, lineStart);
-                            setSelection(lineStart);
+                            setSelection(lineEnd);
                         }
                     }
 

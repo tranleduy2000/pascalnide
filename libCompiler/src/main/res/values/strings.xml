@@ -55,7 +55,7 @@
     <string name="font_z">Font size</string>
     <string name="font">Font</string>
     <string name="user_interface">User interface</string>
-    <string name="show_line">Show mLineNumber number</string>
+    <string name="show_line">Show line number</string>
     <string name="find">Find</string>
     <string name="find_replace">Find and replace</string>
     <string name="tool">Tool</string>
@@ -66,7 +66,7 @@
     <string name="regex">Regex</string>
     <string name="word_only">Word only</string>
     <string name="auto_save">Auto save</string>
-    <string name="goto_line">Go to mLineNumber</string>
+    <string name="goto_line">Go to line</string>
     <string name="format_code">Format code</string>
     <string name="information">Information</string>
     <string name="report_bug">Report bug</string>
@@ -74,8 +74,8 @@
     <string name="email">Email</string>
     <string name="describe_causes_an_error">Describe causes an error</string>
     <string name="bug">Bug</string>
-    <string name="word_wrap_desc">Automatic screen down the mLineNumber when overflow</string>
-    <string name="show_line_desc">Display the mLineNumber numbers to the left of the code editor</string>
+    <string name="word_wrap_desc">Automatic screen down the line when overflow</string>
+    <string name="show_line_desc">Display the line numbers to the left of the code editor</string>
 
 
     <string name="hide_status_bar">Hide status bar</string>

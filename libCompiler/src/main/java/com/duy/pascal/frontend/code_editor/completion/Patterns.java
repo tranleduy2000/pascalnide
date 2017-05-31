@@ -79,9 +79,11 @@ public class Patterns {
     public static final Pattern CONST = Pattern.compile("\\b(const)\\b", Pattern.CASE_INSENSITIVE);
 
     public static final Pattern OPEN_PATTERN
-            = Pattern.compile("\\b(begin|then|else|do|repeat|of|var|const|interface|implementation)\\b", Pattern.CASE_INSENSITIVE);
+            = Pattern.compile("(begin|then|else|do|repeat|of|" +
+                    "type|var|const|interface|implementation)",
+            Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
     public static final Pattern END_PATTERN
-            = Pattern.compile("\\b(end|until)\\b", Pattern.CASE_INSENSITIVE);
+            = Pattern.compile("\\b(end)\\b", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
 }

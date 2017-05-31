@@ -22,7 +22,7 @@ package com.duy.pascal.frontend.code_editor.completion;
 
 public class Template {
     public static final String PROGRAM_TEMPLATE =
-            "program {name};\n" +
+            "program %s$1;\n" +
                     "uses crt;\n" +
                     "begin\n" +
                     "    " +
@@ -30,35 +30,32 @@ public class Template {
                     "end.";
 
     public static final String UNIT_TEMPlATE =
-            "unit {name};\n" +
+            "unit %1$s;\n" +
                     "interface\n" +
                     "    \n" +
                     "implementation\n" +
                     "    \n" +
                     "initialization\n" +
-                    "    (* here may be placed code that is *)\n" +
-                    "    (* executed as the unit gets loaded *)\n" +
                     "begin\n" +
                     "    \n" +
                     "end;\n" +
                     "finalization\n" +
-                    "    (* code executed at program end *)\n" +
                     "begin\n" +
                     "    \n" +
                     "end;\n" +
                     "end.";
 
     public static final String FUNCTION_TEMPLATE =
-            "\nfunction {name}( ) : ;\n" +
+            "\nfunction %1$s( ) : ;\n" +
                     "begin\n" +
                     "    \n" +
                     "end;\n";
 
     public static String createProgramTemplate(String name) {
-        return PROGRAM_TEMPLATE.replace("{name}", name);
+        return String.format(PROGRAM_TEMPLATE, name);
     }
 
     public static String createUnitTemplate(String name) {
-        return UNIT_TEMPlATE.replace("{name}", name);
+        return String.format(UNIT_TEMPlATE, name);
     }
 }

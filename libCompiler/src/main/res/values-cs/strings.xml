@@ -69,7 +69,7 @@
     <string name="email">Email</string>
     <string name="describe_causes_an_error">Opíšte dôvody chyby (v Anglickom jazyku prosím)</string>
     <string name="bug">Bug</string>
-    <string name="word_wrap_desc">Automatic screen down the mLineNumber when overflow</string>
+    <string name="word_wrap_desc">Automatic screen down the line when overflow</string>
     <string name="show_line_desc">Zobrazovať čísla riadkov naľavo od editora kódu</string>
     <string name="hide_status_bar">Skryť stavový riadok</string>
     <string name="hide_status_bar_desc">Skryť stavový riadok v celej aplikácii vrátane konzole. Ak toto nastavenie potrebujete zmeniť, reštartujte aplikáciu.</string>

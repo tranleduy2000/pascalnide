@@ -47,7 +47,8 @@
         <item>es</item>
         <item>cs</item>
         <item>sk</item>
-        <item>zh-rCN</item>
+        <item>ro</item>
+        <item>zh_CN</item>
     </string-array>
 
     <string-array name="fonts_arr" translatable="false">

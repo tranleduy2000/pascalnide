@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.code_editor.editor_view;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -130,24 +131,37 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
                 }
             }
         });
-
-
     }
 
     /**
-     * @return the text in previous lineInfo
+     * @return the line above current cursor
      */
+    @Nullable
     private CharSequence getPrevLine(Editable editable, Layout layout, int currentLine) {
+        if (currentLine - 1 < 0) return null;
         int lineStart = layout.getLineStart(currentLine - 1);
         int lineEnd = layout.getLineEnd(currentLine - 1);
         return editable.subSequence(lineStart, lineEnd);
     }
 
-    protected String getWordInCursor() {
-        int selectionStart = getSelectionStart();
-        if (selectionStart == -1) return "";
+    @Nullable
+    protected CharSequence getNextLine(Editable editable, Layout layout, int currentLine) {
+        if (currentLine + 1 > layout.getLineCount() - 1) return null;
+        int lineStart = layout.getLineStart(currentLine + 1);
+        int lineEnd = layout.getLineEnd(currentLine + 1);
+        return editable.subSequence(lineStart, lineEnd);
+    }
+
+    @Nullable
+    protected CharSequence getWordInCursor() {
+        int pos = getSelectionStart();
+        if (pos == -1) return "";
         Editable editableText = getEditableText();
-        return "";
+        int start = pos, end = pos;
+        while (start > 0 && Character.isLetterOrDigit(editableText.charAt(start))) start--;
+        while (end < editableText.length() && Character.isLetterOrDigit(editableText.charAt(start)))
+            end++;
+        return editableText.subSequence(start, end);
     }
 
     /**
@@ -220,8 +234,8 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
         Matcher matcher = Patterns.OPEN_PATTERN.matcher(prev);
         if (matcher.find()) {
             indent += TAB_CHARACTER;
+//            source = source + indent + TAB_CHARACTER + "\n" + indent + "end;";
         }
-
         return source + indent;
     }
 
