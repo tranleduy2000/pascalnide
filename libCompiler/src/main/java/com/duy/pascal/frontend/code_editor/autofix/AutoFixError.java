@@ -80,10 +80,11 @@ public class AutoFixError {
     public void autoFixMissingType(TypeIdentifierExpectException e) {
         //don't work if has selection
         //sub string from 0 to postion error
-        CharSequence text = getText(e);
+        TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
+
         String type = e.missingType;
         String textToInsert;
-        Matcher matcher = Patterns.TYPE.matcher(text);
+        Matcher matcher = Patterns.TYPE.matcher(text.getText());
         int insertPosition = 0;
 
         if (matcher.find()) {
@@ -97,40 +98,54 @@ public class AutoFixError {
             var
                 ....
             */
-            if ((matcher = Patterns.PROGRAM.matcher(text)).find()) {
+            if ((matcher = Patterns.PROGRAM.matcher(text.getText())).find()) {
                 insertPosition = matcher.end();
-            } else if ((matcher = Patterns.VAR.matcher(text)).find()) {
+            } else if ((matcher = Patterns.VAR.matcher(text.getText())).find()) {
                 insertPosition = matcher.start();
             }
             //if not found var keyword, insert "type" above "uses" keyword
-            else if ((matcher = Patterns.USES.matcher(text)).find()) {
+            else if ((matcher = Patterns.USES.matcher(text.getText())).find()) {
                 insertPosition = matcher.end();
             }
             textToInsert = "\ntype\n" + "    " + type + " = %t ;\n";
         }
 
         matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
-        matcher.find();
-        textToInsert = textToInsert.replaceAll("%\\w", "");
+        if (matcher.find()) {
+            textToInsert = textToInsert.replaceAll("%\\w", "");
 
-        editable.getText().insert(insertPosition, textToInsert);
-        editable.setSelection(insertPosition + matcher.start());
+            insertPosition += text.getOffset();
 
+            editable.getText().insert(insertPosition, textToInsert);
+            editable.setSelection(insertPosition + matcher.start());
 
-        //set suggest data
-        editable.restoreAfterClick(KeyWord.DATA_TYPE);
+            //set suggest data
+            editable.restoreAfterClick(KeyWord.DATA_TYPE);
+        }
     }
 
     /**
      * @param e - include lineInfo error
      * @return the part of text start a 0 and end at e.lineInfo
      */
-    private CharSequence getText(ParsingException e) {
-        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(e.getLineInfo().getLine()));
+    private TextData getText(ParsingException e) {
+        return new TextData(editable.getText()
+                .subSequence(0, editable.getLayout().getLineEnd(e.getLineInfo().getLine())),
+                0);
     }
 
-    private CharSequence getText(int line) {
-        return editable.getText().subSequence(0, editable.getLayout().getLineEnd(line));
+    private TextData getText(LineInfo startLine, LineInfo endLine) {
+        CharSequence text = editable.getText().subSequence(
+                editable.getLayout().getLineStart(startLine.getLine())
+                        + startLine.getColumn(),
+
+                editable.getLayout().getLineEnd(endLine.getLine()));
+
+        int offset = editable.getLayout().getLineStart(startLine.getLine())
+                + startLine.getColumn()
+                + startLine.getLength();
+        if (offset < 0) offset = 0;
+        return new TextData(text, offset);
     }
 
     /**
@@ -159,34 +174,36 @@ public class AutoFixError {
      */
     private void declareConst(UnknownIdentifierException e) {
         //sub string from 0 to postion error
-        CharSequence text = getText(e);
+        TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
 
         String textToInsert = "";
         int insertPosition = 0;
         String name = e.getName();
 
-        Matcher matcher = Patterns.CONST.matcher(text);
+        Matcher matcher = Patterns.CONST.matcher(text.getText());
         if (matcher.find()) {
             insertPosition = matcher.end();
             textToInsert = "\n" + "    " + name + " = %v ;";
         } else {
-            if ((matcher = Patterns.PROGRAM.matcher(text)).find()) {
+            if ((matcher = Patterns.PROGRAM.matcher(text.getText())).find()) {
                 insertPosition = matcher.end();
-            } else if ((matcher = Patterns.USES.matcher(text)).find()) {
+            } else if ((matcher = Patterns.USES.matcher(text.getText())).find()) {
                 insertPosition = matcher.end();
-            } else if ((matcher = Patterns.TYPE.matcher(text)).find()) {
+            } else if ((matcher = Patterns.TYPE.matcher(text.getText())).find()) {
                 insertPosition = matcher.start();
             }
             textToInsert = "\nconst \n" + AutoIndentEditText.TAB_CHARACTER + name + " = %v ;";
         }
 
+        insertPosition += text.getOffset();
 
         matcher = Patterns.REPLACE_CURSOR.matcher(textToInsert);
-        matcher.find();
-        textToInsert = textToInsert.replaceAll("%\\w", "");
+        if (matcher.find()) {
+            textToInsert = textToInsert.replaceAll("%\\w", "");
 
-        editable.getText().insert(insertPosition, textToInsert);
-        editable.setSelection(insertPosition + matcher.start());
+            editable.getText().insert(insertPosition, textToInsert);
+            editable.setSelection(insertPosition + matcher.start());
+        }
     }
 
     private void declareFunction(UnknownIdentifierException e) {
@@ -199,21 +216,23 @@ public class AutoFixError {
      * Then insert new variable
      */
     private void declareVar(UnknownIdentifierException e) {
-        declareVar(e.getLineInfo(), e.getName(),
+        declareVar(new LineInfo[]{e.getScope().getStartLine(), e.getLineInfo()},
+                e.getName(),
                 "",//unknown type
                 null); //non init value
     }
 
-    private boolean declareVar(LineInfo endLine, String name, String type, String initValue) {
-        //sub string from 0 to position error
-        CharSequence text = getText(endLine.getLine());
+
+    private boolean declareVar(LineInfo[] lines, String name, String type, String initValue) {
+        if (lines.length != 0) throw new RuntimeException("The length line array must be 2");
+        TextData text = getText(lines[0], lines[1]);
 
         String textToInsert = "";
         int insertPosition = 0;
         int startSelect;
         int endSelect;
 
-        Matcher matcher = Patterns.VAR.matcher(text);
+        Matcher matcher = Patterns.VAR.matcher(text.getText());
         if (matcher.find()) {
             insertPosition = matcher.end();
             textToInsert = AutoIndentEditText.TAB_CHARACTER + name + ": ";
@@ -223,11 +242,11 @@ public class AutoFixError {
 
             textToInsert += type + (initValue != null ? " = " + initValue : "") + ";\n";
         } else {
-            if ((matcher = Patterns.TYPE.matcher(text)).find()) {
+            if ((matcher = Patterns.TYPE.matcher(text.getText())).find()) {
                 insertPosition = matcher.end();
-            } else if ((matcher = Patterns.USES.matcher(text)).find()) {
+            } else if ((matcher = Patterns.USES.matcher(text.getText())).find()) {
                 insertPosition = matcher.end();
-            } else if ((matcher = Patterns.PROGRAM.matcher(text)).find()) {
+            } else if ((matcher = Patterns.PROGRAM.matcher(text.getText())).find()) {
                 insertPosition = matcher.end();
             }
             textToInsert = "\nvar\n" + AutoIndentEditText.TAB_CHARACTER + name + ": ";
@@ -238,8 +257,9 @@ public class AutoFixError {
             textToInsert += type + (initValue != null ? " = " + initValue : "") + ";\n";
         }
 
-        editable.getText().insert(insertPosition, textToInsert);
-        editable.setSelection(insertPosition + startSelect, insertPosition + endSelect);
+        editable.getText().insert(text.getOffset() + insertPosition, textToInsert);
+        editable.setSelection(text.getOffset() + insertPosition + startSelect,
+                text.getOffset() + insertPosition + endSelect);
 
         //set suggest data
         editable.restoreAfterClick(KeyWord.DATA_TYPE);
@@ -272,13 +292,12 @@ public class AutoFixError {
      */
     public void autoFixUnConvertType(UnConvertibleTypeException e) {
         //get a part of text
-        CharSequence text = getText(e);
+        TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
         if (e.getIdentifier() instanceof VariableAccess) {
-            if (e.getContext() instanceof FunctionDeclaration.FunctionExpressionContext) {
-                String name = ((FunctionDeclaration.FunctionExpressionContext) e.getContext()).function.getName();
+            if (e.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
+                String name = ((FunctionDeclaration.FunctionExpressionContext) e.getScope()).function.getName();
                 //this is function name
                 if (name.equalsIgnoreCase(((VariableAccess) e.getIdentifier()).getName())) {
-                    e.setContext(null); //leak
                     changeTypeFunction(name, text, e.getValueType());
                 } else {
                     changeTypeVar(text, (VariableAccess) e.getIdentifier(), e.getValueType());
@@ -290,11 +309,10 @@ public class AutoFixError {
             changeTypeConst(text, (ConstantAccess) e.getIdentifier(), e.getValueType());
 
         } else if (e.getValue() instanceof VariableAccess) {
-            if (e.getContext() instanceof FunctionDeclaration.FunctionExpressionContext) {
-                String name = ((FunctionDeclaration.FunctionExpressionContext) e.getContext()).function.getName();
+            if (e.getScope() instanceof FunctionDeclaration.FunctionExpressionContext) {
+                String name = ((FunctionDeclaration.FunctionExpressionContext) e.getScope()).function.getName();
                 //this is function name
                 if (name.equalsIgnoreCase(((VariableAccess) e.getValue()).getName())) {
-                    e.setContext(null); //leak
                     changeTypeFunction(name, text, e.getTargetType());
                 } else {
                     changeTypeVar(text, (VariableAccess) e.getValue(), e.getTargetType());
@@ -305,18 +323,17 @@ public class AutoFixError {
 
         } else if (e.getValue() instanceof ConstantAccess) {
             changeTypeConst(text, (ConstantAccess) e.getValue(), e.getTargetType());
-
         }
     }
 
     /**
      * This method will be Change type constant to type of value
      * if constant is define with type
-     *
+     * <p>
      * Example
      * const a: integer = 'adsda'; => change to string
      */
-    private void changeTypeConst(CharSequence text, ConstantAccess identifier, DeclaredType valueType) {
+    private void changeTypeConst(TextData text, ConstantAccess identifier, DeclaredType valueType) {
         DLog.d(TAG, "autoFixUnConvertType: constant " + identifier);
 
         if (identifier.getName() == null) { //can not replace because it is not a identifier
@@ -335,12 +352,12 @@ public class AutoFixError {
                         "(.*?)" +
                         "(;)",
                 Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(text);
+        Matcher matcher = pattern.matcher(text.getText());
 
         if (matcher.find()) {
             DLog.d(TAG, "autoFixUnConvertType: match " + matcher);
-            final int start = matcher.start(6);
-            int end = matcher.end(6);
+            final int start = matcher.start(6) + text.getOffset();
+            int end = matcher.end(6) + text.getOffset();
 
             final String insertText = valueType.toString();
             editable.getEditableText().replace(start, end, insertText);
@@ -358,7 +375,7 @@ public class AutoFixError {
      * @param name - name of function
      * @param text - a part text of the edit start at 0 and end at lineInfo where then function place
      */
-    private void changeTypeFunction(final String name, CharSequence text, DeclaredType valueType) {
+    private void changeTypeFunction(final String name, TextData text, DeclaredType valueType) {
         Pattern pattern = Pattern.compile(
                 "(^function\\s+|\\s+function\\s+)" + //function token //1
                         "(" + name + ")" + //name of function         //2
@@ -366,11 +383,11 @@ public class AutoFixError {
                         "(:)" +                                       //4
                         "(.*?)" + //type of function                  //5
                         ";"); //end                                   //6
-        Matcher matcher = pattern.matcher(text);
+        Matcher matcher = pattern.matcher(text.getText());
         if (matcher.find()) {
             DLog.d(TAG, "changeTypeFunction: match " + matcher);
-            final int start = matcher.start(5);
-            final int end = matcher.end(5);
+            final int start = matcher.start(5) + text.getOffset();
+            final int end = matcher.end(5) + text.getOffset();
 
             final String insertText = valueType.toString();
             editable.getEditableText().replace(start, end, insertText);
@@ -378,17 +395,17 @@ public class AutoFixError {
                 @Override
                 public void run() {
                     editable.setSelection(start, start + insertText.length());
+                    editable.showKeyboard();
                 }
             });
-            editable.showKeyboard();
         } else {
             DLog.d(TAG, "changeTypeFunction: can not find " + pattern);
         }
     }
 
-    private void changeTypeVar(CharSequence text, VariableAccess identifier, DeclaredType valueType) {
+    private void changeTypeVar(TextData text, VariableAccess identifier, DeclaredType valueType) {
         DLog.d(TAG, "autoFixUnConvertType: variable");
-        final String name = ((VariableAccess) identifier).getName();
+        final String name = identifier.getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
                         "(.*?)" + //other variable                                  //2
                         "(" + name + ")" + //name of variable                       //3
@@ -398,13 +415,13 @@ public class AutoFixError {
                         "(;)",
                 Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
-        Matcher matcher = pattern.matcher(text);
+        Matcher matcher = pattern.matcher(text.getText());
         DLog.d(TAG, "autoFixUnConvertType: " + text);
 
         if (matcher.find()) {
             DLog.d(TAG, "autoFixUnConvertType: match " + matcher);
-            final int start = matcher.start(6);
-            int end = matcher.end(6);
+            final int start = matcher.start(6) + text.getOffset();
+            int end = matcher.end(6) + text.getOffset();
 
             final String insertText = valueType.toString();
             editable.getEditableText().replace(start, end, insertText);
@@ -484,15 +501,16 @@ public class AutoFixError {
             @Override
             public void run() {
                 editable.setSelection(start, insertText.length() + start);
+                editable.showKeyboard();
             }
         });
-        editable.showKeyboard();
+
     }
 
     public void changeConstToVar(ChangeValueConstantException e) {
         DLog.d(TAG, "changeConstToVar: " + e);
 
-        CharSequence text = getText(e);
+        TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
         Pattern pattern;
         ConstantAccess<Object> constant = e.getConst();
         pattern = Pattern.compile(
@@ -503,14 +521,17 @@ public class AutoFixError {
                         "(.*?)" +//5
                         "(;)", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
-        Matcher matcher = pattern.matcher(text);
+        Matcher matcher = pattern.matcher(text.getText());
         if (matcher.find()) {
             DLog.d(TAG, "changeConstToVar: " + matcher);
             int start = matcher.start(2);
             int end = matcher.end(6);
             editable.getEditableText().delete(start, end);
-            declareVar(e.getLineInfo(), constant.getName(), constant.getType(null).declType.toString(),
-                    constant.getValue().toString());
+
+            declareVar(new LineInfo[]{e.getScope().getStartLine(), e.getLineInfo()},
+                    constant.getName(), //name
+                    constant.getType(null).declType.toString(), //type
+                    constant.toCode()); //initialization value
         } else {
             pattern = Pattern.compile(
                     "(^const\\s+|\\s+const\\s+)" + //1
@@ -518,23 +539,25 @@ public class AutoFixError {
                             "(\\s?)" + //3
                             "(:)" + //4
                             "(\\s?)" +//5
-                            "([a-zA-z0-9]?)" +//5 type
-                            "(=)" + //6
-                            "(.?*)" +//7
-                            "(;)" //8
+                            "(.*?)" +//6 type
+                            "(=)" + //7
+                            "(.*?)" +//8
+                            "(;)" //9
                     , Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
-            matcher = pattern.matcher(text);
-            int start = matcher.start(2);
-            int end = matcher.end(8);
+            matcher = pattern.matcher(text.getText());
+            if (matcher.find()) {
+                int start = matcher.start(2);
+                int end = matcher.end(9);
 
-            editable.getEditableText().delete(start, end);
-            declareVar(e.getLineInfo(), constant.getName(), constant.getType(null).declType.toString(),
-                    constant.getValue().toString());
-
+                editable.getEditableText().delete(start, end);
+                declareVar(new LineInfo[]{e.getScope().getStartLine(), e.getLineInfo()},
+                        constant.getName(),  //name
+                        constant.getType(null).declType.toString(), //type
+                        constant.toCode());//initialization value
+            }
         }
     }
-
 
     /**
      * Insert "end" into the final position of the editor
@@ -548,6 +571,35 @@ public class AutoFixError {
             editable.setSelection(editable.length() - text.length() + 1, //don't selected newline character
                     editable.length());
             editable.showKeyboard();
+        }
+    }
+
+    private class TextData {
+        /**
+         * content
+         */
+        CharSequence text;
+        int offset;
+
+        public TextData(CharSequence text, int offset) {
+            this.text = text;
+            this.offset = offset;
+        }
+
+        public CharSequence getText() {
+            return text;
+        }
+
+        public void setText(CharSequence text) {
+            this.text = text;
+        }
+
+        public int getOffset() {
+            return offset;
+        }
+
+        public void setOffset(int offset) {
+            this.offset = offset;
         }
     }
 }

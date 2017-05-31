@@ -2,7 +2,7 @@ package com.duy.pascal.backend.linenumber
 
 open class LineInfo {
     /**
-     * lineInfo in code
+     * line in code
      */
     var line: Int = 0
 

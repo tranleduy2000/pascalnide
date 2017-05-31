@@ -19,6 +19,7 @@ import java.util.List;
 
 public abstract class CodeUnit {
     public final ExpressionContextMixin mContext;
+    @Nullable
     protected String programName;
     private List<ScriptSource> includeDirectories;
 

@@ -83,7 +83,6 @@ public class WithOnStack extends VariableContext {
         } else {
             return false;
         }
-
     }
 
     @Override

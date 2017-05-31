@@ -35,10 +35,11 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.parse_exception.define.MethodNotFoundException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
+import com.duy.pascal.backend.parse_exception.define.MethodNotFoundException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
+import com.duy.pascal.backend.parse_exception.missing.MissingCommaTokenException;
 import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
@@ -588,7 +589,7 @@ public abstract class GrouperToken extends Token {
             for (WordToken s : names) {
                 VariableDeclaration v = new VariableDeclaration(s.name, type, defaultValue, s.getLineNumber());
                 //check duplicate name
-                verifyNonConflictingSymbol(context, result, v);
+                checkDuplicateVariableIdentifier(context, result, v);
                 result.add(v);
             }
             names.clear(); // reusing the list object
@@ -695,7 +696,7 @@ public abstract class GrouperToken extends Token {
      */
     public ConstantAccess<LinkedList> getSetConstant(ExpressionContext context, Token token,
                                                      AtomicReference<DeclaredType> typeReference) throws ParsingException {
-        DLog.d(TAG, "getSetConstant() called with: context = [" + context + "], bracketedToken = [" + token + "], typeReference = [" + typeReference + "]");
+        DLog.d(TAG, "getSetConstant() called with: scope = [" + context + "], bracketedToken = [" + token + "], typeReference = [" + typeReference + "]");
         if (!(token instanceof BracketedToken)) {
             throw new ExpectedTokenException(new BracketedToken(null), token);
         }
@@ -733,7 +734,7 @@ public abstract class GrouperToken extends Token {
      */
     public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context, Token group, ArrayType type) throws ParsingException {
 
-        DLog.d(TAG, "getArrayConstant() called with: context = [" + context + "], type = [" + type + "]");
+        DLog.d(TAG, "getArrayConstant() called with: scope = [" + context + "], type = [" + type + "]");
 
         if (!(group instanceof ParenthesizedToken)) {
             throw new ExpectedTokenException("(", group);
@@ -746,7 +747,7 @@ public abstract class GrouperToken extends Token {
         int size = type.getBounds().size;
         //create new array
         Object[] objects = new Object[size];
-//        Object o = Array.newInstance(elementType.getStorageClass(), size);
+        // Object o = Array.newInstance(elementType.getStorageClass(), size);
         for (int i = 0; i < size; i++) {
             if (!container.hasNext()) {
                 throw new ExpectedTokenException(",", peek());
@@ -764,16 +765,14 @@ public abstract class GrouperToken extends Token {
     public ConstantAccess getConstantElement(@NonNull ExpressionContext context,
                                              @NonNull GrouperToken grouperToken,
                                              @Nullable DeclaredType elementType) throws ParsingException {
-        DLog.d(TAG, "getConstantElement() called with: context = [" + context + "], grouperToken = [" + grouperToken + "], elementType = [" + elementType + "]");
+        DLog.d(TAG, "getConstantElement() called with: scope = [" + context + "], grouperToken = [" + grouperToken + "], elementType = [" + elementType + "]");
 
         if (grouperToken.hasNext()) {
             if (elementType instanceof ArrayType) {
                 GrouperToken child = (GrouperToken) grouperToken.take();
                 Object[] array = grouperToken.getArrayConstant(context, child, (ArrayType) elementType).getValue();
 
-                if (grouperToken.hasNext()) {
-                    grouperToken.assertNextComma();
-                }
+                assertNextCommaForNextConstant(context, grouperToken, elementType);
 
                 return new ConstantAccess<>(array, child.mLineNumber);
 
@@ -783,9 +782,8 @@ public abstract class GrouperToken extends Token {
 
                 EnumElementValue enumConstant = constant.getValue();
 
-                if (grouperToken.hasNext()) {
-                    grouperToken.assertNextComma();
-                }
+                assertNextCommaForNextConstant(context, grouperToken, elementType);
+
                 return new ConstantAccess<>(enumConstant, enumConstant.getType(context).declType, next.getLineNumber());
 
             } else if (elementType instanceof SetType) {
@@ -796,9 +794,9 @@ public abstract class GrouperToken extends Token {
                     ConstantAccess<LinkedList> constant = grouperToken.getSetConstant(context, bracketedToken, elementTypeReference);
 
                     LinkedList setConstant = constant.getValue();
-                    if (grouperToken.hasNext()) {
-                        grouperToken.assertNextComma();
-                    }
+
+                    assertNextCommaForNextConstant(context, grouperToken, elementType);
+
                     return new ConstantAccess<>(setConstant, elementType, bracketedToken.getLineNumber());
                 } else {
                     throw new ExpectedTokenException(new ParenthesizedToken(null),
@@ -813,9 +811,9 @@ public abstract class GrouperToken extends Token {
                         throw new UnConvertibleTypeException(unconvert, elementType,
                                 unconvert.getType(context).declType, context);
                     }
-                    if (grouperToken.hasNext()) {
-                        grouperToken.assertNextComma();
-                    }
+
+                    assertNextCommaForNextConstant(context, grouperToken, elementType);
+
                     return new ConstantAccess<>(converted.compileTimeValue(context), elementType, unconvert.getLineNumber());
                 } else {
                     if (grouperToken.hasNext()) {
@@ -830,10 +828,42 @@ public abstract class GrouperToken extends Token {
     }
 
     /**
-     * check duplicate declare variable
+     * Ensure that followed by a "comma", if not, throw an exception,
+     * before throwing an exception, try to check if the next token
+     * is a value of type equivalent to elementType,
+     * If so, throw an exception that is MissingCommaTokenException
+     * instead of ExpectedTokenException
+     *
+     * @param context      -
+     * @param grouperToken
+     * @param elementType
+     * @throws ParsingException
      */
-    private void verifyNonConflictingSymbol(ExpressionContext context, List<VariableDeclaration> result,
-                                            VariableDeclaration var) throws DuplicateIdentifierException {
+    private void assertNextCommaForNextConstant(ExpressionContext context, GrouperToken grouperToken,
+                                                DeclaredType elementType) throws ParsingException {
+        if (grouperToken.hasNext()) {       //assert next comma token
+            Token t = grouperToken.peek();
+            if (!(t instanceof CommaToken)) {
+                try {
+                    grouperToken.getConstantElement(context, grouperToken, elementType);
+                } catch (Exception e) {
+                    throw new ExpectedTokenException(new CommaToken(null), t);
+                }
+                throw new MissingCommaTokenException(t.getLineNumber());
+            } else {
+                take();
+            }
+        }
+    }
+
+
+    /**
+     * check duplicate declare variable
+     *
+     * @param context: scope of variable
+     */
+    private void checkDuplicateVariableIdentifier(ExpressionContext context, List<VariableDeclaration> result,
+                                                  VariableDeclaration var) throws DuplicateIdentifierException {
         for (VariableDeclaration variableDeclaration : result) {
             context.verifyNonConflictingSymbol(var);
             if (variableDeclaration.getName().equalsIgnoreCase(var.getName())) {
@@ -908,7 +938,7 @@ public abstract class GrouperToken extends Token {
                 if (left == null) {
                     if (identifier instanceof ConstantAccess
                             && ((ConstantAccess) identifier).getName() != null) {
-                        throw new ChangeValueConstantException((ConstantAccess<Object>) identifier);
+                        throw new ChangeValueConstantException((ConstantAccess<Object>) identifier, context);
                     }
                     throw new UnAssignableTypeException(identifier);
                 }

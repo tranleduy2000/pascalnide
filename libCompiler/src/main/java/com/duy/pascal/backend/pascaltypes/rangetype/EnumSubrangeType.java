@@ -42,7 +42,7 @@ public class EnumSubrangeType extends SubrangeType {
                 WordToken name = (WordToken) bound.take();
                 DeclaredType type = context.getTypedefType(name.name);
                 if (type == null) {
-                    throw new TypeIdentifierExpectException(name.getLineNumber(), name.name);
+                    throw new TypeIdentifierExpectException(name.getLineNumber(), name.name, context);
                 }
 
                 if (type instanceof EnumGroupType) {

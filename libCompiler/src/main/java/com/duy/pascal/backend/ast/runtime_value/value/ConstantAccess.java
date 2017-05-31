@@ -2,16 +2,16 @@ package com.duy.pascal.backend.ast.runtime_value.value;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
 
 public class ConstantAccess<T> extends DebuggableReturnValue {
     private T value;
@@ -33,6 +33,13 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
 
     public T getValue() {
         return value;
+    }
+
+    public String toCode() {
+        if (value instanceof StringBuilder || value instanceof String || value instanceof Character) {
+            return "'" + value.toString() + "'";
+        }
+        return value.toString();
     }
 
     @Override

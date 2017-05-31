@@ -16,33 +16,31 @@
 
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.value.FieldAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.pascaltypes.CustomType;
 import com.duy.pascal.backend.pascaltypes.RecordType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.value.FieldAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 
 import java.util.ArrayList;
 
 public class WithStatement {
     private static final String TAG = "WithDeclaration";
 
-    public ExpressionContextMixin declarations;
+    public ExpressionContextMixin scopeWithStatement;
     public Executable instructions;
     public LineInfo line;
     public ArrayList<RuntimeValue> fields = new ArrayList<>();
@@ -50,7 +48,7 @@ public class WithStatement {
     public RuntimeValue[] arguments;
 
     public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
-        this.declarations = new WithExpressionContext(this, parent);
+        this.scopeWithStatement = new WithExpressionContext(parent);
         this.line = grouperToken.peek().getLineNumber();
 
         getReferenceVariables(grouperToken, parent);
@@ -69,20 +67,11 @@ public class WithStatement {
         if (grouperToken.peek() instanceof DoToken) {
             grouperToken.take();
         }
-        instructions = grouperToken.getNextCommand(declarations);
+        instructions = grouperToken.getNextCommand(scopeWithStatement);
     }
 
     public RuntimeValue generate() {
         return new WithCall(this, fields, line);
-    }
-
-    public void execute(VariableContext parentcontext,
-                        RuntimeExecutableCodeUnit<?> main)
-            throws RuntimePascalException {
-        if (this.declarations.root() instanceof UnitPascal) {
-            parentcontext = main.getLibrary((UnitPascal) declarations.root());
-        }
-        new WithOnStack(parentcontext, main, this).execute();
     }
 
     private void getReferenceVariables(GrouperToken grouperToken, ExpressionContext parent)
@@ -95,7 +84,7 @@ public class WithStatement {
                 String name = ((WordToken) next).name;
                 VariableDeclaration variable = parent.getVariableDefinition(name);
                 if (variable == null) {
-                    throw new UnknownIdentifierException(line, name);
+                    throw new UnknownIdentifierException(line, name, parent);
                 }
                 list.add(variable);
                 if (!(grouperToken.peek() instanceof DoToken)) {
@@ -124,11 +113,15 @@ public class WithStatement {
 
 
     private class WithExpressionContext extends ExpressionContextMixin {
-        WithStatement withDeclaration;
 
-        public WithExpressionContext(WithStatement withDeclaration, ExpressionContext parent) {
+        public WithExpressionContext(ExpressionContext parent) {
             super(parent.root(), parent);
-            this.withDeclaration = withDeclaration;
+        }
+
+        @Nullable
+        @Override
+        public LineInfo getStartLine() {
+            return line;
         }
 
         @Override
@@ -145,7 +138,7 @@ public class WithStatement {
 
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
-            instructions = i.getNextCommand(declarations);
+            instructions = i.getNextCommand(scopeWithStatement);
             i.assertNextSemicolon(i.next);
         }
 
@@ -158,6 +151,7 @@ public class WithStatement {
             }
             return super.getIdentifierValue(name);
         }
+
         @Override
         public VariableDeclaration getVariableDefinitionLocal(String ident) {
             for (VariableDeclaration variableDeclaration : variableDeclarations) {

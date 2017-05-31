@@ -122,7 +122,7 @@ public class WordToken extends Token {
                 if (returnType == null) {
                     Object constVal = context.getConstantDefinition(name);
                     if (constVal == null) {
-                        throw new TypeIdentifierExpectException(mLineNumber, name);
+                        throw new TypeIdentifierExpectException(mLineNumber, name, context);
                     }
                     returnType = BasicType.create(constVal.getClass());
                 }

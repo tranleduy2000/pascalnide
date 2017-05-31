@@ -24,6 +24,7 @@ import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MissingBodyFunctionException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
@@ -133,17 +134,25 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
 
     public class UnitExpressionContext extends CodeUnitExpressionContext {
         private boolean isParsed = false;
-
         @Nullable
         private Executable initInstruction;
         @Nullable
         private Executable finalInstruction;
-
+        private ArrayList<String> publicVariables = new ArrayList<>();
+        private ArrayList<String> publicConstants = new ArrayList<>();
         private ArrayList<String> forwardFunctions = new ArrayList<>();
+
+        @Nullable
+        private LineInfo startLine;
 
         public UnitExpressionContext(ListMultimap<String, AbstractFunction> function,
                                      IRunnablePascal handler) {
             super(function, handler, true);
+        }
+
+        @Override
+        public LineInfo getStartLine() {
+            return startLine;
         }
 
         public ArrayList<String> getForwardFunctions() {
@@ -157,6 +166,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
 
             if (next instanceof UnitToken) {
                 GrouperToken container = (GrouperToken) next;
+                this.startLine = next.getLineNumber();
                 programName = container.nextWordValue();
                 container.assertNextSemicolon(container);
 
@@ -250,7 +260,7 @@ public class UnitPascal extends ExecutableCodeUnit implements PascalLibrary {
                 i.take();
                 boolean is_procedure = next instanceof ProcedureToken;
                 FunctionDeclaration declaration = new FunctionDeclaration(this, i, is_procedure);
-                checkExistFunction(declaration);
+                getExistFunction(declaration);
 
                 //check exception
                 if (i.peek() instanceof ForwardToken) {

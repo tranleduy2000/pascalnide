@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.parse_exception.value
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
 import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess
 import com.duy.pascal.backend.parse_exception.ParsingException
 
@@ -23,7 +24,8 @@ import com.duy.pascal.backend.parse_exception.ParsingException
  * Created by Duy on 13-Apr-17.
  */
 
-class ChangeValueConstantException(var const: ConstantAccess<Any>) : ParsingException(const.lineNumber) {
+class ChangeValueConstantException(var const: ConstantAccess<Any>, var scope: ExpressionContext)
+    : ParsingException(const.lineNumber) {
     var name: String = ""
 
     override val message: String?

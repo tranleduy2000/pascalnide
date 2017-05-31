@@ -1,23 +1,30 @@
 package com.duy.pascal.backend.ast.expressioncontext;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.ast.AbstractFunction;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.tokens.Token;
-import com.duy.pascal.backend.tokens.WordToken;
-import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.NamedEntity;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.WordToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 
 import java.util.List;
 
 
 public interface ExpressionContext extends CompileTimeContext {
+
+    @Nullable
+    LineInfo getStartLine();
+
     RuntimeValue getIdentifierValue(WordToken name)
             throws ParsingException;
 
@@ -31,15 +38,15 @@ public interface ExpressionContext extends CompileTimeContext {
 
     void declareConst(ConstantDefinition c);
 
-     ConstantDefinition getConstantDefinitionLocal(String indent);
+    ConstantDefinition getConstantDefinitionLocal(String indent);
 
-     DeclaredType getTypedefTypeLocal(String ident);
+    DeclaredType getTypedefTypeLocal(String ident);
 
-     VariableDeclaration getVariableDefinitionLocal(String ident);
+    VariableDeclaration getVariableDefinitionLocal(String ident);
 
-     List<AbstractFunction> getCallableFunctionsLocal(String name);
+    List<AbstractFunction> getCallableFunctionsLocal(String name);
 
-     boolean functionExistsLocal(String name);
+    boolean functionExistsLocal(String name);
 
     CodeUnit root();
 

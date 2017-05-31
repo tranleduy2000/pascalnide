@@ -236,7 +236,7 @@ _ BYacc/J support (%byaccj) + BYacc/J example.
 - better error messages
 - better generation speed
 - better generation memory efficiency
-- | Action, trailing context (/ operator)
+- | Action, trailing scope (/ operator)
 - new %final, %abstract and %extends directives
 - uses jar file
 - included makefile for JFlex, 

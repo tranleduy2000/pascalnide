@@ -18,14 +18,22 @@ package com.duy.pascal.backend.ast;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
-import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
+import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.pascaltypes.ArgumentType;
 import com.duy.pascal.backend.pascaltypes.DeclaredType;
 import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
@@ -35,14 +43,6 @@ import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,6 +61,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public VariableDeclaration resultDefinition;
 
     public LineInfo line;
+    public LineInfo endPositionHeader;
 
     /* These go together ----> */
     public String[] argumentNames;
@@ -72,6 +73,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public FunctionDeclaration(ExpressionContext parent, GrouperToken grouperToken,
                                boolean isProcedure) throws ParsingException {
         this.declarations = new FunctionExpressionContext(this, parent);
+
         this.line = grouperToken.peek().getLineNumber();
         this.isProcedure = isProcedure;
         name = grouperToken.nextWordValue();
@@ -85,12 +87,16 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (!isProcedure) {
             next = grouperToken.take();
             //define variable result of function, the name of variable same as name function
-            resultDefinition = new VariableDeclaration(name,
-                    grouperToken.getNextPascalType(declarations), line);
+            resultDefinition = new VariableDeclaration(name, grouperToken.getNextPascalType(declarations), line);
             this.declarations.declareVariable(resultDefinition);
         }
 
-        grouperToken.assertNextSemicolon(next);
+        //assert next semicolon token
+        Token t = grouperToken.take();
+        this.endPositionHeader = t.getLineNumber();
+        if (!(t instanceof SemicolonToken)) {
+            throw new ExpectedTokenException(new SemicolonToken(null), t);
+        }
 
         instructions = null;
         NamedEntity n = parent.getConstantDefinition(name);
@@ -193,7 +199,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             WordToken n = namesList.get(j);
             argumentNames[j] = n.name;
             // TODO: 30-Apr-17
-//            declarations.declareVariable(new VariableDeclaration(n.name, argumentTypes[j].declType, n.mLineNumber));
+//            scopeWithStatement.declareVariable(new VariableDeclaration(n.name, argumentTypes[j].declType, n.mLineNumber));
         }
 
     }
@@ -247,6 +253,12 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             this.function = function;
         }
 
+        @Nullable
+        @Override
+        public LineInfo getStartLine() {
+            return endPositionHeader;
+        }
+
         @Override
         public Executable handleUnrecognizedStatementImpl(Token next, GrouperToken container)
                 throws ParsingException {
@@ -268,7 +280,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             bodyDeclared = true;
-            instructions = i.getNextCommand(declarations);
+            instructions = i.getNextCommand(this);
             i.assertNextSemicolon(i.next);
         }
 

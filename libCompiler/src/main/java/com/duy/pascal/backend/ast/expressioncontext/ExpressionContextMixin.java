@@ -19,9 +19,9 @@ import com.duy.pascal.backend.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.backend.javaunderpascal.classpath.JavaClassLoader;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
-import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
-import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
+import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
+import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.WrongIfElseStatement;
@@ -162,7 +162,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         return variables;
     }
 
-    public FunctionDeclaration checkExistFunction(FunctionDeclaration f)
+    public FunctionDeclaration getExistFunction(FunctionDeclaration f)
             throws ParsingException {
         for (AbstractFunction g : callableFunctions.get(f.getName())) {
             if (f.headerMatches(g)) {
@@ -206,9 +206,13 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         }
 
         if (parent == null) {
-            throw new UnknownIdentifierException(name.getLineNumber(), name.getName());
+            throw new UnknownIdentifierException(name.getLineNumber(), name.getName(), this);
         }
-        return parent.getIdentifierValue(name);
+        try {
+            return parent.getIdentifierValue(name);
+        } catch (Exception e) {
+            throw new UnknownIdentifierException(name.getLineNumber(), name.getName(), this);
+        }
     }
 
     public void verifyNonConflictingSymbolLocal(NamedEntity namedEntity)
@@ -229,10 +233,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         Token next = i.peek();
         if (next instanceof ProcedureToken || next instanceof FunctionToken) {
             i.take();
+
             boolean isProcedure = next instanceof ProcedureToken;
             FunctionDeclaration function = new FunctionDeclaration(this, i, isProcedure);
-            function = checkExistFunction(function);
+            function = getExistFunction(function);
             function.parseFunctionBody(i);
+
         } else if (next instanceof BeginEndToken) {
             handleBeginEnd(i);
 
@@ -348,14 +354,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 if (reader != null) {
                     found.set(true);
                     UnitPascal library = new UnitPascal(reader, ((WordToken) next).getName(),
-                                ArrayListMultimap.<String, AbstractFunction>create(),
-                                new ArrayList<ScriptSource>(), handler);
-                        library.declareConstants(this);
-                        library.declareTypes(this);
-                        library.declareVariables(this);
-                        library.declareFunctions(this);
+                            ArrayListMultimap.<String, AbstractFunction>create(),
+                            new ArrayList<ScriptSource>(), handler);
+                    library.declareConstants(this);
+                    library.declareTypes(this);
+                    library.declareVariables(this);
+                    library.declareFunctions(this);
 
-                        unitsMap.put(library, library.run());
+                    unitsMap.put(library, library.run());
                 }
             }
 

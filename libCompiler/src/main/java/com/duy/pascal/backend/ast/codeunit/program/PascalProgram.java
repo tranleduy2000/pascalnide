@@ -16,21 +16,24 @@
 
 package com.duy.pascal.backend.ast.codeunit.program;
 
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.backend.ast.AbstractFunction;
+import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MultipleDefinitionsMainException;
 import com.duy.pascal.backend.parse_exception.missing.MissingDotTokenException;
-import com.duy.pascal.backend.ast.AbstractFunction;
-import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
+import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProgramToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ListMultimap;
-import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.source_include.ScriptSource;
 
 import java.io.Reader;
 import java.util.List;
@@ -65,6 +68,12 @@ public class PascalProgram extends ExecutableCodeUnit {
         public PascalProgramExpressionContext(
                 ListMultimap<String, AbstractFunction> f, IRunnablePascal handler) {
             super(f, handler, false);
+        }
+
+        @Nullable
+        @Override
+        public LineInfo getStartLine() {
+            return new LineInfo(0, programName == null ? "" : programName);
         }
 
         @Override

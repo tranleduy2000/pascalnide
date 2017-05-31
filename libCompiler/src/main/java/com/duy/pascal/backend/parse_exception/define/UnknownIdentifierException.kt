@@ -16,15 +16,17 @@
 
 package com.duy.pascal.backend.parse_exception.define
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.frontend.code_editor.autofix.DefineType
 
-class UnknownIdentifierException(line: LineInfo?, var name: String)
-    : ParsingException(line, name + " is not a variable or function name") {
+class UnknownIdentifierException(line: LineInfo?, var name: String, var scope: ExpressionContext)
+    : ParsingException(line, "$name is not a variable or function name") {
 
     var token: String? = null
     var fitType: DefineType?
+
     override val isAutoFix: Boolean
         get() = true
 

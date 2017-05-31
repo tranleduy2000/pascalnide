@@ -9,7 +9,7 @@ Directory contents:
 - Makefile runs jflex, cup, javac and the compiled interpreter
 
 - Classes beginning with "T" implement the abstract syntax tree.
-  They also contain context condition checking and the interpreter.
+  They also contain scope condition checking and the interpreter.
 
 - Symtab.java, SymtabEntry.java, STEfun.java, STEvar.java implement
   the symbol table.

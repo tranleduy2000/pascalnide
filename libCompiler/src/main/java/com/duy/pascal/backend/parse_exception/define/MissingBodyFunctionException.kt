@@ -16,14 +16,14 @@
 
 package com.duy.pascal.backend.parse_exception.define
 
-import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.parse_exception.ParsingException
 
 /**
  * Created by Duy on 21-May-17.
  */
-class MissingBodyFunctionException(private val funName: String, line: LineInfo?) : ParsingException(line) {
+class MissingBodyFunctionException(val funName: String, line: LineInfo?) : ParsingException(line) {
 
-     override val message: String? get() = "Forward declaration not solved " + funName
+    override val message: String? get() = "Forward declaration not solved $funName"
 
 }

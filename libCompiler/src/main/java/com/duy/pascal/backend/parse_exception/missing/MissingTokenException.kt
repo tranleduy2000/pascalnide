@@ -26,7 +26,6 @@ import com.duy.pascal.backend.tokens.Token
 
 abstract class MissingTokenException : ParsingException {
     var token: Token? = null
-    var insertmode = true;
 
     constructor(line: LineInfo, token: Token) : super(line) {
         this.token = token

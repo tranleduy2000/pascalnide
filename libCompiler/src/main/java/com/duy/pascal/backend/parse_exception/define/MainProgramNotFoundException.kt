@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.parse_exception.define
 
+import com.duy.pascal.backend.parse_exception.ParsingException
+
 /**
  * This exception will be thrown if main program not found. It mean not found
  * `
@@ -25,4 +27,8 @@ package com.duy.pascal.backend.parse_exception.define
 ` *
  * Created by Duy on 18-Mar-17.
  */
-class MainProgramNotFoundException : Exception()
+class MainProgramNotFoundException()
+    : ParsingException(null) {
+    override val message: String?
+        get() = "main program not found";
+}

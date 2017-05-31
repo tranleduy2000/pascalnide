@@ -143,6 +143,13 @@ public class AutoIndentEditText extends AppCompatMultiAutoCompleteTextView {
         return editable.subSequence(lineStart, lineEnd);
     }
 
+    protected String getWordInCursor() {
+        int selectionStart = getSelectionStart();
+        if (selectionStart == -1) return "";
+        Editable editableText = getEditableText();
+        return "";
+    }
+
     /**
      * This method will be called when the character which user have just input is \n
      * First, get the text of the previous lineInfo. Then we will uses pattern matching for check some

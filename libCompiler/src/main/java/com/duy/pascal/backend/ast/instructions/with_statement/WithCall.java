@@ -75,7 +75,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
             main.scriptControlCheck(getLineNumber());
         }
 
-        withStatement.execute(f, main);
+        new WithOnStack(f, main, withStatement).execute();
 
         if (main != null)
             main.decStack();

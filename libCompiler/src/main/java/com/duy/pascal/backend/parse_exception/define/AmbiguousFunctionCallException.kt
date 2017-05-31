@@ -17,9 +17,10 @@
 package com.duy.pascal.backend.parse_exception.define
 
 
-import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.ast.AbstractFunction
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.parse_exception.ParsingException
 
-class AmbiguousFunctionCallException(line: LineInfo, possible: AbstractFunction, alternative: AbstractFunction) : ParsingException(line, "Ambiguous function call could be interpreted as "
-        + possible + " or as " + alternative)
+class AmbiguousFunctionCallException(line: LineInfo, possible: AbstractFunction,
+                                     alternative: AbstractFunction)
+    : ParsingException(line, "Ambiguous function call could be interpreted as $possible or as $alternative")

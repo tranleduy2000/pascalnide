@@ -2106,13 +2106,13 @@ the input. The end of a mLineNumber is denoted by the regular expression
 <code>\r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u0085</code>. 
 So <code>a$</code> is equivalent to <code>a / \r|\n|\r\n|\u2028|\u2029|\u000B|\u000C|\u0085</code>.This is a bit different to the situation described in [<A
  HREF="manual.html#unicode_rep">5</A>]:
-since in JFlex <code>$</code> is a true trailing context, the end of file
+since in JFlex <code>$</code> is a true trailing scope, the end of file
 does <B>not</B> count as end of mLineNumber.
 
 <P>
-<A NAME="trailingContext"></A>For arbitrary look-ahead (also called <EM>trailing context</EM>) the 
+<A NAME="trailingContext"></A>For arbitrary look-ahead (also called <EM>trailing scope</EM>) the
 expression is matched only when followed by input that matches the
-trailing context. 
+trailing scope.
 
 <P>
 <A NAME="EOFRule"></A>As of version 1.2, JFlex allows lex/flex style <TT>&#171;EOF&#187;</TT> rules in
@@ -2153,7 +2153,7 @@ expression3   { some action }
 </PRE>
 
 <P>
-They are useful when you work with trailing context expressions. The 
+They are useful when you work with trailing scope expressions. The
 expression <TT>a | (c / d) | b</TT> is not syntactically legal, but can 
 easily be expressed using the <code>|</code> action:
 <PRE>
@@ -3138,7 +3138,7 @@ It costs multiple additional comparisons per input character and the
 <LI>Avoid look-ahead expressions and the end of mLineNumber operator '$'
 
 <P>
-In the best case, the trailing context will first have to be read and 
+In the best case, the trailing scope will first have to be read and
   then (because it is not to be consumed) re-read again. The cases of 
   fixed-length look-ahead and fixed-length base expressions are handled efficiently
   by matching the concatenation and then pushing back the required amount

@@ -17,40 +17,31 @@
 package com.duy.pascal.backend.parse_exception.define
 
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 
-class BadFunctionCallException : ParsingException {
+class BadFunctionCallException(line: LineInfo, var functionName: String,
+                               var functionExists: Boolean, numargsMatch: Boolean,
+                               args: ArrayList<String>,
+                               function: ArrayList<String>,
+                               var scope: ExpressionContext) : ParsingException(line) {
 
-    var functionName: String
-    var functionExists: Boolean
-    var argsMatch: Boolean
-    var args: List<String>? = null;
-    var functions: List<String>? = null;
-
-    constructor(line: LineInfo, functionName: String,
-                functionExists: Boolean,
-                numargsMatch: Boolean,
-                args: ArrayList<String>,
-                function: ArrayList<String>) : super(line) {
-        this.functionName = functionName
-        this.functionExists = functionExists
-        this.argsMatch = numargsMatch
-        this.args = args;
-        this.functions = function;
-    }
+    var argsMatch: Boolean = numargsMatch
+    var args: List<String>? = args;
+    var functions: List<String>? = function;
 
     override val message: String?
         get() {
-        if (functionExists) {
-            if (argsMatch) {
-                return "One or more arguments has an incorrect operator when calling function \"$functionName\"."
+            if (functionExists) {
+                if (argsMatch) {
+                    return "One or more arguments has an incorrect operator when calling function \"$functionName\"."
+                } else {
+                    return "Either too few or two many arguments are being passed to function \"$functionName\"."
+                }
             } else {
-                return "Either too few or two many arguments are being passed to function \"$functionName\"."
+                return "Can not call function or procedure \"$functionName\", which is not defined."
             }
-        } else {
-            return "Can not call function or procedure \"$functionName\", which is not defined."
         }
-    }
 
 }

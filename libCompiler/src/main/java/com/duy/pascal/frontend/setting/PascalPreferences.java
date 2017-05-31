@@ -217,8 +217,9 @@ public class PascalPreferences {
     }
 
     public Typeface getFont() {
-        return FontManager.getFontFromAsset(context,
-                getString(context.getString(R.string.key_pref_font)));
+        String name = getString(context.getString(R.string.key_pref_font));
+        if (name.isEmpty()) name = "monospace";
+        return FontManager.getFontFromAsset(context, name);
     }
 
 

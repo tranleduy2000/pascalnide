@@ -16,12 +16,12 @@
 
 package com.duy.pascal.backend.parse_exception.convert
 
-import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.pascaltypes.DeclaredType
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
 import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue
 import com.duy.pascal.backend.ast.runtime_value.value.VariableAccess
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
+import com.duy.pascal.backend.parse_exception.ParsingException
+import com.duy.pascal.backend.pascaltypes.DeclaredType
 
 class UnConvertibleTypeException : ParsingException {
 
@@ -43,21 +43,21 @@ class UnConvertibleTypeException : ParsingException {
     var identifier: RuntimeValue? = null
 
     /**
-     * the context of variable
+     * the scope of variable
      */
-    var context: ExpressionContext? = null
+    var scope: ExpressionContext
 
 
     constructor(value: RuntimeValue,
                 targetType: DeclaredType,
-                valueType: DeclaredType, context: ExpressionContext) : super(value.lineNumber,
+                valueType: DeclaredType, scope: ExpressionContext) : super(value.lineNumber,
             "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                     + ", which cannot be converted to the type \"" + targetType + "\"") {
 
         this.value = value
         this.valueType = valueType
         this.targetType = targetType
-        this.context = context
+        this.scope = scope
     }
 
     /**
@@ -66,7 +66,7 @@ class UnConvertibleTypeException : ParsingException {
     constructor(value: RuntimeValue,
                 identifierType: DeclaredType,
                 valueType: DeclaredType,
-                identifier: RuntimeValue, context: ExpressionContext) : super(value.lineNumber,
+                identifier: RuntimeValue, scope: ExpressionContext) : super(value.lineNumber,
             "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                     + ", which cannot be "
                     + "converted to the type \"" + identifierType + "\" of expression or variable " + identifier) {
@@ -75,7 +75,7 @@ class UnConvertibleTypeException : ParsingException {
         this.valueType = valueType
         this.targetType = identifierType
         this.identifier = identifier
-        this.context = context
+        this.scope = scope
     }
 
     override val isAutoFix: Boolean

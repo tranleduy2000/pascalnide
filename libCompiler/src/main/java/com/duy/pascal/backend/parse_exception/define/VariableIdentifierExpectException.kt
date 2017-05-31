@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.parse_exception.define
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 
@@ -23,12 +24,8 @@ import com.duy.pascal.backend.parse_exception.ParsingException
  * Created by Duy on 30-May-17.
  */
 
-class VariableIdentifierExpectException : ParsingException {
-    var name: String
-
-    constructor(line: LineInfo, name: String) : super(line) {
-        this.name = name
-    }
+class VariableIdentifierExpectException(line: LineInfo, var name: String,
+                                        var scope: ExpressionContext) : ParsingException(line) {
 
     override val message: String?
         get() = "Variable identifier expected: name";

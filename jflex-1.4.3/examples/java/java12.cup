@@ -337,7 +337,7 @@ modifier ::=	PUBLIC | PROTECTED | PRIVATE
 	|	STATIC
 	|	ABSTRACT | FINAL | NATIVE | SYNCHRONIZED | TRANSIENT | VOLATILE
 	|	STRICTFP // note that semantic analysis must check that the
-	                 // context of the modifier allows strictfp.
+	                 // scope of the modifier allows strictfp.
 	;
 
 // 19.8) Classes

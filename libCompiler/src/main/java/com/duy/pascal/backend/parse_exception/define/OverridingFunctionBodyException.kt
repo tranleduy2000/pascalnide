@@ -20,8 +20,9 @@ package com.duy.pascal.backend.parse_exception.define
 import com.duy.pascal.backend.ast.AbstractFunction
 import com.duy.pascal.backend.ast.FunctionDeclaration
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.parse_exception.ParsingException
 
-class OverridingFunctionBodyException : com.duy.pascal.backend.parse_exception.ParsingException {
+class OverridingFunctionBodyException : ParsingException {
     var functionDeclaration: AbstractFunction
     var isMethod = false
 
