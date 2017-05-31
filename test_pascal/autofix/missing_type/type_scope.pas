@@ -1,4 +1,4 @@
-procedure a();
+function cc: strings;
 var
     a: strt;
 begin

@@ -25,7 +25,6 @@ import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.VariableAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
@@ -79,7 +78,7 @@ public class AutoFixError {
      * First, we find the "type" keyword, if not found we will be create new keyword
      * Then, we insert a structure <code>"name" = "type"</code>
      */
-    public void autoFixMissingType(TypeIdentifierExpectException e) {
+    public void fixMissingType(TypeIdentifierExpectException e) {
         //don't work if has selection
         //sub string from 0 to postion error
         TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
@@ -116,7 +115,8 @@ public class AutoFixError {
         if (matcher.find()) {
             textToInsert = textToInsert.replaceAll("%\\w", "");
 
-            insertPosition += text.getOffset();
+            insertPosition += text.getOffset() - 1;
+            insertPosition = Math.max(0, insertPosition); //normalize
 
             editable.getText().insert(insertPosition, textToInsert);
             editable.setSelection(insertPosition + matcher.start());
@@ -126,15 +126,6 @@ public class AutoFixError {
         }
     }
 
-    /**
-     * @param e - include lineInfo error
-     * @return the part of text start a 0 and end at e.lineInfo
-     */
-    private TextData getText(ParsingException e) {
-        return new TextData(editable.getText()
-                .subSequence(0, editable.getLayout().getLineEnd(e.getLineInfo().getLine())),
-                0);
-    }
 
     private TextData getText(LineInfo startLine, LineInfo endLine) {
         CharSequence text = editable.getText().subSequence(
@@ -146,16 +137,18 @@ public class AutoFixError {
         int offset = editable.getLayout().getLineStart(startLine.getLine())
                 + startLine.getColumn()
                 + startLine.getLength();
+
         if (offset < 0) offset = 0;
-        return new TextData(text, offset);
+        TextData textData = new TextData(text, offset);
+        return textData;
     }
 
     /**
      * This method will be add missing define, such as variable,
      * constant, function or procedure
      */
-    public void autoFixMissingDefine(UnknownIdentifierException e) {
-        DLog.d(TAG, "autoFixMissingDefine() called with: e = [" + e + "]" + " " + e.getFitType());
+    public void fixMissingDefine(UnknownIdentifierException e) {
+        DLog.d(TAG, "fixMissingDefine() called with: e = [" + e + "]" + " " + e.getFitType());
         if (e.getFitType() == DefineType.DECLARE_VAR) {
             //add missing var
             declareVar(e);
@@ -293,7 +286,7 @@ public class AutoFixError {
      *
      * @param e
      */
-    public void autoFixUnConvertType(UnConvertibleTypeException e) {
+    public void fixUnConvertType(UnConvertibleTypeException e) {
         //get a part of text
         TextData text = getText(e.getScope().getStartLine(), e.getLineInfo());
         if (e.getIdentifier() instanceof VariableAccess) {
@@ -337,7 +330,7 @@ public class AutoFixError {
      * const a: integer = 'adsda'; => change to string
      */
     private void changeTypeConst(TextData text, ConstantAccess identifier, DeclaredType valueType) {
-        DLog.d(TAG, "autoFixUnConvertType: constant " + identifier);
+        DLog.d(TAG, "fixUnConvertType: constant " + identifier);
 
         if (identifier.getName() == null) { //can not replace because it is not a identifier
             DLog.d(TAG, "changeTypeConst: this is not identifier");
@@ -358,7 +351,7 @@ public class AutoFixError {
         Matcher matcher = pattern.matcher(text.getText());
 
         if (matcher.find()) {
-            DLog.d(TAG, "autoFixUnConvertType: match " + matcher);
+            DLog.d(TAG, "fixUnConvertType: match " + matcher);
             final int start = matcher.start(6) + text.getOffset();
             int end = matcher.end(6) + text.getOffset();
 
@@ -407,7 +400,7 @@ public class AutoFixError {
     }
 
     private void changeTypeVar(TextData text, VariableAccess identifier, DeclaredType valueType) {
-        DLog.d(TAG, "autoFixUnConvertType: variable");
+        DLog.d(TAG, "fixUnConvertType: variable");
         final String name = identifier.getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
                         "(.*?)" + //other variable                                  //2
@@ -419,10 +412,10 @@ public class AutoFixError {
                 Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
         Matcher matcher = pattern.matcher(text.getText());
-        DLog.d(TAG, "autoFixUnConvertType: " + text);
+        DLog.d(TAG, "fixUnConvertType: " + text);
 
         if (matcher.find()) {
-            DLog.d(TAG, "autoFixUnConvertType: match " + matcher);
+            DLog.d(TAG, "fixUnConvertType: match " + matcher);
             final int start = matcher.start(6) + text.getOffset();
             int end = matcher.end(6) + text.getOffset();
 
@@ -436,7 +429,7 @@ public class AutoFixError {
             });
             editable.showKeyboard();
         } else {
-            DLog.d(TAG, "autoFixUnConvertType: can not find " + pattern);
+            DLog.d(TAG, "fixUnConvertType: can not find " + pattern);
         }
     }
 
@@ -530,6 +523,7 @@ public class AutoFixError {
         if (matcher.find()) {
             DLog.d(TAG, "changeConstToVar: " + matcher);
             int start = matcher.start(2) + text.getOffset() - 1;
+            start = Math.max(0, start);
             int end = matcher.end(6) + text.getOffset();
 
             editable.getEditableText().delete(start, end);
@@ -554,6 +548,7 @@ public class AutoFixError {
             matcher = pattern.matcher(text.getText());
             if (matcher.find()) {
                 int start = matcher.start(2) + text.getOffset() - 1;
+                start = Math.max(0, start);
                 int end = matcher.end(9) + text.getOffset();
 
                 editable.getEditableText().delete(start, end);
@@ -579,6 +574,11 @@ public class AutoFixError {
                     editable.length());
             editable.showKeyboard();
         }
+    }
+
+    public void fixProgramNotFound() {
+        editable.getEditableText().insert(editable.length(), "\nbegin\n    \nend.\n");
+        editable.setSelection(editable.length() - "\nend.\n".length());
     }
 
     private class TextData {
@@ -607,6 +607,11 @@ public class AutoFixError {
 
         public void setOffset(int offset) {
             this.offset = offset;
+        }
+
+        @Override
+        public String toString() {
+            return text + "\n" + "offset = " + offset;
         }
     }
 }

@@ -31,4 +31,7 @@ class MainProgramNotFoundException()
     : ParsingException(null) {
     override val message: String?
         get() = "main program not found";
+
+    override val isAutoFix: Boolean
+        get() = true
 }
