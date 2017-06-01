@@ -38,6 +38,7 @@ import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
+import com.duy.pascal.backend.tokens.closing.ClosingToken;
 import com.duy.pascal.backend.tokens.closing.EndBracketToken;
 import com.duy.pascal.backend.tokens.closing.EndParenToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
@@ -227,14 +228,15 @@ public class IndentCode {
             return new StringBuilder(token.toString());
 
         } else if (token instanceof OperatorToken) {
-            if (peek() instanceof ValueToken && ((OperatorToken) token).type.canBeUnary) {
+            if (peek() instanceof ValueToken && ((OperatorToken) token).type == OperatorTypes.DEREF) {
                 return new StringBuilder(token.toString());
             } else {
-                return new StringBuilder(token.toString()).append("");
+                return new StringBuilder(token.toString()).append(" ");
             }
         }
         return new StringBuilder(token.toString()).append(" ");
     }
+
 
     private StringBuilder completeCommentToken(StringBuilder last, int depth, CommentToken token) {
 //        int i = last.length() - 1;
@@ -252,10 +254,14 @@ public class IndentCode {
     }
 
     private StringBuilder completeCloseToken(Token token) {
-        if (peek() instanceof SemicolonToken || peek() instanceof PeriodToken) {
+        if (peek() instanceof EndToken) return new StringBuilder(token.toString()).append(" ");
+
+        if (peek() instanceof PeriodToken || peek() instanceof SemicolonToken
+                || peek() instanceof ClosingToken || peek() instanceof CommaToken) {
             return new StringBuilder(token.toString());
+        } else {
+            return new StringBuilder(token.toString()).append(" ");
         }
-        return new StringBuilder(token.toString()).append(" ");
     }
 
     @Nullable
@@ -281,8 +287,7 @@ public class IndentCode {
     }
 
     private StringBuilder completeValue(ValueToken token) {
-        if (!(peek() instanceof WordToken)
-                && !isStatement(peek())) {
+        if (!(peek() instanceof WordToken || isStatement(peek()) || peek() instanceof OperatorToken)) {
             return new StringBuilder(token.toString());
         } else {
             return new StringBuilder(token.toString()).append(" ");
@@ -312,7 +317,7 @@ public class IndentCode {
     private StringBuilder completeCaseToken(int depth, Token token) {
         StringBuilder caseStatement = new StringBuilder();
         caseStatement.append(getTab(depth)).append(token.toString()).append(" ");    //append "case .. of .."
-        caseStatement.append(getLineCommand(depth, false, OfToken.class)).append(" ");
+        caseStatement.append(getLineCommand(depth, false, OfToken.class));
 
         if (peek() instanceof OfToken) caseStatement.append(take()).append(" \n");
 
@@ -323,9 +328,7 @@ public class IndentCode {
             if (peek() instanceof SemicolonToken) appendSemicolon(body);
         }
 
-
         caseStatement.append(body);
-
 
         if (peek() instanceof ElseToken) {
             caseStatement.append(getTab(depth)).append(take()).append(" ");
@@ -398,7 +401,7 @@ public class IndentCode {
                 && !(peek() instanceof SemicolonToken)) {
             next.append(processNext(depth, take()));
         }
-        whileStatement.append(next).append(" ");
+        whileStatement.append(next)/*.append(" ")*/;
 
         //if contain else token
         if (peek() instanceof DoToken) {
@@ -481,7 +484,7 @@ public class IndentCode {
         result.append(token.toString()).append(" ");
 
         result.append(getLineCommand(depth + 1, false,
-                ThenToken.class, ElseToken.class, SemicolonToken.class)).append(" ");
+                ThenToken.class, ElseToken.class, SemicolonToken.class))/*.append(" ")*/;
 
         //then expression
         if (peek() instanceof ThenToken) {
@@ -489,7 +492,6 @@ public class IndentCode {
             result.append(take()).append("\n");
             result.append(getLineCommand(depth + 1, true, ElseToken.class, SemicolonToken.class)).append(" ");
         }
-        result.append(" ");
 
         if (peek() instanceof ElseToken) {
             result.append("\n").append(getTab(depth)).append(take()).append(" ");  //append else
