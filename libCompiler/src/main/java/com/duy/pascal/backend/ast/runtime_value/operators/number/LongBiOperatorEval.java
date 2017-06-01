@@ -2,9 +2,9 @@ package com.duy.pascal.backend.ast.runtime_value.operators.number;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.OperatorTypes;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.data_types.OperatorTypes;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;

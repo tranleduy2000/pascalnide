@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.data_types.DeclaredType;
 
 public class ConstantDefinition implements NamedEntity {
     public DeclaredType type;

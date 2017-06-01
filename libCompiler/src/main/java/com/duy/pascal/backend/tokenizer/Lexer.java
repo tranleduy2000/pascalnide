@@ -5,7 +5,7 @@ package com.duy.pascal.backend.tokenizer;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.grouping.StrayCharacterException;
-import com.duy.pascal.backend.pascaltypes.OperatorTypes;
+import com.duy.pascal.backend.data_types.OperatorTypes;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;

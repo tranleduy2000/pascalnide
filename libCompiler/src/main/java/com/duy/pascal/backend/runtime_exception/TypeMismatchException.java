@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.runtime_exception;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.data_types.DeclaredType;
 
 /**
  * Created by Duy on 02-May-17.

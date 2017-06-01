@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.ast.instructions.case_statement;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.rangetype.Containable;
+import com.duy.pascal.backend.data_types.rangetype.Containable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;

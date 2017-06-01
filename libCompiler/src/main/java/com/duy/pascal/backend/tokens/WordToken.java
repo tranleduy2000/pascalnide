@@ -6,10 +6,10 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
-import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
-import com.duy.pascal.backend.pascaltypes.PointerType;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.JavaClassBasedType;
+import com.duy.pascal.backend.data_types.PointerType;
 
 
 public class WordToken extends Token {

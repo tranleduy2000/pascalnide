@@ -3,7 +3,7 @@ package com.duy.pascal.backend.ast.instructions.case_statement;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.rangetype.Containable;
+import com.duy.pascal.backend.data_types.rangetype.Containable;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;

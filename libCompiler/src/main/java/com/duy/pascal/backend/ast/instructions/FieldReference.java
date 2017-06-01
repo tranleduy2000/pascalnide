@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.ast.instructions;
 
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.ast.runtime_value.references.Reference;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;

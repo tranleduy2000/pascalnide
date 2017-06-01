@@ -18,11 +18,11 @@ package com.duy.pascal.backend.ast.runtime_value.operators.set;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.pascaltypes.OperatorTypes;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.set.EnumElementValue;
-import com.duy.pascal.backend.pascaltypes.set.EnumGroupType;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.OperatorTypes;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.data_types.set.EnumElementValue;
+import com.duy.pascal.backend.data_types.set.EnumGroupType;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;

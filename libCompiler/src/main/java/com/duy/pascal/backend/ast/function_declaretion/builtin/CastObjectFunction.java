@@ -27,11 +27,11 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
-import com.duy.pascal.backend.pascaltypes.PointerType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.data_types.ArgumentType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.JavaClassBasedType;
+import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 /**

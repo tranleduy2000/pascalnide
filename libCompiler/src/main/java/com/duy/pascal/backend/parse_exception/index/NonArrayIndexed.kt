@@ -18,7 +18,7 @@ package com.duy.pascal.backend.parse_exception.index
 
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.pascaltypes.DeclaredType
+import com.duy.pascal.backend.data_types.DeclaredType
 
 class NonArrayIndexed(line: LineInfo, var t: DeclaredType) : ParsingException(line) {
 

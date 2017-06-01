@@ -29,7 +29,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MissingBodyFunctionException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.MisplacedDeclarationException;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.Token;

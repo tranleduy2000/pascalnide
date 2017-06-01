@@ -19,7 +19,7 @@ package com.duy.pascal.backend.ast.runtime_value.value;
 import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;

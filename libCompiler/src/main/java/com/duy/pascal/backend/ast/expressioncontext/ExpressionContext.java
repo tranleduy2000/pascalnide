@@ -12,7 +12,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;

@@ -8,7 +8,7 @@ import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.data_types.DeclaredType;
 
 import java.util.List;
 import java.util.Map;

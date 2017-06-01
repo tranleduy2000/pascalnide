@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.ast.runtime_value.variables;
 
-import com.duy.pascal.backend.pascaltypes.set.ArrayType;
+import com.duy.pascal.backend.data_types.set.ArrayType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 

@@ -31,7 +31,7 @@ import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
 import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.completion.Patterns;
