@@ -724,7 +724,7 @@ public class ViewInflater {
         int result = 0;
         Integer v = getInputTypes().get(value);
         if (v == null) {
-            mErrors.add("Unkown input operator " + value);
+            mErrors.add("Unkown input type " + value);
         } else {
             result = v;
         }
@@ -965,7 +965,7 @@ public class ViewInflater {
         if (v.getId() != 0) {
             result.put("id", getIdName(v.getId()));
         }
-        result.put("operator", v.getClass().getSimpleName());
+        result.put("type", v.getClass().getSimpleName());
         addProperty(v, "text", result);
         addProperty(v, "visibility", result);
         addProperty(v, "checked", result);

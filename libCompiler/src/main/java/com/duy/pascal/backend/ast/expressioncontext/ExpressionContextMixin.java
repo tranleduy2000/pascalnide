@@ -16,6 +16,11 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.VariableAccess;
 import com.duy.pascal.backend.builtin_libraries.PascalLibraryManager;
+import com.duy.pascal.backend.builtin_libraries.file.FileLib;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.OperatorTypes;
+import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.javaunderpascal.classpath.JavaClassLoader;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
@@ -28,10 +33,6 @@ import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.WrongIfElseStatement;
 import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
 import com.duy.pascal.backend.parse_exception.value.NonIntegerException;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.OperatorTypes;
-import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.Token;
@@ -103,22 +104,31 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     private ArrayList<InfoItem> listNameConstants = new ArrayList<>();
 
     /**
-     * list custom operator
+     * list custom type
      */
     private HashMap<String, DeclaredType> typedefs = new HashMap<>();
-    //uses for indexOf all operator in map typedefs
-    private ArrayList<InfoItem> listNameTypes = new ArrayList<>();
+
     /**
-     * list library
+     * uses for indexOf all type in map typedefs
+     */
+    private ArrayList<InfoItem> listNameTypes = new ArrayList<>();
+
+    /**
+     * List name library which program are in use
      */
     private ArrayList<String> librariesNames = new ArrayList<>();
 
     private PascalLibraryManager pascalLibraryManager;
 
     /**
-     * Class loader, load class in library rt.jar (java library)
+     * Class loader, load class in library rt.jar (java library) and other file *.class
      */
     private JavaClassLoader mClassLoader;
+
+    /**
+     * Manager read and write into a file
+     */
+    private FileLib fileHandler;
 
     private boolean isLibrary = false;
 

@@ -38,13 +38,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class InfoAppUtil {
 
-    /*  public static ArrayList<ItemInfo> readListTranslate(Context mContext, String filePath, boolean fromAssets)
+    /*  public static ArrayList<ItemInfo> readListTranslate(Context context, String filePath, boolean fromAssets)
               throws IOException, UnexpectedElementException, SAXException, ParserConfigurationException {
           ArrayList<ItemInfo> result = new ArrayList<>();
 
           InputStream inputStream;
           if (fromAssets) {
-              inputStream = mContext.getAssets().open(filePath);
+              inputStream = context.getAssets().open(filePath);
           } else {
               inputStream = new FileInputStream(filePath);
           }

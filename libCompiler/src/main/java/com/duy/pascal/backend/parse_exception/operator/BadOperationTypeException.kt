@@ -35,7 +35,7 @@ class BadOperationTypeException : ParsingException {
                 t2: DeclaredType, v1: RuntimeValue, v2: RuntimeValue,
                 operation: OperatorTypes) : super(line, "Operator " + operation
             + " cannot be applied to arguments '" + v1 + "' and '" + v2
-            + "'.  One has operator " + t1 + " and the other has operator " + t2
+            + "'.  One has type " + t1 + " and the other has type " + t2
             + ".") {
         this.value1 = v1
         this.value2 = v2

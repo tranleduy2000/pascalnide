@@ -268,7 +268,7 @@ public class SystemLibrary implements IPascalLibrary {
         return Math.sqrt(d);
     }
 
-    @PascalMethod(description = "Return previous element for an ordinal operator")
+    @PascalMethod(description = "Return previous element for an ordinal type")
     public int pred(int d) {
         return d - 1;
     }

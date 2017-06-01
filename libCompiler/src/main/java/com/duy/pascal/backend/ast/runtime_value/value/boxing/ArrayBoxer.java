@@ -39,7 +39,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         throw new ParsingException(
                 line,
-                "Attempted to indexOf operator of varargs boxer. This should not happen as" +
+                "Attempted to indexOf type of varargs boxer. This should not happen as" +
                         " we are only supposed to pass varargs to plugins");
     }
 

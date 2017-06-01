@@ -98,7 +98,7 @@ public class CommonIntentsFacade implements IPascalLibrary {
     @PascalMethod(description = "Start activity with view action by URI (i.e. browser, contacts, etc.).")
     public void view(
             @PascalParameter(name = "uri") String uri,
-            @PascalParameter(name = "operator", description = "MIME operator/subtype of the URI") @RpcOptional String type,
+            @PascalParameter(name = "type", description = "MIME type/subtype of the URI") @RpcOptional String type,
             @PascalParameter(name = "extras", description = "a Map of extras to add to the Intent") @RpcOptional JSONObject extras)
             throws Exception {
         mAndroidFacade.startActivity(Intent.ACTION_VIEW, uri, type, extras, true, null, null);

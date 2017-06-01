@@ -97,7 +97,7 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
 
     @Override
     public void declareTypes(ExpressionContextMixin parentContext) {
-        Map<String, DeclaredType> typedefs = mContext.getTypedefs();
+        Map<String, DeclaredType> typedefs = context.getTypedefs();
         for (Map.Entry<String, DeclaredType> type : typedefs.entrySet()) {
             parentContext.declareTypedef(type.getKey(), type.getValue());
         }
@@ -109,7 +109,7 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
      */
     @Override
     public void declareVariables(ExpressionContextMixin parentContext) {
-        /*ArrayList<VariableDeclaration> variables = mContext.getVariables();
+        /*ArrayList<VariableDeclaration> variables = context.getVariables();
         for (VariableDeclaration variable : variables) {
             parentContext.declareVariable(variable);
         }*/
@@ -120,9 +120,9 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
         // indexOf list name interface instead of indexOf map function
         // because I don't want to add built in function twice,
         //this is bad performance when match argument and leak memory
-        ArrayList<String> forwardFunctions = ((UnitExpressionContext) mContext).getForwardFunctions();
+        ArrayList<String> forwardFunctions = ((UnitExpressionContext) context).getForwardFunctions();
 
-        ArrayListMultimap<String, AbstractFunction> callableFunctions = mContext.getCallableFunctions();
+        ArrayListMultimap<String, AbstractFunction> callableFunctions = context.getCallableFunctions();
         for (String name : forwardFunctions) {
             List<AbstractFunction> abstractFunctions = callableFunctions.get(name);
             for (AbstractFunction function : abstractFunctions) {

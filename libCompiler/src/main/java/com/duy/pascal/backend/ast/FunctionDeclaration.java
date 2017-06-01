@@ -224,7 +224,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             if (resultDefinition == null || other.returnType() == null
                     || !resultDefinition.equals(other.returnType())) {
                 System.err.println("Warning: " +
-                        "Overriding previously declared return operator for function " + name);
+                        "Overriding previously declared return type for function " + name);
             }
             return true;
         }

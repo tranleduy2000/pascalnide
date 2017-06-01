@@ -130,7 +130,7 @@ public class AndroidEvent implements IPascalLibrary {
     }
 
     /**
-     * Actual data returned in the map will depend on the operator of event.
+     * Actual data returned in the map will depend on the type of event.
      * <p>
      * <pre>
      * Example (python):

@@ -39,6 +39,8 @@ import com.duy.pascal.backend.ast.function_declaretion.builtin.NewInstanceParams
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SetLengthFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SizeOfArrayFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SizeOfObjectFunction;
+import com.duy.pascal.backend.ast.function_declaretion.test.TestArgsFunction;
+import com.duy.pascal.backend.ast.function_declaretion.test.TestArgsFunction2;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.builtin_libraries.android.connection.bluetooth.AndroidBluetoothLib;
@@ -66,12 +68,12 @@ import com.duy.pascal.backend.builtin_libraries.graph.GraphLib;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.builtin_libraries.math.MathLib;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
-import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.JavaClassBasedType;
 import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
+import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
@@ -250,6 +252,8 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
         program.declareFunction(new AbstractMethodDeclaration(new AddressFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new TestArgsFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new TestArgsFunction2()));
 
         program.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), null, null));
         program.declareConst(new ConstantDefinition("nil", new PointerType(null), null, null));

@@ -519,7 +519,7 @@ public enum OperatorTypes {
 
     public Object operate(long l) throws OperationNotSupportedException {
         throw new OperationNotSupportedException(this
-                + " does not support operating on an integer operator number");
+                + " does not support operating on an integer type number");
 
     }
 
@@ -550,7 +550,7 @@ public enum OperatorTypes {
         if (type.declType == BasicType.Double) {
             return operate((double) o);
         }
-        throw new RuntimeException("unrecognized operator " + o.getClass()
+        throw new RuntimeException("unrecognized type " + o.getClass()
                 + " for operation " + this);
     }
 

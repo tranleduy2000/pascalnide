@@ -35,7 +35,7 @@ class BadFunctionCallException(line: LineInfo, var functionName: String,
         get() {
             if (functionExists) {
                 if (argsMatch) {
-                    return "One or more arguments has an incorrect operator when calling function \"$functionName\"."
+                    return "One or more arguments has an incorrect type when calling function \"$functionName\"."
                 } else {
                     return "Either too few or two many arguments are being passed to function \"$functionName\"."
                 }

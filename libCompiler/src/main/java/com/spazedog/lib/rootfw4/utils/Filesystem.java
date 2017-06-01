@@ -135,7 +135,7 @@ public class Filesystem {
 		
 		/** 
 		 * @return
-		 *     The device file system operator
+		 *     The device file system type
 		 */
 		public String fstype() {
 			return mFstype;
@@ -233,7 +233,7 @@ public class Filesystem {
 	
 	/**
 	 * This will return a list of all currently mounted file systems, with information like 
-	 * device path, mount location, file system operator and mount options.
+	 * device path, mount location, file system type and mount options.
 	 *     
 	 * @return
 	 *     An array of {@link MountStat} objects
@@ -301,7 +301,7 @@ public class Filesystem {
 		}
 		
 		/**
-		 * This is a short method for attaching a device or folder to a location, without any options or file system operator specifics.
+		 * This is a short method for attaching a device or folder to a location, without any options or file system type specifics.
 		 * 
 		 * @see #mount(String, String, String[])
 		 * 
@@ -316,7 +316,7 @@ public class Filesystem {
 		}
 		
 		/**
-		 * This is a short method for attaching a device or folder to a location, without any file system operator specifics.
+		 * This is a short method for attaching a device or folder to a location, without any file system type specifics.
 		 * 
 		 * @see #mount(String, String, String[])
 		 * 
@@ -342,7 +342,7 @@ public class Filesystem {
 		 *     The location where the device or folder should be attached to
 		 *     
 		 * @param type
-		 *     The file system operator to mount a device as
+		 *     The file system type to mount a device as
 		 *     
 		 * @return
 		 *     <code>True</code> on success, <code>False</code> otherwise
@@ -357,13 +357,13 @@ public class Filesystem {
 		 * <br />
 		 * Note that if the device parsed to the constructor {@link #Disk(Shell, String)} 
 		 * is a folder, this method will use the <code>--bindContent</code> option to attach it to the location. Also note that when attaching folders to a location,
-		 * the <code>operator</code> and <code>options</code> arguments will not be used and should just be parsed as <code>NULL</code>.
+		 * the <code>type</code> and <code>options</code> arguments will not be used and should just be parsed as <code>NULL</code>.
 		 * 
 		 * @param location
 		 *     The location where the device or folder should be attached to
 		 *     
 		 * @param type
-		 *     The file system operator to mount a device as
+		 *     The file system type to mount a device as
 		 *     
 		 * @param options
 		 *     A string array containing all of the mount options to parse
@@ -596,7 +596,7 @@ public class Filesystem {
 		
 		/**
 		 * Like with {@link #getMountList()}, this will also return information like device path and mount location. 
-		 * However, it will not return information like file system operator or mount options, but instead
+		 * However, it will not return information like file system type or mount options, but instead
 		 * information about the disk size, remaining bytes, used bytes and usage percentage. 
 		 *     
 		 * @return

@@ -419,7 +419,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
             // Base interface for a remotable object
             IBinder windowToken = currentFocus.getWindowToken();
 
-            // Hide operator
+            // Hide type
             int hideType = InputMethodManager.HIDE_NOT_ALWAYS;
 
             // Hide the KeyBoard

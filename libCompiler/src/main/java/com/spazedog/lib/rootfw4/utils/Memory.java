@@ -541,7 +541,7 @@ public class Memory {
 	/**
 	 * This is an extension of the {@link Swap} class. It's job is more CompCache/ZRam orientated. 
 	 * Unlike it's parent, this class can not only switch a CompCache/ZRam device on and off, it can also 
-	 * locate the proper supported operator and load it's kernel module if not already done during boot. <br /><br />
+	 * locate the proper supported type and load it's kernel module if not already done during boot. <br /><br />
 	 * 
 	 * It is advised to use this when working with CompCache/ZRam specifically. 
 	 */

@@ -872,11 +872,11 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
 
     /**
      * Decodes an Object using the base64 algorithm. This method is provided in order to satisfy the requirements of the
-     * Decoder interface, and will throw a DecoderException if the supplied object is not of operator byte[] or String.
+     * Decoder interface, and will throw a DecoderException if the supplied object is not of type byte[] or String.
      *
      * @param pObject Object to decode
-     * @return An object (of operator byte[]) containing the binary data which corresponds to the byte[] or String supplied.
-     * @throws DecoderException if the parameter supplied is not of operator byte[]
+     * @return An object (of type byte[]) containing the binary data which corresponds to the byte[] or String supplied.
+     * @throws DecoderException if the parameter supplied is not of type byte[]
      */
     public Object decode(Object pObject) throws DecoderException {
         if (pObject instanceof byte[]) {
@@ -931,11 +931,11 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
 
     /**
      * Encodes an Object using the base64 algorithm. This method is provided in order to satisfy the requirements of the
-     * Encoder interface, and will throw an EncoderException if the supplied object is not of operator byte[].
+     * Encoder interface, and will throw an EncoderException if the supplied object is not of type byte[].
      *
      * @param pObject Object to encode
-     * @return An object (of operator byte[]) containing the base64 encoded data which corresponds to the byte[] supplied.
-     * @throws EncoderException if the parameter supplied is not of operator byte[]
+     * @return An object (of type byte[]) containing the base64 encoded data which corresponds to the byte[] supplied.
+     * @throws EncoderException if the parameter supplied is not of type byte[]
      */
     public Object encode(Object pObject) throws EncoderException {
         if (!(pObject instanceof byte[])) {

@@ -17,7 +17,7 @@
 package com.googlecode.sl4a.rpc;
 
 /**
- * A converter can take a String and turn it into an instance of operator T (the operator parameter to the
+ * A converter can take a String and turn it into an instance of type T (the type parameter to the
  * converter).
  *
  * @author igor.v.karp@gmail.com (Igor Karp)
@@ -25,7 +25,7 @@ package com.googlecode.sl4a.rpc;
 public interface Converter<T> {
 
     /**
-     * Convert a string into operator T.
+     * Convert a string into type T.
      */
     T convert(String value);
 }

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class CustomType extends ObjectType {
 
     /**
-     * This is a list of the defined variables in the custom operator.
+     * This is a list of the defined variables in the custom type.
      */
     public ArrayList<VariableDeclaration> variableDeclarations;
     private CustomVariable customVariable;
@@ -26,9 +26,9 @@ public class CustomType extends ObjectType {
 
 
     /**
-     * Adds another sub-variable to this user defined operator.
+     * Adds another sub-variable to this user defined type.
      *
-     * @param v The name and operator of the variable to add.
+     * @param v The name and type of the variable to add.
      */
     public void addVariableDeclaration(VariableDeclaration v) {
         variableDeclarations.add(v);

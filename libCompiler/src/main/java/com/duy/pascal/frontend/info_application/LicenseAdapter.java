@@ -59,7 +59,7 @@ public class LicenseAdapter extends RecyclerView.Adapter<LicenseAdapter.ViewHold
 //        holder.root.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Toast.makeText(mContext, listData.indexOf(position).toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, listData.indexOf(position).toString(), Toast.LENGTH_SHORT).show();
 //            }
 //        });
 

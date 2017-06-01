@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.parse_exception.define
+package com.duy.pascal.test_interpreter;
 
-import com.duy.pascal.backend.linenumber.LineInfo
-import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.data_types.DeclaredType
+/**
+ * Created by Duy on 01-Jun-17.
+ */
 
-class IncompatableFunctionDeclaration(line: LineInfo, returntype: DeclaredType,
-                                      previousreturntype: DeclaredType) :
-        ParsingException(line,
-                "Function declaration declares conflicting return type $returntype.  It previously was defined as $previousreturntype")
+public class VarArgsTest extends BaseTestCase {
+    @Override
+    public String getDirTest() {
+        return "test_var_args";
+    }
+
+    public void test1() {
+        run("test_function.pas");
+    }
+
+    public void testReadFile() {
+        run("test_readfile.pas");
+    }
+}

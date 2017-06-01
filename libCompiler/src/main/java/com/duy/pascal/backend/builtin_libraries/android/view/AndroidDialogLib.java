@@ -108,7 +108,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * </ul>
  * <br>
  * <b>Some notes:</b><br>
- * Not every dialogSet function is relevant to every dialog operator, ie, dialogSetMaxProgress obviously
+ * Not every dialogSet function is relevant to every dialog type, ie, dialogSetMaxProgress obviously
  * only applies to dialogs created with a progress bar. Also, an Alert Dialog may have a message or
  * items, not both. If you set both, items will take priority.<br>
  * In addition to the above FUNCTIONS, {@link #dialogGetInput} and {@link #dialogGetPassword} are
@@ -153,7 +153,7 @@ public class AndroidDialogLib implements IPascalLibrary {
             final String hint,
             @PascalParameter(name = "defaultText", description = "text to insert into the input box")
             final String text,
-            @PascalParameter(name = "inputType", description = "operator of input data, ie number or text")
+            @PascalParameter(name = "inputType", description = "type of input data, ie number or text")
             final String inputType) throws InterruptedException {
         dismissDialog();
         mDialogTask = new AlertDialogTask(title, "");
@@ -466,7 +466,7 @@ public class AndroidDialogLib implements IPascalLibrary {
     /**
      * Context menus are used primarily with {@link #showWebView}
      */
-    @PascalMethod(description = "Adds a new item to mContext menu.")
+    @PascalMethod(description = "Adds a new item to context menu.")
     public void addContextMenuItem(
             @PascalParameter(name = "label", description = "label for this menu item") String label,
             @PascalParameter(name = "event", description = "event that will be generated on menu item click") String event,
@@ -485,7 +485,7 @@ public class AndroidDialogLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "Removes all items previously added to mContext menu.")
+    @PascalMethod(description = "Removes all items previously added to context menu.")
     public void clearContextMenu() {
         mContextMenuItems.clear();
     }

@@ -159,7 +159,7 @@ public class AndroidBatteryLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "Returns the most recently received plug operator data:" + "\n-1 - unknown"
+    @PascalMethod(description = "Returns the most recently received plug type data:" + "\n-1 - unknown"
             + "\n0 - unplugged;" + "\n1 - power source is an AC charger"
             + "\n2 - power source is a USB port")
     public int batteryGetPlugType() {
