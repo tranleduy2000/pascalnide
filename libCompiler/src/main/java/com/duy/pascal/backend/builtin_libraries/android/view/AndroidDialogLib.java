@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.View;
 
 import com.duy.pascal.BasePascalApplication;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor;
@@ -41,7 +42,6 @@ import com.duy.pascal.frontend.R;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.interpreter.html.HtmlActivityTask;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -264,8 +264,9 @@ public class AndroidDialogLib implements PascalLibrary {
     @PascalMethod(description = "Create alert dialog.")
     public void dialogAlert(@PascalParameter(name = "title") String title,
                             @PascalParameter(name = "message") String message,
-                            @PascalParameter(name = "lock") boolean look) {
+                            @PascalParameter(name = "lock") boolean lock) throws InterruptedException {
         createAlertDialog(title, message);
+        showDialog();
     }
 
 
