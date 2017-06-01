@@ -188,5 +188,7 @@
     <string name="select_token">Select mode</string>
     <string name="select_mode">Select mode</string>
     <string name="insert">Insert</string>
+    <string name="enable_ime_keyboard">Enable IME keyboard</string>
+    <string name="key_ime_keyboard"></string>
 </resources>
 

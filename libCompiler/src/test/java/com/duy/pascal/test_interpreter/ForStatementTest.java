@@ -27,7 +27,7 @@ import static com.duy.pascal.Compiler.runProgram;
 public class ForStatementTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "C:\\github\\pascalnide\\test_pascal\\test_statement\\for_statement";
+        return "test_statement\\for_statement";
     }
 
     @Override
@@ -42,6 +42,10 @@ public class ForStatementTest extends BaseTestCase {
 
     public void test2() {
         run("test2.pas");
+    }
+
+    public void test3() {
+        run("test3.pas");
     }
 
     public void testForInEnum() {
@@ -73,7 +77,6 @@ public class ForStatementTest extends BaseTestCase {
             assertTrue("result ", false);
         }
     }
-
 
 
 }
