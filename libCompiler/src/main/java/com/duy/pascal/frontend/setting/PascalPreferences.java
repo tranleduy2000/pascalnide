@@ -291,4 +291,16 @@ public class PascalPreferences {
     public int getMaxLineConsole() {
         return 1000;
     }
+
+    public boolean useImeKeyboard() {
+        return getBoolean(context.getString(R.string.key_ime_keyboard), false);
+    }
+
+    public void setImeMode(boolean checked) {
+        put(context.getString(R.string.key_ime_keyboard), checked);
+    }
+
+    public boolean flingToScroll() {
+        return true;
+    }
 }

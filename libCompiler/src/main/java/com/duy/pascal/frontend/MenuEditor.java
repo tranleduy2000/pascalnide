@@ -36,8 +36,6 @@ import com.duy.pascal.frontend.code_sample.CodeSampleActivity;
 import com.duy.pascal.frontend.info_application.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingActivity;
-import com.flask.colorpicker.OnColorSelectedListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 /**
  * Handler for menu click
@@ -69,12 +67,14 @@ public class MenuEditor {
         menu.findItem(R.id.action_show_symbol).setChecked(pascalPreferences.isShowListSymbol());
         menu.findItem(R.id.action_show_popup).setChecked(pascalPreferences.isShowSuggestPopup());
         menu.findItem(R.id.action_edit_word_wrap).setChecked(pascalPreferences.isWrapText());
+        menu.findItem(R.id.action_ime).setChecked(pascalPreferences.useImeKeyboard());
 
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
+        if (menuItem.isCheckable()) menuItem.setChecked(!menuItem.isChecked());
         if (id == R.id.action_setting) {
             activity.startActivity(new Intent(activity, SettingActivity.class));
 
@@ -192,20 +192,17 @@ public class MenuEditor {
             activity.startDebug();
 
         } else if (id == R.id.action_show_line) {
-            pascalPreferences.setShowLines(!menuItem.isChecked());
-            menuItem.setChecked(!menuItem.isChecked());
+            pascalPreferences.setShowLines(menuItem.isChecked());
+
 
         } else if (id == R.id.action_show_popup) {
-            pascalPreferences.setShowSuggestPopup(!menuItem.isChecked());
-            menuItem.setChecked(!menuItem.isChecked());
+            pascalPreferences.setShowSuggestPopup(menuItem.isChecked());
 
         } else if (id == R.id.action_show_symbol) {
-            pascalPreferences.setShowSymbol(!menuItem.isChecked());
-            menuItem.setChecked(!menuItem.isChecked());
+            pascalPreferences.setShowSymbol(menuItem.isChecked());
 
         } else if (id == R.id.action_edit_word_wrap) {
-            pascalPreferences.setWordWrap(!menuItem.isChecked());
-            menuItem.setChecked(!menuItem.isChecked());
+            pascalPreferences.setWordWrap(menuItem.isChecked());
 
         } else if (id == R.id.action_got_to_blog) {
             Intent intent = new Intent(Intent.ACTION_VIEW,
@@ -235,7 +232,11 @@ public class MenuEditor {
                     Uri.parse("https://github.com/tranleduy2000/pascalnide"));
             activity.startActivity(intent);
         } else if (id == R.id.action_insert_color) {
-           activity.insertColor();
+            activity.insertColor();
+
+        } else if (id == R.id.action_ime) {
+            pascalPreferences.setImeMode(menuItem.isChecked());
+
         }
         return true;
     }

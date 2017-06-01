@@ -115,7 +115,7 @@ public class AutoFixError {
         if (matcher.find()) {
             textToInsert = textToInsert.replaceAll("%\\w", "");
 
-            insertPosition += text.getOffset() - 1;
+            insertPosition += text.getOffset();
             insertPosition = Math.max(0, insertPosition); //normalize
 
             editable.getText().insert(insertPosition, textToInsert);

@@ -20,11 +20,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.TextWatcher;
@@ -36,10 +38,13 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
+import android.widget.Scroller;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -63,7 +68,7 @@ import static com.duy.pascal.frontend.code_editor.completion.Patterns.STRINGS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.SYMBOLS;
 
 public class HighlightEditor extends CodeSuggestsEditText
-        implements View.OnKeyListener {
+        implements View.OnKeyListener, GestureDetector.OnGestureListener {
     public static final String TAG = HighlightEditor.class.getSimpleName();
     public static final int SYNTAX_DELAY_MILLIS_SHORT = 100;
     public static final int SYNTAX_DELAY_MILLIS_LONG = 700;
@@ -86,6 +91,18 @@ public class HighlightEditor extends CodeSuggestsEditText
     protected int mHighlightedLine;
     protected int mHighlightStart;
     protected Rect mDrawingRect, mLineBounds;
+    /**
+     * the scroller instance
+     */
+    protected Scroller mTedScroller;
+    /**
+     * the velocity tracker
+     */
+    protected GestureDetector mGestureDetector;
+    /**
+     * the Max size of the view
+     */
+    protected Point mMaxSize;
     //Colors
     private boolean autoCompile = false;
     private CodeTheme codeTheme;
@@ -98,9 +115,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     private boolean[] isGoodLineArray;
     private int[] realLines;
     private int lineCount;
-
     private boolean isFind = false;
-
     /**
      * Disconnect this undo/redo from the text
      * view.
@@ -180,6 +195,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
 
+        mGestureDetector = new GestureDetector(getContext(), HighlightEditor.this);
+
         updateFromSettings();
 
         mChangeListener = new EditTextChangeListener();
@@ -237,6 +254,72 @@ public class HighlightEditor extends CodeSuggestsEditText
         this.lineError = lineError;
     }
 
+    public void computeScroll() {
+
+        if (mTedScroller != null) {
+            if (mTedScroller.computeScrollOffset()) {
+                scrollTo(mTedScroller.getCurrX(), mTedScroller.getCurrY());
+            }
+        } else {
+            super.computeScroll();
+        }
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+
+        super.onTouchEvent(event);
+        if (mGestureDetector != null) {
+            return mGestureDetector.onTouchEvent(event);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent arg0) {
+        // TODO Auto-generated method stub
+
+        if (isEnabled()) {
+            ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(this,
+                    InputMethodManager.SHOW_IMPLICIT);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2, float arg3) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        if (!mEditorSetting.flingToScroll()) {
+            return true;
+        }
+
+        if (mTedScroller != null) {
+            mTedScroller.fling(getScrollX(), getScrollY(), -(int) velocityX, -(int) velocityY, 0, mMaxSize.x, 0,
+                    mMaxSize.y);
+        }
+        return true;
+    }
+
     @Override
     public void onDraw(@NonNull Canvas canvas) {
         int lineX, baseline;
@@ -270,6 +353,11 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
         for (int i = min; i < max; i++) {
             baseline = getLineBounds(i, mLineBounds);
+
+            if ((mMaxSize != null) && (mMaxSize.x < mLineBounds.right)) {
+                mMaxSize.x = mLineBounds.right;
+            }
+
             if ((i == mHighlightedLine) && (!wordWrap)) {
                 canvas.drawRect(mLineBounds, mPaintHighlight);
             }
@@ -281,6 +369,14 @@ public class HighlightEditor extends CodeSuggestsEditText
         if (showLines) {
             canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
         }
+
+        getLineBounds(lineCount - 1, mLineBounds);
+        if (mMaxSize != null) {
+            mMaxSize.y = mLineBounds.bottom;
+            mMaxSize.x = Math.max(mMaxSize.x + mPadding - mDrawingRect.width(), 0);
+            mMaxSize.y = Math.max(mMaxSize.y + mPadding - mDrawingRect.height(), 0);
+        }
+
         super.onDraw(canvas);
     }
 
@@ -299,6 +395,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
         setTypeface(mEditorSetting.getFont());
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
+        setOverScrollMode(OVER_SCROLL_ALWAYS);
+
         setTextSize(mEditorSetting.getTextSize());
         mPaintNumbers.setTextSize(getTextSize());
 
@@ -318,8 +416,25 @@ public class HighlightEditor extends CodeSuggestsEditText
         } else {
             setHorizontalScrollBarEnabled(true);
         }
+
         postInvalidate();
         refreshDrawableState();
+
+        if (mEditorSetting.useImeKeyboard()) {
+            setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
+                    | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        } else {
+            setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                    | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        }  // use Fling when scrolling settings ?
+        if (mEditorSetting.flingToScroll()) {
+            mTedScroller = new Scroller(getContext());
+            mMaxSize = new Point();
+        } else {
+            mTedScroller = null;
+            mMaxSize = null;
+        }
+
     }
 
     private int calculateLinePadding() {

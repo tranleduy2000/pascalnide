@@ -39,12 +39,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.BasePascalApplication;
+import com.duy.pascal.backend.ast.AbstractFunction;
+import com.duy.pascal.backend.ast.ConstantDefinition;
+import com.duy.pascal.backend.ast.FunctionDeclaration;
+import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.codeunit.CodeUnit;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.ast.AbstractFunction;
-import com.duy.pascal.backend.ast.FunctionDeclaration;
+import com.duy.pascal.backend.source_include.FileScriptSource;
+import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
@@ -65,13 +72,6 @@ import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.duy.pascal.backend.ast.ConstantDefinition;
-import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.codeunit.CodeUnit;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.source_include.FileScriptSource;
-import com.duy.pascal.backend.source_include.ScriptSource;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -394,7 +394,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    public void onSharedPreferenceChanged(@NonNull SharedPreferences sharedPreferences, @NonNull String s) {
         if (s.equals(getString(R.string.key_show_suggest_popup))
                 || s.equals(getString(R.string.key_show_line_number))
                 || s.equals(getString(R.string.key_pref_word_wrap))) {
@@ -410,6 +410,14 @@ public class EditorActivity extends BaseEditorActivity implements
             if (editorFragment != null) {
                 EditorView editor = editorFragment.getEditor();
                 editor.setSuggestData(new ArrayList<InfoItem>());
+            }
+        }
+        //toggle ime/no suggest mode
+        else if (s.equalsIgnoreCase(getString(R.string.key_ime_keyboard))) {
+            EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
+            if (editorFragment != null) {
+                EditorView editor = editorFragment.getEditor();
+                editorFragment.refreshCodeEditor();
             }
         } else {
             super.onSharedPreferenceChanged(sharedPreferences, s);

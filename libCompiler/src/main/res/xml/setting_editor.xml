@@ -68,24 +68,28 @@
             android:key="@string/key_pref_font_size"
             android:title="@string/font_z" />
 
-      <!--  <ListPreference
-            android:defaultValue="@string/font.monospace"
-            android:entries="@array/fonts_arr"
-            android:entryValues="@array/fonts_arr"
-            android:key="@string/key_pref_font"
-            android:title="@string/font" />
+        <!--  <ListPreference
+              android:defaultValue="@string/font.monospace"
+              android:entries="@array/fonts_arr"
+              android:entryValues="@array/fonts_arr"
+              android:key="@string/key_pref_font"
+              android:title="@string/font" />
 
-        <ListPreference
-            android:defaultValue="@string/default_theme"
-            android:entries="@array/code_themes"
-            android:entryValues="@array/code_themes"
-            android:key="@string/key_code_theme"
-            android:title="@string/theme" />-->
+          <ListPreference
+              android:defaultValue="@string/default_theme"
+              android:entries="@array/code_themes"
+              android:entryValues="@array/code_themes"
+              android:key="@string/key_code_theme"
+              android:title="@string/theme" />-->
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_back_undo"
             android:title="@string/back_to_undo" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_ime_keyboard"
+            android:title="@string/enable_ime_keyboard" />
 
     </PreferenceCategory>
 
@@ -163,9 +167,9 @@
         <ListPreference
             android:defaultValue="@string/volume_down"
             android:entries="@array/control_key"
-            android:shouldDisableView="true"
             android:entryValues="@array/control_key"
             android:key="@string/key_pref_control"
+            android:shouldDisableView="true"
             android:title="Ctrl Key" />
     </PreferenceCategory>
 
