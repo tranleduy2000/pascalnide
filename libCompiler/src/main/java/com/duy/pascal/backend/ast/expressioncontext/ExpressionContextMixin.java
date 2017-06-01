@@ -59,7 +59,6 @@ import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 
 import java.io.Reader;
 import java.util.ArrayList;
@@ -137,20 +136,17 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent,
-                                  ListMultimap<String, AbstractFunction> callableFunctions,
                                   @Nullable IRunnablePascal handler, boolean isLibrary) {
         super(root, parent);
-
         this.isLibrary = isLibrary;
-
-        if (callableFunctions != null)
-            this.callableFunctions.putAll(callableFunctions);
-
-        if (handler != null)
+        if (handler != null) {
             this.handler = handler;
-        pascalLibraryManager = new PascalLibraryManager(this, handler);
+        }
 
-        try {  //load system function
+        pascalLibraryManager = new PascalLibraryManager(this, handler);
+        fileHandler = new FileLib(handler);
+        try {
+            //load system function
             pascalLibraryManager.loadSystemLibrary();
         } catch (PermissionDeniedException | LibraryNotFoundException e) {
             e.printStackTrace();
@@ -370,7 +366,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 if (reader != null) {
                     found.set(true);
                     UnitPascal library = new UnitPascal(reader, ((WordToken) next).getName(),
-                            ArrayListMultimap.<String, AbstractFunction>create(),
                             new ArrayList<ScriptSource>(), handler);
                     library.declareConstants(this);
                     library.declareTypes(this);
@@ -551,5 +546,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public HashMap<UnitPascal, RuntimeUnitPascal> getUnitsMap() {
         return unitsMap;
+    }
+
+    public FileLib getFileHandler() {
+        return fileHandler;
     }
 }

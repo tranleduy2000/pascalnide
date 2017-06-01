@@ -2,17 +2,15 @@ package com.duy.pascal.backend.ast.codeunit;
 
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
-import com.duy.pascal.backend.ast.AbstractFunction;
+import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokenizer.NewLexer;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
-import com.google.common.collect.ListMultimap;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.source_include.ScriptSource;
 
 import java.io.Reader;
 import java.util.List;
@@ -23,16 +21,15 @@ public abstract class CodeUnit {
     protected String programName;
     private List<ScriptSource> includeDirectories;
 
-    public CodeUnit(ListMultimap<String, AbstractFunction> functionTable,
-                    IRunnablePascal handler) {
-        this.context = getExpressionContextInstance(functionTable, handler);
+    public CodeUnit(IRunnablePascal handler) {
+        this.context = getExpressionContextInstance( handler);
     }
 
-    public CodeUnit(Reader program, ListMultimap<String, AbstractFunction> functionTable,
+    public CodeUnit(Reader program,
                     String sourceName, List<ScriptSource> includeDirectories,
                     @Nullable IRunnablePascal handler)
             throws ParsingException {
-        this(functionTable, handler);
+        this(handler);
         this.includeDirectories = includeDirectories;
 
         NewLexer lexer = new NewLexer(program, sourceName, includeDirectories);
@@ -48,8 +45,7 @@ public abstract class CodeUnit {
         return context;
     }
 
-    protected abstract CodeUnitExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, IRunnablePascal handler);
+    protected abstract CodeUnitExpressionContext getExpressionContextInstance(IRunnablePascal handler);
 
     private void parseTree(GrouperToken tokens) throws ParsingException {
         while (tokens.hasNext()) {
@@ -72,10 +68,9 @@ public abstract class CodeUnit {
     }
 
     protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {
-        public CodeUnitExpressionContext(ListMultimap<String, AbstractFunction> functionTable,
-                                         @Nullable IRunnablePascal handler,
+        public CodeUnitExpressionContext(@Nullable IRunnablePascal handler,
                                          boolean isLibrary) {
-            super(CodeUnit.this, null, functionTable, handler, isLibrary);
+            super(CodeUnit.this, null, handler, isLibrary);
         }
 
         @Override

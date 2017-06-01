@@ -18,7 +18,6 @@ package com.duy.pascal.backend.ast.codeunit.program;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.instructions.Executable;
@@ -33,7 +32,6 @@ import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProgramToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
-import com.google.common.collect.ListMultimap;
 
 import java.io.Reader;
 import java.util.List;
@@ -45,18 +43,16 @@ public class PascalProgram extends ExecutableCodeUnit {
     private IRunnablePascal handler;
 
     public PascalProgram(Reader program,
-                         ListMultimap<String, AbstractFunction> functionTable,
                          String sourceName, List<ScriptSource> includeDirectories,
                          IRunnablePascal handler)
             throws ParsingException {
-        super(program, functionTable, sourceName, includeDirectories, handler);
+        super(program, sourceName, includeDirectories, handler);
         this.handler = handler;
     }
 
     @Override
-    protected PascalProgramExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, IRunnablePascal handler) {
-        return new PascalProgramExpressionContext(functionTable, handler);
+    protected PascalProgramExpressionContext getExpressionContextInstance(IRunnablePascal handler) {
+        return new PascalProgramExpressionContext(handler);
     }
 
     @Override
@@ -65,9 +61,8 @@ public class PascalProgram extends ExecutableCodeUnit {
     }
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
-        public PascalProgramExpressionContext(
-                ListMultimap<String, AbstractFunction> f, IRunnablePascal handler) {
-            super(f, handler, false);
+        public PascalProgramExpressionContext(IRunnablePascal handler) {
+            super(handler, false);
         }
 
         @Nullable

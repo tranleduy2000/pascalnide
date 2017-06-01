@@ -24,12 +24,12 @@ import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MissingBodyFunctionException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.MisplacedDeclarationException;
-import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.Token;
@@ -46,7 +46,6 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 
 import java.io.Reader;
 import java.util.ArrayList;
@@ -58,18 +57,16 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
 
     public UnitPascal(Reader program,
                       String sourceName,
-                      ListMultimap<String, AbstractFunction> functionTable,
                       List<ScriptSource> includeDirectories,
                       @Nullable IRunnablePascal handler)
             throws ParsingException {
-        super(program, functionTable, sourceName, includeDirectories, handler);
+        super(program, sourceName, includeDirectories, handler);
         this.handler = handler;
     }
 
     @Override
-    protected UnitExpressionContext getExpressionContextInstance(
-            ListMultimap<String, AbstractFunction> functionTable, IRunnablePascal handler) {
-        return new UnitExpressionContext(functionTable, handler);
+    protected UnitExpressionContext getExpressionContextInstance(IRunnablePascal handler) {
+        return new UnitExpressionContext(handler);
     }
 
     @Override
@@ -145,9 +142,8 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
         @Nullable
         private LineInfo startLine;
 
-        public UnitExpressionContext(ListMultimap<String, AbstractFunction> function,
-                                     IRunnablePascal handler) {
-            super(function, handler, true);
+        public UnitExpressionContext(IRunnablePascal handler) {
+            super(handler, true);
         }
 
         @Override
