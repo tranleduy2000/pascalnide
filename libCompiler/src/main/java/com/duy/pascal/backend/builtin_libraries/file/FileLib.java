@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.builtin_libraries.file;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotAssignException;
@@ -25,9 +27,7 @@ import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.WrongArgsException;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +52,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * assign file,
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void assign(PascalReference<File> fileVariable, String name) throws RuntimePascalException {
         DLog.d(TAG, "assign() called with: fileVariable = [" + fileVariable + "], name = [" + name + "]");
 
@@ -65,7 +65,7 @@ public class FileLib implements IPascalLibrary {
         filesMap.put(file.getPath(), fileEntry);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void AssignFile(PascalReference<File> fileVariable, String name) throws RuntimePascalException {
         assign(fileVariable, name);
     }
@@ -73,7 +73,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * open file for read
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void reset(PascalReference<File> fileVariable) throws
             FileNotFoundException, RuntimePascalException {
         assertFileAssigned(fileVariable);
@@ -84,7 +84,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * rename file
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void rename(PascalReference<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
 
@@ -94,7 +94,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * erase file
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void erase(PascalReference<File> fileVariable) throws RuntimePascalException {
         assertFileAssigned(fileVariable);
         if (filesMap.get(fileVariable.get().getPath()).isOpened()) {
@@ -109,11 +109,16 @@ public class FileLib implements IPascalLibrary {
      * @throws IOException            - can not assess file
      * @throws RuntimePascalException
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void rewrite(PascalReference<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileAssigned(fileVariable);
 
         filesMap.get(fileVariable.get().getPath()).rewrite();
+    }
+
+    @PascalMethod(description = "library file")
+    public void rewrite(PascalReference<File> fileVariable, int size) throws IOException, RuntimePascalException {
+        rewrite(fileVariable);
     }
 
 
@@ -158,13 +163,13 @@ public class FileLib implements IPascalLibrary {
     /**
      * close file
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void close(PascalReference<File> fileVariable) throws IOException, RuntimePascalException {
         assertFileOpened(fileVariable);
         filesMap.get(fileVariable.get().getPath()).close();
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void closeFile(PascalReference<File> fileVariable) throws IOException, RuntimePascalException {
         close(fileVariable);
     }
@@ -177,7 +182,7 @@ public class FileLib implements IPascalLibrary {
      * return <code>false</code>
      * @throws RuntimePascalException - file not open for output
      */
-    @PascalMethod(description = "Check for end of file", returns = "null")
+    @PascalMethod(description = "Check for end of file")
     public boolean eof(PascalReference<File> fileVariable) throws IOException,
             RuntimePascalException {
         assertFileOpened(fileVariable);
@@ -204,7 +209,7 @@ public class FileLib implements IPascalLibrary {
         assertFileOpenForInput(fileVariable);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void append(PascalReference<File> fileVariable) throws RuntimePascalException,
             IOException {
         assertFileAssigned(fileVariable);
@@ -244,31 +249,31 @@ public class FileLib implements IPascalLibrary {
     /**
      * move cursor to next lineInfo
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void read(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> out)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, out);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                      PascalReference<Object> o3)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2, o3);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                      PascalReference<Object> o3, PascalReference<Object> o4)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -276,7 +281,7 @@ public class FileLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                      PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -284,7 +289,7 @@ public class FileLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                      PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5,
                      PascalReference<Object> o6)
@@ -296,7 +301,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * move cursor to next lineInfo
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void readln(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
         filesMap.get(fileVariable.getPath()).nextLine();
@@ -305,7 +310,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * read file and  move cursor to new lineInfo
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> out)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, out);
@@ -318,7 +323,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * read file and  move cursor to new lineInfo
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2)
             throws IOException, RuntimePascalException, WrongArgsException {
         setValueForVariables(fileVariable, o1, o2);
@@ -331,7 +336,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * read file and  move cursor to new lineInfo
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                        PascalReference<Object> o3)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -345,7 +350,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * read file and  move cursor to new lineInfo
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                        PascalReference<Object> o3, PascalReference<Object> o4)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -359,7 +364,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * read file and  move cursor to new lineInfo
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                        PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5)
             throws IOException, RuntimePascalException, WrongArgsException {
@@ -373,7 +378,7 @@ public class FileLib implements IPascalLibrary {
     /**
      * read file and  move cursor to new lineInfo
      */
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                        PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5,
                        PascalReference<Object> o6)
@@ -413,55 +418,55 @@ public class FileLib implements IPascalLibrary {
         file.writeString(objects);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File file) throws IOException, RuntimePascalException {
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File fileVariable, Object o1) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File fileVariable, Object o1, Object o2) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File fileVariable, Object o1, Object o2, Object o3) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4, o5);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                       Object o6) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4, o5, o6);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                       Object o6, Object o7) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7);
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                       Object o6, Object o7, Object o8) throws
             IOException, RuntimePascalException {
@@ -469,47 +474,47 @@ public class FileLib implements IPascalLibrary {
 
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File file) throws IOException, RuntimePascalException {
         writeFile(file, "\n");
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File fileVariable, Object o1) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1);
         writeFile(fileVariable, "\n");
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File fileVariable, Object o1, Object o2) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2);
         writeFile(fileVariable, "\n");
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3);
         writeFile(fileVariable, "\n");
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4);
         writeFile(fileVariable, "\n");
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5) throws
             IOException, RuntimePascalException {
         writeFile(fileVariable, o1, o2, o3, o4, o5);
         writeFile(fileVariable, "\n");
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                         Object o6) throws
             IOException, RuntimePascalException {
@@ -517,7 +522,7 @@ public class FileLib implements IPascalLibrary {
         writeFile(fileVariable, "\n");
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                         Object o6, Object o7) throws
             IOException, RuntimePascalException {
@@ -525,7 +530,7 @@ public class FileLib implements IPascalLibrary {
         writeFile(fileVariable, "\n");
     }
 
-    @PascalMethod(description = "library file", returns = "null")
+    @PascalMethod(description = "library file")
     public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
                         Object o6, Object o7, Object o8) throws
             IOException, RuntimePascalException {

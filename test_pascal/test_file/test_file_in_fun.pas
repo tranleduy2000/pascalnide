@@ -16,13 +16,11 @@ var
 begin
     rewrite(f, sizeof(data));
     for i:=1 to MAX do
-
     begin
         writeln('Enter rainfall data: ');
         readln(data);
-        write(f, data);
+        writeln(f, data);
     end;
-
     close(f);
 end;
 

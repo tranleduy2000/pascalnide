@@ -18,20 +18,20 @@ package com.duy.pascal;
 
 import android.content.Context;
 
-import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.activities.IRunnablePascal;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
+import com.duy.pascal.backend.core.PascalCompiler;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.source_include.FileScriptSource;
 import com.duy.pascal.backend.source_include.ScriptSource;
+import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -181,7 +181,7 @@ public class Compiler {
             DLog.d("path out " + pathOut);
             try {
                 String expectOutput = IOUtils.streamToString(new FileInputStream(fileOut)).toString();
-                if (output.toString().equals(expectOutput)) {
+                if (output.toString().replaceAll("\\s", "").equals(expectOutput.replaceAll("\\s", ""))) {
                     DLog.d("------------ RESULT --------------");
                     DLog.d("------------   OK --------------");
                     return true;

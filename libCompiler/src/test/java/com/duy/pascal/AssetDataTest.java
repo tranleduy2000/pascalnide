@@ -40,19 +40,11 @@ public class AssetDataTest extends TestCase {
         DLog.ANDROID = false;
     }
 
-    public void testSystem() {
+    public void testSystem() throws ParsingException, RuntimePascalException, FileNotFoundException {
         File parent = new File(dir + "system");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                try {
-                    runProgram(file.getPath());
-                } catch (RuntimePascalException e) {
-                    e.printStackTrace();
-                } catch (ParsingException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                runProgram(file.getPath());
             }
         }
     }
