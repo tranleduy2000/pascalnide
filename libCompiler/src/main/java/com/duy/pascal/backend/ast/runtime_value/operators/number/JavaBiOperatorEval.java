@@ -16,16 +16,16 @@
 
 package com.duy.pascal.backend.ast.runtime_value.operators.number;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.BasicType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
-import com.duy.pascal.backend.pascaltypes.OperatorTypes;
-import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.pascaltypes.BasicType;
+import com.duy.pascal.backend.pascaltypes.OperatorTypes;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
 
@@ -51,8 +51,14 @@ public class JavaBiOperatorEval extends BinaryOperatorEval {
             throws PascalArithmeticException, InternalInterpreterException {
         switch (operator_type) {
             case EQUALS:
+                if (value1 == null || value2 == null) {
+                    return value1 == value2;
+                }
                 return value1.equals(value2);
             case NOTEQUAL:
+                if (value1 == null || value2 == null) {
+                    return !(value1 == value2);
+                }
                 return !value1.equals(value2);
             default:
                 throw new InternalInterpreterException(line);

@@ -39,13 +39,12 @@ begin
         if (data.get(name) <> null) then //if the data of provider is exist
         begin
             cast(info, data.get(name));
-
             //print long,lat to console
-            writeln('getLatitude = ', info.getLatitude());
-            writeln('getLongitude = ', info.getLongitude());
+            writeln('Latitude = ', info.getLatitude());
+            writeln('Longitude = ', info.getLongitude());
         end;
     end;
-    writeln;
+    writeln('...');
 end;
 
 

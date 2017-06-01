@@ -17,20 +17,21 @@
 package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.pascaltypes.ArgumentType;
-import com.duy.pascal.backend.pascaltypes.DeclaredType;
-import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
-import com.duy.pascal.backend.pascaltypes.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.pascaltypes.ArgumentType;
+import com.duy.pascal.backend.pascaltypes.DeclaredType;
+import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
+import com.duy.pascal.backend.pascaltypes.PointerType;
+import com.duy.pascal.backend.pascaltypes.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 /**
@@ -43,16 +44,18 @@ public class CastObjectFunction implements IMethodDeclaration {
                     new RuntimeType(new JavaClassBasedType(Object.class), false)};
 
     @Override
-   public String getName() {
+    public String getName() {
         return "cast";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
         RuntimeValue value = arguments[1];
-        return new InstanceObjectCall(pointer, value, line);
+        PointerType declType = (PointerType) pointer.getType(f).declType;
+        Class<?> storageClass = declType.pointedToType.getStorageClass();
+        return new InstanceObjectCall(pointer, value, storageClass, line);
     }
 
     @Override
@@ -77,12 +80,14 @@ public class CastObjectFunction implements IMethodDeclaration {
 
     private class InstanceObjectCall extends FunctionCall {
         private RuntimeValue value;
+        private Class<?> storageClass;
         private LineInfo line;
         private RuntimeValue pointer;
 
-        InstanceObjectCall(RuntimeValue pointer, RuntimeValue value, LineInfo line) {
+        InstanceObjectCall(RuntimeValue pointer, RuntimeValue value, Class<?> storageClass, LineInfo line) {
             this.value = value;
             this.pointer = pointer;
+            this.storageClass = storageClass;
             this.line = line;
         }
 
@@ -105,13 +110,13 @@ public class CastObjectFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, value, line);
+            return new InstanceObjectCall(pointer, value, storageClass, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, value, line);
+            return new InstanceObjectCall(pointer, value, storageClass, line);
         }
 
         @Override
@@ -129,13 +134,8 @@ public class CastObjectFunction implements IMethodDeclaration {
             //indexOf value of arg 2
             Object value = this.value.getValue(f, main);
 
-            //indexOf value of variable
-            Object o = pointer.get();
-            //indexOf class of variable
-            Class<?> aClass = o.getClass();
-
             //cast object to type of variable
-            Object casted = aClass.cast(value);
+            Object casted = storageClass.cast(value);
 
             //set value
             pointer.set(casted);

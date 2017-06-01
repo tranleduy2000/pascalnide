@@ -18,19 +18,30 @@ package com.duy.pascal.test_interpreter;
 
 import com.duy.pascal.frontend.DLog;
 
-import junit.framework.TestCase;
-
 import static com.duy.pascal.Compiler.runProgram;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class ForStatementTest extends TestCase {
+public class ForStatementTest extends BaseTestCase {
+    @Override
+    public String getDirTest() {
+        return "C:\\github\\pascalnide\\test_pascal\\test_statement\\for_statement";
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         DLog.ANDROID = false;
+    }
+
+    public void test1() {
+        run("test1.pas");
+    }
+
+    public void test2() {
+        run("test2.pas");
     }
 
     public void testForInEnum() {
@@ -62,6 +73,7 @@ public class ForStatementTest extends TestCase {
             assertTrue("result ", false);
         }
     }
+
 
 
 }
