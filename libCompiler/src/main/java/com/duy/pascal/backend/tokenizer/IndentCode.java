@@ -12,7 +12,8 @@ import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
-import com.duy.pascal.backend.tokens.basic.AssignmentToken;
+import com.duy.pascal.backend.tokens.basic.ColonToken;
+import com.duy.pascal.backend.tokens.basic.CommaToken;
 import com.duy.pascal.backend.tokens.basic.ConstToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
@@ -41,8 +42,10 @@ import com.duy.pascal.backend.tokens.closing.EndBracketToken;
 import com.duy.pascal.backend.tokens.closing.EndParenToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
+import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.backend.tokens.grouping.RecordToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.duy.pascal.frontend.DLog;
@@ -63,8 +66,18 @@ import java.util.LinkedList;
  */
 public class IndentCode {
     private static final String TAG = "IndentCode";
-    private static final String THE_TAB = "    "; //4 space
+    private static final String THE_TAB = "|___"; //4 space
+
+
+    private static final Class[] NON_NEED_SPACE = new Class[]{
+            DotDotToken.class, PeriodToken.class, /*AssignmentToken.class,*/
+            ColonToken.class, CommaToken.class, SemicolonToken.class, BracketedToken.class,
+            ParenthesizedToken.class, /*OperatorToken.class,*/ EndBracketToken.class,
+            EndParenToken.class};
+
+    private int mode;
     private Reader source;
+
     private LinkedList<Token> stack = new LinkedList<>();
     private StringBuilder mResult;
 
@@ -133,10 +146,8 @@ public class IndentCode {
         DLog.d(TAG, "parse: eof");
     }
 
-
     private StringBuilder processNext(int depth, @Nullable Token token) {
-        if (token instanceof EOFToken || token instanceof GroupingExceptionToken
-                || token == null) {
+        if (token instanceof EOFToken || token instanceof GroupingExceptionToken || token == null) {
             return new StringBuilder(); //end of file
         }
 
@@ -163,7 +174,8 @@ public class IndentCode {
             StringBuilder result = new StringBuilder();
             result.append("\n").append(getTab(depth)).append(token).append("\n");
 
-            while (peek() instanceof WordToken || peek() instanceof OperatorToken || peek() instanceof CommentToken) {
+            while (peek() instanceof WordToken
+                    || peek() instanceof OperatorToken) {
                 result.append(getLineCommand(depth + 1, true, SemicolonToken.class));
                 if (peek() instanceof SemicolonToken) {
                     appendSemicolon(result);
@@ -211,10 +223,15 @@ public class IndentCode {
 
         } else if (token instanceof CommentToken) {
             return completeCommentToken(null, depth, (CommentToken) token);
-//            return new StringBuilder(token.toString());
         } else if (token instanceof PeriodToken) {
             return new StringBuilder(token.toString());
 
+        } else if (token instanceof OperatorToken) {
+            if (peek() instanceof ValueToken && ((OperatorToken) token).type.canBeUnary) {
+                return new StringBuilder(token.toString());
+            } else {
+                return new StringBuilder(token.toString()).append("");
+            }
         }
         return new StringBuilder(token.toString()).append(" ");
     }
@@ -272,12 +289,15 @@ public class IndentCode {
         }
     }
 
+    private boolean needSpace(Token token) {
+        for (Class aClass : NON_NEED_SPACE) {
+            if (token.getClass() == aClass) return false;
+        }
+        return true;
+    }
+
     private StringBuilder completeWord(WordToken token) {
-        if (peek() instanceof WordToken
-                || peek() instanceof ValueToken
-                || peek() instanceof OperatorToken
-                || peek() instanceof AssignmentToken
-                || isStatement(peek())) {
+        if (needSpace(peek())) {
             if (peek() instanceof OperatorToken) {
                 if (((OperatorToken) peek()).type == OperatorTypes.DEREF) {
                     return new StringBuilder(token.getOriginalName());
@@ -352,7 +372,6 @@ public class IndentCode {
 
     private StringBuilder completeRepeatUntil(int depth, Token token) {
         StringBuilder result = new StringBuilder();
-
         result.append(getTab(depth)).append(token).append(" ").append("\n"); //repeat
 
         while (peek() != null && !(peek() instanceof UntilToken)) {
@@ -364,7 +383,7 @@ public class IndentCode {
 
         if (peek() instanceof UntilToken) {
             result.append("\n").append(getTab(depth)).append(take()).append(" "); //until
-            result.append(getLineCommand(depth, false)).append("\n");
+            result.append(getLineCommand(depth, false, SemicolonToken.class));
         }
         return result;
     }
@@ -427,7 +446,7 @@ public class IndentCode {
 
         StringBuilder body = new StringBuilder();
         while (peek() != null && !(peek() instanceof EndToken)) {
-            body.append(getLineCommand(depth + 1, true, SemicolonToken.class, EndToken.class, PeriodToken.class));
+            body.append(getLineCommand(depth + 1, true, SemicolonToken.class, EndToken.class));
             if (peek() instanceof SemicolonToken) {
                 body.append(take()).append("\n");
             } else if (peek() instanceof PeriodToken) {
@@ -435,20 +454,17 @@ public class IndentCode {
             }
         }
 
-         beginEnd.append(body);
-         beginEnd.append("\n");
+        beginEnd.append(body);
+        beginEnd.append("\n");
 
         token = peek();
         if (token instanceof EndToken) {
             take();
-
-            //check end by dot or comma symbol
-            if (!(peek() instanceof SemicolonToken || peek() instanceof PeriodToken)) {
+            beginEnd.append(getTab(depth)).append(token.toString());
+            if ((peek() instanceof SemicolonToken || peek() instanceof PeriodToken)) {
+            } else {
                 beginEnd.append("\n");
             }
-
-            beginEnd.append(getTab(depth));
-            beginEnd.append(token.toString()).append(" ");
         }
 
         return replaceNewLine(beginEnd);
@@ -504,7 +520,7 @@ public class IndentCode {
     }
 
     private boolean isGroupToken(Token token) {
-        return token instanceof GrouperToken;
+        return token instanceof GrouperToken || token instanceof RepeatToken;
     }
 
     private boolean isStatement(Token token) {
@@ -554,12 +570,15 @@ public class IndentCode {
         if (peek() instanceof CommentToken) {
             result.append(completeCommentToken(result, depth, (CommentToken) take()));
         }
-
+        if (isGroupToken(peek())) {
+            result.append(processNext(depth, take()));
+            return result;
+        }
         while (peek() != null && !isIn(peek().getClass(), stopToken)) {
             StringBuilder next = processNext(depth, take());
             result.append(next);
         }
-          System.out.println("result = " + result);
+        //System.out.println("result = " + result);
         return result;
     }
 
@@ -567,7 +586,6 @@ public class IndentCode {
     private StringBuilder getLineCommand(int depth, boolean tab) {
         return getLineCommand(depth, tab, SemicolonToken.class);
     }
-
 
     private String getWord(Token token) {
         return token.toString() + " ";
@@ -580,4 +598,6 @@ public class IndentCode {
         }
         return stringBuilder;
     }
+
+    public enum FormatMode {}
 }
