@@ -986,21 +986,12 @@ public abstract class GrouperToken extends Token {
         Executable result = null;
         if (next instanceof AssignmentToken) {
             RuntimeValue firstValue = getNextExpression(context);
-
-            if (firstValue.compileTimeValue(context) != null) { //this is constant
-                RuntimeValue converted = varIdentifier.getType(context).declType.convert(firstValue, context);
-                if (converted == null) {
-                    throw new UnConvertibleTypeException(firstValue, varAssignable.getType(context).declType,
-                            firstValue.getType(context).declType, varIdentifier, context);
-                }
-                firstValue = converted;
-            } else {//if firstValue is not constant, check type
-                RuntimeValue convert = varIdentifier.getType(context).convert(firstValue, context);
-                if (convert == null) {
-                    throw new UnConvertibleTypeException(firstValue, varAssignable.getType(context).declType,
-                            firstValue.getType(context).declType, varIdentifier, context);
-                }
+            RuntimeValue convert = varIdentifier.getType(context).declType.convert(firstValue, context);
+            if (convert == null) {
+                throw new UnConvertibleTypeException(firstValue, varAssignable.getType(context).declType,
+                        firstValue.getType(context).declType, varIdentifier, context);
             }
+            firstValue = convert;
 
             next = take();
             boolean downto = false;
