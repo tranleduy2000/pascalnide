@@ -3,7 +3,7 @@ var
     i: integer;
     sum: integer;
 BEGIN
-    i := 1;
+    i := 0;
     sum := 0;
     writeln('Sum of 1 to 100 is: ');
     repeat
