@@ -171,7 +171,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                     program = pascalProgram.run();
 
                     //set stack size for the program
-                    long maxStackSize = getMPascalPreferences().getMaxStackSize();
+                    long maxStackSize = getPreferences().getMaxStackSize();
                     program.setMaxStackSize(maxStackSize);
 
                     if (isEnableDebug()) {

@@ -21,7 +21,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 
-public interface PascalLibrary {
+public interface IPascalLibrary {
 
     boolean instantiate(Map<String, Object> pluginargs);
 
@@ -37,4 +37,5 @@ public interface PascalLibrary {
     void declareVariables(ExpressionContextMixin parentContext);
 
     void declareFunctions(ExpressionContextMixin parentContext);
+
 }

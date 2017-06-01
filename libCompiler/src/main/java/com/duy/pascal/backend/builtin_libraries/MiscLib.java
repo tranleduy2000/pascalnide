@@ -24,7 +24,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 
-public class MiscLib implements PascalLibrary {
+public class MiscLib implements IPascalLibrary {
 
     @MethodTypeData(info = {@ArrayBoundsInfo(starts = {0}, lengths = {0})})
     public long GetArrayLength(Object[] o) {

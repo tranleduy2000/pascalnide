@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.parse_exception.io.InputStreamNotFoundException;
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.backend.runtime_exception.InvalidNumericFormatException;
@@ -36,7 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
-public class IOLib implements PascalLibrary {
+public class IOLib implements IPascalLibrary {
 
     public static final String TAG = IOLib.class.getSimpleName();
 

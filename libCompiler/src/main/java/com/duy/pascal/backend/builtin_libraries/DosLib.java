@@ -30,7 +30,7 @@ import java.util.Map;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class DosLib implements PascalLibrary {
+public class DosLib implements IPascalLibrary {
 
     public static final String NAME = "dos";
 

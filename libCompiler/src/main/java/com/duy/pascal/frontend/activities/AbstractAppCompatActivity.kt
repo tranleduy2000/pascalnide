@@ -39,11 +39,11 @@ import com.duy.pascal.frontend.setting.PascalPreferences
 import java.util.*
 
 abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
-    protected var mPascalPreferences: PascalPreferences? = null
+    protected var preferences: PascalPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPascalPreferences = PascalPreferences(this)
+        preferences = PascalPreferences(this)
         setFullScreen()
         setLocale(false)
         setTheme(false)
@@ -55,7 +55,7 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
      */
     private fun setLocale(create: Boolean) {
         val locale: Locale
-        val code = mPascalPreferences!!.sharedPreferences.getString(getString(R.string.key_pref_lang), "default_lang")
+        val code = preferences!!.sharedPreferences.getString(getString(R.string.key_pref_lang), "default_lang")
         if (code == "default_lang") {
             if (DEBUG) DLog.d(TAG, "setLocale: default")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -85,8 +85,8 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
 
     override fun onStart() {
         super.onStart()
-        if (mPascalPreferences != null)
-            mPascalPreferences!!.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        if (preferences != null)
+            preferences!!.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onResume() {
@@ -112,7 +112,7 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
     }
 
     fun setFullScreen() {
-        if (mPascalPreferences!!.useFullScreen()) {
+        if (preferences!!.useFullScreen()) {
             hideStatusBar()
         } else {
             showStatusBar()
@@ -126,8 +126,8 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
     override fun onDestroy() {
         super.onDestroy()
         DLog.d(TAG, "onDestroy: ")
-        if (mPascalPreferences != null)
-            mPascalPreferences!!.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        if (preferences != null)
+            preferences!!.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     /**

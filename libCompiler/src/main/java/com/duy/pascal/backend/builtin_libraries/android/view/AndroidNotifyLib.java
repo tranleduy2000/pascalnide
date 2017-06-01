@@ -21,7 +21,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -35,7 +35,7 @@ import java.util.Map;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class AndroidNotifyLib implements PascalLibrary {
+public class AndroidNotifyLib implements IPascalLibrary {
     public static final String NAME = "aNotify".toLowerCase();
 
     private final Context mContext;

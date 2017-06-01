@@ -39,7 +39,7 @@ import java.util.Random;
  * <p>
  * Created by Duy on 07-Mar-17.
  */
-public class SystemLibrary implements PascalLibrary {
+public class SystemLibrary implements IPascalLibrary {
 
     private Random random = new Random();
 

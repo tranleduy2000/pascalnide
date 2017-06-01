@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.builtin_libraries.android.connection.web;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by Duy on 18-May-17.
  */
 
-public class HtmlLib implements PascalLibrary {
+public class HtmlLib implements IPascalLibrary {
     public static final String NAME = "aHtml".toLowerCase();
 
 

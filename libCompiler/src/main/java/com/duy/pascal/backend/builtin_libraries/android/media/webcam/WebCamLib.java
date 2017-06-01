@@ -31,7 +31,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.BasePascalApplication;
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTask;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor;
@@ -88,7 +88,7 @@ import java.util.concurrent.Executor;
  * @author Damon Kohler (damonkohler@gmail.com) (probably)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class WebCamLib implements PascalLibrary {
+public class WebCamLib implements IPascalLibrary {
 
     private final Context mContext;
     private final Executor mJpegCompressionExecutor = new SingleThreadExecutor();

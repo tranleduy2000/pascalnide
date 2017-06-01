@@ -20,7 +20,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.exceptions.MediaFileNotAssignException;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
@@ -35,7 +35,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 
-public class AndroidMediaPlayerLib implements PascalLibrary {
+public class AndroidMediaPlayerLib implements IPascalLibrary {
 
     public static final String NAME = "aMedia".toLowerCase();
     private static final String TAG = "AndroidMediaPlayerLib";

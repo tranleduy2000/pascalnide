@@ -22,7 +22,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.googlecode.sl4a.MainThread;
@@ -38,7 +38,7 @@ import java.util.concurrent.Callable;
  *
  * @author Joerg Zieren (joerg.zieren@gmail.com)
  */
-public class SignalStrengthFacade implements PascalLibrary {
+public class SignalStrengthFacade implements IPascalLibrary {
     private final Context mContext;
     private final TelephonyManager mTelephonyManager;
     private final AndroidEvent mEventFacade;

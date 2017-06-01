@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.builtin_libraries.file;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotOpenException;
@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileLib implements PascalLibrary {
+public class FileLib implements IPascalLibrary {
     private static final String TAG = "FileLib";
     /**
      * map file

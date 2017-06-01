@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Duy on 08-May-17.
  */
 
-public class MathLibrary implements PascalLibrary {
+public class MathLibrary implements IPascalLibrary {
     @Override
     public boolean instantiate(Map<String, Object> pluginargs) {
         return false;

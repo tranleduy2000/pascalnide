@@ -24,7 +24,7 @@ import android.provider.Settings.SettingNotFoundException;
 import android.view.WindowManager;
 
 import com.duy.pascal.BasePascalApplication;
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTask;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor;
@@ -42,7 +42,7 @@ import java.util.Map;
  *
  * @author Frank Spychalski (frank.spychalski@gmail.com)
  */
-public class AndroidSettingLib implements PascalLibrary {
+public class AndroidSettingLib implements IPascalLibrary {
     public static final String NAME = "aSetting".toLowerCase();
     private static final int AIRPLANE_MODE_OFF = 0;
     private static final int AIRPLANE_MODE_ON = 1;

@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.builtin_libraries.crt;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.media.AndroidToneGeneratorLib;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <p>
  * Created by Duy on 28-Feb-17.
  */
-public class CrtLib implements PascalLibrary {
+public class CrtLib implements IPascalLibrary {
     public static final String TAG = CrtLib.class.getSimpleName();
     public static final String NAME = "crt";
 

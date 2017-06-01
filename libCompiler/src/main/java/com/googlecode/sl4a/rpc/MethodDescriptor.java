@@ -20,7 +20,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.duy.pascal.backend.builtin_libraries.AndroidLibraryUtils;
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
@@ -49,9 +49,9 @@ public final class MethodDescriptor {
     private static final Map<Class<?>, Converter<?>> sConverters = populateConverters();
 
     private final Method mMethod;
-    private final Class<? extends PascalLibrary> mClass;
+    private final Class<? extends IPascalLibrary> mClass;
 
-    public MethodDescriptor(Class<? extends PascalLibrary> clazz, Method method) {
+    public MethodDescriptor(Class<? extends IPascalLibrary> clazz, Method method) {
         mClass = clazz;
         mMethod = method;
     }
@@ -59,7 +59,7 @@ public final class MethodDescriptor {
     /**
      * Collects all methods with {@code RPC} annotation from given class.
      */
-    public static Collection<MethodDescriptor> collectFrom(Class<? extends PascalLibrary> clazz) {
+    public static Collection<MethodDescriptor> collectFrom(Class<? extends IPascalLibrary> clazz) {
         List<MethodDescriptor> descriptors = new ArrayList<>();
         for (Method method : clazz.getMethods()) {
             if (method.isAnnotationPresent(PascalMethod.class)) {
@@ -370,7 +370,7 @@ public final class MethodDescriptor {
         return mMethod;
     }
 
-    public Class<? extends PascalLibrary> getDeclaringClass() {
+    public Class<? extends IPascalLibrary> getDeclaringClass() {
         return mClass;
     }
 

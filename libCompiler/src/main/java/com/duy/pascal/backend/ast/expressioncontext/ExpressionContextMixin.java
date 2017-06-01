@@ -18,6 +18,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.VariableAccess;
 import com.duy.pascal.backend.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.backend.javaunderpascal.classpath.JavaClassLoader;
 import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
 import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
@@ -65,6 +66,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.duy.pascal.backend.builtin_libraries.PascalLibraryManager.MAP_LIBRARIES;
 
 public abstract class ExpressionContextMixin extends HierarchicalExpressionContext {
     public static final String TAG = ExpressionContextMixin.class.getSimpleName();
@@ -136,9 +139,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         if (handler != null)
             this.handler = handler;
         pascalLibraryManager = new PascalLibraryManager(this, handler);
-        //load system function
-        pascalLibraryManager.loadSystemLibrary();
 
+        try {  //load system function
+            pascalLibraryManager.loadSystemLibrary();
+        } catch (PermissionDeniedException | LibraryNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -337,14 +343,14 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 throw new ExpectedTokenException("[Library Identifier]", next);
             }
             AtomicBoolean found = new AtomicBoolean(false);
-            //check library not found
-            if (PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).getName()) != null) {
+            //find builtin library
+            if (MAP_LIBRARIES.get(((WordToken) next).getName()) != null) {
                 found.set(true);
                 librariesNames.add(next.toString());
-                pascalLibraryManager.addMethodFromClass(
-                        PascalLibraryManager.MAP_LIBRARIES.get(((WordToken) next).getName()));
-
+                pascalLibraryManager.addMethodFromClass(MAP_LIBRARIES.get(((WordToken) next).getName()),
+                        next.getLineNumber());
             } else {
+                //custom library pascal
                 String libName = ((WordToken) next).getName() + ".pas";
                 Reader reader = null;
                 for (ScriptSource scriptSource : this.root().getIncludeDirectories()) {
@@ -358,9 +364,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                             new ArrayList<ScriptSource>(), handler);
                     library.declareConstants(this);
                     library.declareTypes(this);
-                    library.declareVariables(this);
                     library.declareFunctions(this);
-
                     unitsMap.put(library, library.run());
                 }
             }

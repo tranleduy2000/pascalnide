@@ -24,7 +24,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.gsm.SmsManager;
 
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -47,7 +47,7 @@ import java.util.Map;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class SmsFacade implements PascalLibrary {
+public class SmsFacade implements IPascalLibrary {
 
     private final ContentResolver mContentResolver;
     private final SmsManager mSms;

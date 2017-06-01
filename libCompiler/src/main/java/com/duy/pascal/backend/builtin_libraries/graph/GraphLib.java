@@ -23,7 +23,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.duy.pascal.backend.imageprocessing.FloodFill;
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.crt.ColorUtils;
 import com.duy.pascal.backend.builtin_libraries.crt.CrtLib;
@@ -69,7 +69,7 @@ import java.util.Map;
  * Created by Duy on 01-Mar-17.
  */
 @SuppressWarnings("DefaultFileTemplate")
-public class GraphLib implements PascalLibrary {
+public class GraphLib implements IPascalLibrary {
     public static final String NAME = "graph";
     private static final String TAG = "GraphLib";
     private ExecHandler handler;

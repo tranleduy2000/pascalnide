@@ -16,11 +16,15 @@
 
 package com.duy.pascal.backend.builtin_libraries;
 
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 
+import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.MethodDeclaration;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.AbstractMethodDeclaration;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.AddressFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.CastObjectFunction;
@@ -41,6 +45,7 @@ import com.duy.pascal.backend.builtin_libraries.android.connection.bluetooth.And
 import com.duy.pascal.backend.builtin_libraries.android.connection.socketio.SocketIOLib;
 import com.duy.pascal.backend.builtin_libraries.android.connection.web.HtmlLib;
 import com.duy.pascal.backend.builtin_libraries.android.connection.wifi.AndroidWifiLib;
+import com.duy.pascal.backend.builtin_libraries.android.gps.AndroidLocationLib;
 import com.duy.pascal.backend.builtin_libraries.android.hardware.AndroidSensorLib;
 import com.duy.pascal.backend.builtin_libraries.android.hardware.AndroidVibrateLib;
 import com.duy.pascal.backend.builtin_libraries.android.media.AndroidMediaPlayerLib;
@@ -61,6 +66,9 @@ import com.duy.pascal.backend.builtin_libraries.graph.GraphLib;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.builtin_libraries.math.MathLib;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
+import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
 import com.duy.pascal.backend.pascaltypes.BasicType;
 import com.duy.pascal.backend.pascaltypes.JavaClassBasedType;
 import com.duy.pascal.backend.pascaltypes.PointerType;
@@ -68,8 +76,6 @@ import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
-import com.duy.pascal.backend.ast.ConstantDefinition;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -82,7 +88,7 @@ import java.util.Map;
  * Created by Duy on 08-Apr-17.
  */
 public class PascalLibraryManager {
-    public static final Map<String, Class<? extends PascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
+    public static final Map<String, Class<? extends IPascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
 
     static {
         MAP_LIBRARIES.put(CrtLib.NAME, CrtLib.class);
@@ -110,6 +116,7 @@ public class PascalLibraryManager {
         MAP_LIBRARIES.put(ZXingAPI.NAME, ZXingAPI.class);
         MAP_LIBRARIES.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
         MAP_LIBRARIES.put(HtmlLib.NAME, HtmlLib.class);
+        MAP_LIBRARIES.put(AndroidLocationLib.NAME, AndroidLocationLib.class);
 
         //socket library
         MAP_LIBRARIES.put(SocketIOLib.NAME, SocketIOLib.class);
@@ -151,25 +158,12 @@ public class PascalLibraryManager {
         return suggestItems;
     }
 
-    /**
-     * indexOf method of class, call by java reflect
-     *
-     * @param classes  - list class
-     * @param modifier - allow method modifier
-     */
-    public void addMethodFromClasses(ArrayList<Class<? extends PascalLibrary>> classes,
-                                     int modifier) {
-
-        for (Class<? extends PascalLibrary> t : classes) {
-            addMethodFromClass(t);
-        }
-    }
 
     /**
      * load method from a class
      */
 
-    public void addMethodFromClass(Class<? extends PascalLibrary> t) {
+    public void addMethodFromClass(Class<? extends IPascalLibrary> t, LineInfo lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
         Object parent = null;
         Constructor constructor;
         try {
@@ -200,10 +194,22 @@ public class PascalLibraryManager {
         }
 
         if (parent != null) {
-            ((PascalLibrary) parent).declareConstants(program);
-            ((PascalLibrary) parent).declareFunctions(program);
-            ((PascalLibrary) parent).declareTypes(program);
-            ((PascalLibrary) parent).declareVariables(program);
+
+            if (parent instanceof IAndroidLibrary) {
+                String[] permissions = ((IAndroidLibrary) parent).needPermission();
+                for (String permission : permissions) {
+                    int i = ActivityCompat.checkSelfPermission(handler.getApplicationContext(), permission);
+                    if (i != PackageManager.PERMISSION_GRANTED) {
+                        throw new PermissionDeniedException(((IAndroidLibrary) parent).getName(), permission, lineNumber);
+                    }
+                }
+
+            }
+
+            ((IPascalLibrary) parent).declareConstants(program);
+            ((IPascalLibrary) parent).declareFunctions(program);
+            ((IPascalLibrary) parent).declareTypes(program);
+            ((IPascalLibrary) parent).declareVariables(program);
             for (Method method : t.getDeclaredMethods()) {
                 if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     if (method.isAnnotationPresent(PascalMethod.class)) {
@@ -219,6 +225,8 @@ public class PascalLibraryManager {
                     }
                 }
             }
+        } else {
+            throw new LibraryNotFoundException(lineNumber, t.getName());
         }
 
     }
@@ -226,7 +234,7 @@ public class PascalLibraryManager {
     /**
      * load system method
      */
-    public void loadSystemLibrary() {
+    public void loadSystemLibrary() throws PermissionDeniedException, LibraryNotFoundException {
         //load builtin function
         program.declareFunction(new AbstractMethodDeclaration(new SetLengthFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new LengthFunction()));
@@ -254,9 +262,9 @@ public class PascalLibraryManager {
         //Important: load file library before io lib. Because  method readln(file, ...)
         //in {@link FileLib} will be override method readln(object...) in {@link IOLib}
 
-        addMethodFromClass(FileLib.class);
-        addMethodFromClass(IOLib.class);
-        addMethodFromClass(SystemLibrary.class);
+        addMethodFromClass(FileLib.class, new LineInfo(-1, "system"));
+        addMethodFromClass(IOLib.class, new LineInfo(-1, "system"));
+        addMethodFromClass(SystemLibrary.class, new LineInfo(-1, "system"));
     }
 
 }

@@ -17,6 +17,7 @@
 package com.duy.pascal.frontend.code_editor;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,7 +48,9 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
@@ -55,6 +59,7 @@ import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_editor.completion.KeyWord;
 import com.duy.pascal.frontend.code_editor.editor_view.AutoIndentEditText;
@@ -68,6 +73,7 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.theme.fragment.ThemeFontActivity;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.common.collect.ArrayListMultimap;
@@ -176,7 +182,7 @@ public class EditorActivity extends BaseEditorActivity implements
         final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
         final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
         final EditText editReplace = (EditText) alertDialog.findViewById(R.id.edit_replace);
-        editFind.setText(getMPascalPreferences().getString(PascalPreferences.LAST_FIND));
+        editFind.setText(getPreferences().getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,7 +194,7 @@ public class EditorActivity extends BaseEditorActivity implements
                             ckbRegex.isChecked(),
                             ckbMatch.isChecked());
                 }
-                getMPascalPreferences().put(PascalPreferences.LAST_FIND, editFind.getText().toString());
+                getPreferences().put(PascalPreferences.LAST_FIND, editFind.getText().toString());
                 alertDialog.dismiss();
             }
         });
@@ -224,7 +230,7 @@ public class EditorActivity extends BaseEditorActivity implements
         final CheckBox ckbMatch = (CheckBox) alertDialog.findViewById(R.id.ckb_match_key);
         final CheckBox ckbWordOnly = (CheckBox) alertDialog.findViewById(R.id.ckb_word_only);
         final EditText editFind = (EditText) alertDialog.findViewById(R.id.txt_find);
-        editFind.setText(getMPascalPreferences().getString(PascalPreferences.LAST_FIND));
+        editFind.setText(getPreferences().getString(PascalPreferences.LAST_FIND));
         alertDialog.findViewById(R.id.btn_replace).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,7 +241,7 @@ public class EditorActivity extends BaseEditorActivity implements
                             ckbWordOnly.isChecked(),
                             ckbMatch.isChecked());
                 }
-                getMPascalPreferences().put(PascalPreferences.LAST_FIND, editFind.getText().toString());
+                getPreferences().put(PascalPreferences.LAST_FIND, editFind.getText().toString());
                 alertDialog.dismiss();
             }
         });
@@ -300,14 +306,14 @@ public class EditorActivity extends BaseEditorActivity implements
                 codeUnit = PascalCompiler.loadLibrary(new File(filePath).getName(),
                         new FileReader(filePath),
                         searchPath,
-                        null);
+                        new ProgramHandler(filePath));
             } else {
 
                 ArrayList<ScriptSource> searchPath = new ArrayList<>();
                 searchPath.add(new FileScriptSource(new File(filePath).getParent()));
 
                 codeUnit = PascalCompiler.loadPascal(new File(filePath).getName(),
-                        new FileReader(filePath), searchPath, null);
+                        new FileReader(filePath), searchPath, new ProgramHandler(filePath));
                 if (codeUnit != null) {
                     if (((PascalProgram) codeUnit).main == null) {
                         showErrorDialog(new MainProgramNotFoundException());
@@ -384,7 +390,7 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        if (getMPascalPreferences().isShowListSymbol()) {
+        if (getPreferences().isShowListSymbol()) {
             mKeyList.setListener(this);
             mContainerSymbol.setVisibility(View.VISIBLE);
         } else {
@@ -403,7 +409,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 editorFragment.refreshCodeEditor();
             }
         } else if (s.equals(getString(R.string.key_show_symbol))) {
-            mContainerSymbol.setVisibility(getMPascalPreferences().isShowListSymbol()
+            mContainerSymbol.setVisibility(getPreferences().isShowListSymbol()
                     ? View.VISIBLE : View.GONE);
         } else if (s.equals(getString(R.string.key_show_suggest_popup))) {
             EditorFragment editorFragment = pagerAdapter.getCurrentFragment();
@@ -635,7 +641,7 @@ public class EditorActivity extends BaseEditorActivity implements
         /*
           check can undo
          */
-        if (getMPascalPreferences().getBoolean(getString(R.string.key_back_undo))) {
+        if (getPreferences().getBoolean(getString(R.string.key_back_undo))) {
             undo();
             return;
         }
@@ -771,6 +777,102 @@ public class EditorActivity extends BaseEditorActivity implements
         EditorFragment f = pagerAdapter.getCurrentFragment();
         if (f != null && f.getEditor() != null) {
             f.getEditor().getAutoFixError().fixExpectToken(current, expect, insert, line, column);
+        }
+    }
+
+    private class ProgramHandler implements IRunnablePascal {
+
+        private String programPath;
+
+        ProgramHandler(String programPath) {
+
+            this.programPath = programPath;
+        }
+
+        @Override
+        public String getCurrentDirectory() {
+            return new File(programPath).getParent();
+        }
+
+        @Override
+        public Context getApplicationContext() {
+            return EditorActivity.this.getApplicationContext();
+        }
+
+        @Override
+        public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
+
+        }
+
+        @Override
+        public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
+
+        }
+
+        @Override
+        public void onFunctionCall(FunctionDeclaration functionDeclaration) {
+
+        }
+
+        @Override
+        public void onProcedureCall(FunctionDeclaration functionDeclaration) {
+
+        }
+
+        @Override
+        public void onNewMessage(String msg) {
+
+        }
+
+        @Override
+        public void onClearDebug() {
+
+        }
+
+        @Override
+        public void onVariableChangeValue(String name, Object old, Object newValue) {
+
+        }
+
+        @Override
+        public void onFunctionCall(String name) {
+
+        }
+
+        @Override
+        public void startInput(IOLib lock) {
+
+        }
+
+        @Override
+        public void onLine(LineInfo lineInfo) {
+
+        }
+
+        @Override
+        public void print(CharSequence charSequence) {
+
+        }
+
+        @Nullable
+        @Override
+        public ConsoleView getConsoleView() {
+            return null;
+        }
+
+        @Override
+        public void println(CharSequence charSequence) {
+
+        }
+
+        @Override
+        public char getKeyBuffer() {
+            return 0;
+        }
+
+        @Override
+        public boolean keyPressed() {
+            return false;
         }
     }
 }

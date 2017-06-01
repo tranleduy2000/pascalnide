@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by Duy on 01-May-17.
  */
 @SuppressWarnings("DefaultFileTemplate")
-public class ZXingAPI implements PascalLibrary {
+public class ZXingAPI implements IPascalLibrary {
     public static final String NAME = "barCode".toLowerCase();
     private AndroidUtilsLib mAndroidFacade;
     private Context context;
