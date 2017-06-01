@@ -16,8 +16,10 @@
 
 package com.duy.pascal.backend.builtin_libraries.file;
 
+import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotAssignException;
@@ -26,12 +28,12 @@ import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotOpenForIn
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime_exception.WrongArgsException;
 import com.duy.pascal.frontend.DLog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,8 +57,10 @@ public class FileLib implements IPascalLibrary {
     @PascalMethod(description = "library file")
     public void assign(PascalReference<File> fileVariable, String name) throws RuntimePascalException {
         DLog.d(TAG, "assign() called with: fileVariable = [" + fileVariable + "], name = [" + name + "]");
-
-        File file = new File(handler.getCurrentDirectory(), name);
+        File file = new File(name);
+        if (!file.exists()) {
+            file = new File(handler.getCurrentDirectory(), name);
+        }
         DLog.d("File " + file);
         fileVariable.set(file);
 
@@ -190,7 +194,7 @@ public class FileLib implements IPascalLibrary {
         return filesMap.get(fileVariable.get().getPath()).isEof();
     }
 
-    @PascalMethod(description = "Check for end of lineInfo")
+    @PascalMethod(description = "Check for end of line")
     public boolean eoln(PascalReference<File> fileVariable) throws RuntimePascalException {
         assertFileOpened(fileVariable);
         assertFileOpenForInput(fileVariable);
@@ -217,38 +221,57 @@ public class FileLib implements IPascalLibrary {
     }
 
     @SuppressWarnings("unchecked")
-    private void setValueForVariables(File fileVariable, PascalReference... listVariable)
-            throws RuntimePascalException, IOException {
+    public void setValueForVariables(File fileVariable, PascalReference... listVariable)
+            throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
-        FileEntry file = filesMap.get(fileVariable.getPath());
         for (PascalReference out : listVariable) {
-            if (out.get() instanceof Character) {
-                char value = file.readChar();
-                out.set(value);
-            } else if (out.get() instanceof StringBuilder) {
-                String value = file.readString();
-                out.set(new StringBuilder(value));
-            } else if (out.get() instanceof String) {
-                String value = file.readString();
-                out.set(value);
-            } else if (out.get() instanceof Integer) {
-                Integer integer = file.readInteger();
-                out.set(integer);
-            } else if (out.get() instanceof Long) {
-                long value = file.readLong();
-                out.set(value);
-            } else if (out.get() instanceof Double) {
-                double value = file.readDouble();
-                out.set(value);
-            } else {
-                throw new CanNotReadVariableException(out.get());
-            }
+            Object v = getValueForVariable(fileVariable, out.get().getClass(), out.get());
+            out.set(v);
         }
     }
 
-    /**
-     * move cursor to next lineInfo
-     */
+    private Object getValueForVariable(File zfile, Class c, Object o)
+            throws RuntimePascalException {
+        FileEntry file = filesMap.get(zfile.getPath());
+        if (c == Character.class) {
+            char value = file.readChar();
+            return value;
+        } else if (c == StringBuilder.class) {
+            String value = file.readString();
+            return value;
+
+        } else if (c == String.class) {
+            String value = file.readString();
+            return value;
+
+        } else if (c == Integer.class) {
+            Integer integer = file.readInteger();
+            return integer;
+
+        } else if (c == Long.class) {
+            long value = file.readLong();
+            return value;
+
+        } else if (c == Double.class) {
+            double value = file.readDouble();
+            return value;
+
+        } else if (c == CustomVariable.class) {
+            CustomVariable record = (CustomVariable) o;
+            ArrayList<VariableDeclaration> variables = record.getVariables();
+            for (VariableDeclaration variable : variables) {
+                Object v = getValueForVariable(zfile, variable.getType().getStorageClass(),
+                        record.getVar(variable.getName()));
+                record.setVar(variable.getName(), v);
+            }
+            return record;
+        } else {
+            throw new CanNotReadVariableException(c);
+        }
+    }
+   /* *//**
+     * move cursor to next line
+     *//*
     @PascalMethod(description = "library file")
     public void read(File fileVariable) throws RuntimePascalException {
         assertFileOpenForInput(fileVariable);
@@ -256,27 +279,27 @@ public class FileLib implements IPascalLibrary {
 
     @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> out)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, out);
     }
 
     @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2);
     }
 
     @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                      PascalReference<Object> o3)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2, o3);
     }
 
     @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                      PascalReference<Object> o3, PascalReference<Object> o4)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2, o3, o4);
     }
 
@@ -284,7 +307,7 @@ public class FileLib implements IPascalLibrary {
     @PascalMethod(description = "library file")
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                      PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
     }
 
@@ -293,13 +316,13 @@ public class FileLib implements IPascalLibrary {
     public void read(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                      PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5,
                      PascalReference<Object> o6)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
-    }
+    }*/
 
 
     /**
-     * move cursor to next lineInfo
+     * move cursor to next line
      */
     @PascalMethod(description = "library file")
     public void readln(File fileVariable) throws RuntimePascalException {
@@ -308,11 +331,11 @@ public class FileLib implements IPascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineInfo
+     * read file and  move cursor to new line
      */
     @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> out)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, out);
         if (!(out.get() instanceof StringBuilder)
                 && !(out.get() instanceof String)) {
@@ -321,11 +344,11 @@ public class FileLib implements IPascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineInfo
+     * read file and  move cursor to new line
      */
     @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2);
         if (!(o2.get() instanceof StringBuilder)
                 && !(o2.get() instanceof String)) {
@@ -333,13 +356,14 @@ public class FileLib implements IPascalLibrary {
         }
     }
 
+
     /**
-     * read file and  move cursor to new lineInfo
+     * read file and  move cursor to new line
      */
     @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                        PascalReference<Object> o3)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2, o3);
         if (!(o3.get() instanceof StringBuilder)
                 && !(o3.get() instanceof String)) {
@@ -348,12 +372,12 @@ public class FileLib implements IPascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineInfo
+     * read file and  move cursor to new line
      */
     @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                        PascalReference<Object> o3, PascalReference<Object> o4)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2, o3, o4);
         if (!(o4.get() instanceof StringBuilder)
                 && !(o4.get() instanceof String)) {
@@ -362,12 +386,12 @@ public class FileLib implements IPascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineInfo
+     * read file and  move cursor to new line
      */
     @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                        PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5);
         if (!(o5.get() instanceof StringBuilder)
                 && !(o5.get() instanceof String)) {
@@ -376,13 +400,13 @@ public class FileLib implements IPascalLibrary {
     }
 
     /**
-     * read file and  move cursor to new lineInfo
+     * read file and  move cursor to new line
      */
     @PascalMethod(description = "library file")
     public void readln(File fileVariable, PascalReference<Object> o1, PascalReference<Object> o2,
                        PascalReference<Object> o3, PascalReference<Object> o4, PascalReference<Object> o5,
                        PascalReference<Object> o6)
-            throws IOException, RuntimePascalException, WrongArgsException {
+            throws IOException, RuntimePascalException {
         setValueForVariables(fileVariable, o1, o2, o3, o4, o5, o6);
         if (!(o6.get() instanceof StringBuilder)
                 && !(o6.get() instanceof String)) {
@@ -574,5 +598,26 @@ public class FileLib implements IPascalLibrary {
     @Override
     public void declareFunctions(ExpressionContextMixin parentContext) {
 
+    }
+
+    public void readz(File file, PascalReference[] values) throws RuntimePascalException {
+        setValueForVariables(file, values);
+    }
+
+    /**
+     * read file and  move cursor to new line
+     */
+    public void readlnz(File fileVariable, PascalReference... args)
+            throws RuntimePascalException {
+        if (args.length == 0) {
+            assertFileOpenForInput(fileVariable);
+            filesMap.get(fileVariable.getPath()).nextLine();
+        } else {
+            setValueForVariables(fileVariable, args);
+            if (!(args[args.length - 1].get() instanceof StringBuilder)
+                    && !(args[args.length - 1].get() instanceof String)) {
+                filesMap.get(fileVariable.getPath()).nextLine();
+            }
+        }
     }
 }

@@ -26,6 +26,7 @@ import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.data_types.ArgumentType;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.DeclaredType;
@@ -38,21 +39,20 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 /**
  * Casts an object to the class or the interface represented
  */
-public class TestArgsFunction2 implements IMethodDeclaration {
+public class ReadFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
-            {new RuntimeType(BasicType.Text, true),
-                    new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
+            {new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
 
     @Override
     public String getName() {
-        return "readf";
+        return "read";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new InstanceObjectCall(arguments[0], arguments[1], line);
+        return new ReadCall(arguments[0], line);
     }
 
     @Override
@@ -75,13 +75,11 @@ public class TestArgsFunction2 implements IMethodDeclaration {
         return null;
     }
 
-    private class InstanceObjectCall extends FunctionCall {
+    private class ReadCall extends FunctionCall {
         private RuntimeValue args;
         private LineInfo line;
-        private RuntimeValue filePreference;
 
-        InstanceObjectCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
-            this.filePreference = filePreferences;
+        ReadCall(RuntimeValue args, LineInfo line) {
             this.args = args;
             this.line = line;
         }
@@ -105,28 +103,27 @@ public class TestArgsFunction2 implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(filePreference, args, line);
+            return new ReadCall(args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(filePreference, args,line);
+            return new ReadCall(args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "readf";
+            return "read";
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
+            IOLib ioHandler = main.getDefinition().getContext().getIOHandler();
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
-            for (PascalReference reference : values) {
-                reference.set(10);
-            }
+            ioHandler.readz(values);
             return null;
         }
 

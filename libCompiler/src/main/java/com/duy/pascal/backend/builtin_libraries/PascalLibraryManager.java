@@ -39,8 +39,10 @@ import com.duy.pascal.backend.ast.function_declaretion.builtin.NewInstanceParams
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SetLengthFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SizeOfArrayFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SizeOfObjectFunction;
-import com.duy.pascal.backend.ast.function_declaretion.test.TestArgsFunction;
-import com.duy.pascal.backend.ast.function_declaretion.test.TestArgsFunction2;
+import com.duy.pascal.backend.ast.function_declaretion.test.ReadFileFunction;
+import com.duy.pascal.backend.ast.function_declaretion.test.ReadFunction;
+import com.duy.pascal.backend.ast.function_declaretion.test.ReadlnFileFunction;
+import com.duy.pascal.backend.ast.function_declaretion.test.ReadLineFunction;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.builtin_libraries.android.connection.bluetooth.AndroidBluetoothLib;
@@ -63,9 +65,7 @@ import com.duy.pascal.backend.builtin_libraries.android.voice.AndroidTextToSpeec
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.crt.CrtLib;
 import com.duy.pascal.backend.builtin_libraries.crt.WinCrt;
-import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.builtin_libraries.graph.GraphLib;
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.builtin_libraries.math.MathLib;
 import com.duy.pascal.backend.data_types.BasicType;
@@ -196,37 +196,7 @@ public class PascalLibraryManager {
         }
 
         if (parent != null) {
-
-            if (parent instanceof IAndroidLibrary) {
-                String[] permissions = ((IAndroidLibrary) parent).needPermission();
-                for (String permission : permissions) {
-                    int i = ActivityCompat.checkSelfPermission(handler.getApplicationContext(), permission);
-                    if (i != PackageManager.PERMISSION_GRANTED) {
-                        throw new PermissionDeniedException(((IAndroidLibrary) parent).getName(), permission, lineNumber);
-                    }
-                }
-
-            }
-
-            ((IPascalLibrary) parent).declareConstants(program);
-            ((IPascalLibrary) parent).declareFunctions(program);
-            ((IPascalLibrary) parent).declareTypes(program);
-            ((IPascalLibrary) parent).declareVariables(program);
-            for (Method method : t.getDeclaredMethods()) {
-                if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    if (method.isAnnotationPresent(PascalMethod.class)) {
-                        PascalMethod annotation = method.getAnnotation(PascalMethod.class);
-                        String description = annotation.description();
-                        MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method, description);
-                        program.declareFunction(methodDeclaration);
-                    }
-                } else {
-                    if (Modifier.isPublic(method.getModifiers())) {
-                        MethodDeclaration methodDeclaration = new MethodDeclaration(parent, method);
-                        program.declareFunction(methodDeclaration);
-                    }
-                }
-            }
+            addMethodFromLibrary(parent, lineNumber);
         } else {
             throw new LibraryNotFoundException(lineNumber, t.getName());
         }
@@ -252,8 +222,11 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
         program.declareFunction(new AbstractMethodDeclaration(new AddressFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new TestArgsFunction()));
-        program.declareFunction(new AbstractMethodDeclaration(new TestArgsFunction2()));
+
+        program.declareFunction(new AbstractMethodDeclaration(new ReadFileFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new ReadlnFileFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new ReadLineFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new ReadFunction()));
 
         program.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), null, null));
         program.declareConst(new ConstantDefinition("nil", new PointerType(null), null, null));
@@ -263,12 +236,40 @@ public class PascalLibraryManager {
 
         program.declareConst(new ConstantDefinition("pi", BasicType.Long, Long.MAX_VALUE, null));
 
-        //Important: load file library before io lib. Because  method readln(file, ...)
-        //in {@link FileLib} will be override method readln(object...) in {@link IOLib}
-
-        addMethodFromClass(FileLib.class, new LineInfo(-1, "system"));
-        addMethodFromClass(IOLib.class, new LineInfo(-1, "system"));
         addMethodFromClass(SystemLibrary.class, new LineInfo(-1, "system"));
+    }
+
+    public void addMethodFromLibrary(@NonNull Object o, LineInfo line) throws PermissionDeniedException {
+        if (o instanceof IAndroidLibrary) {
+            String[] permissions = ((IAndroidLibrary) o).needPermission();
+            for (String permission : permissions) {
+                int i = ActivityCompat.checkSelfPermission(handler.getApplicationContext(), permission);
+                if (i != PackageManager.PERMISSION_GRANTED) {
+                    throw new PermissionDeniedException(((IAndroidLibrary) o).getName(), permission, line);
+                }
+            }
+
+        }
+
+        ((IPascalLibrary) o).declareConstants(program);
+        ((IPascalLibrary) o).declareFunctions(program);
+        ((IPascalLibrary) o).declareTypes(program);
+        ((IPascalLibrary) o).declareVariables(program);
+        for (Method method : o.getClass().getDeclaredMethods()) {
+            if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                if (method.isAnnotationPresent(PascalMethod.class)) {
+                    PascalMethod annotation = method.getAnnotation(PascalMethod.class);
+                    String description = annotation.description();
+                    MethodDeclaration methodDeclaration = new MethodDeclaration(o, method, description);
+                    program.declareFunction(methodDeclaration);
+                }
+            } else {
+                if (Modifier.isPublic(method.getModifiers())) {
+                    MethodDeclaration methodDeclaration = new MethodDeclaration(o, method);
+                    program.declareFunction(methodDeclaration);
+                }
+            }
+        }
     }
 
 }

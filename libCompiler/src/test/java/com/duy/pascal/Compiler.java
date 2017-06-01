@@ -183,6 +183,7 @@ public class Compiler {
                 String expectOutput = IOUtils.streamToString(new FileInputStream(fileOut)).toString();
                 if (output.toString().replaceAll("\\s", "").equals(expectOutput.replaceAll("\\s", ""))) {
                     DLog.d("------------ RESULT --------------");
+                    DLog.d("output\n" + output.toString());
                     DLog.d("------------   OK --------------");
                     return true;
                 } else {

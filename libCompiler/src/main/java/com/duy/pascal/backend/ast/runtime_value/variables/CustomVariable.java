@@ -31,10 +31,16 @@ import java.util.Set;
  */
 public class CustomVariable implements ContainsVariables {
     private Map<String, Object> variableMap = new HashMap<>();
-    private ArrayList<VariableDeclaration> mVariables;
+
+    public ArrayList<VariableDeclaration> getVariables() {
+        return variables;
+    }
+
+    private ArrayList<VariableDeclaration> variables;
+
 
     public CustomVariable(ArrayList<VariableDeclaration> mVariables) {
-        this.mVariables = mVariables;
+        this.variables = mVariables;
         for (VariableDeclaration declaration : mVariables) {
             Class returnType = declaration.getType().getTransferClass();
             if (declaration.getInitialValue() != null) {
@@ -76,7 +82,7 @@ public class CustomVariable implements ContainsVariables {
         Set<Map.Entry<String, Object>> entries = variableMap.entrySet();
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<String, Object> entry : entries) {
-            stringBuilder.append(entry.getKey()).append(" = ").append(entry.getValue());
+            stringBuilder/*.append(entry.getKey()).append(" = ")*/.append(entry.getValue());
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
@@ -91,7 +97,7 @@ public class CustomVariable implements ContainsVariables {
     @SuppressWarnings({"unchecked", "CloneDoesntCallSuperClone"})
     public ContainsVariables clone() {
         ArrayList<VariableDeclaration> vars = new ArrayList<>();
-        for (VariableDeclaration mVariable : mVariables) {
+        for (VariableDeclaration mVariable : variables) {
             vars.add(new VariableDeclaration(mVariable.getName(), mVariable.getType(),
                     variableMap.get(mVariable.getName().toLowerCase()), mVariable.getLineNumber()));
         }

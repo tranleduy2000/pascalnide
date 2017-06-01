@@ -18,17 +18,17 @@ package com.duy.pascal.backend.builtin_libraries.io;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.parse_exception.io.InputStreamNotFoundException;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
+import com.duy.pascal.backend.core.PascalCompiler;
+import com.duy.pascal.backend.parse_exception.io.InputStreamNotFoundException;
 import com.duy.pascal.backend.runtime_exception.InvalidNumericFormatException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
@@ -243,7 +243,7 @@ public class IOLib implements IPascalLibrary {
         }
     }
 
-    @PascalMethod(description = "system library", returns = "void")
+  /*  @PascalMethod(description = "system library", returns = "void")
     public void read() {
         if (listener != null) {
             listener.startInput(this);
@@ -251,9 +251,9 @@ public class IOLib implements IPascalLibrary {
         }
     }
 
-    /**
+    *//**
      * read procedure
-     */
+     *//*
     @PascalMethod(description = "system library", returns = "void")
     public void read(PascalReference<Object> a1) throws RuntimePascalException, NumberFormatException {
         setValueForVariables(a1);
@@ -297,7 +297,7 @@ public class IOLib implements IPascalLibrary {
                      PascalReference<Object> a7) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
     }
-
+*/
     private void readString(Scanner scanner, PascalReference<String> variableBoxer) {
         variableBoxer.set(scanner.nextLine());
 
@@ -380,7 +380,14 @@ public class IOLib implements IPascalLibrary {
         return inputBuffer;
     }
 
-    @PascalMethod(description = "system library", returns = "void")
+    public void setInputBuffer(@NonNull String inputBuffer) {
+        this.inputBuffer = inputBuffer;
+        synchronized (this) {
+            this.notifyAll();
+        }
+    }
+
+    /*@PascalMethod(description = "system library", returns = "void")
     public void readln() {
         if (listener != null) {
             listener.startInput(this);
@@ -430,7 +437,7 @@ public class IOLib implements IPascalLibrary {
                        PascalReference<Object> a7) throws RuntimePascalException {
         setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
     }
-
+*/
     public RuntimeExecutableCodeUnit.ControlMode getState() {
         return state;
     }
@@ -451,13 +458,6 @@ public class IOLib implements IPascalLibrary {
     @PascalMethod(description = "system library", returns = "void")
     public boolean keyPressed() {
         return listener != null && listener.keyPressed();
-    }
-
-    public void setInputBuffer(@NonNull String inputBuffer) {
-        this.inputBuffer = inputBuffer;
-        synchronized (this) {
-            this.notifyAll();
-        }
     }
 
     /**
@@ -482,5 +482,18 @@ public class IOLib implements IPascalLibrary {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void readz(PascalReference[] values) throws RuntimePascalException {
+        setValueForVariables(values);
+    }
+    public void readlnz(PascalReference[] values) throws RuntimePascalException {
+        if (values.length == 0) {
+            if (listener != null) {
+                listener.startInput(this);
+                pause(); //wait for press enter
+            }
+        }
+        setValueForVariables(values);
     }
 }

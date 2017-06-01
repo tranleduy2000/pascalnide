@@ -176,7 +176,7 @@ class FileEntry {
         return lineScanner.nextLine();
     }
 
-    public char readChar() throws DiskReadErrorException, IOException {
+    public char readChar() throws DiskReadErrorException {
         checkEndOfLine();
        /* int c = 0;
         if (lineReader != null) {

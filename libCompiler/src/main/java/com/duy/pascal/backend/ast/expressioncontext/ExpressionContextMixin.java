@@ -17,11 +17,13 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.VariableAccess;
 import com.duy.pascal.backend.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.file.FileLib;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.data_types.OperatorTypes;
 import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.javaunderpascal.classpath.JavaClassLoader;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
@@ -129,6 +131,11 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      */
     private FileLib fileHandler;
 
+    /**
+     * Manager read and write to console
+     */
+    private IOLib ioHandler;
+
     private boolean isLibrary = false;
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
@@ -145,9 +152,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         pascalLibraryManager = new PascalLibraryManager(this, handler);
         fileHandler = new FileLib(handler);
+        ioHandler = new IOLib(handler);
         try {
             //load system function
             pascalLibraryManager.loadSystemLibrary();
+            pascalLibraryManager.addMethodFromLibrary(fileHandler, new LineInfo(-1, "system"));
+            pascalLibraryManager.addMethodFromLibrary(ioHandler, new LineInfo(-1, "system"));
         } catch (PermissionDeniedException | LibraryNotFoundException e) {
             e.printStackTrace();
         }
@@ -550,5 +560,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public FileLib getFileHandler() {
         return fileHandler;
+    }
+
+    public IOLib getIOHandler() {
+        return ioHandler;
     }
 }

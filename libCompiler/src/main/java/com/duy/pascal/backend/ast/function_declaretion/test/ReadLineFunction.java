@@ -26,6 +26,7 @@ import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.data_types.ArgumentType;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.DeclaredType;
@@ -38,20 +39,20 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 /**
  * Casts an object to the class or the interface represented
  */
-public class TestArgsFunction implements IMethodDeclaration {
+public class ReadLineFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
             {new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
 
     @Override
     public String getName() {
-        return "readlnzz";
+        return "readln";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new InstanceObjectCall(arguments[0], line);
+        return new ReadLineCall(arguments[0], line);
     }
 
     @Override
@@ -74,12 +75,12 @@ public class TestArgsFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class InstanceObjectCall extends FunctionCall {
+    private class ReadLineCall extends FunctionCall {
+        private RuntimeValue args;
         private LineInfo line;
-        private RuntimeValue arrayPointer;
 
-        InstanceObjectCall(RuntimeValue pointer, LineInfo line) {
-            this.arrayPointer = pointer;
+        ReadLineCall(RuntimeValue args, LineInfo line) {
+            this.args = args;
             this.line = line;
         }
 
@@ -102,28 +103,27 @@ public class TestArgsFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(arrayPointer, line);
+            return new ReadLineCall( args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(arrayPointer, line);
+            return new ReadLineCall( args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "readlnzz";
+            return "readln";
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            PascalReference[] values = (PascalReference[]) arrayPointer.getValue(f, main);
-            for (PascalReference reference : values) {
-                reference.set(10);
-            }
+            IOLib ioHandler = main.getDefinition().getContext().getIOHandler();
+            PascalReference[] values = (PascalReference[]) args.getValue(f, main);
+            ioHandler.readlnz(values);
             return null;
         }
 
