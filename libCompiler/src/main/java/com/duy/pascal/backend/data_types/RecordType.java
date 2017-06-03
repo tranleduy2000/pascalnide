@@ -34,4 +34,15 @@ public class RecordType extends CustomType {
         return "record type";
     }
 
+    /**
+     * @param name - name of field
+     * @return index of field in list variable of record type
+     */
+    public VariableDeclaration findField(String name) {
+        for (VariableDeclaration variableDeclaration : variableDeclarations) {
+            if (variableDeclaration.getName().equalsIgnoreCase(name)) return variableDeclaration;
+        }
+        return null;
+
+    }
 }

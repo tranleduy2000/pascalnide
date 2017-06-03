@@ -390,7 +390,7 @@ public enum OperatorTypes {
 
         @Override
         public String toString() {
-            return "^";
+            return "@";
         }
     },
     DEREF(true, true) {
@@ -406,7 +406,7 @@ public enum OperatorTypes {
 
         @Override
         public String toString() {
-            return "@";
+            return "^";
         }
 
     },

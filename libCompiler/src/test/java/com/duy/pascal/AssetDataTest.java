@@ -44,6 +44,7 @@ public class AssetDataTest extends TestCase {
         File parent = new File(dir + "system");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
+                System.out.println(file.getPath());
                 runProgram(file.getPath());
             }
         }

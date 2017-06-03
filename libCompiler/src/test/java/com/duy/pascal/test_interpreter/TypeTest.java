@@ -17,37 +17,27 @@
 package com.duy.pascal.test_interpreter;
 
 /**
- * Created by Duy on 29-May-17.
+ * Created by Duy on 01-Jun-17.
  */
 
-public class RecordTest extends BaseTestCase {
+public class TypeTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_record";
+        return "test_type";
     }
 
-    public void testAccess() {
-        run("test_access_field.pas");
+    public void testForwardType() {
+        run("test_forward_type.pas");
     }
 
-    public void testParseRecordInFun() {
-        run("test_record_function.pas");
+    public void testForwardType2() {
+        run("test_forward_type2.pas");
+    }
+   public void testForwardType3() {
+        run("test_forward_type3.pas");
     }
 
-    public void testRecordPointer() {
-        run("test_record_pointer.pas");
+    public void testPointerType() {
+        run("pointer_type.pas");
     }
-
-    public void testInitRecord() {
-        run("test_init_record.pas");
-    }
-
-    public void testField() {
-        run("test_field.pas");
-    }
-
-    public void testFieldPointer() {
-        run("test_field_pointer.pas");
-    }
-
 }

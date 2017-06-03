@@ -144,6 +144,7 @@ public class Compiler {
                     @Override
                     public void print(CharSequence charSequence) {
                         output.append(charSequence);
+                        System.out.print(charSequence);
                     }
 
                     @Override
@@ -155,6 +156,7 @@ public class Compiler {
                     public void println(CharSequence charSequence) {
                         output.append(charSequence);
                         output.append("\n");
+                        System.out.println(charSequence);
                     }
 
                     @Override

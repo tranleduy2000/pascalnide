@@ -3,13 +3,13 @@ package com.duy.pascal.backend.tokens;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.data_types.JavaClassBasedType;
 import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 
 
 public class WordToken extends Token {
@@ -120,7 +120,7 @@ public class WordToken extends Token {
                     Class clazz = Class.forName(clone);
                     returnType = new JavaClassBasedType(clazz);
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    System.err.println("Can not find type " + name);
                 }
                 if (returnType == null) {
                     Object constVal = context.getConstantDefinition(name);

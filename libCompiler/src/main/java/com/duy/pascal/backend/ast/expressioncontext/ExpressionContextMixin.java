@@ -21,6 +21,7 @@ import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.data_types.OperatorTypes;
+import com.duy.pascal.backend.data_types.PointerType;
 import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.javaunderpascal.classpath.JavaClassLoader;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -65,6 +66,7 @@ import com.google.common.collect.ArrayListMultimap;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -305,6 +307,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     protected void addDeclareTypes(GrouperToken i) throws ParsingException {
         Token next;
+        Hashtable<String, String> forwardTypes = new Hashtable<>();
+
         while (i.peek() instanceof WordToken) {
             WordToken name = (WordToken) i.take();
             next = i.take();
@@ -312,37 +316,73 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 throw new ExpectedTokenException("=", next);
             }
 
-            DeclaredType type = i.getNextPascalType(this);
+            //because the type can be forward type
+            //example
+            //type
+            //      a = ^b;
+            //      b = integer;
+            if (i.peek() instanceof OperatorToken && ((OperatorToken) i.peek()).type == OperatorTypes.DEREF) {
+                i.take();
+                String typeName = i.peek().toString();
+                try {
 
-            //process string with define length
-            if (type.equals(BasicType.StringBuilder)) {
-                if (i.peek() instanceof BracketedToken) {
-                    BracketedToken bracketedToken = (BracketedToken) i.take();
+                    DeclaredType type = i.getNextPascalType(this);
+                    type.setLineNumber(name.getLineNumber());
+                    type.setName(name.getName());
+                    verifyNonConflictingSymbol(type);
+                    declareTypedef(name.getName(), type);
+                    i.assertNextSemicolon(i.next);
 
-                    RuntimeValue unconverted = bracketedToken.getNextExpression(this);
-                    RuntimeValue converted = BasicType.Integer.convert(unconverted, this);
+                } catch (Exception e) {
+                    DLog.e(e);
+                    PointerType type = new PointerType(null);
 
-                    if (converted == null) {
-                        throw new NonIntegerException(unconverted);
-                    }
+                    type.setLineNumber(name.getLineNumber());
+                    type.setName(name.getName());
+                    verifyNonConflictingSymbol(type);
+                    declareTypedef(name.getName(), type);
+                    i.assertNextSemicolon(i.next);
 
-                    if (bracketedToken.hasNext()) {
-                        throw new ExpectedTokenException("]", bracketedToken.take());
-                    }
-//                    type = BasicType.StringLimit;
-                   /* try {
-                        ((BasicType) type).setLength(converted);
-                    } catch (UnsupportedOutputFormatException e) {
-                        throw new UnsupportedOutputFormatException(i.getLineNumber());
-                    }*/
+                    forwardTypes.put(name.getName(), typeName);
                 }
-            }
-            type.setLineNumber(name.getLineNumber());
-            type.setName(name.getName());
+            } else {
+                DeclaredType type = i.getNextPascalType(this);
 
-            verifyNonConflictingSymbol(type);
-            declareTypedef(name.getName(), type);
-            i.assertNextSemicolon(i.next);
+                //process string with define length
+                if (type.equals(BasicType.StringBuilder)) {
+                    if (i.peek() instanceof BracketedToken) {
+                        BracketedToken bracketedToken = (BracketedToken) i.take();
+
+                        RuntimeValue unconverted = bracketedToken.getNextExpression(this);
+                        RuntimeValue converted = BasicType.Integer.convert(unconverted, this);
+
+                        if (converted == null) {
+                            throw new NonIntegerException(unconverted);
+                        }
+
+                        if (bracketedToken.hasNext()) {
+                            throw new ExpectedTokenException("]", bracketedToken.take());
+                        }
+                    }
+                }
+                type.setLineNumber(name.getLineNumber());
+                type.setName(name.getName());
+
+                verifyNonConflictingSymbol(type);
+                declareTypedef(name.getName(), type);
+                i.assertNextSemicolon(i.next);
+            }
+
+        }
+
+        //pre check forward pointer type
+        for (String s : forwardTypes.keySet()) {
+            PointerType pointerType = (PointerType) getTypedefTypeLocal(s);
+            DeclaredType type = getTypedefTypeLocal(forwardTypes.get(s));
+            if (type == null) {
+                throw new UnknownIdentifierException(pointerType.getLineNumber(), s, this);
+            }
+            pointerType.setPointerToType(type);
         }
     }
 
@@ -431,6 +471,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     public void declareTypedef(String name, DeclaredType type) {
         typedefs.put(name, type);
         listNameTypes.add(new InfoItem(StructureType.TYPE_DEF, name));
+    }
+
+    public void declareTypedefs(String name, List<DeclaredType> types) {
+        for (DeclaredType type : types) {
+            declareTypedef(name, type);
+        }
     }
 
 

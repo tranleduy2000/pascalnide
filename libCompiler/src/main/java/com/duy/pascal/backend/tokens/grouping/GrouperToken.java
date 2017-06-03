@@ -24,6 +24,7 @@ import com.duy.pascal.backend.ast.instructions.conditional.RepeatInstruction;
 import com.duy.pascal.backend.ast.instructions.conditional.WhileStatement;
 import com.duy.pascal.backend.ast.instructions.with_statement.WithStatement;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.FieldAccess;
@@ -31,26 +32,6 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.UnaryOperatorEvaluation;
 import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
-import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
-import com.duy.pascal.backend.parse_exception.define.MethodNotFoundException;
-import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
-import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
-import com.duy.pascal.backend.parse_exception.missing.MissingCommaTokenException;
-import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectDoTokenException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectedAnotherTokenException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.parse_exception.syntax.NotAStatementException;
-import com.duy.pascal.backend.parse_exception.syntax.WrongIfElseStatement;
-import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
-import com.duy.pascal.backend.parse_exception.value.DuplicateElementException;
-import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
-import com.duy.pascal.backend.parse_exception.value.NonIntegerException;
-import com.duy.pascal.backend.parse_exception.value.UnAssignableTypeException;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.ClassType;
 import com.duy.pascal.backend.data_types.DeclaredType;
@@ -67,6 +48,27 @@ import com.duy.pascal.backend.data_types.set.ArrayType;
 import com.duy.pascal.backend.data_types.set.EnumElementValue;
 import com.duy.pascal.backend.data_types.set.EnumGroupType;
 import com.duy.pascal.backend.data_types.set.SetType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
+import com.duy.pascal.backend.parse_exception.define.MethodNotFoundException;
+import com.duy.pascal.backend.parse_exception.define.UnknownFieldException;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
+import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
+import com.duy.pascal.backend.parse_exception.missing.MissingCommaTokenException;
+import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectDoTokenException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectedAnotherTokenException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.parse_exception.syntax.NotAStatementException;
+import com.duy.pascal.backend.parse_exception.syntax.WrongIfElseStatement;
+import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
+import com.duy.pascal.backend.parse_exception.value.DuplicateElementException;
+import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
+import com.duy.pascal.backend.parse_exception.value.NonIntegerException;
+import com.duy.pascal.backend.parse_exception.value.UnAssignableTypeException;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
@@ -429,13 +431,26 @@ public abstract class GrouperToken extends Token {
                 if (!(next instanceof WordToken)) {
                     throw new ExpectedTokenException("[Element Name]", next);
                 }
-                //need call method of java class
-                RuntimeType type = identifier.getType(context);
+
+
+                //call method of java class
+                RuntimeType runtimeType = identifier.getType(context);
                 //access method of java class
-                if (type.declType instanceof JavaClassBasedType) {
+                if (runtimeType.declType instanceof JavaClassBasedType) {
                     identifier = getMethodFromClass(context, identifier, ((WordToken) next).getName());
                 } else {
+                    if (runtimeType.declType instanceof RecordType) {
+                        VariableDeclaration field =
+                                ((RecordType) runtimeType.declType).findField(((WordToken) next).getName());
+                        if (field == null) { //can not find field
+                            // TODO: 03-Jun-17 declare field
+                            throw new UnknownFieldException(next.getLineNumber(), identifier,
+                                    ((WordToken) next).getName(), context);
+                        }
+                    }
                     identifier = new FieldAccess(identifier, (WordToken) next);
+
+
                 }
             } else if (next instanceof BracketedToken) {
                 take(); //comma token

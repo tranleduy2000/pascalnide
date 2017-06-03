@@ -73,4 +73,8 @@ public class PointerType extends InfoType {
     public String toString() {
         return "^" + pointedToType.toString();
     }
+
+    public void setPointerToType(DeclaredType pointerToType) {
+        this.pointedToType = pointerToType;
+    }
 }

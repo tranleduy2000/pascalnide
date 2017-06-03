@@ -22,7 +22,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.frontend.code_editor.autofix.DefineType
 
 class UnknownIdentifierException(line: LineInfo?, var name: String, var scope: ExpressionContext)
-    : ParsingException(line, "$name is not a variable or function name") {
+    : ParsingException(line, "Unknown identifier $name") {
 
     var token: String? = null
     var fitType: DefineType?
