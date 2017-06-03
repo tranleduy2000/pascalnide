@@ -238,7 +238,7 @@ public class FileLib implements IPascalLibrary {
             return value;
         } else if (c == StringBuilder.class) {
             String value = file.readString();
-            return value;
+            return new StringBuilder(value);
 
         } else if (c == String.class) {
             String value = file.readString();
@@ -614,10 +614,10 @@ public class FileLib implements IPascalLibrary {
             filesMap.get(fileVariable.getPath()).nextLine();
         } else {
             setValueForVariables(fileVariable, args);
-            if (!(args[args.length - 1].get() instanceof StringBuilder)
-                    && !(args[args.length - 1].get() instanceof String)) {
-                filesMap.get(fileVariable.getPath()).nextLine();
-            }
+//            if (!(args[args.length - 1].get() instanceof StringBuilder)
+//                    && !(args[args.length - 1].get() instanceof String)) {
+//                filesMap.get(fileVariable.getPath()).nextLine();
+//            }
         }
     }
 }

@@ -74,6 +74,10 @@ class FileEntry {
         //uses dot symbol for floating number
         fileScanner.useLocale(Locale.ENGLISH);
 
+        String source = fileScanner.nextLine();
+        lineScanner = new Scanner(source);
+        lineScanner.useLocale(Locale.ENGLISH);
+
         setOpened(true);
     }
 
@@ -172,25 +176,22 @@ class FileEntry {
     }
 
     public synchronized String readString() throws DiskReadErrorException {
-        checkEndOfLine();
-        return lineScanner.nextLine();
+        if (isEndOfLine()) {
+            nextLine();
+            return Character.valueOf((char) 13).toString();
+        } else {
+            return lineScanner.nextLine();
+        }
     }
 
     public char readChar() throws DiskReadErrorException {
-        checkEndOfLine();
-       /* int c = 0;
-        if (lineReader != null) {
-            c = lineReader.read();
-            char[] chars = new char[1];
-            lineReader.read(chars);
-            if (c != 0) {
-                return (char) c;
-            } else {
-                throw new DiskReadErrorException(mFilePath);
-            }
+        if (isEndOfLine()) {
+            nextLine();
+            return (char) 13;
+        } else {
+            char result = lineScanner.findInLine(".").charAt(0);
+            return result;
         }
-        return 0;*/
-        return lineScanner.findInLine(".").charAt(0);
     }
 
     /**
@@ -232,7 +233,15 @@ class FileEntry {
     }
 
     public boolean isEof() {
-        return !fileScanner.hasNext();
+        if (lineScanner != null) {
+            if (lineScanner.hasNext()) {
+                return false;
+            } else {
+                return !fileScanner.hasNext();
+            }
+        } else {
+            return !fileScanner.hasNext();
+        }
     }
 
     public synchronized void nextLine() {
@@ -262,8 +271,12 @@ class FileEntry {
 
     public boolean isEndOfLine() throws DiskReadErrorException {
         try {
-            if (lineScanner != null && lineScanner.hasNext()) {
-                return false;
+            if (lineScanner != null) {
+                if (lineScanner.hasNext()) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         } catch (Exception e) {
             //if lineScanner is closed or no data
