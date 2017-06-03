@@ -53,10 +53,12 @@
         link=""
         mail="marek14michalovic@gmail.com" />
     <user
-        name="David Meszaros"
-        code="ro"
+        name="Whale Majda"
+        code="zh-rCN"
         image=""
-        lang="Română"
+        lang="Chinese-Simplified"
         link=""
-        mail="davidmszrs22@gmail.com" />
+        mail="wsxhzgd@gmail.com" />
+
+
 </help_translate>
