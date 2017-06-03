@@ -20,6 +20,5 @@ begin
         writeln('Address: ',Student.s_addr);
         writeln('Batch Code: ', Student.s_batchcode);
     end;
-
     close(f);
 end.

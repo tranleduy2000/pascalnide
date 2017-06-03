@@ -16,6 +16,9 @@
 
 package com.duy.pascal.backend.builtin_libraries.file;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
@@ -230,7 +233,7 @@ public class FileLib implements IPascalLibrary {
         }
     }
 
-    private Object getValueForVariable(File zfile, Class c, Object o)
+    private Object getValueForVariable(@NonNull File zfile, @NonNull Class c, @Nullable Object o)
             throws RuntimePascalException {
         FileEntry file = filesMap.get(zfile.getPath());
         if (c == Character.class) {
@@ -238,10 +241,12 @@ public class FileLib implements IPascalLibrary {
             return value;
         } else if (c == StringBuilder.class) {
             String value = file.readString();
+            filesMap.get(zfile.getPath()).nextLine();
             return new StringBuilder(value);
 
         } else if (c == String.class) {
             String value = file.readString();
+            filesMap.get(zfile.getPath()).nextLine();
             return value;
 
         } else if (c == Integer.class) {
@@ -614,10 +619,10 @@ public class FileLib implements IPascalLibrary {
             filesMap.get(fileVariable.getPath()).nextLine();
         } else {
             setValueForVariables(fileVariable, args);
-//            if (!(args[args.length - 1].get() instanceof StringBuilder)
-//                    && !(args[args.length - 1].get() instanceof String)) {
-//                filesMap.get(fileVariable.getPath()).nextLine();
-//            }
+            if (!(args[args.length - 1].get() instanceof StringBuilder)
+                    && !(args[args.length - 1].get() instanceof String)) {
+                filesMap.get(fileVariable.getPath()).nextLine();
+            }
         }
     }
 }
