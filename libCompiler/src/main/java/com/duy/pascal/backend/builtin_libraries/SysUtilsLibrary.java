@@ -16,11 +16,11 @@
 
 package com.duy.pascal.backend.builtin_libraries;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.EConvertError;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -66,6 +66,7 @@ public class SysUtilsLibrary implements IPascalLibrary {
     public void appendStr(PascalReference<StringBuilder> dest, StringBuilder s) throws RuntimePascalException {
         dest.set(dest.get().append(s));
     }
+
     @PascalMethod(description = "Convert a string to an integer value.", returns = "int")
     public int strToInt(StringBuilder s) throws EConvertError {
         try {
@@ -272,7 +273,7 @@ public class SysUtilsLibrary implements IPascalLibrary {
 
     @PascalMethod(description = "Compare 2 ansistrings, case sensitive, ignoring accents characters.")
     public double AnsiCompareStr(StringBuilder s1, StringBuilder s2) throws EConvertError {
-        return (s1.toString().compareTo(s2.toString()));
+        return s1.toString().compareTo(s2.toString());
     }
 
     @PascalMethod(description = "Return a lowercase version of a string.")

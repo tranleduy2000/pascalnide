@@ -119,10 +119,11 @@ public class AssetDataTest extends TestCase {
     }
 
     public void testStrutils() {
-        File parent = new File(dir + "strutils");
+        File parent = new File(dir + "sysutils");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 try {
+                    System.out.println(file);
                     runProgram(file.getPath());
                 } catch (RuntimePascalException e) {
                     e.printStackTrace();

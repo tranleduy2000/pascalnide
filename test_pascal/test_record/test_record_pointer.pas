@@ -2,9 +2,9 @@ program exRecords;
 type
     BooksPtr = ^Books;
     Books = record
-        title: packed array [1..50] of char;
-        author: packed array [1..50] of char;
-        subject: packed array [1..100] of char;
+        title: string;
+        author: string;
+        subject: string;
         book_id: longint;
     end;
 
