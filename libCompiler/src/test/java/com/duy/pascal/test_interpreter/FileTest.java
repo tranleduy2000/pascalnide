@@ -45,4 +45,8 @@ public class FileTest extends BaseTestCase {
     public void testAppend() {
         run("test_append.pas");
     }
+
+    public void testEndOfLine() {
+        run("test_eoln.pas");
+    }
 }
