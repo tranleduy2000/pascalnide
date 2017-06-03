@@ -26,7 +26,7 @@ begin
     which it may be used; for example, some providers
     require GPS hardware and visibility to a number
     of satellites; others require the use of the
-    cellular radio, or access to a specific carrier's
+    cellular radio, or access to a specific carriers
     network, or to the internet.}
 
     {Returns available providers on the phone}
@@ -49,6 +49,8 @@ end;
 
 
 begin
+    writeln('Please enable GPS, network,...');
+
     {Starts collecting location data.
     The first parameter is minimum time between updates in milliseconds
     The second parameter is minimum distance between updates in meters}
@@ -56,7 +58,7 @@ begin
 
     //wait for 60 second
     for i := 1 to 60 do
-    begingi
+    begin
         delay(1000); //wait for collect info
         data := readLocation(); //read data
         printData(data); //print data to console

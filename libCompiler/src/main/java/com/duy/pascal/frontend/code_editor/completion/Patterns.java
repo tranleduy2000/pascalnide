@@ -33,6 +33,9 @@ public class Patterns {
      */
     public static final Pattern NUMBERS = Pattern.compile("\\b(\\d*[.]?\\d+)\\b");
 
+    /**
+     * match reserved keyword
+     */
     public static final Pattern KEYWORDS = Pattern.compile(
             "\\b(uses|const|do|for|while|if|else|in|case|and|array|begin|div" +
                     "|downto|to|mod|of" +
@@ -51,19 +54,39 @@ public class Patterns {
                     "null|nil|set|new)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
+    /**
+     * match builtin pascal function
+     */
     public static final Pattern BUILTIN_FUNCTIONS = Pattern.compile(
             "\\b(sin|cos|sqrt|length" +
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
                     "|odd|int|halt|odd)\\b", Pattern.CASE_INSENSITIVE);
 
+    /**
+     * match comment, include // { } (* *) comment
+     */
     public static final Pattern COMMENTS = Pattern.compile(
             "(//.*)|(/\\*(?:.|[\\n\\r])*?\\*/)" + //splash splash comment
                     "|(\\{(?:.|[\\n\\r])*?\\})" + //{ } comment
-                    "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))"); // (* *) comment
+                    "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))"// (* *) comment
+    );
 
+    /**
+     * match some spacial symbol
+     */
     public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;@\\^,.]");
 
+    /**
+     * match string pascal
+     * include
+     * <p>
+     * 'string'
+     * <p>
+     * And can not find close quote
+     * <p>
+     * 'sadhasdhasdhashdhas ds asda sd
+     */
     public static final Pattern STRINGS = Pattern.compile(
             "((')(.*?)('))" +//'string'
                     "|((')(.*+))", Pattern.DOTALL); // no end string 'asdasdasd
