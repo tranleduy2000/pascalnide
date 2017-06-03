@@ -1,6 +1,6 @@
 program exRecords;
 type
-    BooksPtr = ^ Books;
+    BooksPtr = ^Books;
     Books = record
         title: packed array [1..50] of char;
         author: packed array [1..50] of char;

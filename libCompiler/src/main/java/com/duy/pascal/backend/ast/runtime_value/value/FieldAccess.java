@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.ast.runtime_value.value;
 
+import com.duy.pascal.backend.data_types.PointerType;
 import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
@@ -43,6 +44,8 @@ public class FieldAccess extends DebuggableAssignableValue {
             return new RuntimeType(((ObjectType) (r.declType)).getMemberType(name), r.writable);
         } else if (r.declType instanceof JavaClassBasedType) {
             return new RuntimeType(r.declType, r.writable);
+        } else if (r.declType instanceof PointerType){
+            return new RuntimeType(r.declType, r.writable);
         }
         return null;
     }
@@ -76,7 +79,8 @@ public class FieldAccess extends DebuggableAssignableValue {
 
     @Override
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return new FieldReference((ContainsVariables) container.getValue(f, main), name);
+        Object v = container.getValue(f, main);
+        return new FieldReference((ContainsVariables) v, name);
     }
 
     @Override

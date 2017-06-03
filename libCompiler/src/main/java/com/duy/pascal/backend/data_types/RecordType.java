@@ -45,4 +45,9 @@ public class RecordType extends CustomType {
         return null;
 
     }
+
+    @Override
+    public Object initialize() {
+        return super.initialize();
+    }
 }

@@ -450,6 +450,12 @@ public abstract class GrouperToken extends Token {
                     }
                     identifier = new FieldAccess(identifier, (WordToken) next);
 
+                    //access pointer value
+                    if (peek() instanceof OperatorToken && ((OperatorToken) peek()).type == OperatorTypes.DEREF) {
+                        OperatorToken nextOperator = (OperatorToken) take();
+                        identifier = new DerefEval(identifier, identifier.getLineNumber());
+                    }
+
 
                 }
             } else if (next instanceof BracketedToken) {
@@ -530,6 +536,10 @@ public abstract class GrouperToken extends Token {
                 RuntimeValue identifier = context.getIdentifierValue(name);
                 //uses for show line error
                 identifier.getLineNumber().setLength(name.name.length());
+                if (peek() instanceof OperatorToken && ((OperatorToken) peek()).type == OperatorTypes.DEREF) {
+                    take();
+                    identifier = new DerefEval(identifier, identifier.getLineNumber());
+                }
                 return identifier;
             }
 
@@ -929,18 +939,25 @@ public abstract class GrouperToken extends Token {
             return generateForStatement(context, lineNumber);
         } else if (next instanceof RepeatToken) {
             return new RepeatInstruction(context, this, lineNumber);
+
         } else if (next instanceof CaseToken) {
             return new CaseInstruction((CaseToken) next, context);
+
         } else if (next instanceof SemicolonToken) {
             return new NoneInstruction(next.getLineNumber());
+
         } else if (next instanceof BreakToken) {
             return new BreakInstruction(next.getLineNumber());
+
         } else if (next instanceof ContinueToken) {
             return new ContinueInstruction(next.getLineNumber());
+
         } else if (next instanceof WithToken) {
             return (Executable) new WithStatement(context, this).generate();
+
         } else if (next instanceof ExitToken) {
             return new ExitInstruction(next.getLineNumber());
+
         } else {
             try {
                 return context.handleUnrecognizedStatement(next, this);

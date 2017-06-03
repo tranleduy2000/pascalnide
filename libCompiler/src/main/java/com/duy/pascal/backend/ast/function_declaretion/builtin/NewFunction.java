@@ -17,24 +17,22 @@
 package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.set.ArrayType;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.JavaClassBasedType;
-import com.duy.pascal.backend.data_types.PointerType;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.ObjectBasedPointer;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.ObjectBasedPointer;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalPointer;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.data_types.ArgumentType;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class NewFunction implements IMethodDeclaration {
@@ -43,13 +41,13 @@ public class NewFunction implements IMethodDeclaration {
             {new RuntimeType(new PointerType(BasicType.create(Object.class)), true)};
 
     @Override
-   public String getName() {
+    public String getName() {
         return "new";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
         RuntimeType type = pointer.getType(f);
         return new NewCall(pointer, type, line);
@@ -127,7 +125,8 @@ public class NewFunction implements IMethodDeclaration {
             PascalPointer pointer = (PascalPointer) this.value.getValue(f, main);
             PointerType pointerType = (PointerType) ((PointerType) type.declType).pointedToType;
             DeclaredType type = pointerType.pointedToType;
-            if (type instanceof ArrayType) {
+            pointer.set(new ObjectBasedPointer<>(type.initialize()));
+           /* if (type instanceof ArrayType) {
                 pointer.set(new ObjectBasedPointer<>(new Object[]{}));
             } else if (BasicType.Byte.equals(type)) {
                 pointer.set(new ObjectBasedPointer<>((byte) 0));
@@ -146,7 +145,7 @@ public class NewFunction implements IMethodDeclaration {
             } else if (type instanceof JavaClassBasedType) {
                 Object initialize = type.initialize();
                 pointer.set(new ObjectBasedPointer<>(initialize));
-            }
+            }*/
             return null;
         }
     }

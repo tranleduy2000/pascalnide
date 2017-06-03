@@ -52,8 +52,7 @@ abstract public class ArrayPagerAdapter<T extends Fragment> extends
     private ArrayList<PageEntry> entries = new ArrayList<PageEntry>();
     private FragmentTransaction currTransaction = null;
     private T currPrimaryItem = null;
-    private HashMap<Fragment, Integer> positionDelta =
-            new HashMap<Fragment, Integer>();
+    private HashMap<Fragment, Integer> positionDelta = new HashMap<Fragment, Integer>();
     private RetentionStrategy retentionStrategy = null;
 
     public ArrayPagerAdapter(FragmentManager fragmentManager,

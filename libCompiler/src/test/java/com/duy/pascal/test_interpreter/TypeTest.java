@@ -33,8 +33,13 @@ public class TypeTest extends BaseTestCase {
     public void testForwardType2() {
         run("test_forward_type2.pas");
     }
-   public void testForwardType3() {
+
+    public void testForwardType3() {
         run("test_forward_type3.pas");
+    }
+
+    public void testForwardType4() {
+        run("test_forward_type4.pas");
     }
 
     public void testPointerType() {

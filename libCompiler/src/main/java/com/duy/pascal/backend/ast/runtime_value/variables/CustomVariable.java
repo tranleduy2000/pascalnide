@@ -16,11 +16,10 @@
 
 package com.duy.pascal.backend.ast.runtime_value.variables;
 
-import com.duy.pascal.backend.data_types.set.ArrayType;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,45 +30,36 @@ import java.util.Set;
  */
 public class CustomVariable implements ContainsVariables {
     private Map<String, Object> variableMap = new HashMap<>();
-
-    public ArrayList<VariableDeclaration> getVariables() {
-        return variables;
-    }
-
     private ArrayList<VariableDeclaration> variables;
-
 
     public CustomVariable(ArrayList<VariableDeclaration> mVariables) {
         this.variables = mVariables;
         for (VariableDeclaration declaration : mVariables) {
-            Class returnType = declaration.getType().getTransferClass();
+            DeclaredType returnType = declaration.getType();
             if (declaration.getInitialValue() != null) {
                 variableMap.put(declaration.name.toLowerCase(), declaration.getInitialValue());
             } else {
-                if (returnType == int.class || returnType == Integer.class) {
-                    variableMap.put(declaration.name.toLowerCase(), 0);
-                } else if (returnType == double.class || returnType == Double.class) {
-                    variableMap.put(declaration.name.toLowerCase(), 0.0d);
-                } else if (returnType == char.class || returnType == Character.class) {
-                    variableMap.put(declaration.name.toLowerCase(), ' ');
-                } else if (returnType == boolean.class || returnType == Boolean.class) {
-                    variableMap.put(declaration.name.toLowerCase(), Boolean.FALSE);
-                } else if (returnType == long.class || returnType == Long.class) {
-                    variableMap.put(declaration.name.toLowerCase(), 0L);
-                } else if (returnType == StringBuilder.class) {
-                    variableMap.put(declaration.name.toLowerCase(), new StringBuilder(""));
-                } else if (returnType == String.class) {
-                    variableMap.put(declaration.name.toLowerCase(), "");
-                } else if (returnType == Array.class) {
-                    variableMap.put(declaration.name.toLowerCase(), new Object[0]);
+              /*  if (returnType instanceof BasicType) {
+                    variableMap.put(declaration.name, returnType.initialize());
                 } else if (declaration.type instanceof ArrayType) {
                     variableMap.put(declaration.name.toLowerCase(), new Object[0]);
+
+                } else if (declaration.type instanceof PointerType) {
+                    variableMap.put(declaration.name.toLowerCase(), new ObjectBasedPointer<>(null));
+
+                } else if (declaration.type instanceof RecordType) {
+                    variableMap.put(declaration.name.toLowerCase(), declaration.type.initialize());
                 } else {
                     variableMap.put(declaration.name.toLowerCase(), null);
-                }
+                }*/
+                variableMap.put(declaration.name, returnType.initialize());
             }
         }
 
+    }
+
+    public ArrayList<VariableDeclaration> getVariables() {
+        return variables;
     }
 
     @Override
