@@ -28,7 +28,7 @@ import static com.duy.pascal.Compiler.runProgram;
  * Created by Duy on 29-May-17.
  */
 
-abstract class BaseTestCase extends TestCase {
+public abstract class BaseTestCase extends TestCase {
 
     String dir;
 

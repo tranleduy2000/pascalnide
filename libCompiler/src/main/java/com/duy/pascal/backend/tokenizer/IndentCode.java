@@ -67,7 +67,7 @@ import java.util.LinkedList;
  */
 public class IndentCode {
     private static final String TAG = "IndentCode";
-    private static final String THE_TAB = "|___"; //4 space
+    private static final String THE_TAB = "   "; //4 space
 
 
     private static final Class[] NON_NEED_SPACE = new Class[]{

@@ -18,9 +18,7 @@ package com.duy.pascal.backend.data_types.rangetype;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.data_types.InfoType;
@@ -28,7 +26,6 @@ import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 /**
  * Created by Duy on 25-May-17.
@@ -94,24 +91,17 @@ public abstract class SubrangeType extends InfoType implements Containable {
         return this.first.equals(other.first) && last.equals(other.last);
     }
 
-    @Override
-    public boolean contain(@Nullable VariableContext f, @Nullable RuntimeExecutableCodeUnit<?> main, Object value) throws RuntimePascalException {
-        if (value.getClass() == first.getClass()) {
-
-        }
-        return false;
-    }
 
     @Nullable
     @Override
     public RuntimeValue cloneValue(RuntimeValue r) {
-        return null;
+        return r;
     }
 
     @Nullable
     @Override
     public RuntimeValue generateArrayAccess(RuntimeValue array, RuntimeValue index) throws NonArrayIndexed {
-        return null;
+        throw new NonArrayIndexed(index.getLineNumber(), this);
     }
 
     @Nullable

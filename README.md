@@ -27,7 +27,7 @@ The application is a Pascal interpreter on Android. This application is confusin
 	    * Code style: many interface for the editor.
 	    * Font size, font, word wrap.
   4. Support library Android (Sensor, battery, record audio, camera...)
-  5. Support Java in pascal
+  5. Support Java in Pascal
 
 ## Features that the interpreter is missing
 
@@ -48,7 +48,7 @@ The application is a Pascal interpreter on Android. This application is confusin
 - The **aTone** library provides API to play DTMF tones (ITU-T Recommendation Q.23). See [Wiki](wiki/library_document/aTone_library.md)
 - The **aDilaog** library provides API to show some dialog. See [Wiki](wiki/library_document/aAialog_library.md)
 
-### Java under pascal - JPascal
+### Java under Pascal - JPascal
 
 Pascal N-IDE allows write program with objects class of ``Java``, which seems crazy :), but it is possible. I reprogrammed a whole platform. Therefore, you can completely use the ``class`` of ``Java`` (such as ``java.util.ArrayList`` or ``java.net.Socket`` to program Socket). That's great, isn't it?.
 
