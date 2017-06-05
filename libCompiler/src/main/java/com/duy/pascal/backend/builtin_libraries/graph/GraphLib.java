@@ -22,7 +22,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.duy.pascal.backend.imageprocessing.FloodFill;
+import com.duy.pascal.backend.ast.ConstantDefinition;
+import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
+import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.crt.ColorUtils;
@@ -47,20 +52,15 @@ import com.duy.pascal.backend.builtin_libraries.graph.style.LineWidth;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextDirection;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextFont;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextJustify;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.RecordType;
+import com.duy.pascal.backend.imageprocessing.FloodFill;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
-import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.backend.ast.ConstantDefinition;
-import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -402,7 +402,7 @@ public class GraphLib implements IPascalLibrary {
      */
     @PascalMethod(description = "graph library", returns = "void")
     public void setColor(int index) {
-        DLog.d(TAG, "setColor: " + index + ColorUtils.pascalColorToAndroidColor(index));
+        DLog.d(TAG, "setColor: " + index + " " + ColorUtils.pascalColorToAndroidColor(index));
         handler.getConsoleView().setPaintGraphColor(ColorUtils.pascalColorToAndroidColor(index));
     }
 

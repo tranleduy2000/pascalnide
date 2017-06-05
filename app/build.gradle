@@ -9,7 +9,7 @@ android {
         versionCode 94
         versionName "3.9.3"
         vectorDrawables.useSupportLibrary = true
-
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

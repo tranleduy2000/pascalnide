@@ -73,7 +73,6 @@ public class ColorUtils {
      * convert color of pascal to android color
      */
     public static int androidColorToPascalColor(int androidColor) {
-        System.out.println("androidColor = " + androidColor);
         if (mapColorsAndroid.get(androidColor) != null) {
             return mapColorsAndroid.get(androidColor);
         }

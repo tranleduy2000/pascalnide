@@ -51,7 +51,8 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     private CodePagerAdapter pagerAdapter;
 
     public CodeSampleActivity() {
-        categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android", "Android_Location"};
+        categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android",
+                "Android_Dialog", "Android_ZXing", "Android_Location"};
     }
 
     @Override
