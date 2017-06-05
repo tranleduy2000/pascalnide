@@ -98,9 +98,10 @@ All contributions are welcome, include code, documentation, suggestions, bug rep
 ## Tutorials
 
 1. [Google Voice](wiki/tutorials/vi/google_voice/google_voice.md)
-1. [Scan Barcode/QR code](wiki/tutorials/vi/google_voice/scan_bar_code.md)
-1. [Text To Speech](wiki/tutorials/vi/google_voice/text_to_speech.md)
-1. [Generate Tone DFMT](wiki/tutorials/vi/google_voice/how_to_make_dtmf_tone.md)
+2. [Scan Barcode/QR code](wiki/tutorials/vi/google_voice/scan_bar_code.md)
+3. [Text To Speech](wiki/tutorials/vi/google_voice/text_to_speech.md)
+4. [Generate Tone DFMT](wiki/tutorials/vi/google_voice/how_to_make_dtmf_tone.md)
+5. [RGB Color](wiki/tutorials/vi/color/color.md)
 
 See in https://pascalnide.wordpress.com/
   1. <a href="https://pascalnide.wordpress.com/2017/05/01/tao-ung-dung-giao-tiep-bang-giong-noi-voi-pascal-n-ide/">How to create communication application by voice with Pascal N-IDE></a>
