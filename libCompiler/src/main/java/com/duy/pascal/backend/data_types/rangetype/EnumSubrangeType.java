@@ -20,7 +20,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.set.EnumElementValue;
+import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.data_types.set.EnumGroupType;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.tokens.WordToken;

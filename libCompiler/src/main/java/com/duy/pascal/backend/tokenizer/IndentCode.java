@@ -67,7 +67,7 @@ import java.util.LinkedList;
  */
 public class IndentCode {
     private static final String TAG = "IndentCode";
-    private static final String THE_TAB = "   "; //4 space
+    private static final String THE_TAB = "   "; //3 space
 
 
     private static final Class[] NON_NEED_SPACE = new Class[]{
@@ -96,8 +96,8 @@ public class IndentCode {
         for (File file : dir.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 IndentCode indentCode = new IndentCode(new FileReader(file));
-                System.out.println(indentCode.getResult());
-                System.out.println("------------------------");
+//                System.out.println(indentCode.getResult());
+//                System.out.println("------------------------");
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -172,18 +172,7 @@ public class IndentCode {
                 || token instanceof FinalizationToken
                 || token instanceof InitializationToken) {
 
-            StringBuilder result = new StringBuilder();
-            result.append("\n").append(getTab(depth)).append(token).append("\n");
-
-            while (peek() instanceof WordToken
-                    || peek() instanceof OperatorToken) {
-                result.append(getLineCommand(depth + 1, true, SemicolonToken.class));
-                if (peek() instanceof SemicolonToken) {
-                    appendSemicolon(result);
-                }
-            }
-            result.append("\n");
-            return result;
+            return completeDeclare(depth, token);
 
         } else if (token instanceof ProgramToken) {
 
@@ -237,6 +226,22 @@ public class IndentCode {
         return new StringBuilder(token.toString()).append(" ");
     }
 
+    private StringBuilder completeDeclare(int depth, Token token) {
+        StringBuilder result = new StringBuilder();
+        result.append("\n").append(getTab(depth)).append(token).append("\n");
+
+        while (peek() instanceof WordToken || peek() instanceof OperatorToken
+                || peek() instanceof CommentToken) {
+            result.append(getLineCommand(depth + 1, true, SemicolonToken.class));
+            if (peek() instanceof SemicolonToken) {
+                appendSemicolon(result);
+            }
+        }
+        result.append("\n");
+////        System.out.println("completeDeclare = " + result);
+        return result;
+    }
+
 
     private StringBuilder completeCommentToken(StringBuilder last, int depth, CommentToken token) {
 //        int i = last.length() - 1;
@@ -249,7 +254,7 @@ public class IndentCode {
 //        CharSequence space = "";
 //        if (text.length() > 0)
 //            space = text.subSequence(i, text.length() - 1);
-        result.append("\n").append(getTab(depth)).append(token).append("\n").append(getTab(depth));
+        result.append(token).append("\n");
         return result;
     }
 
@@ -464,7 +469,8 @@ public class IndentCode {
         if (token instanceof EndToken) {
             take();
             beginEnd.append(getTab(depth)).append(token.toString());
-            if ((peek() instanceof SemicolonToken || peek() instanceof PeriodToken)) {
+            if ((peek() instanceof SemicolonToken || peek() instanceof PeriodToken
+                    || peek() instanceof ElseToken)) {
             } else {
                 beginEnd.append("\n");
             }
@@ -490,7 +496,8 @@ public class IndentCode {
         if (peek() instanceof ThenToken) {
             //append else
             result.append(take()).append("\n");
-            result.append(getLineCommand(depth + 1, true, ElseToken.class, SemicolonToken.class)).append(" ");
+            result.append(getLineCommand(depth + 1, true, ElseToken.class, SemicolonToken.class))
+                    .append(" ");
         }
 
         if (peek() instanceof ElseToken) {
@@ -500,8 +507,8 @@ public class IndentCode {
                 result.append(getLineCommand(depth, false, SemicolonToken.class));
             } else {
                 result.append("\n");
-                result.append(getTab(depth + 1)).append(getLineCommand(depth + 1, false, IfToken.class,
-                        SemicolonToken.class));
+                result.append(getLineCommand(depth + 1, true,
+                        IfToken.class, SemicolonToken.class));
             }
         }
         return result;
@@ -522,7 +529,8 @@ public class IndentCode {
     }
 
     private boolean isGroupToken(Token token) {
-        return token instanceof GrouperToken || token instanceof RepeatToken;
+        return (token instanceof GrouperToken || token instanceof RepeatToken)
+                && !(token instanceof BracketedToken || token instanceof ParenthesizedToken);
     }
 
     private boolean isStatement(Token token) {
@@ -562,25 +570,25 @@ public class IndentCode {
         if (tab && !isGroupToken(peek())) {
             result.append(getTab(depth));
         }
-        /*else if (isStatement(peek())) {
-            DLog.d(TAG, "getLineCommand: statement " + peek());
-            result.append(processNext(depth, take()));
-            if (peek() instanceof SemicolonToken) {
-                result.append(take()).append("\n");
-            }
-        } else*/
-        if (peek() instanceof CommentToken) {
+        boolean cmt = false;
+        while (peek() instanceof CommentToken) {
             result.append(completeCommentToken(result, depth, (CommentToken) take()));
+            //  return result;
+            cmt = true;
+        }
+        if (cmt && tab && !isGroupToken(peek())) {
+            result.append(getTab(depth));
         }
         if (isGroupToken(peek())) {
             result.append(processNext(depth, take()));
+            System.out.println("result = \n" + result);
             return result;
         }
         while (peek() != null && !isIn(peek().getClass(), stopToken)) {
             StringBuilder next = processNext(depth, take());
             result.append(next);
         }
-        //System.out.println("result = " + result);
+        System.out.println("result = \n" + result);
         return result;
     }
 

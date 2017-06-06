@@ -21,7 +21,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.OperatorTypes;
 import com.duy.pascal.backend.data_types.RuntimeType;
-import com.duy.pascal.backend.data_types.set.EnumElementValue;
+import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.data_types.set.EnumGroupType;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;

@@ -194,4 +194,12 @@ public class IndentCodeTest extends TestCase {
     public void testRepeat() {
         run("test_repeat.pas");
     }
+
+    public void testRepeatElse() {
+        run("test_repeat_else.pas");
+    }
+
+    public void testFormatComment(){
+        run("test_comment.pas");
+    }
 }

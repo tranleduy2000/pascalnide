@@ -19,6 +19,7 @@ package com.duy.pascal.backend.data_types.set;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.data_types.DeclaredType;

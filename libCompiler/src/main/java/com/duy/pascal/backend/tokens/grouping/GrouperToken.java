@@ -45,7 +45,7 @@ import com.duy.pascal.backend.data_types.rangetype.EnumSubrangeType;
 import com.duy.pascal.backend.data_types.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.data_types.rangetype.SubrangeType;
 import com.duy.pascal.backend.data_types.set.ArrayType;
-import com.duy.pascal.backend.data_types.set.EnumElementValue;
+import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.data_types.set.EnumGroupType;
 import com.duy.pascal.backend.data_types.set.SetType;
 import com.duy.pascal.backend.linenumber.LineInfo;

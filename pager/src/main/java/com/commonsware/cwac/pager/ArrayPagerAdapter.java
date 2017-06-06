@@ -33,8 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-abstract public class ArrayPagerAdapter<T extends Fragment> extends
-        PagerAdapter {
+abstract public class ArrayPagerAdapter<T extends Fragment> extends PagerAdapter {
     public static final RetentionStrategy KEEP = new RetentionStrategy() {
         @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
         public void attach(Fragment fragment,
