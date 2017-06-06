@@ -389,6 +389,7 @@ public abstract class GrouperToken extends Token {
                                           Precedence precedence, Token next) throws ParsingException {
 
         RuntimeValue term;
+        Token tmp = next;
         if (next instanceof OperatorToken) {
             OperatorToken nextOperator = (OperatorToken) next;
             if (!nextOperator.canBeUnary() || nextOperator.postfix()) {
@@ -397,10 +398,8 @@ public abstract class GrouperToken extends Token {
             }
             term = UnaryOperatorEval.generateOp(context, getNextExpression(context,
                     nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.getLineNumber());
-            term.setLineNumber(next.getLineNumber());
         } else {
             term = getNextTerm(context, next);
-            term.setLineNumber(next.getLineNumber());
         }
 
         while ((next = peek()).getOperatorPrecedence() != null) {
@@ -474,6 +473,7 @@ public abstract class GrouperToken extends Token {
                 }
             }
         }
+        term.setLineNumber(tmp.getLineNumber());
         return term;
     }
 
@@ -1098,6 +1098,7 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException(next, ":=", "in");
             }
         }
+
         return result;
     }
 
