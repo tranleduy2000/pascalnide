@@ -37,6 +37,7 @@
             android:layout_gravity="center"
             android:ellipsize="middle"
             android:gravity="center"
+            android:singleLine="true"
             android:text="TextView"
             android:textColor="?colorAccent" />
 

@@ -730,23 +730,22 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
     }
 
-    public void pinLine(LineInfo lineInfo) {
-        if (lineInfo == null) return;
+    public void pinLine(@Nullable LineInfo lineInfo) {
         Layout layout = getLayout();
         Editable e = getEditableText();
+
+        if (lastPinLine < getLineCount() && lastPinLine >= 0) {
+            int lineStart = getLayout().getLineStart(lastPinLine);
+            int lineEnd = getLayout().getLineEnd(lastPinLine);
+            BackgroundColorSpan[] backgroundColorSpan = e.getSpans(lineStart, lineEnd,
+                    BackgroundColorSpan.class);
+            for (BackgroundColorSpan colorSpan : backgroundColorSpan) {
+                e.removeSpan(colorSpan);
+            }
+        }
+        if (lineInfo == null) return;
         if (layout != null && lineInfo.getLine() < getLineCount()) {
             try {
-                if (lastPinLine < getLineCount() && lastPinLine >= 0) {
-                    int lineStart = getLayout().getLineStart(lastPinLine);
-                    int lineEnd = getLayout().getLineEnd(lastPinLine);
-                    BackgroundColorSpan[] backgroundColorSpan = e.getSpans(lineStart, lineEnd,
-                            BackgroundColorSpan.class);
-                    for (BackgroundColorSpan colorSpan : backgroundColorSpan) {
-                        e.removeSpan(colorSpan);
-                    }
-                }
-
-
                 int lineStart = getLayout().getLineStart(lineInfo.getLine());
                 int lineEnd = getLayout().getLineEnd(lineInfo.getLine());
                 lineStart += lineInfo.getColumn();

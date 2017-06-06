@@ -81,4 +81,12 @@ public class DebugManager {
             main.getDebugListener().onFunctionCalled(function, arguments, result);
         }
     }
+
+    public static void onEvalPrameterFunction(LineInfo lineInfo, String argName, Object value,
+                                               RuntimeExecutableCodeUnit main) {
+        if (main.isDebugMode()) {
+            main.getDebugListener().onEvalParameterFunction(lineInfo,argName,  value);
+        }
+    }
+
 }

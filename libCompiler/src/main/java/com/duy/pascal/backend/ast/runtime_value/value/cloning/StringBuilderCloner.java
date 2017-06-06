@@ -6,9 +6,9 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class StringBuilderCloner implements RuntimeValue {
@@ -45,7 +45,7 @@ public class StringBuilderCloner implements RuntimeValue {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName();
+        return "string";
     }
 
     @Override
@@ -53,6 +53,10 @@ public class StringBuilderCloner implements RuntimeValue {
         return value.getLineNumber();
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 
     @Override
     public Object compileTimeValue(CompileTimeContext context)
@@ -73,11 +77,6 @@ public class StringBuilderCloner implements RuntimeValue {
     @Override
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
 }

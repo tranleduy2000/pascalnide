@@ -42,7 +42,8 @@ public class SimpleFunctionCall extends FunctionCall {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (main != null) {
-            if (main.isDebugMode()) main.getDebugListener().onLine((Executable) this, getLineNumber());
+            if (main.isDebugMode())
+                main.getDebugListener().onLine((Executable) this, getLineNumber());
             main.incStack(getLineNumber());
             main.scriptControlCheck(getLineNumber());
         }
@@ -82,10 +83,15 @@ public class SimpleFunctionCall extends FunctionCall {
                     }
                     values[i] = object;
                 }
+                //debug
+                DebugManager.onEvalParameterFunction(arguments[i].getLineNumber(),
+                        arguments[i].toString(), values[i], main);
             }
         } else {
             for (int i = 0; i < values.length; i++) {
                 values[i] = arguments[i].getValue(f, main);
+                DebugManager.onEvalParameterFunction(arguments[i].getLineNumber(),
+                        arguments[i].toString(), values[i], main);
             }
         }
 
@@ -117,6 +123,11 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     protected String getFunctionName() {
         return function.getName();
     }
@@ -125,11 +136,6 @@ public class SimpleFunctionCall extends FunctionCall {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new SimpleFunctionCall(function, compileTimeExpressionFoldArguments(context), line);
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
     @Override

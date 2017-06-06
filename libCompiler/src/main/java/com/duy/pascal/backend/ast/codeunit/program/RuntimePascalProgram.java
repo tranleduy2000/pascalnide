@@ -52,6 +52,10 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         for (Map.Entry<UnitPascal, RuntimeUnitPascal> entry : entries) {
             entry.getValue().runFinal();
         }
+
+        if (isDebugMode()) {
+            getDebugListener().onEndProgram();
+        }
     }
 
     @Override

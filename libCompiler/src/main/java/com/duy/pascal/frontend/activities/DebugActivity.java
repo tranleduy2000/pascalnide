@@ -23,6 +23,9 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
+import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +40,7 @@ import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.duy.pascal.backend.ast.AbstractCallableFunction;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
@@ -60,6 +64,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class DebugActivity extends AbstractExecActivity implements DebugListener {
@@ -73,23 +78,18 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     private Handler handler = new Handler();
     private AlertDialog alertDialog;
     private PopupWindow popupWindow;
+    private AtomicBoolean endEnded = new AtomicBoolean(false);
+    private Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideStatusBar();
         setContentView(R.layout.activity_debug);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        mConsoleView = (ConsoleView) findViewById(R.id.console);
-        mCodeView = (HighlightEditor) findViewById(R.id.code_editor);
-        mScrollView = (LockableScrollView) findViewById(R.id.vertical_scroll);
-        mCodeView.setVerticalScroll(mScrollView);
-        mVariableWatcherView = (VariableWatcherView) findViewById(R.id.watcher);
-        emptyView = findViewById(R.id.empty_view);
+        bindView();
 
-        setSupportActionBar(toolbar);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
-        mVariableWatcherView.setEmptyView(emptyView);
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
         getConsoleView().writeString("Enable DEBUG mode\n");
@@ -102,10 +102,25 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         }, 100);
     }
 
+    private void bindView() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mConsoleView = (ConsoleView) findViewById(R.id.console);
+        mCodeView = (HighlightEditor) findViewById(R.id.code_editor);
+        mScrollView = (LockableScrollView) findViewById(R.id.vertical_scroll);
+        mCodeView.setVerticalScroll(mScrollView);
+        mVariableWatcherView = (VariableWatcherView) findViewById(R.id.watcher);
+        emptyView = findViewById(R.id.empty_view);
+
+        setSupportActionBar(toolbar);
+
+        mVariableWatcherView.setEmptyView(emptyView);
+    }
+
     @Override
     public void onError(Exception e) {
         ExceptionManager exceptionManager = new ExceptionManager(this);
-        DialogManager.Companion.createFinishDialog(this, "Runtime error", exceptionManager.getMessage(e)).show();
+        DialogManager.Companion.createFinishDialog(this, "Runtime error",
+                exceptionManager.getMessage(e)).show();
         //DEBUG
         if (DEBUG) e.printStackTrace();
     }
@@ -165,6 +180,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             mCodeView.setTextHighlighted(code);
 
             setTitle(file.getName());
+            endEnded.set(false);
             setEnableDebug(true); //disable DEBUG
             createAndRunProgram(filePath); //execute file
         } else {
@@ -220,6 +236,11 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public void onEvaluatedExpr(final LineInfo lineInfo, final String expr, final String result) {
         Log.d(TAG, "onEvaluatedExpr() called with: lineInfo = [" + lineInfo + "], expr = [" +
                 expr + "], result = [" + result + "]");
+        showPopupAt(lineInfo, expr + " = " + result);
+    }
+
+    @UiThread
+    private void showPopupAt(final LineInfo lineInfo, final String msg) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -235,6 +256,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 container.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                         View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                 int windowHeight = container.getMeasuredHeight();
+                int windowWidth = container.getMeasuredWidth();
 
                 window.setContentView(container);
                 window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -242,10 +264,10 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 window.setFocusable(true);
                 window.setOutsideTouchable(true);
 
-                window.showAtLocation(mCodeView, Gravity.NO_GRAVITY, position.x,
+                window.showAtLocation(mCodeView, Gravity.NO_GRAVITY, position.x - windowWidth / 3,
                         position.y + toolbar.getHeight() - windowHeight);
                 TextView txtResult = (TextView) container.findViewById(R.id.txt_result);
-                txtResult.setText(expr + "=" + result);
+                txtResult.setText(msg);
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.5f);
                 alphaAnimation.setDuration(1000);
                 alphaAnimation.setRepeatMode(Animation.REVERSE);
@@ -286,10 +308,29 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
+    public void onEvalParameterFunction(LineInfo lineInfo, String name, @Nullable Object value) {
+        if (value != null) {
+            showPopupAt(lineInfo, name + " = " + value.toString());
+        }
+    }
+
+    @Override
+    public void onEndProgram() {
+        dismissPopup();
+        this.endEnded.set(true);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mCodeView.pinLine(null);
+            }
+        });
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_next_line) {
-            if (program != null) program.resume();
+            resumeProgram();
             return true;
         } else if (i == R.id.action_add_watch) {
             addWatchVariable();
@@ -303,6 +344,14 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void resumeProgram() {
+        if (program != null && !endEnded.get()) program.resume();
+        else {
+            vibrator.vibrate(500);
+            Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void addWatchVariable() {
