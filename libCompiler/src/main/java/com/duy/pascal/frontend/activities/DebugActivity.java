@@ -217,7 +217,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
      * @param result   - result value of expr
      */
     @Override
-    public void onEvaluatedExpr(final LineInfo lineInfo, String expr, final String result) {
+    public void onEvaluatedExpr(final LineInfo lineInfo, final String expr, final String result) {
         Log.d(TAG, "onEvaluatedExpr() called with: lineInfo = [" + lineInfo + "], expr = [" +
                 expr + "], result = [" + result + "]");
         runOnUiThread(new Runnable() {
@@ -245,7 +245,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 window.showAtLocation(mCodeView, Gravity.NO_GRAVITY, position.x,
                         position.y + toolbar.getHeight() - windowHeight);
                 TextView txtResult = (TextView) container.findViewById(R.id.txt_result);
-                txtResult.setText(result);
+                txtResult.setText(expr + "=" + result);
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.5f);
                 alphaAnimation.setDuration(1000);
                 alphaAnimation.setRepeatMode(Animation.REVERSE);

@@ -194,7 +194,7 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
 
     @Override
     public String toString() {
-        return "(" + operon1 + ") " + operator_type + " (" + operon2 + ')';
+        return operon1 + " " + operator_type + " " + operon2;
     }
 
     @Override
