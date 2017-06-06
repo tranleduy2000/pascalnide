@@ -39,6 +39,7 @@ import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -607,7 +608,7 @@ public class HighlightEditor extends CodeSuggestsEditText
      * @param column - column of line
      * @return Position (in pixels) for edittext at line and column
      */
-    public Point getDebugPosition(int line, int column) {
+    public Point getDebugPosition(int line, int column, int gravity) {
         Layout layout = getLayout();
         if (layout != null) {
             int pos = layout.getLineStart(line) + column;
@@ -615,17 +616,29 @@ public class HighlightEditor extends CodeSuggestsEditText
             int baseline = layout.getLineBaseline(line);
             int ascent = layout.getLineAscent(line);
 
-            float x = layout.getPrimaryHorizontal(pos);
-            float y = baseline + ascent;
+            int offsetHorizontal = (int) layout.getPrimaryHorizontal(pos) + mLinePadding; //x
 
-            int offsetHorizontal = (int) x + mLinePadding;
-            setDropDownHorizontalOffset(offsetHorizontal);
-            int offsetVertical;
-            if (verticalScroll != null) {
-                offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
-            } else {
-                offsetVertical = (int) ((y + mCharHeight) - getScrollY());
+            float y;
+            int offsetVertical = 0;
+
+            if (gravity == Gravity.BOTTOM) {
+                y = baseline + ascent;
+                if (verticalScroll != null) {
+                    offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
+                } else {
+                    offsetVertical = (int) ((y + mCharHeight) - getScrollY());
+                }
+                return new Point(offsetHorizontal, offsetVertical);
+            } else if (gravity == Gravity.TOP) {
+                y = layout.getLineTop(line);
+                if (verticalScroll != null) {
+                    offsetVertical = (int) (y - verticalScroll.getScrollY());
+                } else {
+                    offsetVertical = (int) (y - getScrollY());
+                }
+                return new Point(offsetHorizontal, offsetVertical);
             }
+
             return new Point(offsetHorizontal, offsetVertical);
         }
         return new Point();

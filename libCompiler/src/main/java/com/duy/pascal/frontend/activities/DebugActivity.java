@@ -18,16 +18,25 @@ package com.duy.pascal.frontend.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.duy.pascal.backend.ast.AbstractCallableFunction;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
@@ -63,6 +72,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     private View emptyView;
     private Handler handler = new Handler();
     private AlertDialog alertDialog;
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +83,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         mConsoleView = (ConsoleView) findViewById(R.id.console);
         mCodeView = (HighlightEditor) findViewById(R.id.code_editor);
         mScrollView = (LockableScrollView) findViewById(R.id.vertical_scroll);
+        mCodeView.setVerticalScroll(mScrollView);
         mVariableWatcherView = (VariableWatcherView) findViewById(R.id.watcher);
         emptyView = findViewById(R.id.empty_view);
 
@@ -81,7 +92,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         mVariableWatcherView.setEmptyView(emptyView);
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
-        getConsoleView().writeString("enable DEBUG mode");
+        getConsoleView().writeString("Enable DEBUG mode\n");
 
         handler.postDelayed(new Runnable() {
             @Override
@@ -198,11 +209,59 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     }
 
+    /**
+     * This method will be show a small popup window for show result at expression
+     *
+     * @param lineInfo - the line of expression
+     * @param expr     - input
+     * @param result   - result value of expr
+     */
     @Override
-    public void onEvaluatedExpr(LineInfo lineInfo, String expr, String result) {
+    public void onEvaluatedExpr(final LineInfo lineInfo, String expr, final String result) {
         Log.d(TAG, "onEvaluatedExpr() called with: lineInfo = [" + lineInfo + "], expr = [" +
                 expr + "], result = [" + result + "]");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //get relative position of expression at edittext
+                Point position = mCodeView.getDebugPosition(lineInfo.getLine(), lineInfo.getColumn(),
+                        Gravity.TOP);
+                Log.d(TAG, "run: " + position);
+                dismissPopup();
+                //create new popup
+                PopupWindow window = new PopupWindow(DebugActivity.this);
+                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                View container = inflater.inflate(R.layout.popup_expr_result, null);
+                container.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                int windowHeight = container.getMeasuredHeight();
 
+                window.setContentView(container);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                window.setTouchable(true);
+                window.setFocusable(true);
+                window.setOutsideTouchable(true);
+
+                window.showAtLocation(mCodeView, Gravity.NO_GRAVITY, position.x,
+                        position.y + toolbar.getHeight() - windowHeight);
+                TextView txtResult = (TextView) container.findViewById(R.id.txt_result);
+                txtResult.setText(result);
+                AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.5f);
+                alphaAnimation.setDuration(1000);
+                alphaAnimation.setRepeatMode(Animation.REVERSE);
+                alphaAnimation.setRepeatCount(Animation.INFINITE);
+                txtResult.startAnimation(alphaAnimation);
+                DebugActivity.this.popupWindow = window;
+            }
+        });
+    }
+
+    private void dismissPopup() {
+        if (popupWindow != null) {
+            if (this.popupWindow.isShowing()) {
+                popupWindow.dismiss();
+            }
+        }
     }
 
     @Override

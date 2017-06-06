@@ -17,28 +17,28 @@
 package com.duy.pascal.backend.ast.runtime_value.operators;
 
 
-import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
-import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
-import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.PointerType;
-import com.duy.pascal.backend.data_types.RuntimeType;
-import com.duy.pascal.backend.data_types.OperatorTypes;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.operators.pointer.AddressEval;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.BoolUniOperatorEval;
-import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.DoubleUniOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.IntegerUniOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.LongUniOperatorEval;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.operators.pointer.AddressEval;
+import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.OperatorTypes;
+import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
+import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
@@ -99,15 +99,28 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
+        boolean debug = main.isDebugMode();
+        if (debug) {
+            main.getDebugListener().onEvaluatingExpr(line, toString());
+            main.setDebugMode(false);
+        }
+
         Object value = operon.getValue(f, main);
-        return operate(value);
+        Object result = operate(value);
+
+        //restore mode
+        main.setDebugMode(debug);
+        if (main.isDebugMode()) {
+            main.getDebugListener().onEvaluatedExpr(line, toString(), result.toString());
+        }
+        return result;
     }
 
     public abstract Object operate(Object value) throws PascalArithmeticException, InternalInterpreterException;
 
     @Override
     public String toString() {
-        return "operator [" + operator + "] on [" + operon + ']';
+        return operator + "" + operon;
     }
 
     @Override
