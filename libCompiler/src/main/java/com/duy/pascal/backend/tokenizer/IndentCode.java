@@ -49,6 +49,7 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.backend.tokens.grouping.RecordToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
+import com.duy.pascal.backend.utils.ArrayUtils;
 import com.duy.pascal.frontend.DLog;
 
 import java.io.File;
@@ -66,16 +67,31 @@ import java.util.LinkedList;
  * Created by Duy on 07-May-17.
  */
 public class IndentCode {
-    private static final String TAG = "IndentCode";
-    private static final String THE_TAB = "   "; //3 space
-
-
-    private static final Class[] NON_NEED_SPACE = new Class[]{
+    public static final Class[] NON_NEED_SPACE = new Class[]{
             DotDotToken.class, PeriodToken.class, /*AssignmentToken.class,*/
             ColonToken.class, CommaToken.class, SemicolonToken.class, BracketedToken.class,
             ParenthesizedToken.class, /*OperatorToken.class,*/ EndBracketToken.class,
             EndParenToken.class};
 
+    public static final Class[] STATEMENTS = new Class[]{
+            BeginEndToken.class, IfToken.class, ThenToken.class, DoToken.class, ForToken.class,
+            ToToken.class, CaseToken.class, RepeatToken.class, UntilToken.class, WhileToken.class
+    };
+
+    public static final Class[] OPERATORS = new Class[]{
+            OperatorToken.class
+    };
+
+    public static final Class[] DECLARE_CLASSES = new Class[]{
+            VarToken.class, ConstToken.class, UsesToken.class, FunctionToken.class, TypeToken.class,
+            ProcedureToken.class, ImplementationToken.class, InterfaceToken.class,
+
+            SemicolonToken.class, PeriodToken.class
+    };
+
+
+    private static final String TAG = "IndentCode";
+    private static final String THE_TAB = "   "; //3 space
     private int mode;
     private Reader source;
 
@@ -96,8 +112,8 @@ public class IndentCode {
         for (File file : dir.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 IndentCode indentCode = new IndentCode(new FileReader(file));
-//                System.out.println(indentCode.getResult());
-//                System.out.println("------------------------");
+////                System.out.println(indentCode.getResult());
+////                System.out.println("------------------------");
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -232,13 +248,12 @@ public class IndentCode {
 
         while (peek() instanceof WordToken || peek() instanceof OperatorToken
                 || peek() instanceof CommentToken) {
-            result.append(getLineCommand(depth + 1, true, SemicolonToken.class));
+            result.append(getLineCommand(depth + 1, true, ArrayUtils.join(STATEMENTS, DECLARE_CLASSES)));
             if (peek() instanceof SemicolonToken) {
                 appendSemicolon(result);
             }
         }
         result.append("\n");
-////        System.out.println("completeDeclare = " + result);
         return result;
     }
 
@@ -269,7 +284,6 @@ public class IndentCode {
         }
     }
 
-    @Nullable
     private Token peek() {
         if (stack.size() == 0) {
             return null;
@@ -277,7 +291,6 @@ public class IndentCode {
         return stack.peek();
     }
 
-    @Nullable
     private Token take() {
         if (stack.size() == 0) {
             return null;
@@ -567,28 +580,27 @@ public class IndentCode {
     //end of lineInfo by ;
     private StringBuilder getLineCommand(int depth, boolean tab, Class... stopToken) {
         StringBuilder result = new StringBuilder();
-        if (tab && !isGroupToken(peek())) {
-            result.append(getTab(depth));
-        }
+
         boolean cmt = false;
         while (peek() instanceof CommentToken) {
+            if (tab) result.append(getTab(depth));
             result.append(completeCommentToken(result, depth, (CommentToken) take()));
             //  return result;
             cmt = true;
         }
-        if (cmt && tab && !isGroupToken(peek())) {
+        if (tab && !isGroupToken(peek())) {
             result.append(getTab(depth));
         }
-        if (isGroupToken(peek())) {
+        if (isGroupToken(peek()) && !isIn(peek().getClass(), stopToken)) {
             result.append(processNext(depth, take()));
-            System.out.println("result = \n" + result);
+//            System.out.println("result = \n" + result);
             return result;
         }
         while (peek() != null && !isIn(peek().getClass(), stopToken)) {
             StringBuilder next = processNext(depth, take());
             result.append(next);
         }
-        System.out.println("result = \n" + result);
+//        System.out.println("result = \n" + result);
         return result;
     }
 

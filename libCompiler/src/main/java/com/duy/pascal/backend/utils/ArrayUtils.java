@@ -19,8 +19,8 @@ package com.duy.pascal.backend.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.frontend.view.exec_screen.console.TextConsole;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.frontend.view.exec_screen.console.TextConsole;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -60,6 +60,22 @@ public class ArrayUtils {
         int index = 0;
         for (T[] object : objects) {
             for (T t : object) {
+                Array.set(result, index, t);
+                index++;
+            }
+        }
+        return result;
+    }
+
+    public static Class[] join(@NonNull Class[]... objects) {
+        int size = 0;
+        for (Object[] object : objects) {
+            size += object.length;
+        }
+        Class[] result = (Class[]) Array.newInstance(Class.class, size);
+        int index = 0;
+        for (Class[] object : objects) {
+            for (Class t : object) {
                 Array.set(result, index, t);
                 index++;
             }
@@ -107,4 +123,5 @@ public class ArrayUtils {
         }
         return result.toString();
     }
+
 }
