@@ -5,6 +5,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
 
@@ -54,6 +55,10 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
     @Override
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
+    }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
     }
 
     public abstract Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)

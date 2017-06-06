@@ -118,8 +118,5 @@ public class ShortBiOperatorEval extends BinaryOperatorEval {
         }
     }
 
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
+
 }

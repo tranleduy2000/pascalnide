@@ -100,4 +100,9 @@ public class SetIndexAccess extends DebuggableAssignableValue {
         return new SetIndexAccess(container.compileTimeExpressionFold(context),
                 index.compileTimeExpressionFold(context));
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

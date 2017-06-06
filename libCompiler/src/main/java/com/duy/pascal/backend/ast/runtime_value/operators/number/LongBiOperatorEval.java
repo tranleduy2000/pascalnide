@@ -101,8 +101,5 @@ public class LongBiOperatorEval extends BinaryOperatorEval {
         }
     }
 
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
+
 }

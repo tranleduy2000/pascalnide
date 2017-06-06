@@ -73,8 +73,4 @@ public class StringBiOperatorEval extends BinaryOperatorEval {
         }
     }
 
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
 }

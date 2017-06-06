@@ -84,4 +84,9 @@ public class ArrayBoxer extends DebuggableReturnValue {
         }
         return new ArrayBoxer(val, type, line);
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

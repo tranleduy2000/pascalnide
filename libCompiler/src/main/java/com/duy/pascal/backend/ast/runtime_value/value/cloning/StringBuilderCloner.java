@@ -75,4 +75,9 @@ public class StringBuilderCloner implements RuntimeValue {
         return null;
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
 }

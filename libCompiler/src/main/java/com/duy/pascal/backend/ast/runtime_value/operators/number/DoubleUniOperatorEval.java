@@ -46,8 +46,5 @@ public class DoubleUniOperatorEval extends UnaryOperatorEval {
                     line);
         }
     }
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
+
 }

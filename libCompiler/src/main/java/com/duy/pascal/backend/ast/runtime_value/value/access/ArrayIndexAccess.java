@@ -114,4 +114,9 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
                 index.compileTimeExpressionFold(context), offset);
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
 }

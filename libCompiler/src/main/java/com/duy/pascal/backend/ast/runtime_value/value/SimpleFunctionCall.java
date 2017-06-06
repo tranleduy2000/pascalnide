@@ -128,6 +128,11 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
         Object[] args = new Object[arguments.length];
         for (int i = 0; i < arguments.length; i++) {

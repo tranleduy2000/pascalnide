@@ -66,4 +66,9 @@ public class StringBoxer extends DebuggableReturnValue {
         }
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
 }

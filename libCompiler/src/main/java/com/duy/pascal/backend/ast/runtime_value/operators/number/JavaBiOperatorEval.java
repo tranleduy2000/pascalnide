@@ -78,8 +78,4 @@ public class JavaBiOperatorEval extends BinaryOperatorEval {
         }
     }
 
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
 }

@@ -95,6 +95,11 @@ public class EnumElementValue implements RuntimeValue {
         return null;
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
     public String getName() {
         return name;
     }

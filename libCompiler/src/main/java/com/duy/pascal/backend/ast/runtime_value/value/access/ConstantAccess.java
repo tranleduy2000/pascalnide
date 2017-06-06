@@ -103,6 +103,11 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         return this;
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
     @Nullable
     public String getName() {
         return name;

@@ -47,8 +47,4 @@ public class IntegerUniOperatorEval extends UnaryOperatorEval {
         }
     }
 
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
 }

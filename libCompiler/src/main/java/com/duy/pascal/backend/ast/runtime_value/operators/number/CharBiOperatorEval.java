@@ -91,8 +91,4 @@ public class CharBiOperatorEval extends BinaryOperatorEval {
                     line);
         }
     }
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
 }

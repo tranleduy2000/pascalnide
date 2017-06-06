@@ -65,4 +65,9 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
                     value.compileTimeExpressionFold(context));
         }
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

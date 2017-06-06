@@ -54,4 +54,6 @@ public interface RuntimeValue {
      */
     @Nullable
     AssignableValue asAssignableValue(ExpressionContext f);
+
+    void setLineNumber(LineInfo lineNumber);
 }

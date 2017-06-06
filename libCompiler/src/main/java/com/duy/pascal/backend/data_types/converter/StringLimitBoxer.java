@@ -113,4 +113,9 @@ public class StringLimitBoxer implements RuntimeValue {
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

@@ -112,6 +112,11 @@ public class ReadFileFunction implements IMethodDeclaration {
         }
 
         @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
+
+        @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
             return new ReadFileCall(filePreference, args, line);

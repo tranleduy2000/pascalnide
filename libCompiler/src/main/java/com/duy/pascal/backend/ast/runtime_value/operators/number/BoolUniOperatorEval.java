@@ -44,8 +44,5 @@ public class BoolUniOperatorEval extends UnaryOperatorEval {
                     line);
         }
     }
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
+
 }

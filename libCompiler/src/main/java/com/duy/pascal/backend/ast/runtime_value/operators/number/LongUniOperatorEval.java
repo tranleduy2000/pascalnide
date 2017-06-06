@@ -48,8 +48,5 @@ public class LongUniOperatorEval extends UnaryOperatorEval {
         }
     }
 
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
+
 }

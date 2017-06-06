@@ -102,8 +102,5 @@ public class IntegerBiOperatorEval extends BinaryOperatorEval {
         }
     }
 
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
+
 }

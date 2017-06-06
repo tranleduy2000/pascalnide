@@ -98,6 +98,11 @@ public class ExitNoneFunction implements IMethodDeclaration {
         }
 
         @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
+
+        @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
             return new ExitNoneCall(line);

@@ -67,4 +67,9 @@ public class AddressEval extends DebuggableReturnValue {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         return this;
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

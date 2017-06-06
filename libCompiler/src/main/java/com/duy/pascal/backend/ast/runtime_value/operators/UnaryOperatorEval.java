@@ -97,6 +97,11 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+        this.line = lineNumber;
+    }
+
+    @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         boolean debug = main.isDebugMode();
@@ -140,5 +145,10 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
         } catch (PascalArithmeticException | InternalInterpreterException e) {
             throw new ConstantCalculationException(e);
         }
+    }
+
+    @Override
+    public boolean canDebug() {
+        return true;
     }
 }

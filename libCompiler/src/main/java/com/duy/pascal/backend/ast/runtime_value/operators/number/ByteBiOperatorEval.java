@@ -117,8 +117,5 @@ public class ByteBiOperatorEval extends BinaryOperatorEval {
                     line);
         }
     }
-    @Override
-    public boolean canDebug() {
-        return true;
-    }
+
 }

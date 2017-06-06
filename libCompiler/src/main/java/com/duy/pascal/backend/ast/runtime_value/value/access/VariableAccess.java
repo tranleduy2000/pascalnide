@@ -113,4 +113,9 @@ public class VariableAccess extends DebuggableAssignableValue {
             throws ParsingException {
         return this;
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

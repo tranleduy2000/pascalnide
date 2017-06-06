@@ -130,6 +130,11 @@ public class AddressFunction implements IMethodDeclaration {
             }
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
+
 
         @Override
         protected String getFunctionName() {

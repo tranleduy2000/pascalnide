@@ -77,4 +77,5 @@ public class BoolBiOperatorEval extends BinaryOperatorEval {
                     line);
         }
     }
+
 }

@@ -163,6 +163,11 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+        this.line = lineNumber;
+    }
+
+    @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
 
@@ -208,5 +213,10 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean canDebug() {
+        return true;
     }
 }

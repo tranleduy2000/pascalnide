@@ -7,6 +7,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.debugable.DebuggableExecutableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.AmbiguousFunctionCallException;
 import com.duy.pascal.backend.parse_exception.define.BadFunctionCallException;
@@ -104,6 +105,11 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         return null;
+    }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
     }
 
     RuntimeValue[] compileTimeExpressionFoldArguments(CompileTimeContext context)

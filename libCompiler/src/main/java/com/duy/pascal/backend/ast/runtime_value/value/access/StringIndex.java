@@ -83,4 +83,9 @@ public class StringIndex extends DebuggableAssignableValue {
         RuntimeValue cind = index.compileTimeExpressionFold(context);
         return new StringIndex(cstr, cind);
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

@@ -112,6 +112,12 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
                     line);
         }
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
     @Override
     public boolean canDebug() {
         return true;

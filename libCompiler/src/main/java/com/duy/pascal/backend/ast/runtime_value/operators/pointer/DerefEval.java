@@ -91,4 +91,9 @@ public class DerefEval extends DebuggableAssignableValue {
             return new DerefEval(pointer.compileTimeExpressionFold(context), line);
         }
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

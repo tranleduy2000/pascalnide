@@ -17,21 +17,21 @@
 package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.RuntimeType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.ArgumentType;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.frontend.DLog;
 
 public class SizeOfObjectFunction implements IMethodDeclaration {
 
@@ -39,13 +39,13 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
     private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
-   public String getName() {
+    public String getName() {
         return "sizeof";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
         DLog.d(TAG, "generateCall: ");
         return new SizeOfObjectCall(array, line);
@@ -90,6 +90,11 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
         @Override
         public LineInfo getLineNumber() {
             return line;
+        }
+
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+            this.line = lineNumber;
         }
 
         @Override

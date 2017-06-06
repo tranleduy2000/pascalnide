@@ -63,4 +63,9 @@ public class GetAddress extends DebuggableReturnValue {
             throws ParsingException {
         return this;
     }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 }

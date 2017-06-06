@@ -24,13 +24,14 @@ import com.duy.pascal.backend.ast.instructions.conditional.RepeatInstruction;
 import com.duy.pascal.backend.ast.instructions.conditional.WhileStatement;
 import com.duy.pascal.backend.ast.instructions.with_statement.WithStatement;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.ast.runtime_value.operators.UnaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.operators.UnaryOperatorEval;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.ClassType;
@@ -45,7 +46,6 @@ import com.duy.pascal.backend.data_types.rangetype.EnumSubrangeType;
 import com.duy.pascal.backend.data_types.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.data_types.rangetype.SubrangeType;
 import com.duy.pascal.backend.data_types.set.ArrayType;
-import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.data_types.set.EnumGroupType;
 import com.duy.pascal.backend.data_types.set.SetType;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -388,17 +388,19 @@ public abstract class GrouperToken extends Token {
     public RuntimeValue getNextExpression(ExpressionContext context,
                                           Precedence precedence, Token next) throws ParsingException {
 
-        RuntimeValue identifier;
+        RuntimeValue term;
         if (next instanceof OperatorToken) {
             OperatorToken nextOperator = (OperatorToken) next;
             if (!nextOperator.canBeUnary() || nextOperator.postfix()) {
                 throw new BadOperationTypeException(next.getLineNumber(),
                         nextOperator.type);
             }
-            identifier = UnaryOperatorEval.generateOp(context, getNextExpression(context,
+            term = UnaryOperatorEval.generateOp(context, getNextExpression(context,
                     nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.getLineNumber());
+            term.setLineNumber(next.getLineNumber());
         } else {
-            identifier = getNextTerm(context, next);
+            term = getNextTerm(context, next);
+            term.setLineNumber(next.getLineNumber());
         }
 
         while ((next = peek()).getOperatorPrecedence() != null) {
@@ -409,21 +411,21 @@ public abstract class GrouperToken extends Token {
                 }
                 take();
                 if (nextOperator.postfix()) {
-                    return UnaryOperatorEval.generateOp(context, identifier, nextOperator.type,
+                    return UnaryOperatorEval.generateOp(context, term, nextOperator.type,
                             nextOperator.getLineNumber());
                 }
                 RuntimeValue nextValue = getNextExpression(context, nextOperator.type.getPrecedence());
                 OperatorTypes operationType = ((OperatorToken) next).type;
-                DeclaredType type1 = identifier.getType(context).declType;
+                DeclaredType type1 = term.getType(context).declType;
                 DeclaredType type2 = nextValue.getType(context).declType;
                 try {
                     operationType.verifyBinaryOperation(type1, type2);
                 } catch (BadOperationTypeException e) {
                     throw new BadOperationTypeException(next.getLineNumber(), type1,
-                            type2, identifier, nextValue, operationType);
+                            type2, term, nextValue, operationType);
                 }
-                identifier = BinaryOperatorEval.generateOp(context,
-                        identifier, nextValue, operationType,
+                term = BinaryOperatorEval.generateOp(context,
+                        term, nextValue, operationType,
                         nextOperator.getLineNumber());
             } else if (next instanceof PeriodToken) {
                 take();
@@ -434,26 +436,26 @@ public abstract class GrouperToken extends Token {
 
 
                 //call method of java class
-                RuntimeType runtimeType = identifier.getType(context);
+                RuntimeType runtimeType = term.getType(context);
                 //access method of java class
                 if (runtimeType.declType instanceof JavaClassBasedType) {
-                    identifier = getMethodFromClass(context, identifier, ((WordToken) next).getName());
+                    term = getMethodFromClass(context, term, ((WordToken) next).getName());
                 } else {
                     if (runtimeType.declType instanceof RecordType) {
                         VariableDeclaration field =
                                 ((RecordType) runtimeType.declType).findField(((WordToken) next).getName());
                         if (field == null) { //can not find field
                             // TODO: 03-Jun-17 declare field
-                            throw new UnknownFieldException(next.getLineNumber(), identifier,
+                            throw new UnknownFieldException(next.getLineNumber(), term,
                                     ((WordToken) next).getName(), context);
                         }
                     }
-                    identifier = new FieldAccess(identifier, (WordToken) next);
+                    term = new FieldAccess(term, (WordToken) next);
 
                     //access pointer value
                     if (peek() instanceof OperatorToken && ((OperatorToken) peek()).type == OperatorTypes.DEREF) {
                         OperatorToken nextOperator = (OperatorToken) take();
-                        identifier = new DerefEval(identifier, identifier.getLineNumber());
+                        term = new DerefEval(term, term.getLineNumber());
                     }
 
 
@@ -461,18 +463,18 @@ public abstract class GrouperToken extends Token {
             } else if (next instanceof BracketedToken) {
                 take(); //comma token
                 BracketedToken bracket = (BracketedToken) next;
-                identifier = generateArrayAccess(identifier, context, bracket);
+                term = generateArrayAccess(term, context, bracket);
 
                 while (bracket.hasNext()) {
                     next = bracket.take();
                     if (!(next instanceof CommaToken)) {
                         throw new ExpectedTokenException("]", next);
                     }
-                    identifier = generateArrayAccess(identifier, context, bracket);
+                    term = generateArrayAccess(term, context, bracket);
                 }
             }
         }
-        return identifier;
+        return term;
     }
 
     private RuntimeValue generateArrayAccess(RuntimeValue parent, ExpressionContext f,

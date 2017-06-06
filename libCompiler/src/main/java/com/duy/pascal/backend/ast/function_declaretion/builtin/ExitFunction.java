@@ -103,6 +103,11 @@ public class ExitFunction implements IMethodDeclaration {
         }
 
         @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
+
+        @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
             return new ExitCall(value.compileTimeExpressionFold(c), line);

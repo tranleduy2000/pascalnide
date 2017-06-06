@@ -47,6 +47,11 @@ public class CachedReturnValue implements RuntimeValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public RuntimeValue[] getOutputFormat() {
         return outputFormat;
     }

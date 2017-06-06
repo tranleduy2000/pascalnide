@@ -84,6 +84,11 @@ public class InBiOperatorEval extends BinaryOperatorEval {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public boolean canDebug() {
         return true;
     }

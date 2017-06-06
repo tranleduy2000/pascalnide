@@ -116,6 +116,11 @@ public class FieldAccess extends DebuggableAssignableValue {
         }
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
     public RuntimeValue getContainer() {
         return container;
     }
