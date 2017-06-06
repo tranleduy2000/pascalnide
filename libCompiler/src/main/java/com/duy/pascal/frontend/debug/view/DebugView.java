@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.debug;
+package com.duy.pascal.frontend.debug.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+
+import com.duy.pascal.frontend.debug.adapter.DebugAdapter;
+import com.duy.pascal.frontend.debug.model.DebugItem;
 
 /**
  * Created by Duy on 11-Feb-17.

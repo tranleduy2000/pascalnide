@@ -19,9 +19,10 @@ public class CharToIntType implements RuntimeValue {
         this.other = other;
     }
 
+
     @Override
     public String toString() {
-        return getClass().getSimpleName();
+        return other.toString();
     }
 
     @Override

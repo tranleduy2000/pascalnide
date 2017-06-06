@@ -16,16 +16,16 @@
 
 package com.duy.pascal.backend.data_types.converter;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class StringLimitBoxer implements RuntimeValue {
@@ -43,9 +43,10 @@ public class StringLimitBoxer implements RuntimeValue {
         this.length = length;
     }
 
+
     @Override
     public String toString() {
-        return getClass().getSimpleName();
+        return value.toString();
     }
 
     @Override
@@ -88,9 +89,14 @@ public class StringLimitBoxer implements RuntimeValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object o = value.compileTimeValue(context);
-        if (o != null) {
-            return new StringBuilder(o.toString());
+        StringBuilder string = (StringBuilder) value.compileTimeValue(context);
+        if (string != null) {
+            int len = (int) length.compileTimeValue(context);
+            if (len > string.length()) {
+                return new StringBuilder(string);
+            } else {
+                return new StringBuilder(string.substring(0, len));
+            }
         } else {
             return null;
         }

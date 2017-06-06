@@ -16,7 +16,6 @@
 
 package com.duy.pascal.backend.ast.codeunit.program;
 
-import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.ast.codeunit.RunMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
@@ -34,10 +33,6 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
 
     public RuntimePascalProgram(PascalProgram p) {
         super(p);
-    }
-
-    public RuntimePascalProgram(PascalProgram p, DebugListener debugListener) {
-        super(p, debugListener);
     }
 
     @Override

@@ -19,55 +19,24 @@ package com.duy.pascal.frontend.activities;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.debugable.DebugListener;
-import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.backend.ast.VariableDeclaration;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public interface IRunnablePascal extends ExecHandler, InOutListener, DebugListener, ActivityHandler {
+public interface IRunnablePascal extends ExecHandler, InOutListener, ActivityHandler {
     @Override
     String getCurrentDirectory();
 
     @Override
     Context getApplicationContext();
 
-    @Override
-    void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration);
-
-    @Override
-    void onLocalVariableChangeValue(VariableDeclaration variableDeclaration);
-
-    @Override
-    void onFunctionCall(FunctionDeclaration functionDeclaration);
-
-    @Override
-    void onProcedureCall(FunctionDeclaration functionDeclaration);
-
-    @Override
-    void onNewMessage(String msg);
-
-    @Override
-    void onClearDebug();
-
-    @Override
-    void onVariableChangeValue(String name, Object old, Object newValue);
-
-    @Override
-    void onFunctionCall(String name);
 
     @Override
     void startInput(IOLib lock);
-
-    @Override
-    void onLine(LineInfo lineInfo);
-
 
     @Override
     void print(CharSequence charSequence);

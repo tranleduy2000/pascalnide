@@ -24,24 +24,22 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.ast.FunctionDeclaration;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.core.PascalCompiler;
+import com.duy.pascal.backend.debugable.DebugListener;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.ScriptTerminatedException;
+import com.duy.pascal.backend.source_include.FileScriptSource;
+import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.utils.StringCompare;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
-import com.duy.pascal.backend.source_include.FileScriptSource;
-import com.duy.pascal.backend.source_include.ScriptSource;
 
 import java.io.File;
 import java.io.FileReader;
@@ -51,6 +49,42 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.duy.pascal.frontend.alogrithm.InputData.MAX_INPUT;
 
 public abstract class AbstractExecActivity extends RunnableActivity {
+    public static final boolean DEBUG = DLog.DEBUG;
+    protected static final String TAG = AbstractExecActivity.class.getSimpleName();
+    protected static final int COMPLETE = 4;
+    protected static final int RUNTIME_ERROR = 5;
+    protected static final int SHOW_KEYBOARD = 6;
+    protected final AtomicBoolean mIsRunning = new AtomicBoolean(true);
+    protected final Handler mMessageHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (!mIsRunning.get()) return;
+            switch (msg.what) {
+                case RUNTIME_ERROR:
+                    if (!isFinishing()) {
+                        onError((Exception) msg.obj);
+                    }
+                    break;
+                case COMPLETE:
+                    if (!isFinishing()) {
+                        showDialogComplete();
+                    }
+                    break;
+                case SHOW_KEYBOARD:
+                    showKeyBoard();
+                    break;
+            }
+        }
+    };
+    protected final AtomicBoolean isCanRead = new AtomicBoolean(false);
+    /**
+     * set <code>true</code> if enable DEBUG mode, program will be pause every line
+     */
+    protected final AtomicBoolean enableDebug = new AtomicBoolean(false);
+    protected String input = "";
+    protected String filePath = "";
+    protected Object mLock;
     protected final Runnable runnableInput = new Runnable() {
         @Override
         public void run() {
@@ -92,53 +126,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         }
 
     };
-
-    public static final boolean DEBUG = DLog.DEBUG;
-    protected static final String TAG = AbstractExecActivity.class.getSimpleName();
-    protected static final int COMPLETE = 4;
-    protected static final int RUNTIME_ERROR = 5;
-    protected static final int SHOW_KEYBOARD = 6;
-    protected final AtomicBoolean mIsRunning = new AtomicBoolean(true);
-    protected final Handler mMessageHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (!mIsRunning.get()) return;
-            switch (msg.what) {
-                case RUNTIME_ERROR:
-                    if (!isFinishing()) {
-                        onError((Exception) msg.obj);
-                    }
-                    break;
-                case COMPLETE:
-                    if (!isFinishing()) {
-                        showDialogComplete();
-                    }
-                    break;
-                case SHOW_KEYBOARD:
-                    showKeyBoard();
-                    break;
-            }
-        }
-    };
-    protected final AtomicBoolean isCanRead = new AtomicBoolean(false);
-    protected String input = "";
-    protected String filePath = "";
-    protected Object mLock;
-
-    @Override
-    public String getCurrentDirectory() {
-        try {
-            return new File(filePath).getParent();
-        } catch (Exception e) {
-            return "";
-        }
-    }
-
-    @Override
-    public Context getApplicationContext() {
-        return super.getApplicationContext();
-    }
     /**
      * this object use store buffer key
      */
@@ -147,10 +134,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
      * set <code>true</code> if you want to DEBUG program
      */
     protected boolean debugging = false;
-    /**
-     * set <code>true</code> if enable DEBUG mode, program will be pause every line
-     */
-    protected boolean enableDebug = false;
     protected RuntimeExecutableCodeUnit program;
     protected String programFile;
     private final Runnable runProgram = new Runnable() {
@@ -176,6 +159,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
                     if (isEnableDebug()) {
                         program.enableDebug();
+                        program.setDebugListener((DebugListener) AbstractExecActivity.this);
                     }
 
                     program.run();
@@ -193,16 +177,30 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     };
     protected ApplicationFileManager mFileManager;
 
+    @Override
+    public String getCurrentDirectory() {
+        try {
+            return new File(filePath).getParent();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    @Override
+    public Context getApplicationContext() {
+        return super.getApplicationContext();
+    }
+
     public boolean isDebugging() {
         return debugging;
     }
 
     public boolean isEnableDebug() {
-        return enableDebug;
+        return enableDebug.get();
     }
 
     public void setEnableDebug(boolean enableDebug) {
-        this.enableDebug = enableDebug;
+        this.enableDebug.set(enableDebug);
     }
 
     protected abstract void onError(Exception obj);
@@ -225,6 +223,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     public void setTextBackground(final int color) {
         getConsoleView().setConsoleTextBackground(color);
     }
+
     @Override
     public void print(final CharSequence charSequence) {
         getConsoleView().writeString(charSequence.toString());
@@ -247,13 +246,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         return getConsoleView().isKeyPressed();
     }
 
-    @Override
-    public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
-    }
-
-    @Override
-    public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
-    }
 
     @Override
     protected void onDestroy() {
@@ -267,38 +259,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         getConsoleView().onDestroy();
 
         super.onDestroy();
-    }
-
-    @Override
-    public void onFunctionCall(final FunctionDeclaration functionDeclaration) {
-
-    }
-
-    @Override
-    public void onProcedureCall(final FunctionDeclaration functionDeclaration) {
-
-    }
-
-    @Override
-    public void onNewMessage(final String msg) {
-
-    }
-
-    @Override
-    public void onClearDebug() {
-    }
-
-    @Override
-    public void onVariableChangeValue(final String name, Object old, final Object value) {
-    }
-
-    @Override
-    public void onFunctionCall(final String name) {
-    }
-
-    @Override
-    public void onLine(LineInfo lineInfo) {
-        DLog.d(TAG, "onLine: " + lineInfo);
     }
 
     /**
@@ -363,6 +323,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             }
         }, 100);
     }
+
 
     @Override
     protected void onPause() {

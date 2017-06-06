@@ -23,44 +23,39 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.duy.pascal.backend.ast.FunctionDeclaration;
+import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
 import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
-import com.duy.pascal.frontend.debug.VariableItem;
-import com.duy.pascal.frontend.debug.VariableWatcherAdapter;
-import com.duy.pascal.frontend.debug.VariableWatcherView;
+import com.duy.pascal.frontend.debug.adapter.VariableWatcherAdapter;
+import com.duy.pascal.frontend.debug.model.VariableItem;
+import com.duy.pascal.frontend.debug.view.VariableWatcherView;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 
-//import butterknife.BindView;
 
+public class DebugActivity extends AbstractExecActivity implements DebugListener {
 
-public class DebugActivity extends AbstractExecActivity {
-
-    //    @BindView(R.id.console)
-    ConsoleView mConsoleView;
-    //    @BindView(R.id.code_editor)
-    HighlightEditor mCodeView;
-    //    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    //    @BindView(R.id.vertical_scroll)
-    LockableScrollView mScrollView;
-    //    @BindView(R.id.watcher)
-    VariableWatcherView variableWatcherView;
-    //    @BindView(R.id.empty_view)
-    View emptyView;
+    private ConsoleView mConsoleView;
+    private HighlightEditor mCodeView;
+    private Toolbar toolbar;
+    private LockableScrollView mScrollView;
+    private VariableWatcherView mVariableWatcherView;
+    private View emptyView;
     private Handler handler = new Handler();
     private AlertDialog alertDialog;
 
@@ -69,17 +64,16 @@ public class DebugActivity extends AbstractExecActivity {
         super.onCreate(savedInstanceState);
         hideStatusBar();
         setContentView(R.layout.activity_debug);
-//        ButterKnife.bind(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mConsoleView = (ConsoleView) findViewById(R.id.console);
         mCodeView = (HighlightEditor) findViewById(R.id.code_editor);
         mScrollView = (LockableScrollView) findViewById(R.id.vertical_scroll);
-        variableWatcherView = (VariableWatcherView) findViewById(R.id.watcher);
+        mVariableWatcherView = (VariableWatcherView) findViewById(R.id.watcher);
         emptyView = findViewById(R.id.empty_view);
 
         setSupportActionBar(toolbar);
 
-        variableWatcherView.setEmptyView(emptyView);
+        mVariableWatcherView.setEmptyView(emptyView);
         getConsoleView().updateSize();
         getConsoleView().showPrompt();
         getConsoleView().writeString("enable DEBUG mode");
@@ -142,7 +136,6 @@ public class DebugActivity extends AbstractExecActivity {
 
     @Override
     public void debugProgram() {
-        DLog.d(TAG, "debugProgram: ");
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             filePath = extras.getString(CompileManager.FILE_PATH);
@@ -156,7 +149,7 @@ public class DebugActivity extends AbstractExecActivity {
             mCodeView.setTextHighlighted(code);
 
             setTitle(file.getName());
-            setEnableDebug(false); //disable DEBUG
+            setEnableDebug(true); //disable DEBUG
             createAndRunProgram(filePath); //execute file
         } else {
             finish();
@@ -169,7 +162,6 @@ public class DebugActivity extends AbstractExecActivity {
 
     @Override
     public void onLine(final LineInfo lineInfo) {
-        super.onLine(lineInfo);
         if (lineInfo == null) return;
         runOnUiThread(new Runnable() {
             @Override
@@ -179,6 +171,20 @@ public class DebugActivity extends AbstractExecActivity {
                         mCodeView.getLineCount(), lineInfo.getLine()));
             }
         });
+    }
+
+    @Override
+    public void onEvalExpression(LineInfo lineInfo, String expression) {
+        Log.d(TAG, "onEvalExpression() called with: lineInfo = [" + lineInfo + "], " +
+                "expression = [" + expression + "]");
+
+    }
+
+    @Override
+    public void onEvaluatedExpr(LineInfo lineInfo, String expr, String result) {
+        Log.d(TAG, "onEvaluatedExpr() called with: lineInfo = [" + lineInfo + "], expr = [" +
+                expr + "], result = [" + result + "]");
+
     }
 
     @Override
@@ -211,7 +217,7 @@ public class DebugActivity extends AbstractExecActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         String name = edittext.getText().toString();
                         if (!name.isEmpty()) {
-                            variableWatcherView.addVariable(new VariableItem(name));
+                            mVariableWatcherView.addVariable(new VariableItem(name));
                         }
                         dialog.cancel();
                     }
@@ -239,15 +245,49 @@ public class DebugActivity extends AbstractExecActivity {
     }
 
     @Override
+    public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
+
+    }
+
+    @Override
+    public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
+
+    }
+
+    @Override
+    public void onFunctionCall(FunctionDeclaration functionDeclaration) {
+
+    }
+
+    @Override
+    public void onProcedureCall(FunctionDeclaration functionDeclaration) {
+
+    }
+
+    @Override
+    public void onNewMessage(String msg) {
+
+    }
+
+    @Override
+    public void onClearDebug() {
+
+    }
+
+    @Override
     public void onVariableChangeValue(final String name, final Object old, final Object value) {
-        super.onVariableChangeValue(name, old, value);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                VariableWatcherAdapter adapter = (VariableWatcherAdapter) variableWatcherView.getAdapter();
+                VariableWatcherAdapter adapter = (VariableWatcherAdapter) mVariableWatcherView.getAdapter();
                 adapter.onVariableChangeValue(name, old, value);
             }
         });
+    }
+
+    @Override
+    public void onFunctionCall(String name) {
+
     }
 
 

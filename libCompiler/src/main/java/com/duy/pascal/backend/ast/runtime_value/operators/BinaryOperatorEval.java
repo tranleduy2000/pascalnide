@@ -17,23 +17,10 @@
 package com.duy.pascal.backend.ast.runtime_value.operators;
 
 
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
-import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.JavaClassBasedType;
-import com.duy.pascal.backend.data_types.OperatorTypes;
-import com.duy.pascal.backend.data_types.set.EnumGroupType;
-import com.duy.pascal.backend.data_types.set.SetType;
-import com.duy.pascal.backend.data_types.converter.AnyToStringType;
-import com.duy.pascal.backend.data_types.converter.TypeConverter;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.BoolBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.CharBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.DoubleBiOperatorEval;
@@ -45,9 +32,22 @@ import com.duy.pascal.backend.ast.runtime_value.operators.set.EnumBiOperatorEval
 import com.duy.pascal.backend.ast.runtime_value.operators.set.InBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.set.SetBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.JavaClassBasedType;
+import com.duy.pascal.backend.data_types.OperatorTypes;
+import com.duy.pascal.backend.data_types.converter.AnyToStringType;
+import com.duy.pascal.backend.data_types.converter.TypeConverter;
+import com.duy.pascal.backend.data_types.set.EnumGroupType;
+import com.duy.pascal.backend.data_types.set.SetType;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
+import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
+import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
 
 
 public abstract class BinaryOperatorEval extends DebuggableReturnValue {
@@ -72,15 +72,6 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
                                                 LineInfo line) throws ParsingException {
         DeclaredType t1 = v1.getType(context).declType;
         DeclaredType t2 = v2.getType(context).declType;
-
-       /* if (!(t1 instanceof BasicType || t1 instanceof JavaClassBasedType)) {
-            throw new BadOperationTypeException(lineInfo, t1, t2, v1, v2, operatorTypes);
-        }
-*/
-       /* if (!(t2 instanceof BasicType || t2 instanceof JavaClassBasedType
-                || t2 instanceof ArrayType)) {
-            throw new BadOperationTypeException(lineInfo, t1, t2, v1, v2, operatorTypes);
-        }*/
 
         if (t1 instanceof EnumGroupType
                 && t2 instanceof SetType) {
@@ -174,6 +165,9 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
+        if (main.isDebugMode()) {
+            main.getDebugListener().onEvalExpression(operon1.getLineNumber(), toString());
+        }
         Object value1 = operon1.getValue(f, main);
         Object value2 = operon2.getValue(f, main);
         return operate(value1, value2);

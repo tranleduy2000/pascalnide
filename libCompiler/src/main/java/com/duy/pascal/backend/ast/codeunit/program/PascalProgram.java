@@ -57,7 +57,7 @@ public class PascalProgram extends ExecutableCodeUnit {
 
     @Override
     public RuntimeExecutableCodeUnit<PascalProgram> run() {
-        return new RuntimePascalProgram(this, handler);
+        return new RuntimePascalProgram(this);
     }
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {

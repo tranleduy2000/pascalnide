@@ -1,15 +1,15 @@
 package com.duy.pascal.backend.data_types.converter;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class AnyToStringType implements RuntimeValue {
@@ -39,7 +39,7 @@ public class AnyToStringType implements RuntimeValue {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName();
+        return value.toString();
     }
 
     @Override

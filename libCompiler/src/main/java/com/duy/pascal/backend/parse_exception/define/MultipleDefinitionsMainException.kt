@@ -23,7 +23,7 @@ import com.duy.pascal.backend.linenumber.LineInfo
  * Created by Duy on 12-Mar-17.
  */
 
-class MultipleDefinitionsMainException(line: LineInfo) : ParsingException(line) {
+class MultipleDefinitionsMainException(line: LineInfo?) : ParsingException(line) {
 
     override val message: String?
         get() = "Multiple definitions of main."

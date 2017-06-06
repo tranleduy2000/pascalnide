@@ -24,7 +24,7 @@ public class NumberToRealType implements RuntimeValue {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName();
+        return other.toString();
     }
 
     @Override

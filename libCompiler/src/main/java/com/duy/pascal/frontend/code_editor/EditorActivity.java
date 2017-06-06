@@ -50,7 +50,6 @@ import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
@@ -799,53 +798,9 @@ public class EditorActivity extends BaseEditorActivity implements
             return EditorActivity.this.getApplicationContext();
         }
 
-        @Override
-        public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
-
-        }
-
-        @Override
-        public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
-
-        }
-
-        @Override
-        public void onFunctionCall(FunctionDeclaration functionDeclaration) {
-
-        }
-
-        @Override
-        public void onProcedureCall(FunctionDeclaration functionDeclaration) {
-
-        }
-
-        @Override
-        public void onNewMessage(String msg) {
-
-        }
-
-        @Override
-        public void onClearDebug() {
-
-        }
-
-        @Override
-        public void onVariableChangeValue(String name, Object old, Object newValue) {
-
-        }
-
-        @Override
-        public void onFunctionCall(String name) {
-
-        }
 
         @Override
         public void startInput(IOLib lock) {
-
-        }
-
-        @Override
-        public void onLine(LineInfo lineInfo) {
 
         }
 

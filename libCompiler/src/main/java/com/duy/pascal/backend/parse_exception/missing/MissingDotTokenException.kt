@@ -21,7 +21,7 @@ import com.duy.pascal.backend.linenumber.LineInfo
 /**
  * Created by Duy on 23-May-17.
  */
-class MissingDotTokenException(line: LineInfo) : MissingTokenException(line) {
+class MissingDotTokenException(line: LineInfo?) : MissingTokenException(line) {
 
     override fun getMissingToken(): String {
         return ".";

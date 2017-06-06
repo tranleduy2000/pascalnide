@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.debugable;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
 /**
  * Created by Duy on 24-Mar-17.
@@ -25,4 +25,8 @@ public interface DebugListener {
     void onFunctionCall(String name);
 
     void onLine(LineInfo lineInfo);
+
+    void onEvalExpression(LineInfo lineInfo, String expression);
+
+    void onEvaluatedExpr(LineInfo lineInfo, String expr, String result);
 }

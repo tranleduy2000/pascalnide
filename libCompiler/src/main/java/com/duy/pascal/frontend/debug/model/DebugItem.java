@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.debug;
+package com.duy.pascal.frontend.debug.model;
 
 /**
  * Created by Duy on 24-Mar-17.

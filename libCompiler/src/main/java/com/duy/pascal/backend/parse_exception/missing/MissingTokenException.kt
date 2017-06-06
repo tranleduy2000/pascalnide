@@ -23,11 +23,8 @@ import com.duy.pascal.backend.parse_exception.ParsingException
  * Created by Duy on 25-May-17.
  */
 
-abstract class MissingTokenException : ParsingException {
+abstract class MissingTokenException(line: LineInfo?) : ParsingException(line) {
 
-    constructor(line: LineInfo) : super(line) {
-        this.lineInfo = line
-    }
 
     override val isAutoFix: Boolean
         get() = true

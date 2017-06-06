@@ -44,18 +44,13 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     private DebugListener debugListener;
     private volatile boolean debugMode = false;
 
-    public RuntimeExecutableCodeUnit(parent definition) {
-        super(definition);
-    }
 
     /**
      * if enable DEBUG, uses this constructor
      *
-     * @param debugListener - callback
      */
-    public RuntimeExecutableCodeUnit(parent definition, DebugListener debugListener) {
+    public RuntimeExecutableCodeUnit(parent definition) {
         super(definition);
-        this.debugListener = debugListener;
     }
 
     public Map<UnitPascal, RuntimeUnitPascal> getRuntimeLibs() {

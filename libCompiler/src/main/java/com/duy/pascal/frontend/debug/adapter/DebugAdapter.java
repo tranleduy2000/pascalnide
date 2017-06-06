@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.debug;
+package com.duy.pascal.frontend.debug.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -24,28 +24,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.debug.model.DebugItem;
 
 import java.util.ArrayList;
 
 //import butterknife.BindView;
 
-public class VariableWatcherAdapter extends RecyclerView.Adapter<VariableWatcherAdapter.ViewHolder> {
-    private ArrayList<VariableItem> listData = new ArrayList<>();
+public class DebugAdapter extends RecyclerView.Adapter<DebugAdapter.ViewHolder> {
+    private ArrayList<DebugItem> listData = new ArrayList<>();
     private Context context;
     private LayoutInflater inflater;
 
-    public VariableWatcherAdapter(Context context) {
+    public DebugAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public VariableWatcherAdapter(ArrayList<VariableItem> listData, Context context) {
+    public DebugAdapter(ArrayList<DebugItem> listData, Context context) {
         this.listData = listData;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void addVariable(VariableItem debugItem) {
+    public void addLine(DebugItem debugItem) {
         listData.add(debugItem);
         notifyItemInserted(getItemCount() - 1);
     }
@@ -59,7 +60,11 @@ public class VariableWatcherAdapter extends RecyclerView.Adapter<VariableWatcher
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.bindVar(listData.get(position));
+        if (listData.get(position).getType() == DebugItem.TYPE_VAR) {
+            holder.bindMsg(listData.get(position).toString());
+        } else {
+            holder.bindMsg(listData.get(position).toString());
+        }
     }
 
     @Override
@@ -72,34 +77,30 @@ public class VariableWatcherAdapter extends RecyclerView.Adapter<VariableWatcher
         notifyDataSetChanged();
     }
 
-    public void onVariableChangeValue(String name, Object old, Object newV) {
-        boolean change = false;
-        for (VariableItem variableItem : listData) {
-            if (variableItem.getName().equalsIgnoreCase(name)) {
-                variableItem.setValue(newV);
-                change = true;
-            }
-        }
-        if (change) notifyDataSetChanged();
-    }
-
     static class ViewHolder extends RecyclerView.ViewHolder {
+//        @BindView(R.id.txt_title)
         TextView txtName;
+//        @BindView(R.id.txt_value)
         TextView txtValue;
-        View view;
+//        @BindView(R.id.background)
+        View background;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            txtName = (TextView) itemView.findViewById(R.id.txt_name);
-            txtValue = (TextView) itemView.findViewById(R.id.txt_value);
-            view = itemView.findViewById(R.id.background);
+        ViewHolder(View view) {
+            super(view);
+            txtName = (TextView) view.findViewById(R.id.txt_title);
+            txtValue = (TextView) view.findViewById(R.id.txt_value);
+            this.background = view.findViewById(R.id.background);
+//            ButterKnife.bind(this, background);
         }
 
-        public void bindVar(VariableItem variableItem) {
-            txtName.setText(variableItem.getName() +
-                    (variableItem.getValue() != null
-                            ? " = " + variableItem.getValue().toString()
-                            : " = null"));
+        public void bindVar(DebugItem debugItem) {
+            txtName.setText(debugItem.getMsg1());
+            txtValue.setText(debugItem.getMsg2());
+        }
+
+        public void bindMsg(String msg) {
+            txtName.setText(msg);
+            txtValue.setText("");
         }
     }
 }

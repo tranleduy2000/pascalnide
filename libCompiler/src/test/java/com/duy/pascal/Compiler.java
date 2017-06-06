@@ -18,13 +18,10 @@ package com.duy.pascal;
 
 import android.content.Context;
 
-import com.duy.pascal.backend.ast.FunctionDeclaration;
-import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.source_include.FileScriptSource;
@@ -77,46 +74,6 @@ public class Compiler {
                     }
 
                     @Override
-                    public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
-
-                    }
-
-                    @Override
-                    public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
-
-                    }
-
-                    @Override
-                    public void onFunctionCall(FunctionDeclaration functionDeclaration) {
-
-                    }
-
-                    @Override
-                    public void onProcedureCall(FunctionDeclaration functionDeclaration) {
-
-                    }
-
-                    @Override
-                    public void onNewMessage(String msg) {
-
-                    }
-
-                    @Override
-                    public void onClearDebug() {
-
-                    }
-
-                    @Override
-                    public void onVariableChangeValue(String name, Object old, Object newValue) {
-
-                    }
-
-                    @Override
-                    public void onFunctionCall(String name) {
-
-                    }
-
-                    @Override
                     public void startInput(final IOLib lock) {
                         if (input == null) {
                             throw new RuntimeException("can not find input reader");
@@ -136,10 +93,6 @@ public class Compiler {
                         }).start();
                     }
 
-                    @Override
-                    public void onLine(LineInfo lineInfo) {
-
-                    }
 
                     @Override
                     public void print(CharSequence charSequence) {
