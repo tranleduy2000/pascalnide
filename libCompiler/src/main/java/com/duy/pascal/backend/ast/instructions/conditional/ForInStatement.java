@@ -16,21 +16,22 @@
 
 package com.duy.pascal.backend.ast.instructions.conditional;
 
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.set.EnumGroupType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.set.EnumGroupType;
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * For ... in ... do loop
@@ -77,7 +78,7 @@ public class ForInStatement extends DebuggableExecutable {
 
     /**
      * Execute for statement
-     * I specified the enum by a {@link LinkedList} see {@link EnumGroupType}
+     * I specified the enum by a {@link LinkedList}, see {@link EnumGroupType}
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -86,8 +87,8 @@ public class ForInStatement extends DebuggableExecutable {
 
         //get value of enum
         Object value = this.list.getValue(context, main);
-        if (value instanceof LinkedList) {
-            LinkedList list = (LinkedList) value;
+        if (value instanceof List) {
+            List list = (List) value;
             //get reference if variable
             Reference reference = this.item.getReference(context, main);
             //for each all item in list
@@ -97,12 +98,12 @@ public class ForInStatement extends DebuggableExecutable {
                 ExecutionResult result = command.execute(context, main);
                 //check exit, break, continue command
                 switch (result) {
+                    case CONTINUE:
+                        continue;
                     case BREAK:
                         break;
                     case EXIT:
                         return ExecutionResult.EXIT;
-                    case CONTINUE:
-                        continue;
                 }
             }
         } else { //array
@@ -116,12 +117,13 @@ public class ForInStatement extends DebuggableExecutable {
                 ExecutionResult result = command.execute(context, main);
                 //check exit, break, continue command
                 switch (result) {
+                    case CONTINUE:
+                        continue;
                     case BREAK:
                         break;
                     case EXIT:
                         return ExecutionResult.EXIT;
-                    case CONTINUE:
-                        continue;
+
                 }
             }
         }

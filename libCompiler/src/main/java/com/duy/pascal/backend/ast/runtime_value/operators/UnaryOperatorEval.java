@@ -1,6 +1,24 @@
-package com.duy.pascal.backend.ast.runtime_value.value;
+/*
+ *  Copyright (c) 2017 Tran Le Duy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.duy.pascal.backend.ast.runtime_value.operators;
 
 
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
@@ -25,14 +43,14 @@ import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
 
-public abstract class UnaryOperatorEvaluation extends DebuggableReturnValue {
+public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     public OperatorTypes operator;
     public RuntimeType type;
     public RuntimeValue operon;
     public LineInfo line;
 
-    protected UnaryOperatorEvaluation(RuntimeValue operon, OperatorTypes operator,
-                                      LineInfo line) {
+    protected UnaryOperatorEval(RuntimeValue operon, OperatorTypes operator,
+                                LineInfo line) {
         this.operator = operator;
         this.line = line;
         this.operon = operon;

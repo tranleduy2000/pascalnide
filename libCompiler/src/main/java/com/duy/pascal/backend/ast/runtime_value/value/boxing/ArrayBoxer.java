@@ -44,6 +44,11 @@ public class ArrayBoxer extends DebuggableReturnValue {
     }
 
     @Override
+    public boolean canDebug() {
+        return false;
+    }
+
+    @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object[] result = (Object[]) Array.newInstance(type.getRuntimeClass(),

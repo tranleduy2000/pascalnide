@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
 import com.duy.pascal.backend.ast.instructions.FieldReference;
-import com.duy.pascal.backend.ast.runtime_value.value.FieldAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;

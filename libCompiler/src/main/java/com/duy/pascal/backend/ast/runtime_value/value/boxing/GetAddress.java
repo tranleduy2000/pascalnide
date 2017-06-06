@@ -1,17 +1,17 @@
 package com.duy.pascal.backend.ast.runtime_value.value.boxing;
 
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.value.UnAssignableTypeException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.PointerType;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.value.UnAssignableTypeException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class GetAddress extends DebuggableReturnValue {
@@ -32,6 +32,11 @@ public class GetAddress extends DebuggableReturnValue {
     }
 
     @Override
+    public String toString() {
+        return "@" + target;
+    }
+
+    @Override
     public LineInfo getLineNumber() {
         return target.getLineNumber();
     }
@@ -40,6 +45,11 @@ public class GetAddress extends DebuggableReturnValue {
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         return null;
+    }
+
+    @Override
+    public boolean canDebug() {
+        return false;
     }
 
     @Override

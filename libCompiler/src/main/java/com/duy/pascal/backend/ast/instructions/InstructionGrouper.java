@@ -1,11 +1,11 @@
 package com.duy.pascal.backend.ast.instructions;
 
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.LinkedList;
@@ -49,7 +49,7 @@ public class InstructionGrouper extends DebuggableExecutable {
     public String toString() {
         StringBuilder builder = new StringBuilder("begin\n");
         for (Executable e : instructions) {
-            builder.append(e);
+            builder.append(e).append("\n");
         }
         builder.append("end\n");
         return builder.toString();

@@ -9,7 +9,7 @@ import com.duy.pascal.backend.data_types.OperatorTypes;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -23,7 +23,10 @@ public class BoolBiOperatorEval extends BinaryOperatorEval {
                               OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
-
+    @Override
+    public boolean canDebug() {
+        return true;
+    }
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

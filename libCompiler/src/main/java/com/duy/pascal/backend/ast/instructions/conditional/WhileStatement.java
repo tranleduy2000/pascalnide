@@ -7,21 +7,20 @@ import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
 import com.duy.pascal.backend.ast.instructions.NoneInstruction;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectDoTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.BasicToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.frontend.debug.DebugManager;
 
 public class WhileStatement extends DebuggableExecutable {
     private RuntimeValue condition;
@@ -77,7 +76,6 @@ public class WhileStatement extends DebuggableExecutable {
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         while_loop:
         while ((Boolean) condition.getValue(context, main)) {
-            DebugManager.outputConditionWhile(main.getDebugListener(), true);
             switch (command.execute(context, main)) {
                 case CONTINUE:
                     continue while_loop;
@@ -92,7 +90,7 @@ public class WhileStatement extends DebuggableExecutable {
 
     @Override
     public String toString() {
-        return "while [" + condition + "] do [" + command + ']';
+        return "while (" + condition + ") do " + command;
     }
 
     @Override

@@ -16,7 +16,12 @@
 
 package com.duy.pascal.frontend.debug;
 
+import com.duy.pascal.backend.ast.AbstractCallableFunction;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebugListener;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
 import java.lang.reflect.Method;
 
@@ -41,6 +46,39 @@ public class DebugManager {
     public static void outputConditionFor(DebugListener debugListener, boolean b) {
         if (debugListener != null) {
             debugListener.onNewMessage("Kiem tra dieu kien vong for la " + b);
+        }
+    }
+
+    public static void debugAssign(LineInfo lineNumber, AssignableValue left,
+                                   RuntimeValue value, RuntimeExecutableCodeUnit<?> main) {
+        if (main.isDebugMode()) {
+            main.getDebugListener().onAssignValue(lineNumber, left, value);
+        }
+    }
+
+    public static void debugWhileStatement() {
+
+    }
+
+    public static void debugForStatement() {
+
+    }
+
+    public static void debugIfStatement() {
+
+    }
+
+    public static void onPreFunctionCall(AbstractCallableFunction function, RuntimeValue[] arguments,
+                                         RuntimeExecutableCodeUnit<?> main) {
+        if (main.isDebugMode()) {
+            main.getDebugListener().onPreFunctionCall(function, arguments);
+        }
+    }
+
+    public static void onFunctionCalled(AbstractCallableFunction function, RuntimeValue[] arguments,
+                                        Object result, RuntimeExecutableCodeUnit<?> main) {
+        if (main.isDebugMode()) {
+            main.getDebugListener().onFunctionCalled(function, arguments, result);
         }
     }
 }

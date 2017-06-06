@@ -2,9 +2,9 @@ package com.duy.pascal.backend.ast.runtime_value.operators.number;
 
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.UnaryOperatorEvaluation;
+import com.duy.pascal.backend.ast.runtime_value.operators.UnaryOperatorEval;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.data_types.BasicType;
@@ -13,7 +13,7 @@ import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
 
-public class DoubleUniOperatorEval extends UnaryOperatorEvaluation {
+public class DoubleUniOperatorEval extends UnaryOperatorEval {
 
     public DoubleUniOperatorEval(RuntimeValue operon, OperatorTypes operator, LineInfo line) {
         super(operon, operator, line);
@@ -45,5 +45,9 @@ public class DoubleUniOperatorEval extends UnaryOperatorEvaluation {
             return new DoubleUniOperatorEval(operon.compileTimeExpressionFold(context), operator,
                     line);
         }
+    }
+    @Override
+    public boolean canDebug() {
+        return true;
     }
 }

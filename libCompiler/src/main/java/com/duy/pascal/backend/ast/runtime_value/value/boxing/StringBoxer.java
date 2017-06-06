@@ -7,7 +7,7 @@ import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -31,6 +31,11 @@ public class StringBoxer extends DebuggableReturnValue {
     @Override
     public RuntimeType getType(ExpressionContext f) {
         return new RuntimeType(BasicType.StringBuilder, false);
+    }
+
+    @Override
+    public boolean canDebug() {
+        return false;
     }
 
     @Override

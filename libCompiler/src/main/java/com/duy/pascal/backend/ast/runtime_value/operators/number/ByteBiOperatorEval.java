@@ -19,7 +19,7 @@ package com.duy.pascal.backend.ast.runtime_value.operators.number;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -116,5 +116,9 @@ public class ByteBiOperatorEval extends BinaryOperatorEval {
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);
         }
+    }
+    @Override
+    public boolean canDebug() {
+        return true;
     }
 }

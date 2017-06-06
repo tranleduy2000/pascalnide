@@ -4,7 +4,7 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -40,6 +40,11 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
             return other.toString();
         }
         return null;
+    }
+
+    @Override
+    public boolean canDebug() {
+        return false;
     }
 
     @Override

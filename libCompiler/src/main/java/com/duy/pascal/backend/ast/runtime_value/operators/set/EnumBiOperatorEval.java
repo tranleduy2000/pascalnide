@@ -25,7 +25,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.data_types.set.EnumGroupType;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -111,5 +111,9 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);
         }
+    }
+    @Override
+    public boolean canDebug() {
+        return true;
     }
 }

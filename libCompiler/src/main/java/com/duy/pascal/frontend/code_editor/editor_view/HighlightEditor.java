@@ -602,6 +602,35 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
     }
 
+    /**
+     * @param line   - current line
+     * @param column - column of line
+     * @return Position (in pixels) for edittext at line and column
+     */
+    public Point getDebugPosition(int line, int column) {
+        Layout layout = getLayout();
+        if (layout != null) {
+            int pos = layout.getLineStart(line) + column;
+
+            int baseline = layout.getLineBaseline(line);
+            int ascent = layout.getLineAscent(line);
+
+            float x = layout.getPrimaryHorizontal(pos);
+            float y = baseline + ascent;
+
+            int offsetHorizontal = (int) x + mLinePadding;
+            setDropDownHorizontalOffset(offsetHorizontal);
+            int offsetVertical;
+            if (verticalScroll != null) {
+                offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
+            } else {
+                offsetVertical = (int) ((y + mCharHeight) - getScrollY());
+            }
+            return new Point(offsetHorizontal, offsetVertical);
+        }
+        return new Point();
+    }
+
     @Override
     public void onPopupChangePosition() {
         try {
@@ -704,9 +733,15 @@ public class HighlightEditor extends CodeSuggestsEditText
                     }
                 }
 
+
                 int lineStart = getLayout().getLineStart(lineInfo.getLine());
                 int lineEnd = getLayout().getLineEnd(lineInfo.getLine());
-                lineStart = lineStart + lineInfo.getColumn();
+                lineStart += lineInfo.getColumn();
+
+                //normalize
+                lineStart = Math.max(0, lineStart);
+                lineEnd = Math.min(lineEnd, getText().length());
+
                 if (lineStart < lineEnd) {
                     e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
                             lineStart,

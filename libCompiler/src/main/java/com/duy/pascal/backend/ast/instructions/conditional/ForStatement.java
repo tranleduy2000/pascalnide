@@ -19,14 +19,14 @@ package com.duy.pascal.backend.ast.instructions.conditional;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.Assignment;
+import com.duy.pascal.backend.ast.instructions.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
 import com.duy.pascal.backend.ast.instructions.SetValueExecutable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -49,10 +49,10 @@ public class ForStatement extends DebuggableExecutable {
                           RuntimeValue first, RuntimeValue last, Executable command,
                           LineInfo line) throws ParsingException {
         this.line = line;
-        setfirst = new Assignment(tempVar, first, line);
+        setfirst = new AssignStatement(tempVar, first, line);
         lessThanLast = BinaryOperatorEval.generateOp(context, tempVar, last,
                 OperatorTypes.LESSEQ, this.line);
-        increment_temp = new Assignment(tempVar, BinaryOperatorEval.generateOp(
+        increment_temp = new AssignStatement(tempVar, BinaryOperatorEval.generateOp(
                 context, tempVar, new ConstantAccess(1, this.line),
                 OperatorTypes.PLUS, this.line), line);
 

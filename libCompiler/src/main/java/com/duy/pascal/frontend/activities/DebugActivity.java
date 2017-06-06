@@ -29,8 +29,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.duy.pascal.backend.ast.AbstractCallableFunction;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
@@ -46,6 +50,7 @@ import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
+import java.util.Arrays;
 
 
 public class DebugActivity extends AbstractExecActivity implements DebugListener {
@@ -153,15 +158,13 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             createAndRunProgram(filePath); //execute file
         } else {
             finish();
-            return;
         }
-
-        setEnableDebug(true);
-        createAndRunProgram(filePath);
     }
 
     @Override
-    public void onLine(final LineInfo lineInfo) {
+    public void onLine(Executable executable, final LineInfo lineInfo) {
+        Log.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], lineInfo = [" + lineInfo + "]");
+
         if (lineInfo == null) return;
         runOnUiThread(new Runnable() {
             @Override
@@ -174,8 +177,23 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
-    public void onEvalExpression(LineInfo lineInfo, String expression) {
-        Log.d(TAG, "onEvalExpression() called with: lineInfo = [" + lineInfo + "], " +
+    public void onLine(RuntimeValue executable, final LineInfo lineInfo) {
+        Log.d(TAG, "onLine() called with: executable = [" + executable + "], lineInfo = [" + lineInfo + "]");
+
+        if (lineInfo == null) return;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mCodeView.pinLine(lineInfo);
+                mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
+                        mCodeView.getLineCount(), lineInfo.getLine()));
+            }
+        });
+    }
+
+    @Override
+    public void onEvaluatingExpr(LineInfo lineInfo, String expression) {
+        Log.d(TAG, "onEvaluatingExpr() called with: lineInfo = [" + lineInfo + "], " +
                 "expression = [" + expression + "]");
 
     }
@@ -184,6 +202,27 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public void onEvaluatedExpr(LineInfo lineInfo, String expr, String result) {
         Log.d(TAG, "onEvaluatedExpr() called with: lineInfo = [" + lineInfo + "], expr = [" +
                 expr + "], result = [" + result + "]");
+
+    }
+
+    @Override
+    public void onAssignValue(LineInfo lineNumber, AssignableValue left, RuntimeValue value) {
+        Log.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
+                left + "], value = [" + value + "]");
+
+    }
+
+    @Override
+    public void onPreFunctionCall(AbstractCallableFunction function, RuntimeValue[] arguments) {
+        Log.d(TAG, "onPreFunctionCall() called with: function = [" + function + "], arguments = ["
+                + Arrays.toString(arguments) + "]");
+
+    }
+
+    @Override
+    public void onFunctionCalled(AbstractCallableFunction function, RuntimeValue[] arguments, Object result) {
+        Log.d(TAG, "onFunctionCalled() called with: function = [" + function + "], arguments = ["
+                + Arrays.toString(arguments) + "], result = [" + result + "]");
 
     }
 
@@ -246,36 +285,45 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
+        Log.d(TAG, "onGlobalVariableChangeValue() called with: variableDeclaration = [" + variableDeclaration + "]");
 
     }
 
     @Override
     public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
+        Log.d(TAG, "onLocalVariableChangeValue() called with: variableDeclaration = [" + variableDeclaration + "]");
 
     }
 
     @Override
     public void onFunctionCall(FunctionDeclaration functionDeclaration) {
+        Log.d(TAG, "onFunctionCall() called with: functionDeclaration = [" + functionDeclaration + "]");
 
     }
 
     @Override
     public void onProcedureCall(FunctionDeclaration functionDeclaration) {
+        Log.d(TAG, "onProcedureCall() called with: functionDeclaration = [" + functionDeclaration + "]");
 
     }
 
     @Override
     public void onNewMessage(String msg) {
+        Log.d(TAG, "onNewMessage() called with: msg = [" + msg + "]");
 
     }
 
     @Override
     public void onClearDebug() {
+        Log.d(TAG, "onClearDebug() called");
+
 
     }
 
     @Override
     public void onVariableChangeValue(final String name, final Object old, final Object value) {
+        Log.d(TAG, "onVariableChangeValue() called with: name = [" + name + "], old = [" + old + "], value = [" + value + "]");
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -287,6 +335,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onFunctionCall(String name) {
+        Log.d(TAG, "onFunctionCall() called with: name = [" + name + "]");
 
     }
 

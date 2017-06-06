@@ -8,7 +8,7 @@ import com.duy.pascal.backend.data_types.OperatorTypes;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 
@@ -99,5 +99,10 @@ public class LongBiOperatorEval extends BinaryOperatorEval {
                     operon2.compileTimeExpressionFold(context), operator_type,
                     line);
         }
+    }
+
+    @Override
+    public boolean canDebug() {
+        return true;
     }
 }

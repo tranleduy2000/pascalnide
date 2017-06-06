@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.runtime_value.value;
+package com.duy.pascal.backend.ast.runtime_value.value.access;
 
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -47,6 +48,11 @@ public class VariableAccess extends DebuggableAssignableValue {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean canDebug() {
+        return false;
     }
 
     @Override

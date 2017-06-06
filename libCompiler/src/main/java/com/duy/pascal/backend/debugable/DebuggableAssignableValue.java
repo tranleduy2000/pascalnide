@@ -1,16 +1,18 @@
 package com.duy.pascal.backend.debugable;
 
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
 
 public abstract class DebuggableAssignableValue implements AssignableValue {
     protected RuntimeValue[] outputFormat;
+
+    public abstract boolean canDebug();
 
     @Override
     public RuntimeValue[] getOutputFormat() {
@@ -26,9 +28,8 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (main != null) {
-                main.scriptControlCheck(getLineNumber());
-            }
+            if (canDebug() && main.isDebugMode()) main.getDebugListener().onLine(this, getLineNumber());
+            main.scriptControlCheck(getLineNumber());
             return getValueImpl(f, main);
         } catch (RuntimePascalException e) {
             throw e;
@@ -45,9 +46,6 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
     public Reference<?> getReference(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (main != null) {
-                main.scriptControlCheck(getLineNumber());
-            }
             return getReferenceImpl(f, main);
         } catch (RuntimePascalException e) {
             throw e;

@@ -16,19 +16,19 @@
 
 package com.duy.pascal.backend.ast.runtime_value.operators.pointer;
 
-import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
-import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.PointerType;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class DerefEval extends DebuggableAssignableValue {
@@ -41,10 +41,15 @@ public class DerefEval extends DebuggableAssignableValue {
     }
 
     @Override
+    public boolean canDebug() {
+        return false;
+    }
+
+    @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Reference ref = (Reference) pointer.getValue(f, main);
         return ref.get();
-}
+    }
 
     @Override
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {

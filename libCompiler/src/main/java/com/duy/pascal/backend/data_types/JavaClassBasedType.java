@@ -3,14 +3,14 @@ package com.duy.pascal.backend.data_types;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBuilderBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.CloneableObjectCloner;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 
 public class JavaClassBasedType extends InfoType {
 
@@ -35,6 +35,9 @@ public class JavaClassBasedType extends InfoType {
     @Override
     public String toString() {
         if (clazz != null) {
+            if (clazz == Void.class) {
+                return "";
+            }
             String name = clazz.getName();
             name = name.replace(".", "_");
             return name;
@@ -118,7 +121,7 @@ public class JavaClassBasedType extends InfoType {
     }
 
     @Override
-   public String getName() {
+    public String getName() {
         return null;
     }
 

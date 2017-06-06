@@ -1,20 +1,21 @@
 package com.duy.pascal.backend.ast.runtime_value.value;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.ast.MethodDeclaration;
-import com.duy.pascal.backend.ast.function_declaretion.builtin.IMethodDeclaration;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.ast.AbstractCallableFunction;
+import com.duy.pascal.backend.ast.MethodDeclaration;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.function_declaretion.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.data_types.ArgumentType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.PluginCallException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.PluginReflectionException;
+import com.duy.pascal.frontend.debug.DebugManager;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -41,9 +42,7 @@ public class SimpleFunctionCall extends FunctionCall {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (main != null) {
-            if (main.isDebugMode()) {
-                main.getDebugListener().onLine(getLineNumber());
-            }
+            if (main.isDebugMode()) main.getDebugListener().onLine((Executable) this, getLineNumber());
             main.incStack(getLineNumber());
             main.scriptControlCheck(getLineNumber());
         }
@@ -92,7 +91,11 @@ public class SimpleFunctionCall extends FunctionCall {
 
         Object result;
         try {
+            DebugManager.onPreFunctionCall(function, arguments, main);//debug
+
             result = function.call(f, main, values);
+
+            DebugManager.onFunctionCalled(function, arguments, result, main);//debug
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new PluginReflectionException(line, e);
         } catch (InvocationTargetException e) {

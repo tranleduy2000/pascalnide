@@ -1,20 +1,18 @@
 package com.duy.pascal.backend.debugable;
 
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
-import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
-import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBuilderBoxer;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
 
 public abstract class DebuggableReturnValue implements RuntimeValue {
 
     protected RuntimeValue[] outputFormat;
+
+    public abstract boolean canDebug();
 
     @Override
     public RuntimeValue[] getOutputFormat() {
@@ -30,26 +28,21 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (main != null) {
-                if (main.isDebugMode()) {
-                    if (!(this instanceof ConstantAccess
-                            || this instanceof StringBuilderBoxer
-                            || this instanceof ArrayBoxer
-                            || this instanceof CharacterBoxer)) {
-                        main.getDebugListener().onLine(getLineNumber());
-                        main.scriptControlCheck(getLineNumber(), true);
-                    } else {
-                        main.scriptControlCheck(getLineNumber(), false);
-                    }
+            if (main.isDebugMode()) {
+                if (canDebug()) {
+                    main.getDebugListener().onLine(this, getLineNumber());
+                    main.scriptControlCheck(getLineNumber(), true);
                 } else {
-                    main.scriptControlCheck(getLineNumber());
+                    main.scriptControlCheck(getLineNumber(), false);
                 }
-                main.incStack(getLineNumber());
+            } else {
+                main.scriptControlCheck(getLineNumber());
             }
+            main.incStack(getLineNumber());
+
             Object valueImpl = getValueImpl(f, main);
-            if (main != null) {
-                main.decStack();
-            }
+
+            main.decStack();
             return valueImpl;
         } catch (RuntimePascalException e) {
             throw e;

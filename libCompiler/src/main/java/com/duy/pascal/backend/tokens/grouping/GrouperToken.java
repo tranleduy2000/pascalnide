@@ -8,7 +8,7 @@ import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.Assignment;
+import com.duy.pascal.backend.ast.instructions.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.BreakInstruction;
 import com.duy.pascal.backend.ast.instructions.ContinueInstruction;
 import com.duy.pascal.backend.ast.instructions.Executable;
@@ -26,11 +26,11 @@ import com.duy.pascal.backend.ast.instructions.with_statement.WithStatement;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.FieldAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.UnaryOperatorEvaluation;
+import com.duy.pascal.backend.ast.runtime_value.operators.UnaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.ClassType;
@@ -395,7 +395,7 @@ public abstract class GrouperToken extends Token {
                 throw new BadOperationTypeException(next.getLineNumber(),
                         nextOperator.type);
             }
-            identifier = UnaryOperatorEvaluation.generateOp(context, getNextExpression(context,
+            identifier = UnaryOperatorEval.generateOp(context, getNextExpression(context,
                     nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.getLineNumber());
         } else {
             identifier = getNextTerm(context, next);
@@ -409,7 +409,7 @@ public abstract class GrouperToken extends Token {
                 }
                 take();
                 if (nextOperator.postfix()) {
-                    return UnaryOperatorEvaluation.generateOp(context, identifier, nextOperator.type,
+                    return UnaryOperatorEval.generateOp(context, identifier, nextOperator.type,
                             nextOperator.getLineNumber());
                 }
                 RuntimeValue nextValue = getNextExpression(context, nextOperator.type.getPrecedence());
@@ -989,7 +989,7 @@ public abstract class GrouperToken extends Token {
                 if (converted == null) {
                     throw new UnConvertibleTypeException(value, variableType, valueType, identifier, context);
                 }
-                return new Assignment(left, variableType.cloneValue(converted), next.getLineNumber());
+                return new AssignStatement(left, variableType.cloneValue(converted), next.getLineNumber());
             } else if (identifier instanceof Executable) {
                 return (Executable) identifier;
             } else if (identifier instanceof FieldAccess) {

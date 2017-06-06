@@ -29,7 +29,7 @@ import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
 import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;

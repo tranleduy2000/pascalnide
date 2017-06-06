@@ -22,7 +22,7 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.runtime_value.value.FieldAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;

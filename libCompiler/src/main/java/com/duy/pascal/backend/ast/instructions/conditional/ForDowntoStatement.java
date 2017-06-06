@@ -7,11 +7,11 @@ import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.OperatorTypes;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.Assignment;
+import com.duy.pascal.backend.ast.instructions.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
 import com.duy.pascal.backend.ast.instructions.SetValueExecutable;
-import com.duy.pascal.backend.ast.runtime_value.value.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
@@ -30,11 +30,11 @@ public class ForDowntoStatement extends DebuggableExecutable {
                               RuntimeValue first, RuntimeValue last, Executable command,
                               LineInfo line) throws ParsingException {
         this.line = line;
-        setfirst = new Assignment(assignableVar, first, line);
+        setfirst = new AssignStatement(assignableVar, first, line);
 
         lessthanlast = BinaryOperatorEval.generateOp(f, assignableVar, last, OperatorTypes.GREATEREQ, this.line);
 
-        increment = new Assignment(assignableVar,
+        increment = new AssignStatement(assignableVar,
                 BinaryOperatorEval.generateOp(f, assignableVar, new ConstantAccess<>(1, BasicType.Integer,
                         this.line), OperatorTypes.MINUS, line), line);
 

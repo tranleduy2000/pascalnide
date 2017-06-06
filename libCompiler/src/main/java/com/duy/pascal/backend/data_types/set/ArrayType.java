@@ -23,7 +23,7 @@ import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.data_types.rangetype.SubrangeType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.value.ArrayIndexAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ArrayIndexAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.ArrayCloner;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;

@@ -24,7 +24,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.SetIndexAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.SetIndexAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.SetCloner;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 

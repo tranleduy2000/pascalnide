@@ -69,7 +69,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
             throws RuntimePascalException {
         if (main != null) {
             if (main.isDebugMode()) {
-                main.getDebugListener().onLine(getLineNumber());
+                main.getDebugListener().onLine((Executable) this, getLineNumber());
             }
             main.incStack(getLineNumber());
             main.scriptControlCheck(getLineNumber());
