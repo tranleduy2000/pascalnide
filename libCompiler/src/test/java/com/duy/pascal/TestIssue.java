@@ -32,4 +32,8 @@ public class TestIssue extends BaseTestCase {
     public void testAll() {
         runAll();
     }
+
+    public void testConvertString() {
+        run("test2.pas");
+    }
 }

@@ -19,16 +19,16 @@ package com.duy.pascal.backend.data_types;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
-import com.duy.pascal.backend.data_types.converter.StringLimitBoxer;
-import com.duy.pascal.backend.data_types.converter.TypeConverter;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.StringIndex;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.StringBuilderCloner;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.data_types.converter.StringLimitBoxer;
+import com.duy.pascal.backend.data_types.converter.TypeConverter;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 
 /**
  * Created by Duy on 26-May-17.
@@ -38,10 +38,6 @@ public class StringLimitType extends InfoType {
 
     private RuntimeValue length = null; //max size
     private Class clazz = StringBuilder.class;
-
-    public void setLength(RuntimeValue length) {
-        this.length = length;
-    }
 
     @Override
     public String toString() {
@@ -86,6 +82,9 @@ public class StringLimitType extends InfoType {
             Class other = ((JavaClassBasedType) obj).getStorageClass();
             return clazz == other || clazz == Object.class;
         }
+        if (obj instanceof StringLimitType) {
+            return true;
+        }
         return false;
     }
 
@@ -101,7 +100,6 @@ public class StringLimitType extends InfoType {
         //do not bring length to another variable
         return new StringBuilderCloner(value);
     }
-
 
     @Nullable
     @Override
@@ -128,5 +126,9 @@ public class StringLimitType extends InfoType {
 
     public RuntimeValue getLength() {
         return length;
+    }
+
+    public void setLength(RuntimeValue length) {
+        this.length = length;
     }
 }
