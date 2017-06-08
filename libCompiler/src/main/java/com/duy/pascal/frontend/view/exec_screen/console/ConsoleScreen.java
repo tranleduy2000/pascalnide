@@ -34,8 +34,6 @@ public class ConsoleScreen implements ScreenObject {
     public int consoleRow;
     public int consoleColumn;
     public int firstLine;
-    public boolean fullscreen = false;
-    private boolean fullScreen = false;
     /**
      * Cursor of console
      */
@@ -46,6 +44,7 @@ public class ConsoleScreen implements ScreenObject {
     private int leftVisible = 0;
     private Rect visibleRect = new Rect();
     private int screenSize;
+    private boolean fullScreen;
 
     public ConsoleScreen(@NonNull PascalPreferences preferences) {
         this.maxLines = preferences.getMaxLineConsole();
@@ -89,14 +88,6 @@ public class ConsoleScreen implements ScreenObject {
 
     public void setFirstLine(int firstLine) {
         this.firstLine = firstLine;
-    }
-
-    public boolean isFullscreen() {
-        return fullscreen;
-    }
-
-    public void setFullscreen(boolean fullscreen) {
-        this.fullscreen = fullscreen;
     }
 
 
@@ -157,14 +148,6 @@ public class ConsoleScreen implements ScreenObject {
     }
 
 
-    public boolean isFullScreen() {
-        return fullScreen;
-    }
-
-    public void setFullScreen(boolean fullScreen) {
-        this.fullScreen = fullScreen;
-    }
-
     public void drawBackground(Canvas canvas, int leftVisible, int topVisible, int w, int h) {
         canvas.drawRect(leftVisible, topVisible, w, h, mBackgroundPaint);
     }
@@ -184,5 +167,14 @@ public class ConsoleScreen implements ScreenObject {
 
     public void clearAll() {
 
+    }
+
+
+    public boolean isFullScreen() {
+        return fullScreen;
+    }
+
+    public void setFullScreen(boolean fullScreen) {
+        this.fullScreen = fullScreen;
     }
 }

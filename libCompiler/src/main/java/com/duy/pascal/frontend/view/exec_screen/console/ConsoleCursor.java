@@ -29,7 +29,9 @@ public class ConsoleCursor {
     public static final int BIG_CURSOR = 1;
     public static final int NORMAL_CURSOR = 0;
 
-    public int x = 0, y;
+    public int x = 0;
+    public int y = 0;
+
     private boolean visible = true;
     private int foreColor = 0;
     private int backColor = 0;
@@ -124,7 +126,7 @@ public class ConsoleCursor {
      * @param x      -  x coordinate of screen
      * @param y      - y coordinate of screen
      */
-    public void drawCursor(Canvas canvas, int x, int y, int CharHeight, int charWidth, int charDescent) {
+    public void drawCursor(Canvas canvas, float x, float y, float CharHeight, float charWidth, float charDescent) {
         if (cursorBlink && visible) {
             canvas.drawRect(x + 1, y - CharHeight + charDescent, x + charWidth, y + 1, cursorPaint);
         }

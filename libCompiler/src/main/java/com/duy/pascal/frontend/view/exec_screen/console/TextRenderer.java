@@ -23,6 +23,7 @@ import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 
+
 /**
  * Text renderer interface
  */
@@ -34,25 +35,23 @@ public class TextRenderer implements ScreenObject {
     public static final int NORMAL_TEXT_ALPHA = 200;
     public static final int LOW_TEXT_ALPHA = 150;
     public static final int HIGH_TEXT_ALPHA = 255;
-
+    private static final String TAG = "TextRenderer";
     /**
      * character attributes
      */
     private int charHeight;
     private int charAscent;
     private int charDescent;
-    private int charWidth;
-
+    private float charWidth;
     private int textMode = 0;
     private Typeface typeface = Typeface.MONOSPACE;
-
     private Paint mTextPaint = new Paint();
     private Paint backgroundPaint = new Paint();
-
     private int textColor = Color.WHITE;
     private int textBackgroundColor = Color.BLACK;
     private int alpha = NORMAL_TEXT_ALPHA;
     private int textWidth = 2;
+    private boolean fixedWidthFont;
 
     public TextRenderer(float textSize) {
         init(textSize);
@@ -74,8 +73,14 @@ public class TextRenderer implements ScreenObject {
         charHeight = (int) Math.ceil(mTextPaint.getFontSpacing());
         charAscent = (int) Math.ceil(mTextPaint.ascent());
         charDescent = charHeight + charAscent;
-        charWidth = (int) mTextPaint.measureText(new char[]{'M'}, 0, 1);
+        charWidth = mTextPaint.measureText("M");
+        if (charWidth != mTextPaint.measureText(".")) {
+            this.fixedWidthFont = false;
+        } else {
+            this.fixedWidthFont = true;
+        }
     }
+
 
     /**
      * drawBackground text
@@ -86,8 +91,6 @@ public class TextRenderer implements ScreenObject {
      * @param start - start index of array text[]
      */
     public void draw(Canvas canvas, int x, int y, char[] text, int start, int count) {
-//        float width = mTextPaint.measureText(text, start, count);
-//        canvas.drawRect(x, y + charAscent, x + width, y + charDescent, backgroundPaint);
         canvas.drawText(text, start, count, x, y, mTextPaint);
     }
 
@@ -96,16 +99,18 @@ public class TextRenderer implements ScreenObject {
     }
 
     public void draw(Canvas canvas, float x, float y, TextConsole[] text, int start, int count) {
+        float y1 = y + charAscent;
         for (int i = start; i < start + count; i++) {
-            float width = mTextPaint.measureText(text[i].getSingleString(), 0, 1);
+            if (!fixedWidthFont) charWidth = mTextPaint.measureText(text[i].getSingleString());
 
             backgroundPaint.setColor(text[i].getTextBackground());
-            canvas.drawRect(x, y + charAscent, x + width, y + charDescent, backgroundPaint);
+            canvas.drawRect(x, y1, x + charWidth, y1, backgroundPaint);
 
             mTextPaint.setColor(text[i].getTextColor());
             mTextPaint.setAlpha(text[i].getAlpha());
             canvas.drawText(text[i].getSingleString(), x, y, mTextPaint);
-            x += width;
+
+            x += charWidth;
         }
     }
 
@@ -150,7 +155,7 @@ public class TextRenderer implements ScreenObject {
         this.charDescent = charDescent;
     }
 
-    public int getCharWidth() {
+    public float getCharWidth() {
         return charWidth;
     }
 
