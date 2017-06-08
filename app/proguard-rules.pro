@@ -4,7 +4,7 @@
 -dontskipnonpubliclibraryclasses
 -verbose
 
-# Optimization is turned off by default. Dex does not like code run
+# Optimization is turned off by default. Dex does not like code generate
 # through the ProGuard optimize and preverify steps (and performs some
 # of these optimizations on its own).
 #-dontoptimize
