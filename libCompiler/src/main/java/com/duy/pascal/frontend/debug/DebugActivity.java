@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.activities;
+package com.duy.pascal.frontend.debug;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +24,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AlertDialog;
@@ -43,19 +44,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.ast.AbstractCallableFunction;
-import com.duy.pascal.backend.ast.FunctionDeclaration;
-import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.AbstractExecActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
 import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
-import com.duy.pascal.frontend.debug.adapter.VariableWatcherAdapter;
+import com.duy.pascal.frontend.debug.adapter.ValueWatcherAdapter;
 import com.duy.pascal.frontend.debug.model.VariableItem;
 import com.duy.pascal.frontend.debug.view.VariableWatcherView;
 import com.duy.pascal.frontend.dialog.DialogManager;
@@ -104,15 +105,14 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     private void bindView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         mConsoleView = (ConsoleView) findViewById(R.id.console);
         mCodeView = (HighlightEditor) findViewById(R.id.code_editor);
         mScrollView = (LockableScrollView) findViewById(R.id.vertical_scroll);
         mCodeView.setVerticalScroll(mScrollView);
         mVariableWatcherView = (VariableWatcherView) findViewById(R.id.watcher);
         emptyView = findViewById(R.id.empty_view);
-
-        setSupportActionBar(toolbar);
-
         mVariableWatcherView.setEmptyView(emptyView);
     }
 
@@ -205,7 +205,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onLine(RuntimeValue executable, final LineInfo lineInfo) {
-        Log.d(TAG, "onLine() called with: executable = [" + executable + "], lineInfo = [" + lineInfo + "]");
+        Log.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
+                "], lineInfo = [" + lineInfo + "]");
 
         if (lineInfo == null) return;
         runOnUiThread(new Runnable() {
@@ -226,7 +227,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     /**
-     * This method will be show a small popup window for show result at expression
+     * This method will be show a small popup window for show result of expression
      *
      * @param lineInfo - the line of expression
      * @param expr     - input
@@ -287,10 +288,19 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
-    public void onAssignValue(LineInfo lineNumber, AssignableValue left, RuntimeValue value) {
+    public void onAssignValue(LineInfo lineNumber, final AssignableValue left,
+                              @NonNull final Object old, final Object value,
+                              @NonNull VariableContext context) {
         Log.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
                 left + "], value = [" + value + "]");
 
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ValueWatcherAdapter adapter = (ValueWatcherAdapter) mVariableWatcherView.getAdapter();
+                adapter.onVariableChangeValue(left.toString(), old, value);
+            }
+        });
     }
 
     @Override
@@ -349,7 +359,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     private void resumeProgram() {
         if (program != null && !endEnded.get()) program.resume();
         else {
-            vibrator.vibrate(500);
+            vibrator.vibrate(100);
             Toast.makeText(this, R.string.program_stopped, Toast.LENGTH_SHORT).show();
         }
     }
@@ -392,30 +402,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
-    public void onGlobalVariableChangeValue(VariableDeclaration variableDeclaration) {
-        Log.d(TAG, "onGlobalVariableChangeValue() called with: variableDeclaration = [" + variableDeclaration + "]");
-
-    }
-
-    @Override
-    public void onLocalVariableChangeValue(VariableDeclaration variableDeclaration) {
-        Log.d(TAG, "onLocalVariableChangeValue() called with: variableDeclaration = [" + variableDeclaration + "]");
-
-    }
-
-    @Override
-    public void onFunctionCall(FunctionDeclaration functionDeclaration) {
-        Log.d(TAG, "onFunctionCall() called with: functionDeclaration = [" + functionDeclaration + "]");
-
-    }
-
-    @Override
-    public void onProcedureCall(FunctionDeclaration functionDeclaration) {
-        Log.d(TAG, "onProcedureCall() called with: functionDeclaration = [" + functionDeclaration + "]");
-
-    }
-
-    @Override
     public void onNewMessage(String msg) {
         Log.d(TAG, "onNewMessage() called with: msg = [" + msg + "]");
 
@@ -426,19 +412,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         Log.d(TAG, "onClearDebug() called");
 
 
-    }
-
-    @Override
-    public void onVariableChangeValue(final String name, final Object old, final Object value) {
-        Log.d(TAG, "onVariableChangeValue() called with: name = [" + name + "], old = [" + old + "], value = [" + value + "]");
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                VariableWatcherAdapter adapter = (VariableWatcherAdapter) mVariableWatcherView.getAdapter();
-                adapter.onVariableChangeValue(name, old, value);
-            }
-        });
     }
 
     @Override

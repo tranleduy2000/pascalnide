@@ -17,6 +17,8 @@
 package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.data_types.ArgumentType;
@@ -119,7 +121,7 @@ public class FillCharFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             PascalReference array = (PascalReference) arguments[0].getValue(f, main);
             int size = (int) arguments[1].getValue(f, main);

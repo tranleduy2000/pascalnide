@@ -104,18 +104,18 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        boolean debug = main.isDebugMode();
+        boolean debug = main.isDebug();
         if (debug) {
             main.getDebugListener().onEvaluatingExpr(line, toString());
-            main.setDebugMode(false);
+            main.setDebug(false);
         }
 
         Object value = operon.getValue(f, main);
         Object result = operate(value);
 
         //restore mode
-        main.setDebugMode(debug);
-        if (main.isDebugMode()) {
+        main.setDebug(debug);
+        if (main.isDebug()) {
             main.getDebugListener().onEvaluatedExpr(line, toString(), result.toString());
         }
         return result;

@@ -105,7 +105,7 @@
         <activity android:name="com.duy.pascal.frontend.info_application.InfoActivity" />
         <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
         <activity
-            android:name="com.duy.pascal.frontend.activities.DebugActivity"
+            android:name="com.duy.pascal.frontend.debug.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivity" />

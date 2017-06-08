@@ -164,7 +164,6 @@
         android:id="@+id/action_program_structure"
         android:icon="@drawable/ic_format_list_bulleted_white_24dp"
         android:title="@string/program_structure"
-        android:visible="false"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_insert_media_url"

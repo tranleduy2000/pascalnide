@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.ast.runtime_value.value;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.AbstractCallableFunction;
 import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -39,14 +41,12 @@ public class SimpleFunctionCall extends FunctionCall {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        if (main != null) {
-            if (main.isDebugMode())
-                main.getDebugListener().onLine((Executable) this, getLineNumber());
-            main.incStack(getLineNumber());
-            main.scriptControlCheck(getLineNumber());
-        }
+        if (main.isDebug())
+            main.getDebugListener().onLine((Executable) this, getLineNumber());
+        main.incStack(getLineNumber());
+        main.scriptControlCheck(getLineNumber());
 
         //array store clone value
         Object[] values = new Object[arguments.length];
@@ -86,19 +86,19 @@ public class SimpleFunctionCall extends FunctionCall {
                 //debug
                 DebugManager.onEvalParameterFunction(arguments[i].getLineNumber(),
                         arguments[i].toString(), values[i], main);
+                main.scriptControlCheck(getLineNumber());
             }
         } else {
             for (int i = 0; i < values.length; i++) {
                 values[i] = arguments[i].getValue(f, main);
                 DebugManager.onEvalParameterFunction(arguments[i].getLineNumber(),
                         arguments[i].toString(), values[i], main);
+                main.scriptControlCheck(getLineNumber());
             }
         }
 
         Object result;
         try {
-            DebugManager.onPreFunctionCall(function, arguments, main);//debug
-
             result = function.call(f, main, values);
 
             DebugManager.onFunctionCalled(function, arguments, result, main);//debug

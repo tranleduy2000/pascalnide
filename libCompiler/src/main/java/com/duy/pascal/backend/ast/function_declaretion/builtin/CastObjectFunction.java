@@ -17,6 +17,8 @@
 package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -131,7 +133,7 @@ public class CastObjectFunction implements IMethodDeclaration {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             //indexOf reference of variable
             PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);

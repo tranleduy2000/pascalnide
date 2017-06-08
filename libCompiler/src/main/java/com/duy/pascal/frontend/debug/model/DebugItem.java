@@ -64,7 +64,6 @@ public class DebugItem {
 
     @Override
     public String toString() {
-
         return type == TYPE_VAR ? this.msg1 + " = " + msg2 : msg1;
     }
 }

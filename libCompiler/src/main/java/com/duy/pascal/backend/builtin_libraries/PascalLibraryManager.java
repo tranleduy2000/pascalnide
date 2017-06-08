@@ -41,8 +41,8 @@ import com.duy.pascal.backend.ast.function_declaretion.builtin.SizeOfArrayFuncti
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SizeOfObjectFunction;
 import com.duy.pascal.backend.ast.function_declaretion.test.ReadFileFunction;
 import com.duy.pascal.backend.ast.function_declaretion.test.ReadFunction;
-import com.duy.pascal.backend.ast.function_declaretion.test.ReadlnFileFunction;
 import com.duy.pascal.backend.ast.function_declaretion.test.ReadLineFunction;
+import com.duy.pascal.backend.ast.function_declaretion.test.ReadlnFileFunction;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.builtin_libraries.android.connection.bluetooth.AndroidBluetoothLib;
@@ -234,7 +234,7 @@ public class PascalLibraryManager {
         program.declareConst(new ConstantDefinition("maxint", BasicType.Integer, Integer.MAX_VALUE, null));
         program.declareConst(new ConstantDefinition("maxlongint", BasicType.Long, Long.MAX_VALUE, null));
 
-        program.declareConst(new ConstantDefinition("pi", BasicType.Long, Long.MAX_VALUE, null));
+        program.declareConst(new ConstantDefinition("pi", BasicType.Double, Math.PI, null));
 
         addMethodFromClass(SystemLibrary.class, new LineInfo(-1, "system"));
     }

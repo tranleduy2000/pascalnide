@@ -12,7 +12,7 @@ public abstract class DebuggableExecutable implements Executable {
     public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (main.isDebugMode()) main.getDebugListener().onLine(this, getLineNumber());
+            if (main.isDebug()) main.getDebugListener().onLine(this, getLineNumber());
             main.incStack(getLineNumber());
             main.scriptControlCheck(getLineNumber());
 

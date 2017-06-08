@@ -37,14 +37,14 @@ import java.util.ArrayList;
 @SuppressWarnings("DefaultFileTemplate")
 public class DialogProgramStructure extends AppCompatDialogFragment {
     public static final String TAG = DialogProgramStructure.class.getSimpleName();
-    private AndroidTreeView tView;
+    private AndroidTreeView treeView;
 
     public static DialogProgramStructure newInstance(StructureItem node) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(TAG, node);
-        DialogProgramStructure selectableTreeFragment = new DialogProgramStructure();
-        selectableTreeFragment.setArguments(bundle);
-        return selectableTreeFragment;
+        DialogProgramStructure fragment = new DialogProgramStructure();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     private TreeNode getTreeNode(StructureItem structureItem) {
@@ -72,11 +72,12 @@ public class DialogProgramStructure extends AppCompatDialogFragment {
         TreeNode root = TreeNode.root();
         TreeNode treeNode = getTreeNode(rootProgram);
         root.addChildren(treeNode);
+        root.setSelectable(true);
 
-        tView = new AndroidTreeView(getActivity(), root);
-        tView.setDefaultAnimation(true);
+        treeView = new AndroidTreeView(getActivity(), root);
+        treeView.setDefaultAnimation(true);
 
-        View view = tView.getView();
+        View view = treeView.getView();
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         containerView.removeAllViews();
@@ -85,7 +86,7 @@ public class DialogProgramStructure extends AppCompatDialogFragment {
         if (savedInstanceState != null) {
             String state = savedInstanceState.getString("tState");
             if (!TextUtils.isEmpty(state)) {
-                tView.restoreState(state);
+                treeView.restoreState(state);
             }
         }
         return rootView;
@@ -95,6 +96,6 @@ public class DialogProgramStructure extends AppCompatDialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("tState", tView.getSaveState());
+        outState.putString("tState", treeView.getSaveState());
     }
 }

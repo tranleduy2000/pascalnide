@@ -53,7 +53,7 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
             entry.getValue().runFinal();
         }
 
-        if (isDebugMode()) {
+        if (isDebug()) {
             getDebugListener().onEndProgram();
         }
     }

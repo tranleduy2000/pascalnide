@@ -18,6 +18,7 @@ package com.duy.pascal.frontend.debug;
 
 import com.duy.pascal.backend.ast.AbstractCallableFunction;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebugListener;
@@ -49,10 +50,10 @@ public class DebugManager {
         }
     }
 
-    public static void debugAssign(LineInfo lineNumber, AssignableValue left,
-                                   RuntimeValue value, RuntimeExecutableCodeUnit<?> main) {
-        if (main.isDebugMode()) {
-            main.getDebugListener().onAssignValue(lineNumber, left, value);
+    public static void debugAssign(LineInfo lineNumber, AssignableValue left, Object old,
+                                   Object value, VariableContext context, RuntimeExecutableCodeUnit<?> main) {
+        if (main.isDebug()) {
+            main.getDebugListener().onAssignValue(lineNumber, left, old, value, context);
         }
     }
 
@@ -70,22 +71,22 @@ public class DebugManager {
 
     public static void onPreFunctionCall(AbstractCallableFunction function, RuntimeValue[] arguments,
                                          RuntimeExecutableCodeUnit<?> main) {
-        if (main.isDebugMode()) {
+        if (main.isDebug()) {
             main.getDebugListener().onPreFunctionCall(function, arguments);
         }
     }
 
     public static void onFunctionCalled(AbstractCallableFunction function, RuntimeValue[] arguments,
                                         Object result, RuntimeExecutableCodeUnit<?> main) {
-        if (main.isDebugMode()) {
+        if (main.isDebug()) {
             main.getDebugListener().onFunctionCalled(function, arguments, result);
         }
     }
 
-    public static void onEvalPrameterFunction(LineInfo lineInfo, String argName, Object value,
+    public static void onEvalParameterFunction(LineInfo lineInfo, String argName, Object value,
                                                RuntimeExecutableCodeUnit main) {
-        if (main.isDebugMode()) {
-            main.getDebugListener().onEvalParameterFunction(lineInfo,argName,  value);
+        if (main.isDebug()) {
+            main.getDebugListener().onEvalParameterFunction(lineInfo, argName, value);
         }
     }
 

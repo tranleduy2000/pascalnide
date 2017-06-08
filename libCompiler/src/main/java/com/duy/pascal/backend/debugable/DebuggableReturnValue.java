@@ -29,7 +29,7 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (main.isDebugMode()) {
+            /*if (main.isDebug()) {
                 if (canDebug()) {
                     main.getDebugListener().onLine(this, getLineNumber());
                     main.scriptControlCheck(getLineNumber(), true);
@@ -38,7 +38,8 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
                 }
             } else {
                 main.scriptControlCheck(getLineNumber());
-            }
+            }*/
+            main.scriptControlCheck(getLineNumber(), false); //disable debug
             main.incStack(getLineNumber());
 
             Object valueImpl = getValueImpl(f, main);

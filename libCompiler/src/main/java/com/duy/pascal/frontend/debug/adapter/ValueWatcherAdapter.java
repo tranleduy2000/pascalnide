@@ -30,17 +30,17 @@ import java.util.ArrayList;
 
 //import butterknife.BindView;
 
-public class VariableWatcherAdapter extends RecyclerView.Adapter<VariableWatcherAdapter.ViewHolder> {
+public class ValueWatcherAdapter extends RecyclerView.Adapter<ValueWatcherAdapter.ViewHolder> {
     private ArrayList<VariableItem> listData = new ArrayList<>();
     private Context context;
     private LayoutInflater inflater;
 
-    public VariableWatcherAdapter(Context context) {
+    public ValueWatcherAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
-    public VariableWatcherAdapter(ArrayList<VariableItem> listData, Context context) {
+    public ValueWatcherAdapter(ArrayList<VariableItem> listData, Context context) {
         this.listData = listData;
         this.context = context;
         this.inflater = LayoutInflater.from(context);

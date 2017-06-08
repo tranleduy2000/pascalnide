@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright (c) 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,30 +20,34 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:gravity="center|start"
-    android:orientation="horizontal"
- >
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/node_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <LinearLayout
-        android:layout_width="30dp"
+        android:layout_width="24dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical"
-  >
+        android:orientation="vertical">
 
         <View
             android:layout_width="1dp"
-            android:layout_height="10dp"
+            android:layout_height="3dp"
             android:background="#FFF" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             app:srcCompat="@drawable/ic_language_white_24dp" />
 
         <View
             android:layout_width="1dp"
-            android:layout_height="10dp"
+            android:layout_height="3dp"
 
             android:background="#FFF" />
     </LinearLayout>
@@ -54,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="@string/SameNameException"
+        android:text="@string/enter_key_word"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textSize="16sp" />
 </LinearLayout>

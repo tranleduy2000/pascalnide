@@ -23,7 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.duy.pascal.frontend.debug.adapter.VariableWatcherAdapter;
+import com.duy.pascal.frontend.debug.adapter.ValueWatcherAdapter;
 import com.duy.pascal.frontend.debug.model.VariableItem;
 
 /**
@@ -31,7 +31,7 @@ import com.duy.pascal.frontend.debug.model.VariableItem;
  */
 
 public class VariableWatcherView extends RecyclerView {
-    private VariableWatcherAdapter mAdapter;
+    private ValueWatcherAdapter mAdapter;
     private View emptyView;
 
     public VariableWatcherView(Context context) {
@@ -51,7 +51,7 @@ public class VariableWatcherView extends RecyclerView {
     }
 
     private void setup(Context context) {
-        mAdapter = new VariableWatcherAdapter(context);
+        mAdapter = new ValueWatcherAdapter(context);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setSmoothScrollbarEnabled(true);
         setLayoutManager(linearLayoutManager);

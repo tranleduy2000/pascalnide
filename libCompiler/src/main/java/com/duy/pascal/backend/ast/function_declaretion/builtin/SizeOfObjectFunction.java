@@ -17,6 +17,8 @@
 package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -120,7 +122,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             Object value = array.getValue(f, main);
             if (value instanceof Integer) {

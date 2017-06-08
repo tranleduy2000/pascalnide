@@ -17,6 +17,8 @@
 package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.data_types.ArgumentType;
@@ -130,7 +132,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
         }
 
         @Override
-        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             //get references of variable
             FieldReference pointer = (FieldReference) this.pointer.getValue(f, main);

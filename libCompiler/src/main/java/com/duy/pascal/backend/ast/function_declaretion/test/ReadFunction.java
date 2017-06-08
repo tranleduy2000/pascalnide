@@ -17,6 +17,8 @@
 package com.duy.pascal.backend.ast.function_declaretion.test;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -124,7 +126,7 @@ public class ReadFunction implements IMethodDeclaration {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             IOLib ioHandler = main.getDefinition().getContext().getIOHandler();
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);

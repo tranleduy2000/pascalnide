@@ -29,11 +29,15 @@ public class AssignStatement extends DebuggableExecutable implements SetValueExe
     @SuppressWarnings("unchecked")
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        DebugManager.debugAssign(line, left, value, main);
+
 
         Reference ref = left.getReference(context, main);
+        Object old = ref.get();
         Object v = this.value.getValue(context, main);
         ref.set(v);
+
+        DebugManager.debugAssign(line, left, old, v, context, main);
+
         return ExecutionResult.NONE;
     }
 

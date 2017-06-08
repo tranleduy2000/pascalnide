@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.debugable.DebuggableExecutableReturnValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -65,10 +67,10 @@ public class WithCall extends DebuggableExecutableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         if (main != null) {
-            if (main.isDebugMode()) {
+            if (main.isDebug()) {
                 main.getDebugListener().onLine((Executable) this, getLineNumber());
             }
             main.incStack(getLineNumber());

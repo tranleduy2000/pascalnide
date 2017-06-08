@@ -42,13 +42,10 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     private volatile boolean doneExecuting = false;
     private volatile long stack = 0;
     private DebugListener debugListener;
-    private volatile boolean debugMode = false;
+    private volatile boolean debug = false;
+    private DebugMode debugMode;
 
 
-    /**
-     * if enable DEBUG, uses this constructor
-     *
-     */
     public RuntimeExecutableCodeUnit(parent definition) {
         super(definition);
     }
@@ -57,12 +54,12 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         return runtimeLibs;
     }
 
-    public boolean isDebugMode() {
-        return debugMode;
+    public boolean isDebug() {
+        return debug;
     }
 
-    public void setDebugMode(boolean debugMode) {
-        this.debugMode = debugMode;
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 
     public RuntimeUnitPascal getLibrary(UnitPascal l) {
@@ -93,11 +90,11 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     }
 
     public void enableDebug() {
-        debugMode = true;
+        debug = true;
     }
 
     public void disableDebug() {
-        debugMode = false;
+        debug = false;
     }
 
     @Override
@@ -118,7 +115,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
 
     public void scriptControlCheck(LineInfo line)
             throws ScriptTerminatedException {
-        scriptControlCheck(line, debugMode);
+        scriptControlCheck(line, debug);
     }
 
     /**
@@ -127,8 +124,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
      * @param debug - is DEBUG enable
      * @throws ScriptTerminatedException - stop program
      */
-    public void scriptControlCheck(LineInfo line, boolean debug)
-            throws ScriptTerminatedException {
+    public void scriptControlCheck(LineInfo line, boolean debug) throws ScriptTerminatedException {
         do {
             if (runMode == ControlMode.PAUSED || debug) {
                 synchronized (this) {
@@ -160,7 +156,6 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
                 }
                 throw new ScriptTerminatedException(line);
             }
-
         } while (true);
     }
 
@@ -172,11 +167,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         this.debugListener = debugListener;
     }
 
-    /**
-     * asdas das das
-     *
-     * @return
-     */
+
     public boolean isRunning() {
         return doneExecuting;
     }
@@ -187,7 +178,6 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
             throw new StackOverflowException(lineInfo);
         }
     }
-    //4000 method
 
     public void decStack() {
         stack--;

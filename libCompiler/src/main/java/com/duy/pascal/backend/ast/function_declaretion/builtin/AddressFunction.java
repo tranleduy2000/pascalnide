@@ -17,6 +17,8 @@
 package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -86,7 +88,7 @@ public class AddressFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
             Reference ref = (Reference) pointer.getValue(f, main);
             return ref.get();
         }

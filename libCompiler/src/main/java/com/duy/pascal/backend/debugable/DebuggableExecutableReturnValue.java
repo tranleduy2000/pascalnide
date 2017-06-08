@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.debugable;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
@@ -48,17 +50,19 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
 
     }
 
-    public abstract Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public abstract Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
     @Override
     public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (main.isDebugMode()) {
+            if (main.isDebug()) {
                 main.getDebugListener().onLine((Executable) this, getLineNumber());
             }
+            main.scriptControlCheck(getLineNumber());
             main.incStack(getLineNumber());
+
             ExecutionResult result = executeImpl(context, main);
 
             main.decStack();
