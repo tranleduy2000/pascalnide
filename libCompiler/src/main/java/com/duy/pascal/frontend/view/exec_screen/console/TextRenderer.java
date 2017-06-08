@@ -83,7 +83,7 @@ public class TextRenderer implements ScreenObject {
 
 
     /**
-     * drawBackground text
+     * draw text
      *
      * @param x     - start x
      * @param y     - start y

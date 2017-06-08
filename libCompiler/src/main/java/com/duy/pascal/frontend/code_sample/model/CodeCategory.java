@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_sample;
+package com.duy.pascal.frontend.code_sample.model;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-class CodeCategory {
+public class CodeCategory {
     private String title;
     private String description;
     private String imagePath;

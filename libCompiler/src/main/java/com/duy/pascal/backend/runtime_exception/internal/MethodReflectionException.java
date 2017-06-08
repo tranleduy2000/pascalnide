@@ -2,10 +2,10 @@ package com.duy.pascal.backend.runtime_exception.internal;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 
-public class PluginReflectionException extends InternalInterpreterException {
+public class MethodReflectionException extends InternalInterpreterException {
 	Exception e;
 
-	public PluginReflectionException(LineInfo line, Exception cause) {
+	public MethodReflectionException(LineInfo line, Exception cause) {
 		super(line);
 		this.e = cause;
 	}

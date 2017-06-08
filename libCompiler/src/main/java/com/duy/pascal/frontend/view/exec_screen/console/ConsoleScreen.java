@@ -44,7 +44,7 @@ public class ConsoleScreen implements ScreenObject {
     private int leftVisible = 0;
     private Rect visibleRect = new Rect();
     private int screenSize;
-    private boolean fullScreen;
+    private boolean fullScreen = false;
 
     public ConsoleScreen(@NonNull PascalPreferences preferences) {
         this.maxLines = preferences.getMaxLineConsole();

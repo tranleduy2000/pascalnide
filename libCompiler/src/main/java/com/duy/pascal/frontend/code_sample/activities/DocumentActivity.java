@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_sample;
+package com.duy.pascal.frontend.code_sample.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

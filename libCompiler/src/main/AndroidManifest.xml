@@ -99,17 +99,17 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name="com.duy.pascal.frontend.code_sample.DocumentActivity" />
-        <activity android:name="com.duy.pascal.frontend.code_sample.CodeSampleActivity" />
+        <activity android:name="com.duy.pascal.frontend.code_sample.activities.DocumentActivity" />
+        <activity android:name="com.duy.pascal.frontend.code_sample.activities.CodeSampleActivity" />
         <activity android:name="com.duy.pascal.frontend.theme.fragment.ThemeFontActivity" />
         <activity android:name="com.duy.pascal.frontend.info_application.InfoActivity" />
         <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
         <activity
-            android:name="com.duy.pascal.frontend.debug.DebugActivity"
+            android:name="com.duy.pascal.frontend.debug.activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivity" />
-        <activity android:name="com.duy.pascal.frontend.code_sample.SearchResultSampleActivity" />
+        <activity android:name="com.duy.pascal.frontend.code_sample.activities.SearchResultSampleActivity" />
 
         <!--Scan bar code activity-->
         <activity

@@ -19,26 +19,19 @@ package com.duy.pascal.backend.ast.runtime_value;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FunctionOnStack extends VariableContext {
-    /**
-     * map variable
-     */
-    private HashMap<String, Object> localVariables = new HashMap<>();
-    /**
-     * list name of map variable, if you want indexOf all variable, map can not do
-     */
-    private ArrayList<String> listNameLocalVariable = new ArrayList<>();
 
-    public FunctionDeclaration getPrototype() {
-        return prototype;
-    }
+    private HashMap<String, Object> mapVars = new HashMap<>();
 
+    private ArrayList<String> localVarsName = new ArrayList<>();
+    private ArrayList<String> paramsName = new ArrayList<>();
     /**
      * prototype method
      */
@@ -56,19 +49,24 @@ public class FunctionOnStack extends VariableContext {
         this.parentContext = parentContext;
         this.main = main;
         for (VariableDeclaration v : prototype.declarations.variables) {
-            v.initialize(localVariables);
-            listNameLocalVariable.add(v.getName());
+            v.initialize(mapVars);
+            localVarsName.add(v.getName());
         }
         referenceVariables = new HashMap<>();
         for (int i = 0; i < arguments.length; i++) {
             if (prototype.argumentTypes[i].writable) {
                 referenceVariables.put(prototype.argumentNames[i], (PascalReference) arguments[i]);
             } else {
-                localVariables.put(prototype.argumentNames[i], arguments[i]);
+                mapVars.put(prototype.argumentNames[i], arguments[i]);
             }
+            paramsName.add(prototype.argumentNames[i]);
         }
         this.parentContext = parentContext;
         this.prototype = declaration;
+    }
+
+    public FunctionDeclaration getPrototype() {
+        return prototype;
     }
 
     public FunctionDeclaration getCurrentFunction() {
@@ -79,14 +77,14 @@ public class FunctionOnStack extends VariableContext {
         return main;
     }
 
-    public ArrayList<String> getListNameLocalVariable() {
-        return listNameLocalVariable;
+    public ArrayList<String> getLocalVarsName() {
+        return localVarsName;
     }
 
     public Object execute() throws RuntimePascalException {
         prototype.instructions.execute(this, main);
         //indexOf result of prototype, name of variable is name of prototype
-        return localVariables.get(prototype.name);
+        return mapVars.get(prototype.name);
     }
 
     /**
@@ -94,8 +92,8 @@ public class FunctionOnStack extends VariableContext {
      */
     @Override
     public Object getLocalVar(String name) throws RuntimePascalException {
-        if (localVariables.containsKey(name)) {
-            return localVariables.get(name);
+        if (mapVars.containsKey(name)) {
+            return mapVars.get(name);
         } else if (referenceVariables.containsKey(name)) {
             return referenceVariables.get(name).get();
         } else {
@@ -106,14 +104,34 @@ public class FunctionOnStack extends VariableContext {
     @Override
     @SuppressWarnings("unchecked")
     public boolean setLocalVar(String name, Object val) {
-        if (localVariables.containsKey(name)) {
-            localVariables.put(name, val);
+        if (mapVars.containsKey(name)) {
+            mapVars.put(name, val);
         } else if (referenceVariables.containsKey(name)) {
             referenceVariables.get(name).set(val);
         } else {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<String> getUserDefineVariableNames() {
+        List<String> vars = new ArrayList<>();
+        vars.addAll(paramsName);
+        vars.addAll(localVarsName);
+        return vars;
+    }
+
+    @Override
+    public List<String> getAllVariableNames() {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, ? extends Object> getMapVars() {
+        HashMap<String, Object> hashMap = new HashMap<>(mapVars);
+        hashMap.putAll(referenceVariables);
+        return hashMap;
     }
 
     @Override
@@ -128,5 +146,10 @@ public class FunctionOnStack extends VariableContext {
 
     public boolean isProcedure() {
         return prototype.isProcedure();
+    }
+
+    @Override
+    public String toString() {
+        return prototype.getName();
     }
 }

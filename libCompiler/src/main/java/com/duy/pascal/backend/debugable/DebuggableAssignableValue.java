@@ -29,8 +29,16 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (canDebug() && main.isDebug()) main.getDebugListener().onLine(this, getLineNumber());
-            main.scriptControlCheck(getLineNumber());
+            if (canDebug() && main.isDebug()) {
+                main.getDebugListener().onLine(this, getLineNumber());
+                if (canDebug()) {
+                    main.scriptControlCheck(getLineNumber(), true);
+                } else {
+                    main.scriptControlCheck(getLineNumber(), false);
+                }
+            } else {
+                main.scriptControlCheck(getLineNumber(), false);
+            }
             return getValueImpl(f, main);
         } catch (RuntimePascalException e) {
             throw e;

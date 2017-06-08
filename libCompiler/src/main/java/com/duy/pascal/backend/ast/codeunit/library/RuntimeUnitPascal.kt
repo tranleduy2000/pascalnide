@@ -24,7 +24,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
     constructor(unitPascal: UnitPascal) : super(unitPascal)
 
     /**
-     * run instruction initialization
+     * generate instruction initialization
      */
     @Throws(RuntimePascalException::class)
     fun runInit() {
@@ -33,7 +33,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
     }
 
     /**
-     * run final instruction
+     * generate final instruction
      */
     @Throws(RuntimePascalException::class)
     fun runFinal() {
@@ -48,6 +48,10 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
 
     override fun getParentContext(): VariableContext? {
         return null
+    }
+
+    override fun toString(): String {
+        return definition.programName!!;
     }
 
 }

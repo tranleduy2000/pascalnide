@@ -8,7 +8,7 @@ Var
 
 begin
     Randomize; { This way we generate a new sequence every time
-               the program is run}
+               the program is generate}
     Count := 0;
     For i:=1 to 1000 do
         If Random > 0.5 then inc(Count);

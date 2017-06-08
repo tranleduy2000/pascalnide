@@ -74,7 +74,7 @@ public class ConsoleView extends View implements
     private Context mContext;
     //      Data of console
     private ScreenBuffer mScreenBufferData = new ScreenBuffer();
-    //    private Rect visibleRect = new Rect();
+    private Rect visibleRect = new Rect();
     private Runnable checkSize = new Runnable() {
         public void run() {
             if (updateSize()) {
@@ -296,13 +296,13 @@ public class ConsoleView extends View implements
         Log.d(TAG, "updateSize() called");
 
         boolean invalid = false;
-        Rect visibleRect = new Rect();
+
         getWindowVisibleDisplayFrame(visibleRect);
         int newHeight;
         int newWidth;
         int newTop;
         int newLeft;
-
+        Log.d(TAG, "updateSize: " + visibleRect + " top = " + getTop());
         if (mConsoleScreen.isFullScreen()) {
             newTop = Math.min(getTop(), visibleRect.top);
             newHeight = visibleRect.bottom - newTop;
@@ -752,15 +752,13 @@ public class ConsoleView extends View implements
     }
 
     public void drawText(Canvas canvas, int left, int top) {
-
-
         int index = mScreenBufferData.firstIndex + firstLine * mConsoleScreen.consoleColumn;
         if (index >= mConsoleScreen.getScreenSize()) {
             index -= mConsoleScreen.getScreenSize();
         }
         top -= mTextRenderer.getCharAscent();
 
-        //drawBackground cursor
+        //draw cursor
         mCursor.drawCursor(canvas,
                 left + mCursor.x * mTextRenderer.getCharWidth(),
                 top + (mCursor.y - firstLine) * mTextRenderer.getCharHeight(),
@@ -796,6 +794,7 @@ public class ConsoleView extends View implements
             if (!mGraphScreen.getGraphBitmap().isRecycled())
                 canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, mGraphScreen.getBackgroundPaint());
         } else {
+            Log.d(TAG, "onDraw: " + mConsoleScreen.getTopVisible());
             mConsoleScreen.drawBackground(canvas, mConsoleScreen.getLeftVisible(),
                     mConsoleScreen.getTopVisible(), w, h);
             drawText(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
@@ -956,7 +955,7 @@ public class ConsoleView extends View implements
     }
 
     /**
-     * set drawBackground {@link GraphObject} color
+     * set draw {@link GraphObject} color
      *
      * @param color
      */

@@ -2,22 +2,24 @@ package com.duy.pascal.backend.ast.runtime_value;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+
+import java.util.HashMap;
+import java.util.List;
 
 public abstract class VariableContext implements ContainsVariables {
 
-    /**
-     * Global variable of function
-     *
-     * @param name - name of var
-     * @return - value of variable
-     * @throws RuntimePascalException
-     */
     public abstract Object getLocalVar(String name)
             throws RuntimePascalException;
 
     public abstract boolean setLocalVar(String name, Object val);
+
+    public abstract List<String> getUserDefineVariableNames();
+
+    public abstract List<String> getAllVariableNames();
+
+    public abstract HashMap<String, ? extends Object> getMapVars();
 
     @Override
     @Nullable
@@ -53,6 +55,5 @@ public abstract class VariableContext implements ContainsVariables {
     public VariableContext clone() {
         return null;
     }
-
 
 }

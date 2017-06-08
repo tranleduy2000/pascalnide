@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.builtin_libraries.graph.model.GraphObject;
 import com.duy.pascal.backend.builtin_libraries.graph.paint.FillPaint;
@@ -61,6 +62,7 @@ public class GraphScreen {
     /**
      * this object used to draw {@link GraphObject}
      */
+    @Nullable
     private Bitmap mGraphBitmap;
     private ConsoleCursor mCursor = new ConsoleCursor(0, 0, 0xffffffff);
     private int lineWidth = LineWidth.NormWidth;
@@ -159,6 +161,7 @@ public class GraphScreen {
     /**
      * @return the graph bitmap
      */
+    @Nullable
     public synchronized Bitmap getGraphBitmap() {
         synchronized (mLock) {
             return mGraphBitmap;

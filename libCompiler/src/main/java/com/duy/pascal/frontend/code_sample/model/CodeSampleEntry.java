@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_sample;
+package com.duy.pascal.frontend.code_sample.model;
 
 /**
  * Created by Duy on 08-Apr-17.
@@ -67,7 +67,7 @@ public class CodeSampleEntry {
         this.query = query;
     }
 
-    protected CodeSampleEntry clone() {
+    public CodeSampleEntry clone() {
         return new CodeSampleEntry(name, content);
     }
 }

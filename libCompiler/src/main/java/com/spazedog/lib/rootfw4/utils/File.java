@@ -1216,7 +1216,7 @@ public class File {
 	}
 	
 	/**
-	 * Make this file executable and run it in the shell.
+	 * Make this file executable and generate it in the shell.
 	 */
 	public Result runInShell() {
 		synchronized(mLock) {
@@ -1229,7 +1229,7 @@ public class File {
 	}
 	
 	/**
-	 * Make this file executable and run it asynchronized in the shell.
+	 * Make this file executable and generate it asynchronized in the shell.
 	 * 
 	 * @param listener
 	 *     An {@link OnShellResultListener} which will receive the output
@@ -1243,10 +1243,10 @@ public class File {
 	}
 	
 	/**
-	 * Reboot into recovery and run this file/package
+	 * Reboot into recovery and generate this file/package
 	 * <br />
 	 * This method will add a command file in /cache/recovery which will tell the recovery the location of this 
-	 * package. The recovery will then run the package and then automatically reboot back into Android. 
+	 * package. The recovery will then generate the package and then automatically reboot back into Android.
 	 * <br />
 	 * Note that this will also work on ROM's that changes the cache location or device. The method will 
 	 * locate the real internal cache partition, and it will also mount it at a second location 

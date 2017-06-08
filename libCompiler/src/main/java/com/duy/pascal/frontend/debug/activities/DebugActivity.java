@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.debug;
+package com.duy.pascal.frontend.debug.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,8 +27,8 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -56,12 +56,12 @@ import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
 import com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor;
 import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
-import com.duy.pascal.frontend.debug.adapter.ValueWatcherAdapter;
-import com.duy.pascal.frontend.debug.model.VariableItem;
-import com.duy.pascal.frontend.debug.view.VariableWatcherView;
+import com.duy.pascal.frontend.debug.CallStack;
+import com.duy.pascal.frontend.debug.fragments.FragmentFrame;
 import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.util.Arrays;
@@ -74,13 +74,21 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     private HighlightEditor mCodeView;
     private Toolbar toolbar;
     private LockableScrollView mScrollView;
-    private VariableWatcherView mVariableWatcherView;
-    private View emptyView;
+    //    private VariableWatcherView mVariableWatcherView;
+//    private View emptyView;
     private Handler handler = new Handler();
     private AlertDialog alertDialog;
     private PopupWindow popupWindow;
     private AtomicBoolean endEnded = new AtomicBoolean(false);
     private Vibrator vibrator;
+
+    private Runnable showDialog = new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    };
+    private FragmentFrame mFameFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +97,13 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         setContentView(R.layout.activity_debug);
         bindView();
 
+        FirebaseAnalytics.getInstance(this).logEvent("open_debug", new Bundle());
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
-        getConsoleView().updateSize();
-        getConsoleView().showPrompt();
-        getConsoleView().writeString("Enable DEBUG mode\n");
-
+        mConsoleView.updateSize();
+        mConsoleView.showPrompt();
+        mConsoleView.writeString("Enable DEBUG mode\n");
+        mFameFragment = (FragmentFrame) getSupportFragmentManager().findFragmentByTag("FragmentFrame");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -111,9 +120,9 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         mCodeView = (HighlightEditor) findViewById(R.id.code_editor);
         mScrollView = (LockableScrollView) findViewById(R.id.vertical_scroll);
         mCodeView.setVerticalScroll(mScrollView);
-        mVariableWatcherView = (VariableWatcherView) findViewById(R.id.watcher);
-        emptyView = findViewById(R.id.empty_view);
-        mVariableWatcherView.setEmptyView(emptyView);
+//        mVariableWatcherView = (VariableWatcherView) findViewById(R.id.watcher);
+//        emptyView = findViewById(R.id.empty_view);
+//        mVariableWatcherView.setEmptyView(emptyView);
     }
 
     @Override
@@ -248,7 +257,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 //get relative position of expression at edittext
                 Point position = mCodeView.getDebugPosition(lineInfo.getLine(), lineInfo.getColumn(),
                         Gravity.TOP);
-                Log.d(TAG, "run: " + position);
+                Log.d(TAG, "generate: " + position);
                 dismissPopup();
                 //create new popup
                 PopupWindow window = new PopupWindow(DebugActivity.this);
@@ -262,7 +271,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 window.setContentView(container);
                 window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 window.setTouchable(true);
-                window.setFocusable(true);
+                window.setSplitTouchEnabled(true);
                 window.setOutsideTouchable(true);
 
                 window.showAtLocation(mCodeView, Gravity.NO_GRAVITY, position.x - windowWidth / 3,
@@ -294,13 +303,13 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         Log.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
                 left + "], value = [" + value + "]");
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ValueWatcherAdapter adapter = (ValueWatcherAdapter) mVariableWatcherView.getAdapter();
-                adapter.onVariableChangeValue(left.toString(), old, value);
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                ValueWatcherAdapter adapter = (ValueWatcherAdapter) mVariableWatcherView.getAdapter();
+//                adapter.onVariableChangeValue(left.toString(), old, value);
+//            }
+//        });
     }
 
     @Override
@@ -337,6 +346,28 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
+    public void showMessage(LineInfo pos, String msg) {
+        showPopupAt(pos, msg);
+    }
+
+    @Override
+    public void onVariableChange(final CallStack currentFrame) {
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mFameFragment.update(currentFrame);
+            }
+        });
+    }
+
+    @Override
+    public void onVariableChange(CallStack currentFrame, Pair<String, Object> value) {
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_next_line) {
@@ -365,27 +396,27 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     private void addWatchVariable() {
-        final AppCompatEditText edittext = new AppCompatEditText(this);
-        edittext.setHint(R.string.var_name);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.add_watch)
-                .setView(edittext)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String name = edittext.getText().toString();
-                        if (!name.isEmpty()) {
-                            mVariableWatcherView.addVariable(new VariableItem(name));
-                        }
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        alertDialog = builder.create();
-        alertDialog.show();
+//        final AppCompatEditText edittext = new AppCompatEditText(this);
+//        edittext.setHint(R.string.var_name);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(R.string.add_watch)
+//                .setView(edittext)
+//                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        String name = edittext.getText().toString();
+//                        if (!name.isEmpty()) {
+//                            mVariableWatcherView.addVariable(new VariableItem(name));
+//                        }
+//                        dialog.cancel();
+//                    }
+//                })
+//                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        alertDialog = builder.create();
+//        alertDialog.show();
 
     }
 
@@ -410,7 +441,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     @Override
     public void onClearDebug() {
         Log.d(TAG, "onClearDebug() called");
-
 
     }
 

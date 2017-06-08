@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_sample;
+package com.duy.pascal.frontend.code_sample.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +31,9 @@ import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code_editor.EditorActivity;
+import com.duy.pascal.frontend.code_sample.fragments.FragmentCodeSample;
+import com.duy.pascal.frontend.code_sample.adapters.CodePagerAdapter;
+import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -132,7 +135,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         //create file temp
         fileManager.setContentFileTemp(code);
 
-        //set file temp for run
+        //set file temp for generate
         Intent intent = new Intent(this, ExecuteActivity.class);
 
         //this code is verified, do not need compile
@@ -146,7 +149,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
         String file = fileManager.createNewFileInMode("sample_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         fileManager.saveFile(file, code);
 
-        //set file temp for run
+        //set file temp for generate
         Intent intent = new Intent(this, EditorActivity.class);
 
         //this code is verified, do not need compile

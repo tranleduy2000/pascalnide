@@ -1,14 +1,14 @@
 package com.duy.pascal.backend.ast.runtime_value.value.cloning;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class ArrayCloner<T> implements RuntimeValue {
@@ -49,6 +49,11 @@ public class ArrayCloner<T> implements RuntimeValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         Object[] value = (Object[]) r.compileTimeValue(context);
@@ -57,9 +62,8 @@ public class ArrayCloner<T> implements RuntimeValue {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName();
+        return r.toString();
     }
-
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
@@ -70,10 +74,5 @@ public class ArrayCloner<T> implements RuntimeValue {
     @Override
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

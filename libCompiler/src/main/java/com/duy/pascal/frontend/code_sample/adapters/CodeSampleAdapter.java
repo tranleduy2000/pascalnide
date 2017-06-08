@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_sample;
+package com.duy.pascal.frontend.code_sample.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
+import com.duy.pascal.frontend.code_sample.model.CodeSampleEntry;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
 
@@ -34,7 +37,7 @@ import java.util.ArrayList;
  * <p>
  * Created by Duy on 08-Apr-17.
  */
-class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
+public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.CodeHolder> {
     private final ClipboardManagerCompat clipboardManagerCompat;
     private ArrayList<CodeSampleEntry> codeSampleEntries = new ArrayList<>();
     private ArrayList<CodeSampleEntry> originalData = new ArrayList<>();
@@ -42,7 +45,7 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
     private LayoutInflater inflater;
     private OnCodeClickListener listener;
 
-    CodeSampleAdapter(Context context) {
+    public CodeSampleAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         clipboardManagerCompat = ClipboardManagerCompatFactory.getManager(context);
@@ -64,7 +67,7 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
         this.listener = listener;
     }
 
-    void addCodes(ArrayList<CodeSampleEntry> listCodeCategories) {
+    public void addCodes(ArrayList<CodeSampleEntry> listCodeCategories) {
         this.originalData.addAll(listCodeCategories);
         this.codeSampleEntries.addAll(listCodeCategories);
     }
@@ -103,5 +106,65 @@ class CodeSampleAdapter extends RecyclerView.Adapter<CodeHolder> {
 
         //            void onCopy(String code);
         void onEdit(String code);
+    }
+
+    /**
+     * Created by Duy on 20-Apr-17.
+     */
+
+    @SuppressWarnings("DefaultFileTemplate")
+    public static class CodeHolder extends RecyclerView.ViewHolder {
+        TextView txtTitle;
+        View btnPlay;
+        View btnEdit;
+        View btnCopy;
+        EditorView editorView;
+
+
+        public CodeHolder(View view) {
+            super(view);
+            txtTitle = (TextView) view.findViewById(R.id.txt_title);
+            btnPlay = view.findViewById(R.id.img_play);
+            btnEdit = view.findViewById(R.id.img_edit);
+            btnCopy = view.findViewById(R.id.img_copy);
+            editorView = (EditorView) view.findViewById(R.id.editor_view);
+        }
+
+        public void bind(CodeSampleEntry codeSampleEntry,
+                         final OnCodeClickListener listener,
+                         final ClipboardManagerCompat clipboardManagerCompat) {
+            //set code
+            final String content = codeSampleEntry.getContent();
+
+            editorView.disableTextChangedListener();
+            editorView.setTextHighlighted(content);
+            editorView.applyTabWidth();
+
+            editorView.setCanEdit(false);
+            if (codeSampleEntry.getQuery() != null && !codeSampleEntry.getQuery().isEmpty()) {
+                editorView.find(codeSampleEntry.getQuery(), false, false, false);
+            }
+
+            txtTitle.setText(codeSampleEntry.getName());
+
+            btnPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) listener.onPlay(content);
+                }
+            });
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) listener.onEdit(content);
+                }
+            });
+            btnCopy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clipboardManagerCompat.setText(content);
+                }
+            });
+        }
     }
 }

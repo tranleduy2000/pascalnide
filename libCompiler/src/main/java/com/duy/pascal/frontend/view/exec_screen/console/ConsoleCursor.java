@@ -120,7 +120,7 @@ public class ConsoleCursor {
     }
 
     /**
-     * drawBackground cursor into the {@link Canvas}
+     * draw cursor into the {@link Canvas}
      *
      * @param canvas - canvas of view
      * @param x      -  x coordinate of screen

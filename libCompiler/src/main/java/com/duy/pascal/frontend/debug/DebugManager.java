@@ -90,4 +90,9 @@ public class DebugManager {
         }
     }
 
+    public static void showMessage(LineInfo pos,String msg, RuntimeExecutableCodeUnit main) {
+        if (main.isDebug()) {
+            main.getDebugListener().showMessage(pos, msg);
+        }
+    }
 }

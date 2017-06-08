@@ -12,7 +12,7 @@ import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.frontend.debug.DebugManager;
+import com.duy.pascal.frontend.debug.CallStack;
 
 public class AssignStatement extends DebuggableExecutable implements SetValueExecutable {
     private AssignableValue left;
@@ -30,13 +30,14 @@ public class AssignStatement extends DebuggableExecutable implements SetValueExe
     public ExecutionResult executeImpl(VariableContext context,
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
 
-
         Reference ref = left.getReference(context, main);
         Object old = ref.get();
         Object v = this.value.getValue(context, main);
         ref.set(v);
 
-        DebugManager.debugAssign(line, left, old, v, context, main);
+        if (main.isDebug()){
+            main.getDebugListener().onVariableChange(new CallStack(context));
+        }
 
         return ExecutionResult.NONE;
     }

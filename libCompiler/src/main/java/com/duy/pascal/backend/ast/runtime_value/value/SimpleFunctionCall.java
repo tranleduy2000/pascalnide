@@ -14,9 +14,10 @@ import com.duy.pascal.backend.data_types.ArgumentType;
 import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.runtime_exception.PluginCallException;
+import com.duy.pascal.backend.runtime_exception.MethodCallException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime_exception.internal.PluginReflectionException;
+import com.duy.pascal.backend.runtime_exception.internal.MethodReflectionException;
+import com.duy.pascal.backend.utils.ArrayUtils;
 import com.duy.pascal.frontend.debug.DebugManager;
 
 import java.io.File;
@@ -43,14 +44,17 @@ public class SimpleFunctionCall extends FunctionCall {
     @Override
     public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        if (main.isDebug())
-            main.getDebugListener().onLine((Executable) this, getLineNumber());
-        main.incStack(getLineNumber());
-        main.scriptControlCheck(getLineNumber());
+        if (main.isDebug()) {
+            main.getDebugListener().onLine((Executable) this, line);
+        }
+        main.incStack(line);
+        //Do not enable debug in any case, because you will need to get value of list parameter,
+        //In the case of empty parameters, pause once
+        main.scriptControlCheck(line, false);
 
-        //array store clone value
+        //array store value of parameters
         Object[] values = new Object[arguments.length];
-        //list operator of list variable
+        //list type of parameters
         ArgumentType[] argumentTypes = function.argumentTypes();
 
         //convert to string object for print console or write to file
@@ -83,32 +87,31 @@ public class SimpleFunctionCall extends FunctionCall {
                     }
                     values[i] = object;
                 }
-                //debug
-                DebugManager.onEvalParameterFunction(arguments[i].getLineNumber(),
-                        arguments[i].toString(), values[i], main);
-                main.scriptControlCheck(getLineNumber());
             }
         } else {
             for (int i = 0; i < values.length; i++) {
                 values[i] = arguments[i].getValue(f, main);
-                DebugManager.onEvalParameterFunction(arguments[i].getLineNumber(),
-                        arguments[i].toString(), values[i], main);
-                main.scriptControlCheck(getLineNumber());
             }
         }
-
+        if (main.isDebug()) {
+            if (arguments.length > 0) {
+                DebugManager.showMessage(arguments[0].getLineNumber(),
+                        ArrayUtils.paramsToString(arguments, values), main);
+            }
+            main.scriptControlCheck(line);
+        }
         Object result;
         try {
             result = function.call(f, main, values);
 
             DebugManager.onFunctionCalled(function, arguments, result, main);//debug
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new PluginReflectionException(line, e);
+            throw new MethodReflectionException(line, e);
         } catch (InvocationTargetException e) {
-            throw new PluginCallException(line, e.getTargetException(), function);
+            throw new MethodCallException(line, e.getTargetException(), function);
         }
-        if (main != null)
-            main.decStack();
+
+        main.decStack();
         return result;
     }
 

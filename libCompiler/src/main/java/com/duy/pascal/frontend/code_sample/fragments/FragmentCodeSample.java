@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_sample;
+package com.duy.pascal.frontend.code_sample.fragments;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -30,6 +30,9 @@ import android.view.ViewGroup;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;
+import com.duy.pascal.frontend.code_sample.model.CodeCategory;
+import com.duy.pascal.frontend.code_sample.model.CodeSampleEntry;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.google.firebase.crash.FirebaseCrash;
 

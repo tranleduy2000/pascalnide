@@ -22,6 +22,7 @@ import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.frontend.debug.CallStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,16 +40,17 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
     public void runImpl() throws RuntimePascalException {
         this.mode = RunMode.RUNNING;
 
-        //run init code of library
+        //generate init code of library
         HashMap<UnitPascal, RuntimeUnitPascal> librariesMap = getDefinition().getContext().getUnitsMap();
         Set<Map.Entry<UnitPascal, RuntimeUnitPascal>> entries = librariesMap.entrySet();
         for (Map.Entry<UnitPascal, RuntimeUnitPascal> entry : entries) {
             entry.getValue().runInit();
         }
 
+        if (isDebug()) getDebugListener().onVariableChange(new CallStack(this));
         getDefinition().main.execute(this, this);
 
-        //run final code library
+        //generate final code library
         for (Map.Entry<UnitPascal, RuntimeUnitPascal> entry : entries) {
             entry.getValue().runFinal();
         }
@@ -61,5 +63,14 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
     @Override
     public VariableContext getParentContext() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        String programName = getDefinition().getProgramName();
+        if (programName == null) {
+            return this.getClass().getSimpleName();
+        }
+        return programName;
     }
 }

@@ -385,7 +385,7 @@ public class ApplicationFileManager {
     }
 
     /**
-     * set content of file pas for run, put it in internal storage
+     * set content of file pas for generate, put it in internal storage
      *
      * @param content - Content of file, string
      */
@@ -409,7 +409,7 @@ public class ApplicationFileManager {
     }
 
     /**
-     * return file pas for run program
+     * return file pas for generate program
      *
      * @return - pascal file
      */

@@ -43,6 +43,7 @@ import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
+import com.duy.pascal.frontend.debug.CallStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -146,7 +147,9 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (this.declarations.root() instanceof UnitPascal) {
             parentcontext = main.getLibrary((UnitPascal) declarations.root());
         }
-        return new FunctionOnStack(parentcontext, main, this, arguments).execute();
+        FunctionOnStack functionOnStack = new FunctionOnStack(parentcontext, main, this, arguments);
+        if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
+        return functionOnStack.execute();
     }
 
     private void getArgumentsForDeclaration(GrouperToken i, boolean is_procedure)

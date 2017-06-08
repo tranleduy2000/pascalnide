@@ -53,4 +53,9 @@ public class ArrayPointer<T> implements PascalReference<T> {
     public ArrayPointer<T> clone() {
         return new ArrayPointer<>(container, index);
     }
+
+    @Override
+    public String toString() {
+        return "^" + container.toString();
+    }
 }

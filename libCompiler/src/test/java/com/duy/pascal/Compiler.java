@@ -123,7 +123,7 @@ public class Compiler {
                     }
                 });
 
-        RuntimeExecutableCodeUnit<PascalProgram> program = pascalProgram.run();
+        RuntimeExecutableCodeUnit<PascalProgram> program = pascalProgram.generate();
         program.run();
 
         String pathOut = programFile.getParent() + File.separatorChar

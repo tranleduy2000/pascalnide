@@ -155,7 +155,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
      * CTRL + C copy
      * CTRL + V paste
      * CTRL + B: compile
-     * CTRL + R run
+     * CTRL + R generate
      * CTRL + X cut
      * CTRL + Z undo
      * CTRL + Y redo
@@ -188,7 +188,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
                 case KeyEvent.KEYCODE_V:
                     paste();
                     return true;
-                case KeyEvent.KEYCODE_R: //run
+                case KeyEvent.KEYCODE_R: //generate
                     if (editorControl != null)
                         editorControl.runProgram();
                     return true;

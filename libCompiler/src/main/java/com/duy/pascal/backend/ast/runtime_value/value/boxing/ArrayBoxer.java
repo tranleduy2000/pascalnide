@@ -1,23 +1,25 @@
 package com.duy.pascal.backend.ast.runtime_value.value.boxing;
 
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.ArgumentType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class ArrayBoxer extends DebuggableReturnValue {
     public RuntimeValue[] values;
     public ArgumentType type;
     public LineInfo line;
+
     public ArrayBoxer(RuntimeValue[] array, ArgumentType elementType,
                       LineInfo line) {
         this.values = array;
@@ -34,6 +36,10 @@ public class ArrayBoxer extends DebuggableReturnValue {
         return line;
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
@@ -59,7 +65,6 @@ public class ArrayBoxer extends DebuggableReturnValue {
         return result;
     }
 
-
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
@@ -75,6 +80,10 @@ public class ArrayBoxer extends DebuggableReturnValue {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return Arrays.toString(values);
+    }
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
@@ -83,10 +92,5 @@ public class ArrayBoxer extends DebuggableReturnValue {
             val[i] = values[i].compileTimeExpressionFold(context);
         }
         return new ArrayBoxer(val, type, line);
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

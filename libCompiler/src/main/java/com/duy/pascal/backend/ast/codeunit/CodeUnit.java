@@ -22,7 +22,7 @@ public abstract class CodeUnit {
     private List<ScriptSource> includeDirectories;
 
     public CodeUnit(IRunnablePascal handler) {
-        this.context = getExpressionContextInstance( handler);
+        this.context = getExpressionContextInstance(handler);
     }
 
     public CodeUnit(Reader program,
@@ -53,8 +53,9 @@ public abstract class CodeUnit {
         }
     }
 
-    public abstract RuntimeCodeUnit<? extends CodeUnit> run();
+    public abstract RuntimeCodeUnit<? extends CodeUnit> generate();
 
+    @Nullable
     public String getProgramName() {
         return programName;
     }

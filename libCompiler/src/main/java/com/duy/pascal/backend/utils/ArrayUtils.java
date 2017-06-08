@@ -18,6 +18,7 @@ package com.duy.pascal.backend.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.frontend.view.exec_screen.console.TextConsole;
@@ -124,4 +125,33 @@ public class ArrayUtils {
         return result.toString();
     }
 
+    public static String paramsToString(RuntimeValue[] arguments, Object[] values) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < arguments.length; i++) {
+            stringBuilder.append(arguments[i].toString()).append(" = ").append(values[i].toString())
+                    .append(";");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static String toString(@Nullable Object value) {
+        if (value == null) return "";
+        if (value instanceof Object[]) {
+            StringBuilder result = new StringBuilder();
+            Object[] arr = (Object[]) value;
+            if (arr.length == 0) {
+                return "[]";
+            }
+            if (arr[0] instanceof Object[]) {
+                for (Object o : arr) {
+                    result.append(toString(o)).append(",");
+                }
+            } else {
+                return Arrays.toString(arr);
+            }
+        } else {
+            return value.toString();
+        }
+        return "";
+    }
 }

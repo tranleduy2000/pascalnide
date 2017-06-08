@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Copyright (c) 2017 Tran Le Duy
+  ~  Copyright 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context="com.duy.pascal.frontend.code_sample.CodeSampleActivity">
+    tools:context="com.duy.pascal.frontend.code_sample.activities.CodeSampleActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -48,5 +48,5 @@
             android:focusable="true"
             android:focusableInTouchMode="true" />
 
-         </FrameLayout>
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

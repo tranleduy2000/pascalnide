@@ -56,7 +56,7 @@ public class PascalProgram extends ExecutableCodeUnit {
     }
 
     @Override
-    public RuntimeExecutableCodeUnit<PascalProgram> run() {
+    public RuntimeExecutableCodeUnit<PascalProgram> generate() {
         return new RuntimePascalProgram(this);
     }
 

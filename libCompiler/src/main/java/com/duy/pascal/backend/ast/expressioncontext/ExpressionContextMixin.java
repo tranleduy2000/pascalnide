@@ -420,7 +420,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     library.declareConstants(this);
                     library.declareTypes(this);
                     library.declareFunctions(this);
-                    unitsMap.put(library, library.run());
+                    unitsMap.put(library, library.generate());
                 }
             }
 

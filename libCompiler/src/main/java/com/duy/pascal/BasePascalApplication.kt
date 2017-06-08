@@ -16,13 +16,13 @@
 
 package com.duy.pascal
 
-import android.support.multidex.MultiDexApplication
+import android.app.Application
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor
 
 /**
  * Created by Duy on 12-Mar-17.
  */
-abstract class BasePascalApplication : MultiDexApplication() {
+abstract class BasePascalApplication : Application() {
     val taskExecutor = PascalActivityTaskExecutor(this)
 
     abstract val isProVersion: Boolean
@@ -31,10 +31,6 @@ abstract class BasePascalApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-    }
-
-    companion object {
-        val APPLICATION_ID = "com.duy.pascal.compiler"
     }
 
 }

@@ -14,28 +14,35 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.code_sample;
-
-import android.support.v4.app.FragmentManager;
-
-import com.commonsware.cwac.pager.PageDescriptor;
-import com.commonsware.cwac.pager.v4.ArrayPagerAdapter;
-
-import java.util.List;
+package com.duy.pascal.frontend.code_sample.model;
 
 /**
- * Created by Duy on 28-Apr-17.
+ * Created by Duy on 04-Mar-17.
  */
 
 @SuppressWarnings("DefaultFileTemplate")
-public class CodePagerAdapter extends ArrayPagerAdapter<FragmentCodeSample> {
-    public CodePagerAdapter(FragmentManager fragmentManager, List<PageDescriptor> descriptors) {
-        super(fragmentManager, descriptors);
+class CodeEntry {
+    private String name;
+    private String content;
 
+    public CodeEntry(String name, String content) {
+        this.name = name;
+        this.content = content;
     }
 
-    @Override
-    protected FragmentCodeSample createFragment(PageDescriptor desc) {
-        return FragmentCodeSample.newInstance(desc.getTitle());
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

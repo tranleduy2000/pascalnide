@@ -37,14 +37,15 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     private static final String TAG = "RuntimeExecutable";
 
     private volatile long MAX_STACK = 45000;
-    private Map<UnitPascal, RuntimeUnitPascal> runtimeLibs = new HashMap<>();
     private volatile ControlMode runMode = ControlMode.RUNNING;
     private volatile boolean doneExecuting = false;
     private volatile long stack = 0;
-    private DebugListener debugListener;
     private volatile boolean debug = false;
-    private DebugMode debugMode;
 
+    private Map<UnitPascal, RuntimeUnitPascal> runtimeLibs = new HashMap<>();
+
+    private DebugMode debugMode;
+    private DebugListener debugListener;
 
     public RuntimeExecutableCodeUnit(parent definition) {
         super(definition);

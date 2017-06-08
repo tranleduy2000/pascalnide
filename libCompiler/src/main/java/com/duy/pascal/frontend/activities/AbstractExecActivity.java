@@ -145,13 +145,13 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                 try {
                     ArrayList<ScriptSource> searchPath = new ArrayList<>();
                     searchPath.add(new FileScriptSource(new File(filePath).getParent()));
-                    PascalProgram pascalProgram = pascalCompiler.loadPascal(
+                    PascalProgram pascalProgram = PascalCompiler.loadPascal(
                             new File(programFile).getName(),
                             new FileReader(programFile),
                             searchPath,
                             AbstractExecActivity.this);
 
-                    program = pascalProgram.run();
+                    program = pascalProgram.generate();
 
                     //set stack size for the program
                     long maxStackSize = getPreferences().getMaxStackSize();
@@ -290,7 +290,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     }
 
     /**
-     * exec program, run program in internal memory
+     * exec program, generate program in internal memory
      *
      * @param path - path of file pas
      */
@@ -310,7 +310,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         this.println("execute file: " + path);
         this.println("---------------------------" + "\n");
 
-        //create new thread and run program
+        //create new thread and generate program
         mMessageHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

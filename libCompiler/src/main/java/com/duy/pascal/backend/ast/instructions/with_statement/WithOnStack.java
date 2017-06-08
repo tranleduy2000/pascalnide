@@ -16,13 +16,16 @@
 
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
-import com.duy.pascal.backend.ast.instructions.FieldReference;
-import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.instructions.FieldReference;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class WithOnStack extends VariableContext {
     private WithStatement withStatement;
@@ -83,6 +86,22 @@ public class WithOnStack extends VariableContext {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<String> getUserDefineVariableNames() {
+        Set<String> names = fieldsMap.keySet();
+        return new ArrayList<>(names);
+    }
+
+    @Override
+    public List<String> getAllVariableNames() {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, ? extends Object> getMapVars() {
+        return fieldsMap;
     }
 
     @Override

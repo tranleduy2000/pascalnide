@@ -18,6 +18,6 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
     }
 
     @Override
-    public abstract RuntimeExecutableCodeUnit<? extends ExecutableCodeUnit> run();
+    public abstract RuntimeExecutableCodeUnit<? extends ExecutableCodeUnit> generate();
 
 }

@@ -63,7 +63,7 @@ import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotOpenForIn
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.backend.runtime_exception.InvalidNumericFormatException;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
-import com.duy.pascal.backend.runtime_exception.PluginCallException;
+import com.duy.pascal.backend.runtime_exception.MethodCallException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.StackOverflowException;
 import com.duy.pascal.backend.utils.ArrayUtils;
@@ -133,7 +133,7 @@ public class ExceptionManager {
                 return getBadOperationTypeException((BadOperationTypeException) e);
             }
             if (e instanceof FileException) return getFileException((FileException) e);
-            if (e instanceof PluginCallException) return getPluginCallException(e);
+            if (e instanceof MethodCallException) return getPluginCallException(e);
             if (e instanceof NonIntegerIndexException) return getNonIntegerIndexException(e);
             if (e instanceof NonIntegerException) return getNonIntegerException(e);
             if (e instanceof ConstantCalculationException)
@@ -278,7 +278,7 @@ public class ExceptionManager {
     }
 
     private Spanned getPluginCallException(Throwable e) {
-        PluginCallException exception = (PluginCallException) e;
+        MethodCallException exception = (MethodCallException) e;
         SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
         String format = String.format(
                 context.getString(string.PluginCallException),

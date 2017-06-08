@@ -19,13 +19,14 @@ package com.duy.pascal.backend.ast.codeunit;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableContext {
     public volatile RunMode mode;
     parent definition;
-    private Map<String, Object> unitVariables = new HashMap<>();
+    private HashMap<String, Object> unitVariables = new HashMap<>();
 
     public RuntimeCodeUnit(parent definition) {
         this.definition = definition;
@@ -48,5 +49,23 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
         return unitVariables.put(name, val) != null;
     }
 
+    @Override
+    public List<String> getUserDefineVariableNames() {
+        ArrayList<VariableDeclaration> variables = definition.context.variables;
+        ArrayList<String> varNames = new ArrayList<>();
+        for (VariableDeclaration variable : variables) {
+            varNames.add(variable.getName());
+        }
+        return varNames;
+    }
 
+    @Override
+    public List<String> getAllVariableNames() {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, ? extends Object> getMapVars() {
+        return unitVariables;
+    }
 }

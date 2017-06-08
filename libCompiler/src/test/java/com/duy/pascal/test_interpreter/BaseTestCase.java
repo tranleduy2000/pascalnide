@@ -45,7 +45,7 @@ public abstract class BaseTestCase extends TestCase {
     }
 
     /**
-     * run a pascal file
+     * generate a pascal file
      *
      * @param file - dir of program file
      */
@@ -60,7 +60,7 @@ public abstract class BaseTestCase extends TestCase {
     }
 
     /**
-     * run a pascal file
+     * generate a pascal file
      *
      * @param file - dir of program file
      * @param in   - dir of input file for read input if need

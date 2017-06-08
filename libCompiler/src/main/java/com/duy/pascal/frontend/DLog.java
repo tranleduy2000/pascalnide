@@ -24,7 +24,7 @@ import com.google.firebase.crash.FirebaseCrash;
  * Created by Duy on 27-Mar-17.
  */
 public class DLog {
-    public static final String TAG = DLog.class.getSimpleName();
+    public static  String TAG = DLog.class.getSimpleName();
     public static boolean DEBUG = true;
     public static boolean ANDROID = true;
 
@@ -57,7 +57,15 @@ public class DLog {
             }
         }
     }
-
+    public static void w(String TAG, Object msg) {
+        if (DEBUG) {
+            if (ANDROID) {
+                Log.w(TAG, msg.toString());
+            } else {
+                System.out.println(TAG + ": " + msg.toString());
+            }
+        }
+    }
     public static void e(Exception exception) {
         if (DEBUG) {
             if (ANDROID) {

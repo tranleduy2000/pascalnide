@@ -3,11 +3,11 @@ package com.duy.pascal.backend.runtime_exception;
 import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
-public class PluginCallException extends RuntimePascalException {
+public class MethodCallException extends RuntimePascalException {
     public Throwable cause;
     public AbstractFunction function;
 
-    public PluginCallException(LineInfo line, Throwable cause,
+    public MethodCallException(LineInfo line, Throwable cause,
                                AbstractFunction function) {
         super(line);
         this.cause = cause;

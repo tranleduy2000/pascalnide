@@ -70,7 +70,7 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
     }
 
     @Override
-    public RuntimeUnitPascal run() {
+    public RuntimeUnitPascal generate() {
         return new RuntimeUnitPascal(this);
     }
 
