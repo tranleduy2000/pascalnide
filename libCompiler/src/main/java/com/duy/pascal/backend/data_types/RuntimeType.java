@@ -1,11 +1,11 @@
 package com.duy.pascal.backend.data_types;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.GetAddress;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 
 import java.util.Iterator;
 
@@ -39,6 +39,14 @@ public class RuntimeType implements ArgumentType {
                     runtimeClass == Float.class || runtimeClass == float.class;
         }
         return false;
+    }
+
+    public boolean isWritable() {
+        return writable;
+    }
+
+    public DeclaredType getDeclType() {
+        return declType;
     }
 
     public RuntimeValue convert(RuntimeValue value, ExpressionContext f)

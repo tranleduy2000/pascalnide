@@ -25,18 +25,18 @@ import java.util.List;
 
 public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableContext {
     public volatile RunMode mode;
-    parent definition;
+    parent declaration;
     private HashMap<String, Object> unitVariables = new HashMap<>();
 
-    public RuntimeCodeUnit(parent definition) {
-        this.definition = definition;
-        for (VariableDeclaration v : definition.context.variables) {
+    public RuntimeCodeUnit(parent declaration) {
+        this.declaration = declaration;
+        for (VariableDeclaration v : declaration.context.variables) {
             v.initialize(unitVariables);
         }
     }
 
-    public parent getDefinition() {
-        return definition;
+    public parent getDeclaration() {
+        return declaration;
     }
 
     @Override
@@ -51,7 +51,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
 
     @Override
     public List<String> getUserDefineVariableNames() {
-        ArrayList<VariableDeclaration> variables = definition.context.variables;
+        ArrayList<VariableDeclaration> variables = declaration.context.variables;
         ArrayList<String> varNames = new ArrayList<>();
         for (VariableDeclaration variable : variables) {
             varNames.add(variable.getName());

@@ -133,7 +133,7 @@ public class ReadFileFunction implements IMethodDeclaration {
         @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            FileLib fileLib = main.getDefinition().getContext().getFileHandler();
+            FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
 
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
             PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);

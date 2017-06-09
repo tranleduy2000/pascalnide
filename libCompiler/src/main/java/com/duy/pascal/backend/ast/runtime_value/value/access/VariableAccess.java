@@ -81,7 +81,7 @@ public class VariableAccess extends DebuggableAssignableValue {
             throws RuntimePascalException {
         try {
             if (f instanceof FunctionOnStack) {
-                ExpressionContextMixin declarations = ((FunctionOnStack) f).getPrototype().declarations;
+                ExpressionContextMixin declarations = ((FunctionOnStack) f).getPrototype().declaration;
                 RuntimeType type = getType(declarations);
                 return new FieldReference(f, name, type);
             }

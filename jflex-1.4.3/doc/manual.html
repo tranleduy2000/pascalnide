@@ -1700,13 +1700,13 @@ matched.
 <H3><A NAME="SECTION000521200000000000000"></A><A NAME="MacroDefs"></A><BR>
 Macro definitions
 </H3>
-A macro definition has the form
+A macro declaration has the form
 
 <P>
 <TT>macroidentifier = regular expression</TT>
 
 <P>
-That means, a macro definition is a macro identifier (letter followed
+That means, a macro declaration is a macro identifier (letter followed
 by a sequence of letters, digits or underscores), that can later be
 used to reference the macro, followed by optional white-space, followed
 by an "<TT>=</TT>", followed by optional white-space, followed by a
@@ -3251,7 +3251,7 @@ This may sound a bit harsh, but could otherwise be a major problem
   was possible (with <TT>macro2</TT> expanding to <code>("hello")*</code>).  This
   is not allowed in JFlex and you will have to transform such
   definitions. There are however some more subtle kinds of errors that
-  can be introduced by JLex macros. Let's consider a definition like
+  can be introduced by JLex macros. Let's consider a declaration like
   <code>macro = a|b</code>  and a usage like <code>{macro}*</code>.
   This expands in JLex to <code>a|b*</code> and not to the probably intended
   <code>(a|b)*</code>.

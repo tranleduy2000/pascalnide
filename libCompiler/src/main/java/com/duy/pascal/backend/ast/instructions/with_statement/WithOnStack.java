@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 public class WithOnStack extends VariableContext {
-    private WithStatement withStatement;
+    private WithStatement declaration;
     private VariableContext parentContext;
     private RuntimeExecutableCodeUnit<?> main;
     @SuppressWarnings("rawtypes")
@@ -37,17 +37,25 @@ public class WithOnStack extends VariableContext {
     @SuppressWarnings("rawtypes")
     WithOnStack(VariableContext parentContext,
                 RuntimeExecutableCodeUnit<?> main, WithStatement declaration) {
-        this.withStatement = declaration;
+        this.declaration = declaration;
         this.parentContext = parentContext;
         this.main = main;
 
         fieldsMap = new HashMap<>();
-        for (int i = 0; i < withStatement.variableDeclarations.size(); i++) {
-            fieldsMap.put(withStatement.variableDeclarations.get(i).getName(),
-                    (FieldAccess) withStatement.fields.get(i));
+        for (int i = 0; i < declaration.getVariableDeclarations().size(); i++) {
+            fieldsMap.put(declaration.getVariableDeclarations().get(i).getName(),
+                    (FieldAccess) declaration.getFields().get(i));
         }
         this.parentContext = parentContext;
-        this.withStatement = declaration;
+        this.declaration = declaration;
+    }
+
+    public WithStatement getDeclaration() {
+        return declaration;
+    }
+
+    public HashMap<String, FieldAccess> getFieldsMap() {
+        return fieldsMap;
     }
 
     public RuntimeExecutableCodeUnit<?> getMain() {
@@ -55,7 +63,7 @@ public class WithOnStack extends VariableContext {
     }
 
     public void execute() throws RuntimePascalException {
-        withStatement.instructions.execute(this, main);
+        declaration.instructions.execute(this, main);
     }
 
     /**

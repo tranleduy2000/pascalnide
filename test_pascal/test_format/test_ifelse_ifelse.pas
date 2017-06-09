@@ -1,6 +1,6 @@
 program ifelse_ifelseChecking;
 var
-        { local variable definition }
+        { local variable declaration }
     a : integer;
 
 begin

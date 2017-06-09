@@ -28,7 +28,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
      */
     @Throws(RuntimePascalException::class)
     fun runInit() {
-        val context = definition.context as UnitPascal.UnitExpressionContext
+        val context = declaration.context as UnitPascal.UnitExpressionContext
         context.initInstruction?.execute(this, this)
     }
 
@@ -37,7 +37,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
      */
     @Throws(RuntimePascalException::class)
     fun runFinal() {
-        val context = definition.context as UnitPascal.UnitExpressionContext
+        val context = declaration.context as UnitPascal.UnitExpressionContext
         context.finalInstruction?.execute(this, this)
     }
 
@@ -51,7 +51,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
     }
 
     override fun toString(): String {
-        return definition.programName!!;
+        return declaration.programName!!;
     }
 
 }

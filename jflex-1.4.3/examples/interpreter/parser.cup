@@ -19,7 +19,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-// definition of tokens, if applicable with token type 
+// declaration of tokens, if applicable with token type
 terminal INPUT, FUNCTIONS, OUTPUT, END, ARGUMENTS;
 terminal IF, THEN, ELSE, FI, ERROR;
 terminal COMMA, LPAR, RPAR;

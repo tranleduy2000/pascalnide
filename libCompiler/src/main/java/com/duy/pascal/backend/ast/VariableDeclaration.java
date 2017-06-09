@@ -19,12 +19,12 @@ package com.duy.pascal.backend.ast;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
 import java.util.Map;
 
-public class VariableDeclaration implements NamedEntity {
+public class VariableDeclaration implements NamedEntity, Cloneable {
 
     /**
      * name of variable, always lower case
@@ -98,10 +98,13 @@ public class VariableDeclaration implements NamedEntity {
         return "var " + name + " = " + initialValue;
     }
 
-
-
     @Override
     public String getDescription() {
         return null;
+    }
+
+    @Override
+    public VariableDeclaration clone() {
+        return new VariableDeclaration(name, type, initialValue, line);
     }
 }

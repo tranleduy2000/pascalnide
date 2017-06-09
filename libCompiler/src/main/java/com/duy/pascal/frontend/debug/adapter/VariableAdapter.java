@@ -18,16 +18,23 @@ package com.duy.pascal.frontend.debug.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.utils.ArrayUtils;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.debug.model.VariableItem;
+import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.theme.util.CodeTheme;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Duy on 08-Jun-17.
@@ -36,21 +43,23 @@ import java.util.ArrayList;
 public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.VariableHolder> {
 
     private Context context;
-    private ArrayList<VariableItem> variableItems = new ArrayList<>();
+    private ArrayList<VariableDeclaration> variableItems = new ArrayList<>();
     private LayoutInflater layoutInflater;
+    private CodeTheme codeTheme;
 
     public VariableAdapter(Context context) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
+        this.codeTheme = CodeTheme.getDefault(new PascalPreferences(context));
     }
 
-    public void setData(ArrayList<VariableItem> list) {
+    public void setData(List<VariableDeclaration> list) {
         variableItems.clear();
         variableItems.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void add(VariableItem item) {
+    public void add(VariableDeclaration item) {
         variableItems.add(item);
         notifyItemInserted(variableItems.size() - 1);
     }
@@ -67,8 +76,18 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
 
     @Override
     public void onBindViewHolder(VariableHolder holder, int position) {
-        holder.txtName.setText(variableItems.get(position).getName());
-        holder.txtValue.setText(ArrayUtils.toString(variableItems.get(position).getValue()));
+        VariableDeclaration var = variableItems.get(position);
+
+        SpannableStringBuilder name = new SpannableStringBuilder(var.getName());
+        name.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()), 0, name.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString type = new SpannableString(var.getType().toString());
+        type.setSpan(new ForegroundColorSpan(codeTheme.getCommentColor()), 0, type.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        name.append(type);
+
+        holder.txtName.setText(name);
+        holder.txtValue.setText(ArrayUtils.toString(var.getInitialValue()));
     }
 
     @Override

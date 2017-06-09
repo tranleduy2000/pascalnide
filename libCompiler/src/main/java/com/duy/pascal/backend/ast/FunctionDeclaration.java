@@ -26,14 +26,14 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.data_types.ArgumentType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
 import com.duy.pascal.backend.parse_exception.define.OverridingFunctionBodyException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
@@ -51,30 +51,27 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FunctionDeclaration extends AbstractCallableFunction {
-    final public ExpressionContextMixin declarations;
+    final public ExpressionContextMixin declaration;
     /**
      * name of function or procedure
      */
     public String name;
     public Executable instructions;
     /**
-     * this is the store class of function
+     * this is the store value of function
      */
     public VariableDeclaration resultDefinition;
-
     public LineInfo line;
     public LineInfo endPositionHeader;
 
-    /* These go together ----> */
     public String[] argumentNames;
-
     public RuntimeType[] argumentTypes;
     private boolean isProcedure = false;
     private boolean bodyDeclared;
 
     public FunctionDeclaration(ExpressionContext parent, GrouperToken grouperToken,
                                boolean isProcedure) throws ParsingException {
-        this.declarations = new FunctionExpressionContext(this, parent);
+        this.declaration = new FunctionExpressionContext(this, parent);
 
         this.line = grouperToken.peek().getLineNumber();
         this.isProcedure = isProcedure;
@@ -90,7 +87,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             next = grouperToken.take();
             //define variable result of function, the name of variable same as name function
             resultDefinition = new VariableDeclaration(name, grouperToken.getNextPascalType(parent), line);
-            this.declarations.declareVariable(resultDefinition);
+            this.declaration.declareVariable(resultDefinition);
         }
 
         //assert next semicolon token
@@ -110,11 +107,22 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             throw new DuplicateIdentifierException(n, this);
         }
     }
-
     public FunctionDeclaration(ExpressionContext p) {
-        this.declarations = new FunctionExpressionContext(this, p);
+        this.declaration = new FunctionExpressionContext(this, p);
         this.argumentNames = new String[0];
         this.argumentTypes = new RuntimeType[0];
+    }
+
+    public String[] getArgumentNames() {
+        return argumentNames;
+    }
+
+    public RuntimeType[] getArgumentTypes() {
+        return argumentTypes;
+    }
+
+    public ExpressionContextMixin getDeclaration() {
+        return declaration;
     }
 
     public String getName() {
@@ -131,7 +139,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
                 throw new OverridingFunctionBodyException(this, i.getLineNumber());
             }
             while (!bodyDeclared) {
-                declarations.addNextDeclaration(i);
+                declaration.addNextDeclaration(i);
             }
         }
     }
@@ -145,11 +153,12 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public Object call(VariableContext parentcontext,
                        RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws RuntimePascalException {
-        if (this.declarations.root() instanceof UnitPascal) {
-            parentcontext = main.getLibrary((UnitPascal) declarations.root());
+        if (this.declaration.root() instanceof UnitPascal) {
+            parentcontext = main.getLibrary((UnitPascal) declaration.root());
         }
         FunctionOnStack functionOnStack = new FunctionOnStack(parentcontext, main, this, arguments);
-        if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
+        if (main.isDebug())
+            main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
         return functionOnStack.execute();
     }
 
@@ -183,7 +192,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
                     throw new ExpectedTokenException(":", next);
                 }
                 DeclaredType type;
-                type = argumentsToken.getNextPascalType(declarations);
+                type = argumentsToken.getNextPascalType(declaration);
 
                 while (j > 0) {
                     typesList.add(new RuntimeType(type, is_varargs));
@@ -296,7 +305,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             }
             for (int i = 0; i < argumentNames.length; i++) {
                 if (argumentNames[i].equals(ident)) {
-                    return new VariableDeclaration(argumentNames[i], argumentTypes[i].declType, function.line);
+                    return new VariableDeclaration(argumentNames[i], argumentTypes[i].getDeclType(),
+                            function.getLineNumber());
                 }
             }
             return null;

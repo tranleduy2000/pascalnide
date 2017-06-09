@@ -29,33 +29,31 @@ import java.util.List;
 public class FunctionOnStack extends VariableContext {
 
     private HashMap<String, Object> mapVars = new HashMap<>();
+    private HashMap<String, PascalReference> mapReferences = new HashMap<>();
 
     private ArrayList<String> localVarsName = new ArrayList<>();
     private ArrayList<String> paramsName = new ArrayList<>();
-    /**
-     * prototype method
-     */
-    private FunctionDeclaration prototype;
-    private VariableContext parentContext;
-    private RuntimeExecutableCodeUnit<?> main;
-    @SuppressWarnings("rawtypes")
-    private HashMap<String, PascalReference> referenceVariables;
 
-    @SuppressWarnings("rawtypes")
+    private FunctionDeclaration prototype;
+
+    private VariableContext parentContext;
+
+    private RuntimeExecutableCodeUnit<?> main;
+
+
     public FunctionOnStack(VariableContext parentContext,
                            RuntimeExecutableCodeUnit<?> main, FunctionDeclaration declaration,
                            Object[] arguments) {
         this.prototype = declaration;
         this.parentContext = parentContext;
         this.main = main;
-        for (VariableDeclaration v : prototype.declarations.variables) {
+        for (VariableDeclaration v : prototype.declaration.variables) {
             v.initialize(mapVars);
             localVarsName.add(v.getName());
         }
-        referenceVariables = new HashMap<>();
         for (int i = 0; i < arguments.length; i++) {
             if (prototype.argumentTypes[i].writable) {
-                referenceVariables.put(prototype.argumentNames[i], (PascalReference) arguments[i]);
+                mapReferences.put(prototype.argumentNames[i], (PascalReference) arguments[i]);
             } else {
                 mapVars.put(prototype.argumentNames[i], arguments[i]);
             }
@@ -69,9 +67,6 @@ public class FunctionOnStack extends VariableContext {
         return prototype;
     }
 
-    public FunctionDeclaration getCurrentFunction() {
-        return prototype;
-    }
 
     public RuntimeExecutableCodeUnit<?> getMain() {
         return main;
@@ -88,14 +83,14 @@ public class FunctionOnStack extends VariableContext {
     }
 
     /**
-     * Global variable of function
+     * Global variable of prototype
      */
     @Override
     public Object getLocalVar(String name) throws RuntimePascalException {
         if (mapVars.containsKey(name)) {
             return mapVars.get(name);
-        } else if (referenceVariables.containsKey(name)) {
-            return referenceVariables.get(name).get();
+        } else if (mapReferences.containsKey(name)) {
+            return mapReferences.get(name).get();
         } else {
             return null;
         }
@@ -106,8 +101,8 @@ public class FunctionOnStack extends VariableContext {
     public boolean setLocalVar(String name, Object val) {
         if (mapVars.containsKey(name)) {
             mapVars.put(name, val);
-        } else if (referenceVariables.containsKey(name)) {
-            referenceVariables.get(name).set(val);
+        } else if (mapReferences.containsKey(name)) {
+            mapReferences.get(name).set(val);
         } else {
             return false;
         }
@@ -116,8 +111,7 @@ public class FunctionOnStack extends VariableContext {
 
     @Override
     public List<String> getUserDefineVariableNames() {
-        List<String> vars = new ArrayList<>();
-        vars.addAll(paramsName);
+        List<String> vars = new ArrayList<>(paramsName);
         vars.addAll(localVarsName);
         return vars;
     }
@@ -130,7 +124,7 @@ public class FunctionOnStack extends VariableContext {
     @Override
     public HashMap<String, ? extends Object> getMapVars() {
         HashMap<String, Object> hashMap = new HashMap<>(mapVars);
-        hashMap.putAll(referenceVariables);
+        hashMap.putAll(mapReferences);
         return hashMap;
     }
 

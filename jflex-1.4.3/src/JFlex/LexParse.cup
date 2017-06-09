@@ -319,8 +319,8 @@ macro         ::=  ASCII
                    {: charClasses.setMaxCharCode(255); :}
                 |  UNICODE
                    {: charClasses.setMaxCharCode(0xFFFF); :} 
-                |  IDENT:name EQUALS series:definition REGEXPEND
-                   {: macros.insert(name, definition); :} 
+                |  IDENT:name EQUALS series:declaration REGEXPEND
+                   {: macros.insert(name, declaration); :}
                 | IDENT EQUALS:e
                    {: syntaxError(ErrorMessages.REGEXP_EXPECTED, eleft, eright); :}
                 ;

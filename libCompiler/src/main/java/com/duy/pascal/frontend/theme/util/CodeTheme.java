@@ -18,8 +18,13 @@ package com.duy.pascal.frontend.theme.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +49,29 @@ public class CodeTheme {
 
     public CodeTheme(boolean builtin) {
         this.builtin = builtin;
+    }
+
+    public static void loadThemeFromPref(String name, @NonNull CodeTheme codeTheme, Context context) {
+        int style = CodeThemeUtils.getCodeTheme(context, name);
+        TypedArray typedArray = context.obtainStyledAttributes(style,
+                R.styleable.CodeTheme);
+        typedArray.getInteger(R.styleable.CodeTheme_background_color,
+                R.color.color_background_color);
+        codeTheme.setErrorColor(typedArray.getInteger(R.styleable.CodeTheme_error_color,
+                R.color.color_error_color));
+        codeTheme.setNumberColor(typedArray.getInteger(R.styleable.CodeTheme_number_color,
+                R.color.color_number_color));
+        codeTheme.setKeyWordColor(typedArray.getInteger(R.styleable.CodeTheme_key_word_color,
+                R.color.color_key_word_color));
+        codeTheme.setCommentColor(typedArray.getInteger(R.styleable.CodeTheme_comment_color,
+                R.color.color_comment_color));
+        codeTheme.setStringColor(typedArray.getInteger(R.styleable.CodeTheme_string_color,
+                R.color.color_string_color));
+        codeTheme.setBooleanColor(typedArray.getInteger(R.styleable.CodeTheme_boolean_color,
+                R.color.color_boolean_color));
+        codeTheme.setOptColor(typedArray.getInteger(R.styleable.CodeTheme_opt_color,
+                R.color.color_opt_color));
+        typedArray.recycle();
     }
 
     public static CodeTheme getTheme(int themeId, Context context) {
@@ -163,6 +191,18 @@ public class CodeTheme {
             ret[builtinThemes.size() + i] = Integer.valueOf(builtinThemes.size() + i).toString();
         }
         return ret;
+    }
+
+    public static CodeTheme getDefault(PascalPreferences mEditorSetting) {
+        String name = mEditorSetting.getString(mEditorSetting.getContext().getString(R.string.key_code_theme));
+        try {
+            Integer id = Integer.parseInt(name);
+            return getTheme(id, mEditorSetting.getContext());
+        } catch (Exception e) {
+            CodeTheme codeTheme = new CodeTheme(true);
+            loadThemeFromPref(name, codeTheme, mEditorSetting.getContext());
+            return codeTheme;
+        }
     }
 
     private Hashtable<String, Integer> getColors() {

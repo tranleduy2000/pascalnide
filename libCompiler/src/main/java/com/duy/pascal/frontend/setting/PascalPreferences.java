@@ -70,6 +70,11 @@ public class PascalPreferences {
 
     }
 
+    @NonNull
+    public Context getContext() {
+        return context;
+    }
+
     public SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }

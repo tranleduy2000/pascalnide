@@ -2,7 +2,7 @@ program exFunction;
 var
     a, b, ret : integer;
 
-(*function definition *)
+(*function declaration *)
 function max(num1, num2: integer): integer;
 var
         (* local variable declaration *)

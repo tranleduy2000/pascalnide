@@ -222,7 +222,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         //find identifier in library
         for (Map.Entry<UnitPascal, RuntimeUnitPascal> unit : unitsMap.entrySet()) {
             RuntimeUnitPascal value = unit.getValue();
-            ExpressionContextMixin libContext = value.getDefinition().getContext();
+            ExpressionContextMixin libContext = value.getDeclaration().getContext();
             RuntimeValue identifierValue = libContext.getIdentifierValue(name);
             if (identifierValue != null) {
                 return identifierValue;

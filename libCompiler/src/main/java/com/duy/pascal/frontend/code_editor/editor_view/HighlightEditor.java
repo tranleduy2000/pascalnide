@@ -106,7 +106,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     protected Point mMaxSize;
     //Colors
     private boolean autoCompile = false;
-    private CodeTheme codeTheme;
+    private CodeTheme codeTheme = new CodeTheme(true);
     private Context mContext;
     private boolean canEdit = true;
     @Nullable
@@ -221,7 +221,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         /*
           load theme from xml
          */
-
         codeTheme = new CodeTheme(true);
         int style = CodeThemeUtils.getCodeTheme(mContext, name);
         TypedArray typedArray = mContext.obtainStyledAttributes(style,
@@ -250,6 +249,8 @@ public class HighlightEditor extends CodeSuggestsEditText
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
     }
+
+
 
     public void setLineError(@NonNull LineInfo lineError) {
         this.lineError = lineError;

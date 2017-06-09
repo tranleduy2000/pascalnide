@@ -1,6 +1,6 @@
 program nested_ifelseChecking;
 var
-        { local variable definition }
+        { local variable declaration }
     a, b : integer;
 
 begin

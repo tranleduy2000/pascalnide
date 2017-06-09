@@ -30,12 +30,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.adapter.FrameAdapter;
 import com.duy.pascal.frontend.debug.adapter.VariableAdapter;
-import com.duy.pascal.frontend.debug.model.VariableItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,11 +98,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     }
 
     public void displayVars(CallStack callStack) {
-        List<String> userDefineVariable = callStack.getUserDefineVariable();
-        ArrayList<VariableItem> vars = new ArrayList<>();
-        for (String name : userDefineVariable) {
-            vars.add(new VariableItem(name, callStack.getValue(name)));
-        }
+        List<VariableDeclaration> vars = callStack.getDefineVars();
         mVariableAdapter.setData(vars);
     }
 

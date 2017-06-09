@@ -71,7 +71,7 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
         //check all library
         for (Map.Entry<UnitPascal, RuntimeUnitPascal> unit : context.getUnitsMap().entrySet()) {
             RuntimeUnitPascal value = unit.getValue();
-            ExpressionContextMixin libContext = value.getDefinition().getContext();
+            ExpressionContextMixin libContext = value.getDeclaration().getContext();
             result = libContext.getVariableDefinition(indent);
         }
 

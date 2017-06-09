@@ -729,7 +729,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 if (function instanceof FunctionDeclaration) {
                     FunctionDeclaration functionInPascal = (FunctionDeclaration) function;
                     com.duy.pascal.frontend.structure.viewholder.StructureItem child = getNode(
-                            functionInPascal.declarations,
+                            functionInPascal.declaration,
                             ((FunctionDeclaration) function).name,
                             functionInPascal.isProcedure() ? StructureType.TYPE_PROCEDURE : StructureType.TYPE_FUNCTION,
                             depth + 1);

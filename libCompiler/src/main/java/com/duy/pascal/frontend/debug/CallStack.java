@@ -19,7 +19,13 @@ package com.duy.pascal.frontend.debug;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
+import com.duy.pascal.backend.ast.codeunit.program.RuntimePascalProgram;
+import com.duy.pascal.backend.ast.instructions.with_statement.WithOnStack;
+import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.ArrayList;
@@ -44,8 +50,44 @@ public class CallStack {
         return null;
     }
 
-    public List<String> getUserDefineVariable() {
+    public List<String> getDefineVariableNames() {
         return currentContext.getUserDefineVariableNames();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<VariableDeclaration> getDefineVars() {
+        ArrayList<VariableDeclaration> result = new ArrayList<>();
+        if (currentContext instanceof FunctionOnStack) {
+            FunctionOnStack f = (FunctionOnStack) currentContext;
+
+            //clone add variable
+            ArrayList<VariableDeclaration> variables = f.getPrototype().getDeclaration().getVariables();
+            for (VariableDeclaration variable : variables) result.add(variable.clone());
+
+            String[] argumentNames = f.getPrototype().getArgumentNames();
+            RuntimeType[] argumentTypes = f.getPrototype().getArgumentTypes();
+            for (int i = 0; i < argumentNames.length; i++) {
+                try {
+                    result.add(new VariableDeclaration(argumentNames[i], argumentTypes[i].getDeclType(),
+                            f.getVar(argumentNames[i]), null));
+                } catch (RuntimePascalException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (currentContext instanceof RuntimePascalProgram) {
+            RuntimePascalProgram program = (RuntimePascalProgram) currentContext;
+            ArrayList<VariableDeclaration> variables = program.getDeclaration().getContext().getVariables();
+            for (VariableDeclaration variable : variables) result.add(variable.clone());
+        } else if (currentContext instanceof RuntimeUnitPascal) {
+            RuntimeUnitPascal unit = (RuntimeUnitPascal) currentContext;
+            ArrayList<VariableDeclaration> variables = unit.getDeclaration().getContext().getVariables();
+            for (VariableDeclaration variable : variables) result.add(variable.clone());
+        } else if (currentContext instanceof WithOnStack) {
+            WithOnStack withOnStack = (WithOnStack) currentContext;
+            ArrayList<VariableDeclaration> variables = withOnStack.getDeclaration().getVariableDeclarations();
+            for (VariableDeclaration variable : variables) result.add(variable.clone());
+        }
+        return result;
     }
 
     public HashMap<String, ?> getMapVars() {

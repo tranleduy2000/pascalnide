@@ -127,7 +127,7 @@ public class ExitFunction implements IMethodDeclaration {
                 if (((FunctionOnStack) f).isProcedure()) {
                     throw new RuntimeException();
                 } else {
-                    String name = ((FunctionOnStack) f).getCurrentFunction().name;
+                    String name = ((FunctionOnStack) f).getPrototype().name;
                     Object value = this.value.getValue(f, main);
                     f.setLocalVar(name, value);
                 }

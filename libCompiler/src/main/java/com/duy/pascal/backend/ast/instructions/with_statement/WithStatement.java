@@ -17,20 +17,19 @@
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
+import com.duy.pascal.backend.data_types.CustomType;
+import com.duy.pascal.backend.data_types.RecordType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.data_types.CustomType;
-import com.duy.pascal.backend.data_types.RecordType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
@@ -40,14 +39,12 @@ import java.util.ArrayList;
 
 public class WithStatement {
     private static final String TAG = "WithDeclaration";
-
-    public ExpressionContextMixin scopeWithStatement;
     public Executable instructions;
     public LineInfo line;
-    public ArrayList<RuntimeValue> fields = new ArrayList<>();
-    public ArrayList<VariableDeclaration> variableDeclarations = new ArrayList<>();
     public RuntimeValue[] arguments;
-
+    private ExpressionContextMixin scopeWithStatement;
+    private ArrayList<RuntimeValue> fields = new ArrayList<>();
+    private ArrayList<VariableDeclaration> variableDeclarations = new ArrayList<>();
     public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
         this.scopeWithStatement = new WithExpressionContext(parent);
         this.line = grouperToken.peek().getLineNumber();
@@ -69,6 +66,14 @@ public class WithStatement {
             grouperToken.take();
         }
         instructions = grouperToken.getNextCommand(scopeWithStatement);
+    }
+
+    public ArrayList<RuntimeValue> getFields() {
+        return fields;
+    }
+
+    public ArrayList<VariableDeclaration> getVariableDeclarations() {
+        return variableDeclarations;
     }
 
     public RuntimeValue generate() {

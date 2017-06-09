@@ -64,7 +64,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     }
 
     public RuntimeUnitPascal getLibrary(UnitPascal l) {
-        HashMap<UnitPascal, RuntimeUnitPascal> unitsMap = definition.getContext().getUnitsMap();
+        HashMap<UnitPascal, RuntimeUnitPascal> unitsMap = declaration.getContext().getUnitsMap();
         return unitsMap.get(l);
     }
 
@@ -139,7 +139,7 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
                 return;
             }
             if (runMode == ControlMode.TERMINATED) {
-                List<AbstractFunction> shutdown = this.getDefinition().getProgram().getCallableFunctionsLocal("shutdown");
+                List<AbstractFunction> shutdown = this.getDeclaration().getProgram().getCallableFunctionsLocal("shutdown");
                 for (AbstractFunction function : shutdown) {
                     if (function instanceof MethodDeclaration) {
                         try {

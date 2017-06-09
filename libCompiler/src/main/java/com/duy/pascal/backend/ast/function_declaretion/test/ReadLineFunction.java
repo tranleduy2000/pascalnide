@@ -128,7 +128,7 @@ public class ReadLineFunction implements IMethodDeclaration {
         @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            IOLib ioHandler = main.getDefinition().getContext().getIOHandler();
+            IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
             ioHandler.readlnz(values);
             return null;

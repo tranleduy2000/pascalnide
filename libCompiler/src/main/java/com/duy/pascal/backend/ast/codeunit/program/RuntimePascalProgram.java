@@ -39,14 +39,14 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         this.mode = RunMode.RUNNING;
 
         //generate init code of library
-        HashMap<UnitPascal, RuntimeUnitPascal> librariesMap = getDefinition().getContext().getUnitsMap();
+        HashMap<UnitPascal, RuntimeUnitPascal> librariesMap = getDeclaration().getContext().getUnitsMap();
         Set<Map.Entry<UnitPascal, RuntimeUnitPascal>> entries = librariesMap.entrySet();
         for (Map.Entry<UnitPascal, RuntimeUnitPascal> entry : entries) {
             entry.getValue().runInit();
         }
 
         if (isDebug()) getDebugListener().onVariableChange(new CallStack(this));
-        getDefinition().main.execute(this, this);
+        getDeclaration().main.execute(this, this);
 
         //generate final code library
         for (Map.Entry<UnitPascal, RuntimeUnitPascal> entry : entries) {
@@ -65,9 +65,9 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
 
     @Override
     public String toString() {
-        String programName = getDefinition().getProgramName();
+        String programName = getDeclaration().getProgramName();
         if (programName == null) {
-            return getDefinition().getContext().getStartLine().getSourceFile();
+            return getDeclaration().getContext().getStartLine().getSourceFile();
         }
         return programName;
     }
