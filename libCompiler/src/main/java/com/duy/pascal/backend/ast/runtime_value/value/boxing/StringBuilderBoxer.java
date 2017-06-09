@@ -24,7 +24,7 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(BasicType.create(String.class), false);
+        return new RuntimeType(BasicType.create(StringBuilder.class), false);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
             throws ParsingException {
         Object other = value.compileTimeValue(context);
         if (other != null) {
-            return other.toString();
+            return new StringBuilder(other.toString());
         }
         return null;
     }
@@ -51,7 +51,7 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object other = value.getValue(f, main);
-        return other.toString();
+           return new StringBuilder(other.toString());
     }
 
     @Override
@@ -68,6 +68,5 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
 
     @Override
     public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

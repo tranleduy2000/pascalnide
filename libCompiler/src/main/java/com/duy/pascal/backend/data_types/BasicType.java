@@ -2,19 +2,18 @@ package com.duy.pascal.backend.data_types;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.converter.StringLimitBoxer;
-import com.duy.pascal.backend.data_types.converter.TypeConverter;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.StringIndex;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBuilderBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.StringBuilderCloner;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.data_types.util.TypeUtils;
+import com.duy.pascal.backend.data_types.converter.StringLimitBoxer;
+import com.duy.pascal.backend.data_types.converter.TypeConverter;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 
 import java.io.File;
 
@@ -295,8 +294,7 @@ public enum BasicType implements DeclaredType {
 
     @Override
     public Class<?> getStorageClass() {
-        Class c2 = TypeUtils.getTypeForClass(clazz);
-        return c2 == null ? clazz : c2;
+        return clazz;
     }
 
     @Override

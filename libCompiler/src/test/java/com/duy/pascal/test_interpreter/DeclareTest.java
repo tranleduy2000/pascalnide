@@ -18,16 +18,17 @@ package com.duy.pascal.test_interpreter;
 
 import com.duy.pascal.frontend.DLog;
 
-import junit.framework.TestCase;
-
-import static com.duy.pascal.Compiler.runProgram;
-
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class DeclareTest extends TestCase {
+public class DeclareTest extends BaseTestCase {
 
+
+    @Override
+    public String getDirTest() {
+        return "test_declare";
+    }
 
     @Override
     protected void setUp() throws Exception {
@@ -36,105 +37,46 @@ public class DeclareTest extends TestCase {
     }
 
     public void testDeclareArray() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_array.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_const_array.pas");
     }
 
     public void testDeclareBasic() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_basic.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_const_basic.pas");
+
     }
 
     public void testIndexEnum() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_index_enum.pas");
     }
 
     public void testInitArray() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_array.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_init_array.pas");
     }
 
     public void testInitEnum() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_enum.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_init_enum.pas");
     }
 
     public void testInitSet() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_set.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_init_set.pas");
     }
 
     public void testInitVariable() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_init_variable.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_init_variable.pas");
     }
 
     public void testSetType() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_const_basic.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_const_basic.pas");
     }
 
     public void testSetType2() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_set_type2.pas"
-            );
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_set_type2.pas");
+
     }
 
     public void testSetAssignValue() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_set_assign_value.pas"
-            );
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_set_assign_value.pas");
+
     }
 
 }

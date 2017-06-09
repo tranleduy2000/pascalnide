@@ -802,7 +802,8 @@ public abstract class GrouperToken extends Token {
      * @return - the {@link ConstantAccess} include array object and lineInfo number
      * @throws ParsingException - some token is not expect
      */
-    public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context, Token group, ArrayType type) throws ParsingException {
+    public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context,
+                                                     Token group, ArrayType type) throws ParsingException {
 
         DLog.d(TAG, "getArrayConstant() called with: scope = [" + context + "], type = [" + type + "]");
 
@@ -817,12 +818,13 @@ public abstract class GrouperToken extends Token {
         int size = type.getBounds().size;
         //create new array
 //        Object[] objects = new Object[size];
-        Object[] objects = (Object[]) Array.newInstance(elementType.getStorageClass(), size);
+        Class<?> elementClass = elementType.getStorageClass();
+        Object[] objects = (Object[]) Array.newInstance(elementClass, size);
         for (int i = 0; i < size; i++) {
             if (!container.hasNext()) {
                 throw new ExpectedTokenException(",", peek());
             }
-            objects[i] = getConstantElement(context, container, elementType).getValue();
+            objects[i] = this.<String>getConstantElement(context, container, elementType).getValue();
         }
         return new ConstantAccess<>(objects, type, container.getLineNumber());
     }
@@ -832,7 +834,7 @@ public abstract class GrouperToken extends Token {
      * @param elementType  - the type of element
      * @return constant object
      */
-    public ConstantAccess getConstantElement(@NonNull ExpressionContext context,
+    public <T> ConstantAccess getConstantElement(@NonNull ExpressionContext context,
                                              @NonNull GrouperToken grouperToken,
                                              @Nullable DeclaredType elementType) throws ParsingException {
         DLog.d(TAG, "getConstantElement() called with: scope = [" + context + "], grouperToken = ["

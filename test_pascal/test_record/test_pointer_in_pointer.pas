@@ -8,5 +8,6 @@ type
 var
   p : TPoint;
 begin
+  new(p);
   p^.x^ := 2;
 end.
