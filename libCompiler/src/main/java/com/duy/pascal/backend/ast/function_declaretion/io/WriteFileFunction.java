@@ -28,6 +28,7 @@ import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
 import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.data_types.ArgumentType;
 import com.duy.pascal.backend.data_types.BasicType;
@@ -134,7 +135,9 @@ public class WriteFileFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
 
-            Object[] values = (Object[]) args.getValue(f, main);
+            ArrayBoxer arrayBoxer = (ArrayBoxer) args;
+            Object[] values = Formatter.format(arrayBoxer, f, main);
+
             PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
             fileLib.writeFile(file.get(), values);
             return null;

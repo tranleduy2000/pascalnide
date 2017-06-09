@@ -20,11 +20,7 @@ import com.duy.pascal.backend.runtime_exception.internal.MethodReflectionExcepti
 import com.duy.pascal.backend.utils.ArrayUtils;
 import com.duy.pascal.frontend.debug.DebugManager;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 
 public class SimpleFunctionCall extends FunctionCall {
     private AbstractCallableFunction function;
@@ -57,42 +53,10 @@ public class SimpleFunctionCall extends FunctionCall {
         //list type of parameters
         ArgumentType[] argumentTypes = function.argumentTypes();
 
-        //convert to string object for print console or write to file
-        if (getFunctionName().equals("writeln") || getFunctionName().equals("write")) {
-            for (int i = 0; i < values.length; i++) {
-                if (argumentTypes[i].getRuntimeClass().equals(File.class)) {
-                    values[i] = arguments[i].getValue(f, main);
-                } else {
-                    RuntimeValue rawValue = arguments[i];
-                    RuntimeValue[] outputFormat = rawValue.getOutputFormat();
-                    StringBuilder object = new StringBuilder(String.valueOf(rawValue.getValue(f, main)));
-
-                    if (outputFormat != null) {
-                        if (outputFormat[1] != null) {
-                            int sizeOfReal = (int) outputFormat[1].getValue(f, main);
-                            StringBuilder round = new StringBuilder();
-                            for (int j = 0; j < sizeOfReal; j++) round.append("0");
-                            DecimalFormat decimalFormat = new DecimalFormat("#0." + round.toString());
-                            decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
-                            Double d = Double.parseDouble(object.toString());
-                            object = new StringBuilder(decimalFormat.format(d));
-                        }
-
-                        if (outputFormat[0] != null) {
-                            int column = (int) outputFormat[0].getValue(f, main);
-                            while (object.length() < column) {
-                                object.insert(0, " ");
-                            }
-                        }
-                    }
-                    values[i] = object;
-                }
-            }
-        } else {
-            for (int i = 0; i < values.length; i++) {
-                values[i] = arguments[i].getValue(f, main);
-            }
+        for (int i = 0; i < values.length; i++) {
+            values[i] = arguments[i].getValue(f, main);
         }
+
         if (main.isDebug()) {
             if (arguments.length > 0) {
                 DebugManager.showMessage(arguments[0].getLineNumber(),

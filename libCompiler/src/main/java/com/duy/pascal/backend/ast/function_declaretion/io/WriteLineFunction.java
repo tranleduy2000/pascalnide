@@ -27,6 +27,7 @@ import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.data_types.ArgumentType;
 import com.duy.pascal.backend.data_types.BasicType;
@@ -80,7 +81,7 @@ public class WriteLineFunction implements IMethodDeclaration {
         private RuntimeValue args;
         private LineInfo line;
 
-       WriteLineCall(RuntimeValue args, LineInfo line) {
+        WriteLineCall(RuntimeValue args, LineInfo line) {
             this.args = args;
             this.line = line;
         }
@@ -127,7 +128,11 @@ public class WriteLineFunction implements IMethodDeclaration {
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
             IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
-            Object[] values = (Object[]) args.getValue(f, main);
+
+
+            ArrayBoxer arrayBoxer = (ArrayBoxer) args;
+            Object[] values = Formatter.format(arrayBoxer, f, main);
+
             ioHandler.println(values);
             return null;
         }

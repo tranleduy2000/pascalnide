@@ -19,13 +19,13 @@ public class ArrayBoxer extends DebuggableReturnValue {
     public RuntimeValue[] values;
     public ArgumentType type;
     public LineInfo line;
-
     public ArrayBoxer(RuntimeValue[] array, ArgumentType elementType,
                       LineInfo line) {
         this.values = array;
         this.type = elementType;
         this.line = line;
     }
+
 
     public RuntimeValue[] getValues() {
         return values;

@@ -152,7 +152,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         if (!isArray) {
             return convertBasicType(javatype);
         } else {
-            return new ArrayType<>(convertArrayType(subtype, arraysizes), null);
+            return new ArrayType<>(convertArrayType(subtype, arraysizes), arrayinfo);
         }
     }
 
@@ -190,9 +190,9 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public ArgumentType[] argumentTypes() {
-       /* if (argCache != null) {
+       if (argCache != null) {
             return argCache;
-        }*/
+        }
         Type[] types = method.getGenericParameterTypes();
         ArgumentType[] result = new ArgumentType[types.length];
         MethodTypeData tmp = method.getAnnotation(MethodTypeData.class);
