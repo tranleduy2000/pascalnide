@@ -33,6 +33,9 @@ public class ArrayTest extends BaseTestCase {
     public void testDynamic() {
         run("test_dynamic_array.pas");
     }
+    public void testDynamic2() {
+        run("test_dynamic_2.pas");
+    }
 
     public void testMultiDimenArray() {
         run("test_multi_dimensional_array.pas");

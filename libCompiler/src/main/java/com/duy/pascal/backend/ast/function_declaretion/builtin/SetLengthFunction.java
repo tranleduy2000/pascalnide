@@ -18,6 +18,7 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
@@ -39,6 +40,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class SetLengthFunction implements IMethodDeclaration {
 
@@ -142,12 +144,13 @@ public class SetLengthFunction implements IMethodDeclaration {
             DeclaredType type = ((PointerType) runtimeType.getDeclType()).pointedToType;
 
             PascalReference r = (PascalReference) array.getValue(f, main);
-            Object old = r.get();
             if (type instanceof ArrayType) {
+                Object[] old = (Object[]) r.get();
+                System.out.println(Arrays.toString(old));
                 Object[] array = (Object[]) Array.newInstance(
                         ((ArrayType) type).getElementType().getStorageClass(), ranges[0]);
 
-                setInitValue(array, ((ArrayType) type).getElementType(), ranges, 0);
+                setInitValue(array, ((ArrayType) type).getElementType(), ranges, 0, old);
                 r.set(array);
             } else if (type == BasicType.StringBuilder) {
                 StringBuilder value = (StringBuilder) r.get();
@@ -172,9 +175,10 @@ public class SetLengthFunction implements IMethodDeclaration {
          * @param elementType - element type
          * @param ranges      | length of {@array} = {@ranges[index]}
          * @param index       |
+         * @param old
          */
         private void setInitValue(Object[] array, DeclaredType elementType,
-                                  Integer[] ranges, int index) {
+                                  Integer[] ranges, int index, @Nullable Object[] old) {
             if (elementType instanceof ArrayType) {
                 if (index == ranges.length - 1) {
                     return;
@@ -183,11 +187,20 @@ public class SetLengthFunction implements IMethodDeclaration {
                 for (int i = 0; i < ranges[index]; i++) {
                     array[i] = Array.newInstance(arrayType.getElementType().getStorageClass(),
                             ranges[index + 1]);
-                    setInitValue((Object[]) array[i], arrayType.getElementType(), ranges, index + 1);
+
+                    setInitValue((Object[]) array[i], arrayType.getElementType(), ranges, index + 1,
+                            (old != null && old.length > i) ? (Object[]) old[i] : null);
                 }
             } else {
-                for (Integer i = 0; i < ranges[index]; i++) {
-                    Array.set(array, i, elementType.initialize());
+                if (old != null) {
+                    System.arraycopy(old, 0, array, 0, Math.min(array.length, old.length));
+                    for (Integer i = old.length ; i < ranges[index]; i++) {
+                        Array.set(array, i, elementType.initialize());
+                    }
+                } else {
+                    for (Integer i = 0; i < ranges[index]; i++) {
+                        Array.set(array, i, elementType.initialize());
+                    }
                 }
             }
         }
