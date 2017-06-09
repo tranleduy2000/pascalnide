@@ -38,14 +38,12 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
-import android.widget.Scroller;
 
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -69,8 +67,7 @@ import static com.duy.pascal.frontend.code_editor.completion.Patterns.STRINGS;
 import static com.duy.pascal.frontend.code_editor.completion.Patterns.SYMBOLS;
 
 public class HighlightEditor extends CodeSuggestsEditText
-        implements View.OnKeyListener, GestureDetector.OnGestureListener {
-    public static final String TAG = HighlightEditor.class.getSimpleName();
+        implements View.OnKeyListener {
     public static final int SYNTAX_DELAY_MILLIS_SHORT = 100;
     public static final int SYNTAX_DELAY_MILLIS_LONG = 700;
     public static final int CHARS_TO_COLOR = 2500;
@@ -92,18 +89,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     protected int mHighlightedLine;
     protected int mHighlightStart;
     protected Rect mDrawingRect, mLineBounds;
-    /**
-     * the scroller instance
-     */
-    protected Scroller mTedScroller;
-    /**
-     * the velocity tracker
-     */
-    protected GestureDetector mGestureDetector;
-    /**
-     * the Max size of the view
-     */
-    protected Point mMaxSize;
+
     //Colors
     private boolean autoCompile = false;
     private CodeTheme codeTheme = new CodeTheme(true);
@@ -111,6 +97,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     private boolean canEdit = true;
     @Nullable
     private ScrollView verticalScroll;
+    @Nullable
+
+    private HorizontalScrollView horizontalScroll;
     private int lastPinLine = -1;
     private LineUtils lineUtils;
     private boolean[] isGoodLineArray;
@@ -196,8 +185,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         mDrawingRect = new Rect();
         mLineBounds = new Rect();
 
-        mGestureDetector = new GestureDetector(getContext(), HighlightEditor.this);
-
         updateFromSettings();
 
         mChangeListener = new EditTextChangeListener();
@@ -251,76 +238,10 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
 
-
     public void setLineError(@NonNull LineInfo lineError) {
         this.lineError = lineError;
     }
 
-    public void computeScroll() {
-
-        if (mTedScroller != null) {
-            if (mTedScroller.computeScrollOffset()) {
-                scrollTo(mTedScroller.getCurrX(), mTedScroller.getCurrY());
-            }
-        } else {
-            super.computeScroll();
-        }
-    }
-
-    public boolean onTouchEvent(MotionEvent event) {
-
-        super.onTouchEvent(event);
-        if (mGestureDetector != null) {
-            return mGestureDetector.onTouchEvent(event);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return true;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent arg0) {
-        // TODO Auto-generated method stub
-
-        if (isEnabled()) {
-            ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(this,
-                    InputMethodManager.SHOW_IMPLICIT);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2, float arg3) {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        if (!mEditorSetting.flingToScroll()) {
-            return true;
-        }
-
-        if (mTedScroller != null) {
-            mTedScroller.fling(getScrollX(), getScrollY(), -(int) velocityX, -(int) velocityY, 0, mMaxSize.x, 0,
-                    mMaxSize.y);
-        }
-        return true;
-    }
 
     @Override
     public void onDraw(@NonNull Canvas canvas) {
@@ -356,10 +277,10 @@ public class HighlightEditor extends CodeSuggestsEditText
         for (int i = min; i < max; i++) {
             baseline = getLineBounds(i, mLineBounds);
 
-            if ((mMaxSize != null) && (mMaxSize.x < mLineBounds.right)) {
+       /*     if ((mMaxSize != null) && (mMaxSize.x < mLineBounds.right)) {
                 mMaxSize.x = mLineBounds.right;
             }
-
+*/
             if ((i == mHighlightedLine) && (!wordWrap)) {
                 canvas.drawRect(mLineBounds, mPaintHighlight);
             }
@@ -372,13 +293,13 @@ public class HighlightEditor extends CodeSuggestsEditText
             canvas.drawLine(lineX, mDrawingRect.top, lineX, mDrawingRect.bottom, mPaintNumbers);
         }
 
-        getLineBounds(lineCount - 1, mLineBounds);
+       /* getLineBounds(lineCount - 1, mLineBounds);
         if (mMaxSize != null) {
             mMaxSize.y = mLineBounds.bottom;
             mMaxSize.x = Math.max(mMaxSize.x + mPadding - mDrawingRect.width(), 0);
             mMaxSize.y = Math.max(mMaxSize.y + mPadding - mDrawingRect.height(), 0);
         }
-
+*/
         super.onDraw(canvas);
     }
 
@@ -413,11 +334,11 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
         autoCompile = mEditorSetting.isAutoCompile();
         wordWrap = mEditorSetting.isWrapText();
-        if (wordWrap) {
+     /*   if (wordWrap) {
             setHorizontalScrollBarEnabled(false);
         } else {
             setHorizontalScrollBarEnabled(true);
-        }
+        }*/
 
         postInvalidate();
         refreshDrawableState();
@@ -429,13 +350,13 @@ public class HighlightEditor extends CodeSuggestsEditText
             setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
                     | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         }  // use Fling when scrolling settings ?
-        if (mEditorSetting.flingToScroll()) {
+        /*if (mEditorSetting.flingToScroll()) {
             mTedScroller = new Scroller(getContext());
             mMaxSize = new Point();
         } else {
             mTedScroller = null;
             mMaxSize = null;
-        }
+        }*/
 
     }
 
@@ -616,8 +537,14 @@ public class HighlightEditor extends CodeSuggestsEditText
 
             int baseline = layout.getLineBaseline(line);
             int ascent = layout.getLineAscent(line);
+            int x = (int) layout.getPrimaryHorizontal(pos);
 
-            int offsetHorizontal = (int) layout.getPrimaryHorizontal(pos) + mLinePadding; //x
+            int offsetHorizontal;
+            if (horizontalScroll != null) {
+                offsetHorizontal = x + mLinePadding - horizontalScroll.getScrollX();
+            } else {
+                offsetHorizontal = x + mLinePadding - getScrollX();
+            }
 
             float y;
             int offsetVertical = 0;
@@ -658,10 +585,12 @@ public class HighlightEditor extends CodeSuggestsEditText
                 float x = layout.getPrimaryHorizontal(pos);
                 float y = baseline + ascent;
 
-                int offsetHorizontal = (int) x + mLinePadding;
-                setDropDownHorizontalOffset(offsetHorizontal);
-
-                int heightVisible = getHeightVisible();
+                int offsetHorizontal;
+                if (horizontalScroll != null) {
+                    offsetHorizontal = (int) x + mLinePadding - horizontalScroll.getScrollX();
+                } else {
+                    offsetHorizontal = (int) x + mLinePadding - getScrollX();
+                }
                 int offsetVertical = 0;
                 if (verticalScroll != null) {
                     offsetVertical = (int) ((y + mCharHeight) - verticalScroll.getScrollY());
@@ -669,14 +598,26 @@ public class HighlightEditor extends CodeSuggestsEditText
                     offsetVertical = (int) ((y + mCharHeight) - getScrollY());
                 }
 
-                int tmp = offsetVertical + getDropDownHeight() + mCharHeight;
-                if (tmp < heightVisible) {
+                Rect bound = new Rect();
+                getWindowVisibleDisplayFrame(bound);
+                int height = bound.height();
+                int width = bound.width();
+
+                int tmp = offsetHorizontal + getDropDownWidth();
+                if (tmp < width) {
+                    tmp = offsetHorizontal;
+                } else {
+                    tmp = offsetHorizontal - getDropDownWidth();
+                }
+                setDropDownHorizontalOffset(tmp);
+
+                tmp = offsetVertical + getDropDownHeight() + mCharHeight;
+                if (tmp < height) {
                     tmp = offsetVertical + mCharHeight / 2;
-                    setDropDownVerticalOffset(tmp);
                 } else {
                     tmp = offsetVertical - getDropDownHeight() - mCharHeight;
-                    setDropDownVerticalOffset(tmp);
                 }
+                setDropDownVerticalOffset(tmp);
             }
         } catch (Exception ignored) {
         }
@@ -932,6 +873,15 @@ public class HighlightEditor extends CodeSuggestsEditText
         requestFocus();
         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    @Nullable
+    public HorizontalScrollView getHorizontalScroll() {
+        return horizontalScroll;
+    }
+
+    public void setHorizontalScroll(@Nullable HorizontalScrollView horizontalScroll) {
+        this.horizontalScroll = horizontalScroll;
     }
 
     /**

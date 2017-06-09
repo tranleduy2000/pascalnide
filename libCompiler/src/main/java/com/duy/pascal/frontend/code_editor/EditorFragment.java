@@ -51,6 +51,7 @@ import com.duy.pascal.frontend.code_editor.editor_view.LineUtils;
 import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
+import com.duy.pascal.frontend.view.LockableHorizontalScrollView;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -86,17 +87,19 @@ public class EditorFragment extends Fragment implements EditorListener {
         mFileManager = new ApplicationFileManager(getContext());
     }
 
+    private LockableHorizontalScrollView mHorizontalScrollView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_editor, container, false);
         mCodeEditor = (EditorView) view.findViewById(R.id.code_editor);
         mScrollView = (LockableScrollView) view.findViewById(R.id.vertical_scroll);
+        mHorizontalScrollView = (LockableHorizontalScrollView) view.findViewById(R.id.horizontal_scroll);
 
         ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
         StringBuilder code = fileManager.fileToString(getArguments().getString(CompileManager.FILE_PATH));
         mCodeEditor.setTextHighlighted(code);
-
 
         try {
             mCodeEditor.setEditorControl((EditorControl) getActivity());
@@ -106,6 +109,15 @@ public class EditorFragment extends Fragment implements EditorListener {
         if (mScrollView != null) {
             mCodeEditor.setVerticalScroll(mScrollView);
             mScrollView.setScrollListener(new LockableScrollView.ScrollListener() {
+                @Override
+                public void onScroll(int x, int y) {
+                    mCodeEditor.updateTextHighlight();
+                }
+            });
+        }
+        if (mHorizontalScrollView != null){
+            mCodeEditor.setHorizontalScroll(mHorizontalScrollView);
+            mHorizontalScrollView.setScrollListener(new LockableHorizontalScrollView.ScrollListener() {
                 @Override
                 public void onScroll(int x, int y) {
                     mCodeEditor.updateTextHighlight();

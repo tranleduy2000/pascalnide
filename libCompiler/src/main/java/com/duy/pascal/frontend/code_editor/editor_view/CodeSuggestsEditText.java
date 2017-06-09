@@ -19,6 +19,7 @@ package com.duy.pascal.frontend.code_editor.editor_view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
@@ -40,9 +41,10 @@ import java.util.ArrayList;
  */
 
 public abstract class CodeSuggestsEditText extends AutoIndentEditText {
-    private static final String TAG = CodeSuggestsEditText.class.getName();
+    protected static final String TAG = CodeSuggestsEditText.class.getSimpleName();
 
     public int mCharHeight = 0;
+    public int mCharWidth = 0;
     protected EditorSetting mEditorSetting;
     protected SymbolsTokenizer mTokenizer;
     private CodeSuggestAdapter mAdapter;
@@ -97,6 +99,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
 
     private void invalidateCharHeight() {
         mCharHeight = (int) Math.ceil(getPaint().getFontSpacing());
+        mCharHeight = (int) getPaint().measureText("M");
     }
 
     @Override
@@ -125,24 +128,34 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             DLog.d(TAG, "onSizeChanged() called with: w = [" + w + "], h = [" + h + "], oldw = [" +
                     oldw + "], oldh = [" + oldh + "]");
         }
-        onDropdownChangeSize();
+        onDropdownChangeSize(w, h);
     }
 
     /**
      * this method will be change size of popup window
+     *
+     * @param w
+     * @param h
      */
-    protected void onDropdownChangeSize() {
+    protected void onDropdownChangeSize(int w, int h) {
+
+        Rect rect = new Rect();
+        getWindowVisibleDisplayFrame(rect);
+
+        Log.d(TAG, "onDropdownChangeSize: " + rect);
+        w = rect.width();
+        h = rect.height();
+
         // 1/2 width of screen
-        int width = getWidth() / 2;
-        setDropDownWidth(width);
+        setDropDownWidth((int) (w * 0.5f));
 
         // 0.5 height of screen
-        int height = getHeightVisible() / 2;
-        setDropDownHeight(height);
+        setDropDownHeight((int) (h * 0.5f));
 
         //change position
         onPopupChangePosition();
     }
+
 
     @Override
     public void showDropDown() {
@@ -199,10 +212,10 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
      */
     public void setSuggestData(ArrayList<InfoItem> data) {
         DLog.d(TAG, "setSuggestData: ");
-            mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
+        mAdapter = new CodeSuggestAdapter(getContext(), R.layout.list_item_suggest, data);
 
         setAdapter(mAdapter);
-        onDropdownChangeSize();
+//        onDropdownChangeSize(getWidth(), getHeight());
     }
 
     public void addKeywords(String[] allKeyWord) {
@@ -216,12 +229,12 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
     }
 
     private class SymbolsTokenizer implements MultiAutoCompleteTextView.Tokenizer {
-        String token = "!@#$%^&*()_+-={}|[]:;'<>/<.? \n\t";
+        static final String TOKEN = "!@#$%^&*()_+-={}|[]:;'<>/<.? \r\n\t";
 
         @Override
         public int findTokenStart(CharSequence text, int cursor) {
             int i = cursor;
-            while (i > 0 && !token.contains(Character.toString(text.charAt(i - 1)))) {
+            while (i > 0 && !TOKEN.contains(Character.toString(text.charAt(i - 1)))) {
                 i--;
             }
             while (i < cursor && text.charAt(i) == ' ') {
@@ -235,7 +248,7 @@ public abstract class CodeSuggestsEditText extends AutoIndentEditText {
             int i = cursor;
             int len = text.length();
             while (i < len) {
-                if (token.contains(Character.toString(text.charAt(i - 1)))) {
+                if (TOKEN.contains(Character.toString(text.charAt(i - 1)))) {
                     return i;
                 } else {
                     i++;

@@ -21,7 +21,8 @@
     android:focusableInTouchMode="false"
     android:overScrollMode="always">
 
-    <HorizontalScrollView
+    <com.duy.pascal.frontend.view.LockableHorizontalScrollView
+        android:id="@+id/horizontal_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -38,12 +39,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:dropDownAnchor="@+id/app_bar"
-                android:gravity="top"
+                android:gravity="top|start"
                 android:hint="@string/write_code_here"
                 android:imeOptions="flagNoExtractUi"
                 android:inputType="textMultiLine|textNoSuggestions" />
         </LinearLayout>
 
-    </HorizontalScrollView>
+    </com.duy.pascal.frontend.view.LockableHorizontalScrollView>
 
 </com.duy.pascal.frontend.view.LockableScrollView>
