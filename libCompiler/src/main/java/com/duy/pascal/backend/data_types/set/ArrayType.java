@@ -36,7 +36,6 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     public final T elementType;
     private SubrangeType bounds;
 
-
     public ArrayType(T elementType, SubrangeType bounds) {
         this.elementType = elementType;
         this.bounds = bounds;

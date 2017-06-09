@@ -36,6 +36,7 @@ public class ArrayUtils {
         return Arrays.toString(array);
     }
 
+
     public static String arrayToString(TextConsole[] array) {
         StringBuilder res = new StringBuilder();
         for (TextConsole textObject : array) {
@@ -154,4 +155,6 @@ public class ArrayUtils {
         }
         return "";
     }
+
+
 }

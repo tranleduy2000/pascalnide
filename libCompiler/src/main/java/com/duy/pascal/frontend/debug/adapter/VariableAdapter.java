@@ -18,18 +18,15 @@ package com.duy.pascal.frontend.debug.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.debug.utils.SpanUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 
@@ -46,11 +43,13 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
     private ArrayList<VariableDeclaration> variableItems = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private CodeTheme codeTheme;
+    private SpanUtils spanUtils;
 
     public VariableAdapter(Context context) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.codeTheme = CodeTheme.getDefault(new PascalPreferences(context));
+        this.spanUtils = new SpanUtils(codeTheme);
     }
 
     public void setData(List<VariableDeclaration> list) {
@@ -78,35 +77,11 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
     public void onBindViewHolder(VariableHolder holder, int position) {
         VariableDeclaration var = variableItems.get(position);
 
-        SpannableStringBuilder text = new SpannableStringBuilder(var.getName());
-        text.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()), 0, text.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        SpannableString type = new SpannableString("{" + var.getType().toString() + "}");
-        type.setSpan(new ForegroundColorSpan(codeTheme.getCommentColor()), 0, type.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        text.append(type);
+        SpannableStringBuilder text = new SpannableStringBuilder();
+        text.append(spanUtils.generateNameSpan(var.getName()));
+        text.append(spanUtils.generateTypeSpan(var.getType()));
         text.append(" = ");
-
-        Object initialValue = var.getInitialValue();
-        if (initialValue != null) {
-            SpannableString val = new SpannableString(initialValue.toString());
-            if (initialValue instanceof Number) { //number
-                val.setSpan(new ForegroundColorSpan(codeTheme.getNumberColor()), 0,
-                        val.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (initialValue instanceof String || initialValue instanceof Character ||
-                    initialValue instanceof StringBuilder) { //string or char
-                val.setSpan(new ForegroundColorSpan(codeTheme.getStringColor()), 0,
-                        val.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (initialValue instanceof Object[]) { //array
-
-            } else if (initialValue instanceof List) { //set, enum
-
-            } else if (initialValue instanceof ContainsVariables) { //record
-
-            }
-            text.append(val);
-        }
+        text.append(spanUtils.generateValueSpan(var.getInitialValue(), 10));
         holder.txtName.setText(text);
     }
 
