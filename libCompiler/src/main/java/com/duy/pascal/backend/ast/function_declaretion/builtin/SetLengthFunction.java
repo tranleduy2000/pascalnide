@@ -19,23 +19,23 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.set.ArrayType;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.data_types.PointerType;
 import com.duy.pascal.backend.data_types.RuntimeType;
-import com.duy.pascal.backend.data_types.rangetype.IntegerSubrangeType;
-import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.data_types.VarargsType;
+import com.duy.pascal.backend.data_types.set.ArrayType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
@@ -43,24 +43,21 @@ import java.lang.reflect.Array;
 public class SetLengthFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes = {
-            new RuntimeType(new ArrayType<>(BasicType.create(Object.class),
-                    new IntegerSubrangeType()), true),
-            new RuntimeType(BasicType.Integer, false)};
+            new RuntimeType(BasicType.create(Object.class), true),
+            new VarargsType(new RuntimeType(BasicType.Integer, false))};
 
     @Override
-   public String getName() {
+    public String getName() {
         return "setlength";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
+        RuntimeType type = array.getType(f);
         RuntimeValue size = arguments[1];
-        @SuppressWarnings("rawtypes")
-        DeclaredType elementYype = ((ArrayType)
-                ((PointerType) array.getType(f).declType).pointedToType).elementType;
-        return new SetLengthCall(array, size, elementYype, line);
+        return new SetLengthCall(array, type, size, line);
     }
 
     @Override
@@ -85,16 +82,15 @@ public class SetLengthFunction implements IMethodDeclaration {
 
     private class SetLengthCall extends FunctionCall {
 
-        RuntimeValue array;
-        RuntimeValue size;
-        DeclaredType elemtype;
+        private RuntimeValue array;
+        private RuntimeType runtimeType;
+        private RuntimeValue size;
+        private LineInfo line;
 
-        LineInfo line;
-
-        SetLengthCall(RuntimeValue array, RuntimeValue size, DeclaredType elemType, LineInfo line) {
+        SetLengthCall(RuntimeValue array, RuntimeType type, RuntimeValue size, LineInfo line) {
             this.array = array;
+            this.runtimeType = type;
             this.size = size;
-            this.elemtype = elemType;
             this.line = line;
         }
 
@@ -109,6 +105,10 @@ public class SetLengthFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -119,19 +119,14 @@ public class SetLengthFunction implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new SetLengthCall(array.compileTimeExpressionFold(context),
-                    size.compileTimeExpressionFold(context), elemtype, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
+                    runtimeType, size.compileTimeExpressionFold(context), line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
             return new SetLengthCall(array.compileTimeExpressionFold(c),
-                    size.compileTimeExpressionFold(c), elemtype, line);
+                    runtimeType, size.compileTimeExpressionFold(c), line);
         }
 
         @Override
@@ -142,23 +137,59 @@ public class SetLengthFunction implements IMethodDeclaration {
         @Override
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            int length = (int) size.getValue(f, main);
-            PascalReference a = (PascalReference) array.getValue(f, main);
-            Object arr = a.get();
-            int oldlength = Array.getLength(arr);
-            Object newarr = Array.newInstance(elemtype.getTransferClass(), length);
-            if (oldlength > length) {
-                //noinspection SuspiciousSystemArraycopy
-                System.arraycopy(arr, 0, newarr, 0, length);
-            } else {
-                //noinspection SuspiciousSystemArraycopy
-                System.arraycopy(arr, 0, newarr, 0, oldlength);
-                for (int i = oldlength; i < length; i++) {
-                    Array.set(newarr, i, elemtype.initialize());
+
+            Integer[] ranges = (Integer[]) size.getValue(f, main);
+            DeclaredType type = ((PointerType) runtimeType.getDeclType()).pointedToType;
+
+            PascalReference r = (PascalReference) array.getValue(f, main);
+            Object old = r.get();
+            if (type instanceof ArrayType) {
+                Object[] array = (Object[]) Array.newInstance(
+                        ((ArrayType) type).getElementType().getStorageClass(), ranges[0]);
+
+                setInitValue(array, ((ArrayType) type).getElementType(), ranges, 0);
+                r.set(array);
+            } else if (type == BasicType.StringBuilder) {
+                StringBuilder value = (StringBuilder) r.get();
+                if (value == null) {
+                    StringBuilder newV = new StringBuilder();
+                    newV.setLength(ranges[0]);
+                    r.set(newV);
+                } else {
+                    StringBuilder newV = new StringBuilder(value);
+                    newV.setLength(ranges[0]);
+                    r.set(newV);
                 }
             }
-            a.set(newarr);
             return null;
+        }
+
+        /**
+         * range  =   3  4  5
+         * array  = a[3][ ][ ]
+         *
+         * @param array
+         * @param elementType - element type
+         * @param ranges      | length of {@array} = {@ranges[index]}
+         * @param index       |
+         */
+        private void setInitValue(Object[] array, DeclaredType elementType,
+                                  Integer[] ranges, int index) {
+            if (elementType instanceof ArrayType) {
+                if (index == ranges.length - 1) {
+                    return;
+                }
+                ArrayType arrayType = (ArrayType) elementType;
+                for (int i = 0; i < ranges[index]; i++) {
+                    array[i] = Array.newInstance(arrayType.getElementType().getStorageClass(),
+                            ranges[index + 1]);
+                    setInitValue((Object[]) array[i], arrayType.getElementType(), ranges, index + 1);
+                }
+            } else {
+                for (Integer i = 0; i < ranges[index]; i++) {
+                    Array.set(array, i, elementType.initialize());
+                }
+            }
         }
     }
 }
