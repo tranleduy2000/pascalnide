@@ -109,130 +109,18 @@ public class IOLib implements IPascalLibrary {
 
     }
 
-    private void println(Object... args) {
+    public void println(Object... args) {
         print(args);
         print("\n");
     }
 
-    private void print(Object... args) {
+    public void print(Object... args) {
         if (listener == null) return;
         StringBuilder result = new StringBuilder();
         for (Object o : args) {
             result.append(o.toString());
         }
         listener.print(result.toString());
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln() {
-        println();
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object values) {
-        println(values);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object o1, Object o2) {
-        println(o1, o2);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object o1, Object o2, Object o3) {
-        println(o1, o2, o3);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object o1, Object o2, Object o3, Object o4) {
-        println(o1, o2, o3, o4);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5) {
-        println(o1, o2, o3, o4, o5);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6) {
-        println(o1, o2, o3, o4, o5, o6);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
-                        Object o7) {
-        println(o1, o2, o3, o4, o5, o6, o7);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
-                        Object o7, Object o8) {
-        println(o1, o2, o3, o4, o5, o6, o7, o8);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void writeln(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
-                        Object o7, Object o8, Object o9, Object o10) {
-        println(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write() {
-
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object values) {
-        print(values);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2) {
-        print(o1, o2);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2, Object o3) {
-        print(o1, o2, o3);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2, Object o3, Object o4) {
-        print(o1, o2, o3, o4);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2, Object o3, Object o4, Object o5) {
-        print(o1, o2, o3, o4, o5);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6) {
-        print(o1, o2, o3, o4, o5, o6);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
-                      Object o7) {
-        print(o1, o2, o3, o4, o5, o6, o7);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
-                      Object o7, Object o8) {
-        print(o1, o2, o3, o4, o5, o6, o7, o8);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
-                      Object o7, Object o8, Object o9) {
-        print(o1, o2, o3, o4, o5, o6, o7, o8, o9);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void write(Object o1, Object o2, Object o3, Object o4, Object o5, Object o6,
-                      Object o7, Object o8, Object o9, Object o10) {
-        print(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
     }
 
     private void sleep(long ms) {
@@ -243,61 +131,6 @@ public class IOLib implements IPascalLibrary {
         }
     }
 
-  /*  @PascalMethod(description = "system library", returns = "void")
-    public void read() {
-        if (listener != null) {
-            listener.startInput(this);
-            pause(); //wait for press enter
-        }
-    }
-
-    *//**
-     * read procedure
-     *//*
-    @PascalMethod(description = "system library", returns = "void")
-    public void read(PascalReference<Object> a1) throws RuntimePascalException, NumberFormatException {
-        setValueForVariables(a1);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void read(PascalReference<Object> a1, PascalReference a2) throws RuntimePascalException {
-        setValueForVariables(a1, a2);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void read(PascalReference<Object> a1, PascalReference<Object> a2, PascalReference<Object> a3) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void read(PascalReference<Object> a1, PascalReference<Object> a2,
-                     PascalReference<Object> a3, PascalReference<Object> a4) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3, a4);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void read(PascalReference<Object> a1, PascalReference<Object> a2,
-                     PascalReference<Object> a3, PascalReference<Object> a4,
-                     PascalReference<Object> a5) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3, a4, a5);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void read(PascalReference<Object> a1, PascalReference<Object> a2,
-                     PascalReference<Object> a3, PascalReference<Object> a4,
-                     PascalReference<Object> a5, PascalReference<Object> a6) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3, a4, a5, a6);
-
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void read(PascalReference<Object> a1, PascalReference<Object> a2,
-                     PascalReference<Object> a3, PascalReference<Object> a4,
-                     PascalReference<Object> a5, PascalReference<Object> a6,
-                     PascalReference<Object> a7) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
-    }
-*/
     private void readString(Scanner scanner, PascalReference<String> variableBoxer) {
         variableBoxer.set(scanner.nextLine());
 
@@ -487,6 +320,7 @@ public class IOLib implements IPascalLibrary {
     public void readz(PascalReference[] values) throws RuntimePascalException {
         setValueForVariables(values);
     }
+
     public void readlnz(PascalReference[] values) throws RuntimePascalException {
         if (values.length == 0) {
             if (listener != null) {

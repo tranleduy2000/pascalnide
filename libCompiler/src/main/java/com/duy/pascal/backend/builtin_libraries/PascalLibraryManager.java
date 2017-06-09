@@ -43,6 +43,10 @@ import com.duy.pascal.backend.ast.function_declaretion.io.ReadFileFunction;
 import com.duy.pascal.backend.ast.function_declaretion.io.ReadFunction;
 import com.duy.pascal.backend.ast.function_declaretion.io.ReadLineFunction;
 import com.duy.pascal.backend.ast.function_declaretion.io.ReadlnFileFunction;
+import com.duy.pascal.backend.ast.function_declaretion.io.WriteFileFunction;
+import com.duy.pascal.backend.ast.function_declaretion.io.WriteFunction;
+import com.duy.pascal.backend.ast.function_declaretion.io.WriteLineFunction;
+import com.duy.pascal.backend.ast.function_declaretion.io.WritelnFileFunction;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.builtin_libraries.android.connection.bluetooth.AndroidBluetoothLib;
@@ -223,10 +227,17 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceObject()));
         program.declareFunction(new AbstractMethodDeclaration(new AddressFunction()));
 
+        //io region
         program.declareFunction(new AbstractMethodDeclaration(new ReadFileFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new ReadlnFileFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new ReadLineFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new ReadFunction()));
+
+        program.declareFunction(new AbstractMethodDeclaration(new WriteFileFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new WritelnFileFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new WriteLineFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new WriteFunction()));
+        //end region
 
         program.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), null, null));
         program.declareConst(new ConstantDefinition("nil", new PointerType(null), null, null));

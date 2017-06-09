@@ -18,6 +18,7 @@ package com.duy.pascal.backend.builtin_libraries.file;
 
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.DiskReadErrorException;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotOpenException;
+import com.duy.pascal.backend.builtin_libraries.file.exceptions.PascalIOException;
 import com.duy.pascal.backend.runtime_exception.InvalidNumericFormatException;
 
 import java.io.BufferedWriter;
@@ -206,9 +207,13 @@ class FileEntry {
         }
     }
 
-    public synchronized void writeString(Object[] objects) throws IOException {
+    public synchronized void writeString(Object[] objects) throws PascalIOException {
         for (Object o : objects) {
-            mWriter.write(o.toString());
+            try {
+                mWriter.write(o.toString());
+            } catch (IOException e) {
+                throw new PascalIOException(e);
+            }
         }
     }
 

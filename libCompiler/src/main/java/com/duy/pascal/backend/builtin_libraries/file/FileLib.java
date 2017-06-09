@@ -436,135 +436,14 @@ public class FileLib implements IPascalLibrary {
         }
     }
 
-
     /**
      * writeS file
      */
-    private void writeFile(File fileVariable, Object... objects) throws IOException, RuntimePascalException {
+    public void writeFile(File fileVariable, Object... objects) throws RuntimePascalException {
         //check error
         assertFileOpened(fileVariable);
         FileEntry file = filesMap.get(fileVariable.getPath());
         file.writeString(objects);
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File file) throws IOException, RuntimePascalException {
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File fileVariable, Object o1) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1);
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File fileVariable, Object o1, Object o2) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2);
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File fileVariable, Object o1, Object o2, Object o3) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3);
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4);
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4, o5);
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
-                      Object o6) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4, o5, o6);
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
-                      Object o6, Object o7) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7);
-    }
-
-    @PascalMethod(description = "library file")
-    public void write(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
-                      Object o6, Object o7, Object o8) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7, o8);
-
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File file) throws IOException, RuntimePascalException {
-        writeFile(file, "\n");
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File fileVariable, Object o1) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1);
-        writeFile(fileVariable, "\n");
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File fileVariable, Object o1, Object o2) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2);
-        writeFile(fileVariable, "\n");
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File fileVariable, Object o1, Object o2, Object o3) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3);
-        writeFile(fileVariable, "\n");
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4);
-        writeFile(fileVariable, "\n");
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4, o5);
-        writeFile(fileVariable, "\n");
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
-                        Object o6) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4, o5, o6);
-        writeFile(fileVariable, "\n");
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
-                        Object o6, Object o7) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7);
-        writeFile(fileVariable, "\n");
-    }
-
-    @PascalMethod(description = "library file")
-    public void writeln(File fileVariable, Object o1, Object o2, Object o3, Object o4, Object o5,
-                        Object o6, Object o7, Object o8) throws
-            IOException, RuntimePascalException {
-        writeFile(fileVariable, o1, o2, o3, o4, o5, o6, o7, o8);
-        writeFile(fileVariable, "\n");
     }
 
     @Override

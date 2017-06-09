@@ -20,4 +20,7 @@ public class RuntimePascalException extends Exception {
         super(mes);
         this.line = line;
     }
+
+    public RuntimePascalException(Exception e) {
+    }
 }
