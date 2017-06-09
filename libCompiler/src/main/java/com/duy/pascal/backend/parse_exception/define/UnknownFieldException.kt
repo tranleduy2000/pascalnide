@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.parse_exception.define
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue
+import com.duy.pascal.backend.data_types.RecordType
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 
@@ -25,7 +25,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException
  * Created by Duy on 03-Jun-17.
  */
 
-class UnknownFieldException(line: LineInfo, var container: RuntimeValue, var name: String,
+class UnknownFieldException(line: LineInfo?, var container: RecordType, var name: String,
                             var scope: ExpressionContext)
     : ParsingException(line) {
     override val message: String?

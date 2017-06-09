@@ -850,5 +850,4 @@ public class GraphLib implements IPascalLibrary {
         low.set(-1);
         high.set(-1);
     }
-
 }

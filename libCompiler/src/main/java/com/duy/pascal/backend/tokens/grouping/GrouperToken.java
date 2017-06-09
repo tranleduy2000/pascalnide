@@ -101,11 +101,14 @@ import com.duy.pascal.frontend.DLog;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static android.R.attr.type;
 
 public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
@@ -445,7 +448,8 @@ public abstract class GrouperToken extends Token {
                                 ((RecordType) runtimeType.declType).findField(((WordToken) next).getName());
                         if (field == null) { //can not find field
                             // TODO: 03-Jun-17 declare field
-                            throw new UnknownFieldException(next.getLineNumber(), term,
+                            throw new UnknownFieldException(next.getLineNumber(),
+                                    (RecordType) runtimeType.getDeclType(),
                                     ((WordToken) next).getName(), context);
                         }
                     }
@@ -659,7 +663,7 @@ public abstract class GrouperToken extends Token {
             defaultValue = getSetConstant(context, take(), elementTypeReference).getValue();
 
         } else if (type instanceof RecordType) {
-            defaultValue = getRecordConstant(context, take(), type);
+            defaultValue = getRecordConstant(context, take(), (RecordType) type);
 
         } else { //set default single value
 
@@ -682,9 +686,47 @@ public abstract class GrouperToken extends Token {
         return defaultValue;
     }
 
-    private ConstantAccess<CustomVariable> getRecordConstant(ExpressionContext context, Token take, DeclaredType type) {
-
-        return null;
+    private ConstantAccess<CustomVariable> getRecordConstant(ExpressionContext context, Token take,
+                                                             RecordType ztype) throws ParsingException {
+        if (take instanceof ParenthesizedToken) {
+            ParenthesizedToken group = (ParenthesizedToken) take;
+            RecordType recordType = ztype.clone();
+            HashMap<String, Object> initialized = new HashMap<>();
+            while (group.hasNext()) {
+                Token name = group.take();
+                if (!(name instanceof WordToken)) {
+                    throw new ExpectedTokenException("[field identifier]", name);
+                }
+                VariableDeclaration field = recordType.findField(((WordToken) name).name);
+                if (field == null) {
+                    throw new UnknownFieldException(name.getLineNumber(), recordType,
+                            ((WordToken) name).getName(), context);
+                }
+                if (group.peek() instanceof ColonToken) {
+                    group.take();
+                } else {
+                    throw new ExpectedTokenException(":", group.peek());
+                }
+                RuntimeValue value = group.getNextExpression(context);
+                RuntimeValue convert = field.getType().convert(value, context);
+                if (convert == null) {
+                    throw new UnConvertibleTypeException(value, field.getType(),
+                            value.getType(context).getDeclType(), context);
+                }
+                Object o = value.compileTimeValue(context);
+                if (o == null) {
+                    throw new NonConstantExpressionException(value);
+                }
+                recordType.setFieldValue(((WordToken) name).getName(), o);
+                if (group.hasNext()) {
+                    group.assertNextSemicolon(name);
+                }
+            }
+            return new ConstantAccess<>(recordType.initialize(), recordType,
+                    group.getLineNumber());
+        } else {
+            throw new ExpectedTokenException(take, new ParenthesizedToken(null));
+        }
     }
 
     /**
@@ -794,39 +836,56 @@ public abstract class GrouperToken extends Token {
     public ConstantAccess getConstantElement(@NonNull ExpressionContext context,
                                              @NonNull GrouperToken grouperToken,
                                              @Nullable DeclaredType elementType) throws ParsingException {
-        DLog.d(TAG, "getConstantElement() called with: scope = [" + context + "], grouperToken = [" + grouperToken + "], elementType = [" + elementType + "]");
+        DLog.d(TAG, "getConstantElement() called with: scope = [" + context + "], grouperToken = ["
+                + grouperToken + "], elementType = [" + elementType + "]");
 
         if (grouperToken.hasNext()) {
             if (elementType instanceof ArrayType) {
                 GrouperToken child = (GrouperToken) grouperToken.take();
-                Object[] array = grouperToken.getArrayConstant(context, child, (ArrayType) elementType).getValue();
+                Object[] array = grouperToken.getArrayConstant(context, child,
+                        (ArrayType) elementType).getValue();
 
                 assertNextCommaForNextConstant(context, grouperToken, elementType);
 
-                return new ConstantAccess<>(array, child.mLineNumber);
+                return new ConstantAccess<>(array, elementType, child.mLineNumber);
 
             } else if (elementType instanceof EnumGroupType) {
                 Token next = grouperToken.take();
-                ConstantAccess<EnumElementValue> constant = grouperToken.getEnumConstant(context, next, elementType);
+                ConstantAccess<EnumElementValue> constant = grouperToken.getEnumConstant(context,
+                        next, elementType);
 
                 EnumElementValue enumConstant = constant.getValue();
 
                 assertNextCommaForNextConstant(context, grouperToken, elementType);
 
-                return new ConstantAccess<>(enumConstant, enumConstant.getType(context).declType, next.getLineNumber());
+                return new ConstantAccess<>(enumConstant, enumConstant.getType(context).declType,
+                        next.getLineNumber());
+
+            } else if (elementType instanceof RecordType) {
+                Token next = grouperToken.take();
+                ConstantAccess<CustomVariable> constant = grouperToken.getRecordConstant(context,
+                        next, (RecordType) elementType);
+
+                CustomVariable enumConstant = constant.getValue();
+
+                assertNextCommaForNextConstant(context, grouperToken, elementType);
+                return new ConstantAccess<>(enumConstant, elementType, next.getLineNumber());
 
             } else if (elementType instanceof SetType) {
                 if (grouperToken.peek() instanceof BracketedToken) {
-                    AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) elementType).getElementType());
+                    AtomicReference<DeclaredType> elementTypeReference =
+                            new AtomicReference<>(((SetType) elementType).getElementType());
                     BracketedToken bracketedToken = (BracketedToken) grouperToken.take();
 
-                    ConstantAccess<LinkedList> constant = grouperToken.getSetConstant(context, bracketedToken, elementTypeReference);
+                    ConstantAccess<LinkedList> constant = grouperToken.getSetConstant(context,
+                            bracketedToken, elementTypeReference);
 
                     LinkedList setConstant = constant.getValue();
 
                     assertNextCommaForNextConstant(context, grouperToken, elementType);
 
-                    return new ConstantAccess<>(setConstant, elementType, bracketedToken.getLineNumber());
+                    return new ConstantAccess<>(setConstant, elementType,
+                            bracketedToken.getLineNumber());
                 } else {
                     throw new ExpectedTokenException(new ParenthesizedToken(null),
                             grouperToken.peek());
@@ -843,11 +902,13 @@ public abstract class GrouperToken extends Token {
 
                     assertNextCommaForNextConstant(context, grouperToken, elementType);
 
-                    return new ConstantAccess<>(converted.compileTimeValue(context), elementType, unconvert.getLineNumber());
+                    return new ConstantAccess<>(converted.compileTimeValue(context), elementType,
+                            unconvert.getLineNumber());
                 } else {
                     assertNextCommaForNextConstant(context, grouperToken, elementType);
 
-                    return new ConstantAccess<>(unconvert.compileTimeValue(context), unconvert.getLineNumber());
+                    return new ConstantAccess<>(unconvert.compileTimeValue(context),
+                            unconvert.getLineNumber());
                 }
             }
         } else {

@@ -17,8 +17,9 @@
 package com.duy.pascal.backend.data_types;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 
-public class RecordType extends CustomType {
+public class RecordType extends CustomType implements Cloneable {
     @Override
     public String toString() {
         StringBuilder out = new StringBuilder();
@@ -47,7 +48,28 @@ public class RecordType extends CustomType {
     }
 
     @Override
-    public Object initialize() {
+    public CustomVariable initialize() {
         return super.initialize();
+    }
+
+    public boolean setFieldValue(String name, Object o) {
+        for (VariableDeclaration variableDeclaration : variableDeclarations) {
+            if (variableDeclaration.getName().equalsIgnoreCase(name)) {
+                variableDeclaration.setInitialValue(o);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public RecordType clone() {
+        RecordType recordType = new RecordType();
+        for (VariableDeclaration var : variableDeclarations) {
+            recordType.addVariableDeclaration(var.clone());
+        }
+        recordType.setLineNumber(lineInfo);
+        recordType.setName(name);
+        return recordType;
     }
 }

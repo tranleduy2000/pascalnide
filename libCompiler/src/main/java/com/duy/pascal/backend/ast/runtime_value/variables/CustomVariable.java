@@ -39,19 +39,6 @@ public class CustomVariable implements ContainsVariables {
             if (declaration.getInitialValue() != null) {
                 variableMap.put(declaration.name.toLowerCase(), declaration.getInitialValue());
             } else {
-              /*  if (returnType instanceof BasicType) {
-                    variableMap.put(declaration.name, returnType.initialize());
-                } else if (declaration.type instanceof ArrayType) {
-                    variableMap.put(declaration.name.toLowerCase(), new Object[0]);
-
-                } else if (declaration.type instanceof PointerType) {
-                    variableMap.put(declaration.name.toLowerCase(), new ObjectBasedPointer<>(null));
-
-                } else if (declaration.type instanceof RecordType) {
-                    variableMap.put(declaration.name.toLowerCase(), declaration.type.initialize());
-                } else {
-                    variableMap.put(declaration.name.toLowerCase(), null);
-                }*/
                 variableMap.put(declaration.name, returnType.initialize());
             }
         }

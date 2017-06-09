@@ -35,7 +35,7 @@ public class CustomType extends ObjectType {
     }
 
     @Override
-    public Object initialize() {
+    public CustomVariable initialize() {
         customVariable = new CustomVariable(variableDeclarations);
         return customVariable;
     }

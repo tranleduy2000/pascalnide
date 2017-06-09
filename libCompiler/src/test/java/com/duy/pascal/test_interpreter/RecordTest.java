@@ -54,4 +54,8 @@ public class RecordTest extends BaseTestCase {
         run("test_pointer_in_pointer.pas");
     }
 
+    public void testConst() {
+        run("test_const.pas");
+    }
+
 }
