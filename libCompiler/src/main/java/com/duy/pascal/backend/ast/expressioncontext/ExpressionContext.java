@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.ast.expressioncontext;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.backend.ast.ConstantDefinition;
@@ -9,10 +9,10 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
-import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public interface ExpressionContext extends CompileTimeContext {
 
-    @Nullable
+    @NonNull
     LineInfo getStartLine();
 
     RuntimeValue getIdentifierValue(WordToken name)

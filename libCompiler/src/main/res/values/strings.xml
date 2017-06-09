@@ -193,5 +193,8 @@
     <string name="select_token">Select token</string>
     <string name="enable_ime_keyboard">Enable IME keyboard</string>
     <string name="key_ime_keyboard" translatable="false">key_ime_keyboard</string>
+    <string name="frame">Frame</string>
+    <string name="variables">Variables</string>
+    <string name="call_stack">Call stack</string>
 </resources>
 

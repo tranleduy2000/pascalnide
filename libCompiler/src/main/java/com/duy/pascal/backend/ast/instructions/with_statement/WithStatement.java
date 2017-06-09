@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
@@ -118,7 +119,7 @@ public class WithStatement {
             super(parent.root(), parent);
         }
 
-        @Nullable
+        @NonNull
         @Override
         public LineInfo getStartLine() {
             return line;

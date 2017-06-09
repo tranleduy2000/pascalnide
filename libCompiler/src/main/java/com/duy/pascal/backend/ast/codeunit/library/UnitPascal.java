@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.ast.codeunit.library;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.AbstractFunction;
@@ -146,6 +147,7 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
             super(handler, true);
         }
 
+        @NonNull
         @Override
         public LineInfo getStartLine() {
             return startLine;

@@ -13,6 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -34,5 +35,27 @@
 
     </android.support.design.widget.AppBarLayout>
 
- <include layout="@layout/content_debug"/>
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".debug.activities.DebugActivity"
+        tools:openDrawer="start">
+
+        <include layout="@layout/content_debug" />
+
+        <com.duy.pascal.frontend.view.exec_screen.console.ConsoleView
+            android:id="@+id/console"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+    </android.support.v4.widget.DrawerLayout>
+
 </android.support.design.widget.CoordinatorLayout>
+
+
+

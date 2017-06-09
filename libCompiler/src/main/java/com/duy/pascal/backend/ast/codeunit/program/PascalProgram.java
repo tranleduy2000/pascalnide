@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.ast.codeunit.program;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -65,7 +65,7 @@ public class PascalProgram extends ExecutableCodeUnit {
             super(handler, false);
         }
 
-        @Nullable
+        @NonNull
         @Override
         public LineInfo getStartLine() {
             return new LineInfo(0, programName == null ? "" : programName);

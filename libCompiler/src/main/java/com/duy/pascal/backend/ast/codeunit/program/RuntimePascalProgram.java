@@ -30,8 +30,6 @@ import java.util.Set;
 
 public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgram> {
 
-    VariableContext main;
-
     public RuntimePascalProgram(PascalProgram p) {
         super(p);
     }
@@ -69,7 +67,7 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
     public String toString() {
         String programName = getDefinition().getProgramName();
         if (programName == null) {
-            return this.getClass().getSimpleName();
+            return getDefinition().getContext().getStartLine().getSourceFile();
         }
         return programName;
     }

@@ -171,23 +171,17 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
 
-        boolean debug = main.isDebug();
-        if (debug) {
-            main.getDebugListener().onEvaluatingExpr(line, toString());
-            main.setDebug(false);
-        }
-        Object value1 = operon1.getValue(f, main);
-        Object value2 = operon2.getValue(f, main);
-        Object result = operate(value1, value2);
+        Object value1 = operon1.getValue(f, main); //get left value
+        Object value2 = operon2.getValue(f, main); //get right value
+        Object result = operate(value1, value2); //operate
 
-        //restore mode
-        main.setDebug(debug);
         if (main.isDebug()) {
-            main.getDebugListener().onEvaluatedExpr(line, toString(),
-                    result.toString());
+            main.getDebugListener().onEvaluatedExpr(line, toString(), result.toString());
             main.scriptControlCheck(getLineNumber());
         }
+
         return result;
+
     }
 
     public abstract Object operate(Object value1, Object value2)

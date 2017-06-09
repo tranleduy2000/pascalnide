@@ -13,87 +13,50 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_layout"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    app:umanoDragView="@+id/drag_view"
-    app:umanoPanelHeight="30dp">
+    android:orientation="vertical"
+    android:weightSum="100">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.duy.pascal.frontend.view.LockableScrollView
+        android:id="@+id/vertical_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:weightSum="100">
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:fillViewport="true">
 
-        <com.duy.pascal.frontend.view.LockableScrollView
-            android:id="@+id/vertical_scroll"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="50"
-            android:fillViewport="true">
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
-
-                <com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor
-                    android:id="@+id/code_editor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:gravity="top|start"
-                    android:inputType="none|textMultiLine"
-                    android:scrollbarSize="5dip"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbars="vertical">
-
-                </com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor>
-            </HorizontalScrollView>
-
-        </com.duy.pascal.frontend.view.LockableScrollView>
-
-        <fragment
-            android:id="@+id/fragment_frame"
-            class="com.duy.pascal.frontend.debug.fragments.FragmentFrame"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="50"
-            android:tag="FragmentFrame"
-            app:layout_heightPercent="30%" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/drag_view"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@drawable/panel">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_keyboard_arrow_up_white_18dp" />
-        </FrameLayout>
-
-        <com.duy.pascal.frontend.view.exec_screen.console.ConsoleView
-            android:id="@+id/console"
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-    </LinearLayout>
+            android:fillViewport="true">
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+            <com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor
+                android:id="@+id/code_editor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:editable="false"
+                android:focusable="false"
+                android:gravity="top|start"
+                android:inputType="none|textMultiLine"
+                android:scrollbarSize="5dip"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical">
+
+            </com.duy.pascal.frontend.code_editor.editor_view.HighlightEditor>
+        </HorizontalScrollView>
+
+    </com.duy.pascal.frontend.view.LockableScrollView>
+
+    <fragment
+        android:id="@+id/fragment_frame"
+        class="com.duy.pascal.frontend.debug.fragments.FragmentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:tag="FragmentFrame" />
+
+</LinearLayout>
+

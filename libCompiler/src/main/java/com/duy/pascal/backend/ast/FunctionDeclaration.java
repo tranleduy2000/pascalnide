@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.ast;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -256,7 +257,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             this.function = function;
         }
 
-        @Nullable
+        @NonNull
         @Override
         public LineInfo getStartLine() {
             return endPositionHeader;

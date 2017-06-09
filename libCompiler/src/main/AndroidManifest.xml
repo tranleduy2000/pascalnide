@@ -104,10 +104,12 @@
         <activity android:name="com.duy.pascal.frontend.theme.fragment.ThemeFontActivity" />
         <activity android:name="com.duy.pascal.frontend.info_application.InfoActivity" />
         <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
+
         <activity
             android:name="com.duy.pascal.frontend.debug.activities.DebugActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
+
         <activity android:name="com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivity" />
         <activity android:name="com.duy.pascal.frontend.code_sample.activities.SearchResultSampleActivity" />
 

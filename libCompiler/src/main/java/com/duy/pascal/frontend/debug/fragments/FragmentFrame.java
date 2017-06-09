@@ -19,12 +19,18 @@ package com.duy.pascal.frontend.debug.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.adapter.FrameAdapter;
@@ -41,9 +47,9 @@ import java.util.List;
 public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListener {
 
     private static final String TAG = "FragmentFrame";
-    private RecyclerView mListFrame, mListVars;
+    private RadioGroup mListFrame;
+    private RecyclerView mListVars;
     private VariableAdapter mVariableAdapter;
-    private FrameAdapter mFrameAdapter;
 
     public static FragmentFrame newInstance() {
 
@@ -63,21 +69,32 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mListFrame = (RecyclerView) view.findViewById(R.id.rc_frame);
-        mListFrame.setHasFixedSize(true);
-        mListFrame.setLayoutManager(new LinearLayoutManager(getContext()));
-        mFrameAdapter = new FrameAdapter(getContext(), this);
-        mListFrame.setAdapter(mFrameAdapter);
+        mListFrame = (RadioGroup) view.findViewById(R.id.group_frame);
 
         mListVars = (RecyclerView) view.findViewById(R.id.rc_vars);
         mListVars.setHasFixedSize(true);
         mListVars.setLayoutManager(new LinearLayoutManager(getContext()));
         mVariableAdapter = new VariableAdapter(getContext());
         mListVars.setAdapter(mVariableAdapter);
+        mListVars.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+
     }
 
     public void displayFrame(CallStack callStack) {
-        mFrameAdapter.setFrames(callStack.getStacks());
+        ArrayList<VariableContext> stacks = callStack.getStacks();
+        mListFrame.removeAllViews();
+        for (int i = 0; i < stacks.size(); i++) {
+            RadioButton radioButton = new RadioButton(getContext());
+            radioButton.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            radioButton.setText(stacks.get(i).toString());
+            radioButton.setOnCheckedChangeListener(new OnFrameChangeListener(stacks.get(i)));
+            mListFrame.addView(radioButton);
+        }
+        RadioButton rad = (RadioButton) mListFrame.getChildAt(mListFrame.getChildCount() - 1);
+        rad.setChecked(true);
     }
 
     public void displayVars(CallStack callStack) {
@@ -96,7 +113,6 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
 
     @Override
     public void onDestroyView() {
-        mFrameAdapter.clearData();
         mVariableAdapter.clearData();
         super.onDestroyView();
     }
@@ -104,5 +120,20 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     @Override
     public void onSelectFrame(CallStack stack) {
         displayVars(stack);
+    }
+
+    private final class OnFrameChangeListener implements CompoundButton.OnCheckedChangeListener {
+        public CallStack callStack;
+
+        public OnFrameChangeListener(VariableContext callStack) {
+            this.callStack = new CallStack(callStack);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                displayVars(callStack);
+            }
+        }
     }
 }

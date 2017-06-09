@@ -20,13 +20,38 @@
     android:orientation="horizontal"
     android:weightSum="2">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rc_frame"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_list_white_24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/call_stack" />
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/group_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </RadioGroup>
+    </LinearLayout>
 
     <View
         android:layout_width="2dp"
@@ -35,11 +60,25 @@
 
     </View>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rc_vars"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_marginLeft="4dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/variables" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_vars"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
 </LinearLayout>
