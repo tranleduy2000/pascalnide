@@ -71,8 +71,8 @@ public class SimpleFunctionCall extends FunctionCall {
                         if (outputFormat[1] != null) {
                             int sizeOfReal = (int) outputFormat[1].getValue(f, main);
                             StringBuilder round = new StringBuilder();
-                            for (int j = 0; j < sizeOfReal; j++) round.append("#");
-                            DecimalFormat decimalFormat = new DecimalFormat("#." + round.toString());
+                            for (int j = 0; j < sizeOfReal; j++) round.append("0");
+                            DecimalFormat decimalFormat = new DecimalFormat("#0." + round.toString());
                             decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
                             Double d = Double.parseDouble(object.toString());
                             object = new StringBuilder(decimalFormat.format(d));
