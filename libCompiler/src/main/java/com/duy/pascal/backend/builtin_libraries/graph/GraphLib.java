@@ -42,6 +42,7 @@ import com.duy.pascal.backend.builtin_libraries.graph.model.FillEllipseObject;
 import com.duy.pascal.backend.builtin_libraries.graph.model.LineObject;
 import com.duy.pascal.backend.builtin_libraries.graph.model.PieSliceObject;
 import com.duy.pascal.backend.builtin_libraries.graph.model.PixelObject;
+import com.duy.pascal.backend.builtin_libraries.graph.model.PolygonObject;
 import com.duy.pascal.backend.builtin_libraries.graph.model.RectangleObject;
 import com.duy.pascal.backend.builtin_libraries.graph.model.SectorObject;
 import com.duy.pascal.backend.builtin_libraries.graph.model.TextGraphObject;
@@ -63,7 +64,6 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -319,7 +319,7 @@ public class GraphLib implements IPascalLibrary {
      */
 
     @PascalMethod(description = "graph library", returns = "void")
-    public void initGraph(int driver, int mode, String pathToDriver) {
+    public void initGraph(int driver, int mode, StringBuilder pathToDriver) {
         if (handler != null) {
             handler.getConsoleView().setGraphMode(true);
         }
@@ -516,10 +516,10 @@ public class GraphLib implements IPascalLibrary {
 
 
     @PascalMethod(description = "graph library", returns = "void")
-    public void outTextXY(int x, int y, String text) {
+    public void outTextXY(int x, int y, StringBuilder text) {
         if (handler != null) {
 
-            handler.getConsoleView().addGraphObject(new TextGraphObject(text, x, y));
+            handler.getConsoleView().addGraphObject(new TextGraphObject(text.toString(), x, y));
            /* //indexOf current paint
             Paint textPaint = handler.getConsoleView().getGraphScreen().getTextPaint();
             //indexOf width of text
@@ -664,9 +664,9 @@ public class GraphLib implements IPascalLibrary {
 
 
     @PascalMethod(description = "graph library", returns = "void")
-    public String graphErrorMsg(int errorCode) {
+    public StringBuilder graphErrorMsg(int errorCode) {
         // TODO: 09-Apr-17
-        return "";
+        return new StringBuilder();
     }
 
 
@@ -699,8 +699,8 @@ public class GraphLib implements IPascalLibrary {
 
 
     @PascalMethod(description = "graph library", returns = "void")
-    public String getModeName(int mode) {
-        return "android_graphics";
+    public StringBuilder getModeName(int mode) {
+        return new StringBuilder("android_graphics");
     }
 
 
@@ -858,6 +858,10 @@ public class GraphLib implements IPascalLibrary {
 
     @PascalMethod(description = "Draw, close and fill a polygone")
     public void FillPoly(int numPoint, CustomVariable[] points) {
-        System.out.println(Arrays.toString(points));
+        ConsoleView consoleView = handler.getConsoleView();
+        if (consoleView != null) {
+            consoleView.getGraphScreen().addGraphObject(new PolygonObject(points, numPoint));
+            consoleView.postInvalidate();
+        }
     }
 }

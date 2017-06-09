@@ -18,7 +18,6 @@ package com.duy.pascal.backend.ast.runtime_value.variables;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +49,7 @@ public class CustomVariable implements ContainsVariables {
     }
 
     @Override
-    public Object getVar(String name) throws RuntimePascalException {
+    public Object getVar(String name){
         return variableMap.get(name.toLowerCase());
     }
 
