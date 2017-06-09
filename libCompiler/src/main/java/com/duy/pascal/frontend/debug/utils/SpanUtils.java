@@ -24,8 +24,8 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.set.ArrayType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 
 import java.util.Arrays;

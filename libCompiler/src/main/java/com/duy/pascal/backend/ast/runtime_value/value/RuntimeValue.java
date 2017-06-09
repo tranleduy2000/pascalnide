@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;

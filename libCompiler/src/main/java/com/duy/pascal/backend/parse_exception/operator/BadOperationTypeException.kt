@@ -18,8 +18,8 @@ package com.duy.pascal.backend.parse_exception.operator
 
 import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
-import com.duy.pascal.backend.data_types.DeclaredType
-import com.duy.pascal.backend.data_types.OperatorTypes
+import com.duy.pascal.backend.types.DeclaredType
+import com.duy.pascal.backend.types.OperatorTypes
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue
 
 class BadOperationTypeException : ParsingException {

@@ -3,10 +3,10 @@ package com.duy.pascal.backend.tokens;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.JavaClassBasedType;
-import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;

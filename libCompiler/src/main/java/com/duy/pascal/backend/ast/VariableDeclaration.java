@@ -19,7 +19,7 @@ package com.duy.pascal.backend.ast;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 import java.util.Map;

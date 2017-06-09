@@ -21,12 +21,12 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.set.ArrayType;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.RuntimeType;
-import com.duy.pascal.backend.data_types.set.EnumGroupType;
+import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.set.ArrayType;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.set.EnumGroupType;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;

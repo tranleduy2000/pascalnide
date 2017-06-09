@@ -25,7 +25,7 @@ import com.duy.pascal.backend.ast.codeunit.program.RuntimePascalProgram;
 import com.duy.pascal.backend.ast.instructions.with_statement.WithOnStack;
 import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.ArrayList;

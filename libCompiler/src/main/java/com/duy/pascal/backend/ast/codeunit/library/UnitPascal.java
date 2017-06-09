@@ -25,7 +25,7 @@ import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
-import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MissingBodyFunctionException;

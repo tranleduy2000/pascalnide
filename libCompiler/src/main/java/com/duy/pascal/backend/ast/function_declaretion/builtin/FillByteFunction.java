@@ -28,13 +28,13 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.RuntimeType;
-import com.duy.pascal.backend.data_types.rangetype.SubrangeType;
-import com.duy.pascal.backend.data_types.set.ArrayType;
-import com.duy.pascal.backend.data_types.set.EnumGroupType;
+import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.rangetype.SubrangeType;
+import com.duy.pascal.backend.types.set.ArrayType;
+import com.duy.pascal.backend.types.set.EnumGroupType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class FillByteFunction implements IMethodDeclaration {

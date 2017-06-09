@@ -3,7 +3,7 @@ package com.duy.pascal.backend.ast.instructions.conditional;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.OperatorTypes;
+import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.AssignStatement;

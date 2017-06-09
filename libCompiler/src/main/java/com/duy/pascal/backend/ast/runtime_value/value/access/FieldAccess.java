@@ -17,14 +17,14 @@
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.data_types.PointerType;
+import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.JavaClassBasedType;
-import com.duy.pascal.backend.data_types.ObjectType;
-import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.types.ObjectType;
+import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.references.Reference;

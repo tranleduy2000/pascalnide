@@ -21,7 +21,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue
 import com.duy.pascal.backend.ast.runtime_value.value.access.VariableAccess
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.data_types.DeclaredType
+import com.duy.pascal.backend.types.DeclaredType
 
 class UnConvertibleTypeException : ParsingException {
 

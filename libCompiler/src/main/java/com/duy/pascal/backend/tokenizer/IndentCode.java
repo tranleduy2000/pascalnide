@@ -4,7 +4,7 @@ package com.duy.pascal.backend.tokenizer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.data_types.OperatorTypes;
+import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;

@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.ast.runtime_value.variables;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.types.DeclaredType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
