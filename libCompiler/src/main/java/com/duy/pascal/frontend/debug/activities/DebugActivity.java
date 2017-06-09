@@ -32,6 +32,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,6 +40,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
@@ -51,6 +53,7 @@ import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
@@ -91,6 +94,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
         }
     };
+
+
     private FragmentFrame mFameFragment;
     private DrawerLayout drawerLayout;
 
@@ -413,28 +418,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     private void addWatchVariable() {
-//        final AppCompatEditText edittext = new AppCompatEditText(this);
-//        edittext.setHint(R.string.var_name);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle(R.string.add_watch)
-//                .setView(edittext)
-//                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        String name = edittext.getText().toString();
-//                        if (!name.isEmpty()) {
-//                            mVariableWatcherView.addVariable(new VariableItem(name));
-//                        }
-//                        dialog.cancel();
-//                    }
-//                })
-//                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        alertDialog = builder.create();
-//        alertDialog.show();
-
     }
 
 
@@ -467,5 +450,36 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     }
 
+    @Override
+    public synchronized void startInput(final IOLib lock) {
+        this.mLock = lock;
+        showDialogInput();
+    }
 
+    private void showDialogInput() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DebugActivity.this);
+                final AppCompatEditText editText = new AppCompatEditText(DebugActivity.this);
+                editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                builder.setView(editText);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mLock instanceof IOLib) {
+                            ((IOLib) mLock).setInputBuffer(editText.getText().toString());
+                        }
+                        mConsoleView.writeString(editText.getText().toString());
+                        dialog.cancel();
+                    }
+                });
+                builder.setTitle("Read/readln");
+                alertDialog = builder.create();
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+            }
+        });
+    }
 }

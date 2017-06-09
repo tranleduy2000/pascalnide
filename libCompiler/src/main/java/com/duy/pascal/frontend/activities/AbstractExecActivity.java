@@ -246,7 +246,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         return getConsoleView().isKeyPressed();
     }
 
-
     @Override
     protected void onDestroy() {
         DLog.d(TAG, "onDestroy() called");
