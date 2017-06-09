@@ -8,7 +8,7 @@ public class IndexOutOfBoundsException extends RuntimePascalException {
     public IndexOutOfBoundsException(LineInfo line, int index, int min,
                                      int max) {
         super(line);
-        this.message = "Index inType of bounds: " + getcause(index, min, max);
+        this.message = "Index out of bounds: " + getcause(index, min, max);
     }
 
     @Override

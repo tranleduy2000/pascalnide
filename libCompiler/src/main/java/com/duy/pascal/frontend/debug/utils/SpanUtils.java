@@ -94,7 +94,15 @@ public class SpanUtils {
         if (list.size() <= maxSize) {
             return list.toString();
         } else {
-            return list.subList(0, maxSize - 1).toString();
+            StringBuilder b = new StringBuilder();
+            b.append('[');
+            for (int i = 0; i < maxSize; i++) {
+                b.append(String.valueOf(list.get(i).toString()));
+                if (i == maxSize - 1)
+                    return b.append("...]").toString();
+                b.append(", ");
+            }
+            return b.toString();
         }
     }
 
@@ -109,7 +117,7 @@ public class SpanUtils {
             for (int i = 0; i < maxSize; i++) {
                 b.append(String.valueOf(array[i]));
                 if (i == maxSize - 1)
-                    return b.append(']').toString();
+                    return b.append("...]").toString();
                 b.append(", ");
             }
             return b.toString();

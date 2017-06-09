@@ -13,18 +13,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="2">
+    android:layout_height="wrap_content">
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/txt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="2dp"
         android:text="TextView" />
 
 </LinearLayout>

@@ -409,7 +409,7 @@ public class ApplicationFileManager {
     }
 
     /**
-     * return file pas for generate program
+     * return file pas for run program
      *
      * @return - pascal file
      */

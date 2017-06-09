@@ -68,7 +68,7 @@ public class PascalProgram extends ExecutableCodeUnit {
         @NonNull
         @Override
         public LineInfo getStartLine() {
-            return new LineInfo(0, programName == null ? "" : programName);
+            return new LineInfo(0, programName == null ? getSourceName() : programName);
         }
 
         @Override

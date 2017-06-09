@@ -70,7 +70,7 @@ public class KeyListener {
      * CTRL + C copy z
      * CTRL + V paste z
      * CTRL + B: compile z
-     * CTRL + R generate z
+     * CTRL + R run z
      * CTRL + X cut z
      * CTRL + Z undo z
      * CTRL + Y redo z

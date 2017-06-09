@@ -161,13 +161,13 @@ public class Base64Codec implements BinaryEncoder, BinaryDecoder {
     private final byte[] lineSeparator;
 
     /**
-     * Convenience variable to help us determine when our buffer is going to generate inType of room and needs resizing.
+     * Convenience variable to help us determine when our buffer is going to generate out of room and needs resizing.
      * <code>decodeSize = 3 + lineSeparator.length;</code>
      */
     private final int decodeSize;
 
     /**
-     * Convenience variable to help us determine when our buffer is going to generate inType of room and needs resizing.
+     * Convenience variable to help us determine when our buffer is going to generate out of room and needs resizing.
      * <code>encodeSize = 4 + lineSeparator.length;</code>
      */
     private final int encodeSize;

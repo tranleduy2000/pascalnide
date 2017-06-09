@@ -19,6 +19,7 @@ public abstract class CodeUnit {
     public final ExpressionContextMixin context;
     @Nullable
     protected String programName;
+    private String sourceName;
     private List<ScriptSource> includeDirectories;
 
     public CodeUnit(IRunnablePascal handler) {
@@ -30,11 +31,16 @@ public abstract class CodeUnit {
                     @Nullable IRunnablePascal handler)
             throws ParsingException {
         this(handler);
+        this.sourceName = sourceName;
         this.includeDirectories = includeDirectories;
 
         NewLexer lexer = new NewLexer(program, sourceName, includeDirectories);
         lexer.parse();
         parseTree(lexer.getTokenQueue());
+    }
+
+    public String getSourceName() {
+        return sourceName;
     }
 
     public ExpressionContextMixin getContext() {

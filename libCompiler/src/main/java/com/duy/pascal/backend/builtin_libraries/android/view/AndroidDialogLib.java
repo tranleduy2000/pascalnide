@@ -94,7 +94,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <li>Using {@link #dialogGetResponse}, which will wait until the user performs an action to close
  * the dialog box, or
  * <li>Use eventPoll to wait for a "dialog" event.
- * <li>You can find inType which list items were selected using {@link #dialogGetSelectedItems}, which
+ * <li>You can find out which list items were selected using {@link #dialogGetSelectedItems}, which
  * returns an array of numeric indices to your list. For a single choice list, there will only ever
  * be one of these.
  * </ul>
@@ -386,9 +386,9 @@ public class AndroidDialogLib implements IPascalLibrary {
     }
 
     /**
-     * This creates a list of radio buttons. You can select one item inType of the list. A response will
+     * This creates a list of radio buttons. You can select one item out of the list. A response will
      * not be returned until the dialog is closed, either with the Cancel key or a button
-     * (positive/negative/neutral). Use {@link #dialogGetSelectedItems()} to find inType what was
+     * (positive/negative/neutral). Use {@link #dialogGetSelectedItems()} to find out what was
      * selected.
      */
 
@@ -404,9 +404,9 @@ public class AndroidDialogLib implements IPascalLibrary {
     }
 
     /**
-     * This creates a list of check boxes. You can select multiple items inType of the list. A response
+     * This creates a list of check boxes. You can select multiple items out of the list. A response
      * will not be returned until the dialog is closed, either with the Cancel key or a button
-     * (positive/negative/neutral). Use {@link #dialogGetSelectedItems()} to find inType what was
+     * (positive/negative/neutral). Use {@link #dialogGetSelectedItems()} to find out what was
      * selected.
      */
 

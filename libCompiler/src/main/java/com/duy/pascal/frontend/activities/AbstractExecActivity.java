@@ -290,7 +290,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     }
 
     /**
-     * exec program, generate program in internal memory
+     * exec program, run program in internal memory
      *
      * @param path - path of file pas
      */
@@ -310,7 +310,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         this.println("execute file: " + path);
         this.println("---------------------------" + "\n");
 
-        //create new thread and generate program
+        //create new thread and run program
         mMessageHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

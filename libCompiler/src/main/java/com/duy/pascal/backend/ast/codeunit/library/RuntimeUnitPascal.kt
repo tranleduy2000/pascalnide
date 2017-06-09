@@ -24,7 +24,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
     constructor(unitPascal: UnitPascal) : super(unitPascal)
 
     /**
-     * generate instruction initialization
+     * run instruction initialization
      */
     @Throws(RuntimePascalException::class)
     fun runInit() {
@@ -33,7 +33,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
     }
 
     /**
-     * generate final instruction
+     * run final instruction
      */
     @Throws(RuntimePascalException::class)
     fun runFinal() {

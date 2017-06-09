@@ -55,7 +55,7 @@ public class AndroidClipboardLib implements IPascalLibrary {
     /**
      * Creates a new AndroidFacade that simplifies the interface to various Android APIs.
      *
-     * @param text is the {@link Context} the APIs will generate under
+     * @param text is the {@link Context} the APIs will run under
      */
 
     @SuppressWarnings("unused")

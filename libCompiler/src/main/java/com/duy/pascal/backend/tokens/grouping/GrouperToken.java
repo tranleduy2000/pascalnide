@@ -579,7 +579,7 @@ public abstract class GrouperToken extends Token {
             throws ParsingException {
         ArrayList<VariableDeclaration> result = new ArrayList<>();
         /*
-         * reusing it, so it is further inType of scope than necessary
+         * reusing it, so it is further out of scope than necessary
 		 */
         List<WordToken> names = new ArrayList<>();
         Token next;

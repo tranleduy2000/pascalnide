@@ -54,6 +54,7 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         }
 
         if (isDebug()) {
+            getDebugListener().onVariableChange(new CallStack(this));
             getDebugListener().onEndProgram();
         }
     }
@@ -65,10 +66,6 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
 
     @Override
     public String toString() {
-        String programName = getDeclaration().getProgramName();
-        if (programName == null) {
-            return getDeclaration().getContext().getStartLine().getSourceFile();
-        }
-        return programName;
+        return getDeclaration().getContext().getStartLine().getSourceFile();
     }
 }
