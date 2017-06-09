@@ -58,11 +58,11 @@ public class FileLib implements IPascalLibrary {
      * assign file,
      */
     @PascalMethod(description = "library file")
-    public void assign(PascalReference<File> fileVariable, String name) throws RuntimePascalException {
+    public void assign(PascalReference<File> fileVariable, StringBuilder name) throws RuntimePascalException {
         DLog.d(TAG, "assign() called with: fileVariable = [" + fileVariable + "], name = [" + name + "]");
-        File file = new File(name);
+        File file = new File(name.toString());
         if (!file.exists()) {
-            file = new File(handler.getCurrentDirectory(), name);
+            file = new File(handler.getCurrentDirectory(), name.toString());
         }
         DLog.d("File " + file);
         fileVariable.set(file);
@@ -73,7 +73,7 @@ public class FileLib implements IPascalLibrary {
     }
 
     @PascalMethod(description = "library file")
-    public void AssignFile(PascalReference<File> fileVariable, String name) throws RuntimePascalException {
+    public void AssignFile(PascalReference<File> fileVariable, StringBuilder name) throws RuntimePascalException {
         assign(fileVariable, name);
     }
 

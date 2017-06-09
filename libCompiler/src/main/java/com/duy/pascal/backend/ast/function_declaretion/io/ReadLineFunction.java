@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.test;
+package com.duy.pascal.backend.ast.function_declaretion.io;
 
 
 import android.support.annotation.NonNull;
@@ -41,20 +41,20 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 /**
  * Casts an object to the class or the interface represented
  */
-public class ReadFunction implements IMethodDeclaration {
+public class ReadLineFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
             {new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
 
     @Override
     public String getName() {
-        return "read";
+        return "readln";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new ReadCall(arguments[0], line);
+        return new ReadLineCall(arguments[0], line);
     }
 
     @Override
@@ -77,11 +77,11 @@ public class ReadFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class ReadCall extends FunctionCall {
+    private class ReadLineCall extends FunctionCall {
         private RuntimeValue args;
         private LineInfo line;
 
-        ReadCall(RuntimeValue args, LineInfo line) {
+        ReadLineCall(RuntimeValue args, LineInfo line) {
             this.args = args;
             this.line = line;
         }
@@ -105,7 +105,7 @@ public class ReadFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new ReadCall(args, line);
+            return new ReadLineCall( args, line);
         }
 
         @Override
@@ -116,12 +116,12 @@ public class ReadFunction implements IMethodDeclaration {
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new ReadCall(args, line);
+            return new ReadLineCall( args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "read";
+            return "readln";
         }
 
         @Override
@@ -130,7 +130,7 @@ public class ReadFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
-            ioHandler.readz(values);
+            ioHandler.readlnz(values);
             return null;
         }
 

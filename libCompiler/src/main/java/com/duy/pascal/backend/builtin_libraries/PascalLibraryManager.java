@@ -39,10 +39,10 @@ import com.duy.pascal.backend.ast.function_declaretion.builtin.NewInstanceParams
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SetLengthFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SizeOfArrayFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.SizeOfObjectFunction;
-import com.duy.pascal.backend.ast.function_declaretion.test.ReadFileFunction;
-import com.duy.pascal.backend.ast.function_declaretion.test.ReadFunction;
-import com.duy.pascal.backend.ast.function_declaretion.test.ReadLineFunction;
-import com.duy.pascal.backend.ast.function_declaretion.test.ReadlnFileFunction;
+import com.duy.pascal.backend.ast.function_declaretion.io.ReadFileFunction;
+import com.duy.pascal.backend.ast.function_declaretion.io.ReadFunction;
+import com.duy.pascal.backend.ast.function_declaretion.io.ReadLineFunction;
+import com.duy.pascal.backend.ast.function_declaretion.io.ReadlnFileFunction;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.builtin_libraries.android.connection.bluetooth.AndroidBluetoothLib;

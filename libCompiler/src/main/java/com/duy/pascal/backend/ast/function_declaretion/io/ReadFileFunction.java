@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.test;
+package com.duy.pascal.backend.ast.function_declaretion.io;
 
 
 import android.support.annotation.NonNull;
@@ -28,7 +28,7 @@ import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
+import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.data_types.ArgumentType;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.DeclaredType;
@@ -38,23 +38,26 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
+import java.io.File;
+
 /**
  * Casts an object to the class or the interface represented
  */
-public class ReadLineFunction implements IMethodDeclaration {
+public class ReadFileFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
-            {new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
+            {new RuntimeType(BasicType.Text, true),
+                    new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
 
     @Override
     public String getName() {
-        return "readln";
+        return "read";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new ReadLineCall(arguments[0], line);
+        return new ReadFileCall(arguments[0], arguments[1], line);
     }
 
     @Override
@@ -77,11 +80,13 @@ public class ReadLineFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class ReadLineCall extends FunctionCall {
+    private class ReadFileCall extends FunctionCall {
         private RuntimeValue args;
         private LineInfo line;
+        private RuntimeValue filePreference;
 
-        ReadLineCall(RuntimeValue args, LineInfo line) {
+        ReadFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
+            this.filePreference = filePreferences;
             this.args = args;
             this.line = line;
         }
@@ -105,7 +110,7 @@ public class ReadLineFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new ReadLineCall( args, line);
+            return new ReadFileCall(filePreference, args, line);
         }
 
         @Override
@@ -116,21 +121,23 @@ public class ReadLineFunction implements IMethodDeclaration {
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new ReadLineCall( args, line);
+            return new ReadFileCall(filePreference, args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "readln";
+            return "read";
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
+            FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
+
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
-            ioHandler.readlnz(values);
+            PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
+            fileLib.readz(file.get(), values);
             return null;
         }
 

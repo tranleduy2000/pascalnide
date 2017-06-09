@@ -1,7 +1,7 @@
 program exString;
 var
     greetings: string;
-    name: packed array [1..10] of char;
+    name: string;
     organisation: string[10];
     message: pchar;
 
