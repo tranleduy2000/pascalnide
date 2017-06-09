@@ -27,22 +27,33 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:background="?colorPrimary"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center|start"
+            android:orientation="horizontal"
+            android:padding="2dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_list_white_24dp" />
+                android:src="@drawable/ic_filter_frames_white_18dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/call_stack" />
+                android:text="@string/frames"
+                android:textStyle="bold" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?colorAccent">
+
+        </View>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -71,14 +82,37 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="4dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/variables" />
+            android:background="?colorPrimary"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center|start"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_line_weight_white_18dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/variables"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?colorAccent">
+
+        </View>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rc_vars"
