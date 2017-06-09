@@ -1,4 +1,20 @@
-*****Release**:	1.2 beta
+**Release**:	3.9.5
+
+* Improve debug feature, support show debug frame by frame, show variable of frame, select frame
+* Add sample
+* Fix wrong type system, sysutil, str library
+* Support draw polygon
+* Support set length for multi dimension array
+* Fix format output
+* Write console/file with infinite params
+* Change primitive to object, fix array store exception
+* Support reflect method with array type
+* Support declare record constant
+* Make UI debug beautiful
+* Update zh-rCN language
+
+***
+**Release**:	1.2 beta
 Feb 27, 9:35 PM:
 
     Fix crash Support "clrscr"
