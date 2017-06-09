@@ -16,22 +16,28 @@
 
 package com.duy.pascal.backend.data_types.rangetype;
 
+import android.support.annotation.IntRange;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
 import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
+import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
-import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.DotDotToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.frontend.DLog;
 
 public class IntegerSubrangeType extends SubrangeType {
+    private static final String TAG = "IntegerSubrangeType";
+
     public IntegerSubrangeType() {
+        DLog.d(TAG, "IntegerSubrangeType() called");
         this.lower = 0;
         this.size = 0;
     }
@@ -73,10 +79,8 @@ public class IntegerSubrangeType extends SubrangeType {
 
     }
 
-    /**
-     * @param size if <code>size == -1</code>, the array will be ignore bound when compare
-     */
-    public IntegerSubrangeType(int lower, int size) {
+    public IntegerSubrangeType(int lower, @IntRange(from = 0) int size) {
+        DLog.d(TAG, "IntegerSubrangeType() called with: lower = [" + lower + "], size = [" + size + "]");
         this.lower = lower;
         this.size = size;
     }

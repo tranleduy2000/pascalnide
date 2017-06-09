@@ -16,6 +16,8 @@
 
 package com.duy.pascal.frontend.activities;
 
+import android.support.annotation.Nullable;
+
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 /**
@@ -24,5 +26,6 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 @SuppressWarnings("DefaultFileTemplate")
 public interface ExecHandler {
+    @Nullable
     ConsoleView getConsoleView();
 }

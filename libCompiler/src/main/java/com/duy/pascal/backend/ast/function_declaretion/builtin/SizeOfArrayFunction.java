@@ -19,38 +19,36 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.set.ArrayType;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.RuntimeType;
-import com.duy.pascal.backend.data_types.rangetype.IntegerSubrangeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.data_types.ArgumentType;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.data_types.set.ArrayType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class SizeOfArrayFunction implements IMethodDeclaration {
 
     private static final String TAG = "LengthFunction";
     private ArgumentType[] argumentTypes = {
-            new RuntimeType(new ArrayType<>(BasicType.create(Object.class), new IntegerSubrangeType(0, -1)),
-                    false)};
+            new RuntimeType(new ArrayType<>(BasicType.create(Object.class), null), false)};
 
     @Override
-   public String getName() {
+    public String getName() {
         return "sizeof";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
         return new SizeOfArrayCall(array, line);
     }
@@ -95,6 +93,10 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -105,11 +107,6 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new SizeOfArrayCall(array.compileTimeExpressionFold(context), line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
         }
 
         @Override

@@ -2,13 +2,13 @@ package com.duy.pascal.backend.data_types;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.CloneableObjectCloner;
+import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 
 import java.util.ArrayList;
 
@@ -48,6 +48,10 @@ public class CustomType extends ObjectType {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof CustomType)) {
+            if (obj instanceof JavaClassBasedType) {
+                boolean r = ((JavaClassBasedType) obj).getStorageClass() == this.getStorageClass();
+                return r;
+            }
             return false;
         }
         CustomType other = (CustomType) obj;

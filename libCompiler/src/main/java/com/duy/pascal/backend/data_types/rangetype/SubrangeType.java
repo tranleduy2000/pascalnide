@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.data_types.rangetype;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -33,10 +34,10 @@ import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 
 public abstract class SubrangeType extends InfoType implements Containable {
     public int lower;
-    /**
-     * if size = -1, the size of array will be ignore while comparing
-     */
-    public int size;
+
+    @IntRange(from = 0)
+    public int size = 0;
+
     protected LineInfo lineInfo;
 
     protected Object first, last;

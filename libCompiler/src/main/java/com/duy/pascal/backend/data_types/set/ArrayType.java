@@ -17,26 +17,28 @@
 package com.duy.pascal.backend.data_types.set;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ArrayIndexAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.cloning.ArrayCloner;
 import com.duy.pascal.backend.data_types.DeclaredType;
 import com.duy.pascal.backend.data_types.RuntimeType;
 import com.duy.pascal.backend.data_types.rangetype.SubrangeType;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ArrayIndexAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.cloning.ArrayCloner;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.data_types.util.TypeUtils;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
 
 
 public class ArrayType<T extends DeclaredType> extends BaseSetType {
     public final T elementType;
+    @Nullable
     private SubrangeType bounds;
 
-    public ArrayType(T elementType, SubrangeType bounds) {
+    public ArrayType(T elementType, @Nullable SubrangeType bounds) {
         this.elementType = elementType;
         this.bounds = bounds;
     }
@@ -48,9 +50,10 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
 
     @Override
     public int getSize() {
-        return bounds.size;
+        return bounds != null ? bounds.size : -1;
     }
 
+    @Nullable
     public SubrangeType getBounds() {
         return bounds;
     }
@@ -67,6 +70,7 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
             ArrayType<?> o = (ArrayType<?>) obj;
             if (o.elementType.equals(elementType)) {
                 try {
+                    if (bounds == null) return false;
                     if (this.bounds.contain(null, null, o.bounds)) {
                         return true;
                     }
@@ -86,9 +90,9 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
             if (o.elementType.equals(elementType)) {
-                if (this.bounds.equals(o.bounds)) {
-                    return true;
-                }
+                if (this.bounds == null) return true;
+
+                if (this.bounds.equals(o.bounds)) return true;
             }
         }
         return false;
@@ -96,7 +100,11 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
 
     @Override
     public int hashCode() {
-        return (elementType.hashCode() * 31 + bounds.hashCode());
+        if (bounds != null) {
+            return (elementType.hashCode() * 31 + bounds.hashCode());
+        } else {
+            return (elementType.hashCode() * 31);
+        }
     }
 
     /**
@@ -104,9 +112,12 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
      */
     @Override
     public Object initialize() {
-        Object result = Array.newInstance(elementType.getTransferClass(), bounds.size);
-        for (int i = 0; i < bounds.size; i++)
-            Array.set(result, i, elementType.initialize());
+        Object result = Array.newInstance(elementType.getTransferClass(),
+                bounds == null ? 0 : bounds.size);
+        if (bounds != null) {
+            for (int i = 0; i < bounds.size; i++)
+                Array.set(result, i, elementType.initialize());
+        }
         return result;
     }
 
@@ -128,7 +139,7 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
 
     @Override
     public String toString() {
-        return "array[" + bounds + "] of " + elementType;
+        return "array" + (bounds != null ? "[" + bounds + "]" : "") + " of " + elementType;
     }
 
     /**
@@ -152,7 +163,11 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     @Override
     public RuntimeValue generateArrayAccess(RuntimeValue array,
                                             RuntimeValue index) {
-        return new ArrayIndexAccess(array, index, bounds.lower);
+        if (bounds != null) {
+            return new ArrayIndexAccess(array, index, bounds.lower);
+        } else {
+            return new ArrayIndexAccess(array, index, 0);
+        }
     }
 
     @Override

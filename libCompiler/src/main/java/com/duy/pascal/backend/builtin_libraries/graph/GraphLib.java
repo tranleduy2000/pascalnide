@@ -63,6 +63,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -833,15 +834,19 @@ public class GraphLib implements IPascalLibrary {
     @PascalMethod(description = "Restore text screen")
     public void RestoreCrtMode() {
         ConsoleView consoleView = handler.getConsoleView();
-        consoleView.setGraphMode(false);
-        consoleView.postInvalidate();
+        if (consoleView != null) {
+            consoleView.setGraphMode(false);
+            consoleView.postInvalidate();
+        }
     }
 
     @PascalMethod(description = "Set graphical mode")
     public void SetGraphMode(int mode) {
         ConsoleView consoleView = handler.getConsoleView();
-        consoleView.setGraphMode(true);
-        consoleView.postInvalidate();
+        if (consoleView != null) {
+            consoleView.setGraphMode(true);
+            consoleView.postInvalidate();
+        }
     }
 
     // ignore
@@ -849,5 +854,10 @@ public class GraphLib implements IPascalLibrary {
     public void GetModeRange(int graphMode, PascalReference<Integer> low, PascalReference<Integer> high) {
         low.set(-1);
         high.set(-1);
+    }
+
+    @PascalMethod(description = "Draw, close and fill a polygone")
+    public void FillPoly(int numPoint, CustomVariable[] points) {
+        System.out.println(Arrays.toString(points));
     }
 }

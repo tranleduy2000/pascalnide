@@ -26,7 +26,6 @@ import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.builtin_libraries.annotations.ArrayBoundsInfo;
 import com.duy.pascal.backend.builtin_libraries.annotations.MethodTypeData;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.data_types.ArgumentType;
 import com.duy.pascal.backend.data_types.BasicType;
 import com.duy.pascal.backend.data_types.DeclaredType;
@@ -36,7 +35,9 @@ import com.duy.pascal.backend.data_types.VarargsType;
 import com.duy.pascal.backend.data_types.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.data_types.set.ArrayType;
 import com.duy.pascal.backend.data_types.util.TypeUtils;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.frontend.DLog;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
@@ -51,7 +52,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     private static final String TAG = MethodDeclaration.class.getSimpleName();
     private Object owner;
     private Method method;
-    private DeclaredType mReturnType = null;
+    private DeclaredType returnType = null;
     private ArgumentType[] argCache = null;
     private String description = "";
     private ArrayList<String> listParams;
@@ -71,7 +72,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     public MethodDeclaration(@NonNull Object owner, @NonNull Method m, DeclaredType returnType) {
         this.owner = owner;
         method = m;
-        this.mReturnType = returnType;
+        this.returnType = returnType;
     }
 
     public MethodDeclaration(@NonNull Object owner, @NonNull Method m, @Nullable String description) {
@@ -131,30 +132,27 @@ public class MethodDeclaration extends AbstractCallableFunction {
         }
     }
 
-    private DeclaredType convertArrayType(Type javatype,
-                                          Iterator<IntegerSubrangeType> arraysizes) {
+    private DeclaredType convertArrayType(Type javatype, Iterator<IntegerSubrangeType> arraysizes) {
         Type subtype;
-        IntegerSubrangeType arrayinfo;
+        IntegerSubrangeType arrayinfo = null;
+        boolean isArray = false;
         if (javatype instanceof GenericArrayType) {
             subtype = ((GenericArrayType) javatype).getGenericComponentType();
-            arrayinfo = new IntegerSubrangeType();
-        } else if (javatype instanceof Class<?>
-                && ((Class<?>) javatype).isArray()) {
+            isArray = true;
+        } else if (javatype instanceof Class<?> && ((Class<?>) javatype).isArray()) {
             subtype = ((Class<?>) javatype).getComponentType();
-            arrayinfo = new IntegerSubrangeType();
+            isArray = true;
         } else {
             subtype = Object.class;
-            arrayinfo = null;
         }
 
         if (arraysizes.hasNext()) {
             arrayinfo = arraysizes.next();
         }
-        if (arrayinfo == null) {
+        if (!isArray) {
             return convertBasicType(javatype);
         } else {
-            return new ArrayType<>(convertArrayType(subtype,
-                    arraysizes), arrayinfo);
+            return new ArrayType<>(convertArrayType(subtype, arraysizes), null);
         }
     }
 
@@ -174,8 +172,11 @@ public class MethodDeclaration extends AbstractCallableFunction {
     private RuntimeType deducePascalTypeFromJavaTypeAndAnnotations(Type javatype,
                                                                    ArrayBoundsInfo annotation) {
 
+
         List<IntegerSubrangeType> arrayinfo = new ArrayList<>();
         if (annotation != null && annotation.starts().length > 0) {
+            DLog.d(TAG, "deducePascalTypeFromJavaTypeAndAnnotations() called with: javatype = ["
+                    + javatype + "], annotation = [" + annotation + "]");
             int[] starts = annotation.starts();
             int[] lengths = annotation.lengths();
             for (int i = 0; i < starts.length; i++) {
@@ -189,9 +190,9 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public ArgumentType[] argumentTypes() {
-        if (argCache != null) {
+       /* if (argCache != null) {
             return argCache;
-        }
+        }*/
         Type[] types = method.getGenericParameterTypes();
         ArgumentType[] result = new ArgumentType[types.length];
         MethodTypeData tmp = method.getAnnotation(MethodTypeData.class);
@@ -212,7 +213,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-   public String getName() {
+    public String getName() {
         return method.getName();
     }
 

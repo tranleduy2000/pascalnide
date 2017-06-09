@@ -39,7 +39,8 @@ public class ArrayCloner<T> implements RuntimeValue {
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        Object[] value = (Object[]) r.getValue(f, main);
+        Object arr = r.getValue(f, main);
+        Object[] value = (Object[]) arr;
         return value.clone();
     }
 

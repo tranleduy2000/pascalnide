@@ -20,13 +20,15 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 
 public class RecordType extends CustomType implements Cloneable {
+
     @Override
     public String toString() {
         StringBuilder out = new StringBuilder();
-        out.append("\n");
-        for (VariableDeclaration variableType : variableDeclarations) {
-            out.append(variableType.toString()).append("\n");
+        out.append("record ");
+        for (VariableDeclaration var : variableDeclarations) {
+            out.append(var.getName()).append(":").append(var.getType().toString()).append("; ");
         }
+        out.append("end");
         return out.toString();
     }
 

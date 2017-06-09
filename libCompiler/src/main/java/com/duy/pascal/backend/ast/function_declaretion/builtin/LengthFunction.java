@@ -19,24 +19,23 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.data_types.ArgumentType;
-import com.duy.pascal.backend.data_types.set.ArrayType;
-import com.duy.pascal.backend.data_types.BasicType;
-import com.duy.pascal.backend.data_types.DeclaredType;
-import com.duy.pascal.backend.data_types.RuntimeType;
-import com.duy.pascal.backend.data_types.set.EnumGroupType;
-import com.duy.pascal.backend.data_types.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime_exception.TypeMismatchException;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.data_types.ArgumentType;
+import com.duy.pascal.backend.data_types.BasicType;
+import com.duy.pascal.backend.data_types.DeclaredType;
+import com.duy.pascal.backend.data_types.RuntimeType;
+import com.duy.pascal.backend.data_types.set.ArrayType;
+import com.duy.pascal.backend.data_types.set.EnumGroupType;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime_exception.TypeMismatchException;
 
 /**
  * length of one dimension array
@@ -53,7 +52,7 @@ public class LengthFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
         RuntimeType type = array.getType(f);
         return new LengthCall(array, type.declType, line);
@@ -101,6 +100,10 @@ public class LengthFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -111,11 +114,6 @@ public class LengthFunction implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new LengthCall(array.compileTimeExpressionFold(context), type, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
         }
 
         @Override
@@ -145,8 +143,7 @@ public class LengthFunction implements IMethodDeclaration {
                 // TODO: 02-May-17  check exception
                 throw new TypeMismatchException(line, getFunctionName(),
                         new DeclaredType[]{BasicType.StringBuilder,
-                                new ArrayType<>(BasicType.create(Object.class), new IntegerSubrangeType())},
-                        type);
+                                new ArrayType<>(BasicType.create(Object.class), null)}, type);
             }
         }
     }

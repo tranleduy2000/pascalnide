@@ -99,6 +99,7 @@ import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.duy.pascal.frontend.DLog;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,8 +108,6 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static android.R.attr.type;
 
 public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
@@ -356,7 +355,7 @@ public abstract class GrouperToken extends Token {
         } else if (n instanceof OfToken) {
             take();
             DeclaredType elementType = getNextPascalType(context);
-            return new ArrayType<>(elementType, new IntegerSubrangeType());
+            return new ArrayType<>(elementType, null);
         } else {
             throw new ExpectedTokenException("of", n);
         }
@@ -817,8 +816,8 @@ public abstract class GrouperToken extends Token {
         //size of array
         int size = type.getBounds().size;
         //create new array
-        Object[] objects = new Object[size];
-        // Object o = Array.newInstance(elementType.getStorageClass(), size);
+//        Object[] objects = new Object[size];
+        Object[] objects = (Object[]) Array.newInstance(elementType.getStorageClass(), size);
         for (int i = 0; i < size; i++) {
             if (!container.hasNext()) {
                 throw new ExpectedTokenException(",", peek());
