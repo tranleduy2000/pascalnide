@@ -141,14 +141,6 @@ public class SysUtilsLibrary implements IPascalLibrary {
         }
     }
 
-    @PascalMethod(description = "sys utis library", returns = "void")
-    public int StrToIntDef(String s, int def) {
-        try {
-            return Integer.parseInt(s);
-        } catch (Exception e) {
-            return def;
-        }
-    }
 
     //Convert a string to an Int64 value.
     @PascalMethod(description = "sys utis library", returns = "void")
@@ -181,9 +173,9 @@ public class SysUtilsLibrary implements IPascalLibrary {
     }
 
     @PascalMethod(description = "sys utis library", returns = "void")
-    public boolean StrToBoolDef(String s, boolean def) {
+    public boolean StrToBoolDef(StringBuilder s, boolean def) {
         try {
-            return Boolean.parseBoolean(s);
+            return Boolean.parseBoolean(s.toString());
         } catch (Exception e) {
             return def;
         }

@@ -16,14 +16,14 @@
 
 package com.duy.pascal.backend.builtin_libraries;
 
-import com.duy.pascal.backend.parse_exception.value.OrdinalExpressionExpectedException;
-import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
-import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.InvalidFloatingPointOperation;
-import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.RangeCheckError;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.ObjectBasedPointer;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
+import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.InvalidFloatingPointOperation;
+import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.RangeCheckError;
+import com.duy.pascal.backend.parse_exception.value.OrdinalExpressionExpectedException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.ScriptTerminatedException;
 import com.duy.pascal.backend.runtime_exception.WrongArgsException;
@@ -75,8 +75,6 @@ public class SystemLibrary implements IPascalLibrary {
     public void declareFunctions(ExpressionContextMixin parentContext) {
 
     }
-
-
 
 
     @PascalMethod(description = "system lib")
@@ -343,9 +341,10 @@ public class SystemLibrary implements IPascalLibrary {
     }
 
     @PascalMethod(description = " Calculate numerical/enumerated value of a string.")
-    public void val(String input, PascalReference<Object> output, PascalReference<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
+    public void val(StringBuilder zinput, PascalReference<Object> output, PascalReference<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
         try {
-            input = input.trim(); //remove white space in start and end postion
+            String input;
+            input = zinput.toString().trim(); //remove white space in start and end postion
             if (output.get() instanceof Long) {
                 Long l = Long.parseLong(input);
                 output.set(l);
@@ -384,8 +383,8 @@ public class SystemLibrary implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Search for substring in a string")
-    public int pos(String substring, String s) {
-        return s.indexOf(substring) + 1;
+    public int pos(StringBuilder substring, StringBuilder s) {
+        return s.indexOf(substring.toString()) + 1;
     }
 
 //    @PascalMethod(getDescription = "Returns length of a string or array.")
@@ -415,14 +414,14 @@ public class SystemLibrary implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Insert one string in another.")
-    public void insert(String s, PascalReference<StringBuilder> s1, int pos)
+    public void insert(StringBuilder s, PascalReference<StringBuilder> s1, int pos)
             throws RuntimePascalException {
         System.out.println("s = [" + s + "], s1 = [" + s1 + "], pos = [" + pos + "]");
-        s1.set(new StringBuilder(s1.get().insert(pos - 1, s)));
+        s1.set(new StringBuilder(s1.get()).insert(pos - 1, s));
     }
 
     @PascalMethod(description = "Copy part of a string")
-    public StringBuilder copy(String s, int from, int count) {
+    public StringBuilder copy(StringBuilder s, int from, int count) {
         System.out.println("s = [" + s + "], from = [" + from + "], count = [" + count + "]");
         if (from - 1 + count > s.length()) {
             return new StringBuilder(s.substring(from - 1, s.length()));
