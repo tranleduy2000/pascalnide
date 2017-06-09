@@ -27,6 +27,7 @@
         android:id="@+id/action_add_watch"
         android:icon="@drawable/fab_add"
         android:title="@string/add_watch"
+        android:visible="false"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_next_line"
@@ -44,5 +45,6 @@
         android:id="@+id/action_show_soft"
         android:icon="@drawable/ic_keyboard_white_24dp"
         android:title="@string/show_key_board"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>
