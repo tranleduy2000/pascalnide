@@ -191,5 +191,8 @@
     <string name="select_mode">Select mode</string>
     <string name="insert">Insert</string>
     <string name="enable_ime_keyboard">Enable IME keyboard</string>
+    <string name="call_stack">Call stack</string>
+    <string name="frames">Frames</string>
+    <string name="variables">Variables</string>
 </resources>
 

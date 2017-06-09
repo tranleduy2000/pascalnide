@@ -869,7 +869,7 @@ public class ConsoleView extends View implements
 
     private void doShowSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(this, 0);
+        imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
     }
 
     public GraphScreen getGraphScreen() {
