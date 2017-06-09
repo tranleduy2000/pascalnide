@@ -28,7 +28,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.utils.ArrayUtils;
+import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
@@ -78,16 +78,36 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
     public void onBindViewHolder(VariableHolder holder, int position) {
         VariableDeclaration var = variableItems.get(position);
 
-        SpannableStringBuilder name = new SpannableStringBuilder(var.getName());
-        name.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()), 0, name.length(),
+        SpannableStringBuilder text = new SpannableStringBuilder(var.getName());
+        text.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()), 0, text.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        SpannableString type = new SpannableString(var.getType().toString());
+
+        SpannableString type = new SpannableString("{" + var.getType().toString() + "}");
         type.setSpan(new ForegroundColorSpan(codeTheme.getCommentColor()), 0, type.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        name.append(type);
+        text.append(type);
+        text.append(" = ");
 
-        holder.txtName.setText(name);
-        holder.txtValue.setText(ArrayUtils.toString(var.getInitialValue()));
+        Object initialValue = var.getInitialValue();
+        if (initialValue != null) {
+            SpannableString val = new SpannableString(initialValue.toString());
+            if (initialValue instanceof Number) { //number
+                val.setSpan(new ForegroundColorSpan(codeTheme.getNumberColor()), 0,
+                        val.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (initialValue instanceof String || initialValue instanceof Character ||
+                    initialValue instanceof StringBuilder) { //string or char
+                val.setSpan(new ForegroundColorSpan(codeTheme.getStringColor()), 0,
+                        val.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (initialValue instanceof Object[]) { //array
+
+            } else if (initialValue instanceof List) { //set, enum
+
+            } else if (initialValue instanceof ContainsVariables) { //record
+
+            }
+            text.append(val);
+        }
+        holder.txtName.setText(text);
     }
 
     @Override
@@ -100,12 +120,11 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
      */
 
     public static class VariableHolder extends RecyclerView.ViewHolder {
-        public TextView txtName, txtValue;
+        public TextView txtName;
 
         public VariableHolder(View itemView) {
             super(itemView);
             txtName = (TextView) itemView.findViewById(R.id.txt_name);
-            txtValue = (TextView) itemView.findViewById(R.id.txt_value);
         }
     }
 }
