@@ -31,9 +31,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.duy.pascal.frontend.code_editor.EditorActivity;
+import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.code_sample.activities.CodeSampleActivity;
-import com.duy.pascal.frontend.info_application.InfoActivity;
+import com.duy.pascal.frontend.info.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.setting.SettingActivity;
 

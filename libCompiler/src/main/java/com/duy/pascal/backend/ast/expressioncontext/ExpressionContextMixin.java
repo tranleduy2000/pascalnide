@@ -59,7 +59,7 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
-import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
+import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.google.common.collect.ArrayListMultimap;
 

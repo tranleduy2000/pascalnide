@@ -27,8 +27,8 @@ import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.code.ExceptionManager
-import com.duy.pascal.frontend.code_editor.EditorActivity
-import com.duy.pascal.frontend.code_editor.autofix.DefineType
+import com.duy.pascal.frontend.editor.EditorActivity
+import com.duy.pascal.frontend.editor.autofix.DefineType
 
 /**
  * Created by Duy on 29-Mar-17.

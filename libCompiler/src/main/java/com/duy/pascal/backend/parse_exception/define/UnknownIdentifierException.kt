@@ -19,7 +19,7 @@ package com.duy.pascal.backend.parse_exception.define
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.frontend.code_editor.autofix.DefineType
+import com.duy.pascal.frontend.editor.autofix.DefineType
 
 class UnknownIdentifierException(line: LineInfo?, var name: String, var scope: ExpressionContext)
     : ParsingException(line, "Unknown identifier $name") {

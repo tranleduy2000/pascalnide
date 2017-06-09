@@ -80,7 +80,7 @@ import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
 import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
-import com.duy.pascal.frontend.code_editor.editor_view.adapters.InfoItem;
+import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
 import java.lang.reflect.Constructor;

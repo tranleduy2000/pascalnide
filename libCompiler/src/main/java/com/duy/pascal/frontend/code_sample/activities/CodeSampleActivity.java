@@ -30,7 +30,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.code_editor.EditorActivity;
+import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.code_sample.fragments.FragmentCodeSample;
 import com.duy.pascal.frontend.code_sample.adapters.CodePagerAdapter;
 import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;

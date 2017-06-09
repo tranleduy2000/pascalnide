@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.code_editor.editor_view.EditorView;
+import com.duy.pascal.frontend.editor.editor_view.EditorView;
 import com.duy.pascal.frontend.code_sample.model.CodeSampleEntry;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;

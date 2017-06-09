@@ -27,7 +27,7 @@ import android.widget.EditText
 import android.widget.RadioButton
 
 import com.duy.pascal.frontend.R
-import com.duy.pascal.frontend.code_editor.completion.Template
+import com.duy.pascal.frontend.editor.completion.Template
 import com.duy.pascal.frontend.file.ApplicationFileManager
 
 import java.io.File

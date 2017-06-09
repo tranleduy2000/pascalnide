@@ -27,7 +27,7 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.duy.pascal.frontend.code_editor.editor_view.EditorView
+        <com.duy.pascal.frontend.editor.editor_view.EditorView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/table" />

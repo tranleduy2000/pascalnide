@@ -90,7 +90,7 @@
         </activity>
 
         <activity
-            android:name="com.duy.pascal.frontend.code_editor.EditorActivity"
+            android:name="com.duy.pascal.frontend.editor.EditorActivity"
             android:launchMode="singleTask" />
 
         <activity
@@ -102,7 +102,7 @@
         <activity android:name="com.duy.pascal.frontend.code_sample.activities.DocumentActivity" />
         <activity android:name="com.duy.pascal.frontend.code_sample.activities.CodeSampleActivity" />
         <activity android:name="com.duy.pascal.frontend.theme.fragment.ThemeFontActivity" />
-        <activity android:name="com.duy.pascal.frontend.info_application.InfoActivity" />
+        <activity android:name="com.duy.pascal.frontend.info.InfoActivity" />
         <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
 
         <activity
