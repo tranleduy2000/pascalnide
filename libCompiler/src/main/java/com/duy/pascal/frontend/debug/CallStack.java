@@ -61,31 +61,67 @@ public class CallStack {
             FunctionOnStack f = (FunctionOnStack) currentContext;
 
             //clone add variable
-            ArrayList<VariableDeclaration> variables = f.getPrototype().getDeclaration().getVariables();
-            for (VariableDeclaration variable : variables) result.add(variable.clone());
+            ArrayList<VariableDeclaration> variables = f.getPrototype()
+                    .getDeclaration().getVariables();
+            for (VariableDeclaration variable : variables) {
+                VariableDeclaration clone = variable.clone();
+                try {
+                    clone.setInitialValue(f.getVar(variable.name));
+                } catch (RuntimePascalException e) {
+                    e.printStackTrace();
+                }
+                result.add(clone);
+            }
 
             String[] argumentNames = f.getPrototype().getArgumentNames();
             RuntimeType[] argumentTypes = f.getPrototype().getArgumentTypes();
             for (int i = 0; i < argumentNames.length; i++) {
                 try {
-                    result.add(new VariableDeclaration(argumentNames[i], argumentTypes[i].getDeclType(),
-                            f.getVar(argumentNames[i]), null));
+                    result.add(new VariableDeclaration(argumentNames[i],
+                            argumentTypes[i].getDeclType(), f.getVar(argumentNames[i]), null));
                 } catch (RuntimePascalException e) {
                     e.printStackTrace();
                 }
             }
         } else if (currentContext instanceof RuntimePascalProgram) {
             RuntimePascalProgram program = (RuntimePascalProgram) currentContext;
-            ArrayList<VariableDeclaration> variables = program.getDeclaration().getContext().getVariables();
-            for (VariableDeclaration variable : variables) result.add(variable.clone());
+            ArrayList<VariableDeclaration> variables = program.getDeclaration()
+                    .getContext().getVariables();
+            for (VariableDeclaration variable : variables) {
+                VariableDeclaration clone = variable.clone();
+                try {
+                    clone.setInitialValue(program.getVar(variable.name));
+                } catch (RuntimePascalException e) {
+                    e.printStackTrace();
+                }
+                result.add(clone);
+            }
         } else if (currentContext instanceof RuntimeUnitPascal) {
             RuntimeUnitPascal unit = (RuntimeUnitPascal) currentContext;
-            ArrayList<VariableDeclaration> variables = unit.getDeclaration().getContext().getVariables();
-            for (VariableDeclaration variable : variables) result.add(variable.clone());
+            ArrayList<VariableDeclaration> variables = unit.getDeclaration()
+                    .getContext().getVariables();
+            for (VariableDeclaration variable : variables) {
+                VariableDeclaration clone = variable.clone();
+                try {
+                    clone.setInitialValue(unit.getVar(variable.name));
+                } catch (RuntimePascalException e) {
+                    e.printStackTrace();
+                }
+                result.add(clone);
+            }
         } else if (currentContext instanceof WithOnStack) {
             WithOnStack withOnStack = (WithOnStack) currentContext;
-            ArrayList<VariableDeclaration> variables = withOnStack.getDeclaration().getVariableDeclarations();
-            for (VariableDeclaration variable : variables) result.add(variable.clone());
+            ArrayList<VariableDeclaration> variables = withOnStack.getDeclaration()
+                    .getVariableDeclarations();
+            for (VariableDeclaration variable : variables) {
+                VariableDeclaration clone = variable.clone();
+                try {
+                    clone.setInitialValue(withOnStack.getVar(variable.name));
+                } catch (RuntimePascalException e) {
+                    e.printStackTrace();
+                }
+                result.add(clone);
+            }
         }
         return result;
     }

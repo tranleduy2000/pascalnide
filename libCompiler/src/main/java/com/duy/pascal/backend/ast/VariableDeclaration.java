@@ -36,6 +36,10 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
     @Nullable
     private LineInfo line;
 
+    public void setInitialValue(Object initialValue) {
+        this.initialValue = initialValue;
+    }
+
     public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
                                @Nullable Object initialValue, LineInfo line) {
         this.name = name;
