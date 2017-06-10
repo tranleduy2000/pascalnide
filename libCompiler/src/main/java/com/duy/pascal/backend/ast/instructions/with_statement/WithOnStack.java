@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.instructions.FieldReference;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
@@ -29,22 +31,22 @@ import java.util.Set;
 
 public class WithOnStack extends VariableContext {
     private WithStatement declaration;
+    @NonNull
     private VariableContext parentContext;
     private RuntimeExecutableCodeUnit<?> main;
     @SuppressWarnings("rawtypes")
     private HashMap<String, FieldAccess> fieldsMap;
 
     @SuppressWarnings("rawtypes")
-    WithOnStack(VariableContext parentContext,
+    WithOnStack(@NonNull VariableContext parentContext,
                 RuntimeExecutableCodeUnit<?> main, WithStatement declaration) {
         this.declaration = declaration;
         this.parentContext = parentContext;
         this.main = main;
 
         fieldsMap = new HashMap<>();
-        for (int i = 0; i < declaration.getVariableDeclarations().size(); i++) {
-            fieldsMap.put(declaration.getVariableDeclarations().get(i).getName(),
-                    (FieldAccess) declaration.getFields().get(i));
+        for (FieldAccess fieldAccess : declaration.getFields()) {
+            fieldsMap.put(fieldAccess.getName().toLowerCase(), fieldAccess);
         }
         this.parentContext = parentContext;
         this.declaration = declaration;

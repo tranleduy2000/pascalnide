@@ -191,4 +191,6 @@
     <string name="call_stack">Call stack</string>
     <string name="frames">Frames</string>
     <string name="variables">Variables</string>
+    <string name="step_info">Step info</string>
+    <string name="step_over">Step over</string>
 </resources>

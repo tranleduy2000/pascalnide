@@ -53,11 +53,11 @@ import com.duy.pascal.backend.builtin_libraries.graph.style.LineWidth;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextDirection;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextFont;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextJustify;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.RecordType;
 import com.duy.pascal.backend.imageprocessing.FloodFill;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.RecordType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
@@ -320,7 +320,7 @@ public class GraphLib implements IPascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void initGraph(int driver, int mode, StringBuilder pathToDriver) {
-        if (handler != null) {
+        if (handler != null ) {
             handler.getConsoleView().setGraphMode(true);
         }
     }
@@ -403,7 +403,6 @@ public class GraphLib implements IPascalLibrary {
      */
     @PascalMethod(description = "graph library", returns = "void")
     public void setColor(int index) {
-        DLog.d(TAG, "setColor: " + index + " " + ColorUtils.pascalColorToAndroidColor(index));
         handler.getConsoleView().setPaintGraphColor(ColorUtils.pascalColorToAndroidColor(index));
     }
 
@@ -476,15 +475,17 @@ public class GraphLib implements IPascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void ellipse(int x, int y, int start, int end, int rx, int ry) {
-        if (handler != null)
+        if (handler != null) {
             handler.getConsoleView().addGraphObject(new ArcEllipseObject(x, y, start, end, rx, ry));
+        }
     }
 
 
     @PascalMethod(description = "graph library", returns = "void")
     public void fillEllipse(int x, int y, int rx, int ry) {
-        if (handler != null)
+        if (handler != null) {
             handler.getConsoleView().addGraphObject(new EllipseObject(x, y, rx, ry));
+        }
     }
 
 
@@ -623,7 +624,6 @@ public class GraphLib implements IPascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void setFillStyle(int pattern, int color) {
-        DLog.d(TAG, "setFillPattern: " + pattern + " " + color);
         // TODO: 09-Apr-17
         if (handler != null) {
             GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();

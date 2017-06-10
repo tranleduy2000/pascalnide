@@ -122,18 +122,8 @@ public class CallStack {
                 result.add(clone);
             }
         } else if (currentContext instanceof WithOnStack) {
-            WithOnStack withOnStack = (WithOnStack) currentContext;
-            ArrayList<VariableDeclaration> variables = withOnStack.getDeclaration()
-                    .getVariableDeclarations();
-            for (VariableDeclaration variable : variables) {
-                VariableDeclaration clone = variable.clone();
-                try {
-                    clone.setInitialValue(withOnStack.getVar(variable.name));
-                } catch (RuntimePascalException e) {
-                    e.printStackTrace();
-                }
-                result.add(clone);
-            }
+            VariableContext context = currentContext.getParentContext();
+            return new CallStack(context).cloneDefineVars();
         }
         return result;
     }

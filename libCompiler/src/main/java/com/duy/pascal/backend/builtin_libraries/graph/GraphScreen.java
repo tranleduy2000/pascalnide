@@ -207,7 +207,8 @@ public class GraphScreen {
             Canvas canvas = new Canvas(mGraphBitmap);
             Paint paint = new Paint();
             paint.setColor(Color.BLACK);
-            canvas.drawRect(0, 0, width, height, paint);
+            canvas.drawRect(0, 0, mGraphBitmap.getWidth(), mGraphBitmap.getHeight(),
+                    paint);
         }
     }
 

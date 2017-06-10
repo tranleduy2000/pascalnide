@@ -18,28 +18,29 @@ package com.duy.pascal.backend.ast.instructions.with_statement;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.debugable.DebuggableExecutableReturnValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
+import com.duy.pascal.backend.debugable.DebuggableExecutableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 import java.util.ArrayList;
 
 public class WithCall extends DebuggableExecutableReturnValue {
 
-    public ArrayList<RuntimeValue> arguments;
+    public ArrayList<FieldAccess> arguments;
     private WithStatement withStatement;
     private LineInfo line;
 
-    public WithCall(WithStatement withStatement, ArrayList<RuntimeValue> arguments, LineInfo line) {
+    public WithCall(WithStatement withStatement, ArrayList<FieldAccess> arguments, LineInfo line) {
         this.withStatement = withStatement;
         this.line = line;
         this.arguments = arguments;
@@ -69,18 +70,15 @@ public class WithCall extends DebuggableExecutableReturnValue {
     @Override
     public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        if (main != null) {
-            if (main.isDebug()) {
-                main.getDebugListener().onLine((Executable) this, getLineNumber());
-            }
-            main.incStack(getLineNumber());
-            main.scriptControlCheck(getLineNumber());
+        if (main.isDebug()) {
+            main.getDebugListener().onLine((Executable) this, getLineNumber());
         }
+        main.incStack(getLineNumber());
+        main.scriptControlCheck(getLineNumber());
 
         new WithOnStack(f, main, withStatement).execute();
 
-        if (main != null)
-            main.decStack();
+        main.decStack();
         return ExecutionResult.NONE;
     }
 
@@ -94,16 +92,15 @@ public class WithCall extends DebuggableExecutableReturnValue {
         return line;
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return new WithCall(withStatement, arguments, line);
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
     @Override

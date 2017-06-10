@@ -24,56 +24,53 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
-import com.duy.pascal.backend.types.CustomType;
-import com.duy.pascal.backend.types.RecordType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.types.CustomType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.RecordType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WithStatement {
     private static final String TAG = "WithDeclaration";
     public Executable instructions;
     public LineInfo line;
-    public RuntimeValue[] arguments;
-    private ExpressionContextMixin scopeWithStatement;
-    private ArrayList<RuntimeValue> fields = new ArrayList<>();
-    private ArrayList<VariableDeclaration> variableDeclarations = new ArrayList<>();
+
+    public List<RuntimeValue> references;
+    private ExpressionContextMixin withContext;
+
+    private ArrayList<FieldAccess> fields = new ArrayList<>();
+
     public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
-        this.scopeWithStatement = new WithExpressionContext(parent);
+        this.withContext = new WithExpressionContext(parent);
         this.line = grouperToken.peek().getLineNumber();
-
         getReferenceVariables(grouperToken, parent);
-        for (RuntimeValue argument : arguments) {
-            if (argument.getType(parent).declType instanceof RecordType) {
-                CustomType containsType = (CustomType) argument.getType(parent).declType;
-                for (VariableDeclaration variableDeclaration : containsType.variableDeclarations) {
-                    FieldAccess fieldAccess = new FieldAccess(argument, variableDeclaration.getName(),
-                            variableDeclaration.getLineNumber());
-                    fields.add(fieldAccess);
-                    variableDeclarations.add(variableDeclaration);
+        for (RuntimeValue argument : references) {
+            DeclaredType type = argument.getType(parent).declType;
+            if (type instanceof RecordType) {
+                CustomType recordType = (CustomType) type;
+                for (VariableDeclaration var : recordType.getVariableDeclarations()) {
+                    fields.add(new FieldAccess(argument, var.getName(),
+                            var.getLineNumber()));
                 }
-
             }
         }
         if (grouperToken.peek() instanceof DoToken) {
             grouperToken.take();
         }
-        instructions = grouperToken.getNextCommand(scopeWithStatement);
+        instructions = grouperToken.getNextCommand(withContext);
     }
 
-    public ArrayList<RuntimeValue> getFields() {
+    public ArrayList<FieldAccess> getFields() {
         return fields;
-    }
-
-    public ArrayList<VariableDeclaration> getVariableDeclarations() {
-        return variableDeclarations;
     }
 
     public RuntimeValue generate() {
@@ -81,35 +78,25 @@ public class WithStatement {
     }
 
     private void getReferenceVariables(GrouperToken grouperToken, ExpressionContext parent)
-            throws ParsingException { // need
-        ArrayList<VariableDeclaration> list = new ArrayList<>();
+            throws ParsingException {
+        references = new ArrayList<>();
         Token next;
         do {
-            next = grouperToken.take();
+            next = grouperToken.peek();
             if (next instanceof WordToken) {
-                String name = ((WordToken) next).name;
-                VariableDeclaration variable = parent.getVariableDefinition(name);
-                if (variable == null) {
-                    throw new UnknownIdentifierException(line, name, parent);
+                RuntimeValue runtimeValue = grouperToken.getNextExpression(parent);
+                DeclaredType type = runtimeValue.getType(parent).declType;
+                if (!(type instanceof RecordType)) {
+                    throw new TypeIdentifierExpectException(runtimeValue.getLineNumber(),
+                            "record", parent);
                 }
-                list.add(variable);
-                if (!(grouperToken.peek() instanceof DoToken)) {
-                    grouperToken.assertNextComma();
-                } else {
-                    break;
-                }
+                references.add(runtimeValue);
             } else {
                 throw new ExpectedTokenException("[Variable identifier]", next);
             }
-
             next = grouperToken.peek();
         } while (!(next instanceof DoToken));
 
-        arguments = new RuntimeValue[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            arguments[i] = parent.getIdentifierValue(
-                    new WordToken(list.get(i).getLineNumber(), list.get(i).getName()));
-        }
     }
 
 
@@ -144,15 +131,15 @@ public class WithStatement {
 
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
-            instructions = i.getNextCommand(scopeWithStatement);
+            instructions = i.getNextCommand(withContext);
             i.assertNextSemicolon(i.next);
         }
 
         @Override
         public RuntimeValue getIdentifierValue(WordToken name) throws ParsingException {
-            for (int i = 0; i < variableDeclarations.size(); i++) {
-                if (variableDeclarations.get(i).getName().equalsIgnoreCase(name.getName())) {
-                    return fields.get(i);
+            for (FieldAccess field : fields) {
+                if (field.getName().equalsIgnoreCase(name.getName())) {
+                    return field;
                 }
             }
             return super.getIdentifierValue(name);
@@ -160,12 +147,6 @@ public class WithStatement {
 
         @Override
         public VariableDeclaration getVariableDefinitionLocal(String ident) {
-            for (VariableDeclaration variableDeclaration : variableDeclarations) {
-                if (variableDeclaration.getName().equalsIgnoreCase(ident)) {
-                    return variableDeclaration;
-                }
-            }
-
             return super.getVariableDefinitionLocal(ident);
         }
     }

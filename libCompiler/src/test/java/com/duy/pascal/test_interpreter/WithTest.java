@@ -14,30 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
-
-import com.duy.pascal.test_interpreter.BaseTestCase;
+package com.duy.pascal.test_interpreter;
 
 /**
- * Created by Duy on 04-Jun-17.
+ * Created by Duy on 10-Jun-17.
  */
 
-public class TestIssue extends BaseTestCase {
-
+public class WithTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_issue";
+        return "test_statement";
     }
 
-    public void testAll() {
-        runAll();
-    }
-
-    public void testConvertString() {
-        run("test2.pas");
-    }
-
-    public void testRecord() {
-        run("test3.pas");
+    public void test1() {
+        run("test_with.pas");
     }
 }
