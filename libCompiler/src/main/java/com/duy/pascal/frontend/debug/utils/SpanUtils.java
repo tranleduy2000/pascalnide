@@ -58,15 +58,15 @@ public class SpanUtils {
             ArrayType arrayType = (ArrayType) declaredType;
             if (arrayType.getBounds() == null) { //dynamic array, non bound
                 DeclaredType elementType = arrayType.getElementType();
-                spannableString = new SpannableStringBuilder().append("{")
-                        .append(generateTypeSpan(elementType)).append("[]").append("}");
+                spannableString = new SpannableStringBuilder()
+                        .append(generateTypeSpan(elementType)).append("[]");
             } else {//static array
                 spannableString = new SpannableStringBuilder()
                         .append("{").append(generateTypeSpan(arrayType.getElementType()))
                         .append("[").append(arrayType.getBounds().toString()).append("]}");
             }
         } else {
-            spannableString = new SpannableStringBuilder("{" + declaredType.toString() + "}");
+            spannableString = new SpannableStringBuilder(declaredType.toString());
         }
         spannableString.setSpan(new ForegroundColorSpan(codeTheme.getCommentColor()), 0,
                 spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

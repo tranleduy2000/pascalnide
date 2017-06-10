@@ -79,7 +79,7 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
 
         SpannableStringBuilder text = new SpannableStringBuilder();
         text.append(spanUtils.generateNameSpan(var.getName()));
-        text.append(spanUtils.generateTypeSpan(var.getType()));
+        text.append("{").append(spanUtils.generateTypeSpan(var.getType())).append("}");
         text.append(" = ");
         text.append(spanUtils.generateValueSpan(var.getInitialValue(), 10));
         holder.txtName.setText(text);
