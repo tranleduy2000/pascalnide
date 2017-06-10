@@ -19,9 +19,12 @@ package com.duy.pascal.frontend.debug.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
@@ -39,11 +42,18 @@ import java.util.List;
 
 public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.VariableHolder> {
 
+    private static final String TAG = "VariableAdapter";
     private Context context;
     private ArrayList<VariableDeclaration> variableItems = new ArrayList<>();
     private LayoutInflater layoutInflater;
     private CodeTheme codeTheme;
     private SpanUtils spanUtils;
+    private List<Boolean> updateList = new ArrayList<>();
+    private OnExpandValueListener onExpandValueListener;
+
+    public SpanUtils getSpanUtils() {
+        return spanUtils;
+    }
 
     public VariableAdapter(Context context) {
         this.context = context;
@@ -52,9 +62,22 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
         this.spanUtils = new SpanUtils(codeTheme);
     }
 
-    public void setData(List<VariableDeclaration> list) {
+    public OnExpandValueListener getOnExpandValueListener() {
+        return onExpandValueListener;
+    }
+
+    public void setOnExpandValueListener(OnExpandValueListener onExpandValueListener) {
+        this.onExpandValueListener = onExpandValueListener;
+    }
+
+    public ArrayList<VariableDeclaration> getVariableItems() {
+        return variableItems;
+    }
+
+    public void setData(List<VariableDeclaration> vars, List<Boolean> updateList) {
+        this.updateList = updateList;
         variableItems.clear();
-        variableItems.addAll(list);
+        variableItems.addAll(vars);
         notifyDataSetChanged();
     }
 
@@ -75,19 +98,36 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
 
     @Override
     public void onBindViewHolder(VariableHolder holder, int position) {
-        VariableDeclaration var = variableItems.get(position);
+        final VariableDeclaration var = variableItems.get(position);
+        holder.txtName.setText(spanUtils.createVarSpan(var));
 
-        SpannableStringBuilder text = new SpannableStringBuilder();
-        text.append(spanUtils.generateNameSpan(var.getName()));
-        text.append(spanUtils.generateTypeSpan(var.getType(), true));
-        text.append(" = ");
-        text.append(spanUtils.generateValueSpan(var.getInitialValue(), 10));
-        holder.txtName.setText(text);
+        Log.d(TAG, "onBindViewHolder: " + updateList.get(position));
+        if (updateList.get(position)) { //update value
+            AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.7f);
+            alphaAnimation.setDuration(500);
+            alphaAnimation.setRepeatCount(Animation.INFINITE);
+            alphaAnimation.setRepeatMode(Animation.REVERSE);
+            holder.txtName.startAnimation(alphaAnimation);
+        } else {
+            holder.txtName.clearAnimation();
+        }
+        holder.txtName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onExpandValueListener != null) {
+                    onExpandValueListener.onExpand(var);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return variableItems.size();
+    }
+
+    public interface OnExpandValueListener {
+        void onExpand(VariableDeclaration var);
     }
 
     /**

@@ -19,8 +19,8 @@ package com.duy.pascal.backend.ast;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.types.DeclaredType;
 
 import java.util.Map;
 
@@ -35,10 +35,6 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
     private Object initialValue;
     @Nullable
     private LineInfo line;
-
-    public void setInitialValue(Object initialValue) {
-        this.initialValue = initialValue;
-    }
 
     public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
                                @Nullable Object initialValue, LineInfo line) {
@@ -74,8 +70,13 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
         return type;
     }
 
+    @Nullable
     public Object getInitialValue() {
         return initialValue;
+    }
+
+    public void setInitialValue(Object initialValue) {
+        this.initialValue = initialValue;
     }
 
     public LineInfo getLineNumber() {

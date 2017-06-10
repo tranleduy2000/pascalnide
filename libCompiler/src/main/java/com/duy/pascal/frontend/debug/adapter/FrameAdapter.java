@@ -59,13 +59,13 @@ public class FrameAdapter extends RecyclerView.Adapter<FrameAdapter.FrameHolder>
     }
 
     @Override
-    public void onBindViewHolder(FrameHolder holder, final int position) {
-        holder.txtName.setText(frames.get(position).toString());
+    public void onBindViewHolder(final FrameHolder holder, int position) {
+        holder.txtName.setText(frames.get(holder.getAdapterPosition()).toString());
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onSelectFrame(new CallStack(frames.get(position)));
+                    listener.onSelectFrame(new CallStack(frames.get(holder.getAdapterPosition())));
                 }
             }
         });

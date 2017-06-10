@@ -24,6 +24,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
+import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.set.ArrayType;
@@ -168,4 +169,13 @@ public class SpanUtils {
         }
     }
 
+    public SpannableStringBuilder createVarSpan(VariableDeclaration var) {
+
+        SpannableStringBuilder text = new SpannableStringBuilder();
+        text.append(generateNameSpan(var.getName()));
+        text.append(generateTypeSpan(var.getType(), true));
+        text.append(" = ");
+        text.append(generateValueSpan(var.getInitialValue(), 10));
+        return text;
+    }
 }

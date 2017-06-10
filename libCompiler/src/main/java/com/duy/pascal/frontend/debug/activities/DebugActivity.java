@@ -217,6 +217,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             }
             String code = mFileManager.fileToString(file);
             mCodeView.setTextHighlighted(code);
+            mCodeView.highlightAll();
 
             setTitle(file.getName());
             endEnded.set(false);
@@ -382,8 +383,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     public void onVariableChange(final CallStack currentFrame) {
-
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -4,7 +4,7 @@ var
   kk : string = ' asdasd';
   hh : LongInt = 1;
 begin
-
+  zaazz := 4;
 end;
 
 procedure c();
@@ -14,6 +14,7 @@ var
   hh : LongInt = 1;
 begin
   d();
+  kak := 3;
 end;
 
 procedure b();
@@ -23,6 +24,7 @@ var
   h : LongInt = 1;
 begin
   c();
+  h := 2;
 end;
 
 procedure  a();

@@ -52,7 +52,7 @@ public class CallStack {
     @Override
     public boolean equals(Object obj) {
         Log.d(TAG, "equals() called with: obj = [" + obj + "]");
-
+        if (this == obj) return true;
         if (!(obj instanceof CallStack)) return false;
 
         return currentContext.equals(((CallStack) obj).currentContext);
@@ -67,7 +67,7 @@ public class CallStack {
     }
 
     @SuppressWarnings("unchecked")
-    public List<VariableDeclaration> getDefineVars() {
+    public List<VariableDeclaration> cloneDefineVars() {
         ArrayList<VariableDeclaration> result = new ArrayList<>();
         if (currentContext instanceof FunctionOnStack) {
             FunctionOnStack f = (FunctionOnStack) currentContext;

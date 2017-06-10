@@ -932,6 +932,10 @@ public class HighlightEditor extends CodeSuggestsEditText
         inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
     }
 
+    public void highlightAll() {
+        color(getText(), getText(), 0);
+    }
+
     /**
      * Class that listens to changes in the text.
      */

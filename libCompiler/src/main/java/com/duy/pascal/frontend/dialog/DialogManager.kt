@@ -61,7 +61,6 @@ class DialogManager {
             builder.setMessage(msg)
             builder.setPositiveButton(activity.getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
             return builder.create()
-
         }
 
         /**

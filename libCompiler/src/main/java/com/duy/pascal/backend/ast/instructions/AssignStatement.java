@@ -35,9 +35,7 @@ public class AssignStatement extends DebuggableExecutable implements SetValueExe
         Object v = this.value.getValue(context, main);
         ref.set(v);
 
-        if (main.isDebug()){
-            main.getDebugListener().onVariableChange(new CallStack(context));
-        }
+        if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
 
         return ExecutionResult.NONE;
     }

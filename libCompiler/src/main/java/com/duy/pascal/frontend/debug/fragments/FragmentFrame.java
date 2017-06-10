@@ -16,9 +16,11 @@
 
 package com.duy.pascal.frontend.debug.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +38,8 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.adapter.FrameAdapter;
 import com.duy.pascal.frontend.debug.adapter.VariableAdapter;
+import com.duy.pascal.frontend.debug.utils.SpanUtils;
+import com.duy.pascal.frontend.dialog.DialogManager;
 import com.duy.pascal.frontend.view.MonospaceRadioButton;
 
 import java.util.ArrayList;
@@ -45,7 +49,7 @@ import java.util.List;
  * Created by Duy on 08-Jun-17.
  */
 
-public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListener {
+public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListener, VariableAdapter.OnExpandValueListener {
 
     private static final String TAG = "FragmentFrame";
     private RadioGroup mListFrame;
@@ -53,6 +57,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     private VariableAdapter mVariableAdapter;
     @Nullable
     private CallStack mLastStack;
+    private Dialog dialog;
 
     public static FragmentFrame newInstance() {
 
@@ -81,6 +86,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
         mListVars.setAdapter(mVariableAdapter);
         mListVars.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
+        mVariableAdapter.setOnExpandValueListener(this);
 
     }
 
@@ -100,17 +106,44 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
         rad.setChecked(true);
     }
 
-    public void displayVars(CallStack callStack) {
-        List<VariableDeclaration> vars = callStack.getDefineVars();
-        mVariableAdapter.setData(vars);
+    public void displayVars(CallStack callStack, boolean update) {
+        List<VariableDeclaration> vars = callStack.cloneDefineVars();
+        List<Boolean> updateList = new ArrayList<>();
+
+        for (int i = 0; i < vars.size(); i++) updateList.add(false);
+
+        if (update) {
+            ArrayList<VariableDeclaration> old = mVariableAdapter.getVariableItems();
+            for (int i = 0; i < vars.size(); i++) {
+                VariableDeclaration var = vars.get(i);
+                if (var.getName().equalsIgnoreCase(old.get(i).getName())) {
+                    if (var.getInitialValue() == null) {
+                        if (old.get(i).getInitialValue() == null) {
+                            updateList.set(i, true);
+                        } else {
+                            updateList.set(i, false);
+                        }
+                    } else {
+                        if (var.getInitialValue().equals(old.get(i).getInitialValue())) {
+                            updateList.set(i, false);
+                        } else {
+                            updateList.set(i, true);
+                        }
+                    }
+                }
+            }
+        }
+        mVariableAdapter.setData(vars, updateList);
     }
 
     public void update(CallStack callStack) {
         if (!(mLastStack != null && mLastStack.equals(callStack))) {
             displayFrame(callStack);
             this.mLastStack = callStack;
+            displayVars(callStack, false);
+        } else {
+            displayVars(callStack, true);
         }
-        displayVars(callStack);
     }
 
     @Override
@@ -121,13 +154,23 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
 
     @Override
     public void onDestroyView() {
+        if (dialog != null) dialog.dismiss();
         mVariableAdapter.clearData();
         super.onDestroyView();
     }
 
     @Override
     public void onSelectFrame(CallStack stack) {
-        displayVars(stack);
+        displayVars(stack, false);
+    }
+
+    @Override
+    public void onExpand(VariableDeclaration var) {
+        SpanUtils spanUtils = mVariableAdapter.getSpanUtils();
+        AlertDialog msgDialog = DialogManager.Companion.createMsgDialog(getActivity(), var.getName(),
+                spanUtils.createVarSpan(var));
+        msgDialog.show();
+        this.dialog = msgDialog;
     }
 
     private final class OnFrameChangeListener implements CompoundButton.OnCheckedChangeListener {
@@ -140,7 +183,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
-                displayVars(callStack);
+                displayVars(callStack, false);
             }
         }
     }

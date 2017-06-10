@@ -13,17 +13,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
 
     <com.duy.pascal.frontend.view.MonospaceTextView
         android:id="@+id/txt_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:padding="2dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-</LinearLayout>
+</HorizontalScrollView>
