@@ -27,7 +27,6 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.ScriptTerminatedException;
 import com.duy.pascal.backend.runtime_exception.StackOverflowException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,15 +142,8 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
                 for (AbstractFunction function : shutdown) {
                     if (function instanceof MethodDeclaration) {
                         try {
-                            ((MethodDeclaration) function).call(null, this, new Object[]{});
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        } catch (StackOverflowException e) {
-                            e.printStackTrace();
-                        } catch (RuntimePascalException e) {
-                            e.printStackTrace();
+                            ((MethodDeclaration) function).call(this, this, new Object[]{});
+                        } catch (Exception ignored) {
                         }
                     }
                 }

@@ -215,7 +215,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         } else if (getVariableDefinitionLocal(name.getName()) != null) {
             VariableAccess variableAccess = new VariableAccess(name.getName(), name.getLineNumber());
-            DLog.d(TAG, "getIdentifierValue() returned: " + variableAccess);
             return variableAccess;
         }
 
