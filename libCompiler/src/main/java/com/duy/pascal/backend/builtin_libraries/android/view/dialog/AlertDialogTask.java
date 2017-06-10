@@ -45,24 +45,24 @@ import java.util.TreeSet;
  */
 public class AlertDialogTask extends DialogTask {
 
-    private final String mTitle;
-    private final String mMessage;
+    private final CharSequence mTitle;
+    private final CharSequence mMessage;
     private final List<String> mItems;
     private final Set<Integer> mSelectedItems;
     private final Map<String, Object> mResultMap;
     private InputType mInputType;
     private int mEditInputType = 0;
 
-    private String mPositiveButtonText;
-    private String mNegativeButtonText;
-    private String mNeutralButtonText;
+    private CharSequence mPositiveButtonText;
+    private CharSequence mNegativeButtonText;
+    private CharSequence mNeutralButtonText;
 
     private EditText mEditText;
     private String mDefaultText;
     @Nullable
     private String mHint;
 
-    public AlertDialogTask(String title, String message) {
+    public AlertDialogTask(CharSequence title, CharSequence message) {
         mTitle = title;
         mMessage = message;
         mInputType = InputType.DEFAULT;
@@ -71,15 +71,15 @@ public class AlertDialogTask extends DialogTask {
         mResultMap = new HashMap<>();
     }
 
-    public void setPositiveButtonText(String text) {
+    public void setPositiveButtonText(CharSequence text) {
         mPositiveButtonText = text;
     }
 
-    public void setNegativeButtonText(String text) {
+    public void setNegativeButtonText(CharSequence text) {
         mNegativeButtonText = text;
     }
 
-    public void setNeutralButtonText(String text) {
+    public void setNeutralButtonText(CharSequence text) {
         mNeutralButtonText = text;
     }
 

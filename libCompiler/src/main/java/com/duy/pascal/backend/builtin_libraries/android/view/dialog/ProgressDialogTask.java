@@ -27,11 +27,12 @@ public class ProgressDialogTask extends DialogTask {
 
     private final int mStyle;
     private final int mMax;
-    private final String mTitle;
-    private final String mMessage;
+    private final CharSequence mTitle;
+    private final CharSequence mMessage;
     private final Boolean mCancelable;
 
-    public ProgressDialogTask(int style, int max, String title, String message, boolean cancelable) {
+    public ProgressDialogTask(int style, int max, CharSequence title,
+                              CharSequence message, boolean cancelable) {
         mStyle = style;
         mMax = max;
         mTitle = title;

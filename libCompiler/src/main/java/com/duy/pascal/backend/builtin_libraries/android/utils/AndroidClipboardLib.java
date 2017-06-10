@@ -60,7 +60,7 @@ public class AndroidClipboardLib implements IPascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Put text in the clipboard.")
-    public void setClipboard(@PascalParameter(name = "text") String text) {
+    public void setClipboard(@PascalParameter(name = "text") StringBuilder text) {
         ClipboardManagerCompat manager = getClipboardManager();
         manager.setText(text);
     }

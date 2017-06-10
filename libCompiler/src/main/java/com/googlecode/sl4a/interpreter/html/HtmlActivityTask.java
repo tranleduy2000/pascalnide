@@ -270,8 +270,10 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
         @Override
         public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
             final AndroidDialogLib uiFacade = mReceiverManager.getReceiver(AndroidDialogLib.class);
-            uiFacade.createAlertDialog(JS_TITLE, message);
-            uiFacade.dialogSetPositiveButtonText(mResources.getString(android.R.string.ok));
+            uiFacade.createAlertDialog(new StringBuilder(JS_TITLE),
+                    new StringBuilder(message));
+            uiFacade.dialogSetPositiveButtonText(
+                    new StringBuilder(mResources.getString(android.R.string.ok)));
 
             mmExecutor.execute(new Runnable() {
 
@@ -293,9 +295,9 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
         @Override
         public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
             final AndroidDialogLib uiFacade = mReceiverManager.getReceiver(AndroidDialogLib.class);
-            uiFacade.createAlertDialog(JS_TITLE, message);
-            uiFacade.dialogSetPositiveButtonText(mResources.getString(android.R.string.ok));
-            uiFacade.dialogSetNegativeButtonText(mResources.getString(android.R.string.cancel));
+            uiFacade.createAlertDialog(new StringBuilder(JS_TITLE), new StringBuilder(message));
+            uiFacade.dialogSetPositiveButtonText(new StringBuilder(mResources.getString(android.R.string.ok)));
+            uiFacade.dialogSetNegativeButtonText(new StringBuilder(mResources.getString(android.R.string.cancel)));
 
             mmExecutor.execute(new Runnable() {
 
@@ -327,7 +329,10 @@ public class HtmlActivityTask extends PascalActivityTask<Void> {
                 public void run() {
                     StringBuilder value = null;
                     try {
-                        value = uiFacade.dialogGetInput(JS_TITLE, message, defaultValue);
+                        value = uiFacade.dialogGetInput(
+                                new StringBuilder(JS_TITLE),
+                                new StringBuilder(message),
+                                new StringBuilder(defaultValue));
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

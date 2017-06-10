@@ -78,8 +78,8 @@ public class AndroidNotifyLib implements IPascalLibrary {
 
     @SuppressWarnings("unused")
     @PascalMethod(description = "Displays a notification that will be canceled when the user clicks on it.")
-    public void notify(@PascalParameter(name = "title", description = "title") String title,
-                       @PascalParameter(name = "message") String message) {
+    public void notify(@PascalParameter(name = "title", description = "title") StringBuilder title,
+                       @PascalParameter(name = "message") StringBuilder message) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(message);

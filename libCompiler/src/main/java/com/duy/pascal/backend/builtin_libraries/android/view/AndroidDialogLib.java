@@ -148,26 +148,28 @@ public class AndroidDialogLib implements IPascalLibrary {
     @PascalMethod(description = "Create a text input dialog.")
     public void createDialogInput(
             @PascalParameter(name = "title", description = "title of the input box")
-            final String title,
+            final StringBuilder title,
             @PascalParameter(name = "message", description = "message to display above the input box")
-            final String hint,
+            final StringBuilder hint,
             @PascalParameter(name = "defaultText", description = "text to insert into the input box")
-            final String text,
+            final StringBuilder text,
             @PascalParameter(name = "inputType", description = "type of input data, ie number or text")
-            final String inputType) throws InterruptedException {
+            final StringBuilder inputType) throws InterruptedException {
         dismissDialog();
-        mDialogTask = new AlertDialogTask(title, "");
-        ((AlertDialogTask) mDialogTask).setTextInput(text);
-        ((AlertDialogTask) mDialogTask).setHint(hint);
+        mDialogTask = new AlertDialogTask(title.toString(), "");
+        ((AlertDialogTask) mDialogTask).setTextInput(text.toString());
+        ((AlertDialogTask) mDialogTask).setHint(hint.toString());
         if (inputType != null) {
-            ((AlertDialogTask) mDialogTask).setEditInputType(inputType);
+            ((AlertDialogTask) mDialogTask).setEditInputType(inputType.toString());
         }
     }
 
     @PascalMethod(description = "Create a password input dialog.")
     public void createDialogPassword(
-            @PascalParameter(name = "title", description = "title of the input box") @RpcDefault("Password") final String title,
-            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter password:") final String message) {
+            @PascalParameter(name = "title", description = "title of the input box")
+            @RpcDefault("Password") final StringBuilder title,
+            @PascalParameter(name = "message", description = "message to display above the input box")
+            @RpcDefault("Please enter password:") final StringBuilder message) {
         dismissDialog();
         mDialogTask = new AlertDialogTask(title, message);
         ((AlertDialogTask) mDialogTask).setPasswordInput();
@@ -177,13 +179,13 @@ public class AndroidDialogLib implements IPascalLibrary {
     @SuppressWarnings("unchecked")
     @PascalMethod(description = "Queries the user for a text input.")
     public StringBuilder dialogGetInput(
-            @PascalParameter(name = "title", description = "title of the input box") final String title,
-            @PascalParameter(name = "hint", description = "message to display above the input box") final String hint,
-            @PascalParameter(name = "default", description = "Default text") String def)
+            @PascalParameter(name = "title", description = "title of the input box") final StringBuilder title,
+            @PascalParameter(name = "hint", description = "message to display above the input box") final StringBuilder hint,
+            @PascalParameter(name = "default", description = "Default text") StringBuilder def)
             throws InterruptedException {
-        createDialogInput(title, hint, def, "text");
-        dialogSetNegativeButtonText(mContext.getString(R.string.cancel));
-        dialogSetPositiveButtonText(mContext.getString(R.string.ok));
+        createDialogInput(title, hint, def, new StringBuilder("text"));
+        dialogSetNegativeButtonText(new StringBuilder(mContext.getString(R.string.cancel)));
+        dialogSetPositiveButtonText(new StringBuilder(mContext.getString(R.string.ok)));
         showDialog();
         Map<String, Object> response = (Map<String, Object>) dialogGetResponse();
         if ("positive".equals(response.get("which"))) {
@@ -219,12 +221,14 @@ public class AndroidDialogLib implements IPascalLibrary {
     @SuppressWarnings({"unchecked", "unused"})
     @PascalMethod(description = "Queries the user for a password.")
     public StringBuilder dialogGetPassword(
-            @PascalParameter(name = "title", description = "title of the password box") @RpcDefault("Password") final String title,
-            @PascalParameter(name = "message", description = "message to display above the input box") @RpcDefault("Please enter password:") final String message)
+            @PascalParameter(name = "title", description = "title of the password box") @RpcDefault("Password")
+            final StringBuilder title,
+            @PascalParameter(name = "message", description = "message to display above the input box")
+            @RpcDefault("Please enter password:") final StringBuilder message)
             throws InterruptedException {
         createDialogPassword(title, message);
-        dialogSetNegativeButtonText("Cancel");
-        dialogSetPositiveButtonText("Ok");
+        dialogSetNegativeButtonText(new StringBuilder(mContext.getString(R.string.cancel)));
+        dialogSetPositiveButtonText(new StringBuilder(mContext.getString(R.string.ok)));
         showDialog();
         Map<String, Object> response = (Map<String, Object>) dialogGetResponse();
         if ("positive".equals(response.get("which"))) {
@@ -236,8 +240,8 @@ public class AndroidDialogLib implements IPascalLibrary {
 
 
     @PascalMethod(description = "Create a spinner progress dialog.")
-    public void createDialogProcess(@PascalParameter(name = "title") String title,
-                                    @PascalParameter(name = "message") String message,
+    public void createDialogProcess(@PascalParameter(name = "title") StringBuilder title,
+                                    @PascalParameter(name = "message") StringBuilder message,
                                     @PascalParameter(name = "maximum progress") @RpcDefault("100") int max) {
         dismissDialog(); // Dismiss any existing dialog.
         mDialogTask = new ProgressDialogTask(ProgressDialog.STYLE_SPINNER, max, title, message, true);
@@ -246,8 +250,8 @@ public class AndroidDialogLib implements IPascalLibrary {
 
     @PascalMethod(description = "Create a horizontal progress dialog.")
     public void createDialogHorizontalProgress(
-            @PascalParameter(name = "title") String title,
-            @PascalParameter(name = "message") String message,
+            @PascalParameter(name = "title") StringBuilder title,
+            @PascalParameter(name = "message") StringBuilder message,
             @PascalParameter(name = "maximum progress") @RpcDefault("100") int max) {
         dismissDialog(); // Dismiss any existing dialog.
         mDialogTask =
@@ -255,15 +259,15 @@ public class AndroidDialogLib implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Create alert dialog.")
-    public void createAlertDialog(@PascalParameter(name = "title") String title,
-                                  @PascalParameter(name = "message") String message) {
+    public void createAlertDialog(@PascalParameter(name = "title") StringBuilder title,
+                                  @PascalParameter(name = "message") StringBuilder message) {
         dismissDialog(); // Dismiss any existing dialog.
         mDialogTask = new AlertDialogTask(title, message);
     }
 
     @PascalMethod(description = "Create alert dialog.")
-    public void dialogAlert(@PascalParameter(name = "title") String title,
-                            @PascalParameter(name = "message") String message,
+    public void dialogAlert(@PascalParameter(name = "title") StringBuilder title,
+                            @PascalParameter(name = "message") StringBuilder message,
                             @PascalParameter(name = "lock") boolean lock) throws InterruptedException {
         createAlertDialog(title, message);
         showDialog();
@@ -274,7 +278,8 @@ public class AndroidDialogLib implements IPascalLibrary {
     public void createDialogSeek(
             @PascalParameter(name = "starting value") @RpcDefault("50") int progress,
             @PascalParameter(name = "maximum value") @RpcDefault("100") int max,
-            @PascalParameter(name = "title") String title, @PascalParameter(name = "message") String message) {
+            @PascalParameter(name = "title") StringBuilder title,
+            @PascalParameter(name = "message") StringBuilder message) {
         dismissDialog(); // Dismiss any existing dialog.
         mDialogTask = new SeekBarDialogTask(progress, max, title, message);
     }
@@ -338,7 +343,7 @@ public class AndroidDialogLib implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Set alert dialog positive button text.")
-    public void dialogSetPositiveButtonText(@PascalParameter(name = "text") String text) {
+    public void dialogSetPositiveButtonText(@PascalParameter(name = "text") StringBuilder text) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setPositiveButtonText(text);
         } else if (mDialogTask != null && mDialogTask instanceof SeekBarDialogTask) {
@@ -349,7 +354,7 @@ public class AndroidDialogLib implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Set alert dialog button text.")
-    public void dialogSetNegativeButtonText(@PascalParameter(name = "text") String text) {
+    public void dialogSetNegativeButtonText(@PascalParameter(name = "text") StringBuilder text) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setNegativeButtonText(text);
         } else if (mDialogTask != null && mDialogTask instanceof SeekBarDialogTask) {
@@ -361,7 +366,7 @@ public class AndroidDialogLib implements IPascalLibrary {
 
 
     @PascalMethod(description = "Set alert dialog button text.")
-    public void dialogSetNeutralButtonText(@PascalParameter(name = "text") String text) {
+    public void dialogSetNeutralButtonText(@PascalParameter(name = "text") StringBuilder text) {
         if (mDialogTask != null && mDialogTask instanceof AlertDialogTask) {
             ((AlertDialogTask) mDialogTask).setNeutralButtonText(text);
         } else {
@@ -449,10 +454,10 @@ public class AndroidDialogLib implements IPascalLibrary {
 
     @PascalMethod(description = "Display a WebView with the given URL.")
     public void showWebView(
-            @PascalParameter(name = "url") String url,
+            @PascalParameter(name = "url") StringBuilder url,
             @PascalParameter(name = "wait", description = "block until the user exits the WebView") boolean wait)
             throws IOException {
-        HtmlActivityTask task = new HtmlActivityTask(mManager, url, false);
+        HtmlActivityTask task = new HtmlActivityTask(mManager, url.toString(), false);
         mTaskQueue.execute(task);
         if (wait) {
             try {
@@ -468,16 +473,16 @@ public class AndroidDialogLib implements IPascalLibrary {
      */
     @PascalMethod(description = "Adds a new item to context menu.")
     public void addContextMenuItem(
-            @PascalParameter(name = "label", description = "label for this menu item") String label,
-            @PascalParameter(name = "event", description = "event that will be generated on menu item click") String event,
+            @PascalParameter(name = "label", description = "label for this menu item") StringBuilder label,
+            @PascalParameter(name = "event", description = "event that will be generated on menu item click") StringBuilder event,
             @PascalParameter(name = "eventData") Object data) {
         mContextMenuItems.add(new MenuItem(label, event, data, null));
     }
 
     @PascalMethod(description = "Adds a new item to options menu.")
     public void addOptionsMenuItem(
-            @PascalParameter(name = "label", description = "label for this menu item") String label,
-            @PascalParameter(name = "event", description = "event that will be generated on menu item click") String event,
+            @PascalParameter(name = "label", description = "label for this menu item") StringBuilder label,
+            @PascalParameter(name = "event", description = "event that will be generated on menu item click") StringBuilder event,
             @PascalParameter(name = "eventData") Object data,
             @PascalParameter(name = "iconName", description = "Android system menu icon, see http://developer.android.com/reference/android/R.drawable.html") String iconName) {
         mOptionsMenuItems.add(new MenuItem(label, event, data, iconName));
@@ -553,13 +558,13 @@ public class AndroidDialogLib implements IPascalLibrary {
 
     private class MenuItem {
 
-        private final String mmTitle;
-        private final String mmEvent;
+        private final CharSequence mmTitle;
+        private final CharSequence mmEvent;
         private final Object mmEventData;
         private final String mmIcon;
         private final android.view.MenuItem.OnMenuItemClickListener mmListener;
 
-        public MenuItem(String title, String event, Object data, String icon) {
+        public MenuItem(CharSequence title, CharSequence event, Object data, String icon) {
             mmTitle = title;
             mmEvent = event;
             mmEventData = data;
@@ -568,7 +573,7 @@ public class AndroidDialogLib implements IPascalLibrary {
                 @Override
                 public boolean onMenuItemClick(android.view.MenuItem item) {
                     // TODO(damonkohler): Does mmEventData need to be cloned somehow?
-                    mEventFacade.postEvent(mmEvent, mmEventData);
+                    mEventFacade.postEvent(mmEvent.toString(), mmEventData);
                     return true;
                 }
             };

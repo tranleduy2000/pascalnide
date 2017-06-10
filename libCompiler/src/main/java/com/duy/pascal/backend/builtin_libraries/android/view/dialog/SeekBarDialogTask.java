@@ -37,24 +37,24 @@ public class SeekBarDialogTask extends DialogTask {
 
     private final int mProgress;
     private final int mMax;
-    private final String mTitle;
-    private final String mMessage;
+    private final CharSequence mTitle;
+    private final CharSequence mMessage;
     private SeekBar mSeekBar;
-    private String mPositiveButtonText;
-    private String mNegativeButtonText;
+    private CharSequence mPositiveButtonText;
+    private CharSequence mNegativeButtonText;
 
-    public SeekBarDialogTask(int progress, int max, String title, String message) {
+    public SeekBarDialogTask(int progress, int max, CharSequence title, CharSequence message) {
         mProgress = progress;
         mMax = max;
         mTitle = title;
         mMessage = message;
     }
 
-    public void setPositiveButtonText(String text) {
+    public void setPositiveButtonText(CharSequence text) {
         mPositiveButtonText = text;
     }
 
-    public void setNegativeButtonText(String text) {
+    public void setNegativeButtonText(CharSequence text) {
         mNegativeButtonText = text;
     }
 
