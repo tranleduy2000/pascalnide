@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
@@ -29,12 +30,14 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 public class CodeTheme {
+    public static final String DEBUG_LINE_KEY = "debug_line_color";
     private static final String TAG = "CodeTheme";
     private static ArrayList<CodeTheme> customThemes;
     private static ArrayList<CodeTheme> builtinThemes;
@@ -129,6 +132,7 @@ public class CodeTheme {
             codeTheme.putColor("comment_color", loadColor(prefs, id, "comment_color"));
             codeTheme.putColor("error_color", loadColor(prefs, id, "error_color"));
             codeTheme.putColor("opt_color", loadColor(prefs, id, "opt_color"));
+//            codeTheme.putColor(DEBUG_LINE_KEY, loadColor(prefs, id, DEBUG_LINE_KEY));
 
             customThemes.add(codeTheme);
         } catch (Exception ignored) {
@@ -137,6 +141,10 @@ public class CodeTheme {
 
     private static int loadColor(SharedPreferences prefs, String id, String name) {
         return Color.parseColor(prefs.getString("theme." + id + "." + name, "#FF000000").trim());
+    }
+
+    private static int loadColor(SharedPreferences prefs, String id, String name, String def) {
+        return Color.parseColor(prefs.getString("theme." + id + "." + name, def).trim());
     }
 
     private static void loadBuiltinThemes(Context ctx) {
@@ -157,6 +165,7 @@ public class CodeTheme {
                     codeTheme.putColor("comment_color", loadColor(properties, id, "comment_color"));
                     codeTheme.putColor("error_color", loadColor(properties, id, "error_color"));
                     codeTheme.putColor("opt_color", loadColor(properties, id, "opt_color"));
+//                    codeTheme.putColor(DEBUG_LINE_KEY, loadColor(properties, id, DEBUG_LINE_KEY));
                     builtinThemes.add(codeTheme);
                     id++;
                 } catch (Exception e) {
@@ -234,7 +243,7 @@ public class CodeTheme {
         this.colors.put(name, color);
     }
 
-    public int getColor(String name) {
+    public Integer getColor(String name) {
         return this.colors.get(name);
     }
 
@@ -289,4 +298,15 @@ public class CodeTheme {
     public void setStringColor(int integer) {
         putColor("string_color", integer);
     }
+
+
+    public int getDebugColor() {
+        int background = getBackground();
+        float[] hsv = new float[3];
+        Color.colorToHSV(background, hsv);
+        hsv[2] = Math.min(1, Math.max(0.1f, hsv[2]) * 1.25f);//brightness color
+        Log.d(TAG, "getDebugColor: " + Arrays.toString(hsv));
+        return Color.HSVToColor(hsv);
+    }
+
 }

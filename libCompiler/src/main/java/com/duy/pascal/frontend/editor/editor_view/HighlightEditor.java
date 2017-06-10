@@ -753,12 +753,6 @@ public class HighlightEditor extends CodeSuggestsEditText
                 lineStart = Math.max(0, lineStart);
                 lineEnd = Math.min(lineEnd, getText().length());
 
-                ForegroundColorSpan[] foreSpans = e.getSpans(lineStart, lineEnd,
-                        ForegroundColorSpan.class);
-                for (ForegroundColorSpan foreSpan : foreSpans) {
-                    e.removeSpan(foreSpan);
-                }
-
                 if (lineStart < lineEnd) {
                     e.setSpan(new BackgroundColorSpan(codeTheme.getErrorColor()),
                             lineStart,

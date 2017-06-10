@@ -105,7 +105,7 @@
     <style name="CodeTheme">
         <item name="key_word_color">#60d9f1</item>
         <item name="comment_color">#766c4a</item>
-        <item name="error_color">#e040fb</item>
+        <item name="error_color">#ffea00</item>
         <item name="number_color">#af7eff</item>
         <item name="string_color">#e6dc6e</item>
         <item name="boolean_color">#60d9f1</item>
