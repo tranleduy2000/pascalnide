@@ -20,6 +20,6 @@ package com.duy.pascal.backend.ast.codeunit;
  * Created by Duy on 07-Jun-17.
  */
 
-enum DebugMode {
-
+public enum DebugMode {
+    STEP_INFO, STEP_OVER, RESUME_PROGRAM
 }

@@ -2,6 +2,7 @@ package com.duy.pascal.backend.debugable;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.backend.ast.codeunit.DebugMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
@@ -61,10 +62,18 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
                 main.getDebugListener().onLine((Executable) this, getLineNumber());
             }
             main.scriptControlCheck(getLineNumber());
+            //backup mode
+            boolean last = main.isDebug();
+            if (main.isDebug()) {
+                if (main.getDebugMode().equals(DebugMode.STEP_OVER)) {
+                    main.setDebug(false);
+                }
+            }
             main.incStack(getLineNumber());
 
             ExecutionResult result = executeImpl(context, main);
 
+            main.setDebug(last);
             main.decStack();
             return result;
         } catch (RuntimePascalException e) {

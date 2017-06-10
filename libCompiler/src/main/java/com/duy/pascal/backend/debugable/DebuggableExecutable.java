@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.debugable;
 
+import com.duy.pascal.backend.ast.codeunit.DebugMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
@@ -12,12 +13,25 @@ public abstract class DebuggableExecutable implements Executable {
     public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            if (main.isDebug()) main.getDebugListener().onLine(this, getLineNumber());
-            main.incStack(getLineNumber());
+            if (main.isDebug()) {
+                main.getDebugListener().onLine(this, getLineNumber());
+            }
             main.scriptControlCheck(getLineNumber());
+            //backup mode
+            boolean last = main.isDebug();
+            if (main.isDebug()) {
+                if (main.getDebugMode().equals(DebugMode.STEP_OVER)) {
+                    main.setDebug(false);
+                }
+            }
 
+            main.incStack(getLineNumber());
+
+            //execute code
             ExecutionResult result = executeImpl(context, main);
 
+            //restore mode
+            main.setDebug(last);
             main.decStack();
             return result;
         } catch (RuntimePascalException e) {

@@ -24,6 +24,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.duy.pascal.backend.ast.codeunit.DebugMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
@@ -159,6 +160,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
                     if (isEnableDebug()) {
                         program.enableDebug();
+                        program.setDebugMode(DebugMode.STEP_INFO);
                         program.setDebugListener((DebugListener) AbstractExecActivity.this);
                     }
 
