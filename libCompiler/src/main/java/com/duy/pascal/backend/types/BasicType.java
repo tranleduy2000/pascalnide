@@ -9,11 +9,11 @@ import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBuilderBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.StringBuilderCloner;
-import com.duy.pascal.backend.types.converter.StringLimitBoxer;
-import com.duy.pascal.backend.types.converter.TypeConverter;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.backend.types.converter.StringBuilderLimitBoxer;
+import com.duy.pascal.backend.types.converter.TypeConverter;
 
 import java.io.File;
 
@@ -70,7 +70,10 @@ public enum BasicType implements DeclaredType {
                 }
                 return TypeConverter.autoConvert(this, valueToAssign, (BasicType) otherType.declType);
             } else if (otherType.declType instanceof StringLimitType) {
-                return new StringLimitBoxer(valueToAssign, ((StringLimitType) otherType.declType).getLength());
+                return new StringBuilderLimitBoxer(valueToAssign, ((StringLimitType) otherType.declType).getLength());
+            } else if (otherType.declType instanceof JavaClassBasedType &&
+                    otherType.declType.getStorageClass() == String.class) {
+                return new StringBuilderBoxer(valueToAssign);
             }
             return null;
         }

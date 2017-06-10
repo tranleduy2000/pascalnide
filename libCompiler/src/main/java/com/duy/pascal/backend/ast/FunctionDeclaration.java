@@ -212,7 +212,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             WordToken n = namesList.get(j);
             argumentNames[j] = n.name;
             // TODO: 30-Apr-17
-//            scopeWithStatement.declareVariable(new VariableDeclaration(n.name, argumentTypes[j].declType, n.mLineNumber));
+//            scopeWithStatement.declareVariable(new VariableDeclaration(n.name, argumentTypes[j].declType, n.line));
         }
 
     }

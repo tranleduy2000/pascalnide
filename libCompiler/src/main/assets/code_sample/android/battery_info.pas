@@ -1,4 +1,4 @@
-uses aBattery;
+uses aBattery, crt;
 var
     status, health, level: Integer;
     plugType: Integer;

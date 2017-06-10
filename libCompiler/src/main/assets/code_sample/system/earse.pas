@@ -6,7 +6,7 @@ Var
     F : Text;
 
 begin
-    { Create a file with a mLineNumber of text in it}
+    { Create a file with a line of text in it}
     Assign (F,'test.txt');
     Rewrite (F);
     Writeln (F,'Try and find this when I''m finished !');

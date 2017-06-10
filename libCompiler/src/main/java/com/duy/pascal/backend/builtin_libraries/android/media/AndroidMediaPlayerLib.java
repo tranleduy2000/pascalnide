@@ -82,7 +82,6 @@ public class AndroidMediaPlayerLib implements IPascalLibrary {
             @PascalParameter(name = "url", description = "url of media resource") String url,
             @PascalParameter(name = "key", description = "identifying resource") String key)
             throws FileNotFoundException {
-        DLog.d(TAG, "assignMedia() called with: url = [" + url + "], key = [" + key + "]");
         remove(key);
         MediaPlayer player;
         try {

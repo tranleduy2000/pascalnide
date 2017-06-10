@@ -28,12 +28,12 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
-public class StringLimitBoxer implements RuntimeValue {
+public class StringBuilderLimitBoxer implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
     private RuntimeValue value;
     private RuntimeValue length;
 
-    public StringLimitBoxer(RuntimeValue value, RuntimeValue length) {
+    public StringBuilderLimitBoxer(RuntimeValue value, RuntimeValue length) {
         this.value = value;
         this.length = length;
         this.outputFormat = value.getOutputFormat();
@@ -106,7 +106,7 @@ public class StringLimitBoxer implements RuntimeValue {
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
-        return new StringLimitBoxer(value.compileTimeExpressionFold(context), length);
+        return new StringBuilderLimitBoxer(value.compileTimeExpressionFold(context), length);
     }
 
     @Override

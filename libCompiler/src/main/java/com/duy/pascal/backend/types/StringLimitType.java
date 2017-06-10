@@ -25,10 +25,10 @@ import com.duy.pascal.backend.ast.runtime_value.value.access.StringIndex;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.StringBuilderCloner;
-import com.duy.pascal.backend.types.converter.StringLimitBoxer;
-import com.duy.pascal.backend.types.converter.TypeConverter;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.backend.types.converter.StringBuilderLimitBoxer;
+import com.duy.pascal.backend.types.converter.TypeConverter;
 
 /**
  * Created by Duy on 26-May-17.
@@ -49,12 +49,12 @@ public class StringLimitType extends InfoType {
             throws ParsingException {
         RuntimeType otherType = valueToAssign.getType(f);
         if (this.equals(otherType.declType)) {
-            return new StringLimitBoxer(valueToAssign, length);
+            return new StringBuilderLimitBoxer(valueToAssign, length);
         }
 
         if (otherType.declType instanceof BasicType) {
             if (otherType.declType == BasicType.StringBuilder) {
-                return new StringLimitBoxer(valueToAssign, length);
+                return new StringBuilderLimitBoxer(valueToAssign, length);
             }
             if (otherType.declType == BasicType.Character) {
                 return new CharacterBoxer(valueToAssign);
@@ -69,6 +69,9 @@ public class StringLimitType extends InfoType {
             if (converted != null) {
                 return converted;
             }
+        }else if (otherType.declType instanceof JavaClassBasedType &&
+                otherType.declType.getStorageClass() == String.class) {
+            return new StringBuilderLimitBoxer(valueToAssign, length);
         }
         return null;
     }

@@ -127,8 +127,8 @@ public class AndroidLocationLib implements IAndroidLibrary {
 
     @PascalMethod(description = "Ask if provider is enabled")
     public boolean locationProviderEnabled(
-            @PascalParameter(name = "provider", description = "Name of location provider") String provider) {
-        return mLocationManager.isProviderEnabled(provider);
+            @PascalParameter(name = "provider", description = "Name of location provider") StringBuilder provider) {
+        return mLocationManager.isProviderEnabled(provider.toString());
     }
 
 
@@ -169,7 +169,8 @@ public class AndroidLocationLib implements IAndroidLibrary {
     }
 
 
-    @PascalMethod(description = "Returns the last known location of the device.", returns = "A map of location information by provider.")
+    @PascalMethod(description = "Returns the last known location of the device.",
+            returns = "A map of location information by provider.")
     public Map<String, Location> getLastKnownLocation() {
         Map<String, Location> location = new HashMap<>();
         for (String provider : mLocationManager.getAllProviders()) {

@@ -5,7 +5,7 @@ begin
     key := 'myMusic';
 
     {open a media file, replace url of your media}
-    assginMedia('path to file media', key);
+    assignMedia('path to file media', key);
 
     playMedia(key);
 

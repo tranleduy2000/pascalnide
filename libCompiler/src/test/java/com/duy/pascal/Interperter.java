@@ -32,6 +32,7 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -152,6 +153,85 @@ public class Interperter {
                 e.printStackTrace();
                 return false;
             }
+        }
+        return true;
+    }
+
+    public static boolean checkSyntax(String programPath) {
+        System.out.println(programPath);
+        final StringBuilder output = new StringBuilder();
+        final File programFile = new File(programPath);
+        ArrayList<ScriptSource> searchPath = new ArrayList<>();
+        searchPath.add(new FileScriptSource(new File(programPath).getParent()));
+        try {
+            PascalProgram pascalProgram = PascalCompiler.loadPascal(
+                    new File(programPath).getName(), new FileReader(programPath), searchPath,
+                    new IRunnablePascal() {
+                        @Override
+                        public String getCurrentDirectory() {
+                            return programFile.getParent();
+                        }
+
+                        @Override
+                        public Context getApplicationContext() {
+                            return null;
+                        }
+
+                        @Override
+                        public void startInput(final IOLib lock) {
+                            if (input == null) {
+                                throw new RuntimeException("can not find input reader");
+                            }
+                            String s = input.nextLine();
+                            lock.setInputBuffer(s);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(10);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    lock.resume();
+                                }
+                            }).start();
+                        }
+
+
+                        @Override
+                        public void print(CharSequence charSequence) {
+                            output.append(charSequence);
+                            System.out.print(charSequence);
+                        }
+
+                        @Override
+                        public ConsoleView getConsoleView() {
+                            return null;
+                        }
+
+                        @Override
+                        public void println(CharSequence charSequence) {
+                            output.append(charSequence);
+                            output.append("\n");
+                            System.out.println(charSequence);
+                        }
+
+                        @Override
+                        public char getKeyBuffer() {
+                            return 0;
+                        }
+
+                        @Override
+                        public boolean keyPressed() {
+                            return false;
+                        }
+                    });
+        } catch (ParsingException e) {
+            e.printStackTrace();
+            return false;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
         }
         return true;
     }

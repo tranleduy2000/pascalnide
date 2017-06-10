@@ -78,6 +78,7 @@ import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
 import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
+import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
@@ -254,9 +255,11 @@ public class PascalLibraryManager {
         if (o instanceof IAndroidLibrary) {
             String[] permissions = ((IAndroidLibrary) o).needPermission();
             for (String permission : permissions) {
-                int i = ActivityCompat.checkSelfPermission(handler.getApplicationContext(), permission);
-                if (i != PackageManager.PERMISSION_GRANTED) {
-                    throw new PermissionDeniedException(((IAndroidLibrary) o).getName(), permission, line);
+                if (DLog.ANDROID) {
+                    int i = ActivityCompat.checkSelfPermission(handler.getApplicationContext(), permission);
+                    if (i != PackageManager.PERMISSION_GRANTED) {
+                        throw new PermissionDeniedException(((IAndroidLibrary) o).getName(), permission, line);
+                    }
                 }
             }
 

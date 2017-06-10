@@ -40,4 +40,8 @@ public class TestIssue extends BaseTestCase {
     public void testRecord() {
         run("test3.pas");
     }
+
+    public void testType() {
+        run("test4.pas");
+    }
 }

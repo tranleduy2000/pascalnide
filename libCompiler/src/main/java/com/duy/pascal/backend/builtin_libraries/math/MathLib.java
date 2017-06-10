@@ -44,6 +44,10 @@ public class MathLib implements IPascalLibrary {
         return MoreMath.asinh(d);
     }
 
+    @PascalMethod(description = "")
+    public double arccosz(String x) {
+        return Math.acos(Double.parseDouble(x));
+    }
 
     @PascalMethod(description = "")
     public double arccos(double x) {

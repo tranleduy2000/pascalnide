@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import static com.duy.pascal.Interperter.runProgram;
+import static com.duy.pascal.Interperter.checkSyntax;
 
 /**
  * Created by Duy on 29-May-17.
@@ -44,8 +44,7 @@ public class AssetDataTest extends TestCase {
         File parent = new File(dir + "system");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                System.out.println(file.getPath());
-                runProgram(file.getPath());
+                assertTrue(checkSyntax(file.getPath()));
             }
         }
     }
@@ -54,15 +53,8 @@ public class AssetDataTest extends TestCase {
         File parent = new File(dir + "basic");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                try {
-                    runProgram(file.getPath());
-                } catch (RuntimePascalException e) {
-                    e.printStackTrace();
-                } catch (ParsingException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                assertTrue(checkSyntax(file.getPath()));
+
             }
         }
     }
@@ -71,15 +63,7 @@ public class AssetDataTest extends TestCase {
         File parent = new File(dir + "crt");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                try {
-                    runProgram(file.getPath());
-                } catch (RuntimePascalException e) {
-                    e.printStackTrace();
-                } catch (ParsingException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                assertTrue(checkSyntax(file.getPath()));
             }
         }
     }
@@ -88,15 +72,7 @@ public class AssetDataTest extends TestCase {
         File parent = new File(dir + "dos");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                try {
-                    runProgram(file.getPath());
-                } catch (RuntimePascalException e) {
-                    e.printStackTrace();
-                } catch (ParsingException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                assertTrue(checkSyntax(file.getPath()));
             }
         }
     }
@@ -105,15 +81,7 @@ public class AssetDataTest extends TestCase {
         File parent = new File(dir + "math");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                try {
-                    runProgram(file.getPath());
-                } catch (RuntimePascalException e) {
-                    e.printStackTrace();
-                } catch (ParsingException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                assertTrue(checkSyntax(file.getPath()));
             }
         }
     }
@@ -122,16 +90,71 @@ public class AssetDataTest extends TestCase {
         File parent = new File(dir + "sysutils");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
-                try {
-                    System.out.println(file);
-                    runProgram(file.getPath());
-                } catch (RuntimePascalException e) {
-                    e.printStackTrace();
-                } catch (ParsingException e) {
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                assertTrue(checkSyntax(file.getPath()));
+            }
+        }
+    }
+
+    public void testandroid() {
+        File parent = new File(dir + "android");
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                assertTrue(checkSyntax(file.getPath()));
+            }
+        }
+    }
+
+    public void testandroid_dialog() {
+        File parent = new File(dir + "android_dialog");
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                assertTrue(checkSyntax(file.getPath()));
+            }
+        }
+    }
+
+    public void testandroid_location() {
+        File parent = new File(dir + "android_location");
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                assertTrue(checkSyntax(file.getPath()));
+            }
+        }
+    }
+
+    public void testandroid_zxing() {
+        File parent = new File(dir + "android_zxing");
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                assertTrue(checkSyntax(file.getPath()));
+            }
+        }
+    }  public void testgraph() {
+        File parent = new File(dir + "graph");
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                assertTrue(checkSyntax(file.getPath()));
+            }
+        }
+    } public void testmore() {
+        File parent = new File(dir + "more");
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                assertTrue(checkSyntax(file.getPath()));
+            }
+        }
+    }public void testsysutils() {
+        File parent = new File(dir + "sysutils");
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                assertTrue(checkSyntax(file.getPath()));
+            }
+        }
+    }public void testtemp() {
+        File parent = new File(dir + "temp");
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                assertTrue(checkSyntax(file.getPath()));
             }
         }
     }

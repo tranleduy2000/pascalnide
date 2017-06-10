@@ -5,8 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
-import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBuilderBoxer;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.CloneableObjectCloner;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -59,13 +58,13 @@ public class JavaClassBasedType extends InfoType {
             if (this.equals(otherType.declType)) {
                 return cloneValue(value);
             }
-            if (this.clazz == String.class
-                    && otherType.declType == BasicType.StringBuilder) {
-                return new StringBuilderBoxer(value);
+            if (this.clazz == String.class && otherType.declType == BasicType.StringBuilder) {
+                return new StringBoxer(value);
             }
-            if (this.clazz == String.class
-                    && otherType.declType == BasicType.Character) {
-                return new StringBuilderBoxer(new CharacterBoxer(value));
+            if (this.clazz == String.class && otherType.declType == BasicType.Character) {
+                if (this.clazz == String.class) {
+                    return new StringBoxer(value);
+                }
             }
         }
         if (otherType.declType instanceof JavaClassBasedType) {

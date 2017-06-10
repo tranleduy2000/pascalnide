@@ -20,7 +20,7 @@ Begin
         delay(50);
         color := random(maxColor) + 1;
         setColor(color);
-        mLineNumber(random(startX), random(startY), random(startX), random(startY));
+        line(random(startX), random(startY), random(startX), random(startY));
     end;
 
     ReadLn;

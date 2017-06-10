@@ -41,7 +41,7 @@ public class StringBoxer extends DebuggableReturnValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        return new StringBuilder(value.getValue(f, main).toString());
+        return  value.getValue(f, main).toString();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class StringBoxer extends DebuggableReturnValue {
             throws ParsingException {
         Object value = this.value.compileTimeValue(context);
         if (value != null) {
-            return new StringBuilder(value.toString());
+            return value.toString();
         } else {
             return null;
         }

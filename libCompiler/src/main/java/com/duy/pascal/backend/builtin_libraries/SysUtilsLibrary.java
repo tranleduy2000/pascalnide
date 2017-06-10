@@ -264,7 +264,7 @@ public class SysUtilsLibrary implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Compare 2 ansistrings, case sensitive, ignoring accents characters.")
-    public double AnsiCompareStr(StringBuilder s1, StringBuilder s2) throws EConvertError {
+    public int AnsiCompareStr(StringBuilder s1, StringBuilder s2) throws EConvertError {
         return s1.toString().compareTo(s2.toString());
     }
 

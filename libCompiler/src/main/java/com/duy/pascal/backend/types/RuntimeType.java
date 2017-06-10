@@ -24,7 +24,6 @@ public class RuntimeType implements ArgumentType {
      * otherwise return false
      */
     public static boolean canOutputWithFormat(Class<?> runtimeClass, int index) {
-        System.out.println("runtimeClass = [" + runtimeClass + "], index = [" + index + "]");
         if (index == 1) {
             return runtimeClass == double.class || runtimeClass == int.class
                     || runtimeClass == boolean.class || runtimeClass == long.class
