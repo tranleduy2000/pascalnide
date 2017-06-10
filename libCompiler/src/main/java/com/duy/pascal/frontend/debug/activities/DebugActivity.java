@@ -26,7 +26,7 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
+import android.support.annotation.WorkerThread;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -50,6 +50,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.backend.ast.AbstractCallableFunction;
+import com.duy.pascal.backend.ast.codeunit.DebugMode;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
@@ -142,7 +143,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
         mFameFragment = (FragmentFrame) getSupportFragmentManager().findFragmentByTag("FragmentFrame");
     }
-
 
 
     @Override
@@ -278,7 +278,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         showPopupAt(lineInfo, expr + " = " + result);
     }
 
-    @UiThread
+    @WorkerThread
     private void showPopupAt(final LineInfo lineInfo, final String msg) {
         runOnUiThread(new Runnable() {
             @Override
@@ -390,17 +390,29 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_step_info) {
+            if (program != null) {
+                program.setDebugMode(DebugMode.STEP_INFO);
+            }
+            resumeProgram();
+            return true;
+        } else if (i == R.id.action_step_over) {
+            if (program != null) {
+                program.setDebugMode(DebugMode.STEP_OVER);
+            }
             resumeProgram();
             return true;
         } else if (i == R.id.action_add_watch) {
             addWatchVariable();
+            return true;
 
         } else if (i == R.id.action_show_soft) {
             showKeyBoard();
+            return true;
 
         } else if (i == R.id.action_rerun) {
             CompileManager.debug(this, filePath);
             finish();
+            return true;
 
         }
         return super.onOptionsItemSelected(item);
