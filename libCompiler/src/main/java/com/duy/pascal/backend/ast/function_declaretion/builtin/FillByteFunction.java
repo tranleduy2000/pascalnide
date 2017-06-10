@@ -133,7 +133,7 @@ public class FillByteFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             DeclaredType declType = type.declType;
             if (declType instanceof ArrayType) {
-                SubrangeType bounds = ((ArrayType) declType).getBounds();
+                SubrangeType bounds = ((ArrayType) declType).getBound();
                 Object[] value = (Object[]) this.value.getValue(f, main);
                 int size = value.length - 1;
                 return bounds.lower + size - 1;

@@ -36,11 +36,11 @@ import com.duy.pascal.frontend.DLog;
 public class IntegerSubrangeType extends SubrangeType {
     private static final String TAG = "IntegerSubrangeType";
 
-    public IntegerSubrangeType() {
+   /* public IntegerSubrangeType() {
         DLog.d(TAG, "IntegerSubrangeType() called");
         this.lower = 0;
         this.size = 0;
-    }
+    }*/
 
     public IntegerSubrangeType(GrouperToken i, ExpressionContext context)
             throws ParsingException {

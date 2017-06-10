@@ -495,9 +495,9 @@ public abstract class GrouperToken extends Token {
                 ArrayType arrayType = (ArrayType) type.declType;
 
                 //if the type of index is enum type
-                if (arrayType.getBounds() instanceof EnumSubrangeType
+                if (arrayType.getBound() instanceof EnumSubrangeType
                         && unconvert.getType(f).declType instanceof EnumGroupType) {
-                    EnumSubrangeType bounds = (EnumSubrangeType) arrayType.getBounds();
+                    EnumSubrangeType bounds = (EnumSubrangeType) arrayType.getBound();
 
                     converted = bounds.getEnumGroupType().convert(unconvert, f);
                     if (converted != null) {
@@ -815,7 +815,7 @@ public abstract class GrouperToken extends Token {
         ParenthesizedToken container = (ParenthesizedToken) group;
 
         //size of array
-        int size = type.getBounds().size;
+        int size = type.getBound().size;
         //create new array
 //        Object[] objects = new Object[size];
         Class<?> elementClass = elementType.getStorageClass();

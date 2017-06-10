@@ -52,21 +52,25 @@ public class SpanUtils {
         return text;
     }
 
-    public Spannable generateTypeSpan(DeclaredType declaredType) {
+    public Spannable generateTypeSpan(DeclaredType declaredType, boolean isEnd) {
         SpannableStringBuilder spannableString;
         if (declaredType instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) declaredType;
-            if (arrayType.getBounds() == null) { //dynamic array, non bound
+            if (arrayType.getBound() == null) { //dynamic array, non bound
                 DeclaredType elementType = arrayType.getElementType();
                 spannableString = new SpannableStringBuilder()
-                        .append(generateTypeSpan(elementType)).append("[]");
+                        .append("[]")
+                        .append(generateTypeSpan(elementType, false));
             } else {//static array
                 spannableString = new SpannableStringBuilder()
-                        .append("{").append(generateTypeSpan(arrayType.getElementType()))
-                        .append("[").append(arrayType.getBounds().toString()).append("]}");
+                        .append("[").append(arrayType.getBound().toString()).append("]")
+                        .append(generateTypeSpan(arrayType.getElementType(), false));
             }
         } else {
             spannableString = new SpannableStringBuilder(declaredType.toString());
+        }
+        if (isEnd) {
+            spannableString = new SpannableStringBuilder("{").append(spannableString).append("}");
         }
         spannableString.setSpan(new ForegroundColorSpan(codeTheme.getCommentColor()), 0,
                 spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

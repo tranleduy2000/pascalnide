@@ -28,16 +28,17 @@ import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.VarargsType;
+import com.duy.pascal.backend.types.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.types.set.ArrayType;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.frontend.debug.CallStack;
 
 import java.lang.reflect.Array;
@@ -148,9 +149,13 @@ public class SetLengthFunction implements IMethodDeclaration {
             if (type instanceof ArrayType) {
                 Object[] old = (Object[]) r.get();
                 System.out.println(Arrays.toString(old));
+
                 Object[] array = (Object[]) Array.newInstance(
                         ((ArrayType) type).getElementType().getStorageClass(), ranges[0]);
 
+                //set bound from 0 to range[0]
+                ((ArrayType) type).setBound(new IntegerSubrangeType(0, ranges[0]));
+                //set default value for all element of array
                 setInitValue(array, ((ArrayType) type).getElementType(), ranges, 0, old);
                 r.set(array);
             } else if (type == BasicType.StringBuilder) {
@@ -186,6 +191,7 @@ public class SetLengthFunction implements IMethodDeclaration {
                     return;
                 }
                 ArrayType arrayType = (ArrayType) elementType;
+                arrayType.setBound(new IntegerSubrangeType(0, ranges[index + 1]));
                 for (int i = 0; i < ranges[index]; i++) {
                     array[i] = Array.newInstance(arrayType.getElementType().getStorageClass(),
                             ranges[index + 1]);
@@ -196,7 +202,7 @@ public class SetLengthFunction implements IMethodDeclaration {
             } else {
                 if (old != null) {
                     System.arraycopy(old, 0, array, 0, Math.min(array.length, old.length));
-                    for (Integer i = old.length ; i < ranges[index]; i++) {
+                    for (Integer i = old.length; i < ranges[index]; i++) {
                         Array.set(array, i, elementType.initialize());
                     }
                 } else {

@@ -16,6 +16,19 @@
 
 package com.duy.pascal.backend.types.rangetype;
 
+import android.support.annotation.IntRange;
+
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+
 public class CharacterSubrangeType extends IntegerSubrangeType {
 
+    public CharacterSubrangeType(GrouperToken i, ExpressionContext context) throws ParsingException {
+        super(i, context);
+    }
+
+    public CharacterSubrangeType(int lower, @IntRange(from = 0) int size) {
+        super(lower, size);
+    }
 }

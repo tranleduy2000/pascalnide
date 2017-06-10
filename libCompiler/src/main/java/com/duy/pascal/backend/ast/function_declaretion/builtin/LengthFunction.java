@@ -132,7 +132,7 @@ public class LengthFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             Object value = array.getValue(f, main);
             if (type instanceof ArrayType) {
-                return ((ArrayType) type).getBounds().getSize();
+                return ((ArrayType) type).getBound().getSize();
             } else if (value instanceof StringBuilder) {
                 return ((StringBuilder) value).length();
             } else if (value instanceof String) {

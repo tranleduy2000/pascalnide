@@ -126,7 +126,7 @@ public class LowFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             DeclaredType declType = type.declType;
             if (declType instanceof ArrayType) {
-                return ((ArrayType) declType).getBounds().lower;
+                return ((ArrayType) declType).getBound().lower;
             } else if (BasicType.Byte.equals(declType)) {
                 return Byte.MIN_VALUE;
             } else if (BasicType.Short.equals(declType)) {
