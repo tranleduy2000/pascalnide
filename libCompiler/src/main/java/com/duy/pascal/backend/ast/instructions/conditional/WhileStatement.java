@@ -5,7 +5,7 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
-import com.duy.pascal.backend.ast.instructions.NoneInstruction;
+import com.duy.pascal.backend.ast.instructions.NopeInstruction;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -105,7 +105,7 @@ public class WhileStatement extends DebuggableExecutable {
         Object cond = condition.compileTimeValue(c);
         if (cond != null) {
             if (!((Boolean) cond)) {
-                return new NoneInstruction(line);
+                return new NopeInstruction(line);
             } else {
                 return new WhileStatement(new ConstantAccess(true,
                         condition.getLineNumber()), comm, line);

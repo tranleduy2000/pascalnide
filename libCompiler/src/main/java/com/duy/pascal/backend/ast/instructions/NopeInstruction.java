@@ -8,10 +8,10 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
-public class NoneInstruction extends DebuggableExecutable {
+public class NopeInstruction extends DebuggableExecutable {
     LineInfo line;
 
-    public NoneInstruction(LineInfo line) {
+    public NopeInstruction(LineInfo line) {
         this.line = line;
     }
 

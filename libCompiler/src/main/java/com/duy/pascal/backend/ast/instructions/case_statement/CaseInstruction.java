@@ -5,7 +5,7 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
-import com.duy.pascal.backend.ast.instructions.InstructionGrouper;
+import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
@@ -33,7 +33,7 @@ import java.util.List;
 public class CaseInstruction extends DebuggableExecutable {
     private RuntimeValue mSwitchValue;
     private CasePossibility[] possibilities;
-    private InstructionGrouper otherwise;
+    private CompoundStatement otherwise;
     private LineInfo line;
 
     public CaseInstruction(CaseToken token, ExpressionContext context)
@@ -87,7 +87,7 @@ public class CaseInstruction extends DebuggableExecutable {
             possibilities.add(new CasePossibility(conditions.toArray(new Containable[conditions.size()]), command));
         }
 
-        otherwise = new InstructionGrouper(token.peek().getLineNumber());
+        otherwise = new CompoundStatement(token.peek().getLineNumber());
         if (token.peek() instanceof ElseToken) {
             token.take();
             while (token.hasNext()) {

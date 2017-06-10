@@ -9,20 +9,19 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.LinkedList;
-import java.util.List;
 
-public class InstructionGrouper extends DebuggableExecutable {
-    List<Executable> instructions;
-    LineInfo line;
+public class CompoundStatement extends DebuggableExecutable {
+    private LinkedList<Executable> instructions;
+    private LineInfo startLine, endLine;
 
-    public InstructionGrouper(LineInfo line) {
-        this.line = line;
+    public CompoundStatement(LineInfo startLine) {
+        this.startLine = startLine;
         instructions = new LinkedList<>();
     }
 
     @Override
     public LineInfo getLineNumber() {
-        return line;
+        return startLine;
     }
 
     public void addCommand(Executable e) {
@@ -57,20 +56,24 @@ public class InstructionGrouper extends DebuggableExecutable {
 
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException {
-        InstructionGrouper nig = new InstructionGrouper(line);
+        CompoundStatement nig = new CompoundStatement(startLine);
         for (Executable e : instructions) {
             Executable transformed = e.compileTimeConstantTransform(c);
             if (transformed == null) {
-                nig.instructions.add(e);
-            } else if (transformed instanceof NoneInstruction) {
+                nig.addCommand(e);
+            } else if (transformed instanceof NopeInstruction) {
             } else {
-                nig.instructions.add(transformed);
+                nig.addCommand(transformed);
             }
         }
-        if (nig.instructions.size() == 0) {
-            return new NoneInstruction(line);
+        if (nig.getInstructions().size() == 0) {
+            return new NopeInstruction(startLine);
         } else {
             return nig;
         }
+    }
+
+    public LinkedList<Executable> getInstructions() {
+        return instructions;
     }
 }

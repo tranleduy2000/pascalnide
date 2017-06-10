@@ -13,8 +13,8 @@ import com.duy.pascal.backend.ast.instructions.BreakInstruction;
 import com.duy.pascal.backend.ast.instructions.ContinueInstruction;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExitInstruction;
-import com.duy.pascal.backend.ast.instructions.InstructionGrouper;
-import com.duy.pascal.backend.ast.instructions.NoneInstruction;
+import com.duy.pascal.backend.ast.instructions.CompoundStatement;
+import com.duy.pascal.backend.ast.instructions.NopeInstruction;
 import com.duy.pascal.backend.ast.instructions.case_statement.CaseInstruction;
 import com.duy.pascal.backend.ast.instructions.conditional.ForDowntoStatement;
 import com.duy.pascal.backend.ast.instructions.conditional.ForInStatement;
@@ -987,7 +987,7 @@ public abstract class GrouperToken extends Token {
 
         } else if (next instanceof BeginEndToken) {
 
-            InstructionGrouper beginEndPreprocessed = new InstructionGrouper(lineNumber);
+            CompoundStatement beginEndPreprocessed = new CompoundStatement(lineNumber);
             BeginEndToken castToken = (BeginEndToken) next;
 
             while (castToken.hasNext()) {
@@ -1008,7 +1008,7 @@ public abstract class GrouperToken extends Token {
             return new CaseInstruction((CaseToken) next, context);
 
         } else if (next instanceof SemicolonToken) {
-            return new NoneInstruction(next.getLineNumber());
+            return new NopeInstruction(next.getLineNumber());
 
         } else if (next instanceof BreakToken) {
             return new BreakInstruction(next.getLineNumber());

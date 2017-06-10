@@ -18,7 +18,7 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
-import com.duy.pascal.backend.ast.instructions.InstructionGrouper;
+import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 
 public class RepeatInstruction extends DebuggableExecutable {
     Executable command;
@@ -29,7 +29,7 @@ public class RepeatInstruction extends DebuggableExecutable {
     public RepeatInstruction(ExpressionContext f, GrouperToken grouperToken, LineInfo lineInfo)
             throws ParsingException {
         Token next = null;
-        InstructionGrouper command = new InstructionGrouper(lineInfo);
+        CompoundStatement command = new CompoundStatement(lineInfo);
 
         while (!(grouperToken.peekNoEOF() instanceof UntilToken)) {
             command.addCommand(grouperToken.getNextCommand(f));
