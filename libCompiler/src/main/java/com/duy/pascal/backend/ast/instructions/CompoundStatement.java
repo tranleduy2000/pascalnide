@@ -19,6 +19,10 @@ public class CompoundStatement extends DebuggableExecutable {
         instructions = new LinkedList<>();
     }
 
+    public void setEndLine(LineInfo endLine) {
+        this.endLine = endLine;
+    }
+
     @Override
     public LineInfo getLineNumber() {
         return startLine;
@@ -41,6 +45,7 @@ public class CompoundStatement extends DebuggableExecutable {
                     return ExecutionResult.CONTINUE;
             }
         }
+        new NopeInstruction(endLine).execute(context, main);
         return ExecutionResult.NONE;
     }
 

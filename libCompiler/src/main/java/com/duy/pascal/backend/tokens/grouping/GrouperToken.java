@@ -10,10 +10,10 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.BreakInstruction;
+import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.instructions.ContinueInstruction;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExitInstruction;
-import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.instructions.NopeInstruction;
 import com.duy.pascal.backend.ast.instructions.case_statement.CaseInstruction;
 import com.duy.pascal.backend.ast.instructions.conditional.ForDowntoStatement;
@@ -33,21 +33,6 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.ClassType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.types.RecordType;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.StringLimitType;
-import com.duy.pascal.backend.types.rangetype.EnumSubrangeType;
-import com.duy.pascal.backend.types.rangetype.IntegerSubrangeType;
-import com.duy.pascal.backend.types.rangetype.SubrangeType;
-import com.duy.pascal.backend.types.set.ArrayType;
-import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.types.set.SetType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
@@ -97,6 +82,21 @@ import com.duy.pascal.backend.tokens.basic.ToToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.ClassType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.types.OperatorTypes;
+import com.duy.pascal.backend.types.PointerType;
+import com.duy.pascal.backend.types.RecordType;
+import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.StringLimitType;
+import com.duy.pascal.backend.types.rangetype.EnumSubrangeType;
+import com.duy.pascal.backend.types.rangetype.IntegerSubrangeType;
+import com.duy.pascal.backend.types.rangetype.SubrangeType;
+import com.duy.pascal.backend.types.set.ArrayType;
+import com.duy.pascal.backend.types.set.EnumGroupType;
+import com.duy.pascal.backend.types.set.SetType;
 import com.duy.pascal.frontend.DLog;
 
 import java.lang.reflect.Array;
@@ -112,11 +112,20 @@ import java.util.concurrent.atomic.AtomicReference;
 public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
     public Token next = null;
-    LinkedBlockingQueue<Token> queue;
+    protected LinkedBlockingQueue<Token> queue;
+    protected LineInfo endLine;
 
     public GrouperToken(LineInfo line) {
         super(line);
         queue = new LinkedBlockingQueue<>();
+    }
+
+    public LineInfo getEndLine() {
+        return endLine;
+    }
+
+    public void setEndLine(LineInfo endLine) {
+        this.endLine = endLine;
     }
 
     private Token getNext() throws GroupingException {
@@ -835,8 +844,8 @@ public abstract class GrouperToken extends Token {
      * @return constant object
      */
     public <T> ConstantAccess getConstantElement(@NonNull ExpressionContext context,
-                                             @NonNull GrouperToken grouperToken,
-                                             @Nullable DeclaredType elementType) throws ParsingException {
+                                                 @NonNull GrouperToken grouperToken,
+                                                 @Nullable DeclaredType elementType) throws ParsingException {
         DLog.d(TAG, "getConstantElement() called with: scope = [" + context + "], grouperToken = ["
                 + grouperToken + "], elementType = [" + elementType + "]");
 
@@ -997,6 +1006,7 @@ public abstract class GrouperToken extends Token {
                     castToken.assertNextSemicolon(token);
                 }
             }
+            beginEndPreprocessed.setEndLine(((BeginEndToken) next).getEndLine());
             return beginEndPreprocessed;
 
         } else if (next instanceof ForToken) {
