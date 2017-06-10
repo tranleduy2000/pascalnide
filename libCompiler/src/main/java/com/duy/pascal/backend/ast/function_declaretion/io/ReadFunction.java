@@ -37,6 +37,7 @@ import com.duy.pascal.backend.types.VarargsType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.frontend.debug.CallStack;
 
 /**
  * Casts an object to the class or the interface represented
@@ -131,6 +132,7 @@ public class ReadFunction implements IMethodDeclaration {
             IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
             ioHandler.readz(values);
+            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
             return null;
         }
 

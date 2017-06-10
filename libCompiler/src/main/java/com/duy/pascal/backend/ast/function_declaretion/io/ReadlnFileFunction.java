@@ -29,14 +29,15 @@ import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.builtin_libraries.file.FileLib;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.VarargsType;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.frontend.debug.CallStack;
 
 import java.io.File;
 
@@ -101,6 +102,10 @@ public class ReadlnFileFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -111,11 +116,6 @@ public class ReadlnFileFunction implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new ReadLineFileCall(filePreference, args, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
         }
 
         @Override
@@ -138,6 +138,8 @@ public class ReadlnFileFunction implements IMethodDeclaration {
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
             PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
             fileLib.readlnz(file.get(), values);
+            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+
             return null;
         }
 
