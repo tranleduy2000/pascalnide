@@ -18,7 +18,6 @@ package com.duy.pascal.frontend.debug.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +49,10 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
     private SpanUtils spanUtils;
     private List<Boolean> updateList = new ArrayList<>();
     private OnExpandValueListener onExpandValueListener;
+
+    public CodeTheme getCodeTheme() {
+        return codeTheme;
+    }
 
     public SpanUtils getSpanUtils() {
         return spanUtils;

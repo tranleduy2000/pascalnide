@@ -166,7 +166,8 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
 
     @Override
     public void onExpand(VariableDeclaration var) {
-        SpanUtils spanUtils = mVariableAdapter.getSpanUtils();
+        SpanUtils spanUtils = new SpanUtils(mVariableAdapter.getCodeTheme());
+        spanUtils.setMaxLengthArray(-1);
         AlertDialog msgDialog = DialogManager.Companion.createMsgDialog(getActivity(), var.getName(),
                 spanUtils.createVarSpan(var));
         msgDialog.show();
@@ -174,7 +175,15 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     }
 
     private final class OnFrameChangeListener implements CompoundButton.OnCheckedChangeListener {
-        public CallStack callStack;
+        private CallStack callStack;
+
+        public CallStack getCallStack() {
+            return callStack;
+        }
+
+        public void setCallStack(CallStack callStack) {
+            this.callStack = callStack;
+        }
 
         public OnFrameChangeListener(VariableContext callStack) {
             this.callStack = new CallStack(callStack);
