@@ -231,7 +231,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     @Override
     public void onLine(Executable executable, final LineInfo lineInfo) {
         Log.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], lineInfo = [" + lineInfo + "]");
-
         if (lineInfo == null) return;
         runOnUiThread(new Runnable() {
             @Override
@@ -247,7 +246,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     public void onLine(RuntimeValue executable, final LineInfo lineInfo) {
         Log.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
                 "], lineInfo = [" + lineInfo + "]");
-
         if (lineInfo == null) return;
         runOnUiThread(new Runnable() {
             @Override
@@ -333,14 +331,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                               @NonNull VariableContext context) {
         Log.d(TAG, "onAssignValue() called with: lineNumber = [" + lineNumber + "], left = [" +
                 left + "], value = [" + value + "]");
-
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                ValueWatcherAdapter adapter = (ValueWatcherAdapter) mVariableWatcherView.getAdapter();
-//                adapter.onVariableChangeValue(left.toString(), old, value);
-//            }
-//        });
     }
 
     @Override
@@ -399,7 +389,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
-        if (i == R.id.action_next_line) {
+        if (i == R.id.action_step_info) {
             resumeProgram();
             return true;
         } else if (i == R.id.action_add_watch) {

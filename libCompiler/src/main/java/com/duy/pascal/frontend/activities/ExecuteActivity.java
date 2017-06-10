@@ -107,7 +107,7 @@ public class ExecuteActivity extends AbstractExecActivity {
         } else if (i == R.id.action_change_keyboard) {
             changeKeyBoard();
 
-        } else if (i == R.id.action_next_line) {
+        } else if (i == R.id.action_step_info) {
             program.resume();
 
         } else if (i == R.id.action_rerun) {

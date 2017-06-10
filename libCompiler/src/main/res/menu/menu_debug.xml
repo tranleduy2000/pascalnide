@@ -29,10 +29,16 @@
         android:title="@string/add_watch"
         android:visible="false"
         app:showAsAction="always" />
+
     <item
-        android:id="@+id/action_next_line"
+        android:id="@+id/action_step_over"
         android:icon="@drawable/ic_fast_forward_white_24dp"
-        android:title="@string/resume_program"
+        android:title="@string/step_over"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_step_info"
+        android:icon="@drawable/ic_play_arrow_white_24dp"
+        android:title="@string/step_info"
         app:showAsAction="always" />
 
     <item
