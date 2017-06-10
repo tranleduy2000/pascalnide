@@ -41,7 +41,7 @@ import java.util.Scanner;
  * Created by Duy on 29-May-17.
  */
 
-public class Compiler {
+public class Interperter {
     private static Scanner input;
 
     public static boolean runProgram(String programPath)

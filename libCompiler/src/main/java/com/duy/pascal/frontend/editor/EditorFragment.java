@@ -51,7 +51,6 @@ import com.duy.pascal.frontend.editor.editor_view.LineUtils;
 import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
-import com.duy.pascal.frontend.view.LockableHorizontalScrollView;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -87,7 +86,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         mFileManager = new ApplicationFileManager(getContext());
     }
 
-    private LockableHorizontalScrollView mHorizontalScrollView;
+//    private LockableHorizontalScrollView mHorizontalScrollView;
 
     @Nullable
     @Override
@@ -95,7 +94,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         View view = inflater.inflate(R.layout.fragment_editor, container, false);
         mCodeEditor = (EditorView) view.findViewById(R.id.code_editor);
         mScrollView = (LockableScrollView) view.findViewById(R.id.vertical_scroll);
-        mHorizontalScrollView = (LockableHorizontalScrollView) view.findViewById(R.id.horizontal_scroll);
+//        mHorizontalScrollView = (LockableHorizontalScrollView) view.findViewById(R.id.horizontal_scroll);
 
         ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
         StringBuilder code = fileManager.fileToString(getArguments().getString(CompileManager.FILE_PATH));
@@ -115,15 +114,15 @@ public class EditorFragment extends Fragment implements EditorListener {
                 }
             });
         }
-        if (mHorizontalScrollView != null){
-            mCodeEditor.setHorizontalScroll(mHorizontalScrollView);
-            mHorizontalScrollView.setScrollListener(new LockableHorizontalScrollView.ScrollListener() {
-                @Override
-                public void onScroll(int x, int y) {
-                    mCodeEditor.updateTextHighlight();
-                }
-            });
-        }
+//        if (mHorizontalScrollView != null) {
+//            mCodeEditor.setHorizontalScroll(mHorizontalScrollView);
+//            mHorizontalScrollView.setScrollListener(new LockableHorizontalScrollView.ScrollListener() {
+//                @Override
+//                public void onScroll(int x, int y) {
+//                    mCodeEditor.updateTextHighlight();
+//                }
+//            });
+//        }
         ArrayList<InfoItem> items = PascalLibraryManager.getAllMethodDescription(SystemLibrary.class, IOLib.class, FileLib.class);
         for (String s : KeyWord.ALL_KEY_WORD) {
             items.add(new InfoItem(StructureType.TYPE_KEY_WORD, s));

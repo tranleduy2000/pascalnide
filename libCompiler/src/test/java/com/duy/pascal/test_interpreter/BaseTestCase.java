@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 import java.io.File;
 
-import static com.duy.pascal.Compiler.runProgram;
+import static com.duy.pascal.Interperter.runProgram;
 
 /**
  * Created by Duy on 29-May-17.

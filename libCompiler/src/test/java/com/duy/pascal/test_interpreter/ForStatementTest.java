@@ -18,7 +18,7 @@ package com.duy.pascal.test_interpreter;
 
 import com.duy.pascal.frontend.DLog;
 
-import static com.duy.pascal.Compiler.runProgram;
+import static com.duy.pascal.Interperter.runProgram;
 
 /**
  * Created by Duy on 29-May-17.
