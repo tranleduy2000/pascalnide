@@ -50,6 +50,8 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     private RadioGroup mListFrame;
     private RecyclerView mListVars;
     private VariableAdapter mVariableAdapter;
+    @Nullable
+    private CallStack mLastStack;
 
     public static FragmentFrame newInstance() {
 
@@ -103,8 +105,17 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
     }
 
     public void update(CallStack callStack) {
-        displayFrame(callStack);
+        if (!(mLastStack != null && mLastStack.equals(callStack))) {
+            displayFrame(callStack);
+            this.mLastStack = callStack;
+        }
         displayVars(callStack);
+    }
+
+    @Override
+    public void onDestroy() {
+        mLastStack = null;
+        super.onDestroy();
     }
 
     @Override
