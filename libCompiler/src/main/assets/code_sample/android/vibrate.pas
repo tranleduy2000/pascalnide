@@ -1,4 +1,4 @@
-uses aVibrate;
+uses aVibrate, crt;
 var
     i: integer;
 begin

@@ -1,4 +1,4 @@
-uses aMedia;
+uses aMedia, crt;
 var
     key: string;
 begin
