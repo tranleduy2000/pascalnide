@@ -36,6 +36,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.adapter.FrameAdapter;
 import com.duy.pascal.frontend.debug.adapter.VariableAdapter;
+import com.duy.pascal.frontend.view.MonospaceRadioButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +88,7 @@ public class FragmentFrame extends Fragment implements FrameAdapter.OnFrameListe
         ArrayList<VariableContext> stacks = callStack.getStacks();
         mListFrame.removeAllViews();
         for (int i = 0; i < stacks.size(); i++) {
-            RadioButton radioButton = new RadioButton(getContext());
+            MonospaceRadioButton radioButton = new MonospaceRadioButton(getContext());
             radioButton.setLayoutParams(new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));

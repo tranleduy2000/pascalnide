@@ -55,8 +55,12 @@ public class SpanUtils {
         SpannableString spannableString;
         if (declaredType instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) declaredType;
-            spannableString = new SpannableString("{" + arrayType.getElementType().toString()
-                    + "[" + arrayType.getBounds().toString() + "]" + "}");
+            if (arrayType.getBounds() == null) {
+                spannableString = new SpannableString("{" + arrayType.getElementType().toString() + "[]" + "}");
+            } else {
+                spannableString = new SpannableString("{" + arrayType.getElementType().toString()
+                        + "[" + arrayType.getBounds().toString() + "]" + "}");
+            }
         } else {
             spannableString = new SpannableString("{" + declaredType.toString() + "}");
         }
