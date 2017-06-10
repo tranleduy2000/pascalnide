@@ -14,18 +14,23 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.fsck.splitview.SplitView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:weightSum="100">
+    app:bottomContent="@+id/fragment_frame"
+    app:handle="@+id/drag_view_horizontal"
+    app:minSize="100dp"
+    app:topContent="@+id/vertical_scroll">
 
     <com.duy.pascal.frontend.view.LockableScrollView
         android:id="@+id/vertical_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="50"
+        android:layout_weight="1"
         android:fillViewport="true">
 
         <HorizontalScrollView
@@ -50,13 +55,21 @@
 
     </com.duy.pascal.frontend.view.LockableScrollView>
 
+    <ImageView
+        android:id="@+id/drag_view_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drag_handle_size"
+        android:background="?colorPrimary"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground"
+        android:src="@drawable/ic_more_horiz_white_24dp" />
+
     <fragment
         android:id="@+id/fragment_frame"
         class="com.duy.pascal.frontend.debug.fragments.FragmentFrame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="50"
+        android:layout_weight="1"
         android:tag="FragmentFrame" />
-
-</LinearLayout>
+</com.fsck.splitview.SplitView>
 

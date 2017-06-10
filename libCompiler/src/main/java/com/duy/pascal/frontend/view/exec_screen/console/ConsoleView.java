@@ -293,7 +293,7 @@ public class ConsoleView extends View implements
 
     //  Update text size
     public boolean updateSize() {
-        Log.d(TAG, "updateSize() called");
+//        Log.d(TAG, "updateSize() called");
 
         boolean invalid = false;
 
@@ -302,7 +302,7 @@ public class ConsoleView extends View implements
         int newWidth;
         int newTop;
         int newLeft;
-        Log.d(TAG, "updateSize: " + visibleRect + " top = " + getTop());
+//        Log.d(TAG, "updateSize: " + visibleRect + " top = " + getTop());
         if (mConsoleScreen.isFullScreen()) {
             newTop = Math.min(getTop(), visibleRect.top);
             newHeight = visibleRect.bottom - newTop;
@@ -350,7 +350,7 @@ public class ConsoleView extends View implements
 
     public boolean updateSize(@IntRange(from = 1) int newWidth,
                               @IntRange(from = 1) int newHeight) throws ArrayIndexOutOfBoundsException {
-        Log.d(TAG, "updateSize() called with: newWidth = [" + newWidth + "], newHeight = [" + newHeight + "]");
+//        Log.d(TAG, "updateSize() called with: newWidth = [" + newWidth + "], newHeight = [" + newHeight + "]");
 
         int newColumn = (int) (newWidth / mTextRenderer.getCharWidth());
         int i, j;
@@ -360,7 +360,7 @@ public class ConsoleView extends View implements
         mConsoleScreen.consoleRow = newRow;
         if (newColumn != mConsoleScreen.consoleColumn) {
             int newScreenSize = mConsoleScreen.getMaxLines() * newColumn;
-            DLog.d(TAG, "updateSize: " + newScreenSize + " " + mConsoleScreen.getMaxLines() + " " + newColumn);
+//            DLog.d(TAG, "updateSize: " + newScreenSize + " " + mConsoleScreen.getMaxLines() + " " + newColumn);
             TextConsole newScreenBuffer[] = new TextConsole[newScreenSize];
             for (i = 0; i < newScreenSize; i++) {
                 newScreenBuffer[i] = new TextConsole();

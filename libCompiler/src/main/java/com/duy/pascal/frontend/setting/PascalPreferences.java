@@ -223,7 +223,7 @@ public class PascalPreferences {
 
     public Typeface getFont() {
         String name = getString(context.getString(R.string.key_pref_font));
-        if (name.isEmpty()) name = "monospace";
+        if (name.trim().isEmpty()) name = "monospace";
         return FontManager.getFontFromAsset(context, name);
     }
 

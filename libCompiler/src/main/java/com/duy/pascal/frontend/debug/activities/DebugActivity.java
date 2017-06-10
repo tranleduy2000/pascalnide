@@ -44,6 +44,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,11 +61,11 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractExecActivity;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.code.ExceptionManager;
-import com.duy.pascal.frontend.editor.editor_view.HighlightEditor;
-import com.duy.pascal.frontend.editor.editor_view.LineUtils;
 import com.duy.pascal.frontend.debug.CallStack;
 import com.duy.pascal.frontend.debug.fragments.FragmentFrame;
 import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.editor.editor_view.HighlightEditor;
+import com.duy.pascal.frontend.editor.editor_view.LineUtils;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -98,6 +99,10 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     private FragmentFrame mFameFragment;
     private DrawerLayout drawerLayout;
+    private ViewGroup mContainerDebug;
+    private float lastPanelX;
+    private int lastPanelY;
+    private LinearLayout mRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +117,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         mConsoleView.updateSize();
         mConsoleView.showPrompt();
         mConsoleView.writeString("Enable DEBUG mode\n");
-        mFameFragment = (FragmentFrame) getSupportFragmentManager().findFragmentByTag("FragmentFrame");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -135,7 +139,11 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        mFameFragment = (FragmentFrame) getSupportFragmentManager().findFragmentByTag("FragmentFrame");
     }
+
+
 
     @Override
     public void onBackPressed() {

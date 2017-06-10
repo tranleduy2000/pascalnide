@@ -36,5 +36,6 @@ dependencies {
     compile project(':libCompiler')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     androidTestCompile 'junit:junit:4.12'
+    compile project(':splitview')
 }
 apply plugin: 'com.google.gms.google-services'

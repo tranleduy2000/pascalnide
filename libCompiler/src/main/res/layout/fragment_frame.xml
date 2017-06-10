@@ -14,13 +14,18 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.fsck.splitview.SplitView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:weightSum="2">
+    app:handle="@+id/drag_view_vertical"
+    app:minSize="30dp"
+    app:topContent="@+id/container_frames"
+    app:bottomContent="@+id/container_vars">
 
     <LinearLayout
+        android:id="@+id/container_frames"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -48,13 +53,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?colorAccent">
-
-        </View>
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -72,14 +70,20 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="2dp"
+    <ImageView
+        android:id="@+id/drag_view_vertical"
+        android:layout_width="@dimen/drag_handle_size"
         android:layout_height="match_parent"
-        android:background="?colorAccent">
+        android:background="?colorPrimary"
+        android:clickable="true"
+        android:contentDescription="drag"
+        android:foreground="?selectableItemBackground"
+        android:src="@drawable/ic_more_vert_white_24dp">
 
-    </View>
+    </ImageView>
 
     <LinearLayout
+        android:id="@+id/container_vars"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -107,13 +111,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?colorAccent">
-
-        </View>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rc_vars"
             android:layout_width="match_parent"
@@ -123,4 +120,4 @@
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-</LinearLayout>
+</com.fsck.splitview.SplitView>

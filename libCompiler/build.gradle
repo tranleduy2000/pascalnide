@@ -71,6 +71,7 @@ dependencies {
     //module
     compile project(':pager')
     compile project(':colorpicker')
+    compile project(':splitview')
 
     //android support
     compile 'com.android.support:appcompat-v7:25.3.1'
