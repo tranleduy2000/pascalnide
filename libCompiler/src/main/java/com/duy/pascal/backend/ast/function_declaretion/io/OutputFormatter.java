@@ -30,7 +30,7 @@ import java.util.Locale;
  * Created by Duy on 09-Jun-17.
  */
 
-public class Formatter {
+public class OutputFormatter {
     public static Object[] format(ArrayBoxer args, VariableContext f,
                                   RuntimeExecutableCodeUnit main) throws RuntimePascalException {
         RuntimeValue[] runtimeValues = args.getValues();

@@ -131,7 +131,7 @@ public class WriteLineFunction implements IMethodDeclaration {
 
 
             ArrayBoxer arrayBoxer = (ArrayBoxer) args;
-            Object[] values = Formatter.format(arrayBoxer, f, main);
+            Object[] values = OutputFormatter.format(arrayBoxer, f, main);
 
             ioHandler.println(values);
             return null;

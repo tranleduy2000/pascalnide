@@ -131,7 +131,7 @@ public class WriteFunction implements IMethodDeclaration {
             IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
 
             ArrayBoxer arrayBoxer = (ArrayBoxer) args;
-            Object[] values = Formatter.format(arrayBoxer, f, main);
+            Object[] values = OutputFormatter.format(arrayBoxer, f, main);
 
             ioHandler.print(values);
             return null;

@@ -136,7 +136,7 @@ public class WriteFileFunction implements IMethodDeclaration {
             FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
 
             ArrayBoxer arrayBoxer = (ArrayBoxer) args;
-            Object[] values = Formatter.format(arrayBoxer, f, main);
+            Object[] values = OutputFormatter.format(arrayBoxer, f, main);
 
             PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
             fileLib.writeFile(file.get(), values);
