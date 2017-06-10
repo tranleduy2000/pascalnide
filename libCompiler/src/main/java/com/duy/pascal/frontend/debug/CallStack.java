@@ -18,6 +18,7 @@ package com.duy.pascal.frontend.debug;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
@@ -25,8 +26,8 @@ import com.duy.pascal.backend.ast.codeunit.program.RuntimePascalProgram;
 import com.duy.pascal.backend.ast.instructions.with_statement.WithOnStack;
 import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ import java.util.List;
  */
 
 public class CallStack {
+    private static final String TAG = "CallStack";
     @Nullable
     private VariableContext parentContext;
     @NonNull
@@ -44,6 +46,16 @@ public class CallStack {
 
     public CallStack(@NonNull VariableContext currentContext) {
         this.currentContext = currentContext;
+        this.parentContext = currentContext.getParentContext();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Log.d(TAG, "equals() called with: obj = [" + obj + "]");
+
+        if (!(obj instanceof CallStack)) return false;
+
+        return currentContext.equals(((CallStack) obj).currentContext);
     }
 
     public ArrayList getAllVariables() {

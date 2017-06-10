@@ -38,6 +38,7 @@ import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.frontend.debug.CallStack;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -164,6 +165,7 @@ public class SetLengthFunction implements IMethodDeclaration {
                     r.set(newV);
                 }
             }
+            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
             return null;
         }
 

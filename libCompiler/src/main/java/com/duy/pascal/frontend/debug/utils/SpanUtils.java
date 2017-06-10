@@ -37,6 +37,7 @@ import java.util.List;
 
 public class SpanUtils {
 
+    private static final String TAG = "SpanUtils";
     private CodeTheme codeTheme;
 
     public SpanUtils(CodeTheme codeTheme) {
@@ -52,17 +53,20 @@ public class SpanUtils {
     }
 
     public Spannable generateTypeSpan(DeclaredType declaredType) {
-        SpannableString spannableString;
+        SpannableStringBuilder spannableString;
         if (declaredType instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) declaredType;
-            if (arrayType.getBounds() == null) {
-                spannableString = new SpannableString("{" + arrayType.getElementType().toString() + "[]" + "}");
-            } else {
-                spannableString = new SpannableString("{" + arrayType.getElementType().toString()
-                        + "[" + arrayType.getBounds().toString() + "]" + "}");
+            if (arrayType.getBounds() == null) { //dynamic array, non bound
+                DeclaredType elementType = arrayType.getElementType();
+                spannableString = new SpannableStringBuilder().append("{")
+                        .append(generateTypeSpan(elementType)).append("[]").append("}");
+            } else {//static array
+                spannableString = new SpannableStringBuilder()
+                        .append("{").append(generateTypeSpan(arrayType.getElementType()))
+                        .append("[").append(arrayType.getBounds().toString()).append("]}");
             }
         } else {
-            spannableString = new SpannableString("{" + declaredType.toString() + "}");
+            spannableString = new SpannableStringBuilder("{" + declaredType.toString() + "}");
         }
         spannableString.setSpan(new ForegroundColorSpan(codeTheme.getCommentColor()), 0,
                 spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -93,35 +97,54 @@ public class SpanUtils {
         return new SpannableString("");
     }
 
-    private SpannableString getSpanArray(Object[] value, int maxLength) {
-        if (value == null || value.length == 0) {
+    private SpannableString getSpanArray(Object[] array, int maxLength) {
+        if (array == null || array.length == 0) {
             return new SpannableString("[]");
         }
-        if (value[0] instanceof Object[]) {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("[");
-            if (value.length <= maxLength) {
-                for (int i = 0; i < value.length; i++) {
-                    stringBuilder.append(getSpanArray((Object[]) value[i], maxLength));
-                    if (i == value.length - 1) {
-                        return new SpannableString(stringBuilder.append("]"));
+        if (array[0] instanceof Object[]) {
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+            spannableStringBuilder.append("\n").append("[");
+            if (array.length <= maxLength) {
+                for (int i = 0; i < array.length; i++) {
+                    spannableStringBuilder.append(getSpanArray((Object[]) array[i], maxLength));
+                    if (i == array.length - 1) {
+                        return new SpannableString(spannableStringBuilder.append("]"));
                     }
-                    stringBuilder.append(", ").append("\n");
+                    spannableStringBuilder.append(", ").append("\n");
                 }
             } else {
                 for (int i = 0; i < maxLength; i++) {
-                    stringBuilder.append(getSpanArray((Object[]) value[i], maxLength));
+                    spannableStringBuilder.append(getSpanArray((Object[]) array[i], maxLength));
                     if (i == maxLength - 1) {
-                        return new SpannableString(stringBuilder.append("...]"));
+                        return new SpannableString(spannableStringBuilder.append("...]"));
                     }
-                    stringBuilder.append(", ").append("\n");
+                    spannableStringBuilder.append(", ").append("\n");
                 }
-                stringBuilder.append("...");
+                spannableStringBuilder.append("...");
             }
-            return new SpannableString(stringBuilder);
+            return new SpannableString(spannableStringBuilder);
         } else {
-            return new SpannableString(arrayToString(value, maxLength));
+            if (array.length <= maxLength) {
+                SpannableStringBuilder b = new SpannableStringBuilder();
+                b.append('[');
+                for (int i = 0; i < array.length; i++) {
+                    b.append(generateValueSpan(array[i], maxLength));
+                    if (i == array.length - 1)
+                        return new SpannableString(b.append("]"));
+                    b.append(", ");
+                }
+            } else {
+                SpannableStringBuilder b = new SpannableStringBuilder();
+                b.append('[');
+                for (int i = 0; i < maxLength; i++) {
+                    b.append(generateValueSpan(array[i], maxLength));
+                    if (i == maxLength - 1)
+                        return new SpannableString(b.append("...]"));
+                    b.append(", ");
+                }
+            }
         }
+        return null;
     }
 
     public String listToString(List list, int maxSize) {
@@ -141,29 +164,4 @@ public class SpanUtils {
         }
     }
 
-    public Spannable arrayToString(@Nullable Object[] array,
-                                   @IntRange(from = 0) int maxSize) {
-        if (array == null) return new SpannableString("[]");
-        if (array.length <= maxSize) {
-            SpannableStringBuilder b = new SpannableStringBuilder();
-            b.append('[');
-            for (int i = 0; i < array.length; i++) {
-                b.append(generateValueSpan(array[i], maxSize));
-                if (i == array.length - 1)
-                    return b.append("]");
-                b.append(", ");
-            }
-            return b;
-        } else {
-            SpannableStringBuilder b = new SpannableStringBuilder();
-            b.append('[');
-            for (int i = 0; i < maxSize; i++) {
-                b.append(generateValueSpan(array[i], maxSize));
-                if (i == maxSize - 1)
-                    return b.append("...]");
-                b.append(", ");
-            }
-            return b;
-        }
-    }
 }

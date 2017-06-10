@@ -23,12 +23,12 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ArrayIndexAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.ArrayCloner;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.rangetype.SubrangeType;
 import com.duy.pascal.backend.types.util.TypeUtils;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.lang.reflect.Array;
 
