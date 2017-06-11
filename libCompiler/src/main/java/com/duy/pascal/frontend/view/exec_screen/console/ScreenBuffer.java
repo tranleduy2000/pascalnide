@@ -29,20 +29,20 @@ public class ScreenBuffer {
     public char[] textOnScreenBuffer;
     public TextConsole[] textConsole;
     public int[] colorScreenBuffer;
-
     /**
      * store text input, with unicode character
      */
     public ConsoleInputStream textBuffer = new ConsoleInputStream();
-
     /**
      * store key code event
      */
     public CharBuffer keyBuffer = new CharBuffer();
-
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
 
+    public TextConsole getTextAt(int index) {
+        return textConsole[index];
+    }
 
     public TextConsole[] getTextConsole() {
         return textConsole;

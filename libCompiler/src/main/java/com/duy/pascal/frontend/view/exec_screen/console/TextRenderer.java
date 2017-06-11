@@ -20,11 +20,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
-
-import static android.R.attr.width;
 
 
 /**
@@ -45,7 +42,7 @@ public class TextRenderer implements ScreenObject {
     private int mCharHeight;
     private int mCharAscent;
     private int mCharDescent;
-    private float mCharWidth;
+    private int mCharWidth;
     private int mTextMode = 0;
     private Typeface typeface = Typeface.MONOSPACE;
     private Paint mTextPaint = new Paint();
@@ -76,8 +73,8 @@ public class TextRenderer implements ScreenObject {
         mCharHeight = (int) Math.ceil(mTextPaint.getFontSpacing());
         mCharAscent = (int) Math.ceil(mTextPaint.ascent());
         mCharDescent = mCharHeight + mCharAscent;
-        mCharWidth = mTextPaint.measureText("M");
-        this.fixedWidthFont = mCharWidth == mTextPaint.measureText(".");
+        mCharWidth = (int) mTextPaint.measureText("M");
+        this.fixedWidthFont = mCharWidth == (int) mTextPaint.measureText(".");
     }
 
 
@@ -98,13 +95,12 @@ public class TextRenderer implements ScreenObject {
     }
 
     public void drawText(Canvas canvas, float x, float y, TextConsole[] text, int start, int count) {
-        float y1 = y + mCharAscent;
+
         for (int i = start; i < start + count; i++) {
-            if (!fixedWidthFont) mCharWidth = mTextPaint.measureText(text[i].getSingleString());
+            if (!fixedWidthFont) mCharWidth = (int) mTextPaint.measureText(text[i].getSingleString());
 
             backgroundPaint.setColor(text[i].getTextBackground());
-            canvas.drawRect(x, y + mCharAscent, x + width, y + mCharDescent, backgroundPaint);
-
+            canvas.drawRect(x, y + mCharAscent, x + mCharWidth, y + mCharDescent, backgroundPaint);
 
             mTextPaint.setColor(text[i].getTextColor());
             mTextPaint.setAlpha(text[i].getAlpha());
@@ -155,7 +151,7 @@ public class TextRenderer implements ScreenObject {
         this.mCharDescent = mCharDescent;
     }
 
-    public float getCharWidth() {
+    public int getCharWidth() {
         return mCharWidth;
     }
 

@@ -28,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -169,7 +168,7 @@ public class ConsoleView extends View implements
         return mScreenBufferData.keyBuffer.getChar();
     }
 
-    public void write(String c, boolean isMaskBuffer) {
+    private void write(String c, boolean isMaskBuffer) {
         int index = mScreenBufferData.firstIndex + mCursor.y * mConsoleScreen.consoleColumn + mCursor.x;
         if (index >= mConsoleScreen.getScreenSize()) {
             index -= mConsoleScreen.getScreenSize();
@@ -252,8 +251,9 @@ public class ConsoleView extends View implements
         mCursor.y++;
         if (mCursor.y >= mConsoleScreen.getMaxLines()) {
             mCursor.y = mConsoleScreen.getMaxLines() - 1;
-            for (int i = 0; i < mConsoleScreen.consoleColumn; i++)
+            for (int i = 0; i < mConsoleScreen.consoleColumn; i++) {
                 mScreenBufferData.textConsole[mScreenBufferData.firstIndex + i].setText("\0");
+            }
             mScreenBufferData.firstIndex += mConsoleScreen.consoleColumn;
             if (mScreenBufferData.firstIndex >= mConsoleScreen.getScreenSize())
                 mScreenBufferData.firstIndex = 0;
@@ -293,8 +293,6 @@ public class ConsoleView extends View implements
 
     //  Update text size
     public boolean updateSize() {
-//        Log.d(TAG, "updateSize() called");
-
         boolean invalid = false;
 
         getWindowVisibleDisplayFrame(visibleRect);
@@ -302,7 +300,7 @@ public class ConsoleView extends View implements
         int newWidth;
         int newTop;
         int newLeft;
-//        Log.d(TAG, "updateSize: " + visibleRect + " top = " + getTop());
+
         if (mConsoleScreen.isFullScreen()) {
             newTop = Math.min(getTop(), visibleRect.top);
             newHeight = visibleRect.bottom - newTop;
@@ -352,7 +350,7 @@ public class ConsoleView extends View implements
                               @IntRange(from = 1) int newHeight) throws ArrayIndexOutOfBoundsException {
 //        Log.d(TAG, "updateSize() called with: newWidth = [" + newWidth + "], newHeight = [" + newHeight + "]");
 
-        int newColumn = (int) (newWidth / mTextRenderer.getCharWidth());
+        int newColumn = newWidth / mTextRenderer.getCharWidth();
         int i, j;
         int newFirstIndex = 0;
         int newRow = newHeight / mTextRenderer.getCharHeight();
@@ -748,7 +746,7 @@ public class ConsoleView extends View implements
                 "], oldw = [" + oldw + "], oldh = [" + oldh + "]");
 
         mGraphScreen.onSizeChange(w, h);
-        boolean b = updateSize();
+        updateSize();
     }
 
     public void drawText(Canvas canvas, int left, int top) {
@@ -765,17 +763,16 @@ public class ConsoleView extends View implements
                 mTextRenderer.getCharHeight(), mTextRenderer.getCharWidth(),
                 mTextRenderer.getCharDescent());
 
-        int count;
+        int count = 0;
         for (int row = 0; row < mConsoleScreen.consoleRow; row++) {
             if (row > mCursor.y - firstLine) break;
             count = 0;
             while ((count < mConsoleScreen.consoleColumn) &&
-                    isGreaterEqual(mScreenBufferData
-                            .textConsole[count + index].getSingleString(), " ")) {
+                    isGreaterEqual(mScreenBufferData.getTextAt(count + index).getSingleString(), " ")) {
                 count++;
             }
 
-            mTextRenderer.drawText(canvas, left, top, mScreenBufferData.textConsole, index, count);
+            mTextRenderer.drawText(canvas, left, top, mScreenBufferData.getTextConsole(), index, count);
 
             top += mTextRenderer.getCharHeight();
             index += mConsoleScreen.consoleColumn;
@@ -794,7 +791,7 @@ public class ConsoleView extends View implements
             if (!mGraphScreen.getGraphBitmap().isRecycled())
                 canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, mGraphScreen.getBackgroundPaint());
         } else {
-            Log.d(TAG, "onDraw: " + mConsoleScreen.getTopVisible());
+
             mConsoleScreen.drawBackground(canvas, mConsoleScreen.getLeftVisible(),
                     mConsoleScreen.getTopVisible(), w, h);
             drawText(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
@@ -892,7 +889,6 @@ public class ConsoleView extends View implements
 
     //pascal
     public void setConsoleTextBackground(int color) {
-        Log.d(TAG, "setConsoleTextBackground: " + color);
         mTextRenderer.setTextBackgroundColor(color);
     }
 
