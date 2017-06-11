@@ -68,7 +68,7 @@
                 android:id="@+id/action_setting"
                 android:enabled="true"
                 android:icon="@drawable/ic_settings_white_24dp"
-                android:title="@string/setting_editor" />
+                android:title="@string/setting" />
         </menu>
     </item>
 

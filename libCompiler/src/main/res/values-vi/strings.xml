@@ -194,4 +194,17 @@
     <string name="step_over">Step over</string>
     <string name="maxline_console_desc">số dòng tối đa mà console sẽ lưu lại, số dòng càng lớn sẽ cần nhiều bộ nhớ.</string>
     <string name="ime_desc">Cho phép bàn phím của bạn hiển thị các gợi ý.</string>
+    <string name="bg_color">Background Color</string>
+    <string name="compiler">Compiler</string>
+    <string name="console_screen_">Console screen</string>
+    <string name="ctrl_key">Ctrl Key</string>
+    <string name="def_bg_color">Default background color</string>
+    <string name="default_text_color">Default text color</string>
+    <string name="draw_screen_faster">Draw screen faster</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="notifications">Notifications</string>
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="system_interface">System interface</string>
+    <string name="text_color">Text Color</string>
 </resources>

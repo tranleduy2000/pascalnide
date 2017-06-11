@@ -93,7 +93,7 @@ var
   gd, gm : integer;
   mx, my : integer;
 begin
-  setBufferEnable(true); //default is false, this function in crt lib
+  setBufferEnable(true); //default is false, this function in graph lib
 
   gd := detect;
   gm := 0;
@@ -107,18 +107,13 @@ begin
 
   while not KeyPressed do
   begin
-//    SetColor(15);
-//    SetFillStyle(solidFill, 0);
-//    Bar(0, 0, mx, my);
-    clearBuffer(); //create new bitmap with default color is black
+    clearBuffer(); //clear buffer data, this function in graph lib
 
-    //for i := 1 to nBall do
-    //DrawBall(Balls[i],true);
     for i := 1 to nBall do
       MoveBall(Balls[i]);
     for i := 1 to nBall do
       DrawBall(Balls[i], false);
 
-    drawBuffer(); //this will be call if buffer mode is enable, this function in crt library
+    drawBuffer(); //draw buffer into screen, this function in crt library
   end;
 end.

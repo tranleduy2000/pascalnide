@@ -195,6 +195,21 @@
     <string name="variables">Variables</string>
     <string name="step_info">Step info</string>
     <string name="step_over">Step over</string>
+    <string name="bg_color">Background Color</string>
+    <string name="compiler">Compiler</string>
+    <string name="ctrl_key">Ctrl Key</string>
+    <string name="console_screen_">Console screen</string>
+    <string name="def_bg_color">Default background color</string>
+    <string name="default_text_color">Default text color</string>
+    <string name="draw_screen_faster">Draw screen faster</string>
+    <string name="ime_desc">Allows your keyboard to show hints.</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="maxline_console_desc">The maximum number of lines that the console will store, the larger the number of lines will need more memory.</string>
+    <string name="notifications">Notifications</string>
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="system_interface">System interface</string>
+    <string name="text_color">Text Color</string>
 </resources>
 
 

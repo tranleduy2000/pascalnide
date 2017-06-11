@@ -28,6 +28,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -66,7 +67,7 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
         } else {
             if (code == "zh_CN") {
                 locale = Locale.SIMPLIFIED_CHINESE
-            }else{
+            } else {
                 locale = Locale(code)
             }
         }
@@ -235,7 +236,6 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
         toolbar = findViewById(R.id.toolbar) as Toolbar
 
         setSupportActionBar(toolbar)
-        setTitle(R.string.theme)
         if (supportActionBar != null)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
@@ -243,5 +243,13 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
     companion object {
         val TAG = AbstractAppCompatActivity::class.java.simpleName
         private val DEBUG = DLog.DEBUG
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            finish()
+            return true;
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

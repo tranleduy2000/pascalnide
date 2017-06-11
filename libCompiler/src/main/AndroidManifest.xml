@@ -95,14 +95,7 @@
         <activity android:name=".info.InfoActivity" />
         <activity
             android:name=".setting.SettingsActivity"
-            android:label="@string/setting">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+            android:label="@string/setting" />
         <activity
             android:name=".debug.activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
