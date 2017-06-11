@@ -14,35 +14,24 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
+package com.duy.pascal.interpreter;
 
 /**
- * Created by Duy on 01-Jun-17.
+ * Created by Duy on 29-May-17.
  */
 
-public class TypeTest extends BaseTestCase {
+public class StringTest extends BaseTestCase {
+
+    public void test1() {
+        run("test1.pas");
+    }
+
+    public void test2() {
+        run("test2.pas");
+    }
+
     @Override
     public String getDirTest() {
-        return "test_type";
-    }
-
-    public void testForwardType() {
-        run("test_forward_type.pas");
-    }
-
-    public void testForwardType2() {
-        run("test_forward_type2.pas");
-    }
-
-    public void testForwardType3() {
-        run("test_forward_type3.pas");
-    }
-
-    public void testForwardType4() {
-        run("test_forward_type4.pas");
-    }
-
-    public void testPointerType() {
-        run("pointer_type.pas");
+        return "test_string";
     }
 }

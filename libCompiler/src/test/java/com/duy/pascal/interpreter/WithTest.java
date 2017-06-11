@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
-
-import static com.duy.pascal.Interperter.runProgram;
+package com.duy.pascal.interpreter;
 
 /**
- * Created by Duy on 29-May-17.
+ * Created by Duy on 10-Jun-17.
  */
 
-public class Debug {
-
-    public static void main(String[] args) {
-        testIndexEnum();
+public class WithTest extends BaseTestCase {
+    @Override
+    public String getDirTest() {
+        return "test_statement";
     }
 
-    public static void testIndexEnum() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void test1() {
+        run("test_with.pas");
     }
-
 }

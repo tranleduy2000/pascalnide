@@ -829,5 +829,10 @@ public class EditorActivity extends BaseEditorActivity implements
         public boolean keyPressed() {
             return false;
         }
+
+        @Override
+        public void clearConsole() {
+
+        }
     }
 }

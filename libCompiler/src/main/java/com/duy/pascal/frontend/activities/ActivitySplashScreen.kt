@@ -45,7 +45,11 @@ class ActivitySplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
         // Here, this is the current activity
-        PreferenceManager.setDefaultValues(this, R.xml.setting_editor, false)
+        PreferenceManager.setDefaultValues(this, R.xml.pref_editor, false)
+        PreferenceManager.setDefaultValues(this, R.xml.pref_keyboard, false)
+        PreferenceManager.setDefaultValues(this, R.xml.pref_notification, false)
+        PreferenceManager.setDefaultValues(this, R.xml.pref_console, false)
+        PreferenceManager.setDefaultValues(this, R.xml.pref_user_interface, false)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             ActivityCompat.requestPermissions(this,
@@ -55,8 +59,8 @@ class ActivitySplashScreen : AppCompatActivity() {
             startMainActivity()
         }
         try {
-            val fontses = assets.list("fonts")
-            Log.i(TAG, "onCreate: " + Arrays.toString(fontses))
+            val fonts = assets.list("fonts")
+            Log.i(TAG, "onCreate: " + Arrays.toString(fonts))
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -68,7 +72,7 @@ class ActivitySplashScreen : AppCompatActivity() {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST -> {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.size > 0
+                if (grantResults.isNotEmpty()
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     startMainActivity()

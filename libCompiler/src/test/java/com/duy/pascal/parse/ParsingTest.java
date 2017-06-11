@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
+package com.duy.pascal.parse;
+
+import com.duy.pascal.interpreter.BaseTestCase;
 
 /**
- * Created by Duy on 29-May-17.
+ * Created by Duy on 11-Jun-17.
  */
 
-public class ScopeTest extends BaseTestCase {
-
+public class ParsingTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_scope";
+        return "test_parsing";
     }
 
     public void testAll() {

@@ -14,25 +14,33 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
+package com.duy.pascal.interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class SetTypeTest extends BaseTestCase {
+public class VariableScopeTest extends BaseTestCase {
+
+    public void testLocal() {
+        run("test_local.pas");
+    }
+
+    public void testLocal1() {
+        run("test_local1.pas");
+    }
+
+    public void testGobal() {
+        run("test_gobal.pas");
+    }
+
+    public void testGobal1() {
+        run("test_gobal1.pas");
+    }
 
     @Override
     public String getDirTest() {
-        return "test_set";
-    }
-
-    public void testAccess() {
-        run("test_access.pas");
-    }
-
-    public void testSetOperate() {
-        run("test_set_operate.pas");
+        return "test_scope";
     }
 
 

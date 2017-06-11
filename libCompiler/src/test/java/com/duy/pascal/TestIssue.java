@@ -16,7 +16,7 @@
 
 package com.duy.pascal;
 
-import com.duy.pascal.test_interpreter.BaseTestCase;
+import com.duy.pascal.interpreter.BaseTestCase;
 
 /**
  * Created by Duy on 04-Jun-17.

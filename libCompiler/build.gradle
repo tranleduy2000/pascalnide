@@ -29,6 +29,7 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -47,6 +48,7 @@ android {
         }
     }
 
+
 }
 
 repositories {
@@ -64,16 +66,12 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    //test
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'junit:junit:4.12'
-
-    //module
     compile project(':pager')
     compile project(':colorpicker')
     compile project(':splitview')
 
-    //android support
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
@@ -82,15 +80,9 @@ dependencies {
     compile 'com.android.support:support-annotations:25.3.1'
     compile 'com.android.support:percent:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
-    //multi dex support
-//    compile 'com.android.support:multidex:1.0.1'
-
-    //firebase region
     compile 'com.google.firebase:firebase-core:10.2.0'
     compile 'com.google.firebase:firebase-crash:10.2.0'
     compile 'com.google.firebase:firebase-messaging:10.2.0'
-
     compile 'io.github.kobakei:ratethisapp:1.1.2'
     compile 'commons-io:commons-io:2.4'
     compile 'com.github.clans:fab:1.6.4'
@@ -99,9 +91,10 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'frankiesardo:icepick:3.2.0'
-    provided 'frankiesardo:icepick-processor:3.2.0'
-
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.sothree.slidinguppanel:library:3.3.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'junit:junit:4.12'
+    provided 'frankiesardo:icepick-processor:3.2.0'
 }

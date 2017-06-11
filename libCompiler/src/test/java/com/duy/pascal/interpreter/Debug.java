@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
+package com.duy.pascal.interpreter;
+
+import static com.duy.pascal.Interperter.runProgram;
 
 /**
- * Created by Duy on 01-Jun-17.
+ * Created by Duy on 29-May-17.
  */
 
-public class VarArgsTest extends BaseTestCase {
-    @Override
-    public String getDirTest() {
-        return "test_var_args";
+public class Debug {
+
+    public static void main(String[] args) {
+        testIndexEnum();
     }
 
-    public void test1() {
-        run("test_function.pas");
+    public static void testIndexEnum() {
+        try {
+            runProgram("C:\\github\\pascalnide\\test_pascal\\declare\\test_index_enum.pas");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void testReadFile() {
-        run("test_readfile.pas");
-    }
 }

@@ -16,22 +16,19 @@
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!--aLocation library-->
+    <!-- aLocation library -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!--<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
-
+    <!-- <uses-permission android:name="android.permission.RECORD_AUDIO" /> -->
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar.Dark">
-
         <activity
-            android:name="com.duy.pascal.frontend.activities.ActivitySplashScreen"
+            android:name=".activities.ActivitySplashScreen"
             android:configChanges="keyboard|keyboardHidden|orientation">
-
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -39,7 +36,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
 
-            <!--Filter open file *.pas-->
+            <!-- Filter open file *.pas -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -51,10 +48,9 @@
                     android:mimeType="*/*"
                     android:pathPattern=".*\\.pas"
                     android:scheme="file" />
-
             </intent-filter>
 
-            <!--Filter open file *.PAS-->
+            <!-- Filter open file *.PAS -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -66,7 +62,6 @@
                     android:mimeType="*/*"
                     android:pathPattern=".*\\.PAS"
                     android:scheme="file" />
-
             </intent-filter>
 
             <!-- Clip board filter -->
@@ -77,8 +72,6 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -88,66 +81,66 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.duy.pascal.frontend.editor.EditorActivity"
+            android:name=".editor.EditorActivity"
             android:launchMode="singleTask" />
-
         <activity
-            android:name="com.duy.pascal.frontend.activities.ExecuteActivity"
+            android:name=".activities.ExecuteActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name="com.duy.pascal.frontend.code_sample.activities.DocumentActivity" />
-        <activity android:name="com.duy.pascal.frontend.code_sample.activities.CodeSampleActivity" />
-        <activity android:name="com.duy.pascal.frontend.theme.fragment.ThemeFontActivity" />
-        <activity android:name="com.duy.pascal.frontend.info.InfoActivity" />
-        <activity android:name="com.duy.pascal.frontend.setting.SettingActivity" />
-
+        <activity android:name=".code_sample.activities.DocumentActivity" />
+        <activity android:name=".code_sample.activities.CodeSampleActivity" />
+        <activity android:name=".theme.fragment.ThemeFontActivity" />
+        <activity android:name=".info.InfoActivity" />
+        <activity android:name=".setting.SettingActivity" />
         <activity
-            android:name="com.duy.pascal.frontend.debug.activities.DebugActivity"
+            android:name=".debug.activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
-
         <activity android:name="com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivity" />
-        <activity android:name="com.duy.pascal.frontend.code_sample.activities.SearchResultSampleActivity" />
+        <activity android:name=".code_sample.activities.SearchResultSampleActivity" />
 
-        <!--Scan bar code activity-->
+        <!-- Scan bar code activity -->
         <activity
             android:name="com.duy.pascal.backend.builtin_libraries.android.barcode.ZxingActivity"
             android:label="@string/title_activity_zxing" />
-
         <activity
             android:name="com.duy.pascal.backend.builtin_libraries.android.barcode.ScannerActivity"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <!--Notification service-->
+        <!-- Notification service -->
         <service android:name=".notify.FirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".notify.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+     Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_launcher" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/dark.color_accent" />
-        <!--END SETUP NOTIFICATION-->
+        <!-- END SETUP NOTIFICATION -->
 
+        <activity
+            android:name=".setting.SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

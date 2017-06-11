@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
+package com.duy.pascal.interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class StringTest extends BaseTestCase {
-
-    public void test1() {
-        run("test1.pas");
-    }
-
-    public void test2() {
-        run("test2.pas");
-    }
-
+public class ConstTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_string";
+        return "test_const";
+    }
+
+    public void testAll() {
+        runAll();
     }
 }

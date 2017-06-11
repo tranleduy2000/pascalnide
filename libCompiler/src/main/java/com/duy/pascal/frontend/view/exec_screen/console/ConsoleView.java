@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.WorkerThread;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
 import android.util.AttributeSet;

@@ -53,4 +53,7 @@ public interface IRunnablePascal extends ExecHandler, InOutListener, ActivityHan
 
     @Override
     boolean keyPressed();
+
+    @Override
+    void clearConsole();
 }

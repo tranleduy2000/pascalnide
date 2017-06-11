@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
+package com.duy.pascal.interpreter;
 
 /**
  * Created by Duy on 29-May-17.

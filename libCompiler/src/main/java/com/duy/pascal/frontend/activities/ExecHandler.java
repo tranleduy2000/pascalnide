@@ -28,4 +28,6 @@ import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 public interface ExecHandler {
     @Nullable
     ConsoleView getConsoleView();
+
+    void clearConsole();
 }

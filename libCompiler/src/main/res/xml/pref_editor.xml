@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~  Copyright (c) 2017 Tran Le Duy
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -92,85 +93,4 @@
             android:title="@string/enable_ime_keyboard" />
 
     </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/user_interface">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_full_screen"
-            android:summary="@string/hide_status_bar_desc"
-            android:title="@string/hide_status_bar" />
-
-        <ListPreference
-            android:defaultValue="@string/lang_default"
-            android:entries="@array/language_entry"
-            android:entryValues="@array/language_code"
-            android:key="@string/key_pref_lang"
-            android:title="@string/language" />
-
-    </PreferenceCategory>
-
-
-    <!--<PreferenceCategory
-        android:icon="@drawable/ic_code_white_24dp"
-        android:title="@string/console_screen">
-
-        <EditTextPreference
-            android:defaultValue="60"
-            android:inputType="number"
-            android:key="@string/key_console_frame_rate"
-            android:title="@string/frame_rate"
-            android:visibility="gone" />
-
-        <EditTextPreference
-            android:defaultValue="200"
-            android:enabled="false"
-            android:inputType="number"
-            android:key="@string/key_console_max_buffer_size"
-            android:title="@string/max_buffer"
-            android:visibility="gone" />
-
-        <com.rarepebble.colorpicker.ColorPreference
-            android:defaultValue="#000"
-            android:enabled="false"
-            android:key="@string/key_bg_console"
-            android:shouldDisableView="true"
-            android:title="@string/background_console" />
-
-        <com.rarepebble.colorpicker.ColorPreference
-            android:defaultValue="#fff"
-            android:enabled="false"
-            android:key="@string/key_console_text_color"
-            android:shouldDisableView="true"
-            android:title="@string/text_color_console" />
-
-        &lt;!&ndash;<ListPreference&ndash;&gt;
-        &lt;!&ndash;android:defaultValue="14"&ndash;&gt;
-        &lt;!&ndash;android:entries="@array/font_size"&ndash;&gt;
-        &lt;!&ndash;android:entryValues="@array/font_size"&ndash;&gt;
-        &lt;!&ndash;android:key="@string/key_console_font_size"&ndash;&gt;
-        &lt;!&ndash;android:title="@string/font_z" />&ndash;&gt;
-
-    </PreferenceCategory>-->
-
-    <PreferenceCategory android:title="@string/run">
-        <EditTextPreference
-            android:defaultValue="40000"
-            android:inputType="number"
-            android:key="key_max_stack"
-            android:summary="@string/stack_size_desc"
-            android:title="@string/stack_size">
-
-        </EditTextPreference>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/keyboard_shortcut">
-        <ListPreference
-            android:defaultValue="@string/volume_down"
-            android:entries="@array/control_key"
-            android:entryValues="@array/control_key"
-            android:key="@string/key_pref_control"
-            android:shouldDisableView="true"
-            android:title="Ctrl Key" />
-    </PreferenceCategory>
-
 </PreferenceScreen>

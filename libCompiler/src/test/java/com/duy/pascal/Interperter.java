@@ -122,6 +122,11 @@ public class Interperter {
                     public boolean keyPressed() {
                         return false;
                     }
+
+                    @Override
+                    public void clearConsole() {
+
+                    }
                 });
 
         RuntimeExecutableCodeUnit<PascalProgram> program = pascalProgram.generate();
@@ -224,6 +229,11 @@ public class Interperter {
                         @Override
                         public boolean keyPressed() {
                             return false;
+                        }
+
+                        @Override
+                        public void clearConsole() {
+
                         }
                     });
         } catch (ParsingException e) {

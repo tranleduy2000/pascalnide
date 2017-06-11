@@ -14,48 +14,21 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
-
-import com.duy.pascal.interpreter.BaseTestCase;
+package com.duy.pascal.interpreter;
 
 /**
- * Created by Duy on 10-Jun-17.
+ * Created by Duy on 11-Jun-17.
  */
 
-public class TestPerformance extends BaseTestCase {
-
+public class TestSystemFunction extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_performance";
-    }
-
-    public void testFor() {
-        run("test_for.pas");
+        return "test_system_function";
 
     }
 
-    public void testFor2() {
-        run("test_for2.pas");
-
-    }
-
-    public void testFor3() {
-        run("test_for3.pas");
-
-    }
-
-    public void testFor4() {
-        run("test_for3.pas");
-
-    }
-
-    public void testFor5() {
-        run("test_for3.pas");
-
-    }
-
-    public void testFor6() {
-        run("test_for6.pas");
-
+    public void testLowHighDynamic(){
+        run("lowhighdynamic.pas");
     }
 }
+

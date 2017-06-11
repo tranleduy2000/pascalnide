@@ -14,48 +14,26 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
+package com.duy.pascal.interpreter;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public class RecordTest extends BaseTestCase {
+public class SetTypeTest extends BaseTestCase {
+
     @Override
     public String getDirTest() {
-        return "test_record";
+        return "test_set";
     }
 
     public void testAccess() {
-        run("test_access_field.pas");
+        run("test_access.pas");
     }
 
-    public void testParseRecordInFun() {
-        run("test_record_function.pas");
+    public void testSetOperate() {
+        run("test_set_operate.pas");
     }
 
-    public void testRecordPointer() {
-        run("test_record_pointer.pas");
-    }
-
-    public void testInitRecord() {
-        run("test_init_record.pas");
-    }
-
-    public void testField() {
-        run("test_field.pas");
-    }
-
-    public void testFieldPointer() {
-        run("test_field_pointer.pas");
-    }
-
-    public void testPointerInPointer() {
-        run("test_pointer_in_pointer.pas");
-    }
-
-    public void testConst() {
-        run("test_const.pas");
-    }
 
 }

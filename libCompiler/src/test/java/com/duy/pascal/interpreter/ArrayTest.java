@@ -14,48 +14,38 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
-
-import com.duy.pascal.interpreter.BaseTestCase;
+package com.duy.pascal.interpreter;
 
 /**
- * Created by Duy on 10-Jun-17.
+ * Created by Duy on 29-May-17.
  */
 
-public class TestPerformance extends BaseTestCase {
-
+public class ArrayTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_performance";
+        return "test_array";
     }
 
-    public void testFor() {
-        run("test_for.pas");
-
+    public void testAccess() {
+        run("test_index_access.pas");
     }
 
-    public void testFor2() {
-        run("test_for2.pas");
-
+    public void testDynamic() {
+        run("test_dynamic_array.pas");
+    }
+    public void testDynamic2() {
+        run("test_dynamic_2.pas");
     }
 
-    public void testFor3() {
-        run("test_for3.pas");
-
+    public void testMultiDimenArray() {
+        run("test_multi_dimensional_array.pas");
     }
 
-    public void testFor4() {
-        run("test_for3.pas");
-
+    public void testPacked() {
+        run("test_packed_array.pas");
     }
 
-    public void testFor5() {
-        run("test_for3.pas");
-
-    }
-
-    public void testFor6() {
-        run("test_for6.pas");
-
+    public void testParseArrayInFun() {
+        run("test_parse_array_in_function.pas");
     }
 }

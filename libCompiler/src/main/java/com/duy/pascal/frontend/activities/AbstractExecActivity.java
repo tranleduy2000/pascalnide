@@ -249,17 +249,32 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     }
 
     @Override
+    public void clearConsole() {
+        getConsoleView().clearScreen();
+    }
+
+    @Override
     protected void onDestroy() {
         DLog.d(TAG, "onDestroy() called");
 
         //stop readkey, keypressed event
-        getConsoleView().write("s", false);
         stopInput();
+        resumeProgram();
         //stop program
         stopProgram();
         getConsoleView().onDestroy();
 
         super.onDestroy();
+    }
+
+    private void resumeProgram() {
+        try {
+            if (mLock != null && mLock instanceof IOLib) {
+                ((IOLib) mLock).resume();
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     /**

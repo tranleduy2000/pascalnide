@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.test_interpreter;
+package com.duy.pascal.interpreter;
 
 import java.io.File;
 
@@ -40,6 +40,7 @@ public class FunctionTest extends BaseTestCase {
             }
         }
     }
+
 
     @Override
     public String getDirTest() {
