@@ -775,7 +775,7 @@ public class ConsoleView extends View implements
                 count++;
             }
 
-            mTextRenderer.draw(canvas, left, top, mScreenBufferData.textConsole, index, count);
+            mTextRenderer.drawText(canvas, left, top, mScreenBufferData.textConsole, index, count);
 
             top += mTextRenderer.getCharHeight();
             index += mConsoleScreen.consoleColumn;
@@ -892,16 +892,23 @@ public class ConsoleView extends View implements
 
     //pascal
     public void setConsoleTextBackground(int color) {
+        Log.d(TAG, "setConsoleTextBackground: " + color);
         mTextRenderer.setTextBackgroundColor(color);
     }
 
 
     // move cursor to (x, y)
     public void gotoXY(int x, int y) {
-        if (x <= 0) x = 1;
-        else if (x > mConsoleScreen.consoleColumn) x = mConsoleScreen.consoleColumn;
-        if (y <= 0) y = 1;
-        else if (y > mConsoleScreen.getMaxLines()) y = mConsoleScreen.getMaxLines();
+        if (x <= 0) {
+            x = 1;
+        } else if (x > mConsoleScreen.consoleColumn) {
+            x = mConsoleScreen.consoleColumn;
+        }
+        if (y <= 0) {
+            y = 1;
+        } else if (y > mConsoleScreen.getMaxLines()) {
+            y = mConsoleScreen.getMaxLines();
+        }
         setConsoleCursorPosition(x - 1, y - 1);
         makeCursorVisible();
         postInvalidate();

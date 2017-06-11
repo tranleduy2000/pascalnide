@@ -20,8 +20,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
+
+import static android.R.attr.width;
 
 
 /**
@@ -39,11 +42,11 @@ public class TextRenderer implements ScreenObject {
     /**
      * character attributes
      */
-    private int charHeight;
-    private int charAscent;
-    private int charDescent;
-    private float charWidth;
-    private int textMode = 0;
+    private int mCharHeight;
+    private int mCharAscent;
+    private int mCharDescent;
+    private float mCharWidth;
+    private int mTextMode = 0;
     private Typeface typeface = Typeface.MONOSPACE;
     private Paint mTextPaint = new Paint();
     private Paint backgroundPaint = new Paint();
@@ -70,15 +73,11 @@ public class TextRenderer implements ScreenObject {
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextSize(textSize);
 
-        charHeight = (int) Math.ceil(mTextPaint.getFontSpacing());
-        charAscent = (int) Math.ceil(mTextPaint.ascent());
-        charDescent = charHeight + charAscent;
-        charWidth = mTextPaint.measureText("M");
-        if (charWidth != mTextPaint.measureText(".")) {
-            this.fixedWidthFont = false;
-        } else {
-            this.fixedWidthFont = true;
-        }
+        mCharHeight = (int) Math.ceil(mTextPaint.getFontSpacing());
+        mCharAscent = (int) Math.ceil(mTextPaint.ascent());
+        mCharDescent = mCharHeight + mCharAscent;
+        mCharWidth = mTextPaint.measureText("M");
+        this.fixedWidthFont = mCharWidth == mTextPaint.measureText(".");
     }
 
 
@@ -90,27 +89,28 @@ public class TextRenderer implements ScreenObject {
      * @param text  - input text
      * @param start - start index of array text[]
      */
-    public void draw(Canvas canvas, int x, int y, char[] text, int start, int count) {
+    public void drawText(Canvas canvas, int x, int y, char[] text, int start, int count) {
         canvas.drawText(text, start, count, x, y, mTextPaint);
     }
 
-    public void draw(Canvas canvas, int x, int y, String text, int start, int count) {
+    public void drawText(Canvas canvas, int x, int y, String text, int start, int count) {
         canvas.drawText(text, start, start + count, x, y, mTextPaint);
     }
 
-    public void draw(Canvas canvas, float x, float y, TextConsole[] text, int start, int count) {
-        float y1 = y + charAscent;
+    public void drawText(Canvas canvas, float x, float y, TextConsole[] text, int start, int count) {
+        float y1 = y + mCharAscent;
         for (int i = start; i < start + count; i++) {
-            if (!fixedWidthFont) charWidth = mTextPaint.measureText(text[i].getSingleString());
+            if (!fixedWidthFont) mCharWidth = mTextPaint.measureText(text[i].getSingleString());
 
             backgroundPaint.setColor(text[i].getTextBackground());
-            canvas.drawRect(x, y1, x + charWidth, y1, backgroundPaint);
+            canvas.drawRect(x, y + mCharAscent, x + width, y + mCharDescent, backgroundPaint);
+
 
             mTextPaint.setColor(text[i].getTextColor());
             mTextPaint.setAlpha(text[i].getAlpha());
             canvas.drawText(text[i].getSingleString(), x, y, mTextPaint);
 
-            x += charWidth;
+            x += mCharWidth;
         }
     }
 
@@ -132,35 +132,35 @@ public class TextRenderer implements ScreenObject {
     }
 
     public int getCharHeight() {
-        return charHeight;
+        return mCharHeight;
     }
 
-    public void setCharHeight(int charHeight) {
-        this.charHeight = charHeight;
+    public void setCharHeight(int mCharHeight) {
+        this.mCharHeight = mCharHeight;
     }
 
     public int getCharAscent() {
-        return charAscent;
+        return mCharAscent;
     }
 
-    public void setCharAscent(int charAscent) {
-        this.charAscent = charAscent;
+    public void setCharAscent(int mCharAscent) {
+        this.mCharAscent = mCharAscent;
     }
 
     public int getCharDescent() {
-        return charDescent;
+        return mCharDescent;
     }
 
-    public void setCharDescent(int charDescent) {
-        this.charDescent = charDescent;
+    public void setCharDescent(int mCharDescent) {
+        this.mCharDescent = mCharDescent;
     }
 
     public float getCharWidth() {
-        return charWidth;
+        return mCharWidth;
     }
 
-    public void setCharWidth(int charWidth) {
-        this.charWidth = charWidth;
+    public void setCharWidth(int mCharWidth) {
+        this.mCharWidth = mCharWidth;
     }
 
 
@@ -173,11 +173,11 @@ public class TextRenderer implements ScreenObject {
     }
 
     public int getTextMode() {
-        return textMode;
+        return mTextMode;
     }
 
-    public void setTextMode(int textMode) {
-        this.textMode = textMode;
+    public void setTextMode(int mTextMode) {
+        this.mTextMode = mTextMode;
     }
 
     void setReverseVideo(boolean reverseVideo) {
