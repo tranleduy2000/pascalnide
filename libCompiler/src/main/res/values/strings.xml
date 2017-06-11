@@ -152,7 +152,7 @@
     <string name="program_stopped">Program is stopped</string>
     <string name="no_document">No document</string>
     <string name="max_page_desc">Number of maximum page display on the screen</string>
-    <string name="max_page">Max page</string>
+    <string name="max_page">Max page editor</string>
     <string name="implicitly">implicitly</string>
     <string name="enter_key_word">Enter your keyword…</string>
     <string name="blog">Blog of Pascal N-IDE</string>
@@ -263,7 +263,7 @@
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
+    <string name="notifications">Notifications</string>
 
     <string name="pref_title_new_message_notifications">New message notifications</string>
 
@@ -271,5 +271,16 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="console_screen_">Console screen</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="system_interface">System interface</string>
+    <string name="maxline_console_desc">The maximum number of lines that the console will store, the larger the number of lines will need more memory.</string>
+    <string name="text_color">Text Color</string>
+    <string name="default_text_color">Default text color</string>
+    <string name="def_bg_color">Default background color</string>
+    <string name="bg_color">Background Color</string>
+    <string name="draw_screen_faster">Draw screen faster</string>
+    <string name="ctrl_key">Ctrl Key</string>
+    <string name="compiler">Compiler</string>
 </resources>
 

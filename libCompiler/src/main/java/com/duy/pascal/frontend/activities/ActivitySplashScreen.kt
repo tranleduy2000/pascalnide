@@ -45,11 +45,7 @@ class ActivitySplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)
         // Here, this is the current activity
-        PreferenceManager.setDefaultValues(this, R.xml.pref_editor, false)
-        PreferenceManager.setDefaultValues(this, R.xml.pref_keyboard, false)
-        PreferenceManager.setDefaultValues(this, R.xml.pref_notification, false)
-        PreferenceManager.setDefaultValues(this, R.xml.pref_console, false)
-        PreferenceManager.setDefaultValues(this, R.xml.pref_user_interface, false)
+        PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             ActivityCompat.requestPermissions(this,

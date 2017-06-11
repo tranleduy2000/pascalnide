@@ -95,7 +95,15 @@
         <activity android:name=".info.InfoActivity" />
         <activity
             android:name=".setting.SettingsActivity"
-            android:theme="@style/AppThemeDark" />
+            android:label="@string/setting"
+            android:theme="@style/AppThemeDark">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".debug.activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"

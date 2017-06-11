@@ -17,14 +17,12 @@
 package com.duy.pascal.frontend.setting;
 
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -34,13 +32,7 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.setting.fragments.ConsolePrefFragment;
-import com.duy.pascal.frontend.setting.fragments.EditorPreferenceFragment;
-import com.duy.pascal.frontend.setting.fragments.KeyboardPrefFragment;
-import com.duy.pascal.frontend.setting.fragments.NotificationPrefFragment;
-import com.duy.pascal.frontend.setting.fragments.UserInterfacePrefFragment;
-
-import java.util.List;
+import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -53,7 +45,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends AppCompatPreferenceActivity {
+public class SettingsActivity extends AbstractAppCompatActivity {
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -139,7 +131,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_setting);
         setupActionBar();
+
+        android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, new FragmentSetting()).commit();
     }
 
     /**
@@ -153,29 +149,4 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onIsMultiPane() {
-        return isXLargeTablet(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }
-
-    @Override
-    protected boolean isValidFragment(String fragmentName) {
-        return ConsolePrefFragment.class.getName().equals(fragmentName)
-                || EditorPreferenceFragment.class.getName().equals(fragmentName)
-                || KeyboardPrefFragment.class.getName().equals(fragmentName)
-                || NotificationPrefFragment.class.getName().equals(fragmentName)
-                || UserInterfacePrefFragment.class.getName().equals(fragmentName);
-    }
 }
