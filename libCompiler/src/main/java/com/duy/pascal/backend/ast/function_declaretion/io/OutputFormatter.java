@@ -24,6 +24,7 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -40,7 +41,9 @@ public class OutputFormatter {
         for (int i = 0; i < runtimeValues.length; i++) {
             RuntimeValue raw = runtimeValues[i];
             RuntimeValue[] outputFormat = raw.getOutputFormat();
-            StringBuilder object = new StringBuilder(String.valueOf(raw.getValue(f, main)));
+            Object value = raw.getValue(f, main);
+            StringBuilder out = new StringBuilder(value instanceof Object[] ?
+                    Arrays.toString((Object[]) value) : String.valueOf(value));
 
             if (outputFormat != null) {
                 if (outputFormat[1] != null) {
@@ -49,18 +52,18 @@ public class OutputFormatter {
                     for (int j = 0; j < sizeOfReal; j++) round.append("0");
                     DecimalFormat decimalFormat = new DecimalFormat("#0." + round.toString());
                     decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
-                    Double d = Double.parseDouble(object.toString());
-                    object = new StringBuilder(decimalFormat.format(d));
+                    Double d = Double.parseDouble(out.toString());
+                    out = new StringBuilder(decimalFormat.format(d));
                 }
 
                 if (outputFormat[0] != null) {
                     int column = (int) outputFormat[0].getValue(f, main);
-                    while (object.length() < column) {
-                        object.insert(0, " ");
+                    while (out.length() < column) {
+                        out.insert(0, " ");
                     }
                 }
             }
-            values[i] = object;
+            values[i] = out;
         }
         return values;
     }

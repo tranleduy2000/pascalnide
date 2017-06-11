@@ -23,6 +23,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ArrayIndexAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.ArrayCloner;
+import com.duy.pascal.backend.ast.runtime_value.value.cloning.SetToDynamicArrayCloner;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.DeclaredType;
@@ -37,14 +38,16 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     public final T elementType;
     @Nullable
     private SubrangeType bound;
-
-    public void setBound(@Nullable SubrangeType bound) {
-        this.bound = bound;
-    }
+    private boolean dynamic;
 
     public ArrayType(T elementType, @Nullable SubrangeType bound) {
         this.elementType = elementType;
         this.bound = bound;
+        this.dynamic = bound == null;
+    }
+
+    public boolean isDynamic() {
+        return dynamic;
     }
 
     @Override
@@ -60,6 +63,10 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     @Nullable
     public SubrangeType getBound() {
         return bound;
+    }
+
+    public void setBound(@Nullable SubrangeType bound) {
+        this.bound = bound;
     }
 
     /**
@@ -95,7 +102,6 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
             ArrayType<?> o = (ArrayType<?>) obj;
             if (o.elementType.equals(elementType)) {
                 if (this.bound == null) return true;
-
                 if (this.bound.equals(o.bound)) return true;
             }
         }
@@ -148,13 +154,21 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
 
     /**
      * This basically won't do any conversions, as array types have to be exact,
-     * except variable length arrays, but they are checked in the {@link
+     * except variable length arrays, but they are checked in the
      */
     @Override
     public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
             throws ParsingException {
         RuntimeType other = value.getType(f);
-        return this.superset(other.declType) ? cloneValue(value) : null;
+        if (other.declType instanceof ArrayType) {
+            return this.superset(other.declType) ? cloneValue(value) : null;
+        } else if (other.declType instanceof SetType && this.isDynamic()) {
+            if (((SetType) other.declType).getElementType().equals(this.getElementType())) {
+                return new SetToDynamicArrayCloner(value);
+            }
+        }
+        return null;
+
     }
 
     @Override

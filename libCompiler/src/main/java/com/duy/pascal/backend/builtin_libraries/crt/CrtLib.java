@@ -164,7 +164,7 @@ public class CrtLib implements IPascalLibrary {
     @PascalMethod(description = "crt library")
     public void clrscr() {
         if (handler == null) return;
-        handler.getConsoleView().clearScreen();
+        handler.clearConsole();
     }
 
     /**

@@ -97,7 +97,6 @@ import com.duy.pascal.backend.types.rangetype.SubrangeType;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.types.set.EnumGroupType;
 import com.duy.pascal.backend.types.set.SetType;
-import com.duy.pascal.frontend.DLog;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -775,7 +774,6 @@ public abstract class GrouperToken extends Token {
      */
     public ConstantAccess<LinkedList> getSetConstant(ExpressionContext context, Token token,
                                                      AtomicReference<DeclaredType> typeReference) throws ParsingException {
-        DLog.d(TAG, "getSetConstant() called with: scope = [" + context + "], bracketedToken = [" + token + "], typeReference = [" + typeReference + "]");
         if (!(token instanceof BracketedToken)) {
             throw new ExpectedTokenException(new BracketedToken(null), token);
         }
@@ -814,7 +812,6 @@ public abstract class GrouperToken extends Token {
     public ConstantAccess<Object[]> getArrayConstant(ExpressionContext context,
                                                      Token group, ArrayType type) throws ParsingException {
 
-        DLog.d(TAG, "getArrayConstant() called with: scope = [" + context + "], type = [" + type + "]");
 
         if (!(group instanceof ParenthesizedToken)) {
             throw new ExpectedTokenException("(", group);
@@ -846,8 +843,6 @@ public abstract class GrouperToken extends Token {
     public <T> ConstantAccess getConstantElement(@NonNull ExpressionContext context,
                                                  @NonNull GrouperToken grouperToken,
                                                  @Nullable DeclaredType elementType) throws ParsingException {
-        DLog.d(TAG, "getConstantElement() called with: scope = [" + context + "], grouperToken = ["
-                + grouperToken + "], elementType = [" + elementType + "]");
 
         if (grouperToken.hasNext()) {
             if (elementType instanceof ArrayType) {
@@ -902,7 +897,6 @@ public abstract class GrouperToken extends Token {
                 }
             } else {
                 RuntimeValue unconvert = grouperToken.getNextExpression(context);
-                DLog.d(TAG, "unconvert value " + unconvert + " | " + " target type " + elementType);
                 if (elementType != null) {
                     RuntimeValue converted = elementType.convert(unconvert, context);
                     if (converted == null) {

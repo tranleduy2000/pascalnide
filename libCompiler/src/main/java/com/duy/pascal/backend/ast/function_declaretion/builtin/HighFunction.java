@@ -18,27 +18,29 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.set.ArrayType;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.types.rangetype.SubrangeType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.rangetype.SubrangeType;
+import com.duy.pascal.backend.types.set.ArrayType;
+import com.duy.pascal.backend.types.set.EnumGroupType;
 
 public class HighFunction implements IMethodDeclaration {
-
+    @Nullable
+    private RuntimeType runtimeType;
     private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
@@ -48,10 +50,10 @@ public class HighFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue value = arguments[0];
-        RuntimeType type = value.getType(f);
-        return new HighCall(type, value, line);
+        this.runtimeType = value.getType(f);
+        return new HighCall(value, line);
     }
 
     @Override
@@ -66,7 +68,15 @@ public class HighFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.create(Object.class);
+        if (runtimeType != null) {
+            if (runtimeType.declType instanceof ArrayType) {
+                return BasicType.Integer;
+            } else {
+                return BasicType.create(Object.class);
+            }
+        } else {
+            return BasicType.create(Object.class);
+        }
     }
 
     @Override
@@ -74,21 +84,19 @@ public class HighFunction implements IMethodDeclaration {
         return null;
     }
 
-    static class HighCall extends FunctionCall {
+    private class HighCall extends FunctionCall {
 
         private RuntimeValue value;
         private LineInfo line;
-        private RuntimeType type;
 
-        HighCall(RuntimeType type, RuntimeValue value, LineInfo line) {
-            this.type = type;
+        HighCall(RuntimeValue value, LineInfo line) {
             this.value = value;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.create(Object.class), false);
+            return new RuntimeType(HighFunction.this.returnType(), false);
         }
 
         @Override
@@ -96,6 +104,10 @@ public class HighFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -105,18 +117,13 @@ public class HighFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new HighCall(type, value, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
+            return new HighCall(value, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new HighCall(type, value, line);
+            return new HighCall(value, line);
         }
 
         @Override
@@ -127,7 +134,7 @@ public class HighFunction implements IMethodDeclaration {
         @Override
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            DeclaredType declType = type.declType;
+            DeclaredType declType = runtimeType.declType;
             if (declType instanceof ArrayType) {
                 SubrangeType bounds = ((ArrayType) declType).getBound();
                 Object[] value = (Object[]) this.value.getValue(f, main);

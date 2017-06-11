@@ -21,15 +21,17 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 
-class BadFunctionCallException(line: LineInfo, var functionName: String,
-                               var functionExists: Boolean, numargsMatch: Boolean,
+class BadFunctionCallException(line: LineInfo, //the line at code editor
+                               var functionName: String, //name of function
+                               var functionExists: Boolean, //function is exist?
+                               numargsMatch: Boolean, //if function is exits,
                                args: ArrayList<String>,
-                               function: ArrayList<String>,
-                               var scope: ExpressionContext) : ParsingException(line) {
+                               var functions: ArrayList<String>,
+                               var scope: ExpressionContext)
+    : ParsingException(line) {
 
     var argsMatch: Boolean = numargsMatch
     var args: List<String>? = args;
-    var functions: List<String>? = function;
 
     override val message: String?
         get() {

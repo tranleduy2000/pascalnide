@@ -6,6 +6,8 @@ import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.GetAddress;
 import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.types.set.ArrayType;
+import com.duy.pascal.backend.types.set.SetType;
 
 import java.util.Iterator;
 
@@ -101,13 +103,20 @@ public class RuntimeType implements ArgumentType {
         if (!args.hasNext()) {
             return null;
         }
-        RuntimeValue val = args.next();
-        RuntimeType other = val.getType(e);
-        if (this.declType.equals(other.declType)) {
+        RuntimeValue otherValue = args.next();
+        RuntimeType otherType = otherValue.getType(e);
+        if (this.declType.equals(otherType.declType)) {
             if (writable) {
-                return new GetAddress((AssignableValue) val);
+                return new GetAddress((AssignableValue) otherValue);
             } else {
-                return other.declType.cloneValue(val);
+                return otherType.declType.cloneValue(otherValue);
+            }
+        } else if (this.declType instanceof ArrayType && ((ArrayType) this.declType).isDynamic()
+                && otherType.declType instanceof SetType) { //dynamic array
+            if (writable) {
+                return null;
+            } else {
+                return this.declType.convert(otherValue, e);
             }
         } else {
             return null;
