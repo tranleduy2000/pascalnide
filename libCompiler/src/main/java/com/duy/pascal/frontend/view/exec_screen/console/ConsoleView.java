@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.WorkerThread;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
 import android.util.AttributeSet;
@@ -48,6 +47,8 @@ import com.duy.pascal.backend.builtin_libraries.graph.model.GraphObject;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import static com.duy.pascal.frontend.utils.StringCompare.isGreaterEqual;
 import static com.duy.pascal.frontend.utils.StringCompare.isLessThan;
 
@@ -61,6 +62,7 @@ public class ConsoleView extends View implements
         DLog.TAG = TAG;
     }
 
+    private final AtomicBoolean canDraw = new AtomicBoolean(true);
     public Handler handler = new Handler();
     public int firstLine;
     private boolean graphMode = false;
@@ -96,6 +98,7 @@ public class ConsoleView extends View implements
     private PascalPreferences mPascalPreferences;
     private String mImeBuffer = "";
     private TextConsole[] textImeBuffer;
+    private boolean antiAlias = false;
 
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
@@ -135,13 +138,18 @@ public class ConsoleView extends View implements
         mGestureDetector.setOnDoubleTapListener(this);
         mPascalPreferences = new PascalPreferences(context);
 
+        this.antiAlias = mPascalPreferences.useAntiAlias();
+
         mGraphScreen = new GraphScreen(context);
+        mGraphScreen.setAntiAlias(antiAlias);
+
         mConsoleScreen = new ConsoleScreen(mPascalPreferences);
         mConsoleScreen.setBackgroundColor(Color.BLACK);
 
         mTextRenderer = new TextRenderer(getTextSize(TypedValue.COMPLEX_UNIT_SP,
                 mPascalPreferences.getConsoleFontSize()));
         mTextRenderer.setTextColor(Color.WHITE);
+        mTextRenderer.setAntiAlias(antiAlias);
 
         firstLine = 0;
         mScreenBufferData.firstIndex = 0;
@@ -152,7 +160,6 @@ public class ConsoleView extends View implements
         mCursor.setCursorBlink(true);
         mCursor.setVisible(true);
     }
-
 
     public void putString(String c) {
         mScreenBufferData.textBuffer.writeBuffer(c);
@@ -731,7 +738,6 @@ public class ConsoleView extends View implements
         return true;
     }
 
-
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         DLog.d(TAG, "onKeyUp: " + event);
@@ -784,26 +790,29 @@ public class ConsoleView extends View implements
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         int w = getWidth();
         int h = getHeight();
+
         if (graphMode) {
             // draw bitmap graph
-            if (!mGraphScreen.getGraphBitmap().isRecycled())
-                canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0, mGraphScreen.getBackgroundPaint());
+            if (!mGraphScreen.getGraphBitmap().isRecycled()) {
+                canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0,
+                        mGraphScreen.getBackgroundPaint());
+            }
         } else {
-
             mConsoleScreen.drawBackground(canvas, mConsoleScreen.getLeftVisible(),
                     mConsoleScreen.getTopVisible(), w, h);
             drawText(canvas, mConsoleScreen.getLeftVisible(), mConsoleScreen.getTopVisible());
         }
+
+
     }
 
     /**
      * clear data
      */
     public void onDestroy() {
-        mGraphScreen.gc();
+        mGraphScreen.clearData();
         mConsoleScreen.clearAll();
         mScreenBufferData.clearAll();
     }
@@ -826,7 +835,6 @@ public class ConsoleView extends View implements
         return true;
     }
 
-
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         // TODO: add animation man's (non animated) fling
@@ -842,7 +850,6 @@ public class ConsoleView extends View implements
 //        doShowSoftKeyboard();
         return true;
     }
-
 
     public boolean onDown(MotionEvent e) {
         mScrollRemainder = 0.0f;
@@ -863,7 +870,6 @@ public class ConsoleView extends View implements
         handler.postDelayed(blink, 1000);
         updateSize();
     }
-
 
     private void doShowSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -893,7 +899,6 @@ public class ConsoleView extends View implements
         mTextRenderer.setTextBackgroundColor(color);
     }
 
-
     // move cursor to (x, y)
     public void gotoXY(int x, int y) {
         if (x <= 0) {
@@ -922,7 +927,6 @@ public class ConsoleView extends View implements
     public int whereY() {
         return mCursor.y + 1;
     }
-
 
     public boolean isKeyPressed() {
         return (mScreenBufferData.keyBuffer.rear > mScreenBufferData.keyBuffer.front);
@@ -997,7 +1001,6 @@ public class ConsoleView extends View implements
         mGraphScreen.setBackgroundColor(colorPascal);
     }
 
-
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
         return false;
@@ -1013,4 +1016,6 @@ public class ConsoleView extends View implements
     public boolean onDoubleTapEvent(MotionEvent e) {
         return false;
     }
+
+
 }

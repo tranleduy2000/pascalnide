@@ -93,6 +93,14 @@
             android:title="@string/bg_color" />
 
         <SwitchPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="pref_console_anti_alias"
+            android:summary="Smooths out jagged graphics"
+            android:title="Anti-alias" />
+
+        <SwitchPreference
+            android:defaultValue="true"
             android:enabled="true"
             android:key="pref_console_hardware_acceleration"
             android:summary="@string/draw_screen_faster"

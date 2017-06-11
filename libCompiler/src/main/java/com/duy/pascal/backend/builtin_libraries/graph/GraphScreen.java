@@ -63,11 +63,14 @@ public class GraphScreen {
      * this object used to draw {@link GraphObject}
      */
     @Nullable
-    private Bitmap mGraphBitmap;
+    private Bitmap mPrimaryBitmap, mBitmapBuffer;
     private ConsoleCursor mCursor = new ConsoleCursor(0, 0, 0xffffffff);
     private int lineWidth = LineWidth.NormWidth;
     private int lineStyle = LineStyle.SolidLn;
     private int linePattern;
+
+    private volatile boolean bufferEnable = false;
+    private boolean antiAlias;
 
     public GraphScreen(Context context) {
         this.context = context;
@@ -113,7 +116,7 @@ public class GraphScreen {
     }
 
     public int getWidth() {
-        return mGraphBitmap.getWidth();
+        return mPrimaryBitmap.getWidth();
     }
 
     public void setWidth(int visibleWidth) {
@@ -122,7 +125,7 @@ public class GraphScreen {
     }
 
     public int getHeight() {
-        return mGraphBitmap.getHeight();
+        return mPrimaryBitmap.getHeight();
     }
 
     public void setHeight(int visibleHeight) {
@@ -144,15 +147,29 @@ public class GraphScreen {
      */
     private synchronized void invalidateBitmap() {
         synchronized (mLock) {
-            if (mGraphBitmap == null) {
-                mGraphBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            if (mPrimaryBitmap == null) {
+                mPrimaryBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+
             } else {
                 Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
                 Canvas canvas = new Canvas(bitmap);
-                canvas.drawBitmap(mGraphBitmap, 0, 0, textPaint);
+                canvas.drawBitmap(mPrimaryBitmap, 0, 0, textPaint);
                 synchronized (mLock) {
-                    mGraphBitmap.recycle();
-                    mGraphBitmap = bitmap;
+                    mPrimaryBitmap.recycle();
+                    mPrimaryBitmap = bitmap;
+                }
+            }
+            if (bufferEnable) {
+                if (mBitmapBuffer == null) {
+                    mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                } else {
+                    Bitmap buffer = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                    Canvas canvasBuffer = new Canvas(buffer);
+                    canvasBuffer.drawBitmap(mBitmapBuffer, 0, 0, textPaint);
+                    synchronized (mLock) {
+                        mBitmapBuffer.recycle();
+                        mBitmapBuffer = buffer;
+                    }
                 }
             }
         }
@@ -162,14 +179,12 @@ public class GraphScreen {
      * @return the graph bitmap
      */
     @Nullable
-    public synchronized Bitmap getGraphBitmap() {
-        synchronized (mLock) {
-            return mGraphBitmap;
-        }
+    public Bitmap getGraphBitmap() {
+        return mPrimaryBitmap;
     }
 
     public int getColorPixel(int x, int y) {
-        return mGraphBitmap.getPixel(x, y);
+        return mPrimaryBitmap.getPixel(x, y);
     }
 
     public int getYCursor() {
@@ -189,26 +204,26 @@ public class GraphScreen {
     }
 
     public void closeGraph() {
-//        graphObjects.clear(); //GC
-//        invalidateBitmap();
     }
 
     public void clear() {
         mCursor.setCoordinate(0, 0);
-        clearGraphBitmap();
+        clearPrimaryBitmap();
     }
 
     /**
      * draw rect with background black instead of create new bitmap
      * It will be improve performance
      */
-    private void clearGraphBitmap() {
+    private void clearPrimaryBitmap() {
         synchronized (mLock) {
-            Canvas canvas = new Canvas(mGraphBitmap);
-            Paint paint = new Paint();
-            paint.setColor(Color.BLACK);
-            canvas.drawRect(0, 0, mGraphBitmap.getWidth(), mGraphBitmap.getHeight(),
-                    paint);
+            Canvas canvas = null;
+            if (mPrimaryBitmap != null) {
+                canvas = new Canvas(mPrimaryBitmap);
+                Paint paint = new Paint();
+                paint.setColor(Color.BLACK);
+                canvas.drawRect(0, 0, mPrimaryBitmap.getWidth(), mPrimaryBitmap.getHeight(), paint);
+            }
         }
     }
 
@@ -221,17 +236,21 @@ public class GraphScreen {
     }
 
     public void addGraphObject(GraphObject graphObject) {
-        // TODO: 30-Mar-17
         graphObject.setFillStyle(context, fillPattern, fillColor);
 
         graphObject.setLineWidth(lineWidth);
         graphObject.setLineStyle(lineStyle);
         graphObject.setLineColor(textPaint.getColor());
-
         graphObject.setTextPaint(textPaint.clonePaint());
+        graphObject.setAntiAlias(antiAlias);
 
-        graphObject.draw(mGraphBitmap);
         this.lastObject = graphObject;
+
+        if (isBufferEnable()) {
+            graphObject.draw(mBitmapBuffer);
+        } else {
+            graphObject.draw(mPrimaryBitmap);
+        }
     }
 
     public Paint getBackgroundPaint() {
@@ -305,9 +324,53 @@ public class GraphScreen {
         return FillType.createFillBitmap(context, fillPattern, fillColor);
     }
 
-    public void gc() {
-        if (mGraphBitmap != null && !mGraphBitmap.isRecycled()) {
-            mGraphBitmap.recycle();
+    public void clearData() {
+        if (mPrimaryBitmap != null && !mPrimaryBitmap.isRecycled()) {
+            mPrimaryBitmap.recycle();
         }
+        if (mBitmapBuffer != null && !mBitmapBuffer.isRecycled()) {
+            mBitmapBuffer.recycle();
+        }
+    }
+
+    public boolean isBufferEnable() {
+        return bufferEnable;
+    }
+
+    public void setBufferEnable(boolean bufferEnable) {
+        this.bufferEnable = bufferEnable;
+        if (bufferEnable && mBitmapBuffer == null) {
+            ensureBufferNonNull();
+        } else {
+            clearBufferBitmap();
+        }
+    }
+
+    private void ensureBufferNonNull() {
+        if (mBitmapBuffer == null) {
+            mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        }
+    }
+
+    public void bufferToPrimary() {
+        if (mBitmapBuffer != null) {
+            this.mPrimaryBitmap = mBitmapBuffer.copy(mBitmapBuffer.getConfig(), true);
+        }
+    }
+
+    public void clearBufferBitmap() {
+        synchronized (mLock) {
+            Canvas canvas = null;
+            if (mBitmapBuffer != null) {
+                canvas = new Canvas(mBitmapBuffer);
+                Paint paint = new Paint();
+                paint.setColor(Color.BLACK);
+                canvas.drawRect(0, 0, mBitmapBuffer.getWidth(), mBitmapBuffer.getHeight(), paint);
+            }
+        }
+    }
+
+    public void setAntiAlias(boolean antiAlias) {
+        this.antiAlias = antiAlias;
     }
 }

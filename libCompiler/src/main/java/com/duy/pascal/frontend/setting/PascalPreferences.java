@@ -308,4 +308,8 @@ public class PascalPreferences {
     public boolean flingToScroll() {
         return true;
     }
+
+    public boolean useAntiAlias() {
+        return getBoolean("pref_console_anti_alias");
+    }
 }

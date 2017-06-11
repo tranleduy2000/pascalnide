@@ -50,7 +50,6 @@ public class TextRenderer implements ScreenObject {
     private int textColor = Color.WHITE;
     private int textBackgroundColor = Color.BLACK;
     private int alpha = NORMAL_TEXT_ALPHA;
-    private int textWidth = 2;
     private boolean fixedWidthFont;
 
     public TextRenderer(float textSize) {
@@ -205,5 +204,9 @@ public class TextRenderer implements ScreenObject {
 
     public void setAlpha(int alpha) {
         this.alpha = alpha;
+    }
+
+    public void setAntiAlias(boolean antiAlias) {
+        mTextPaint.setAntiAlias(antiAlias);
     }
 }

@@ -320,10 +320,11 @@ public class GraphLib implements IPascalLibrary {
 
     @PascalMethod(description = "graph library", returns = "void")
     public void initGraph(int driver, int mode, StringBuilder pathToDriver) {
-        if (handler != null ) {
+        if (handler != null) {
             handler.getConsoleView().setGraphMode(true);
         }
     }
+
 
     /**
      * Draw a rectangle on the screen

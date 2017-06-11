@@ -28,11 +28,11 @@ import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.graphics.Shader;
 
-import com.duy.pascal.backend.imageprocessing.ImageUtils;
 import com.duy.pascal.backend.builtin_libraries.graph.paint.TextPaint;
 import com.duy.pascal.backend.builtin_libraries.graph.style.FillType;
 import com.duy.pascal.backend.builtin_libraries.graph.style.LineStyle;
 import com.duy.pascal.backend.builtin_libraries.graph.style.LineWidth;
+import com.duy.pascal.backend.imageprocessing.ImageUtils;
 import com.duy.pascal.frontend.R;
 
 /**
@@ -168,5 +168,11 @@ public abstract class GraphObject {
 
     public void setTextPaint(TextPaint textPaint) {
         this.textPaint = textPaint;
+    }
+
+    public void setAntiAlias(boolean antiAlias) {
+        linePaint.setAntiAlias(antiAlias);
+        fillPaint.setAntiAlias(antiAlias);
+        textPaint.setAntiAlias(antiAlias);
     }
 }
