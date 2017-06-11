@@ -95,8 +95,7 @@
         <activity android:name=".info.InfoActivity" />
         <activity
             android:name=".setting.SettingsActivity"
-            android:label="@string/setting"
-            android:theme="@style/AppThemeDark">
+            android:label="@string/setting">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />

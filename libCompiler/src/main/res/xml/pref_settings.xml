@@ -93,6 +93,7 @@
             android:title="@string/bg_color" />
 
         <SwitchPreference
+            android:enabled="true"
             android:key="pref_console_hardware_acceleration"
             android:summary="@string/draw_screen_faster"
             android:title="Hardware acceleration" />
@@ -122,6 +123,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_ime_keyboard"
+            android:summary="@string/ime_desc"
             android:title="@string/enable_ime_keyboard" />
 
         <SwitchPreference
@@ -140,7 +142,6 @@
             android:title="@string/pref_title_new_message_notifications" />
 
     </PreferenceCategory>
-
 
 
     <PreferenceCategory android:title="@string/user_interface">

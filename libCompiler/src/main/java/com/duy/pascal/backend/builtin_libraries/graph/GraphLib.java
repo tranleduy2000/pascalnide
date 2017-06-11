@@ -864,4 +864,5 @@ public class GraphLib implements IPascalLibrary {
             consoleView.postInvalidate();
         }
     }
+
 }

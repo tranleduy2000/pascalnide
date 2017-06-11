@@ -193,4 +193,5 @@
     <string name="step_info">Step info</string>
     <string name="step_over">Step over</string>
     <string name="maxline_console_desc">số dòng tối đa mà console sẽ lưu lại, số dòng càng lớn sẽ cần nhiều bộ nhớ.</string>
+    <string name="ime_desc">Cho phép bàn phím của bạn hiển thị các gợi ý.</string>
 </resources>
