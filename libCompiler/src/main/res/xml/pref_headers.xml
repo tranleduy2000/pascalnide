@@ -19,18 +19,25 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.duy.pascal.frontend.setting.SettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/pref_header_general" />
-
+        android:fragment="com.duy.pascal.frontend.setting.fragments.EditorPreferenceFragment"
+        android:icon="@drawable/ic_edit_white_24dp"
+        android:title="@string/code_editor" />
     <header
-        android:fragment="com.duy.pascal.frontend.setting.SettingsActivity$NotificationPreferenceFragment"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/pref_header_notifications" />
-
+        android:fragment="com.duy.pascal.frontend.setting.fragments.ConsolePrefFragment"
+        android:icon="@drawable/ic_dns_white_24dp"
+        android:title="@string/console_screen" />
     <header
-        android:fragment="com.duy.pascal.frontend.setting.SettingsActivity$DataSyncPreferenceFragment"
-        android:icon="@drawable/ic_sync_black_24dp"
-        android:title="@string/pref_header_data_sync" />
+        android:fragment="com.duy.pascal.frontend.setting.fragments.KeyboardPrefFragment"
+        android:icon="@drawable/ic_keyboard_white_24dp"
+        android:title="@string/keyboard_shortcut" />
+    <header
+        android:fragment="com.duy.pascal.frontend.setting.fragments.NotificationPrefFragment"
+        android:icon="@drawable/ic_notifications_white_24dp"
+        android:title="@string/code_editor" />
+    <header
+        android:fragment="com.duy.pascal.frontend.setting.fragments.UserInterfacePrefFragment"
+        android:icon="@drawable/ic_edit_white_24dp"
+        android:title="@string/code_editor" />
+
 
 </preference-headers>

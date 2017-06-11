@@ -16,25 +16,30 @@
 
 <resources>
 
-    <style name="AppTheme.NoActionBar.Dark" parent="Theme.AppCompat">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
+    <style name="AppThemeDark" parent="Theme.AppCompat">
 
         <item name="colorPrimary">@color/dark.color_primary</item>
         <item name="colorPrimaryDark">@color/dark.color_primary_dark</item>
         <item name="colorAccent">@color/dark.color_accent</item>
-
     </style>
 
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
 
-    <!--Theme light for pro version-->
-    <style name="AppTheme.NoActionBar.Light" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
 
         <item name="colorPrimary">@color/light.color_primary</item>
         <item name="colorPrimaryDark">@color/light.color_primary_dark</item>
         <item name="colorAccent">@color/light.color_accent</item>
+    </style>
+
+    <style name="AppThemeDark.NoActionBar" parent="AppThemeDark">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <!--Theme light for pro version-->
+    <style name="AppThemeLight.NoActionBar" parent="AppThemeLight">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

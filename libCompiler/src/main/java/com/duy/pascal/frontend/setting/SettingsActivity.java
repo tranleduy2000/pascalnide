@@ -34,6 +34,11 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.setting.fragments.ConsolePrefFragment;
+import com.duy.pascal.frontend.setting.fragments.EditorPreferenceFragment;
+import com.duy.pascal.frontend.setting.fragments.KeyboardPrefFragment;
+import com.duy.pascal.frontend.setting.fragments.NotificationPrefFragment;
+import com.duy.pascal.frontend.setting.fragments.UserInterfacePrefFragment;
 
 import java.util.List;
 
@@ -48,7 +53,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends AppCompatPreferenceActivity {
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -163,5 +168,14 @@ public class SettingsActivity extends PreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
+    }
+
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        return ConsolePrefFragment.class.getName().equals(fragmentName)
+                || EditorPreferenceFragment.class.getName().equals(fragmentName)
+                || KeyboardPrefFragment.class.getName().equals(fragmentName)
+                || NotificationPrefFragment.class.getName().equals(fragmentName)
+                || UserInterfacePrefFragment.class.getName().equals(fragmentName);
     }
 }

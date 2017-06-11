@@ -35,7 +35,7 @@ import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.code_sample.activities.CodeSampleActivity;
 import com.duy.pascal.frontend.info.InfoActivity;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.setting.SettingActivity;
+import com.duy.pascal.frontend.setting.SettingsActivity;
 
 /**
  * Handler for menu click
@@ -76,7 +76,7 @@ public class MenuEditor {
         int id = menuItem.getItemId();
         if (menuItem.isCheckable()) menuItem.setChecked(!menuItem.isChecked());
         if (id == R.id.action_setting) {
-            activity.startActivity(new Intent(activity, SettingActivity.class));
+            activity.startActivity(new Intent(activity, SettingsActivity.class));
 
         } else if (id == R.id.action_find) {
             activity.showDialogFind();

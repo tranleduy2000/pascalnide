@@ -16,43 +16,20 @@
 
 <resources>
 
-    <style name="AppTheme.NoActionBar.Dark" parent="Theme.AppCompat">
+    <style name="AppThemeDark.NoActionBar" parent="AppThemeDark">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
-        <item name="colorPrimary">@color/dark.color_primary</item>
-        <item name="colorPrimaryDark">@color/dark.color_primary_dark</item>
-        <item name="colorAccent">@color/dark.color_accent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="AppThemeLight.NoActionBar" parent="AppThemeLight">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
     </style>
-
-    <!--Theme light for pro version-->
-    <style name="AppTheme.NoActionBar.Light" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-
-        <item name="colorPrimary">@color/light.color_primary</item>
-        <item name="colorPrimaryDark">@color/light.color_primary_dark</item>
-        <item name="colorAccent">@color/light.color_accent</item>
-
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-
-    </style>
-
-    <style name="TextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
-    </style>
-
-    <style name="ButtonStyle" parent="Base.Widget.AppCompat.Button">
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <style name="TitleTextStyle" parent="Base.Widget.AppCompat.Button">
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
 </resources>

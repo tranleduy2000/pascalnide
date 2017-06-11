@@ -25,7 +25,7 @@
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar.Dark">
+        android:theme="@style/AppThemeDark.NoActionBar">
         <activity
             android:name=".activities.ActivitySplashScreen"
             android:configChanges="keyboard|keyboardHidden|orientation">
@@ -93,7 +93,9 @@
         <activity android:name=".code_sample.activities.CodeSampleActivity" />
         <activity android:name=".theme.fragment.ThemeFontActivity" />
         <activity android:name=".info.InfoActivity" />
-        <activity android:name=".setting.SettingActivity" />
+        <activity
+            android:name=".setting.SettingsActivity"
+            android:theme="@style/AppThemeDark" />
         <activity
             android:name=".debug.activities.DebugActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -138,9 +140,6 @@
             android:resource="@color/dark.color_accent" />
         <!-- END SETUP NOTIFICATION -->
 
-        <activity
-            android:name=".setting.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>
