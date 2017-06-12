@@ -7,8 +7,8 @@ android {
         applicationId "com.duy.pascal.compiler"
         minSdkVersion rootProject.ext.minSdkVersion as Integer
         targetSdkVersion rootProject.ext.targetSdkVersion as Integer
-        versionCode 98
-        versionName "3.9.7"
+        versionCode 99
+        versionName "3.9.9"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

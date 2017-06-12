@@ -608,11 +608,8 @@ public class GraphLib implements IPascalLibrary {
         // TODO: 09-Apr-17
     }
 
-    /**
-     * Procedure Sector(X, Y : Integer; StAngle, EndAngle, XRadius, YRadius : Word)
-     */
 
-    @PascalMethod(description = "graph library")
+    @PascalMethod(description = "Draw and fill a sector of an ellipse")
     public void sector(int x, int y, int start, int end, int rx, int ry) {
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new SectorObject(x, y, start, end, rx, ry));
@@ -623,8 +620,7 @@ public class GraphLib implements IPascalLibrary {
      * PieSlice draws and fills a sector of a circle with center (X,Y) and radius Radius,
      * starting at angle Start and ending at angle Stop.
      */
-
-    @PascalMethod(description = "graph library")
+    @PascalMethod(description = "Draw a pie-slice")
     public void pieSlice(int x, int y, int start, int end, int radius) {
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new PieSliceObject(x, y, start, end, radius));
