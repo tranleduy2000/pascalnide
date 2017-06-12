@@ -35,51 +35,41 @@ public class MathLib implements IPascalLibrary {
     public static final String NAME = "math";
     private Random random = new Random();
 
-    @PascalMethod(description = "")
-    public double arcsin(double d) {
-        return Math.asin(d);
-    }
-
-
-    @PascalMethod(description = "")
-    public double arcsinh(double d) {
-        return MoreMath.asinh(d);
-    }
-
-    @PascalMethod(description = "")
-    public double arccosz(String x) {
-        return Math.acos(Double.parseDouble(x));
-    }
-
-    @PascalMethod(description = "")
+    @PascalMethod(description = "Return inverse cosine")
     public double arccos(double x) {
         return Math.acos(x);
     }
 
-
-    @PascalMethod(description = "")
+    @PascalMethod(description = "Return inverse hyperbolic cosine")
     public double arccosh(double d) {
         return MoreMath.acosh(d);
     }
 
+    @PascalMethod(description = "Return inverse hyperbolic cosine")
+    public double arcosh(double d) {
+        return MoreMath.acosh(d);
+    }
 
-    @PascalMethod(description = "")
-    public double arctan(double d) {
-        return MoreMath.atanh(d);
+    @PascalMethod(description = "Return inverse sine")
+    public double arcsin(double d) {
+        return Math.asin(d);
+    }
+
+    @PascalMethod(description = "Return inverse hyperbolic sine")
+    public double arcsinh(double d) {
+        return MoreMath.asinh(d);
     }
 
 
-    @PascalMethod(description = "")
-    public double arctan2(double d) {
-        return MoreMath.atanh(d);
+    @PascalMethod(description = "Return arctangent of (y/x)")
+    public double arctan2(double y, double x) {
+        return Math.atan2(y, x);
     }
 
-
-    @PascalMethod(description = "")
+    @PascalMethod(description = "Return inverse hyperbolic tangent")
     public double arctanh(double d) {
         return MoreMath.atanh(d);
     }
-
 
     @PascalMethod(description = "Return the lowest integer number greater than or equal to argument")
     public int ceil(double d) {
