@@ -17,7 +17,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.MethodCallException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.MethodReflectionException;
-import com.duy.pascal.backend.utils.ArrayUtils;
+import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.debug.DebugManager;
 
 import java.lang.reflect.InvocationTargetException;
@@ -60,7 +60,7 @@ public class SimpleFunctionCall extends FunctionCall {
         if (main.isDebug()) {
             if (arguments.length > 0) {
                 DebugManager.showMessage(arguments[0].getLineNumber(),
-                        ArrayUtils.paramsToString(arguments, values), main);
+                        ArrayUtil.paramsToString(arguments, values), main);
             }
             main.scriptControlCheck(line);
         }

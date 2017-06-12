@@ -66,7 +66,7 @@ import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.MethodCallException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.StackOverflowException;
-import com.duy.pascal.backend.utils.ArrayUtils;
+import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.Patterns;
 
@@ -400,7 +400,7 @@ public class ExceptionManager {
 
     private Spanned getExpectedTokenException(ExpectedTokenException e) {
         String msg = String.format(context.getString(string.ExpectedTokenException_3),
-                ArrayUtils.expectToString(e.getExpected(), context), e.getCurrent());
+                ArrayUtil.expectToString(e.getExpected(), context), e.getCurrent());
         SpannableString spannableString = new SpannableString(msg);
         return highlight(spannableString);
     }

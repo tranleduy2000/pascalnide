@@ -49,7 +49,7 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.backend.tokens.grouping.RecordToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
-import com.duy.pascal.backend.utils.ArrayUtils;
+import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.DLog;
 
 import java.io.File;
@@ -248,7 +248,7 @@ public class IndentCode {
 
         while (peek() instanceof WordToken || peek() instanceof OperatorToken
                 || peek() instanceof CommentToken) {
-            result.append(getLineCommand(depth + 1, true, ArrayUtils.join(STATEMENTS, DECLARE_CLASSES)));
+            result.append(getLineCommand(depth + 1, true, ArrayUtil.join(STATEMENTS, DECLARE_CLASSES)));
             if (peek() instanceof SemicolonToken) {
                 appendSemicolon(result);
             }

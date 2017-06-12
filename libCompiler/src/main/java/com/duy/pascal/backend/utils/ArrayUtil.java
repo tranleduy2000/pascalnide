@@ -31,9 +31,21 @@ import java.util.List;
  * Created by Duy on 24-Mar-17.
  */
 
-public class ArrayUtils {
+public class ArrayUtil {
     public static String arrayToString(Object[] array) {
         return Arrays.toString(array);
+    }
+
+    public static String toStringWithoutBracket(Object[] array) {
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            b.append(array[i].toString());
+            if (i == array.length - 1) {
+                break;
+            }
+            b.append(", ");
+        }
+        return b.toString();
     }
 
 

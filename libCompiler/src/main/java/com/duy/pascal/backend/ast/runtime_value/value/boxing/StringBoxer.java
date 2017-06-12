@@ -1,17 +1,17 @@
 package com.duy.pascal.backend.ast.runtime_value.value.boxing;
 
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class StringBoxer extends DebuggableReturnValue {
 
@@ -23,10 +23,19 @@ public class StringBoxer extends DebuggableReturnValue {
     }
 
     @Override
+    public String toString() {
+        return value + "";
+    }
+
+    @Override
     public LineInfo getLineNumber() {
         return value.getLineNumber();
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 
     @Override
     public RuntimeType getType(ExpressionContext f) {
@@ -41,7 +50,7 @@ public class StringBoxer extends DebuggableReturnValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        return  value.getValue(f, main).toString();
+        return value.getValue(f, main).toString();
     }
 
     @Override
@@ -64,11 +73,6 @@ public class StringBoxer extends DebuggableReturnValue {
         } else {
             return new StringBoxer(value.compileTimeExpressionFold(context));
         }
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
 }

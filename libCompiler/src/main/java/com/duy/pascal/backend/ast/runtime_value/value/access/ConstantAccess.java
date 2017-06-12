@@ -65,6 +65,11 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public boolean canDebug() {
         return false;
     }
@@ -79,10 +84,9 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         if (name == null) {
             return String.valueOf(value);
         } else {
-            return name + (value != null ? " = " + value : "");
+            return name;
         }
     }
-
 
     @Override
     public RuntimeType getType(ExpressionContext f) {
@@ -101,11 +105,6 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return this;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
     @Nullable

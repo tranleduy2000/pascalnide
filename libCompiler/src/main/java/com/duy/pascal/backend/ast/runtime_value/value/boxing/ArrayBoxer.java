@@ -5,12 +5,12 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -19,6 +19,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
     public RuntimeValue[] values;
     public ArgumentType type;
     public LineInfo line;
+
     public ArrayBoxer(RuntimeValue[] array, ArgumentType elementType,
                       LineInfo line) {
         this.values = array;

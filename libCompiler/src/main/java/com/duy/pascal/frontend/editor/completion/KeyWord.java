@@ -16,7 +16,7 @@
 
 package com.duy.pascal.frontend.editor.completion;
 
-import com.duy.pascal.backend.utils.ArrayUtils;
+import com.duy.pascal.backend.utils.ArrayUtil;
 
 /**
  * Created by Duy on 30-Mar-17.
@@ -103,9 +103,9 @@ public class KeyWord {
         STRING_TYPE = new String[]{"String", "AnsiString", "Char"};
         BOOLEAN_TYPE = new String[]{"Boolean", "ByteBool", "WordBool", "LongBool"};
 
-        DATA_TYPE = ArrayUtils.join(String.class, COMMON_TYPE, INTEGER_TYPE, REAL_TYPE, STRING_TYPE, BOOLEAN_TYPE);
+        DATA_TYPE = ArrayUtil.join(String.class, COMMON_TYPE, INTEGER_TYPE, REAL_TYPE, STRING_TYPE, BOOLEAN_TYPE);
 
-        ALL_KEY_WORD = ArrayUtils.join(String.class,  RESERVED_KEY_WORDS, REAL_TYPE, INTEGER_TYPE, STRING_TYPE, BOOLEAN_TYPE);
+        ALL_KEY_WORD = ArrayUtil.join(String.class,  RESERVED_KEY_WORDS, REAL_TYPE, INTEGER_TYPE, STRING_TYPE, BOOLEAN_TYPE);
 
         SYMBOL_KEY = new String[]{":=", ";", ".", "[", "]", ":", "'", "(", ")", "<", ">", "=", "<>", "<=", ">=", "{", "}", "+", "-", "*", "/", "_"};
 

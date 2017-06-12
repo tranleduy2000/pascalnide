@@ -23,7 +23,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.VarargsType;
-import com.duy.pascal.backend.utils.ArrayUtils;
+import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 
@@ -45,7 +45,7 @@ public abstract class AbstractFunction implements NamedEntity {
         if (argumentTypes().length == 0) {
             return getName() + (declaredType != null ? ":" + declaredType.toString() : "");
         } else {
-            return getName() + ArrayUtils.argToString(argumentTypes())
+            return getName() + ArrayUtil.argToString(argumentTypes())
                     + (declaredType != null ? ":" + declaredType.toString() : "");
         }
     }

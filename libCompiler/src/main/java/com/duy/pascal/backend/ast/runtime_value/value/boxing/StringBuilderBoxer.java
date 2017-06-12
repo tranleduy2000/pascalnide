@@ -4,14 +4,14 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class StringBuilderBoxer extends DebuggableReturnValue {
     private RuntimeValue value;
@@ -21,6 +21,10 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
         this.outputFormat = value.getOutputFormat();
     }
 
+    @Override
+    public String toString() {
+        return value + "";
+    }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
@@ -30,6 +34,10 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
     @Override
     public LineInfo getLineNumber() {
         return value.getLineNumber();
+    }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
     }
 
     @Override
@@ -51,7 +59,7 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object other = value.getValue(f, main);
-           return new StringBuilder(other.toString());
+        return new StringBuilder(other.toString());
     }
 
     @Override
@@ -64,9 +72,5 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
             return new StringBuilderBoxer(
                     value.compileTimeExpressionFold(context));
         }
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
     }
 }

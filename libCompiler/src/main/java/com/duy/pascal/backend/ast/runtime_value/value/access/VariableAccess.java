@@ -46,6 +46,7 @@ public class VariableAccess extends DebuggableAssignableValue {
         this.line = line;
     }
 
+
     public String getName() {
         return name;
     }

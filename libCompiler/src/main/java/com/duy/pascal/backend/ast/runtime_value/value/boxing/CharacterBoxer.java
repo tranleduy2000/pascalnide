@@ -21,6 +21,12 @@ public class CharacterBoxer extends DebuggableReturnValue {
         this.outputFormat = charValue.getOutputFormat();
     }
 
+
+    @Override
+    public String toString() {
+        return "'"+ charValue + "'";
+    }
+
     @Override
     public LineInfo getLineNumber() {
         return charValue.getLineNumber();

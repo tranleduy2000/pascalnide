@@ -123,7 +123,8 @@ public class CallStack {
             }
         } else if (currentContext instanceof WithOnStack) {
             VariableContext context = currentContext.getParentContext();
-            return new CallStack(context).cloneDefineVars();
+            List<VariableDeclaration> vars = new CallStack(context).cloneDefineVars();
+            return vars;
         }
         return result;
     }

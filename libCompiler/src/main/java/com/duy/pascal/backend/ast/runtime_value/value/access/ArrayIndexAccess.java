@@ -16,21 +16,21 @@
 
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
-import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.ArrayType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.IndexOutOfBoundsException;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.references.ArrayIndexReference;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.ArrayIndexReference;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.IndexOutOfBoundsException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.set.ArrayType;
 
 import java.lang.reflect.Array;
 
@@ -46,6 +46,11 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     }
 
     @Override
+    public String toString() {
+        return container + "[" + index + "]";
+    }
+
+    @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         RuntimeType r = (container.getType(f));
         return new RuntimeType(((ArrayType<?>) r.declType).elementType,
@@ -55,6 +60,11 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     @Override
     public LineInfo getLineNumber() {
         return index.getLineNumber();
+    }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
     }
 
     @Override
@@ -68,7 +78,6 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
             return Array.get(cont, ((int) ind) - offset);
         }
     }
-
 
     @Override
     public boolean canDebug() {
@@ -112,11 +121,6 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
             throws ParsingException {
         return new ArrayIndexAccess(container.compileTimeExpressionFold(context),
                 index.compileTimeExpressionFold(context), offset);
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
 }

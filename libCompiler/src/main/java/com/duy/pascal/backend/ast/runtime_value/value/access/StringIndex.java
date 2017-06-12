@@ -17,27 +17,32 @@
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
 
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.references.StringIndexReference;
-import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.references.StringIndexReference;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class StringIndex extends DebuggableAssignableValue {
-    RuntimeValue string;
-    RuntimeValue index;
+    private RuntimeValue string;
+    private RuntimeValue index;
 
     public StringIndex(RuntimeValue string, RuntimeValue index) {
         this.index = index;
         this.string = string;
+    }
+
+    @Override
+    public String toString() {
+        return string + "[" + index + "]";
     }
 
     @Override
@@ -71,6 +76,11 @@ public class StringIndex extends DebuggableAssignableValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
         StringBuilder str = (StringBuilder) string.compileTimeValue(context);
         int ind = (int) index.compileTimeValue(context);
@@ -82,10 +92,5 @@ public class StringIndex extends DebuggableAssignableValue {
         RuntimeValue cstr = string.compileTimeExpressionFold(context);
         RuntimeValue cind = index.compileTimeExpressionFold(context);
         return new StringIndex(cstr, cind);
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

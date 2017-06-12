@@ -23,6 +23,7 @@ import com.duy.pascal.backend.ast.instructions.FieldReference;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.frontend.debug.CallStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +66,7 @@ public class WithOnStack extends VariableContext {
     }
 
     public void execute() throws RuntimePascalException {
+        if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(this));
         declaration.instructions.execute(this, main);
     }
 
@@ -119,8 +121,14 @@ public class WithOnStack extends VariableContext {
         return null;
     }
 
+    @NonNull
     @Override
     public VariableContext getParentContext() {
         return parentContext;
+    }
+
+    @Override
+    public String toString() {
+        return "with statement";
     }
 }

@@ -13,9 +13,9 @@ import com.duy.pascal.backend.parse_exception.define.AmbiguousFunctionCallExcept
 import com.duy.pascal.backend.parse_exception.define.BadFunctionCallException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.WordToken;
+import com.duy.pascal.backend.utils.ArrayUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class FunctionCall extends DebuggableExecutableReturnValue {
@@ -85,7 +85,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
 
     @Override
     public String toString() {
-        return getFunctionName() + "(" + Arrays.toString(arguments) + ')';
+        return getFunctionName() + ArrayUtil.argToString(arguments);
     }
 
     protected abstract String getFunctionName();

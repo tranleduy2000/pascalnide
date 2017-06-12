@@ -31,13 +31,12 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
      */
     public String name;
     public DeclaredType type;
-    private String desc;
     private Object initialValue;
     @Nullable
     private LineInfo line;
 
     public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
-                               @Nullable Object initialValue, LineInfo line) {
+                               @Nullable Object initialValue, @Nullable LineInfo line) {
         this.name = name;
         this.type = type;
         this.line = line;
@@ -45,7 +44,7 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
     }
 
     public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
-                               LineInfo line) {
+                               @Nullable LineInfo line) {
         this.name = name;
         this.type = type;
         this.line = line;
@@ -59,7 +58,6 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
     public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type, String desc) {
         this.name = name;
         this.type = type;
-        this.desc = desc;
     }
 
     public String getName() {
