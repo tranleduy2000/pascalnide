@@ -15,8 +15,6 @@
   -->
 
 <resources>
-    <string name="ExpectedTokenException">预期即将出现的下列名称:</string>
-    <string name="ExpectedTokenException_2">下列名称:</string>
     <string name="ExpectedTokenException_3">Syntax出错, \"%1$s\" expected but \"%2$s\" found</string>
     <string name="BadFunctionCallException_1">当调用 \"%1$s\"时，一个或多个参数包含错误类型</string>
     <string name="BadFunctionCallException_2">要么过少要么过多参数可传递至函数 \"%1$s\"</string>

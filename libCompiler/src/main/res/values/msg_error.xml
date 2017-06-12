@@ -15,8 +15,7 @@
   -->
 
 <resources>
-    <string name="ExpectedTokenException">Expected the following name to appear:</string>
-    <string name="ExpectedTokenException_2">There was the following name:</string>
+
     <string name="ExpectedTokenException_3">Syntax error, \"%1$s\" expected but \"%2$s\" found</string>
     <string name="BadFunctionCallException_1">One or more arguments has an incorrect type when calling function \"%1$s\"</string>
     <string name="BadFunctionCallException_2">Either too few or two many arguments are being passed to function \"%1$s\"</string>

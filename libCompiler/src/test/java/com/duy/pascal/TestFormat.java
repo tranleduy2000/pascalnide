@@ -31,7 +31,7 @@ public class TestFormat extends TestCase {
     }
 
     public void test2() {
-        String format = String.format(Locale.ENGLISH, "%.5g", "144.51326208400002");
+        String format = String.format(Locale.ENGLISH, "%.5g", 144.51326208400002);
         assertEquals("144.51", format);
     }
 }

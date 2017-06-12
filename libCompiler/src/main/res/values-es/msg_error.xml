@@ -16,7 +16,6 @@
   -->
 
 <resources>
-    <string name="ExpectedTokenException">Se esperaba el siguiente simbolo:</string>
     <string name="BadFunctionCallException_1">Uno o mas argumentos tienen un tipo incorrecto cuando se llama a la función \"%1$s\"</string>
     <string name="BadFunctionCallException_2">Muy pocos ó muchos argumentos están siendo pasados a función \"%1$s\"</string>
     <string name="BadFunctionCallException_3">No se puede llamar a la funcón \"%1$s\" , no esta definido.</string>
@@ -53,7 +52,6 @@
     <string name="NonIntegerException">El valor debe ser integer: \"%1$s\"</string>
     <string name="ChangeValueConstantException">El valor guardado en una constante no puede ser cambiado.</string>
 
-    <string name="ExpectedTokenException_2">Se encontro el siguiente nombre:</string>
     <string name="CanNotReadVariableException">No se pueden leer variables de este tipo</string>
     <string name="BadOperationTypeException">El operador \"%1$s\" no se puede aplicar a los argumentos \"%2$s\" y \"%3$s\".\n
     Unos es de tipo \"%4$s\" y el otro de \"%5$s\"</string>

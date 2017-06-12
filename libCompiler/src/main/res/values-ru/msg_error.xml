@@ -25,8 +25,6 @@
     <string name="BadFunctionCallException_3">Невозможно вызвать функцию \"%1$s\" , который не определён.</string>
     <string name="multi_define_main">Несколько основных определений</string>
     <string name="main_program_not_define">Основная программа не найдена</string>
-    <string name="ExpectedTokenException">Ожидается, появление следующего токена:</string>
-    <string name="ExpectedTokenException_2">Ожидается, появление следующего токена:</string>
     <string name="token_not_belong">"Следующий токен, неуместен здесь: "</string>
 
 

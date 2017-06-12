@@ -47,3 +47,9 @@ freeline/
 freeline_project_description.json
 /font.rar
 
+apk/pascal_3.9.4_95.apk
+apk/pascal_3.9.5_96.apk
+apk/pascal_3.9.6_97.apk
+apk/pascal_3.9.7_98.apk
+libs/
+src/androidTest/

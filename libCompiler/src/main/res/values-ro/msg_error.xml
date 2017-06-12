@@ -16,8 +16,7 @@
   -->
 
 <resources>
-    <string name="ExpectedTokenException">Se aștepta apariția următorului nume:</string>
-    <string name="ExpectedTokenException_2">A fost utilizat următorul nume:</string>
+
     <string name="BadFunctionCallException_1">Tipul unuia sau a mai multor argumente este greșit, la apelarea funcției \"%1$s\"</string>
     <string name="BadFunctionCallException_2">Prea multe sau prea puține argumente sunt pasate funcției \"%1$s\"</string>
     <string name="BadFunctionCallException_3">Nu se poate apela funcția \"%1$s\" , care nu a fost definit(ă).</string>

@@ -105,7 +105,7 @@ public class IndentCodeTest extends TestCase {
     }
 
     public void testAllDeclare() throws InterruptedException {
-        File parent = new File("C:\\github\\pascalnide\\test_pascal\\declare");
+        File parent = new File("C:\\github\\pascalnide\\test_pascal\\test_declare");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 IndentCode indentCode = null;

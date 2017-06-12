@@ -16,7 +16,6 @@
   -->
 
 <resources>
-    <string name="ExpectedTokenException">Bol oèakávaný tento názov:</string>
     <string name="BadFunctionCallException_1">Jeden alebo viac argumentov má pri volaní funkcie nesprávny typ \"%1$s\"</string>
     <string name="BadFunctionCallException_2">Funkcii bolo odovzdaných príliš málo alebo príliš ve¾a argumentov \"%1$s\"</string>
     <string name="BadFunctionCallException_3">Nemožno vola  funkciu \"%1$s\" , ktorá nie je definovaná.</string>

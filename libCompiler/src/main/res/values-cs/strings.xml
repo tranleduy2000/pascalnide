@@ -133,7 +133,6 @@
     <!--<string name="BrightYellow">Bright Yellow</string>-->
     <!--<string name="DarkGray">Dark Gray</string>-->
     <string name="other">Ostatné</string>
-    <string name="ExpectedTokenException_2">Bol tam nasledujúci názov: </string>
     <string name="auto_compile">Automaticky kompilovať</string>
     <string name="auto_compile_summary">Automaticky kompilovať počas písania. Výkon aplikácie bude nižší, ale pomôže nám to nahlásiť chybu skôr.</string>
 

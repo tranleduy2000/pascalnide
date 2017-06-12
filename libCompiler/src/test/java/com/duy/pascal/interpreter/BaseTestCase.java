@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import java.io.File;
 
+import static com.duy.pascal.Interperter.checkSyntax;
 import static com.duy.pascal.Interperter.runProgram;
 
 /**
@@ -89,5 +90,16 @@ public abstract class BaseTestCase extends TestCase {
             }
         }
         assertTrue("state ", success);
+    }
+
+    public void parseAll() {
+        boolean success = true;
+        File parent = new File(dir);
+        for (File file : parent.listFiles()) {
+            if (file.getName().endsWith(".pas")) {
+                success = (checkSyntax(file.getPath()));
+            }
+        }
+        assertTrue(success);
     }
 }

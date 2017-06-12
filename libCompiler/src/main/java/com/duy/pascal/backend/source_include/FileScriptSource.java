@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.Reader;
 
 public class FileScriptSource implements ScriptSource {
-    File directory;
+    private File directory;
 
     public FileScriptSource(File directory) {
         this.directory = directory;

@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.parse;
+package com.duy.pascal.java;
 
 import com.duy.pascal.interpreter.BaseTestCase;
 
 /**
- * Created by Duy on 11-Jun-17.
+ * Created by Duy on 12-Jun-17.
  */
 
-public class ParsingTest extends BaseTestCase {
+public class JavaNetTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_parsing";
+        return "test_java";
     }
 
-    public void testAll() {
-        parseAll();
+    public void testGetContentLink(){
+        run("getlink.pas");
     }
 }
