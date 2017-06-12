@@ -16,25 +16,25 @@
 
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.ObjectType;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
-import com.duy.pascal.backend.tokens.WordToken;
-import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.FieldReference;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.tokens.WordToken;
+import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.types.ObjectType;
+import com.duy.pascal.backend.types.PointerType;
+import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.frontend.DLog;
 
 public class FieldAccess extends DebuggableAssignableValue {
     private static final String TAG = "FieldAccess";
@@ -53,6 +53,10 @@ public class FieldAccess extends DebuggableAssignableValue {
         this(container, name.name, name.getLineNumber());
     }
 
+    @Override
+    public String toString() {
+        return container.toString() + "." + name;
+    }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
@@ -61,7 +65,7 @@ public class FieldAccess extends DebuggableAssignableValue {
             return new RuntimeType(((ObjectType) (r.declType)).getMemberType(name), r.writable);
         } else if (r.declType instanceof JavaClassBasedType) {
             return new RuntimeType(r.declType, r.writable);
-        } else if (r.declType instanceof PointerType){
+        } else if (r.declType instanceof PointerType) {
             return new RuntimeType(r.declType, r.writable);
         }
         return null;
@@ -70,6 +74,11 @@ public class FieldAccess extends DebuggableAssignableValue {
     @Override
     public LineInfo getLineNumber() {
         return line;
+    }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
     }
 
     @Override
@@ -114,11 +123,6 @@ public class FieldAccess extends DebuggableAssignableValue {
         } else {
             return new FieldAccess(container.compileTimeExpressionFold(context), name, line);
         }
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
     public RuntimeValue getContainer() {
