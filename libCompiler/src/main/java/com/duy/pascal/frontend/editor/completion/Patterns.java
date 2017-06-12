@@ -88,8 +88,8 @@ public class Patterns {
      * 'sadhasdhasdhashdhas ds asda sd
      */
     public static final Pattern STRINGS = Pattern.compile(
-            "((')(.*?)('))" +//'string'
-                    "|((')(.*+))", Pattern.DOTALL); // no end string 'asdasdasd
+            "((')(.?)('))" +//'string'
+                    "|((')(.+))", Pattern.DOTALL); // no end string 'asdasdasd
 
     public static final Pattern REPLACE_HIGHLIGHT = Pattern.compile("\"(.*?)\"");
 

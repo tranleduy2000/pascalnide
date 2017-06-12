@@ -22,7 +22,7 @@ package com.duy.pascal.frontend.editor.completion;
 
 public class Template {
     public static final String PROGRAM_TEMPLATE =
-            "program %s$1;\n" +
+            "program %s;\n" +
                     "uses crt;\n" +
                     "begin\n" +
                     "    " +
@@ -30,7 +30,7 @@ public class Template {
                     "end.";
 
     public static final String UNIT_TEMPlATE =
-            "unit %1$s;\n" +
+            "unit %1;\n" +
                     "interface\n" +
                     "    \n" +
                     "implementation\n" +

@@ -49,19 +49,20 @@ public class CustomVariable implements ContainsVariables {
     }
 
     @Override
-    public Object getVar(String name){
+    public Object getVar(String name) {
         return variableMap.get(name.toLowerCase());
     }
 
     @Override
     public String toString() {
         Set<Map.Entry<String, Object>> entries = variableMap.entrySet();
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder res = new StringBuilder();
+        res.append("(");
         for (Map.Entry<String, Object> entry : entries) {
-            stringBuilder/*.append(entry.getKey()).append(" = ")*/.append(entry.getValue());
-            stringBuilder.append("\n");
+            res.append(entry.getKey()).append(":").append(entry.getValue()).append(";");
         }
-        return stringBuilder.toString();
+        res.append(")");
+        return res.toString();
     }
 
     @Override
