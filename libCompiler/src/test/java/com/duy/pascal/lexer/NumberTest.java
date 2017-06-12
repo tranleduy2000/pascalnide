@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.onlineexpample.fragments;
-
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+package com.duy.pascal.lexer;
 
 /**
  * Created by Duy on 12-Jun-17.
  */
 
-public class ExampleFragment extends Fragment {
-    public static ExampleFragment newInstance() {
+public class NumberTest extends BaseLexerTest {
+    @Override
+    public String getDirTest() {
+        return "test_lexer";
+    }
 
-        Bundle args = new Bundle();
-
-        ExampleFragment fragment = new ExampleFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public void test() {
+        assertTrue(parse("parse_number.pas"));
     }
 }

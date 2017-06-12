@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
+package com.duy.pascal.asset_data;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -31,7 +31,7 @@ import static com.duy.pascal.Interperter.checkSyntax;
  * Created by Duy on 29-May-17.
  */
 
-public class AssetDataTest extends TestCase {
+public class SyntaxAssetDataTest extends TestCase {
     String dir = "C:\\github\\pascalnide\\libCompiler\\src\\main\\assets\\code_sample\\";
 
     @Override

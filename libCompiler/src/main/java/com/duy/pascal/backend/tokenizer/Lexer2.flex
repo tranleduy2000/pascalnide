@@ -1,12 +1,12 @@
 package com.duy.pascal.backend.tokenizer;
 
-import com.duy.pascal.backend.exceptions.grouping.GroupingException;
-import com.duy.pascal.backend.exceptions.grouping.StrayCharacterException;
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
+import com.duy.pascal.backend.parse_exception.grouping.StrayCharacterException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
-import com.duy.pascal.backend.pascaltypes.OperatorTypes;
+import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WarningToken;
 import com.duy.pascal.backend.tokens.WordToken;
@@ -154,6 +154,7 @@ import java.util.Stack;
 	sourcenames.pop();
 	yypopStream();
 %eofval}
+
 Digit      = [0-9]
 Identifier = [a-zA-Z_] [a-zA-Z_0-9]*
 Char = "#" {Digit}+
@@ -163,27 +164,22 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r|\n|]
 
 Integer = {Digit}+
-Float	= {Digit}+ "." {Digit}+
-
-//Number               = [0-9]+
-//Exp             = [Ee][+-]?{Number}
-//NumHex         = \$[0-9a-fA-F]+
-//NumBin         = (\%[01]+) | ({Number}[bB])
-//NumOct         = \&[0-7]+
+Exp = [Ee][+-]?{Digit}+
+NumberExp = {NumberDecimal} {Exp} | {Digit}+ {Exp}
+NumberDecimal = {Digit}+ "." {Digit}+
+Float ={NumberExp} | {NumberDecimal}
 
 Comment = {TraditionalComment} | {EndOfLineComment}  | {PascalComment}
 
 CommentStarter		 =  "(*" | "{"
 CommentEnder		 =   "*)" | "}"
 PascalComment        = "{" [^*] ~"}" | "(*" [^*] ~"*)"
-//PascalComment        = "{" [^*] ~"}" | "(*" [^*] ~"*)"
 BracesComment		 = {CommentStarter} {RestOfComment}
 
 RestOfComment		 = ([^*] | \*[^)}])* "}"
  
 TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}
-
 
 IncludeStatement = {CommentStarter}\$(("i" [ \t]) |"include")
 CompilerDirective = {CommentStarter}\$ {RestOfComment}
@@ -212,9 +208,6 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     }
 	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
 	{Integer} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext()));}
-//	{NumBin} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 2));}
-//	{NumHex} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 16));}
-//	{NumOct} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 8));}
 
 	"and" {return new OperatorToken(getLine(),OperatorTypes.AND); }
 	"not" {return new OperatorToken(getLine(),OperatorTypes.NOT); }
@@ -304,11 +297,11 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"''"	{literal.append('\'');}
 	"'"		{yybegin(STRINGDONE);}
 	[^'\n\r]* {literal.append(yytext());}
-	[\n\r]	{return new GroupingExceptionToken(getLine(), GroupingException.GroupExceptionType.NEWLINE_IN_QUOTES);}
+	[\n\r]	{return new GroupingExceptionToken(getLine(), GroupingException.Type.NEWLINE_IN_QUOTES);}
 }
 <STRINGPOUND> {
 	{Integer} {literal.append((char)Integer.parseInt(yytext())); yybegin(STRINGDONE);}
-	.|\n      { return new GroupingExceptionToken(getLine(), GroupingException.GroupExceptionType.INCOMPLETE_CHAR);}
+	.|\n      { return new GroupingExceptionToken(getLine(), GroupingException.Type.INCOMPLETE_CHAR);}
 	
 }
 <STRINGDONE> {
@@ -340,14 +333,14 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
     		GroupingException t = new GroupingException(getLine(),
-    		     GroupingException.GroupExceptionType.IO_EXCEPTION);
+    		     GroupingException.Type.IO_EXCEPTION);
 			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
     	yybegin(END_INCLUDE);
     }
     .|\n {return new GroupingExceptionToken(getLine(),
-                GroupingException.GroupExceptionType.MISSING_INCLUDE);}
+                GroupingException.Type.MISSING_INCLUDE);}
 }
 
 <INCLUDE_SNGL_QUOTE> {
@@ -357,7 +350,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
     		GroupingException t = new GroupingException(getLine(),
-    		    GroupingException.GroupExceptionType.IO_EXCEPTION);
+    		    GroupingException.Type.IO_EXCEPTION);
 			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
@@ -365,7 +358,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     }
 	[^\n\r]+ {literal.append(yytext());}
 	[\n\r]	{return new GroupingExceptionToken(getLine(),
-	        GroupingException.GroupExceptionType.NEWLINE_IN_QUOTES);}
+	        GroupingException.Type.NEWLINE_IN_QUOTES);}
 }
 <INCLUDE_DBL_QUOTE> {
 	"\"\""	{literal.append('\"');}
@@ -374,7 +367,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     		addInclude(yytext());
     	}catch( FileNotFoundException e) {
     		GroupingException t = new GroupingException(getLine(),
-    		        GroupingException.GroupExceptionType.IO_EXCEPTION);
+    		        GroupingException.Type.IO_EXCEPTION);
 			t.setCaused(e);
 			return new GroupingExceptionToken(t);
     	}
@@ -382,13 +375,13 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     	}
 	[^\n\r]+ {literal.append(yytext());}
 	[\n\r]	{return new GroupingExceptionToken(getLine(),
-	        GroupingException.GroupExceptionType.IO_EXCEPTION);}
+	        GroupingException.Type.IO_EXCEPTION);}
 }
 
 <END_INCLUDE> {
 	{RestOfComment}	{yybegin(YYINITIAL); commitInclude(); }
 	.|\n {return new GroupingExceptionToken(getLine(),
-				GroupingException.GroupExceptionType.MISMATCHED_BRACKETS);}
+				GroupingException.Type.MISMATCHED_BRACKETS);}
 }
 
 /* error fallback */

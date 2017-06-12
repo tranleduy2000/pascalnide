@@ -71,7 +71,6 @@ public class CustomVariable implements ContainsVariables {
     }
 
     @Override
-    @SuppressWarnings({"unchecked", "CloneDoesntCallSuperClone"})
     public ContainsVariables clone() {
         ArrayList<VariableDeclaration> vars = new ArrayList<>();
         for (VariableDeclaration mVariable : variables) {

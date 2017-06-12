@@ -34,7 +34,6 @@ import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.ObjectType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.frontend.DLog;
 
 public class FieldAccess extends DebuggableAssignableValue {
     private static final String TAG = "FieldAccess";
@@ -43,7 +42,6 @@ public class FieldAccess extends DebuggableAssignableValue {
     private LineInfo line;
 
     public FieldAccess(RuntimeValue container, String name, LineInfo line) {
-        DLog.d(TAG, "FieldAccess() called with: container = [" + container + "], name = [" + name + "], lineInfo = [" + line + "]");
         this.container = container;
         this.name = name;
         this.line = line;

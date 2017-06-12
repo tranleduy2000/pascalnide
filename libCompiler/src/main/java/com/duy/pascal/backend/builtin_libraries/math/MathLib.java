@@ -60,6 +60,10 @@ public class MathLib implements IPascalLibrary {
         return MoreMath.asinh(d);
     }
 
+    @PascalMethod(description = "Return inverse hyperbolic sine")
+    public double arsinh(double d) {
+        return MoreMath.asinh(d);
+    }
 
     @PascalMethod(description = "Return arctangent of (y/x)")
     public double arctan2(double y, double x) {
@@ -68,6 +72,11 @@ public class MathLib implements IPascalLibrary {
 
     @PascalMethod(description = "Return inverse hyperbolic tangent")
     public double arctanh(double d) {
+        return MoreMath.atanh(d);
+    }
+
+    @PascalMethod(description = "Return inverse hyperbolic tangent")
+    public double artanh(double d) {
         return MoreMath.atanh(d);
     }
 

@@ -101,6 +101,7 @@ public class ArrayUtil {
      * uses for function pascal, such as textColor(integer)
      */
     public static String argToString(Object[] argumentTypes) {
+        if (argumentTypes == null) return "()";
         int iMax = argumentTypes.length - 1;
         StringBuilder b = new StringBuilder();
         b.append('(');
@@ -121,6 +122,7 @@ public class ArrayUtil {
      * uses for function pascal, such as textColor(integer)
      */
     public static String argToString(List<RuntimeValue> args) {
+        if (args == null) return "()";
         return argToString(args.toArray());
     }
 

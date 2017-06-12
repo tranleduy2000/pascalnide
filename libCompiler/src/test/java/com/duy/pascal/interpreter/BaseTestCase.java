@@ -31,7 +31,7 @@ import static com.duy.pascal.Interperter.runProgram;
 
 public abstract class BaseTestCase extends TestCase {
 
-    String dir;
+    protected String dir;
 
     public abstract String getDirTest();
 
