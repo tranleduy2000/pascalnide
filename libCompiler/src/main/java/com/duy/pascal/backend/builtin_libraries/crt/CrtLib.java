@@ -25,7 +25,6 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.WrongArgsException;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
 
 import java.util.Map;
@@ -277,32 +276,4 @@ public class CrtLib implements IPascalLibrary {
         // TODO: 24-May-17
     }
 
-
-    @PascalMethod(description = "By enabling flag (setting it to true), every graph's " +
-            "drawing routines don't go directly to the screen, but goes to screen buffer instead. After " +
-            "all the drawing of each \"frame\" has been done, we simply call the RedrawScreen() procedure " +
-            "to copy the screen buffer content into the screen.")
-    public void setBufferEnable(boolean enable) {
-        ConsoleView consoleView = handler.getConsoleView();
-        if (consoleView != null) {
-            consoleView.getGraphScreen().setBufferEnable(enable);
-        }
-    }
-
-    @PascalMethod(description = "draw screen")
-    public void drawBuffer() {
-        ConsoleView consoleView = handler.getConsoleView();
-        if (consoleView != null) {
-            consoleView.getGraphScreen().bufferToPrimary();
-            consoleView.postInvalidate();
-        }
-    }
-
-    @PascalMethod(description = "draw screen")
-    public void clearBuffer() {
-        ConsoleView consoleView = handler.getConsoleView();
-        if (consoleView != null) {
-            consoleView.getGraphScreen().clearBufferBitmap();
-        }
-    }
 }

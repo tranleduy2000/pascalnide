@@ -284,7 +284,7 @@ public class GraphLib implements IPascalLibrary {
      * hese angles are measured counterclockwise.
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void arc(int x, int y, int stAngle, int endAngle, int radius) {
         if (handler != null)
             handler.getConsoleView().addGraphObject(new ArcObject(x, y, stAngle, endAngle, radius));
@@ -295,30 +295,26 @@ public class GraphLib implements IPascalLibrary {
      * it with the current color and fill-style.
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void bar(int x1, int y1, int x2, int y2) {
         if (handler != null)
             handler.getConsoleView().addGraphObject(new BarObject(x1, y1, x2, y2));
     }
 
 
-    @PascalMethod(description = "Return maximal X coordinate", returns = "void")
+    @PascalMethod(description = "Return maximal X coordinate")
     public int getMaxX() {
         return handler.getConsoleView().getWidth();
     }
 
 
-    @PascalMethod(description = "Return maximal Y coordinate", returns = "void")
+    @PascalMethod(description = "Return maximal Y coordinate")
     public int getMaxY() {
         return handler.getConsoleView().getHeight();
     }
 
-    /**
-     * Initialize grpahical system
-     * this method never execute in android
-     */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "Initialize graphical system")
     public void initGraph(int driver, int mode, StringBuilder pathToDriver) {
         if (handler != null) {
             handler.getConsoleView().setGraphMode(true);
@@ -330,14 +326,14 @@ public class GraphLib implements IPascalLibrary {
      * Draw a rectangle on the screen
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "Draw a rectangle on the screen")
     public void rectangle(int x1, int y1, int x2, int y2) {
         if (handler != null)
             handler.getConsoleView().addGraphObject(new RectangleObject(x1, y1, x2, y2));
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void line(int x1, int y1, int x2, int y2) {
         if (handler != null)
             handler.getConsoleView().addGraphObject(new LineObject(x1, y1, x2, y2));
@@ -347,7 +343,7 @@ public class GraphLib implements IPascalLibrary {
      * GetY returns the Y-coordinate of the current position of the graphical cursor
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int getY() {
         if (handler != null)
             return handler.getConsoleView().getYCursorPixel();
@@ -359,7 +355,7 @@ public class GraphLib implements IPascalLibrary {
      * GetY returns the Y-coordinate of the current position of the graphical cursor
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int getX() {
         if (handler != null)
             return handler.getConsoleView().getXCursorPixel();
@@ -370,7 +366,7 @@ public class GraphLib implements IPascalLibrary {
      * @return color in pixel x, y of screen
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int getPixel(int x, int y) {
         // TODO: 09-Apr-17
         int colorPixel = handler.getConsoleView().getColorPixel(x, y);
@@ -382,7 +378,7 @@ public class GraphLib implements IPascalLibrary {
      * the graphical modus was activated.
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void closeGraph() {
         handler.getConsoleView().closeGraph();
     }
@@ -391,7 +387,7 @@ public class GraphLib implements IPascalLibrary {
      * GetColor returns the current drawing color (the palette entry).
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int getColor() {
         if (handler != null)
             return handler.getConsoleView().getForegroundGraphColor();
@@ -402,17 +398,17 @@ public class GraphLib implements IPascalLibrary {
     /**
      * Set foreground drawing color
      */
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void setColor(int index) {
         handler.getConsoleView().setPaintGraphColor(ColorUtils.pascalColorToAndroidColor(index));
     }
 
-    @PascalMethod(description = "Clears the graphical screen (with the current background color), and sets the cursor at (0,0).", returns = "void")
+    @PascalMethod(description = "Clears the graphical screen (with the current background color), and sets the cursor at (0,0).")
     public void clearDevice() {
         handler.getConsoleView().clearGraph();
     }
 
-    @PascalMethod(description = "moves the cursor to the point (X,Y).", returns = "void")
+    @PascalMethod(description = "moves the cursor to the point (X,Y).")
     public void moveTo(int x, int y) {
         handler.getConsoleView().setCursorGraphPosition(x, y);
     }
@@ -423,7 +419,7 @@ public class GraphLib implements IPascalLibrary {
      * the InitGraph for a list of drivers and module.
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void detectGraph(PascalReference<Integer> driver, PascalReference<Integer> mode) {
         driver.set(0);
         mode.set(0);
@@ -433,26 +429,26 @@ public class GraphLib implements IPascalLibrary {
      * MoveRel moves the cursor to the point (DX,DY), relative to the current cursor position
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void moveRel(int dx, int dy) {
         ConsoleCursor point = handler.getConsoleView().getCursorGraph();
         handler.getConsoleView().setCursorGraphPosition(point.x + dx, point.y + dy);
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int detect() {
         return 1;
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public Integer graphResult() {
         return 1;
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void circle(int x, int y, int r) {
         if (handler != null)
             handler.getConsoleView().addGraphObject(new CircleObject(x, y, r));
@@ -464,7 +460,7 @@ public class GraphLib implements IPascalLibrary {
      * position is set to the end of the line.
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void lineTo(int x, int y) {
         if (handler != null) {
             ConsoleCursor point = handler.getConsoleView().getCursorGraph();
@@ -474,7 +470,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void ellipse(int x, int y, int start, int end, int rx, int ry) {
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new ArcEllipseObject(x, y, start, end, rx, ry));
@@ -482,7 +478,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void fillEllipse(int x, int y, int rx, int ry) {
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new EllipseObject(x, y, rx, ry));
@@ -490,14 +486,14 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int getMaxColor() {
         //max RGB color
         return 255 * 255 * 255;
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void putPixel(int x, int y, int color) {
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new PixelObject(x, y,
@@ -506,7 +502,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void setLineStyle(int style, int linePattern, int width) {
         if (handler != null) {
             GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
@@ -517,7 +513,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void outTextXY(int x, int y, StringBuilder text) {
         if (handler != null) {
 
@@ -534,7 +530,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void outText(String text) {
         ConsoleCursor cursorGraph = handler.getConsoleView().getCursorGraph();
         handler.getConsoleView().addGraphObject(new TextGraphObject(text, cursorGraph.getX(),
@@ -549,13 +545,13 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void installUserFont(String path) {
         // TODO: 09-Apr-17
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int getBkColor() {
         if (handler != null)
             return handler.getConsoleView().getGraphScreen().getBackgroundColor();
@@ -564,54 +560,26 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void setBkColor(int color) {
         if (handler != null)
             handler.getConsoleView().setGraphBackground(ColorUtils.pascalColorToAndroidColor(color));
     }
 
-    /**
-     * return width of the text (pixel) in the current font size
-     */
-
-    @PascalMethod(description = "graph library", returns = "void")
-    public int textWidth(String text) {
-        if (handler != null) {
-            Rect rect = new Rect();
-            handler.getConsoleView().getGraphScreen().getTextBound(text, rect);
-            return rect.width();
-        }
-        return 0;
-    }
 
     /**
      * Set the current graphic viewport to the retangle define by then top-left (x1, y1) and then
      * bottom-right (x2, y2). If clip
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void setViewPort(int x1, int y1, int x2, int y2, boolean clip) {
         if (handler != null) {
             handler.getConsoleView().getGraphScreen().setViewPort(x1, y1, x2, y2, clip);
         }
     }
 
-    /**
-     * return height of the text (in pixel) in the current font size
-     */
-
-    @PascalMethod(description = "graph library", returns = "void")
-    public int textHeight(String text) {
-        if (handler != null) {
-            Rect rect = new Rect();
-            handler.getConsoleView().getGraphScreen().getTextBound(text, rect);
-            return rect.height();
-        }
-        return 0;
-    }
-
-
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public synchronized void setTextStyle(int fontID, int direction, int size) {
         // TODO: 09-Apr-17
         if (handler != null) {
@@ -623,7 +591,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void setFillStyle(int pattern, int color) {
         // TODO: 09-Apr-17
         if (handler != null) {
@@ -635,7 +603,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void setDirectVideo(boolean assess) {
         // TODO: 09-Apr-17
     }
@@ -644,7 +612,7 @@ public class GraphLib implements IPascalLibrary {
      * Procedure Sector(X, Y : Integer; StAngle, EndAngle, XRadius, YRadius : Word)
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void sector(int x, int y, int start, int end, int rx, int ry) {
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new SectorObject(x, y, start, end, rx, ry));
@@ -656,7 +624,7 @@ public class GraphLib implements IPascalLibrary {
      * starting at angle Start and ending at angle Stop.
      */
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void pieSlice(int x, int y, int start, int end, int radius) {
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new PieSliceObject(x, y, start, end, radius));
@@ -664,20 +632,20 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public StringBuilder graphErrorMsg(int errorCode) {
         // TODO: 09-Apr-17
         return new StringBuilder();
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void graphDefaults() {
         //// TODO: 09-Apr-17
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void getFillPattern() {
 
     }
@@ -693,25 +661,25 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int getGraphMode() {
         return 1;
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public StringBuilder getModeName(int mode) {
         return new StringBuilder("android_graphics");
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public int getMaxMode() {
         return 1;
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "Set text placement style")
     public void setTextJustify(int horizontal, int vertical) {
         if (handler != null) {
             TextJustify textJustify = handler.getConsoleView().getGraphScreen().getTextJustify();
@@ -721,7 +689,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void Bar3D(int x1, int y1, int x2, int y2, int depth, boolean topOn) {
         if (handler != null) {
             handler.getConsoleView().addGraphObject(new Bar3DObject(x1, y1, x2, y2, depth, topOn));
@@ -729,7 +697,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void FillEllipse(int x, int y, int rx, int ry) {
         DLog.d(TAG, "FillEllipse: ");
         if (handler != null) {
@@ -738,7 +706,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void FloodFill(int x, int y, int borderColorIndex) {
         DLog.d(TAG, "FloodFill: ");
         if (handler != null) {
@@ -760,7 +728,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "graph library", returns = "void")
+    @PascalMethod(description = "graph library")
     public void SetTextJustify(int horizontal, int vertical) {
         if (handler != null) {
             GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
@@ -866,4 +834,32 @@ public class GraphLib implements IPascalLibrary {
         }
     }
 
+
+    @PascalMethod(description = "By enabling flag (setting it to true), every graph's " +
+            "drawing routines don't go directly to the screen, but goes to screen buffer instead. After " +
+            "all the drawing of each \"frame\" has been done, we simply call the drawBuffer() procedure " +
+            "to copy the screen buffer content into the screen.")
+    public void setBufferEnable(boolean enable) {
+        ConsoleView consoleView = handler.getConsoleView();
+        if (consoleView != null) {
+            consoleView.getGraphScreen().setBufferEnable(enable);
+        }
+    }
+
+    @PascalMethod(description = "draw buffer into the screen")
+    public void drawBuffer() {
+        ConsoleView consoleView = handler.getConsoleView();
+        if (consoleView != null) {
+            consoleView.getGraphScreen().bufferToPrimary();
+            consoleView.postInvalidate();
+        }
+    }
+
+    @PascalMethod(description = "clear buffer")
+    public void clearBuffer() {
+        ConsoleView consoleView = handler.getConsoleView();
+        if (consoleView != null) {
+            consoleView.getGraphScreen().clearBufferBitmap();
+        }
+    }
 }
