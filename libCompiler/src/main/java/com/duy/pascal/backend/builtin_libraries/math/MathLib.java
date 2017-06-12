@@ -22,6 +22,8 @@ import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.WrongArgsException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.PointerType;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.util.FastMath;
@@ -523,7 +525,9 @@ public class MathLib implements IPascalLibrary {
 
     @Override
     public void declareTypes(ExpressionContextMixin parentContext) {
-
+        parentContext.declareTypedef("float", BasicType.Double);
+        parentContext.declareTypedef("pfloat", new PointerType(BasicType.Double));
+        parentContext.declareTypedef("pinteger", new PointerType(BasicType.Integer));
     }
 
     @Override

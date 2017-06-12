@@ -25,6 +25,8 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.WrongArgsException;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleScreen;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.duy.pascal.frontend.view.exec_screen.console.TextRenderer;
 
 import java.util.Map;
@@ -276,4 +278,25 @@ public class CrtLib implements IPascalLibrary {
         // TODO: 24-May-17
     }
 
+    @PascalMethod(description = "Current screen width")
+    public int ScreenWidth() {
+        ConsoleView consoleView = handler.getConsoleView();
+        ConsoleScreen consoleScreen = null;
+        if (consoleView != null) {
+            consoleScreen = consoleView.getConsoleScreen();
+            return consoleScreen.getConsoleColumn();
+        }
+        return 0;
+    }
+
+    @PascalMethod(description = "Current screen height.")
+    public int ScreenHeight() {
+        ConsoleView consoleView = handler.getConsoleView();
+        ConsoleScreen consoleScreen = null;
+        if (consoleView != null) {
+            consoleScreen = consoleView.getConsoleScreen();
+            return consoleScreen.getConsoleRow();
+        }
+        return 0;
+    }
 }

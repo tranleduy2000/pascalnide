@@ -99,7 +99,6 @@ public class ConsoleView extends View implements
     private String mImeBuffer = "";
     private TextConsole[] textImeBuffer;
     private boolean antiAlias = false;
-
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
         init(context);
@@ -114,6 +113,10 @@ public class ConsoleView extends View implements
     public ConsoleView(Context context) {
         super(context);
         init(context);
+    }
+
+    public ConsoleScreen getConsoleScreen() {
+        return mConsoleScreen;
     }
 
     public TextRenderer getTextRenderer() {

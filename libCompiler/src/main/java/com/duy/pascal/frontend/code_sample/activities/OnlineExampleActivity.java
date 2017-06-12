@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.duy.pascal
+package com.duy.pascal.frontend.code_sample.activities;
 
-import android.support.multidex.MultiDexApplication
-import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor
+import android.os.Bundle;
+
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Created by Duy on 12-Mar-17.
+ * Created by Duy on 12-Jun-17.
  */
-abstract class BasePascalApplication : MultiDexApplication() {
-    val taskExecutor = PascalActivityTaskExecutor(this)
 
-    abstract val isProVersion: Boolean
-
-    abstract val applicationID: String
-
-    override fun onCreate() {
-        super.onCreate()
+public class OnlineExampleActivity extends AbstractAppCompatActivity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_online_examples);
     }
-
 }

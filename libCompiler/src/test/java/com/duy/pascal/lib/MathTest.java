@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.duy.pascal
+package com.duy.pascal.lib;
 
-import android.support.multidex.MultiDexApplication
-import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor
+import com.duy.pascal.interpreter.BaseTestCase;
 
 /**
- * Created by Duy on 12-Mar-17.
+ * Created by Duy on 12-Jun-17.
  */
-abstract class BasePascalApplication : MultiDexApplication() {
-    val taskExecutor = PascalActivityTaskExecutor(this)
 
-    abstract val isProVersion: Boolean
-
-    abstract val applicationID: String
-
-    override fun onCreate() {
-        super.onCreate()
+public class MathTest extends BaseTestCase {
+    @Override
+    public String getDirTest() {
+        return "test_math_library";
     }
 
+    public void testAll() {
+        super.runAll();
+    }
 }

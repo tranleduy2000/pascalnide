@@ -140,6 +140,14 @@
             android:resource="@color/dark.color_accent" />
         <!-- END SETUP NOTIFICATION -->
 
+        <activity android:name=".code_sample.activities.OnlineExampleActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
