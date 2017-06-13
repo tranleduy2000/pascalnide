@@ -17,7 +17,6 @@
 package com.duy.pascal.frontend.setting;
 
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 

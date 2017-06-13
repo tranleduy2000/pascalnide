@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.ast.runtime_value.variables;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.types.DeclaredType;
 
@@ -52,6 +54,7 @@ public class CustomVariable implements ContainsVariables {
         return variableMap;
     }
 
+    @NonNull
     @Override
     public Object getVar(String name) {
         return variableMap.get(name.toLowerCase());
@@ -74,6 +77,7 @@ public class CustomVariable implements ContainsVariables {
         variableMap.put(name.toLowerCase(), val);
     }
 
+    @NonNull
     @Override
     public ContainsVariables clone() {
         ArrayList<VariableDeclaration> vars = new ArrayList<>();

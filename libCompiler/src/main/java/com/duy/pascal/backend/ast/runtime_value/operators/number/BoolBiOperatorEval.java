@@ -1,21 +1,21 @@
 package com.duy.pascal.backend.ast.runtime_value.operators.number;
 
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.OperatorTypes;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class BoolBiOperatorEval extends BinaryOperatorEval {
 
@@ -23,10 +23,12 @@ public class BoolBiOperatorEval extends BinaryOperatorEval {
                               OperatorTypes operator, LineInfo line) {
         super(operon1, operon2, operator, line);
     }
+
     @Override
     public boolean canDebug() {
         return true;
     }
+
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
@@ -69,7 +71,7 @@ public class BoolBiOperatorEval extends BinaryOperatorEval {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, line);
+            return new ConstantAccess<>(val, line);
         } else {
             return new BoolBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),

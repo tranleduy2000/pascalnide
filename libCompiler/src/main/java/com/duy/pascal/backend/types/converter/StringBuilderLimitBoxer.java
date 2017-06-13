@@ -84,6 +84,7 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return value.getLineNumber();

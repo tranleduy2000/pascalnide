@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.CloneableObjectCloner;
@@ -20,6 +21,7 @@ public class JavaClassBasedType extends InfoType {
         this.clazz = c;
     }
 
+    @NonNull
     @Override
     public Object initialize() {
         try {
@@ -28,7 +30,7 @@ public class JavaClassBasedType extends InfoType {
             }
         } catch (Exception ignored) {
         }
-        return null;
+        return NullValue.get();
     }
 
     @Override
@@ -80,10 +82,8 @@ public class JavaClassBasedType extends InfoType {
         if (other instanceof JavaClassBasedType
                 && ((JavaClassBasedType) other).getStorageClass() == clazz) {
             return true;
-        } else if (clazz == Object.class || other == null) {
-            return true;
         } else {
-            return false;
+            return clazz == Object.class || other == null;
         }
     }
 

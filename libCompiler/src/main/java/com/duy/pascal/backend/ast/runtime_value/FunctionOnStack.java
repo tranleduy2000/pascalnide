@@ -122,7 +122,7 @@ public class FunctionOnStack extends VariableContext {
     }
 
     @Override
-    public HashMap<String, ? extends Object> getMapVars() {
+    public HashMap<String, Object> getMapVars() {
         HashMap<String, Object> hashMap = new HashMap<>(mapVars);
         hashMap.putAll(mapReferences);
         return hashMap;

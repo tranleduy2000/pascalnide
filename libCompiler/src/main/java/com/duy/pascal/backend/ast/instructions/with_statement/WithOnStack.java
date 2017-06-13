@@ -17,6 +17,7 @@
 package com.duy.pascal.backend.ast.instructions.with_statement;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.instructions.FieldReference;
@@ -116,8 +117,10 @@ public class WithOnStack extends VariableContext {
         return fieldsMap;
     }
 
+    @Nullable
     @Override
     public VariableContext clone() {
+        super.clone();
         return null;
     }
 

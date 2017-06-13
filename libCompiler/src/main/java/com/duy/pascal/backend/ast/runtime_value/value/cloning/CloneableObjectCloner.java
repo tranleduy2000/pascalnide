@@ -14,6 +14,8 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.RuntimeType;
 
+import static com.duy.pascal.backend.utils.NullSafety.zReturn;
+
 public class CloneableObjectCloner implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
     private RuntimeValue r;
@@ -24,8 +26,7 @@ public class CloneableObjectCloner implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f)
-            throws ParsingException {
+    public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return r.getType(f);
     }
 
@@ -51,11 +52,12 @@ public class CloneableObjectCloner implements RuntimeValue {
         Object value = r.getValue(f, main);
         if (value instanceof ContainsVariables) {
             ContainsVariables c = (ContainsVariables) value;
-            return c.clone();
+            return zReturn(c.clone());
         }
         return value;
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return r.getLineNumber();
@@ -69,8 +71,7 @@ public class CloneableObjectCloner implements RuntimeValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
-        Object o = r.compileTimeValue(context);
-        return o;
+        return r.compileTimeValue(context);
     }
 
     @Override

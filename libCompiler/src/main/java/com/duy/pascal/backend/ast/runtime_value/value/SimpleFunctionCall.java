@@ -88,6 +88,7 @@ public class SimpleFunctionCall extends FunctionCall {
         return new RuntimeType(function.returnType(), false);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;

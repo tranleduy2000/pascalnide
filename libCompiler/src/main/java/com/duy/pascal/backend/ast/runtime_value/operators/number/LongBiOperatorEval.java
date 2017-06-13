@@ -92,7 +92,7 @@ public class LongBiOperatorEval extends BinaryOperatorEval {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, line);
+            return new ConstantAccess<>(val, line);
         } else {
             return new LongBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),

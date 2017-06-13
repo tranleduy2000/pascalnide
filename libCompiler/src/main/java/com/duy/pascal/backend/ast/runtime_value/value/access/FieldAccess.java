@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -69,6 +71,7 @@ public class FieldAccess extends DebuggableAssignableValue {
         return null;
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;
@@ -99,6 +102,7 @@ public class FieldAccess extends DebuggableAssignableValue {
         return false;
     }
 
+    @NonNull
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
@@ -117,7 +121,7 @@ public class FieldAccess extends DebuggableAssignableValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, line);
+            return new ConstantAccess<>(val, line);
         } else {
             return new FieldAccess(container.compileTimeExpressionFold(context), name, line);
         }

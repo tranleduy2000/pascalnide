@@ -246,6 +246,7 @@ public enum BasicType implements DeclaredType {
         return false;
     }
 
+    @NonNull
     @Override
     public Object initialize() {
         Object result;

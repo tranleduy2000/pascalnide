@@ -55,6 +55,7 @@ public class StringBuilderCloner implements RuntimeValue {
         return "string";
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return value.getLineNumber();

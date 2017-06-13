@@ -23,6 +23,7 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -74,6 +75,7 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
 
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return array.getLineNumber();
@@ -88,6 +90,9 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         LinkedList value = (LinkedList) array.compileTimeValue(context);
+        if (value == null) {
+            return NullValue.get();
+        }
         return value.toArray().clone();
     }
 

@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.ast.runtime_value.value.boxing;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -32,6 +34,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
         return values;
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;

@@ -72,6 +72,7 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
         }
     }
 
+    @NonNull
     public abstract Object getValueImpl(VariableContext f,
                                         RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException;
 

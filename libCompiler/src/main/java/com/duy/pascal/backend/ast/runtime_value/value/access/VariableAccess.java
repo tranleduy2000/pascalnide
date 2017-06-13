@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -35,8 +37,7 @@ public class VariableAccess extends DebuggableAssignableValue {
     private LineInfo line;
 
     public VariableAccess(WordToken t) {
-        this.name = t.name;
-        this.line = t.getLineNumber();
+        this(t.name, t.getLineNumber());
     }
 
     public VariableAccess(String name, LineInfo line) {
@@ -64,11 +65,18 @@ public class VariableAccess extends DebuggableAssignableValue {
         super.setOutputFormat(formatInfo);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @NonNull
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
@@ -97,15 +105,9 @@ public class VariableAccess extends DebuggableAssignableValue {
         return null;
     }
 
-
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return this;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

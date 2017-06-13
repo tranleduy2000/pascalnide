@@ -65,7 +65,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
     }
 
     @Override
-    public HashMap<String, ? extends Object> getMapVars() {
+    public HashMap<String,  Object> getMapVars() {
         return unitVariables;
     }
 }

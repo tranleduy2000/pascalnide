@@ -166,7 +166,7 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
                 GrouperToken container = (GrouperToken) next;
                 this.startLine = next.getLineNumber();
                 programName = container.nextWordValue();
-                container.assertNextSemicolon(container);
+                container.assertNextSemicolon();
 
                 if (!(container.peek() instanceof InterfaceToken))
                     throw new ExpectedTokenException("interface", container.peek());
@@ -242,12 +242,12 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
 
         private void declareInit(GrouperToken grouperToken) throws ParsingException {
             this.initInstruction = grouperToken.getNextCommand(this);
-            grouperToken.assertNextSemicolon(null);
+            grouperToken.assertNextSemicolon();
         }
 
         private void declareFinal(GrouperToken grouperToken) throws ParsingException {
             this.finalInstruction = grouperToken.getNextCommand(this);
-            grouperToken.assertNextSemicolon(null);
+            grouperToken.assertNextSemicolon();
 
         }
 

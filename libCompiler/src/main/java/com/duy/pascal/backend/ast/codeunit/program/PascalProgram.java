@@ -76,7 +76,7 @@ public class PascalProgram extends ExecutableCodeUnit {
                 throws ParsingException {
             if (next instanceof ProgramToken) {
                 programName = grouperToken.nextWordValue();
-                grouperToken.assertNextSemicolon(grouperToken);
+                grouperToken.assertNextSemicolon();
                 return true;
             }
             return false;

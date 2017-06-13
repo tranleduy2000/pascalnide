@@ -180,7 +180,7 @@ public class UndoRedoHelper {
     // =================================================================== //
 
     enum ActionType {
-        INSERT, DELETE, PASTE, NOT_DEF;
+        INSERT, DELETE, PASTE, NOT_DEF
     }
 
     private final class EditHistory {

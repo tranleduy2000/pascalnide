@@ -17,6 +17,7 @@
 package com.duy.pascal.backend.types.rangetype;
 
 import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -61,7 +62,7 @@ public abstract class SubrangeType extends InfoType implements Containable {
 
     public abstract String toString();
 
-    @Nullable
+    @NonNull
     @Override
     public Object initialize() {
         return first;

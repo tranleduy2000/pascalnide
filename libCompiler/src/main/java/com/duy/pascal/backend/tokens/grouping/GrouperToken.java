@@ -232,7 +232,7 @@ public abstract class GrouperToken extends Token {
         return take().getWordValue().name;
     }
 
-    public void assertNextSemicolon(Token last) throws ParsingException {
+    public void assertNextSemicolon() throws ParsingException {
         Token t = take();
         if (!(t instanceof SemicolonToken)) {
             throw new ExpectedTokenException(new SemicolonToken(null), t);
@@ -632,7 +632,7 @@ public abstract class GrouperToken extends Token {
             }
 
             if (hasNext()) {
-                assertNextSemicolon(next);
+                assertNextSemicolon();
             }
 
             for (WordToken s : names) {
@@ -735,7 +735,7 @@ public abstract class GrouperToken extends Token {
                 }
                 recordType.setFieldValue(((WordToken) name).getName(), o);
                 if (group.hasNext()) {
-                    group.assertNextSemicolon(name);
+                    group.assertNextSemicolon();
                 }
             }
             return new ConstantAccess<>(recordType.initialize(), recordType,
@@ -1006,7 +1006,7 @@ public abstract class GrouperToken extends Token {
                 beginEndPreprocessed.addCommand(castToken.getNextCommand(context));
                 Token token = castToken.next;
                 if (castToken.hasNext()) {
-                    castToken.assertNextSemicolon(token);
+                    castToken.assertNextSemicolon();
                 }
             }
             beginEndPreprocessed.setEndLine(((BeginEndToken) next).getEndLine());

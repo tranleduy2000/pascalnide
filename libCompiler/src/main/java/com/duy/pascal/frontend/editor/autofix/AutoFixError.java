@@ -139,8 +139,7 @@ public class AutoFixError {
                 + startLine.getLength();
 
         if (offset < 0) offset = 0;
-        TextData textData = new TextData(text, offset);
-        return textData;
+        return new TextData(text, offset);
     }
 
     /**

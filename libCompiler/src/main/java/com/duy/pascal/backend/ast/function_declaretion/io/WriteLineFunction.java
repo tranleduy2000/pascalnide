@@ -91,6 +91,7 @@ public class WriteLineFunction implements IMethodDeclaration {
             return null;
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;

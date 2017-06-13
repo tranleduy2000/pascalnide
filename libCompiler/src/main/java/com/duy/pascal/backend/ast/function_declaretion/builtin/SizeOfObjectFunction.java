@@ -89,6 +89,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
             return new RuntimeType(BasicType.Integer, false);
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;

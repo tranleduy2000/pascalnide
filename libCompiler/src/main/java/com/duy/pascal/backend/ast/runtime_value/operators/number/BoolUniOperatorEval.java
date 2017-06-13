@@ -38,7 +38,7 @@ public class BoolUniOperatorEval extends UnaryOperatorEval {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, line);
+            return new ConstantAccess<>(val, line);
         } else {
             return new BoolUniOperatorEval(operon.compileTimeExpressionFold(context), operator,
                     line);

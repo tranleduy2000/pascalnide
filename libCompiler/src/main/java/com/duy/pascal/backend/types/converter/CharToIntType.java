@@ -51,6 +51,7 @@ public class CharToIntType implements RuntimeValue {
         return new RuntimeType(BasicType.Integer, false);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return other.getLineNumber();

@@ -56,6 +56,7 @@ public class AnyToStringType implements RuntimeValue {
         return new RuntimeType(BasicType.create(String.class), false);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return value.getLineNumber();

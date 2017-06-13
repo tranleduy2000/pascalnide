@@ -87,6 +87,7 @@ public class FillBooleanFunction implements IMethodDeclaration {
             return new RuntimeType(BasicType.create(Object.class), false);
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;

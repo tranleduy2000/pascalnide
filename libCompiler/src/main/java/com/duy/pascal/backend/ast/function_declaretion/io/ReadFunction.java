@@ -92,6 +92,7 @@ public class ReadFunction implements IMethodDeclaration {
             return null;
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;

@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.ast.runtime_value.operators.pointer;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -45,6 +47,7 @@ public class DerefEval extends DebuggableAssignableValue {
         return false;
     }
 
+    @NonNull
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Reference ref = (Reference) pointer.getValue(f, main);
@@ -62,6 +65,7 @@ public class DerefEval extends DebuggableAssignableValue {
         return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;
@@ -86,7 +90,8 @@ public class DerefEval extends DebuggableAssignableValue {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, line);
+            return new ConstantAccess<>(val, line);
+
         } else {
             return new DerefEval(pointer.compileTimeExpressionFold(context), line);
         }

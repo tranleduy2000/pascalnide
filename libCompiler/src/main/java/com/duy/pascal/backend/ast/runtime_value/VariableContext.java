@@ -1,7 +1,9 @@
 package com.duy.pascal.backend.ast.runtime_value;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
@@ -21,15 +23,15 @@ public abstract class VariableContext implements ContainsVariables {
 
     public abstract HashMap<String, ? extends Object> getMapVars();
 
+    @NonNull
     @Override
-    @Nullable
     public Object getVar(String name) throws RuntimePascalException {
         Object result = this.getLocalVar(name);
         VariableContext parentcontext = getParentContext();
-        if (result == null && parentcontext != null) {
+        if (result instanceof NullValue  &&parentcontext != null){
             result = parentcontext.getVar(name);
         }
-        if (result == null) {
+        if (result instanceof NullValue) {
             System.err.println("Warning!  Fetched null variable!");
         }
         return result;
@@ -37,7 +39,7 @@ public abstract class VariableContext implements ContainsVariables {
 
     @Override
     public void setVar(String name, Object val) {
-        if (val == null) {
+        if (val instanceof NullValue) {
             System.err.println("Warning!  Setting null variable!");
         }
         if (setLocalVar(name, val)) {
@@ -51,6 +53,7 @@ public abstract class VariableContext implements ContainsVariables {
 
     public abstract VariableContext getParentContext();
 
+    @Nullable
     @Override
     public VariableContext clone() {
         return null;

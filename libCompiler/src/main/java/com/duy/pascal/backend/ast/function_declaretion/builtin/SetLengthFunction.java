@@ -104,6 +104,7 @@ public class SetLengthFunction implements IMethodDeclaration {
             return null;
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;

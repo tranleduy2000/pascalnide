@@ -145,7 +145,7 @@ public class MathLib implements IPascalLibrary {
 
     @PascalMethod(description = "")
     public void DivMod(long dividend, int divisor, PascalReference<Object> result,
-                       PascalReference<Object> remainder) throws RuntimePascalException, WrongArgsException {
+                       PascalReference<Object> remainder) throws RuntimePascalException {
         if (result.get() instanceof Integer) {
             result.set((int) (dividend / divisor));
             remainder.set((int) (dividend % divisor));

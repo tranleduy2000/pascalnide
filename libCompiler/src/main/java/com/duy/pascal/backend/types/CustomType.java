@@ -34,6 +34,7 @@ public class CustomType extends ObjectType {
         variableDeclarations.add(v);
     }
 
+    @NonNull
     @Override
     public CustomVariable initialize() {
         customVariable = new CustomVariable(variableDeclarations);
@@ -49,8 +50,7 @@ public class CustomType extends ObjectType {
     public boolean equals(Object obj) {
         if (!(obj instanceof CustomType)) {
             if (obj instanceof JavaClassBasedType) {
-                boolean r = ((JavaClassBasedType) obj).getStorageClass() == this.getStorageClass();
-                return r;
+                return ((JavaClassBasedType) obj).getStorageClass() == this.getStorageClass();
             }
             return false;
         }

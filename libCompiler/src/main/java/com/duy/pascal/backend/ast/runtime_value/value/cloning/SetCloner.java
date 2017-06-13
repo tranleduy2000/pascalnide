@@ -18,18 +18,22 @@ package com.duy.pascal.backend.ast.runtime_value.value.cloning;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 import java.util.LinkedList;
+
+import static com.duy.pascal.backend.utils.NullSafety.isNullValue;
+
 
 public class SetCloner<T> implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
@@ -64,15 +68,24 @@ public class SetCloner<T> implements RuntimeValue {
         return linkedList.clone();
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return list.getLineNumber();
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         LinkedList linkedList = (LinkedList) list.compileTimeValue(context);
+        if (isNullValue(linkedList)) {
+            return NullValue.get();
+        }
         return linkedList.clone();
     }
 
@@ -80,7 +93,6 @@ public class SetCloner<T> implements RuntimeValue {
     public String toString() {
         return getClass().getSimpleName();
     }
-
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
@@ -91,10 +103,5 @@ public class SetCloner<T> implements RuntimeValue {
     @Override
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

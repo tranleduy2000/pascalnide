@@ -280,7 +280,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         } else if (next instanceof UsesToken) {
             i.take();
             importLibraries(i);
-            i.assertNextSemicolon(i.next);
+            i.assertNextSemicolon();
         } else if (next instanceof TypeToken) {
             i.take();
             addDeclareTypes(i);
@@ -334,7 +334,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     type.setName(name.getName());
                     verifyNonConflictingSymbol(type);
                     declareTypedef(name.getName(), type);
-                    i.assertNextSemicolon(i.next);
+                    i.assertNextSemicolon();
 
                 } catch (Exception e) {
                     DLog.e(e);
@@ -344,7 +344,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     type.setName(name.getName());
                     verifyNonConflictingSymbol(type);
                     declareTypedef(name.getName(), type);
-                    i.assertNextSemicolon(i.next);
+                    i.assertNextSemicolon();
 
                     forwardTypes.put(name.getName(), typeName);
                 }
@@ -373,7 +373,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
                 verifyNonConflictingSymbol(type);
                 declareTypedef(name.getName(), type);
-                i.assertNextSemicolon(i.next);
+                i.assertNextSemicolon();
             }
 
         }
@@ -517,7 +517,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                                 getIdentifierValue(name)); //identifier for auto fix if can not convert type
                         c.setValue(constVal);
 
-                        grouperToken.assertNextSemicolon(grouperToken.next);
+                        grouperToken.assertNextSemicolon();
                     }
                 } else {
                     throw new ExpectedTokenException("[init value]", grouperToken.peek());
@@ -534,7 +534,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 }
                 ConstantDefinition c = new ConstantDefinition(name.getName(), type.declType, constVal, name.getLineNumber());
                 this.constants.put(c.getName(), c);
-                grouperToken.assertNextSemicolon(grouperToken);
+                grouperToken.assertNextSemicolon();
             } else {
                 throw new ExpectedTokenException("=", name);
             }

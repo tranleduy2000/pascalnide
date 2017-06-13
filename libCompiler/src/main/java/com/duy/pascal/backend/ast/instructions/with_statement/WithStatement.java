@@ -132,7 +132,7 @@ public class WithStatement {
         @Override
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             instructions = i.getNextCommand(withContext);
-            i.assertNextSemicolon(i.next);
+            i.assertNextSemicolon();
         }
 
         @Override

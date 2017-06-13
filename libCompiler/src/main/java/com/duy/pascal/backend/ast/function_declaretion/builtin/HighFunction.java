@@ -18,7 +18,6 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
@@ -98,6 +97,7 @@ public class HighFunction implements IMethodDeclaration {
             return new RuntimeType(HighFunction.this.returnType(), false);
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;

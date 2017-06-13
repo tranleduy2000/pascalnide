@@ -92,7 +92,7 @@ public class CaseInstruction extends DebuggableExecutable {
             token.take();
             while (token.hasNext()) {
                 otherwise.addCommand(token.getNextCommand(context));
-                token.assertNextSemicolon(token);
+                token.assertNextSemicolon();
             }
         }
         this.possibilities = possibilities.toArray(new CasePossibility[possibilities.size()]);
@@ -114,7 +114,7 @@ public class CaseInstruction extends DebuggableExecutable {
      */
     private void assertNextSemicolon(GrouperToken grouperToken) throws ParsingException {
         if (grouperToken.peek() instanceof ElseToken) return;
-        grouperToken.assertNextSemicolon(grouperToken);
+        grouperToken.assertNextSemicolon();
     }
 
     @Override

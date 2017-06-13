@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
@@ -59,6 +60,7 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         return value.toString();
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return mLineNumber;

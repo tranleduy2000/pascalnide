@@ -69,6 +69,7 @@ public class EnumGroupType<T extends EnumElementValue> extends InfoType implemen
         return null;
     }
 
+    @NonNull
     @Override
     public Object initialize() {
         return new LinkedList<>();

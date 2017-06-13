@@ -99,6 +99,7 @@ public class AddressFunction implements IMethodDeclaration {
             return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;
@@ -126,7 +127,7 @@ public class AddressFunction implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
             Object val = this.compileTimeValue(context);
             if (val != null) {
-                return new ConstantAccess(val, line);
+                return new ConstantAccess<>(val, line);
             } else {
                 return new DerefEval(pointer.compileTimeExpressionFold(context), line);
             }

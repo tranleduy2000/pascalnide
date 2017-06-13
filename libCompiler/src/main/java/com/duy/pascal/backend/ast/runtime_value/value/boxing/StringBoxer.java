@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.ast.runtime_value.value.boxing;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -27,6 +29,7 @@ public class StringBoxer extends DebuggableReturnValue {
         return value + "";
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return value.getLineNumber();
@@ -69,7 +72,7 @@ public class StringBoxer extends DebuggableReturnValue {
             throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, value.getLineNumber());
+            return new ConstantAccess<>(val, value.getLineNumber());
         } else {
             return new StringBoxer(value.compileTimeExpressionFold(context));
         }

@@ -17,6 +17,8 @@
 package com.duy.pascal.backend.ast.runtime_value.operators;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -91,6 +93,7 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
         throw new BadOperationTypeException(line, t1, v1, op_type);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;

@@ -79,6 +79,7 @@ public class SetType<T extends DeclaredType> extends BaseSetType {
         return list.size();
     }
 
+    @NonNull
     @Override
     public Object initialize() {
         return this.list;

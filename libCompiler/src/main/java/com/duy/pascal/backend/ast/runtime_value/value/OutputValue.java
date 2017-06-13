@@ -53,18 +53,18 @@ public class OutputValue implements RuntimeValue {
     @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return null;
+        return target.getValue(f, main);
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return null;
+        return target.getType(f);
     }
 
-    @Nullable
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
-        return null;
+        return target.getLineNumber();
     }
 
     @Override

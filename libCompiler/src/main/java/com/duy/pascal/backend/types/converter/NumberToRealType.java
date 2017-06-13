@@ -53,6 +53,7 @@ public class NumberToRealType implements RuntimeValue {
         return new RuntimeType(BasicType.Double, false);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return other.getLineNumber();

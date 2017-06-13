@@ -39,7 +39,7 @@ public interface RuntimeValue {
     /**
      * @return lineInfo of code
      */
-    @Nullable
+    @NonNull
     LineInfo getLineNumber();
 
     /*

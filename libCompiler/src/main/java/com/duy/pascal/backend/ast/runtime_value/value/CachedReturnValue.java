@@ -25,6 +25,7 @@ public class CachedReturnValue implements RuntimeValue {
         return other.getType(f);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return other.getLineNumber();

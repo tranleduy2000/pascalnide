@@ -54,6 +54,7 @@ public class NumberToLongType implements RuntimeValue {
         return new RuntimeType(BasicType.Long, false);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return other.getLineNumber();

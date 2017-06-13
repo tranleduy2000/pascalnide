@@ -7,11 +7,14 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
+
+import static com.duy.pascal.backend.utils.NullSafety.isNullValue;
 
 public class ArrayCloner<T> implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
@@ -47,6 +50,7 @@ public class ArrayCloner<T> implements RuntimeValue {
         return value.clone();
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return r.getLineNumber();
@@ -61,6 +65,9 @@ public class ArrayCloner<T> implements RuntimeValue {
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         Object[] value = (Object[]) r.compileTimeValue(context);
+        if (isNullValue(value)) {
+            return NullValue.get();
+        }
         return value.clone();
     }
 

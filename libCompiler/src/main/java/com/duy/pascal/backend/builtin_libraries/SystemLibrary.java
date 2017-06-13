@@ -98,12 +98,12 @@ public class SystemLibrary implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Increase value of integer variable")
-    public void inc(PascalReference<Object> boxer) throws RuntimePascalException, WrongArgsException {
+    public void inc(PascalReference<Object> boxer) throws RuntimePascalException {
         inc(boxer, 1);
     }
 
     @PascalMethod(description = "Increase value of integer variable")
-    public void inc(PascalReference<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
+    public void inc(PascalReference<Object> boxer, Object increment) throws RuntimePascalException {
         if (boxer.get() instanceof Long) {
             long count;
             if (increment instanceof Integer) {
@@ -151,12 +151,12 @@ public class SystemLibrary implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Decrease value of variable")
-    public void dec(PascalReference<Object> boxer) throws RuntimePascalException, WrongArgsException {
+    public void dec(PascalReference<Object> boxer) throws RuntimePascalException {
         dec(boxer, 1);
     }
 
     @PascalMethod(description = "Decrease value of variable")
-    public void dec(PascalReference<Object> boxer, Object increment) throws RuntimePascalException, WrongArgsException {
+    public void dec(PascalReference<Object> boxer, Object increment) throws RuntimePascalException {
         if (boxer.get() instanceof Long) {
             long count;
             if (increment instanceof Integer) {
@@ -341,7 +341,7 @@ public class SystemLibrary implements IPascalLibrary {
     }
 
     @PascalMethod(description = " Calculate numerical/enumerated value of a string.")
-    public void val(StringBuilder zinput, PascalReference<Object> output, PascalReference<Integer> resultCode) throws RuntimePascalException, WrongArgsException {
+    public void val(StringBuilder zinput, PascalReference<Object> output, PascalReference<Integer> resultCode) throws RuntimePascalException {
         try {
             String input;
             input = zinput.toString().trim(); //remove white space in start and end postion

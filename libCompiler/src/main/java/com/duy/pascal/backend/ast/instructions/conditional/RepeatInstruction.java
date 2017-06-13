@@ -34,7 +34,7 @@ public class RepeatInstruction extends DebuggableExecutable {
         while (!(grouperToken.peekNoEOF() instanceof UntilToken)) {
             command.addCommand(grouperToken.getNextCommand(f));
             if (!(grouperToken.peekNoEOF() instanceof UntilToken)) {
-                grouperToken.assertNextSemicolon(next);
+                grouperToken.assertNextSemicolon();
             }
         }
         next = grouperToken.take();
@@ -93,7 +93,7 @@ public class RepeatInstruction extends DebuggableExecutable {
             } else {
                 return new RepeatInstruction(
                         command.compileTimeConstantTransform(c),
-                        new ConstantAccess(true, condition.getLineNumber()), line);
+                        new ConstantAccess<>(true, condition.getLineNumber()), line);
             }
 
         }

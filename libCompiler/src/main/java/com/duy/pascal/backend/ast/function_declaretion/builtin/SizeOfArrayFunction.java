@@ -88,6 +88,7 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
             return new RuntimeType(BasicType.Integer, false);
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;

@@ -16,26 +16,27 @@
 
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.SetType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.ast.runtime_value.references.SetPreference;
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.references.SetPreference;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.set.SetType;
 
 import java.util.LinkedList;
 
 /**
  * Created by Duy on 25-May-17.
  */
-
 public class SetIndexAccess extends DebuggableAssignableValue {
     private RuntimeValue container;
     private RuntimeValue index;
@@ -51,9 +52,15 @@ public class SetIndexAccess extends DebuggableAssignableValue {
         return new RuntimeType(((SetType<?>) r.declType).getElementType(), r.writable);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return index.getLineNumber();
+    }
+
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
     }
 
     @Override
@@ -68,22 +75,18 @@ public class SetIndexAccess extends DebuggableAssignableValue {
         }
     }
 
-
     @Override
     public boolean canDebug() {
         return false;
     }
 
+    @NonNull
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         LinkedList cont = (LinkedList) container.getValue(f, main);
         Integer ind = (Integer) index.getValue(f, main);
-        if (ind == null || cont == null) {
-            return null;
-        } else {
-            return cont.get(ind); //index out of bound
-        }
+        return cont.get(ind); //index out of bound
 
     }
 
@@ -99,10 +102,5 @@ public class SetIndexAccess extends DebuggableAssignableValue {
             throws ParsingException {
         return new SetIndexAccess(container.compileTimeExpressionFold(context),
                 index.compileTimeExpressionFold(context));
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

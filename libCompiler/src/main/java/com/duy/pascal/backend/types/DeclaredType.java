@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.types;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -15,7 +16,7 @@ public interface DeclaredType extends NamedEntity {
      * init value for variable,
      * example init value for integer variable is 0, long is 0, string is ""
      */
-    @Nullable
+    @NonNull
     Object initialize();
 
     @Nullable

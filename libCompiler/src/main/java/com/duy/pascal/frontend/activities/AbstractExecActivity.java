@@ -17,7 +17,6 @@
 package com.duy.pascal.frontend.activities;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -186,11 +185,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         } catch (Exception e) {
             return "";
         }
-    }
-
-    @Override
-    public Context getApplicationContext() {
-        return super.getApplicationContext();
     }
 
     public boolean isDebugging() {

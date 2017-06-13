@@ -85,10 +85,7 @@ public class StringLimitType extends InfoType {
             Class other = ((JavaClassBasedType) obj).getStorageClass();
             return clazz == other || clazz == Object.class;
         }
-        if (obj instanceof StringLimitType) {
-            return true;
-        }
-        return false;
+        return obj instanceof StringLimitType;
     }
 
     @NonNull
@@ -104,7 +101,7 @@ public class StringLimitType extends InfoType {
         return new StringBuilderCloner(value);
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Object initialize() {
         return new StringBuilder("");

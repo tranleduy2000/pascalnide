@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.types;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 
@@ -49,6 +51,7 @@ public class RecordType extends CustomType implements Cloneable {
 
     }
 
+    @NonNull
     @Override
     public CustomVariable initialize() {
         return super.initialize();

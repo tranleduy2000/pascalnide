@@ -40,7 +40,8 @@ public class DoubleUniOperatorEval extends UnaryOperatorEval {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, line);
+            return new ConstantAccess<>(val, line);
+
         } else {
             return new DoubleUniOperatorEval(operon.compileTimeExpressionFold(context), operator,
                     line);

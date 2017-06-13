@@ -48,6 +48,7 @@ public class NumberToCharType implements RuntimeValue {
         return new RuntimeType(BasicType.Character, false);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return other.getLineNumber();

@@ -100,6 +100,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
 
         }
 
+        @NonNull
         @Override
         public LineInfo getLineNumber() {
             return line;

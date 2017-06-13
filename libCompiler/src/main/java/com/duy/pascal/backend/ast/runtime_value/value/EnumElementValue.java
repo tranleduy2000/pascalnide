@@ -39,10 +39,10 @@ public class EnumElementValue implements RuntimeValue {
     private Integer value;
 
     private Integer index;
-    @Nullable
     private LineInfo lineInfo;
 
-    public EnumElementValue(String name, @NonNull EnumGroupType type, @Nullable Integer index, @Nullable LineInfo lineInfo) {
+    public EnumElementValue(String name, @NonNull EnumGroupType type,
+                            @NonNull Integer index, @NonNull LineInfo lineInfo) {
         this.name = name;
         this.type = type;
         this.index = index;
@@ -75,6 +75,7 @@ public class EnumElementValue implements RuntimeValue {
         return new RuntimeType(type, false);//this is a constant
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return lineInfo;

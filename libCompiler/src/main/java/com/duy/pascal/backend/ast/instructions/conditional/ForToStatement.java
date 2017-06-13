@@ -38,7 +38,7 @@ public class ForToStatement extends DebuggableExecutable {
         lessThanLast = BinaryOperatorEval.generateOp(context, tempVar, last,
                 OperatorTypes.LESSEQ, this.line);
         increment = new AssignStatement(tempVar, BinaryOperatorEval.generateOp(
-                context, tempVar, new ConstantAccess(1, this.line),
+                context, tempVar, new ConstantAccess<>(1, this.line),
                 OperatorTypes.PLUS, this.line), line);
 
         this.command = command;
@@ -81,7 +81,7 @@ public class ForToStatement extends DebuggableExecutable {
             if (((Boolean) val)) {
                 return first;
             } else {
-                comp = new ConstantAccess(val, lessThanLast.getLineNumber());
+                comp = new ConstantAccess<>(val, lessThanLast.getLineNumber());
             }
         }
         return new ForDowntoStatement(first, comp, inc, comm, line);

@@ -32,5 +32,7 @@ public class NullSafety {
         return o;
     }
 
-
+    public static boolean isNullValue(Object value) {
+        return value == null || value instanceof NullValue;
+    }
 }

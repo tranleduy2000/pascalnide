@@ -66,7 +66,6 @@ import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.InitializationToken;
 import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
-import com.duy.pascal.backend.tokens.SpaceToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.backend.tokens.ignore.CommentToken;

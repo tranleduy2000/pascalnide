@@ -65,6 +65,7 @@ public class ArrayUtil {
         return res.toString();
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] join(Class<T> c, @NonNull T[]... objects) {
         int size = 0;
         for (T[] object : objects) {

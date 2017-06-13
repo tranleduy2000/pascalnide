@@ -26,9 +26,6 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
@@ -44,6 +41,9 @@ import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
+import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.frontend.debug.CallStack;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         this.isProcedure = isProcedure;
         name = grouperToken.nextWordValue();
 
-        getArgumentsForDeclaration(grouperToken, isProcedure);
+        getArgumentsForDeclaration(grouperToken);
         Token next = grouperToken.peek();
         if (isProcedure == next instanceof ColonToken) {
             throw new ParsingException(next.getLineNumber(),
@@ -107,6 +107,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             throw new DuplicateIdentifierException(n, this);
         }
     }
+
     public FunctionDeclaration(ExpressionContext p) {
         this.declaration = new FunctionExpressionContext(this, p);
         this.argumentNames = new String[0];
@@ -133,7 +134,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         Token next = i.peekNoEOF();
         if (next instanceof ForwardToken) {
             Token take = i.take();
-            i.assertNextSemicolon(take);
+            i.assertNextSemicolon();
         } else {
             if (instructions != null) {
                 throw new OverridingFunctionBodyException(this, i.getLineNumber());
@@ -162,7 +163,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         return functionOnStack.execute();
     }
 
-    private void getArgumentsForDeclaration(GrouperToken i, boolean is_procedure)
+    private void getArgumentsForDeclaration(GrouperToken i)
             throws ParsingException { // need
         List<WordToken> namesList = new ArrayList<>();
         List<RuntimeType> typesList = new ArrayList<>();
@@ -261,7 +262,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public class FunctionExpressionContext extends ExpressionContextMixin {
         public FunctionDeclaration function;
 
-        public FunctionExpressionContext(FunctionDeclaration function, ExpressionContext parent) {
+        FunctionExpressionContext(FunctionDeclaration function, ExpressionContext parent) {
             super(parent.root(), parent);
             this.function = function;
         }
@@ -282,7 +283,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         public boolean handleUnrecognizedDeclarationImpl(Token next, GrouperToken container)
                 throws ParsingException {
             if (next instanceof ForwardToken) {
-                container.assertNextSemicolon(next);
+                container.assertNextSemicolon();
                 bodyDeclared = true;
                 return true;
             }
@@ -294,7 +295,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         public void handleBeginEnd(GrouperToken i) throws ParsingException {
             bodyDeclared = true;
             instructions = i.getNextCommand(this);
-            i.assertNextSemicolon(i.next);
+            i.assertNextSemicolon();
         }
 
         @Override

@@ -120,6 +120,7 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     /**
      * TODO: Must make this actually fill in array with default values
      */
+    @NonNull
     @Override
     public Object initialize() {
         Object result = Array.newInstance(elementType.getTransferClass(),

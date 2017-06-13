@@ -27,6 +27,7 @@ public class PointerType extends InfoType {
         return null;
     }
 
+    @NonNull
     @Override
     @SuppressWarnings("unchecked")
     public Object initialize() {

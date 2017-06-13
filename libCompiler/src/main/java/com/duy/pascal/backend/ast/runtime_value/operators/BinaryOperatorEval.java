@@ -158,6 +158,7 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
         throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;

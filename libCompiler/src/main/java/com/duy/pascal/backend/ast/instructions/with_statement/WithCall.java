@@ -87,6 +87,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
         return null;
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;

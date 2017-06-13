@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.ast.runtime_value.operators.pointer;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -53,6 +55,7 @@ public class AddressEval extends DebuggableReturnValue {
         return new RuntimeType(new PointerType(target.getType(f).declType), false);
     }
 
+    @NonNull
     @Override
     public LineInfo getLineNumber() {
         return line;
@@ -70,6 +73,5 @@ public class AddressEval extends DebuggableReturnValue {
 
     @Override
     public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

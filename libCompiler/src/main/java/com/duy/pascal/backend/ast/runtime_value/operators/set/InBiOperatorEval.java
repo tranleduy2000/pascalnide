@@ -74,7 +74,7 @@ public class InBiOperatorEval extends BinaryOperatorEval {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
         if (val != null) {
-            return new ConstantAccess(val, line);
+            return new ConstantAccess<>(val, line);
         } else {
             return new InBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
