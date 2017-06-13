@@ -58,9 +58,10 @@ public class DivAssignStatement extends DebuggableExecutable implements AssignEx
         this.left = left;
         this.line = line;
         this.divOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.DIVIDE, line);
-        if (BasicType.Double.convert(left, f) == null) {
+        if (!(left.getType(f).getDeclType().equals(BasicType.Double) ||
+                left.getType(f).getDeclType().equals(BasicType.Float))) {
             throw new UnConvertibleTypeException(left, BasicType.Double,
-                    left.getType(f).getDeclType(), left, f);
+                    left.getType(f).getDeclType(), f);
         }
     }
 

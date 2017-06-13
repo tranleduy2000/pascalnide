@@ -1076,6 +1076,7 @@ public abstract class GrouperToken extends Token {
                     return new MulAssignStatement(context, left, leftType.cloneValue(converted),
                             next.getLineNumber());
                 } else if (assign instanceof DivAssignToken) {
+
                     return new DivAssignStatement(context, left, leftType.cloneValue(converted),
                             next.getLineNumber());
                 }
