@@ -10,7 +10,7 @@ begin
     New(url, a);
     conn := url.openConnection();
 
-    New( is, conn.getInputStream());
+    New(is, conn.getInputStream());
     New(br, is);
 
     while (true) do

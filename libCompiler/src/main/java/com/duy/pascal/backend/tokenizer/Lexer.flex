@@ -64,6 +64,7 @@ import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.InitializationToken;
 import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
+import com.duy.pascal.backend.tokens.SpaceToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
 import com.duy.pascal.backend.tokens.ignore.CommentToken;
@@ -202,7 +203,6 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 %%
 
 <YYINITIAL> {
-	{WhiteSpace} {}
 	{IncludeStatement} {yybegin(INCLUDE);}
 	{CompilerDirective} {return new CompileDirectiveToken(getLine(), yytext()); }
 	
@@ -311,9 +311,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 		literal.setLength(0);
 		yybegin(STRING);
 	}
-	
+	{WhiteSpace} {/*return new SpaceToken(getLine(), yytext());*/}
 	{Identifier} {return new WordToken(getLine(),yytext()); }
-
 }
 <STRING> {
 	"''"	{literal.append('\'');}

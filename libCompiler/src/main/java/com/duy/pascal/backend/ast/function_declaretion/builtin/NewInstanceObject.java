@@ -19,21 +19,22 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.FieldReference;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.types.PointerType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -43,19 +44,20 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 public class NewInstanceObject implements IMethodDeclaration {
-
+    private RuntimeType runtimeType;
     private ArgumentType[] argumentTypes =
             {new RuntimeType(new JavaClassBasedType(Object.class), true)};
 
     @Override
-   public String getName() {
+    public String getName() {
         return "new".toLowerCase();
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
+        this.runtimeType = pointer.getType(f);
         return new InstanceObjectCall(pointer, line);
     }
 
@@ -99,6 +101,10 @@ public class NewInstanceObject implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -109,11 +115,6 @@ public class NewInstanceObject implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new InstanceObjectCall(pointer, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
         }
 
         @Override
@@ -135,7 +136,7 @@ public class NewInstanceObject implements IMethodDeclaration {
             RuntimeType type = pointer.getType();
 
             //get class type of variable
-            JavaClassBasedType javaType = (JavaClassBasedType) type.declType;
+            JavaClassBasedType javaType = (JavaClassBasedType) ((PointerType) runtimeType.declType).pointedToType;
 
             Class<?> clazz = javaType.getStorageClass();
 
