@@ -22,6 +22,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.instructions.FieldReference;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.frontend.debug.CallStack;
@@ -74,12 +75,13 @@ public class WithOnStack extends VariableContext {
     /**
      * Global variable of function
      */
+    @NonNull
     @Override
     public Object getLocalVar(String name) throws RuntimePascalException {
         if (fieldsMap.containsKey(name)) {
             return fieldsMap.get(name).getReferenceImpl(parentContext, main);
         } else {
-            return null;
+            return NullValue.get();
         }
     }
 

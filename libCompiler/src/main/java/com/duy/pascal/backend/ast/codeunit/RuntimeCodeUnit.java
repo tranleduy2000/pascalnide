@@ -16,8 +16,11 @@
 
 package com.duy.pascal.backend.ast.codeunit;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.utils.NullSafety;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,9 +42,11 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
         return declaration;
     }
 
+    @NonNull
     @Override
     public Object getLocalVar(String name) {
-        return unitVariables.get(name);
+        Object o = unitVariables.get(name);
+        return NullSafety.zReturn(o);
     }
 
     @Override
@@ -65,7 +70,7 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
     }
 
     @Override
-    public HashMap<String,  Object> getMapVars() {
+    public HashMap<String, Object> getMapVars() {
         return unitVariables;
     }
 }

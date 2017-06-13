@@ -10,8 +10,12 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.duy.pascal.backend.utils.NullSafety.isNullValue;
+
+
 public abstract class VariableContext implements ContainsVariables {
 
+    @NonNull
     public abstract Object getLocalVar(String name)
             throws RuntimePascalException;
 
@@ -28,7 +32,7 @@ public abstract class VariableContext implements ContainsVariables {
     public Object getVar(String name) throws RuntimePascalException {
         Object result = this.getLocalVar(name);
         VariableContext parentcontext = getParentContext();
-        if (result instanceof NullValue  &&parentcontext != null){
+        if (isNullValue(result) && parentcontext != null) {
             result = parentcontext.getVar(name);
         }
         if (result instanceof NullValue) {

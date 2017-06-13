@@ -16,10 +16,13 @@
 
 package com.duy.pascal.backend.ast.runtime_value;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.ArrayList;
@@ -85,6 +88,7 @@ public class FunctionOnStack extends VariableContext {
     /**
      * Global variable of prototype
      */
+    @NonNull
     @Override
     public Object getLocalVar(String name) throws RuntimePascalException {
         if (mapVars.containsKey(name)) {
@@ -92,7 +96,7 @@ public class FunctionOnStack extends VariableContext {
         } else if (mapReferences.containsKey(name)) {
             return mapReferences.get(name).get();
         } else {
-            return null;
+            return NullValue.get();
         }
     }
 
