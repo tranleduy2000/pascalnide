@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens.value;
-
-import com.duy.pascal.backend.linenumber.LineInfo;
+package com.duy.pascal.interpreter;
 
 /**
- * Created by Duy on 28-May-17.
+ * Created by Duy on 13-Jun-17.
  */
 
-public class OctToken extends ValueToken {
-    public OctToken(LineInfo line) {
-        super(line);
+public class NumberTest extends BaseTestCase {
+    @Override
+    public String getDirTest() {
+        return "test_number";
     }
 
-    @Override
-    public Object getValue() {
-        return null;
+    public void testHex() {
+        run("hex.pas");
     }
 
-    @Override
-    public String toCode() {
-        return null;
+    public void testBin() {
+        run("binary.pas");
+    }
+
+    public void testOctal() {
+        run("octal.pas");
     }
 }

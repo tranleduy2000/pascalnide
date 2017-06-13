@@ -23,8 +23,8 @@ public class WordToken extends Token {
         super(line);
         this.name = s.toLowerCase();
         this.originalName = s;
-        if (mLineNumber != null) {
-            mLineNumber.setLength(name.length());
+        if (this.line != null) {
+            this.line.setLength(name.length());
         }
     }
 
@@ -125,7 +125,7 @@ public class WordToken extends Token {
                 if (returnType == null) {
                     Object constVal = context.getConstantDefinition(name);
                     if (constVal == null) {
-                        throw new TypeIdentifierExpectException(mLineNumber, name, context);
+                        throw new TypeIdentifierExpectException(line, name, context);
                     }
                     returnType = BasicType.create(constVal.getClass());
                 }

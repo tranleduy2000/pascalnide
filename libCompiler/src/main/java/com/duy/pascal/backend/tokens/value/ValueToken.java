@@ -8,11 +8,6 @@ public abstract class ValueToken extends Token {
 
     public ValueToken(LineInfo line) {
         super(line);
-        if (this instanceof StringToken || this instanceof CharacterToken) {
-            mLineNumber.setLength(toCode().length() + 1);
-        } else {
-            mLineNumber.setLength(toCode().length());
-        }
     }
 
     public abstract Object getValue();

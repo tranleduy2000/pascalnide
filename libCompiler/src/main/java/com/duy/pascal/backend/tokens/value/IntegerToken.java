@@ -4,22 +4,31 @@ package com.duy.pascal.backend.tokens.value;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class IntegerToken extends ValueToken {
-    public int value;
+    private Integer cacheValue = null;
+    private String value;
 
-    public IntegerToken(LineInfo line, int i) {
+    public IntegerToken(LineInfo line, String value) {
         super(line);
-        value = i;
-        mLineNumber.setLength(toCode().length());
-
-    }
-
-    @Override
-    public String toCode() {
-        return String.valueOf(value);
+        this.value = value;
+        if (this.line != null) {
+            this.line.setLength(value.length());
+        }
     }
 
     @Override
     public Object getValue() {
+        if (cacheValue != null) return cacheValue;
+        cacheValue = Integer.parseInt(value);
+        return cacheValue;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
+    public String toCode() {
         return value;
     }
 }

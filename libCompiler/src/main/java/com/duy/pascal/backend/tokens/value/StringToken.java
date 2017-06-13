@@ -9,13 +9,14 @@ public class StringToken extends ValueToken {
     public StringToken(LineInfo line, String s) {
         super(line);
         this.value = s;
-        mLineNumber.setLength(toCode().length());
+        if (this.line != null) {
+            this.line.setLength(toCode().length());
+        }
     }
 
     @Override
     public String toString() {
         return "\'" + value + "\'";
-
     }
 
     public String toCode() {

@@ -22,11 +22,11 @@ import com.duy.pascal.backend.linenumber.LineInfo;
  * Created by Duy on 28-May-17.
  */
 
-public class HexToken extends ValueToken {
+public class BinaryToken extends ValueToken {
     private Long cacheValue = null;
     private String value;
 
-    public HexToken(LineInfo line, String value) {
+    public BinaryToken(LineInfo line, String value) {
         super(line);
         this.value = value;
         if (this.line != null) {
@@ -37,7 +37,7 @@ public class HexToken extends ValueToken {
     @Override
     public Object getValue() {
         if (cacheValue != null) return cacheValue;
-        cacheValue = Long.parseLong(value.substring(1, value.length()), 16);
+        cacheValue = Long.parseLong(value.substring(1, value.length()), 2);
         return cacheValue;
     }
 

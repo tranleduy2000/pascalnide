@@ -560,7 +560,7 @@ public abstract class GrouperToken extends Token {
             AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(null);
             ConstantAccess<LinkedList> constant = getSetConstant(context, next, elementTypeReference);
             LinkedList setValue = constant.getValue();
-            SetType<DeclaredType> setType = new SetType<>(elementTypeReference.get(), setValue, mLineNumber);
+            SetType<DeclaredType> setType = new SetType<>(elementTypeReference.get(), setValue, line);
             return new ConstantAccess<>(setType.initialize(), setType, constant.getLineNumber());
 
         } else {
@@ -852,7 +852,7 @@ public abstract class GrouperToken extends Token {
 
                 assertNextCommaForNextConstant(context, grouperToken, elementType);
 
-                return new ConstantAccess<>(array, elementType, child.mLineNumber);
+                return new ConstantAccess<>(array, elementType, child.line);
 
             } else if (elementType instanceof EnumGroupType) {
                 Token next = grouperToken.take();

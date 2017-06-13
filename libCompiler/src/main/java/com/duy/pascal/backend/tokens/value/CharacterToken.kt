@@ -8,11 +8,11 @@ class CharacterToken : ValueToken {
     private var origin: String
     private var isRaw = false
 
-    constructor(line: LineInfo, character: Char) : super(line) {
+    constructor(line: LineInfo?, character: Char) : super(line) {
         this.aChar = character
         this.origin = "#" + character.toInt()
 
-        mLineNumber!!.length = toCode().length
+        line?.length = toCode().length
     }
 
     constructor(line: LineInfo, nonParse: String) : super(line) {

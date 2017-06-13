@@ -29,10 +29,10 @@ import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 
 public abstract class Token {
     @Nullable
-    protected LineInfo mLineNumber;
+    protected LineInfo line;
 
     public Token(@Nullable LineInfo lineInfo) {
-        this.mLineNumber = lineInfo;
+        this.line = lineInfo;
     }
 
     @NonNull
@@ -51,11 +51,11 @@ public abstract class Token {
 
     @Nullable
     public LineInfo getLineNumber() {
-        return this.mLineNumber;
+        return this.line;
     }
 
     public final void setLineNumber(@NonNull LineInfo var1) {
-        this.mLineNumber = var1;
+        this.line = var1;
     }
 
     public String toCode() {

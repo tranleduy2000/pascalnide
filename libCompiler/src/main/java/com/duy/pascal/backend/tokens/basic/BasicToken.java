@@ -9,8 +9,8 @@ public abstract class BasicToken extends Token {
 
     public BasicToken(@Nullable LineInfo line) {
         super(line);
-        if (mLineNumber != null) {
-            mLineNumber.setLength(toString().length());
+        if (this.line != null) {
+            this.line.setLength(toString().length());
         }
     }
 

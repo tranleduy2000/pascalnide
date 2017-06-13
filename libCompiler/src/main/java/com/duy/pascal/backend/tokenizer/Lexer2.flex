@@ -47,6 +47,9 @@ import com.duy.pascal.backend.tokens.value.BooleanToken;
 import com.duy.pascal.backend.tokens.value.CharacterToken;
 import com.duy.pascal.backend.tokens.value.DoubleToken;
 import com.duy.pascal.backend.tokens.value.IntegerToken;
+import com.duy.pascal.backend.tokens.value.BinaryToken;
+import com.duy.pascal.backend.tokens.value.HexToken;
+import com.duy.pascal.backend.tokens.value.OctalToken;
 import com.duy.pascal.backend.tokens.value.StringToken;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.basic.UsesToken;
@@ -163,11 +166,11 @@ WhiteSpace = ([ \t] | {LineTerminator})+
 LineTerminator       = \r|\n|\r\n
 InputCharacter       = [^\r|\n|]
 
-Integer              = {Digit}+
+Integer              = {Digit}{1, 20}
 Exp                  = [Ee][+-]?{Digit}+
 NumberExp            = {NumberDecimal} {Exp} | {Digit}+ {Exp}
 NumberDecimal        = {Digit}+ "." {Digit}+
-Float                ={NumberExp} | {NumberDecimal}
+Float                ={NumberExp} | {NumberDecimal} | {Digit}+
 Hex                  = "$" [0-9a-fA-F]+
 Binary               = ("%" [01]+) | ({Digit}[bB])
 Octal                = "&" [0-7]+
@@ -209,11 +212,11 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
          lineInfo.setColumn(lineInfo.getColumn() - text.length() - 1);
          return new CharacterToken(lineInfo, text);
     }
-	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
-	{Integer} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext()));}
-	{Hex} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 16));}
-	{Octal} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 8));}
-	{Binary} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 2));}
+	{Float} {return new DoubleToken(getLine(),(yytext()));}
+	{Integer} {return new IntegerToken(getLine(), (yytext()));}
+	{Hex} {return new HexToken(getLine(),(yytext()));}
+	{Octal} {return new OctalToken(getLine(),(yytext()));}
+	{Binary} {return new BinaryToken(getLine(),(yytext()));}
 
 	"and" {return new OperatorToken(getLine(),OperatorTypes.AND); }
 	"not" {return new OperatorToken(getLine(),OperatorTypes.NOT); }
