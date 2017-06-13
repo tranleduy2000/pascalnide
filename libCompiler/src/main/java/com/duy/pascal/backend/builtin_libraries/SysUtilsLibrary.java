@@ -274,4 +274,8 @@ public class SysUtilsLibrary implements IPascalLibrary {
     }
 
 
+    @PascalMethod(description = "Format a string with given arguments.")
+    public StringBuilder format(String format, Object[] arg) {
+        return new StringBuilder(String.format(format, arg));
+    }
 }

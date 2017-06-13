@@ -565,7 +565,8 @@ public abstract class GrouperToken extends Token {
             }
 
         } else if (next instanceof BracketedToken) {
-            AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(null);
+            AtomicReference<DeclaredType> elementTypeReference =
+                    new AtomicReference<>(BasicType.create(Object.class));
             ConstantAccess<LinkedList> constant = getSetConstant(context, next, elementTypeReference);
             LinkedList setValue = constant.getValue();
             SetType<DeclaredType> setType = new SetType<>(elementTypeReference.get(), setValue, line);

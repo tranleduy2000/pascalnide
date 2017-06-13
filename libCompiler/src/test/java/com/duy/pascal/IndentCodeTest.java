@@ -30,7 +30,7 @@ import java.io.IOException;
  */
 
 public class IndentCodeTest extends TestCase {
-    private static final String dir = "C:\\github\\pascalnide\\test_pascal\\test_format\\";
+    private static final String dir = "C:\\github\\pascalnide\\test_pascal\\test_indent\\";
 
     @Override
     protected void setUp() throws Exception {

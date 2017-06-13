@@ -1,16 +1,16 @@
 package com.duy.pascal.backend.ast.runtime_value.value.cloning;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class CloneableObjectCloner implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
@@ -59,12 +59,16 @@ public class CloneableObjectCloner implements RuntimeValue {
     }
 
     @Override
-    public Object compileTimeValue(CompileTimeContext context)
-            throws ParsingException {
-        ContainsVariables c = (ContainsVariables) r.compileTimeValue(context);
-        return c.clone();
+    public void setLineNumber(LineInfo lineNumber) {
+
     }
 
+    @Override
+    public Object compileTimeValue(CompileTimeContext context)
+            throws ParsingException {
+        Object o = r.compileTimeValue(context);
+        return o;
+    }
 
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
@@ -75,10 +79,5 @@ public class CloneableObjectCloner implements RuntimeValue {
     @Override
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

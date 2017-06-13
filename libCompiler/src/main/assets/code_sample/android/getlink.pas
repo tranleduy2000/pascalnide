@@ -13,7 +13,7 @@ begin
     New( is, conn.getInputStream());
     New(br, is);
 
-    while (true) do
+    while inputLine <> null do
     begin
         inputLine := br.readLine();
         writeln(inputLine);
