@@ -148,10 +148,10 @@ public class GraphScreen {
     private synchronized void invalidateBitmap() {
         synchronized (mLock) {
             if (mPrimaryBitmap == null) {
-                mPrimaryBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                mPrimaryBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
             } else {
-                Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 canvas.drawBitmap(mPrimaryBitmap, 0, 0, textPaint);
                 synchronized (mLock) {
@@ -161,9 +161,9 @@ public class GraphScreen {
             }
             if (bufferEnable) {
                 if (mBitmapBuffer == null) {
-                    mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                    mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 } else {
-                    Bitmap buffer = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                    Bitmap buffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     Canvas canvasBuffer = new Canvas(buffer);
                     canvasBuffer.drawBitmap(mBitmapBuffer, 0, 0, textPaint);
                     synchronized (mLock) {
@@ -348,7 +348,7 @@ public class GraphScreen {
 
     private void ensureBufferNonNull() {
         if (mBitmapBuffer == null) {
-            mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         }
     }
 
