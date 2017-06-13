@@ -3,8 +3,6 @@ Uses Crt,Graph;
 Var
     graphicsDriver, graphicsMode,
         i, startX, startY, maxColor, color: Integer;
-Var
-    graphicsDriver, graphicsMode: integer;
 Begin
     graphicsDriver := Detect;
     InitGraph(graphicsDriver, graphicsMode,'');

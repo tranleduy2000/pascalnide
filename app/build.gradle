@@ -17,7 +17,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def versionCode = variant.versionCode
-            def apkName = "/apk/" + "pascal_" + versionName + '_' + versionCode + '.apk';
+            def apkName = "pascal_" + versionName + '_' + versionCode + '.apk';
             output.outputFile = new File(output.outputFile.parentFile, apkName)
         }
     }
