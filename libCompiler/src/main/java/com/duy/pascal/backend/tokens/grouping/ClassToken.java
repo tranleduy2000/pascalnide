@@ -13,10 +13,10 @@ public class ClassToken extends GrouperToken {
     public String toCode() {
         StringBuilder result = new StringBuilder("class ");
         if (next != null) {
-            result.append(next).append(' ');
+            result.append(next.toCode()).append(' ');
         }
         for (Token t : this.queue) {
-            result.append(t).append(' ');
+            result.append(t.toCode()).append(' ');
         }
         result.append("end");
         return result.toString();

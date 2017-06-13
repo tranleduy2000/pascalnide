@@ -6,9 +6,9 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.source_include.ScriptSource;
-import com.duy.pascal.backend.tokens.CommentToken;
+import com.duy.pascal.backend.tokens.ignore.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
-import com.duy.pascal.backend.tokens.GroupingExceptionToken;
+import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
@@ -259,16 +259,7 @@ public class IndentCode {
 
 
     private StringBuilder completeCommentToken(StringBuilder last, int depth, CommentToken token) {
-//        int i = last.length() - 1;
-//        String text = last.toString();
-//        while (i > 0 && (text.charAt(i) == ' ' || text.charAt(i) == '\t')) {
-//            i--;
-//        }
         StringBuilder result = new StringBuilder();
-//
-//        CharSequence space = "";
-//        if (text.length() > 0)
-//            space = text.subSequence(i, text.length() - 1);
         result.append(token).append("\n");
         return result;
     }

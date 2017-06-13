@@ -14,10 +14,10 @@ public class BeginEndToken extends GrouperToken {
     public String toCode() {
         StringBuilder builder = new StringBuilder("begin ");
         if (next != null) {
-            builder.append(next);
+            builder.append(next.toCode());
         }
         for (Token t : this.queue) {
-            builder.append(t).append(' ');
+            builder.append(t.toCode()).append(' ');
         }
         builder.append("end ");
         return builder.toString();

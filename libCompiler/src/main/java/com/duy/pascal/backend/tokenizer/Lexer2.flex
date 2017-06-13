@@ -4,11 +4,11 @@ import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.grouping.StrayCharacterException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.EOFToken;
-import com.duy.pascal.backend.tokens.GroupingExceptionToken;
+import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
-import com.duy.pascal.backend.tokens.WarningToken;
+import com.duy.pascal.backend.tokens.igrone.CompileDirectiveToken;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ArrayToken;
 import com.duy.pascal.backend.tokens.basic.AssignmentToken;
@@ -59,7 +59,7 @@ import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
-import com.duy.pascal.backend.tokens.CommentToken;
+import com.duy.pascal.backend.tokens.igrone.CommentToken;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;
@@ -168,6 +168,9 @@ Exp = [Ee][+-]?{Digit}+
 NumberExp = {NumberDecimal} {Exp} | {Digit}+ {Exp}
 NumberDecimal = {Digit}+ "." {Digit}+
 Float ={NumberExp} | {NumberDecimal}
+Hex          = "$" [0-9a-fA-F]+
+Binary       = ("%" [01]+) | ({Digit}[bB])
+Octal        = "&" [0-7]+
 
 Comment = {TraditionalComment} | {EndOfLineComment}  | {PascalComment}
 
@@ -196,7 +199,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 <YYINITIAL> {
 	{WhiteSpace} {}
 	{IncludeStatement} {yybegin(INCLUDE);}
-	{CompilerDirective} {return new WarningToken(getLine(),"Warning! Unrecognized Compiler Directive!"); }
+	{CompilerDirective} {return new CompileDirectiveToken(getLine(), yytext()); }
 	
 	{Comment} {return new CommentToken(getLine(), yytext());}
 
@@ -208,6 +211,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
     }
 	{Float} {return new DoubleToken(getLine(),Double.parseDouble(yytext()));}
 	{Integer} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext()));}
+	{Hex} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 16));}
+	{Octal} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 8));}
+	{Binary} {return new IntegerToken(getLine(),(int) Long.parseLong(yytext(), 2));}
 
 	"and" {return new OperatorToken(getLine(),OperatorTypes.AND); }
 	"not" {return new OperatorToken(getLine(),OperatorTypes.NOT); }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,29 +14,27 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens;
+package com.duy.pascal.backend.tokens.ignore;
 
+import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokens.Token;
 
-/**
- * Comment token
- * Created by Duy on 21-Mar-17.
- */
-public class CommentToken extends Token {
-    public String comment;
+public class GroupingExceptionToken extends Token {
+    public GroupingException exception;
 
+    public GroupingExceptionToken(GroupingException g) {
+        super(g.getLineInfo());
+        this.exception = g;
+    }
 
-    public CommentToken(LineInfo line, String cmt) {
+    public GroupingExceptionToken(LineInfo line, GroupingException.Type type) {
         super(line);
-        this.comment = cmt;
+        this.exception = new GroupingException(line, type);
     }
 
     @Override
     public String toString() {
-//        if (comment.endsWith())
-//            return comment;
-//        else {
-        return comment;
-//        }
+        return exception.toString();
     }
 }

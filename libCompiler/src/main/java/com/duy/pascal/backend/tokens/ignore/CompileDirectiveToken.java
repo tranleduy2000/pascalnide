@@ -14,35 +14,30 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens.grouping;
-
+package com.duy.pascal.backend.tokens.ignore;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.Token;
 
-public class BaseGrouperToken extends GrouperToken {
+public class CompileDirectiveToken extends Token {
+    public String message;
 
-    public BaseGrouperToken(LineInfo line) {
+    public CompileDirectiveToken(LineInfo line, String message) {
         super(line);
+        this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "{" + message + "}";
+    }
 
     @Override
     public String toCode() {
-        StringBuilder builder = new StringBuilder();
-        if (next != null) {
-            builder.append(next.toCode());
-        }
-        for (Token t : this.queue) {
-            builder.append(t.toCode()).append(' ');
-        }
-        return builder.toString();
+        return toString();
     }
 
-
-    @Override
-    protected String getClosingText() {
-        return "[EOF]";
+    public String getMessage() {
+        return message;
     }
-
 }

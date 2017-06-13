@@ -32,10 +32,10 @@ public class UnitToken extends GrouperToken {
     public String toCode() {
         StringBuilder builder = new StringBuilder("unit ");
         if (next != null) {
-            builder.append(next);
+            builder.append(next.toCode());
         }
         for (Token t : this.queue) {
-            builder.append(t).append(' ');
+            builder.append(t.toCode()).append(' ');
         }
         builder.append("end ");
         return builder.toString();

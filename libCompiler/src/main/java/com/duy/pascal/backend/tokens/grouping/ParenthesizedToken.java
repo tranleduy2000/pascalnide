@@ -28,10 +28,10 @@ public class ParenthesizedToken extends GrouperToken {
     public String toCode() {
         StringBuilder builder = new StringBuilder("(");
         if (next != null) {
-            builder.append(next).append(',');
+            builder.append(next.toCode()).append(',');
         }
         for (Token t : this.queue) {
-            builder.append(t).append(' ');
+            builder.append(t.toCode()).append(' ');
         }
         builder.append(')');
         return builder.toString();

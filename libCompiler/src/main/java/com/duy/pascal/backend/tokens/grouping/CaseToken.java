@@ -17,10 +17,10 @@ public class CaseToken extends GrouperToken {
     public String toCode() {
         StringBuilder tmp = new StringBuilder("case ");
         if (next != null) {
-            tmp.append(next);
+            tmp.append(next.toCode());
         }
         for (Token t : this.queue) {
-            tmp.append(t).append(' ');
+            tmp.append(t.toCode()).append(' ');
         }
         tmp.append("end");
         return tmp.toString();

@@ -19,9 +19,9 @@ package com.duy.pascal.backend.tokens;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.linenumber.LineInfo;
 
 /**
  * Created by Duy on 24-May-17.
@@ -56,6 +56,10 @@ public abstract class Token {
 
     public final void setLineNumber(@NonNull LineInfo var1) {
         this.mLineNumber = var1;
+    }
+
+    public String toCode() {
+        return toString();
     }
 
     public enum Precedence {
