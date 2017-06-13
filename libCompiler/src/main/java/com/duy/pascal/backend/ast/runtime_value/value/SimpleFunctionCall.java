@@ -10,18 +10,17 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.MethodCallException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.MethodReflectionException;
+import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.debug.DebugManager;
 
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 
 public class SimpleFunctionCall extends FunctionCall {
     private AbstractCallableFunction function;
@@ -78,6 +77,9 @@ public class SimpleFunctionCall extends FunctionCall {
         }
 
         main.decStack();
+        if (result == null) {
+            result = NullValue.get();
+        }
         return result;
     }
 

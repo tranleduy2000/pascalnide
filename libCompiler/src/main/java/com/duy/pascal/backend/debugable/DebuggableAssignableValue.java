@@ -11,6 +11,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
+import com.duy.pascal.backend.utils.NullSafety;
 
 public abstract class DebuggableAssignableValue implements AssignableValue {
     protected RuntimeValue[] outputFormat;
@@ -42,7 +43,7 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
             } else {
                 main.scriptControlCheck(getLineNumber(), false);
             }
-            return getValueImpl(f, main);
+            return NullSafety.zReturn(getValueImpl(f, main));
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {

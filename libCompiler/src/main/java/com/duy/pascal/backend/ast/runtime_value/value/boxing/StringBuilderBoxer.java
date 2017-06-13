@@ -4,6 +4,7 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
@@ -59,6 +60,9 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object other = value.getValue(f, main);
+        if (other instanceof NullValue) {
+            return other;
+        }
         return new StringBuilder(other.toString());
     }
 

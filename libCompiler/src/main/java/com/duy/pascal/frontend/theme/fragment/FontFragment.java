@@ -86,7 +86,7 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
         super.onAttach(context);
         try{
             onFontSelectListener = (OnFontSelectListener) getActivity();
-        }catch (Exception e){
+        }catch (Exception ignored){
 
         }
     }

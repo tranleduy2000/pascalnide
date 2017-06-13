@@ -83,6 +83,9 @@ public class StringIndex extends DebuggableAssignableValue {
     @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
         StringBuilder str = (StringBuilder) string.compileTimeValue(context);
+        if (str == null) {
+            return 0;
+        }
         int ind = (int) index.compileTimeValue(context);
         return str.charAt(ind - 1);
     }

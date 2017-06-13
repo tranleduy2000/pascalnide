@@ -75,11 +75,12 @@ public class PascalPreferences {
         return context;
     }
 
+    @NonNull
     public SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }
 
-    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+    public void setSharedPreferences(@NonNull SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 

@@ -112,7 +112,7 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@Nullable String name) {
         this.name = name;
     }
 

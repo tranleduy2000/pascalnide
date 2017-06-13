@@ -147,7 +147,7 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
             super(handler, true);
         }
 
-        @NonNull
+        @Nullable
         @Override
         public LineInfo getStartLine() {
             return startLine;

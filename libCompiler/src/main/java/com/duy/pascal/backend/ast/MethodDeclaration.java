@@ -23,7 +23,6 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.builtin_libraries.annotations.ArrayBoundsInfo;
 import com.duy.pascal.backend.builtin_libraries.annotations.MethodTypeData;
@@ -99,11 +98,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
         if (owner instanceof RuntimeValue) {
             owner = ((RuntimeValue) owner).getValue(parentContext, main);
         }
-        Object res = method.invoke(owner, arguments);
-        if (res == null) {
-            return NullValue.get();
-        }
-        return res;
+        return method.invoke(owner, arguments);
     }
 
     private Type getFirstGenericType(Type t) {

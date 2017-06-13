@@ -187,12 +187,12 @@ public class EditorFragment extends Fragment implements EditorListener {
     }
 
     @Override
-    public void doFindAndReplace(String from, String to, boolean regex, boolean matchCase) {
+    public void doFindAndReplace(@NonNull String from, @NonNull String to, boolean regex, boolean matchCase) {
         mCodeEditor.replaceAll(from, to, regex, matchCase);
     }
 
     @Override
-    public void doFind(String find, boolean regex, boolean wordOnly, boolean matchCase) {
+    public void doFind(@NonNull String find, boolean regex, boolean wordOnly, boolean matchCase) {
         mCodeEditor.find(find, regex, wordOnly, matchCase);
     }
 
@@ -271,7 +271,7 @@ public class EditorFragment extends Fragment implements EditorListener {
     }
 
     @Override
-    public void insert(CharSequence text) {
+    public void insert(@NonNull CharSequence text) {
         mCodeEditor.insert(text);
     }
 

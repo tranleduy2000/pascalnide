@@ -273,11 +273,12 @@ public class MenuEditor {
 
     }
 
+    @Nullable
     public EditorControl getListener() {
         return listener;
     }
 
-    public void setListener(EditorControl listener) {
+    public void setListener(@Nullable EditorControl listener) {
         this.listener = listener;
     }
 

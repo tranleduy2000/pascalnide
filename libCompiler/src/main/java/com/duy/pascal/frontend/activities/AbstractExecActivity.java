@@ -272,7 +272,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             if (mLock != null && mLock instanceof IOLib) {
                 ((IOLib) mLock).resume();
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }

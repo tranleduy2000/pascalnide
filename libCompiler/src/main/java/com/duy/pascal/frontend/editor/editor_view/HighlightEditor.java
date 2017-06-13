@@ -902,7 +902,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             highlightLineError(allText);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 

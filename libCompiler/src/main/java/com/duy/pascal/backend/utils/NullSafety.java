@@ -14,32 +14,23 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.runtime_value.value;
+package com.duy.pascal.backend.utils;
+
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 
 /**
  * Created by Duy on 13-Jun-17.
  */
 
-public class NullValue {
-    private static NullValue NULL;
-
-    private NullValue() {
-    }
-
-    public static NullValue get() {
-        if (NULL == null) {
-            NULL = new NullValue();
+public class NullSafety {
+    public static Object zReturn(@Nullable Object o) {
+        if (o == null) {
+            return NullValue.get();
         }
-        return NULL;
+        return o;
     }
 
-    @Override
-    public String toString() {
-        return "znull";
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj == null || obj instanceof NullValue;
-    }
 }

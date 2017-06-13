@@ -470,7 +470,7 @@ public class EditorActivity extends BaseEditorActivity implements
         dialogCreateNewFile.show(getSupportFragmentManager(), DialogCreateNewFile.Companion.getTAG());
         dialogCreateNewFile.setListener(new DialogCreateNewFile.OnCreateNewFileListener() {
             @Override
-            public void onFileCreated(File file) {
+            public void onFileCreated(@NonNull File file) {
                 saveFile();
                 //add to view
                 addNewPageEditor(file, SELECT);

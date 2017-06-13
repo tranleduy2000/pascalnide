@@ -7,4 +7,5 @@ begin
     WriteLn('not null');
     obj := createNull(); ;
   end;
+  WriteLn('end program');
 end.

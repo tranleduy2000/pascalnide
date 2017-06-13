@@ -55,7 +55,7 @@ public class ThemeFragment extends Fragment {
         super.onAttach(context);
         try {
             onThemeSelect = (OnThemeSelectListener) getActivity();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }

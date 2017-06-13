@@ -85,7 +85,7 @@ public class Database extends SQLiteOpenHelper implements Serializable {
                 } while (cursor.moveToNext());
             }
             cursor.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return files;

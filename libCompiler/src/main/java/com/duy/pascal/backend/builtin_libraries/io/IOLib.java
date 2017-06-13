@@ -209,6 +209,7 @@ public class IOLib implements IPascalLibrary {
         }
     }
 
+    @NonNull
     public String getInputBuffer() {
         return inputBuffer;
     }

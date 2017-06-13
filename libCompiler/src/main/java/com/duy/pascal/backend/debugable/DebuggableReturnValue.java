@@ -10,6 +10,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
+import com.duy.pascal.backend.utils.NullSafety;
 
 public abstract class DebuggableReturnValue implements RuntimeValue {
 
@@ -32,13 +33,7 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
-            main.scriptControlCheck(getLineNumber(), false); //disable debug
-            main.incStack(getLineNumber());
-
-            Object valueImpl = getValueImpl(f, main);
-
-            main.decStack();
-            return valueImpl;
+            return NullSafety.zReturn(getValueImpl(f, main));
         } catch (RuntimePascalException e) {
             throw e;
         } catch (Exception e) {
