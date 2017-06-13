@@ -216,8 +216,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
          lineInfo.setColumn(lineInfo.getColumn() - text.length() - 1);
          return new CharacterToken(lineInfo, text);
     }
-	{Float} {return new DoubleToken(getLine(),(yytext()));}
 	{Integer} {return new IntegerToken(getLine(), (yytext()));}
+	{Float} {return new DoubleToken(getLine(),(yytext()));}
 	{Hex} {return new HexToken(getLine(),(yytext()));}
 	{Octal} {return new OctalToken(getLine(),(yytext()));}
 	{Binary} {return new BinaryToken(getLine(),(yytext()));}
