@@ -452,4 +452,7 @@ public class SystemLibrary implements IPascalLibrary {
         return new ObjectBasedPointer(new Object());
     }
 
+    public StringBuilder createNull() {
+        return null;
+    }
 }

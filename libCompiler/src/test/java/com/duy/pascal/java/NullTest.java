@@ -14,31 +14,27 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
+package com.duy.pascal.java;
 
 import com.duy.pascal.interpreter.BaseTestCase;
 
 /**
- * Created by Duy on 04-Jun-17.
+ * Created by Duy on 13-Jun-17.
  */
 
-public class TestIssue extends BaseTestCase {
-
+public class NullTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_issue";
+        return "test_java";
     }
 
-    public void testAll() {
-        runAll();
+    //null assign
+    public void test1() {
+        run("test_null_value.pas");
     }
 
-    public void testConvertString() {
-        run("test2.pas");
-    }
-
-    public void testRecord() {
-        run("test3.pas");
+    public void test2() {
+        run("test_null_result.pas");
     }
 
 }

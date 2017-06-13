@@ -143,7 +143,7 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
         @Nullable
         private LineInfo startLine;
 
-        public UnitExpressionContext(IRunnablePascal handler) {
+        public UnitExpressionContext(@NonNull IRunnablePascal handler) {
             super(handler, true);
         }
 

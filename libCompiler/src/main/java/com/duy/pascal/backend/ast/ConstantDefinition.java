@@ -18,7 +18,6 @@ package com.duy.pascal.backend.ast;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.types.DeclaredType;
@@ -44,7 +43,8 @@ public class ConstantDefinition implements NamedEntity {
         this.line = new LineInfo(-1, name);//null lineInfo
     }
 
-    public ConstantDefinition(@NonNull String name, @Nullable DeclaredType type, @Nullable Object init, LineInfo line) {
+    public ConstantDefinition(@NonNull String name, @NonNull DeclaredType type,
+                              @NonNull Object init, LineInfo line) {
         this.name = name;
         this.type = type;
         this.value = init;
@@ -54,7 +54,7 @@ public class ConstantDefinition implements NamedEntity {
     /**
      * constructor used for enum
      */
-    public ConstantDefinition(@NonNull String name, @Nullable DeclaredType type, LineInfo line) {
+    public ConstantDefinition(@NonNull String name, @NonNull DeclaredType type, LineInfo line) {
         this.name = name;
         this.type = type;
         this.line = line;
@@ -66,6 +66,10 @@ public class ConstantDefinition implements NamedEntity {
 
     public Object getValue() {
         return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     public LineInfo getLineNumber() {
@@ -85,9 +89,5 @@ public class ConstantDefinition implements NamedEntity {
     @Override
     public String getDescription() {
         return null;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
     }
 }

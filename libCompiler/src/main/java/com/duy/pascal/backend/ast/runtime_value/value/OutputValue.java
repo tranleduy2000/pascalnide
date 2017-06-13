@@ -23,34 +23,20 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.EnumGroupType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 /**
- * Created by Duy on 25-May-17.
+ * Created by Duy on 13-Jun-17.
  */
 
-public class EnumElementValue implements RuntimeValue {
-    private String name;
-    private EnumGroupType type;
-    private Integer value;
+public class OutputValue implements RuntimeValue {
+    private RuntimeValue target;
 
-    private Integer index;
-    @Nullable
-    private LineInfo lineInfo;
-
-    public EnumElementValue(String name, @NonNull EnumGroupType type, @Nullable Integer index, @Nullable LineInfo lineInfo) {
-        this.name = name;
-        this.type = type;
-        this.index = index;
-        this.lineInfo = lineInfo;
-    }
-
-    public EnumGroupType getEnumGroupType() {
-        return type;
+    public OutputValue(RuntimeValue target) {
+        this.target = target;
     }
 
     @Nullable
@@ -67,32 +53,17 @@ public class EnumElementValue implements RuntimeValue {
     @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return index;
+        return null;
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(type, false);//this is a constant
-    }
-
-    @Override
-    public LineInfo getLineNumber() {
-        return lineInfo;
+        return null;
     }
 
     @Nullable
     @Override
-    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
-        return this;//this is a constant
-    }
-
-    @Override
-    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
-        return this;
-    }
-
-    @Override
-    public AssignableValue asAssignableValue(ExpressionContext f) {
+    public LineInfo getLineNumber() {
         return null;
     }
 
@@ -101,35 +72,21 @@ public class EnumElementValue implements RuntimeValue {
 
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getIndex() {
-        return index;
-    }
-
-    public void setIndex(Integer index) {
-        this.index = index;
-    }
-
-    /**
-     * uses for print to console
-     */
+    @Nullable
     @Override
-    public String toString() {
-        return name;
+    public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
+        return null;
     }
 
-    public Integer getValue() {
-        return value;
+    @Nullable
+    @Override
+    public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
+        return null;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
+    @Nullable
+    @Override
+    public AssignableValue asAssignableValue(ExpressionContext f) {
+        return null;
     }
 }

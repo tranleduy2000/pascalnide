@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.ast.runtime_value.value;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.types.RuntimeType;
@@ -62,6 +64,7 @@ public class CachedReturnValue implements RuntimeValue {
     }
 
 
+    @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

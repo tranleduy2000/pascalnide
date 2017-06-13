@@ -61,7 +61,7 @@ public class PascalProgram extends ExecutableCodeUnit {
     }
 
     protected class PascalProgramExpressionContext extends CodeUnitExpressionContext {
-        public PascalProgramExpressionContext(IRunnablePascal handler) {
+        public PascalProgramExpressionContext(@NonNull IRunnablePascal handler) {
             super(handler, false);
         }
 

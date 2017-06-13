@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.types.converter;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.types.BasicType;
@@ -37,6 +39,7 @@ public class NumberToIntType implements RuntimeValue {
     }
 
 
+    @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

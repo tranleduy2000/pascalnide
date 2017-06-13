@@ -51,8 +51,7 @@ public class JavaClassBasedType extends InfoType {
     }
 
     @Override
-    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
-            throws ParsingException {
+    public RuntimeValue convert(RuntimeValue value, ExpressionContext f) throws ParsingException {
         RuntimeType otherType = value.getType(f);
         if (otherType.declType instanceof BasicType) {
             if (this.equals(otherType.declType)) {
@@ -78,7 +77,8 @@ public class JavaClassBasedType extends InfoType {
 
     @Override
     public boolean equals(DeclaredType other) {
-        if (other instanceof JavaClassBasedType && ((JavaClassBasedType) other).getStorageClass() == clazz) {
+        if (other instanceof JavaClassBasedType
+                && ((JavaClassBasedType) other).getStorageClass() == clazz) {
             return true;
         } else if (clazz == Object.class || other == null) {
             return true;

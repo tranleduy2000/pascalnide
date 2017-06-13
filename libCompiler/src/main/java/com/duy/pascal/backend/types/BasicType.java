@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.StringIndex;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.CharacterBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.StringBoxer;
@@ -57,6 +58,13 @@ public enum BasicType implements DeclaredType {
         @Override
         public RuntimeValue convert(RuntimeValue valueToAssign, ExpressionContext f)
                 throws ParsingException {
+            if (valueToAssign instanceof ConstantAccess) {
+                String name = ((ConstantAccess) valueToAssign).getName();
+                if (name != null && name.equalsIgnoreCase("null")) {
+                    return valueToAssign;
+                }
+            }
+
             RuntimeType otherType = valueToAssign.getType(f);
             if (otherType.declType instanceof BasicType) {
                 if (this.equals(otherType.declType)) {

@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.debugable;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
@@ -25,6 +27,7 @@ public abstract class DebuggableAssignableValue implements AssignableValue {
         this.outputFormat = formatInfo;
     }
 
+    @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

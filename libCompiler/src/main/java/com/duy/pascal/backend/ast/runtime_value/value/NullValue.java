@@ -14,31 +14,32 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
-
-import com.duy.pascal.interpreter.BaseTestCase;
+package com.duy.pascal.backend.ast.runtime_value.value;
 
 /**
- * Created by Duy on 04-Jun-17.
+ * Created by Duy on 13-Jun-17.
  */
 
-public class TestIssue extends BaseTestCase {
+public class NullValue {
+    private static NullValue NULL;
+
+    private NullValue() {
+    }
+
+    public static NullValue get() {
+        if (NULL == null) {
+            NULL = new NullValue();
+        }
+        return NULL;
+    }
 
     @Override
-    public String getDirTest() {
-        return "test_issue";
+    public String toString() {
+        return "null";
     }
 
-    public void testAll() {
-        runAll();
+    @Override
+    public boolean equals(Object obj) {
+        return obj == null || obj instanceof NullValue;
     }
-
-    public void testConvertString() {
-        run("test2.pas");
-    }
-
-    public void testRecord() {
-        run("test3.pas");
-    }
-
 }

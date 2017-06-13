@@ -51,14 +51,8 @@ public class JavaBiOperatorEval extends BinaryOperatorEval {
             throws PascalArithmeticException, InternalInterpreterException {
         switch (operator_type) {
             case EQUALS:
-                if (value1 == null || value2 == null) {
-                    return value1 == value2;
-                }
                 return value1.equals(value2);
             case NOTEQUAL:
-                if (value1 == null || value2 == null) {
-                    return !(value1 == value2);
-                }
                 return !value1.equals(value2);
             default:
                 throw new InternalInterpreterException(line);

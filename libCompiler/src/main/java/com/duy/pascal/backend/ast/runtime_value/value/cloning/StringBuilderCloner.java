@@ -1,15 +1,18 @@
 package com.duy.pascal.backend.ast.runtime_value.value.cloning;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class StringBuilderCloner implements RuntimeValue {
     private RuntimeValue[] outputFormat;
@@ -36,10 +39,14 @@ public class StringBuilderCloner implements RuntimeValue {
     }
 
 
+    @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object result = value.getValue(f, main);
+        if (result instanceof NullValue) {
+            return result;
+        }
         return new StringBuilder(result.toString());
     }
 

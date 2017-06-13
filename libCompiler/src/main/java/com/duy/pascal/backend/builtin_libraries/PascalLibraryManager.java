@@ -19,7 +19,6 @@ package com.duy.pascal.backend.builtin_libraries;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
 import com.duy.pascal.backend.ast.ConstantDefinition;
@@ -47,6 +46,7 @@ import com.duy.pascal.backend.ast.function_declaretion.io.WriteFileFunction;
 import com.duy.pascal.backend.ast.function_declaretion.io.WriteFunction;
 import com.duy.pascal.backend.ast.function_declaretion.io.WriteLineFunction;
 import com.duy.pascal.backend.ast.function_declaretion.io.WritelnFileFunction;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.barcode.ZXingAPI;
 import com.duy.pascal.backend.builtin_libraries.android.connection.bluetooth.AndroidBluetoothLib;
@@ -72,12 +72,12 @@ import com.duy.pascal.backend.builtin_libraries.crt.WinCrt;
 import com.duy.pascal.backend.builtin_libraries.graph.GraphLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.builtin_libraries.math.MathLib;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
 import com.duy.pascal.backend.parse_exception.io.LibraryNotFoundException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.ExecHandler;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
@@ -133,12 +133,12 @@ public class PascalLibraryManager {
 
     @NonNull
     private ExpressionContextMixin program;
-    @Nullable
+    @NonNull
     private IRunnablePascal handler;
     private AndroidLibraryManager facadeManager;
 
     public PascalLibraryManager(@NonNull ExpressionContextMixin program,
-                                @Nullable IRunnablePascal handler) {
+                                @NonNull IRunnablePascal handler) {
         this.program = program;
         this.handler = handler;
         facadeManager = new AndroidLibraryManager(AndroidLibraryUtils.getSdkVersion(), handler);
@@ -240,8 +240,8 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new WriteFunction()));
         //end region
 
-        program.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), null, null));
-        program.declareConst(new ConstantDefinition("nil", new PointerType(null), null, null));
+        program.declareConst(new ConstantDefinition("null", new JavaClassBasedType(null), NullValue.get(), null));
+        program.declareConst(new ConstantDefinition("nil", new PointerType(null), NullValue.get(), null));
 
         program.declareConst(new ConstantDefinition("maxint", BasicType.Integer, Integer.MAX_VALUE, null));
         program.declareConst(new ConstantDefinition("maxlongint", BasicType.Long, Long.MAX_VALUE, null));

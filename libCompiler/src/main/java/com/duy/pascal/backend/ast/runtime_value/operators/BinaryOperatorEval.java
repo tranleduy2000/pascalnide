@@ -17,6 +17,8 @@
 package com.duy.pascal.backend.ast.runtime_value.operators;
 
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -32,14 +34,6 @@ import com.duy.pascal.backend.ast.runtime_value.operators.set.EnumBiOperatorEval
 import com.duy.pascal.backend.ast.runtime_value.operators.set.InBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.set.SetBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.converter.AnyToStringType;
-import com.duy.pascal.backend.types.converter.TypeConverter;
-import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.types.set.SetType;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -48,6 +42,14 @@ import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationExcept
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.types.OperatorTypes;
+import com.duy.pascal.backend.types.converter.AnyToStringType;
+import com.duy.pascal.backend.types.converter.TypeConverter;
+import com.duy.pascal.backend.types.set.EnumGroupType;
+import com.duy.pascal.backend.types.set.SetType;
 
 
 public abstract class BinaryOperatorEval extends DebuggableReturnValue {
@@ -66,14 +68,19 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
     }
 
     @SuppressWarnings("unchecked")
-    public static BinaryOperatorEval generateOp(ExpressionContext context,
-                                                RuntimeValue v1, RuntimeValue v2,
-                                                OperatorTypes operatorTypes,
-                                                LineInfo line) throws ParsingException {
+    public static BinaryOperatorEval generateOp(@NonNull ExpressionContext context,
+                                                @NonNull RuntimeValue v1, @NonNull RuntimeValue v2,
+                                                @NonNull OperatorTypes operatorTypes,
+                                                @NonNull LineInfo line) throws ParsingException {
         DeclaredType t1 = v1.getType(context).declType;
         DeclaredType t2 = v2.getType(context).declType;
-
-        if (t1 instanceof EnumGroupType
+        if (t1 instanceof JavaClassBasedType
+                || t2 instanceof JavaClassBasedType) {
+            if (operatorTypes == OperatorTypes.EQUALS
+                    || operatorTypes == OperatorTypes.NOTEQUAL) {
+                return new JavaBiOperatorEval(v1, v2, operatorTypes, line);
+            }
+        } else if (t1 instanceof EnumGroupType
                 && t2 instanceof SetType) {
             RuntimeValue converted = ((SetType) t2).getElementType().convert(v1, context);
             if (converted != null) {
@@ -147,12 +154,6 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
             v2 = TypeConverter.forceConvertRequired(BasicType.Boolean,
                     v2, (BasicType) t2, context);
             return new BoolBiOperatorEval(v1, v2, operatorTypes, line);
-        } else if (t1 instanceof JavaClassBasedType
-                || t2 instanceof JavaClassBasedType) {
-            if (operatorTypes == OperatorTypes.EQUALS
-                    || operatorTypes == OperatorTypes.NOTEQUAL) {
-                return new JavaBiOperatorEval(v1, v2, operatorTypes, line);
-            }
         }
         throw new BadOperationTypeException(line, t1, t2, v1, v2, operatorTypes);
     }

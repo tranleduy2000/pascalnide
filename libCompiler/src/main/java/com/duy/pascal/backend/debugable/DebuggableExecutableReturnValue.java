@@ -29,6 +29,7 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
         this.outputFormat = formatInfo;
     }
 
+    @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {

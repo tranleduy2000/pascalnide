@@ -23,9 +23,12 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalPointer;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.builtin_libraries.annotations.ArrayBoundsInfo;
 import com.duy.pascal.backend.builtin_libraries.annotations.MethodTypeData;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
@@ -35,8 +38,6 @@ import com.duy.pascal.backend.types.VarargsType;
 import com.duy.pascal.backend.types.rangetype.IntegerSubrangeType;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.types.util.TypeUtils;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.frontend.DLog;
 
 import java.lang.reflect.GenericArrayType;
@@ -98,7 +99,11 @@ public class MethodDeclaration extends AbstractCallableFunction {
         if (owner instanceof RuntimeValue) {
             owner = ((RuntimeValue) owner).getValue(parentContext, main);
         }
-        return method.invoke(owner, arguments);
+        Object res = method.invoke(owner, arguments);
+        if (res == null) {
+            return NullValue.get();
+        }
+        return res;
     }
 
     private Type getFirstGenericType(Type t) {
@@ -190,7 +195,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public ArgumentType[] argumentTypes() {
-       if (argCache != null) {
+        if (argCache != null) {
             return argCache;
         }
         Type[] types = method.getGenericParameterTypes();

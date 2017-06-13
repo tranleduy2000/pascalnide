@@ -13,7 +13,7 @@ open class ParsingException : Exception {
      */
     var lineInfo: LineInfo? = null
 
-    constructor(lineInfo: LineInfo?, message: String) : super(message) {
+    constructor(lineInfo: LineInfo?, message: String) : super(lineInfo?.toString() + " " + message) {
         this.lineInfo = lineInfo
     }
 

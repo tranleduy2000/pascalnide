@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.ast.expressioncontext;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.AbstractFunction;
@@ -146,7 +147,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent,
-                                  @Nullable IRunnablePascal handler, boolean isLibrary) {
+                                  @NonNull IRunnablePascal handler, boolean isLibrary) {
         super(root, parent);
         this.isLibrary = isLibrary;
         if (handler != null) {

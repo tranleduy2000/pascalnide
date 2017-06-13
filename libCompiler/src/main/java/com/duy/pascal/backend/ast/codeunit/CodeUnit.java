@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.ast.codeunit;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
@@ -75,7 +76,7 @@ public abstract class CodeUnit {
     }
 
     protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {
-        public CodeUnitExpressionContext(@Nullable IRunnablePascal handler,
+        public CodeUnitExpressionContext(@NonNull IRunnablePascal handler,
                                          boolean isLibrary) {
             super(CodeUnit.this, null, handler, isLibrary);
         }

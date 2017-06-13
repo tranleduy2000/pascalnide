@@ -1,5 +1,6 @@
 package com.duy.pascal.backend.ast.runtime_value.value;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -26,6 +27,7 @@ public interface RuntimeValue {
     /**
      * @return value of variable or function
      */
+    @NonNull
     Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
