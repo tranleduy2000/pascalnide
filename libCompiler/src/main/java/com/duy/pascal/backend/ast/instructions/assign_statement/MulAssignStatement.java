@@ -51,8 +51,8 @@ public class MulAssignStatement extends DebuggableExecutable implements AssignEx
     }
 
     public MulAssignStatement(@NonNull ExpressionContext f,
-                              @NonNull AssignableValue left, @NonNull RuntimeValue value,
-                              @NonNull LineInfo line) throws ParsingException {
+                              @NonNull AssignableValue left, RuntimeValue value,
+                            LineInfo line) throws ParsingException {
         this.left = left;
         this.line = line;
         this.mulOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.MULTIPLY, line);

@@ -44,15 +44,15 @@ public class DivAssignStatement extends DebuggableExecutable implements AssignEx
     private LineInfo line;
 
     public DivAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue divOp,
-                              @NonNull LineInfo line) throws ParsingException {
+                           LineInfo line) throws ParsingException {
         this.left = left;
         this.divOp = divOp;
         this.line = line;
     }
 
     public DivAssignStatement(@NonNull ExpressionContext f,
-                              @NonNull AssignableValue left, @NonNull RuntimeValue value,
-                              @NonNull LineInfo line) throws ParsingException {
+                              @NonNull AssignableValue left, RuntimeValue value,
+                              LineInfo line) throws ParsingException {
         this.left = left;
         this.line = line;
         this.divOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.DIV, line);

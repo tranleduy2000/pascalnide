@@ -44,15 +44,15 @@ public class MinusAssignStatement extends DebuggableExecutable implements Assign
     private LineInfo line;
 
     public MinusAssignStatement(@NonNull AssignableValue left, @NonNull RuntimeValue minusOp,
-                                @NonNull LineInfo line) throws ParsingException {
+                                LineInfo line) throws ParsingException {
         this.left = left;
         this.minusOp = minusOp;
         this.line = line;
     }
 
     public MinusAssignStatement(@NonNull ExpressionContext f,
-                                @NonNull AssignableValue left, @NonNull RuntimeValue value,
-                                @NonNull LineInfo line) throws ParsingException {
+                                @NonNull AssignableValue left,  RuntimeValue value,
+                                 LineInfo line) throws ParsingException {
         this.left = left;
         this.line = line;
         this.minusOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.MINUS, line);

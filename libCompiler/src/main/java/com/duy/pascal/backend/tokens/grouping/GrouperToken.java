@@ -8,13 +8,17 @@ import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.assign_statement.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.BreakInstruction;
 import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.instructions.ContinueInstruction;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExitInstruction;
 import com.duy.pascal.backend.ast.instructions.NopeInstruction;
+import com.duy.pascal.backend.ast.instructions.assign_statement.AssignStatement;
+import com.duy.pascal.backend.ast.instructions.assign_statement.DivAssignStatement;
+import com.duy.pascal.backend.ast.instructions.assign_statement.MinusAssignStatement;
+import com.duy.pascal.backend.ast.instructions.assign_statement.MulAssignStatement;
+import com.duy.pascal.backend.ast.instructions.assign_statement.PlusAssignStatement;
 import com.duy.pascal.backend.ast.instructions.case_statement.CaseInstruction;
 import com.duy.pascal.backend.ast.instructions.conditional.ForDowntoStatement;
 import com.duy.pascal.backend.ast.instructions.conditional.ForInStatement;
@@ -54,9 +58,7 @@ import com.duy.pascal.backend.parse_exception.value.DuplicateElementException;
 import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
 import com.duy.pascal.backend.parse_exception.value.NonIntegerException;
 import com.duy.pascal.backend.parse_exception.value.UnAssignableTypeException;
-import com.duy.pascal.backend.tokens.ignore.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
-import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
@@ -67,20 +69,26 @@ import com.duy.pascal.backend.tokens.basic.BreakToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
 import com.duy.pascal.backend.tokens.basic.ContinueToken;
+import com.duy.pascal.backend.tokens.basic.DivAssignToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.basic.DowntoToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.ExitToken;
 import com.duy.pascal.backend.tokens.basic.ForToken;
 import com.duy.pascal.backend.tokens.basic.IfToken;
+import com.duy.pascal.backend.tokens.basic.MinusAssignToken;
+import com.duy.pascal.backend.tokens.basic.MultiplyAssignToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.basic.PeriodToken;
+import com.duy.pascal.backend.tokens.basic.PlusAssignToken;
 import com.duy.pascal.backend.tokens.basic.RepeatToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.basic.ToToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
+import com.duy.pascal.backend.tokens.ignore.CommentToken;
+import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.ClassType;
@@ -1034,8 +1042,9 @@ public abstract class GrouperToken extends Token {
 
             RuntimeValue identifier = getNextExpression(context, next);
             next = peek();
+            Token assign;
             if (next instanceof AssignmentToken) {
-                take();
+                assign = take();
                 AssignableValue left = identifier.asAssignableValue(context);
 
                 if (left == null) {
@@ -1047,17 +1056,30 @@ public abstract class GrouperToken extends Token {
                 }
                 RuntimeValue value = getNextExpression(context);
                 DeclaredType valueType = value.getType(context).declType;
-
-                DeclaredType variableType = left.getType(context).declType;
+                DeclaredType leftType = left.getType(context).declType;
 
                 /*
                  * Does not have to be writable to assign value to variable.
 				 */
-                RuntimeValue converted = variableType.convert(value, context);
+                RuntimeValue converted = leftType.convert(value, context);
                 if (converted == null) {
-                    throw new UnConvertibleTypeException(value, variableType, valueType, identifier, context);
+                    throw new UnConvertibleTypeException(value, leftType, valueType,
+                            identifier, context);
                 }
-                return new AssignStatement(left, variableType.cloneValue(converted), next.getLineNumber());
+                if (assign instanceof PlusAssignToken) {
+                    return new PlusAssignStatement(context, left, leftType.cloneValue(converted),
+                            next.getLineNumber());
+                } else if (assign instanceof MinusAssignToken) {
+                    return new MinusAssignStatement(context, left, leftType.cloneValue(converted),
+                            next.getLineNumber());
+                } else if (assign instanceof MultiplyAssignToken) {
+                    return new MulAssignStatement(context, left, leftType.cloneValue(converted),
+                            next.getLineNumber());
+                } else if (assign instanceof DivAssignToken) {
+                    return new DivAssignStatement(context, left, leftType.cloneValue(converted),
+                            next.getLineNumber());
+                }
+                return new AssignStatement(left, leftType.cloneValue(converted), next.getLineNumber());
             } else if (identifier instanceof Executable) {
                 return (Executable) identifier;
             } else if (identifier instanceof FieldAccess) {

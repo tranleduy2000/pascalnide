@@ -17,13 +17,22 @@
 package com.duy.pascal.backend.tokens.basic;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.tokens.Token;
 
 /**
  * Created by Duy on 13-Jun-17.
  */
-public class MinusAssignToken extends Token {
+public class MinusAssignToken extends AssignmentToken {
     public MinusAssignToken(LineInfo line) {
         super(line);
+    }
+
+    @Override
+    public String toString() {
+        return "-=";
+    }
+
+    @Override
+    public String toCode() {
+        return toString();
     }
 }
