@@ -566,7 +566,7 @@ public abstract class GrouperToken extends Token {
 
         } else if (next instanceof BracketedToken) {
             AtomicReference<DeclaredType> elementTypeReference =
-                    new AtomicReference<>(BasicType.create(Object.class));
+                    new AtomicReference<>(null);
             ConstantAccess<LinkedList> constant = getSetConstant(context, next, elementTypeReference);
             LinkedList setValue = constant.getValue();
             SetType<DeclaredType> setType = new SetType<>(elementTypeReference.get(), setValue, line);
@@ -675,7 +675,8 @@ public abstract class GrouperToken extends Token {
 
         } else if (type instanceof SetType) {
 
-            AtomicReference<DeclaredType> elementTypeReference = new AtomicReference<>(((SetType) type).getElementType());
+            AtomicReference<DeclaredType> elementTypeReference
+                    = new AtomicReference<>(((SetType) type).getElementType());
             defaultValue = getSetConstant(context, take(), elementTypeReference).getValue();
 
         } else if (type instanceof RecordType) {
@@ -782,20 +783,33 @@ public abstract class GrouperToken extends Token {
      * @return the set constant, I define the enum as {@link LinkedList}
      */
     public ConstantAccess<LinkedList> getSetConstant(ExpressionContext context, Token token,
-                                                     AtomicReference<DeclaredType> typeReference) throws ParsingException {
+                                                     AtomicReference<DeclaredType> typeReference)
+            throws ParsingException {
         if (!(token instanceof BracketedToken)) {
             throw new ExpectedTokenException(new BracketedToken(null), token);
         }
+
         BracketedToken bracketedToken = (BracketedToken) token;
         LinkedList<Object> linkedList = new LinkedList<>();
+        DeclaredType temp = null;
         while (bracketedToken.hasNext()) {
             ConstantAccess element;
             if (typeReference.get() == null) {
                 element = getConstantElement(context, bracketedToken, null);
-                if (element.getValue() instanceof EnumElementValue) {
-                    typeReference.set(((EnumElementValue) element.getValue()).getType(context).declType);
-                } else {
-                    typeReference.set(element.getType(context).declType);
+                if (temp == null) {
+                    if (element.getValue() instanceof EnumElementValue) {
+                        temp = ((EnumElementValue) element.getValue()).getType(context).declType;
+                    } else {
+                        temp = (element.getType(context).declType);
+                    }
+                } else if (!(temp.getStorageClass() == Object.class)) {
+                    RuntimeValue convert;
+                    if (element.getValue() instanceof EnumElementValue) {
+                        convert = temp.convert((EnumElementValue) element.getValue(), context);
+                    } else {
+                        convert = temp.convert(element, context);
+                    }
+                    if (convert == null) temp = BasicType.create(Object.class);
                 }
             } else {
                 element = getConstantElement(context, bracketedToken, typeReference.get());
@@ -807,6 +821,7 @@ public abstract class GrouperToken extends Token {
             }
             linkedList.add(element.getValue());
         }
+        if (typeReference.get() == null) typeReference.set(temp);
         return new ConstantAccess<LinkedList>(linkedList, typeReference.get(), bracketedToken.getLineNumber());
     }
 

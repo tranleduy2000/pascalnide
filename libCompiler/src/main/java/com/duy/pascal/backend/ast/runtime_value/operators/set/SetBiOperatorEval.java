@@ -16,19 +16,18 @@
 
 package com.duy.pascal.backend.ast.runtime_value.operators.set;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.set.SetType;
-import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
-import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 
 import java.util.LinkedList;
 
@@ -71,9 +70,7 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException {
         LinkedList v1 = (LinkedList) value1;
-        DLog.d(TAG, "operate: v1 = " + v1);
         LinkedList v2 = (LinkedList) value2;
-        DLog.d(TAG, "operate: v2 = " + v2);
 
         LinkedList result = new LinkedList<>();
 
@@ -81,18 +78,18 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
             case PLUS:
                 result.clear();
                 for (Object element : v2) if (!v1.contains(element)) result.add(element);
-                DLog.d(TAG, "operate() returned: " + result);
+
                 return result;
             case MINUS:
                 result.addAll(v1);
                 for (Object element : v2) if (v1.contains(element)) result.remove(element);
-                DLog.d(TAG, "operate() returned: " + result);
+
                 return result;
 
             case MULTIPLY:
                 result.clear();
                 for (Object element : v2) if (v1.contains(element)) result.add(element);
-                DLog.d(TAG, "operate() returned: " + result);
+
                 return result;
 
             case DIFFERENT:

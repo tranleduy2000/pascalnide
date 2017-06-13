@@ -19,20 +19,20 @@ package com.duy.pascal.backend.ast.instructions.conditional;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.assign_statement.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
 import com.duy.pascal.backend.ast.instructions.assign_statement.AssignExecutable;
+import com.duy.pascal.backend.ast.instructions.assign_statement.AssignStatement;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.OperatorTypes;
 
 /**
  * Created by Duy on 26-May-17.
@@ -46,8 +46,8 @@ public class ForStatement extends DebuggableExecutable {
     private LineInfo line;
 
     public ForStatement(ExpressionContext context, AssignableValue tempVar,
-                          RuntimeValue first, RuntimeValue last, Executable command,
-                          LineInfo line) throws ParsingException {
+                        RuntimeValue first, RuntimeValue last, Executable command, boolean increase,
+                        LineInfo line) throws ParsingException {
         this.line = line;
         setfirst = new AssignStatement(tempVar, first, line);
         lessThanLast = BinaryOperatorEval.generateOp(context, tempVar, last,

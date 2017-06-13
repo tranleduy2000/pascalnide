@@ -33,7 +33,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
  */
 
 public class EnumSubrangeType extends SubrangeType {
-    private EnumGroupType<EnumElementValue> enumGroupType;
+    private EnumGroupType enumGroupType;
 
     public EnumSubrangeType(GrouperToken bound, ExpressionContext context)
             throws ParsingException {

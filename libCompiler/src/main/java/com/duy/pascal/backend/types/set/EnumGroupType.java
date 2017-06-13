@@ -19,17 +19,18 @@ package com.duy.pascal.backend.types.set;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.InfoType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.rangetype.Containable;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 
 import java.util.LinkedList;
 
@@ -37,7 +38,7 @@ import java.util.LinkedList;
  * Created by Duy on 25-May-17.
  */
 
-public class EnumGroupType<T extends EnumElementValue> extends InfoType implements Containable {
+public class EnumGroupType extends InfoType implements Containable {
     private LinkedList<EnumElementValue> list;
 
     public EnumGroupType(@NonNull LinkedList<EnumElementValue> list) {
@@ -84,9 +85,6 @@ public class EnumGroupType<T extends EnumElementValue> extends InfoType implemen
     @Override
     public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
         RuntimeType other = runtimeValue.getType(f);
-        if (!(other.declType instanceof EnumGroupType)) {
-            return null;
-        }
         if (this.equals(other.declType)) {
             return cloneValue(runtimeValue);
         }
@@ -111,6 +109,9 @@ public class EnumGroupType<T extends EnumElementValue> extends InfoType implemen
             if (this.list.equals(otherEnum.list)) {
                 return true;
             }
+        } else if (other instanceof JavaClassBasedType && other.getStorageClass() ==
+                EnumElementValue.class) {
+            return true;
         }
         return false;
     }

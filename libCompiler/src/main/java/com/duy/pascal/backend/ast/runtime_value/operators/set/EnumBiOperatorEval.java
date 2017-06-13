@@ -16,19 +16,20 @@
 
 package com.duy.pascal.backend.ast.runtime_value.operators.set;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
-import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.utils.NullSafety;
 
 
 public class EnumBiOperatorEval extends BinaryOperatorEval {
@@ -62,14 +63,6 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
     public Object operate(Object value1, Object value2)
             throws PascalArithmeticException {
         EnumElementValue v1 = (EnumElementValue) value1;
-        switch (operator_type) {
-            case PLUS:
-                int inc = (int) value2;
-                return v1.getEnumGroupType().get(v1.getIndex() + inc);
-            case MINUS:
-                int inc2 = (int) value2;
-                return v1.getEnumGroupType().get(v1.getIndex() - inc2);
-        }
         EnumElementValue v2 = (EnumElementValue) value2;
         switch (operator_type) {
             case EQUALS:
@@ -79,16 +72,16 @@ public class EnumBiOperatorEval extends BinaryOperatorEval {
                 return !v1.equals(v2);
 
             case GREATEREQ:
-                if (v1 == null) return true;
-                if (v2 == null) return false;
+                if (NullSafety.isNullValue(v1)) return true;
+                if (NullSafety.isNullValue(v2)) return false;
                 return v1.getIndex() >= v2.getIndex();
 
             case GREATERTHAN:
                 return v1.getIndex() > v2.getIndex();
 
             case LESSEQ:
-                if (v1 == null) return false;
-                if (v2 == null) return true;
+                if (NullSafety.isNullValue(v1)) return false;
+                if (NullSafety.isNullValue(v2)) return true;
                 return v1.getIndex() <= v2.getIndex();
 
             case LESSTHAN:
