@@ -8,8 +8,7 @@ var
 begin
     Driver := Detect;{ Put in graphics mode }
     InitGraph(Driver, Mode, ' ');
-    if GraphResult < 0 then
-        Halt(1);
+
     Sector(GetMaxX div 2, GetMaxY div 2, 0, 234, R, R);
 
     Readln;

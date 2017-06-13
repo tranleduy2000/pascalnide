@@ -1,4 +1,4 @@
-Program rect;
+Program color_rgb;
 Uses Crt;
 
 var

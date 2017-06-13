@@ -7,8 +7,6 @@ var
 begin
     Gd := Detect;
     InitGraph(Gd, Gm, ' ');
-    if GraphResult <> grOk then
-        Halt(1);
 
     SetColor(blue);
 

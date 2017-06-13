@@ -2,13 +2,12 @@ Program draw_line;
 Uses Crt,Graph;
 Var
     graphicsDriver, graphicsMode,
-    errCode, i, startX, startY, maxColor,
-    color: Integer;
+        i, startX, startY, maxColor, color: Integer;
+Var
+    graphicsDriver, graphicsMode: integer;
 Begin
-    Writeln('Initialising Graphics, please wait...');
     graphicsDriver := Detect;
     InitGraph(graphicsDriver, graphicsMode,'');
-    If GraphResult <> grOK then exit;
 
     Randomize;
     startX := getMaxX();

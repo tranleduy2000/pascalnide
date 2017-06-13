@@ -2,12 +2,10 @@ program draw_pixel;
 Uses Crt,Graph;
 Var
     graphicsDriver, graphicsMode,
-    errCode, color, maxColor, startX, startY: Integer;
+     color, maxColor, startX, startY: Integer;
 Begin
-    Writeln('Initialising Graphics, please wait...');
     graphicsDriver := Detect;
     InitGraph(graphicsDriver, graphicsMode,'');
-    If GraphResult <> grOK then exit;
 
     startX := getMaxX;
     startY := getMaxY;

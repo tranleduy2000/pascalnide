@@ -1,13 +1,10 @@
 uses graph;
 
-var
-    gd, gm: integer;
-
-begin
-    gd := Detect;
-    InitGraph(gd,gm,'');
-
-    if GraphResult <> grOk then Halt(1);
+Var
+    graphicsDriver, graphicsMode: integer;
+Begin
+    graphicsDriver := Detect;
+    InitGraph(graphicsDriver, graphicsMode,'');
 
     setFillStyle(3,Blue);
     Bar3D(150,130,440,470,100,topon);

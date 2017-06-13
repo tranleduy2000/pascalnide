@@ -1,21 +1,18 @@
 Program draw_bar;
-Uses Crt,Graph;
+Uses Crt, Graph;
+
 Var
-    graphicsDriver, graphicsMode,
-    errCode: Integer;
+  graphicsDriver, graphicsMode: integer;
 Begin
-    Writeln('Initialising Graphics, please wait...');
-    graphicsDriver := Detect;
-    InitGraph(graphicsDriver, graphicsMode,'');
-    If GraphResult <> grOK then exit;{ <> means 'not equal to' }
-
-    Randomize;
-    SetColor(Random(15) + 1); {Set paint color}
+  graphicsDriver := Detect;
+  InitGraph(graphicsDriver, graphicsMode,'');
+  Randomize;
+  SetColor(Random(15) + 1); {Set paint color}
 
 
-    {Draw bar}
-    bar(100, 100, 300, 200);
+  {Draw bar}
+  bar(100, 100, 300, 200);
 
-    ReadLn;
-    CloseGraph;
+  ReadLn;
+  CloseGraph;
 End.

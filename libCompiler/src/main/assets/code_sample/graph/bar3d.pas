@@ -1,24 +1,10 @@
 Program Graphika12;
 Uses Graph;
-
-Procedure Graphinterface;
 Var
-    gd, gm, error: Integer;
-    s: String;
+    graphicsDriver, graphicsMode: integer;
 Begin
-    gd := detect;
-    s := ' ';
-    Initgraph(gd,gm,s);
-    error := GraphResult;
-    if error <> GrOk then
-    begin
-        writeln(GraphErrorMsg(Error));
-        Halt(error)
-    end
-end;
-
-begin
-    Graphinterface;
+    graphicsDriver := Detect;
+    InitGraph(graphicsDriver, graphicsMode,'');
     setcolor (5);
     setlinestyle(2,0,3);
     setfillstyle (6,7);

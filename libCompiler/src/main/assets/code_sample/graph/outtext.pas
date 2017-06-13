@@ -1,17 +1,10 @@
 Program outtext_sample;
 Uses Crt,Graph;
 Var
-    graphicsDriver, graphicsMode,
-    errCode : Integer;
-        {two var's are needed for initialisation}
+    graphicsDriver, graphicsMode: integer;
 Begin
-    Writeln('Initialising Graphics, please wait...');
     graphicsDriver := Detect;
     InitGraph(graphicsDriver, graphicsMode,'');
-    {IMPORTANT, read the following or
-     otherwise graphics will not work!! ;)}
-    errCode := GraphResult;
-    If GraphResult <> grOK then exit;
 
     Randomize;
     SetColor(Random(15) + 1); {Set text color}

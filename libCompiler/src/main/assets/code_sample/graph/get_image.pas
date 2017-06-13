@@ -1,15 +1,15 @@
 uses Graph;
 
 var
-    Gd, Gm : Integer;
     P      : Pointer;
     Size   : Word;
 
-begin
-    Gd := Detect;
-    InitGraph(Gd, Gm, 'X:\BP');
-    if GraphResult <> grOk then
-        Halt(1);
+Var
+    graphicsDriver, graphicsMode: integer;
+Begin
+    graphicsDriver := Detect;
+    InitGraph(graphicsDriver, graphicsMode,'');
+
     SetFillStyle(XHatchFill, Cyan);
     Bar(0, 0, GetMaxX, GetMaxY);
     Size := ImageSize(10, 20, 30, 40);

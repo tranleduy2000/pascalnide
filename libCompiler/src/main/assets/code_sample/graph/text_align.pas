@@ -5,7 +5,6 @@ var
 begin
     Gd := Detect;
     InitGraph(Gd, Gm, '');
-    if GraphResult <> grOk then Halt(1);
 
     SetTextJustify(CenterText, CenterText);
     OutTextXY(Succ(GetMaxX) div 2, Succ(GetMaxY) div 3,'CenterText');

@@ -8,9 +8,8 @@ var
 
 begin
   Gd := Detect;
-  InitGraph(Gd, Gm, 'X:\BP');
-  if GraphResult <> grOk then
-    Halt(1);
+  InitGraph(Gd, Gm, '');
+
   Row := 0;
   Title := 'Turbo Graphics';
   Size := 1;
