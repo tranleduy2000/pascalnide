@@ -48,6 +48,10 @@ public class CustomVariable implements ContainsVariables {
         return variables;
     }
 
+    public Map<String, Object> getVariableMap() {
+        return variableMap;
+    }
+
     @Override
     public Object getVar(String name) {
         return variableMap.get(name.toLowerCase());

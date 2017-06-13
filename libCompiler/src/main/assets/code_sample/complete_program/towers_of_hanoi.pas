@@ -13,7 +13,7 @@ program TowersofHanoi;
 var
   numdiscs : integer;
 
-(********************************************************)
+(* *******************************************************)
 
 procedure DoTowers (NumDiscs, OrigPeg, NewPeg, TempPeg : integer);
 (* Explanation of variables:

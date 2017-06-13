@@ -1,5 +1,5 @@
 program bounce;
-
+{$MODE ANDROID}
 uses
   CRT, Graph;
 

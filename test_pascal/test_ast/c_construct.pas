@@ -1,6 +1,6 @@
 var
   a, b : Integer;
-  c, d : integer;
+  c, d : Real;
 begin
   a := 1;
   b := 2;

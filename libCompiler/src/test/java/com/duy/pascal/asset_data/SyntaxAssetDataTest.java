@@ -136,8 +136,8 @@ public class SyntaxAssetDataTest extends TestCase {
                 assertTrue(checkSyntax(file.getPath()));
             }
         }
-    } public void testmore() {
-        File parent = new File(dir + "more");
+    } public void testCompleteProgram() {
+        File parent = new File(dir + "complete_program");
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 assertTrue(checkSyntax(file.getPath()));

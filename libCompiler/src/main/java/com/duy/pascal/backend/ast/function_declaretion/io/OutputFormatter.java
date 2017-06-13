@@ -20,12 +20,15 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
+import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Duy on 09-Jun-17.
@@ -42,18 +45,12 @@ public class OutputFormatter {
             RuntimeValue raw = runtimeValues[i];
             RuntimeValue[] outputFormat = raw.getOutputFormat();
             Object value = raw.getValue(f, main);
-            StringBuilder out = new StringBuilder(value instanceof Object[] ?
-                    Arrays.toString((Object[]) value) : String.valueOf(value));
+            StringBuilder out = new StringBuilder(getValueOuput(value));
 
             if (outputFormat != null) {
                 if (outputFormat[1] != null) {
                     int sizeOfReal = (int) outputFormat[1].getValue(f, main);
-                    StringBuilder round = new StringBuilder();
-                    for (int j = 0; j < sizeOfReal; j++) round.append("0");
-                    DecimalFormat decimalFormat = new DecimalFormat("#0." + round.toString());
-                    decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
-                    Double d = Double.parseDouble(out.toString());
-                    out = new StringBuilder(decimalFormat.format(d));
+                    out = formatDecimal(sizeOfReal, out);
                 }
 
                 if (outputFormat[0] != null) {
@@ -66,5 +63,35 @@ public class OutputFormatter {
             values[i] = out;
         }
         return values;
+    }
+
+    private static String getValueOuput(Object value) {
+        if (value instanceof Object[]) return Arrays.toString((Object[]) value);
+        if (value instanceof CustomVariable) {
+            Set<Map.Entry<String, Object>> entries = ((CustomVariable) value).getVariableMap().entrySet();
+            StringBuilder res = new StringBuilder();
+            for (Map.Entry<String, Object> entry : entries) {
+                res.append(entry.getValue()).append("\n");
+            }
+            return res.toString();
+        }
+        return String.valueOf(value);
+    }
+
+    public static StringBuilder formatDecimal(int decimal, Object value) {
+
+        StringBuilder out = new StringBuilder(value instanceof Object[] ?
+                Arrays.toString((Object[]) value) : String.valueOf(value));
+
+        StringBuilder pattern = new StringBuilder("#0.");
+        for (int j = 0; j < decimal; j++) pattern.append("0");
+
+        DecimalFormat decimalFormat = new DecimalFormat(pattern.toString());
+        decimalFormat.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
+
+        Double d = Double.parseDouble(out.toString());
+        out = new StringBuilder(decimalFormat.format(d));
+
+        return out;
     }
 }

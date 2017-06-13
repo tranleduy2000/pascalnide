@@ -182,12 +182,10 @@ Octal                = "&" [0-7]+
 Comment = {TraditionalComment} | {EndOfLineComment}  | {PascalComment}
 
 CommentStarter		 =  "(*" | "{"
-CommentEnder		 =   "*)" | "}"
-PascalComment        = "{" [^*] ~"}" | "(*" [^*] ~"*)"
-BracesComment		 = {CommentStarter} {RestOfComment}
+PascalComment        = ("(*" !([^]* "*)" [^]*) ("*)")?) | ( "{" !([^]* "}" [^]*) ("}")?)
 
 RestOfComment		 = ([^*] | \*[^)}])* "}"
- 
+
 TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}
 
