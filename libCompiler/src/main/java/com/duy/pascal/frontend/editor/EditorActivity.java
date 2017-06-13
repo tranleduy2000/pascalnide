@@ -60,20 +60,20 @@ import com.duy.pascal.frontend.MenuEditor;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.editor.completion.KeyWord;
-import com.duy.pascal.frontend.editor.editor_view.AutoIndentEditText;
-import com.duy.pascal.frontend.editor.editor_view.EditorView;
-import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.code_sample.activities.DocumentActivity;
 import com.duy.pascal.frontend.dialog.DialogCreateNewFile;
 import com.duy.pascal.frontend.dialog.DialogFragmentFixExpectToken;
 import com.duy.pascal.frontend.dialog.DialogManager;
+import com.duy.pascal.frontend.editor.completion.KeyWord;
+import com.duy.pascal.frontend.editor.editor_view.AutoIndentEditText;
+import com.duy.pascal.frontend.editor.editor_view.EditorView;
+import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.theme.fragment.ThemeFontActivity;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
-import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -745,17 +745,24 @@ public class EditorActivity extends BaseEditorActivity implements
     }
 
     public void insertColor() {
-        ColorPickerDialogBuilder.with(this).setOnColorSelectedListener(new OnColorSelectedListener() {
-            @Override
-            public void onColorSelected(int selectedColor) {
-                EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
-                if (currentFragment != null) {
-                    currentFragment.insert(String.valueOf(selectedColor));
-                    Toast.makeText(EditorActivity.this, getString(R.string.inserted_color) + selectedColor,
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).build().show();
+        ColorPickerDialogBuilder.with(this).
+                setPositiveButton(getString(R.string.select), new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface d, int lastSelectedColor, Integer[] allColors) {
+                        EditorFragment currentFragment = pagerAdapter.getCurrentFragment();
+                        if (currentFragment != null) {
+                            currentFragment.insert(String.valueOf(lastSelectedColor));
+                            Toast.makeText(EditorActivity.this, getString(R.string.inserted_color) + lastSelectedColor,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).build().show();
     }
 
     public void autoFix(ParsingException e) {

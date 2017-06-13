@@ -217,15 +217,19 @@ public class GraphScreen {
      */
     private void clearPrimaryBitmap() {
         synchronized (mLock) {
-            Canvas canvas = null;
+         /*   Canvas canvas = null;
             if (mPrimaryBitmap != null) {
                 canvas = new Canvas(mPrimaryBitmap);
                 Paint paint = new Paint();
                 paint.setColor(Color.BLACK);
                 canvas.drawRect(0, 0, mPrimaryBitmap.getWidth(), mPrimaryBitmap.getHeight(), paint);
+            }*/
+            if (ensurePrimaryNonNull()) {
+                mPrimaryBitmap.eraseColor(Color.TRANSPARENT);
             }
         }
     }
+
 
     public void setCursorPostion(int x, int y) {
         this.mCursor.setCoordinate(x, y);
@@ -339,17 +343,25 @@ public class GraphScreen {
 
     public void setBufferEnable(boolean bufferEnable) {
         this.bufferEnable = bufferEnable;
-        if (bufferEnable && mBitmapBuffer == null) {
-            ensureBufferNonNull();
-        } else {
+        if (bufferEnable && ensureBufferNonNull()) {
             clearBufferBitmap();
         }
     }
 
-    private void ensureBufferNonNull() {
+    private boolean ensureBufferNonNull() {
         if (mBitmapBuffer == null) {
             mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            return false;
         }
+        return true;
+    }
+
+    private boolean ensurePrimaryNonNull() {
+        if (mPrimaryBitmap == null) {
+            mPrimaryBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            return false;
+        }
+        return true;
     }
 
     public void bufferToPrimary() {
@@ -360,13 +372,14 @@ public class GraphScreen {
 
     public void clearBufferBitmap() {
         synchronized (mLock) {
-            Canvas canvas = null;
+         /*   Canvas canvas = null;
             if (mBitmapBuffer != null) {
                 canvas = new Canvas(mBitmapBuffer);
                 Paint paint = new Paint();
                 paint.setColor(Color.BLACK);
                 canvas.drawRect(0, 0, mBitmapBuffer.getWidth(), mBitmapBuffer.getHeight(), paint);
-            }
+            }*/
+            if (mBitmapBuffer != null) mBitmapBuffer.eraseColor(Color.TRANSPARENT);
         }
     }
 
