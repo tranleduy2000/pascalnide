@@ -21,6 +21,7 @@ import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.debug.DebugManager;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 
 public class SimpleFunctionCall extends FunctionCall {
     private AbstractCallableFunction function;
@@ -63,6 +64,7 @@ public class SimpleFunctionCall extends FunctionCall {
                         ArrayUtil.paramsToString(arguments, values), main);
             }
             main.scriptControlCheck(line);
+
         }
         Object result;
         try {

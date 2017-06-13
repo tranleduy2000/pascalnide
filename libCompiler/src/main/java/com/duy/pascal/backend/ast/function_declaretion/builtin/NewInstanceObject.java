@@ -44,7 +44,6 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 public class NewInstanceObject implements IMethodDeclaration {
-    private RuntimeType runtimeType;
     private ArgumentType[] argumentTypes =
             {new RuntimeType(new JavaClassBasedType(Object.class), true)};
 
@@ -57,8 +56,7 @@ public class NewInstanceObject implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
-        this.runtimeType = pointer.getType(f);
-        return new InstanceObjectCall(pointer, line);
+        return new InstanceObjectCall(pointer, pointer.getType(f), line);
     }
 
     @Override
@@ -84,10 +82,12 @@ public class NewInstanceObject implements IMethodDeclaration {
 
     private class InstanceObjectCall extends FunctionCall {
         private RuntimeValue pointer;
+        private RuntimeType type;
         private LineInfo line;
 
-        InstanceObjectCall(RuntimeValue value, LineInfo line) {
+        InstanceObjectCall(RuntimeValue value, RuntimeType type, LineInfo line) {
             this.pointer = value;
+            this.type = type;
             this.line = line;
         }
 
@@ -114,13 +114,13 @@ public class NewInstanceObject implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, line);
+            return new InstanceObjectCall(pointer, type, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, line);
+            return new InstanceObjectCall(pointer, type, line);
         }
 
         @Override
@@ -133,10 +133,9 @@ public class NewInstanceObject implements IMethodDeclaration {
                 throws RuntimePascalException {
             //get references of variable
             FieldReference pointer = (FieldReference) this.pointer.getValue(f, main);
-            RuntimeType type = pointer.getType();
 
             //get class type of variable
-            JavaClassBasedType javaType = (JavaClassBasedType) ((PointerType) runtimeType.declType).pointedToType;
+            JavaClassBasedType javaType = (JavaClassBasedType) ((PointerType) type.declType).pointedToType;
 
             Class<?> clazz = javaType.getStorageClass();
 

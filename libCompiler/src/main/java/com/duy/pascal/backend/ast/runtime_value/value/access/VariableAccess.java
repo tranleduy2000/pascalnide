@@ -16,21 +16,19 @@
 
 package com.duy.pascal.backend.ast.runtime_value.value.access;
 
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.FieldReference;
-import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.tokens.WordToken;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class VariableAccess extends DebuggableAssignableValue {
     private String name;
@@ -80,15 +78,6 @@ public class VariableAccess extends DebuggableAssignableValue {
     @Override
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        try {
-            if (f instanceof FunctionOnStack) {
-                ExpressionContextMixin declarations = ((FunctionOnStack) f).getPrototype().declaration;
-                RuntimeType type = getType(declarations);
-                return new FieldReference(f, name, type);
-            }
-        } catch (ParsingException e) {
-            e.printStackTrace();
-        }
         return new FieldReference(f, name);
     }
 

@@ -44,7 +44,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 
 public class NewInstanceParamsObject implements IMethodDeclaration {
-    private RuntimeType runtimeType;
     private ArgumentType[] argumentTypes =
             {new RuntimeType(new JavaClassBasedType(Object.class), true),
                     new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
@@ -58,8 +57,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
-        this.runtimeType = arguments[0].getType(f);
-        return new InstanceObjectCall(pointer, arguments[1], line);
+        return new InstanceObjectCall(pointer, pointer.getType(f), arguments[1], line);
     }
 
     @Override
@@ -85,11 +83,13 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
     private class InstanceObjectCall extends FunctionCall {
 
         private RuntimeValue pointer;
+        private RuntimeType runtimeType;
         private RuntimeValue listArg;
         private LineInfo line;
 
-        InstanceObjectCall(RuntimeValue pointer, RuntimeValue listArg, LineInfo line) {
+        InstanceObjectCall(RuntimeValue pointer, RuntimeType runtimeType, RuntimeValue listArg, LineInfo line) {
             this.pointer = pointer;
+            this.runtimeType = runtimeType;
             this.listArg = listArg;
             this.line = line;
         }
@@ -118,13 +118,13 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, listArg, line);
+            return new InstanceObjectCall(pointer, runtimeType, listArg, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, listArg, line);
+            return new InstanceObjectCall(pointer, runtimeType, listArg, line);
         }
 
         @Override

@@ -8,7 +8,6 @@ import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
 public class FieldReference implements Reference {
     private ContainsVariables container;
     private String name;
-    private RuntimeType type = null;
 
     public FieldReference(ContainsVariables container, String name) {
         this.container = container;
@@ -18,7 +17,6 @@ public class FieldReference implements Reference {
     public FieldReference(ContainsVariables container, String name, RuntimeType type) {
         this.container = container;
         this.name = name;
-        this.type = type;
     }
 
     @Override
@@ -37,7 +35,4 @@ public class FieldReference implements Reference {
         return this;
     }
 
-    public RuntimeType getType() {
-        return type;
-    }
 }
