@@ -20,7 +20,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.Token;
 
 public class CompileDirectiveToken extends Token {
-    public String message;
+    private String message;
 
     public CompileDirectiveToken(LineInfo line, String message) {
         super(line);
@@ -29,15 +29,16 @@ public class CompileDirectiveToken extends Token {
 
     @Override
     public String toString() {
-        return "{" + message + "}";
+        return message;
     }
 
     @Override
     public String toCode() {
-        return toString();
+        return message;
     }
 
-    public String getMessage() {
-        return message;
+    public String[] getMessage() {
+        String msg = message.subSequence(1, message.length() - 1).toString();
+        return msg.split("\\s+");
     }
 }

@@ -8,7 +8,7 @@ import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.tokens.Token;
-import com.duy.pascal.backend.tokens.igrone.CompileDirectiveToken;
+import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ArrayToken;
 import com.duy.pascal.backend.tokens.basic.AssignmentToken;
@@ -59,7 +59,7 @@ import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
-import com.duy.pascal.backend.tokens.igrone.CommentToken;
+import com.duy.pascal.backend.tokens.ignore.CommentToken;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;
@@ -160,17 +160,17 @@ Identifier = [a-zA-Z_] [a-zA-Z_0-9]*
 Char = "#" {Digit}+
 WhiteSpace = ([ \t] | {LineTerminator})+
 
-LineTerminator = \r|\n|\r\n
-InputCharacter = [^\r|\n|]
+LineTerminator       = \r|\n|\r\n
+InputCharacter       = [^\r|\n|]
 
-Integer = {Digit}+
-Exp = [Ee][+-]?{Digit}+
-NumberExp = {NumberDecimal} {Exp} | {Digit}+ {Exp}
-NumberDecimal = {Digit}+ "." {Digit}+
-Float ={NumberExp} | {NumberDecimal}
-Hex          = "$" [0-9a-fA-F]+
-Binary       = ("%" [01]+) | ({Digit}[bB])
-Octal        = "&" [0-7]+
+Integer              = {Digit}+
+Exp                  = [Ee][+-]?{Digit}+
+NumberExp            = {NumberDecimal} {Exp} | {Digit}+ {Exp}
+NumberDecimal        = {Digit}+ "." {Digit}+
+Float                ={NumberExp} | {NumberDecimal}
+Hex                  = "$" [0-9a-fA-F]+
+Binary               = ("%" [01]+) | ({Digit}[bB])
+Octal                = "&" [0-7]+
 
 Comment = {TraditionalComment} | {EndOfLineComment}  | {PascalComment}
 
@@ -320,7 +320,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 			yybegin(YYINITIAL); 
 			if(literal.length()==1) {
 			    LineInfo lineInfo = getLine();
-                 lineInfo.setColumn(lineInfo.getColumn() - 3);
+                lineInfo.setColumn(lineInfo.getColumn() - 3);
 				return new CharacterToken(lineInfo,literal.toString().charAt(0));
 			} else {
 			    LineInfo lineInfo = getLine();

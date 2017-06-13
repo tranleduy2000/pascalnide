@@ -4,11 +4,8 @@ package com.duy.pascal.backend.tokenizer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.source_include.ScriptSource;
-import com.duy.pascal.backend.tokens.ignore.CommentToken;
 import com.duy.pascal.backend.tokens.EOFToken;
-import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.OperatorToken;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
@@ -48,7 +45,11 @@ import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 import com.duy.pascal.backend.tokens.grouping.RecordToken;
+import com.duy.pascal.backend.tokens.ignore.CommentToken;
+import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
+import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
+import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.DLog;
 
@@ -238,6 +239,8 @@ public class IndentCode {
             } else {
                 return new StringBuilder(token.toString()).append(" ");
             }
+        } else if (token instanceof CompileDirectiveToken) {
+            return new StringBuilder(token.toString()).append("\n");
         }
         return new StringBuilder(token.toString()).append(" ");
     }

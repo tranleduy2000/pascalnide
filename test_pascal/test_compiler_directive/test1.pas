@@ -1,5 +1,4 @@
 {$F+}
-
 Procedure TestProc;
 
 begin

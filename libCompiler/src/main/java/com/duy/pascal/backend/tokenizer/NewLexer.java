@@ -73,7 +73,7 @@ public class NewLexer {
                     }
                 }
                 if (t instanceof CompileDirectiveToken) {
-                    // TODO handle warnings...
+                    topOfStack.put(t);
                     continue;
                 }
 
