@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens.basic;
+package com.duy.pascal.backend.ast.instructions.assign_statement;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 
-public class RepeatToken extends BasicToken {
-
-    public RepeatToken(LineInfo line) {
-        super(line);
-    }
+public interface AssignExecutable extends Executable {
 
     @Override
-    public String toString() {
-        return "repeat";
-    }
+    AssignExecutable compileTimeConstantTransform(CompileTimeContext c)
+            throws ParsingException;
 }

@@ -6,10 +6,10 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.AssignStatement;
+import com.duy.pascal.backend.ast.instructions.assign_statement.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
-import com.duy.pascal.backend.ast.instructions.SetValueExecutable;
+import com.duy.pascal.backend.ast.instructions.assign_statement.AssignExecutable;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -24,9 +24,9 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
  * see in https://www.freepascal.org/docs-html/ref/refsu58.html#x164-18600013.2.4
  */
 public class ForToStatement extends DebuggableExecutable {
-    private SetValueExecutable setfirst;
+    private AssignExecutable setfirst;
     private RuntimeValue lessThanLast;
-    private SetValueExecutable increment;
+    private AssignExecutable increment;
     private Executable command;
     private LineInfo line;
 
@@ -72,8 +72,8 @@ public class ForToStatement extends DebuggableExecutable {
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        SetValueExecutable first = setfirst.compileTimeConstantTransform(c);
-        SetValueExecutable inc = increment.compileTimeConstantTransform(c);
+        AssignExecutable first = setfirst.compileTimeConstantTransform(c);
+        AssignExecutable inc = increment.compileTimeConstantTransform(c);
         Executable comm = command.compileTimeConstantTransform(c);
         RuntimeValue comp = lessThanLast;
         Object val = lessThanLast.compileTimeValue(c);

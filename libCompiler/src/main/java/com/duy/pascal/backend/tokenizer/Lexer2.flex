@@ -35,6 +35,10 @@ import com.duy.pascal.backend.tokens.basic.TypeToken;
 import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
+import com.duy.pascal.backend.tokens.basic.PlusAssignToken;
+import com.duy.pascal.backend.tokens.basic.MinusAssignToken;
+import com.duy.pascal.backend.tokens.basic.DivAssignToken;
+import com.duy.pascal.backend.tokens.basic.MultiplyAssignToken;
 import com.duy.pascal.backend.tokens.closing.EndBracketToken;
 import com.duy.pascal.backend.tokens.closing.EndParenToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
@@ -234,11 +238,7 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"div" {return new OperatorToken(getLine(),OperatorTypes.DIV); }
 	"mod" {return new OperatorToken(getLine(),OperatorTypes.MOD); }
 	"in" {return new OperatorToken(getLine(),OperatorTypes.IN); }
-	"=" {return new OperatorToken(getLine(),OperatorTypes.EQUALS); }
-	"/" {return new OperatorToken(getLine(),OperatorTypes.DIVIDE); }
-	"*" {return new OperatorToken(getLine(),OperatorTypes.MULTIPLY); }
-	"+" {return new OperatorToken(getLine(),OperatorTypes.PLUS); }
-	"-" {return new OperatorToken(getLine(),OperatorTypes.MINUS); }
+
 	"<>" {return new OperatorToken(getLine(),OperatorTypes.NOTEQUAL); }
 	"><" {return new OperatorToken(getLine(),OperatorTypes.DIFFERENT); }
 	"<=" {return new OperatorToken(getLine(),OperatorTypes.LESSEQ); }
@@ -247,6 +247,30 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"<" {return new OperatorToken(getLine(),OperatorTypes.LESSTHAN); }
 	"@" {return new OperatorToken(getLine(),OperatorTypes.ADDRESS); }
 	"^" {return new OperatorToken(getLine(),OperatorTypes.DEREF); }
+
+	"+=" {return new PlusAssignToken(getLine()); }
+    "/=" {return new DivAssignToken(getLine()); }
+    "*=" {return new MultiplyAssignToken(getLine()); }
+    "-=" {return new MinusAssignToken(getLine()); }
+
+	"=" {return new OperatorToken(getLine(),OperatorTypes.EQUALS); }
+	"/" {return new OperatorToken(getLine(),OperatorTypes.DIVIDE); }
+	"*" {return new OperatorToken(getLine(),OperatorTypes.MULTIPLY); }
+	"+" {return new OperatorToken(getLine(),OperatorTypes.PLUS); }
+	"-" {return new OperatorToken(getLine(),OperatorTypes.MINUS); }
+
+
+	":=" {return new AssignmentToken(getLine()); }
+	"," {return new CommaToken(getLine()); }
+	":" {return new ColonToken(getLine()); }
+	".." {return new DotDotToken(getLine());}
+	"." {return new PeriodToken(getLine()); }
+	";" {return new SemicolonToken(getLine()); }
+	"(" {return new ParenthesizedToken(getLine());}
+	"[" {return new BracketedToken(getLine());}
+	"end" {return new EndToken(getLine());}
+	")" {return new EndParenToken(getLine());}
+	"]" {return new EndBracketToken(getLine());}
 
 	"if" {return new IfToken(getLine()); }
 	"then" {return new ThenToken(getLine()); }
@@ -270,12 +294,6 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"array" {return new ArrayToken(getLine()); }
 	"until" {return new UntilToken(getLine()); }
 	"uses" {return new UsesToken(getLine()); }
-	":=" {return new AssignmentToken(getLine()); }
-	"," {return new CommaToken(getLine()); }
-	":" {return new ColonToken(getLine()); }
-	".." {return new DotDotToken(getLine());}
-	"." {return new PeriodToken(getLine()); }
-	";" {return new SemicolonToken(getLine()); }
 	"begin" {return new BeginEndToken(getLine());}
 	"record" {return new RecordToken(getLine());}
 	"case" {return new CaseToken(getLine());}
@@ -288,12 +306,9 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"interface" {return new InterfaceToken(getLine());}
 	"unit" {return new UnitToken(getLine());}
 	"set" {return new SetToken(getLine());}
+	"goto" {return new SetToken(getLine());}
+	"lable" {return new SetToken(getLine());}
 
-	"(" {return new ParenthesizedToken(getLine());}
-	"[" {return new BracketedToken(getLine());}
-	"end" {return new EndToken(getLine());}
-	")" {return new EndParenToken(getLine());}
-	"]" {return new EndBracketToken(getLine());}
 	"'" {
 		literal.setLength(0);
 		yybegin(STRING);

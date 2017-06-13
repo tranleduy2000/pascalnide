@@ -32,6 +32,7 @@ public class UsesToken extends BasicToken {
     public String toString() {
         return "uses";
     }
+
     @Override
     public boolean canDeclareInInterface() {
         return true;

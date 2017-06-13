@@ -17,15 +17,14 @@
 package com.duy.pascal.backend.tokens.basic;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokens.Token;
 
-public class RepeatToken extends BasicToken {
+/**
+ * Created by Duy on 13-Jun-17.
+ */
 
-    public RepeatToken(LineInfo line) {
+public class DivAssignToken extends Token {
+    public DivAssignToken(LineInfo line) {
         super(line);
-    }
-
-    @Override
-    public String toString() {
-        return "repeat";
     }
 }

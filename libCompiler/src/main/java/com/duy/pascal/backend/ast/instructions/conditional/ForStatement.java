@@ -19,10 +19,10 @@ package com.duy.pascal.backend.ast.instructions.conditional;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.AssignStatement;
+import com.duy.pascal.backend.ast.instructions.assign_statement.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
-import com.duy.pascal.backend.ast.instructions.SetValueExecutable;
+import com.duy.pascal.backend.ast.instructions.assign_statement.AssignExecutable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
@@ -39,9 +39,9 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
  */
 
 public class ForStatement extends DebuggableExecutable {
-    private SetValueExecutable setfirst;
+    private AssignExecutable setfirst;
     private RuntimeValue lessThanLast;
-    private SetValueExecutable increment_temp;
+    private AssignExecutable increment_temp;
     private Executable command;
     private LineInfo line;
 
@@ -87,8 +87,8 @@ public class ForStatement extends DebuggableExecutable {
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        SetValueExecutable first = setfirst.compileTimeConstantTransform(c);
-        SetValueExecutable inc = increment_temp.compileTimeConstantTransform(c);
+        AssignExecutable first = setfirst.compileTimeConstantTransform(c);
+        AssignExecutable inc = increment_temp.compileTimeConstantTransform(c);
         Executable comm = command.compileTimeConstantTransform(c);
         RuntimeValue comp = lessThanLast;
         Object val = lessThanLast.compileTimeValue(c);

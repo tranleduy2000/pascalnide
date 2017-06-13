@@ -8,7 +8,7 @@ import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.AssignStatement;
+import com.duy.pascal.backend.ast.instructions.assign_statement.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.BreakInstruction;
 import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.instructions.ContinueInstruction;
