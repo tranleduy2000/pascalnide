@@ -33,10 +33,7 @@ public class ScreenBuffer {
      * store text input, with unicode character
      */
     public ConsoleInputStream textBuffer = new ConsoleInputStream();
-    /**
-     * store key code event
-     */
-    public CharBuffer keyBuffer = new CharBuffer();
+
     private FileInputStream fileInputStream;
     private FileOutputStream fileOutputStream;
 

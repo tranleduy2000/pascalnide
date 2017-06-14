@@ -65,6 +65,10 @@ public class ConsoleView extends View implements
     private final AtomicBoolean canDraw = new AtomicBoolean(true);
     public Handler handler = new Handler();
     public int firstLine;
+    /**
+     * store key code event
+     */
+    public CharQueue mKeyBuffer = new CharQueue(2); //two key
     private boolean graphicMode = false;
     private GraphScreen mGraphScreen;
     //    text style, size of console
@@ -100,6 +104,8 @@ public class ConsoleView extends View implements
     private String mImeBuffer = "";
     private TextConsole[] textImeBuffer;
     private boolean antiAlias = false;
+
+
     public ConsoleView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
         init(context);
@@ -114,6 +120,10 @@ public class ConsoleView extends View implements
     public ConsoleView(Context context) {
         super(context);
         init(context);
+    }
+
+    public CharQueue getKeyBuffer() {
+        return mKeyBuffer;
     }
 
     public ConsoleScreen getConsoleScreen() {
@@ -176,8 +186,8 @@ public class ConsoleView extends View implements
     /**
      * @return one key in the buffer key
      */
-    public char readKey() {
-        return mScreenBufferData.keyBuffer.getChar();
+    public synchronized char readKey() {
+        return mKeyBuffer.pop();
     }
 
     private void write(String c, boolean isMaskBuffer) {
@@ -432,11 +442,10 @@ public class ConsoleView extends View implements
                 DLog.d(TAG, "sendText: " + text);
                 int n = text.length();
                 for (int i = 0; i < n; i++) {
-                    mScreenBufferData.keyBuffer.putChar(text.charAt(i));
+                    mKeyBuffer.push(text.charAt(i));
                     putString(Character.toString(text.charAt(i)));
                 }
             }
-
 
             @Override
             public boolean performEditorAction(int actionCode) {
@@ -589,7 +598,7 @@ public class ConsoleView extends View implements
                 }
                 char[] characters = text.toString().toCharArray();
                 for (char character : characters) {
-                    mScreenBufferData.keyBuffer.putChar(character);
+                    mKeyBuffer.push(character);
                 }
                 clearComposingText();
                 sendText(text);
@@ -728,7 +737,7 @@ public class ConsoleView extends View implements
         if (event.isSystem()) {
             return super.onKeyDown(keyCode, event);
         }
-        mScreenBufferData.keyBuffer.putChar((char) event.getUnicodeChar()); //scan code
+        mKeyBuffer.push((char) event.getUnicodeChar()); //scan code
 
         if (keyCode == KeyEvent.KEYCODE_DEL) {
             putString(THE_DELETE_COMMAND);
@@ -851,7 +860,6 @@ public class ConsoleView extends View implements
     }
 
     public boolean onSingleTapUp(MotionEvent e) {
-//        doShowSoftKeyboard();
         return true;
     }
 
@@ -882,14 +890,6 @@ public class ConsoleView extends View implements
 
     public GraphScreen getGraphScreen() {
         return mGraphScreen;
-    }
-
-    public boolean isFilterKey() {
-        return filterKey;
-    }
-
-    public void setFilterKey(boolean filterKey) {
-        this.filterKey = filterKey;
     }
 
     //pascal
@@ -933,7 +933,7 @@ public class ConsoleView extends View implements
     }
 
     public boolean isKeyPressed() {
-        return (mScreenBufferData.keyBuffer.rear > mScreenBufferData.keyBuffer.front);
+        return mKeyBuffer.keyPressed();
     }
 
     //pascal
@@ -968,8 +968,6 @@ public class ConsoleView extends View implements
 
     /**
      * set draw {@link GraphObject} color
-     *
-     * @param color
      */
     public void setPaintGraphColor(int color) {
         mGraphScreen.setPaintColor(color);
@@ -1020,6 +1018,4 @@ public class ConsoleView extends View implements
     public boolean onDoubleTapEvent(MotionEvent e) {
         return false;
     }
-
-
 }

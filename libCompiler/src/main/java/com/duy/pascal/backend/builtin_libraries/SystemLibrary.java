@@ -336,7 +336,7 @@ public class SystemLibrary implements IPascalLibrary {
 
 
     @PascalMethod(description = "Convert a numerical or enumeration value to a string")
-    public void str(Object num, PascalReference<StringBuilder> s) {
+    public void str(Number num, PascalReference<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
 

@@ -127,10 +127,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     };
     /**
-     * this object use store buffer key
-     */
-    protected char keyCodeBuffer;
-    /**
      * set <code>true</code> if you want to DEBUG program
      */
     protected boolean debugging = false;
@@ -233,13 +229,12 @@ public abstract class AbstractExecActivity extends RunnableActivity {
 
     @Override
     public char getKeyBuffer() {
-        keyCodeBuffer = getConsoleView().readKey();
-        return keyCodeBuffer;
+        return getConsoleView().readKey();
     }
 
     @Override
     public boolean keyPressed() {
-        return getConsoleView().isKeyPressed();
+        return getConsoleView().getKeyBuffer().keyPressed();
     }
 
     @Override

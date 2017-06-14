@@ -20,22 +20,18 @@ package com.duy.pascal.frontend.view.exec_screen.console;
  * Created by Duy on 10-Feb-17.
  */
 @SuppressWarnings("DefaultFileTemplate")
-public class CharBuffer {
+public class CharQueue {
     public static final int QUEUE_SIZE = 2 * 1024; //2MB ram
     public char text[];
     public int front;
     public int rear;
     private int size;
 
-    public CharBuffer(int size) {
+    public CharQueue(int size) {
         this.size = size;
         text = new char[size];
         front = 0;
         rear = 0;
-    }
-
-    public CharBuffer() {
-        this(QUEUE_SIZE);
     }
 
     public int getFront() {
@@ -46,7 +42,7 @@ public class CharBuffer {
         return rear;
     }
 
-    public synchronized char getChar() {
+    public synchronized char pop() {
         while (front == rear) {
             try {
                 wait();
@@ -59,7 +55,7 @@ public class CharBuffer {
         return b;
     }
 
-    public synchronized void putChar(char b) {
+    public synchronized void push(char b) {
         text[rear] = b;
         rear++;
         if (rear >= text.length) rear = 0;
@@ -73,5 +69,14 @@ public class CharBuffer {
     public synchronized void flush() {
         rear = front;
         notify();
+    }
+
+    public synchronized void clear() {
+        rear = front;
+        notify();
+    }
+
+    public boolean keyPressed() {
+        return rear - front > 0;
     }
 }

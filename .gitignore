@@ -53,3 +53,10 @@ apk/pascal_3.9.6_97.apk
 apk/pascal_3.9.7_98.apk
 libs/
 src/androidTest/
+/test_pascal/test_issue/
+/sample/weird/
+*.o
+*.exe
+*.COM
+
+
