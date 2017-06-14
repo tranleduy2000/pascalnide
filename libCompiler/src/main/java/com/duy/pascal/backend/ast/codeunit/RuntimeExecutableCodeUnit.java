@@ -181,12 +181,12 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         this.MAX_STACK = maxStackSize;
     }
 
-    public void setDebugMode(DebugMode debugMode) {
-        this.debugMode = debugMode;
-    }
-
     public DebugMode getDebugMode() {
         return debugMode;
+    }
+
+    public void setDebugMode(DebugMode debugMode) {
+        this.debugMode = debugMode;
     }
 
     public enum ControlMode {

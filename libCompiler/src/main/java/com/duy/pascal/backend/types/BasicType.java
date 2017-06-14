@@ -15,6 +15,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.types.converter.StringBuilderLimitBoxer;
 import com.duy.pascal.backend.types.converter.TypeConverter;
+import com.duy.pascal.backend.types.subrange.SubrangeType;
 
 import java.io.File;
 
@@ -70,7 +71,7 @@ public enum BasicType implements DeclaredType {
                 if (this.equals(otherType.declType)) {
                     return new StringBuilderBoxer(other);
                 }
-                if (otherType.declType == BasicType.Character) {
+                if (otherType.declType.equals(BasicType.Character)) {
                     return new CharacterBoxer(other);
                 }
                 if (((BasicType) otherType.declType).clazz == String.class) {
@@ -242,6 +243,8 @@ public enum BasicType implements DeclaredType {
         if (obj instanceof JavaClassBasedType) {
             Class other = ((JavaClassBasedType) obj).getStorageClass();
             return clazz == other || clazz == Object.class;
+        } else if (obj instanceof SubrangeType) {
+            return obj.getStorageClass() == this.clazz;
         }
         return false;
     }
@@ -280,12 +283,10 @@ public enum BasicType implements DeclaredType {
             if (this.equals(otherType.declType)) {
                 return cloneValue(other);
             }
-            return TypeConverter.autoConvert(this, other, (BasicType) otherType.declType);
+            return TypeConverter.autoConvert(this, other, otherType.declType);
         } else {
-            if (otherType.declType instanceof JavaClassBasedType) {
-                if (otherType.declType.getStorageClass() == getStorageClass()) {
-                    return cloneValue(other);
-                }
+            if (otherType.declType.getStorageClass() == getStorageClass()) {
+                return cloneValue(other);
             }
         }
         return null;

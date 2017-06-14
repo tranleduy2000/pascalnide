@@ -37,8 +37,8 @@ import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.VarargsType;
-import com.duy.pascal.backend.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.backend.types.set.ArrayType;
+import com.duy.pascal.backend.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.frontend.debug.CallStack;
 
 import java.lang.reflect.Array;
@@ -159,7 +159,7 @@ public class SetLengthFunction implements IMethodDeclaration {
                 //set default value for all element of array
                 setInitValue(array, ((ArrayType) type).getElementType(), ranges, 0, old);
                 r.set(array);
-            } else if (type == BasicType.StringBuilder) {
+            } else if (type.equals(BasicType.StringBuilder)) {
                 StringBuilder value = (StringBuilder) r.get();
                 if (value == null) {
                     StringBuilder newV = new StringBuilder();

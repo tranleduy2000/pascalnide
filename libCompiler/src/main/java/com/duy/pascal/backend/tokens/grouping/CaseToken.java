@@ -3,6 +3,7 @@ package com.duy.pascal.backend.tokens.grouping;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.Token;
+
 public class CaseToken extends GrouperToken {
 
     public CaseToken(LineInfo line) {

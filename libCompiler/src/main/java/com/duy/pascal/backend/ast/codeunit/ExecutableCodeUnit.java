@@ -14,7 +14,7 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
                               List<ScriptSource> includeDirectories,
                               IRunnablePascal handler)
             throws ParsingException {
-        super(r,  sourceName, includeDirectories, handler);
+        super(r, sourceName, includeDirectories, handler);
     }
 
     @Override

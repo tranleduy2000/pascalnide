@@ -39,8 +39,8 @@ open class GroupingException : ParsingException {
     }
 
     override val isAutoFix: Boolean
-        get(){
-            if (exceptionTypes == Type.UNFINISHED_BEGIN_END){
+        get() {
+            if (exceptionTypes == Type.UNFINISHED_BEGIN_END) {
                 return true;
             }
             return false;

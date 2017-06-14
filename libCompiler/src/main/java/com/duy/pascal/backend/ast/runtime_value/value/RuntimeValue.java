@@ -3,14 +3,14 @@ package com.duy.pascal.backend.ast.runtime_value.value;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public interface RuntimeValue {
 
@@ -32,6 +32,8 @@ public interface RuntimeValue {
     @NonNull
     LineInfo getLineNumber();
 
+    void setLineNumber(LineInfo lineNumber);
+
     /*
      * returns null if not a compile-time constant.
      */
@@ -46,6 +48,4 @@ public interface RuntimeValue {
      */
     @Nullable
     AssignableValue asAssignableValue(ExpressionContext f);
-
-    void setLineNumber(LineInfo lineNumber);
 }

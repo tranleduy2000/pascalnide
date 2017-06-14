@@ -327,7 +327,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
 
-
     protected void addDeclareTypes(GrouperToken i) throws ParsingException {
         Token next;
         Hashtable<String, String> forwardTypes = new Hashtable<>();

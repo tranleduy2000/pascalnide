@@ -173,11 +173,11 @@ WhiteSpace = ([ \t] | {LineTerminator})+
 LineTerminator       = \r|\n|\r\n
 InputCharacter       = [^\r|\n|]
 
-Integer              = {Digit}{1, 20}
-Exp                  = [Ee][+-]?{Digit}+
+Integer              = {Digit} {1, 20}
+Exp                  = [Ee] [+-]? {Digit}+
 NumberExp            = {NumberDecimal} {Exp} | {Digit}+ {Exp}
 NumberDecimal        = {Digit}+ "." {Digit}+
-Float                ={NumberExp} | {NumberDecimal} | {Digit}+
+Float                = {NumberExp} | {NumberDecimal} | {Digit}{21, }
 Hex                  = "$" [0-9a-fA-F]+
 Binary               = ("%" [01]+) | ({Digit}[bB])
 Octal                = "&" [0-7]+

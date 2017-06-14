@@ -29,12 +29,12 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 /**
  * Casts an object to the class or the interface represented
@@ -104,6 +104,10 @@ public class CastObjectFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -114,11 +118,6 @@ public class CastObjectFunction implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new InstanceObjectCall(pointer, value, storageClass, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
         }
 
         @Override

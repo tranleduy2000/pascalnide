@@ -64,7 +64,7 @@ public class ForToStatement extends DebuggableExecutable {
             increment = new AssignStatement(tempVar, BinaryOperatorEval.generateOp(
                     f, tempVar, new ConstantAccess<>(1, this.line),
                     OperatorTypes.PLUS, this.line), line);
-        }  else {
+        } else {
             throw new UnConvertibleTypeException(tempVar, BasicType.Long, tempVar.getType(f).declType, f);
         }
         this.command = command;

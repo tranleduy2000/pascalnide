@@ -19,7 +19,7 @@ package com.duy.pascal.backend.ast.runtime_value.references;
 
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
-public interface PascalReference<T>{
+public interface PascalReference<T> {
     void set(T value);
 
     T get() throws RuntimePascalException;

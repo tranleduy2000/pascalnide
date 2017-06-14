@@ -23,15 +23,15 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.PointerType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class DerefEval extends DebuggableAssignableValue {
     RuntimeValue pointer;
@@ -72,6 +72,11 @@ public class DerefEval extends DebuggableAssignableValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
         Reference<?> ref = (Reference<?>) pointer.compileTimeValue(context);
         if (ref != null) {
@@ -85,7 +90,6 @@ public class DerefEval extends DebuggableAssignableValue {
         return null;
     }
 
-
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         Object val = this.compileTimeValue(context);
@@ -95,10 +99,5 @@ public class DerefEval extends DebuggableAssignableValue {
         } else {
             return new DerefEval(pointer.compileTimeExpressionFold(context), line);
         }
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

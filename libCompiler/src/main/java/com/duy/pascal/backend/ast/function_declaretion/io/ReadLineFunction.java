@@ -98,6 +98,10 @@ public class ReadLineFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -107,18 +111,13 @@ public class ReadLineFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new ReadLineCall( args, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
+            return new ReadLineCall(args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new ReadLineCall( args, line);
+            return new ReadLineCall(args, line);
         }
 
         @Override
@@ -132,7 +131,8 @@ public class ReadLineFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
-            ioHandler.readlnz(values);            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+            ioHandler.readlnz(values);
+            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
 
             return null;
         }

@@ -52,7 +52,7 @@ public class FillByteFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue value = arguments[0];
         RuntimeType type = value.getType(f);
         return new FillCharCall(type, value, line);
@@ -101,6 +101,10 @@ public class FillByteFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -111,11 +115,6 @@ public class FillByteFunction implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new FillCharCall(type, value, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
         }
 
         @Override

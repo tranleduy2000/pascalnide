@@ -80,7 +80,7 @@ public class SpanUtils {
 
     public Spannable generateValueSpan(@Nullable Object value) {
         if (value != null) {
-            Spannable spannableString = null;
+            Spannable spannableString = new SpannableString("");
             if (value instanceof Number) { //number
                 spannableString = new SpannableString(value.toString());
                 spannableString.setSpan(new ForegroundColorSpan(codeTheme.getNumberColor()), 0,

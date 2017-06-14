@@ -40,14 +40,11 @@ import static com.duy.pascal.backend.utils.NullSafety.zReturn;
  */
 
 public class OutputValue implements RuntimeValue {
-    private static final String TAG = "OutputValue";
     private RuntimeValue target;
     @Nullable
     private RuntimeValue[] infoOutput;
 
     public OutputValue(RuntimeValue target, @Nullable @Size(2) RuntimeValue[] infoOutput) {
-        DLog.d(TAG, "OutputValue() called with: target = [" + target + "], infoOutput = [" + infoOutput + "]");
-
         this.target = target;
         this.infoOutput = infoOutput;
     }

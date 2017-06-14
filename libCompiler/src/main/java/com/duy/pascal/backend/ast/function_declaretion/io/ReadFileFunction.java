@@ -103,6 +103,10 @@ public class ReadFileFunction implements IMethodDeclaration {
             return line;
         }
 
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -113,11 +117,6 @@ public class ReadFileFunction implements IMethodDeclaration {
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
             return new ReadFileCall(filePreference, args, line);
-        }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
         }
 
         @Override
@@ -139,7 +138,8 @@ public class ReadFileFunction implements IMethodDeclaration {
 
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
             PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
-            fileLib.readz(file.get(), values);            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+            fileLib.readz(file.get(), values);
+            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
 
             return null;
         }

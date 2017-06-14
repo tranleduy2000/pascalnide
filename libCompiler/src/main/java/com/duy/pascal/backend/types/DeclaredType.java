@@ -3,12 +3,12 @@ package com.duy.pascal.backend.types;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.ast.NamedEntity;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 
 public interface DeclaredType extends NamedEntity {
 
@@ -61,8 +61,8 @@ public interface DeclaredType extends NamedEntity {
     @Override
     String getName();
 
+    void setName(String name);
+
     @Override
     String getDescription();
-
-    void setName(String name);
 }

@@ -2,14 +2,14 @@ package com.duy.pascal.backend.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class CachedReturnValue implements RuntimeValue {
     protected RuntimeValue[] outputFormat;
@@ -32,6 +32,11 @@ public class CachedReturnValue implements RuntimeValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         cache = other.compileTimeValue(context);
@@ -48,13 +53,6 @@ public class CachedReturnValue implements RuntimeValue {
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
     }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
-    }
-
-
 
     @NonNull
     @Override

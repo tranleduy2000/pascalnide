@@ -1,9 +1,9 @@
 package com.duy.pascal.backend.ast.instructions;
 
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class FieldReference implements Reference {
     private ContainsVariables container;

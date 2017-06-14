@@ -8,13 +8,13 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.value.UnAssignableTypeException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.PointerType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class GetAddress extends DebuggableReturnValue {
     private final AssignableValue target;
@@ -44,6 +44,11 @@ public class GetAddress extends DebuggableReturnValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         return null;
@@ -64,10 +69,5 @@ public class GetAddress extends DebuggableReturnValue {
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
         return this;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

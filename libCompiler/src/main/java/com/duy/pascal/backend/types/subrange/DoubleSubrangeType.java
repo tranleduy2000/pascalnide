@@ -18,15 +18,24 @@ package com.duy.pascal.backend.types.subrange;
 
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
+import com.duy.pascal.backend.types.BasicType;
 
 public class DoubleSubrangeType extends SubrangeType<Double> {
-    private static final String TAG = "IntegerSubrangeType";
 
     public DoubleSubrangeType(Double first, Double last) throws LowerGreaterUpperBoundException {
         super(first, last);
         this.first = first;
         this.last = last;
+    }
+
+    @Nullable
+    @Override
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+        return BasicType.Double.convert(other, f);
     }
 
     @Override

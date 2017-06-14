@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,63 +16,52 @@
 
 package com.duy.pascal.backend.types.subrange;
 
-import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
 import com.duy.pascal.backend.types.BasicType;
 
-public class IntegerSubrangeType extends SubrangeType<Integer> implements IntegerRange {
-    private static final String TAG = "IntegerSubrangeType";
-    public Integer size = 0;
+public class BooleanSubrangeType extends SubrangeType<Boolean> {
 
-    public IntegerSubrangeType(Integer first, @IntRange(from = 0) Integer size) {
-        super(first, first + size - 1);
-        this.size = size;
-    }
-
-    @Override
-    public boolean contains(SubrangeType other) {
-        return other instanceof IntegerSubrangeType
-                && first <= ((IntegerSubrangeType) other).first
-                && last >= ((IntegerSubrangeType) other).last;
+    public BooleanSubrangeType(Boolean first, Boolean last) throws LowerGreaterUpperBoundException {
+        super(first, last);
+        this.first = first;
+        this.last = last;
     }
 
     @Nullable
     @Override
     public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
-        return BasicType.Integer.convert(other, f);
+        return BasicType.Boolean.convert(other, f);
     }
 
     @Override
-    public int getFirst() {
-        return first;
-    }
-
-    @Override
-    public int getSize() {
-        return size;
+    public boolean contains(SubrangeType other) {
+        return other instanceof BooleanSubrangeType
+                && first.compareTo(((BooleanSubrangeType) other).first) <= 0
+                && last.compareTo(((BooleanSubrangeType) other).last) >= 0;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + first;
-        result = prime * result + size;
+        result = prime * result + first.hashCode();
+        result = prime * result + last.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return first + ".." + last;
+        return null;
     }
 
     @Nullable
     @Override
     public Class<?> getStorageClass() {
-        return Integer.class;
+        return Boolean.class;
     }
 }

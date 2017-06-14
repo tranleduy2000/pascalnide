@@ -59,10 +59,10 @@ public class JavaClassBasedType extends InfoType {
             if (this.equals(otherType.declType)) {
                 return cloneValue(other);
             }
-            if (this.clazz == String.class && otherType.declType == BasicType.StringBuilder) {
+            if (this.clazz == String.class && otherType.declType.equals(BasicType.StringBuilder)) {
                 return new StringBoxer(other);
             }
-            if (this.clazz == String.class && otherType.declType == BasicType.Character) {
+            if (this.clazz == String.class && otherType.declType.equals(BasicType.Character)) {
                 if (this.clazz == String.class) {
                     return new StringBoxer(other);
                 }

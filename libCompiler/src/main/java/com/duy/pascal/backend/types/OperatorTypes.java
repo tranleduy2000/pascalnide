@@ -18,9 +18,9 @@ package com.duy.pascal.backend.types;
 
 import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
 import com.duy.pascal.backend.parse_exception.operator.OperationNotSupportedException;
+import com.duy.pascal.backend.tokens.Token.Precedence;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.types.set.SetType;
-import com.duy.pascal.backend.tokens.Token.Precedence;
 
 public enum OperatorTypes {
     NOT(true, false) {
@@ -36,7 +36,7 @@ public enum OperatorTypes {
 
         @Override
         public boolean verifyBinaryOperation(DeclaredType type) {
-            return type == BasicType.Boolean;
+            return type.equals(BasicType.Boolean);
         }
 
         @Override
@@ -54,9 +54,9 @@ public enum OperatorTypes {
     MULTIPLY(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.Character
-                    || GCF == BasicType.StringBuilder);
+            return !(GCF.equals(BasicType.Boolean)
+                    || GCF.equals(BasicType.Character)
+                    || GCF.equals(BasicType.StringBuilder));
         }
 
         @Override
@@ -73,9 +73,9 @@ public enum OperatorTypes {
     DIVIDE(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.Character
-                    || GCF == BasicType.StringBuilder);
+            return !(GCF.equals(BasicType.Boolean)
+                    || GCF.equals(BasicType.Character)
+                    || GCF.equals(BasicType.StringBuilder));
         }
 
         @Override
@@ -91,9 +91,9 @@ public enum OperatorTypes {
     DIV(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder
-                    || GCF == BasicType.Character);
+            return !(GCF.equals(BasicType.Boolean)
+                    || GCF.equals(BasicType.StringBuilder)
+                    || GCF.equals(BasicType.Character));
         }
 
         @Override
@@ -153,7 +153,7 @@ public enum OperatorTypes {
 
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean);
+            return !(GCF.equals(BasicType.Boolean));
         }
 
         @Override
@@ -179,8 +179,8 @@ public enum OperatorTypes {
 
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder);
+            return !(GCF.equals(BasicType.Boolean)
+                    || GCF.equals(BasicType.StringBuilder));
         }
 
         @Override
@@ -197,7 +197,7 @@ public enum OperatorTypes {
     OR(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return (GCF == BasicType.Boolean);
+            return (GCF.equals(BasicType.Boolean));
         }
 
         @Override
@@ -213,7 +213,7 @@ public enum OperatorTypes {
     XOR(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return (GCF == BasicType.Boolean);
+            return (GCF.equals(BasicType.Boolean));
         }
 
         @Override
@@ -229,8 +229,8 @@ public enum OperatorTypes {
     SHIFTLEFT(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return (GCF == BasicType.Integer
-                    || GCF == BasicType.Long);
+            return (GCF.equals(BasicType.Integer)
+                    || GCF.equals(BasicType.Long));
         }
 
         @Override
@@ -247,7 +247,7 @@ public enum OperatorTypes {
     SHIFTRIGHT(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return (GCF == BasicType.Integer
+            return (GCF.equals(BasicType.Integer)
                     || GCF != BasicType.Long);
         }
 
@@ -265,8 +265,8 @@ public enum OperatorTypes {
     LESSTHAN(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder);
+            return !(GCF.equals(BasicType.Boolean)
+                    || GCF.equals(BasicType.StringBuilder));
         }
 
         @Override
@@ -282,8 +282,8 @@ public enum OperatorTypes {
     GREATERTHAN(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder);
+            return !(GCF.equals(BasicType.Boolean)
+                    || GCF.equals(BasicType.StringBuilder));
         }
 
         @Override
@@ -321,8 +321,8 @@ public enum OperatorTypes {
     LESSEQ(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder);
+            return !(GCF.equals(BasicType.Boolean)
+                    || GCF.equals(BasicType.StringBuilder));
         }
 
         @Override
@@ -339,8 +339,8 @@ public enum OperatorTypes {
     GREATEREQ(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return !(GCF == BasicType.Boolean
-                    || GCF == BasicType.StringBuilder);
+            return !(GCF.equals(BasicType.Boolean)
+                    || GCF.equals(BasicType.StringBuilder));
         }
 
         @Override
@@ -414,7 +414,7 @@ public enum OperatorTypes {
     IN(false, false) {
         @Override
         public boolean verifyBinaryOperation(DeclaredType GCF) {
-            return GCF == BasicType.Boolean;
+            return GCF.equals(BasicType.Boolean);
         }
 
         @Override
@@ -453,40 +453,40 @@ public enum OperatorTypes {
     }
 
     public static DeclaredType get_GCF(DeclaredType one, DeclaredType two) {
-        if (one == BasicType.StringBuilder
-                || two == BasicType.StringBuilder) {
+        if (one.equals(BasicType.StringBuilder)
+                || two.equals(BasicType.StringBuilder)) {
             return BasicType.StringBuilder;
         }
 
         if (one == BasicType.Double
                 || two == BasicType.Double) {
-            if (one == BasicType.Boolean
-                    || two == BasicType.Boolean) {
+            if (one.equals(BasicType.Boolean)
+                    || two.equals(BasicType.Boolean)) {
                 return null;
             }
             return BasicType.Double;
         }
-        if (one == BasicType.Long || two == BasicType.Long) {
-            if (one == BasicType.Boolean
-                    || two == BasicType.Boolean) {
+        if (one.equals(BasicType.Long) || two.equals(BasicType.Long)) {
+            if (one.equals(BasicType.Boolean)
+                    || two.equals(BasicType.Boolean)) {
                 return null;
             }
             return BasicType.Long;
         }
-        if (one == BasicType.Integer
-                || two == BasicType.Integer) {
-            if (one == BasicType.Boolean
-                    || two == BasicType.Boolean) {
+        if (one.equals(BasicType.Integer)
+                || two.equals(BasicType.Integer)) {
+            if (one.equals(BasicType.Boolean)
+                    || two.equals(BasicType.Boolean)) {
                 return null;
             }
             return BasicType.Integer;
         }
-        if (one == BasicType.Boolean
-                && two == BasicType.Boolean) {
+        if (one.equals(BasicType.Boolean)
+                && two.equals(BasicType.Boolean)) {
             return BasicType.Boolean;
         }
-        if (one == BasicType.Character
-                && two == BasicType.Character) {
+        if (one.equals(BasicType.Character)
+                && two.equals(BasicType.Character)) {
             return BasicType.Character;
         }
         //in
@@ -538,13 +538,13 @@ public enum OperatorTypes {
     }
 
     public Object operate(Object o, RuntimeType type) throws OperationNotSupportedException {
-        if (type.declType == BasicType.Boolean) {
+        if (type.declType.equals(BasicType.Boolean)) {
             return operate((Boolean) o);
         }
-        if (type.declType == BasicType.Integer) {
+        if (type.declType.equals(BasicType.Integer)) {
             return (int) ((long) operate(((int) o)));
         }
-        if (type.declType == BasicType.Long) {
+        if (type.declType.equals(BasicType.Long)) {
             return operate((long) o);
         }
         if (type.declType == BasicType.Double) {

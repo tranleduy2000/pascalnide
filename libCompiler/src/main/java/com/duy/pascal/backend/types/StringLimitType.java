@@ -53,10 +53,10 @@ public class StringLimitType extends InfoType {
         }
 
         if (otherType.declType instanceof BasicType) {
-            if (otherType.declType == BasicType.StringBuilder) {
+            if (otherType.declType.equals(BasicType.StringBuilder)) {
                 return new StringBuilderLimitBoxer(other, length);
             }
-            if (otherType.declType == BasicType.Character) {
+            if (otherType.declType.equals(BasicType.Character)) {
                 return new CharacterBoxer(other);
             }
 
@@ -69,7 +69,7 @@ public class StringLimitType extends InfoType {
             if (converted != null) {
                 return converted;
             }
-        }else if (otherType.declType instanceof JavaClassBasedType &&
+        } else if (otherType.declType instanceof JavaClassBasedType &&
                 otherType.declType.getStorageClass() == String.class) {
             return new StringBuilderLimitBoxer(other, length);
         }

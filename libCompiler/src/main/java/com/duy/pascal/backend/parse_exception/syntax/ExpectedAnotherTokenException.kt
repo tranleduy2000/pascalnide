@@ -16,8 +16,8 @@
 
 package com.duy.pascal.backend.parse_exception.syntax
 
-import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.parse_exception.ParsingException
 
 class ExpectedAnotherTokenException : ParsingException {
     constructor(line: LineInfo) : super(line, "Another token is expected before the end of this construct.")

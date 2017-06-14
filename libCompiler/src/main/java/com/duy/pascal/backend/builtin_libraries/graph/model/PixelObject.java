@@ -24,9 +24,9 @@ import android.graphics.Paint;
  */
 
 public class PixelObject extends GraphObject {
+    private final Paint paint = new Paint();
     private int x;
     private int y;
-    private final Paint paint = new Paint();
 
     public PixelObject(int x, int y, int color) {
         this.x = x;

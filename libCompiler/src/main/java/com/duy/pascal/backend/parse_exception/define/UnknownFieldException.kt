@@ -17,9 +17,9 @@
 package com.duy.pascal.backend.parse_exception.define
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
-import com.duy.pascal.backend.types.RecordType
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
+import com.duy.pascal.backend.types.RecordType
 
 /**
  * Created by Duy on 03-Jun-17.

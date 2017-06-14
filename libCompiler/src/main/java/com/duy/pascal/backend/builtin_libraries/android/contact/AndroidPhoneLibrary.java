@@ -28,6 +28,7 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.temp.AndroidUtilsLib;
@@ -37,7 +38,6 @@ import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.facade.AndroidEvent;
 import com.googlecode.sl4a.rpc.RpcStartEvent;
 import com.googlecode.sl4a.rpc.RpcStopEvent;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.lang.reflect.Field;
 import java.net.URLEncoder;

@@ -2,18 +2,18 @@ package com.duy.pascal.backend.ast.runtime_value.value.boxing;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class CharacterBoxer extends DebuggableReturnValue {
     private RuntimeValue charValue;
@@ -25,7 +25,7 @@ public class CharacterBoxer extends DebuggableReturnValue {
 
     @Override
     public String toString() {
-        return "'"+ charValue + "'";
+        return "'" + charValue + "'";
     }
 
     @NonNull
@@ -34,6 +34,10 @@ public class CharacterBoxer extends DebuggableReturnValue {
         return charValue.getLineNumber();
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
 
     @Override
     public RuntimeType getType(ExpressionContext f) {
@@ -62,7 +66,6 @@ public class CharacterBoxer extends DebuggableReturnValue {
         }
     }
 
-
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
@@ -72,11 +75,6 @@ public class CharacterBoxer extends DebuggableReturnValue {
         } else {
             return new CharacterBoxer(charValue.compileTimeExpressionFold(context));
         }
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
 }

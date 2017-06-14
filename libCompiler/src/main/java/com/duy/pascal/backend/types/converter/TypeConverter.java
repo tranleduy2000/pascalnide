@@ -1,9 +1,10 @@
 package com.duy.pascal.backend.types.converter;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.types.DeclaredType;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -38,86 +39,86 @@ public class TypeConverter {
         //end region
     }
 
-    public static RuntimeValue autoConvert(BasicType outtype,
-                                           RuntimeValue target, BasicType intype) {
-        if (intype == outtype) {
+    public static RuntimeValue autoConvert(DeclaredType outType,
+                                           RuntimeValue target, DeclaredType inType) {
+        if (inType == outType) {
             return target;
         }
-        Integer inPrecedence = precedence.get(intype.getTransferClass());
-        Integer outPrecedence = precedence.get(outtype.getTransferClass());
+        Integer inPrecedence = precedence.get(inType.getTransferClass());
+        Integer outPrecedence = precedence.get(outType.getTransferClass());
         if (inPrecedence != null && outPrecedence != null) {
             if (inPrecedence <= outPrecedence) {
-                return forceConvert(outtype, target, intype);
+                return forceConvert(outType, target, inType);
             }
         }
-        if (outtype == BasicType.StringBuilder && intype == BasicType.Character) {
-            return forceConvert(outtype, target, intype);
+        if (outType.equals(BasicType.StringBuilder) && inType.equals(BasicType.Character)) {
+            return forceConvert(outType, target, inType);
         }
         return null;
     }
 
-    public static RuntimeValue autoConvertRequired(BasicType outtype, RuntimeValue target,
-                                                   BasicType intype, ExpressionContext c)
+    public static RuntimeValue autoConvertRequired(BasicType outType, RuntimeValue target,
+                                                   BasicType inType, ExpressionContext c)
             throws UnConvertibleTypeException {
-        RuntimeValue result = autoConvert(outtype, target, intype);
+        RuntimeValue result = autoConvert(outType, target, inType);
         if (result == null) {
-            throw new UnConvertibleTypeException(target, outtype, intype, c);
+            throw new UnConvertibleTypeException(target, outType, inType, c);
         }
         return result;
     }
 
-    public static RuntimeValue forceConvertRequired(BasicType outtype,
-                                                    RuntimeValue target, BasicType intype, ExpressionContext c)
+    public static RuntimeValue forceConvertRequired(DeclaredType outType, RuntimeValue value,
+                                                    DeclaredType inType, ExpressionContext c)
             throws UnConvertibleTypeException {
-        RuntimeValue result = forceConvert(outtype, target, intype);
+        RuntimeValue result = forceConvert(outType, value, inType);
         if (result == null) {
-            throw new UnConvertibleTypeException(target, outtype, intype, c);
+            throw new UnConvertibleTypeException(value, outType, inType, c);
         }
         return result;
     }
 
-    public static RuntimeValue forceConvert(BasicType outtype,
-                                            RuntimeValue target, BasicType intype) {
-        if (outtype == intype) {
+    public static RuntimeValue forceConvert(DeclaredType outType,
+                                            RuntimeValue target, DeclaredType inType) {
+        if (outType.equals(inType)) {
             return target;
         }
-        if (outtype.equals(BasicType.StringBuilder)) {
+        if (outType.equals(BasicType.StringBuilder)) {
             return new AnyToStringType(target);
         }
-        if (intype == BasicType.Character) {
+        if (inType.equals(BasicType.Character)) {
             target = new CharToIntType(target);
-            if (outtype == BasicType.Integer) {
+            if (outType.equals(BasicType.Integer)) {
                 return target;
-            } else if (outtype == BasicType.Long) {
+            } else if (outType.equals(BasicType.Long)) {
                 return new NumberToLongType(target);
-            } else if (outtype == BasicType.Double) {
+            } else if (outType == BasicType.Double) {
                 return new NumberToRealType(target);
             }
         }
-        if (intype == BasicType.Integer) {
-            if (outtype == BasicType.Character) {
+        if (inType.equals(BasicType.Integer)) {
+            if (outType.equals(BasicType.Character)) {
                 return new NumberToCharType(target);
-            } else if (outtype == BasicType.Long) {
+            } else if (outType.equals(BasicType.Long)) {
                 return new NumberToLongType(target);
-            } else if (outtype == BasicType.Double) {
+            } else if (outType == BasicType.Double) {
                 return new NumberToRealType(target);
             }
         }
-        if (intype == BasicType.Long) {
-            if (outtype == BasicType.Character) {
+        if (inType.equals(BasicType.Long)) {
+            if (outType.equals(BasicType.Character)) {
                 return new NumberToCharType(target);
-            } else if (outtype == BasicType.Integer) {
+            } else if (outType.equals(BasicType.Integer)) {
                 return new NumberToIntType(target);
-            } else if (outtype == BasicType.Double) {
+            } else if (outType == BasicType.Double) {
                 return new NumberToRealType(target);
             }
         }
-        if (intype == BasicType.Double) {
-            if (outtype == BasicType.Character) {
+        if (inType == BasicType.Double) {
+            if (outType.equals(BasicType.Character)) {
                 return new NumberToCharType(target);
-            } else if (outtype == BasicType.Integer) {
+            } else if (outType.equals(BasicType.Integer)) {
                 return new NumberToIntType(target);
-            } else if (outtype == BasicType.Long) {
+            } else if (outType.equals(BasicType.Long)) {
                 return new NumberToLongType(target);
             }
         }

@@ -8,11 +8,11 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class NumberToLongType implements RuntimeValue {
     private RuntimeValue other;
@@ -26,7 +26,6 @@ public class NumberToLongType implements RuntimeValue {
     public String toString() {
         return other.toString();
     }
-
 
 
     @NonNull
@@ -50,6 +49,11 @@ public class NumberToLongType implements RuntimeValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         Object o = other.compileTimeValue(context);
@@ -60,7 +64,6 @@ public class NumberToLongType implements RuntimeValue {
         }
     }
 
-
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
             throws ParsingException {
@@ -70,10 +73,5 @@ public class NumberToLongType implements RuntimeValue {
     @Override
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 }

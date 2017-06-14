@@ -16,30 +16,30 @@
 
 package com.duy.pascal.backend.ast.runtime_value.references;
 
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class ContainsVariablesPointer<T> implements Reference<T> {
-	private final ContainsVariables container;
-	private final String index;
+    private final ContainsVariables container;
+    private final String index;
 
-	public ContainsVariablesPointer(ContainsVariables container, String index) {
-		this.container = container;
-		this.index = index;
-	}
+    public ContainsVariablesPointer(ContainsVariables container, String index) {
+        this.container = container;
+        this.index = index;
+    }
 
-	@Override
-	public T get() throws RuntimePascalException {
-		return (T) container.getVar(index);
-	}
+    @Override
+    public T get() throws RuntimePascalException {
+        return (T) container.getVar(index);
+    }
 
-	@Override
-	public void set(T value) {
-		container.setVar(index, value);
-	}
+    @Override
+    public void set(T value) {
+        container.setVar(index, value);
+    }
 
-	@Override
-	public ContainsVariablesPointer<T> clone() {
+    @Override
+    public ContainsVariablesPointer<T> clone() {
         return new ContainsVariablesPointer<>(container, index);
-	}
+    }
 }

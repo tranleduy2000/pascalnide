@@ -18,18 +18,18 @@ package com.duy.pascal.backend.ast.runtime_value.operators.pointer;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.debugable.DebuggableReturnValue;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.PointerType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public class AddressEval extends DebuggableReturnValue {
     final AssignableValue target;
@@ -62,6 +62,10 @@ public class AddressEval extends DebuggableReturnValue {
     }
 
     @Override
+    public void setLineNumber(LineInfo lineNumber) {
+    }
+
+    @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
         return null;
     }
@@ -69,9 +73,5 @@ public class AddressEval extends DebuggableReturnValue {
     @Override
     public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
         return this;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
     }
 }

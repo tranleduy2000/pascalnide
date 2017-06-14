@@ -36,7 +36,7 @@ public class AssignStatement extends DebuggableExecutable implements AssignExecu
     private RuntimeValue value;
     private LineInfo line;
 
-    public AssignStatement(@NonNull AssignableValue left,RuntimeValue value, LineInfo line) {
+    public AssignStatement(@NonNull AssignableValue left, RuntimeValue value, LineInfo line) {
         this.left = left;
         this.value = value;
         this.line = line;

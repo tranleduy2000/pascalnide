@@ -40,7 +40,16 @@ public class TestIssue extends BaseTestCase {
     public void test3() {
         run("test3.pas");
     }
+
     public void test4() {
         run("test4.pas");
+    }
+
+    public void test5() {
+        run("test5.pas");
+    }
+
+    public void test6() {
+        run("test6.pas");
     }
 }

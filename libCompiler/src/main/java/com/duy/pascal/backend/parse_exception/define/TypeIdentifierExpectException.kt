@@ -21,7 +21,7 @@ import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 
 
-class TypeIdentifierExpectException(line: LineInfo?,var missingType: String, var scope: ExpressionContext)
+class TypeIdentifierExpectException(line: LineInfo?, var missingType: String, var scope: ExpressionContext)
     : ParsingException(line, "Type $missingType is not define") {
 
     override val isAutoFix: Boolean

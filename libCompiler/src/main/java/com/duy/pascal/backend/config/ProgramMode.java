@@ -16,9 +16,9 @@
 
 package com.duy.pascal.backend.config;
 
-public  class ProgramMode {
-        public static final byte DELPHI = 0;
-        public static final byte FPC = 1;
-        public static final byte OBJ_FPC = 2;
-        public static final byte ANDROID = 3;
-    }
+public class ProgramMode {
+    public static final byte DELPHI = 0;
+    public static final byte FPC = 1;
+    public static final byte OBJ_FPC = 2;
+    public static final byte ANDROID = 3;
+}

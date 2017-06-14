@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.temp.AndroidUtilsLib;
@@ -31,7 +32,6 @@ import com.googlecode.sl4a.Constants;
 import com.googlecode.sl4a.MainThread;
 import com.googlecode.sl4a.rpc.RpcDefault;
 import com.googlecode.sl4a.rpc.RpcOptional;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import org.apache.commons.codec.binary.Base64Codec;
 

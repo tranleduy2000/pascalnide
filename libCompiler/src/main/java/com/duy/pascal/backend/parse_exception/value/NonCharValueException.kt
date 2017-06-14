@@ -16,8 +16,8 @@
 
 package com.duy.pascal.backend.parse_exception.value
 
-import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.linenumber.LineInfo
+import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.tokens.value.CharacterToken
 
 /**

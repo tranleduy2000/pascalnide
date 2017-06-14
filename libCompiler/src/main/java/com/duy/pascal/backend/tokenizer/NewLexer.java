@@ -5,12 +5,12 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokens.EOFToken;
-import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.Token;
-import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
 import com.duy.pascal.backend.tokens.closing.ClosingToken;
 import com.duy.pascal.backend.tokens.grouping.BaseGrouperToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
+import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 
 import java.io.IOException;
 import java.io.Reader;

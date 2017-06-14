@@ -3,7 +3,8 @@ package com.duy.pascal.backend.tokens.grouping;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.tokens.Token;
-public class BracketedToken extends GrouperToken   {
+
+public class BracketedToken extends GrouperToken {
 
     public BracketedToken(LineInfo line) {
         super(line);

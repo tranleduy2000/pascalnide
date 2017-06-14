@@ -19,25 +19,25 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
+import com.duy.pascal.backend.ast.runtime_value.references.Reference;
+import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
-import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.Executable;
 
 public class AddressFunction implements IMethodDeclaration {
 
@@ -51,7 +51,7 @@ public class AddressFunction implements IMethodDeclaration {
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
-                                                      ExpressionContext f) throws ParsingException {
+                                     ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
         this.pointerType = (PointerType) pointer.getType(f).declType;
         return new AddressFunctionCall(pointer, line);
@@ -106,6 +106,11 @@ public class AddressFunction implements IMethodDeclaration {
         }
 
         @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
+        }
+
+        @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException {
             return null;
         }
@@ -132,12 +137,6 @@ public class AddressFunction implements IMethodDeclaration {
                 return new DerefEval(pointer.compileTimeExpressionFold(context), line);
             }
         }
-
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
-        }
-
 
         @Override
         protected String getFunctionName() {

@@ -31,6 +31,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.duy.pascal.BasePascalApplication;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTask;
@@ -41,7 +42,6 @@ import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
 import com.googlecode.sl4a.FileUtils;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.RpcDefault;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.io.File;
 import java.io.FileOutputStream;

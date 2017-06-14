@@ -7,6 +7,7 @@ const
   snake_color = 11;
   apple_color = 14;
   liter_color = 2;
+
 coeff : array[1..2, 1..12] of -2..2 = ((0, 1, 2, 2, 2, 1, 0, -1, -2, -2, -2, -1), (2, 2, 1, 0, -1, -2, -2, -2, -1, 0, 1, 2));
 delays : array[1..12] of byte = (50, 56, 56, 50, 56, 56, 50, 56, 56, 50, 56, 56);
 
@@ -66,8 +67,9 @@ begin
     if getpixel(x + t, y) = snake_color then ending;
     if getpixel(x, y + t) = snake_color then ending;
   end;
-  if (x <= 10 + k) or (x > = 630 - k) or
-  (y <= 40 + k) or (y > = 470 - k) then ending;
+
+  if (x <= 10 + k) or (x >= 630 - k) or
+  (y <= 40 + k) or (y >= 470 - k) then ending;
 end;
 
 procedure point;

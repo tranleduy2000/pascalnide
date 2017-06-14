@@ -17,8 +17,8 @@
 package com.duy.pascal.backend.parse_exception.syntax
 
 
-import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext
+import com.duy.pascal.backend.linenumber.LineInfo
 
 class MisplacedDeclarationException : com.duy.pascal.backend.parse_exception.ParsingException {
 

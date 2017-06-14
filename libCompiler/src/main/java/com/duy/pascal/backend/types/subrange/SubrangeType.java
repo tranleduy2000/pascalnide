@@ -86,6 +86,8 @@ public abstract class SubrangeType<T extends Comparable> extends InfoType implem
         if (obj instanceof SubrangeType) {
             SubrangeType other = (SubrangeType) obj;
             return this.first.equals(other.first) && last.equals(other.last);
+        } else if (obj.getStorageClass() == this.getStorageClass()) {
+            return true;
         }
         return false;
 

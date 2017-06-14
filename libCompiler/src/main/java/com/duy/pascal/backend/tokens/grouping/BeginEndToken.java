@@ -1,8 +1,7 @@
 package com.duy.pascal.backend.tokens.grouping;
 
-import com.duy.pascal.backend.tokens.Token;
-
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokens.Token;
 
 public class BeginEndToken extends GrouperToken {
 

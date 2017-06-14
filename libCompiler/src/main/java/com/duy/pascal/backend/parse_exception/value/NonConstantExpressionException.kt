@@ -16,8 +16,8 @@
 
 package com.duy.pascal.backend.parse_exception.value
 
-import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue
+import com.duy.pascal.backend.parse_exception.ParsingException
 
 class NonConstantExpressionException : ParsingException {
     constructor(value: RuntimeValue) : super(value.lineNumber,

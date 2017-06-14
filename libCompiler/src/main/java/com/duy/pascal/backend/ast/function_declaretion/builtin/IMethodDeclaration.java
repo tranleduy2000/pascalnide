@@ -18,13 +18,13 @@ package com.duy.pascal.backend.ast.function_declaretion.builtin;
 
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.DeclaredType;
 
 
 public interface IMethodDeclaration {

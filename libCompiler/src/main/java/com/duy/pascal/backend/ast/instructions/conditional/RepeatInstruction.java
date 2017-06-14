@@ -1,24 +1,24 @@
 package com.duy.pascal.backend.ast.instructions.conditional;
 
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.tokens.Token;
-import com.duy.pascal.backend.tokens.basic.UntilToken;
-import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
-import com.duy.pascal.backend.ast.instructions.CompoundStatement;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.basic.UntilToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.types.BasicType;
 
 public class RepeatInstruction extends DebuggableExecutable {
     Executable command;
@@ -53,6 +53,7 @@ public class RepeatInstruction extends DebuggableExecutable {
         this.condition = condition;
         this.line = lineInfo;
     }
+
     public RepeatInstruction(Executable command, RuntimeValue condition,
                              LineInfo line) {
         this.command = command;

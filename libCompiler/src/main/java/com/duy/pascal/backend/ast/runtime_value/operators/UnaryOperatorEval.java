@@ -31,11 +31,6 @@ import com.duy.pascal.backend.ast.runtime_value.operators.pointer.AddressEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -44,6 +39,11 @@ import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationExcept
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
+import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.OperatorTypes;
+import com.duy.pascal.backend.types.PointerType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     public OperatorTypes operator;
@@ -77,13 +77,13 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
                 return new DerefEval(v1, line);
             }
         }
-        if (op_type == OperatorTypes.NOT && t1 == BasicType.Boolean) {
+        if (op_type == OperatorTypes.NOT && t1.equals(BasicType.Boolean)) {
             return new BoolUniOperatorEval(v1, op_type, line);
         }
-        if (t1 == BasicType.Integer) {
+        if (t1.equals(BasicType.Integer)) {
             return new IntegerUniOperatorEval(v1, op_type, line);
         }
-        if (t1 == BasicType.Long) {
+        if (t1.equals(BasicType.Long)) {
             return new LongUniOperatorEval(v1, op_type, line);
         }
         if (t1 == BasicType.Double) {
