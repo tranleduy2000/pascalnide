@@ -62,7 +62,6 @@ public class GraphScreen {
     /**
      * this object used to draw {@link GraphObject}
      */
-    @Nullable
     private Bitmap mPrimaryBitmap, mBitmapBuffer;
     private ConsoleCursor mCursor = new ConsoleCursor(0, 0, 0xffffffff);
     private int lineWidth = LineWidth.NormWidth;
@@ -328,7 +327,7 @@ public class GraphScreen {
         return FillType.createFillBitmap(context, fillPattern, fillColor);
     }
 
-    public void clearData() {
+    public synchronized void clearData() {
         if (mPrimaryBitmap != null && !mPrimaryBitmap.isRecycled()) {
             mPrimaryBitmap.recycle();
         }
@@ -348,7 +347,7 @@ public class GraphScreen {
         }
     }
 
-    private boolean ensureBufferNonNull() {
+    private  boolean ensureBufferNonNull() {
         if (mBitmapBuffer == null) {
             mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             return false;
@@ -366,11 +365,15 @@ public class GraphScreen {
 
     public void bufferToPrimary() {
         if (mBitmapBuffer != null) {
+//            ensurePrimaryNonNull();
+//            Canvas canvas = new Canvas(mPrimaryBitmap);
+//            canvas.drawBitmap(mBitmapBuffer, 0, 0, null);
+//            this.mPrimaryBitmap = mBitmapBuffer.copy(mBitmapBuffer.getConfig(), true);
             this.mPrimaryBitmap = mBitmapBuffer.copy(mBitmapBuffer.getConfig(), true);
         }
     }
 
-    public void clearBufferBitmap() {
+    public synchronized void clearBufferBitmap() {
         synchronized (mLock) {
          /*   Canvas canvas = null;
             if (mBitmapBuffer != null) {

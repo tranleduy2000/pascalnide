@@ -65,7 +65,7 @@ public class ConsoleView extends View implements
     private final AtomicBoolean canDraw = new AtomicBoolean(true);
     public Handler handler = new Handler();
     public int firstLine;
-    private boolean graphMode = false;
+    private boolean graphicMode = false;
     private GraphScreen mGraphScreen;
     //    text style, size of console
     private TextRenderer mTextRenderer;
@@ -87,6 +87,7 @@ public class ConsoleView extends View implements
     };
     private Runnable blink = new Runnable() {
         public void run() {
+            if (graphicMode) return;
             mCursor.toggleState();
             invalidate();
             handler.postDelayed(this, 1000);
@@ -127,12 +128,12 @@ public class ConsoleView extends View implements
         return mCursor;
     }
 
-    public boolean isGraphMode() {
-        return graphMode;
+    public boolean isGraphicMode() {
+        return graphicMode;
     }
 
-    public void setGraphMode(boolean graphMode) {
-        this.graphMode = graphMode;
+    public void setGraphicMode(boolean graphicMode) {
+        this.graphicMode = graphicMode;
     }
 
     private void init(Context context) {
@@ -796,7 +797,7 @@ public class ConsoleView extends View implements
         int w = getWidth();
         int h = getHeight();
 
-        if (graphMode) {
+        if (graphicMode) {
             // draw bitmap graph
             if (!mGraphScreen.getGraphBitmap().isRecycled()) {
                 canvas.drawBitmap(mGraphScreen.getGraphBitmap(), 0, 0,
@@ -977,7 +978,7 @@ public class ConsoleView extends View implements
     //pascal
     public void closeGraph() {
         clearGraph();
-        graphMode = false;
+        graphicMode = false;
         postInvalidate();
     }
 

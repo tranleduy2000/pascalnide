@@ -317,7 +317,7 @@ public class GraphLib implements IPascalLibrary {
     @PascalMethod(description = "Initialize graphical system")
     public void initGraph(int driver, int mode, StringBuilder pathToDriver) {
         if (handler != null) {
-            handler.getConsoleView().setGraphMode(true);
+            handler.getConsoleView().setGraphicMode(true);
         }
     }
 
@@ -800,7 +800,7 @@ public class GraphLib implements IPascalLibrary {
     public void RestoreCrtMode() {
         ConsoleView consoleView = handler.getConsoleView();
         if (consoleView != null) {
-            consoleView.setGraphMode(false);
+            consoleView.setGraphicMode(false);
             consoleView.postInvalidate();
         }
     }
@@ -809,7 +809,7 @@ public class GraphLib implements IPascalLibrary {
     public void SetGraphMode(int mode) {
         ConsoleView consoleView = handler.getConsoleView();
         if (consoleView != null) {
-            consoleView.setGraphMode(true);
+            consoleView.setGraphicMode(true);
             consoleView.postInvalidate();
         }
     }
