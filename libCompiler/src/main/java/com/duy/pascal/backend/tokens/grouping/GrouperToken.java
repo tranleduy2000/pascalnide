@@ -107,6 +107,7 @@ import com.duy.pascal.backend.types.StringLimitType;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.types.set.EnumGroupType;
 import com.duy.pascal.backend.types.set.SetType;
+import com.duy.pascal.backend.types.subrange.BooleanSubrangeType;
 import com.duy.pascal.backend.types.subrange.DoubleSubrangeType;
 import com.duy.pascal.backend.types.subrange.EnumSubrangeType;
 import com.duy.pascal.backend.types.subrange.IntegerRange;
@@ -315,6 +316,13 @@ public abstract class GrouperToken extends Token {
                     throw new LowerGreaterUpperBoundException(d1, d2, first.getLineNumber());
                 }
                 return new DoubleSubrangeType(d1, d2);
+            } else if (firstType.getDeclType().getStorageClass() == Boolean.class) {
+                Boolean e1 = (Boolean) v1;
+                Boolean e2 = (Boolean) v2;
+                if (e1.compareTo(e2) > 0) {
+                    throw new LowerGreaterUpperBoundException(e1, e2, first.getLineNumber());
+                }
+                return new BooleanSubrangeType(e1, e2);
             } else if (firstType.getDeclType() instanceof EnumGroupType) {
                 EnumElementValue e1 = (EnumElementValue) v1;
                 EnumElementValue e2 = (EnumElementValue) v2;

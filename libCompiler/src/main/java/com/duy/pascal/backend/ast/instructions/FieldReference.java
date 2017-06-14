@@ -20,6 +20,11 @@ public class FieldReference implements Reference {
     }
 
     @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
     public void set(Object value) {
         container.setVar(name, value);
     }
