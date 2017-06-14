@@ -64,6 +64,8 @@ import com.duy.pascal.backend.tokens.basic.InterfaceToken;
 import com.duy.pascal.backend.tokens.basic.InitializationToken;
 import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
+import com.duy.pascal.backend.tokens.basic.LabelToken;
+import com.duy.pascal.backend.tokens.basic.GotoToken;
 import com.duy.pascal.backend.tokens.SpaceToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
@@ -304,8 +306,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"interface" {return new InterfaceToken(getLine());}
 	"unit" {return new UnitToken(getLine());}
 	"set" {return new SetToken(getLine());}
-	"goto" {return new SetToken(getLine());}
-	"lable" {return new SetToken(getLine());}
+	"goto" {return new GotoToken(getLine());}
+	"lable" {return new LabelToken(getLine());}
 
 	"'" {
 		literal.setLength(0);
