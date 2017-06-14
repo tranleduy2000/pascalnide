@@ -21,7 +21,6 @@ public class StringBuilderBoxer extends DebuggableReturnValue {
 
     public StringBuilderBoxer(RuntimeValue value) {
         this.value = value;
-        this.outputFormat = value.getOutputFormat();
     }
 
     @Override

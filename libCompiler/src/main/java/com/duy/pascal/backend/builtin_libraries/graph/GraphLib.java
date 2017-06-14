@@ -27,7 +27,7 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
-import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.crt.ColorUtils;
@@ -774,8 +774,8 @@ public class GraphLib implements IPascalLibrary {
         vars.add(new VariableDeclaration("xend", BasicType.Integer, 1, null));
         vars.add(new VariableDeclaration("yend", BasicType.Integer, 1, null));
 
-        CustomVariable customVariable = new CustomVariable(vars);
-        var.set(customVariable);
+        RecordValue recordValue = new RecordValue(vars);
+        var.set(recordValue);
     }
 
     @PascalMethod(description = "Return height (in pixels) of the given string")
@@ -822,7 +822,7 @@ public class GraphLib implements IPascalLibrary {
     }
 
     @PascalMethod(description = "Draw, close and fill a polygone")
-    public void FillPoly(int numPoint, CustomVariable[] points) {
+    public void FillPoly(int numPoint, RecordValue[] points) {
         ConsoleView consoleView = handler.getConsoleView();
         if (consoleView != null) {
             consoleView.getGraphScreen().addGraphObject(new PolygonObject(points, numPoint));

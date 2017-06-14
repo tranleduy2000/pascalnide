@@ -36,7 +36,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
-import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
@@ -703,8 +703,8 @@ public abstract class GrouperToken extends Token {
         return defaultValue;
     }
 
-    private ConstantAccess<CustomVariable> getRecordConstant(ExpressionContext context, Token take,
-                                                             RecordType ztype) throws ParsingException {
+    private ConstantAccess<RecordValue> getRecordConstant(ExpressionContext context, Token take,
+                                                          RecordType ztype) throws ParsingException {
         if (take instanceof ParenthesizedToken) {
             ParenthesizedToken group = (ParenthesizedToken) take;
             RecordType recordType = ztype.clone();
@@ -892,10 +892,10 @@ public abstract class GrouperToken extends Token {
 
             } else if (elementType instanceof RecordType) {
                 Token next = grouperToken.take();
-                ConstantAccess<CustomVariable> constant = grouperToken.getRecordConstant(context,
+                ConstantAccess<RecordValue> constant = grouperToken.getRecordConstant(context,
                         next, (RecordType) elementType);
 
-                CustomVariable enumConstant = constant.getValue();
+                RecordValue enumConstant = constant.getValue();
 
                 assertNextCommaForNextConstant(context, grouperToken, elementType);
                 return new ConstantAccess<>(enumConstant, elementType, next.getLineNumber());

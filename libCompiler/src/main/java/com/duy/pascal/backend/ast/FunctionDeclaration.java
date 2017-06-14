@@ -81,7 +81,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         Token next = grouperToken.peek();
         if (isProcedure == next instanceof ColonToken) {
             throw new ParsingException(next.getLineNumber(),
-                    "Functions must have a return operator, and procedures cannot have one");
+                    "Functions must have a return value, and procedures cannot have one");
         }
         if (!isProcedure) {
             next = grouperToken.take();

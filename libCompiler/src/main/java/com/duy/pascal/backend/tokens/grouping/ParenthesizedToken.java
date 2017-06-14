@@ -1,14 +1,15 @@
 package com.duy.pascal.backend.tokens.grouping;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.OutputValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.types.RuntimeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,13 +93,16 @@ public class ParenthesizedToken extends GrouperToken {
                     }
                     infoOutput[0] = column;
                     infoOutput[1] = lengthFloatingPoint;
-                    value.setOutputFormat(infoOutput);
+                    value = new OutputValue(value, infoOutput);
                 } else {
                     next = take();
                     if (!(next instanceof CommaToken)) {
                         throw new ExpectedTokenException(",", next);
                     }
                 }
+            }
+            if (!(value instanceof OutputValue) && RuntimeType.canOutputWithFormat(runtimeClass, 1)) {
+                value = new OutputValue(value, null);
             }
             result.add(value);
         }

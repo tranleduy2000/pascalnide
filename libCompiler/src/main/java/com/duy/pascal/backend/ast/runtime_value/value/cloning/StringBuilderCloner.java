@@ -20,24 +20,12 @@ public class StringBuilderCloner implements RuntimeValue {
 
     public StringBuilderCloner(RuntimeValue value) {
         this.value = value;
-        this.outputFormat = value.getOutputFormat();
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return value.getType(f);
     }
-
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
-
 
     @NonNull
     @Override

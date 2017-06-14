@@ -15,7 +15,6 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class NumberToIntType implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
     RuntimeValue other;
 
 
@@ -27,17 +26,6 @@ public class NumberToIntType implements RuntimeValue {
     public String toString() {
         return other.toString();
     }
-
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
-
 
     @NonNull
     @Override

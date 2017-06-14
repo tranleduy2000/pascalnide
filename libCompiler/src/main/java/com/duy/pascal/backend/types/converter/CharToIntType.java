@@ -27,15 +27,6 @@ public class CharToIntType implements RuntimeValue {
         return other.toString();
     }
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return new RuntimeValue[0];
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-
-    }
 
     @NonNull
     @Override

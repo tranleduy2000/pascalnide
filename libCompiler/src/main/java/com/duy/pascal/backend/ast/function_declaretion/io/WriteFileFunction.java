@@ -30,14 +30,14 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
 import com.duy.pascal.backend.builtin_libraries.file.FileLib;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.VarargsType;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.io.File;
 
@@ -137,7 +137,7 @@ public class WriteFileFunction implements IMethodDeclaration {
             FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
 
             ArrayBoxer arrayBoxer = (ArrayBoxer) args;
-            Object[] values = OutputFormatter.format(arrayBoxer, f, main);
+            Object[] values = (Object[]) arrayBoxer.getValue(f, main);
 
             PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
             fileLib.writeFile(file.get(), values);

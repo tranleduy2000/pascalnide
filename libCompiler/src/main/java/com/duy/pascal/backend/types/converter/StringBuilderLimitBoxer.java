@@ -31,14 +31,12 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class StringBuilderLimitBoxer implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
     private RuntimeValue value;
     private RuntimeValue length;
 
     public StringBuilderLimitBoxer(RuntimeValue value, RuntimeValue length) {
         this.value = value;
         this.length = length;
-        this.outputFormat = value.getOutputFormat();
     }
 
     public void setLength(RuntimeValue length) {
@@ -49,16 +47,6 @@ public class StringBuilderLimitBoxer implements RuntimeValue {
     @Override
     public String toString() {
         return value.toString();
-    }
-
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
     }
 
 

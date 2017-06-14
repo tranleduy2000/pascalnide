@@ -22,7 +22,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotAssignException;
@@ -261,8 +261,8 @@ public class FileLib implements IPascalLibrary {
             double value = file.readDouble();
             return value;
 
-        } else if (c == CustomVariable.class) {
-            CustomVariable record = (CustomVariable) o;
+        } else if (c == RecordValue.class) {
+            RecordValue record = (RecordValue) o;
             ArrayList<VariableDeclaration> variables = record.getVariables();
             for (VariableDeclaration variable : variables) {
                 Object v = getValueForVariable(zfile, variable.getType().getStorageClass(),

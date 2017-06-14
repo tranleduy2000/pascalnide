@@ -6,7 +6,7 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.CloneableObjectCloner;
-import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 
@@ -18,7 +18,7 @@ public class CustomType extends ObjectType {
      * This is a list of the defined variables in the custom type.
      */
     public ArrayList<VariableDeclaration> variableDeclarations;
-    private CustomVariable customVariable;
+    private RecordValue recordValue;
 
     public CustomType() {
         variableDeclarations = new ArrayList<>();
@@ -36,9 +36,9 @@ public class CustomType extends ObjectType {
 
     @NonNull
     @Override
-    public CustomVariable initialize() {
-        customVariable = new CustomVariable(variableDeclarations);
-        return customVariable;
+    public RecordValue initialize() {
+        recordValue = new RecordValue(variableDeclarations);
+        return recordValue;
     }
 
     @Override
@@ -65,11 +65,11 @@ public class CustomType extends ObjectType {
 
     @Override
     public Class getTransferClass() {
-        if (customVariable != null) {
-            return customVariable.getClass();
+        if (recordValue != null) {
+            return recordValue.getClass();
         }
-        customVariable = new CustomVariable(variableDeclarations);
-        return customVariable.getClass();
+        recordValue = new RecordValue(variableDeclarations);
+        return recordValue.getClass();
     }
 
 

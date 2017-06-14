@@ -13,16 +13,6 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 
 public interface RuntimeValue {
-    @Nullable
-    RuntimeValue[] getOutputFormat();
-
-    /**
-     * used for output to console
-     *
-     * @param formatInfo formatInfo[0] : number column for display in the screen
-     *                   formatInfo[1] :  length of floating point if this variable is double
-     */
-    void setOutputFormat(@Nullable RuntimeValue[] formatInfo);
 
     /**
      * @return value of variable or function

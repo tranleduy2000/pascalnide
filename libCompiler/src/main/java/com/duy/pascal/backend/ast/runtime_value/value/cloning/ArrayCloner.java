@@ -17,12 +17,10 @@ import com.duy.pascal.backend.types.RuntimeType;
 import static com.duy.pascal.backend.utils.NullSafety.isNullValue;
 
 public class ArrayCloner<T> implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
     private RuntimeValue r;
 
     public ArrayCloner(RuntimeValue r2) {
         this.r = r2;
-        this.outputFormat = r.getOutputFormat();
     }
 
     @Override
@@ -30,15 +28,6 @@ public class ArrayCloner<T> implements RuntimeValue {
         return r.getType(f);
     }
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
 
 
     @NonNull

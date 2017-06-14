@@ -20,7 +20,6 @@ public class CharacterBoxer extends DebuggableReturnValue {
 
     public CharacterBoxer(RuntimeValue charValue) {
         this.charValue = charValue;
-        this.outputFormat = charValue.getOutputFormat();
     }
 
 

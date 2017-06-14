@@ -19,7 +19,7 @@ package com.duy.pascal.backend.builtin_libraries.graph.model;
 import android.graphics.Canvas;
 import android.graphics.Path;
 
-import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 
 /**
  * Created by Duy on 09-Jun-17.
@@ -27,10 +27,10 @@ import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
 
 public class PolygonObject extends GraphObject {
 
-    private final CustomVariable[] point;
+    private final RecordValue[] point;
     private final int numPoint;
 
-    public PolygonObject(CustomVariable[] point, int numPoint) {
+    public PolygonObject(RecordValue[] point, int numPoint) {
         this.point = point;
         this.numPoint = numPoint;
     }

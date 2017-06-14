@@ -55,16 +55,6 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
                 new IntegerSubrangeType(0, setType.getSize())), false); //dynamic array, non writable
     }
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
-
 
     @NonNull
     @Override

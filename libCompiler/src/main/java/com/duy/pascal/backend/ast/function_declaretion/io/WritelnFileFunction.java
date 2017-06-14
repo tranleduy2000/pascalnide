@@ -136,7 +136,7 @@ public class WritelnFileFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
             ArrayBoxer arrayBoxer = (ArrayBoxer) args;
-            Object[] values = OutputFormatter.format(arrayBoxer, f, main);
+            Object[] values = (Object[]) arrayBoxer.getValue(f, main);
 
             PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
 

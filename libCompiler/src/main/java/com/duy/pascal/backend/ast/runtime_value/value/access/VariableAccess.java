@@ -55,15 +55,6 @@ public class VariableAccess extends DebuggableAssignableValue {
         return false;
     }
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return super.getOutputFormat();
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        super.setOutputFormat(formatInfo);
-    }
 
     @NonNull
     @Override

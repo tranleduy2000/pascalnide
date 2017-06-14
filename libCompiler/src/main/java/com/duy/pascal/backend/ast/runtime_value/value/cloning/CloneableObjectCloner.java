@@ -17,12 +17,10 @@ import com.duy.pascal.backend.types.RuntimeType;
 import static com.duy.pascal.backend.utils.NullSafety.zReturn;
 
 public class CloneableObjectCloner implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
     private RuntimeValue r;
 
     public CloneableObjectCloner(RuntimeValue r) {
         this.r = r;
-        this.outputFormat = r.getOutputFormat();
     }
 
     @Override
@@ -30,15 +28,6 @@ public class CloneableObjectCloner implements RuntimeValue {
         return r.getType(f);
     }
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
 
     @Override
     public String toString() {

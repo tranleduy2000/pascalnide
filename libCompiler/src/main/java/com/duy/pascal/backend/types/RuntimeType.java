@@ -5,9 +5,11 @@ import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.GetAddress;
+import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.types.set.SetType;
+import com.duy.pascal.backend.types.util.TypeUtils;
 
 import java.util.Iterator;
 
@@ -27,17 +29,10 @@ public class RuntimeType implements ArgumentType {
      */
     public static boolean canOutputWithFormat(Class<?> runtimeClass, int index) {
         if (index == 1) {
-            return runtimeClass == double.class || runtimeClass == int.class
-                    || runtimeClass == boolean.class || runtimeClass == long.class
-                    || runtimeClass == char.class || runtimeClass == String.class
-                    || runtimeClass == StringBuilder.class
-                    || runtimeClass == Boolean.class || runtimeClass == Byte.class
-                    || runtimeClass == Character.class
-                    || runtimeClass == Double.class || runtimeClass == Float.class
-                    || runtimeClass == Integer.class || runtimeClass == Long.class;
+            return TypeUtils.isPrimitiveWrapper(runtimeClass) || runtimeClass == StringBuilder.class
+                    || runtimeClass == String.class || runtimeClass == RecordValue.class;
         } else if (index == 2) {
-            return runtimeClass == double.class || runtimeClass == Double.class ||
-                    runtimeClass == Float.class || runtimeClass == float.class;
+            return TypeUtils.isNumber(runtimeClass);
         }
         return false;
     }

@@ -15,28 +15,16 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class NumberToRealType implements RuntimeValue {
-    private RuntimeValue[] outputFormat;
     private RuntimeValue other;
 
 
     public NumberToRealType(RuntimeValue other) {
         this.other = other;
-        this.outputFormat = other.getOutputFormat();
     }
 
     @Override
     public String toString() {
         return other.toString();
-    }
-
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
     }
 
     @NonNull

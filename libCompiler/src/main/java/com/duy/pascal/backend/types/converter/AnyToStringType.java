@@ -16,23 +16,11 @@ import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.RuntimeType;
 
 public class AnyToStringType implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
     private RuntimeValue value;
 
     public AnyToStringType(RuntimeValue value) {
         this.value = value;
     }
-
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
-
 
     @NonNull
     @Override

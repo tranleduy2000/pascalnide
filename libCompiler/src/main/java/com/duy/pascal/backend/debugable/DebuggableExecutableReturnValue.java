@@ -20,15 +20,6 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
 
     protected RuntimeValue[] outputFormat;
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
 
     @NonNull
     @Override

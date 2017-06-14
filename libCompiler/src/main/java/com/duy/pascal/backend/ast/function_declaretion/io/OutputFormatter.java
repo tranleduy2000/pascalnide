@@ -20,7 +20,7 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
-import com.duy.pascal.backend.ast.runtime_value.variables.CustomVariable;
+import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.text.DecimalFormat;
@@ -43,32 +43,17 @@ public class OutputFormatter {
         //format value
         for (int i = 0; i < runtimeValues.length; i++) {
             RuntimeValue raw = runtimeValues[i];
-            RuntimeValue[] outputFormat = raw.getOutputFormat();
             Object value = raw.getValue(f, main);
-            StringBuilder out = new StringBuilder(getValueOuput(value));
-
-            if (outputFormat != null) {
-                if (outputFormat[1] != null) {
-                    int sizeOfReal = (int) outputFormat[1].getValue(f, main);
-                    out = formatDecimal(sizeOfReal, out);
-                }
-
-                if (outputFormat[0] != null) {
-                    int column = (int) outputFormat[0].getValue(f, main);
-                    while (out.length() < column) {
-                        out.insert(0, " ");
-                    }
-                }
-            }
+            StringBuilder out = new StringBuilder(getValueOutput(value));
             values[i] = out;
         }
         return values;
     }
 
-    private static String getValueOuput(Object value) {
+    public static String getValueOutput(Object value) {
         if (value instanceof Object[]) return Arrays.toString((Object[]) value);
-        if (value instanceof CustomVariable) {
-            Set<Map.Entry<String, Object>> entries = ((CustomVariable) value).getVariableMap().entrySet();
+        if (value instanceof RecordValue) {
+            Set<Map.Entry<String, Object>> entries = ((RecordValue) value).getVariableMap().entrySet();
             StringBuilder res = new StringBuilder();
             for (Map.Entry<String, Object> entry : entries) {
                 res.append(entry.getValue()).append("\n");

@@ -7,26 +7,15 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.Reference;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
 import com.duy.pascal.backend.utils.NullSafety;
 
 public abstract class DebuggableAssignableValue implements AssignableValue {
-    protected RuntimeValue[] outputFormat;
 
     public abstract boolean canDebug();
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
 
     @NonNull
     @Override

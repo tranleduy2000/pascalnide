@@ -36,29 +36,16 @@ import static com.duy.pascal.backend.utils.NullSafety.isNullValue;
 
 
 public class SetCloner<T> implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
     private RuntimeValue list;
 
     public SetCloner(RuntimeValue container) {
         this.list = container;
-        this.outputFormat = list.getOutputFormat();
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         return list.getType(f);
     }
-
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
-
 
     @NonNull
     @Override

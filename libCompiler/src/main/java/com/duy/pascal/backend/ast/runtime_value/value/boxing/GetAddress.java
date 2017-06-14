@@ -23,7 +23,6 @@ public class GetAddress extends DebuggableReturnValue {
     public GetAddress(AssignableValue target) throws UnAssignableTypeException {
         this.line = target.getLineNumber();
         this.target = target;
-        this.outputFormat = target.getOutputFormat();
     }
 
 

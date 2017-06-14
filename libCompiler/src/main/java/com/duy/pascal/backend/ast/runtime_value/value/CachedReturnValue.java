@@ -54,15 +54,6 @@ public class CachedReturnValue implements RuntimeValue {
 
     }
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
 
 
     @NonNull

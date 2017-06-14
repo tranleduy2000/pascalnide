@@ -29,11 +29,11 @@ import java.util.Set;
 /**
  * Created by Duy on 17-Apr-17.
  */
-public class CustomVariable implements ContainsVariables {
+public class RecordValue implements ContainsVariables {
     private Map<String, Object> variableMap = new HashMap<>();
     private ArrayList<VariableDeclaration> variables;
 
-    public CustomVariable(ArrayList<VariableDeclaration> mVariables) {
+    public RecordValue(ArrayList<VariableDeclaration> mVariables) {
         this.variables = mVariables;
         for (VariableDeclaration declaration : mVariables) {
             DeclaredType returnType = declaration.getType();
@@ -85,6 +85,6 @@ public class CustomVariable implements ContainsVariables {
             vars.add(new VariableDeclaration(mVariable.getName(), mVariable.getType(),
                     variableMap.get(mVariable.getName().toLowerCase()), mVariable.getLineNumber()));
         }
-        return new CustomVariable(vars);
+        return new RecordValue(vars);
     }
 }

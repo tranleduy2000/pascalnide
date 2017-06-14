@@ -18,16 +18,6 @@ public abstract class DebuggableReturnValue implements RuntimeValue {
 
     public abstract boolean canDebug();
 
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return outputFormat;
-    }
-
-    @Override
-    public void setOutputFormat(RuntimeValue[] formatInfo) {
-        this.outputFormat = formatInfo;
-    }
-
     @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)

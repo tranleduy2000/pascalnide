@@ -43,10 +43,10 @@ public class TypeConverter {
         if (intype == outtype) {
             return target;
         }
-        Integer inprecedence = precedence.get(intype.getTransferClass());
-        Integer outprecedence = precedence.get(outtype.getTransferClass());
-        if (inprecedence != null && outprecedence != null) {
-            if (inprecedence <= outprecedence) {
+        Integer inPrecedence = precedence.get(intype.getTransferClass());
+        Integer outPrecedence = precedence.get(outtype.getTransferClass());
+        if (inPrecedence != null && outPrecedence != null) {
+            if (inPrecedence <= outPrecedence) {
                 return forceConvert(outtype, target, intype);
             }
         }

@@ -53,16 +53,6 @@ public class EnumElementValue implements RuntimeValue {
         return type;
     }
 
-    @Nullable
-    @Override
-    public RuntimeValue[] getOutputFormat() {
-        return new RuntimeValue[0];
-    }
-
-    @Override
-    public void setOutputFormat(@Nullable RuntimeValue[] formatInfo) {
-
-    }
 
     @NonNull
     @Override
