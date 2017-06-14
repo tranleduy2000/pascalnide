@@ -143,12 +143,12 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
         @Nullable
         private LineInfo startLine;
 
-        public UnitExpressionContext(@NonNull IRunnablePascal handler) {
+        UnitExpressionContext(@NonNull IRunnablePascal handler) {
             super(handler);
             config.setLibrary(true);
         }
 
-        @Nullable
+        @NonNull
         @Override
         public LineInfo getStartLine() {
             return startLine;

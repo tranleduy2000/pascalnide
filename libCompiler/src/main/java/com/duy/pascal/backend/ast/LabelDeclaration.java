@@ -25,7 +25,7 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 public class LabelDeclaration implements NamedEntity, Cloneable {
 
     /**
-     * name of variable, always lower case
+     * name of variable, always first case
      */
     public String name;
     private LineInfo line;

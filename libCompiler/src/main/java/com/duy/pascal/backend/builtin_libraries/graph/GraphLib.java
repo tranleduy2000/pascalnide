@@ -518,9 +518,9 @@ public class GraphLib implements IPascalLibrary {
         if (handler != null) {
 
             handler.getConsoleView().addGraphObject(new TextGraphObject(text.toString(), x, y));
-           /* //indexOf current paint
+           /* //get current paint
             Paint textPaint = handler.getConsoleView().getGraphScreen().getTextPaint();
-            //indexOf width of text
+            //get width of text
             int width = (int) textPaint.measureText(text);
             //move cursor to the end of the text (bottom-right)
             CursorConsole cursorGraph = handler.getConsoleView().getCursorGraph();
@@ -535,9 +535,9 @@ public class GraphLib implements IPascalLibrary {
         ConsoleCursor cursorGraph = handler.getConsoleView().getCursorGraph();
         handler.getConsoleView().addGraphObject(new TextGraphObject(text, cursorGraph.getX(),
                 cursorGraph.getY()));
-        //indexOf current paint
+        //get current paint
         Paint textPaint = handler.getConsoleView().getGraphScreen().getTextPaint();
-        //indexOf width of text
+        //get width of text
         int width = (int) textPaint.measureText(text);
         //move cursor to the end of the text (bottom-right)
         handler.getConsoleView().setCursorGraphPosition(cursorGraph.getX(),
@@ -751,7 +751,7 @@ public class GraphLib implements IPascalLibrary {
     @PascalMethod(description = "Draw an in-memory image to the screen")
     public void putImage(int x1, int y1, PascalReference pascalPointer, int mode)
             throws RuntimePascalException {
-        //indexOf graph bitmap
+        //get graph bitmap
         GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
         Bitmap graphBitmap = graphScreen.getGraphBitmap();
 

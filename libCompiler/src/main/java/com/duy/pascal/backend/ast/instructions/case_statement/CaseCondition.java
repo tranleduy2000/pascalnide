@@ -8,5 +8,5 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 interface CaseCondition {
     boolean fits(VariableContext context, RuntimeExecutableCodeUnit<?> main, Object value) throws RuntimePascalException;
 
-    LineInfo getLine();
+    LineInfo getLineNumber();
 }

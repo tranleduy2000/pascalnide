@@ -20,7 +20,7 @@ import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 
 /**
- * This exception will be throw if the lower > the upper of array
+ * This exception will be throw if the first > the upper of array
  *
  *
  * Created by Duy on 14-Apr-17.

@@ -23,17 +23,17 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.EnumGroupType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.set.EnumGroupType;
 
 /**
  * Created by Duy on 25-May-17.
  */
 
-public class EnumElementValue implements RuntimeValue {
+public class EnumElementValue implements RuntimeValue, Comparable<EnumElementValue> {
     private String name;
     private EnumGroupType type;
     private Integer value;
@@ -71,6 +71,11 @@ public class EnumElementValue implements RuntimeValue {
         return lineInfo;
     }
 
+    @Override
+    public void setLineNumber(LineInfo lineNumber) {
+
+    }
+
     @Nullable
     @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
@@ -85,11 +90,6 @@ public class EnumElementValue implements RuntimeValue {
     @Override
     public AssignableValue asAssignableValue(ExpressionContext f) {
         return null;
-    }
-
-    @Override
-    public void setLineNumber(LineInfo lineNumber) {
-
     }
 
     public String getName() {
@@ -122,5 +122,10 @@ public class EnumElementValue implements RuntimeValue {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    @Override
+    public int compareTo(@NonNull EnumElementValue o) {
+        return this.getIndex().compareTo(o.getIndex());
     }
 }

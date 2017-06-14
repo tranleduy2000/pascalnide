@@ -3,9 +3,9 @@ package com.duy.pascal.backend.ast.codeunit;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.ast.ProgramConfig;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.config.ProgramConfig;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
 import com.duy.pascal.backend.source_include.ScriptSource;
@@ -21,9 +21,10 @@ public abstract class CodeUnit {
     public final ExpressionContextMixin context;
     @Nullable
     protected String programName;
-    protected ProgramConfig config;
+    protected ProgramConfig config = new ProgramConfig();
     private String sourceName;
     private List<ScriptSource> includeDirectories;
+
     public CodeUnit(IRunnablePascal handler) {
         this.context = getExpressionContextInstance(handler);
     }

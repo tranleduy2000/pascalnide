@@ -21,6 +21,7 @@ import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
 import com.duy.pascal.backend.ast.runtime_value.ScriptControl;
+import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.debugable.DebugListener;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;

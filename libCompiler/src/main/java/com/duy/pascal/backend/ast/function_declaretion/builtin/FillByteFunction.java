@@ -28,14 +28,14 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.rangetype.SubrangeType;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.subrange.IntegerRange;
 
 public class FillByteFunction implements IMethodDeclaration {
 
@@ -134,10 +134,10 @@ public class FillByteFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             DeclaredType declType = type.declType;
             if (declType instanceof ArrayType) {
-                SubrangeType bounds = ((ArrayType) declType).getBound();
+                IntegerRange bounds = ((ArrayType) declType).getBound();
                 Object[] value = (Object[]) this.value.getValue(f, main);
                 int size = value.length - 1;
-                return bounds.lower + size - 1;
+                return bounds.getFirst() + size - 1;
             } else if (BasicType.Byte.equals(declType)) {
                 return Byte.MAX_VALUE;
             } else if (BasicType.Short.equals(declType)) {

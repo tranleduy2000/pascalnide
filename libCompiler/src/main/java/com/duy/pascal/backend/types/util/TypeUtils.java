@@ -43,6 +43,8 @@ public class TypeUtils {
     private static HashMap<Class, Class> primitiveTypes = null;
     private static HashMap<Class, Class> numberTypes = null;
     private static HashMap<Class, Class> assignable = null;
+    private static HashMap<Class, Class> integerTypes = null;
+    private static HashMap<Class, Class> realTypes = null;
 
     /*
      *  HashMaps holding primitive and numerical type mappings.
@@ -109,15 +111,24 @@ public class TypeUtils {
 
         {
             numberTypes = new HashMap<>();
-            Class[] types = new Class[]
-                    {
-                            Double.TYPE, Float.TYPE, Integer.TYPE, Long.TYPE, Short.TYPE,
-                            Double.class, Float.class, Integer.class, Long.class, Short.class
-                    };
-
-            for (Class type : types) {
-                numberTypes.put(type, type);
+            realTypes = new HashMap<>();
+            integerTypes = new HashMap<>();
+            Class[] iTypes = new Class[]{
+                    Integer.TYPE, Long.TYPE, Short.TYPE
+                    , Integer.class, Long.class, Short.class
+            };
+            Class[] rTypes = new Class[]{
+                    Double.TYPE, Float.TYPE,
+                    Double.class, Float.class
+            };
+            for (Class intType : iTypes) {
+                integerTypes.put(intType, intType);
             }
+            for (Class rType : rTypes) {
+                realTypes.put(rType, rType);
+            }
+            numberTypes.putAll(realTypes);
+            numberTypes.putAll(integerTypes);
         }
         {
             assignable = new HashMap<>();
@@ -132,6 +143,14 @@ public class TypeUtils {
      * Static utility class; cannot be constructed.
      */
     private TypeUtils() {
+    }
+
+    public static boolean isIntegerType(Class type) {
+        return integerTypes.get(type) != null;
+    }
+
+    public static boolean isRealType(Class type) {
+        return realTypes.get(type) != null;
     }
 
     /**

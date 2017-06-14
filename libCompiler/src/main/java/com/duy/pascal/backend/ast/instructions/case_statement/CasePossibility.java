@@ -1,14 +1,13 @@
 package com.duy.pascal.backend.ast.instructions.case_statement;
 
-import com.duy.pascal.backend.debugable.DebuggableExecutable;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.rangetype.Containable;
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.debugable.DebuggableExecutable;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 class CasePossibility extends DebuggableExecutable {
@@ -16,9 +15,9 @@ class CasePossibility extends DebuggableExecutable {
     /**
      * This class represents a line in a case statement.
      */
-    Containable[] conditions;
+    CaseCondition[] conditions;
 
-    CasePossibility(Containable[] conditions, Executable commands) {
+    CasePossibility(CaseCondition[] conditions, Executable commands) {
         this.conditions = conditions;
         this.commands = commands;
     }

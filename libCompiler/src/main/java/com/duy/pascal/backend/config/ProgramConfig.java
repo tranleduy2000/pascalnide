@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast;
+package com.duy.pascal.backend.config;
 
 /**
  * Created by Duy on 14-Jun-17.
@@ -25,8 +25,7 @@ public class ProgramConfig {
     private boolean library;
     private byte mode = ProgramMode.FPC;
 
-    public ProgramConfig(boolean library) {
-        this.library = library;
+    public ProgramConfig() {
     }
 
     public void process(String[] command) {
@@ -63,11 +62,5 @@ public class ProgramConfig {
         this.library = library;
     }
 
-    public static class ProgramMode {
-        public static final byte DELPHI = 0;
-        public static final byte FPC = 1;
-        public static final byte OBJ_FPC = 2;
-        public static final byte ANDROID = 3;
-    }
 
 }

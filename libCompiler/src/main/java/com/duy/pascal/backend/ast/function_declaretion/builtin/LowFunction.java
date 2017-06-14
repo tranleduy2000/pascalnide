@@ -129,7 +129,7 @@ public class LowFunction implements IMethodDeclaration {
                 if (((ArrayType) declType).isDynamic()) {
                     return 0;
                 } else {
-                    return ((ArrayType) declType).getBound().getLower();
+                    return ((ArrayType) declType).getBound().getFirst();
                 }
             } else if (BasicType.Byte.equals(declType)) {
                 return Byte.MIN_VALUE;

@@ -23,6 +23,7 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
+import com.duy.pascal.backend.config.ProgramMode;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.util.ArrayList;
@@ -81,8 +82,12 @@ public class FunctionOnStack extends VariableContext {
 
     public Object execute() throws RuntimePascalException {
         prototype.instructions.execute(this, main);
-        //indexOf result of prototype, name of variable is name of prototype
-        return mapVars.get(prototype.name);
+        //get result of prototype, name of variable is name of prototype
+        if (main.getDeclaration().getConfig().getMode() == ProgramMode.DELPHI) {
+            return mapVars.get("result");
+        } else {
+            return mapVars.get(prototype.name);
+        }
     }
 
     /**

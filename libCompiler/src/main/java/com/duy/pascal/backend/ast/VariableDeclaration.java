@@ -27,7 +27,7 @@ import java.util.Map;
 public class VariableDeclaration implements NamedEntity, Cloneable {
 
     /**
-     * name of variable, always lower case
+     * name of variable, always first case
      */
     public String name;
     public DeclaredType type;

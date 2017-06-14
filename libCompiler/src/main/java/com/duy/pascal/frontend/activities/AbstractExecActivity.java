@@ -23,7 +23,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.ast.codeunit.DebugMode;
+import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;

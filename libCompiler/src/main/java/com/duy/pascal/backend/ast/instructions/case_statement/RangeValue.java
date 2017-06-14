@@ -1,18 +1,17 @@
 package com.duy.pascal.backend.ast.instructions.case_statement;
 
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.rangetype.Containable;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.OperatorTypes;
 
-public class RangeValue implements Containable {
+public class RangeValue implements CaseCondition {
 
     private LineInfo line;
 
@@ -30,7 +29,7 @@ public class RangeValue implements Containable {
 
 
     @Override
-    public boolean contain(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object value)
+    public boolean fits(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object value)
             throws RuntimePascalException {
         return (Boolean) greaterThanLower.getValue(f, main)
                 && (Boolean) lessThanHigher.getValue(f, main);

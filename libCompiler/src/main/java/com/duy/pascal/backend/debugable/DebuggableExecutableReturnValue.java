@@ -2,7 +2,7 @@ package com.duy.pascal.backend.debugable;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.ast.codeunit.DebugMode;
+import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;

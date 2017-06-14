@@ -1,12 +1,11 @@
 package com.duy.pascal.backend.ast.instructions.case_statement;
 
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.rangetype.Containable;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
-class SingleValue implements Containable {
+class SingleValue implements CaseCondition {
     private Object mValue;
     private LineInfo line;
 
@@ -16,7 +15,7 @@ class SingleValue implements Containable {
     }
 
     @Override
-    public boolean contain(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object value) throws RuntimePascalException {
+    public boolean fits(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object value) throws RuntimePascalException {
         if (value.equals(mValue)) return true;
 
         if (value instanceof Number && mValue instanceof Number) {

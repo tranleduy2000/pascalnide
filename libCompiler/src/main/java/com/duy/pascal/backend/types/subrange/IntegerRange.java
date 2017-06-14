@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.codeunit;
+package com.duy.pascal.backend.types.subrange;
 
 /**
- * Created by Duy on 07-Jun-17.
+ * Created by Duy on 14-Jun-17.
  */
 
-public enum DebugMode {
-    STEP_INFO, STEP_OVER, RESUME_PROGRAM
+public interface IntegerRange {
+
+    public int getFirst();
+
+    public int getSize();
+
+    public String toString();
 }

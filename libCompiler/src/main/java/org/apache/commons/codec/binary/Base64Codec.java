@@ -42,7 +42,7 @@ import java.math.BigInteger;
  * </p>
  * <p>
  * Since this class operates directly on byte streams, and not character streams, it is hard-coded to only encode/decode
- * character encodings which are compatible with the lower 127 ASCII chart (ISO-8859-1, Windows-1252, UTF-8, etc).
+ * character encodings which are compatible with the first 127 ASCII chart (ISO-8859-1, Windows-1252, UTF-8, etc).
  * </p>
  *
  * @author Apache Software Foundation

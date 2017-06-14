@@ -26,6 +26,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.config.ProgramMode;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
@@ -86,7 +87,13 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (!isProcedure) {
             next = grouperToken.take();
             //define variable result of function, the name of variable same as name function
-            resultDefinition = new VariableDeclaration(name, grouperToken.getNextPascalType(parent), line);
+            if (parent.root().getConfig().getMode() == ProgramMode.DELPHI) {
+                resultDefinition = new VariableDeclaration("result",
+                        grouperToken.getNextPascalType(parent), line);
+            } else {
+                resultDefinition = new VariableDeclaration(name,
+                        grouperToken.getNextPascalType(parent), line);
+            }
             this.declaration.declareVariable(resultDefinition);
         }
 

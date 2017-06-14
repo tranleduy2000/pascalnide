@@ -3,9 +3,9 @@ package com.duy.pascal.backend.ast.instructions.case_statement;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExecutionResult;
-import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebuggableExecutable;
@@ -14,8 +14,6 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.rangetype.Containable;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.EOFToken;
 import com.duy.pascal.backend.tokens.Token;
@@ -26,6 +24,7 @@ import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
+import com.duy.pascal.backend.types.DeclaredType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,7 @@ public class CaseInstruction extends DebuggableExecutable {
         List<CasePossibility> possibilities = new ArrayList<>();
 
         while (!(token.peek() instanceof ElseToken) && !(token.peek() instanceof EOFToken)) {
-            List<Containable> conditions = new ArrayList<>();
+            List<CaseCondition> conditions = new ArrayList<>();
             while (true) {
                 RuntimeValue valueToSwitch = token.getNextExpression(context);
 
@@ -84,7 +83,7 @@ public class CaseInstruction extends DebuggableExecutable {
             }
             Executable command = token.getNextCommand(context);
             assertNextSemicolon(token);
-            possibilities.add(new CasePossibility(conditions.toArray(new Containable[conditions.size()]), command));
+            possibilities.add(new CasePossibility(conditions.toArray(new CaseCondition[conditions.size()]), command));
         }
 
         otherwise = new CompoundStatement(token.peek().getLineNumber());
@@ -123,7 +122,7 @@ public class CaseInstruction extends DebuggableExecutable {
         Object value = mSwitchValue.getValue(context, main);
         for (CasePossibility possibility : possibilities) {
             for (int j = 0; j < possibility.conditions.length; j++) {
-                if (possibility.conditions[j].contain(context, main, value)) {
+                if (possibility.conditions[j].fits(context, main, value)) {
                     return possibility.execute(context, main);
                 }
             }

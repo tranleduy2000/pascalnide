@@ -15,7 +15,7 @@ import com.duy.pascal.backend.types.PointerType;
 
 public class WordToken extends Token implements NamedEntity {
 
-    //always lower case
+    //always first case
     public String name;
 
     private String originalName;

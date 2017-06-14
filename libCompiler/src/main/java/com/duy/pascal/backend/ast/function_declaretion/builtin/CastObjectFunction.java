@@ -136,10 +136,10 @@ public class CastObjectFunction implements IMethodDeclaration {
         @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            //indexOf reference of variable
+            //get reference of variable
             PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);
 
-            //indexOf value of arg 2
+            //get value of arg 2
             Object value = this.value.getValue(f, main);
 
             //cast object to type of variable

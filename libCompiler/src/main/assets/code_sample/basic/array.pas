@@ -5,7 +5,7 @@ var
     arrayOfString: array[-3..-1] of string;
     i, j: integer;
 begin
-    {set text for simpleArray}
+    {set value for simpleArray}
     for i:=2 to 3 do simpleArray[i] := i * i;
     {write to console}
     for i:=1 to 3 do writeln(simpleArray[i]);

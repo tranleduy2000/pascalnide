@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.ast.codeunit.program;
 
-import com.duy.pascal.backend.ast.codeunit.RunMode;
+import com.duy.pascal.backend.config.RunMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;

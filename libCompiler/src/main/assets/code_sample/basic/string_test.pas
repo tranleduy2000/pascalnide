@@ -5,7 +5,7 @@ var
     i: Integer;
 begin
     {print to console}
-    writeln('enter your full name (lower case): ');
+    writeln('enter your full name (first case): ');
 
     {Input data into variable name}
     readln(name);

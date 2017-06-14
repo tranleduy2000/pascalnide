@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.types.rangetype;
+package com.duy.pascal.backend.types.subrange;
 
-import android.support.annotation.IntRange;
+public class CharacterSubrangeType extends SubrangeType<Character> {
 
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-
-public class CharacterSubrangeType extends IntegerSubrangeType {
-
-    public CharacterSubrangeType(GrouperToken i, ExpressionContext context) throws ParsingException {
-        super(i, context);
+    public CharacterSubrangeType(Character first, Character last) {
+        super(first, last);
     }
 
-    public CharacterSubrangeType(int lower, @IntRange(from = 0) int size) {
-        super(lower, size);
+    @Override
+    public boolean contains(SubrangeType other) {
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 }

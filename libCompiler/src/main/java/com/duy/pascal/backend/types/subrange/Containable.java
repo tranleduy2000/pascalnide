@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.types.rangetype;
+package com.duy.pascal.backend.types.subrange;
 
 import android.support.annotation.Nullable;
 
@@ -26,9 +26,9 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 /**
  * Created by Duy on 25-May-17.
  */
-public interface Containable {
+public interface Containable<T extends Comparable> {
     boolean contain(@Nullable VariableContext f, @Nullable RuntimeExecutableCodeUnit<?> main,
-                    Object value) throws RuntimePascalException;
+                    T value) throws RuntimePascalException;
 
     /**
      * the line of code

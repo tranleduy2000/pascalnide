@@ -56,7 +56,7 @@ public class WhileStatement extends DebuggableExecutable {
             }
         }
 
-        //indexOf command
+        //get command
         Executable command = grouperToken.getNextCommand(context);
 
         this.condition = condition;

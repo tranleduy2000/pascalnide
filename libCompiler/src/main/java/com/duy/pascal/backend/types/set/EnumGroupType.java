@@ -26,11 +26,12 @@ import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.InfoType;
 import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.rangetype.Containable;
+import com.duy.pascal.backend.types.subrange.Containable;
 
 import java.util.LinkedList;
 
@@ -38,7 +39,7 @@ import java.util.LinkedList;
  * Created by Duy on 25-May-17.
  */
 
-public class EnumGroupType extends InfoType implements Containable {
+public class EnumGroupType extends InfoType implements Containable<EnumElementValue> {
     private LinkedList<EnumElementValue> list;
 
     public EnumGroupType(@NonNull LinkedList<EnumElementValue> list) {
@@ -59,6 +60,15 @@ public class EnumGroupType extends InfoType implements Containable {
         }
         return list.get(position);
     }
+
+    public EnumElementValue getFirst() {
+        return list.getFirst();
+    }
+
+    public EnumElementValue getLast() {
+        return list.getLast();
+    }
+
 
     @Nullable
     public EnumElementValue get(String element) {
@@ -138,14 +148,6 @@ public class EnumGroupType extends InfoType implements Containable {
         return "enum type";
     }
 
-    @Override
-    public boolean contain(@Nullable VariableContext f,
-                           @Nullable RuntimeExecutableCodeUnit<?> main, Object value) {
-        if (value instanceof EnumElementValue) {
-            if (list.contains(value)) return true;
-        }
-        return false;
-    }
 
     public int getSize() {
         return list.size();
@@ -157,5 +159,11 @@ public class EnumGroupType extends InfoType implements Containable {
 
     public int indexOf(EnumElementValue key) {
         return this.list.indexOf(key);
+    }
+
+    @Override
+    public boolean contain(@Nullable VariableContext f, @Nullable RuntimeExecutableCodeUnit<?> main,
+                           EnumElementValue value) throws RuntimePascalException {
+        return list.contains(value);
     }
 }

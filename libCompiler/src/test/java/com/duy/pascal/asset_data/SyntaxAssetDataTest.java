@@ -54,7 +54,6 @@ public class SyntaxAssetDataTest extends TestCase {
         for (File file : parent.listFiles()) {
             if (file.getName().endsWith(".pas")) {
                 assertTrue(checkSyntax(file.getPath()));
-
             }
         }
     }

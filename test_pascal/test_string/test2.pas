@@ -3,7 +3,7 @@ var
     greetings: string;
     name: string;
     organisation: string[10];
-    message: pchar;
+    message: string;
 
 begin
     greetings := 'Hello ';

@@ -33,9 +33,9 @@ import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.rangetype.SubrangeType;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.types.set.EnumGroupType;
+import com.duy.pascal.backend.types.subrange.IntegerRange;
 
 public class HighFunction implements IMethodDeclaration {
     private RuntimeType runtimeType;
@@ -136,13 +136,13 @@ public class HighFunction implements IMethodDeclaration {
 
             DeclaredType declType = runtimeType.declType;
             if (declType instanceof ArrayType) {
-                SubrangeType bounds = ((ArrayType) declType).getBound();
+                IntegerRange bounds = ((ArrayType) declType).getBound();
                 Object[] value = (Object[]) this.value.getValue(f, main);
                 int size = value.length;
                 if (bounds == null) {
                     return size - 1;
                 } else {
-                    return bounds.getLower() + size - 1;
+                    return bounds.getFirst() + size - 1;
                 }
             } else if (BasicType.Byte.equals(declType)) {
                 return Byte.MAX_VALUE;

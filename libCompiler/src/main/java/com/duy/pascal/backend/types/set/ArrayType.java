@@ -25,22 +25,27 @@ import com.duy.pascal.backend.ast.runtime_value.value.access.ArrayIndexAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.ArrayCloner;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.SetToDynamicArrayCloner;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.rangetype.SubrangeType;
+import com.duy.pascal.backend.types.subrange.IntegerRange;
+import com.duy.pascal.backend.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.backend.types.util.TypeUtils;
 
 import java.lang.reflect.Array;
 
 
-public class ArrayType<T extends DeclaredType> extends BaseSetType {
-    public final T elementType;
+public class ArrayType<ELEMENT extends DeclaredType> extends BaseSetType {
+    public final ELEMENT elementType;
     @Nullable
-    private SubrangeType bound;
+    private IntegerRange bound;
     private boolean dynamic;
 
-    public ArrayType(T elementType, @Nullable SubrangeType bound) {
+    /**
+     * @param elementType
+     * @param bound       - {@link com.duy.pascal.backend.types.subrange.IntegerSubrangeType} or
+     *                    {@link com.duy.pascal.backend.types.subrange.EnumSubrangeType}
+     */
+    public ArrayType(ELEMENT elementType, @Nullable IntegerRange bound) {
         this.elementType = elementType;
         this.bound = bound;
         this.dynamic = bound == null;
@@ -51,21 +56,21 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     }
 
     @Override
-    public T getElementType() {
+    public ELEMENT getElementType() {
         return elementType;
     }
 
     @Override
     public int getSize() {
-        return bound != null ? bound.size : -1;
+        return bound != null ? bound.getSize() : -1;
     }
 
     @Nullable
-    public SubrangeType getBound() {
+    public IntegerRange getBound() {
         return bound;
     }
 
-    public void setBound(@Nullable SubrangeType bound) {
+    public void setBound(@Nullable IntegerSubrangeType bound) {
         this.bound = bound;
     }
 
@@ -80,13 +85,11 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
             if (o.elementType.equals(elementType)) {
-                try {
-                    if (bound == null) return false;
-                    if (this.bound.contain(null, null, o.bound)) {
-                        return true;
-                    }
-                } catch (RuntimePascalException e) {
-                    e.printStackTrace();
+                if (bound == null) return false;
+                if (o.getBound() == null) return true;
+                if (this.bound.getFirst() == o.bound.getFirst()
+                        && this.bound.getSize() >= o.bound.getSize()) {
+                    return true;
                 }
             }
         }
@@ -124,9 +127,9 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     @Override
     public Object initialize() {
         Object result = Array.newInstance(elementType.getTransferClass(),
-                bound == null ? 0 : bound.size);
+                bound == null ? 0 : bound.getSize());
         if (bound != null) {
-            for (int i = 0; i < bound.size; i++)
+            for (int i = 0; i < bound.getSize(); i++)
                 Array.set(result, i, elementType.initialize());
         }
         return result;
@@ -174,7 +177,7 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
 
     @Override
     public RuntimeValue cloneValue(final RuntimeValue r) {
-        return new ArrayCloner<T>(r);
+        return new ArrayCloner<ELEMENT>(r);
     }
 
 
@@ -183,7 +186,7 @@ public class ArrayType<T extends DeclaredType> extends BaseSetType {
     public RuntimeValue generateArrayAccess(RuntimeValue array,
                                             RuntimeValue index) {
         if (bound != null) {
-            return new ArrayIndexAccess(array, index, bound.lower);
+            return new ArrayIndexAccess(array, index, bound.getFirst());
         } else {
             return new ArrayIndexAccess(array, index, 0);
         }

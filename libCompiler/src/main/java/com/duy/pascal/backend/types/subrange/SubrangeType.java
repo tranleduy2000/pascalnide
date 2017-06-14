@@ -14,42 +14,39 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.types.rangetype;
+package com.duy.pascal.backend.types.subrange;
 
-import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.InfoType;
-import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.InfoType;
+import com.duy.pascal.backend.types.RuntimeType;
 
 /**
  * Created by Duy on 25-May-17.
  */
 
-public abstract class SubrangeType extends InfoType implements Containable {
-    public int lower;
-
-    @IntRange(from = 0)
-    public int size = 0;
+public abstract class SubrangeType<T extends Comparable> extends InfoType implements Containable<T> {
 
     protected LineInfo lineInfo;
+    protected T first;
+    protected T last;
 
-    protected Object first, last;
-
-    public int getLower() {
-        return lower;
+    public SubrangeType(T first, T last) {
+        this.first = first;
+        this.last = last;
     }
 
-    public int getSize() {
-        return size;
-    }
+    public abstract boolean contains(SubrangeType other);
 
     @Override
     public LineInfo getLineNumber() {
@@ -93,7 +90,6 @@ public abstract class SubrangeType extends InfoType implements Containable {
         return this.first.equals(other.first) && last.equals(other.last);
     }
 
-
     @Nullable
     @Override
     public RuntimeValue cloneValue(RuntimeValue r) {
@@ -115,5 +111,12 @@ public abstract class SubrangeType extends InfoType implements Containable {
     @Override
     public String getEntityType() {
         return "subrange";
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean contain(@Nullable VariableContext f, @Nullable RuntimeExecutableCodeUnit<?> main,
+                           T value) throws RuntimePascalException {
+        return first.compareTo(value) <= 0 && last.compareTo(value) >= 0;
     }
 }

@@ -126,7 +126,7 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             @SuppressWarnings("rawtypes")
             ArrayType arr = (ArrayType) array.getValue(f, main);
-            int size = arr.getBound().size;
+            int size = arr.getBound().getSize();
             Class storageClass = arr.elementType.getStorageClass();
             if (storageClass == int.class || storageClass == Integer.class) {
                 return size * 4; //32 bit

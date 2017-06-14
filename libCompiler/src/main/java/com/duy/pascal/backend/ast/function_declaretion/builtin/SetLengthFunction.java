@@ -37,7 +37,7 @@ import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.VarargsType;
-import com.duy.pascal.backend.types.rangetype.IntegerSubrangeType;
+import com.duy.pascal.backend.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.frontend.debug.CallStack;
 
