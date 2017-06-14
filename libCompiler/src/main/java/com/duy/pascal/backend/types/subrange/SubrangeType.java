@@ -37,11 +37,11 @@ import com.duy.pascal.backend.types.RuntimeType;
 
 public abstract class SubrangeType<T extends Comparable> extends InfoType implements Containable<T> {
 
-    protected LineInfo lineInfo;
     protected T first;
     protected T last;
 
     public SubrangeType(T first, T last) {
+
         this.first = first;
         this.last = last;
     }
@@ -68,26 +68,27 @@ public abstract class SubrangeType<T extends Comparable> extends InfoType implem
     @Nullable
     @Override
     public Class getTransferClass() {
-        return SubrangeType.class;
+        return getStorageClass();
     }
 
     @Nullable
     @Override
-    public RuntimeValue convert(RuntimeValue runtimeValue, ExpressionContext f) throws ParsingException {
-        RuntimeType other_type = runtimeValue.getType(f);
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+        RuntimeType other_type = other.getType(f);
         if (this.equals(other_type.declType)) {
-            return cloneValue(runtimeValue);
+            return cloneValue(other);
         }
         return null;
     }
 
     @Override
     public boolean equals(DeclaredType obj) {
-        if (!(obj instanceof SubrangeType)) {
-            return false;
+        if (obj instanceof SubrangeType) {
+            SubrangeType other = (SubrangeType) obj;
+            return this.first.equals(other.first) && last.equals(other.last);
         }
-        SubrangeType other = (SubrangeType) obj;
-        return this.first.equals(other.first) && last.equals(other.last);
+        return false;
+
     }
 
     @Nullable
@@ -100,12 +101,6 @@ public abstract class SubrangeType<T extends Comparable> extends InfoType implem
     @Override
     public RuntimeValue generateArrayAccess(RuntimeValue array, RuntimeValue index) throws NonArrayIndexed {
         throw new NonArrayIndexed(index.getLineNumber(), this);
-    }
-
-    @Nullable
-    @Override
-    public Class<?> getStorageClass() {
-        return SubrangeType.class;
     }
 
     @Override

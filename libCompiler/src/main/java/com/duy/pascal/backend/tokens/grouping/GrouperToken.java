@@ -48,6 +48,7 @@ import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierExceptio
 import com.duy.pascal.backend.parse_exception.define.MethodNotFoundException;
 import com.duy.pascal.backend.parse_exception.define.UnknownFieldException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
+import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
 import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
 import com.duy.pascal.backend.parse_exception.missing.MissingCommaTokenException;
 import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
@@ -284,7 +285,7 @@ public abstract class GrouperToken extends Token {
                 throw new ExpectedTokenException("[Type Identifier]", n);
             }
             take(); //dot dot
-            RuntimeValue last = getNextExpression(context);
+            RuntimeValue last = getNextExpression(context, Precedence.Relational);
             RuntimeType firstType = first.getType(context);
             RuntimeValue convert = firstType.convert(last, context);
             if (convert == null) {
@@ -301,14 +302,26 @@ public abstract class GrouperToken extends Token {
             }
             if (TypeUtils.isIntegerType(firstType.getDeclType().getStorageClass())) {
                 Integer i1 = Integer.valueOf(v1.toString()); //first value
-                Integer i2 = Integer.valueOf(v2.toString()); //last value
-                i2 = i2 - i1 + 1; //size of range
-                return new IntegerSubrangeType(i1, i2);
+                Integer size = Integer.valueOf(v2.toString()); //last value
+                if (i1 > size) {
+                    throw new LowerGreaterUpperBoundException(i1, size, first.getLineNumber());
+                }
+                size = size - i1 + 1; //size of range
+                return new IntegerSubrangeType(i1, size);
             } else if (TypeUtils.isRealType(firstType.getDeclType().getStorageClass())) {
-                return new DoubleSubrangeType(Double.valueOf(v1.toString()),
-                        Double.valueOf(v2.toString()));
+                Double d1 = Double.valueOf(v1.toString());
+                Double d2 = Double.valueOf(v2.toString());
+                if (d1 > d2) {
+                    throw new LowerGreaterUpperBoundException(d1, d2, first.getLineNumber());
+                }
+                return new DoubleSubrangeType(d1, d2);
             } else if (firstType.getDeclType() instanceof EnumGroupType) {
-                return new EnumSubrangeType((EnumElementValue) v1, (EnumElementValue) v2);
+                EnumElementValue e1 = (EnumElementValue) v1;
+                EnumElementValue e2 = (EnumElementValue) v2;
+                if (e1.compareTo(e2) > 0) {
+                    throw new LowerGreaterUpperBoundException(e1, e2, first.getLineNumber());
+                }
+                return new EnumSubrangeType(e1, e2);
             }
         } else if (!(n instanceof WordToken)) {
             System.out.println("token " + n.getClass().getName() + " " + n.toString());

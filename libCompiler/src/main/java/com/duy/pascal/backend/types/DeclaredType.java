@@ -28,7 +28,7 @@ public interface DeclaredType extends NamedEntity {
      * byte a = 6 -> integer b = a;
      */
     @Nullable
-    RuntimeValue convert(RuntimeValue runtimeValue,
+    RuntimeValue convert(RuntimeValue other,
                          ExpressionContext f) throws ParsingException;
 
     /**

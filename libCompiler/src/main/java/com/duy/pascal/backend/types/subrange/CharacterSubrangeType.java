@@ -16,9 +16,14 @@
 
 package com.duy.pascal.backend.types.subrange;
 
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
+
 public class CharacterSubrangeType extends SubrangeType<Character> {
 
-    public CharacterSubrangeType(Character first, Character last) {
+    public CharacterSubrangeType(Character first, Character last)
+            throws LowerGreaterUpperBoundException {
         super(first, last);
     }
 
@@ -30,5 +35,11 @@ public class CharacterSubrangeType extends SubrangeType<Character> {
     @Override
     public String toString() {
         return null;
+    }
+
+    @Nullable
+    @Override
+    public Class<?> getStorageClass() {
+        return Character.class;
     }
 }

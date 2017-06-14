@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
+import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.set.EnumGroupType;
@@ -32,13 +33,13 @@ public class EnumSubrangeType extends SubrangeType<EnumElementValue> implements 
     private EnumGroupType enumGroupType;
     private Integer size;
 
-    public EnumSubrangeType(EnumElementValue first, EnumElementValue last) {
+    public EnumSubrangeType(EnumElementValue first, EnumElementValue last) throws LowerGreaterUpperBoundException {
         super(first, last);
         this.size = last.getIndex() - first.getIndex() + 1;
         this.enumGroupType = first.getEnumGroupType();
     }
 
-    public EnumSubrangeType(EnumGroupType pascalType) {
+    public EnumSubrangeType(EnumGroupType pascalType) throws LowerGreaterUpperBoundException {
         super(pascalType.getFirst(), pascalType.getLast());
         this.size = last.getIndex() - first.getIndex() + 1;
         this.enumGroupType = pascalType;
@@ -47,7 +48,7 @@ public class EnumSubrangeType extends SubrangeType<EnumElementValue> implements 
     @Nullable
     @Override
     public Class<?> getStorageClass() {
-        return super.getStorageClass();
+        return EnumElementValue.class;
     }
 
     @Override

@@ -56,32 +56,32 @@ public enum BasicType implements DeclaredType {
         }
 
         @Override
-        public RuntimeValue convert(RuntimeValue valueToAssign, ExpressionContext f)
+        public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
                 throws ParsingException {
-            if (valueToAssign instanceof ConstantAccess) {
-                String name = ((ConstantAccess) valueToAssign).getName();
+            if (other instanceof ConstantAccess) {
+                String name = ((ConstantAccess) other).getName();
                 if (name != null && name.equalsIgnoreCase("null")) {
-                    return valueToAssign;
+                    return other;
                 }
             }
 
-            RuntimeType otherType = valueToAssign.getType(f);
+            RuntimeType otherType = other.getType(f);
             if (otherType.declType instanceof BasicType) {
                 if (this.equals(otherType.declType)) {
-                    return new StringBuilderBoxer(valueToAssign);
+                    return new StringBuilderBoxer(other);
                 }
                 if (otherType.declType == BasicType.Character) {
-                    return new CharacterBoxer(valueToAssign);
+                    return new CharacterBoxer(other);
                 }
                 if (((BasicType) otherType.declType).clazz == String.class) {
-                    return new StringBoxer(valueToAssign);
+                    return new StringBoxer(other);
                 }
-                return TypeConverter.autoConvert(this, valueToAssign, (BasicType) otherType.declType);
+                return TypeConverter.autoConvert(this, other, (BasicType) otherType.declType);
             } else if (otherType.declType instanceof StringLimitType) {
-                return new StringBuilderLimitBoxer(valueToAssign, ((StringLimitType) otherType.declType).getLength());
+                return new StringBuilderLimitBoxer(other, ((StringLimitType) otherType.declType).getLength());
             } else if (otherType.declType instanceof JavaClassBasedType &&
                     otherType.declType.getStorageClass() == String.class) {
-                return new StringBuilderBoxer(valueToAssign);
+                return new StringBuilderBoxer(other);
             }
             return null;
         }
@@ -273,19 +273,18 @@ public enum BasicType implements DeclaredType {
     public abstract String toString();
 
     @Override
-    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
             throws ParsingException {
-        RuntimeType otherType = value.getType(f);
+        RuntimeType otherType = other.getType(f);
         if (otherType.declType instanceof BasicType) {
             if (this.equals(otherType.declType)) {
-                return cloneValue(value);
+                return cloneValue(other);
             }
-            return TypeConverter.autoConvert(this, value,
-                    (BasicType) otherType.declType);
+            return TypeConverter.autoConvert(this, other, (BasicType) otherType.declType);
         } else {
             if (otherType.declType instanceof JavaClassBasedType) {
                 if (otherType.declType.getStorageClass() == getStorageClass()) {
-                    return cloneValue(value);
+                    return cloneValue(other);
                 }
             }
         }

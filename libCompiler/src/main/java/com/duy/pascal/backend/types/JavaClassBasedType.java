@@ -53,25 +53,25 @@ public class JavaClassBasedType extends InfoType {
     }
 
     @Override
-    public RuntimeValue convert(RuntimeValue value, ExpressionContext f) throws ParsingException {
-        RuntimeType otherType = value.getType(f);
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f) throws ParsingException {
+        RuntimeType otherType = other.getType(f);
         if (otherType.declType instanceof BasicType) {
             if (this.equals(otherType.declType)) {
-                return cloneValue(value);
+                return cloneValue(other);
             }
             if (this.clazz == String.class && otherType.declType == BasicType.StringBuilder) {
-                return new StringBoxer(value);
+                return new StringBoxer(other);
             }
             if (this.clazz == String.class && otherType.declType == BasicType.Character) {
                 if (this.clazz == String.class) {
-                    return new StringBoxer(value);
+                    return new StringBoxer(other);
                 }
             }
         }
         if (otherType.declType instanceof JavaClassBasedType) {
             JavaClassBasedType otherClassBasedType = (JavaClassBasedType) otherType.declType;
             if (this.equals(otherClassBasedType)) {
-                return value;
+                return other;
             }
         }
         return null;

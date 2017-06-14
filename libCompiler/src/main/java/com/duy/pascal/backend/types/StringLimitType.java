@@ -45,33 +45,33 @@ public class StringLimitType extends InfoType {
     }
 
     @Override
-    public RuntimeValue convert(RuntimeValue valueToAssign, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
             throws ParsingException {
-        RuntimeType otherType = valueToAssign.getType(f);
+        RuntimeType otherType = other.getType(f);
         if (this.equals(otherType.declType)) {
-            return new StringBuilderLimitBoxer(valueToAssign, length);
+            return new StringBuilderLimitBoxer(other, length);
         }
 
         if (otherType.declType instanceof BasicType) {
             if (otherType.declType == BasicType.StringBuilder) {
-                return new StringBuilderLimitBoxer(valueToAssign, length);
+                return new StringBuilderLimitBoxer(other, length);
             }
             if (otherType.declType == BasicType.Character) {
-                return new CharacterBoxer(valueToAssign);
+                return new CharacterBoxer(other);
             }
 
             if (((BasicType) otherType.declType).clazz == String.class) {
-                return new StringBoxer(valueToAssign);
+                return new StringBoxer(other);
             }
 
-            RuntimeValue converted = TypeConverter.autoConvert(BasicType.StringBuilder, valueToAssign,
+            RuntimeValue converted = TypeConverter.autoConvert(BasicType.StringBuilder, other,
                     (BasicType) otherType.declType);
             if (converted != null) {
                 return converted;
             }
         }else if (otherType.declType instanceof JavaClassBasedType &&
                 otherType.declType.getStorageClass() == String.class) {
-            return new StringBuilderLimitBoxer(valueToAssign, length);
+            return new StringBuilderLimitBoxer(other, length);
         }
         return null;
     }

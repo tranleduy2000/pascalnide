@@ -17,12 +17,14 @@
 package com.duy.pascal.backend.types.subrange;
 
 import android.support.annotation.IntRange;
+import android.support.annotation.Nullable;
 
 public class IntegerSubrangeType extends SubrangeType<Integer> implements IntegerRange {
     private static final String TAG = "IntegerSubrangeType";
     public Integer size = 0;
 
-    public IntegerSubrangeType(Integer first, @IntRange(from = 0) Integer size) {
+    public IntegerSubrangeType(Integer first, @IntRange(from = 0) Integer size)
+    {
         super(first, first + size - 1);
         this.size = size;
     }
@@ -56,5 +58,11 @@ public class IntegerSubrangeType extends SubrangeType<Integer> implements Intege
     @Override
     public String toString() {
         return first + ".." + last;
+    }
+
+    @Nullable
+    @Override
+    public Class<?> getStorageClass() {
+        return Integer.class;
     }
 }

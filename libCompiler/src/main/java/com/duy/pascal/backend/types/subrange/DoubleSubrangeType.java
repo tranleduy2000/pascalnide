@@ -16,10 +16,14 @@
 
 package com.duy.pascal.backend.types.subrange;
 
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.backend.parse_exception.index.LowerGreaterUpperBoundException;
+
 public class DoubleSubrangeType extends SubrangeType<Double> {
     private static final String TAG = "IntegerSubrangeType";
 
-    public DoubleSubrangeType(Double first, Double last) {
+    public DoubleSubrangeType(Double first, Double last) throws LowerGreaterUpperBoundException {
         super(first, last);
         this.first = first;
         this.last = last;
@@ -44,5 +48,11 @@ public class DoubleSubrangeType extends SubrangeType<Double> {
     @Override
     public String toString() {
         return null;
+    }
+
+    @Nullable
+    @Override
+    public Class<?> getStorageClass() {
+        return Double.class;
     }
 }

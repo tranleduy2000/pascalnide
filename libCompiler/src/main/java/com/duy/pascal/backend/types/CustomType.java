@@ -74,11 +74,11 @@ public class CustomType extends ObjectType {
 
 
     @Override
-    public RuntimeValue convert(RuntimeValue value, ExpressionContext f)
+    public RuntimeValue convert(RuntimeValue other, ExpressionContext f)
             throws ParsingException {
-        RuntimeType other_type = value.getType(f);
+        RuntimeType other_type = other.getType(f);
         if (this.equals(other_type.declType)) {
-            return cloneValue(value);
+            return cloneValue(other);
         }
         return null;
     }
