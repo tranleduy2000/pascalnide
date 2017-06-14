@@ -25,7 +25,6 @@ import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
-import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MissingBodyFunctionException;
@@ -45,6 +44,7 @@ import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
+import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ArrayListMultimap;
 
@@ -115,7 +115,7 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
 
     @Override
     public void declareFunctions(ExpressionContextMixin parentContext) {
-        // indexOf list name interface instead of indexOf map function
+        // get list name interface instead of get map function
         // because I don't want to add built in function twice,
         //this is bad performance when match argument and leak memory
         ArrayList<String> forwardFunctions = ((UnitExpressionContext) context).getForwardFunctions();
@@ -144,7 +144,8 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
         private LineInfo startLine;
 
         public UnitExpressionContext(@NonNull IRunnablePascal handler) {
-            super(handler, true);
+            super(handler);
+            config.setLibrary(true);
         }
 
         @Nullable

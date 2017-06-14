@@ -2,17 +2,18 @@ package com.duy.pascal.backend.tokens;
 
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.backend.ast.NamedEntity;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
 
 
-public class WordToken extends Token {
+public class WordToken extends Token implements NamedEntity {
 
     //always lower case
     public String name;
@@ -23,13 +24,22 @@ public class WordToken extends Token {
         super(line);
         this.name = s.toLowerCase();
         this.originalName = s;
-        if (this.line != null) {
-            this.line.setLength(name.length());
-        }
+        this.line.setLength(name.length());
     }
 
+    @Override
+    public String getEntityType() {
+        return null;
+    }
+
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 
     public String getOriginalName() {

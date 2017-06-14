@@ -467,7 +467,7 @@ public class AndroidUtilsLib implements IPascalLibrary {
     @SuppressWarnings("unused")
     @PascalMethod(description = "Get list of constants (static final fields) for a class")
     public Bundle getConstants(
-            @PascalParameter(name = "classname", description = "Class to indexOf constants from") String classname)
+            @PascalParameter(name = "classname", description = "Class to get constants from") String classname)
             throws Exception {
         Bundle result = new Bundle();
         int flags = Modifier.FINAL | Modifier.PUBLIC | Modifier.STATIC;

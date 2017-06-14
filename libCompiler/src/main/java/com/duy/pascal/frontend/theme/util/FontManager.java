@@ -41,7 +41,7 @@ public class FontManager {
                     Typeface t = Typeface.createFromAsset(c.getAssets(), assetPath);
                     cache.put(assetPath, t);
                 } catch (Exception e) {
-                    throw new IOException("Could not indexOf typeface '" +
+                    throw new IOException("Could not get typeface '" +
                             assetPath + "' because " + e.getMessage());
                 }
             }

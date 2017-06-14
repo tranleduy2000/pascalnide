@@ -158,8 +158,9 @@ public class FunctionDeclaration extends AbstractCallableFunction {
             parentcontext = main.getLibrary((UnitPascal) declaration.root());
         }
         FunctionOnStack functionOnStack = new FunctionOnStack(parentcontext, main, this, arguments);
-        if (main.isDebug())
+        if (main.isDebug()) {
             main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
+        }
         return functionOnStack.execute();
     }
 

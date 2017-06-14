@@ -17,7 +17,6 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
     protected ExpressionContext parent;
     protected CodeUnit root;
 
-
     public HierarchicalExpressionContext(CodeUnit root, ExpressionContext parent) {
         this.parent = parent;
         this.root = root;

@@ -3,6 +3,7 @@ package com.duy.pascal.backend.ast.codeunit;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.ProgramConfig;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -20,9 +21,9 @@ public abstract class CodeUnit {
     public final ExpressionContextMixin context;
     @Nullable
     protected String programName;
+    protected ProgramConfig config;
     private String sourceName;
     private List<ScriptSource> includeDirectories;
-
     public CodeUnit(IRunnablePascal handler) {
         this.context = getExpressionContextInstance(handler);
     }
@@ -38,6 +39,10 @@ public abstract class CodeUnit {
         NewLexer lexer = new NewLexer(program, sourceName, includeDirectories);
         lexer.parse();
         parseTree(lexer.getTokenQueue());
+    }
+
+    public ProgramConfig getConfig() {
+        return config;
     }
 
     public String getSourceName() {
@@ -76,9 +81,8 @@ public abstract class CodeUnit {
     }
 
     protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {
-        public CodeUnitExpressionContext(@NonNull IRunnablePascal handler,
-                                         boolean isLibrary) {
-            super(CodeUnit.this, null, handler, isLibrary);
+        public CodeUnitExpressionContext(@NonNull IRunnablePascal handler) {
+            super(CodeUnit.this, null, handler);
         }
 
         @Override

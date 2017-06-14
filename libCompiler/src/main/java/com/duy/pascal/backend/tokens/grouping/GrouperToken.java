@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.ConstantDefinition;
+import com.duy.pascal.backend.ast.LabelDeclaration;
 import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -13,6 +14,7 @@ import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.instructions.ContinueInstruction;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.instructions.ExitInstruction;
+import com.duy.pascal.backend.ast.instructions.LabelInstruction;
 import com.duy.pascal.backend.ast.instructions.NopeInstruction;
 import com.duy.pascal.backend.ast.instructions.assign_statement.AssignStatement;
 import com.duy.pascal.backend.ast.instructions.assign_statement.DivAssignStatement;
@@ -39,6 +41,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.UnSupportTokenException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
@@ -75,6 +78,7 @@ import com.duy.pascal.backend.tokens.basic.DowntoToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.ExitToken;
 import com.duy.pascal.backend.tokens.basic.ForToken;
+import com.duy.pascal.backend.tokens.basic.GotoToken;
 import com.duy.pascal.backend.tokens.basic.IfToken;
 import com.duy.pascal.backend.tokens.basic.MinusAssignToken;
 import com.duy.pascal.backend.tokens.basic.MultiplyAssignToken;
@@ -1050,6 +1054,16 @@ public abstract class GrouperToken extends Token {
         } else if (next instanceof ExitToken) {
             return new ExitInstruction(next.getLineNumber());
 
+        } else if (next instanceof GotoToken) {
+            /*
+            next = peek();
+            if (!(next instanceof WordToken)) {
+                throw new ExpectedTokenException("[Label id]", next);
+            }
+            next = take();
+            LabelDeclaration labelLocal = context.getLabelLocal(((WordToken) next).getName());
+            return new GotoStatement(labelLocal);*/
+            throw new UnSupportTokenException(next);
         } else {
             try {
                 return context.handleUnrecognizedStatement(next, this);
@@ -1097,8 +1111,17 @@ public abstract class GrouperToken extends Token {
                             next.getLineNumber());
                 }
                 return new AssignStatement(left, leftType.cloneValue(converted), next.getLineNumber());
-            } else if (identifier instanceof Executable) {
+            } else if (identifier instanceof LabelDeclaration) {
+                if (peek() instanceof SemicolonToken) {
+                    LabelDeclaration labelLocal = context.getLabelLocal(((LabelDeclaration) identifier).getName());
+                    labelLocal.setCommand(getNextCommand(context));
+                    return new LabelInstruction(labelLocal.getCommand());
+                } else {
+                    throw new ExpectedTokenException(":", peek());
+                }
+            } else if (identifier instanceof Executable) { //function or procedure
                 return (Executable) identifier;
+
             } else if (identifier instanceof FieldAccess) {
                 FieldAccess fieldAccess = (FieldAccess) identifier;
                 RuntimeValue container = fieldAccess.getContainer();

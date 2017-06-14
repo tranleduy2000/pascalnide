@@ -99,7 +99,7 @@ public class UndoRedoHelper {
         text.replace(start, end, edit.after);
         mIsUndoOrRedo = false;
 
-        // This will indexOf rid of underlines inserted when editor tries to come
+        // This will get rid of underlines inserted when editor tries to come
         // up with a suggestion.
         for (Object o : text.getSpans(0, text.length(), UnderlineSpan.class)) {
             text.removeSpan(o);

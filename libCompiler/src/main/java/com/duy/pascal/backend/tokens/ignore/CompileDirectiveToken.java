@@ -27,6 +27,7 @@ public class CompileDirectiveToken extends Token {
         this.message = message;
     }
 
+
     @Override
     public String toString() {
         return message;

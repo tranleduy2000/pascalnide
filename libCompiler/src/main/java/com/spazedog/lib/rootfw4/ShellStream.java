@@ -209,8 +209,8 @@ public class ShellStream {
 							mStdInput.write( input.getBytes() );
 							
 							/*
-							 * Things often indexOf written to the shell without flush().
-							 * This breaks when using exit, as it some times indexOf destroyed before reaching here.
+							 * Things often get written to the shell without flush().
+							 * This breaks when using exit, as it some times get destroyed before reaching here.
 							 */
 							if (mStdInput != null) {
 								mStdInput.flush();

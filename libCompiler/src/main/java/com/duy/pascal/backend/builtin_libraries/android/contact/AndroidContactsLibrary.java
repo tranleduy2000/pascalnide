@@ -64,7 +64,7 @@ public class AndroidContactsLibrary implements IPascalLibrary {
         mContentResolver = mContext.getContentResolver();
         mCommonIntentsFacade = manager.getReceiver(CommonIntentsFacade.class);
         try {
-            // Backward compatibility... indexOf contract stuff using reflection
+            // Backward compatibility... get contract stuff using reflection
             Class<?> phone = Class.forName("android.provider.ContactsContract$CommonDataKinds$Phone");
             mPhoneContent = (Uri) phone.getField("CONTENT_URI").get(null);
             mContactId = (String) phone.getField("CONTACT_ID").get(null);

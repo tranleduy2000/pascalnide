@@ -496,9 +496,9 @@ public class Filesystem {
 		}
 		
 		/**
-		 * This can be used to indexOf the value of a specific mount option that was used to attach the file system.
+		 * This can be used to get the value of a specific mount option that was used to attach the file system.
 		 * Note that options like <code>noexec</code>, <code>nosuid</code> and <code>nodev</code> does not have any values and will return <code>NULL</code>. 
-		 * This method is used to indexOf values from options like <code>gid=xxxx</code>, <code>mode=xxxx</code> and <code>size=xxxx</code> where <code>xxxx</code> is the value.
+		 * This method is used to get values from options like <code>gid=xxxx</code>, <code>mode=xxxx</code> and <code>size=xxxx</code> where <code>xxxx</code> is the value.
 		 *     
 		 * @param option
 		 *     The name of the option to find

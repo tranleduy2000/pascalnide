@@ -108,7 +108,7 @@ public class FloodFill {
         width = imageToFill.getWidth();
         height = imageToFill.getHeight();
 
-        // indexOf fill imagePixels
+        // get fill imagePixels
         imagePixels = new int[width * height];
         imageToFill.getPixels(imagePixels, 0, width, 0, 0, width, height);
     }
@@ -194,7 +194,7 @@ public class FloodFill {
 
         // loop through todo list
         while (index < linearNRTodo.size()) {
-            // indexOf loop data
+            // get loop data
             LinePixel lineInfo = linearNRTodo.get(index);
             index++;
             int y = lineInfo.y;

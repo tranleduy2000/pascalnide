@@ -55,7 +55,7 @@ public class ParenthesizedToken extends GrouperToken {
     }
 
     /**
-     * indexOf format output, value:column:size
+     * get format output, value:column:size
      * - value is value of variable
      * - column is number column on the screen use for show variable
      * - size is number of floating point if type of variable is double or float

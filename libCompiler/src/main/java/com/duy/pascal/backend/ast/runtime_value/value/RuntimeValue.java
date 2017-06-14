@@ -42,7 +42,7 @@ public interface RuntimeValue {
     RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException;
 
     /**
-     * reference of variable, set and indexOf value
+     * reference of variable, set and get value
      */
     @Nullable
     AssignableValue asAssignableValue(ExpressionContext f);
