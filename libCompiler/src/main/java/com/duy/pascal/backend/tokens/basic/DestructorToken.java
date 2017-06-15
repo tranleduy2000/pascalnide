@@ -19,13 +19,13 @@ package com.duy.pascal.backend.tokens.basic;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 
-public class ProtectedToken extends BasicToken {
-    public ProtectedToken(LineInfo lineinfo) {
+public class DestructorToken extends BasicToken {
+    public DestructorToken(LineInfo lineinfo) {
         super(lineinfo);
     }
 
     @Override
     public String toString() {
-        return "protected";
+        return "destructor";
     }
 }

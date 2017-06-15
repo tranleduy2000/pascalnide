@@ -66,10 +66,12 @@ import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.basic.LabelToken;
 import com.duy.pascal.backend.tokens.basic.GotoToken;
-import com.duy.pascal.backend.tokens.basic.ProtectedToken;
-import com.duy.pascal.backend.tokens.basic.PublicToken;
-import com.duy.pascal.backend.tokens.basic.PublishedToken;
-import com.duy.pascal.backend.tokens.basic.PrivateToken;
+import com.duy.pascal.backend.tokens.visiblity.ProtectedToken;
+import com.duy.pascal.backend.tokens.visiblity.PublicToken;
+import com.duy.pascal.backend.tokens.visiblity.PublishedToken;
+import com.duy.pascal.backend.tokens.visiblity.PrivateToken;
+import com.duy.pascal.backend.tokens.basic.ConstructorToken;
+import com.duy.pascal.backend.tokens.basic.DestructorToken;
 import com.duy.pascal.backend.tokens.SpaceToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
@@ -316,6 +318,8 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"public" {return new PublicToken(getLine());}
 	"protected" {return new ProtectedToken(getLine());}
 	"published" {return new PublishedToken(getLine());}
+	"constructor" {return new ConstructorToken(getLine());}
+	"destructors" {return new DestructorToken(getLine());}
 
 	"'" {
 		literal.setLength(0);

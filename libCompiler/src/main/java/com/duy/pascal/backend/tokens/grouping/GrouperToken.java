@@ -97,6 +97,7 @@ import com.duy.pascal.backend.tokens.ignore.CommentToken;
 import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.ClassType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.OperatorTypes;
@@ -275,10 +276,12 @@ public abstract class GrouperToken extends Token {
             DeclaredType pointed_type = getNextPascalType(context);
             return new PointerType(pointed_type);
         } else if (n instanceof ClassToken) {
-            throw new UnSupportTokenException(n);/*
-            ClassToken o = (ClassToken) n;
-            ClassType result = nIew ClassType();
-            throw new ExpectedTokenException("[]", n);*/
+            ClassToken classToken = (ClassToken) n;
+            ClassType result = new ClassType();
+            while (classToken.hasNext()) {
+                classToken.addDeclaresTo(result, context);
+            }
+            return result;
         } else if (n instanceof ValueToken || n instanceof OperatorToken) {
             RuntimeValue first = getNextExpression(context, n);
 
@@ -362,7 +365,8 @@ public abstract class GrouperToken extends Token {
         return declaredType;
     }
 
-    private DeclaredType getEnumType(ExpressionContext c, ParenthesizedToken n) throws ParsingException {
+    private DeclaredType getEnumType(ExpressionContext c, ParenthesizedToken n)
+            throws ParsingException {
         LinkedList<EnumElementValue> elements = new LinkedList<>();
         EnumGroupType enumGroupType = new EnumGroupType(elements);
         AtomicInteger index = new AtomicInteger(0);
@@ -416,7 +420,8 @@ public abstract class GrouperToken extends Token {
         return enumGroupType;
     }
 
-    private DeclaredType getSetType(ExpressionContext context, LineInfo lineInfo) throws ParsingException {
+    private DeclaredType getSetType(ExpressionContext context, LineInfo lineInfo)
+            throws ParsingException {
         Token n = peekNoEOF();
         if (!(n instanceof OfToken)) {
             throw new ExpectedTokenException(new OfToken(null), n);
@@ -427,8 +432,7 @@ public abstract class GrouperToken extends Token {
         return new SetType<>(elementType, lineInfo);
     }
 
-    private DeclaredType getArrayType(ExpressionContext context)
-            throws ParsingException {
+    private DeclaredType getArrayType(ExpressionContext context) throws ParsingException {
         Token n = peekNoEOF();
         if (n instanceof BracketedToken) {
             BracketedToken bracket = (BracketedToken) take();
@@ -471,8 +475,8 @@ public abstract class GrouperToken extends Token {
     }
 
     @NonNull
-    public RuntimeValue getNextExpression(ExpressionContext context,
-                                          Precedence precedence, Token next) throws ParsingException {
+    public RuntimeValue getNextExpression(ExpressionContext context, Precedence precedence,
+                                          Token next) throws ParsingException {
 
         RuntimeValue term;
         Token tmp = next;

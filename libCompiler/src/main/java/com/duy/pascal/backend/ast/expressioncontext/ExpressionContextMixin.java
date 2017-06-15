@@ -501,7 +501,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         }
     }
 
-
     public void declareVariable(VariableDeclaration v) {
         variables.add(v);
     }
