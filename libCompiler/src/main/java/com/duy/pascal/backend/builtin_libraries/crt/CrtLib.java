@@ -23,7 +23,7 @@ import com.duy.pascal.backend.builtin_libraries.android.media.AndroidToneGenerat
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.WrongArgsException;
-import com.duy.pascal.frontend.activities.ExecHandler;
+import com.duy.pascal.frontend.activities.ConsoleHandler;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleScreen;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
@@ -43,7 +43,7 @@ public class CrtLib implements IPascalLibrary {
     public static final String NAME = "crt";
 
 
-    private ExecHandler handler;
+    private ConsoleHandler handler;
     private AtomicBoolean canPlaySound = new AtomicBoolean(false);
     private long finalFrequency;
     private Runnable soundRunnable = new Runnable() {
@@ -64,7 +64,7 @@ public class CrtLib implements IPascalLibrary {
     /**
      * constructor call by {@link ClassLoader} in {@link com.duy.pascal.backend.core.PascalCompiler}
      */
-    public CrtLib(ExecHandler handler) {
+    public CrtLib(ConsoleHandler handler) {
         this.handler = handler;
 
     }
@@ -80,7 +80,7 @@ public class CrtLib implements IPascalLibrary {
     @PascalMethod(description = "crt library")
     public void gotoXY(int x, int y) {
         if (handler == null) return;
-        handler.getConsoleView().gotoXY(x, y);
+        handler.getConsoleView().moveCursorTo(x, y);
     }
 
     @Override
@@ -97,6 +97,11 @@ public class CrtLib implements IPascalLibrary {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     @Override
@@ -176,7 +181,7 @@ public class CrtLib implements IPascalLibrary {
     public void textColor(int code) {
         if (handler == null) return;
         int color = ColorUtils.pascalColorToAndroidColor(code);
-        handler.getConsoleView().setConsoleTextColor(color);
+        handler.getConsoleView().getTextRenderer().setTextColor(color);
     }
 
     /**
@@ -186,7 +191,7 @@ public class CrtLib implements IPascalLibrary {
     public void textBackground(int code) {
         if (handler == null) return;
         int color = ColorUtils.pascalColorToAndroidColor(code);
-        handler.getConsoleView().setConsoleTextBackground(color);
+        handler.getConsoleView().getTextRenderer().setTextBackgroundColor(color);
     }
 
     @PascalMethod(description = "Return X (horizontal) cursor position")

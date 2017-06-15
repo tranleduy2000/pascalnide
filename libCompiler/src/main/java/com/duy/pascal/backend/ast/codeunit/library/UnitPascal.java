@@ -85,6 +85,11 @@ public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
 
     }
 
+    @Override
+    public String getName() {
+        return null;
+    }
+
     /**
      * Do not declare constants to parentContext because
      * it can be duplicate with constants of user

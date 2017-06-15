@@ -207,14 +207,6 @@ public abstract class AbstractExecActivity extends RunnableActivity {
         mFileManager = new ApplicationFileManager(this);
     }
 
-    /**
-     * set background console
-     *
-     * @param color
-     */
-    public void setTextBackground(final int color) {
-        getConsoleView().setConsoleTextBackground(color);
-    }
 
     @Override
     public void print(final CharSequence charSequence) {

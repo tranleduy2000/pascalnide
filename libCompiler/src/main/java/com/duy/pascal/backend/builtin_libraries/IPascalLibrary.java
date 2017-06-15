@@ -30,6 +30,8 @@ public interface IPascalLibrary {
      */
     void shutdown();
 
+    String getName();
+
     void declareConstants(ExpressionContextMixin parentContext);
 
     void declareTypes(ExpressionContextMixin parentContext);

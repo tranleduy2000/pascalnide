@@ -16,44 +16,15 @@
 
 package com.duy.pascal.frontend.activities;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
-
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
-import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 /**
  * Created by Duy on 29-May-17.
  */
 
-public interface IRunnablePascal extends ExecHandler, InOutListener, ActivityHandler {
-    @Override
-    String getCurrentDirectory();
+public interface IRunnablePascal extends
+        ConsoleHandler,
+        InOutListener,
+        ActivityHandler {
 
-    @Override
-    Context getApplicationContext();
-
-
-    @Override
-    void startInput(IOLib lock);
-
-    @Override
-    void print(CharSequence charSequence);
-
-    @Override
-    @Nullable
-    ConsoleView getConsoleView();
-
-    @Override
-    void println(CharSequence charSequence);
-
-    @Override
-    char getKeyBuffer();
-
-    @Override
-    boolean keyPressed();
-
-    @Override
-    void clearConsole();
 }

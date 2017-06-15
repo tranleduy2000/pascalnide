@@ -66,6 +66,10 @@ import com.duy.pascal.backend.tokens.basic.ImplementationToken;
 import com.duy.pascal.backend.tokens.basic.FinalizationToken;
 import com.duy.pascal.backend.tokens.basic.LabelToken;
 import com.duy.pascal.backend.tokens.basic.GotoToken;
+import com.duy.pascal.backend.tokens.basic.ProtectedToken;
+import com.duy.pascal.backend.tokens.basic.PublicToken;
+import com.duy.pascal.backend.tokens.basic.PublishedToken;
+import com.duy.pascal.backend.tokens.basic.PrivateToken;
 import com.duy.pascal.backend.tokens.SpaceToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
@@ -177,7 +181,7 @@ Integer              = {Digit} {1, 20}
 Exp                  = [Ee] [+-]? {Digit}+
 NumberExp            = {NumberDecimal} {Exp} | {Digit}+ {Exp}
 NumberDecimal        = {Digit}+ "." {Digit}+
-Float                = {NumberExp} | {NumberDecimal} | {Digit}{21, }
+Float                = {NumberExp} | {NumberDecimal} | {Digit}+
 Hex                  = "$" [0-9a-fA-F]+
 Binary               = ("%" [01]+) | ({Digit}[bB])
 Octal                = "&" [0-7]+
@@ -308,6 +312,10 @@ CompilerDirective = {CommentStarter}\$ {RestOfComment}
 	"set" {return new SetToken(getLine());}
 	"goto" {return new GotoToken(getLine());}
 	"lable" {return new LabelToken(getLine());}
+	"private" {return new PrivateToken(getLine());}
+	"public" {return new PublicToken(getLine());}
+	"protected" {return new ProtectedToken(getLine());}
+	"published" {return new PublishedToken(getLine());}
 
 	"'" {
 		literal.setLength(0);

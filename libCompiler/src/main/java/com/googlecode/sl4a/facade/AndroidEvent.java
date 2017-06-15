@@ -23,7 +23,7 @@ import android.os.Bundle;
 
 import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
-import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityResult;
+import com.duy.pascal.backend.builtin_libraries.android.activity.PascalFutureResult;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
 import com.google.common.collect.ArrayListMultimap;
@@ -181,7 +181,7 @@ public class AndroidEvent implements IPascalLibrary {
                 }
             }
         }
-        final PascalActivityResult<Event> futureEvent = new PascalActivityResult<>();
+        final PascalFutureResult<Event> futureEvent = new PascalFutureResult<>();
         addNamedEventObserver(eventName, new EventObserver() {
             @Override
             public void onEventReceived(Event event) {
@@ -208,7 +208,7 @@ public class AndroidEvent implements IPascalLibrary {
             @PascalParameter(name = "timeout", description = "the maximum time to wait") @RpcOptional Integer timeout)
             throws InterruptedException {
         Event result;
-        final PascalActivityResult<Event> futureEvent = new PascalActivityResult<>();
+        final PascalFutureResult<Event> futureEvent = new PascalFutureResult<>();
         synchronized (mEventQueue) { // Anything in queue?
             if (mEventQueue.size() > 0) {
                 return mEventQueue.poll(); // return it.
@@ -347,6 +347,11 @@ public class AndroidEvent implements IPascalLibrary {
         }
         // let others (like webviews) know we're going down
         postEvent("sl4a", "{\"shutdown\": \"event-facade\"}");
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     @Override

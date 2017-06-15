@@ -18,6 +18,7 @@ package com.googlecode.sl4a.jsonrpc;
 
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.SimpleServer;
+import com.googlecode.sl4a.event.Event;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 import com.googlecode.sl4a.rpc.RpcError;
 
@@ -110,5 +111,10 @@ public class JsonRpcServer extends SimpleServer {
         writer.write(result + "\n");
         writer.flush();
         Log.v("Sent: " + result);
+    }
+
+    @Override
+    public void onEventReceived(Event event) {
+
     }
 }

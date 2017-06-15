@@ -16,34 +16,10 @@
 
 package com.duy.pascal.backend.builtin_libraries;
 
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-
-import java.util.Map;
-
 /**
  * Created by Duy on 01-Jun-17.
  */
 
 public interface IAndroidLibrary extends IPascalLibrary {
-    @Override
-    boolean instantiate(Map<String, Object> pluginargs);
-
-    @Override
-    void shutdown();
-
-    @Override
-    void declareConstants(ExpressionContextMixin parentContext);
-
-    @Override
-    void declareTypes(ExpressionContextMixin parentContext);
-
-    @Override
-    void declareVariables(ExpressionContextMixin parentContext);
-
-    @Override
-    void declareFunctions(ExpressionContextMixin parentContext);
-
     String[] needPermission();
-
-    String getName();
 }

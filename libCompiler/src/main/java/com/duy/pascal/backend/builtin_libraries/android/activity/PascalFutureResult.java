@@ -20,7 +20,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-public class PascalActivityResult<T> implements Future<T> {
+public class PascalFutureResult<T> implements Future<T> {
 
     private final CountDownLatch mLatch = new CountDownLatch(1);
     private volatile T mResult;

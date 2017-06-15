@@ -36,6 +36,7 @@ import com.duy.pascal.backend.builtin_libraries.graph.style.TextFont;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextJustify;
 import com.duy.pascal.frontend.theme.util.FontManager;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
+import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
 /**
  * Created by Duy on 30-Mar-17.
@@ -70,9 +71,11 @@ public class GraphScreen {
 
     private volatile boolean bufferEnable = false;
     private boolean antiAlias;
+    private ConsoleView mConsoleView;
 
-    public GraphScreen(Context context) {
+    public GraphScreen(Context context, ConsoleView consoleView) {
         this.context = context;
+        this.mConsoleView = consoleView;
         //setup cursor paint
         mBackgroundPaint.setColor(Color.BLACK);
         fillPaint.setStyle(Paint.Style.FILL);
@@ -229,7 +232,6 @@ public class GraphScreen {
         }
     }
 
-
     public void setCursorPostion(int x, int y) {
         this.mCursor.setCoordinate(x, y);
     }
@@ -253,6 +255,7 @@ public class GraphScreen {
             graphObject.draw(mBitmapBuffer);
         } else {
             graphObject.draw(mPrimaryBitmap);
+            mConsoleView.postInvalidate();
         }
     }
 
@@ -347,7 +350,7 @@ public class GraphScreen {
         }
     }
 
-    private  boolean ensureBufferNonNull() {
+    private boolean ensureBufferNonNull() {
         if (mBitmapBuffer == null) {
             mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             return false;

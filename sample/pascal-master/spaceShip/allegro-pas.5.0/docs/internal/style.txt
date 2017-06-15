@@ -1,0 +1,157 @@
+				Coding Style
+				============
+
+  Here you have some tips about how to write the sources.  The idea is make the
+  code ease to read and maintain.
+
+
+
+Content
+-------
+
+ * Comments
+ * Comments
+ * Indentation
+ * Spaces
+ * Line length
+
+
+
+Comments
+--------
+
+  Sources must include comments.  In most cases, these coments are copyed from
+  Allegro's documentation, but include also any useful information.
+
+  The comments should be formatted as explained in pasdoc documentation, so
+  anybody can create a full documentation using it.
+  Visit http://pasdoc.sipsolutions.net/ for more information.
+
+  Use (*...*) comments for important information and {...} for additional
+  documentation.  Do not use nested comments because they're a common source of
+  problems and mistakes.  Deactivate nested comments from your compiler options
+  to be sure.
+
+  Do not use C++ style comments (//...) just because they're ugly.  An exception
+  for C++ comments would be to temporally deactivate code.
+
+  Deactivate code using comments only if you'll activate it in the future.  Note
+  that I'll delete any commented code I find before to pack a release (except
+  algorithm descriptions, of course).
+
+
+
+Identifiers
+-----------
+
+  Public names and identifiers should be the same than the original Allegro API
+  ones.
+
+  Keywords should be UPPERCASE.  I know that modern IDEs (i.e. Delphi and
+  Lazarus) write them lowercase but I find sources are easer to read with
+  keywords written in uppercase even with syntax highlighting.
+
+  Constants, enumerations and type names should be UPPERCASE too, using “_”
+  character to separate words.
+
+
+
+Indentation
+-----------
+
+  This is a complex issue, but it must be used.
+
+  I use 2-spaces indentation, using a tab-character for 8 spaces.
+
+  BEGIN and END keywords should be on the same column.  Same with REPEAT and
+  UNTIL, CASE and END, etcetera.
+
+  Comments should have one less indentation than the code if available.
+
+(* Good indentation example. *)
+  PROCEDURE Example (Parm: INTEGER);
+  BEGIN
+    IF Parm = Value THEN
+      DoSomething (Param)
+    ELSE BEGIN
+      DoElse (Param);
+      WHILE Param > 0 DO
+      BEGIN
+        DoOther (Param);
+        DEC (Param);
+      END;
+    END;
+  { Other more strict way.  It shows also comment indentation. }
+    IF Parm = Value THEN
+      DoSomething (Param)
+    ELSE
+      BEGIN
+        DoElse (Param);
+     { This comments the loop. }
+        WHILE Param > 0 DO
+          BEGIN
+            DoOther (Param);
+            DEC (Param);
+          END;
+      END;
+  END;
+
+
+
+Spaces
+------
+
+  Put spaces before a parenthesis open, after a comma and surrounding operators.
+  This will make things easer to read.
+
+{ Space example. }
+  Variable := Origin + SomeFunction (Value, 123 + (456 * Cnt));
+{ Compare with this. }
+  Variable:=Origin+SomeFunction(Value,123+(456*Cnt));
+
+  Use empty lines to separate logical blocks.  Use 3 empty lines to separate
+  each RECORD, CLASS, PROCEDURE or FUNCTION with others so it's easy to find
+  where it starts and ends.  So do not put more than one empty line to separate
+  code inside a BEGIN...END code block.
+
+(* This is a function to show how to use empty lines to separate
+   logic blocs. *)
+  FUNCTION Example: BOOLEAN;
+  BEGIN
+    Example := TRUE;
+  END;
+
+
+
+(* This procedure is preceded by 3 empty lines so it's easy to
+   find where the previous one finishes and where this starts. *)
+  PROCEDURE Other;
+  BEGIN
+    IF Something THEN
+      DoThis;
+    DoSometing;
+
+  { The previous line separates a logic block. }
+    DoMore;
+  END;
+
+
+
+Line length
+-----------
+
+  Remember that horizontal scroll is evil and some editors (i. e. Vi) doesn't
+  allow it, so avoid it if possible.  You can split long procedure calls or
+  conditionals or everything else.  Use indentation to help reading.
+
+{ An example about how to split long lines. }
+  IF (AbnormallyLongVariableName <> A_VERY_LONG_CONSTANT_NAME)
+  AND (AbnormallyLongVariableName < OTHER_CONSTANT)
+  THEN
+    ThisProcedureHasALongName (
+      AbnormallyLongVariableName,
+      AnObject.AnotherVeryLongNameForMethod (
+        AgainAnObjectWithAVeryLongName.UsefulPropertyToUse
+      ),
+      LongNameForSomethingElse.ThatsEnough
+    );

@@ -79,7 +79,7 @@ import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.frontend.DLog;
-import com.duy.pascal.frontend.activities.ExecHandler;
+import com.duy.pascal.frontend.activities.ConsoleHandler;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
@@ -180,7 +180,7 @@ public class PascalLibraryManager {
         }
         if (parent == null) {
             try {
-                constructor = t.getConstructor(ExecHandler.class);
+                constructor = t.getConstructor(ConsoleHandler.class);
                 parent = constructor.newInstance(handler);
             } catch (Exception ignored) {
             }

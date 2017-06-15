@@ -1,0 +1,16 @@
+In no special order
+
+  * Add to documentation a note about to define symbol "DEBUGMODE" if using
+    "-g".
+
+  * There are some "enum" types (sets). Be sure that they have the correct
+    sice in bits.  Read FPC and Delphi help.
+
+  * Documentation isn't written.
+    May be I should find another documentation tool as pasdoc is "dirty".
+    Else use pasdoc.
+
+  * Document COLOR issue (can't use functions "_map_" as parameters in
+    Windows (?)).
+
+  * MUST normalize types (VAR vs. POINTER, OUT vs. VAR, STRING vs. PCHAR ...).

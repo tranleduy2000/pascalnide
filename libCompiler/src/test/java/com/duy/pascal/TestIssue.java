@@ -52,4 +52,8 @@ public class TestIssue extends BaseTestCase {
     public void test6() {
         run("test6.pas");
     }
+
+    public void test7() {
+        run("test7.pas");
+    }
 }

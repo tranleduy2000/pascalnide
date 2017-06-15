@@ -6,7 +6,7 @@ import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.runtime_exception.WrongArgsException;
-import com.duy.pascal.frontend.activities.ExecHandler;
+import com.duy.pascal.frontend.activities.ConsoleHandler;
 
 import java.util.Map;
 
@@ -24,11 +24,11 @@ import java.util.Map;
  */
 public class WinCrt implements IPascalLibrary {
     public static final String NAME = "wincrt";
-    private ExecHandler handler;
+    private ConsoleHandler handler;
     private CrtLib crtLib;
     private IOLib ioLib;
 
-    public WinCrt(ExecHandler handler) {
+    public WinCrt(ConsoleHandler handler) {
         this.handler = handler;
         this.crtLib = new CrtLib(handler);
         ioLib = new IOLib((InOutListener) handler);
@@ -43,6 +43,11 @@ public class WinCrt implements IPascalLibrary {
     @Override
     public void shutdown() {
 
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     @PascalMethod(description = "Pause program execution")

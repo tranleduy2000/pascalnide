@@ -17,6 +17,7 @@
 package com.googlecode.sl4a;
 
 import com.google.common.collect.Lists;
+import com.googlecode.sl4a.facade.EventFacade;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -37,7 +38,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author Damon Kohler (damonkohler@gmail.com)
  */
-public abstract class SimpleServer {
+public abstract class SimpleServer implements EventFacade.EventObserver {
 
     private final CopyOnWriteArrayList<ConnectionThread> mConnectionThreads =
             new CopyOnWriteArrayList<>();

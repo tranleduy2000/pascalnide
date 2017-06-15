@@ -28,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -42,12 +43,15 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputContentInfo;
 import android.view.inputmethod.InputMethodManager;
 
+import com.duy.pascal.backend.builtin_libraries.android.gesture.listener.ClickListener;
+import com.duy.pascal.backend.builtin_libraries.android.gesture.listener.DoubleClickListener;
+import com.duy.pascal.backend.builtin_libraries.android.gesture.listener.LongClickListener;
 import com.duy.pascal.backend.builtin_libraries.graph.GraphScreen;
 import com.duy.pascal.backend.builtin_libraries.graph.model.GraphObject;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.ArrayList;
 
 import static com.duy.pascal.frontend.utils.StringCompare.isGreaterEqual;
 import static com.duy.pascal.frontend.utils.StringCompare.isLessThan;
@@ -62,24 +66,23 @@ public class ConsoleView extends View implements
         DLog.TAG = TAG;
     }
 
-    private final AtomicBoolean canDraw = new AtomicBoolean(true);
     public Handler handler = new Handler();
     public int firstLine;
-    /**
-     * store key code event
-     */
-    public CharQueue mKeyBuffer = new CharQueue(2); //two key
+    public CharQueue mKeyBuffer = new CharQueue(2); // store key code event, two key
+
+    //gesture handler
+    private ArrayList<OnTouchListener> onTouchListeners = new ArrayList<>();
+    private ArrayList<ClickListener> clickListeners = new ArrayList<>();
+    private ArrayList<DoubleClickListener> doubleClickListeners = new ArrayList<>();
+    private ArrayList<LongClickListener> longClickListeners = new ArrayList<>();
+
     private boolean graphicMode = false;
     private GraphScreen mGraphScreen;
-    //    text style, size of console
-    private TextRenderer mTextRenderer;
-    //      store screen size and dimen
-    private ConsoleScreen mConsoleScreen;
-    //     Cursor of console
-    private ConsoleCursor mCursor;
+    private TextRenderer mTextRenderer; // text style, size of console
+    private ConsoleScreen mConsoleScreen; // store screen size and dimen
+    private ConsoleCursor mCursor; // Cursor of console
     private Context mContext;
-    //      Data of console
-    private ScreenBuffer mScreenBufferData = new ScreenBuffer();
+    private ScreenBuffer mScreenBufferData = new ScreenBuffer();    //      Data of console
     private Rect visibleRect = new Rect();
     private Runnable checkSize = new Runnable() {
         public void run() {
@@ -150,11 +153,12 @@ public class ConsoleView extends View implements
         mContext = context;
         mGestureDetector = new GestureDetectorCompat(getContext(), this);
         mGestureDetector.setOnDoubleTapListener(this);
+
         mPascalPreferences = new PascalPreferences(context);
 
         this.antiAlias = mPascalPreferences.useAntiAlias();
 
-        mGraphScreen = new GraphScreen(context);
+        mGraphScreen = new GraphScreen(context, this);
         mGraphScreen.setAntiAlias(antiAlias);
 
         mConsoleScreen = new ConsoleScreen(mPascalPreferences);
@@ -316,7 +320,7 @@ public class ConsoleView extends View implements
     //  Update text size
     public boolean updateSize() {
         boolean invalid = false;
-
+        Rect visibleRect = new Rect();
         getWindowVisibleDisplayFrame(visibleRect);
         int newHeight;
         int newWidth;
@@ -830,47 +834,14 @@ public class ConsoleView extends View implements
         mScreenBufferData.clearAll();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        return mGestureDetector.onTouchEvent(ev);
+    public void addOnTouchListener(OnTouchListener onTouchListener) {
+        onTouchListeners.add(onTouchListener);
     }
 
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        distanceY += mScrollRemainder;
-        int deltaRows = (int) (distanceY / mTextRenderer.getCharHeight());
-
-        mScrollRemainder = distanceY - deltaRows * mTextRenderer.getCharHeight();
-
-        firstLine = Math.max(0, Math.min(firstLine + deltaRows, mCursor.y));
-
-        invalidate();
-        return true;
+    public void removeOnTouchListener(OnTouchListener onTouchListener) {
+        onTouchListeners.remove(onTouchListener);
     }
 
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        // TODO: add animation man's (non animated) fling
-        mScrollRemainder = 0.0f;
-        onScroll(e1, e2,/* 2 * */velocityX, -/*2 **/ velocityY * 0.1f);
-        return true;
-    }
-
-    public void onShowPress(MotionEvent e) {
-    }
-
-    public boolean onSingleTapUp(MotionEvent e) {
-        return true;
-    }
-
-    public boolean onDown(MotionEvent e) {
-        mScrollRemainder = 0.0f;
-        return true;
-    }
-
-    public void onLongPress(MotionEvent e) {
-        showContextMenu();
-    }
 
     public void onPause() {
         handler.removeCallbacks(checkSize);
@@ -892,19 +863,8 @@ public class ConsoleView extends View implements
         return mGraphScreen;
     }
 
-    //pascal
-    public void setConsoleTextColor(int textColor) {
-        DLog.d(TAG, "setConsoleTextColor: " + textColor);
-        mTextRenderer.setTextColor(textColor);
-    }
-
-    //pascal
-    public void setConsoleTextBackground(int color) {
-        mTextRenderer.setTextBackgroundColor(color);
-    }
-
     // move cursor to (x, y)
-    public void gotoXY(int x, int y) {
+    public void moveCursorTo(int x, int y) {
         if (x <= 0) {
             x = 1;
         } else if (x > mConsoleScreen.consoleColumn) {
@@ -932,19 +892,10 @@ public class ConsoleView extends View implements
         return mCursor.y + 1;
     }
 
-    public boolean isKeyPressed() {
-        return mKeyBuffer.keyPressed();
-    }
-
-    //pascal
-    public int getColorPixel(int x, int y) {
-        return mGraphScreen.getColorPixel(x, y);
-    }
-
     //pascal
     public void addGraphObject(GraphObject graphObject) {
         mGraphScreen.addGraphObject(graphObject);
-        postInvalidate();
+
     }
 
     //pascal
@@ -974,14 +925,14 @@ public class ConsoleView extends View implements
     }
 
     //pascal
-    public void closeGraph() {
-        clearGraph();
+    public void closeGraphic() {
+        clearGraphic();
         graphicMode = false;
         postInvalidate();
     }
 
     //pascal
-    public void clearGraph() {
+    public void clearGraphic() {
         mGraphScreen.clear();
         postInvalidate();
     }
@@ -991,7 +942,7 @@ public class ConsoleView extends View implements
         mGraphScreen.setCursorPostion(x, y);
     }
 
-    public ConsoleCursor getCursorGraph() {
+    public ConsoleCursor getCursorGraphic() {
         return mGraphScreen.getCursor();
     }
 
@@ -1004,18 +955,96 @@ public class ConsoleView extends View implements
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        for (OnTouchListener onTouchListener : onTouchListeners) {
+            onTouchListener.onTouch(this, ev);
+        }
+        return mGestureDetector.onTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        Log.d(TAG, "onScroll() called with: e1 = [" + e1 + "], e2 = [" + e2 + "], distanceX = [" + distanceX + "], distanceY = [" + distanceY + "]");
+
+        distanceY += mScrollRemainder;
+        int deltaRows = (int) (distanceY / mTextRenderer.getCharHeight());
+
+        mScrollRemainder = distanceY - deltaRows * mTextRenderer.getCharHeight();
+
+        firstLine = Math.max(0, Math.min(firstLine + deltaRows, mCursor.y));
+
+        invalidate();
+        return true;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        Log.d(TAG, "onFling() called with: e1 = [" + e1 + "], e2 = [" + e2 + "], velocityX = [" + velocityX + "], velocityY = [" + velocityY + "]");
+
+        mScrollRemainder = 0.0f;
+        onScroll(e1, e2,/* 2 * */velocityX, -/*2 **/ velocityY * 0.1f);
+        return true;
+    }
+
+    public void onShowPress(MotionEvent e) {
+        Log.d(TAG, "onShowPress() called with: e = [" + e + "]");
+
+    }
+
+    @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        return false;
+        Log.d(TAG, "onSingleTapConfirmed() called with: e = [" + e + "]");
+
+        return true;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
+        Log.d(TAG, "onDoubleTap() called with: e = [" + e + "]");
+
         doShowSoftKeyboard();
+        for (DoubleClickListener doubleClickListener : doubleClickListeners) {
+            doubleClickListener.onDoubleClickListener(e);
+        }
         return true;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {
-        return false;
+        //no required
+        return true;
+    }
+
+    public boolean onSingleTapUp(MotionEvent e) {
+        Log.d(TAG, "onSingleTapUp() called with: e = [" + e + "]");
+        for (ClickListener clickListener : clickListeners) {
+            clickListener.onClick(e);
+        }
+        return true;
+    }
+
+    public boolean onDown(MotionEvent e) {
+        mScrollRemainder = 0.0f;
+        return true;
+    }
+
+    public void onLongPress(MotionEvent e) {
+        Log.d(TAG, "onLongPress() called with: e = [" + e + "]");
+
+        for (LongClickListener longClickListener : longClickListeners) {
+            longClickListener.onLongClick(e);
+        }
+    }
+
+    public void addLongClickListener(@NonNull LongClickListener longClickListener) {
+        longClickListeners.add(longClickListener);
+    }
+
+    public void addClickListener(@NonNull ClickListener clickListener) {
+        clickListeners.add(clickListener);
+    }
+
+    public void addDoubleClickListener(@NonNull DoubleClickListener doubleClickListener) {
+        doubleClickListeners.add(doubleClickListener);
     }
 }

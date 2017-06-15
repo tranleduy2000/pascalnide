@@ -57,6 +57,11 @@ public class SystemLibrary implements IPascalLibrary {
     }
 
     @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
     public void declareConstants(ExpressionContextMixin parentContext) {
 
     }
@@ -336,9 +341,20 @@ public class SystemLibrary implements IPascalLibrary {
 
 
     @PascalMethod(description = "Convert a numerical or enumeration value to a string")
-    public void str(Number num, PascalReference<StringBuilder> s) {
+    public void str(Integer num, PascalReference<StringBuilder> s) {
         s.set(new StringBuilder(String.valueOf(num)));
     }
+
+    @PascalMethod(description = "Convert a numerical or enumeration value to a string")
+    public void str(Long num, PascalReference<StringBuilder> s) {
+        s.set(new StringBuilder(String.valueOf(num)));
+    }
+
+    @PascalMethod(description = "Convert a numerical or enumeration value to a string")
+    public void str(Double num, PascalReference<StringBuilder> s) {
+        s.set(new StringBuilder(String.valueOf(num)));
+    }
+
 
     @PascalMethod(description = " Calculate numerical/enumerated value of a string.")
     public void val(StringBuilder zinput, PascalReference<Object> output, PascalReference<Integer> resultCode) throws RuntimePascalException {

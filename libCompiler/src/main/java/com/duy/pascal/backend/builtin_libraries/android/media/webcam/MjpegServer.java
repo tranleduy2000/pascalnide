@@ -18,6 +18,7 @@ package com.duy.pascal.backend.builtin_libraries.android.media.webcam;
 
 import com.duy.pascal.backend.builtin_libraries.android.media.JpegProvider;
 import com.googlecode.sl4a.SimpleServer;
+import com.googlecode.sl4a.event.Event;
 
 import java.io.OutputStream;
 import java.net.Socket;
@@ -58,5 +59,10 @@ public class MjpegServer extends SimpleServer {
             outputStream.write("\r\n\r\n".getBytes());
             outputStream.flush();
         }
+    }
+
+    @Override
+    public void onEventReceived(Event event) {
+
     }
 }

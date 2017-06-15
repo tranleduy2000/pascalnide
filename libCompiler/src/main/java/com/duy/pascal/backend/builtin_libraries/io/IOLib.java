@@ -90,6 +90,11 @@ public class IOLib implements IPascalLibrary {
     }
 
     @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
     public void declareConstants(ExpressionContextMixin parentContext) {
 
     }

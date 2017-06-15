@@ -60,3 +60,10 @@ src/androidTest/
 *.COM
 
 
+!/libCompiler/libs/
+/sample/Pascal-Labyrinth-Game-master/
+/sample/BlackJack-Pascal-master/
+/sample/terpas/
+/sample/pascal-master/
+/sample/snake-game-in-turboPascal-master/
+/sample/sphinx-astar-master/

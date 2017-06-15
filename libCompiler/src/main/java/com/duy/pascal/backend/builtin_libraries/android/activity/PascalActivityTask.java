@@ -29,7 +29,7 @@ import android.view.View;
  * Visualizer activity
  */
 public abstract class PascalActivityTask<T> {
-    private final PascalActivityResult<T> mResult = new PascalActivityResult<>();
+    private final PascalFutureResult<T> mResult = new PascalFutureResult<>();
     private Activity mActivity;
 
     public Activity getActivity() {

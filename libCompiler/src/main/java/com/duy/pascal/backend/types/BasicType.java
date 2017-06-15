@@ -77,9 +77,18 @@ public enum BasicType implements DeclaredType {
                 if (((BasicType) otherType.declType).clazz == String.class) {
                     return new StringBoxer(other);
                 }
-                return TypeConverter.autoConvert(this, other, (BasicType) otherType.declType);
+                return TypeConverter.autoConvert(this, other, otherType.declType);
             } else if (otherType.declType instanceof StringLimitType) {
-                return new StringBuilderLimitBoxer(other, ((StringLimitType) otherType.declType).getLength());
+                if (this.equals(otherType.declType)) {
+                    return new StringBuilderLimitBoxer(other, ((StringLimitType) otherType.declType).getLength());
+                }
+                if (otherType.declType.equals(BasicType.Character)) {
+                    return new CharacterBoxer(other);
+                }
+                if ((otherType.declType.getStorageClass() == String.class)) {
+                    return new StringBoxer(other);
+                }
+                return TypeConverter.autoConvert(this, other, otherType.declType);
             } else if (otherType.declType instanceof JavaClassBasedType &&
                     otherType.declType.getStorageClass() == String.class) {
                 return new StringBuilderBoxer(other);
@@ -89,7 +98,7 @@ public enum BasicType implements DeclaredType {
 
         @Override
         public boolean equals(DeclaredType obj) {
-            return super.equals(obj);
+            return super.equals(obj) || obj instanceof StringLimitType;
         }
 
         @NonNull

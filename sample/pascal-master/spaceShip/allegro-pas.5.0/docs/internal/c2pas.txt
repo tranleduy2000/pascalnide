@@ -1,0 +1,149 @@
+			Convert C to Pascal
+			===================
+
+  This is a brief explanation about how to convert C code to Pascal.  Note that
+  this document is to help to write the Allegro.pas wrapper library.
+
+  You should read file "style.txt" too.
+
+
+
+Content
+-------
+
+ * Allegro's API description
+ * Data types
+ * Enumerations
+ * Parameters and return values
+ * NOTES
+
+
+
+Allegro's API description
+-------------------------
+
+  Allegro aims to define an API that is the same in any platform supported, so
+  it's easer to port programs from one to another.  Since each platform has a
+  different calling conventions it defines some "macros" to help to declare
+  functions[1], data types and variables.
+
+  "AL_FUNC (type, name, args)" defines a procedure (if type is "void") or
+  function.  Note that "args" are a list of "type name" separated by comma.
+
+  For example:
+
+    AL_FUNC (void, al_set_new_bitmap_format, (int format));
+    AL_FUNC (int, al_get_new_bitmap_format, (void));
+
+  becames
+
+    PROCEDURE al_set_new_bitmap_format (format: LONGINT); CDECL;
+    FUNCTION al_get_new_bitmap_format: LONGINT; CDECL;
+
+  The "CDECL" modifier tells the compiler that it's a C function.  It's
+  necesary because C uses a different calling convention than Pascal.
+
+  Most functions are in dll/so/dylib files so they're external.
+
+  Some functions are "inline", and should be "INLINE" in Pascal too.  Also
+  wrapper functions and procedures should bee "INLINE" too.
+
+
+
+Data types
+----------
+
+  C data types aren't very different than Pascal ones, but we should be careful
+  to keep the same size to make them compatible.
+
+  Free Pascal compiler activates some CPU exceptions to manage data
+  conversions.  By default, C compilers don't activate these exceptions.  That
+  results in some issues as discused in an Allegro.cc forum thread[2].
+
+  Pointers in C are marked by "*".  "*char" are a pointer to char, but they
+  actually use it as ANSISTRINGS.  I think it's better to use "PCHAR" and
+  create inlined wrappers for parameters and function returning.  By the way
+  I've defined type AL_STRptr for that cases.
+
+  C doesn't distiguish between array and pointers.  Actually an array is a
+  pointer that points to a "non dynamic" memory space.
+
+  "bool" is the bad guy here.  It's a recent addition to the C language
+  (1999 IIRC) and not all compilers support it.  Allegro's defines it as
+  "unsigned char" if compiler doesn't supports it.
+
+  Enumerations are discussed in next section.
+
+  Here you have a list of data types.  First column are C types, second are
+  Pascal types.
+
+  bool			BYTEBOOL[3]
+
+  char			CHAR or SHORTINT (depending the use).
+  unsigned char		BYTE
+  *char			PCHAR or ANSISTRING
+
+  int			LONGINT
+  long int		LONGINT or INT64
+  unsigned int		LONGWORD
+  unsigned long int	LONGWORD or QWORD
+
+  uint32_t		LONGWORD
+
+  float			SINGLE
+  double		DOUBLE
+
+
+  Anyway, unit al5base defines some types to make it easer.  For example, C
+  type "int" is "AL_INT", "unsigned int" is "AL_UINT", etcetera.
+
+
+Enumerations
+------------
+
+  Enumerations are another "bad guy".  In C There are almost no differences
+  between "enum" and "int".  Actually, Allegro 5 doesn't use enums as function
+  parameter, it uses "int".  I think we should use enumerations.
+
+  Free Pascal and Delphi optimizes enumerations.  Both have modifiers that
+  modifies that.  AFAIK C enums are 4 bytes wide.
+
+
+
+Parameters and return values
+----------------------------
+
+  In most functions parameters are pased "by value" with no modifications.
+
+  In some cases they're passed as "const", so we must use the "CONST" modifier.
+
+  C hasn't "VAR" nor "OUT" modifiers:  it uses pointer for this.  It looks like
+  FPC translates "VAR" to pointers, so I'm using VAR in some places.  If Delphi
+  doesn't do it the same way or there are problems then we should use wrapper
+  procedures instead:
+
+INTERFACE
+
+  PROCEDURE WrapperProcedure (VAR Variable: AL_UINT); INLINE;
+
+IMPLEMENTATION
+
+  PROCEDURE _ActualFunction_ (ValuePtr: AL_UINTptr); CDECL; EXTERNAL ...;
+
+  PROCEDURE WrapperProcedure (VAR Variable: AL_UINT);
+  BEGIN
+    _ActualFunction_ (@Variable);
+  END;
+
+
+
+NOTES
+-----
+
+  [1] In C there's no difference between "function" and "procedure"; both are
+      functions.  The difference is that some functions doesn't returns any
+      value (they're of type "void").
+
+  [2] http://www.allegro.cc/forums/thread/602423
+
+  [3] Not sure but it seems to work.

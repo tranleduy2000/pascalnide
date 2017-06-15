@@ -30,12 +30,12 @@ import java.util.Set;
  * Created by Duy on 17-Apr-17.
  */
 public class RecordValue implements ContainsVariables {
-    private Map<String, Object> variableMap = new HashMap<>();
-    private ArrayList<VariableDeclaration> variables;
+    protected HashMap<String, Object> variableMap = new HashMap<>();
+    protected ArrayList<VariableDeclaration> variables = new ArrayList<>();
 
-    public RecordValue(ArrayList<VariableDeclaration> mVariables) {
-        this.variables = mVariables;
-        for (VariableDeclaration declaration : mVariables) {
+    public RecordValue(ArrayList<VariableDeclaration> variables) {
+        this.variables = variables;
+        for (VariableDeclaration declaration : variables) {
             DeclaredType returnType = declaration.getType();
             if (declaration.getInitialValue() != null) {
                 variableMap.put(declaration.name.toLowerCase(), declaration.getInitialValue());
@@ -43,6 +43,9 @@ public class RecordValue implements ContainsVariables {
                 variableMap.put(declaration.name, returnType.initialize());
             }
         }
+    }
+
+    public RecordValue() {
 
     }
 

@@ -20,12 +20,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
-/**
- * Created by Duy on 21-Apr-17.
- */
 
-@SuppressWarnings("DefaultFileTemplate")
-public interface ExecHandler {
+public interface ConsoleHandler {
     @Nullable
     ConsoleView getConsoleView();
 
