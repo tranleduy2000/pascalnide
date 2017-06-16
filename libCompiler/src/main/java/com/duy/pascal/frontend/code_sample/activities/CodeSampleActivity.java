@@ -30,10 +30,10 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.activities.ExecuteActivity;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.editor.EditorActivity;
-import com.duy.pascal.frontend.code_sample.fragments.FragmentCodeSample;
 import com.duy.pascal.frontend.code_sample.adapters.CodePagerAdapter;
 import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;
+import com.duy.pascal.frontend.code_sample.fragments.FragmentCodeSample;
+import com.duy.pascal.frontend.editor.EditorActivity;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -54,7 +54,8 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     private CodePagerAdapter pagerAdapter;
 
     public CodeSampleActivity() {
-        categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math", "Android",
+        categories = new String[]{"Basic", "System", "Crt", "Dos", "Graph", "Math",
+                "Complete_Program", "Android",
                 "Android_Dialog", "Android_ZXing", "Android_Location"};
     }
 

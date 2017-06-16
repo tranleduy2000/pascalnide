@@ -21,8 +21,10 @@ import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.EConvertError;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.types.BasicType;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -54,7 +56,7 @@ public class SysUtilsLibrary implements IPascalLibrary {
 
     @Override
     public void declareTypes(ExpressionContextMixin parentContext) {
-
+        parentContext.declareTypedef("TDateTime", BasicType.Long);
     }
 
     @Override
@@ -279,8 +281,19 @@ public class SysUtilsLibrary implements IPascalLibrary {
     }
 
 
-    @PascalMethod(description = "Format a string with given arguments.")
+    @PascalMethod(description = "Format a string with given arguments. (Java)")
     public StringBuilder format(String format, Object[] arg) {
         return new StringBuilder(String.format(format, arg));
+    }
+
+    @PascalMethod(description = "Convert a TDateTime time to a string using a predefined format")
+    public StringBuilder TimeToStr(Long time) {
+        Date date = new Date(time);
+        return new StringBuilder(date.toString());
+    }
+
+    @PascalMethod(description = "Returns the current time.")
+    public Long time() {
+        return System.currentTimeMillis();
     }
 }

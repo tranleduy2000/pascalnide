@@ -33,4 +33,8 @@ public class SysUtilsTest extends BaseTestCase {
     public void testAll() {
         runAll();
     }
+
+    public void testTime() {
+        run("time.pas");
+    }
 }

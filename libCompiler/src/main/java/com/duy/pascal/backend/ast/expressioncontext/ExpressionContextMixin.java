@@ -564,8 +564,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * define custom type
      */
     public void declareTypedef(String name, DeclaredType type) {
-        typedefs.put(name, type);
-        mListNameTypes.add(new InfoItem(StructureType.TYPE_DEF, name));
+        typedefs.put(name.toLowerCase(), type);
+        mListNameTypes.add(new InfoItem(StructureType.TYPE_DEF, name.toLowerCase()));
     }
 
     public void declareTypedefs(String name, List<DeclaredType> types) {
