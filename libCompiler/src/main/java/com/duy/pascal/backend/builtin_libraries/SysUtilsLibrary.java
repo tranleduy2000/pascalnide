@@ -282,12 +282,12 @@ public class SysUtilsLibrary implements IPascalLibrary {
 
 
     @PascalMethod(description = "Format a string with given arguments. (Java)")
-    public StringBuilder format(String format, Object[] arg) {
-        return new StringBuilder(String.format(format, arg));
+    public StringBuilder format(StringBuilder format, Object[] arg) {
+        return new StringBuilder(String.format(format.toString(), arg));
     }
 
     @PascalMethod(description = "Convert a TDateTime time to a string using a predefined format")
-    public StringBuilder TimeToStr(Long time) {
+    public StringBuilder timeToStr(Long time) {
         Date date = new Date(time);
         return new StringBuilder(date.toString());
     }

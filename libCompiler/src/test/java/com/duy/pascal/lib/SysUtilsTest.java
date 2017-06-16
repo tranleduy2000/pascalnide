@@ -37,4 +37,12 @@ public class SysUtilsTest extends BaseTestCase {
     public void testTime() {
         run("time.pas");
     }
+
+    public void testFormatArg() {
+        run("test_format_arg.pas");
+    }
+
+    public void testFormatArg2() {
+        run("Formatter.pas");
+    }
 }
