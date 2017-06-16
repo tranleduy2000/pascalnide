@@ -25,7 +25,7 @@ import com.duy.pascal.backend.types.DeclaredType;
 
 import java.util.Map;
 
-public class VariableDeclaration implements NamedEntity, Cloneable {
+public class VariableDeclaration extends NameEntityImpl implements Cloneable {
 
     /**
      * name of variable, always first case

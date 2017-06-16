@@ -71,7 +71,7 @@ public class ForToStatement extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult executeImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main, String contextName)
             throws RuntimePascalException {
         if (isEnum) {
             LinkedList<EnumElementValue> list = enumGroupType.getList();
@@ -82,7 +82,7 @@ public class ForToStatement extends DebuggableExecutable {
             forLoop:
             for (int i = start; i <= end; i++) {
                 reference.set(list.get(i));
-                ExecutionResult result = command.execute(f, main);
+                ExecutionResult result = command.execute(f, main, contextName);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -92,10 +92,10 @@ public class ForToStatement extends DebuggableExecutable {
                 }
             }
         } else {
-            setfirst.execute(f, main);
+            setfirst.execute(f, main, contextName);
             whileLoop:
             while ((Boolean) condition.getValue(f, main)) {
-                ExecutionResult result = command.execute(f, main);
+                ExecutionResult result = command.execute(f, main, contextName);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -104,10 +104,10 @@ public class ForToStatement extends DebuggableExecutable {
                     case CONTINUE:
 
                 }
-                increment.execute(f, main);
+                increment.execute(f, main, contextName);
             }
         }
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

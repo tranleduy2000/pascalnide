@@ -9,8 +9,10 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.UnhandledPascalException;
 
 public abstract class DebuggableExecutable implements Executable {
+
     @Override
-    public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main,
+                                   String contextName)
             throws RuntimePascalException {
         try {
             if (main.isDebug()) {
@@ -28,7 +30,7 @@ public abstract class DebuggableExecutable implements Executable {
             main.incStack(getLineNumber());
 
             //execute code
-            ExecutionResult result = executeImpl(context, main);
+            ExecutionResult result = executeImpl(context, main, contextName);
 
             //restore mode
             main.setDebug(last);
@@ -41,6 +43,7 @@ public abstract class DebuggableExecutable implements Executable {
         }
     }
 
-    public abstract ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
+    public abstract ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main,
+                                                String contextName)
             throws RuntimePascalException;
 }

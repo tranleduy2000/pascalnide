@@ -29,8 +29,8 @@ class CasePossibility extends DebuggableExecutable {
      */
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return commands.execute(context, main);
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
+        return commands.execute(context, main, contextName);
     }
 
     @Override

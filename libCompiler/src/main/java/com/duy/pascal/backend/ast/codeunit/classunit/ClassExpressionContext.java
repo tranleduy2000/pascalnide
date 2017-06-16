@@ -92,4 +92,9 @@ public class ClassExpressionContext extends ExpressionContextMixin {
     public void setDestructor(FunctionDeclaration destructor) {
         this.destructor = destructor;
     }
+
+    @Override
+    public ExpressionContextMixin clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

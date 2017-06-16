@@ -71,8 +71,8 @@ public class GotoStatement extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main, String contextName)
             throws RuntimePascalException {
-        return command.execute(context, main);
+        return command.execute(context, main, contextName);
     }
 }

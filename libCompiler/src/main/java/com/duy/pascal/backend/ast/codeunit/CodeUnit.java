@@ -26,11 +26,16 @@ public abstract class CodeUnit {
     private String sourceName;
     private List<ScriptSource> includeDirectories;
 
-    public CodeUnit(@Nullable IRunnablePascal handler) {
-        this.context = getExpressionContextInstance(handler);
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     public CodeUnit() {
+    }
+
+    public CodeUnit(@Nullable IRunnablePascal handler) {
+        this.context = getExpressionContextInstance(handler);
     }
 
     public CodeUnit(Reader program,
@@ -79,10 +84,6 @@ public abstract class CodeUnit {
 
     public List<ScriptSource> getIncludeDirectories() {
         return includeDirectories;
-    }
-
-    public void setIncludeDirectories(List<ScriptSource> includeDirectories) {
-        this.includeDirectories = includeDirectories;
     }
 
     protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {

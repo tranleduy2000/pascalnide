@@ -115,7 +115,6 @@ import com.duy.pascal.backend.types.subrange.EnumSubrangeType;
 import com.duy.pascal.backend.types.subrange.IntegerRange;
 import com.duy.pascal.backend.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.backend.types.util.TypeUtils;
-import com.duy.pascal.backend.utils.NullSafety;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -533,8 +532,9 @@ public abstract class GrouperToken extends Token {
                 } else if (runtimeType.declType instanceof PascalClassType) {
                     PascalClassType pascalClassType = (PascalClassType) runtimeType.declType;
                     ClassExpressionContext classContext = pascalClassType.getClassContext();
-                    term = getFunctionFromPascalClass(context, term, (WordToken) next);
-                    if (NullSafety.isNullValue(term)) {
+                    try {
+                        term = getFunctionFromPascalClass(context, term, (WordToken) next);
+                    } catch (Exception e) {
                         term = classContext.getIdentifierValue((WordToken) next);
                     }
                 } else {

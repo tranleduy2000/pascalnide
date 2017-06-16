@@ -39,7 +39,7 @@ import com.duy.pascal.backend.types.OperatorTypes;
  */
 
 public class ForStatement extends DebuggableExecutable {
-    private AssignExecutable setfirst;
+    private AssignExecutable setFirst;
     private RuntimeValue lessThanLast;
     private AssignExecutable increment_temp;
     private Executable command;
@@ -49,7 +49,7 @@ public class ForStatement extends DebuggableExecutable {
                         RuntimeValue first, RuntimeValue last, Executable command, boolean increase,
                         LineInfo line) throws ParsingException {
         this.line = line;
-        setfirst = new AssignStatement(tempVar, first, line);
+        setFirst = new AssignStatement(tempVar, first, line);
         lessThanLast = BinaryOperatorEval.generateOp(context, tempVar, last,
                 OperatorTypes.LESSEQ, this.line);
         increment_temp = new AssignStatement(tempVar, BinaryOperatorEval.generateOp(
@@ -60,12 +60,12 @@ public class ForStatement extends DebuggableExecutable {
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main, String contextName)
             throws RuntimePascalException {
-        setfirst.execute(context, main);
+        setFirst.execute(context, main, contextName);
         whileLoop:
         while ((Boolean) lessThanLast.getValue(context, main)) {
-            ExecutionResult result = command.execute(context, main);
+            ExecutionResult result = command.execute(context, main, contextName);
             switch (result) {
                 case EXIT:
                     return ExecutionResult.EXIT;
@@ -74,9 +74,9 @@ public class ForStatement extends DebuggableExecutable {
                 case CONTINUE:
 
             }
-            increment_temp.execute(context, main);
+            increment_temp.execute(context, main, contextName);
         }
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ForStatement extends DebuggableExecutable {
     @Override
     public Executable compileTimeConstantTransform(CompileTimeContext c)
             throws ParsingException {
-        AssignExecutable first = setfirst.compileTimeConstantTransform(c);
+        AssignExecutable first = setFirst.compileTimeConstantTransform(c);
         AssignExecutable inc = increment_temp.compileTimeConstantTransform(c);
         Executable comm = command.compileTimeConstantTransform(c);
         RuntimeValue comp = lessThanLast;

@@ -62,7 +62,7 @@ public class MulAssignStatement extends DebuggableExecutable implements AssignEx
     @Override
     @SuppressWarnings("unchecked")
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
 
         Reference ref = left.getReference(context, main);
         Object v = this.mulOp.getValue(context, main);
@@ -70,7 +70,7 @@ public class MulAssignStatement extends DebuggableExecutable implements AssignEx
 
         if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
 
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

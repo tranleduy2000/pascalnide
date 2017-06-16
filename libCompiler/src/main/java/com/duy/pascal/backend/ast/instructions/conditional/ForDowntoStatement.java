@@ -81,7 +81,7 @@ public class ForDowntoStatement extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
         if (isEnum) {
             LinkedList<EnumElementValue> list = enumGroupType.getList();
             Reference reference = tempVar.getReference(context, main);
@@ -91,7 +91,7 @@ public class ForDowntoStatement extends DebuggableExecutable {
             forLoop:
             for (int i = start; i <= end; i++) {
                 reference.set(list.get(i));
-                ExecutionResult result = command.execute(context, main);
+                ExecutionResult result = command.execute(context, main, contextName);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -101,11 +101,11 @@ public class ForDowntoStatement extends DebuggableExecutable {
                 }
             }
         } else {
-            setfirst.execute(context, main);
+            setfirst.execute(context, main, contextName);
 
             while_loop:
             while ((Boolean) condition.getValue(context, main)) {
-                switch (command.execute(context, main)) {
+                switch (command.execute(context, main, contextName)) {
                     case EXIT:
                         return ExecutionResult.EXIT;
                     case BREAK:
@@ -113,10 +113,10 @@ public class ForDowntoStatement extends DebuggableExecutable {
                     case CONTINUE:
                         continue while_loop;
                 }
-                increment.execute(context, main);
+                increment.execute(context, main, contextName);
             }
         }
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

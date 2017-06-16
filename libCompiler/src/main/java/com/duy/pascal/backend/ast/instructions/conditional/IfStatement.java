@@ -90,15 +90,15 @@ public class IfStatement extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
         Boolean value = (Boolean) (condition.getValue(context, main));
         if (value) {
-            return instruction.execute(context, main);
+            return instruction.execute(context, main, contextName);
         } else {
             if (elseInstruction != null) {
-                return elseInstruction.execute(context, main);
+                return elseInstruction.execute(context, main, contextName);
             }
-            return ExecutionResult.NONE;
+            return ExecutionResult.NOPE;
         }
     }
 

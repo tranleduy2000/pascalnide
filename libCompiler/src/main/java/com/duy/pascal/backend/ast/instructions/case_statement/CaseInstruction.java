@@ -118,16 +118,16 @@ public class CaseInstruction extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
         Object value = mSwitchValue.getValue(context, main);
         for (CasePossibility possibility : possibilities) {
             for (int j = 0; j < possibility.conditions.length; j++) {
                 if (possibility.conditions[j].fits(context, main, value)) {
-                    return possibility.execute(context, main);
+                    return possibility.execute(context, main, contextName);
                 }
             }
         }
-        return otherwise.execute(context, main);
+        return otherwise.execute(context, main, contextName);
     }
 
     @Override

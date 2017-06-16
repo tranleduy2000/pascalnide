@@ -30,7 +30,7 @@ import com.duy.pascal.frontend.activities.IRunnablePascal;
 /**
  * Created by Duy on 16-Jun-17.
  */
-public class PascalClassDeclaration extends CodeUnit {
+public class PascalClassDeclaration extends CodeUnit implements Cloneable {
 
     private final CodeUnit root;
     private final IRunnablePascal handler;
@@ -55,4 +55,9 @@ public class PascalClassDeclaration extends CodeUnit {
         return null;
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+
+        return super.clone();
+    }
 }

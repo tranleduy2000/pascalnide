@@ -29,4 +29,5 @@ public interface NamedEntity {
     String getName();
 
     String getDescription();
+
 }

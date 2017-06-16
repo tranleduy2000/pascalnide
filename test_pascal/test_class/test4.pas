@@ -14,7 +14,7 @@ type
    
    end;
 var
-   r1 , r2: Rectangle;
+   r1, r2 : Rectangle;
 
 function Rectangle.setRandom() : integer;
 begin
@@ -27,8 +27,8 @@ begin
 end;
 
 begin
-   r1.setRandom();
-   r2.setRandom();
-   writeln(' Draw Rectangle:1 ', ' by ', r1.getRandom());
-   writeln(' Draw Rectangle: 2', ' by ', r2.getRandom());
+   r1.zrandom := 3;
+   r2.zrandom := 4;
+   writeln(' Draw Rectangle:1 ', ' by ', r1.zrandom);
+   writeln(' Draw Rectangle: 2', ' by ', r2.zrandom);
 end.

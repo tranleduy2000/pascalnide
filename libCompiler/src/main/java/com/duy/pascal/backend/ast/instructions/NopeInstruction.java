@@ -17,8 +17,8 @@ public class NopeInstruction extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        return ExecutionResult.NONE;
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
+        return ExecutionResult.NOPE;
     }
 
     @Override

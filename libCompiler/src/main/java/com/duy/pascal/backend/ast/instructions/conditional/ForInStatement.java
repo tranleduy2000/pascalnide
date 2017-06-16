@@ -82,7 +82,7 @@ public class ForInStatement extends DebuggableExecutable {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
+    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main, String contextName)
             throws RuntimePascalException {
 
         //get value of enum
@@ -95,7 +95,7 @@ public class ForInStatement extends DebuggableExecutable {
             for (Object item : list) {
                 reference.set(item); //set value for variable identifier
                 //execute command of for loop and receive a result
-                ExecutionResult result = command.execute(context, main);
+                ExecutionResult result = command.execute(context, main, contextName);
                 //check exit, break, continue command
                 switch (result) {
                     case CONTINUE:
@@ -114,7 +114,7 @@ public class ForInStatement extends DebuggableExecutable {
             for (Object item : list) {
                 reference.set(item); //set value for variable identifier
                 //execute command of for loop and receive a result
-                ExecutionResult result = command.execute(context, main);
+                ExecutionResult result = command.execute(context, main, contextName);
                 //check exit, break, continue command
                 switch (result) {
                     case CONTINUE:
@@ -128,7 +128,7 @@ public class ForInStatement extends DebuggableExecutable {
             }
         }
 
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

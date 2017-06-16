@@ -68,10 +68,10 @@ public class RepeatInstruction extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
         do_loop:
         do {
-            switch (command.execute(context, main)) {
+            switch (command.execute(context, main, contextName)) {
                 case CONTINUE:
                     continue do_loop;
                 case BREAK:
@@ -80,7 +80,7 @@ public class RepeatInstruction extends DebuggableExecutable {
                     return ExecutionResult.EXIT;
             }
         } while (!((Boolean) condition.getValue(context, main)));
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

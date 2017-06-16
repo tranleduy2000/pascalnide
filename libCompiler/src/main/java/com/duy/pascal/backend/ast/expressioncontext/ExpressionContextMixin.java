@@ -11,8 +11,8 @@ import com.duy.pascal.backend.ast.NamedEntity;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
-import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
+import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -78,13 +78,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.duy.pascal.backend.builtin_libraries.PascalLibraryManager.MAP_LIBRARIES;
 
-public abstract class ExpressionContextMixin extends HierarchicalExpressionContext {
+public abstract class ExpressionContextMixin extends HierarchicalExpressionContext implements Cloneable {
     private static final String TAG = "ExpressionContextMixin";
 
     /**
      * list global variable
      */
     public ArrayList<VariableDeclaration> variables = new ArrayList<>();
+
     protected String mContextName = "";
     /**
      * activity value, uses for input and output
@@ -126,6 +127,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * List name library which program are in use
      */
     private ArrayList<String> mLibrariesNames = new ArrayList<>();
+
     private PascalLibraryManager mPascalLibraryManager;
     /**
      * Class loader, load class in library rt.jar (java library) and other file *.class
@@ -215,9 +217,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             return constant;
 
         } else if (getVariableDefinitionLocal(name.getName()) != null) {
-            VariableAccess variableAccess = new VariableAccess(name.getName(),
-                    name.getLineNumber(), this);
-            return variableAccess;
+            return new VariableAccess(name.getName(), name.getLineNumber(), this);
+
         } else if (getLabelLocal(name.getName()) != null) {
 
         } else {
@@ -273,7 +274,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         Token next = i.peek();
         if (next instanceof ProcedureToken || next instanceof FunctionToken) {
             i.take();
-
             boolean isProcedure = next instanceof ProcedureToken;
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
@@ -405,7 +405,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             }
         } while (true);
     }
-
 
     protected void addDeclareTypes(GrouperToken i) throws ParsingException {
         Token next;
@@ -715,5 +714,11 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
     public IOLib getIOHandler() {
         return mIOHandler;
+    }
+
+    @Override
+    public ExpressionContextMixin clone() throws CloneNotSupportedException {
+        super.clone();
+        return null;
     }
 }

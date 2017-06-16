@@ -73,10 +73,10 @@ public class WhileStatement extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
         while_loop:
         while ((Boolean) condition.getValue(context, main)) {
-            switch (command.execute(context, main)) {
+            switch (command.execute(context, main, contextName)) {
                 case CONTINUE:
                     continue while_loop;
                 case BREAK:
@@ -85,7 +85,7 @@ public class WhileStatement extends DebuggableExecutable {
                     return ExecutionResult.EXIT;
             }
         }
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

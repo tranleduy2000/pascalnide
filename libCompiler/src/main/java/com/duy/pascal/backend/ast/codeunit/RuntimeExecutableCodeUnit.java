@@ -19,8 +19,8 @@ package com.duy.pascal.backend.ast.codeunit;
 import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
-import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
+import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.runtime_value.ScriptControl;
 import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.debugable.DebugListener;
@@ -145,7 +145,8 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
                 for (AbstractFunction function : shutdown) {
                     if (function instanceof MethodDeclaration) {
                         try {
-                            ((MethodDeclaration) function).call(this, this, new Object[]{});
+                            ((MethodDeclaration) function).call(this, this, new Object[]{},
+                                    declaration.programName);
                         } catch (Exception ignored) {
                         }
                     }

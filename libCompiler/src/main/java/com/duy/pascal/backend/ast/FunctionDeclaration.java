@@ -168,18 +168,20 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         }
     }
 
+
     @Override
     public String getDescription() {
         return null;
     }
 
     @Override
-    public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments)
-            throws RuntimePascalException {
+    public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main,
+                       Object[] arguments, String classContextName) throws RuntimePascalException {
+
         if (this.declaration.root() instanceof PascalUnitDeclaration) {
             f = main.getLibraryContext((PascalUnitDeclaration) declaration.root());
         } else if (declaration.root() instanceof PascalClassDeclaration) {
-//            f = main.getRuntimePascalContext(declaration.getParentContext().);
+            f = main.getRuntimePascalContext(classContextName);
         }
         FunctionOnStack functionOnStack = new FunctionOnStack(f, main, this, arguments);
         if (main.isDebug()) {

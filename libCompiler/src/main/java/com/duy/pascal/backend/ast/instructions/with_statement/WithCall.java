@@ -53,12 +53,12 @@ public class WithCall extends DebuggableExecutableReturnValue {
 
     @Override
     public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
         Object valueImpl = getValueImpl(f, main);
         if (valueImpl == ExecutionResult.EXIT) {
             return ExecutionResult.EXIT;
         }
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
         new WithOnStack(f, main, withStatement).execute();
 
         main.decStack();
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

@@ -67,7 +67,7 @@ public class SimpleFunctionCall extends FunctionCall {
         }
         Object result;
         try {
-            result = function.call(f, main, values);
+            result = function.call(f, main, values, "");
 
             DebugManager.onFunctionCalled(function, arguments, result, main);//debug
         } catch (IllegalArgumentException | IllegalAccessException e) {
@@ -119,7 +119,7 @@ public class SimpleFunctionCall extends FunctionCall {
         }
         if (function instanceof MethodDeclaration || function instanceof IMethodDeclaration) {
             try {
-                return function.call(null, null, args);
+                return function.call(null, null, args, "");
             } catch (Exception e) {
                 return null;
             }

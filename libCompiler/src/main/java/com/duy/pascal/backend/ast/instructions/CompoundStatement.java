@@ -34,9 +34,9 @@ public class CompoundStatement extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
         for (Executable e : instructions) {
-            switch (e.execute(context, main)) {
+            switch (e.execute(context, main,contextName )) {
                 case BREAK:
                     return ExecutionResult.BREAK;
                 case EXIT:
@@ -45,8 +45,8 @@ public class CompoundStatement extends DebuggableExecutable {
                     return ExecutionResult.CONTINUE;
             }
         }
-        new NopeInstruction(endLine).execute(context, main);
-        return ExecutionResult.NONE;
+        new NopeInstruction(endLine).execute(context, main, contextName);
+        return ExecutionResult.NOPE;
     }
 
     @Override

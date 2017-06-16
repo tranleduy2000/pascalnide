@@ -67,9 +67,8 @@ public class DivAssignStatement extends DebuggableExecutable implements AssignEx
 
 
     @Override
-    @SuppressWarnings("unchecked")
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
 
         Reference ref = left.getReference(context, main);
         Object v = this.divOp.getValue(context, main);
@@ -77,7 +76,7 @@ public class DivAssignStatement extends DebuggableExecutable implements AssignEx
 
         if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
 
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

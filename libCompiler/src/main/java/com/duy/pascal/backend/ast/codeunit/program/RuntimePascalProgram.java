@@ -17,8 +17,8 @@
 package com.duy.pascal.backend.ast.codeunit.program;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
+import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.config.RunMode;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -46,7 +46,7 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         }
 
         if (isDebug()) getDebugListener().onVariableChange(new CallStack(this));
-        getDeclaration().main.execute(this, this);
+        getDeclaration().main.execute(this, this, getDeclaration().getProgramName());
 
         //generate final code library
         for (Map.Entry<PascalUnitDeclaration, RuntimeUnitPascal> entry : entries) {

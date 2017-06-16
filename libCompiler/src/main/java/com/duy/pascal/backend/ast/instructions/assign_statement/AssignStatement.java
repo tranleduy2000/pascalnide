@@ -43,9 +43,8 @@ public class AssignStatement extends DebuggableExecutable implements AssignExecu
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main,
+                                       String contextName) throws RuntimePascalException {
 
         Reference ref = left.getReference(context, main);
         Object old = ref.get();
@@ -54,7 +53,7 @@ public class AssignStatement extends DebuggableExecutable implements AssignExecu
 
         if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(context));
 
-        return ExecutionResult.NONE;
+        return ExecutionResult.NOPE;
     }
 
     @Override

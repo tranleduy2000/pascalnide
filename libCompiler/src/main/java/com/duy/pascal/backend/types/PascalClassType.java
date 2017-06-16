@@ -15,7 +15,6 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
-import com.duy.pascal.frontend.DLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,6 @@ public class PascalClassType extends ObjectType {
 
     public PascalClassType(CodeUnit root, ExpressionContext parent) throws ParsingException {
         this.parent = parent;
-        DLog.d(TAG, "ClassType() called with: root = [" + root + "], parent = [" + parent + "]");
         mPascalClass = new PascalClassDeclaration(root, parent, null);
     }
 

@@ -14,37 +14,20 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.interpreter;
+package com.duy.pascal.backend.ast;
 
 /**
  * Created by Duy on 16-Jun-17.
  */
 
-public class ClassTest extends BaseTestCase {
-    @Override
-    public String getDirTest() {
-        return "test_class";
+public abstract class NameEntityImpl implements NamedEntity {
+    private String contextName;
+
+    public String getContextName() {
+        return contextName;
     }
 
-    public void testParse() {
-        assertTrue(parse("test_parse.pas"));
+    public void setContextName(String contextName) {
+        this.contextName = contextName;
     }
-
-    public void testParse2() {
-        assertTrue(parse("test_parse2.pas"));
-    }
-
-    public void test1() {
-        run("test_parse2.pas");
-    }
-
-    public void test3() {
-        run("test3.pas");
-    }
-
-    public void test4() {
-        run("test4.pas");
-    }
-
-
 }

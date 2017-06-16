@@ -30,7 +30,7 @@ import com.duy.pascal.backend.utils.ArrayUtil;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class AbstractFunction implements NamedEntity {
+public abstract class AbstractFunction extends NameEntityImpl {
 
     private static final String TAG = "AbstractFunction";
 
