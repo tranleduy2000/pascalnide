@@ -90,13 +90,13 @@ public class MethodDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public Object call(VariableContext parentContext,
+    public Object call(VariableContext f,
                        RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException,
             RuntimePascalException {
         if (owner instanceof RuntimeValue) {
-            owner = ((RuntimeValue) owner).getValue(parentContext, main);
+            owner = ((RuntimeValue) owner).getValue(f, main);
         }
         return method.invoke(owner, arguments);
     }

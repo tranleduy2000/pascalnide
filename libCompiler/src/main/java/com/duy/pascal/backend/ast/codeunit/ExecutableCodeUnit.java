@@ -21,7 +21,6 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
         super(handler);
     }
 
-
     @Override
     public abstract RuntimeExecutableCodeUnit<? extends ExecutableCodeUnit> generate();
 

@@ -32,7 +32,7 @@ import java.util.List;
 
 public abstract class AbstractFunction implements NamedEntity {
 
-    public static final String TAG = AbstractFunction.class.getSimpleName();
+    private static final String TAG = "AbstractFunction";
 
     public abstract ArgumentType[] argumentTypes();
 

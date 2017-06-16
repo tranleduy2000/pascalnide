@@ -3,6 +3,7 @@ package com.duy.pascal.backend.ast.codeunit;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.config.ProgramConfig;
@@ -18,15 +19,18 @@ import java.io.Reader;
 import java.util.List;
 
 public abstract class CodeUnit {
-    public  ExpressionContextMixin context;
+    public ExpressionContextMixin context;
     @Nullable
     protected String programName;
     protected ProgramConfig config = new ProgramConfig();
     private String sourceName;
     private List<ScriptSource> includeDirectories;
 
-    public CodeUnit(IRunnablePascal handler) {
+    public CodeUnit(@Nullable IRunnablePascal handler) {
         this.context = getExpressionContextInstance(handler);
+    }
+
+    public CodeUnit() {
     }
 
     public CodeUnit(Reader program,
@@ -58,7 +62,7 @@ public abstract class CodeUnit {
         return context;
     }
 
-    protected abstract CodeUnitExpressionContext getExpressionContextInstance(IRunnablePascal handler);
+    protected abstract ExpressionContextMixin getExpressionContextInstance(IRunnablePascal handler);
 
     private void parseTree(GrouperToken tokens) throws ParsingException {
         while (tokens.hasNext()) {
@@ -84,6 +88,10 @@ public abstract class CodeUnit {
     protected abstract class CodeUnitExpressionContext extends ExpressionContextMixin {
         public CodeUnitExpressionContext(@NonNull IRunnablePascal handler) {
             super(CodeUnit.this, null, handler);
+        }
+
+        public CodeUnitExpressionContext(ExpressionContext parent) {
+            super(CodeUnit.this, parent);
         }
 
         @Override

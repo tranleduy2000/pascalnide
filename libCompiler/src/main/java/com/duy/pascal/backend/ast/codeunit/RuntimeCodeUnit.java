@@ -19,6 +19,7 @@ package com.duy.pascal.backend.ast.codeunit;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.config.RunMode;
 import com.duy.pascal.backend.utils.NullSafety;
@@ -35,7 +36,12 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
     public RuntimeCodeUnit(parent declaration) {
         this.declaration = declaration;
         for (VariableDeclaration v : declaration.context.variables) {
-            v.initialize(unitVariables);
+            Object initialize = v.initialize(unitVariables);
+            if (initialize instanceof RuntimePascalClass) {
+                declaration.getContext().getRuntimePascalClassMap()
+                        .put(v.getName(), (RuntimePascalClass) initialize);
+                ((RuntimePascalClass) initialize).setIdentifierName(v.getName());
+            }
         }
     }
 

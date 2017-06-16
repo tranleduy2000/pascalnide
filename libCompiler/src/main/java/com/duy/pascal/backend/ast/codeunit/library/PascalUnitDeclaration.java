@@ -53,13 +53,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UnitPascal extends ExecutableCodeUnit implements IPascalLibrary {
+public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascalLibrary {
     private IRunnablePascal handler;
 
-    public UnitPascal(Reader program,
-                      String sourceName,
-                      List<ScriptSource> includeDirectories,
-                      @Nullable IRunnablePascal handler)
+    public PascalUnitDeclaration(Reader program,
+                                 String sourceName,
+                                 List<ScriptSource> includeDirectories,
+                                 @Nullable IRunnablePascal handler)
             throws ParsingException {
         super(program, sourceName, includeDirectories, handler);
         this.handler = handler;

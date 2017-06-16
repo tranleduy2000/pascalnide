@@ -10,8 +10,9 @@ import com.duy.pascal.backend.ast.LabelDeclaration;
 import com.duy.pascal.backend.ast.NamedEntity;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
+import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
-import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
+import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -56,9 +57,9 @@ import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
 import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.ClassType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.OperatorTypes;
+import com.duy.pascal.backend.types.PascalClassType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.frontend.DLog;
@@ -84,6 +85,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * list global variable
      */
     public ArrayList<VariableDeclaration> variables = new ArrayList<>();
+    protected String mContextName = "";
     /**
      * activity value, uses for input and output
      */
@@ -93,61 +95,50 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
      * list function and procedure pascal, support overload function
      */
     private ArrayListMultimap<String, AbstractFunction> callableFunctions = ArrayListMultimap.create();
-
     //name of function in map callableFunctions, uses for get all function
     private ArrayList<InfoItem> mListNameFunctions = new ArrayList<>();
-
     /**
      * defined mConstants
      */
     private HashMap<String, ConstantDefinition> mConstants = new HashMap<>();
-
     /**
      * defined libraries
      */
-    private HashMap<UnitPascal, RuntimeUnitPascal> mUnitsMap = new HashMap<>();
+    private HashMap<PascalUnitDeclaration, RuntimeUnitPascal> mRuntimeUnitMap = new HashMap<>();
+
+    private Map<String, RuntimePascalClass> mRuntimePascalClassMap = new HashMap<>();
 
     /**
      * define labels
      */
     private HashMap<String, LabelDeclaration> labelsMap = new HashMap<>();
-
-
     //list name of constant map,  use for get all mConstants
     private ArrayList<InfoItem> mListNameConstants = new ArrayList<>();
-
     /**
      * list custom type
      */
     private HashMap<String, DeclaredType> typedefs = new HashMap<>();
-
     /**
      * uses for get all type in map typedefs
      */
     private ArrayList<InfoItem> mListNameTypes = new ArrayList<>();
-
     /**
      * List name library which program are in use
      */
     private ArrayList<String> mLibrariesNames = new ArrayList<>();
-
     private PascalLibraryManager mPascalLibraryManager;
-
     /**
      * Class loader, load class in library rt.jar (java library) and other file *.class
      */
     private JavaClassLoader mClassLoader;
-
     /**
      * Manager read and write into a file
      */
     private FileLib mFileHandler;
-
     /**
      * Manager read and write to console
      */
     private IOLib mIOHandler;
-
 
     public ExpressionContextMixin(CodeUnit root, ExpressionContext parent) {
         super(root, parent);
@@ -171,6 +162,9 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         }
     }
 
+    public String getContextName() {
+        return mContextName;
+    }
 
     public ArrayList<String> getLibrariesNames() {
         return mLibrariesNames;
@@ -215,19 +209,28 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         } else if (getConstantDefinitionLocal(name.getName()) != null) {
             ConstantDefinition c = getConstantDefinition(name.getName());
-            ConstantAccess<Object> constant = new ConstantAccess<>(c.getValue(), c.getType(), name.getLineNumber());
+            ConstantAccess<Object> constant = new ConstantAccess<>(c.getValue(),
+                    c.getType(), name.getLineNumber());
             constant.setName(name.name);
             return constant;
 
         } else if (getVariableDefinitionLocal(name.getName()) != null) {
-            VariableAccess variableAccess = new VariableAccess(name.getName(), name.getLineNumber());
+            VariableAccess variableAccess = new VariableAccess(name.getName(),
+                    name.getLineNumber(), this);
             return variableAccess;
         } else if (getLabelLocal(name.getName()) != null) {
 
+        } else {
+//            DeclaredType type = getTypedefTypeLocal(name.getName());
+//            if (type instanceof ClassType) {
+//                String name1 = name.getName();
+//                ClassType classType = (ClassType) type;
+//                if (classType.getClassContext().getConstructor().getName().)
+//            }
         }
 
         //find identifier in library
-        for (Map.Entry<UnitPascal, RuntimeUnitPascal> unit : mUnitsMap.entrySet()) {
+        for (Map.Entry<PascalUnitDeclaration, RuntimeUnitPascal> unit : mRuntimeUnitMap.entrySet()) {
             RuntimeUnitPascal value = unit.getValue();
             ExpressionContextMixin libContext = value.getDeclaration().getContext();
             RuntimeValue identifierValue = libContext.getIdentifierValue(name);
@@ -272,9 +275,27 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             i.take();
 
             boolean isProcedure = next instanceof ProcedureToken;
-            FunctionDeclaration function = new FunctionDeclaration(this, i, isProcedure);
-            function = getExistFunction(function);
-            function.parseFunctionBody(i);
+            String name = i.nextWordValue();
+            if (i.peek() instanceof PeriodToken) {
+                DeclaredType typedefType = getTypedefType(name);
+                if (typedefType instanceof PascalClassType) {
+
+                } else {
+                    throw new ExpectedTokenException(";", i.peek());
+                }
+                PascalClassType classType = (PascalClassType) typedefType;
+
+                i.take();
+                String funcName = i.nextWordValue();
+                FunctionDeclaration declaration = new FunctionDeclaration(funcName,
+                        classType.getClassContext(), i, isProcedure);
+                FunctionDeclaration function = classType.getClassContext().getExistFunction(declaration);
+                function.parseFunctionBody(i);
+            } else {
+                FunctionDeclaration function = new FunctionDeclaration(name, this, i, isProcedure);
+                function = getExistFunction(function);
+                function.parseFunctionBody(i);
+            }
 
         } else if (next instanceof BeginEndToken) {
             handleBeginEnd(i);
@@ -308,17 +329,18 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
                 DeclaredType typedefType = getTypedefType(name);
-                if (typedefType instanceof ClassType) {
+                if (typedefType instanceof PascalClassType) {
 
                 } else {
                     throw new ExpectedTokenException(";", i.peek());
                 }
-                ClassType classType = (ClassType) typedefType;
+                PascalClassType classType = (PascalClassType) typedefType;
 
                 i.take();
                 String funcName = i.nextWordValue();
-                FunctionDeclaration declaration = new FunctionDeclaration(funcName, this, i, true);
-                FunctionDeclaration constructor = classType.getConstructor();
+                FunctionDeclaration declaration = new FunctionDeclaration(funcName,
+                        classType.getClassContext(), i, true);
+                FunctionDeclaration constructor = classType.getClassContext().getConstructor();
                 if (constructor.headerMatches(declaration)) {
                     constructor.parseFunctionBody(i);
                 } else {
@@ -335,17 +357,18 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
                 DeclaredType typedefType = getTypedefType(name);
-                if (typedefType instanceof ClassType) {
+                if (typedefType instanceof PascalClassType) {
 
                 } else {
                     throw new ExpectedTokenException(";", i.peek());
                 }
-                ClassType classType = (ClassType) typedefType;
+                PascalClassType classType = (PascalClassType) typedefType;
 
                 i.take();
                 String funcName = i.nextWordValue();
-                FunctionDeclaration declaration = new FunctionDeclaration(funcName, this, i, true);
-                FunctionDeclaration destructor = classType.getDestructor();
+                FunctionDeclaration declaration = new FunctionDeclaration(funcName,
+                        classType.getClassContext(), i, true);
+                FunctionDeclaration destructor = classType.getClassContext().getDestructor();
                 if (destructor.headerMatches(declaration)) {
                     destructor.parseFunctionBody(i);
                 } else {
@@ -494,12 +517,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 }
                 if (reader != null) {
                     found.set(true);
-                    UnitPascal library = new UnitPascal(reader, ((WordToken) next).getName(),
+                    PascalUnitDeclaration library = new PascalUnitDeclaration(reader, ((WordToken) next).getName(),
                             new ArrayList<ScriptSource>(), mHandler);
                     library.declareConstants(this);
                     library.declareTypes(this);
                     library.declareFunctions(this);
-                    mUnitsMap.put(library, library.generate());
+                    mRuntimeUnitMap.put(library, library.generate());
                 }
             }
 
@@ -678,8 +701,12 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         return mListNameTypes;
     }
 
-    public HashMap<UnitPascal, RuntimeUnitPascal> getUnitsMap() {
-        return mUnitsMap;
+    public HashMap<PascalUnitDeclaration, RuntimeUnitPascal> getRuntimeUnitMap() {
+        return mRuntimeUnitMap;
+    }
+
+    public Map<String, RuntimePascalClass> getRuntimePascalClassMap() {
+        return mRuntimePascalClassMap;
     }
 
     public FileLib getFileHandler() {

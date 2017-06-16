@@ -18,8 +18,9 @@ package com.duy.pascal.backend.ast.codeunit;
 
 import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.backend.ast.MethodDeclaration;
+import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
-import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
+import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.ScriptControl;
 import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.debugable.DebugListener;
@@ -42,17 +43,12 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
     private volatile long stack = 0;
     private volatile boolean debug = false;
 
-    private Map<UnitPascal, RuntimeUnitPascal> runtimeLibs = new HashMap<>();
 
     private DebugMode debugMode;
     private DebugListener debugListener;
 
     public RuntimeExecutableCodeUnit(parent definition) {
         super(definition);
-    }
-
-    public Map<UnitPascal, RuntimeUnitPascal> getRuntimeLibs() {
-        return runtimeLibs;
     }
 
     public boolean isDebug() {
@@ -63,9 +59,15 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         this.debug = debug;
     }
 
-    public RuntimeUnitPascal getLibrary(UnitPascal l) {
-        HashMap<UnitPascal, RuntimeUnitPascal> unitsMap = declaration.getContext().getUnitsMap();
+    public RuntimeUnitPascal getLibraryContext(PascalUnitDeclaration l) {
+        HashMap<PascalUnitDeclaration, RuntimeUnitPascal> unitsMap = declaration.getContext().getRuntimeUnitMap();
         return unitsMap.get(l);
+    }
+
+    public RuntimePascalClass getRuntimePascalContext(String identifier) {
+        Map<String, RuntimePascalClass> classMap
+                = declaration.getContext().getRuntimePascalClassMap();
+        return classMap.get(identifier.toLowerCase());
     }
 
     public void run() throws RuntimePascalException {

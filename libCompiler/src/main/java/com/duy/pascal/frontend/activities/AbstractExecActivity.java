@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.debugable.DebugListener;
@@ -141,7 +141,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
                 try {
                     ArrayList<ScriptSource> searchPath = new ArrayList<>();
                     searchPath.add(new FileScriptSource(new File(filePath).getParent()));
-                    PascalProgram pascalProgram = PascalCompiler.loadPascal(
+                    PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
                             new File(programFile).getName(),
                             new FileReader(programFile),
                             searchPath,

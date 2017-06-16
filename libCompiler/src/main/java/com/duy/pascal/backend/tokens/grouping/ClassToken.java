@@ -18,7 +18,7 @@ import com.duy.pascal.backend.tokens.visibility.BaseVisibilityToken;
 import com.duy.pascal.backend.tokens.visibility.PrivateToken;
 import com.duy.pascal.backend.tokens.visibility.ProtectedToken;
 import com.duy.pascal.backend.tokens.visibility.PublicToken;
-import com.duy.pascal.backend.types.ClassType;
+import com.duy.pascal.backend.types.PascalClassType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class ClassToken extends GrouperToken {
         return "end";
     }
 
-    public void addDeclaresTo(ClassType classType, ExpressionContext context) throws ParsingException {
+    public void addDeclaresTo(PascalClassType classType, ExpressionContext context) throws ParsingException {
         while (hasNext()) {
             Token n = take();
             if (n instanceof PrivateToken) {
@@ -81,11 +81,11 @@ public class ClassToken extends GrouperToken {
                     } else if (next instanceof ConstructorToken) {
                         take();
                         FunctionDeclaration constructor = new FunctionDeclaration(context, this, true);
-                        classType.setConstructor(constructor);
+                        classType.getClassContext().setConstructor(constructor);
                     } else if (next instanceof DestructorToken) {
                         take();
                         FunctionDeclaration destructor = new FunctionDeclaration(context, this, true);
-                        classType.setDestructor(destructor);
+                        classType.getClassContext().setDestructor(destructor);
                     }
                 }
             } else if (n instanceof ProtectedToken) {

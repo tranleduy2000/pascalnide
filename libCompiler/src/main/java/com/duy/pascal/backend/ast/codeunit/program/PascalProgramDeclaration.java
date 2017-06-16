@@ -36,15 +36,15 @@ import com.duy.pascal.frontend.activities.IRunnablePascal;
 import java.io.Reader;
 import java.util.List;
 
-public class PascalProgram extends ExecutableCodeUnit {
+public class PascalProgramDeclaration extends ExecutableCodeUnit {
     public Executable main;
 
     private FunctionOnStack mainRunning;
     private IRunnablePascal handler;
 
-    public PascalProgram(Reader program,
-                         String sourceName, List<ScriptSource> includeDirectories,
-                         IRunnablePascal handler)
+    public PascalProgramDeclaration(Reader program,
+                                    String sourceName, List<ScriptSource> includeDirectories,
+                                    IRunnablePascal handler)
             throws ParsingException {
         super(program, sourceName, includeDirectories, handler);
         this.handler = handler;
@@ -56,7 +56,7 @@ public class PascalProgram extends ExecutableCodeUnit {
     }
 
     @Override
-    public RuntimeExecutableCodeUnit<PascalProgram> generate() {
+    public RuntimeExecutableCodeUnit<PascalProgramDeclaration> generate() {
         return new RuntimePascalProgram(this);
     }
 

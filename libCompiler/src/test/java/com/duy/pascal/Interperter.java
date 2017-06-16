@@ -19,7 +19,7 @@ package com.duy.pascal;
 import android.content.Context;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -61,7 +61,7 @@ public class Interperter {
         final StringBuilder output = new StringBuilder();
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
         searchPath.add(new FileScriptSource(new File(programPath).getParent()));
-        PascalProgram pascalProgram = PascalCompiler.loadPascal(
+        PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
                 new File(programPath).getName(), new FileReader(programPath), searchPath,
                 new IRunnablePascal() {
                     @Override
@@ -129,7 +129,7 @@ public class Interperter {
                     }
                 });
 
-        RuntimeExecutableCodeUnit<PascalProgram> program = pascalProgram.generate();
+        RuntimeExecutableCodeUnit<PascalProgramDeclaration> program = pascalProgram.generate();
         program.run();
 
         String pathOut = programFile.getParent() + File.separatorChar
@@ -170,7 +170,7 @@ public class Interperter {
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
         searchPath.add(new FileScriptSource(new File(programPath).getParent()));
         try {
-            PascalProgram pascalProgram = PascalCompiler.loadPascal(
+            PascalProgramDeclaration pascalProgram = PascalCompiler.loadPascal(
                     new File(programPath).getName(), new FileReader(programPath), searchPath,
                     new IRunnablePascal() {
                         @Override

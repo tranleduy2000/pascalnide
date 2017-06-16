@@ -18,7 +18,7 @@ package com.duy.pascal.backend.ast.codeunit.program;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
-import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
+import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.config.RunMode;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -28,9 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgram> {
+public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgramDeclaration> {
 
-    public RuntimePascalProgram(PascalProgram p) {
+    public RuntimePascalProgram(PascalProgramDeclaration p) {
         super(p);
     }
 
@@ -39,9 +39,9 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         this.mode = RunMode.RUNNING;
 
         //generate init code of library
-        HashMap<UnitPascal, RuntimeUnitPascal> librariesMap = getDeclaration().getContext().getUnitsMap();
-        Set<Map.Entry<UnitPascal, RuntimeUnitPascal>> entries = librariesMap.entrySet();
-        for (Map.Entry<UnitPascal, RuntimeUnitPascal> entry : entries) {
+        HashMap<PascalUnitDeclaration, RuntimeUnitPascal> librariesMap = getDeclaration().getContext().getRuntimeUnitMap();
+        Set<Map.Entry<PascalUnitDeclaration, RuntimeUnitPascal>> entries = librariesMap.entrySet();
+        for (Map.Entry<PascalUnitDeclaration, RuntimeUnitPascal> entry : entries) {
             entry.getValue().runInit();
         }
 
@@ -49,7 +49,7 @@ public class RuntimePascalProgram extends RuntimeExecutableCodeUnit<PascalProgra
         getDeclaration().main.execute(this, this);
 
         //generate final code library
-        for (Map.Entry<UnitPascal, RuntimeUnitPascal> entry : entries) {
+        for (Map.Entry<PascalUnitDeclaration, RuntimeUnitPascal> entry : entries) {
             entry.getValue().runFinal();
         }
 

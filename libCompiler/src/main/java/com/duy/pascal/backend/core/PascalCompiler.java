@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.core;
 
 
-import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
+import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
@@ -29,17 +29,17 @@ public class PascalCompiler {
      * @param in         - Input Reader
      * @param handler    - handler for variable and function, debug, input and output to screen, ....
      */
-    public static PascalProgram loadPascal(String sourcename, Reader in,
-                                           List<ScriptSource> includeSearchPath,
-                                           IRunnablePascal handler) throws ParsingException {
-        return new PascalProgram(in, sourcename, includeSearchPath, handler);
+    public static PascalProgramDeclaration loadPascal(String sourcename, Reader in,
+                                                      List<ScriptSource> includeSearchPath,
+                                                      IRunnablePascal handler) throws ParsingException {
+        return new PascalProgramDeclaration(in, sourcename, includeSearchPath, handler);
     }
 
 
-    public static UnitPascal loadLibrary(String sourcename, Reader in,
-                                         List<ScriptSource> searchPath,
-                                         IRunnablePascal handler) throws ParsingException {
-        return new UnitPascal(in, sourcename, searchPath, handler);
+    public static PascalUnitDeclaration loadLibrary(String sourcename, Reader in,
+                                                    List<ScriptSource> searchPath,
+                                                    IRunnablePascal handler) throws ParsingException {
+        return new PascalUnitDeclaration(in, sourcename, searchPath, handler);
     }
 
 }

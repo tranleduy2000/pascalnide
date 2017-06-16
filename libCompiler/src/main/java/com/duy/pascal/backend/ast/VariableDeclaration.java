@@ -19,6 +19,7 @@ package com.duy.pascal.backend.ast;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.types.DeclaredType;
 
@@ -35,19 +36,30 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
     @Nullable
     private LineInfo line;
 
-    public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
-                               @Nullable Object initialValue, @Nullable LineInfo line) {
+    @Nullable
+    private ExpressionContext context;
+
+    public VariableDeclaration(@NonNull String name,
+                               @NonNull DeclaredType type,
+                               @Nullable Object initialValue,
+                               @Nullable LineInfo line) {
+        this(name, type, initialValue, line, null);
+    }
+
+    public VariableDeclaration(@NonNull String name,
+                               @NonNull DeclaredType type,
+                               @Nullable Object initialValue,
+                               @Nullable LineInfo line,
+                               @Nullable ExpressionContext f) {
         this.name = name;
         this.type = type;
         this.line = line;
         this.initialValue = initialValue;
+        this.context = f;
     }
 
-    public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type,
-                               @Nullable LineInfo line) {
-        this.name = name;
-        this.type = type;
-        this.line = line;
+    public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type, @Nullable LineInfo line) {
+        this(name, type, null, line, null);
     }
 
     public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type) {
@@ -55,10 +67,6 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
         this.type = type;
     }
 
-    public VariableDeclaration(@NonNull String name, @NonNull DeclaredType type, String desc) {
-        this.name = name;
-        this.type = type;
-    }
 
     public String getName() {
         return name;
@@ -82,8 +90,10 @@ public class VariableDeclaration implements NamedEntity, Cloneable {
     }
 
 
-    public void initialize(Map<String, Object> map) {
-        map.put(name, initialValue == null ? type.initialize() : initialValue);
+    public Object initialize(Map<String, Object> map) {
+        Object value = initialValue == null ? type.initialize() : initialValue;
+        map.put(name, value);
+        return value;
     }
 
     @Override

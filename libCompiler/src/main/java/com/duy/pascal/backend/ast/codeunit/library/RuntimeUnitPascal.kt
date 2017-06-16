@@ -20,15 +20,15 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit
 import com.duy.pascal.backend.ast.runtime_value.VariableContext
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException
 
-class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
-    constructor(unitPascal: UnitPascal) : super(unitPascal)
+class RuntimeUnitPascal : RuntimeExecutableCodeUnit<PascalUnitDeclaration> {
+    constructor(unitPascal: PascalUnitDeclaration) : super(unitPascal)
 
     /**
      * run instruction initialization
      */
     @Throws(RuntimePascalException::class)
     fun runInit() {
-        val context = declaration.context as UnitPascal.UnitExpressionContext
+        val context = declaration.context as PascalUnitDeclaration.UnitExpressionContext
         context.initInstruction?.execute(this, this)
     }
 
@@ -37,7 +37,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<UnitPascal> {
      */
     @Throws(RuntimePascalException::class)
     fun runFinal() {
-        val context = declaration.context as UnitPascal.UnitExpressionContext
+        val context = declaration.context as PascalUnitDeclaration.UnitExpressionContext
         context.finalInstruction?.execute(this, this)
     }
 

@@ -32,6 +32,7 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.WordToken;
+import com.duy.pascal.backend.types.PascalClassType;
 import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.ObjectType;
 import com.duy.pascal.backend.types.PointerType;
@@ -61,7 +62,9 @@ public class FieldAccess extends DebuggableAssignableValue {
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
         RuntimeType r = container.getType(f);
-        if (r.declType instanceof ObjectType) {
+        if (r.declType instanceof PascalClassType) {
+            return new RuntimeType(((PascalClassType) (r.declType)).getMemberType(name), r.writable);
+        } else if (r.declType instanceof ObjectType) {
             return new RuntimeType(((ObjectType) (r.declType)).getMemberType(name), r.writable);
         } else if (r.declType instanceof JavaClassBasedType) {
             return new RuntimeType(r.declType, r.writable);

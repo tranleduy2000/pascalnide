@@ -30,5 +30,17 @@ public class ClassTest extends BaseTestCase {
         assertTrue(parse("test_parse.pas"));
     }
 
+    public void testParse2() {
+        assertTrue(parse("test_parse2.pas"));
+    }
+
+    public void test1() {
+        run("test_parse2.pas");
+    }
+
+    public void test3() {
+        run("test3.pas");
+    }
+
 
 }

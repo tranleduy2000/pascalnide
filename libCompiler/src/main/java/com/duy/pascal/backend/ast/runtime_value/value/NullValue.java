@@ -21,15 +21,12 @@ package com.duy.pascal.backend.ast.runtime_value.value;
  */
 
 public class NullValue {
-    private static NullValue NULL;
+    public static final NullValue NULL = new NullValue();
 
     private NullValue() {
     }
 
     public static NullValue get() {
-        if (NULL == null) {
-            NULL = new NullValue();
-        }
         return NULL;
     }
 

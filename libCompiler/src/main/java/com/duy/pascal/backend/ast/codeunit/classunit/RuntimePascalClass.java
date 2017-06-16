@@ -16,12 +16,31 @@
 
 package com.duy.pascal.backend.ast.codeunit.classunit;
 
+import com.duy.pascal.backend.ast.codeunit.RuntimeCodeUnit;
+import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+
 /**
  * Created by Duy on 16-Jun-17.
  */
 
-public abstract class PascalClass {
-    abstract void Constructor();
+public class RuntimePascalClass extends RuntimeCodeUnit<PascalClassDeclaration> {
 
-    abstract void Destructor();
+    private String identifierName;
+
+    public RuntimePascalClass(PascalClassDeclaration declaration) {
+        super(declaration);
+    }
+
+    @Override
+    public VariableContext getParentContext() {
+        return null;
+    }
+
+    public String getIdentifierName() {
+        return identifierName;
+    }
+
+    public void setIdentifierName(String identifierName) {
+        this.identifierName = identifierName;
+    }
 }

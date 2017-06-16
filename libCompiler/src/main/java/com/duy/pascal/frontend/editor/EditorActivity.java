@@ -46,7 +46,7 @@ import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgram;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
@@ -314,7 +314,7 @@ public class EditorActivity extends BaseEditorActivity implements
                 codeUnit = PascalCompiler.loadPascal(new File(filePath).getName(),
                         new FileReader(filePath), searchPath, new ProgramHandler(filePath));
                 if (codeUnit != null) {
-                    if (((PascalProgram) codeUnit).main == null) {
+                    if (((PascalProgramDeclaration) codeUnit).main == null) {
                         showErrorDialog(new MainProgramNotFoundException());
                         return false;
                     }
@@ -678,7 +678,7 @@ public class EditorActivity extends BaseEditorActivity implements
     public void showProgramStructure() {
         try {
             String filePath = getCurrentFilePath();
-            PascalProgram pascalProgram = PascalCompiler
+            PascalProgramDeclaration pascalProgram = PascalCompiler
                     .loadPascal(filePath, new FileReader(filePath),
                             new ArrayList<ScriptSource>(), null);
 

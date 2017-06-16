@@ -8,6 +8,7 @@ import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.LabelDeclaration;
 import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.codeunit.classunit.ClassExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.BreakInstruction;
 import com.duy.pascal.backend.ast.instructions.CompoundStatement;
@@ -97,10 +98,10 @@ import com.duy.pascal.backend.tokens.ignore.CommentToken;
 import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
 import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.ClassType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.OperatorTypes;
+import com.duy.pascal.backend.types.PascalClassType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RecordType;
 import com.duy.pascal.backend.types.RuntimeType;
@@ -114,6 +115,7 @@ import com.duy.pascal.backend.types.subrange.EnumSubrangeType;
 import com.duy.pascal.backend.types.subrange.IntegerRange;
 import com.duy.pascal.backend.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.backend.types.util.TypeUtils;
+import com.duy.pascal.backend.utils.NullSafety;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -277,9 +279,9 @@ public abstract class GrouperToken extends Token {
             return new PointerType(pointed_type);
         } else if (n instanceof ClassToken) {
             ClassToken classToken = (ClassToken) n;
-            ClassType result = new ClassType();
+            PascalClassType result = new PascalClassType(context.root(), context);
             while (classToken.hasNext()) {
-                classToken.addDeclaresTo(result, context);
+                classToken.addDeclaresTo(result, result.getClassContext());
             }
             return result;
         } else if (n instanceof ValueToken || n instanceof OperatorToken) {
@@ -483,8 +485,7 @@ public abstract class GrouperToken extends Token {
         if (next instanceof OperatorToken) {
             OperatorToken nextOperator = (OperatorToken) next;
             if (!nextOperator.canBeUnary() || nextOperator.postfix()) {
-                throw new BadOperationTypeException(next.getLineNumber(),
-                        nextOperator.type);
+                throw new BadOperationTypeException(next.getLineNumber(), nextOperator.type);
             }
             term = UnaryOperatorEval.generateOp(context, getNextExpression(context,
                     nextOperator.type.getPrecedence()), nextOperator.type, nextOperator.getLineNumber());
@@ -514,8 +515,7 @@ public abstract class GrouperToken extends Token {
                             type2, term, nextValue, operationType);
                 }
                 term = BinaryOperatorEval.generateOp(context,
-                        term, nextValue, operationType,
-                        nextOperator.getLineNumber());
+                        term, nextValue, operationType, nextOperator.getLineNumber());
             } else if (next instanceof PeriodToken) {
                 take();
                 next = take();
@@ -528,7 +528,15 @@ public abstract class GrouperToken extends Token {
                 RuntimeType runtimeType = term.getType(context);
                 //access method of java class
                 if (runtimeType.declType instanceof JavaClassBasedType) {
-                    term = getMethodFromClass(context, term, ((WordToken) next).getName());
+                    term = getMethodFromJavaClass(context, term, ((WordToken) next).getName());
+
+                } else if (runtimeType.declType instanceof PascalClassType) {
+                    PascalClassType pascalClassType = (PascalClassType) runtimeType.declType;
+                    ClassExpressionContext classContext = pascalClassType.getClassContext();
+                    term = getFunctionFromPascalClass(context, term, (WordToken) next);
+                    if (NullSafety.isNullValue(term)) {
+                        term = classContext.getIdentifierValue((WordToken) next);
+                    }
                 } else {
                     if (runtimeType.declType instanceof RecordType) {
                         VariableDeclaration field =
@@ -547,8 +555,6 @@ public abstract class GrouperToken extends Token {
                         OperatorToken nextOperator = (OperatorToken) take();
                         term = new DerefEval(term, term.getLineNumber());
                     }
-
-
                 }
             } else if (next instanceof BracketedToken) {
                 take(); //comma token
@@ -566,6 +572,24 @@ public abstract class GrouperToken extends Token {
         }
         term.setLineNumber(tmp.getLineNumber());
         return term;
+    }
+
+    private RuntimeValue getFunctionFromPascalClass(ExpressionContext context, RuntimeValue container,
+                                                    WordToken methodName) throws ParsingException {
+        RuntimeType type = container.getType(context);
+
+        //access method of java class
+
+        PascalClassType pascalClassType = (PascalClassType) type.declType;
+        //get arguments
+        List<RuntimeValue> args = new ArrayList<>();
+        if (hasNext()) {
+            if (peek() instanceof ParenthesizedToken) {
+                ParenthesizedToken token = (ParenthesizedToken) take();
+                args = token.getArgumentsForCall(context);
+            }
+        }
+        return FunctionCall.generateFunctionCall(methodName, args, pascalClassType.getClassContext());
     }
 
     private RuntimeValue generateArrayAccess(RuntimeValue parent, ExpressionContext f,
@@ -606,6 +630,8 @@ public abstract class GrouperToken extends Token {
 
     public RuntimeValue getNextTerm(ExpressionContext context, Token next)
             throws ParsingException {
+//        DLog.d(TAG, "getNextTerm() called with: context = [" + context + "], next = [" + next + "]");
+
         if (next instanceof ParenthesizedToken) {
             return ((ParenthesizedToken) next).getSingleValue(context);
 
@@ -1192,7 +1218,7 @@ public abstract class GrouperToken extends Token {
             } else if (identifier instanceof FieldAccess) {
                 FieldAccess fieldAccess = (FieldAccess) identifier;
                 RuntimeValue container = fieldAccess.getContainer();
-                return (Executable) getMethodFromClass(context, container, fieldAccess.getName());
+                return (Executable) getMethodFromJavaClass(context, container, fieldAccess.getName());
             } else {
                 throw new NotAStatementException(identifier);
             }
@@ -1297,7 +1323,7 @@ public abstract class GrouperToken extends Token {
         return result;
     }
 
-    private RuntimeValue getMethodFromClass(ExpressionContext context, RuntimeValue container, String
+    private RuntimeValue getMethodFromJavaClass(ExpressionContext context, RuntimeValue container, String
             methodName) throws ParsingException {
 
         RuntimeType type = container.getType(context);

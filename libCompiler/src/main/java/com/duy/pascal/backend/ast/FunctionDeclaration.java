@@ -20,7 +20,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.library.UnitPascal;
+import com.duy.pascal.backend.ast.codeunit.classunit.PascalClassDeclaration;
+import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
@@ -52,6 +53,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FunctionDeclaration extends AbstractCallableFunction {
+    private static final String TAG = "FunctionDeclaration";
     public ExpressionContextMixin declaration;
     /**
      * name of function or procedure
@@ -64,7 +66,6 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     public VariableDeclaration resultDefinition;
     public LineInfo line;
     public LineInfo endPositionHeader;
-
     public String[] argumentNames;
     public RuntimeType[] argumentTypes;
     private boolean isProcedure = false;
@@ -89,6 +90,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     public void parseHeader(String name, ExpressionContext parent, GrouperToken grouperToken,
                             boolean isProcedure) throws ParsingException {
+//        DLog.d(TAG, "parseHeader() called with: name = [" + name + "], parent = [" + parent + "], grouperToken = [" + grouperToken + "], isProcedure = [" + isProcedure + "]");
+
         this.name = name;
         this.declaration = new FunctionExpressionContext(this, parent);
         this.line = grouperToken.peek().getLineNumber();
@@ -171,13 +174,14 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     }
 
     @Override
-    public Object call(VariableContext parentcontext,
-                       RuntimeExecutableCodeUnit<?> main, Object[] arguments)
+    public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws RuntimePascalException {
-        if (this.declaration.root() instanceof UnitPascal) {
-            parentcontext = main.getLibrary((UnitPascal) declaration.root());
+        if (this.declaration.root() instanceof PascalUnitDeclaration) {
+            f = main.getLibraryContext((PascalUnitDeclaration) declaration.root());
+        } else if (declaration.root() instanceof PascalClassDeclaration) {
+//            f = main.getRuntimePascalContext(declaration.getParentContext().);
         }
-        FunctionOnStack functionOnStack = new FunctionOnStack(parentcontext, main, this, arguments);
+        FunctionOnStack functionOnStack = new FunctionOnStack(f, main, this, arguments);
         if (main.isDebug()) {
             main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
         }

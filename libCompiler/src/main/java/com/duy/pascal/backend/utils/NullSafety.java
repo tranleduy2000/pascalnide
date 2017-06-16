@@ -35,4 +35,8 @@ public class NullSafety {
     public static boolean isNullValue(Object value) {
         return value == null || value instanceof NullValue;
     }
+
+    public static boolean isNullPointer(Object value) {
+        return value == null ;
+    }
 }
