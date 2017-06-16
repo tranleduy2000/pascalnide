@@ -43,8 +43,7 @@ public class AssignStatement extends DebuggableExecutable implements AssignExecu
     }
 
     @Override
-    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main,
-                                       String contextName) throws RuntimePascalException {
+    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
 
         Reference ref = left.getReference(context, main);
         Object old = ref.get();

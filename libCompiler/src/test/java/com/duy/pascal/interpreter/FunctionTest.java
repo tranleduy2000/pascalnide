@@ -41,6 +41,10 @@ public class FunctionTest extends BaseTestCase {
         }
     }
 
+    public void testNested(){
+        run("test_nested.pas");
+    }
+
 
     @Override
     public String getDirTest() {

@@ -48,8 +48,7 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
             throws RuntimePascalException;
 
     @Override
-    public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main,
-                                   String contextName)
+    public ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         try {
             if (main.isDebug()) {
@@ -65,7 +64,7 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
             }
             main.incStack(getLineNumber());
 
-            ExecutionResult result = executeImpl(context, main, contextName);
+            ExecutionResult result = executeImpl(context, main);
 
             main.setDebug(last);
             main.decStack();
@@ -78,6 +77,6 @@ public abstract class DebuggableExecutableReturnValue implements Executable,
     }
 
     public abstract ExecutionResult executeImpl(VariableContext f,
-                                                RuntimeExecutableCodeUnit<?> main, String contextName)
+                                                RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 }

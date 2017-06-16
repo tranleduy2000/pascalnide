@@ -19,6 +19,7 @@ package com.duy.pascal.backend.ast;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -99,11 +100,11 @@ public abstract class AbstractFunction extends NameEntityImpl {
         return result;
     }
 
-    public abstract RuntimeValue generatePerfectFitCall(LineInfo line,
+    public abstract FunctionCall generatePerfectFitCall(LineInfo line,
                                                         List<RuntimeValue> values, ExpressionContext f)
             throws ParsingException;
 
-    public abstract RuntimeValue generateCall(LineInfo line,
+    public abstract FunctionCall generateCall(LineInfo line,
                                               List<RuntimeValue> values, ExpressionContext f)
             throws ParsingException;
 

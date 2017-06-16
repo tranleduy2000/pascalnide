@@ -68,7 +68,7 @@ public class DivAssignStatement extends DebuggableExecutable implements AssignEx
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
 
         Reference ref = left.getReference(context, main);
         Object v = this.divOp.getValue(context, main);

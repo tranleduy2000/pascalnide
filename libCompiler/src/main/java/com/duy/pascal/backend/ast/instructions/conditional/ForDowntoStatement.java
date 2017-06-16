@@ -81,7 +81,7 @@ public class ForDowntoStatement extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         if (isEnum) {
             LinkedList<EnumElementValue> list = enumGroupType.getList();
             Reference reference = tempVar.getReference(context, main);

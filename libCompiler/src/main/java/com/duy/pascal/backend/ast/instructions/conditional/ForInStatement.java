@@ -82,7 +82,7 @@ public class ForInStatement extends DebuggableExecutable {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main, String contextName)
+    public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
 
         //get value of enum

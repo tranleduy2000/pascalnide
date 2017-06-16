@@ -23,7 +23,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
     public RuntimeValue[] arguments;
     protected RuntimeValue[] outputFormat;
 
-    public static RuntimeValue generateFunctionCall(WordToken name, List<RuntimeValue> arguments,
+    public static FunctionCall generateFunctionCall(WordToken name, List<RuntimeValue> arguments,
                                                     ExpressionContext expressionContext)
             throws ParsingException {
         List<List<AbstractFunction>> possibilities = new ArrayList<>();
@@ -34,8 +34,8 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
 
         AbstractFunction chosen = null;
         AbstractFunction ambiguous = null;
-        RuntimeValue result;
-        RuntimeValue runtimeValue = null;
+        FunctionCall result;
+        FunctionCall runtimeValue = null;
 
         for (List<AbstractFunction> l : possibilities) {
             for (AbstractFunction function : l) {
@@ -92,7 +92,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
 
     @Override
     public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutableCodeUnit<?> main, String contextName)
+                                       RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
         Object valueImpl = getValueImpl(f, main);
         if (valueImpl == ExecutionResult.EXIT) {

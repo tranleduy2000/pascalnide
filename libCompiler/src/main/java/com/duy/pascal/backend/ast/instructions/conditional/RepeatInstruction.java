@@ -68,7 +68,7 @@ public class RepeatInstruction extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         do_loop:
         do {
             switch (command.execute(context, main, contextName)) {

@@ -53,7 +53,7 @@ public class WithCall extends DebuggableExecutableReturnValue {
 
     @Override
     public ExecutionResult executeImpl(VariableContext f,
-                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Object valueImpl = getValueImpl(f, main);
         if (valueImpl == ExecutionResult.EXIT) {
             return ExecutionResult.EXIT;

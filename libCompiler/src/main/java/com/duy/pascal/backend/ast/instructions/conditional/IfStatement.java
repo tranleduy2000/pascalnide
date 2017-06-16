@@ -90,7 +90,7 @@ public class IfStatement extends DebuggableExecutable {
 
     @Override
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         Boolean value = (Boolean) (condition.getValue(context, main));
         if (value) {
             return instruction.execute(context, main, contextName);

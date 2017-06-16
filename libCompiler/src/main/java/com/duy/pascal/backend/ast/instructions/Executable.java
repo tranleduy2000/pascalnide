@@ -10,8 +10,7 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 public interface Executable {
     LineInfo getLineNumber();
 
-    ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main,
-                            String contextName)
+    ExecutionResult execute(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
     Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException;

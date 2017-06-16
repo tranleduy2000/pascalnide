@@ -39,6 +39,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.FunctionAccess;
 import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -580,7 +581,7 @@ public abstract class GrouperToken extends Token {
 
         //access method of java class
 
-        PascalClassType pascalClassType = (PascalClassType) type.declType;
+        PascalClassType classType = (PascalClassType) type.declType;
         //get arguments
         List<RuntimeValue> args = new ArrayList<>();
         if (hasNext()) {
@@ -589,7 +590,10 @@ public abstract class GrouperToken extends Token {
                 args = token.getArgumentsForCall(context);
             }
         }
-        return FunctionCall.generateFunctionCall(methodName, args, pascalClassType.getClassContext());
+        FunctionCall functionCall = FunctionCall.generateFunctionCall(methodName, args,
+                classType.getClassContext());
+        return new FunctionAccess(container.toString(),
+                functionCall, context, methodName.getLineNumber());
     }
 
     private RuntimeValue generateArrayAccess(RuntimeValue parent, ExpressionContext f,
@@ -1148,14 +1152,6 @@ public abstract class GrouperToken extends Token {
             return new ExitInstruction(next.getLineNumber());
 
         } else if (next instanceof GotoToken) {
-            /*
-            next = peek();
-            if (!(next instanceof WordToken)) {
-                throw new ExpectedTokenException("[Label id]", next);
-            }
-            next = take();
-            LabelDeclaration labelLocal = context.getLabelLocal(((WordToken) next).getName());
-            return new GotoStatement(labelLocal);*/
             throw new UnSupportTokenException(next);
         } else {
             try {
@@ -1219,6 +1215,9 @@ public abstract class GrouperToken extends Token {
                 FieldAccess fieldAccess = (FieldAccess) identifier;
                 RuntimeValue container = fieldAccess.getContainer();
                 return (Executable) getMethodFromJavaClass(context, container, fieldAccess.getName());
+            }else if (identifier instanceof FunctionAccess) {
+                FunctionAccess functionAccess = (FunctionAccess) identifier;
+                return (Executable) functionAccess;
             } else {
                 throw new NotAStatementException(identifier);
             }

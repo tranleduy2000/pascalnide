@@ -57,7 +57,6 @@ public class PascalClassDeclaration extends CodeUnit implements Cloneable {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-
         return super.clone();
     }
 }

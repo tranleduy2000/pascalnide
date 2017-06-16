@@ -62,7 +62,7 @@ public class PlusAssignStatement extends DebuggableExecutable implements AssignE
     @Override
     @SuppressWarnings("unchecked")
     public ExecutionResult executeImpl(VariableContext context,
-                                       RuntimeExecutableCodeUnit<?> main, String contextName) throws RuntimePascalException {
+                                       RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
 
         Reference ref = left.getReference(context, main);
         Object v = this.plusOp.getValue(context, main);
