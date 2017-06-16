@@ -27,6 +27,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.AbstractMethodDeclaration;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.AddressFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.CastObjectFunction;
+import com.duy.pascal.backend.ast.function_declaretion.builtin.CopyFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.ExitFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.ExitNoneFunction;
 import com.duy.pascal.backend.ast.function_declaretion.builtin.HighFunction;
@@ -222,6 +223,7 @@ public class PascalLibraryManager {
         program.declareFunction(new AbstractMethodDeclaration(new HighFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new LowFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new NewFunction()));
+        program.declareFunction(new AbstractMethodDeclaration(new CopyFunction()));
 
         program.declareFunction(new AbstractMethodDeclaration(new CastObjectFunction()));
         program.declareFunction(new AbstractMethodDeclaration(new NewInstanceParamsObject()));

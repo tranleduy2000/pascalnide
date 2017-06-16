@@ -38,7 +38,6 @@ import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ClassFunctionAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ClassIdentifierAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ClassVariableAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
@@ -549,9 +548,6 @@ public abstract class GrouperToken extends Token {
                                     c.getType(), next.getLineNumber());
                             constant.setName(((WordToken) next).getName());
                             term = constant;
-                        }else {
-                            term = classContext.getIdentifierValue((WordToken) next);
-                            term = new ClassIdentifierAccess(name, term, next.getLineNumber());
                         }
                     }
                 } else {
@@ -606,8 +602,10 @@ public abstract class GrouperToken extends Token {
                 args = token.getArgumentsForCall(context);
             }
         }
-        FunctionCall functionCall = FunctionCall.generateFunctionCall(methodName, args,
-                classType.getClassContext());
+        ClassExpressionContext classContext = classType.getClassContext();
+        classContext.getConstructor();
+
+        FunctionCall functionCall = FunctionCall.generateFunctionCall(methodName, args, classContext);
         return new ClassFunctionAccess(container.toString(),
                 functionCall, methodName.getLineNumber());
     }

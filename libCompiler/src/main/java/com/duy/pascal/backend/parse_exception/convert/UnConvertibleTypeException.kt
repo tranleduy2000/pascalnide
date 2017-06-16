@@ -34,7 +34,7 @@ class UnConvertibleTypeException : ParsingException {
      * expression
      */
     var value: RuntimeValue
-    var valueType: DeclaredType
+    var valueType: DeclaredType? = null
 
     /**
      * identifier
@@ -65,7 +65,7 @@ class UnConvertibleTypeException : ParsingException {
      */
     constructor(value: RuntimeValue,
                 identifierType: DeclaredType,
-                valueType: DeclaredType,
+                valueType: DeclaredType?,
                 identifier: RuntimeValue, scope: ExpressionContext) : super(value.lineNumber,
             "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                     + ", which cannot be "

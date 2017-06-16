@@ -85,7 +85,7 @@ public class ArrayType<ELEMENT extends DeclaredType> extends BaseSetType {
         if (obj instanceof ArrayType) {
             ArrayType<?> o = (ArrayType<?>) obj;
             if (o.elementType.equals(elementType)) {
-                if (bound == null) return false;
+                if (bound == null) return true;
                 if (o.getBound() == null) return true;
                 if (this.bound.getFirst() == o.bound.getFirst()
                         && this.bound.getSize() >= o.bound.getSize()) {

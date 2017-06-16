@@ -8,7 +8,7 @@ type
       length, width : integer;
    
    public
-      constructor create(l, w : integer);
+      procedure create(l, w : integer);
       
       procedure setlength(l : integer);
       
@@ -24,7 +24,7 @@ type
 var
    r1 : Rectangle;
 
-constructor Rectangle.create(l, w : integer);
+procedure Rectangle.create(l, w : integer);
 begin
    length := l;
    width := w;
@@ -63,7 +63,7 @@ begin
 end;
 
 begin
-   r1 := Rectangle.create(3, 7);
+   r1 := r1.create(3, 7);
    
    writeln(' Draw Rectangle: ', r1.getlength(), ' by ', r1.getwidth());
    r1.draw;

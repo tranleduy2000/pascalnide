@@ -19,28 +19,22 @@ package com.duy.pascal.backend.ast.codeunit.classunit;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.FunctionDeclaration;
-import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnrecognizedTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.MisplacedDeclarationException;
 import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClassExpressionContext extends ExpressionContextMixin {
 
     private FunctionDeclaration constructor, destructor;
-    private List<FunctionDeclaration> privateFunctions = new ArrayList<>();
-    private List<FunctionDeclaration> publicFunctions = new ArrayList<>();
-    private List<VariableDeclaration> publicVars = new ArrayList<>();
-    private List<VariableDeclaration> privateVars = new ArrayList<>();
 
     public ClassExpressionContext(CodeUnit root, ExpressionContext parent) {
         super(root, parent);
@@ -91,6 +85,11 @@ public class ClassExpressionContext extends ExpressionContextMixin {
 
     public void setDestructor(FunctionDeclaration destructor) {
         this.destructor = destructor;
+    }
+
+    @Override
+    public RuntimeValue getIdentifierValue(WordToken name) throws ParsingException {
+        return super.getIdentifierValue(name);
     }
 
     @Override

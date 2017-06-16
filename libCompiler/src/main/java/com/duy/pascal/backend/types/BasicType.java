@@ -251,7 +251,7 @@ public enum BasicType implements DeclaredType {
         }
         if (obj instanceof JavaClassBasedType) {
             Class other = ((JavaClassBasedType) obj).getStorageClass();
-            return clazz == other || clazz == Object.class;
+            return clazz == other || clazz == Object.class || other == Object.class;
         } else if (obj instanceof SubrangeType) {
             return obj.getStorageClass() == this.clazz;
         }

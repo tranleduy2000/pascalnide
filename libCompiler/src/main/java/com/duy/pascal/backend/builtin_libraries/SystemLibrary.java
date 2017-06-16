@@ -445,6 +445,7 @@ public class SystemLibrary implements IPascalLibrary {
         return new StringBuilder(s.substring(from - 1, from - 1 + count));
     }
 
+
     @PascalMethod(description = "Delete part of a string")
     public void delete(PascalReference<StringBuilder> s, int start, int count)
             throws RuntimePascalException {
