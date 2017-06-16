@@ -19,7 +19,6 @@ package com.duy.pascal.backend.ast.runtime_value.value.access;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.classunit.PascalClassDeclaration;
 import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -75,9 +74,7 @@ public class VariableAccess extends DebuggableAssignableValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        if (declaration.root() instanceof PascalClassDeclaration) {
-//            f = main.getRuntimePascalContext(name, (PascalClass) declaration.root());
-        } else if (declaration.root() instanceof PascalUnitDeclaration) {
+        if (declaration.root() instanceof PascalUnitDeclaration) {
             f = main.getLibraryContext((PascalUnitDeclaration) declaration.root());
         }
         return f.getVar(name);
@@ -86,9 +83,7 @@ public class VariableAccess extends DebuggableAssignableValue {
     @Override
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        if (declaration.root() instanceof PascalClassDeclaration) {
-//            f = main.getRuntimePascalContext(name, (PascalClass) declaration.root());
-        } else if (declaration.root() instanceof PascalUnitDeclaration) {
+        if (declaration.root() instanceof PascalUnitDeclaration) {
             f = main.getLibraryContext((PascalUnitDeclaration) declaration.root());
         }
         return new FieldReference(f, name);

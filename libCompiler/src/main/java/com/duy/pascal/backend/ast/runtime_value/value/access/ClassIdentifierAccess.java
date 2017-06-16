@@ -20,16 +20,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.classunit.PascalClassDeclaration;
-import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.instructions.ExecutionResult;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.debugable.DebuggableExecutableReturnValue;
+import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -39,48 +34,35 @@ import com.duy.pascal.backend.types.RuntimeType;
  * Created by Duy on 16-Jun-17.
  */
 
-public class FunctionAccess extends DebuggableExecutableReturnValue {
-    private String container;
-    private FunctionCall function;
-    private ExpressionContext declaration;
-    private LineInfo lineInfo;
+public class ClassIdentifierAccess extends DebuggableReturnValue {
 
-    public FunctionAccess(String container, FunctionCall function, ExpressionContext declaration,
-                          LineInfo lineInfo) {
+    private final String container;
+    private final RuntimeValue value;
+    private final ExpressionContext declaration;
+    private final LineInfo lineInfo;
+
+    public ClassIdentifierAccess(String container, RuntimeValue value, ExpressionContext declaration,
+                                 LineInfo lineInfo) {
         this.container = container;
-        this.function = function;
+        this.value = value;
         this.declaration = declaration;
         this.lineInfo = lineInfo;
     }
 
     @Override
-    public String toString() {
-        return container + "." + function;
+    public boolean canDebug() {
+        return false;
     }
 
     @Override
-    public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        if (this.declaration.root() instanceof PascalUnitDeclaration) {
-            f = main.getLibraryContext((PascalUnitDeclaration) declaration.root());
-        } else if (declaration.root() instanceof PascalClassDeclaration) {
-            f = main.getRuntimePascalContext(container);
-        }
-        return function.getValue(f, main);
-    }
-
-    @Override
-    public ExecutionResult executeImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
-            throws RuntimePascalException {
-        Object valueImpl = getValueImpl(f, main);
-        if (valueImpl == ExecutionResult.EXIT) {
-            return ExecutionResult.EXIT;
-        }
-        return ExecutionResult.NOPE;
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+        f = main.getRuntimePascalContext(container);
+        return value.getValue(f, main);
     }
 
     @Override
     public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return function.getType(f);
+        return value.getType(f);
     }
 
     @NonNull
@@ -89,15 +71,10 @@ public class FunctionAccess extends DebuggableExecutableReturnValue {
         return lineInfo;
     }
 
-    @Override
-    public Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException {
-        return null;
-    }
-
     @Nullable
     @Override
     public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
-        return null;
+        return value.compileTimeValue(context);
     }
 
     @Nullable

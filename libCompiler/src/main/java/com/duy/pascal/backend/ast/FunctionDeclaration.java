@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.classunit.PascalClassDeclaration;
 import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
@@ -177,11 +176,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     @Override
     public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main,
                        Object[] arguments, String classContextName) throws RuntimePascalException {
-
         if (this.declaration.root() instanceof PascalUnitDeclaration) {
             f = main.getLibraryContext((PascalUnitDeclaration) declaration.root());
-        } else if (declaration.root() instanceof PascalClassDeclaration) {
-            f = main.getRuntimePascalContext(classContextName);
         }
         FunctionOnStack functionOnStack = new FunctionOnStack(f, main, this, arguments);
         if (main.isDebug()) {

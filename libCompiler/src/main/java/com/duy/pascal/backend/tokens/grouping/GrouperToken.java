@@ -37,9 +37,10 @@ import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ClassFieldAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ClassFunctionAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
-import com.duy.pascal.backend.ast.runtime_value.value.access.FunctionAccess;
 import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -536,7 +537,9 @@ public abstract class GrouperToken extends Token {
                     try {
                         term = getFunctionFromPascalClass(context, term, (WordToken) next);
                     } catch (Exception e) {
+                        String name = term.toString();
                         term = classContext.getIdentifierValue((WordToken) next);
+                        term = new ClassFieldAccess(name, term, next.getLineNumber());
                     }
                 } else {
                     if (runtimeType.declType instanceof RecordType) {
@@ -592,8 +595,8 @@ public abstract class GrouperToken extends Token {
         }
         FunctionCall functionCall = FunctionCall.generateFunctionCall(methodName, args,
                 classType.getClassContext());
-        return new FunctionAccess(container.toString(),
-                functionCall, context, methodName.getLineNumber());
+        return new ClassFunctionAccess(container.toString(),
+                functionCall, methodName.getLineNumber());
     }
 
     private RuntimeValue generateArrayAccess(RuntimeValue parent, ExpressionContext f,
@@ -1215,8 +1218,8 @@ public abstract class GrouperToken extends Token {
                 FieldAccess fieldAccess = (FieldAccess) identifier;
                 RuntimeValue container = fieldAccess.getContainer();
                 return (Executable) getMethodFromJavaClass(context, container, fieldAccess.getName());
-            }else if (identifier instanceof FunctionAccess) {
-                FunctionAccess functionAccess = (FunctionAccess) identifier;
+            } else if (identifier instanceof ClassFunctionAccess) {
+                ClassFunctionAccess functionAccess = (ClassFunctionAccess) identifier;
                 return (Executable) functionAccess;
             } else {
                 throw new NotAStatementException(identifier);
