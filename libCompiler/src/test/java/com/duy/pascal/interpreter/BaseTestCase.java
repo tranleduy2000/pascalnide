@@ -60,6 +60,14 @@ public abstract class BaseTestCase extends TestCase {
         }
     }
 
+    protected boolean parse(String fileName) {
+        File file1 = new File(fileName);
+        if (!file1.exists()) {
+            fileName = dir + fileName;
+        }
+         return checkSyntax(fileName);
+    }
+
     /**
      * generate a pascal file
      *

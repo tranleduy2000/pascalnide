@@ -14,10 +14,10 @@ import com.duy.pascal.backend.tokens.basic.DestructorToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
-import com.duy.pascal.backend.tokens.visiblity.BaseVisibilityToken;
-import com.duy.pascal.backend.tokens.visiblity.PrivateToken;
-import com.duy.pascal.backend.tokens.visiblity.ProtectedToken;
-import com.duy.pascal.backend.tokens.visiblity.PublicToken;
+import com.duy.pascal.backend.tokens.visibility.BaseVisibilityToken;
+import com.duy.pascal.backend.tokens.visibility.PrivateToken;
+import com.duy.pascal.backend.tokens.visibility.ProtectedToken;
+import com.duy.pascal.backend.tokens.visibility.PublicToken;
 import com.duy.pascal.backend.types.ClassType;
 
 import java.util.ArrayList;
@@ -55,8 +55,8 @@ public class ClassToken extends GrouperToken {
         while (hasNext()) {
             Token n = take();
             if (n instanceof PrivateToken) {
-                Token next = peek();
                 while (hasNext() && !(next instanceof BaseVisibilityToken)) {
+                    Token next = peek();
                     if (next instanceof FunctionToken || next instanceof ProcedureToken) {
                         take();
                         boolean isProcedure = next instanceof ProcedureToken;
@@ -68,8 +68,8 @@ public class ClassToken extends GrouperToken {
                     }
                 }
             } else if (n instanceof PublicToken) {
-                Token next = peek();
                 while (hasNext() && !(next instanceof BaseVisibilityToken)) {
+                    Token next = peek();
                     if (next instanceof FunctionToken || next instanceof ProcedureToken) {
                         take();
                         boolean isProcedure = next instanceof ProcedureToken;
@@ -80,23 +80,25 @@ public class ClassToken extends GrouperToken {
                         classType.addPublicFields(vars);
                     } else if (next instanceof ConstructorToken) {
                         take();
-                        FunctionDeclaration function = new FunctionDeclaration(context, this, true);
-                        classType.setConstructor(function);
+                        FunctionDeclaration constructor = new FunctionDeclaration(context, this, true);
+                        classType.setConstructor(constructor);
                     } else if (next instanceof DestructorToken) {
                         take();
-                        FunctionDeclaration function = new FunctionDeclaration(context, this, true);
-                        classType.setConstructor(function);
+                        FunctionDeclaration destructor = new FunctionDeclaration(context, this, true);
+                        classType.setDestructor(destructor);
                     }
                 }
             } else if (n instanceof ProtectedToken) {
-                Token next = peek();
+
                 while (hasNext() && !(next instanceof BaseVisibilityToken)) {
+                    Token next = peek();
                     if (next instanceof FunctionToken || next instanceof ProcedureToken) {
                         take();
                         boolean isProcedure = next instanceof ProcedureToken;
                         FunctionDeclaration function = new FunctionDeclaration(context, this, isProcedure);
                         classType.addPublicFunction(function);
                     } else if (next instanceof WordToken) {
+                        take();
                         ArrayList<VariableDeclaration> vars = getVariableDeclarations(context);
                         classType.addPublicFields(vars);
                     }

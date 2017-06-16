@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens.visiblity;
+package com.duy.pascal.backend.tokens.visibility;
 
 
 import com.duy.pascal.backend.linenumber.LineInfo;
 
-public class PrivateToken extends BaseVisibilityToken {
-    public PrivateToken(LineInfo lineinfo) {
+public class PublishedToken extends BaseVisibilityToken {
+    public PublishedToken(LineInfo lineinfo) {
         super(lineinfo);
     }
 
     @Override
     public String toString() {
-        return "private";
+        return "protected";
     }
 }

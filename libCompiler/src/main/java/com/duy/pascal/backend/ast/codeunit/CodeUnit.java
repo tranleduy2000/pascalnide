@@ -18,7 +18,7 @@ import java.io.Reader;
 import java.util.List;
 
 public abstract class CodeUnit {
-    public final ExpressionContextMixin context;
+    public  ExpressionContextMixin context;
     @Nullable
     protected String programName;
     protected ProgramConfig config = new ProgramConfig();

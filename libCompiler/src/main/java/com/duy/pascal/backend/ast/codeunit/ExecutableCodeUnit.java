@@ -17,6 +17,11 @@ public abstract class ExecutableCodeUnit extends CodeUnit {
         super(r, sourceName, includeDirectories, handler);
     }
 
+    public ExecutableCodeUnit(IRunnablePascal handler) {
+        super(handler);
+    }
+
+
     @Override
     public abstract RuntimeExecutableCodeUnit<? extends ExecutableCodeUnit> generate();
 

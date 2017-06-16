@@ -52,7 +52,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FunctionDeclaration extends AbstractCallableFunction {
-    final public ExpressionContextMixin declaration;
+    public ExpressionContextMixin declaration;
     /**
      * name of function or procedure
      */
@@ -70,13 +70,29 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     private boolean isProcedure = false;
     private boolean bodyDeclared;
 
+    public FunctionDeclaration(String name, ExpressionContext parent, GrouperToken grouperToken,
+                               boolean isProcedure) throws ParsingException {
+        parseHeader(name, parent, grouperToken, isProcedure);
+    }
+
     public FunctionDeclaration(ExpressionContext parent, GrouperToken grouperToken,
                                boolean isProcedure) throws ParsingException {
-        this.declaration = new FunctionExpressionContext(this, parent);
+        String name = grouperToken.nextWordValue();
+        parseHeader(name, parent, grouperToken, isProcedure);
+    }
 
+    public FunctionDeclaration(ExpressionContext p) {
+        this.declaration = new FunctionExpressionContext(this, p);
+        this.argumentNames = new String[0];
+        this.argumentTypes = new RuntimeType[0];
+    }
+
+    public void parseHeader(String name, ExpressionContext parent, GrouperToken grouperToken,
+                            boolean isProcedure) throws ParsingException {
+        this.name = name;
+        this.declaration = new FunctionExpressionContext(this, parent);
         this.line = grouperToken.peek().getLineNumber();
         this.isProcedure = isProcedure;
-        name = grouperToken.nextWordValue();
 
         getArgumentsForDeclaration(grouperToken);
         Token next = grouperToken.peek();
@@ -86,6 +102,9 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         }
         if (!isProcedure) {
             next = grouperToken.take();
+            if (!(next instanceof ColonToken)) {
+                throw new ExpectedTokenException(":", next);
+            }
             //define variable result of function, the name of variable same as name function
             if (parent.root().getConfig().getMode() == ProgramMode.DELPHI) {
                 resultDefinition = new VariableDeclaration("result",
@@ -113,12 +132,6 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         if (n != null) {
             throw new DuplicateIdentifierException(n, this);
         }
-    }
-
-    public FunctionDeclaration(ExpressionContext p) {
-        this.declaration = new FunctionExpressionContext(this, p);
-        this.argumentNames = new String[0];
-        this.argumentTypes = new RuntimeType[0];
     }
 
     public String[] getArgumentNames() {

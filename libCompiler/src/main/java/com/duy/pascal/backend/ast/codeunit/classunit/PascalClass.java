@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens.visiblity;
+package com.duy.pascal.backend.ast.codeunit.classunit;
 
+/**
+ * Created by Duy on 16-Jun-17.
+ */
 
-import com.duy.pascal.backend.linenumber.LineInfo;
+public abstract class PascalClass {
+    abstract void Constructor();
 
-public class PublicToken extends BaseVisibilityToken {
-    public PublicToken(LineInfo lineinfo) {
-        super(lineinfo);
-    }
-
-    @Override
-    public String toString() {
-        return "public";
-    }
+    abstract void Destructor();
 }

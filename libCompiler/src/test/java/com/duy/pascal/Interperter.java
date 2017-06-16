@@ -166,6 +166,7 @@ public class Interperter {
         System.out.println(programPath);
         final StringBuilder output = new StringBuilder();
         final File programFile = new File(programPath);
+
         ArrayList<ScriptSource> searchPath = new ArrayList<>();
         searchPath.add(new FileScriptSource(new File(programPath).getParent()));
         try {
@@ -237,7 +238,7 @@ public class Interperter {
                         }
                     });
         } catch (ParsingException e) {
-            e.printStackTrace();
+              e.printStackTrace();
             return false;
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -40,9 +40,12 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.ConstToken;
+import com.duy.pascal.backend.tokens.basic.ConstructorToken;
+import com.duy.pascal.backend.tokens.basic.DestructorToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
 import com.duy.pascal.backend.tokens.basic.LabelToken;
+import com.duy.pascal.backend.tokens.basic.PeriodToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.TypeToken;
@@ -53,6 +56,7 @@ import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
 import com.duy.pascal.backend.types.BasicType;
+import com.duy.pascal.backend.types.ClassType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.OperatorTypes;
 import com.duy.pascal.backend.types.PointerType;
@@ -299,6 +303,59 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             CompileDirectiveToken compileDirectiveToken = (CompileDirectiveToken) i.take();
             String[] message = compileDirectiveToken.getMessage();
             root().getConfig().process(message);
+        } else if (next instanceof ConstructorToken) {
+            i.take();
+            String name = i.nextWordValue();
+            if (i.peek() instanceof PeriodToken) {
+                DeclaredType typedefType = getTypedefType(name);
+                if (typedefType instanceof ClassType) {
+
+                } else {
+                    throw new ExpectedTokenException(";", i.peek());
+                }
+                ClassType classType = (ClassType) typedefType;
+
+                i.take();
+                String funcName = i.nextWordValue();
+                FunctionDeclaration declaration = new FunctionDeclaration(funcName, this, i, true);
+                FunctionDeclaration constructor = classType.getConstructor();
+                if (constructor.headerMatches(declaration)) {
+                    constructor.parseFunctionBody(i);
+                } else {
+                    throw new RuntimeException();
+                }
+            } else {
+                FunctionDeclaration function = new FunctionDeclaration(name, this, i, true);
+                function = getExistFunction(function);
+                function.parseFunctionBody(i);
+            }
+        } else if (next instanceof DestructorToken) {
+            i.take();
+
+            String name = i.nextWordValue();
+            if (i.peek() instanceof PeriodToken) {
+                DeclaredType typedefType = getTypedefType(name);
+                if (typedefType instanceof ClassType) {
+
+                } else {
+                    throw new ExpectedTokenException(";", i.peek());
+                }
+                ClassType classType = (ClassType) typedefType;
+
+                i.take();
+                String funcName = i.nextWordValue();
+                FunctionDeclaration declaration = new FunctionDeclaration(funcName, this, i, true);
+                FunctionDeclaration destructor = classType.getDestructor();
+                if (destructor.headerMatches(declaration)) {
+                    destructor.parseFunctionBody(i);
+                } else {
+                    throw new RuntimeException();
+                }
+            } else {
+                FunctionDeclaration function = new FunctionDeclaration(name, this, i, true);
+                function = getExistFunction(function);
+                function.parseFunctionBody(i);
+            }
         } else {
             Token token = i.take();
             handleUnrecognizedDeclaration(token, i);

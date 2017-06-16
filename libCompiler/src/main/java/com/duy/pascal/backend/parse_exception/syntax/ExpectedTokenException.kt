@@ -19,6 +19,7 @@ package com.duy.pascal.backend.parse_exception.syntax
 
 import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.tokens.Token
+import java.util.*
 
 class ExpectedTokenException : ParsingException {
     var expected: Array<String?>
@@ -42,7 +43,7 @@ class ExpectedTokenException : ParsingException {
 
 
     override val message: String? get() {
-        return "Syntax error, \"$expected\" expected but \"$current\" found"
+        return "Syntax error, \"${Arrays.toString(expected)}\" expected but \"$current\" found"
     }
 
     override val isAutoFix: Boolean

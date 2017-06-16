@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.tokens.visiblity;
+package com.duy.pascal.backend.tokens.visibility;
 
+import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
+import com.duy.pascal.backend.tokens.basic.BasicToken;
 
-public class ProtectedToken extends BaseVisibilityToken {
-    public ProtectedToken(LineInfo lineinfo) {
-        super(lineinfo);
-    }
+/**
+ * Created by Duy on 16-Jun-17.
+ */
 
-    @Override
-    public String toString() {
-        return "protected";
+public abstract class BaseVisibilityToken extends BasicToken {
+    public BaseVisibilityToken(@Nullable LineInfo line) {
+        super(line);
     }
 }

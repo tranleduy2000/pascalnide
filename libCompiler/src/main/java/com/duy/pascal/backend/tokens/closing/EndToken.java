@@ -7,6 +7,7 @@ import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException.Type;
 import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
+import com.duy.pascal.backend.tokens.grouping.ClassToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.RecordToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
@@ -22,7 +23,7 @@ public class EndToken extends ClosingToken {
     public GroupingException getClosingException(GrouperToken t) {
         if (t instanceof BeginEndToken
                 || t instanceof CaseToken || t instanceof RecordToken
-                || t instanceof UnitToken) {
+                || t instanceof UnitToken || t instanceof ClassToken) {
             return null;
         } else {
             return new GroupingException(getLineNumber(), Type.EXTRA_END);
