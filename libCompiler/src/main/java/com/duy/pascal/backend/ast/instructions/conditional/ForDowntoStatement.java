@@ -91,7 +91,7 @@ public class ForDowntoStatement extends DebuggableExecutable {
             forLoop:
             for (int i = start; i <= end; i++) {
                 reference.set(list.get(i));
-                ExecutionResult result = command.execute(context, main, contextName);
+                ExecutionResult result = command.execute(context, main);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -101,11 +101,11 @@ public class ForDowntoStatement extends DebuggableExecutable {
                 }
             }
         } else {
-            setfirst.execute(context, main, contextName);
+            setfirst.execute(context, main);
 
             while_loop:
             while ((Boolean) condition.getValue(context, main)) {
-                switch (command.execute(context, main, contextName)) {
+                switch (command.execute(context, main)) {
                     case EXIT:
                         return ExecutionResult.EXIT;
                     case BREAK:
@@ -113,7 +113,7 @@ public class ForDowntoStatement extends DebuggableExecutable {
                     case CONTINUE:
                         continue while_loop;
                 }
-                increment.execute(context, main, contextName);
+                increment.execute(context, main);
             }
         }
         return ExecutionResult.NOPE;

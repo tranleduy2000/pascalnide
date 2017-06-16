@@ -82,7 +82,7 @@ public class ForToStatement extends DebuggableExecutable {
             forLoop:
             for (int i = start; i <= end; i++) {
                 reference.set(list.get(i));
-                ExecutionResult result = command.execute(f, main, contextName);
+                ExecutionResult result = command.execute(f, main);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -92,10 +92,10 @@ public class ForToStatement extends DebuggableExecutable {
                 }
             }
         } else {
-            setfirst.execute(f, main, contextName);
+            setfirst.execute(f, main);
             whileLoop:
             while ((Boolean) condition.getValue(f, main)) {
-                ExecutionResult result = command.execute(f, main, contextName);
+                ExecutionResult result = command.execute(f, main);
                 switch (result) {
                     case EXIT:
                         return ExecutionResult.EXIT;
@@ -104,7 +104,7 @@ public class ForToStatement extends DebuggableExecutable {
                     case CONTINUE:
 
                 }
-                increment.execute(f, main, contextName);
+                increment.execute(f, main);
             }
         }
         return ExecutionResult.NOPE;

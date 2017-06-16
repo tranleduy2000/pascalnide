@@ -71,7 +71,7 @@ public class RepeatInstruction extends DebuggableExecutable {
                                        RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
         do_loop:
         do {
-            switch (command.execute(context, main, contextName)) {
+            switch (command.execute(context, main)) {
                 case CONTINUE:
                     continue do_loop;
                 case BREAK:

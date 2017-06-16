@@ -29,7 +29,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<PascalUnitDeclaration> {
     @Throws(RuntimePascalException::class)
     fun runInit() {
         val context = declaration.context as PascalUnitDeclaration.UnitExpressionContext
-        context.initInstruction?.execute(this, this, declaration.programName)
+        context.initInstruction?.execute(this, this)
     }
 
     /**
@@ -38,7 +38,7 @@ class RuntimeUnitPascal : RuntimeExecutableCodeUnit<PascalUnitDeclaration> {
     @Throws(RuntimePascalException::class)
     fun runFinal() {
         val context = declaration.context as PascalUnitDeclaration.UnitExpressionContext
-        context.finalInstruction?.execute(this, this, declaration.programName)
+        context.finalInstruction?.execute(this, this)
     }
 
     @Throws(RuntimePascalException::class)

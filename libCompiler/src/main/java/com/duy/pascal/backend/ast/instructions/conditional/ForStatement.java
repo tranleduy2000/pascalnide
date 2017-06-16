@@ -62,10 +62,10 @@ public class ForStatement extends DebuggableExecutable {
     @Override
     public ExecutionResult executeImpl(VariableContext context, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        setFirst.execute(context, main, contextName);
+        setFirst.execute(context, main);
         whileLoop:
         while ((Boolean) lessThanLast.getValue(context, main)) {
-            ExecutionResult result = command.execute(context, main, contextName);
+            ExecutionResult result = command.execute(context, main);
             switch (result) {
                 case EXIT:
                     return ExecutionResult.EXIT;
@@ -74,7 +74,7 @@ public class ForStatement extends DebuggableExecutable {
                 case CONTINUE:
 
             }
-            increment_temp.execute(context, main, contextName);
+            increment_temp.execute(context, main);
         }
         return ExecutionResult.NOPE;
     }

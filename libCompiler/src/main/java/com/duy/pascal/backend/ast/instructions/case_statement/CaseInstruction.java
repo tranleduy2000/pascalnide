@@ -123,11 +123,11 @@ public class CaseInstruction extends DebuggableExecutable {
         for (CasePossibility possibility : possibilities) {
             for (int j = 0; j < possibility.conditions.length; j++) {
                 if (possibility.conditions[j].fits(context, main, value)) {
-                    return possibility.execute(context, main, contextName);
+                    return possibility.execute(context, main);
                 }
             }
         }
-        return otherwise.execute(context, main, contextName);
+        return otherwise.execute(context, main);
     }
 
     @Override
