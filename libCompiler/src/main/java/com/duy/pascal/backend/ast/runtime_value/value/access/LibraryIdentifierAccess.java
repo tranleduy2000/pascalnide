@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
@@ -34,13 +35,13 @@ import com.duy.pascal.backend.types.RuntimeType;
  * Created by Duy on 16-Jun-17.
  */
 
-public class ClassFieldAccess extends DebuggableReturnValue {
+public class LibraryIdentifierAccess extends DebuggableReturnValue {
 
-    private final String container;
+    private final RuntimeUnitPascal container;
     private final RuntimeValue value;
     private final LineInfo lineInfo;
 
-    public ClassFieldAccess(String container, RuntimeValue value, LineInfo lineInfo) {
+    public LibraryIdentifierAccess(RuntimeUnitPascal container, RuntimeValue value, LineInfo lineInfo) {
         this.container = container;
         this.value = value;
         this.lineInfo = lineInfo;
@@ -53,8 +54,7 @@ public class ClassFieldAccess extends DebuggableReturnValue {
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        f = main.getRuntimePascalContext(container);
-        return value.getValue(f, main);
+        return value.getValue(container, main);
     }
 
     @Override

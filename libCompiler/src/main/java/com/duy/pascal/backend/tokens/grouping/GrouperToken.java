@@ -37,8 +37,9 @@ import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ClassFieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ClassFunctionAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ClassIdentifierAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ClassVariableAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
 import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
@@ -538,8 +539,20 @@ public abstract class GrouperToken extends Token {
                         term = getFunctionFromPascalClass(context, term, (WordToken) next);
                     } catch (Exception e) {
                         String name = term.toString();
-                        term = classContext.getIdentifierValue((WordToken) next);
-                        term = new ClassFieldAccess(name, term, next.getLineNumber());
+                        if (classContext.getVariableDefinitionLocal(((WordToken) next).getName()) != null) {
+                            term = new ClassVariableAccess(name, ((WordToken) next).getName(),
+                                    next.getLineNumber(), classContext);
+                        } else if (classContext.getConstantDefinitionLocal(name) != null) {
+                            ConstantDefinition c = classContext
+                                    .getConstantDefinitionLocal(((WordToken) next).getName());
+                            ConstantAccess<Object> constant = new ConstantAccess<>(c.getValue(),
+                                    c.getType(), next.getLineNumber());
+                            constant.setName(((WordToken) next).getName());
+                            term = constant;
+                        }else {
+                            term = classContext.getIdentifierValue((WordToken) next);
+                            term = new ClassIdentifierAccess(name, term, next.getLineNumber());
+                        }
                     }
                 } else {
                     if (runtimeType.declType instanceof RecordType) {

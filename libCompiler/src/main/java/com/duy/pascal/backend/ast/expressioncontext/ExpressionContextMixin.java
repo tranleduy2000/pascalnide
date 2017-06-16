@@ -17,6 +17,7 @@ import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.LibraryIdentifierAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.backend.builtin_libraries.PascalLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.file.FileLib;
@@ -221,13 +222,6 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         } else if (getLabelLocal(name.getName()) != null) {
 
-        } else {
-//            DeclaredType type = getTypedefTypeLocal(name.getName());
-//            if (type instanceof ClassType) {
-//                String name1 = name.getName();
-//                ClassType classType = (ClassType) type;
-//                if (classType.getClassContext().getConstructor().getName().)
-//            }
         }
 
         //find identifier in library
@@ -236,7 +230,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             ExpressionContextMixin libContext = value.getDeclaration().getContext();
             RuntimeValue identifierValue = libContext.getIdentifierValue(name);
             if (identifierValue != null) {
-                return identifierValue;
+                return new LibraryIdentifierAccess(value, identifierValue, identifierValue.getLineNumber());
             }
         }
 

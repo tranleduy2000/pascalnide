@@ -55,7 +55,7 @@ public class ClassFunctionAccess extends DebuggableExecutableReturnValue {
 
     @Override
     public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        f = main.getRuntimePascalContext(container);
+        f = main.getRuntimePascalClassContext(container);
         return function.getValue(f, main);
     }
 

@@ -31,13 +31,15 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.RuntimeType;
 
-public class VariableAccess extends DebuggableAssignableValue {
+public class ClassVariableAccess extends DebuggableAssignableValue {
+    private String container;
     private String name;
     private LineInfo line;
     @NonNull
     private ExpressionContext declaration;
 
-    public VariableAccess(String name, LineInfo line, @NonNull ExpressionContext f) {
+    public ClassVariableAccess(String container, String name, LineInfo line, @NonNull ExpressionContext f) {
+        this.container = container;
         this.name = name;
         this.line = line;
         this.declaration = f;
@@ -73,12 +75,14 @@ public class VariableAccess extends DebuggableAssignableValue {
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
+        f = main.getRuntimePascalClassContext(container);
         return f.getVar(name);
     }
 
     @Override
     public Reference<?> getReferenceImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
+        f = main.getRuntimePascalClassContext(container);
         return new FieldReference(f, name);
     }
 

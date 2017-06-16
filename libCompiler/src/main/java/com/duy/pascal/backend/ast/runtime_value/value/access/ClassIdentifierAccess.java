@@ -38,14 +38,11 @@ public class ClassIdentifierAccess extends DebuggableReturnValue {
 
     private final String container;
     private final RuntimeValue value;
-    private final ExpressionContext declaration;
     private final LineInfo lineInfo;
 
-    public ClassIdentifierAccess(String container, RuntimeValue value, ExpressionContext declaration,
-                                 LineInfo lineInfo) {
+    public ClassIdentifierAccess(String container, RuntimeValue value, LineInfo lineInfo) {
         this.container = container;
         this.value = value;
-        this.declaration = declaration;
         this.lineInfo = lineInfo;
     }
 
@@ -56,7 +53,7 @@ public class ClassIdentifierAccess extends DebuggableReturnValue {
 
     @Override
     public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-        f = main.getRuntimePascalContext(container);
+        f = main.getRuntimePascalClassContext(container);
         return value.getValue(f, main);
     }
 

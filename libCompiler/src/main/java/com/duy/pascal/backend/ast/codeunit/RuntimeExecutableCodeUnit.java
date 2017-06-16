@@ -28,7 +28,6 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.ScriptTerminatedException;
 import com.duy.pascal.backend.runtime_exception.StackOverflowException;
-import com.duy.pascal.frontend.DLog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,11 +64,9 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         return unitsMap.get(l);
     }
 
-    public RuntimePascalClass getRuntimePascalContext(String identifier) {
+    public RuntimePascalClass getRuntimePascalClassContext(String identifier) {
         Map<String, RuntimePascalClass> classMap
                 = declaration.getContext().getRuntimePascalClassMap();
-        DLog.d(TAG, "getRuntimePascalContext() called with: identifier = [" + identifier + "]");
-
         return classMap.get(identifier);
     }
 
