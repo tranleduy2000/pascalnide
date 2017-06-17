@@ -1,9 +1,9 @@
 {https://www.tutorialspoint.com/java/java_vector_class.htm}
-uses JavaData;
+uses JavaCollections;
 
 var
-   v : Vector;
-   vEnum : Enumeration;
+   v : JVector;
+   vEnum : JEnumeration;
 begin
    // initial size is 3, increment is 2
    new(v, 3, 2);
@@ -30,14 +30,14 @@ begin
    
    v.addElement((11));
    v.addElement((12));
-   writeln('First element : ' + (Integer)v.firstElement());
-   writeln('Last element : ' + (Integer)v.lastElement());
+   writeln('First element : ' + v.firstElement());
+   writeln('Last element : ' + v.lastElement());
    
    if(v.contains((3))) then
       writeln('Vector contains 3.');
    
    // enumerate the elements in the vector.
-   vEnum = v.elements();
+   vEnum := v.elements();
    writeln('Elements in vector : ');
    
    while(vEnum.hasMoreElements()) do

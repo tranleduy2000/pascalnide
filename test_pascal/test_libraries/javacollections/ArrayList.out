@@ -1,0 +1,5 @@
+Initial size of list : 0
+Size of list after additions : 7
+Contents of list : [C, A2, A, E, B, D, F]
+Size of list after deletions : 6
+Contents of list : [C, A2, A, E, B, D]

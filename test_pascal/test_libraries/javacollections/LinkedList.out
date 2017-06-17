@@ -1,0 +1,3 @@
+Original contents of list: [A, A2, F, B, D, E, C, Z]
+Contents of list after deletion: [A, A2, B, D, E, C, Z]
+list after deleting first and last: [A2, B, D, E, C]

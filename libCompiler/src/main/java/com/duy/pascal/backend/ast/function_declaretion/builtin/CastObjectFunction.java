@@ -41,9 +41,9 @@ import com.duy.pascal.backend.types.RuntimeType;
  */
 public class CastObjectFunction implements IMethodDeclaration {
 
-    private ArgumentType[] argumentTypes =
-            {new RuntimeType(new JavaClassBasedType(Object.class), true),
-                    new RuntimeType(new JavaClassBasedType(Object.class), false)};
+    private static final ArgumentType[] ARGUMENT_TYPES =
+            {new RuntimeType(new JavaClassBasedType(Object.class), true), //target
+                    new RuntimeType(new JavaClassBasedType(Object.class), false)}; //other
 
     @Override
     public String getName() {
@@ -67,7 +67,7 @@ public class CastObjectFunction implements IMethodDeclaration {
 
     @Override
     public ArgumentType[] argumentTypes() {
-        return argumentTypes;
+        return ARGUMENT_TYPES;
     }
 
     @Override

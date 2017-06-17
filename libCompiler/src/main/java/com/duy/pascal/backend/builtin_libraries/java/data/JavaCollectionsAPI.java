@@ -23,15 +23,20 @@ import com.duy.pascal.backend.types.JavaClassBasedType;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Properties;
+import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -49,7 +54,9 @@ import java.util.concurrent.PriorityBlockingQueue;
  * Created by Duy on 17-Jun-17.
  */
 
-public class JavaUtilAPI extends PascalLibraryImpl {
+public class JavaCollectionsAPI extends PascalLibraryImpl {
+    public static final String NAME = "JavaCollections".toLowerCase();
+
     @Override
     public void declareConstants(ExpressionContextMixin parentContext) {
         super.declareConstants(parentContext);
@@ -82,10 +89,15 @@ public class JavaUtilAPI extends PascalLibraryImpl {
         parentContext.declareTypedef("JDelayQueue", new JavaClassBasedType(DelayQueue.class));
         parentContext.declareTypedef("JIdentityHashMap", new JavaClassBasedType(IdentityHashMap.class));
         parentContext.declareTypedef("JEnumeration", new JavaClassBasedType(Enumeration.class));
+        parentContext.declareTypedef("JProperties", new JavaClassBasedType(Properties.class));
+        parentContext.declareTypedef("JDictionary", new JavaClassBasedType(Dictionary.class));
+        parentContext.declareTypedef("JSet", new JavaClassBasedType(Set.class));
+        parentContext.declareTypedef("JIterator", new JavaClassBasedType(Iterator.class));
+        parentContext.declareTypedef("JEntry", new JavaClassBasedType(Map.Entry.class));
     }
 
     @Override
     public String getName() {
-        return null;
+        return "JavaCollections".toLowerCase();
     }
 }

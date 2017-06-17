@@ -1,5 +1,5 @@
 {https://www.tutorialspoint.com/java/java_treeset_class.htm}
-uses JavaData;
+uses JavaCollections;
 
 var
    // create a tree set
@@ -12,5 +12,5 @@ begin
    ts.add('E');
    ts.add('C');
    ts.add('F');
-   System.out.println(ts);
+   writeln(ts);
 end.

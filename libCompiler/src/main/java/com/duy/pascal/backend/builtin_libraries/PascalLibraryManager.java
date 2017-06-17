@@ -72,6 +72,7 @@ import com.duy.pascal.backend.builtin_libraries.crt.CrtLib;
 import com.duy.pascal.backend.builtin_libraries.crt.WinCrt;
 import com.duy.pascal.backend.builtin_libraries.graph.GraphLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
+import com.duy.pascal.backend.builtin_libraries.java.data.JavaCollectionsAPI;
 import com.duy.pascal.backend.builtin_libraries.math.MathLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.PermissionDeniedException;
@@ -125,6 +126,7 @@ public class PascalLibraryManager {
         MAP_LIBRARIES.put(AndroidMediaPlayerLib.NAME, AndroidMediaPlayerLib.class);
         MAP_LIBRARIES.put(HtmlLib.NAME, HtmlLib.class);
         MAP_LIBRARIES.put(AndroidLocationLib.NAME, AndroidLocationLib.class);
+        MAP_LIBRARIES.put(JavaCollectionsAPI.NAME, JavaCollectionsAPI.class);
 
         //socket library
         MAP_LIBRARIES.put(SocketIOLib.NAME, SocketIOLib.class);

@@ -1,6 +1,9 @@
+{https://www.tutorialspoint.com/java/java_linkedhashmap_class.htm}
+uses JavaCollections;
+
 var
    // create a hash set
-   hs : JHashSet;
+   hs : JLinkedHashSet;
 begin
    // add elements to the hash set
    hs.add('B');
@@ -11,4 +14,3 @@ begin
    hs.add('F');
    writeln(hs);
 end.
-{https://www.tutorialspoint.com/java/java_hashset_class.htm}

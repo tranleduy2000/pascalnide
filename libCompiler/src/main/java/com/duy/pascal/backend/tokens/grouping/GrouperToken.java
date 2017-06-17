@@ -1344,32 +1344,38 @@ public abstract class GrouperToken extends Token {
         //access method of java class
         if (type.declType instanceof JavaClassBasedType) {
             JavaClassBasedType javaType = (JavaClassBasedType) type.declType;
-            Class<?> storageClass = javaType.getStorageClass();
 
-            //get arguments
-            List<RuntimeValue> argumentsForCall = new ArrayList<>();
-            if (hasNext()) {
-                if (peek() instanceof ParenthesizedToken) {
-                    ParenthesizedToken token = (ParenthesizedToken) take();
-                    argumentsForCall = token.getArgumentsForCall(context);
-                }
-            }
+            Class<?> clazz = javaType.getStorageClass();
+            String className = clazz.getSimpleName();
+            while (true) {
 
-            //get method, ignore case
-            Method[] declaredMethods = storageClass.getDeclaredMethods();
-            for (Method declaredMethod : declaredMethods) {
-                if (declaredMethod.getName().equalsIgnoreCase(methodName)) {
-                    MethodDeclaration methodDeclaration =
-                            new MethodDeclaration(container, declaredMethod, javaType);
-                    FunctionCall functionCall = methodDeclaration.generateCall(getLineNumber(),
-                            argumentsForCall, context);
-                    if (functionCall != null) {
-                        return functionCall;
+                //get arguments
+                List<RuntimeValue> argumentsForCall = new ArrayList<>();
+                if (hasNext()) {
+                    if (peek() instanceof ParenthesizedToken) {
+                        ParenthesizedToken token = (ParenthesizedToken) take();
+                        argumentsForCall = token.getArgumentsForCall(context);
                     }
                 }
+
+                //get method, ignore case
+                Method[] declaredMethods = clazz.getDeclaredMethods();
+                for (Method declaredMethod : declaredMethods) {
+                    if (declaredMethod.getName().equalsIgnoreCase(methodName)) {
+                        MethodDeclaration methodDeclaration =
+                                new MethodDeclaration(container, declaredMethod, javaType);
+                        FunctionCall functionCall = methodDeclaration.generateCall(getLineNumber(),
+                                argumentsForCall, context);
+                        if (functionCall != null) {
+                            return functionCall;
+                        }
+                    }
+                }
+                Class<?>[] interfaces = clazz.getInterfaces();
+                clazz = clazz.getSuperclass();
+                if (clazz == null) break;
             }
-            throw new MethodNotFoundException(container.getLineNumber(),
-                    methodName, storageClass.getName());
+            throw new MethodNotFoundException(container.getLineNumber(), methodName, className);
         } else {
             throw new NotAStatementException(container);
         }
