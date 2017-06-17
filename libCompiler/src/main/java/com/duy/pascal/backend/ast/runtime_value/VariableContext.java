@@ -49,9 +49,9 @@ public abstract class VariableContext implements ContainsVariables {
         if (setLocalVar(name, val)) {
             return;
         }
-        VariableContext parentcontext = getParentContext();
-        if (parentcontext != null) {
-            parentcontext.setVar(name, val);
+        VariableContext parentContext = getParentContext();
+        if (parentContext != null) {
+            parentContext.setVar(name, val);
         }
     }
 

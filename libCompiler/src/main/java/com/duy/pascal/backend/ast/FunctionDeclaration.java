@@ -63,7 +63,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     /**
      * this is the store value of function
      */
-    public VariableDeclaration resultDefinition;
+    protected VariableDeclaration resultDefinition;
     public LineInfo line;
     public LineInfo endPositionHeader;
     public String[] argumentNames;

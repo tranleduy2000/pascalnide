@@ -50,5 +50,7 @@ public class ClassTest extends BaseTestCase {
         run("test5.pas");
     }
 
-
+    public void testCreate() {
+        run("test_create.pas");
+    }
 }

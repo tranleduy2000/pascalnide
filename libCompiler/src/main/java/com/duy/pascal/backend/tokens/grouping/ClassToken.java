@@ -3,6 +3,7 @@ package com.duy.pascal.backend.tokens.grouping;
 
 import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.codeunit.classunit.ClassConstructor;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -20,6 +21,7 @@ import com.duy.pascal.backend.tokens.visibility.ProtectedToken;
 import com.duy.pascal.backend.tokens.visibility.PublicToken;
 import com.duy.pascal.backend.types.PascalClassType;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,8 +82,10 @@ public class ClassToken extends GrouperToken {
                         classType.addPublicFields(vars);
                     } else if (next instanceof ConstructorToken) {
                         take();
-                        FunctionDeclaration constructor = new FunctionDeclaration(context, this, true);
-                        classType.getClassContext().setConstructor(constructor);
+                        ClassConstructor constructor = new ClassConstructor(classType, context, this, true);
+                        constructor.setModifier(Modifier.STATIC);
+                        classType.addConstructor(constructor);
+
                     } else if (next instanceof DestructorToken) {
                         take();
                         FunctionDeclaration destructor = new FunctionDeclaration(context, this, true);

@@ -34,7 +34,7 @@ import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 
 public class ClassExpressionContext extends ExpressionContextMixin {
 
-    private FunctionDeclaration constructor, destructor;
+    private FunctionDeclaration destructor;
 
     public ClassExpressionContext(CodeUnit root, ExpressionContext parent) {
         super(root, parent);
@@ -66,13 +66,6 @@ public class ClassExpressionContext extends ExpressionContextMixin {
     }
 
 
-    public FunctionDeclaration getConstructor() {
-        return constructor;
-    }
-
-    public void setConstructor(FunctionDeclaration constructor) {
-        this.constructor = constructor;
-    }
 
     @Override
     public String toString() {

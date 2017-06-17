@@ -603,8 +603,6 @@ public abstract class GrouperToken extends Token {
             }
         }
         ClassExpressionContext classContext = classType.getClassContext();
-        classContext.getConstructor();
-
         FunctionCall functionCall = FunctionCall.generateFunctionCall(methodName, args, classContext);
         return new ClassFunctionAccess(container.toString(),
                 functionCall, methodName.getLineNumber());
@@ -648,7 +646,6 @@ public abstract class GrouperToken extends Token {
 
     public RuntimeValue getNextTerm(ExpressionContext context, Token next)
             throws ParsingException {
-//        DLog.d(TAG, "getNextTerm() called with: context = [" + context + "], next = [" + next + "]");
 
         if (next instanceof ParenthesizedToken) {
             return ((ParenthesizedToken) next).getSingleValue(context);
@@ -669,6 +666,28 @@ public abstract class GrouperToken extends Token {
                 }
                 return FunctionCall.generateFunctionCall(name, arguments, context);
             } else {
+                DeclaredType typedefType = context.getTypedefType(name.getName());
+                if (typedefType != null) {
+                    if (typedefType instanceof PascalClassType) {
+                        PascalClassType classType = (PascalClassType) typedefType;
+                        if (next instanceof PeriodToken) {
+                            take();
+                            next = take();
+                            if (next instanceof WordToken) {
+                                List<RuntimeValue> arguments = new ArrayList<>();
+                                if (peek() instanceof ParenthesizedToken) {
+                                    arguments.addAll(((ParenthesizedToken) take()).getArgumentsForCall(context));
+                                }
+                                return classType.generateConstructor((WordToken) next, arguments,
+                                        classType.getClassContext());
+                            } else {
+                                throw new ExpectedTokenException("[Constructor]", next);
+                            }
+                        } else {
+                            throw new ExpectedTokenException(".", next);
+                        }
+                    }
+                }
                 RuntimeValue identifier = context.getIdentifierValue(name);
                 //uses for show line error
                 identifier.getLineNumber().setLength(name.name.length());
@@ -678,7 +697,6 @@ public abstract class GrouperToken extends Token {
                 }
                 return identifier;
             }
-
         } else if (next instanceof BracketedToken) {
             AtomicReference<DeclaredType> elementTypeReference =
                     new AtomicReference<>(null);

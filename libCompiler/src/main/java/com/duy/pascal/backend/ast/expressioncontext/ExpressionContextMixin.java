@@ -10,6 +10,7 @@ import com.duy.pascal.backend.ast.LabelDeclaration;
 import com.duy.pascal.backend.ast.NamedEntity;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
+import com.duy.pascal.backend.ast.codeunit.classunit.ClassConstructor;
 import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
 import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
@@ -222,6 +223,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         } else if (getLabelLocal(name.getName()) != null) {
 
+        } else {
         }
 
         //find identifier in library
@@ -332,9 +334,10 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
                 i.take();
                 String funcName = i.nextWordValue();
-                FunctionDeclaration declaration = new FunctionDeclaration(funcName,
+                ClassConstructor declaration = new ClassConstructor(classType, funcName,
                         classType.getClassContext(), i, true);
-                FunctionDeclaration constructor = classType.getClassContext().getConstructor();
+
+                FunctionDeclaration constructor = classType.generateConstructor(declaration);
                 if (constructor.headerMatches(declaration)) {
                     constructor.parseFunctionBody(i);
                 } else {
