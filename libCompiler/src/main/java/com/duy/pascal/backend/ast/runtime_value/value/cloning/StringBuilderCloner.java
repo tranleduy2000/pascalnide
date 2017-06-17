@@ -15,7 +15,6 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.RuntimeType;
 
 public class StringBuilderCloner implements RuntimeValue {
-    private RuntimeValue[] outputFormat;
     private RuntimeValue value;
 
     public StringBuilderCloner(RuntimeValue value) {

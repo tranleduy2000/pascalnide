@@ -20,13 +20,21 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
+import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
+import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.PascalClassType;
+import com.duy.pascal.frontend.debug.CallStack;
+
+import java.util.List;
 
 /**
  * Created by Duy on 17-Jun-17.
@@ -48,10 +56,43 @@ public class ClassConstructor extends FunctionDeclaration {
         this.classType = classType;
     }
 
+    public Object call(RuntimeExecutableCodeUnit<?> main, Object[] arguments, String idName) throws RuntimePascalException {
+        RuntimePascalClass classVarContext = new RuntimePascalClass(classType.getDeclaration());
+        if (declaration.root() instanceof PascalProgramDeclaration) {
+            declaration.root().getContext().getRuntimePascalClassMap().put(idName, classVarContext);
+        } else if (declaration.root() instanceof PascalUnitDeclaration) {
+
+        } else if (declaration.root() instanceof PascalClassDeclaration) {
+
+        }
+        FunctionOnStack functionOnStack = new FunctionOnStack(classVarContext, main, this, arguments);
+        if (main.isDebug()) {
+            main.getDebugListener().onVariableChange(new CallStack(functionOnStack));
+        }
+        return functionOnStack.execute();
+    }
+
     @Override
-    public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments,
-                       String classContextName) throws RuntimePascalException {
+    public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments) throws RuntimePascalException {
         return new RuntimePascalClass(classType.getDeclaration());
+    }
+
+    @Override
+    public ClassConstructorCall generateCall(LineInfo line, List<RuntimeValue> values, ExpressionContext f) throws ParsingException {
+        RuntimeValue[] args = formatArgs(values, f);
+        if (args == null) {
+            return null;
+        }
+        return new ClassConstructorCall(this, args, line);
+    }
+
+    @Override
+    public ClassConstructorCall generatePerfectFitCall(LineInfo line, List<RuntimeValue> values, ExpressionContext f) throws ParsingException {
+        RuntimeValue[] args = perfectMatch(values, f);
+        if (args == null) {
+            return null;
+        }
+        return new ClassConstructorCall(this, args, line);
     }
 
     @Nullable

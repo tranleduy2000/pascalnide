@@ -21,7 +21,6 @@ import java.util.List;
 public abstract class FunctionCall extends DebuggableExecutableReturnValue {
     protected static final String TAG = FunctionCall.class.getSimpleName();
     public RuntimeValue[] arguments;
-    protected RuntimeValue[] outputFormat;
 
     public static FunctionCall generateFunctionCall(WordToken name, List<RuntimeValue> arguments,
                                                     ExpressionContext expressionContext)
@@ -113,7 +112,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
 
     }
 
-    RuntimeValue[] compileTimeExpressionFoldArguments(CompileTimeContext context)
+    protected RuntimeValue[] compileTimeExpressionFoldArguments(CompileTimeContext context)
             throws ParsingException {
         RuntimeValue[] args = new RuntimeValue[arguments.length];
         for (int i = 0; i < arguments.length; i++) {

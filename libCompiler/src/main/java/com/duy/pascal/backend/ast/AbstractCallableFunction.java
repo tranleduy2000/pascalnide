@@ -37,8 +37,7 @@ public abstract class AbstractCallableFunction extends AbstractFunction {
      * @param f The program context.
      * @return The return value of the called function.
      */
-    public abstract Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments,
-                                String classContextName)
+    public abstract Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws RuntimePascalException, IllegalArgumentException,
             IllegalAccessException, InvocationTargetException;
 

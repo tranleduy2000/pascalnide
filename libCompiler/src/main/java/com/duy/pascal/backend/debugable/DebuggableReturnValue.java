@@ -14,8 +14,6 @@ import com.duy.pascal.backend.utils.NullSafety;
 
 public abstract class DebuggableReturnValue implements RuntimeValue {
 
-    protected RuntimeValue[] outputFormat;
-
     public abstract boolean canDebug();
 
     @NonNull

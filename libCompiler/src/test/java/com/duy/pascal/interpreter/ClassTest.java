@@ -53,4 +53,16 @@ public class ClassTest extends BaseTestCase {
     public void testCreate() {
         run("test_create.pas");
     }
+
+    public void testModifier() {
+        run("test_modifier.pas");
+    }
+
+    public void testField() {
+        run("test_field.pas");
+    }
+
+    public void testStaticField() {
+        run("test_static_field.pas");
+    }
 }

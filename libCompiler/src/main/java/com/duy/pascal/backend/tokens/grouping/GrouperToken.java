@@ -8,6 +8,7 @@ import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.LabelDeclaration;
 import com.duy.pascal.backend.ast.MethodDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.ast.codeunit.classunit.ClassConstructorCall;
 import com.duy.pascal.backend.ast.codeunit.classunit.ClassExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.BreakInstruction;
@@ -1206,6 +1207,9 @@ public abstract class GrouperToken extends Token {
                     throw new UnAssignableTypeException(identifier);
                 }
                 RuntimeValue value = getNextExpression(context);
+                if (value instanceof ClassConstructorCall) {
+                    ((ClassConstructorCall) value).setIdName(left.toString());
+                }
                 DeclaredType valueType = value.getType(context).declType;
                 DeclaredType leftType = left.getType(context).declType;
 

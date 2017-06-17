@@ -18,9 +18,6 @@ import com.duy.pascal.backend.utils.NullSafety;
 public abstract class DebuggableExecutableReturnValue implements Executable,
         RuntimeValue {
 
-    protected RuntimeValue[] outputFormat;
-
-
     @NonNull
     @Override
     public Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)

@@ -186,7 +186,7 @@ public class FunctionDeclaration extends AbstractCallableFunction {
 
     @Override
     public Object call(VariableContext f, RuntimeExecutableCodeUnit<?> main,
-                       Object[] arguments, String classContextName) throws RuntimePascalException {
+                       Object[] arguments) throws RuntimePascalException {
         if (this.declaration.root() instanceof PascalUnitDeclaration) {
             f = main.getLibraryContext((PascalUnitDeclaration) declaration.root());
         }

@@ -25,8 +25,6 @@ import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 
 public class RuntimePascalClass extends RuntimeCodeUnit<PascalClassDeclaration> {
 
-    private String identifierName;
-
     public RuntimePascalClass(PascalClassDeclaration declaration) {
         super(declaration);
     }
@@ -34,13 +32,5 @@ public class RuntimePascalClass extends RuntimeCodeUnit<PascalClassDeclaration> 
     @Override
     public VariableContext getParentContext() {
         return null;
-    }
-
-    public String getIdentifierName() {
-        return identifierName;
-    }
-
-    public void setIdentifierName(String identifierName) {
-        this.identifierName = identifierName;
     }
 }

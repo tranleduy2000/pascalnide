@@ -40,7 +40,6 @@ public abstract class RuntimeCodeUnit<parent extends CodeUnit> extends VariableC
             if (initialize instanceof RuntimePascalClass) {
                 declaration.getContext().getRuntimePascalClassMap()
                         .put(v.getName(), (RuntimePascalClass) initialize);
-                ((RuntimePascalClass) initialize).setIdentifierName(v.getName());
             }
         }
     }

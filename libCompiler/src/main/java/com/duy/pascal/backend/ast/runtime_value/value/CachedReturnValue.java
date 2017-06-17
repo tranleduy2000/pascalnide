@@ -12,7 +12,6 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.RuntimeType;
 
 public class CachedReturnValue implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
     private RuntimeValue other;
     private Object cache = null;
 

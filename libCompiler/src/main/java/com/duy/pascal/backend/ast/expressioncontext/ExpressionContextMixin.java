@@ -336,9 +336,8 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 String funcName = i.nextWordValue();
                 ClassConstructor declaration = new ClassConstructor(classType, funcName,
                         classType.getClassContext(), i, true);
-
-                FunctionDeclaration constructor = classType.generateConstructor(declaration);
-                if (constructor.headerMatches(declaration)) {
+                FunctionDeclaration constructor = classType.getConstructor(declaration);
+                if (constructor != null) {
                     constructor.parseFunctionBody(i);
                 } else {
                     throw new RuntimeException();

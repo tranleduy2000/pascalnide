@@ -91,7 +91,7 @@ public class MethodDeclaration extends AbstractCallableFunction {
 
     @Override
     public Object call(VariableContext f,
-                       RuntimeExecutableCodeUnit<?> main, Object[] arguments, String classContextName)
+                       RuntimeExecutableCodeUnit<?> main, Object[] arguments)
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException,
             RuntimePascalException {

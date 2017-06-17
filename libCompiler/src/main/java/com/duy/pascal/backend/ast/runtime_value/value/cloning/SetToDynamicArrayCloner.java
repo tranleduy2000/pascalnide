@@ -40,7 +40,6 @@ import java.util.LinkedList;
  */
 
 public class SetToDynamicArrayCloner implements RuntimeValue {
-    protected RuntimeValue[] outputFormat;
     private RuntimeValue array;
 
     public SetToDynamicArrayCloner(RuntimeValue array) {

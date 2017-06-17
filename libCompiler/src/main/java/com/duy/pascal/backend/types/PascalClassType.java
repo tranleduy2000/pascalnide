@@ -9,12 +9,12 @@ import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.codeunit.classunit.ClassConstructor;
+import com.duy.pascal.backend.ast.codeunit.classunit.ClassConstructorCall;
 import com.duy.pascal.backend.ast.codeunit.classunit.ClassExpressionContext;
 import com.duy.pascal.backend.ast.codeunit.classunit.PascalClassDeclaration;
 import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -44,8 +44,8 @@ public class PascalClassType extends ObjectType {
         return mConstructors;
     }
 
-    public FunctionCall generateConstructor(WordToken name, List<RuntimeValue> arguments,
-                                            ExpressionContext expressionContext)
+    public ClassConstructorCall generateConstructor(WordToken name, List<RuntimeValue> arguments,
+                                                    ExpressionContext expressionContext)
             throws ParsingException {
         List<ClassConstructor> classConstructors = mConstructors.get(name.getName().toLowerCase());
 
@@ -53,8 +53,8 @@ public class PascalClassType extends ObjectType {
 
         AbstractFunction chosen = null;
         AbstractFunction ambiguous = null;
-        FunctionCall result;
-        FunctionCall runtimeValue = null;
+        ClassConstructorCall result;
+        ClassConstructorCall runtimeValue = null;
 
         for (ClassConstructor function : classConstructors) {
             result = function.generatePerfectFitCall(name.getLineNumber(), arguments, expressionContext);
@@ -95,7 +95,7 @@ public class PascalClassType extends ObjectType {
         }
     }
 
-    public FunctionDeclaration generateConstructor(ClassConstructor other) throws ParsingException {
+    public FunctionDeclaration getConstructor(ClassConstructor other) throws ParsingException {
         List<ClassConstructor> abstractFunctions = mConstructors.get(other.getName());
         for (ClassConstructor constructor : abstractFunctions) {
             if (constructor.headerMatches(other)) {
