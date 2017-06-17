@@ -93,7 +93,7 @@ public class NewInstanceObject implements IMethodDeclaration {
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return null;
+            return new RuntimeType(pointer.getType(f).declType, false);
         }
 
         @NonNull

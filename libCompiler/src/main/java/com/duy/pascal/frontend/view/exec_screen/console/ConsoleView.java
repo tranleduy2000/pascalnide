@@ -46,8 +46,8 @@ import android.view.inputmethod.InputMethodManager;
 import com.duy.pascal.backend.builtin_libraries.android.gesture.listener.ClickListener;
 import com.duy.pascal.backend.builtin_libraries.android.gesture.listener.DoubleClickListener;
 import com.duy.pascal.backend.builtin_libraries.android.gesture.listener.LongClickListener;
-import com.duy.pascal.backend.builtin_libraries.graph.GraphScreen;
-import com.duy.pascal.backend.builtin_libraries.graph.model.GraphObject;
+import com.duy.pascal.backend.builtin_libraries.graphic.GraphScreen;
+import com.duy.pascal.backend.builtin_libraries.graphic.model.GraphObject;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 

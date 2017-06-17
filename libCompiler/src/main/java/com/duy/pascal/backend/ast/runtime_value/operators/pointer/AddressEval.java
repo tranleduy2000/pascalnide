@@ -46,7 +46,8 @@ public class AddressEval extends DebuggableReturnValue {
     }
 
     @Override
-    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
+    public Object getValueImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
+            throws RuntimePascalException {
         return target.getReference(f, main);
     }
 

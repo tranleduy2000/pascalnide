@@ -26,48 +26,46 @@ import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
+import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 
 /**
- * Casts an object to the class or the interface represented
+ * Check if a pointer is valid
  */
-public class CastObjectFunction implements IMethodDeclaration {
-
-    private static final ArgumentType[] ARGUMENT_TYPES =
-            {new RuntimeType(new JavaClassBasedType(Object.class), true), //target
-                    new RuntimeType(new JavaClassBasedType(Object.class), false)}; //other
+public class FreeAndNilFunction implements IMethodDeclaration {
+    private final static String NAME = "assigned";
+    private ArgumentType[] argumentTypes = {new RuntimeType(
+            new PointerType(BasicType.create(Object.class)), true)};
 
     @Override
     public String getName() {
-        return "cast";
+        return NAME;
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        RuntimeValue pointer = arguments[0];
-        RuntimeValue value = arguments[1];
-        PointerType declType = (PointerType) pointer.getType(f).declType;
-        Class<?> storageClass = declType.pointedToType.getStorageClass();
-        return new InstanceObjectCall(pointer, value, storageClass, line);
+        RuntimeValue value = arguments[0];
+        return new AssignedCall(value, value.getType(f), line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values,
+                                               ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 
     @Override
     public ArgumentType[] argumentTypes() {
-        return ARGUMENT_TYPES;
+        return argumentTypes;
     }
 
     @Override
@@ -80,22 +78,32 @@ public class CastObjectFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class InstanceObjectCall extends FunctionCall {
-        private RuntimeValue value;
-        private Class<?> storageClass;
-        private LineInfo line;
-        private RuntimeValue pointer;
+    private class AssignedCall extends FunctionCall {
 
-        InstanceObjectCall(RuntimeValue pointer, RuntimeValue value, Class<?> storageClass, LineInfo line) {
+        private RuntimeValue value;
+        private RuntimeType type;
+        private LineInfo line;
+
+        AssignedCall(RuntimeValue value, RuntimeType type, LineInfo line) {
             this.value = value;
-            this.pointer = pointer;
-            this.storageClass = storageClass;
+            this.type = type;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
             return null;
+        }
+
+        @NonNull
+        @Override
+        public LineInfo getLineNumber() {
+            return line;
+        }
+
+        @Override
+        public void setLineNumber(LineInfo lineNumber) {
+
         }
 
         @Override
@@ -106,37 +114,27 @@ public class CastObjectFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, value, storageClass, line);
+            return new AssignedCall(value, type, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, value, storageClass, line);
+            return new AssignedCall(value, type, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "cast";
+            return NAME;
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
+        public Object getValueImpl(@NonNull VariableContext f,
+                                   @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            //get reference of variable
-            PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);
-
-            //get value of arg 2
-            Object value = this.value.getValue(f, main);
-
-            //cast object to type of variable
-            Object casted = storageClass.cast(value);
-
-            //set value
-            pointer.set(casted);
+            PascalReference value = (PascalReference) this.value.getValue(f, main);
+            value.set(NullValue.get());
             return null;
         }
-
     }
 }

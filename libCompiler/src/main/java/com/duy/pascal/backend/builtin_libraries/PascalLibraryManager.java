@@ -47,7 +47,7 @@ import com.duy.pascal.backend.builtin_libraries.android.voice.AndroidTextToSpeec
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.crt.CrtLib;
 import com.duy.pascal.backend.builtin_libraries.crt.WinCrt;
-import com.duy.pascal.backend.builtin_libraries.graph.GraphLib;
+import com.duy.pascal.backend.builtin_libraries.graphic.BasicGraphicAPI;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
 import com.duy.pascal.backend.builtin_libraries.java.data.JavaCollectionsAPI;
 import com.duy.pascal.backend.builtin_libraries.math.MathLib;
@@ -105,7 +105,7 @@ public class PascalLibraryManager {
         MAP_LIBRARIES.put(WinCrt.NAME, WinCrt.class);
         MAP_LIBRARIES.put(DosLib.NAME, DosLib.class);
         MAP_LIBRARIES.put(MathLib.NAME, MathLib.class);
-        MAP_LIBRARIES.put(GraphLib.NAME, GraphLib.class);
+        MAP_LIBRARIES.put(BasicGraphicAPI.NAME, BasicGraphicAPI.class);
         MAP_LIBRARIES.put(StrUtilsLibrary.NAME, StrUtilsLibrary.class);
         MAP_LIBRARIES.put(SysUtilsLibrary.NAME, SysUtilsLibrary.class);
 

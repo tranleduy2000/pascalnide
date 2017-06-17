@@ -68,6 +68,7 @@ public class TextRenderer implements ScreenObject {
         mTextPaint.setTypeface(mTypeface);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextSize(textSize);
+        mTextPaint.setAlpha(255);
 
         mCharHeight = (int) Math.ceil(mTextPaint.getFontSpacing());
         mCharAscent = (int) Math.ceil(mTextPaint.ascent());
@@ -96,7 +97,8 @@ public class TextRenderer implements ScreenObject {
     public void drawText(Canvas canvas, float x, float y, TextConsole[] text, int start, int count) {
 
         for (int i = start; i < start + count; i++) {
-            if (!fixedWidthFont) mCharWidth = (int) mTextPaint.measureText(text[i].getSingleString());
+            if (!fixedWidthFont)
+                mCharWidth = (int) mTextPaint.measureText(text[i].getSingleString());
 
             mBackgroundPaint.setColor(text[i].getTextBackground());
             canvas.drawRect(x, y + mCharAscent, x + mCharWidth, y + mCharDescent, mBackgroundPaint);
