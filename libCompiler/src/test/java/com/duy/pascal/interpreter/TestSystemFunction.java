@@ -27,8 +27,12 @@ public class TestSystemFunction extends BaseTestCase {
 
     }
 
-    public void testLowHighDynamic(){
+    public void testLowHighDynamic() {
         run("lowhighdynamic.pas");
+    }
+
+    public void testAssigned() {
+        run("assigned.pas");
     }
 }
 

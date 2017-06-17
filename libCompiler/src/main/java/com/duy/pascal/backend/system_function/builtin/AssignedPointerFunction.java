@@ -32,33 +32,33 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.ArrayType;
-import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.types.subrange.IntegerRange;
+import com.duy.pascal.backend.utils.NullSafety;
 
 /**
  * Check if a pointer is valid
  */
-public class AssignedFunction implements IMethodDeclaration {
-    private RuntimeType runtimeType;
-    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
+public class AssignedPointerFunction implements IMethodDeclaration {
+    private final static String NAME = "assigned";
+    private ArgumentType[] argumentTypes = {new RuntimeType(
+            new PointerType(BasicType.create(Object.class)), false)};
 
     @Override
     public String getName() {
-        return "assigned";
+        return NAME;
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue value = arguments[0];
-        this.runtimeType = value.getType(f);
-        return new AssignedCall(value, line);
+        return new AssignedCall(value, value.getType(f), line);
     }
 
     @Override
-    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+    public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values,
+                                               ExpressionContext f) throws ParsingException {
         return generateCall(line, values, f);
     }
 
@@ -69,15 +69,7 @@ public class AssignedFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        if (runtimeType != null) {
-            if (runtimeType.declType instanceof ArrayType) {
-                return BasicType.Integer;
-            } else {
-                return BasicType.create(Object.class);
-            }
-        } else {
-            return BasicType.create(Object.class);
-        }
+        return BasicType.Boolean;
     }
 
     @Override
@@ -88,16 +80,18 @@ public class AssignedFunction implements IMethodDeclaration {
     private class AssignedCall extends FunctionCall {
 
         private RuntimeValue value;
+        private RuntimeType type;
         private LineInfo line;
 
-        AssignedCall(RuntimeValue value, LineInfo line) {
+        AssignedCall(RuntimeValue value, RuntimeType type, LineInfo line) {
             this.value = value;
+            this.type = type;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(AssignedFunction.this.returnType(), false);
+            return new RuntimeType(BasicType.Boolean, false);
         }
 
         @NonNull
@@ -119,53 +113,25 @@ public class AssignedFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new AssignedCall(value, line);
+            return new AssignedCall(value, type, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new AssignedCall(value, line);
+            return new AssignedCall(value, type, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "assigned";
+            return NAME;
         }
 
         @Override
-        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
+        public Object getValueImpl(@NonNull VariableContext f,
+                                   @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-
-            DeclaredType declType = runtimeType.declType;
-            if (declType instanceof ArrayType) {
-                IntegerRange bounds = ((ArrayType) declType).getBound();
-                Object[] value = (Object[]) this.value.getValue(f, main);
-                int size = value.length;
-                if (bounds == null) {
-                    return size - 1;
-                } else {
-                    return bounds.getFirst() + size - 1;
-                }
-            } else if (BasicType.Byte.equals(declType)) {
-                return Byte.MAX_VALUE;
-            } else if (BasicType.Short.equals(declType)) {
-                return Short.MAX_VALUE;
-            } else if (BasicType.Integer.equals(declType)) {
-                return Integer.MAX_VALUE;
-            } else if (BasicType.Long.equals(declType)) {
-                return Long.MAX_VALUE;
-            } else if (BasicType.Float.equals(declType)) {
-                return Float.MAX_VALUE;
-            } else if (BasicType.Double.equals(declType)) {
-                return Double.MAX_VALUE;
-            } else if (BasicType.Character.equals(declType)) {
-                return Character.MAX_VALUE;
-            } else if (declType instanceof EnumGroupType) {
-                EnumGroupType enumGroupType = (EnumGroupType) declType;
-                return enumGroupType.get(enumGroupType.getSize() - 1);
-            }
-            return null;
+            return NullSafety.isNullValue(value.getValue(f, main));
         }
     }
 }
