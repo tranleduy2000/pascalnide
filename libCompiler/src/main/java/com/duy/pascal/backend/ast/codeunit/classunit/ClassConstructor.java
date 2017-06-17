@@ -50,6 +50,13 @@ public class ClassConstructor extends FunctionDeclaration {
         this.classType = classType;
     }
 
+    public ClassConstructor(PascalClassType classType, ExpressionContext parent)
+            throws ParsingException {
+        super(parent);
+        this.classType = classType;
+        this.name = "create";
+    }
+
     public ClassConstructor(PascalClassType classType, ExpressionContext parent,
                             GrouperToken grouperToken, boolean isProcedure) throws ParsingException {
         super(parent, grouperToken, isProcedure);

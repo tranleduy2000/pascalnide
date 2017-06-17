@@ -38,6 +38,12 @@ public class PascalClassType extends ObjectType {
     public PascalClassType(CodeUnit root, ExpressionContext parent) throws ParsingException {
         this.parent = parent;
         mPascalClassDeclaration = new PascalClassDeclaration(root, parent, null);
+        addDefaultConstructor();
+    }
+
+    private void addDefaultConstructor() throws ParsingException {
+        ClassConstructor def = new ClassConstructor(this, parent);
+        addConstructor(def);
     }
 
     public ArrayListMultimap<String, ClassConstructor> getConstructors() {
