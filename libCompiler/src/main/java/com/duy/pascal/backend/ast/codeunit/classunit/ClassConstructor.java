@@ -20,9 +20,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -55,6 +54,7 @@ public class ClassConstructor extends FunctionDeclaration {
         super(parent);
         this.classType = classType;
         this.name = "create";
+        this.instructions = new CompoundStatement(new LineInfo(0, "system"));
     }
 
     public ClassConstructor(PascalClassType classType, ExpressionContext parent,
@@ -65,13 +65,7 @@ public class ClassConstructor extends FunctionDeclaration {
 
     public Object call(RuntimeExecutableCodeUnit<?> main, Object[] arguments, String idName) throws RuntimePascalException {
         RuntimePascalClass classVarContext = new RuntimePascalClass(classType.getDeclaration());
-        if (declaration.root() instanceof PascalProgramDeclaration) {
-            declaration.root().getContext().getRuntimePascalClassMap().put(idName, classVarContext);
-        } else if (declaration.root() instanceof PascalUnitDeclaration) {
-
-        } else if (declaration.root() instanceof PascalClassDeclaration) {
-
-        }
+        main.addPascalClassContext(idName, classVarContext);
         FunctionOnStack functionOnStack = new FunctionOnStack(classVarContext, main, this, arguments);
         if (main.isDebug()) {
             main.getDebugListener().onVariableChange(new CallStack(functionOnStack));

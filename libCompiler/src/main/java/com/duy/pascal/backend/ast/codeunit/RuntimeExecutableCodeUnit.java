@@ -70,6 +70,12 @@ public abstract class RuntimeExecutableCodeUnit<parent extends ExecutableCodeUni
         return classMap.get(identifier);
     }
 
+    public void addPascalClassContext(String id, RuntimePascalClass runtimePascalClass) {
+        Map<String, RuntimePascalClass> classMap
+                = declaration.getContext().getRuntimePascalClassMap();
+        classMap.put(id, runtimePascalClass);
+    }
+
     public void run() throws RuntimePascalException {
         try {
             runImpl();

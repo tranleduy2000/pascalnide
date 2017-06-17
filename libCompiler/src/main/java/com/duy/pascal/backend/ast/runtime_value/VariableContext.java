@@ -31,12 +31,9 @@ public abstract class VariableContext implements ContainsVariables {
     @Override
     public Object getVar(String name) throws RuntimePascalException {
         Object result = this.getLocalVar(name);
-        VariableContext parentcontext = getParentContext();
-        if (isNullValue(result) && parentcontext != null) {
-            result = parentcontext.getVar(name);
-        }
-        if (result instanceof NullValue) {
-            System.err.println("Warning!  Fetched null variable!");
+        VariableContext parentContext = getParentContext();
+        if (isNullValue(result) && parentContext != null) {
+            result = parentContext.getVar(name);
         }
         return result;
     }

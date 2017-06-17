@@ -27,7 +27,7 @@ begin
 end;
 
 begin
-   r1 = Rectangle.create;
+   r1 := Rectangle.create;
    r1.zrandom := 3;
    r2.zrandom := 4;
    writeln(' Draw Rectangle:1 ', ' by ', r1.zrandom);

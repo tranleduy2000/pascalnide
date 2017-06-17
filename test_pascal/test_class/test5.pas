@@ -63,7 +63,7 @@ begin
 end;
 
 begin
-   r1 := r1.create(3, 7);
+   r1 := Rectangle.create(3, 7);
    
    writeln(' Draw Rectangle: ', r1.getlength(), ' by ', r1.getwidth());
    r1.draw;

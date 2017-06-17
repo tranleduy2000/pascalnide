@@ -27,6 +27,7 @@ begin
 end;
 
 begin
+   r1 := Rectangle.create;
    r1.setRandom();
    r2.setRandom();
    writeln(' Draw Rectangle:1 ', r1.getRandom());
