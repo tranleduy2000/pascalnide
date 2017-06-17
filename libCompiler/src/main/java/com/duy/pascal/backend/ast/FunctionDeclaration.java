@@ -47,6 +47,7 @@ import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.frontend.debug.CallStack;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,6 +71,8 @@ public class FunctionDeclaration extends AbstractCallableFunction {
     private boolean isProcedure = false;
     private boolean bodyDeclared;
 
+    private int modifier = Modifier.PUBLIC;
+
     public FunctionDeclaration(String name, ExpressionContext parent, GrouperToken grouperToken,
                                boolean isProcedure) throws ParsingException {
         parseHeader(name, parent, grouperToken, isProcedure);
@@ -85,6 +88,14 @@ public class FunctionDeclaration extends AbstractCallableFunction {
         this.declaration = new FunctionExpressionContext(this, p);
         this.argumentNames = new String[0];
         this.argumentTypes = new RuntimeType[0];
+    }
+
+    public int getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
     }
 
     public void parseHeader(String name, ExpressionContext parent, GrouperToken grouperToken,

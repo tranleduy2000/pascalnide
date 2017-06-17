@@ -939,7 +939,7 @@ public class ConsoleView extends View implements
 
     //pascal
     public void setCursorGraphPosition(int x, int y) {
-        mGraphScreen.setCursorPostion(x, y);
+        mGraphScreen.setCursorPosition(x, y);
     }
 
     public ConsoleCursor getCursorGraphic() {

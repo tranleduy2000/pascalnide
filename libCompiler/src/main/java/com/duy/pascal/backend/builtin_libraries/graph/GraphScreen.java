@@ -56,9 +56,10 @@ public class GraphScreen {
     private ViewPort viewPort = new ViewPort(0, 0, width, height);
 
     private Paint mBackgroundPaint = new Paint();
-    private TextPaint textPaint = new TextPaint();
-    private LinePaint linePaint = new LinePaint();
-    private FillPaint fillPaint = new FillPaint();
+
+    private TextPaint mTextPaint = new TextPaint();
+    private LinePaint mLinePaint = new LinePaint();
+    private FillPaint mFillPaint = new FillPaint();
 
     /**
      * this object used to draw {@link GraphObject}
@@ -76,13 +77,14 @@ public class GraphScreen {
     public GraphScreen(Context context, ConsoleView consoleView) {
         this.context = context;
         this.mConsoleView = consoleView;
+
         //setup cursor paint
         mBackgroundPaint.setColor(Color.BLACK);
-        fillPaint.setStyle(Paint.Style.FILL);
+        mFillPaint.setStyle(Paint.Style.FILL);
     }
 
     public void setTextStyle(int textStyle) {
-        this.textPaint.setTextStyle(textStyle);
+        this.mTextPaint.setTextStyle(textStyle);
     }
 
     public void setLineWidth(int lineWidth) {
@@ -102,11 +104,11 @@ public class GraphScreen {
     }
 
     public void setTextDirection(int textDirection) {
-        this.textPaint.setTextDirection(textDirection);
+        this.mTextPaint.setTextDirection(textDirection);
     }
 
     public void setTextSize(int textSize) {
-        textPaint.setTextSize(textSize * TextPaint.DEF_TEXT_SIZE);
+        mTextPaint.setTextSize(textSize * TextPaint.DEF_TEXT_SIZE);
     }
 
     public int getBackgroundColor() {
@@ -155,7 +157,7 @@ public class GraphScreen {
             } else {
                 Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
-                canvas.drawBitmap(mPrimaryBitmap, 0, 0, textPaint);
+                canvas.drawBitmap(mPrimaryBitmap, 0, 0, mTextPaint);
                 synchronized (mLock) {
                     mPrimaryBitmap.recycle();
                     mPrimaryBitmap = bitmap;
@@ -167,7 +169,7 @@ public class GraphScreen {
                 } else {
                     Bitmap buffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     Canvas canvasBuffer = new Canvas(buffer);
-                    canvasBuffer.drawBitmap(mBitmapBuffer, 0, 0, textPaint);
+                    canvasBuffer.drawBitmap(mBitmapBuffer, 0, 0, mTextPaint);
                     synchronized (mLock) {
                         mBitmapBuffer.recycle();
                         mBitmapBuffer = buffer;
@@ -198,11 +200,11 @@ public class GraphScreen {
     }
 
     public int getPaintColor() {
-        return textPaint.getColor();
+        return mTextPaint.getColor();
     }
 
     public void setPaintColor(int paintColor) {
-        this.textPaint.setColor(paintColor);
+        this.mTextPaint.setColor(paintColor);
     }
 
     public void closeGraph() {
@@ -219,20 +221,13 @@ public class GraphScreen {
      */
     private void clearPrimaryBitmap() {
         synchronized (mLock) {
-         /*   Canvas canvas = null;
-            if (mPrimaryBitmap != null) {
-                canvas = new Canvas(mPrimaryBitmap);
-                Paint paint = new Paint();
-                paint.setColor(Color.BLACK);
-                canvas.drawRect(0, 0, mPrimaryBitmap.getWidth(), mPrimaryBitmap.getHeight(), paint);
-            }*/
             if (ensurePrimaryNonNull()) {
                 mPrimaryBitmap.eraseColor(Color.TRANSPARENT);
             }
         }
     }
 
-    public void setCursorPostion(int x, int y) {
+    public void setCursorPosition(int x, int y) {
         this.mCursor.setCoordinate(x, y);
     }
 
@@ -245,8 +240,8 @@ public class GraphScreen {
 
         graphObject.setLineWidth(lineWidth);
         graphObject.setLineStyle(lineStyle);
-        graphObject.setLineColor(textPaint.getColor());
-        graphObject.setTextPaint(textPaint.clonePaint());
+        graphObject.setLineColor(mTextPaint.getColor());
+        graphObject.setTextPaint(mTextPaint.clonePaint());
         graphObject.setAntiAlias(antiAlias);
 
         this.lastObject = graphObject;
@@ -264,11 +259,11 @@ public class GraphScreen {
     }
 
     public void getTextBound(String text, Rect store) {
-        textPaint.getTextBounds(text, 0, text.length(), store);
+        mTextPaint.getTextBounds(text, 0, text.length(), store);
     }
 
     public TextPaint getTextPaint() {
-        return textPaint;
+        return mTextPaint;
     }
 
     /**
@@ -280,12 +275,12 @@ public class GraphScreen {
     }
 
     public void setPaintStyle(int style, int pattern, int width) {
-        textPaint.setStrokeWidth(width);
+        mTextPaint.setStrokeWidth(width);
 
     }
 
     public synchronized void setFontID(int fontID) {
-        this.textPaint.setTextFontID(fontID);
+        this.mTextPaint.setTextFontID(fontID);
         Typeface font;
         switch (fontID) {
             case TextFont.DefaultFont:
@@ -310,16 +305,16 @@ public class GraphScreen {
                 font = Typeface.MONOSPACE;
                 break;
         }
-        textPaint.setTextFont(font);
+        mTextPaint.setTextFont(font);
     }
 
 
     public TextJustify getTextJustify() {
-        return textPaint.getTextJustify();
+        return mTextPaint.getTextJustify();
     }
 
     public void setTextJustify(TextJustify textJustify) {
-        this.textPaint.setTextJustify(textJustify);
+        this.mTextPaint.setTextJustify(textJustify);
     }
 
     public void setLinePattern(int linePattern) {
@@ -368,23 +363,12 @@ public class GraphScreen {
 
     public void bufferToPrimary() {
         if (mBitmapBuffer != null) {
-//            ensurePrimaryNonNull();
-//            Canvas canvas = new Canvas(mPrimaryBitmap);
-//            canvas.drawBitmap(mBitmapBuffer, 0, 0, null);
-//            this.mPrimaryBitmap = mBitmapBuffer.copy(mBitmapBuffer.getConfig(), true);
             this.mPrimaryBitmap = mBitmapBuffer.copy(mBitmapBuffer.getConfig(), true);
         }
     }
 
     public synchronized void clearBufferBitmap() {
         synchronized (mLock) {
-         /*   Canvas canvas = null;
-            if (mBitmapBuffer != null) {
-                canvas = new Canvas(mBitmapBuffer);
-                Paint paint = new Paint();
-                paint.setColor(Color.BLACK);
-                canvas.drawRect(0, 0, mBitmapBuffer.getWidth(), mBitmapBuffer.getHeight(), paint);
-            }*/
             if (mBitmapBuffer != null) mBitmapBuffer.eraseColor(Color.TRANSPARENT);
         }
     }

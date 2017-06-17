@@ -44,11 +44,11 @@ public class TextRenderer implements ScreenObject {
     private int mCharDescent;
     private int mCharWidth;
     private int mTextMode = 0;
-    private Typeface typeface = Typeface.MONOSPACE;
+    private Typeface mTypeface = Typeface.MONOSPACE;
     private Paint mTextPaint = new Paint();
-    private Paint backgroundPaint = new Paint();
-    private int textColor = Color.WHITE;
-    private int textBackgroundColor = Color.BLACK;
+    private Paint mBackgroundPaint = new Paint();
+    private int mTextColor = Color.WHITE;
+    private int mTextBackgroundColor = Color.BLACK;
     private int alpha = NORMAL_TEXT_ALPHA;
     private boolean fixedWidthFont;
 
@@ -57,15 +57,15 @@ public class TextRenderer implements ScreenObject {
     }
 
     public int getTextBackgroundColor() {
-        return textBackgroundColor;
+        return mTextBackgroundColor;
     }
 
     public void setTextBackgroundColor(int color) {
-        this.textBackgroundColor = color;
+        this.mTextBackgroundColor = color;
     }
 
     private void init(float textSize) {
-        mTextPaint.setTypeface(typeface);
+        mTextPaint.setTypeface(mTypeface);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextSize(textSize);
 
@@ -98,8 +98,8 @@ public class TextRenderer implements ScreenObject {
         for (int i = start; i < start + count; i++) {
             if (!fixedWidthFont) mCharWidth = (int) mTextPaint.measureText(text[i].getSingleString());
 
-            backgroundPaint.setColor(text[i].getTextBackground());
-            canvas.drawRect(x, y + mCharAscent, x + mCharWidth, y + mCharDescent, backgroundPaint);
+            mBackgroundPaint.setColor(text[i].getTextBackground());
+            canvas.drawRect(x, y + mCharAscent, x + mCharWidth, y + mCharDescent, mBackgroundPaint);
 
             mTextPaint.setColor(text[i].getTextColor());
             mTextPaint.setAlpha(text[i].getAlpha());
@@ -118,12 +118,12 @@ public class TextRenderer implements ScreenObject {
     }
 
     public Typeface getTypeface() {
-        return typeface;
+        return mTypeface;
     }
 
-    public void setTypeface(Typeface typeface) {
-        this.typeface = typeface;
-        mTextPaint.setTypeface(typeface);
+    public void setTypeface(Typeface mTypeface) {
+        this.mTypeface = mTypeface;
+        mTextPaint.setTypeface(mTypeface);
     }
 
     public int getCharHeight() {
@@ -160,11 +160,11 @@ public class TextRenderer implements ScreenObject {
 
 
     public int getTextColor() {
-        return textColor;
+        return mTextColor;
     }
 
-    public void setTextColor(int textColor) {
-        this.textColor = textColor;
+    public void setTextColor(int mTextColor) {
+        this.mTextColor = mTextColor;
     }
 
     public int getTextMode() {
@@ -195,7 +195,7 @@ public class TextRenderer implements ScreenObject {
     }
 
     public int getBackgroundColor() {
-        return textBackgroundColor;
+        return mTextBackgroundColor;
     }
 
     public int getAlpha() {

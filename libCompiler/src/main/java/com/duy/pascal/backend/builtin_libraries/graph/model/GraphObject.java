@@ -90,6 +90,7 @@ public abstract class GraphObject {
 
     public void setLineColor(int color) {
         linePaint.setColor(color);
+
         textPaint.setColor(color);
     }
 
@@ -162,6 +163,7 @@ public abstract class GraphObject {
     public abstract void draw(Canvas canvas);
 
     public void draw(Bitmap parent) {
+
         Canvas canvas = new Canvas(parent);
         draw(canvas);
     }

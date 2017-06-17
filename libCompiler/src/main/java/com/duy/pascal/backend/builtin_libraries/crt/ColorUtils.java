@@ -76,14 +76,15 @@ public class ColorUtils {
         if (mapColorsAndroid.get(androidColor) != null) {
             return mapColorsAndroid.get(androidColor);
         }
-        return Color.rgb(Color.red(androidColor), Color.green(androidColor),
-                Color.blue(androidColor));
+        return Color.argb(Color.alpha(androidColor),
+                Color.red(androidColor), Color.green(androidColor), Color.blue(androidColor));
     }
 
     public static int pascalColorToAndroidColor(int pascalColor) {
         if (mapColorsPascal.get(pascalColor) != null) {
             return mapColorsPascal.get(pascalColor);
         }
-        return Color.rgb(Color.red(pascalColor), Color.green(pascalColor), Color.blue(pascalColor));
+        return Color.argb(Color.alpha(pascalColor),
+                Color.red(pascalColor), Color.green(pascalColor), Color.blue(pascalColor));
     }
 }
