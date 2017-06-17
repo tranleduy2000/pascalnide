@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.builtin;
 
 import android.support.annotation.Nullable;
 

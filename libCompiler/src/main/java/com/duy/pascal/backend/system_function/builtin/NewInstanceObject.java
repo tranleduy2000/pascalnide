@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.builtin;
 
 
 import android.support.annotation.NonNull;
@@ -23,7 +23,7 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.instructions.ExecutionResult;
+import com.duy.pascal.backend.ast.instructions.FieldReference;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -32,21 +32,31 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 
-public class ExitNoneFunction implements IMethodDeclaration {
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
-    private ArgumentType[] argumentTypes = new ArgumentType[]{};
+/**
+ * d
+ */
+
+public class NewInstanceObject implements IMethodDeclaration {
+    private ArgumentType[] argumentTypes =
+            {new RuntimeType(new JavaClassBasedType(Object.class), true)};
 
     @Override
     public String getName() {
-        return "exit";
+        return "new".toLowerCase();
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new ExitNoneCall(line);
+        RuntimeValue pointer = arguments[0];
+        return new InstanceObjectCall(pointer, pointer.getType(f), line);
     }
 
     @Override
@@ -67,13 +77,17 @@ public class ExitNoneFunction implements IMethodDeclaration {
     @Override
     public String description() {
         return null;
+
     }
 
-    private class ExitNoneCall extends FunctionCall {
-
+    private class InstanceObjectCall extends FunctionCall {
+        private RuntimeValue pointer;
+        private RuntimeType type;
         private LineInfo line;
 
-        ExitNoneCall(LineInfo line) {
+        InstanceObjectCall(RuntimeValue value, RuntimeType type, LineInfo line) {
+            this.pointer = value;
+            this.type = type;
             this.line = line;
         }
 
@@ -101,24 +115,49 @@ public class ExitNoneFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new ExitNoneCall(line);
+            return new InstanceObjectCall(pointer, type, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new ExitNoneCall(line);
+            return new InstanceObjectCall(pointer, type, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "exit";
+            return "new";
         }
 
         @Override
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            return ExecutionResult.EXIT;
+            //get references of variable
+            FieldReference pointer = (FieldReference) this.pointer.getValue(f, main);
+
+            //get class type of variable
+            JavaClassBasedType javaType = (JavaClassBasedType) ((PointerType) type.declType).pointedToType;
+
+            Class<?> clazz = javaType.getStorageClass();
+
+            Constructor<?> constructor;
+            try {
+                constructor = clazz.getConstructor();
+                try {
+                    Object value = constructor.newInstance();
+                    pointer.set(value);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
+
     }
 }

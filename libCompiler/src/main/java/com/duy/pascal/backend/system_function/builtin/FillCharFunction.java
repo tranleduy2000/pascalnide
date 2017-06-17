@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.io;
+package com.duy.pascal.backend.system_function.builtin;
 
 
 import android.support.annotation.NonNull;
@@ -22,13 +22,11 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.function_declaretion.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -36,29 +34,22 @@ import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.VarargsType;
-import com.duy.pascal.frontend.debug.CallStack;
 
-import java.io.File;
+public class FillCharFunction implements IMethodDeclaration {
 
-/**
- * Casts an object to the class or the interface represented
- */
-public class ReadFileFunction implements IMethodDeclaration {
-
-    private ArgumentType[] argumentTypes =
-            {new RuntimeType(BasicType.Text, true),
-                    new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
+    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), true),
+            new RuntimeType(BasicType.Integer, false),
+            new RuntimeType(BasicType.Character, false)};
 
     @Override
     public String getName() {
-        return "read";
+        return "fillchar";
     }
 
     @Override
-    public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
+    public FillCharCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new ReadFileCall(arguments[0], arguments[1], line);
+        return new FillCharCall(arguments, line);
     }
 
     @Override
@@ -73,7 +64,7 @@ public class ReadFileFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return null;
+        return BasicType.create(Object.class);
     }
 
     @Override
@@ -81,14 +72,13 @@ public class ReadFileFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class ReadFileCall extends FunctionCall {
-        private RuntimeValue args;
-        private LineInfo line;
-        private RuntimeValue filePreference;
+    private static class FillCharCall extends FunctionCall {
 
-        ReadFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
-            this.filePreference = filePreferences;
-            this.args = args;
+        private final RuntimeValue[] arguments;
+        private LineInfo line;
+
+        public FillCharCall(RuntimeValue[] arguments, LineInfo line) {
+            this.arguments = arguments;
             this.line = line;
         }
 
@@ -116,33 +106,57 @@ public class ReadFileFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new ReadFileCall(filePreference, args, line);
+            return new FillCharCall(arguments, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new ReadFileCall(filePreference, args, line);
+            return new FillCharCall(arguments, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "read";
+            return "fillchar";
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
-
-            PascalReference[] values = (PascalReference[]) args.getValue(f, main);
-            PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
-            fileLib.readz(file.get(), values);
-            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-
+            PascalReference array = (PascalReference) arguments[0].getValue(f, main);
+            int size = (int) arguments[1].getValue(f, main);
+            char value = (char) arguments[2].getValue(f, main);
+            if (array.get() instanceof StringBuilder) {
+                StringBuilder s = (StringBuilder) array.get();
+                if (s == null || s.length() < size) {
+                    s = new StringBuilder();
+                    for (int i = 0; i < size; i++) {
+                        s.append(value);
+                    }
+                    array.set(s);
+                    return null;
+                }
+                for (int i = 0; i < size; i++) {
+                    s.setCharAt(i, value);
+                }
+            } else if (array.get() instanceof String) {
+                String s = (String) array.get();
+                if (s == null || s.length() < size) {
+                    StringBuilder tmp = new StringBuilder();
+                    for (int i = 0; i < size; i++) {
+                        tmp.append(value);
+                    }
+                    array.set(s.toString());
+                    return null;
+                }
+                StringBuilder stringBuilder = new StringBuilder(s);
+                for (int i = 0; i < size; i++) {
+                    stringBuilder.setCharAt(i, value);
+                }
+                array.set(stringBuilder.toString());
+            } else if (array.get() instanceof Object[]) {
+            }
             return null;
         }
-
     }
 }

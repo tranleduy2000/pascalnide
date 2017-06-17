@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.io;
+package com.duy.pascal.backend.system_function.io;
 
 
 import android.support.annotation.NonNull;
@@ -22,13 +22,14 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.function_declaretion.builtin.IMethodDeclaration;
+import com.duy.pascal.backend.system_function.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
+import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -38,23 +39,26 @@ import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.VarargsType;
 
+import java.io.File;
+
 /**
  * Casts an object to the class or the interface represented
  */
-public class WriteLineFunction implements IMethodDeclaration {
+public class WriteFileFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
-            {new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
+            {new RuntimeType(BasicType.Text, true),
+                    new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
 
     @Override
     public String getName() {
-        return "writeln";
+        return "write";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new WriteLineCall(arguments[0], line);
+        return new WriteFileCall(arguments[0], arguments[1], line);
     }
 
     @Override
@@ -77,11 +81,13 @@ public class WriteLineFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class WriteLineCall extends FunctionCall {
+    private class WriteFileCall extends FunctionCall {
         private RuntimeValue args;
         private LineInfo line;
+        private RuntimeValue filePreference;
 
-        WriteLineCall(RuntimeValue args, LineInfo line) {
+        WriteFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
+            this.filePreference = filePreferences;
             this.args = args;
             this.line = line;
         }
@@ -110,31 +116,31 @@ public class WriteLineFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new WriteLineCall(args, line);
+            return new WriteFileCall(filePreference, args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new WriteLineCall(args, line);
+            return new WriteFileCall(filePreference, args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "writeln";
+            return "write";
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
-
+            FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
 
             ArrayBoxer arrayBoxer = (ArrayBoxer) args;
             Object[] values = (Object[]) arrayBoxer.getValue(f, main);
 
-            ioHandler.println(values);
+            PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
+            fileLib.writeFile(file.get(), values);
             return null;
         }
 

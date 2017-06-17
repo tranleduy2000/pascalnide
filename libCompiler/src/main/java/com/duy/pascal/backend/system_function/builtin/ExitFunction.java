@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.io;
+package com.duy.pascal.backend.system_function.builtin;
 
 
 import android.support.annotation.NonNull;
@@ -22,13 +22,12 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.function_declaretion.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
+import com.duy.pascal.backend.ast.instructions.ExecutionResult;
+import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -36,26 +35,21 @@ import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.VarargsType;
-import com.duy.pascal.frontend.debug.CallStack;
 
-/**
- * Casts an object to the class or the interface represented
- */
-public class ReadLineFunction implements IMethodDeclaration {
+public class ExitFunction implements IMethodDeclaration {
 
-    private ArgumentType[] argumentTypes =
-            {new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
+    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
     public String getName() {
-        return "readln";
+        return "exit";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new ReadLineCall(arguments[0], line);
+        RuntimeValue array = arguments[0];
+        return new ExitCall(array, line);
     }
 
     @Override
@@ -78,12 +72,13 @@ public class ReadLineFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class ReadLineCall extends FunctionCall {
-        private RuntimeValue args;
-        private LineInfo line;
+    private class ExitCall extends FunctionCall {
 
-        ReadLineCall(RuntimeValue args, LineInfo line) {
-            this.args = args;
+        private LineInfo line;
+        private RuntimeValue value;
+
+        ExitCall(RuntimeValue value, LineInfo line) {
+            this.value = value;
             this.line = line;
         }
 
@@ -111,31 +106,35 @@ public class ReadLineFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new ReadLineCall(args, line);
+            return new ExitCall(value.compileTimeExpressionFold(context), line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new ReadLineCall(args, line);
+            return new ExitCall(value.compileTimeExpressionFold(c), line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "readln";
+            return "exit";
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
-            PascalReference[] values = (PascalReference[]) args.getValue(f, main);
-            ioHandler.readlnz(values);
-            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
-
-            return null;
+            if (f instanceof FunctionOnStack) {
+                if (((FunctionOnStack) f).isProcedure()) {
+                    throw new RuntimeException();
+                } else {
+                    String name = ((FunctionOnStack) f).getPrototype().name;
+                    Object value = this.value.getValue(f, main);
+                    f.setLocalVar(name, value);
+                }
+            } else {
+                // TODO: 30-Apr-17  check exception
+            }
+            return ExecutionResult.EXIT;
         }
-
     }
 }

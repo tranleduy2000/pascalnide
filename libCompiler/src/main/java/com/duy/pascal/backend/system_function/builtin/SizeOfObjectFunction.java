@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.builtin;
 
 
 import android.support.annotation.NonNull;
@@ -33,28 +33,29 @@ import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.ArrayType;
-import com.duy.pascal.backend.types.set.EnumGroupType;
+import com.duy.pascal.frontend.DLog;
 
-public class LowFunction implements IMethodDeclaration {
+public class SizeOfObjectFunction implements IMethodDeclaration {
 
+    private static final String TAG = "LengthFunction";
     private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
     public String getName() {
-        return "low";
+        return "sizeof";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        RuntimeValue object = arguments[0];
-        RuntimeType type = object.getType(f);
-        return new LowCall(type, line);
+        RuntimeValue array = arguments[0];
+        DLog.d(TAG, "generateCall: ");
+        return new SizeOfObjectCall(array, line);
     }
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
+        DLog.d(TAG, "generatePerfectFitCall: ");
         return generateCall(line, values, f);
     }
 
@@ -65,7 +66,7 @@ public class LowFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.create(Object.class);
+        return BasicType.Integer;
     }
 
     @Override
@@ -73,19 +74,19 @@ public class LowFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class LowCall extends FunctionCall {
+    private class SizeOfObjectCall extends FunctionCall {
 
         private LineInfo line;
-        private RuntimeType type;
+        private RuntimeValue array;
 
-        LowCall(RuntimeType type, LineInfo line) {
-            this.type = type;
+        SizeOfObjectCall(RuntimeValue array, LineInfo line) {
+            this.array = array;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.create(Object.class), false);
+            return new RuntimeType(BasicType.Integer, false);
         }
 
         @NonNull
@@ -96,7 +97,7 @@ public class LowFunction implements IMethodDeclaration {
 
         @Override
         public void setLineNumber(LineInfo lineNumber) {
-
+            this.line = lineNumber;
         }
 
         @Override
@@ -107,49 +108,42 @@ public class LowFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new LowCall(type, line);
+            return new SizeOfObjectCall(array.compileTimeExpressionFold(context), line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new LowCall(type, line);
+            return new SizeOfObjectCall(array.compileTimeExpressionFold(c), line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "low";
+            return "sizeof";
         }
 
         @Override
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            DeclaredType declType = type.declType;
-            if (declType instanceof ArrayType) {
-                if (((ArrayType) declType).isDynamic()) {
-                    return 0;
-                } else {
-                    return ((ArrayType) declType).getBound().getFirst();
-                }
-            } else if (BasicType.Byte.equals(declType)) {
-                return Byte.MIN_VALUE;
-            } else if (BasicType.Short.equals(declType)) {
-                return Short.MIN_VALUE;
-            } else if (BasicType.Integer.equals(declType)) {
-                return Integer.MIN_VALUE;
-            } else if (BasicType.Long.equals(declType)) {
-                return Long.MIN_VALUE;
-            } else if (BasicType.Double.equals(declType)) {
-                return Double.MIN_VALUE;
-            } else if (BasicType.Float.equals(declType)) {
-                return Float.MIN_VALUE;
-            } else if (BasicType.Character.equals(declType)) {
-                return Character.MIN_VALUE;
-            } else if (declType instanceof EnumGroupType) {
-                EnumGroupType enumGroupType = (EnumGroupType) declType;
-                return enumGroupType.get(0);
+            Object value = array.getValue(f, main);
+            if (value instanceof Integer) {
+                return 4;
+            } else if (value instanceof Long) {
+                return 8;
+            } else if (value instanceof Double) {
+                return 8;
+            } else if (value instanceof Short) {
+                return 1;
+            } else if (value instanceof Byte) {
+                return 1;
+            } else if (value instanceof Character) {
+                return 2;
+            } else if (value instanceof String) {
+                return ((String) value).length() + 1;
+            } else if (value instanceof StringBuilder) {
+                return ((StringBuilder) value).length() + 1;
             }
-            return null;
+            return 0;
         }
     }
 }

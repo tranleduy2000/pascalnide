@@ -1,5 +1,7 @@
 package com.duy.pascal.backend.ast.runtime_value.value;
 
+import android.support.annotation.NonNull;
+
 import com.duy.pascal.backend.ast.AbstractFunction;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
@@ -21,6 +23,7 @@ import java.util.List;
 public abstract class FunctionCall extends DebuggableExecutableReturnValue {
     protected static final String TAG = FunctionCall.class.getSimpleName();
     public RuntimeValue[] arguments;
+    private LineInfo lineInfo;
 
     public static FunctionCall generateFunctionCall(WordToken name, List<RuntimeValue> arguments,
                                                     ExpressionContext expressionContext)
@@ -100,16 +103,21 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
         return ExecutionResult.NOPE;
     }
 
-
     @Override
     public Object compileTimeValue(CompileTimeContext context)
             throws ParsingException {
         return null;
     }
 
+    @NonNull
+    @Override
+    public LineInfo getLineNumber() {
+        return lineInfo;
+    }
+
     @Override
     public void setLineNumber(LineInfo lineNumber) {
-
+        this.lineInfo = lineNumber;
     }
 
     protected RuntimeValue[] compileTimeExpressionFoldArguments(CompileTimeContext context)

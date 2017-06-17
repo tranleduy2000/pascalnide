@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.io;
+package com.duy.pascal.backend.system_function.io;
 
 
 import android.support.annotation.NonNull;
@@ -22,13 +22,13 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.function_declaretion.builtin.IMethodDeclaration;
+import com.duy.pascal.backend.system_function.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.builtin_libraries.io.IOLib;
+import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -39,23 +39,26 @@ import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.VarargsType;
 import com.duy.pascal.frontend.debug.CallStack;
 
+import java.io.File;
+
 /**
  * Casts an object to the class or the interface represented
  */
-public class ReadFunction implements IMethodDeclaration {
+public class ReadlnFileFunction implements IMethodDeclaration {
 
     private ArgumentType[] argumentTypes =
-            {new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
+            {new RuntimeType(BasicType.Text, true),
+                    new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
 
     @Override
     public String getName() {
-        return "read";
+        return "readln";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new ReadCall(arguments[0], line);
+        return new ReadLineFileCall(arguments[0], arguments[1], line);
     }
 
     @Override
@@ -78,11 +81,13 @@ public class ReadFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class ReadCall extends FunctionCall {
+    private class ReadLineFileCall extends FunctionCall {
         private RuntimeValue args;
         private LineInfo line;
+        private RuntimeValue filePreference;
 
-        ReadCall(RuntimeValue args, LineInfo line) {
+        ReadLineFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
+            this.filePreference = filePreferences;
             this.args = args;
             this.line = line;
         }
@@ -111,28 +116,31 @@ public class ReadFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new ReadCall(args, line);
+            return new ReadLineFileCall(filePreference, args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new ReadCall(args, line);
+            return new ReadLineFileCall(filePreference, args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "read";
+            return "readln";
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
+            FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
+
             PascalReference[] values = (PascalReference[]) args.getValue(f, main);
-            ioHandler.readz(values);
+            PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
+            fileLib.readlnz(file.get(), values);
             if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+
             return null;
         }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.io;
 
 
 import android.support.annotation.NonNull;
@@ -22,42 +22,43 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.system_function.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
+import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
+import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.VarargsType;
+
+import java.io.File;
 
 /**
  * Casts an object to the class or the interface represented
  */
-public class CastObjectFunction implements IMethodDeclaration {
+public class WritelnFileFunction implements IMethodDeclaration {
 
-    private static final ArgumentType[] ARGUMENT_TYPES =
-            {new RuntimeType(new JavaClassBasedType(Object.class), true), //target
-                    new RuntimeType(new JavaClassBasedType(Object.class), false)}; //other
+    private ArgumentType[] argumentTypes =
+            {new RuntimeType(BasicType.Text, true),
+                    new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
 
     @Override
     public String getName() {
-        return "cast";
+        return "writeln";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        RuntimeValue pointer = arguments[0];
-        RuntimeValue value = arguments[1];
-        PointerType declType = (PointerType) pointer.getType(f).declType;
-        Class<?> storageClass = declType.pointedToType.getStorageClass();
-        return new InstanceObjectCall(pointer, value, storageClass, line);
+        return new WriteLineFileCall(arguments[0], arguments[1], line);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class CastObjectFunction implements IMethodDeclaration {
 
     @Override
     public ArgumentType[] argumentTypes() {
-        return ARGUMENT_TYPES;
+        return argumentTypes;
     }
 
     @Override
@@ -80,16 +81,14 @@ public class CastObjectFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class InstanceObjectCall extends FunctionCall {
-        private RuntimeValue value;
-        private Class<?> storageClass;
+    private class WriteLineFileCall extends FunctionCall {
+        private RuntimeValue args;
         private LineInfo line;
-        private RuntimeValue pointer;
+        private RuntimeValue filePreference;
 
-        InstanceObjectCall(RuntimeValue pointer, RuntimeValue value, Class<?> storageClass, LineInfo line) {
-            this.value = value;
-            this.pointer = pointer;
-            this.storageClass = storageClass;
+        WriteLineFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
+            this.filePreference = filePreferences;
+            this.args = args;
             this.line = line;
         }
 
@@ -117,35 +116,32 @@ public class CastObjectFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, value, storageClass, line);
+            return new WriteLineFileCall(filePreference, args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new InstanceObjectCall(pointer, value, storageClass, line);
+            return new WriteLineFileCall(filePreference, args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "cast";
+            return "writeln";
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            //get reference of variable
-            PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);
+            FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
+            ArrayBoxer arrayBoxer = (ArrayBoxer) args;
+            Object[] values = (Object[]) arrayBoxer.getValue(f, main);
 
-            //get value of arg 2
-            Object value = this.value.getValue(f, main);
+            PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
 
-            //cast object to type of variable
-            Object casted = storageClass.cast(value);
-
-            //set value
-            pointer.set(casted);
+            fileLib.writeFile(file.get(), values);
+            fileLib.writeFile(file.get(), "\n");
             return null;
         }
 

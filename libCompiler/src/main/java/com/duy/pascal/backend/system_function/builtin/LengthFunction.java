@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.builtin;
 
 
 import android.support.annotation.NonNull;
@@ -29,28 +29,33 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
+import com.duy.pascal.backend.runtime_exception.TypeMismatchException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.set.ArrayType;
+import com.duy.pascal.backend.types.set.EnumGroupType;
 
-public class SizeOfArrayFunction implements IMethodDeclaration {
+/**
+ * length of one dimension array
+ */
+public class LengthFunction implements IMethodDeclaration {
 
-    private static final String TAG = "LengthFunction";
     private ArgumentType[] argumentTypes = {
-            new RuntimeType(new ArrayType<>(BasicType.create(Object.class), null), false)};
+            new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
     public String getName() {
-        return "sizeof";
+        return "length";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
-        return new SizeOfArrayCall(array, line);
+        RuntimeType type = array.getType(f);
+        return new LengthCall(array, type.declType, line);
     }
 
     @Override
@@ -73,13 +78,15 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class SizeOfArrayCall extends FunctionCall {
+    private class LengthCall extends FunctionCall {
 
+        private DeclaredType type;
         private LineInfo line;
         private RuntimeValue array;
 
-        SizeOfArrayCall(RuntimeValue array, LineInfo line) {
+        LengthCall(RuntimeValue array, DeclaredType declaredType, LineInfo line) {
             this.array = array;
+            type = declaredType;
             this.line = line;
         }
 
@@ -107,37 +114,38 @@ public class SizeOfArrayFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new SizeOfArrayCall(array.compileTimeExpressionFold(context), line);
+            return new LengthCall(array.compileTimeExpressionFold(context), type, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new SizeOfArrayCall(array.compileTimeExpressionFold(c), line);
+            return new LengthCall(array.compileTimeExpressionFold(c), type, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "sizeof";
+            return "length";
         }
 
         @Override
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            @SuppressWarnings("rawtypes")
-            ArrayType arr = (ArrayType) array.getValue(f, main);
-            int size = arr.getBound().getSize();
-            Class storageClass = arr.elementType.getStorageClass();
-            if (storageClass == int.class || storageClass == Integer.class) {
-                return size * 4; //32 bit
-            } else if (storageClass == long.class || storageClass == Long.class) {
-                return size * 8; //64 bit
-            } else if (storageClass == double.class || storageClass == Double.class) {
-                return size * 8; //64 bit
-            } else if (storageClass == char.class || storageClass == Character.class) {
-                return size * 2; //16 bit
+            Object value = array.getValue(f, main);
+            if (type instanceof ArrayType) {
+                return ((ArrayType) type).getBound().getSize();
+            } else if (value instanceof StringBuilder) {
+                return ((StringBuilder) value).length();
+            } else if (value instanceof String) {
+                return ((String) value).length();
+            } else if (type instanceof EnumGroupType) {
+                return ((EnumGroupType) type).getSize();
+            } else {
+                // TODO: 02-May-17  check exception
+                throw new TypeMismatchException(line, getFunctionName(),
+                        new DeclaredType[]{BasicType.StringBuilder,
+                                new ArrayType<>(BasicType.create(Object.class), null)}, type);
             }
-            return 0;
         }
     }
 }

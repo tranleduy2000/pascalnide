@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.builtin;
 
 
 import android.support.annotation.NonNull;
@@ -24,37 +24,32 @@ import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.operators.pointer.DerefEval;
-import com.duy.pascal.backend.ast.runtime_value.references.Reference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 
-public class AddressFunction implements IMethodDeclaration {
+public class FillBooleanFunction implements IMethodDeclaration {
 
-    private ArgumentType[] argumentTypes = {new RuntimeType(new PointerType(BasicType.create(Object.class)), true)};
-    private PointerType pointerType;
+    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), true),
+            new RuntimeType(BasicType.Integer, false),
+            new RuntimeType(BasicType.Boolean, false)};
+
 
     @Override
     public String getName() {
-        return "addr";
+        return "fillchar";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        RuntimeValue pointer = arguments[0];
-        this.pointerType = (PointerType) pointer.getType(f).declType;
-        return new AddressFunctionCall(pointer, line);
+        return new FillCharCall(arguments, line);
     }
 
     @Override
@@ -69,7 +64,7 @@ public class AddressFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return pointerType;
+        return BasicType.create(Object.class);
     }
 
     @Override
@@ -77,26 +72,19 @@ public class AddressFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class AddressFunctionCall extends FunctionCall {
+    private static class FillCharCall extends FunctionCall {
 
-        private RuntimeValue pointer;
+        private final RuntimeValue[] arguments;
         private LineInfo line;
 
-        public AddressFunctionCall(RuntimeValue pointer, LineInfo line) {
-            this.pointer = pointer;
+        public FillCharCall(RuntimeValue[] arguments, LineInfo line) {
+            this.arguments = arguments;
             this.line = line;
         }
 
         @Override
-        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main) throws RuntimePascalException {
-            Reference ref = (Reference) pointer.getValue(f, main);
-            return ref.get();
-        }
-
-        @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            RuntimeType pointertype = pointer.getType(f);
-            return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
+            return new RuntimeType(BasicType.create(Object.class), false);
         }
 
         @NonNull
@@ -111,36 +99,31 @@ public class AddressFunction implements IMethodDeclaration {
         }
 
         @Override
-        public Executable compileTimeConstantTransform(CompileTimeContext c) throws ParsingException {
+        public Object compileTimeValue(CompileTimeContext context) {
             return null;
         }
 
         @Override
-        public Object compileTimeValue(CompileTimeContext context) throws ParsingException {
-            Reference<?> ref = (Reference<?>) pointer.compileTimeValue(context);
-            if (ref != null) {
-                try {
-                    return ref.get();
-                } catch (RuntimePascalException e) {
-                    throw new ConstantCalculationException(e);
-                }
-            }
-            return null;
+        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
+                throws ParsingException {
+            return new FillCharCall(arguments, line);
         }
 
         @Override
-        public RuntimeValue compileTimeExpressionFold(CompileTimeContext context) throws ParsingException {
-            Object val = this.compileTimeValue(context);
-            if (val != null) {
-                return new ConstantAccess<>(val, line);
-            } else {
-                return new DerefEval(pointer.compileTimeExpressionFold(context), line);
-            }
+        public Executable compileTimeConstantTransform(CompileTimeContext c)
+                throws ParsingException {
+            return new FillCharCall(arguments, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "addr";
+            return "fillchar";
+        }
+
+        @Override
+        public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
+                throws RuntimePascalException {
+            return null;
         }
     }
 }

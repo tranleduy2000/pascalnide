@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.io;
 
 
 import android.support.annotation.NonNull;
@@ -22,10 +22,13 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.system_function.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -33,29 +36,30 @@ import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.frontend.DLog;
+import com.duy.pascal.backend.types.VarargsType;
+import com.duy.pascal.frontend.debug.CallStack;
 
-public class SizeOfObjectFunction implements IMethodDeclaration {
+/**
+ * Casts an object to the class or the interface represented
+ */
+public class ReadFunction implements IMethodDeclaration {
 
-    private static final String TAG = "LengthFunction";
-    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
+    private ArgumentType[] argumentTypes =
+            {new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
 
     @Override
     public String getName() {
-        return "sizeof";
+        return "read";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        RuntimeValue array = arguments[0];
-        DLog.d(TAG, "generateCall: ");
-        return new SizeOfObjectCall(array, line);
+        return new ReadCall(arguments[0], line);
     }
 
     @Override
     public FunctionCall generatePerfectFitCall(LineInfo line, RuntimeValue[] values, ExpressionContext f) throws ParsingException {
-        DLog.d(TAG, "generatePerfectFitCall: ");
         return generateCall(line, values, f);
     }
 
@@ -66,7 +70,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.Integer;
+        return null;
     }
 
     @Override
@@ -74,19 +78,18 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class SizeOfObjectCall extends FunctionCall {
-
+    private class ReadCall extends FunctionCall {
+        private RuntimeValue args;
         private LineInfo line;
-        private RuntimeValue array;
 
-        SizeOfObjectCall(RuntimeValue array, LineInfo line) {
-            this.array = array;
+        ReadCall(RuntimeValue args, LineInfo line) {
+            this.args = args;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.Integer, false);
+            return null;
         }
 
         @NonNull
@@ -97,7 +100,7 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
 
         @Override
         public void setLineNumber(LineInfo lineNumber) {
-            this.line = lineNumber;
+
         }
 
         @Override
@@ -108,42 +111,30 @@ public class SizeOfObjectFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new SizeOfObjectCall(array.compileTimeExpressionFold(context), line);
+            return new ReadCall(args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new SizeOfObjectCall(array.compileTimeExpressionFold(c), line);
+            return new ReadCall(args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "sizeof";
+            return "read";
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            Object value = array.getValue(f, main);
-            if (value instanceof Integer) {
-                return 4;
-            } else if (value instanceof Long) {
-                return 8;
-            } else if (value instanceof Double) {
-                return 8;
-            } else if (value instanceof Short) {
-                return 1;
-            } else if (value instanceof Byte) {
-                return 1;
-            } else if (value instanceof Character) {
-                return 2;
-            } else if (value instanceof String) {
-                return ((String) value).length() + 1;
-            } else if (value instanceof StringBuilder) {
-                return ((StringBuilder) value).length() + 1;
-            }
-            return 0;
+            IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
+            PascalReference[] values = (PascalReference[]) args.getValue(f, main);
+            ioHandler.readz(values);
+            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+            return null;
         }
+
     }
 }

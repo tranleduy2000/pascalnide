@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.io;
 
 
 import android.support.annotation.NonNull;
@@ -22,10 +22,13 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.system_function.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.builtin_libraries.file.FileLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -33,29 +36,29 @@ import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.ArrayType;
-import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.types.subrange.IntegerRange;
+import com.duy.pascal.backend.types.VarargsType;
+import com.duy.pascal.frontend.debug.CallStack;
 
-public class FillByteFunction implements IMethodDeclaration {
+import java.io.File;
 
+/**
+ * Casts an object to the class or the interface represented
+ */
+public class ReadFileFunction implements IMethodDeclaration {
 
-    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), true),
-            new RuntimeType(BasicType.Integer, false),
-            new RuntimeType(BasicType.Byte, false)};
-
+    private ArgumentType[] argumentTypes =
+            {new RuntimeType(BasicType.Text, true),
+                    new VarargsType(new RuntimeType(BasicType.create(Object.class), true))};
 
     @Override
     public String getName() {
-        return "fillchar";
+        return "read";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        RuntimeValue value = arguments[0];
-        RuntimeType type = value.getType(f);
-        return new FillCharCall(type, value, line);
+        return new ReadFileCall(arguments[0], arguments[1], line);
     }
 
     @Override
@@ -70,7 +73,7 @@ public class FillByteFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.create(Object.class);
+        return null;
     }
 
     @Override
@@ -78,21 +81,20 @@ public class FillByteFunction implements IMethodDeclaration {
         return null;
     }
 
-    private static class FillCharCall extends FunctionCall {
-
-        private RuntimeValue value;
+    private class ReadFileCall extends FunctionCall {
+        private RuntimeValue args;
         private LineInfo line;
-        private RuntimeType type;
+        private RuntimeValue filePreference;
 
-        FillCharCall(RuntimeType type, RuntimeValue value, LineInfo line) {
-            this.type = type;
-            this.value = value;
+        ReadFileCall(RuntimeValue filePreferences, RuntimeValue args, LineInfo line) {
+            this.filePreference = filePreferences;
+            this.args = args;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.create(Object.class), false);
+            return null;
         }
 
         @NonNull
@@ -114,48 +116,33 @@ public class FillByteFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new FillCharCall(type, value, line);
+            return new ReadFileCall(filePreference, args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new FillCharCall(type, value, line);
+            return new ReadFileCall(filePreference, args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "fillchar";
+            return "read";
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            DeclaredType declType = type.declType;
-            if (declType instanceof ArrayType) {
-                IntegerRange bounds = ((ArrayType) declType).getBound();
-                Object[] value = (Object[]) this.value.getValue(f, main);
-                int size = value.length - 1;
-                return bounds.getFirst() + size - 1;
-            } else if (BasicType.Byte.equals(declType)) {
-                return Byte.MAX_VALUE;
-            } else if (BasicType.Short.equals(declType)) {
-                return Short.MAX_VALUE;
-            } else if (BasicType.Integer.equals(declType)) {
-                return Integer.MAX_VALUE;
-            } else if (BasicType.Long.equals(declType)) {
-                return Long.MAX_VALUE;
-            } else if (BasicType.Float.equals(declType)) {
-                return Float.MAX_VALUE;
-            } else if (BasicType.Double.equals(declType)) {
-                return Double.MAX_VALUE;
-            } else if (BasicType.Character.equals(declType)) {
-                return Character.MAX_VALUE;
-            } else if (declType instanceof EnumGroupType) {
-                EnumGroupType enumGroupType = (EnumGroupType) declType;
-                return enumGroupType.get(enumGroupType.getSize() - 1);
-            }
+            FileLib fileLib = main.getDeclaration().getContext().getFileHandler();
+
+            PascalReference[] values = (PascalReference[]) args.getValue(f, main);
+            PascalReference<File> file = (PascalReference<File>) filePreference.getValue(f, main);
+            fileLib.readz(file.get(), values);
+            if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+
             return null;
         }
+
     }
 }

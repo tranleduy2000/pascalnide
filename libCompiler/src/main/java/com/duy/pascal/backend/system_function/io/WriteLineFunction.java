@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.io;
 
 
 import android.support.annotation.NonNull;
@@ -22,10 +22,13 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.system_function.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
+import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
@@ -33,23 +36,25 @@ import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.types.VarargsType;
 
-public class FillBooleanFunction implements IMethodDeclaration {
+/**
+ * Casts an object to the class or the interface represented
+ */
+public class WriteLineFunction implements IMethodDeclaration {
 
-    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), true),
-            new RuntimeType(BasicType.Integer, false),
-            new RuntimeType(BasicType.Boolean, false)};
-
+    private ArgumentType[] argumentTypes =
+            {new VarargsType(new RuntimeType(BasicType.create(Object.class), false))};
 
     @Override
     public String getName() {
-        return "fillchar";
+        return "writeln";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        return new FillCharCall(arguments, line);
+        return new WriteLineCall(arguments[0], line);
     }
 
     @Override
@@ -64,7 +69,7 @@ public class FillBooleanFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.create(Object.class);
+        return null;
     }
 
     @Override
@@ -72,19 +77,18 @@ public class FillBooleanFunction implements IMethodDeclaration {
         return null;
     }
 
-    private static class FillCharCall extends FunctionCall {
-
-        private final RuntimeValue[] arguments;
+    private class WriteLineCall extends FunctionCall {
+        private RuntimeValue args;
         private LineInfo line;
 
-        public FillCharCall(RuntimeValue[] arguments, LineInfo line) {
-            this.arguments = arguments;
+        WriteLineCall(RuntimeValue args, LineInfo line) {
+            this.args = args;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.create(Object.class), false);
+            return null;
         }
 
         @NonNull
@@ -106,24 +110,33 @@ public class FillBooleanFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new FillCharCall(arguments, line);
+            return new WriteLineCall(args, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new FillCharCall(arguments, line);
+            return new WriteLineCall(args, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "fillchar";
+            return "writeln";
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
+            IOLib ioHandler = main.getDeclaration().getContext().getIOHandler();
+
+
+            ArrayBoxer arrayBoxer = (ArrayBoxer) args;
+            Object[] values = (Object[]) arrayBoxer.getValue(f, main);
+
+            ioHandler.println(values);
             return null;
         }
+
     }
 }

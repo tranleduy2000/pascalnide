@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.builtin;
 
 
 import android.support.annotation.NonNull;
@@ -23,36 +23,41 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.runtime_value.ObjectBasedPointer;
 import com.duy.pascal.backend.ast.runtime_value.VariableContext;
-import com.duy.pascal.backend.ast.runtime_value.references.PascalPointer;
+import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.types.JavaClassBasedType;
 import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 
-public class NewFunction implements IMethodDeclaration {
+/**
+ * Casts an object to the class or the interface represented
+ */
+public class CastObjectFunction implements IMethodDeclaration {
 
-    private ArgumentType[] argumentTypes =
-            {new RuntimeType(new PointerType(BasicType.create(Object.class)), true)};
+    private static final ArgumentType[] ARGUMENT_TYPES =
+            {new RuntimeType(new JavaClassBasedType(Object.class), true), //target
+                    new RuntimeType(new JavaClassBasedType(Object.class), false)}; //other
 
     @Override
     public String getName() {
-        return "new";
+        return "cast";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
-        RuntimeType type = pointer.getType(f);
-        return new NewCall(pointer, type, line);
+        RuntimeValue value = arguments[1];
+        PointerType declType = (PointerType) pointer.getType(f).declType;
+        Class<?> storageClass = declType.pointedToType.getStorageClass();
+        return new InstanceObjectCall(pointer, value, storageClass, line);
     }
 
     @Override
@@ -62,7 +67,7 @@ public class NewFunction implements IMethodDeclaration {
 
     @Override
     public ArgumentType[] argumentTypes() {
-        return argumentTypes;
+        return ARGUMENT_TYPES;
     }
 
     @Override
@@ -72,18 +77,19 @@ public class NewFunction implements IMethodDeclaration {
 
     @Override
     public String description() {
-        return "Dynamically allocate memory for variable";
+        return null;
     }
 
-    private class NewCall extends FunctionCall {
-
+    private class InstanceObjectCall extends FunctionCall {
         private RuntimeValue value;
-        private RuntimeType type;
+        private Class<?> storageClass;
         private LineInfo line;
+        private RuntimeValue pointer;
 
-        NewCall(RuntimeValue value, RuntimeType type, LineInfo line) {
+        InstanceObjectCall(RuntimeValue pointer, RuntimeValue value, Class<?> storageClass, LineInfo line) {
             this.value = value;
-            this.type = type;
+            this.pointer = pointer;
+            this.storageClass = storageClass;
             this.line = line;
         }
 
@@ -92,16 +98,7 @@ public class NewFunction implements IMethodDeclaration {
             return null;
         }
 
-        @NonNull
-        @Override
-        public LineInfo getLineNumber() {
-            return line;
-        }
 
-        @Override
-        public void setLineNumber(LineInfo lineNumber) {
-
-        }
 
         @Override
         public Object compileTimeValue(CompileTimeContext context) {
@@ -111,49 +108,37 @@ public class NewFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new NewCall(value, type, line);
+            return new InstanceObjectCall(pointer, value, storageClass, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new NewCall(value, type, line);
+            return new InstanceObjectCall(pointer, value, storageClass, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "new";
+            return "cast";
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            PascalPointer pointer = (PascalPointer) this.value.getValue(f, main);
-            PointerType pointerType = (PointerType) ((PointerType) type.declType).pointedToType;
-            DeclaredType type = pointerType.pointedToType;
-            pointer.set(new ObjectBasedPointer<>(type.initialize()));
-           /* if (type instanceof ArrayType) {
-                pointer.set(new ObjectBasedPointer<>(new Object[]{}));
-            } else if (BasicType.Byte.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>((byte) 0));
-            } else if (BasicType.Short.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>((short) 0));
-            } else if (BasicType.Integer.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>(0));
-            } else if (BasicType.Long.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>(0L));
-            } else if (BasicType.Double.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>(0d));
-            } else if (BasicType.Character.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>((char) 0));
-            } else if (BasicType.StringBuilder.equals(type)) {
-                pointer.set(new ObjectBasedPointer<>(""));
-            } else if (type instanceof JavaClassBasedType) {
-                Object initialize = type.initialize();
-                pointer.set(new ObjectBasedPointer<>(initialize));
-            }*/
+            //get reference of variable
+            PascalReference pointer = (PascalReference) this.pointer.getValue(f, main);
+
+            //get value of arg 2
+            Object value = this.value.getValue(f, main);
+
+            //cast object to type of variable
+            Object casted = storageClass.cast(value);
+
+            //set value
+            pointer.set(casted);
             return null;
         }
+
     }
 }

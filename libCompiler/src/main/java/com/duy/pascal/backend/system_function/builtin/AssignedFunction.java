@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.backend.ast.function_declaretion.builtin;
+package com.duy.pascal.backend.system_function.builtin;
 
 
 import android.support.annotation.NonNull;
@@ -29,33 +29,32 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.runtime_exception.TypeMismatchException;
 import com.duy.pascal.backend.types.ArgumentType;
 import com.duy.pascal.backend.types.BasicType;
 import com.duy.pascal.backend.types.DeclaredType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.backend.types.set.ArrayType;
 import com.duy.pascal.backend.types.set.EnumGroupType;
+import com.duy.pascal.backend.types.subrange.IntegerRange;
 
 /**
- * length of one dimension array
+ * Check if a pointer is valid
  */
-public class LengthFunction implements IMethodDeclaration {
-
-    private ArgumentType[] argumentTypes = {
-            new RuntimeType(BasicType.create(Object.class), false)};
+public class AssignedFunction implements IMethodDeclaration {
+    private RuntimeType runtimeType;
+    private ArgumentType[] argumentTypes = {new RuntimeType(BasicType.create(Object.class), false)};
 
     @Override
     public String getName() {
-        return "length";
+        return "assigned";
     }
 
     @Override
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
-        RuntimeValue array = arguments[0];
-        RuntimeType type = array.getType(f);
-        return new LengthCall(array, type.declType, line);
+        RuntimeValue value = arguments[0];
+        this.runtimeType = value.getType(f);
+        return new AssignedCall(value, line);
     }
 
     @Override
@@ -70,7 +69,15 @@ public class LengthFunction implements IMethodDeclaration {
 
     @Override
     public DeclaredType returnType() {
-        return BasicType.Integer;
+        if (runtimeType != null) {
+            if (runtimeType.declType instanceof ArrayType) {
+                return BasicType.Integer;
+            } else {
+                return BasicType.create(Object.class);
+            }
+        } else {
+            return BasicType.create(Object.class);
+        }
     }
 
     @Override
@@ -78,21 +85,19 @@ public class LengthFunction implements IMethodDeclaration {
         return null;
     }
 
-    private class LengthCall extends FunctionCall {
+    private class AssignedCall extends FunctionCall {
 
-        private DeclaredType type;
+        private RuntimeValue value;
         private LineInfo line;
-        private RuntimeValue array;
 
-        LengthCall(RuntimeValue array, DeclaredType declaredType, LineInfo line) {
-            this.array = array;
-            type = declaredType;
+        AssignedCall(RuntimeValue value, LineInfo line) {
+            this.value = value;
             this.line = line;
         }
 
         @Override
         public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(BasicType.Integer, false);
+            return new RuntimeType(AssignedFunction.this.returnType(), false);
         }
 
         @NonNull
@@ -114,38 +119,53 @@ public class LengthFunction implements IMethodDeclaration {
         @Override
         public RuntimeValue compileTimeExpressionFold(CompileTimeContext context)
                 throws ParsingException {
-            return new LengthCall(array.compileTimeExpressionFold(context), type, line);
+            return new AssignedCall(value, line);
         }
 
         @Override
         public Executable compileTimeConstantTransform(CompileTimeContext c)
                 throws ParsingException {
-            return new LengthCall(array.compileTimeExpressionFold(c), type, line);
+            return new AssignedCall(value, line);
         }
 
         @Override
         protected String getFunctionName() {
-            return "length";
+            return "assigned";
         }
 
         @Override
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            Object value = array.getValue(f, main);
-            if (type instanceof ArrayType) {
-                return ((ArrayType) type).getBound().getSize();
-            } else if (value instanceof StringBuilder) {
-                return ((StringBuilder) value).length();
-            } else if (value instanceof String) {
-                return ((String) value).length();
-            } else if (type instanceof EnumGroupType) {
-                return ((EnumGroupType) type).getSize();
-            } else {
-                // TODO: 02-May-17  check exception
-                throw new TypeMismatchException(line, getFunctionName(),
-                        new DeclaredType[]{BasicType.StringBuilder,
-                                new ArrayType<>(BasicType.create(Object.class), null)}, type);
+
+            DeclaredType declType = runtimeType.declType;
+            if (declType instanceof ArrayType) {
+                IntegerRange bounds = ((ArrayType) declType).getBound();
+                Object[] value = (Object[]) this.value.getValue(f, main);
+                int size = value.length;
+                if (bounds == null) {
+                    return size - 1;
+                } else {
+                    return bounds.getFirst() + size - 1;
+                }
+            } else if (BasicType.Byte.equals(declType)) {
+                return Byte.MAX_VALUE;
+            } else if (BasicType.Short.equals(declType)) {
+                return Short.MAX_VALUE;
+            } else if (BasicType.Integer.equals(declType)) {
+                return Integer.MAX_VALUE;
+            } else if (BasicType.Long.equals(declType)) {
+                return Long.MAX_VALUE;
+            } else if (BasicType.Float.equals(declType)) {
+                return Float.MAX_VALUE;
+            } else if (BasicType.Double.equals(declType)) {
+                return Double.MAX_VALUE;
+            } else if (BasicType.Character.equals(declType)) {
+                return Character.MAX_VALUE;
+            } else if (declType instanceof EnumGroupType) {
+                EnumGroupType enumGroupType = (EnumGroupType) declType;
+                return enumGroupType.get(enumGroupType.getSize() - 1);
             }
+            return null;
         }
     }
 }
