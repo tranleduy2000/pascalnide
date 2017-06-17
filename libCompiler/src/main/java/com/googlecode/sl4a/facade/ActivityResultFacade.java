@@ -19,7 +19,7 @@ package com.googlecode.sl4a.facade;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
-public class ActivityResultFacade implements IPascalLibrary {
+public class ActivityResultFacade implements PascalLibrary {
 
     private static final String sRpcDescription =
             "Sets the result of a script execution. Whenever the script APK is called via "

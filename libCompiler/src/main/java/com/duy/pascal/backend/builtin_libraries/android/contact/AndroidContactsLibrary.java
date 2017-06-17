@@ -26,7 +26,7 @@ import android.provider.Contacts.People;
 import android.provider.Contacts.PhonesColumns;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -47,7 +47,7 @@ import java.util.Map;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com
  */
-public class AndroidContactsLibrary implements IPascalLibrary {
+public class AndroidContactsLibrary implements PascalLibrary {
     private static final Uri CONTACTS_URI = Uri.parse("content://contacts/people");
     private final ContentResolver mContentResolver;
     private final Context mContext;

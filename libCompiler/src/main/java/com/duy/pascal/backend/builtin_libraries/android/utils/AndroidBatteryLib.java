@@ -24,7 +24,7 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.googlecode.sl4a.Log;
@@ -41,7 +41,7 @@ import java.util.Map;
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  * @author Robbie Matthews (rjmatthews62@gmail.com)
  */
-public class AndroidBatteryLib implements IPascalLibrary {
+public class AndroidBatteryLib implements PascalLibrary {
     public static final String NAME = "aBattery".toLowerCase();
     /**
      * Power source is an AC charger.

@@ -20,7 +20,7 @@ import android.content.Intent;
 import android.speech.RecognizerIntent;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class AndroidSpeechRecognitionLib implements IPascalLibrary {
+public class AndroidSpeechRecognitionLib implements PascalLibrary {
     public static final String NAME = "aRecognition".toLowerCase();
     private AndroidUtilsLib mAndroidFacade;
 

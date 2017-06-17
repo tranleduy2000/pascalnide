@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * Created by Duy on 12-Apr-17.
  */
 
-public class StrUtilsLibrary implements IPascalLibrary {
+public class StrUtilsLibrary implements PascalLibrary {
     public static final String NAME = "strUtils".toLowerCase();
 
     @Override

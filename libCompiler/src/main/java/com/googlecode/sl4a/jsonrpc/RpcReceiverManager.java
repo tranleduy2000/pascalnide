@@ -16,7 +16,7 @@
 
 package com.googlecode.sl4a.jsonrpc;
 
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.googlecode.sl4a.Log;
 import com.googlecode.sl4a.rpc.MethodDescriptor;
 
@@ -28,7 +28,7 @@ import java.util.Map;
 
 public abstract class RpcReceiverManager {
     private static final String TAG = "RpcReceiverManager";
-    private final Map<Class<? extends IPascalLibrary>, IPascalLibrary> mReceivers;
+    private final Map<Class<? extends PascalLibrary>, PascalLibrary> mReceivers;
 
     private final Map<String, MethodDescriptor> mKnownRpcs = new HashMap<>();
 
@@ -36,19 +36,19 @@ public abstract class RpcReceiverManager {
         mReceivers = new HashMap<>();
     }
 
-    public Collection<Class<? extends IPascalLibrary>> getRpcReceiverClasses() {
+    public Collection<Class<? extends PascalLibrary>> getRpcReceiverClasses() {
         return mReceivers.keySet();
     }
 
-    private IPascalLibrary get(Class<? extends IPascalLibrary> clazz) {
-        IPascalLibrary object = mReceivers.get(clazz);
+    private PascalLibrary get(Class<? extends PascalLibrary> clazz) {
+        PascalLibrary object = mReceivers.get(clazz);
         if (object != null) {
             return object;
         }
         Constructor<?> constructor;
         try {
             constructor = clazz.getConstructor(getClass());
-            object = (IPascalLibrary) constructor.newInstance(this);
+            object = (PascalLibrary) constructor.newInstance(this);
             mReceivers.put(clazz, object);
         } catch (Exception e) {
             Log.e(e);
@@ -57,8 +57,8 @@ public abstract class RpcReceiverManager {
         return object;
     }
 
-    public <T extends IPascalLibrary> T getReceiver(Class<T> clazz) {
-        IPascalLibrary receiver = get(clazz);
+    public <T extends PascalLibrary> T getReceiver(Class<T> clazz) {
+        PascalLibrary receiver = get(clazz);
         return clazz.cast(receiver);
     }
 
@@ -66,14 +66,14 @@ public abstract class RpcReceiverManager {
         return mKnownRpcs.get(methodName);
     }
 
-    public Object invoke(Class<? extends IPascalLibrary> clazz, Method method, Object[] args)
+    public Object invoke(Class<? extends PascalLibrary> clazz, Method method, Object[] args)
             throws Exception {
-        IPascalLibrary object = get(clazz);
+        PascalLibrary object = get(clazz);
         return method.invoke(object, args);
     }
 
     public void shutdown() {
-        for (IPascalLibrary receiver : mReceivers.values()) {
+        for (PascalLibrary receiver : mReceivers.values()) {
             if (receiver != null) {
                 receiver.shutdown();
             }

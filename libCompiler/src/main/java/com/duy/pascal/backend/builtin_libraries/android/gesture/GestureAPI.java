@@ -23,7 +23,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.gesture.dectector.MoveGestureDetector;
 import com.duy.pascal.backend.builtin_libraries.android.gesture.dectector.RotateGestureDetector;
 import com.duy.pascal.backend.builtin_libraries.android.gesture.dectector.ShoveGestureDetector;
@@ -43,7 +43,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Created by Duy on 15-Jun-17.
  */
 
-public class GestureAPI implements IPascalLibrary, View.OnTouchListener {
+public class GestureAPI implements PascalLibrary, View.OnTouchListener {
 
     private Queue<BaseGestureEvent> gestureEventQueue = new ConcurrentLinkedQueue<>();
     private ScaleGestureDetector mScaleDetector;

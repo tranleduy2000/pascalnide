@@ -29,7 +29,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
@@ -51,7 +51,7 @@ import java.util.concurrent.Callable;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author Felix Arends (felix.arends@gmail.com)
  */
-public class AndroidPhoneLibrary implements IPascalLibrary {
+public class AndroidPhoneLibrary implements PascalLibrary {
 
     private final AndroidUtilsLib mAndroidFacade;
     private final AndroidEvent mEventFacade;

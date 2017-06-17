@@ -96,7 +96,7 @@ import java.util.Map;
  * Created by Duy on 08-Apr-17.
  */
 public class PascalLibraryManager {
-    public static final Map<String, Class<? extends IPascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
+    public static final Map<String, Class<? extends PascalLibrary>> MAP_LIBRARIES = new Hashtable<>();
 
     static {
         MAP_LIBRARIES.put(CrtLib.NAME, CrtLib.class);
@@ -171,7 +171,7 @@ public class PascalLibraryManager {
      * load method from a class
      */
 
-    public void addMethodFromClass(Class<? extends IPascalLibrary> t, LineInfo lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
+    public void addMethodFromClass(Class<? extends PascalLibrary> t, LineInfo lineNumber) throws PermissionDeniedException, LibraryNotFoundException {
         Object parent = null;
         Constructor constructor;
         try {
@@ -267,10 +267,10 @@ public class PascalLibraryManager {
 
         }
 
-        ((IPascalLibrary) o).declareConstants(program);
-        ((IPascalLibrary) o).declareFunctions(program);
-        ((IPascalLibrary) o).declareTypes(program);
-        ((IPascalLibrary) o).declareVariables(program);
+        ((PascalLibrary) o).declareConstants(program);
+        ((PascalLibrary) o).declareFunctions(program);
+        ((PascalLibrary) o).declareTypes(program);
+        ((PascalLibrary) o).declareVariables(program);
         for (Method method : o.getClass().getDeclaredMethods()) {
             if (AndroidLibraryUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 if (method.isAnnotationPresent(PascalMethod.class)) {

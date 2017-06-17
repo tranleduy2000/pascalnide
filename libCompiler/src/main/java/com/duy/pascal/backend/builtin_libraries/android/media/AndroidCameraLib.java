@@ -32,7 +32,7 @@ import android.view.WindowManager;
 
 import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTask;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor;
@@ -53,7 +53,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Access Camera functions.
  */
-public class AndroidCameraLib implements IPascalLibrary {
+public class AndroidCameraLib implements PascalLibrary {
     public static final String NAME = "aCamera".toLowerCase();
     private final Context mContext;
     private final Parameters mParameters;

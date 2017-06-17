@@ -24,7 +24,7 @@ import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 
 import java.util.Map;
 
-public class MiscLib implements IPascalLibrary {
+public class MiscLib implements PascalLibrary {
 
     @MethodTypeData(info = {@ArrayBoundsInfo(starts = {0}, lengths = {0})})
     public long GetArrayLength(Object[] o) {

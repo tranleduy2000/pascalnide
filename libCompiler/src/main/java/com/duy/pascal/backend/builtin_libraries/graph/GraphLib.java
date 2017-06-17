@@ -29,7 +29,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
 import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.crt.ColorUtils;
 import com.duy.pascal.backend.builtin_libraries.crt.CrtLib;
@@ -71,7 +71,7 @@ import java.util.Map;
  * Created by Duy on 01-Mar-17.
  */
 @SuppressWarnings("DefaultFileTemplate")
-public class GraphLib implements IPascalLibrary {
+public class GraphLib implements PascalLibrary {
     public static final String NAME = "graph";
     private static final String TAG = "GraphLib";
     @NonNull

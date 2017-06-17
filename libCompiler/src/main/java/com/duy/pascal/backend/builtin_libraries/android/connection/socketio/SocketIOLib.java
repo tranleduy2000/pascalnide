@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.builtin_libraries.android.connection.socketio;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 
 import java.io.IOException;
@@ -28,7 +28,7 @@ import java.util.Map;
  * Created by Duy on 10-May-17.
  */
 
-public class SocketIOLib implements IPascalLibrary {
+public class SocketIOLib implements PascalLibrary {
 
     public static final String NAME = "SocketIO".toLowerCase();
 

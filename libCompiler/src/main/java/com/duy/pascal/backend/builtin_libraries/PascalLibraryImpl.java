@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 Tran Le Duy
+ *  Copyright (c) 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,28 +16,42 @@
 
 package com.duy.pascal.backend.builtin_libraries;
 
-
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 
 import java.util.Map;
 
-public interface IPascalLibrary {
+/**
+ * Created by Duy on 17-Jun-17.
+ */
 
-    boolean instantiate(Map<String, Object> pluginargs);
+public abstract class PascalLibraryImpl implements PascalLibrary {
+    @Override
+    public boolean instantiate(Map<String, Object> pluginargs) {
+        return false;
+    }
 
-    /**
-     * Invoked when the receiver is shut down.
-     */
-    void shutdown();
+    @Override
+    public void shutdown() {
 
-    String getName();
+    }
 
-    void declareConstants(ExpressionContextMixin parentContext);
+    @Override
+    public void declareConstants(ExpressionContextMixin parentContext) {
 
-    void declareTypes(ExpressionContextMixin parentContext);
+    }
 
-    void declareVariables(ExpressionContextMixin parentContext);
+    @Override
+    public void declareTypes(ExpressionContextMixin parentContext) {
 
-    void declareFunctions(ExpressionContextMixin parentContext);
+    }
 
+    @Override
+    public void declareVariables(ExpressionContextMixin parentContext) {
+
+    }
+
+    @Override
+    public void declareFunctions(ExpressionContextMixin parentContext) {
+
+    }
 }

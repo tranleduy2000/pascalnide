@@ -23,7 +23,7 @@ import com.duy.pascal.backend.ast.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotAssignException;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotOpenException;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileLib implements IPascalLibrary {
+public class FileLib implements PascalLibrary {
     private static final String TAG = "FileLib";
     /**
      * map file

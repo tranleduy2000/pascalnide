@@ -23,7 +23,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.temp.AndroidUtilsLib;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
@@ -47,7 +47,7 @@ import java.util.concurrent.Callable;
 // Discovery functions added by Eden Sayag
 
 
-public class AndroidBluetoothLib implements IPascalLibrary {
+public class AndroidBluetoothLib implements PascalLibrary {
 
     public static final String NAME = "aBluetooth".toLowerCase();
     // UUID for SL4A.

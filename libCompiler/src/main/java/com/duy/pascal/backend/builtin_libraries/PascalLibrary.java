@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2017 Tran Le Duy
+ *  Copyright 2017 Tran Le Duy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,28 @@
 
 package com.duy.pascal.backend.builtin_libraries;
 
-/**
- * Created by Duy on 01-Jun-17.
- */
 
-public interface IAndroidLibrary extends PascalLibrary {
-    String[] needPermission();
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
+
+import java.util.Map;
+
+public interface PascalLibrary {
+
+    boolean instantiate(Map<String, Object> pluginargs);
+
+    /**
+     * Invoked when the receiver is shut down.
+     */
+    void shutdown();
+
+    String getName();
+
+    void declareConstants(ExpressionContextMixin parentContext);
+
+    void declareTypes(ExpressionContextMixin parentContext);
+
+    void declareVariables(ExpressionContextMixin parentContext);
+
+    void declareFunctions(ExpressionContextMixin parentContext);
+
 }

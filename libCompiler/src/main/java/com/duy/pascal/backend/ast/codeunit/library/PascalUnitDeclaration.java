@@ -24,7 +24,7 @@ import com.duy.pascal.backend.ast.FunctionDeclaration;
 import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MissingBodyFunctionException;
@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PascalUnitDeclaration extends ExecutableCodeUnit implements IPascalLibrary {
+public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalLibrary {
     private IRunnablePascal handler;
 
     public PascalUnitDeclaration(Reader program,

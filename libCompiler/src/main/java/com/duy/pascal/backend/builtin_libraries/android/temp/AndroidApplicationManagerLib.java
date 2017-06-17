@@ -23,7 +23,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -39,7 +39,7 @@ import java.util.Set;
 /**
  * Facade for managing Applications.
  */
-public class AndroidApplicationManagerLib implements IPascalLibrary {
+public class AndroidApplicationManagerLib implements PascalLibrary {
 
     private AndroidUtilsLib mAndroidFacade;
     private ActivityManager mActivityManager;

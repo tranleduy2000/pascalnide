@@ -22,7 +22,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -34,7 +34,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Provides Text To Speech services for API 4 or more.
  */
-public class AndroidTextToSpeechLib implements IPascalLibrary {
+public class AndroidTextToSpeechLib implements PascalLibrary {
     public static final String NAME = "aTTSpeech".toLowerCase();
 
     private TextToSpeech mTextToSpeech;

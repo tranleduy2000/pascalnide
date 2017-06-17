@@ -26,7 +26,7 @@ import android.view.View;
 
 import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor;
 import com.duy.pascal.backend.builtin_libraries.android.view.dialog.AlertDialogTask;
@@ -118,7 +118,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author MeanEYE.rcf (meaneye.rcf@gmail.com)
  */
-public class AndroidDialogLib implements IPascalLibrary {
+public class AndroidDialogLib implements PascalLibrary {
     public static final String NAME = "aDialog".toLowerCase();
     // This value should not be used for menu groups outside this class.
     private static final int MENU_GROUP_ID = Integer.MAX_VALUE;

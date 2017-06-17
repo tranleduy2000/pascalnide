@@ -20,7 +20,7 @@ import android.content.Context;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
@@ -35,7 +35,7 @@ import java.util.Map.Entry;
  * @author Felix Arends (felixarends@gmail.com)
  * @author Damon Kohler (damonkohler@gmail.com)
  */
-public class WakeLockFacade implements IPascalLibrary {
+public class WakeLockFacade implements PascalLibrary {
 
     private final static String WAKE_LOCK_TAG =
             "com.googlecode.android_scripting.facade.PowerManagerFacade";

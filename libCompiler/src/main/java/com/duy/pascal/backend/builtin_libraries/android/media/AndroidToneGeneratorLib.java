@@ -22,7 +22,7 @@ import android.media.AudioTrack;
 import android.media.ToneGenerator;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Generate DTMF tones.
  */
-public class AndroidToneGeneratorLib implements IPascalLibrary {
+public class AndroidToneGeneratorLib implements PascalLibrary {
 
     public static final String NAME = "aTone".toLowerCase();
     private final ToneGenerator mToneGenerator;

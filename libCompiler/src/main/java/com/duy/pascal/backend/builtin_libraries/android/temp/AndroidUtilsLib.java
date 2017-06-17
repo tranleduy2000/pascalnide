@@ -36,7 +36,7 @@ import android.widget.Toast;
 import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.AndroidLibraryUtils;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTask;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor;
@@ -75,7 +75,7 @@ import java.util.TimeZone;
  * <br>
  * An intent can be built using the {@see #makeIntent} call, but can also be constructed exterally.
  */
-public class AndroidUtilsLib implements IPascalLibrary {
+public class AndroidUtilsLib implements PascalLibrary {
     public static final String NAME = "aUtils".toLowerCase();
     private Context mContext;
     private Handler mHandler;

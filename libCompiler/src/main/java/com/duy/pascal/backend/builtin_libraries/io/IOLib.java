@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.CanNotReadVariableException;
 import com.duy.pascal.backend.core.PascalCompiler;
@@ -36,7 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
-public class IOLib implements IPascalLibrary {
+public class IOLib implements PascalLibrary {
 
     public static final String TAG = IOLib.class.getSimpleName();
 

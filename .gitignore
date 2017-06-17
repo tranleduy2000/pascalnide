@@ -67,3 +67,4 @@ src/androidTest/
 /sample/pascal-master/
 /sample/snake-game-in-turboPascal-master/
 /sample/sphinx-astar-master/
+*.apk

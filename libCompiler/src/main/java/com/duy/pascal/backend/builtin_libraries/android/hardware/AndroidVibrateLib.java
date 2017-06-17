@@ -20,7 +20,7 @@ import android.content.Context;
 import android.os.Vibrator;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by Duy on 25-Apr-17.
  */
 
-public class AndroidVibrateLib implements IPascalLibrary {
+public class AndroidVibrateLib implements PascalLibrary {
     public static final String NAME = "aVibrate".toLowerCase();
     private Context mContext;
     private Vibrator mVibrator;

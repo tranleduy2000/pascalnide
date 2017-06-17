@@ -28,7 +28,7 @@ import android.view.WindowManager;
 
 import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTask;
 import com.duy.pascal.backend.builtin_libraries.android.activity.PascalActivityTaskExecutor;
@@ -60,7 +60,7 @@ import java.util.concurrent.TimeUnit;
  * @author Damon Kohler (damonkohler@gmail.com)
  * @author John Karwatzki (jokar49@gmail.com)
  */
-public class AndroidMediaRecorderLib implements IPascalLibrary {
+public class AndroidMediaRecorderLib implements PascalLibrary {
 
     private final MediaRecorder mMediaRecorder = new MediaRecorder();
     private final Context mContext;

@@ -18,7 +18,7 @@ package com.duy.pascal.backend.builtin_libraries.math;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.WrongArgsException;
@@ -31,7 +31,7 @@ import org.apache.commons.math3.util.FastMath;
 import java.util.Map;
 import java.util.Random;
 
-public class MathLib implements IPascalLibrary {
+public class MathLib implements PascalLibrary {
     public static final String NAME = "math";
     private Random random = new Random();
 

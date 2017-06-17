@@ -24,7 +24,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.AndroidLibraryManager;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalParameter;
@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * Wifi functions.
  */
-public class AndroidWifiLib implements IPascalLibrary {
+public class AndroidWifiLib implements PascalLibrary {
 
     public static final String NAME = "aWifi".toLowerCase();
     private WifiManager mWifi;

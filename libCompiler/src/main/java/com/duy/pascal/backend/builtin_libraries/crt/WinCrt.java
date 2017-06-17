@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.builtin_libraries.crt;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.builtin_libraries.io.InOutListener;
@@ -22,7 +22,7 @@ import java.util.Map;
  * <p>
  * See in https://www.freepascal.org/docs-html/rtl/wincrt/index.html
  */
-public class WinCrt implements IPascalLibrary {
+public class WinCrt implements PascalLibrary {
     public static final String NAME = "wincrt";
     private ConsoleHandler handler;
     private CrtLib crtLib;

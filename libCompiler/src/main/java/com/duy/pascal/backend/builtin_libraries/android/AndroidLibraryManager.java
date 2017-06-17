@@ -19,7 +19,7 @@ package com.duy.pascal.backend.builtin_libraries.android;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.builtin_libraries.IPascalLibrary;
+import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.temp.AndroidUtilsLib;
 import com.duy.pascal.frontend.activities.ActivityHandler;
 import com.googlecode.sl4a.jsonrpc.RpcReceiverManager;
@@ -48,7 +48,7 @@ public class AndroidLibraryManager extends RpcReceiverManager {
     }
 
     @Override
-    public Object invoke(Class<? extends IPascalLibrary> clazz, Method method, Object[] args)
+    public Object invoke(Class<? extends PascalLibrary> clazz, Method method, Object[] args)
             throws Exception {
         return super.invoke(clazz, method, args);
     }
