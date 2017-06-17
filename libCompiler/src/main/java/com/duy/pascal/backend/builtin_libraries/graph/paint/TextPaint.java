@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.builtin_libraries.graph.paint;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -25,6 +26,7 @@ import android.support.annotation.ColorInt;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextDirection;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextFont;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextJustify;
+import com.duy.pascal.frontend.theme.util.FontManager;
 
 /**
  * Created by Duy on 20-Apr-17.
@@ -95,8 +97,40 @@ public class TextPaint extends Paint implements Cloneable {
         return textFontID;
     }
 
-    public void setTextFontID(int textFontID) {
+    public void setTextFontID(Context context, int textFontID) {
         this.textFontID = textFontID;
+
+        Typeface font;
+        switch (textFontID) {
+            case TextFont.DefaultFont:
+                font = Typeface.MONOSPACE;
+                break;
+            case TextFont.SansSerifFont:
+                font = FontManager.getFontFromAsset(context, "graph/Roboto-Regular.ttf");
+                break;
+            case TextFont.TriplexFont:
+                font = FontManager.getFontFromAsset(context, "graph/tahoma.ttf");
+                break;
+            case TextFont.EuroFont:
+                font = FontManager.getFontFromAsset(context, "graph/graph_euro.ttf");
+                break;
+            case TextFont.BoldFont:
+                font = FontManager.getFontFromAsset(context, "graph/ariblk.ttf");
+                break;
+            case TextFont.GothicFont:
+                font = FontManager.getFontFromAsset(context, "graph/Georgia.ttf");
+                break;
+            case TextFont.ScriptFont:
+                font = FontManager.getFontFromAsset(context, "graph/comic.ttf");
+                break;
+            case TextFont.TSCRFont:
+                font = FontManager.getFontFromAsset(context, "courier_new.ttf");
+                break;
+            default:
+                font = Typeface.MONOSPACE;
+                break;
+        }
+        setTypeface(font);
     }
 
     @Override
@@ -104,9 +138,6 @@ public class TextPaint extends Paint implements Cloneable {
         super.setTextSize(textSize);
     }
 
-    public void setTextFont(Typeface textFont) {
-        setTypeface(textFont);
-    }
 
     public TextPaint clonePaint() {
         TextPaint textPaint = new TextPaint();

@@ -22,7 +22,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.builtin_libraries.graph.model.GraphObject;
@@ -32,9 +31,7 @@ import com.duy.pascal.backend.builtin_libraries.graph.paint.TextPaint;
 import com.duy.pascal.backend.builtin_libraries.graph.style.FillType;
 import com.duy.pascal.backend.builtin_libraries.graph.style.LineStyle;
 import com.duy.pascal.backend.builtin_libraries.graph.style.LineWidth;
-import com.duy.pascal.backend.builtin_libraries.graph.style.TextFont;
 import com.duy.pascal.backend.builtin_libraries.graph.style.TextJustify;
-import com.duy.pascal.frontend.theme.util.FontManager;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleCursor;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
@@ -280,32 +277,8 @@ public class GraphScreen {
     }
 
     public synchronized void setFontID(int fontID) {
-        this.mTextPaint.setTextFontID(fontID);
-        Typeface font;
-        switch (fontID) {
-            case TextFont.DefaultFont:
-                font = Typeface.MONOSPACE;
-                break;
-            case TextFont.SansSerifFont:
-                font = Typeface.SANS_SERIF;
-                break;
-            case TextFont.TriplexFont:
-                font = FontManager.getFontFromAsset(context, "graph/lcd_solid.ttf");
-                break;
-            case TextFont.EuroFont:
-                font = FontManager.getFontFromAsset(context, "graph/graph_euro.ttf");
-                break;
-            case TextFont.BoldFont:
-                font = Typeface.DEFAULT_BOLD;
-                break;
-            case TextFont.GothicFont:
-                font = FontManager.getFontFromAsset(context, "graph/gothic.ttf");
-                break;
-            default:
-                font = Typeface.MONOSPACE;
-                break;
-        }
-        mTextPaint.setTextFont(font);
+        this.mTextPaint.setTextFontID(context, fontID);
+
     }
 
 
