@@ -28,10 +28,6 @@ public class Patterns {
     //Words
     public static final Pattern LINE = Pattern.compile(".*\\n");
 
-    /**
-     * match number
-     */
-    public static final Pattern NUMBERS = Pattern.compile("\\b(\\d*[.]?\\d+)\\b");
 
     /**
      * match reserved keyword
@@ -53,7 +49,6 @@ public class Patterns {
                     "|unit|interface|initialization|finalization|implementation|with" +
                     "|null|nil|set|new)\\b",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
     /**
      * match builtin pascal function
      */
@@ -62,7 +57,6 @@ public class Patterns {
                     "|exp|tan|keyPressed|readKey|delay|random|randomize|inc|dec" +
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
                     "|odd|int|halt|odd)\\b", Pattern.CASE_INSENSITIVE);
-
     /**
      * match comment, include // { } (* *) comment
      */
@@ -71,12 +65,10 @@ public class Patterns {
                     "|(\\{(?:.|[\\n\\r])*?\\})" + //{ } comment
                     "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))"// (* *) comment
     );
-
     /**
      * match some spacial symbol
      */
     public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;@\\^,.]");
-
     /**
      * match string pascal
      * include
@@ -90,23 +82,31 @@ public class Patterns {
     public static final Pattern STRINGS = Pattern.compile(
             "((')(.*?)('))" +//'string'
                     "|((')(.+))", Pattern.DOTALL); // no end string 'asdasdasd
-
     public static final Pattern REPLACE_HIGHLIGHT = Pattern.compile("\"(.*?)\"");
-
     public static final Pattern REPLACE_CURSOR = Pattern.compile("%\\w");
-
     public static final Pattern VAR = Pattern.compile("\\b(var)\\b", Pattern.CASE_INSENSITIVE);
     public static final Pattern TYPE = Pattern.compile("\\b(type)\\b", Pattern.CASE_INSENSITIVE);
     public static final Pattern PROGRAM = Pattern.compile("\\b(program)[\\s](.*?);\\b", Pattern.CASE_INSENSITIVE);
     public static final Pattern USES = Pattern.compile("\\b(uses)[\\s](.*?);\\b", Pattern.CASE_INSENSITIVE);
     public static final Pattern CONST = Pattern.compile("\\b(const)\\b", Pattern.CASE_INSENSITIVE);
-
     public static final Pattern OPEN_PATTERN
             = Pattern.compile("(begin|then|else|do|repeat|of|" +
                     "type|var|const|interface|implementation)",
             Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-
     public static final Pattern END_PATTERN
             = Pattern.compile("\\b(end)\\b", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+    /**
+     * match number
+     */
+    public static final Pattern NUMBERS;
+
+    static {
+        NUMBERS = Pattern.compile(
+                "(\\d*[.]?\\d+([Ee][+-]?[\\d]+)?)|" + //simple decimal
+                        "(\\$[0-9a-fA-F]+)|" + //hex
+                        "(%[01]+)|" + //binary
+                        "(&[0-7]+)|" +//octal
+                        "([Ee][+-]?[\\d]+)");
+    }
 
 }
