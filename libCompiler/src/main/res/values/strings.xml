@@ -217,5 +217,6 @@
     <string name="ctrl_key">Ctrl Key</string>
     <string name="compiler">Compiler</string>
     <string name="ime_desc">Allows your keyboard to show hints.</string>
+    <string name="tab_width">Tab width</string>
 </resources>
 

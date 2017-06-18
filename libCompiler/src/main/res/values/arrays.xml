@@ -17,6 +17,23 @@
 
 <resources>
     <string-array name="font_size" translatable="false">
+        <item>10 sp</item>
+        <item>11 sp</item>
+        <item>12 sp</item>
+        <item>13 sp</item>
+        <item>14 sp</item>
+        <item>15 sp</item>
+        <item>16 sp</item>
+        <item>17 sp</item>
+        <item>18 sp</item>
+        <item>20 sp</item>
+        <item>22 sp</item>
+        <item>24 sp</item>
+        <item>26 sp</item>
+        <item>28 sp</item>
+    </string-array>
+    <integer-array name="font_size_value" translatable="false">
+        <item>10</item>
         <item>11</item>
         <item>12</item>
         <item>13</item>
@@ -30,5 +47,5 @@
         <item>24</item>
         <item>26</item>
         <item>28</item>
-    </string-array>
+    </integer-array>
 </resources>

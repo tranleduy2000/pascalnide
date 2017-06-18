@@ -203,7 +203,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         mHighlighter = new CodeHighlighter(this);
 
         enableTextChangedListener();
-
     }
 
     public void setColorTheme(int id) {

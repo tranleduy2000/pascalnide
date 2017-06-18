@@ -91,8 +91,8 @@ public class IndentCode {
     };
 
 
-    private static final String TAG = "IndentCode";
-    private static final String THE_TAB = "  "; //2 space
+    public static final String TAG = "IndentCode";
+    public static final String TAB = "  "; //2 space
     private int mode;
     private Reader source;
 
@@ -610,7 +610,7 @@ public class IndentCode {
     private StringBuilder getTab(int depth) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < depth; i++) {
-            stringBuilder.append(THE_TAB);
+            stringBuilder.append(TAB);
         }
         return stringBuilder;
     }
