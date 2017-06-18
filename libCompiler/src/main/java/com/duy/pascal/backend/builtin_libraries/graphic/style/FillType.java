@@ -21,7 +21,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Shader;
 
@@ -64,7 +63,7 @@ public class FillType {
     public static final int UserFill = 12;
 //    Fills with a user-defined pattern.
 
-    public static Paint createPaintFill(Context context, int fillStyle, int color) {
+    public static Paint createPaintFill(Context context, int fillStyle, int color, BitmapFactory.Options options) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         try {
@@ -72,44 +71,44 @@ public class FillType {
             Bitmap sourceBitmap = null;
             switch (fillStyle) {
                 case FillType.LineFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_line_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#00A8A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_line_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF00A8A8, color);
                     break;
                 case FillType.ltSlashFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_it_slash);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_it_slash, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.SlashFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_slash_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_slash_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.BkSlashFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_bk_slash);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_bk_slash, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.LtBkSlashFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_lt_bk_slash);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_lt_bk_slash, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.HatchFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_hatch_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_hatch_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.XHatchFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_xhatch_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_xhatch_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.InterLeaveFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_inter_leave_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_inter_leave_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.WideDotFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_wide_dot_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_wide_dot_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.CloseDotFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_close_dot_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_close_dot_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.EmptyFill:
                     paint.setStyle(Paint.Style.STROKE);
@@ -131,50 +130,51 @@ public class FillType {
         return paint;
     }
 
-    public static Bitmap createFillBitmap(Context context, int fillPattern, int color) {
+    public static Bitmap createFillBitmap(Context context, int fillPattern, int color,
+                                          BitmapFactory.Options options) {
         try {
             Resources resources = context.getResources();
             Bitmap sourceBitmap = null;
             switch (fillPattern) {
                 case FillType.LineFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_line_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#00A8A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_line_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF00A8A8, color);
                     break;
                 case FillType.ltSlashFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_it_slash);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_it_slash, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.SlashFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_slash_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_slash_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.BkSlashFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_bk_slash);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_bk_slash, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.LtBkSlashFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_lt_bk_slash);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_lt_bk_slash, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.HatchFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_hatch_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_hatch_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.XHatchFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_xhatch_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_xhatch_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.InterLeaveFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_inter_leave_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_inter_leave_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.WideDotFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_wide_dot_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_wide_dot_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.CloseDotFill:
-                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_close_dot_fill);
-                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, Color.parseColor("#0000A8"), color);
+                    sourceBitmap = BitmapFactory.decodeResource(resources, R.drawable.graph_close_dot_fill, options);
+                    sourceBitmap = ImageUtils.replaceColor(sourceBitmap, 0xFF0000A8, color);
                     break;
                 case FillType.EmptyFill:
 

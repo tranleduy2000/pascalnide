@@ -18,6 +18,7 @@ package com.duy.pascal.backend.builtin_libraries.graphic;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -69,7 +70,7 @@ public class GraphScreen {
     private int linePattern;
 
     private volatile boolean bufferEnable = false;
-    private  boolean antiAlias;
+    private boolean antiAlias;
     private ConsoleView mConsoleView;
 
     public GraphScreen(Context context, ConsoleView consoleView) {
@@ -155,7 +156,7 @@ public class GraphScreen {
         synchronized (mLock) {
             if (mPrimaryBitmap == null) {
                 mPrimaryBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
+                mPrimaryBitmap.eraseColor(Color.BLACK);
             } else {
                 Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
@@ -168,6 +169,7 @@ public class GraphScreen {
             if (bufferEnable) {
                 if (mBitmapBuffer == null) {
                     mBitmapBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                    mBitmapBuffer.eraseColor(Color.BLACK);
                 } else {
                     Bitmap buffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     Canvas canvasBuffer = new Canvas(buffer);
@@ -224,7 +226,7 @@ public class GraphScreen {
     private void clearPrimaryBitmap() {
         synchronized (mLock) {
             if (ensurePrimaryNonNull()) {
-                mPrimaryBitmap.eraseColor(Color.TRANSPARENT);
+                mPrimaryBitmap.eraseColor(Color.BLACK);
             }
         }
     }
@@ -299,8 +301,10 @@ public class GraphScreen {
         this.linePattern = linePattern;
     }
 
-    public Bitmap getFillBitmap() {
-        return FillType.createFillBitmap(context, fillPattern, fillColor);
+    public Bitmap getFillBitmap(Bitmap.Config rgb565) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = rgb565;
+        return FillType.createFillBitmap(context, fillPattern, fillColor, options);
     }
 
     public synchronized void clearData() {
@@ -347,7 +351,7 @@ public class GraphScreen {
 
     public synchronized void clearBufferBitmap() {
         synchronized (mLock) {
-            if (mBitmapBuffer != null) mBitmapBuffer.eraseColor(Color.TRANSPARENT);
+            if (mBitmapBuffer != null) mBitmapBuffer.eraseColor(Color.BLACK);
         }
     }
 

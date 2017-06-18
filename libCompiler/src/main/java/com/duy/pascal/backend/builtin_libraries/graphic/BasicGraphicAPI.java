@@ -737,10 +737,8 @@ public class BasicGraphicAPI implements PascalLibrary {
         DLog.d(TAG, "FloodFill: ");
         if (handler.getConsoleView() != null) {
 
-            GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
-            Bitmap graphBitmap = graphScreen.getGraphBitmap();
-
-            Bitmap fillBitmap = graphScreen.getFillBitmap();
+            Bitmap graphBitmap = mGraphScreen.getGraphBitmap();
+            Bitmap fillBitmap = mGraphScreen.getFillBitmap(Bitmap.Config.ARGB_8888);
 
             FloodFill floodFill = new FloodFill(graphBitmap, fillBitmap);
             floodFill.fill(x, y, Color.BLUE, ColorUtils.pascalColorToAndroidColor(borderColorIndex));
@@ -750,7 +748,6 @@ public class BasicGraphicAPI implements PascalLibrary {
             graphBitmap.setPixels(imagePixels.clone(), 0, graphBitmap.getWidth(), 0, 0, graphBitmap.getWidth(),
                     graphBitmap.getHeight());
             floodFill.gc();
-            //fillBitmap.recycle();
         }
     }
 
@@ -812,8 +809,7 @@ public class BasicGraphicAPI implements PascalLibrary {
 
     @PascalMethod(description = "Return height (in pixels) of the given string")
     public int TextHeight(String text) {
-        GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
-        TextPaint textPaint = graphScreen.getTextPaint();
+        TextPaint textPaint = mGraphScreen.getTextPaint();
         Rect rect = new Rect();
         textPaint.getTextBounds(text, 0, text.length(), rect);
         return rect.height();
@@ -821,8 +817,7 @@ public class BasicGraphicAPI implements PascalLibrary {
 
     @PascalMethod(description = "Return width (in pixels) of the given string")
     public int TextWidth(String text) {
-        GraphScreen graphScreen = handler.getConsoleView().getGraphScreen();
-        TextPaint textPaint = graphScreen.getTextPaint();
+        TextPaint textPaint = mGraphScreen.getTextPaint();
         Rect rect = new Rect();
         textPaint.getTextBounds(text, 0, text.length(), rect);
         return rect.width();

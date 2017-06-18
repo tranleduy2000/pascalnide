@@ -5,6 +5,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
  */
 public class FloodFill {
 
+    private static final String TAG = "FloodFill";
     /**
      * The array used for fast flood fill. Instantiated only once to improve performance.
      */
@@ -28,18 +30,14 @@ public class FloodFill {
      * The index into linear non-recursive fill.
      */
     private int index;
-
     /**
      * The result data filled
      */
     private int[] imagePixels;
-
     /**
      * The raw pixels data
      */
     private int[] colorToFill;
-
-
     /**
      * The start x position for the fill.
      */
@@ -48,8 +46,6 @@ public class FloodFill {
      * The start y position for the fill.
      */
     private int startY;
-
-
     /**
      * The color to replace with the fill color.
      */
@@ -62,7 +58,6 @@ public class FloodFill {
      * The height of the imagePixels to fill.
      */
     private int height;
-
     private boolean usePattern = false;
 
     /**
@@ -73,6 +68,7 @@ public class FloodFill {
     public FloodFill(Bitmap imageToFill) {
         this(imageToFill, null);
     }
+
 
     /**
      * Constructor for flood fill, requires the imagePixels and mask for filling operation.
@@ -87,7 +83,6 @@ public class FloodFill {
         // sets the mask
         setPattern(pattern);
     }
-
 
     /**
      * Returns the imagePixels that was filled.
@@ -154,6 +149,7 @@ public class FloodFill {
             bufferedMaskImage.getPixels(this.colorToFill, 0, width, 0, 0, width, height);
             usePattern = true;
         }
+        bufferedMaskImage.recycle();
     }
 
     /**
@@ -235,6 +231,8 @@ public class FloodFill {
      * @return Right.
      */
     private int floodFill(int x, int y) {
+        Log.d(TAG, "floodFill() called with: x = [" + x + "], y = [" + y + "]");
+
         int yOff = y * width;
 
         // fill left of (x,y) until border or edge of imagePixels
