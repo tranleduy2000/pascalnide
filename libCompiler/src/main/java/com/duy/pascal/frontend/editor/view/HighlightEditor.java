@@ -111,7 +111,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     private boolean[] isGoodLineArray;
     private int[] realLines;
     private int lineCount;
-    private boolean isFind = false;
+    private boolean isFinding = false;
     /**
      * Disconnect this undo/redo from the text
      * view.
@@ -120,8 +120,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     /**
      * The change listener.
      */
-    private EditTextChangeListener
-            mChangeListener;
+    private EditTextChangeListener mChangeListener;
     private int numberWidth = 0;
     private AutoFixError mAutoFixError;
     private Highlighter mHighlighter;
@@ -508,7 +507,6 @@ public class HighlightEditor extends CodeSuggestsEditText
      *
      * @return last lineInfo that is visible on the screen.
      */
-    @SuppressWarnings("unused")
     public int getLastLineIndex() {
         int height;
         if (verticalScroll != null) {
@@ -767,7 +765,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void highlightText() {
-        if (isFind) return;
+        if (isFinding) return;
 
         disableTextChangedListener();
         highlight(getEditableText(), false);
@@ -806,26 +804,16 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public Editable highlight(Editable editable, boolean newText) {
-//        editable.clearSpans();
         if (editable.length() == 0) {
             return editable;
         }
 
         int editorHeight = getHeightVisible();
-
         int firstVisibleIndex;
         int lastVisibleIndex;
         if (!newText && editorHeight > 0) {
-            if (verticalScroll != null && getLayout() != null) {
-                firstVisibleIndex = getLayout().getLineStart(getFirstLineIndex());
-            } else {
-                firstVisibleIndex = 0;
-            }
-            if (verticalScroll != null && getLayout() != null) {
-                lastVisibleIndex = getLayout().getLineStart(getLastLineIndex());
-            } else {
-                lastVisibleIndex = getText().length();
-            }
+            firstVisibleIndex = getLayout().getLineStart(getFirstLineIndex());
+            lastVisibleIndex = getLayout().getLineStart(getLastLineIndex());
         } else {
             firstVisibleIndex = 0;
             lastVisibleIndex = CHARS_TO_COLOR;
@@ -893,7 +881,7 @@ public class HighlightEditor extends CodeSuggestsEditText
                                   int count) {
             this.start = start;
             this.count = count;
-            isFind = false;
+            isFinding = false;
         }
 
         public void afterTextChanged(Editable s) {
