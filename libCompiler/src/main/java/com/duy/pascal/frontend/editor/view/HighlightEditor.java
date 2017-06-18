@@ -53,8 +53,8 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.autofix.AutoFixError;
-import com.duy.pascal.frontend.editor.highlighter.CodeHighlighter;
-import com.duy.pascal.frontend.editor.highlighter.Highlighter;
+import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
+import com.duy.pascal.frontend.editor.highlight.Highlighter;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
 

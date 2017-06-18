@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor.highlighter;
+package com.duy.pascal.frontend.editor.highlight;
 
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
