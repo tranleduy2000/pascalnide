@@ -53,6 +53,8 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.autofix.AutoFixError;
+import com.duy.pascal.frontend.editor.editor_view.highlighter.CodeHighlighter;
+import com.duy.pascal.frontend.editor.editor_view.highlighter.Highlighter;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
 
@@ -60,13 +62,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.duy.pascal.frontend.editor.completion.Patterns.BUILTIN_FUNCTIONS;
-import static com.duy.pascal.frontend.editor.completion.Patterns.COMMENTS;
-import static com.duy.pascal.frontend.editor.completion.Patterns.KEYWORDS;
-import static com.duy.pascal.frontend.editor.completion.Patterns.NUMBERS;
-import static com.duy.pascal.frontend.editor.completion.Patterns.STRINGS;
-import static com.duy.pascal.frontend.editor.completion.Patterns.SYMBOLS;
 
 public class HighlightEditor extends CodeSuggestsEditText
         implements View.OnKeyListener, GestureDetector.OnGestureListener {
@@ -127,6 +122,9 @@ public class HighlightEditor extends CodeSuggestsEditText
      */
     private EditTextChangeListener
             mChangeListener;
+    private int numberWidth = 0;
+    private AutoFixError mAutoFixError;
+    private Highlighter mHighlighter;
     private final Runnable colorRunnable_duringEditing =
             new Runnable() {
                 @Override
@@ -141,8 +139,6 @@ public class HighlightEditor extends CodeSuggestsEditText
                     highlightText();
                 }
             };
-    private int numberWidth = 0;
-    private AutoFixError mAutoFixError;
 
     public HighlightEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -157,6 +153,10 @@ public class HighlightEditor extends CodeSuggestsEditText
     public HighlightEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setup(context);
+    }
+
+    public CodeTheme getCodeTheme() {
+        return codeTheme;
     }
 
     public AutoFixError getAutoFixError() {
@@ -201,8 +201,10 @@ public class HighlightEditor extends CodeSuggestsEditText
         updateFromSettings();
 
         mChangeListener = new EditTextChangeListener();
+        mHighlighter = new CodeHighlighter(this);
 
         enableTextChangedListener();
+
     }
 
     public void setColorTheme(int id) {
@@ -249,7 +251,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         this.canEdit = typedArray.getBoolean(R.styleable.CodeTheme_can_edit, true);
         typedArray.recycle();
     }
-
 
     public void setLineError(@NonNull LineInfo lineError) {
         this.lineError = lineError;
@@ -770,6 +771,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
         disableTextChangedListener();
         highlight(getEditableText(), false);
+        highlightLineError(getEditableText());
         enableTextChangedListener();
     }
 
@@ -844,66 +846,9 @@ public class HighlightEditor extends CodeSuggestsEditText
         clearSpans(editable, firstVisibleIndex, lastVisibleIndex);
 
         CharSequence textToHighlight = editable.subSequence(firstVisibleIndex, lastVisibleIndex);
-        color(editable, textToHighlight, firstVisibleIndex);
+        mHighlighter.highlight(editable, textToHighlight, firstVisibleIndex);
         applyTabWidth(editable, firstVisibleIndex, lastVisibleIndex);
         return editable;
-    }
-
-    private void color(Editable allText, CharSequence textToHighlight, int start) {
-        try {
-            //high light number
-            for (Matcher m = NUMBERS.matcher(textToHighlight); m.find(); ) {
-                allText.setSpan(new ForegroundColorSpan(codeTheme.getNumberColor()),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            for (Matcher m = KEYWORDS.matcher(textToHighlight); m.find(); ) {
-                allText.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            for (Matcher m = BUILTIN_FUNCTIONS.matcher(textToHighlight); m.find(); ) {
-                allText.setSpan(new ForegroundColorSpan(codeTheme.getKeywordColor()),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            //find it
-            for (Matcher m = SYMBOLS.matcher(textToHighlight); m.find(); ) {
-                //if match, you can replace text with other style
-                allText.setSpan(new ForegroundColorSpan(codeTheme.getOptColor()),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            }
-            for (Matcher m = STRINGS.matcher(textToHighlight); m.find(); ) {
-                ForegroundColorSpan spans[] = allText.getSpans(start + m.start(), start + m.end(),
-                        ForegroundColorSpan.class);
-
-                for (int n = spans.length; n-- > 0; )
-                    allText.removeSpan(spans[n]);
-
-                allText.setSpan(new ForegroundColorSpan(codeTheme.getStringColor()),
-                        start + m.start(),
-                        start + m.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            for (Matcher m = COMMENTS.matcher(textToHighlight); m.find(); ) {
-                ForegroundColorSpan spans[] = allText.getSpans(start + m.start(), start + m.end(),
-                        ForegroundColorSpan.class);
-                for (int n = spans.length; n-- > 0; )
-                    allText.removeSpan(spans[n]);
-
-                allText.setSpan(new ForegroundColorSpan(codeTheme.getCommentColor()),
-                        start + m.start(),
-                        start + m.end(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            highlightLineError(allText);
-        } catch (Exception ignored) {
-        }
     }
 
     public void enableTextChangedListener() {
@@ -934,7 +879,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void highlightAll() {
-        color(getText(), getText(), 0);
+        mHighlighter.highlight(getText(), getText(), 0);
     }
 
     /**

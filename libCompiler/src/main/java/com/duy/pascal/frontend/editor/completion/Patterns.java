@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 @SuppressWarnings("DefaultFileTemplate")
 public class Patterns {
 
-    //Words
     public static final Pattern LINE = Pattern.compile(".*\\n");
 
 
@@ -58,30 +57,10 @@ public class Patterns {
                     "|ceil|trunc|frac|floor|abs|round|sqr|pred|succ|ln|arctan" +
                     "|odd|int|halt|odd)\\b", Pattern.CASE_INSENSITIVE);
     /**
-     * match comment, include // { } (* *) comment
-     */
-    public static final Pattern COMMENTS = Pattern.compile(
-            "(//.*)|(/\\*(?:.|[\\n\\r])*?\\*/)" + //splash splash comment
-                    "|(\\{(?:.|[\\n\\r])*?\\})" + //{ } comment
-                    "|((\\(\\*)(?:.|[\\n\\r])*?(\\*\\)))"// (* *) comment
-    );
-    /**
      * match some spacial symbol
      */
     public static final Pattern SYMBOLS = Pattern.compile("[+\\-'*=<>/:)(\\]\\[;@\\^,.]");
-    /**
-     * match string pascal
-     * include
-     * <p>
-     * 'string'
-     * <p>
-     * And can not find close quote
-     * <p>
-     * 'sadhasdhasdhashdhas ds asda sd
-     */
-    public static final Pattern STRINGS = Pattern.compile(
-            "((')(.*?)('))" +//'string'
-                    "|((')(.+))", Pattern.DOTALL); // no end string 'asdasdasd
+
     public static final Pattern REPLACE_HIGHLIGHT = Pattern.compile("\"(.*?)\"");
     public static final Pattern REPLACE_CURSOR = Pattern.compile("%\\w");
     public static final Pattern VAR = Pattern.compile("\\b(var)\\b", Pattern.CASE_INSENSITIVE);
@@ -98,15 +77,45 @@ public class Patterns {
     /**
      * match number
      */
-    public static final Pattern NUMBERS;
+    public static final Pattern NUMBERS = Pattern.compile(
+            "(\\d*[.]?\\d+([Ee][+-]?[\\d]+)?)|" + //simple decimal
+                    "(\\$[0-9a-fA-F]+)|" + //hex
+                    "(%[01]+)|" + //binary
+                    "(&[0-7]+)|" +//octal
+                    "([Ee][+-]?[\\d]+)");
 
-    static {
-        NUMBERS = Pattern.compile(
-                "(\\d*[.]?\\d+([Ee][+-]?[\\d]+)?)|" + //simple decimal
-                        "(\\$[0-9a-fA-F]+)|" + //hex
-                        "(%[01]+)|" + //binary
-                        "(&[0-7]+)|" +//octal
-                        "([Ee][+-]?[\\d]+)");
-    }
+    public static final Pattern HEX_COLOR = Pattern.compile("(#[0-9a-fA-F]{6})");
+
+    public static final Pattern RGB_FUNCTION = Pattern.compile(
+            "([Rr][Gg][Bb])" +
+                    "(\\()" +
+                    "(\\s?\\d+\\s?)" +
+                    "(,)" +
+                    "(\\s?\\d+\\s?)" +
+                    "(,)" +
+                    "(\\s?\\d+\\s?)" +
+                    "(\\))");
+
+    public static final Pattern ARGB_FUNCTION = Pattern.compile(
+            "([Aa][Rr][Gg][Bb])" +
+                    "(\\()" +
+                    "(\\s?\\d+\\s?)" +
+                    "(,)" +
+                    "(\\s?\\d+\\s?)" +
+                    "(,)" +
+                    "(\\s?\\d+\\s?)" +
+                    "(,)" +
+                    "(\\s?\\d+\\s?)" +
+                    "(\\))");
+
+    public static final Pattern TEXT_COLOR_FUNCTION = Pattern.compile("(textColor)" +
+            "(\\()" +
+            "([0-9]+)" +
+            "(\\))");
+
+    public static final Pattern TEXT_BACKGROUND_FUNCTION = Pattern.compile("(textColor)" +
+            "(\\()" +
+            "([0-9]+)" +
+            "(\\))");
 
 }
