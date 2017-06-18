@@ -32,7 +32,7 @@
         <item>26 sp</item>
         <item>28 sp</item>
     </string-array>
-    <integer-array name="font_size_value" translatable="false">
+    <string-array name="font_size_value" translatable="false">
         <item>10</item>
         <item>11</item>
         <item>12</item>
@@ -47,5 +47,5 @@
         <item>24</item>
         <item>26</item>
         <item>28</item>
-    </integer-array>
+    </string-array>
 </resources>

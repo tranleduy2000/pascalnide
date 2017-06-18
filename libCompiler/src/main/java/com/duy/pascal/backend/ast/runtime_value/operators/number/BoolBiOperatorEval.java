@@ -4,7 +4,7 @@ package com.duy.pascal.backend.ast.runtime_value.operators.number;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
@@ -13,9 +13,9 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.types.RuntimeType;
 
 public class BoolBiOperatorEval extends BinaryOperatorEval {
 

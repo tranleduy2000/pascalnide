@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.debug.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -49,10 +50,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.ast.AbstractCallableFunction;
+import com.duy.pascal.backend.declaration.function.AbstractCallableFunction;
 import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
@@ -490,5 +491,10 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
                 alertDialog.show();
             }
         });
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 }

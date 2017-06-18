@@ -17,10 +17,10 @@
 package com.duy.pascal.backend.system_function.io;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.boxing.ArrayBoxer;
-import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.text.DecimalFormat;

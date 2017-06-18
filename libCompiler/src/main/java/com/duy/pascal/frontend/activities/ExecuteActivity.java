@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -185,6 +186,11 @@ public class ExecuteActivity extends AbstractExecActivity {
     @Override
     public ConsoleView getConsoleView() {
         return mConsoleView;
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 }
 

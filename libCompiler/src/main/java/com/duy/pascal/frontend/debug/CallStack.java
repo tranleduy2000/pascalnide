@@ -20,14 +20,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
-import com.duy.pascal.backend.ast.codeunit.program.RuntimePascalProgram;
+import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.ast.codeunit.RuntimeUnitPascal;
+import com.duy.pascal.backend.ast.codeunit.RuntimePascalProgram;
 import com.duy.pascal.backend.ast.instructions.with_statement.WithOnStack;
-import com.duy.pascal.backend.ast.runtime_value.FunctionOnStack;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.variablecontext.FunctionOnStack;
+import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.declaration.types.RuntimeType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

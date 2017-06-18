@@ -18,7 +18,7 @@ package com.duy.pascal.backend.parse_exception.define
 
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.types.DeclaredType
+import com.duy.pascal.backend.declaration.types.DeclaredType
 
 class IncompatableFunctionDeclaration(line: LineInfo, returntype: DeclaredType,
                                       previousreturntype: DeclaredType) :

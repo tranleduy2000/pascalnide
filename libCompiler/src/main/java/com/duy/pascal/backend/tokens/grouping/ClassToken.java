@@ -1,10 +1,10 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 
-import com.duy.pascal.backend.ast.FunctionDeclaration;
-import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.codeunit.classunit.ClassConstructor;
-import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.classunit.ClassConstructor;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.tokens.Token;
@@ -14,12 +14,13 @@ import com.duy.pascal.backend.tokens.basic.ConstructorToken;
 import com.duy.pascal.backend.tokens.basic.DestructorToken;
 import com.duy.pascal.backend.tokens.basic.FunctionToken;
 import com.duy.pascal.backend.tokens.basic.ProcedureToken;
+import com.duy.pascal.backend.tokens.basic.TypeToken;
 import com.duy.pascal.backend.tokens.basic.VarToken;
 import com.duy.pascal.backend.tokens.visibility.BaseVisibilityToken;
 import com.duy.pascal.backend.tokens.visibility.PrivateToken;
 import com.duy.pascal.backend.tokens.visibility.ProtectedToken;
 import com.duy.pascal.backend.tokens.visibility.PublicToken;
-import com.duy.pascal.backend.types.PascalClassType;
+import com.duy.pascal.backend.declaration.types.PascalClassType;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class ClassToken extends GrouperToken {
         return "end";
     }
 
-    public void addDeclaresTo(PascalClassType classType, ExpressionContext context) throws ParsingException {
+    public void addDeclaresTo(PascalClassType classType, ExpressionContextMixin context) throws ParsingException {
         while (hasNext()) {
             Token n = take();
             if (n instanceof PrivateToken) {
@@ -67,6 +68,12 @@ public class ClassToken extends GrouperToken {
                     } else if (next instanceof WordToken) {
                         ArrayList<VariableDeclaration> vars = getVariableDeclarations(context);
                         classType.addPrivateField(vars);
+                    } else if (next instanceof TypeToken) {
+                        take();
+                        context.addDeclareTypes(this);
+                    } else if (next instanceof ConstToken) {
+                        take();
+                        context.addDeclareConsts(this);
                     }
                 }
             } else if (n instanceof PublicToken) {
@@ -90,6 +97,12 @@ public class ClassToken extends GrouperToken {
                         take();
                         FunctionDeclaration destructor = new FunctionDeclaration(context, this, true);
                         classType.getClassContext().setDestructor(destructor);
+                    } else if (next instanceof TypeToken) {
+                        take();
+                        context.addDeclareTypes(this);
+                    } else if (next instanceof ConstToken) {
+                        take();
+                        context.addDeclareConsts(this);
                     }
                 }
             } else if (n instanceof ProtectedToken) {
@@ -105,14 +118,24 @@ public class ClassToken extends GrouperToken {
                         take();
                         ArrayList<VariableDeclaration> vars = getVariableDeclarations(context);
                         classType.addPublicFields(vars);
+                    } else if (next instanceof TypeToken) {
+                        take();
+                        context.addDeclareTypes(this);
+                    } else if (next instanceof ConstToken) {
+                        take();
+                        context.addDeclareConsts(this);
                     }
                 }
             } else if (n instanceof VarToken) {
                 take();
                 List<VariableDeclaration> d = getVariableDeclarations(context);
                 classType.addPublicFields(d);
+            } else if (n instanceof TypeToken) {
+                take();
+                context.addDeclareTypes(this);
             } else if (n instanceof ConstToken) {
                 take();
+                context.addDeclareConsts(this);
             }
         }
     }

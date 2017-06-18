@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.ast.instructions;
 
 import com.duy.pascal.backend.ast.runtime_value.references.Reference;
-import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
+import com.duy.pascal.backend.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class FieldReference implements Reference {

@@ -1,6 +1,6 @@
 package com.duy.pascal.backend.runtime_exception;
 
-import com.duy.pascal.backend.ast.AbstractFunction;
+import com.duy.pascal.backend.declaration.function.AbstractFunction;
 import com.duy.pascal.backend.linenumber.LineInfo;
 
 public class MethodCallException extends RuntimePascalException {

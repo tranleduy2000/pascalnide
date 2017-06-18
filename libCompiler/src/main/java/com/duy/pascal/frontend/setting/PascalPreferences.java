@@ -182,9 +182,7 @@ public class PascalPreferences {
         return Color.WHITE;
     }
 
-    public int getConsoleFontSize() {
-        return (int) getTextSize();
-    }
+
 
     public int getConsoleFrameRate() {
         int i;
@@ -212,11 +210,22 @@ public class PascalPreferences {
     }
 
     /**
-     * @return size of text in sp unit
+     * @return size of editor text in sp unit
      */
-    public float getTextSize() {
+    public float getEditorTextSize() {
         try {
             return Float.parseFloat(getString(context.getString(R.string.key_pref_font_size)));
+        } catch (Exception e) {
+            return 14f;
+        }
+    }
+
+    /**
+     * @return size of console text in sp unit
+     */
+    public float getConsoleTextSize() {
+        try {
+            return Float.parseFloat(getString("key_pref_console_font_size"));
         } catch (Exception e) {
             return 14f;
         }

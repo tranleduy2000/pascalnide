@@ -396,7 +396,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setOverScrollMode(OVER_SCROLL_ALWAYS);
 
-        setTextSize(mEditorSetting.getTextSize());
+        setTextSize(mEditorSetting.getEditorTextSize());
         mPaintNumbers.setTextSize(getTextSize());
 
         showLines = mEditorSetting.isShowLines();
@@ -767,7 +767,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         if (isFinding) return;
 
         disableTextChangedListener();
-        highlight(getEditableText(), false);
+        highlight(false);
         highlightLineError(getEditableText());
         enableTextChangedListener();
     }
@@ -802,10 +802,10 @@ public class HighlightEditor extends CodeSuggestsEditText
         }
     }
 
-    public Editable highlight(Editable editable, boolean newText) {
-        if (editable.length() == 0) {
-            return editable;
-        }
+    public void highlight(boolean newText) {
+        if (getLayout() == null) return;
+        Editable editable = getEditableText();
+        if (editable.length() == 0) return;
 
         int editorHeight = getHeightVisible();
         int firstVisibleIndex;
@@ -828,7 +828,6 @@ public class HighlightEditor extends CodeSuggestsEditText
         CharSequence textToHighlight = editable.subSequence(firstVisibleIndex, lastVisibleIndex);
         mHighlighter.highlight(editable, textToHighlight, firstVisibleIndex);
         applyTabWidth(editable, firstVisibleIndex, lastVisibleIndex);
-        return editable;
     }
 
     public void enableTextChangedListener() {

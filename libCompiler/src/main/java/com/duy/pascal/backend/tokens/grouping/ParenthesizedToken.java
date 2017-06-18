@@ -9,7 +9,7 @@ import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.declaration.types.RuntimeType;
 
 import java.util.ArrayList;
 import java.util.List;

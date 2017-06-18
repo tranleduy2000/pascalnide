@@ -2,21 +2,21 @@ package com.duy.pascal.backend.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.ast.AbstractCallableFunction;
-import com.duy.pascal.backend.ast.MethodDeclaration;
+import com.duy.pascal.backend.declaration.function.AbstractCallableFunction;
+import com.duy.pascal.backend.declaration.function.MethodDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.system_function.builtin.IMethodDeclaration;
 import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.MethodCallException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.MethodReflectionException;
-import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.declaration.types.ArgumentType;
+import com.duy.pascal.backend.declaration.types.RuntimeType;
 import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.debug.DebugManager;
 

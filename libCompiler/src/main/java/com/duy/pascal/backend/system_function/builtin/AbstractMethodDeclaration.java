@@ -17,14 +17,14 @@
 package com.duy.pascal.backend.system_function.builtin;
 
 
-import com.duy.pascal.backend.ast.AbstractFunction;
+import com.duy.pascal.backend.declaration.function.AbstractFunction;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.types.ArgumentType;
-import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.declaration.types.ArgumentType;
+import com.duy.pascal.backend.declaration.types.DeclaredType;
 
 import java.util.List;
 

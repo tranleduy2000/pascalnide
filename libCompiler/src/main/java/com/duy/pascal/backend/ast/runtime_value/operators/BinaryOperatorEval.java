@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.runtime_value.VariableContext;
+import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.BoolBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.CharBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.DoubleBiOperatorEval;
@@ -42,14 +42,14 @@ import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationExcept
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.converter.AnyToStringType;
-import com.duy.pascal.backend.types.converter.TypeConverter;
-import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.types.set.SetType;
+import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.types.converter.AnyToStringType;
+import com.duy.pascal.backend.declaration.types.converter.TypeConverter;
+import com.duy.pascal.backend.declaration.types.set.EnumGroupType;
+import com.duy.pascal.backend.declaration.types.set.SetType;
 
 
 public abstract class BinaryOperatorEval extends DebuggableReturnValue {

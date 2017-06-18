@@ -24,10 +24,10 @@ import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.set.SetType;
+import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.types.set.SetType;
 
 import java.util.LinkedList;
 

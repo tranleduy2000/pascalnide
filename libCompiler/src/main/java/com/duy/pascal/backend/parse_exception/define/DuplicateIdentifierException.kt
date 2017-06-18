@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.parse_exception.define
 
-import com.duy.pascal.backend.ast.NamedEntity
+import com.duy.pascal.backend.declaration.NamedEntity
 import com.duy.pascal.backend.parse_exception.ParsingException
 
 class DuplicateIdentifierException(previous: NamedEntity, current: NamedEntity) :

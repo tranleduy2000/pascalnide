@@ -16,7 +16,7 @@
 
 package com.duy.pascal;
 
-import com.duy.pascal.backend.tokenizer.IndentCode;
+import com.duy.pascal.frontend.editor.indention.IndentCode;
 import com.duy.pascal.frontend.DLog;
 
 import junit.framework.TestCase;

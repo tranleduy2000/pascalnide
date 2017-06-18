@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.core;
 
 
-import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
+import com.duy.pascal.backend.declaration.library.PascalUnitDeclaration;
+import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.activities.IRunnablePascal;

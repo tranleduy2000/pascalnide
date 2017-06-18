@@ -2,15 +2,15 @@ package com.duy.pascal.backend.tokens;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.ast.NamedEntity;
+import com.duy.pascal.backend.declaration.NamedEntity;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.PointerType;
+import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.types.PointerType;
 
 
 public class WordToken extends Token implements NamedEntity {

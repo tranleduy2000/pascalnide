@@ -18,7 +18,7 @@ package com.duy.pascal.backend.builtin_libraries.crt;
 
 import android.graphics.Color;
 
-import com.duy.pascal.backend.ast.ConstantDefinition;
+import com.duy.pascal.backend.declaration.value.ConstantDefinition;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.android.media.AndroidToneGeneratorLib;

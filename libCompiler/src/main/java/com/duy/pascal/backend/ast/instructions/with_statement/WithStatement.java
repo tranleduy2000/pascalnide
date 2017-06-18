@@ -18,7 +18,7 @@ package com.duy.pascal.backend.ast.instructions.with_statement;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.declaration.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
@@ -32,9 +32,9 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.types.CustomType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.RecordType;
+import com.duy.pascal.backend.declaration.types.CustomType;
+import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.types.RecordType;
 
 import java.util.ArrayList;
 import java.util.List;

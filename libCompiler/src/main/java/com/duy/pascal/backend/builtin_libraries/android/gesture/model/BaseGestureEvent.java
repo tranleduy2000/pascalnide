@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.builtin_libraries.android.gesture.model;
 
-import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RecordValue;
 
 /**
  * Created by Duy on 15-Jun-17.

@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.activities;
 
+import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -23,5 +24,13 @@ import android.content.Context;
  */
 
 public interface ActivityHandler {
+    /**
+     * @return current android context
+     */
     Context getApplicationContext();
+
+    /**
+     * @return current activity
+     */
+    Activity getActivity();
 }

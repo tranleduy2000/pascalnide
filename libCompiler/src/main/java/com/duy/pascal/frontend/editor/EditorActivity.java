@@ -16,6 +16,7 @@
 
 package com.duy.pascal.frontend.editor;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,12 +42,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.BasePascalApplication;
-import com.duy.pascal.backend.ast.AbstractFunction;
-import com.duy.pascal.backend.ast.ConstantDefinition;
-import com.duy.pascal.backend.ast.FunctionDeclaration;
-import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.declaration.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
+import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
@@ -803,6 +804,11 @@ public class EditorActivity extends BaseEditorActivity implements
         @Override
         public Context getApplicationContext() {
             return EditorActivity.this.getApplicationContext();
+        }
+
+        @Override
+        public Activity getActivity() {
+            return EditorActivity.this;
         }
 
 

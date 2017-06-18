@@ -101,22 +101,22 @@
             android:defaultValue="true"
             android:enabled="true"
             android:key="pref_console_anti_alias"
-            android:summary="Smooths out jagged graphics"
-            android:title="Anti-alias"/>
+            android:summary="@string/anti_alias_summary"
+            android:title="@string/anti_alias"/>
 
         <SwitchPreference
             android:defaultValue="true"
             android:enabled="true"
             android:key="pref_console_hardware_acceleration"
             android:summary="@string/draw_screen_faster"
-            android:title="Hardware acceleration"/>
+            android:title="@string/hardware_acceleration"/>
 
         <ListPreference
             android:defaultValue="12"
             android:entries="@array/font_size"
             android:entryValues="@array/font_size_value"
             android:key="key_pref_console_font_size"
-            android:title="Console font size"/>
+            android:title="@string/console_font_size"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/compiler">

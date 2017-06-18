@@ -16,10 +16,11 @@
 
 package com.duy.pascal;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
+import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.parse_exception.ParsingException;
@@ -71,6 +72,11 @@ public class Interperter {
 
                     @Override
                     public Context getApplicationContext() {
+                        return null;
+                    }
+
+                    @Override
+                    public Activity getActivity() {
                         return null;
                     }
 
@@ -180,6 +186,11 @@ public class Interperter {
 
                         @Override
                         public Context getApplicationContext() {
+                            return null;
+                        }
+
+                        @Override
+                        public Activity getActivity() {
                             return null;
                         }
 

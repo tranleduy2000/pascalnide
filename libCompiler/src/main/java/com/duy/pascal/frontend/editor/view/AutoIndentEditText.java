@@ -26,7 +26,7 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 
-import com.duy.pascal.backend.tokenizer.IndentCode;
+import com.duy.pascal.frontend.editor.indention.IndentCode;
 import com.duy.pascal.frontend.editor.completion.Patterns;
 
 import java.util.regex.Matcher;

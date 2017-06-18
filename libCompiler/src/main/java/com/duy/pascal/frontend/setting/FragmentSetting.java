@@ -39,10 +39,17 @@ public class FragmentSetting extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference(getString(R.string.key_code_theme)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_font)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.key_pref_lang)));
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_font_size)));
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_frame_rate)));
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_max_buffer_size)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.key_max_page)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.key_max_history_edit)));
+
+        //console region
+        bindPreferenceSummaryToValue(findPreference("key_pref_console_font_size"));
+        bindPreferenceSummaryToValue(findPreference("pref_console_bg_color"));
+        bindPreferenceSummaryToValue(findPreference("pref_console_anti_alias"));
+        bindPreferenceSummaryToValue(findPreference("pref_console_hardware_acceleration"));
+
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_frame_rate)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.key_console_max_buffer_size)));
+
     }
 }

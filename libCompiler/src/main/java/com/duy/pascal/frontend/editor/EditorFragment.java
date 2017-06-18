@@ -41,7 +41,7 @@ import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
 import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
-import com.duy.pascal.backend.tokenizer.IndentCode;
+import com.duy.pascal.frontend.editor.indention.IndentCode;
 import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;

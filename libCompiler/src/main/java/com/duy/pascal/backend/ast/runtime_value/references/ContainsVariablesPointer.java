@@ -16,7 +16,7 @@
 
 package com.duy.pascal.backend.ast.runtime_value.references;
 
-import com.duy.pascal.backend.ast.runtime_value.variables.ContainsVariables;
+import com.duy.pascal.backend.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 public class ContainsVariablesPointer<T> implements Reference<T> {

@@ -19,10 +19,10 @@ package com.duy.pascal.backend.builtin_libraries.file;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.declaration.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
-import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.file.exceptions.FileNotAssignException;

@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.ast.codeunit.program.PascalProgramDeclaration;
+import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
 import com.duy.pascal.backend.debugable.DebugListener;

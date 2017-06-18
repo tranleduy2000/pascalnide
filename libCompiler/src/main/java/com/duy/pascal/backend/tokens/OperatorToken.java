@@ -1,7 +1,7 @@
 package com.duy.pascal.backend.tokens;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
-import com.duy.pascal.backend.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.types.OperatorTypes;
 
 public class OperatorToken extends Token {
     public OperatorTypes type;

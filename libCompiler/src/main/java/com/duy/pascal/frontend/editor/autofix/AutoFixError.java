@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Layout;
 
-import com.duy.pascal.backend.ast.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -31,7 +31,7 @@ import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
 import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
-import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.declaration.types.DeclaredType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.editor.completion.KeyWord;
 import com.duy.pascal.frontend.editor.completion.Patterns;

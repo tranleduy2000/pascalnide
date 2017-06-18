@@ -18,7 +18,7 @@ package com.duy.pascal.backend.builtin_libraries.java.data;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.PascalLibraryImpl;
-import com.duy.pascal.backend.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

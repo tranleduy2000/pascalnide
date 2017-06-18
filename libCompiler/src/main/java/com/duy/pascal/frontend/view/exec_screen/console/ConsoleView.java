@@ -106,7 +106,7 @@ public class ConsoleView extends View implements
     private PascalPreferences mPascalPreferences;
     private String mImeBuffer = "";
     private TextConsole[] textImeBuffer;
-    private boolean antiAlias = false;
+    private boolean mAntiAlias = false;
 
 
     public ConsoleView(Context context, AttributeSet attrs) {
@@ -156,18 +156,18 @@ public class ConsoleView extends View implements
 
         mPascalPreferences = new PascalPreferences(context);
 
-        this.antiAlias = mPascalPreferences.useAntiAlias();
+        this.mAntiAlias = mPascalPreferences.useAntiAlias();
 
         mGraphScreen = new GraphScreen(context, this);
-        mGraphScreen.setAntiAlias(antiAlias);
+        mGraphScreen.setAntiAlias(mAntiAlias);
 
         mConsoleScreen = new ConsoleScreen(mPascalPreferences);
         mConsoleScreen.setBackgroundColor(Color.BLACK);
 
         mTextRenderer = new TextRenderer(getTextSize(TypedValue.COMPLEX_UNIT_SP,
-                mPascalPreferences.getConsoleFontSize()));
+                mPascalPreferences.getConsoleTextSize()));
         mTextRenderer.setTextColor(Color.WHITE);
-        mTextRenderer.setAntiAlias(antiAlias);
+        mTextRenderer.setAntiAlias(mAntiAlias);
 
         firstLine = 0;
         mScreenBufferData.firstIndex = 0;

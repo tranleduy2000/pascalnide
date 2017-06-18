@@ -65,4 +65,8 @@ public class ClassTest extends BaseTestCase {
     public void testStaticField() {
         run("test_static_field.pas");
     }
+
+    public void testClassInClass() {
+        run("test_class_in_class.pas");
+    }
 }

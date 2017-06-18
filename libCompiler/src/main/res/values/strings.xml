@@ -218,5 +218,9 @@
     <string name="compiler">Compiler</string>
     <string name="ime_desc">Allows your keyboard to show hints.</string>
     <string name="tab_width">Tab width</string>
+    <string name="anti_alias_summary">Smooths out jagged graphics</string>
+    <string name="anti_alias">Anti-alias</string>
+    <string name="hardware_acceleration">Hardware acceleration</string>
+    <string name="console_font_size">Console font size</string>
 </resources>
 

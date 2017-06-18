@@ -4,12 +4,12 @@ package com.duy.pascal.backend.tokens.grouping;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.ast.ConstantDefinition;
-import com.duy.pascal.backend.ast.LabelDeclaration;
-import com.duy.pascal.backend.ast.MethodDeclaration;
-import com.duy.pascal.backend.ast.VariableDeclaration;
-import com.duy.pascal.backend.ast.codeunit.classunit.ClassConstructorCall;
-import com.duy.pascal.backend.ast.codeunit.classunit.ClassExpressionContext;
+import com.duy.pascal.backend.declaration.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.LabelDeclaration;
+import com.duy.pascal.backend.declaration.function.MethodDeclaration;
+import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.ast.runtime_value.value.ClassConstructorCall;
+import com.duy.pascal.backend.ast.expressioncontext.ClassExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.instructions.BreakInstruction;
 import com.duy.pascal.backend.ast.instructions.CompoundStatement;
@@ -38,11 +38,11 @@ import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.ast.runtime_value.value.access.ClassFunctionAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ClassFunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ClassVariableAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
-import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.UnSupportTokenException;
@@ -100,24 +100,24 @@ import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.ignore.CommentToken;
 import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.JavaClassBasedType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.PascalClassType;
-import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.types.RecordType;
-import com.duy.pascal.backend.types.RuntimeType;
-import com.duy.pascal.backend.types.StringLimitType;
-import com.duy.pascal.backend.types.set.ArrayType;
-import com.duy.pascal.backend.types.set.EnumGroupType;
-import com.duy.pascal.backend.types.set.SetType;
-import com.duy.pascal.backend.types.subrange.BooleanSubrangeType;
-import com.duy.pascal.backend.types.subrange.DoubleSubrangeType;
-import com.duy.pascal.backend.types.subrange.EnumSubrangeType;
-import com.duy.pascal.backend.types.subrange.IntegerRange;
-import com.duy.pascal.backend.types.subrange.IntegerSubrangeType;
-import com.duy.pascal.backend.types.util.TypeUtils;
+import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.types.PascalClassType;
+import com.duy.pascal.backend.declaration.types.PointerType;
+import com.duy.pascal.backend.declaration.types.RecordType;
+import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.types.StringLimitType;
+import com.duy.pascal.backend.declaration.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.types.set.EnumGroupType;
+import com.duy.pascal.backend.declaration.types.set.SetType;
+import com.duy.pascal.backend.declaration.types.subrange.BooleanSubrangeType;
+import com.duy.pascal.backend.declaration.types.subrange.DoubleSubrangeType;
+import com.duy.pascal.backend.declaration.types.subrange.EnumSubrangeType;
+import com.duy.pascal.backend.declaration.types.subrange.IntegerRange;
+import com.duy.pascal.backend.declaration.types.subrange.IntegerSubrangeType;
+import com.duy.pascal.backend.declaration.types.util.TypeUtils;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -525,7 +525,6 @@ public abstract class GrouperToken extends Token {
                     throw new ExpectedTokenException("[Element Name]", next);
                 }
 
-
                 //call method of java class
                 RuntimeType runtimeType = term.getType(context);
                 //access method of java class
@@ -605,8 +604,8 @@ public abstract class GrouperToken extends Token {
         }
         ClassExpressionContext classContext = classType.getClassContext();
         FunctionCall functionCall = FunctionCall.generateFunctionCall(methodName, args, classContext);
-        return new ClassFunctionAccess(container.toString(),
-                functionCall, methodName.getLineNumber());
+        return new ClassFunctionCall(container.toString(),
+                functionCall, methodName.getLineNumber(), classContext);
     }
 
     private RuntimeValue generateArrayAccess(RuntimeValue parent, ExpressionContext f,
@@ -675,11 +674,29 @@ public abstract class GrouperToken extends Token {
                             take();
                             next = take();
                             if (next instanceof WordToken) {
+                                WordToken idName = ((WordToken) next);
+                                DeclaredType typeInClass = classType.getDeclaration()
+                                        .getContext().getTypedefTypeLocal(idName.getName());
+                                while (typeInClass != null && typeInClass instanceof PascalClassType) {
+                                    classType = (PascalClassType) typeInClass;
+                                    if (peek() instanceof PeriodToken) {
+                                        take();
+                                    } else {
+                                    }
+                                    if (peek() instanceof WordToken) {
+                                        idName = (WordToken) take();
+                                    } else {
+
+                                    }
+                                    typeInClass = classType.getDeclaration().getContext()
+                                            .getTypedefTypeLocal(idName.getName());
+                                }
+
                                 List<RuntimeValue> arguments = new ArrayList<>();
                                 if (peek() instanceof ParenthesizedToken) {
                                     arguments.addAll(((ParenthesizedToken) take()).getArgumentsForCall(context));
                                 }
-                                return classType.generateConstructor((WordToken) next, arguments,
+                                return classType.generateConstructor(idName, arguments,
                                         classType.getClassContext());
                             } else {
                                 throw new ExpectedTokenException("[Constructor]", next);
@@ -1251,9 +1268,6 @@ public abstract class GrouperToken extends Token {
                 FieldAccess fieldAccess = (FieldAccess) identifier;
                 RuntimeValue container = fieldAccess.getContainer();
                 return (Executable) getMethodFromJavaClass(context, container, fieldAccess.getName());
-            } else if (identifier instanceof ClassFunctionAccess) {
-                ClassFunctionAccess functionAccess = (ClassFunctionAccess) identifier;
-                return (Executable) functionAccess;
             } else {
                 throw new NotAStatementException(identifier);
             }

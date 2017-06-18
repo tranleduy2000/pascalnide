@@ -19,7 +19,7 @@ package com.duy.pascal.backend.builtin_libraries.graphic.model;
 import android.graphics.Canvas;
 import android.graphics.Path;
 
-import com.duy.pascal.backend.ast.runtime_value.variables.RecordValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RecordValue;
 
 /**
  * Created by Duy on 09-Jun-17.

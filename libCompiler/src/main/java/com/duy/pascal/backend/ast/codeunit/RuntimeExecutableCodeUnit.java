@@ -16,11 +16,9 @@
 
 package com.duy.pascal.backend.ast.codeunit;
 
-import com.duy.pascal.backend.ast.AbstractFunction;
-import com.duy.pascal.backend.ast.MethodDeclaration;
-import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
-import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
-import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
+import com.duy.pascal.backend.declaration.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.function.MethodDeclaration;
+import com.duy.pascal.backend.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.ScriptControl;
 import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.debugable.DebugListener;

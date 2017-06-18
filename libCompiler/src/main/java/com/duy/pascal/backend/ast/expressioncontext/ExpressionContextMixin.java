@@ -3,17 +3,17 @@ package com.duy.pascal.backend.ast.expressioncontext;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.ast.AbstractFunction;
-import com.duy.pascal.backend.ast.ConstantDefinition;
-import com.duy.pascal.backend.ast.FunctionDeclaration;
-import com.duy.pascal.backend.ast.LabelDeclaration;
-import com.duy.pascal.backend.ast.NamedEntity;
-import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.declaration.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.LabelDeclaration;
+import com.duy.pascal.backend.declaration.NamedEntity;
+import com.duy.pascal.backend.declaration.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
-import com.duy.pascal.backend.ast.codeunit.classunit.ClassConstructor;
-import com.duy.pascal.backend.ast.codeunit.classunit.RuntimePascalClass;
-import com.duy.pascal.backend.ast.codeunit.library.PascalUnitDeclaration;
-import com.duy.pascal.backend.ast.codeunit.library.RuntimeUnitPascal;
+import com.duy.pascal.backend.declaration.classunit.ClassConstructor;
+import com.duy.pascal.backend.ast.codeunit.RuntimePascalClass;
+import com.duy.pascal.backend.declaration.library.PascalUnitDeclaration;
+import com.duy.pascal.backend.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -58,12 +58,12 @@ import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
-import com.duy.pascal.backend.types.BasicType;
-import com.duy.pascal.backend.types.DeclaredType;
-import com.duy.pascal.backend.types.OperatorTypes;
-import com.duy.pascal.backend.types.PascalClassType;
-import com.duy.pascal.backend.types.PointerType;
-import com.duy.pascal.backend.types.RuntimeType;
+import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.types.PascalClassType;
+import com.duy.pascal.backend.declaration.types.PointerType;
+import com.duy.pascal.backend.declaration.types.RuntimeType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
@@ -282,8 +282,18 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 PascalClassType classType = (PascalClassType) typedefType;
 
                 i.take();
-                String funcName = i.nextWordValue();
-                FunctionDeclaration declaration = new FunctionDeclaration(funcName,
+                name = i.nextWordValue();
+                DeclaredType typeInClass = classType.getDeclaration().getContext().getTypedefTypeLocal(name);
+                while (typeInClass != null && typeInClass instanceof PascalClassType) {
+                    classType = (PascalClassType) typeInClass;
+                    if (i.peek() instanceof PeriodToken) {
+                        i.take();
+                    } else {
+                    }
+                    name = i.nextWordValue();
+                    typeInClass = classType.getDeclaration().getContext().getTypedefTypeLocal(name);
+                }
+                FunctionDeclaration declaration = new FunctionDeclaration(name,
                         classType.getClassContext(), i, isProcedure);
                 FunctionDeclaration function = classType.getClassContext().getExistFunction(declaration);
                 function.parseFunctionBody(i);
@@ -305,7 +315,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
         } else if (next instanceof ConstToken) {
             i.take();
-            declareConst(i);
+            addDeclareConsts(i);
         } else if (next instanceof UsesToken) {
             i.take();
             importLibraries(i);
@@ -402,7 +412,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         } while (true);
     }
 
-    protected void addDeclareTypes(GrouperToken i) throws ParsingException {
+    public void addDeclareTypes(GrouperToken i) throws ParsingException {
         Token next;
         Hashtable<String, String> forwardTypes = new Hashtable<>();
 
@@ -591,7 +601,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         mListNameConstants.add(new InfoItem(StructureType.TYPE_CONST, c.getName()));
     }
 
-    public void declareConst(GrouperToken grouperToken) throws ParsingException {
+    public void addDeclareConsts(GrouperToken grouperToken) throws ParsingException {
         Token next;
         while (grouperToken.peek() instanceof WordToken) {
             WordToken name = (WordToken) grouperToken.take(); //const a : integer = 2; const a = 2;

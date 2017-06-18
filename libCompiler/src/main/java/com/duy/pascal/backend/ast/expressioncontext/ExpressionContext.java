@@ -2,11 +2,11 @@ package com.duy.pascal.backend.ast.expressioncontext;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.ast.AbstractFunction;
-import com.duy.pascal.backend.ast.ConstantDefinition;
-import com.duy.pascal.backend.ast.LabelDeclaration;
-import com.duy.pascal.backend.ast.NamedEntity;
-import com.duy.pascal.backend.ast.VariableDeclaration;
+import com.duy.pascal.backend.declaration.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.LabelDeclaration;
+import com.duy.pascal.backend.declaration.NamedEntity;
+import com.duy.pascal.backend.declaration.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -16,7 +16,7 @@ import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierExceptio
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.types.DeclaredType;
+import com.duy.pascal.backend.declaration.types.DeclaredType;
 
 import java.util.List;
 
