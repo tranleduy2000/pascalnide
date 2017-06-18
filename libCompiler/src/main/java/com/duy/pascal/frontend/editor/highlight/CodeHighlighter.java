@@ -16,10 +16,12 @@
 
 package com.duy.pascal.frontend.editor.highlight;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.text.Editable;
 import android.text.Spannable;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 
 import com.duy.pascal.frontend.editor.view.HighlightEditor;
@@ -30,9 +32,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.regex.Matcher;
 
+import static com.duy.pascal.frontend.editor.completion.Patterns.ARGB_FUNCTION;
 import static com.duy.pascal.frontend.editor.completion.Patterns.BUILTIN_FUNCTIONS;
 import static com.duy.pascal.frontend.editor.completion.Patterns.KEYWORDS;
 import static com.duy.pascal.frontend.editor.completion.Patterns.NUMBERS;
+import static com.duy.pascal.frontend.editor.completion.Patterns.RGB_FUNCTION;
 import static com.duy.pascal.frontend.editor.completion.Patterns.SYMBOLS;
 
 /**
@@ -155,6 +159,40 @@ public class CodeHighlighter implements Highlighter {
         }
         for (Matcher m = SYMBOLS.matcher(textToHighlight); m.find(); ) {
             allText.setSpan(new ForegroundColorSpan(codeTheme.getOptColor()),
+                    start + m.start(),
+                    start + m.end(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+
+        for (Matcher m = RGB_FUNCTION.matcher(textToHighlight); m.find(); ) {
+            int r = Integer.parseInt(m.group(3).trim());
+            int g = Integer.parseInt(m.group(5).trim());
+            int b = Integer.parseInt(m.group(7).trim());
+            int back = Color.rgb(r, g, b);
+            int fore = Color.rgb(255 - r, 255 - g, 255 - b);
+
+            allText.setSpan(new BackgroundColorSpan(back),
+                    start + m.start(),
+                    start + m.end(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            allText.setSpan(new ForegroundColorSpan(fore),
+                    start + m.start(),
+                    start + m.end(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        for (Matcher m = ARGB_FUNCTION.matcher(textToHighlight); m.find(); ) {
+            int r = Integer.parseInt(m.group(5).trim());
+            int g = Integer.parseInt(m.group(7).trim());
+            int b = Integer.parseInt(m.group(9).trim());
+            int back = Color.rgb(r, g, b);
+            int fore = Color.rgb(255 - r, 255 - g, 255 - b);
+
+            allText.setSpan(new BackgroundColorSpan(back),
+                    start + m.start(),
+                    start + m.end(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            allText.setSpan(new ForegroundColorSpan(fore),
                     start + m.start(),
                     start + m.end(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

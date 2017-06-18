@@ -87,13 +87,13 @@ public class Patterns {
     public static final Pattern HEX_COLOR = Pattern.compile("(#[0-9a-fA-F]{6})");
 
     public static final Pattern RGB_FUNCTION = Pattern.compile(
-            "([Rr][Gg][Bb])" +
-                    "(\\()" +
-                    "(\\s?\\d+\\s?)" +
-                    "(,)" +
-                    "(\\s?\\d+\\s?)" +
-                    "(,)" +
-                    "(\\s?\\d+\\s?)" +
+            "([Rr][Gg][Bb])" + //1
+                    "(\\()" +//2
+                    "(\\s?\\d+\\s?)" +//3
+                    "(,)" +//4
+                    "(\\s?\\d+\\s?)" +//5
+                    "(,)" +//6
+                    "(\\s?\\d+\\s?)" +//7
                     "(\\))");
 
     public static final Pattern ARGB_FUNCTION = Pattern.compile(
