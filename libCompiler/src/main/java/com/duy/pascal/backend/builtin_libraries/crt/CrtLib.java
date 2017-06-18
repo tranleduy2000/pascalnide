@@ -16,6 +16,8 @@
 
 package com.duy.pascal.backend.builtin_libraries.crt;
 
+import android.graphics.Color;
+
 import com.duy.pascal.backend.ast.ConstantDefinition;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.PascalLibrary;
@@ -303,5 +305,22 @@ public class CrtLib implements PascalLibrary {
             return consoleScreen.getConsoleRow();
         }
         return 0;
+    }
+
+    @PascalMethod(description = "Return a color-int from red, green, blue components.\n" +
+            "The alpha component is implicity 255 (fully opaque).\n" +
+            "These component values should be [0..255], but there is no\n" +
+            "range check performed, so if they are out of range, the\n" +
+            "returned color is undefined.")
+    public int rgb(int r, int g, int b) {
+        return Color.rgb(r, g, b);
+    }
+
+    @PascalMethod(description = "Return a color-int from alpha, red, green, blue components.\n" +
+            "These component values should be [0..255], but there is no\n" +
+            "range check performed, so if they are out of range, the\n" +
+            "returned color is undefined.")
+    public int argb(int a, int r, int g, int b) {
+        return Color.argb(a, r, g, b);
     }
 }
