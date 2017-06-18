@@ -89,7 +89,7 @@ import java.util.Stack;
 %column
 %ignorecase
 
-
+%public
 %class Lexer
 %{
 	List<ScriptSource> searchDirectories;
