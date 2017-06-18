@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor.editor_view;
+package com.duy.pascal.frontend.editor.view;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -28,8 +28,8 @@ import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.EditorSetting;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.completion.KeyWord;
-import com.duy.pascal.frontend.editor.editor_view.adapters.CodeSuggestAdapter;
-import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
+import com.duy.pascal.frontend.editor.view.adapters.CodeSuggestAdapter;
+import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
 import java.util.ArrayList;

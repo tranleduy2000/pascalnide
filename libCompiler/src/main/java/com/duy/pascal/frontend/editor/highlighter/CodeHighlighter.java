@@ -22,7 +22,7 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 
-import com.duy.pascal.frontend.editor.editor_view.HighlightEditor;
+import com.duy.pascal.frontend.editor.view.HighlightEditor;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 
 import java.util.ArrayList;

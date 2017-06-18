@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor.editor_view;
+package com.duy.pascal.frontend.editor.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

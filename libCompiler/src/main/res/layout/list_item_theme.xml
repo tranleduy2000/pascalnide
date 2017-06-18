@@ -39,7 +39,7 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
 
-        <com.duy.pascal.frontend.editor.editor_view.EditorView
+        <com.duy.pascal.frontend.editor.view.EditorView
             android:id="@+id/editor_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

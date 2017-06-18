@@ -84,7 +84,7 @@ import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.ConsoleHandler;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
-import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
+import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 
 import java.lang.reflect.Constructor;

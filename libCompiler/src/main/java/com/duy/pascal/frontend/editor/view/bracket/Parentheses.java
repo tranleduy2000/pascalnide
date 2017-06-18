@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.editor.editor_view;
+package com.duy.pascal.frontend.editor.view.bracket;
 
-import android.content.Context;
-import android.util.AttributeSet;
+import android.support.annotation.NonNull;
 
 /**
- * Created by Duy on 15-Mar-17.
+ * Created by Duy on 12-May-17.
  */
 
-public class EditorView extends UndoRedoSupportEditText {
-    private static final String TAG = EditorView.class.getSimpleName();
-
-    public EditorView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+public class Parentheses implements IBracket {
+    @NonNull
+    @Override
+    public CharSequence getClose() {
+        return ")";
     }
 
-    public EditorView(Context context) {
-        super(context);
-
-    }
-    public EditorView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    @NonNull
+    @Override
+    public CharSequence getOpen() {
+        return "(";
     }
 }

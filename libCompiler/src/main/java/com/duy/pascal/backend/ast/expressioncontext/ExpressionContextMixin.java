@@ -66,7 +66,7 @@ import com.duy.pascal.backend.types.PointerType;
 import com.duy.pascal.backend.types.RuntimeType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
-import com.duy.pascal.frontend.editor.editor_view.adapters.InfoItem;
+import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.google.common.collect.ArrayListMultimap;
 
