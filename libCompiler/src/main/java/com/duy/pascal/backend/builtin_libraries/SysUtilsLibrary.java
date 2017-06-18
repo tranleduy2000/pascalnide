@@ -289,11 +289,22 @@ public class SysUtilsLibrary implements PascalLibrary {
     @PascalMethod(description = "Convert a TDateTime time to a string using a predefined format")
     public StringBuilder timeToStr(Long time) {
         Date date = new Date(time);
-        return new StringBuilder(date.toString());
+        return new StringBuilder(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+    }
+
+    @PascalMethod(description = "Convert a TDateTime time to a string using a predefined format")
+    public StringBuilder dateToStr(Long time) {
+        Date date = new Date(time);
+        return new StringBuilder(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
     }
 
     @PascalMethod(description = "Returns the current time.")
     public Long time() {
         return System.currentTimeMillis();
+    }
+
+    @PascalMethod(description = "Convert a boolean value to a string.")
+    public StringBuilder boolToStr(Boolean b, StringBuilder sTrue, StringBuilder sFalse) {
+        return b ? sTrue : sFalse;
     }
 }
