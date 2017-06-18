@@ -830,17 +830,10 @@ public class HighlightEditor extends CodeSuggestsEditText
             firstVisibleIndex = 0;
             lastVisibleIndex = CHARS_TO_COLOR;
         }
-        int delta = (lastVisibleIndex - firstVisibleIndex) / 3;
-        firstVisibleIndex -= delta;
-        lastVisibleIndex += delta;
-
         // normalize
-        if (firstVisibleIndex < 0)
-            firstVisibleIndex = 0;
-        if (lastVisibleIndex > editable.length())
-            lastVisibleIndex = editable.length();
-        if (firstVisibleIndex > lastVisibleIndex)
-            firstVisibleIndex = lastVisibleIndex;
+        if (firstVisibleIndex < 0) firstVisibleIndex = 0;
+        if (lastVisibleIndex > editable.length()) lastVisibleIndex = editable.length();
+        if (firstVisibleIndex > lastVisibleIndex) firstVisibleIndex = lastVisibleIndex;
 
         //clear all span for firstVisibleIndex to lastVisibleIndex
         clearSpans(editable, firstVisibleIndex, lastVisibleIndex);

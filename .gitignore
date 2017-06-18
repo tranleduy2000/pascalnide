@@ -68,5 +68,3 @@ src/androidTest/
 /sample/snake-game-in-turboPascal-master/
 /sample/sphinx-astar-master/
 *.apk
-/libCompiler/src/main/res/layout/highlight_setting.xml
-/libCompiler/src/main/java/com/duy/pascal/frontend/editor/setting/

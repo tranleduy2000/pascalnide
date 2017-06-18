@@ -76,7 +76,6 @@
             android:key="@string/key_code_theme"
             android:title="@string/theme" />
 
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/console_screen">

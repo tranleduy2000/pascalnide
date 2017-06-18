@@ -166,36 +166,44 @@ public class CodeHighlighter implements Highlighter {
 
 
         for (Matcher m = RGB_FUNCTION.matcher(textToHighlight); m.find(); ) {
-            int r = Integer.parseInt(m.group(3).trim());
-            int g = Integer.parseInt(m.group(5).trim());
-            int b = Integer.parseInt(m.group(7).trim());
-            int back = Color.rgb(r, g, b);
-            int fore = Color.rgb(255 - r, 255 - g, 255 - b);
+            try {
+                int r = Integer.parseInt(m.group(3).trim());
+                int g = Integer.parseInt(m.group(5).trim());
+                int b = Integer.parseInt(m.group(7).trim());
+                int back = Color.rgb(r, g, b);
+                int fore = Color.rgb(255 - r, 255 - g, 255 - b);
 
-            allText.setSpan(new BackgroundColorSpan(back),
-                    start + m.start(),
-                    start + m.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            allText.setSpan(new ForegroundColorSpan(fore),
-                    start + m.start(),
-                    start + m.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                allText.setSpan(new BackgroundColorSpan(back),
+                        start + m.start(1),
+                        start + m.end(1),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                allText.setSpan(new ForegroundColorSpan(fore),
+                        start + m.start(1),
+                        start + m.end(1),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } catch (Exception e) {
+
+            }
         }
         for (Matcher m = ARGB_FUNCTION.matcher(textToHighlight); m.find(); ) {
-            int r = Integer.parseInt(m.group(5).trim());
-            int g = Integer.parseInt(m.group(7).trim());
-            int b = Integer.parseInt(m.group(9).trim());
-            int back = Color.rgb(r, g, b);
-            int fore = Color.rgb(255 - r, 255 - g, 255 - b);
+            try {
+                int r = Integer.parseInt(m.group(3).trim());
+                int g = Integer.parseInt(m.group(5).trim());
+                int b = Integer.parseInt(m.group(7).trim());
+                int back = Color.rgb(r, g, b);
+                int fore = Color.rgb(255 - r, 255 - g, 255 - b);
 
-            allText.setSpan(new BackgroundColorSpan(back),
-                    start + m.start(),
-                    start + m.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            allText.setSpan(new ForegroundColorSpan(fore),
-                    start + m.start(),
-                    start + m.end(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                allText.setSpan(new BackgroundColorSpan(back),
+                        start + m.start(1),
+                        start + m.end(1),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                allText.setSpan(new ForegroundColorSpan(fore),
+                        start + m.start(1),
+                        start + m.end(1),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } catch (Exception e) {
+
+            }
         }
     }
 }

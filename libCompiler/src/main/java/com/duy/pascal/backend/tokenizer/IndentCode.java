@@ -92,7 +92,7 @@ public class IndentCode {
 
 
     private static final String TAG = "IndentCode";
-    private static final String THE_TAB = "   "; //3 space
+    private static final String THE_TAB = "  "; //2 space
     private int mode;
     private Reader source;
 
