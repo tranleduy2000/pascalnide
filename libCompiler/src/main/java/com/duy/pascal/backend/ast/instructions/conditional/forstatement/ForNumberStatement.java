@@ -70,7 +70,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 Integer start = (Integer) first.getValue(f, main);
                 Integer end = (Integer) last.getValue(f, main);
                 forLoop:
-                for (Integer index = end; index >= end; index--) {
+                for (Integer index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
                     ExecutionResult result = command.execute(f, main);
@@ -87,7 +87,41 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 Long start = (Long) first.getValue(f, main);
                 Long end = (Long) last.getValue(f, main);
                 forLoop:
-                for (Long index = end; index >= end; index--) {
+                for (Long index = start; index >= end; index--) {
+                    reference.set(index);
+                    if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+                    ExecutionResult result = command.execute(f, main);
+                    switch (result) {
+                        case EXIT:
+                            return ExecutionResult.EXIT;
+                        case BREAK:
+                            break forLoop;
+                        case CONTINUE:
+                    }
+                }
+            } else if (mNumberType == BasicType.Byte) {
+                Reference<Byte> reference = tempVar.getReference(f, main);
+                Byte start = (Byte) first.getValue(f, main);
+                Byte end = (Byte) last.getValue(f, main);
+                forLoop:
+                for (Byte index = start; index >= end; index--) {
+                    reference.set(index);
+                    if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+                    ExecutionResult result = command.execute(f, main);
+                    switch (result) {
+                        case EXIT:
+                            return ExecutionResult.EXIT;
+                        case BREAK:
+                            break forLoop;
+                        case CONTINUE:
+                    }
+                }
+            } else if (mNumberType == BasicType.Character) {
+                Reference<Character> reference = tempVar.getReference(f, main);
+                Character start = (Character) first.getValue(f, main);
+                Character end = (Character) last.getValue(f, main);
+                forLoop:
+                for (Character index = start; index >= end; index--) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
                     ExecutionResult result = command.execute(f, main);
@@ -124,6 +158,40 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 Long end = (Long) last.getValue(f, main);
                 forLoop:
                 for (Long index = start; index <= end; index++) {
+                    reference.set(index);
+                    if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+                    ExecutionResult result = command.execute(f, main);
+                    switch (result) {
+                        case EXIT:
+                            return ExecutionResult.EXIT;
+                        case BREAK:
+                            break forLoop;
+                        case CONTINUE:
+                    }
+                }
+            }else if (mNumberType == BasicType.Byte) {
+                Reference<Byte> reference = tempVar.getReference(f, main);
+                Byte start = (Byte) first.getValue(f, main);
+                Byte end = (Byte) last.getValue(f, main);
+                forLoop:
+                for (Byte index = start; index <= end; index++) {
+                    reference.set(index);
+                    if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
+                    ExecutionResult result = command.execute(f, main);
+                    switch (result) {
+                        case EXIT:
+                            return ExecutionResult.EXIT;
+                        case BREAK:
+                            break forLoop;
+                        case CONTINUE:
+                    }
+                }
+            } else if (mNumberType == BasicType.Character) {
+                Reference<Character> reference = tempVar.getReference(f, main);
+                Character start = (Character) first.getValue(f, main);
+                Character end = (Character) last.getValue(f, main);
+                forLoop:
+                for (Character index = start; index <= end; index++) {
                     reference.set(index);
                     if (main.isDebug()) main.getDebugListener().onVariableChange(new CallStack(f));
                     ExecutionResult result = command.execute(f, main);

@@ -18,8 +18,6 @@ package com.duy.pascal.interpreter;
 
 import com.duy.pascal.frontend.DLog;
 
-import static com.duy.pascal.Interperter.runProgram;
-
 /**
  * Created by Duy on 29-May-17.
  */
@@ -27,7 +25,7 @@ import static com.duy.pascal.Interperter.runProgram;
 public class ForStatementTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return "test_statement\\for_statement";
+        return  "test_for_statement";
     }
 
     @Override
@@ -50,7 +48,7 @@ public class ForStatementTest extends BaseTestCase {
 
     public void testForInEnum() {
         try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_enum.pas");
+            run("test_for_in_enum.pas");
             assertTrue("result ", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,24 +57,14 @@ public class ForStatementTest extends BaseTestCase {
     }
 
     public void testForInSet() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_set.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_for_in_set.pas");
     }
 
     public void testForInArray() {
-        try {
-            runProgram("C:\\github\\pascalnide\\test_pascal\\test_statement\\test_for_in_array.pas");
-            assertTrue("result ", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("result ", false);
-        }
+        run("test_for_in_array.pas");
     }
 
-
+    public void testForChar() {
+        run("test_for_char.pas");
+    }
 }

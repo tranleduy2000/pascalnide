@@ -66,8 +66,8 @@ public class ForEnumStatement extends DebuggableExecutable {
     @Override
     public ExecutionResult executeImpl(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException {
-        LinkedList list = mEnumGroupType.getList();
-        Reference reference = mTempVar.getReference(f, main);
+        LinkedList<EnumElementValue> list = mEnumGroupType.getList();
+        Reference<EnumElementValue> reference = mTempVar.getReference(f, main);
         Integer start = ((EnumElementValue) this.first.getValue(f, main)).getIndex();
         Integer end = ((EnumElementValue) this.last.getValue(f, main)).getIndex();
         if (downto) {
