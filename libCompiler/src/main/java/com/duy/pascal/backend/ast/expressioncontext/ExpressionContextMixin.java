@@ -273,7 +273,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             boolean isProcedure = next instanceof ProcedureToken;
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
-                Type typedefType = getTypedefType(name);
+                Type typedefType = getTypeDef(name);
                 if (typedefType instanceof PascalClassType) {
 
                 } else {
@@ -334,7 +334,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             i.take();
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
-                Type typedefType = getTypedefType(name);
+                Type typedefType = getTypeDef(name);
                 if (typedefType instanceof PascalClassType) {
 
                 } else {
@@ -362,7 +362,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
-                Type typedefType = getTypedefType(name);
+                Type typedefType = getTypeDef(name);
                 if (typedefType instanceof PascalClassType) {
 
                 } else {

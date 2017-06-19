@@ -18,10 +18,64 @@ package com.duy.pascal.backend.declaration.lang.types;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RecordValue;
+import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
+import com.duy.pascal.backend.parse_exception.define.UnknownFieldException;
+import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
+import com.duy.pascal.backend.parse_exception.value.NonConstantExpressionException;
+import com.duy.pascal.backend.tokens.Token;
+import com.duy.pascal.backend.tokens.WordToken;
+import com.duy.pascal.backend.tokens.basic.ColonToken;
+import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 
 public class RecordType extends CustomType implements Cloneable {
+
+    public static ConstantAccess<RecordValue> getRecordConstant(ExpressionContext context, Token groupConstant,
+                                                                RecordType ztype) throws ParsingException {
+        if (groupConstant instanceof ParenthesizedToken) {
+            ParenthesizedToken group = (ParenthesizedToken) groupConstant;
+            RecordType recordType = ztype.clone();
+            while (group.hasNext()) {
+                Token name = group.take();
+                if (!(name instanceof WordToken)) {
+                    throw new ExpectedTokenException("[field identifier]", name);
+                }
+                VariableDeclaration field = recordType.findField(((WordToken) name).name);
+                if (field == null) {
+                    throw new UnknownFieldException(name.getLineNumber(), recordType,
+                            ((WordToken) name).getName(), context);
+                }
+                if (group.peek() instanceof ColonToken) {
+                    group.take();
+                } else {
+                    throw new ExpectedTokenException(":", group.peek());
+                }
+                RuntimeValue value = group.getNextExpression(context);
+                RuntimeValue convert = field.getType().convert(value, context);
+                if (convert == null) {
+                    throw new UnConvertibleTypeException(value, field.getType(),
+                            value.getRuntimeType(context).getRawType(), context);
+                }
+                Object o = value.compileTimeValue(context);
+                if (o == null) {
+                    throw new NonConstantExpressionException(value);
+                }
+                recordType.setFieldValue(((WordToken) name).getName(), o);
+                if (group.hasNext()) {
+                    group.assertNextSemicolon();
+                }
+            }
+            return new ConstantAccess<>(recordType.initialize(), recordType,
+                    group.getLineNumber());
+        } else {
+            throw new ExpectedTokenException(groupConstant, new ParenthesizedToken(null));
+        }
+    }
 
     @Override
     public String toString() {

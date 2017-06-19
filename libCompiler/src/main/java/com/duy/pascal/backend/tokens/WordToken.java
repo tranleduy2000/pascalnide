@@ -122,7 +122,7 @@ public class WordToken extends Token implements NamedEntity {
         } else if (name.equalsIgnoreCase("PShortString")) {
             returnType = new PointerType(BasicType.create(StringBuilder.class));
         } else {
-            Type type = context.getTypedefType(name);
+            Type type = context.getTypeDef(name);
             if (type != null) {
                 returnType = type;
             } else {

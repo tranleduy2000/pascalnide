@@ -34,20 +34,20 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
             throws DuplicateIdentifierException;
 
     @Override
-    public ConstantDefinition getConstantDefinition(String ident) {
-        ConstantDefinition result = getConstantDefinitionLocal(ident);
+    public ConstantDefinition getConstantDefinition(String identifier) {
+        ConstantDefinition result = getConstantDefinitionLocal(identifier);
         if (result == null && parent != null) {
-            result = parent.getConstantDefinition(ident);
+            result = parent.getConstantDefinition(identifier);
         }
         return result;
     }
 
 
     @Override
-    public Type getTypedefType(String ident) {
-        Type result = getTypedefTypeLocal(ident);
+    public Type getTypeDef(String identifier) {
+        Type result = getTypedefTypeLocal(identifier);
         if (result == null && parent != null) {
-            result = parent.getTypedefType(ident);
+            result = parent.getTypeDef(identifier);
         }
         return result;
     }
