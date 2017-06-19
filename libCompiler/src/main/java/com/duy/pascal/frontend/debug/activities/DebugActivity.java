@@ -433,8 +433,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (alertDialog != null) alertDialog.dismiss();
+        super.onDestroy();
     }
 
     @Override
