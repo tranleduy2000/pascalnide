@@ -20,8 +20,8 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 import com.duy.pascal.backend.builtin_libraries.runtime_exceptions.EConvertError;
-import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -301,6 +301,20 @@ public class SysUtilsLibrary implements PascalLibrary {
     @PascalMethod(description = "Returns the current time.")
     public Long time() {
         return System.currentTimeMillis();
+    }
+
+    @PascalMethod(description = "Return the current date.")
+    public Long date() {
+        return System.currentTimeMillis();
+    }
+
+    @PascalMethod(description = "Decode a TDateTime to a year,month,day triplet")
+    public void decodeDate(Long time, PascalReference<Integer> y,
+                           PascalReference<Integer> m, PascalReference<Integer> d) {
+        Date date = new Date(time);
+        y.set(date.getYear());
+        m.set(date.getMonth());
+        d.set(date.getDay());
     }
 
     @PascalMethod(description = "Convert a boolean value to a string.")
