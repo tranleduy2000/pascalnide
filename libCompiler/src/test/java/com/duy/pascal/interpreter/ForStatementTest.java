@@ -25,7 +25,7 @@ import com.duy.pascal.frontend.DLog;
 public class ForStatementTest extends BaseTestCase {
     @Override
     public String getDirTest() {
-        return  "test_for_statement";
+        return "test_for_statement";
     }
 
     @Override
@@ -66,5 +66,9 @@ public class ForStatementTest extends BaseTestCase {
 
     public void testForChar() {
         run("test_for_char.pas");
+    }
+
+    public void testForRange() {
+        run("test_for_in_range.pas");
     }
 }

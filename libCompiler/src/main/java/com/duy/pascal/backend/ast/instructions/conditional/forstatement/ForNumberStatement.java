@@ -133,6 +133,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                         case CONTINUE:
                     }
                 }
+            } else {
+                throw new RuntimePascalException("Can not execute for statement");
             }
         } else {
             if (mNumberType == BasicType.Integer) {
@@ -169,7 +171,7 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                         case CONTINUE:
                     }
                 }
-            }else if (mNumberType == BasicType.Byte) {
+            } else if (mNumberType == BasicType.Byte) {
                 Reference<Byte> reference = tempVar.getReference(f, main);
                 Byte start = (Byte) first.getValue(f, main);
                 Byte end = (Byte) last.getValue(f, main);
@@ -203,6 +205,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                         case CONTINUE:
                     }
                 }
+            } else {
+                throw new RuntimePascalException("Can not execute for statement");
             }
         }
         return ExecutionResult.NOPE;
