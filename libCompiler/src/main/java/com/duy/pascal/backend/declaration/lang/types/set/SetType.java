@@ -23,17 +23,20 @@ import com.duy.pascal.backend.ast.runtime_value.value.EnumElementValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.SetIndexAccess;
+import com.duy.pascal.backend.ast.runtime_value.value.boxing.SetBoxer;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.SetCloner;
 import com.duy.pascal.backend.declaration.lang.types.BasicType;
 import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 import com.duy.pascal.backend.declaration.lang.types.Type;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.value.DuplicateElementException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
+import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicReference;
@@ -78,7 +81,7 @@ public class SetType<T extends Type> extends BaseSetType {
         while (bracketedToken.hasNext()) {
             ConstantAccess element;
             if (typeReference.get() == null) {
-                element = bracketedToken.getConstantElement(context, bracketedToken, null);
+                element = GrouperToken.getConstantElement(context, bracketedToken, null);
                 if (temp == null) {
                     if (element.getValue() instanceof EnumElementValue) {
                         temp = ((EnumElementValue) element.getValue()).getRuntimeType(context).declType;
@@ -106,6 +109,50 @@ public class SetType<T extends Type> extends BaseSetType {
         }
         if (typeReference.get() == null) typeReference.set(temp);
         return new ConstantAccess<LinkedList>(linkedList, typeReference.get(), bracketedToken.getLineNumber());
+    }
+
+    /**
+     * @param typeReference - type of set (example: set of char => type is "char")
+     * @return the set constant, I define the enum as {@link LinkedList}
+     */
+    public static SetBoxer getSetRuntime(@NonNull ExpressionContext context, Token token,
+                                         AtomicReference<Type> typeReference)
+            throws ParsingException {
+        if (!(token instanceof BracketedToken)) {
+            throw new ExpectedTokenException(new BracketedToken(null), token);
+        }
+
+        BracketedToken bracketedToken = (BracketedToken) token;
+        LinkedList<RuntimeValue> linkedList = new LinkedList<>();
+        Type temp = null;
+        while (bracketedToken.hasNext()) {
+            RuntimeValue element;
+            if (typeReference.get() == null) {
+                element = bracketedToken.getNextExpression(context);
+                if (temp == null) {
+                    temp = element.getRuntimeType(context).declType;
+                } else if (!(temp.getStorageClass() == Object.class)) {
+                    RuntimeValue convert;
+                    convert = temp.convert(element, context);
+                    if (convert == null) temp = BasicType.create(Object.class);
+                }
+            } else {
+                element = bracketedToken.getNextExpression(context);
+                RuntimeValue convert;
+                convert = typeReference.get().convert(element, context);
+                if (convert == null) {
+                    throw new UnConvertibleTypeException(element,
+                            typeReference.get(), element.getRuntimeType(context).declType, context);
+                }
+                element = convert;
+            }
+            if (bracketedToken.hasNext()){
+                bracketedToken.assertNextComma();
+            }
+            linkedList.add(element);
+        }
+        if (typeReference.get() == null) typeReference.set(temp);
+        return new SetBoxer(linkedList, typeReference.get(), bracketedToken.getLineNumber());
     }
 
     @SuppressWarnings("unchecked")

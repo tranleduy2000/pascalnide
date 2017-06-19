@@ -22,9 +22,7 @@ import com.duy.pascal.backend.ast.instructions.case_statement.CaseInstruction;
 import com.duy.pascal.backend.ast.instructions.conditional.IfStatement;
 import com.duy.pascal.backend.ast.instructions.conditional.RepeatInstruction;
 import com.duy.pascal.backend.ast.instructions.conditional.WhileStatement;
-import com.duy.pascal.backend.ast.instructions.conditional.forstatement.ForEnumStatement;
-import com.duy.pascal.backend.ast.instructions.conditional.forstatement.ForInStatement;
-import com.duy.pascal.backend.ast.instructions.conditional.forstatement.ForNumberStatement;
+import com.duy.pascal.backend.ast.instructions.conditional.forstatement.ForStatement;
 import com.duy.pascal.backend.ast.instructions.with_statement.WithStatement;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.UnaryOperatorEval;
@@ -70,7 +68,6 @@ import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.index.NonIntegerIndexException;
 import com.duy.pascal.backend.parse_exception.missing.MissingCommaTokenException;
 import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
-import com.duy.pascal.backend.parse_exception.syntax.ExpectDoTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedAnotherTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.parse_exception.syntax.NotAStatementException;
@@ -85,14 +82,11 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ArrayToken;
 import com.duy.pascal.backend.tokens.basic.AssignmentToken;
-import com.duy.pascal.backend.tokens.basic.BasicToken;
 import com.duy.pascal.backend.tokens.basic.BreakToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
 import com.duy.pascal.backend.tokens.basic.ContinueToken;
 import com.duy.pascal.backend.tokens.basic.DivAssignToken;
-import com.duy.pascal.backend.tokens.basic.DoToken;
-import com.duy.pascal.backend.tokens.basic.DowntoToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.ExitToken;
 import com.duy.pascal.backend.tokens.basic.ForToken;
@@ -106,7 +100,6 @@ import com.duy.pascal.backend.tokens.basic.PlusAssignToken;
 import com.duy.pascal.backend.tokens.basic.RepeatToken;
 import com.duy.pascal.backend.tokens.basic.SemicolonToken;
 import com.duy.pascal.backend.tokens.basic.SetToken;
-import com.duy.pascal.backend.tokens.basic.ToToken;
 import com.duy.pascal.backend.tokens.basic.WhileToken;
 import com.duy.pascal.backend.tokens.basic.WithToken;
 import com.duy.pascal.backend.tokens.ignore.CommentToken;
@@ -118,10 +111,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.duy.pascal.backend.declaration.lang.types.set.ArrayType.getArrayConstant;
+import static com.duy.pascal.backend.declaration.lang.types.set.EnumGroupType.getEnumType;
 
 public abstract class GrouperToken extends Token {
     private static final String TAG = GrouperToken.class.getSimpleName();
@@ -152,13 +145,111 @@ public abstract class GrouperToken extends Token {
             Token t = grouperToken.peek();
             if (!(t instanceof CommaToken)) {
                 try {
-                    grouperToken.getConstantElement(context, grouperToken, elementType);
+                    getConstantElement(context, grouperToken, elementType);
                 } catch (Exception e) {
                     throw new ExpectedTokenException(new CommaToken(null), t);
                 }
                 throw new MissingCommaTokenException(t.getLineNumber());
             } else {
                 grouperToken.take();
+            }
+        }
+    }
+
+    /**
+     * @param groupConstant - parent
+     * @param elementType   - the type of element
+     * @return constant object
+     */
+    public static ConstantAccess getConstantElement(@NonNull ExpressionContext context,
+                                                    @NonNull GrouperToken groupConstant,
+                                                    @Nullable Type elementType) throws ParsingException {
+
+        if (groupConstant.hasNext()) {
+            if (elementType instanceof ArrayType) {
+                GrouperToken child = (GrouperToken) groupConstant.take();
+                Object[] array = getArrayConstant(context, child,
+                        (ArrayType) elementType).getValue();
+
+                assertNextCommaForNextConstant(context, groupConstant, elementType);
+
+                return new ConstantAccess<>(array, elementType, child.line);
+
+            } else if (elementType instanceof EnumGroupType) {
+                Token next = groupConstant.take();
+                ConstantAccess<EnumElementValue> constant = EnumGroupType.getEnumConstant(groupConstant,
+                        context, next, elementType);
+                EnumElementValue enumConstant = constant.getValue();
+
+                assertNextCommaForNextConstant(context, groupConstant, elementType);
+
+                return new ConstantAccess<>(enumConstant, enumConstant.getRuntimeType(context).declType,
+                        next.getLineNumber());
+            } else if (elementType instanceof RecordType) {
+                Token next = groupConstant.take();
+                ConstantAccess<RecordValue> constant = RecordType.getRecordConstant(context,
+                        next, (RecordType) elementType);
+
+                RecordValue enumConstant = constant.getValue();
+
+                assertNextCommaForNextConstant(context, groupConstant, elementType);
+                return new ConstantAccess<>(enumConstant, elementType, next.getLineNumber());
+
+            } else if (elementType instanceof SetType) {
+                if (groupConstant.peek() instanceof BracketedToken) {
+                    AtomicReference<Type> elementTypeReference =
+                            new AtomicReference<>(((SetType) elementType).getElementType());
+                    BracketedToken bracketedToken = (BracketedToken) groupConstant.take();
+
+                    ConstantAccess<LinkedList> constant = SetType.getSetConstant(context,
+                            bracketedToken, elementTypeReference);
+
+                    LinkedList setConstant = constant.getValue();
+
+                    assertNextCommaForNextConstant(context, groupConstant, elementType);
+
+                    return new ConstantAccess<>(setConstant, elementType,
+                            bracketedToken.getLineNumber());
+                } else {
+                    throw new ExpectedTokenException(new ParenthesizedToken(null),
+                            groupConstant.peek());
+                }
+            } else {
+                RuntimeValue unconvert = groupConstant.getNextExpression(context);
+                if (elementType != null) {
+                    RuntimeValue converted = elementType.convert(unconvert, context);
+                    if (converted == null) {
+                        throw new UnConvertibleTypeException(unconvert, elementType,
+                                unconvert.getRuntimeType(context).declType, context);
+                    }
+
+                    assertNextCommaForNextConstant(context, groupConstant, elementType);
+
+                    return new ConstantAccess<>(converted.compileTimeValue(context), elementType,
+                            unconvert.getLineNumber());
+                } else {
+                    assertNextCommaForNextConstant(context, groupConstant, elementType);
+
+                    return new ConstantAccess<>(unconvert.compileTimeValue(context),
+                            unconvert.getLineNumber());
+                }
+            }
+        } else {
+            throw new ExpectedTokenException(new CommaToken(null), groupConstant.next);
+        }
+    }
+
+    /**
+     * check duplicate declare variable
+     *
+     * @param context: scope of variable
+     */
+    private static void checkDuplicateVariableIdentifier(ExpressionContext context, List<VariableDeclaration> result,
+                                                         VariableDeclaration var) throws DuplicateIdentifierException {
+        for (VariableDeclaration variableDeclaration : result) {
+            context.verifyNonConflictingSymbol(var);
+            if (variableDeclaration.getName().equalsIgnoreCase(var.getName())) {
+                throw new DuplicateIdentifierException(variableDeclaration, var);
             }
         }
     }
@@ -340,61 +431,6 @@ public abstract class GrouperToken extends Token {
 
 
         return declaredType;
-    }
-
-    private Type getEnumType(ExpressionContext c, ParenthesizedToken n)
-            throws ParsingException {
-        LinkedList<EnumElementValue> elements = new LinkedList<>();
-        EnumGroupType enumGroupType = new EnumGroupType(elements);
-        AtomicInteger index = new AtomicInteger(0);
-        while (n.hasNext()) {
-            Token token = n.take();
-            if (!(token instanceof WordToken)) {
-                throw new ExpectedTokenException("identifier", token);
-            }
-            WordToken wordToken = (WordToken) token;
-            if (n.peek() instanceof OperatorToken) {
-                OperatorToken operator = (OperatorToken) n.take();
-                if (operator.type == OperatorTypes.EQUALS) {
-                    RuntimeValue value = n.getNextExpression(c);
-                    value = value.compileTimeExpressionFold(c);
-                    RuntimeValue convert = BasicType.Integer.convert(value, c);
-                    if (convert == null) {
-                        throw new UnConvertibleTypeException(value, BasicType.Integer,
-                                value.getRuntimeType(c).declType, c);
-                    }
-                    Object oddValue = convert.compileTimeValue(c);
-                    if (oddValue == null) {
-                        throw new NonConstantExpressionException(convert);
-                    }
-                    EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType,
-                            index.get(), token.getLineNumber());   //create new enum
-                    e.setValue((Integer) oddValue);
-                    elements.add(e);                    //add to parent
-                    ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType,
-                            e, e.getLineNumber());
-                    c.verifyNonConflictingSymbol(constant); //check duplicate value
-                    c.declareConst(constant);                    //add as constant
-                } else {
-                    throw new ExpectedTokenException(operator, ",", "=");
-                }
-            } else {
-
-                EnumElementValue e = new EnumElementValue(wordToken.name, enumGroupType, index.get(),
-                        token.getLineNumber()); //create new enum
-                e.setValue(index.get());
-                elements.add(e);        //add to container
-                ConstantDefinition constant = new ConstantDefinition(wordToken.name, enumGroupType, e,
-                        e.getLineNumber());
-                c.declareConst(constant);  //add as constant
-            }
-            index.getAndIncrement();
-            //if has next, check comma token
-            if (n.hasNext()) {
-                n.assertNextComma();
-            }
-        }
-        return enumGroupType;
     }
 
     private Type getSetType(ExpressionContext context, LineInfo lineInfo)
@@ -625,6 +661,11 @@ public abstract class GrouperToken extends Token {
 
         } else if (next instanceof ValueToken) {
             return new ConstantAccess<>(((ValueToken) next).getValue(), next.getLineNumber());
+
+        } else if (next instanceof BracketedToken) {
+            AtomicReference<Type> elementTypeReference = new AtomicReference<>(null);
+            return SetType.getSetRuntime(context, next, elementTypeReference);
+
         } else if (next instanceof WordToken) {
             WordToken name = ((WordToken) next);
             next = peek();
@@ -687,15 +728,6 @@ public abstract class GrouperToken extends Token {
                 }
                 return identifier;
             }
-        } else if (next instanceof BracketedToken) {
-            AtomicReference<Type> elementTypeReference =
-                    new AtomicReference<>(null);
-            ConstantAccess<LinkedList> constant
-                    = SetType.getSetConstant(context, next, elementTypeReference);
-            LinkedList setValue = constant.getValue();
-            SetType<Type> setType = new SetType<>(elementTypeReference.get(), setValue, line);
-            return new ConstantAccess<>(setType.initialize(), setType, constant.getLineNumber());
-
         } else {
             if (next instanceof ElseToken) {
                 throw new WrongIfElseStatement(next);
@@ -827,120 +859,6 @@ public abstract class GrouperToken extends Token {
         return defValue;
     }
 
-
-    public ConstantAccess<LinkedList> getEnumGroupConstant(ExpressionContext context, Token token,
-                                                           Type targetType) throws ParsingException {
-        if (!(token instanceof ParenthesizedToken)) {
-            throw new ExpectedTokenException("(", token);
-        }
-        ParenthesizedToken parentheses = (ParenthesizedToken) token;
-        LinkedList<Object> linkedList = new LinkedList<>();
-        while (parentheses.hasNext()) {
-            linkedList.add(getConstantElement(context, parentheses, targetType).getValue());
-        }
-        return new ConstantAccess<LinkedList>(linkedList, targetType, parentheses.getLineNumber());
-    }
-
-
-
-    /**
-     * @param groupConstant - parent
-     * @param elementType   - the type of element
-     * @return constant object
-     */
-    public ConstantAccess getConstantElement(@NonNull ExpressionContext context,
-                                             @NonNull GrouperToken groupConstant,
-                                             @Nullable Type elementType) throws ParsingException {
-
-        if (groupConstant.hasNext()) {
-            if (elementType instanceof ArrayType) {
-                GrouperToken child = (GrouperToken) groupConstant.take();
-                Object[] array = getArrayConstant(context, child,
-                        (ArrayType) elementType).getValue();
-
-                assertNextCommaForNextConstant(context, groupConstant, elementType);
-
-                return new ConstantAccess<>(array, elementType, child.line);
-
-            } else if (elementType instanceof EnumGroupType) {
-                Token next = groupConstant.take();
-                ConstantAccess<EnumElementValue> constant = EnumGroupType.getEnumConstant(groupConstant,
-                        context, next, elementType);
-                EnumElementValue enumConstant = constant.getValue();
-
-                assertNextCommaForNextConstant(context, groupConstant, elementType);
-
-                return new ConstantAccess<>(enumConstant, enumConstant.getRuntimeType(context).declType,
-                        next.getLineNumber());
-            } else if (elementType instanceof RecordType) {
-                Token next = groupConstant.take();
-                ConstantAccess<RecordValue> constant = RecordType.getRecordConstant(context,
-                        next, (RecordType) elementType);
-
-                RecordValue enumConstant = constant.getValue();
-
-                assertNextCommaForNextConstant(context, groupConstant, elementType);
-                return new ConstantAccess<>(enumConstant, elementType, next.getLineNumber());
-
-            } else if (elementType instanceof SetType) {
-                if (groupConstant.peek() instanceof BracketedToken) {
-                    AtomicReference<Type> elementTypeReference =
-                            new AtomicReference<>(((SetType) elementType).getElementType());
-                    BracketedToken bracketedToken = (BracketedToken) groupConstant.take();
-
-                    ConstantAccess<LinkedList> constant = SetType.getSetConstant(context,
-                            bracketedToken, elementTypeReference);
-
-                    LinkedList setConstant = constant.getValue();
-
-                    assertNextCommaForNextConstant(context, groupConstant, elementType);
-
-                    return new ConstantAccess<>(setConstant, elementType,
-                            bracketedToken.getLineNumber());
-                } else {
-                    throw new ExpectedTokenException(new ParenthesizedToken(null),
-                            groupConstant.peek());
-                }
-            } else {
-                RuntimeValue unconvert = groupConstant.getNextExpression(context);
-                if (elementType != null) {
-                    RuntimeValue converted = elementType.convert(unconvert, context);
-                    if (converted == null) {
-                        throw new UnConvertibleTypeException(unconvert, elementType,
-                                unconvert.getRuntimeType(context).declType, context);
-                    }
-
-                    assertNextCommaForNextConstant(context, groupConstant, elementType);
-
-                    return new ConstantAccess<>(converted.compileTimeValue(context), elementType,
-                            unconvert.getLineNumber());
-                } else {
-                    assertNextCommaForNextConstant(context, groupConstant, elementType);
-
-                    return new ConstantAccess<>(unconvert.compileTimeValue(context),
-                            unconvert.getLineNumber());
-                }
-            }
-        } else {
-            throw new ExpectedTokenException(new CommaToken(null), groupConstant.next);
-        }
-    }
-
-    /**
-     * check duplicate declare variable
-     *
-     * @param context: scope of variable
-     */
-    private void checkDuplicateVariableIdentifier(ExpressionContext context, List<VariableDeclaration> result,
-                                                  VariableDeclaration var) throws DuplicateIdentifierException {
-        for (VariableDeclaration variableDeclaration : result) {
-            context.verifyNonConflictingSymbol(var);
-            if (variableDeclaration.getName().equalsIgnoreCase(var.getName())) {
-                throw new DuplicateIdentifierException(variableDeclaration, var);
-            }
-        }
-    }
-
     /**
      * Return single value in list value
      * example:
@@ -971,7 +889,6 @@ public abstract class GrouperToken extends Token {
 
             while (castToken.hasNext()) {
                 beginEndPreprocessed.addCommand(castToken.getNextCommand(context));
-                Token token = castToken.next;
                 if (castToken.hasNext()) {
                     castToken.assertNextSemicolon();
                 }
@@ -980,7 +897,7 @@ public abstract class GrouperToken extends Token {
             return beginEndPreprocessed;
 
         } else if (next instanceof ForToken) {
-            return generateForStatement(context, lineNumber);
+            return ForStatement.generateForStatement(this, context, lineNumber);
         } else if (next instanceof RepeatToken) {
             return new RepeatInstruction(context, this, lineNumber);
 
@@ -1073,105 +990,6 @@ public abstract class GrouperToken extends Token {
                 throw new NotAStatementException(identifier);
             }
         }
-    }
-
-    private Executable generateForStatement(ExpressionContext context, LineInfo lineNumber) throws ParsingException {
-        RuntimeValue identifier = getNextTerm(context);
-        AssignableValue varAssignable = identifier.asAssignableValue(context);
-        RuntimeType varType = identifier.getRuntimeType(context);
-
-        if (varAssignable == null) {
-            throw new UnAssignableTypeException(identifier);
-        }
-        Token next = take();
-        if (!(next instanceof AssignmentToken
-                || next instanceof OperatorToken)) {
-            throw new ExpectedTokenException(next, ":=", "in");
-        }
-        Executable result;
-        if (next instanceof AssignmentToken) {
-            RuntimeValue firstValue = getNextExpression(context);
-            RuntimeValue convert = identifier.getRuntimeType(context).declType.convert(firstValue, context);
-            if (convert == null) {
-                throw new UnConvertibleTypeException(firstValue, varAssignable.getRuntimeType(context).declType,
-                        firstValue.getRuntimeType(context).declType, identifier, context);
-            }
-            firstValue = convert;
-
-            next = take();
-            boolean downto = false;
-            if (next instanceof DowntoToken) {
-                downto = true;
-            } else if (!(next instanceof ToToken)) {
-                throw new ExpectedTokenException(next, "to", "downto");
-            }
-            RuntimeValue lastValue = getNextExpression(context);
-
-            next = take();
-
-            if (!(next instanceof DoToken)) {
-                if (next instanceof BasicToken) {
-                    throw new ExpectedTokenException("do", next);
-                } else {
-                    throw new ExpectDoTokenException(next.getLineNumber());
-                }
-            }
-
-            if (varType.getRawType() instanceof EnumGroupType) {
-                result = new ForEnumStatement(context, varAssignable, firstValue,
-                        lastValue, getNextCommand(context),
-                        (EnumGroupType) varType.getRawType(), lineNumber, downto);
-            } else {
-                result = new ForNumberStatement(context, varAssignable, firstValue,
-                        lastValue, getNextCommand(context), lineNumber, downto);
-            }
-        } else {
-            //for in statement
-            if (((OperatorToken) next).type == OperatorTypes.IN) {
-                //assign value
-                RuntimeValue enumList = getNextExpression(context);
-                Type enumType = enumList.getRuntimeType(context).declType; //type of var
-
-                //accept foreach : enum, set, array
-                if (!(enumType instanceof EnumGroupType || enumType instanceof ArrayType
-                        || enumType instanceof SetType)) {
-                    throw new UnConvertibleTypeException(enumList, varType.declType, enumType, context);
-                }
-
-                if (enumType instanceof EnumGroupType) {
-                    RuntimeValue converted = varType.convert(enumList, context);
-                    if (converted == null) {
-                        throw new UnConvertibleTypeException(enumList,
-                                varType.declType, enumType, context);
-                    }
-                } else if (enumType instanceof ArrayType) { //array type
-                    ArrayType arrayType = (ArrayType) enumType;
-                    RuntimeValue convert = arrayType.getElementType().convert(identifier, context);
-                    if (convert == null) {
-                        throw new UnConvertibleTypeException(identifier, arrayType.getElementType(), varType.declType, context);
-                    }
-                } else {
-                    SetType setType = (SetType) enumType;
-                    RuntimeValue convert = setType.getElementType().convert(identifier, context);
-                    if (convert == null) {
-                        throw new UnConvertibleTypeException(identifier, setType.getElementType(), varType.declType, context);
-                    }
-                }
-
-                //check do token
-                if (!(peek() instanceof DoToken)) {
-                    throw new ExpectedTokenException(new DoToken(null), peek());
-                }
-                take(); //ignore do token
-                //statement
-                Executable command = getNextCommand(context);
-                return new ForInStatement(varAssignable, enumList, command, lineNumber);
-            } else {
-                throw new ExpectedTokenException(next, ":=", "in");
-            }
-        }
-
-        return result;
     }
 
     private RuntimeValue getMethodFromJavaClass(ExpressionContext context, RuntimeValue container, String

@@ -10,5 +10,6 @@ Var
 Begin
    Writeln ('Date : ', Date);
    DeCodeDate (Date, YY, MM, DD);
+   writeln(yy, ' ', mm, ' ', DD);
    Writeln (format ('Date is (DD/MM/YY): %d/%d/%d ', [dd, mm, yy]));
 End.

@@ -24,7 +24,11 @@ import com.duy.pascal.backend.declaration.lang.types.BasicType;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -289,13 +293,17 @@ public class SysUtilsLibrary implements PascalLibrary {
     @PascalMethod(description = "Convert a TDateTime time to a string using a predefined format")
     public StringBuilder timeToStr(Long time) {
         Date date = new Date(time);
-        return new StringBuilder(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
+        String format = simpleDateFormat.format(date);
+        return new StringBuilder(format);
     }
 
     @PascalMethod(description = "Convert a TDateTime time to a string using a predefined format")
     public StringBuilder dateToStr(Long time) {
         Date date = new Date(time);
-        return new StringBuilder(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        String format = simpleDateFormat.format(date);
+        return new StringBuilder(format);
     }
 
     @PascalMethod(description = "Returns the current time.")
@@ -312,9 +320,16 @@ public class SysUtilsLibrary implements PascalLibrary {
     public void decodeDate(Long time, PascalReference<Integer> y,
                            PascalReference<Integer> m, PascalReference<Integer> d) {
         Date date = new Date(time);
-        y.set(date.getYear());
-        m.set(date.getMonth());
-        d.set(date.getDay());
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        y.set(year);
+        m.set(month);
+        d.set(day);
     }
 
     @PascalMethod(description = "Convert a boolean value to a string.")

@@ -1,4 +1,4 @@
-Program Example25;
+Program TimeToStr;
 
 { This program demonstrates the TimeToStr function }
 

@@ -1,4 +1,4 @@
-Program Example23;
+Program Time;
 
 { This program demonstrates the Time function }
 

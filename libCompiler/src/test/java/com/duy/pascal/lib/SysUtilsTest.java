@@ -30,15 +30,15 @@ public class SysUtilsTest extends BaseTestCase {
         return "test_libraries" + File.separator + "sysutils";
     }
 
-    public void testAll() {
-        runAll();
-    }
-
     public void testTime() {
         run("time.pas");
     }
 
     public void testDate() {
+        run("date.pas");
+    }
+
+    public void testDecodeDate() {
         run("date.pas");
     }
 
