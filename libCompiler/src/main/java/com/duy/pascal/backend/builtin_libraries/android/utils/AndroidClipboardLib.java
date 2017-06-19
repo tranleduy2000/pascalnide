@@ -41,7 +41,7 @@ public class AndroidClipboardLib implements PascalLibrary {
     public AndroidClipboardLib(AndroidLibraryManager manager) {
         mContext = manager.getContext();
         if (manager.getContext() != null) {
-            mClipboard = ClipboardManagerCompatFactory.getManager(mContext);
+            mClipboard = ClipboardManagerCompatFactory.newInstance(mContext);
         }
     }
 

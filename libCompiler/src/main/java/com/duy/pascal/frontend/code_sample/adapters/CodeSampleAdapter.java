@@ -25,8 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.code_sample.model.CodeSampleEntry;
+import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompat;
 import com.duy.pascal.frontend.utils.clipboard.ClipboardManagerCompatFactory;
 
@@ -48,7 +48,7 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
     public CodeSampleAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        clipboardManagerCompat = ClipboardManagerCompatFactory.getManager(context);
+        clipboardManagerCompat = ClipboardManagerCompatFactory.newInstance(context);
     }
 
     @Override
@@ -108,11 +108,7 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
         void onEdit(String code);
     }
 
-    /**
-     * Created by Duy on 20-Apr-17.
-     */
 
-    @SuppressWarnings("DefaultFileTemplate")
     public static class CodeHolder extends RecyclerView.ViewHolder {
         TextView txtTitle;
         View btnPlay;
@@ -136,11 +132,9 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
             //set code
             final String content = codeSampleEntry.getContent();
 
-            editorView.disableTextChangedListener();
-            editorView.setTextHighlighted(content);
-            editorView.applyTabWidth();
-
             editorView.setCanEdit(false);
+            editorView.setText(content);
+            editorView.updateTextHighlight();
             if (codeSampleEntry.getQuery() != null && !codeSampleEntry.getQuery().isEmpty()) {
                 editorView.find(codeSampleEntry.getQuery(), false, false, false);
             }

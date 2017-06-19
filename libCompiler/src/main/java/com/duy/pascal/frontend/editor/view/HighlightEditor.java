@@ -768,7 +768,7 @@ public class HighlightEditor extends CodeSuggestsEditText
 
         disableTextChangedListener();
         highlight(false);
-        highlightLineError(getEditableText());
+        highlightLineError(getText());
         enableTextChangedListener();
     }
 
@@ -803,16 +803,24 @@ public class HighlightEditor extends CodeSuggestsEditText
     }
 
     public void highlight(boolean newText) {
-        if (getLayout() == null) return;
-        Editable editable = getEditableText();
+        Editable editable = getText();
         if (editable.length() == 0) return;
 
         int editorHeight = getHeightVisible();
+
         int firstVisibleIndex;
         int lastVisibleIndex;
         if (!newText && editorHeight > 0) {
+            if (verticalScroll != null && getLayout() != null) {
             firstVisibleIndex = getLayout().getLineStart(getFirstLineIndex());
+            } else {
+                firstVisibleIndex = 0;
+            }
+            if (verticalScroll != null && getLayout() != null) {
             lastVisibleIndex = getLayout().getLineStart(getLastLineIndex());
+            } else {
+                lastVisibleIndex = getText().length();
+            }
         } else {
             firstVisibleIndex = 0;
             lastVisibleIndex = CHARS_TO_COLOR;

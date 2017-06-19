@@ -99,14 +99,12 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:enabled="true"
             android:key="pref_console_anti_alias"
             android:summary="@string/anti_alias_summary"
             android:title="@string/anti_alias"/>
 
         <SwitchPreference
             android:defaultValue="true"
-            android:enabled="true"
             android:key="pref_console_hardware_acceleration"
             android:summary="@string/draw_screen_faster"
             android:title="@string/hardware_acceleration"/>

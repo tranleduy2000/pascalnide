@@ -78,11 +78,11 @@ public class Patterns {
      * match number
      */
     public static final Pattern NUMBERS = Pattern.compile(
-            "(\\d*[.]?\\d+([Ee][+-]?[\\d]+)?)|" + //simple decimal
+            "\\b((\\d*[.]?\\d+([Ee][+-]?[\\d]+)?)|" + //simple decimal
                     "(\\$[0-9a-fA-F]+)|" + //hex
                     "(%[01]+)|" + //binary
                     "(&[0-7]+)|" +//octal
-                    "([Ee][+-]?[\\d]+)");
+                    "([Ee][+-]?[\\d]+))\\b");
 
     public static final Pattern HEX_COLOR = Pattern.compile("(#[0-9a-fA-F]{6})");
 

@@ -71,7 +71,7 @@ public class UndoRedoSupportEditText extends HighlightEditor {
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mSettings = new KeySettings(mPrefs, getContext());
         mKeyListener = new KeyListener();
-        mClipboardManager = ClipboardManagerCompatFactory.getManager(getContext());
+        mClipboardManager = ClipboardManagerCompatFactory.newInstance(getContext());
     }
 
 
