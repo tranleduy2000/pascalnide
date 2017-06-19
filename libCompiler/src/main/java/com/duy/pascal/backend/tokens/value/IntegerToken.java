@@ -10,9 +10,7 @@ public class IntegerToken extends ValueToken {
     public IntegerToken(LineInfo line, String value) {
         super(line);
         this.value = value;
-        if (this.line != null) {
-            this.line.setLength(value.length());
-        }
+        this.line.setLength(value.length());
     }
 
     @Override

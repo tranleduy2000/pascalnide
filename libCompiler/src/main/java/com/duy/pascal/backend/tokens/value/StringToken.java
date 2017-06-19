@@ -9,9 +9,7 @@ public class StringToken extends ValueToken {
     public StringToken(LineInfo line, String s) {
         super(line);
         this.value = s;
-        if (this.line != null) {
-            this.line.setLength(toCode().length());
-        }
+        this.line.setLength(toCode().length());
     }
 
     @Override

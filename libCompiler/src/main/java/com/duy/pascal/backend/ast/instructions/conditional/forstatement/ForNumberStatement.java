@@ -67,8 +67,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
         if (downto) {
             if (mNumberType == BasicType.Integer) {
                 Reference<Integer> reference = tempVar.getReference(f, main);
-                Integer start = (Integer) first.getValue(f, main);
-                Integer end = (Integer) last.getValue(f, main);
+                Integer start = (int) first.getValue(f, main);
+                Integer end = (int) last.getValue(f, main);
                 forLoop:
                 for (Integer index = start; index >= end; index--) {
                     reference.set(index);
@@ -84,8 +84,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 }
             } else if (mNumberType == BasicType.Long) {
                 Reference<Long> reference = tempVar.getReference(f, main);
-                Long start = (Long) first.getValue(f, main);
-                Long end = (Long) last.getValue(f, main);
+                Long start = (long) first.getValue(f, main);
+                Long end = (long) last.getValue(f, main);
                 forLoop:
                 for (Long index = start; index >= end; index--) {
                     reference.set(index);
@@ -101,8 +101,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 }
             } else if (mNumberType == BasicType.Byte) {
                 Reference<Byte> reference = tempVar.getReference(f, main);
-                Byte start = (Byte) first.getValue(f, main);
-                Byte end = (Byte) last.getValue(f, main);
+                Byte start = (byte) first.getValue(f, main);
+                Byte end = (byte) last.getValue(f, main);
                 forLoop:
                 for (Byte index = start; index >= end; index--) {
                     reference.set(index);
@@ -118,8 +118,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 }
             } else if (mNumberType == BasicType.Character) {
                 Reference<Character> reference = tempVar.getReference(f, main);
-                Character start = (Character) first.getValue(f, main);
-                Character end = (Character) last.getValue(f, main);
+                Character start = (char) first.getValue(f, main);
+                Character end = (char) last.getValue(f, main);
                 forLoop:
                 for (Character index = start; index >= end; index--) {
                     reference.set(index);
@@ -133,14 +133,12 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                         case CONTINUE:
                     }
                 }
-            } else {
-                throw new RuntimePascalException("Can not execute for statement");
             }
         } else {
             if (mNumberType == BasicType.Integer) {
                 Reference<Integer> reference = tempVar.getReference(f, main);
-                Integer start = (Integer) first.getValue(f, main);
-                Integer end = (Integer) last.getValue(f, main);
+                Integer start = (int) first.getValue(f, main);
+                Integer end = (int) last.getValue(f, main);
                 forLoop:
                 for (Integer index = start; index <= end; index++) {
                     reference.set(index);
@@ -156,8 +154,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 }
             } else if (mNumberType == BasicType.Long) {
                 Reference<Long> reference = tempVar.getReference(f, main);
-                Long start = (Long) first.getValue(f, main);
-                Long end = (Long) last.getValue(f, main);
+                Long start = (long) first.getValue(f, main);
+                Long end = (long) last.getValue(f, main);
                 forLoop:
                 for (Long index = start; index <= end; index++) {
                     reference.set(index);
@@ -173,8 +171,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 }
             } else if (mNumberType == BasicType.Byte) {
                 Reference<Byte> reference = tempVar.getReference(f, main);
-                Byte start = (Byte) first.getValue(f, main);
-                Byte end = (Byte) last.getValue(f, main);
+                Byte start = (byte) first.getValue(f, main);
+                Byte end = (byte) last.getValue(f, main);
                 forLoop:
                 for (Byte index = start; index <= end; index++) {
                     reference.set(index);
@@ -190,8 +188,8 @@ public class ForNumberStatement<T extends Number> extends DebuggableExecutable {
                 }
             } else if (mNumberType == BasicType.Character) {
                 Reference<Character> reference = tempVar.getReference(f, main);
-                Character start = (Character) first.getValue(f, main);
-                Character end = (Character) last.getValue(f, main);
+                Character start = (char) first.getValue(f, main);
+                Character end = (char) last.getValue(f, main);
                 forLoop:
                 for (Character index = start; index <= end; index++) {
                     reference.set(index);
