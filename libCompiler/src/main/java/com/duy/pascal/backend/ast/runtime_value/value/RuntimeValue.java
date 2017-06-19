@@ -35,7 +35,7 @@ public interface RuntimeValue {
     void setLineNumber(LineInfo lineNumber);
 
     /*
-     * @return null if not a compile-time constant.
+     * return null if not a compile-time constant.
      */
     @Nullable
     Object compileTimeValue(CompileTimeContext context) throws ParsingException;

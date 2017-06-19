@@ -2,9 +2,9 @@ package com.duy.pascal.backend.declaration.lang.types.converter;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.declaration.lang.types.BasicType;
 import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 
 import java.util.HashMap;
 
@@ -84,6 +84,7 @@ public class TypeConverter {
         if (outType.equals(BasicType.StringBuilder)) {
             return new AnyToStringType(target);
         }
+
         if (inType.equals(BasicType.Character)) {
             target = new CharToIntType(target);
             if (outType.equals(BasicType.Integer)) {
@@ -92,6 +93,10 @@ public class TypeConverter {
                 return new NumberToLongType(target);
             } else if (outType == BasicType.Double) {
                 return new NumberToRealType(target);
+            } else if (outType == BasicType.Short) {
+                return new NumberToShortType(target);
+            } else if (outType == BasicType.Byte) {
+                return new NumberToByteType(target);
             }
         }
         if (inType.equals(BasicType.Integer)) {
@@ -101,6 +106,10 @@ public class TypeConverter {
                 return new NumberToLongType(target);
             } else if (outType == BasicType.Double) {
                 return new NumberToRealType(target);
+            } else if (outType == BasicType.Short) {
+                return new NumberToShortType(target);
+            } else if (outType == BasicType.Byte) {
+                return new NumberToByteType(target);
             }
         }
         if (inType.equals(BasicType.Long)) {
@@ -110,6 +119,10 @@ public class TypeConverter {
                 return new NumberToIntType(target);
             } else if (outType == BasicType.Double) {
                 return new NumberToRealType(target);
+            } else if (outType == BasicType.Short) {
+                return new NumberToShortType(target);
+            } else if (outType == BasicType.Byte) {
+                return new NumberToByteType(target);
             }
         }
         if (inType == BasicType.Double) {
@@ -119,6 +132,10 @@ public class TypeConverter {
                 return new NumberToIntType(target);
             } else if (outType.equals(BasicType.Long)) {
                 return new NumberToLongType(target);
+            } else if (outType == BasicType.Short) {
+                return new NumberToShortType(target);
+            } else if (outType == BasicType.Byte) {
+                return new NumberToByteType(target);
             }
         }
         return null;

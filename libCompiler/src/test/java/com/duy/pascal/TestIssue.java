@@ -29,10 +29,6 @@ public class TestIssue extends BaseTestCase {
         return "test_issue";
     }
 
-    public void testAll() {
-        runAll();
-    }
-
     public void testConvertString() {
         run("test2.pas");
     }

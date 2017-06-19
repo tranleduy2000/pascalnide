@@ -64,9 +64,9 @@ public class ForStatement {
         Executable result;
         if (next instanceof AssignmentToken) {
             RuntimeValue firstValue = group.getNextExpression(context);
-            RuntimeValue convert = identifier.getRuntimeType(context).declType.convert(firstValue, context);
+            RuntimeValue convert = varType.getRawType().convert(firstValue, context);
             if (convert == null) {
-                throw new UnConvertibleTypeException(firstValue, varAssignable.getRuntimeType(context).declType,
+                throw new UnConvertibleTypeException(firstValue, varType.getRawType(),
                         firstValue.getRuntimeType(context).declType, identifier, context);
             }
             firstValue = convert;
@@ -79,7 +79,12 @@ public class ForStatement {
                 throw new ExpectedTokenException(next, "to", "downto");
             }
             RuntimeValue lastValue = group.getNextExpression(context);
-
+            convert = varType.getRawType().convert(lastValue, context);
+            if (convert == null) {
+                throw new UnConvertibleTypeException(lastValue, varType.getRawType(),
+                        lastValue.getRuntimeType(context).declType, identifier, context);
+            }
+            lastValue = convert;
             next = group.take();
 
             if (!(next instanceof DoToken)) {

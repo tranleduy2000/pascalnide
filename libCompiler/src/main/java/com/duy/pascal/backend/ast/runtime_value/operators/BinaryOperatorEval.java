@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
-import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.BoolBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.CharBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.number.DoubleBiOperatorEval;
@@ -34,7 +33,17 @@ import com.duy.pascal.backend.ast.runtime_value.operators.set.EnumBiOperatorEval
 import com.duy.pascal.backend.ast.runtime_value.operators.set.InBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.operators.set.SetBiOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.StringLimitType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.converter.AnyToStringType;
+import com.duy.pascal.backend.declaration.lang.types.converter.TypeConverter;
+import com.duy.pascal.backend.declaration.lang.types.set.EnumGroupType;
+import com.duy.pascal.backend.declaration.lang.types.set.SetType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.BadOperationTypeException;
@@ -42,14 +51,6 @@ import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationExcept
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
-import com.duy.pascal.backend.declaration.lang.types.BasicType;
-import com.duy.pascal.backend.declaration.lang.types.Type;
-import com.duy.pascal.backend.declaration.lang.types.JavaClassBasedType;
-import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
-import com.duy.pascal.backend.declaration.lang.types.converter.AnyToStringType;
-import com.duy.pascal.backend.declaration.lang.types.converter.TypeConverter;
-import com.duy.pascal.backend.declaration.lang.types.set.EnumGroupType;
-import com.duy.pascal.backend.declaration.lang.types.set.SetType;
 
 
 public abstract class BinaryOperatorEval extends DebuggableReturnValue {
@@ -67,7 +68,6 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
         this.line = line;
     }
 
-    @SuppressWarnings("unchecked")
     public static BinaryOperatorEval generateOp(@NonNull ExpressionContext context,
                                                 @NonNull RuntimeValue v1, @NonNull RuntimeValue v2,
                                                 @NonNull OperatorTypes operatorTypes,
@@ -99,7 +99,6 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
             return new EnumBiOperatorEval(v1, v2, operatorTypes, line);
         }
         if (t1 instanceof SetType && t2 instanceof SetType) {
-
             if (((SetType) t1).getElementType().equals(((SetType) t2).getElementType())) {
                 return new SetBiOperatorEval(v1, v2, operatorTypes, line);
             }
@@ -111,9 +110,9 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
                     return new InBiOperatorEval(v1, v2, operatorTypes, line);
                 }
             }
-
         }
-        if (t1.equals(BasicType.StringBuilder) || t2.equals(BasicType.StringBuilder)) {
+        if (t1.equals(BasicType.StringBuilder) || t2.equals(BasicType.StringBuilder)
+                || t1 instanceof StringLimitType || t2 instanceof StringLimitType) {
             if (operatorTypes == OperatorTypes.PLUS) {
                 v1 = new AnyToStringType(v1);
                 v2 = new AnyToStringType(v2);
@@ -129,6 +128,7 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
                 }
             }
         }
+
         if (t1.equals(BasicType.Double) || t2.equals(BasicType.Double)) {
 
             v1 = TypeConverter.forceConvertRequired(BasicType.Double, v1, t1, context);
@@ -143,6 +143,13 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
             return new LongBiOperatorEval(v1, v2, operatorTypes, line);
 
         }
+        if (t1.equals(BasicType.Integer) || t2.equals(BasicType.Integer)) {
+
+            v1 = TypeConverter.forceConvertRequired(BasicType.Integer, v1, t1, context);
+            v2 = TypeConverter.forceConvertRequired(BasicType.Integer, v2, t2, context);
+            return new IntegerBiOperatorEval(v1, v2, operatorTypes, line);
+
+        }
         if (t1.equals(BasicType.Character) || t2.equals(BasicType.Character)) {
 
             v1 = TypeConverter.forceConvertRequired(BasicType.Character, v1, t1, context);
@@ -151,13 +158,7 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
             return new CharBiOperatorEval(v1, v2, operatorTypes, line);
 
         }
-        if (t1.equals(BasicType.Integer) || t2.equals(BasicType.Integer)) {
 
-            v1 = TypeConverter.forceConvertRequired(BasicType.Integer, v1, t1, context);
-            v2 = TypeConverter.forceConvertRequired(BasicType.Integer, v2, t2, context);
-            return new IntegerBiOperatorEval(v1, v2, operatorTypes, line);
-
-        }
         if (t1.equals(BasicType.Boolean) || t2.equals(BasicType.Boolean)) {
 
             v1 = TypeConverter.forceConvertRequired(BasicType.Boolean, v1, t1, context);

@@ -6,13 +6,13 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.operators.BinaryOperatorEval;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
-import com.duy.pascal.backend.declaration.lang.types.BasicType;
-import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
-import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class CharBiOperatorEval extends BinaryOperatorEval {
 
@@ -88,8 +88,7 @@ public class CharBiOperatorEval extends BinaryOperatorEval {
         } else {
             return new CharBiOperatorEval(
                     operon1.compileTimeExpressionFold(context),
-                    operon2.compileTimeExpressionFold(context), operator_type,
-                    line);
+                    operon2.compileTimeExpressionFold(context), operator_type, line);
         }
     }
 }
