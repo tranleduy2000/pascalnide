@@ -18,9 +18,9 @@ package com.duy.pascal.backend.parse_exception.define
 
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.declaration.types.DeclaredType
+import com.duy.pascal.backend.declaration.lang.types.Type
 
-class IncompatableFunctionDeclaration(line: LineInfo, returntype: DeclaredType,
-                                      previousreturntype: DeclaredType) :
+class IncompatableFunctionDeclaration(line: LineInfo, returntype: Type,
+                                      previousreturntype: Type) :
         ParsingException(line,
                 "Function declaration declares conflicting return type $returntype.  It previously was defined as $previousreturntype")

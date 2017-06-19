@@ -3,12 +3,12 @@ package com.duy.pascal.backend.ast.expressioncontext;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.duy.pascal.backend.declaration.function.AbstractFunction;
-import com.duy.pascal.backend.declaration.value.ConstantDefinition;
-import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.backend.declaration.LabelDeclaration;
 import com.duy.pascal.backend.declaration.NamedEntity;
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.declaration.classunit.ClassConstructor;
 import com.duy.pascal.backend.ast.codeunit.RuntimePascalClass;
@@ -58,12 +58,12 @@ import com.duy.pascal.backend.tokens.grouping.BeginEndToken;
 import com.duy.pascal.backend.tokens.grouping.BracketedToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
-import com.duy.pascal.backend.declaration.types.PascalClassType;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.PascalClassType;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
@@ -120,7 +120,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     /**
      * list custom type
      */
-    private HashMap<String, DeclaredType> typedefs = new HashMap<>();
+    private HashMap<String, Type> typedefs = new HashMap<>();
     /**
      * uses for get all type in map typedefs
      */
@@ -182,7 +182,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         return mConstants;
     }
 
-    public Map<String, DeclaredType> getTypedefs() {
+    public Map<String, Type> getTypedefs() {
         return typedefs;
     }
 
@@ -273,7 +273,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             boolean isProcedure = next instanceof ProcedureToken;
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
-                DeclaredType typedefType = getTypedefType(name);
+                Type typedefType = getTypedefType(name);
                 if (typedefType instanceof PascalClassType) {
 
                 } else {
@@ -283,7 +283,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
                 i.take();
                 name = i.nextWordValue();
-                DeclaredType typeInClass = classType.getDeclaration().getContext().getTypedefTypeLocal(name);
+                Type typeInClass = classType.getDeclaration().getContext().getTypedefTypeLocal(name);
                 while (typeInClass != null && typeInClass instanceof PascalClassType) {
                     classType = (PascalClassType) typeInClass;
                     if (i.peek() instanceof PeriodToken) {
@@ -334,7 +334,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             i.take();
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
-                DeclaredType typedefType = getTypedefType(name);
+                Type typedefType = getTypedefType(name);
                 if (typedefType instanceof PascalClassType) {
 
                 } else {
@@ -362,7 +362,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
 
             String name = i.nextWordValue();
             if (i.peek() instanceof PeriodToken) {
-                DeclaredType typedefType = getTypedefType(name);
+                Type typedefType = getTypedefType(name);
                 if (typedefType instanceof PascalClassType) {
 
                 } else {
@@ -433,7 +433,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                 String typeName = i.peek().toString();
                 try {
 
-                    DeclaredType type = i.getNextPascalType(this);
+                    Type type = i.getNextPascalType(this);
                     type.setLineNumber(name.getLineNumber());
                     type.setName(name.getName());
                     verifyNonConflictingSymbol(type);
@@ -453,7 +453,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     forwardTypes.put(name.getName(), typeName);
                 }
             } else {
-                DeclaredType type = i.getNextPascalType(this);
+                Type type = i.getNextPascalType(this);
 
                 //process string with define length
                 if (type.equals(BasicType.StringBuilder)) {
@@ -485,7 +485,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
         //pre check forward pointer type
         for (String s : forwardTypes.keySet()) {
             PointerType pointerType = (PointerType) getTypedefTypeLocal(s);
-            DeclaredType type = getTypedefTypeLocal(forwardTypes.get(s));
+            Type type = getTypedefTypeLocal(forwardTypes.get(s));
             if (type == null) {
                 throw new UnknownIdentifierException(pointerType.getLineNumber(), s, this);
             }
@@ -568,20 +568,20 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
     }
 
     @Override
-    public DeclaredType getTypedefTypeLocal(String identifer) {
+    public Type getTypedefTypeLocal(String identifer) {
         return typedefs.get(identifer);
     }
 
     /**
      * define custom type
      */
-    public void declareTypedef(String name, DeclaredType type) {
+    public void declareTypedef(String name, Type type) {
         typedefs.put(name.toLowerCase(), type);
         mListNameTypes.add(new InfoItem(StructureType.TYPE_DEF, name.toLowerCase()));
     }
 
-    public void declareTypedefs(String name, List<DeclaredType> types) {
-        for (DeclaredType type : types) {
+    public void declareTypedefs(String name, List<Type> types) {
+        for (Type type : types) {
             declareTypedef(name, type);
         }
     }
@@ -607,7 +607,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
             WordToken name = (WordToken) grouperToken.take(); //const a : integer = 2; const a = 2;
             next = grouperToken.take();
             if (next instanceof ColonToken) {// const a : array[1..3] of integer = (1, 2, 3);
-                DeclaredType type = grouperToken.getNextPascalType(this);
+                Type type = grouperToken.getNextPascalType(this);
                 Object constVal;
                 if (grouperToken.peek() instanceof OperatorToken) {
                     if (((OperatorToken) grouperToken.peek()).type == OperatorTypes.EQUALS) {
@@ -630,7 +630,7 @@ public abstract class ExpressionContextMixin extends HierarchicalExpressionConte
                     throw new ExpectedTokenException("=", name);
                 }
                 RuntimeValue value = grouperToken.getNextExpression(this);
-                RuntimeType type = value.getType(this);
+                RuntimeType type = value.getRuntimeType(this);
                 Object constVal = value.compileTimeValue(this);
                 if (constVal == null) {
                     throw new NonConstantExpressionException(value);

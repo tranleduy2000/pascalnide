@@ -29,11 +29,11 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
 
 import java.lang.reflect.Array;
 
@@ -58,7 +58,7 @@ public class CopyFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
-        RuntimeType type = array.getType(f);
+        RuntimeType type = array.getRuntimeType(f);
         this.type = (ArrayType) type.declType;
         return new LengthCall(array, type.declType, arguments[1], arguments[2], line);
     }
@@ -74,7 +74,7 @@ public class CopyFunction implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return new ArrayType<>(BasicType.create(Object.class), null);
     }
 
@@ -91,7 +91,7 @@ public class CopyFunction implements IMethodDeclaration {
         private final LineInfo line;
         private final RuntimeValue array;
 
-        public LengthCall(RuntimeValue array, DeclaredType type, RuntimeValue index,
+        public LengthCall(RuntimeValue array, Type type, RuntimeValue index,
                           RuntimeValue count, LineInfo line) {
             this.array = array;
             this.type = (ArrayType) type;
@@ -101,7 +101,7 @@ public class CopyFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
             return new RuntimeType(new ArrayType<>(type.getElementType(), null), false);
         }
 

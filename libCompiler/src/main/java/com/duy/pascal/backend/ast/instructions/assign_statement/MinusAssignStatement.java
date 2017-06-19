@@ -31,7 +31,7 @@ import com.duy.pascal.backend.debugable.DebuggableExecutable;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.frontend.debug.CallStack;
 
 /**

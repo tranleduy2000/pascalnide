@@ -32,7 +32,7 @@ import com.duy.pascal.backend.debugable.DebuggableExecutableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 /**
  * Created by Duy on 16-Jun-17.
@@ -79,8 +79,8 @@ public class ClassFunctionCall extends DebuggableExecutableReturnValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return function.getType(f);
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        return function.getRuntimeType(f);
     }
 
     @NonNull

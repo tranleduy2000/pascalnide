@@ -16,7 +16,7 @@
 
 package com.duy.pascal.frontend.debug;
 
-import com.duy.pascal.backend.declaration.function.AbstractCallableFunction;
+import com.duy.pascal.backend.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;

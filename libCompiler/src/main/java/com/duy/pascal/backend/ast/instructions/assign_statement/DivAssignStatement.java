@@ -32,8 +32,8 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.convert.UnConvertibleTypeException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.frontend.debug.CallStack;
 
 /**
@@ -58,10 +58,10 @@ public class DivAssignStatement extends DebuggableExecutable implements AssignEx
         this.left = left;
         this.line = line;
         this.divOp = BinaryOperatorEval.generateOp(f, left, value, OperatorTypes.DIVIDE, line);
-        if (!(left.getType(f).getDeclType().equals(BasicType.Double) ||
-                left.getType(f).getDeclType().equals(BasicType.Float))) {
+        if (!(left.getRuntimeType(f).getRawType().equals(BasicType.Double) ||
+                left.getRuntimeType(f).getRawType().equals(BasicType.Float))) {
             throw new UnConvertibleTypeException(left, BasicType.Double,
-                    left.getType(f).getDeclType(), f);
+                    left.getRuntimeType(f).getRawType(), f);
         }
     }
 

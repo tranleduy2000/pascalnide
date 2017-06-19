@@ -24,7 +24,7 @@ import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.OfToken;
 import com.duy.pascal.backend.tokens.grouping.CaseToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class CaseInstruction extends DebuggableExecutable {
         }
 
         //this Object used to check compare type with another element
-        DeclaredType switchValueType = mSwitchValue.getType(context).declType;
+        Type switchValueType = mSwitchValue.getRuntimeType(context).declType;
         List<CasePossibility> possibilities = new ArrayList<>();
 
         while (!(token.peek() instanceof ElseToken) && !(token.peek() instanceof EOFToken)) {
@@ -98,9 +98,9 @@ public class CaseInstruction extends DebuggableExecutable {
     }
 
     //check type
-    private void assertType(DeclaredType switchValueType, RuntimeValue val,
+    private void assertType(Type switchValueType, RuntimeValue val,
                             ExpressionContext context) throws ParsingException {
-        DeclaredType valueType = val.getType(context).declType;
+        Type valueType = val.getRuntimeType(context).declType;
         RuntimeValue converted = switchValueType.convert(val, context);
         if (converted == null) {
             throw new UnConvertibleTypeException(val, switchValueType, valueType, mSwitchValue, context);

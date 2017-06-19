@@ -18,9 +18,9 @@ package com.duy.pascal.backend.parse_exception.index
 
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.declaration.types.DeclaredType
+import com.duy.pascal.backend.declaration.lang.types.Type
 
-class NonArrayIndexed(line: LineInfo, var t: DeclaredType) : ParsingException(line) {
+class NonArrayIndexed(line: LineInfo, var t: Type) : ParsingException(line) {
 
     override val message: String?
         get() = "Tried to do indexed access on something which wasn't an array or a string. It was a " + t.toString()

@@ -18,7 +18,7 @@ package com.duy.pascal.backend.ast.instructions.with_statement;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
@@ -32,9 +32,9 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.types.CustomType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.RecordType;
+import com.duy.pascal.backend.declaration.lang.types.CustomType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.RecordType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ public class WithStatement {
         this.line = grouperToken.peek().getLineNumber();
         getReferenceVariables(grouperToken, parent);
         for (RuntimeValue argument : references) {
-            DeclaredType type = argument.getType(parent).declType;
+            Type type = argument.getRuntimeType(parent).declType;
             if (type instanceof RecordType) {
                 CustomType recordType = (CustomType) type;
                 for (VariableDeclaration var : recordType.getVariableDeclarations()) {
@@ -85,7 +85,7 @@ public class WithStatement {
             next = grouperToken.peek();
             if (next instanceof WordToken) {
                 RuntimeValue runtimeValue = grouperToken.getNextExpression(parent);
-                DeclaredType type = runtimeValue.getType(parent).declType;
+                Type type = runtimeValue.getRuntimeType(parent).declType;
                 if (!(type instanceof RecordType)) {
                     throw new TypeIdentifierExpectException(runtimeValue.getLineNumber(),
                             "record", parent);

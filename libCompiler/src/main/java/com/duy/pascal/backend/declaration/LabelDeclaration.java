@@ -49,6 +49,7 @@ public class LabelDeclaration implements NamedEntity, Cloneable {
         return name.hashCode() * 31;
     }
 
+    @NonNull
     @Override
     public String getEntityType() {
         return "label";

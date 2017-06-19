@@ -26,13 +26,13 @@ import com.duy.pascal.backend.ast.instructions.CompoundStatement;
 import com.duy.pascal.backend.ast.variablecontext.FunctionOnStack;
 import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
-import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.PascalClassType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.PascalClassType;
 import com.duy.pascal.frontend.debug.CallStack;
 
 import java.util.List;
@@ -100,7 +100,7 @@ public class ClassConstructor extends FunctionDeclaration {
 
     @Nullable
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return classType;
     }
 }

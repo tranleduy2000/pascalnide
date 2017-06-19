@@ -20,7 +20,7 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.BasicToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
 
 public class WhileStatement extends DebuggableExecutable {
     private RuntimeValue condition;
@@ -42,7 +42,7 @@ public class WhileStatement extends DebuggableExecutable {
         RuntimeValue convert = BasicType.Boolean.convert(condition, context);
         if (convert == null) {
             throw new UnConvertibleTypeException(condition, BasicType.Boolean,
-                    condition.getType(context).declType, context);
+                    condition.getRuntimeType(context).declType, context);
         }
 
         //check "do' token

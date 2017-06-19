@@ -19,7 +19,7 @@ package com.duy.pascal.backend.ast.codeunit;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.variablecontext.VariableContext;
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.config.RunMode;
 import com.duy.pascal.backend.utils.NullSafety;

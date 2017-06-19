@@ -9,7 +9,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
 
 public class RangeValue implements CaseCondition {
 

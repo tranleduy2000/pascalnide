@@ -27,13 +27,13 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class ConstantAccess<T> extends DebuggableReturnValue {
     private T value;
-    private DeclaredType type;
+    private Type type;
     private LineInfo mLineNumber;
     @Nullable
     private String name = null;
@@ -43,7 +43,7 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
         this.mLineNumber = mLineNumber;
     }
 
-    public ConstantAccess(@Nullable T o, @Nullable DeclaredType type, @Nullable LineInfo mLineNumber) {
+    public ConstantAccess(@Nullable T o, @Nullable Type type, @Nullable LineInfo mLineNumber) {
         this.value = o;
         this.type = type;
         this.mLineNumber = mLineNumber;
@@ -91,7 +91,7 @@ public class ConstantAccess<T> extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) {
+    public RuntimeType getRuntimeType(ExpressionContext f) {
         if (type != null) {
             return new RuntimeType(type, false);
         }

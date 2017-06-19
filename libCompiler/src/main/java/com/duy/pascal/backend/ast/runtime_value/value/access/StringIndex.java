@@ -30,8 +30,8 @@ import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class StringIndex extends DebuggableAssignableValue {
     private RuntimeValue string;
@@ -68,8 +68,8 @@ public class StringIndex extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        boolean writable = string.getType(f).writable;
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        boolean writable = string.getRuntimeType(f).writable;
         return new RuntimeType(BasicType.Character, writable);
     }
 

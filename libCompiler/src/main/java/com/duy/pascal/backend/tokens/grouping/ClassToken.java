@@ -1,8 +1,8 @@
 package com.duy.pascal.backend.tokens.grouping;
 
 
-import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.declaration.classunit.ClassConstructor;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -20,7 +20,7 @@ import com.duy.pascal.backend.tokens.visibility.BaseVisibilityToken;
 import com.duy.pascal.backend.tokens.visibility.PrivateToken;
 import com.duy.pascal.backend.tokens.visibility.ProtectedToken;
 import com.duy.pascal.backend.tokens.visibility.PublicToken;
-import com.duy.pascal.backend.declaration.types.PascalClassType;
+import com.duy.pascal.backend.declaration.lang.types.PascalClassType;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;

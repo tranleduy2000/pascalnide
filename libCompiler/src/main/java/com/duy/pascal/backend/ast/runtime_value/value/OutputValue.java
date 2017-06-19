@@ -28,8 +28,8 @@ import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 import com.duy.pascal.backend.utils.NullSafety;
 
 import static com.duy.pascal.backend.utils.NullSafety.zReturn;
@@ -79,7 +79,7 @@ public class OutputValue implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(BasicType.StringBuilder, false);
     }
 

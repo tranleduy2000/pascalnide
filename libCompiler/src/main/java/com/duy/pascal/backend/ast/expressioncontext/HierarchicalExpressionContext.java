@@ -1,14 +1,14 @@
 package com.duy.pascal.backend.ast.expressioncontext;
 
-import com.duy.pascal.backend.declaration.function.AbstractFunction;
-import com.duy.pascal.backend.declaration.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.backend.declaration.NamedEntity;
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.backend.declaration.library.PascalUnitDeclaration;
 import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierException;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
 
 import java.util.List;
 import java.util.Map;
@@ -44,8 +44,8 @@ public abstract class HierarchicalExpressionContext implements ExpressionContext
 
 
     @Override
-    public DeclaredType getTypedefType(String ident) {
-        DeclaredType result = getTypedefTypeLocal(ident);
+    public Type getTypedefType(String ident) {
+        Type result = getTypedefTypeLocal(ident);
         if (result == null && parent != null) {
             result = parent.getTypedefType(ident);
         }

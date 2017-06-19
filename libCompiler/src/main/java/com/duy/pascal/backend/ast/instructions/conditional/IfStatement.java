@@ -19,7 +19,7 @@ import com.duy.pascal.backend.tokens.basic.BasicToken;
 import com.duy.pascal.backend.tokens.basic.ElseToken;
 import com.duy.pascal.backend.tokens.basic.ThenToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
 
 public class IfStatement extends DebuggableExecutable {
     private RuntimeValue condition;
@@ -53,7 +53,7 @@ public class IfStatement extends DebuggableExecutable {
         RuntimeValue convert = BasicType.Boolean.convert(condition, context);
         if (convert == null) {
             throw new UnConvertibleTypeException(condition, BasicType.Boolean,
-                    condition.getType(context).declType, context);
+                    condition.getRuntimeType(context).declType, context);
         }
 
         //check then token

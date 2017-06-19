@@ -17,7 +17,7 @@
 package com.duy.pascal.backend.parse_exception.define
 
 
-import com.duy.pascal.backend.declaration.function.AbstractFunction
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
 

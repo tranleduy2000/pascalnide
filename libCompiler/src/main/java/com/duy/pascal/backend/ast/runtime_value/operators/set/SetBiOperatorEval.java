@@ -24,10 +24,10 @@ import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.SetType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.SetType;
 
 import java.util.LinkedList;
 
@@ -43,13 +43,13 @@ public class SetBiOperatorEval extends BinaryOperatorEval {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
         switch (operator_type) {
             case PLUS:
             case MULTIPLY:
             case MINUS:
             case DIFFERENT:
-                SetType type = (SetType) operon1.getType(f).declType;
+                SetType type = (SetType) operon1.getRuntimeType(f).declType;
                 return new RuntimeType(type, false);
 
             case EQUALS:

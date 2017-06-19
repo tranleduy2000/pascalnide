@@ -42,14 +42,14 @@ import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationExcept
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
-import com.duy.pascal.backend.declaration.types.converter.AnyToStringType;
-import com.duy.pascal.backend.declaration.types.converter.TypeConverter;
-import com.duy.pascal.backend.declaration.types.set.EnumGroupType;
-import com.duy.pascal.backend.declaration.types.set.SetType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.converter.AnyToStringType;
+import com.duy.pascal.backend.declaration.lang.types.converter.TypeConverter;
+import com.duy.pascal.backend.declaration.lang.types.set.EnumGroupType;
+import com.duy.pascal.backend.declaration.lang.types.set.SetType;
 
 
 public abstract class BinaryOperatorEval extends DebuggableReturnValue {
@@ -72,8 +72,8 @@ public abstract class BinaryOperatorEval extends DebuggableReturnValue {
                                                 @NonNull RuntimeValue v1, @NonNull RuntimeValue v2,
                                                 @NonNull OperatorTypes operatorTypes,
                                                 @NonNull LineInfo line) throws ParsingException {
-        DeclaredType t1 = v1.getType(context).declType;
-        DeclaredType t2 = v2.getType(context).declType;
+        Type t1 = v1.getRuntimeType(context).declType;
+        Type t2 = v2.getRuntimeType(context).declType;
         if (t1 instanceof JavaClassBasedType
                 || t2 instanceof JavaClassBasedType) {
             if (operatorTypes == OperatorTypes.EQUALS

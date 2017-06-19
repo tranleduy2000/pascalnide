@@ -19,8 +19,8 @@ package com.duy.pascal.backend.ast.variablecontext;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
-import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.ast.runtime_value.value.NullValue;
 import com.duy.pascal.backend.config.ProgramMode;

@@ -29,8 +29,8 @@ import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.SetType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.SetType;
 
 import java.util.LinkedList;
 
@@ -47,8 +47,8 @@ public class SetIndexAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        RuntimeType r = (container.getType(f));
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        RuntimeType r = (container.getRuntimeType(f));
         return new RuntimeType(((SetType<?>) r.declType).getElementType(), r.writable);
     }
 

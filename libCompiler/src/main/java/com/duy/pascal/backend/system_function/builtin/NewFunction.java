@@ -31,11 +31,11 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class NewFunction implements IMethodDeclaration {
 
@@ -51,7 +51,7 @@ public class NewFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
-        RuntimeType type = pointer.getType(f);
+        RuntimeType type = pointer.getRuntimeType(f);
         return new NewCall(pointer, type, line);
     }
 
@@ -66,7 +66,7 @@ public class NewFunction implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return null;
     }
 
@@ -88,7 +88,7 @@ public class NewFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
             return null;
         }
 
@@ -131,7 +131,7 @@ public class NewFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
             PascalPointer pointer = (PascalPointer) this.value.getValue(f, main);
             PointerType pointerType = (PointerType) ((PointerType) type.declType).pointedToType;
-            DeclaredType type = pointerType.pointedToType;
+            Type type = pointerType.pointedToType;
             pointer.set(new ObjectBasedPointer<>(type.initialize()));
            /* if (type instanceof ArrayType) {
                 pointer.set(new ObjectBasedPointer<>(new Object[]{}));

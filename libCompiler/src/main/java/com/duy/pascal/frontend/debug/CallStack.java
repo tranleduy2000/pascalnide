@@ -20,14 +20,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.RuntimeUnitPascal;
 import com.duy.pascal.backend.ast.codeunit.RuntimePascalProgram;
 import com.duy.pascal.backend.ast.instructions.with_statement.WithOnStack;
 import com.duy.pascal.backend.ast.variablecontext.FunctionOnStack;
 import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +90,7 @@ public class CallStack {
             for (int i = 0; i < argumentNames.length; i++) {
                 try {
                     result.add(new VariableDeclaration(argumentNames[i],
-                            argumentTypes[i].getDeclType(), f.getVar(argumentNames[i]), null));
+                            argumentTypes[i].getRawType(), f.getVar(argumentNames[i]), null));
                 } catch (RuntimePascalException e) {
                     e.printStackTrace();
                 }

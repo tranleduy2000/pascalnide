@@ -77,7 +77,7 @@ import com.duy.pascal.backend.tokens.visibility.PrivateToken;
 import com.duy.pascal.backend.tokens.visibility.ProtectedToken;
 import com.duy.pascal.backend.tokens.visibility.PublicToken;
 import com.duy.pascal.backend.tokens.visibility.PublishedToken;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
 
 import java.io.FileNotFoundException;
 import java.io.Reader;

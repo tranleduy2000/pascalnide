@@ -9,7 +9,7 @@ import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.basic.CommaToken;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class ParenthesizedToken extends GrouperToken {
         while (hasNext()) {
             RuntimeValue value = getNextExpression(context);
             Class<?> runtimeClass;
-            runtimeClass = value.getType(context).declType.getStorageClass();
+            runtimeClass = value.getRuntimeType(context).declType.getStorageClass();
             if (hasNext()) {
                 Token next = peek();
                 if (next instanceof ColonToken) {

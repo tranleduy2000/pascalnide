@@ -19,8 +19,8 @@ package com.duy.pascal.backend.ast.runtime_value.value;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.backend.ast.variablecontext.ContainsVariables;
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.types.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class RecordValue implements ContainsVariables {
     public RecordValue(ArrayList<VariableDeclaration> variables) {
         this.variables = variables;
         for (VariableDeclaration declaration : variables) {
-            DeclaredType returnType = declaration.getType();
+            Type returnType = declaration.getType();
             if (declaration.getInitialValue() != null) {
                 variableMap.put(declaration.name.toLowerCase(), declaration.getInitialValue());
             } else {

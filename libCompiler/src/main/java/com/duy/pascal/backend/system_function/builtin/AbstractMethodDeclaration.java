@@ -17,14 +17,16 @@
 package com.duy.pascal.backend.system_function.builtin;
 
 
-import com.duy.pascal.backend.declaration.function.AbstractFunction;
+import android.support.annotation.NonNull;
+
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
 
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class AbstractMethodDeclaration extends AbstractFunction {
         return new LineInfo(-1, t.getClass().getCanonicalName());
     }
 
+    @NonNull
     @Override
     public String getEntityType() {
         return "Template Plugin";
@@ -62,7 +65,7 @@ public class AbstractMethodDeclaration extends AbstractFunction {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return t.returnType();
     }
 

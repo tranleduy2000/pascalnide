@@ -31,8 +31,8 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.IndexOutOfBoundsException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
 
 import java.lang.reflect.Array;
 
@@ -53,8 +53,8 @@ public class ArrayIndexAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        RuntimeType r = (container.getType(f));
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        RuntimeType r = (container.getRuntimeType(f));
         return new RuntimeType(((ArrayType<?>) r.declType).elementType,
                 r.writable);
     }

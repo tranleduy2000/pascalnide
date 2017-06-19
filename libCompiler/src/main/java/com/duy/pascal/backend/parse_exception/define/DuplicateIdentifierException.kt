@@ -24,7 +24,7 @@ class DuplicateIdentifierException(previous: NamedEntity, current: NamedEntity) 
                 "${current.entityType} ${current.name} conflicts with previously defined " +
                         "${previous.entityType} with the same name defined at ${previous.lineNumber}") {
     var type: String
-    var name: String
+    var name: String? = null
     var preType: String
     var preLine: String
 

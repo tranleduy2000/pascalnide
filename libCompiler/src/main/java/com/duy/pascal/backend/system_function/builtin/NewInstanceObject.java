@@ -30,11 +30,11 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -56,7 +56,7 @@ public class NewInstanceObject implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
-        return new InstanceObjectCall(pointer, pointer.getType(f), line);
+        return new InstanceObjectCall(pointer, pointer.getRuntimeType(f), line);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class NewInstanceObject implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return null;
     }
 
@@ -92,8 +92,8 @@ public class NewInstanceObject implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            return new RuntimeType(pointer.getType(f).declType, false);
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+            return new RuntimeType(pointer.getRuntimeType(f).declType, false);
         }
 
         @NonNull

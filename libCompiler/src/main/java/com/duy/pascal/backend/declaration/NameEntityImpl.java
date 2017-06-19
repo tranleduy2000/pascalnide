@@ -16,13 +16,27 @@
 
 package com.duy.pascal.backend.declaration;
 
+import android.support.annotation.Nullable;
+
+import com.duy.pascal.backend.linenumber.LineInfo;
+
 /**
  * Created by Duy on 16-Jun-17.
  */
 
 public abstract class NameEntityImpl implements NamedEntity, Member {
-    private String contextName;
-    private int modifier;
+    protected int modifier = Modifier.PUBLIC;
+    protected LineInfo lineNumber;
+
+    public void setLineNumber(LineInfo lineNumber) {
+        this.lineNumber = lineNumber;
+    }
+
+    @Nullable
+    @Override
+    public LineInfo getLineNumber() {
+        return lineNumber;
+    }
 
     public void setModifier(int modifier) {
         this.modifier = modifier;
@@ -31,14 +45,6 @@ public abstract class NameEntityImpl implements NamedEntity, Member {
     @Override
     public int getModifiers() {
         return modifier;
-    }
-
-    public String getContextName() {
-        return contextName;
-    }
-
-    public void setContextName(String contextName) {
-        this.contextName = contextName;
     }
 
     @Override

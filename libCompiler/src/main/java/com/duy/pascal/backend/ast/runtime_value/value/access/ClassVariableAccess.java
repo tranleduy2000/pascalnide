@@ -29,7 +29,7 @@ import com.duy.pascal.backend.debugable.DebuggableAssignableValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class ClassVariableAccess extends DebuggableAssignableValue {
     private String container;
@@ -92,7 +92,7 @@ public class ClassVariableAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(declaration.getVariableDefinition(name).type, true);
     }
 

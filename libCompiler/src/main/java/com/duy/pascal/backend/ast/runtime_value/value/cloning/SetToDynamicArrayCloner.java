@@ -28,10 +28,10 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.ArrayType;
-import com.duy.pascal.backend.declaration.types.set.SetType;
-import com.duy.pascal.backend.declaration.types.subrange.IntegerSubrangeType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.types.set.SetType;
+import com.duy.pascal.backend.declaration.lang.types.subrange.IntegerSubrangeType;
 
 import java.util.LinkedList;
 
@@ -47,8 +47,8 @@ public class SetToDynamicArrayCloner implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        RuntimeType type = array.getType(f);
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        RuntimeType type = array.getRuntimeType(f);
         SetType setType = (SetType) type.declType;
         return new RuntimeType(new ArrayType<>(setType.getElementType(),
                 new IntegerSubrangeType(0, setType.getSize())), false); //dynamic array, non writable

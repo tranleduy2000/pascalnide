@@ -2,11 +2,11 @@ package com.duy.pascal.backend.ast.expressioncontext;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.declaration.function.AbstractFunction;
-import com.duy.pascal.backend.declaration.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.lang.value.ConstantDefinition;
 import com.duy.pascal.backend.declaration.LabelDeclaration;
 import com.duy.pascal.backend.declaration.NamedEntity;
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
@@ -16,7 +16,7 @@ import com.duy.pascal.backend.parse_exception.define.DuplicateIdentifierExceptio
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public interface ExpressionContext extends CompileTimeContext {
 
     ConstantDefinition getConstantDefinitionLocal(String indent);
 
-    DeclaredType getTypedefTypeLocal(String ident);
+    Type getTypedefTypeLocal(String ident);
 
     VariableDeclaration getVariableDefinitionLocal(String ident);
 

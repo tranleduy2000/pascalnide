@@ -28,8 +28,8 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.MethodReflectionException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.debug.DebugManager;
 
@@ -104,7 +104,7 @@ public class ClassConstructorCall extends FunctionCall {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) {
+    public RuntimeType getRuntimeType(ExpressionContext f) {
         return new RuntimeType(constructor.returnType(), false);
     }
 

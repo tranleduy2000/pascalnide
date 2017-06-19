@@ -30,18 +30,17 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.VarargsType;
-import com.duy.pascal.backend.declaration.types.converter.TypeConverter;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.VarargsType;
+import com.duy.pascal.backend.declaration.lang.types.converter.TypeConverter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 
 public class NewInstanceParamsObject implements IMethodDeclaration {
     private ArgumentType[] argumentTypes =
@@ -57,7 +56,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
-        return new InstanceObjectCall(pointer, pointer.getType(f), arguments[1], line);
+        return new InstanceObjectCall(pointer, pointer.getRuntimeType(f), arguments[1], line);
     }
 
     @Override
@@ -71,7 +70,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return new JavaClassBasedType(Object.class);
     }
 
@@ -95,7 +94,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
             return new RuntimeType(new JavaClassBasedType(Object.class), false);
 
         }
@@ -148,7 +147,7 @@ public class NewInstanceParamsObject implements IMethodDeclaration {
             Object[] targetObjects = (Object[]) listArg.getValue(f, main);
             Object[] convertedObjects = new Object[targetObjects.length];
             for (Constructor<?> constructor : constructors) {
-                Type[] parameterTypes = constructor.getGenericParameterTypes();
+                java.lang.reflect.Type[] parameterTypes = constructor.getGenericParameterTypes();
                 if (TypeConverter.autoConvert(targetObjects, convertedObjects, parameterTypes)) {
                     try {
                         Object newObject = constructor.newInstance(convertedObjects);

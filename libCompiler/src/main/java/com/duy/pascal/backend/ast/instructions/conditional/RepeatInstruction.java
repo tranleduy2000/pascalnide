@@ -18,7 +18,7 @@ import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.basic.UntilToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
 
 public class RepeatInstruction extends DebuggableExecutable {
     Executable command;
@@ -46,7 +46,7 @@ public class RepeatInstruction extends DebuggableExecutable {
         RuntimeValue convert = BasicType.Boolean.convert(condition, f);
         if (convert == null) {
             throw new UnConvertibleTypeException(condition, BasicType.Boolean,
-                    condition.getType(f).declType, f);
+                    condition.getRuntimeType(f).declType, f);
         }
 
         this.command = command;

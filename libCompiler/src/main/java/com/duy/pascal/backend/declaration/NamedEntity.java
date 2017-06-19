@@ -16,6 +16,7 @@
 
 package com.duy.pascal.backend.declaration;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -24,10 +25,13 @@ public interface NamedEntity {
     @Nullable
     LineInfo getLineNumber();
 
+    @NonNull
     String getEntityType();
 
+    @Nullable
     String getName();
 
+    @Nullable
     String getDescription();
 
 }

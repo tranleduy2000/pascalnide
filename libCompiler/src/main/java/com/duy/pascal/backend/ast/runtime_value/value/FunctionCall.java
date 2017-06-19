@@ -2,7 +2,7 @@ package com.duy.pascal.backend.ast.runtime_value.value;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.declaration.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
 import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
@@ -68,7 +68,7 @@ public abstract class FunctionCall extends DebuggableExecutableReturnValue {
         if (runtimeValue == null) {
             ArrayList<String> argsType = new ArrayList<>();
             for (int i = 0; i < arguments.size(); i++) {
-                argsType.add(String.valueOf(arguments.get(i).getType(expressionContext)));
+                argsType.add(String.valueOf(arguments.get(i).getRuntimeType(expressionContext)));
             }
             ArrayList<String> listFunctions = new ArrayList<>();
             for (List<AbstractFunction> possibility : possibilities) {

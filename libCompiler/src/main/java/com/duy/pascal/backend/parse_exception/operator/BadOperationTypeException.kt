@@ -19,20 +19,20 @@ package com.duy.pascal.backend.parse_exception.operator
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue
 import com.duy.pascal.backend.linenumber.LineInfo
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.declaration.types.DeclaredType
-import com.duy.pascal.backend.declaration.types.OperatorTypes
+import com.duy.pascal.backend.declaration.lang.types.Type
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes
 
 class BadOperationTypeException : ParsingException {
-    var declaredType: DeclaredType? = null
-    var declaredType1: DeclaredType? = null
+    var declaredType: Type? = null
+    var declaredType1: Type? = null
     var value1: RuntimeValue? = null
     var value2: RuntimeValue? = null
     var operatorTypes: OperatorTypes? = null
 
     constructor() : super(LineInfo(-1, "Unknown")) {}
 
-    constructor(line: LineInfo, t1: DeclaredType,
-                t2: DeclaredType, v1: RuntimeValue?, v2: RuntimeValue?,
+    constructor(line: LineInfo, t1: Type,
+                t2: Type, v1: RuntimeValue?, v2: RuntimeValue?,
                 operation: OperatorTypes) : super(line, "Operator " + operation
             + " cannot be applied to arguments '" + v1 + "' and '" + v2
             + "'.  One has type " + t1 + " and the other has type " + t2
@@ -44,7 +44,7 @@ class BadOperationTypeException : ParsingException {
         declaredType1 = t2
     }
 
-    constructor(line: LineInfo, t1: DeclaredType,
+    constructor(line: LineInfo, t1: Type,
                 v1: RuntimeValue,
                 operation: OperatorTypes) : super(line, "Operator " + operation
             + " cannot be applied to argument '" + v1

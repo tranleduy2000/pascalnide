@@ -30,12 +30,12 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.TypeMismatchException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.ArrayType;
-import com.duy.pascal.backend.declaration.types.set.EnumGroupType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.types.set.EnumGroupType;
 
 /**
  * length of one dimension array
@@ -54,7 +54,7 @@ public class LengthFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
-        RuntimeType type = array.getType(f);
+        RuntimeType type = array.getRuntimeType(f);
         return new LengthCall(array, type.declType, line);
     }
 
@@ -69,7 +69,7 @@ public class LengthFunction implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return BasicType.Integer;
     }
 
@@ -80,18 +80,18 @@ public class LengthFunction implements IMethodDeclaration {
 
     private class LengthCall extends FunctionCall {
 
-        private DeclaredType type;
+        private Type type;
         private LineInfo line;
         private RuntimeValue array;
 
-        LengthCall(RuntimeValue array, DeclaredType declaredType, LineInfo line) {
+        LengthCall(RuntimeValue array, Type declaredType, LineInfo line) {
             this.array = array;
             type = declaredType;
             this.line = line;
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
             return new RuntimeType(BasicType.Integer, false);
         }
 
@@ -143,7 +143,7 @@ public class LengthFunction implements IMethodDeclaration {
             } else {
                 // TODO: 02-May-17  check exception
                 throw new TypeMismatchException(line, getFunctionName(),
-                        new DeclaredType[]{BasicType.StringBuilder,
+                        new Type[]{BasicType.StringBuilder,
                                 new ArrayType<>(BasicType.create(Object.class), null)}, type);
             }
         }

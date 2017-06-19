@@ -31,20 +31,6 @@ public
 interface Member {
 
     /**
-     * Identifies the set of all public members of a class or interface,
-     * including inherited members.
-     * @see SecurityManager#checkMemberAccess
-     */
-    public static final int PUBLIC = 0;
-
-    /**
-     * Identifies the set of declared members of a class or interface.
-     * Inherited members are not included.
-     * @see SecurityManager#checkMemberAccess
-     */
-    public static final int DECLARED = 1;
-
-    /**
      * Returns the Class object representing the class or interface
      * that declares the member or constructor represented by this Member.
      *

@@ -42,10 +42,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.BasePascalApplication;
-import com.duy.pascal.backend.declaration.function.AbstractFunction;
-import com.duy.pascal.backend.declaration.value.ConstantDefinition;
-import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
@@ -347,7 +347,8 @@ public class EditorActivity extends BaseEditorActivity implements
                 ArrayListMultimap<String, AbstractFunction> callableFunctions = program.getCallableFunctions();
                 for (String name : callableFunctions.keySet()) {
                     for (AbstractFunction f : callableFunctions.get(name)) {
-                        data.add(new InfoItem(StructureType.TYPE_FUNCTION, f.getName(), f.getDescription(), f.toString()));
+                        data.add(new InfoItem(StructureType.TYPE_FUNCTION,
+                                f.getName(), f.getDescription(), f.toString()));
                     }
                 }
 

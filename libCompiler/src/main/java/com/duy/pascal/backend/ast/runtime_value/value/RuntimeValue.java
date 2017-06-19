@@ -7,27 +7,27 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.CompileTimeContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.variablecontext.VariableContext;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
 
 public interface RuntimeValue {
 
     /**
-     * @return value of variable or function
+     * @return value of variable or function, or constant
      */
     @NonNull
     Object getValue(VariableContext f, RuntimeExecutableCodeUnit<?> main)
             throws RuntimePascalException;
 
     /**
-     * return type of variable or return type of function
+     * @return type of variable, function, or constant
      */
-    RuntimeType getType(ExpressionContext f) throws ParsingException;
+    RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException;
 
     /**
-     * @return lineInfo of code
+     * @return line of code
      */
     @NonNull
     LineInfo getLineNumber();
@@ -35,7 +35,7 @@ public interface RuntimeValue {
     void setLineNumber(LineInfo lineNumber);
 
     /*
-     * returns null if not a compile-time constant.
+     * @return null if not a compile-time constant.
      */
     @Nullable
     Object compileTimeValue(CompileTimeContext context) throws ParsingException;

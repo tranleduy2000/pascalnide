@@ -33,11 +33,11 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class AddressFunction implements IMethodDeclaration {
 
@@ -53,7 +53,7 @@ public class AddressFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
-        this.pointerType = (PointerType) pointer.getType(f).declType;
+        this.pointerType = (PointerType) pointer.getRuntimeType(f).declType;
         return new AddressFunctionCall(pointer, line);
     }
 
@@ -68,7 +68,7 @@ public class AddressFunction implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return pointerType;
     }
 
@@ -94,8 +94,8 @@ public class AddressFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
-            RuntimeType pointertype = pointer.getType(f);
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+            RuntimeType pointertype = pointer.getRuntimeType(f);
             return new RuntimeType(((PointerType) pointertype.declType).pointedToType, true);
         }
 

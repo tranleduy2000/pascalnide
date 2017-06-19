@@ -29,7 +29,7 @@ import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 /**
  * Created by Duy on 16-Jun-17.
@@ -58,8 +58,8 @@ public class LibraryIdentifierAccess extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return value.getType(f);
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        return value.getRuntimeType(f);
     }
 
     @NonNull

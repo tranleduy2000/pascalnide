@@ -39,11 +39,11 @@ import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationExcept
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     public OperatorTypes operator;
@@ -61,7 +61,7 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     public static RuntimeValue generateOp(ExpressionContext f,
                                           RuntimeValue v1, OperatorTypes op_type,
                                           LineInfo line) throws ParsingException {
-        DeclaredType t1 = v1.getType(f).declType;
+        Type t1 = v1.getRuntimeType(f).declType;
 
         if (!op_type.canBeUnary) {
             throw new BadOperationTypeException(line, t1, v1, op_type);
@@ -132,8 +132,8 @@ public abstract class UnaryOperatorEval extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return operon.getType(f);
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        return operon.getRuntimeType(f);
     }
 
     @Override

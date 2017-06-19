@@ -11,8 +11,8 @@ import com.duy.pascal.backend.debugable.DebuggableReturnValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class ArrayBoxer extends DebuggableReturnValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
         throw new ParsingException(
                 line,
                 "Attempted to get type of varargs boxer. This should not happen as" +

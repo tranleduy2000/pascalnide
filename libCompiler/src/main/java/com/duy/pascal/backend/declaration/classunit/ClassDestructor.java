@@ -22,12 +22,12 @@ import com.duy.pascal.backend.ast.codeunit.RuntimeExecutableCodeUnit;
 import com.duy.pascal.backend.ast.codeunit.RuntimePascalClass;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.variablecontext.VariableContext;
-import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.PascalClassType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.PascalClassType;
 
 /**
  * Created by Duy on 17-Jun-17.
@@ -56,7 +56,7 @@ public class ClassDestructor extends FunctionDeclaration {
 
     @Nullable
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return classType;
     }
 }

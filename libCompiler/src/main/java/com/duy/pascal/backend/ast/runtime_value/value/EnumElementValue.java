@@ -26,8 +26,8 @@ import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.EnumGroupType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.EnumGroupType;
 
 /**
  * Created by Duy on 25-May-17.
@@ -61,7 +61,7 @@ public class EnumElementValue implements RuntimeValue, Comparable<EnumElementVal
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
         return new RuntimeType(type, false);//this is a constant
     }
 

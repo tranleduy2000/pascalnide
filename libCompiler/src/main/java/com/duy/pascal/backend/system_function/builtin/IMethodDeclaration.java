@@ -23,8 +23,8 @@ import com.duy.pascal.backend.ast.runtime_value.value.FunctionCall;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
 
 
 public interface IMethodDeclaration {
@@ -45,7 +45,7 @@ public interface IMethodDeclaration {
     /**
      * return type of method
      */
-    DeclaredType returnType();
+    Type returnType();
 
     /**
      * short getDescription of method, it can be null

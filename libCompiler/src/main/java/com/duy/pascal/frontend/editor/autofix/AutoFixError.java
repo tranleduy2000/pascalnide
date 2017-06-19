@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Layout;
 
-import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess;
 import com.duy.pascal.backend.ast.runtime_value.value.access.VariableAccess;
 import com.duy.pascal.backend.linenumber.LineInfo;
@@ -31,7 +31,7 @@ import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException;
 import com.duy.pascal.backend.parse_exception.grouping.GroupingException;
 import com.duy.pascal.backend.parse_exception.missing.MissingTokenException;
 import com.duy.pascal.backend.parse_exception.value.ChangeValueConstantException;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.editor.completion.KeyWord;
 import com.duy.pascal.frontend.editor.completion.Patterns;
@@ -328,7 +328,7 @@ public class AutoFixError {
      * Example
      * const a: integer = 'adsda'; => change to string
      */
-    private void changeTypeConst(TextData text, ConstantAccess identifier, DeclaredType valueType) {
+    private void changeTypeConst(TextData text, ConstantAccess identifier, Type valueType) {
         DLog.d(TAG, "fixUnConvertType: constant " + identifier);
 
         if (identifier.getName() == null) { //can not replace because it is not a identifier
@@ -370,7 +370,7 @@ public class AutoFixError {
      * @param name - name of function
      * @param text - a part text of the edit start at 0 and end at lineInfo where then function place
      */
-    private void changeTypeFunction(final String name, TextData text, DeclaredType valueType) {
+    private void changeTypeFunction(final String name, TextData text, Type valueType) {
         Pattern pattern = Pattern.compile(
                 "(^function\\s+|\\s+function\\s+)" + //function token //1
                         "(" + name + ")" + //name of function         //2
@@ -398,7 +398,7 @@ public class AutoFixError {
         }
     }
 
-    private void changeTypeVar(TextData text, VariableAccess identifier, DeclaredType valueType) {
+    private void changeTypeVar(TextData text, VariableAccess identifier, Type valueType) {
         DLog.d(TAG, "fixUnConvertType: variable");
         final String name = identifier.getName();
         Pattern pattern = Pattern.compile("(^var\\s+|\\s+var\\s+)" + //match "var"  //1
@@ -529,7 +529,7 @@ public class AutoFixError {
 
             declareVar(text,
                     constant.getName(), //name
-                    constant.getType(null).declType.toString(), //type
+                    constant.getRuntimeType(null).declType.toString(), //type
                     constant.toCode()); //initialization value
         } else {
             pattern = Pattern.compile(
@@ -554,7 +554,7 @@ public class AutoFixError {
 
                 declareVar(text,
                         constant.getName(),  //name
-                        constant.getType(null).declType.toString(), //type
+                        constant.getRuntimeType(null).declType.toString(), //type
                         constant.toCode());//initialization value
             }
         }

@@ -20,8 +20,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.codeunit.RuntimeUnitPascal;
-import com.duy.pascal.backend.declaration.function.AbstractFunction;
-import com.duy.pascal.backend.declaration.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
 import com.duy.pascal.backend.ast.codeunit.ExecutableCodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
@@ -45,7 +45,7 @@ import com.duy.pascal.backend.tokens.basic.ProcedureToken;
 import com.duy.pascal.backend.tokens.closing.EndToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
 import com.duy.pascal.backend.tokens.grouping.UnitToken;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
 import com.duy.pascal.frontend.activities.IRunnablePascal;
 import com.google.common.collect.ArrayListMultimap;
 
@@ -101,8 +101,8 @@ public class PascalUnitDeclaration extends ExecutableCodeUnit implements PascalL
 
     @Override
     public void declareTypes(ExpressionContextMixin parentContext) {
-        Map<String, DeclaredType> typedefs = context.getTypedefs();
-        for (Map.Entry<String, DeclaredType> type : typedefs.entrySet()) {
+        Map<String, Type> typedefs = context.getTypedefs();
+        for (Map.Entry<String, Type> type : typedefs.entrySet()) {
             parentContext.declareTypedef(type.getKey(), type.getValue());
         }
     }

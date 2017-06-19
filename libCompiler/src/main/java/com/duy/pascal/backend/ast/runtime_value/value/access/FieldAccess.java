@@ -32,11 +32,11 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.ConstantCalculationException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
 import com.duy.pascal.backend.tokens.WordToken;
-import com.duy.pascal.backend.declaration.types.PascalClassType;
-import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
-import com.duy.pascal.backend.declaration.types.ObjectType;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.PascalClassType;
+import com.duy.pascal.backend.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.lang.types.ObjectType;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class FieldAccess extends DebuggableAssignableValue {
     private static final String TAG = "FieldAccess";
@@ -60,8 +60,8 @@ public class FieldAccess extends DebuggableAssignableValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        RuntimeType r = container.getType(f);
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        RuntimeType r = container.getRuntimeType(f);
         if (r.declType instanceof PascalClassType) {
             return new RuntimeType(((PascalClassType) (r.declType)).getMemberType(name), r.writable);
         } else if (r.declType instanceof ObjectType) {

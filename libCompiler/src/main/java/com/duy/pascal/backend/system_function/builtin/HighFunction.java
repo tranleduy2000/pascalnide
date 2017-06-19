@@ -29,13 +29,13 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.ArrayType;
-import com.duy.pascal.backend.declaration.types.set.EnumGroupType;
-import com.duy.pascal.backend.declaration.types.subrange.IntegerRange;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.types.set.EnumGroupType;
+import com.duy.pascal.backend.declaration.lang.types.subrange.IntegerRange;
 
 public class HighFunction implements IMethodDeclaration {
     private RuntimeType runtimeType;
@@ -50,7 +50,7 @@ public class HighFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue value = arguments[0];
-        this.runtimeType = value.getType(f);
+        this.runtimeType = value.getRuntimeType(f);
         return new HighCall(value, line);
     }
 
@@ -65,7 +65,7 @@ public class HighFunction implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         if (runtimeType != null) {
             if (runtimeType.declType instanceof ArrayType) {
                 return BasicType.Integer;
@@ -93,7 +93,7 @@ public class HighFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
             return new RuntimeType(HighFunction.this.returnType(), false);
         }
 
@@ -134,7 +134,7 @@ public class HighFunction implements IMethodDeclaration {
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
 
-            DeclaredType declType = runtimeType.declType;
+            Type declType = runtimeType.declType;
             if (declType instanceof ArrayType) {
                 IntegerRange bounds = ((ArrayType) declType).getBound();
                 Object[] value = (Object[]) this.value.getValue(f, main);

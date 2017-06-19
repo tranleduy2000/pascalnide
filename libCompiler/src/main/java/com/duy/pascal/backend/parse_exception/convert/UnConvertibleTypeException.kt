@@ -21,7 +21,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue
 import com.duy.pascal.backend.ast.runtime_value.value.access.ConstantAccess
 import com.duy.pascal.backend.ast.runtime_value.value.access.VariableAccess
 import com.duy.pascal.backend.parse_exception.ParsingException
-import com.duy.pascal.backend.declaration.types.DeclaredType
+import com.duy.pascal.backend.declaration.lang.types.Type
 
 class UnConvertibleTypeException : ParsingException {
 
@@ -34,12 +34,12 @@ class UnConvertibleTypeException : ParsingException {
      * expression
      */
     var value: RuntimeValue
-    var valueType: DeclaredType? = null
+    var valueType: Type? = null
 
     /**
      * identifier
      */
-    var targetType: DeclaredType
+    var targetType: Type
     var identifier: RuntimeValue? = null
 
     /**
@@ -49,8 +49,8 @@ class UnConvertibleTypeException : ParsingException {
 
 
     constructor(value: RuntimeValue,
-                targetType: DeclaredType,
-                valueType: DeclaredType, scope: ExpressionContext) : super(value.lineNumber,
+                targetType: Type,
+                valueType: Type, scope: ExpressionContext) : super(value.lineNumber,
             "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                     + ", which cannot be converted to the type \"" + targetType + "\"") {
 
@@ -64,8 +64,8 @@ class UnConvertibleTypeException : ParsingException {
      * @param identifier - variable identifier, constant, function
      */
     constructor(value: RuntimeValue,
-                identifierType: DeclaredType,
-                valueType: DeclaredType?,
+                identifierType: Type,
+                valueType: Type?,
                 identifier: RuntimeValue, scope: ExpressionContext) : super(value.lineNumber,
             "The expression or variable \"" + value + "\" is of type \"" + valueType + "\""
                     + ", which cannot be "

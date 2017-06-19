@@ -31,14 +31,14 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.VarargsType;
-import com.duy.pascal.backend.declaration.types.set.ArrayType;
-import com.duy.pascal.backend.declaration.types.subrange.IntegerSubrangeType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.VarargsType;
+import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.types.subrange.IntegerSubrangeType;
 import com.duy.pascal.frontend.debug.CallStack;
 
 import java.lang.reflect.Array;
@@ -59,7 +59,7 @@ public class SetLengthFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue array = arguments[0];
-        RuntimeType type = array.getType(f);
+        RuntimeType type = array.getRuntimeType(f);
         RuntimeValue size = arguments[1];
         return new SetLengthCall(array, type, size, line);
     }
@@ -75,7 +75,7 @@ public class SetLengthFunction implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return null;
     }
 
@@ -100,7 +100,7 @@ public class SetLengthFunction implements IMethodDeclaration {
 
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
             return null;
         }
 
@@ -144,7 +144,7 @@ public class SetLengthFunction implements IMethodDeclaration {
                 throws RuntimePascalException {
 
             Integer[] ranges = (Integer[]) size.getValue(f, main);
-            DeclaredType type = ((PointerType) runtimeType.getDeclType()).pointedToType;
+            Type type = ((PointerType) runtimeType.getRawType()).pointedToType;
 
             PascalReference r = (PascalReference) array.getValue(f, main);
             if (type instanceof ArrayType) {
@@ -185,7 +185,7 @@ public class SetLengthFunction implements IMethodDeclaration {
          * @param index       |
          * @param old
          */
-        private void setInitValue(Object[] array, DeclaredType elementType,
+        private void setInitValue(Object[] array, Type elementType,
                                   Integer[] ranges, int index, @Nullable Object[] old) {
             if (elementType instanceof ArrayType) {
                 if (index == ranges.length - 1) {

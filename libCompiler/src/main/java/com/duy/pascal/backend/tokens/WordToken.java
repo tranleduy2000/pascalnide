@@ -7,10 +7,10 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
-import com.duy.pascal.backend.declaration.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
 
 
 public class WordToken extends Token implements NamedEntity {
@@ -27,6 +27,7 @@ public class WordToken extends Token implements NamedEntity {
         this.line.setLength(name.length());
     }
 
+    @NonNull
     @Override
     public String getEntityType() {
         return null;
@@ -65,9 +66,9 @@ public class WordToken extends Token implements NamedEntity {
         return this;
     }
 
-    public DeclaredType toBasicType(ExpressionContext context)
+    public Type toBasicType(ExpressionContext context)
             throws TypeIdentifierExpectException {
-        DeclaredType returnType = null;
+        Type returnType = null;
         String name = this.name.toLowerCase().intern();
         if (name.equalsIgnoreCase("integer")
                 || name.equalsIgnoreCase("byte")
@@ -121,7 +122,7 @@ public class WordToken extends Token implements NamedEntity {
         } else if (name.equalsIgnoreCase("PShortString")) {
             returnType = new PointerType(BasicType.create(StringBuilder.class));
         } else {
-            DeclaredType type = context.getTypedefType(name);
+            Type type = context.getTypedefType(name);
             if (type != null) {
                 returnType = type;
             } else {

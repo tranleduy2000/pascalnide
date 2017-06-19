@@ -12,7 +12,7 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 import static com.duy.pascal.backend.utils.NullSafety.isNullValue;
 
@@ -24,8 +24,8 @@ public class ArrayCloner<T> implements RuntimeValue {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return r.getType(f);
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        return r.getRuntimeType(f);
     }
 
 

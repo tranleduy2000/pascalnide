@@ -26,9 +26,9 @@ import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.operator.DivisionByZeroException;
 import com.duy.pascal.backend.runtime_exception.PascalArithmeticException;
 import com.duy.pascal.backend.runtime_exception.internal.InternalInterpreterException;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class ByteBiOperatorEval extends BinaryOperatorEval {
 
@@ -38,7 +38,7 @@ public class ByteBiOperatorEval extends BinaryOperatorEval {
     }
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
         switch (operator_type) {
             case EQUALS:
             case GREATEREQ:

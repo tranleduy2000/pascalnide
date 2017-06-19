@@ -23,10 +23,10 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
-import com.duy.pascal.backend.declaration.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.variablecontext.ContainsVariables;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 
 import java.util.List;
@@ -53,12 +53,12 @@ public class SpanUtils {
         return text;
     }
 
-    public Spannable generateTypeSpan(DeclaredType declaredType, boolean isEnd) {
+    public Spannable generateTypeSpan(Type declaredType, boolean isEnd) {
         SpannableStringBuilder spannableString;
         if (declaredType instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) declaredType;
             if (arrayType.getBound() == null) { //dynamic array, non bound
-                DeclaredType elementType = arrayType.getElementType();
+                Type elementType = arrayType.getElementType();
                 spannableString = new SpannableStringBuilder()
                         .append("[]")
                         .append(generateTypeSpan(elementType, false));

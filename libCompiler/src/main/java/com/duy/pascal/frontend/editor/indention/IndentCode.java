@@ -66,7 +66,7 @@ import com.duy.pascal.backend.tokens.ignore.CommentToken;
 import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
 import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
-import com.duy.pascal.backend.declaration.types.OperatorTypes;
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.DLog;
 

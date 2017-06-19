@@ -29,13 +29,13 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.BasicType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
-import com.duy.pascal.backend.declaration.types.set.ArrayType;
-import com.duy.pascal.backend.declaration.types.set.EnumGroupType;
-import com.duy.pascal.backend.declaration.types.subrange.IntegerRange;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.BasicType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.types.set.EnumGroupType;
+import com.duy.pascal.backend.declaration.lang.types.subrange.IntegerRange;
 
 public class FillByteFunction implements IMethodDeclaration {
 
@@ -54,7 +54,7 @@ public class FillByteFunction implements IMethodDeclaration {
     public FunctionCall generateCall(LineInfo line, RuntimeValue[] arguments,
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue value = arguments[0];
-        RuntimeType type = value.getType(f);
+        RuntimeType type = value.getRuntimeType(f);
         return new FillCharCall(type, value, line);
     }
 
@@ -69,7 +69,7 @@ public class FillByteFunction implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return BasicType.create(Object.class);
     }
 
@@ -91,7 +91,7 @@ public class FillByteFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
             return new RuntimeType(BasicType.create(Object.class), false);
         }
 
@@ -131,7 +131,7 @@ public class FillByteFunction implements IMethodDeclaration {
         @Override
         public Object getValueImpl(@NonNull VariableContext f, @NonNull RuntimeExecutableCodeUnit<?> main)
                 throws RuntimePascalException {
-            DeclaredType declType = type.declType;
+            Type declType = type.declType;
             if (declType instanceof ArrayType) {
                 IntegerRange bounds = ((ArrayType) declType).getBound();
                 Object[] value = (Object[]) this.value.getValue(f, main);

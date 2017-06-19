@@ -30,11 +30,11 @@ import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.ArgumentType;
-import com.duy.pascal.backend.declaration.types.DeclaredType;
-import com.duy.pascal.backend.declaration.types.JavaClassBasedType;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.ArgumentType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.types.JavaClassBasedType;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 /**
  * Casts an object to the class or the interface represented
@@ -55,7 +55,7 @@ public class CastObjectFunction implements IMethodDeclaration {
                                      ExpressionContext f) throws ParsingException {
         RuntimeValue pointer = arguments[0];
         RuntimeValue value = arguments[1];
-        PointerType declType = (PointerType) pointer.getType(f).declType;
+        PointerType declType = (PointerType) pointer.getRuntimeType(f).declType;
         Class<?> storageClass = declType.pointedToType.getStorageClass();
         return new InstanceObjectCall(pointer, value, storageClass, line);
     }
@@ -71,7 +71,7 @@ public class CastObjectFunction implements IMethodDeclaration {
     }
 
     @Override
-    public DeclaredType returnType() {
+    public Type returnType() {
         return null;
     }
 
@@ -94,7 +94,7 @@ public class CastObjectFunction implements IMethodDeclaration {
         }
 
         @Override
-        public RuntimeType getType(ExpressionContext f) throws ParsingException {
+        public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
             return null;
         }
 

@@ -13,8 +13,8 @@ import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.value.UnAssignableTypeException;
 import com.duy.pascal.backend.runtime_exception.RuntimePascalException;
-import com.duy.pascal.backend.declaration.types.PointerType;
-import com.duy.pascal.backend.declaration.types.RuntimeType;
+import com.duy.pascal.backend.declaration.lang.types.PointerType;
+import com.duy.pascal.backend.declaration.lang.types.RuntimeType;
 
 public class GetAddress extends DebuggableReturnValue {
     private final AssignableValue target;
@@ -27,8 +27,8 @@ public class GetAddress extends DebuggableReturnValue {
 
 
     @Override
-    public RuntimeType getType(ExpressionContext f) throws ParsingException {
-        return new RuntimeType(new PointerType(target.getType(f).declType),
+    public RuntimeType getRuntimeType(ExpressionContext f) throws ParsingException {
+        return new RuntimeType(new PointerType(target.getRuntimeType(f).declType),
                 false);
     }
 
