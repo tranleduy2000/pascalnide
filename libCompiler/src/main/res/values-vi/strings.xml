@@ -207,4 +207,9 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="system_interface">System interface</string>
     <string name="text_color">Text Color</string>
+    <string name="anti_alias">Khử răng cưa</string>
+    <string name="anti_alias_summary">Làm mịn các đường nét phức tạp</string>
+    <string name="console_font_size">Cỡ chữ màn hình console</string>
+    <string name="hardware_acceleration">Tăng tốc phần cứng</string>
+    <string name="tab_width">Độ dài tab (khoảng trắng)</string>
 </resources>

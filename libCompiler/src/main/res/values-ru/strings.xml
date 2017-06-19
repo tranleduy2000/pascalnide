@@ -208,4 +208,9 @@
     <string name="pref_title_vibrate">Вибрировать</string>
     <string name="system_interface">Системный интерфейс</string>
     <string name="text_color">Цвет текста</string>
+    <string name="anti_alias">Anti-alias</string>
+    <string name="anti_alias_summary">Smooths out jagged graphics</string>
+    <string name="console_font_size">Console font size</string>
+    <string name="hardware_acceleration">Hardware acceleration</string>
+    <string name="tab_width">Tab width (space)</string>
 </resources>
