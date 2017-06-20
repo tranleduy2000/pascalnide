@@ -812,12 +812,12 @@ public class HighlightEditor extends CodeSuggestsEditText
         int lastVisibleIndex;
         if (!newText && editorHeight > 0) {
             if (verticalScroll != null && getLayout() != null) {
-            firstVisibleIndex = getLayout().getLineStart(getFirstLineIndex());
+                firstVisibleIndex = getLayout().getLineStart(getFirstLineIndex());
             } else {
                 firstVisibleIndex = 0;
             }
             if (verticalScroll != null && getLayout() != null) {
-            lastVisibleIndex = getLayout().getLineStart(getLastLineIndex());
+                lastVisibleIndex = getLayout().getLineStart(getLastLineIndex());
             } else {
                 lastVisibleIndex = getText().length();
             }

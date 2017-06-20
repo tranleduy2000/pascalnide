@@ -1,0 +1,8 @@
+dbf5efb fix convert char to number
+fe9a240 fix crash when restart activity
+df60923 change set constant to runtime value, fix format date
+58ba0dc add ``date, decodeDate`` function
+291a586 change 3 space to 2 space
+8992e22 highlight rgb, argb
+7ab39e0 fix not highlight ``with`` keyword
+2301765 highlight hex, octal, exp
