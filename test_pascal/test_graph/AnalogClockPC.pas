@@ -25,12 +25,12 @@ var
 
 // color selection shortcut
 function color(r,g,b: byte): integer;
-var
-   cs: android_graphics_Color;
-   c: integer;
+//var
+ //  cs: android_graphics_Color;
+   //c: integer;
 begin
-   c := cs.rgb(r,g,b);
-   color := c;
+   //c := cs.rgb(r,g,b);
+   color := random(0);;
 end;
 
 // angle (degree) point inside a circle
@@ -215,7 +215,7 @@ var
    gd,gm: integer;
 begin
    gd := detect;
-   setBufferEnable(true);
+   //setBufferEnable(true);
    initGraph(gd,gm,'');
 end;
 
@@ -231,7 +231,7 @@ begin
    getOrientation;
 
    repeat
-      clearBuffer;
+    //  clearBuffer;
       drawText;
       drawFace;
       getTime(h,n,s,z);
@@ -239,7 +239,7 @@ begin
       handHour(h,n);
       handMinute(n,s);
       handSecond(s,z);
-      drawBuffer;
+     // drawBuffer;
    until keyPressed;
 
    closeScreen;
