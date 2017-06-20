@@ -14,28 +14,11 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.lib;
-
-import com.duy.pascal.interpreter.BaseTestCase;
-
-import java.io.File;
+package com.duy.pascal.backend.memory_utils;
 
 /**
  * Created by Duy on 21-Jun-17.
  */
 
-public class DosTest extends BaseTestCase {
-
-    @Override
-    public String getDirTest() {
-        return "test_libraries" + File.separator + "dos";
-    }
-
-    public void testPackTime() {
-        run("PackTime.pas");
-    }
-
-    public void testGetDate() {
-        run("GetDate.pas");
-    }
+public class RamUtil {
 }
