@@ -33,7 +33,16 @@ import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.ColonToken;
 import com.duy.pascal.backend.tokens.grouping.ParenthesizedToken;
 
+import java.util.ArrayList;
+
 public class RecordType extends CustomType implements Cloneable {
+    public RecordType() {
+
+    }
+
+    public RecordType(ArrayList<VariableDeclaration> vars) {
+        super(vars);
+    }
 
     public static ConstantAccess<RecordValue> getRecordConstant(ExpressionContext context, Token groupConstant,
                                                                 RecordType ztype) throws ParsingException {

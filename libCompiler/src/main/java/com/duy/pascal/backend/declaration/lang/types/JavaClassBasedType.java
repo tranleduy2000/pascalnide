@@ -79,12 +79,7 @@ public class JavaClassBasedType extends TypeInfo {
 
     @Override
     public boolean equals(Type other) {
-        if (other instanceof JavaClassBasedType
-                && ((JavaClassBasedType) other).getStorageClass() == clazz) {
-            return true;
-        } else {
-            return clazz == Object.class || other == null;
-        }
+        return (other.getStorageClass() == clazz) || (clazz == Object.class);
     }
 
 

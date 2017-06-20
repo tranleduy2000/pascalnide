@@ -21,8 +21,8 @@ import android.support.annotation.Nullable;
 
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.declaration.NameEntityImpl;
-import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.linenumber.LineInfo;
 
 import java.util.Map;
 
@@ -66,6 +66,7 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
     public VariableDeclaration(@NonNull String name, @NonNull Type type) {
         this.name = name;
         this.type = type;
+        this.line = new LineInfo(-1, "system");
     }
 
 
@@ -115,7 +116,7 @@ public class VariableDeclaration extends NameEntityImpl implements Cloneable {
 
     @Override
     public String toString() {
-        return "var " + name + " = " + initialValue;
+        return name + ": " + type;
     }
 
     @Override

@@ -1,4 +1,4 @@
-program test_get_time_func;
+program GetTime;
 uses dos,crt;
 var
     a, b, c, d : integer;

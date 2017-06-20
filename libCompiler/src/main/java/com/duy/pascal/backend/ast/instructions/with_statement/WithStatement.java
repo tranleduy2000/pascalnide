@@ -18,12 +18,15 @@ package com.duy.pascal.backend.ast.instructions.with_statement;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.instructions.Executable;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.access.FieldAccess;
+import com.duy.pascal.backend.declaration.lang.types.CustomType;
+import com.duy.pascal.backend.declaration.lang.types.RecordType;
+import com.duy.pascal.backend.declaration.lang.types.Type;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.TypeIdentifierExpectException;
@@ -32,9 +35,6 @@ import com.duy.pascal.backend.tokens.Token;
 import com.duy.pascal.backend.tokens.WordToken;
 import com.duy.pascal.backend.tokens.basic.DoToken;
 import com.duy.pascal.backend.tokens.grouping.GrouperToken;
-import com.duy.pascal.backend.declaration.lang.types.CustomType;
-import com.duy.pascal.backend.declaration.lang.types.Type;
-import com.duy.pascal.backend.declaration.lang.types.RecordType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,6 @@ public class WithStatement {
     private ArrayList<FieldAccess> fields = new ArrayList<>();
 
     public WithStatement(ExpressionContext parent, GrouperToken grouperToken) throws ParsingException {
-        this.withContext = new WithExpressionContext(parent);
         this.line = grouperToken.peek().getLineNumber();
         getReferenceVariables(grouperToken, parent);
         for (RuntimeValue argument : references) {
@@ -66,6 +65,7 @@ public class WithStatement {
         if (grouperToken.peek() instanceof DoToken) {
             grouperToken.take();
         }
+        this.withContext = new WithExpressionContext(parent, fields);
         instructions = grouperToken.getNextCommand(withContext);
     }
 
@@ -107,8 +107,13 @@ public class WithStatement {
 
     private class WithExpressionContext extends ExpressionContextMixin {
 
-        public WithExpressionContext(ExpressionContext parent) {
+        private final ExpressionContext parent;
+        private final ArrayList<FieldAccess> fields;
+
+        public WithExpressionContext(ExpressionContext parent, ArrayList<FieldAccess> fields) {
             super(parent.root(), parent);
+            this.parent = parent;
+            this.fields = fields;
         }
 
         @NonNull

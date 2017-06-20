@@ -2,11 +2,11 @@ package com.duy.pascal.backend.declaration.lang.types;
 
 import android.support.annotation.NonNull;
 
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContext;
+import com.duy.pascal.backend.ast.runtime_value.value.RecordValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
 import com.duy.pascal.backend.ast.runtime_value.value.cloning.CloneableObjectCloner;
-import com.duy.pascal.backend.ast.runtime_value.value.RecordValue;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.index.NonArrayIndexed;
 
@@ -22,6 +22,10 @@ public class CustomType extends ObjectType {
 
     public CustomType() {
         variableDeclarations = new ArrayList<>();
+    }
+
+    public CustomType(ArrayList<VariableDeclaration> vars) {
+        this.variableDeclarations = vars;
     }
 
 
