@@ -133,8 +133,9 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
             final String content = codeSampleEntry.getContent();
 
             editorView.setCanEdit(false);
+            editorView.disableTextChangedListener();
             editorView.setText(content);
-            editorView.updateTextHighlight();
+            editorView.refresh();
             if (codeSampleEntry.getQuery() != null && !codeSampleEntry.getQuery().isEmpty()) {
                 editorView.find(codeSampleEntry.getQuery(), false, false, false);
             }

@@ -49,9 +49,11 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         try {
             String[] fonts = context.getAssets().list("fonts");
             for (String font : fonts) {
-                listPathFont.add(font);
+                if (font.endsWith(".ttf")) {
+                    listPathFont.add(font);
+                }
             }
-            listPathFont.addFirst("Monospace");
+            listPathFont.addFirst("monospace");
         } catch (IOException e) {
             e.printStackTrace();
         }
