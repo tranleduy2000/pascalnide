@@ -42,7 +42,6 @@ public class DosLib implements PascalLibrary {
      * return system time
      */
     @PascalMethod(description = "Dos library", returns = "void")
-    @SuppressWarnings("unused")
     public static void getTime(PascalReference<Object> hour,
                                PascalReference<Object> minute,
                                PascalReference<Object> second,
@@ -51,14 +50,13 @@ public class DosLib implements PascalLibrary {
         hour.set(calendar.get(Calendar.HOUR));
         minute.set(calendar.get(Calendar.MINUTE));
         second.set(calendar.get(Calendar.SECOND));
-        sec100.set(calendar.get(Calendar.MILLISECOND) / 100);
+        sec100.set(calendar.get(Calendar.MILLISECOND) / 10);
     }
 
     /**
      * return system date
      */
     @PascalMethod(description = "Dos library", returns = "void")
-    @SuppressWarnings("unused")
     public static void getDate(PascalReference<Integer> year,
                                PascalReference<Integer> month,
                                PascalReference<Integer> mday,
@@ -108,8 +106,8 @@ public class DosLib implements PascalLibrary {
     }
 
     @PascalMethod(description = "Dos library", returns = "void")
-    @SuppressWarnings("unused")
     public int dosVersion() {
         return Build.VERSION.SDK_INT;
     }
+
 }
