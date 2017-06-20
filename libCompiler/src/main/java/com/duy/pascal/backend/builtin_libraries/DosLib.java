@@ -22,7 +22,7 @@ import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.ast.runtime_value.references.PascalReference;
 import com.duy.pascal.backend.builtin_libraries.annotations.PascalMethod;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -47,11 +47,11 @@ public class DosLib implements PascalLibrary {
                                PascalReference<Object> minute,
                                PascalReference<Object> second,
                                PascalReference<Object> sec100) {
-        Date date = new Date();
-        hour.set(date.getHours());
-        minute.set(date.getMinutes());
-        second.set(date.getSeconds());
-        sec100.set(0);
+        Calendar calendar = Calendar.getInstance();
+        hour.set(calendar.get(Calendar.HOUR));
+        minute.set(calendar.get(Calendar.MINUTE));
+        second.set(calendar.get(Calendar.SECOND));
+        sec100.set(calendar.get(Calendar.MILLISECOND));
     }
 
     /**
@@ -59,15 +59,15 @@ public class DosLib implements PascalLibrary {
      */
     @PascalMethod(description = "Dos library", returns = "void")
     @SuppressWarnings("unused")
-    public static void getDate(PascalReference<Object> year,
-                               PascalReference<Object> month,
-                               PascalReference<Object> mday,
-                               PascalReference<Object> wday) {
-        Date date = new Date();
-        year.set(date.getYear());
-        month.set(date.getMonth());
-        mday.set(date.getDate());
-        wday.set(date.getDay());
+    public static void getDate(PascalReference<Integer> year,
+                               PascalReference<Integer> month,
+                               PascalReference<Integer> mday,
+                               PascalReference<Integer> wday) {
+        Calendar calendar = Calendar.getInstance();
+        year.set(calendar.get(Calendar.YEAR));
+        month.set(calendar.get(Calendar.MONTH) + 1);
+        mday.set(calendar.get(Calendar.DAY_OF_MONTH));
+        wday.set(calendar.get(Calendar.DAY_OF_WEEK));
     }
 
     @Override
