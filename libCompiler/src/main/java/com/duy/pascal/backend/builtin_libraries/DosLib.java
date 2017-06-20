@@ -51,7 +51,7 @@ public class DosLib implements PascalLibrary {
         hour.set(calendar.get(Calendar.HOUR));
         minute.set(calendar.get(Calendar.MINUTE));
         second.set(calendar.get(Calendar.SECOND));
-        sec100.set(calendar.get(Calendar.MILLISECOND));
+        sec100.set(calendar.get(Calendar.MILLISECOND) / 100);
     }
 
     /**
