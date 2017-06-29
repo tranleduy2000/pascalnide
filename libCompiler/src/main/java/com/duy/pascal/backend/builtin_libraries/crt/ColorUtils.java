@@ -35,36 +35,67 @@ public class ColorUtils {
     }
 
     public static void generateMapColors() {
+        //black color
         mapColorsPascal.put(0, Color.BLACK);
         mapColorsAndroid.put(Color.BLACK, 0);
+
+        //blue color
         mapColorsPascal.put(1, Color.BLUE);
         mapColorsAndroid.put(Color.BLUE, 1);
-        mapColorsPascal.put(2, Color.GREEN);
-        mapColorsAndroid.put(Color.GREEN, 2);
-        mapColorsPascal.put(3, Color.CYAN);
-        mapColorsAndroid.put(Color.CYAN, 3);
+
+        //green color
+        mapColorsPascal.put(2, Color.rgb(0, 127, 0));
+        mapColorsAndroid.put(Color.rgb(0, 127, 0), 2);
+
+        //cyan color
+        mapColorsPascal.put(3, Color.rgb(0, 127, 127));
+        mapColorsAndroid.put(Color.rgb(0, 127, 127), 3);
+
+        //red color
         mapColorsPascal.put(4, Color.RED);
         mapColorsAndroid.put(Color.RED, 4);
-        mapColorsPascal.put(5, Color.MAGENTA);
-        mapColorsAndroid.put(Color.MAGENTA, 5);
-        mapColorsPascal.put(6, 0xFF49281E);
-        mapColorsAndroid.put(0xFF49281E, 6);
+
+        //magenta color
+        mapColorsPascal.put(5, Color.rgb(255,0,127));
+        mapColorsAndroid.put(Color.rgb(255,0,127), 5);
+
+        //brown color
+        mapColorsPascal.put(6, Color.rgb(127, 127, 0));
+        mapColorsAndroid.put(Color.rgb(127, 127, 0), 6);
+
+        //light gray
         mapColorsPascal.put(7, Color.LTGRAY);
         mapColorsAndroid.put(Color.LTGRAY, 7);
+
+        //dark gray
         mapColorsPascal.put(8, Color.DKGRAY);
         mapColorsAndroid.put(Color.DKGRAY, 8);
-        mapColorsPascal.put(9, 0xFFadd8e6);
-        mapColorsAndroid.put(0xFFadd8e6, 9);
-        mapColorsPascal.put(10, 0xFF98fb98);
-        mapColorsAndroid.put(0xFF98fb98, 10);
-        mapColorsPascal.put(11, 0xFFe0ffff);
-        mapColorsAndroid.put(0xFFe0ffff, 11);
-        mapColorsPascal.put(12, 0xFFffa07a);
-        mapColorsAndroid.put(0xFFffa07a, 12);
-        mapColorsPascal.put(13, 0xFFff00ff);
-        mapColorsAndroid.put(0xFFff00ff, 13);
+
+        //light blue
+        mapColorsPascal.put(9, Color.rgb(159, 159, 255));
+        mapColorsAndroid.put(Color.rgb(159, 159, 255), 9);
+
+        //light green
+        mapColorsPascal.put(10, Color.rgb(127, 255, 127));
+        mapColorsAndroid.put(Color.rgb(127, 255, 127), 10);
+
+        //light cyan
+        mapColorsPascal.put(11, Color.rgb(127, 255, 255));
+        mapColorsAndroid.put(Color.rgb(127, 255, 255), 11);
+
+        //light red
+        mapColorsPascal.put(12, Color.rgb(255, 159, 159));
+        mapColorsAndroid.put(Color.rgb(255, 159, 159), 12);
+
+        //light magenta
+        mapColorsPascal.put(13, Color.rgb(255, 127, 255));
+        mapColorsAndroid.put(Color.rgb(255, 127, 255), 13);
+
+        //yellow
         mapColorsPascal.put(14, Color.YELLOW);
         mapColorsAndroid.put(Color.YELLOW, 14);
+
+        //white
         mapColorsPascal.put(15, Color.WHITE);
         mapColorsAndroid.put(Color.WHITE, 15);
     }
