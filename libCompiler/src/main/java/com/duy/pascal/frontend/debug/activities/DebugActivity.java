@@ -45,19 +45,18 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.backend.declaration.lang.function.AbstractCallableFunction;
-import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.ast.instructions.Executable;
-import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.ast.runtime_value.value.AssignableValue;
 import com.duy.pascal.backend.ast.runtime_value.value.RuntimeValue;
+import com.duy.pascal.backend.ast.variablecontext.VariableContext;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
+import com.duy.pascal.backend.config.DebugMode;
 import com.duy.pascal.backend.debugable.DebugListener;
+import com.duy.pascal.backend.declaration.lang.function.AbstractCallableFunction;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractExecActivity;
@@ -83,8 +82,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     private HighlightEditor mCodeView;
     private Toolbar toolbar;
     private LockableScrollView mScrollView;
-    //    private VariableWatcherView mVariableWatcherView;
-//    private View emptyView;
     private Handler handler = new Handler();
     private AlertDialog alertDialog;
     private PopupWindow popupWindow;
@@ -101,10 +98,6 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
 
     private FragmentFrame mFameFragment;
     private DrawerLayout drawerLayout;
-    private ViewGroup mContainerDebug;
-    private float lastPanelX;
-    private int lastPanelY;
-    private LinearLayout mRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,15 +223,28 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
     }
 
     @Override
-    public void onLine(Executable executable, final LineInfo lineInfo) {
+    public void onLine(Executable executable, @Nullable final LineInfo lineInfo) {
         Log.d(TAG, "onLine() called with: runtimeValue = [" + executable + "], lineInfo = [" + lineInfo + "]");
-        if (lineInfo == null) return;
+        if (lineInfo == null) {
+            return;
+        }
+
+        scrollTo(lineInfo);
+
+    }
+
+    private void scrollTo(@NonNull final LineInfo lineInfo) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mCodeView.pinLine(lineInfo);
-                mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                        mCodeView.getLineCount(), lineInfo.getLine()));
+                int yCoordinate = LineUtils.getYAtLine(mScrollView,
+                        mCodeView.getLineCount(), lineInfo.getLine());
+                int heightVisible = mCodeView.getHeightVisible();
+                if (!(mScrollView.getScrollY() < yCoordinate
+                        && mScrollView.getScrollY() + heightVisible > yCoordinate)) {
+                    mScrollView.smoothScrollTo(0, yCoordinate);
+                }
             }
         });
     }
@@ -248,14 +254,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         Log.d(TAG, "onLine() called with: executable = [" + executable.getClass() +
                 "], lineInfo = [" + lineInfo + "]");
         if (lineInfo == null) return;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mCodeView.pinLine(lineInfo);
-                mScrollView.smoothScrollTo(0, LineUtils.getYAtLine(mScrollView,
-                        mCodeView.getLineCount(), lineInfo.getLine()));
-            }
-        });
+        scrollTo(lineInfo);
     }
 
     @Override
