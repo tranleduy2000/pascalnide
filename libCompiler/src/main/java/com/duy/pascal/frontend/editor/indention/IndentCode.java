@@ -20,6 +20,7 @@ package com.duy.pascal.frontend.editor.indention;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.backend.tokenizer.Lexer;
 import com.duy.pascal.backend.tokens.EOFToken;
@@ -66,7 +67,6 @@ import com.duy.pascal.backend.tokens.ignore.CommentToken;
 import com.duy.pascal.backend.tokens.ignore.CompileDirectiveToken;
 import com.duy.pascal.backend.tokens.ignore.GroupingExceptionToken;
 import com.duy.pascal.backend.tokens.value.ValueToken;
-import com.duy.pascal.backend.declaration.lang.types.OperatorTypes;
 import com.duy.pascal.backend.utils.ArrayUtil;
 import com.duy.pascal.frontend.DLog;
 
@@ -323,7 +323,10 @@ public class IndentCode {
         }
     }
 
-    private boolean needSpace(Token token) {
+    private boolean needSpace(@Nullable Token token) {
+        if (token == null) {
+            return false;
+        }
         for (Class aClass : NON_NEED_SPACE) {
             if (token.getClass() == aClass) return false;
         }
