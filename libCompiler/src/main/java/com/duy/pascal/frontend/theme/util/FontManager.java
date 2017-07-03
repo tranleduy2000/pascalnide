@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.R;
-import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -61,25 +60,11 @@ public class FontManager {
                 return Typeface.MONOSPACE;
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_source_code_pro))) {
                 return get(context, PATH_TO_FONT + "source_code_pro.ttf");
-            } else if (name.equalsIgnoreCase("triple_bold.ttf")) {
-                return get(context, PATH_TO_FONT + "triple_bold.ttf");
-            } else if (name.equalsIgnoreCase("triplex.ttf")) {
-                return get(context, PATH_TO_FONT + "triplex.ttf");
-            } else if (name.equalsIgnoreCase("graph_script.ttf")) {
-                return get(context, PATH_TO_FONT + "graph_script.ttf");
-            } else if (name.equalsIgnoreCase("graph_euro.ttf")) {
-                return get(context, PATH_TO_FONT + "graph_euro.ttf");
-            } else if (name.equalsIgnoreCase("triplex.ttf")) {
-                return get(context, PATH_TO_FONT + "triplex.ttf");
-            } else if (name.equalsIgnoreCase("gothic.ttf")) {
-                return get(context, PATH_TO_FONT + "gothic.ttf");
-            } else if (name.equalsIgnoreCase("lcd_solid.ttf")) {
-                return get(context, PATH_TO_FONT + "lcd_solid.ttf");
-            } else {
+            }  else {
                 return get(context, PATH_TO_FONT + name);
             }
         } catch (Exception e) {
-            FirebaseCrash.report(e);
+            e.printStackTrace();
         }
         return Typeface.MONOSPACE;
     }

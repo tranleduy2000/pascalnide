@@ -285,7 +285,6 @@ public class GraphScreen {
 
     public synchronized void setFontID(int fontID) {
         this.mTextPaint.setTextFontID(context, fontID);
-
     }
 
 
