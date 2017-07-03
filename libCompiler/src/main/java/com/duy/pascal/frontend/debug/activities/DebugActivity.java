@@ -283,6 +283,7 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (isFinishing()) return;
                 //get relative position of expression at edittext
                 Point position = mCodeView.getDebugPosition(lineInfo.getLine(), lineInfo.getColumn(),
                         Gravity.TOP);
