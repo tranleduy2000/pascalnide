@@ -30,7 +30,7 @@ public class Template {
                     "end.";
 
     public static final String UNIT_TEMPlATE =
-            "unit %1;\n" +
+            "unit %s;\n" +
                     "interface\n" +
                     "    \n" +
                     "implementation\n" +

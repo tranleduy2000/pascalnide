@@ -24,8 +24,6 @@ import java.util.Map;
 /**
  * Created by Duy on 01-May-17.
  */
-
-@SuppressWarnings("DefaultFileTemplate")
 public class ColorUtils {
     private static final Map<Integer, Integer> mapColorsPascal = new Hashtable<>();
     private static final Map<Integer, Integer> mapColorsAndroid = new Hashtable<>();

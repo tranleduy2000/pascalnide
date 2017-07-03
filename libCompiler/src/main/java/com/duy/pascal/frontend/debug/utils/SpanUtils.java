@@ -23,10 +23,10 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.variablecontext.ContainsVariables;
 import com.duy.pascal.backend.declaration.lang.types.Type;
 import com.duy.pascal.backend.declaration.lang.types.set.ArrayType;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.frontend.theme.util.CodeTheme;
 
 import java.util.List;
@@ -53,7 +53,8 @@ public class SpanUtils {
         return text;
     }
 
-    public Spannable generateTypeSpan(Type declaredType, boolean isEnd) {
+    public Spannable generateTypeSpan(@Nullable Type declaredType, boolean isEnd) {
+        if (declaredType == null) return new SpannableString("null");
         SpannableStringBuilder spannableString;
         if (declaredType instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) declaredType;
@@ -99,7 +100,7 @@ public class SpanUtils {
             }
             return spannableString;
         }
-        return new SpannableString("");
+        return new SpannableString("null");
     }
 
     private SpannableString getSpanArray(Object[] array, int maxLength) {
