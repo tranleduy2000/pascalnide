@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.pro.activities;
+package com.duy.pascal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +27,6 @@ import com.duy.pascal.frontend.activities.ActivitySplashScreen;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.FileActionListener;
 import com.duy.pascal.frontend.file.FragmentFileManager;
-import com.duy.pascal.pro.R;
 
 import java.io.File;
 

@@ -6,7 +6,15 @@
         android:name="com.duy.pascal.PascalApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name">
+        <!--<activity-->
+            <!--android:name="com.duy.pascal.CreateShortcutActivity"-->
+            <!--android:label="@string/create_shortcut">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.CREATE_SHORTCUT" />-->
 
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
     </application>
 
 </manifest>

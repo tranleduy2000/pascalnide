@@ -1,1 +1,1 @@
-include ':app', ':pager', ':app-pro', ':libCompiler', ':colorpicker', ':splitview'
+include ':app', ':pager', ':libCompiler', ':colorpicker', ':splitview'
