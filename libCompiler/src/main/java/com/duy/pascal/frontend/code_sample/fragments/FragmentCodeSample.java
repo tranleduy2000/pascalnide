@@ -61,7 +61,7 @@ public class FragmentCodeSample extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_code_sample, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new CodeSampleAdapter(getContext());
         try {
             adapter.setListener((CodeSampleAdapter.OnCodeClickListener) getActivity());

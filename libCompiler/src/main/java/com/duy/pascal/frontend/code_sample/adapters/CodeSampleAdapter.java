@@ -18,6 +18,7 @@ package com.duy.pascal.frontend.code_sample.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,6 +133,8 @@ public class CodeSampleAdapter extends RecyclerView.Adapter<CodeSampleAdapter.Co
             //set code
             final String content = codeSampleEntry.getContent();
 
+            editorView.setMaxLines(50);
+            editorView.setEllipsize(TextUtils.TruncateAt.END);
             editorView.setCanEdit(false);
             editorView.disableTextChangedListener();
             editorView.setText(content);
