@@ -64,14 +64,14 @@ open class DialogFragmentFixExpectToken : BottomSheetDialogFragment() {
         val current = arguments.getString("current")
         val line = arguments.getInt("lineInfo");
         val col = arguments.getInt("column");
-        val radInsert = view?.findViewById(R.id.radio_insert) as RadioButton;
+        val radInsert: RadioButton = view.findViewById(R.id.radio_insert)
 
         val stringArray = arguments.getStringArray("expect")
         val adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, stringArray);
-        val listView = view.findViewById(R.id.list_expect) as ListView?;
-        if (listView != null) {
+        val listView: ListView = view.findViewById(R.id.list_expect)
+        if (true) {
             listView.adapter = adapter;
-            listView.setOnItemClickListener { parent, view, position, id ->
+            listView.setOnItemClickListener { parent, _, position, id ->
                 val get = stringArray.get(position)
                 listener?.onSelectedExpect(current, get, radInsert.isChecked, line, col);
                 dismiss();

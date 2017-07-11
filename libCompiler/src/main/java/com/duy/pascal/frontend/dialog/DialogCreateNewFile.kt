@@ -66,7 +66,7 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mEditFileName = view!!.findViewById(R.id.edit_file_name) as EditText
+        mEditFileName = view!!.findViewById(R.id.edit_file_name)
         mEditFileName!!.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 val file = doCreateFile()
@@ -80,15 +80,15 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
             false
         })
 
-        btnOK = view.findViewById(R.id.btn_ok) as Button
-        btnCancel = view.findViewById(R.id.btn_cancel) as Button
+        btnOK = view.findViewById(R.id.btn_ok)
+        btnCancel = view.findViewById(R.id.btn_cancel)
         btnCancel!!.setOnClickListener {
             if (listener != null) listener!!.onCancel()
             dismiss()
         }
-        checkBoxPas = view.findViewById(R.id.rad_pas) as RadioButton
-        checkBoxInp = view.findViewById(R.id.rad_inp) as RadioButton
-        checkBoxUnit = view.findViewById(R.id.rad_unit) as RadioButton
+        checkBoxPas = view.findViewById(R.id.rad_pas)
+        checkBoxInp = view.findViewById(R.id.rad_inp)
+        checkBoxUnit = view.findViewById(R.id.rad_unit)
 
         btnOK!!.setOnClickListener {
             val file = doCreateFile()

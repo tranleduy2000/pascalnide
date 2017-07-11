@@ -16,6 +16,8 @@
 
 package com.duy.pascal;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 /**
  * Created by Duy on 17-May-17.
  */
@@ -24,6 +26,14 @@ public class PascalApplication extends BasePascalApplication {
     @Override
     public boolean isProVersion() {
         return false;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (BuildConfig.DEBUG) {
+            FirebaseCrash.setCrashCollectionEnabled(false);
+        }
     }
 
     @Override

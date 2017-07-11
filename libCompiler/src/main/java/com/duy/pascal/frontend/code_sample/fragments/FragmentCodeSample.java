@@ -34,7 +34,6 @@ import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;
 import com.duy.pascal.frontend.code_sample.model.CodeCategory;
 import com.duy.pascal.frontend.code_sample.model.CodeSampleEntry;
 import com.duy.pascal.frontend.file.ApplicationFileManager;
-import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,7 +114,6 @@ public class FragmentCodeSample extends Fragment {
                 }
                 codeSampleEntries.addAll(codeCategory.getCodeSampleEntries());
             } catch (Exception e) {
-                FirebaseCrash.report(e);
             }
             return null;
         }
