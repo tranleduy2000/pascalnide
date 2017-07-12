@@ -20,6 +20,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import com.duy.pascal.frontend.view.exec_screen.ScreenObject;
 
@@ -44,7 +45,6 @@ public class TextRenderer implements ScreenObject {
     private int mCharDescent;
     private int mCharWidth;
     private int mTextMode = 0;
-    private Typeface mTypeface = Typeface.MONOSPACE;
     private Paint mTextPaint = new Paint();
     private Paint mBackgroundPaint = new Paint();
     private int mTextColor = Color.WHITE;
@@ -65,7 +65,7 @@ public class TextRenderer implements ScreenObject {
     }
 
     private void init(float textSize) {
-        mTextPaint.setTypeface(mTypeface);
+        mTextPaint.setTypeface(Typeface.MONOSPACE);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextSize(textSize);
         mTextPaint.setAlpha(255);
@@ -119,13 +119,9 @@ public class TextRenderer implements ScreenObject {
         mTextPaint.setTextSize(textSize);
     }
 
-    public Typeface getTypeface() {
-        return mTypeface;
-    }
 
-    public void setTypeface(Typeface mTypeface) {
-        this.mTypeface = mTypeface;
-        mTextPaint.setTypeface(mTypeface);
+    public void setTypeface(Typeface typeface) {
+        mTextPaint.setTypeface(typeface);
     }
 
     public int getCharHeight() {

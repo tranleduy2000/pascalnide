@@ -166,6 +166,7 @@ public class ConsoleView extends View implements
 
         mTextRenderer = new TextRenderer(getTextSize(TypedValue.COMPLEX_UNIT_SP,
                 mPascalPreferences.getConsoleTextSize()));
+        mTextRenderer.setTypeface(mPascalPreferences.getConsoleFont());
         mTextRenderer.setTextColor(Color.WHITE);
         mTextRenderer.setAntiAlias(mAntiAlias);
 
@@ -296,10 +297,8 @@ public class ConsoleView extends View implements
     public float getTextSize(int unit, float size) {
         Context c = getContext();
         Resources r;
-        if (c == null)
-            r = Resources.getSystem();
-        else
-            r = c.getResources();
+        if (c == null) r = Resources.getSystem();
+        else r = c.getResources();
         return TypedValue.applyDimension(unit, size, r.getDisplayMetrics());
     }
 

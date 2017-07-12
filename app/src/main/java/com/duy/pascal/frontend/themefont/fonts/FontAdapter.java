@@ -64,8 +64,6 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         } else {
             holder.txtName.setText(name);
         }
-
-        final String finalName = name;
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

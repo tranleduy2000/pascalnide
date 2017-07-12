@@ -24,4 +24,13 @@ public class FontEntry {
         this.fromStorage = fromStorage;
         this.name = name;
     }
+
+
+    @Override
+    public String toString() {
+        return "FontEntry{" +
+                "fromStorage=" + fromStorage +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

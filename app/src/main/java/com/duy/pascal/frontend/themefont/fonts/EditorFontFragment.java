@@ -44,7 +44,7 @@ public class EditorFontFragment extends Fragment implements SharedPreferences.On
 
     public static final int FONT = 0;
     public static final int THEME = 1;
-    FontAdapter fontAdapter;
+    FontAdapter mFontAdapter;
     private RecyclerView mRecyclerView;
     private OnFontSelectListener onFontSelectListener;
     protected PascalPreferences mPref;
@@ -86,12 +86,12 @@ public class EditorFontFragment extends Fragment implements SharedPreferences.On
         }
 
         mRecyclerView = view.findViewById(R.id.recycler_view);
-        fontAdapter = new FontAdapter(getContext());
+        mFontAdapter = new FontAdapter(getContext());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(fontAdapter);
+        mRecyclerView.setAdapter(mFontAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        fontAdapter.setOnFontSelectListener(this);
+        mFontAdapter.setOnFontSelectListener(this);
     }
 
     @Override
