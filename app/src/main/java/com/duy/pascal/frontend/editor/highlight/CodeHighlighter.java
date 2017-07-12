@@ -102,6 +102,8 @@ public class CodeHighlighter implements Highlighter {
     @Override
     public void setCodeTheme(CodeTheme codeTheme) {
         this.codeTheme = codeTheme;
+        commentHighlighter.setCodeTheme(codeTheme);
+        stringHighlighter.setCodeTheme(codeTheme);
     }
 
     private void highlightStringAndOther(@NonNull Editable allText,

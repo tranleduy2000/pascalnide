@@ -54,7 +54,6 @@ import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.autofix.AutoFixError;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
-import com.duy.pascal.frontend.editor.highlight.Highlighter;
 import com.duy.pascal.frontend.themefont.util.CodeTheme;
 import com.duy.pascal.frontend.themefont.util.CodeThemeUtils;
 import com.duy.pascal.frontend.themefont.util.ThemeManager;
@@ -124,7 +123,7 @@ public class HighlightEditor extends CodeSuggestsEditText
     private EditTextChangeListener mChangeListener;
     private int numberWidth = 0;
     private AutoFixError mAutoFixError;
-    private Highlighter mHighlighter;
+    private CodeHighlighter mHighlighter;
     private final Runnable colorRunnable_duringEditing =
             new Runnable() {
                 @Override
@@ -162,6 +161,9 @@ public class HighlightEditor extends CodeSuggestsEditText
     public void setCodeTheme(CodeTheme codeTheme) {
         this.codeTheme = codeTheme;
         this.mHighlighter.setCodeTheme(codeTheme);
+        setTextColor(codeTheme.getTextColor());
+        setBackgroundColor(codeTheme.getBackground());
+        mPaintNumbers.setColor(codeTheme.getNumberColor());
         refresh();
     }
 

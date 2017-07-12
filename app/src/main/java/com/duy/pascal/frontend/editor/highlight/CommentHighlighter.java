@@ -48,7 +48,6 @@ public class CommentHighlighter implements Highlighter {
         this.codeTheme = codeTheme;
     }
 
-
     public boolean inComment(int start, int end) {
         //-----------[1 -------------- 3]------
         //--'------------'

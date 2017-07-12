@@ -25,7 +25,9 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.file.FileManager;
+import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.themefont.util.CodeTheme;
+import com.duy.pascal.frontend.themefont.util.ThemeManager;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
@@ -42,20 +44,23 @@ public class CustomThemeActivity extends AbstractAppCompatActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        codeTheme = new CodeTheme(false);
+        codeTheme = ThemeManager.getDefault(new PascalPreferences(this));
         setContentView(R.layout.acitivty_custom_theme);
         setupToolbar();
         setTitle(getString(R.string.custom_theme));
         bindView();
+
     }
 
     private void bindView() {
         mEditorView = (EditorView) findViewById(R.id.editor_view);
+        mEditorView.setCodeTheme(codeTheme);
         try {
             mEditorView.setText(FileManager.streamToString(getAssets().open("source/preview.pas")));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         findViewById(R.id.color_background).setOnClickListener(this);
         findViewById(R.id.color_normal).setOnClickListener(this);
         findViewById(R.id.color_keyword).setOnClickListener(this);
@@ -64,6 +69,15 @@ public class CustomThemeActivity extends AbstractAppCompatActivity implements Vi
         findViewById(R.id.color_comment).setOnClickListener(this);
         findViewById(R.id.color_error).setOnClickListener(this);
         findViewById(R.id.color_opt).setOnClickListener(this);
+
+        findViewById(R.id.color_background).setBackgroundColor(codeTheme.getBackground());
+        findViewById(R.id.color_normal).setBackgroundColor(codeTheme.getTextColor());
+        findViewById(R.id.color_keyword).setBackgroundColor(codeTheme.getKeywordColor());
+        findViewById(R.id.color_number).setBackgroundColor(codeTheme.getNumberColor());
+        findViewById(R.id.color_string).setBackgroundColor(codeTheme.getStringColor());
+        findViewById(R.id.color_comment).setBackgroundColor(codeTheme.getCommentColor());
+        findViewById(R.id.color_error).setBackgroundColor(codeTheme.getErrorColor());
+        findViewById(R.id.color_opt).setBackgroundColor(codeTheme.getOptColor());
     }
 
 

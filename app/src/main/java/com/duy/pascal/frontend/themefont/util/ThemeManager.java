@@ -20,16 +20,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -40,13 +38,19 @@ import java.util.Set;
 
 public class ThemeManager {
 
+    private static final String THEME_FILE = "THEME_FILE";
     private static ArrayList<CodeTheme> customThemes;
     private static ArrayList<CodeTheme> builtinThemes;
 
-    public static void loadThemeFromPref(String name, @NonNull CodeTheme codeTheme, Context context) {
+    private static void loadThemeFromPref(String name, @NonNull CodeTheme codeTheme, Context context) {
         int style = CodeThemeUtils.getCodeTheme(context, name);
         TypedArray typedArray = context.obtainStyledAttributes(style, R.styleable.CodeTheme);
         typedArray.getInteger(R.styleable.CodeTheme_background_color, R.color.color_background_color);
+
+        codeTheme.setTextColor(typedArray.getInteger(R.styleable.CodeTheme_normal_text_color,
+                R.color.color_normal_text_color));
+        codeTheme.setBackgroundColor(typedArray.getInteger(R.styleable.CodeTheme_background_color,
+                R.color.color_background_color));
         codeTheme.setErrorColor(typedArray.getInteger(R.styleable.CodeTheme_error_color,
                 R.color.color_error_color));
         codeTheme.setNumberColor(typedArray.getInteger(R.styleable.CodeTheme_number_color,
@@ -64,15 +68,6 @@ public class ThemeManager {
         typedArray.recycle();
     }
 
-    public static void addCustomTheme(CodeTheme codeTheme, Context context) {
-        Hashtable<String, Integer> colors = codeTheme.getColors();
-        Set<Map.Entry<String, Integer>> entries = colors.entrySet();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        for (Map.Entry<String, Integer> entry : entries) {
-            sharedPreferences.edit().putInt(entry.getKey(), entry.getValue()).apply();
-        }
-    }
-
     private static void loadCustomTheme(String id, SharedPreferences prefs) {
         try {
             CodeTheme codeTheme = new CodeTheme(id, false);
@@ -84,10 +79,18 @@ public class ThemeManager {
             codeTheme.putColor("comment_color", loadColor(prefs, id, "comment_color"));
             codeTheme.putColor("error_color", loadColor(prefs, id, "error_color"));
             codeTheme.putColor("opt_color", loadColor(prefs, id, "opt_color"));
-//            codeTheme.putColor(DEBUG_LINE_KEY, loadColor(prefs, id, DEBUG_LINE_KEY));
-
             customThemes.add(codeTheme);
         } catch (Exception ignored) {
+        }
+    }
+
+    public static void addCustomTheme(CodeTheme codeTheme, Context context, String name) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(THEME_FILE,
+                Context.MODE_PRIVATE);
+        HashMap<String, Integer> colors = codeTheme.getColors();
+        Set<Map.Entry<String, Integer>> entries = colors.entrySet();
+        for (Map.Entry<String, Integer> entry : entries) {
+            sharedPreferences.edit().putInt("theme." + name + "." + entry.getKey(), entry.getValue()).apply();
         }
     }
 
@@ -117,7 +120,6 @@ public class ThemeManager {
                     codeTheme.putColor("comment_color", loadColor(properties, id, "comment_color"));
                     codeTheme.putColor("error_color", loadColor(properties, id, "error_color"));
                     codeTheme.putColor("opt_color", loadColor(properties, id, "opt_color"));
-//                    codeTheme.putColor(DEBUG_LINE_KEY, loadColor(properties, id, DEBUG_LINE_KEY));
                     builtinThemes.add(codeTheme);
                     id++;
                 } catch (Exception e) {
@@ -177,9 +179,9 @@ public class ThemeManager {
         return customThemes.get(themeId);
     }
 
-    private static void loadCustomThemes(Context ctx) {
+    private static void loadCustomThemes(Context context) {
         customThemes = new ArrayList<>();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences prefs = context.getSharedPreferences(THEME_FILE, Context.MODE_PRIVATE);
         Set<String> keyPrefs = prefs.getAll().keySet();
         for (String key : keyPrefs) {
             if (key.startsWith("theme.")) { //theme.12.background_color
@@ -189,14 +191,15 @@ public class ThemeManager {
         }
     }
 
-    public static CodeTheme getDefault(PascalPreferences mEditorSetting) {
-        String name = mEditorSetting.getString(mEditorSetting.getContext().getString(R.string.key_code_theme));
+    public static CodeTheme getDefault(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(THEME_FILE, Context.MODE_PRIVATE);
+        String name = preferences.getString(context.getString(R.string.key_code_theme), "");
         try {
             Integer id = Integer.parseInt(name);
-            return getTheme(id, mEditorSetting.getContext());
+            return getTheme(id, context);
         } catch (Exception e) {
             CodeTheme codeTheme = new CodeTheme(true);
-            loadThemeFromPref(name, codeTheme, mEditorSetting.getContext());
+            loadThemeFromPref(name, codeTheme, context);
             return codeTheme;
         }
     }

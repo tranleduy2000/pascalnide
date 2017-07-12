@@ -21,15 +21,14 @@ import android.util.Log;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 public class CodeTheme implements Serializable {
-    public static final String DEBUG_LINE_KEY = "debug_line_color";
     private static final String TAG = "CodeTheme";
 
     private final boolean builtin;
     private String id;
-    private Hashtable<String, Integer> colors = new Hashtable<>();
+    private HashMap<String, Integer> colors = new HashMap<>();
 
     public CodeTheme(String id, boolean builtin) {
         this.id = id;
@@ -41,7 +40,7 @@ public class CodeTheme implements Serializable {
     }
 
 
-    public Hashtable<String, Integer> getColors() {
+    public HashMap<String, Integer> getColors() {
         return colors;
     }
 
@@ -51,6 +50,10 @@ public class CodeTheme implements Serializable {
 
     public int getTextColor() {
         return getColor("normal_text_color");
+    }
+
+    public void setTextColor(int integer) {
+        putColor("normal_text_color", integer);
     }
 
     @Override
@@ -126,7 +129,6 @@ public class CodeTheme implements Serializable {
         putColor("string_color", integer);
     }
 
-
     public int getDebugColor() {
         int background = getBackground();
         float[] hsv = new float[3];
@@ -136,4 +138,7 @@ public class CodeTheme implements Serializable {
         return Color.HSVToColor(hsv);
     }
 
+    public void setBackgroundColor(int integer) {
+        putColor("background_color", integer);
+    }
 }
