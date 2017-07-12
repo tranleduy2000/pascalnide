@@ -42,15 +42,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.duy.pascal.BasePascalApplication;
-import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
-import com.duy.pascal.backend.declaration.lang.value.ConstantDefinition;
-import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
-import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
-import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
 import com.duy.pascal.backend.core.PascalCompiler;
+import com.duy.pascal.backend.declaration.lang.function.AbstractFunction;
+import com.duy.pascal.backend.declaration.lang.function.FunctionDeclaration;
+import com.duy.pascal.backend.declaration.lang.value.ConstantDefinition;
+import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
+import com.duy.pascal.backend.declaration.program.PascalProgramDeclaration;
 import com.duy.pascal.backend.parse_exception.ParsingException;
 import com.duy.pascal.backend.parse_exception.define.MainProgramNotFoundException;
 import com.duy.pascal.backend.parse_exception.syntax.ExpectedTokenException;
@@ -73,6 +73,7 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.theme.fragment.ThemeFontActivity;
+import com.duy.pascal.frontend.utils.Utils;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
@@ -130,7 +131,7 @@ public class EditorActivity extends BaseEditorActivity implements
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         BasePascalApplication application = (BasePascalApplication) getApplication();
-        if (application.isProVersion()) {
+        if (Utils.PATCHED) {
             menu.findItem(R.id.action_create_shortcut).setEnabled(true);
         } else {
             menu.findItem(R.id.action_create_shortcut).setEnabled(false);
@@ -522,10 +523,6 @@ public class EditorActivity extends BaseEditorActivity implements
         }
     }
 
-    @Override
-    public void checkUpdate() {
-        goToPlayStore();
-    }
 
     @Override
     public void reportBug() {

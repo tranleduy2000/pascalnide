@@ -226,57 +226,7 @@ public class IOLib implements PascalLibrary {
         }
     }
 
-    /*@PascalMethod(description = "system library", returns = "void")
-    public void readln() {
-        if (listener != null) {
-            listener.startInput(this);
-            pause();
-        }
-    }
 
-    @PascalMethod(description = "system library", returns = "void")
-    public void readln(PascalReference<Object> variableBoxer) throws NumberFormatException, RuntimePascalException {
-        setValueForVariables(variableBoxer);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void readln(PascalReference<Object> a1, PascalReference a2) throws RuntimePascalException {
-        setValueForVariables(a1, a2);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void readln(PascalReference<Object> a1, PascalReference<Object> a2, PascalReference<Object> a3) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void readln(PascalReference<Object> a1, PascalReference<Object> a2,
-                       PascalReference<Object> a3, PascalReference<Object> a4) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3, a4);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void readln(PascalReference<Object> a1, PascalReference<Object> a2,
-                       PascalReference<Object> a3, PascalReference<Object> a4,
-                       PascalReference<Object> a5) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3, a4, a5);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void readln(PascalReference<Object> a1, PascalReference<Object> a2,
-                       PascalReference<Object> a3, PascalReference<Object> a4,
-                       PascalReference<Object> a5, PascalReference<Object> a6) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3, a4, a5, a6);
-    }
-
-    @PascalMethod(description = "system library", returns = "void")
-    public void readln(PascalReference<Object> a1, PascalReference<Object> a2,
-                       PascalReference<Object> a3, PascalReference<Object> a4,
-                       PascalReference<Object> a5, PascalReference<Object> a6,
-                       PascalReference<Object> a7) throws RuntimePascalException {
-        setValueForVariables(a1, a2, a3, a4, a5, a6, a7);
-    }
-*/
     public RuntimeExecutableCodeUnit.ControlMode getState() {
         return state;
     }
@@ -333,7 +283,8 @@ public class IOLib implements PascalLibrary {
                 listener.startInput(this);
                 pause(); //wait for press enter
             }
+        } else {
+            setValueForVariables(values);
         }
-        setValueForVariables(values);
     }
 }

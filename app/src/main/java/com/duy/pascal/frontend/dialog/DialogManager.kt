@@ -22,13 +22,13 @@ import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.*
-import com.duy.pascal.BasePascalApplication
 import com.duy.pascal.backend.parse_exception.ParsingException
 import com.duy.pascal.backend.parse_exception.define.UnknownIdentifierException
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.code.ExceptionManager
 import com.duy.pascal.frontend.editor.EditorActivity
 import com.duy.pascal.frontend.editor.autofix.DefineType
+import com.duy.pascal.frontend.utils.Utils
 
 /**
  * Created by Duy on 29-Mar-17.
@@ -89,8 +89,7 @@ class DialogManager {
             //set event for button
             dialog.findViewById(R.id.btn_cancel)?.setOnClickListener { dialog.cancel() }
 
-            var application = activity.application as BasePascalApplication
-            if (application.isProVersion) {
+            if (Utils.PATCHED) {
                 if (e is ParsingException) {
                     if (e.isAutoFix) {
                         var container: RadioGroup? = null

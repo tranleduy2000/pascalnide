@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package com.duy.pascal;
-
-import com.duy.pascal.frontend.BuildConfig;
-import com.duy.pascal.frontend.utils.Utils;
-import com.google.firebase.crash.FirebaseCrash;
+package com.duy.pascal.frontend.utils;
 
 /**
- * Created by Duy on 17-May-17.
+ * Created by Duy on 12-Jul-17.
  */
 
-public class PascalApplication extends BasePascalApplication {
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        if (BuildConfig.DEBUG) {
-            FirebaseCrash.setCrashCollectionEnabled(false);
-            Utils.PATCHED = true;
-        }
-    }
+public class Utils {
+    public static boolean PATCHED = false;
 }

@@ -85,11 +85,7 @@
                 android:id="@+id/action_github"
                 android:icon="@drawable/ic_github_light"
                 android:title="@string/see_in_github_2" />
-            <item
-                android:id="@+id/action_check_update"
-                android:visible="false"
-                android:icon="@drawable/ic_system_update_white_24dp"
-                android:title="@string/check_update" />
+
 
             <item
                 android:id="@+id/action_info"

@@ -39,8 +39,6 @@ public interface EditorControl {
 
     void formatCode();
 
-    void checkUpdate();
-
     void reportBug();
 
     void openTool();

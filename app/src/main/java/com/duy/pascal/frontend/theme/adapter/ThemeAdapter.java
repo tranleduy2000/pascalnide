@@ -26,13 +26,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.linenumber.LineInfo;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.theme.fragment.ThemeFragment;
+import com.duy.pascal.frontend.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,8 +42,6 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private LayoutInflater inflater;
     private PascalPreferences mPascalPreferences;
     private Activity context;
-    private boolean proVersion;
-
 
     @Nullable
     private ThemeFragment.OnThemeSelectListener onThemeSelectListener;
@@ -56,12 +54,11 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.context = context;
         inflater = LayoutInflater.from(context);
         mPascalPreferences = new PascalPreferences(context);
-        BasePascalApplication application = (BasePascalApplication) context.getApplication();
-        this.proVersion = application.isProVersion();
     }
 
     public void clear() {
-        mThemes.clear();  notifyDataSetChanged();
+        mThemes.clear();
+        notifyDataSetChanged();
     }
 
     public void reload() {
@@ -74,7 +71,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (proVersion) {
+        if (Utils.PATCHED) {
             return 1;
         } else {
             if (position == 0) {
@@ -100,7 +97,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int pos) {
         //free version
         final int position;
-        if (proVersion) {
+        if (Utils.PATCHED) {
             position = pos;
         } else {
             position = pos - 1;
@@ -135,7 +132,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (proVersion) {
+        if (Utils.PATCHED) {
             return mThemes.size();
         } else {
             return mThemes.size() + 1;

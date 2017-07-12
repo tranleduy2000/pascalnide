@@ -20,7 +20,6 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
-    android:onClick="goToPlayStore"
     android:orientation="vertical"
     android:padding="16dp">
 

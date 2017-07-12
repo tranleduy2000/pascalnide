@@ -16,13 +16,10 @@
 
 package com.duy.pascal.frontend.activities
 
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -33,7 +30,6 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import com.duy.pascal.BasePascalApplication
 import com.duy.pascal.frontend.DLog
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.setting.PascalPreferences
@@ -131,16 +127,6 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
             preferences!!.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    /**
-     * share app
-     */
-    protected fun shareApp() {
-        val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.putExtra(Intent.EXTRA_TEXT, "http://play.google.com/store/apps/details?id=" + (application as BasePascalApplication).applicationID)
-        intent.type = "text/plain"
-        startActivity(intent)
-    }
 
     /**
      * show dialog with title and messenger
@@ -165,43 +151,9 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
         this.showDialog("", msg)
     }
 
-    fun goToPlayStore() {
-        this.goToPlayStore(null)
-    }
-
-    fun goToPlayStore(view: View?) {
-        val uri = Uri.parse("market://details?id=" + (application as BasePascalApplication).applicationID)
-        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-        // To count with Play market backstack, After pressing back button,
-        // to taken back to our application, we need to add following flags to intent.
-        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-        try {
-            startActivity(goToMarket)
-        } catch (e: ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + (application as BasePascalApplication).applicationID)))
-        }
-
-    }
-
     protected fun hideKeyboard(editText: EditText) {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(editText.windowToken, 0)
-    }
-
-    fun moreApp() {
-        val uri = Uri.parse("market://search?q=pub:Trần Lê Duy")
-        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-        // To count with Play market backstack, After pressing back button,
-        // to taken back to our application, we need to add following flags to intent.
-        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-        try {
-            startActivity(goToMarket)
-        } catch (e: ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/search?q=pub:Trần Lê Duy")))
-        }
-
     }
 
     fun showStatusBar() {
@@ -232,12 +184,9 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
      * set support action bar for activity
      */
     protected open fun setupToolbar() {
-        val toolbar: Toolbar
-        toolbar = findViewById(R.id.toolbar) as Toolbar
-
+        val toolbar: Toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        if (supportActionBar != null)
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     companion object {

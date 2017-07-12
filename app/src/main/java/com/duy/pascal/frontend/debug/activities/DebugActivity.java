@@ -41,7 +41,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
@@ -74,6 +73,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.io.File;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static android.view.ViewGroup.LayoutParams;
 
 
 public class DebugActivity extends AbstractExecActivity implements DebugListener {
@@ -472,8 +473,8 @@ public class DebugActivity extends AbstractExecActivity implements DebugListener
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DebugActivity.this);
                 final AppCompatEditText editText = new AppCompatEditText(DebugActivity.this);
-                editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                editText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT));
                 builder.setView(editText);
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
