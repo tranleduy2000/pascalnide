@@ -83,7 +83,7 @@ public class ThemeFragment extends Fragment {
                 }
             });
         } else {
-            btnDonate.setText(R.string.more_font);
+            btnDonate.setText(R.string.more_theme);
             btnDonate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -70,7 +70,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                     MY_PERMISSIONS_REQUEST);
         } else {
             if (BuildConfig.DEBUG) {
-                Utils.DONATED = true;
+                Utils.DONATED = false;
                 startMainActivity();
             }
             if (isDonateInstalled(Utils.DONATE_PACKAGE)) {
@@ -101,7 +101,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     if (BuildConfig.DEBUG) {
-                        Utils.DONATED = true;
+                        Utils.DONATED = false;
                         startMainActivity();
                     } else if (isDonateInstalled(Utils.DONATE_PACKAGE)) {
                         new CheckTask().execute();
