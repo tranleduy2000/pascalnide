@@ -213,5 +213,19 @@
     <string name="console_font_size">Console font size</string>
     <string name="hardware_acceleration">Hardware acceleration</string>
     <string name="tab_width">Tab width (space)</string>
+
+    <!--Donate-->
+    <string name="license_invalid">Děkujeme za zakoupení příspěvkové aplikace! Bohužel, kontrola licence se nezdařila. Prosím zkuste to později. Pokud to stále nefunguje, prosím, kontaktujte mne. Je potřeba připojení k internetu!</string>
+    <string name="pirated">Vypadá to, že příspěvek na aplikaci nebyl zakoupen přes Play Store! Pokud jsi pirát, styď se!</string>
+    <string name="donate">Přispět</string>
+    <string name="donate_summary">Tato funkce je dostupná pouze pokud je nainstalována aplikace darování. Nezoufejte! Tato aplikace je open source, takže si ji můžete sami sestavit a toto omezení odstranit. Přesto však doufáme, že vývojáře podpoříte. Děkujeme, že používáte Pascal N-IDE. Jakmile si aplikaci dárce zakoupíte, je třeba Pascal N-IDE restartovat pro zpřístupnění všech funkcí.</string>
+    <string name="donate_nope">Takovému podvodu nepodlehnu!</string>
+    <string name="donate_yes">Mám rád tuto aplikaci. Musim přispět!</string>
+    <string name="editor_font">Editor font</string>
+    <string name="console_font">Console font</string>
+    <string name="more_font">Get more font</string>
+    <string name="unknown">Unknown</string>
+
+
 </resources>
 

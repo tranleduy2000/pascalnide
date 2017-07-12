@@ -15,6 +15,7 @@
   -->
 
 <resources>
+    <string name="app_name" translatable="false">Pascal N-IDE</string>
     <string name="pascal_nide" translatable="false">Pascal N-IDE</string>
 
     <string name="key_pref_word_wrap" translatable="false">pref_word_wrap</string>

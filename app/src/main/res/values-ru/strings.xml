@@ -213,4 +213,19 @@
     <string name="console_font_size">Console font size</string>
     <string name="hardware_acceleration">Hardware acceleration</string>
     <string name="tab_width">Tab width (space)</string>
+
+
+    <!--DONATE-->
+    <string name="license_invalid">Спасибо за покупку приложения-пожертвования! К сожалению, проверка лицензии не удалась. Пожалуйста, попробуйте снова позже. Если она всё ещё не работает, пожалуйста, свяжитесь со мной. Вам необходим доступ к интернету!</string>
+    <string name="pirated">Похоже, приложение-пожертвование не было куплено через Play Маркет! Если вы спиратили его, то вам должно быть стыдно!</string>
+    <string name="donate">Пожертвовать</string>
+    <string name="donate_summary">Эта функция доступна только когда установлено приложение-пожертвование! Тем не менее, не волнуйтесь. Так как у этого приложения открытый исходный код, вы без труда можете собрать его самостоятельно и убрать эту проверку. Но я надеюсь, что вы в любом случае поддержите разработчиков. Спасибо за использование Pascal N-IDE! После покупки приложения-пожертвования, вам нужно перезапустить Kernel Auditor для того, чтобы включить все функции.</string>
+    <string name="donate_nope">Я не попадусь на эту аферу!</string>
+    <string name="donate_yes">Я люблю это приложение. Должен пожертвовать!</string>
+
+    <!--Splash screen-->
+    <string name="more_font">Get more font</string>
+    <string name="editor_font">Editor font</string>
+    <string name="console_font">Console font</string>
+    <string name="unknown">Unknown</string>
 </resources>

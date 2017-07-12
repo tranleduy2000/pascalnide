@@ -216,5 +216,17 @@
     <string name="console_font_size">Console font size</string>
     <string name="hardware_acceleration">Hardware acceleration</string>
     <string name="tab_width">Tab width (space)</string>
+
+    <!--Donate-->
+    <string name="license_invalid">感谢您购买了捐赠版！可惜我们无法验证您的购买记录。请稍候再试。如果依然无法工作，请联系我。您需要保持网络畅通！</string>
+    <string name="pirated">该捐赠版应用看上去并非通过Play商店购买！如果你是盗用它，那么你该感到羞愧！</string>
+    <string name="donate">捐助</string>
+    <string name="donate_summary">此功能仅在捐赠版应用安装后可用！别怕，本应用是开源软件，因此您可以轻松地自己构建它并删除此检查。尽管如此，我还是希望您支持开发人员。感谢您使用 Pascal N-IDE！购买捐赠版应用后，您必须重新启动 Pascal N-IDE 以启用所有功能。</string>
+    <string name="donate_nope">我不会上当的！</string>
+    <string name="donate_yes">我爱这个应用，必须捐！</string>
+    <string name="unknown">Unknown</string>
+    <string name="more_font">Get more font</string>
+    <string name="editor_font">Editor font</string>
+    <string name="console_font">Console font</string>
 </resources>
 

@@ -223,4 +223,17 @@
     <string name="console_font_size">Console font size</string>
     <string name="hardware_acceleration">Hardware acceleration</string>
     <string name="tab_width">Tab width (space)</string>
+
+    <!--Donate-->
+    <string name="pirated">Se pare ca donatie app nu a fost cumparat prin Play Store. Dacă l-ai piratate apoi rusine!</string>
+    <string name="donate">Donează</string>
+    <string name="donate_summary">Această caracteristică este disponibilă numai atunci când aplicaţia de donatie este instalat! Nu vă faceţi griji deşi. Deoarece această app este open source cu uşurinţă pot construi singur şi scoateţi această verificare. Dar sper că veţi sprijini dezvoltatorii oricum. Vă mulţumim pentru utilizarea Pascal N-IDE! Odată ce aţi cumpărat app de donaţie trebuie să reporniţi Adiutor kernel-ului pentru a permite toate caracteristicile.</string>
+    <string name="donate_nope">Eu nu voi cădea la aceasta înşelatorie!</string>
+    <string name="donate_yes">Imi place aplicaţia. Vreau s-a donez!</string>
+    <string name="license_invalid">Thanks for purchasing the donation app! Unfortunately license check failed. Please try again later. If it\'s still not working, please contact me. You need internet access!</string>
+    <string name="editor_font">Editor font</string>
+    <string name="console_font">Console font</string>
+    <string name="more_font">Get more font</string>
+    <string name="unknown">Unknown</string>
+
 </resources>

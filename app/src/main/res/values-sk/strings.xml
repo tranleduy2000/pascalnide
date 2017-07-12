@@ -213,5 +213,19 @@
     <string name="console_font_size">Console font size</string>
     <string name="hardware_acceleration">Hardware acceleration</string>
     <string name="tab_width">Tab width (space)</string>
+
+    <!--Donate-->
+    <string name="pirated">Vyzerá to že darcovská aplikácia nebola zakúpená cez obchod Google Play. Ak si ju \"upirátil\" hanbi sa!</string>
+    <string name="donate">Príspieť</string>
+    <string name="donate_summary">Táto funkcia je dostupná len s darcovskou verziou aplikácie. Ale nebojte sa. Pretože táto aplikácia je open source, môžete si ju vyrobiť sami a odstrániť tak tento baner. Ale dúfam, že aj tak podporíte vývojárov. Ďakujem, že používate Pascal N-IDE! Keď ste si kúpili verziu pre darcov, musíte reštartovať aplikáciu aby sa zmeny prejavili.</string>
+    <string name="donate_nope">Takému podvodu nepodľahnem!</string>
+    <string name="donate_yes">Milujem túto aplikáciu. Musím si ju kúpiť!</string>
+    <string name="editor_font">Editor font</string>
+    <string name="license_invalid">Thanks for purchasing the donation app! Unfortunately license check failed. Please try again later. If it\'s still not working, please contact me. You need internet access!</string>
+    <string name="unknown">Unknown</string>
+    <string name="more_font">Get more font</string>
+    <string name="console_font">Console font</string>
+
+
 </resources>
 
