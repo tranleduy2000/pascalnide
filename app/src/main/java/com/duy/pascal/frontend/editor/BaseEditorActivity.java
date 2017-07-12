@@ -53,6 +53,8 @@ import com.duy.pascal.frontend.file.FileActionListener;
 import com.duy.pascal.frontend.file.FragmentFileManager;
 import com.duy.pascal.frontend.file.TabFileUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
+import com.duy.pascal.frontend.utils.StoreUtil;
+import com.duy.pascal.frontend.utils.Utils;
 import com.duy.pascal.frontend.view.SymbolListView;
 
 import java.io.File;
@@ -425,6 +427,25 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
             // Hide the KeyBoard
             inputManager.hideSoftInputFromWindow(windowToken, hideType);
         }
+    }
+
+    public void showDialogDonate() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.donate);
+        builder.setMessage(R.string.donate_summary);
+        builder.setPositiveButton(R.string.donate_yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                StoreUtil.gotoPlayStore(BaseEditorActivity.this, Utils.DONATE_PACKAGE);
+            }
+        });
+        builder.setNegativeButton(R.string.donate_nope, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.create().show();
     }
 
     private class KeyBoardEventListener implements ViewTreeObserver.OnGlobalLayoutListener {

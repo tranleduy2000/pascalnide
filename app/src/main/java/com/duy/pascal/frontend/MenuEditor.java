@@ -261,11 +261,12 @@ public class MenuEditor {
             }
             case R.id.action_insert_color:
                 activity.insertColor();
-
                 break;
             case R.id.action_ime:
                 pascalPreferences.setImeMode(menuItem.isChecked());
-
+                break;
+            case R.id.action_donate:
+                activity.showDialogDonate();
                 break;
         }
         return true;
