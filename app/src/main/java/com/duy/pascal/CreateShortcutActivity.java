@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.ActivitySplashScreen;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.FileActionListener;

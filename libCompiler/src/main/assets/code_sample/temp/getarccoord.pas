@@ -1,3 +1,0 @@
-uses graph;
-begin
-end.
