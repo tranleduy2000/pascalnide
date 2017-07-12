@@ -59,6 +59,7 @@ import com.duy.pascal.frontend.view.SymbolListView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -376,6 +377,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
 
     @Override
     public void saveAs() {
+        saveFile();
         final AppCompatEditText edittext = new AppCompatEditText(this);
         edittext.setHint(R.string.enter_new_file_name);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -388,9 +390,14 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
                         dialog.cancel();
                         File currentFile = getCurrentFile();
                         if (currentFile != null) {
-//                            mFileManager.saveFile(getCurrentFile().getParent() + "/" + fileName, mCodeEditor.getCleanText());
-                        } else {
-//                            mFileManager.saveFile(mFileManager.createNewFileInMode(fileName), mCodeEditor.getCleanText());
+                            try {
+                                mFileManager.copy(currentFile.getPath(),
+                                        currentFile.getParent() + "/" + fileName);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Toast.makeText(BaseEditorActivity.this, R.string.can_not_save_file,
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 })
