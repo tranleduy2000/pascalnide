@@ -92,12 +92,16 @@ public class FontManager {
         return Typeface.MONOSPACE;
     }
 
+    private static boolean isFontFile(String name) {
+        return name.toLowerCase().endsWith(".ttf") || name.toLowerCase().endsWith(".otf");
+    }
+
     public static LinkedList<FontEntry> getAll(Context context) {
         LinkedList<FontEntry> fontEntries = new LinkedList<>();
         try {
             String[] fonts = context.getAssets().list("fonts");
             for (String font : fonts) {
-                if (font.toLowerCase().endsWith(".ttf")) {
+                if (isFontFile(font)) {
                     fontEntries.add(new FontEntry(false, font));
                 }
             }
@@ -110,7 +114,7 @@ public class FontManager {
             if (parent.exists() && parent.isDirectory()) {
                 File[] files = parent.listFiles();
                 for (File f : files) {
-                    if (f.getName().toLowerCase().endsWith(".ttf")) {
+                    if (isFontFile(f.getName())) {
                         fontEntries.add(new FontEntry(true, f.getName()));
                     }
                 }

@@ -28,6 +28,7 @@ import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.themefont.FontEntry;
 import com.duy.pascal.frontend.themefont.FontManager;
+import com.duy.pascal.frontend.utils.Utils;
 
 /**
  * Setting for application
@@ -234,7 +235,7 @@ public class PascalPreferences {
     public Typeface getEditorFont() {
         boolean fromStorage = getBoolean("key_font_from_storage");
         String name = getString(context.getString(R.string.key_pref_font));
-        return fromStorage ? FontManager.getFontFromStorage(name)
+        return fromStorage && Utils.DONATED ? FontManager.getFontFromStorage(name)
                 : FontManager.getFontFromAsset(context, name);
     }
 
