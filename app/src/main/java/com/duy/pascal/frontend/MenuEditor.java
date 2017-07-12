@@ -253,12 +253,6 @@ public class MenuEditor {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.action_github: {
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://github.com/tranleduy2000/pascalnide"));
-                activity.startActivity(intent);
-                break;
-            }
             case R.id.action_insert_color:
                 activity.insertColor();
                 break;

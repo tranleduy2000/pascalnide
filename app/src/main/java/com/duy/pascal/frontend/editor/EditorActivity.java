@@ -70,7 +70,7 @@ import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.structure.DialogProgramStructure;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
-import com.duy.pascal.frontend.theme.fragment.ThemeFontActivity;
+import com.duy.pascal.frontend.themefont.fragment.ThemeFontActivity;
 import com.duy.pascal.frontend.utils.Utils;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;

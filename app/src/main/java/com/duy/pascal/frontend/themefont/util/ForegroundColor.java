@@ -14,24 +14,25 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.fragment;
+package com.duy.pascal.frontend.themefont.util;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+public class ForegroundColor {
+    private int foreground;
 
-/**
- * Created by Duy on 17-May-17.
- */
+    public ForegroundColor(int foreground) {
+        this.foreground = foreground;
+    }
 
-public class DialogCreateCustomTheme extends AppCompatDialogFragment {
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public String toString() {
+        return "color: " + Integer.toHexString(foreground) + "; ";
+    }
+
+    public int getForeground() {
+        return this.foreground;
+    }
+
+    public void setForeground(int foreground) {
+        this.foreground = foreground;
     }
 }

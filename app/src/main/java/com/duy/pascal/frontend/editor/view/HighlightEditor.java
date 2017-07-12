@@ -55,8 +55,8 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.editor.autofix.AutoFixError;
 import com.duy.pascal.frontend.editor.highlight.CodeHighlighter;
 import com.duy.pascal.frontend.editor.highlight.Highlighter;
-import com.duy.pascal.frontend.theme.util.CodeTheme;
-import com.duy.pascal.frontend.theme.util.CodeThemeUtils;
+import com.duy.pascal.frontend.themefont.util.CodeTheme;
+import com.duy.pascal.frontend.themefont.util.CodeThemeUtils;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -392,7 +392,7 @@ public class HighlightEditor extends CodeSuggestsEditText
         } catch (Exception e) {
             setColorTheme(name);
         }
-        setTypeface(mEditorSetting.getFont());
+        setTypeface(mEditorSetting.getEditorFont());
         setHorizontallyScrolling(!mEditorSetting.isWrapText());
         setOverScrollMode(OVER_SCROLL_ALWAYS);
 

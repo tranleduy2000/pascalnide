@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.util;
+package com.duy.pascal.frontend.themefont;
 
 import android.content.Context;
 import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.LinkedList;
 
 /**
  * Created by Duy on 18-Mar-17.
@@ -60,12 +64,63 @@ public class FontManager {
                 return Typeface.MONOSPACE;
             } else if (name.equalsIgnoreCase(context.getString(R.string.font_source_code_pro))) {
                 return get(context, PATH_TO_FONT + "source_code_pro.ttf");
-            }  else {
+            } else {
                 return get(context, PATH_TO_FONT + name);
+            }
+        } catch (Exception e) {
+
+        }
+        return Typeface.MONOSPACE;
+    }
+
+    public synchronized static Typeface getFontFromStorage(String name) {
+        try {
+            synchronized (cache) {
+                if (!cache.containsKey(name)) {
+                    try {
+                        Typeface font = Typeface.createFromFile(ApplicationFileManager.EXTERNAL_DIR_CODE + "fonts/" + name);
+                        cache.put(name, font);
+                    } catch (Exception e) {
+                        throw new IOException("Could not get typeface '" + name + "' because " + e.getMessage());
+                    }
+                }
+                return cache.get(name);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Typeface.MONOSPACE;
+    }
+
+    public static LinkedList<FontEntry> getAll(Context context) {
+        LinkedList<FontEntry> fontEntries = new LinkedList<>();
+        try {
+            String[] fonts = context.getAssets().list("fonts");
+            for (String font : fonts) {
+                if (font.toLowerCase().endsWith(".ttf")) {
+                    fontEntries.add(new FontEntry(false, font));
+                }
+            }
+            fontEntries.addFirst(new FontEntry(false, "monospace"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (Utils.DONATED) {
+            File parent = new File(ApplicationFileManager.EXTERNAL_DIR_CODE + "fonts");
+            if (parent.exists() && parent.isDirectory()) {
+                File[] files = parent.listFiles();
+                for (File f : files) {
+                    if (f.getName().toLowerCase().endsWith(".ttf")) {
+                        fontEntries.add(new FontEntry(true, f.getName()));
+                    }
+                }
+            }
+        }
+        return fontEntries;
+    }
+
+    public static Typeface getFont(FontEntry fontEntry, Context context) {
+        return fontEntry.fromStorage ? getFontFromStorage(fontEntry.name) :
+                getFontFromAsset(context, fontEntry.name);
     }
 }

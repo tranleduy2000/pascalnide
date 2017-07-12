@@ -56,6 +56,7 @@ import com.duy.pascal.frontend.setting.PascalPreferences;
 import com.duy.pascal.frontend.utils.StoreUtil;
 import com.duy.pascal.frontend.utils.Utils;
 import com.duy.pascal.frontend.view.SymbolListView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -436,6 +437,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
         builder.setPositiveButton(R.string.donate_yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseAnalytics.getInstance(BaseEditorActivity.this).logEvent("click_donate", new Bundle());
                 StoreUtil.gotoPlayStore(BaseEditorActivity.this, Utils.DONATE_PACKAGE);
             }
         });

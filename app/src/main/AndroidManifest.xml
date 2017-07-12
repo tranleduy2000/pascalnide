@@ -103,7 +103,7 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".code_sample.activities.DocumentActivity"/>
         <activity android:name=".code_sample.activities.CodeSampleActivity"/>
-        <activity android:name=".theme.fragment.ThemeFontActivity"/>
+        <activity android:name=".themefont.fragment.ThemeFontActivity"/>
         <activity android:name=".info.InfoActivity"/>
         <activity android:name=".setting.SettingsActivity"/>
         <activity

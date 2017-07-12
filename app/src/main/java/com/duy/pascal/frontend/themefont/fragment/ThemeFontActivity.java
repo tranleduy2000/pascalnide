@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.fragment;
+package com.duy.pascal.frontend.themefont.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +26,7 @@ import android.view.MenuItem;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
-import com.duy.pascal.frontend.theme.adapter.SectionPageAdapter;
+import com.duy.pascal.frontend.themefont.adapter.SectionPageAdapter;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 
@@ -72,8 +72,9 @@ public class ThemeFontActivity extends AbstractAppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
+        if (item.getItemId() == android.R.id.home) {
             finish();
+        }
 
         return super.onOptionsItemSelected(item);
 
@@ -85,7 +86,7 @@ public class ThemeFontActivity extends AbstractAppCompatActivity
     }
 
     @Override
-    public void onFontSelect(String name) {
+    public void onFontSelected(String name) {
         ThemeFragment item = (ThemeFragment) adapter.getItem(1);
         item.notifyDataSetChanged();
     }

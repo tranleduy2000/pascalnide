@@ -16,12 +16,12 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:orientation="vertical"
-    android:padding="4dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:clickable="true"
+              android:foreground="?attr/selectableItemBackground"
+              android:orientation="vertical"
+              android:padding="4dp">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txt_name"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="8dp"
-        android:text="ABCDEFabcdef12345" />
+        android:text="ABCDEFabcdef12345"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txt_sample"
@@ -37,8 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="8dp"
-        android:text="ABCDEFabcdef12345"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:text="the quick brown fox jumps over the lazy dog. \n1234567890.:,;'(!?) +-*/="
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
     <Button
         android:id="@+id/btn_select"
@@ -46,5 +46,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="@string/select" />
+        android:text="@string/select"/>
 </LinearLayout>

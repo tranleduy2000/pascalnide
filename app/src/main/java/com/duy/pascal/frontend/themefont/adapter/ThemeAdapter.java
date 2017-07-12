@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.adapter;
+package com.duy.pascal.frontend.themefont.adapter;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
@@ -31,7 +31,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CodeSample;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.theme.fragment.ThemeFragment;
+import com.duy.pascal.frontend.themefont.fragment.ThemeFragment;
 import com.duy.pascal.frontend.utils.Utils;
 
 import java.util.ArrayList;

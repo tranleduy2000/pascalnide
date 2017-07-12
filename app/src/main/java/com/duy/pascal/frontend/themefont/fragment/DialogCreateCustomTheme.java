@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.fragment;
+package com.duy.pascal.frontend.themefont.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,17 +23,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.duy.pascal.frontend.R;
-
 /**
- * Created by Duy on 18-May-17.
+ * Created by Duy on 17-May-17.
  */
 
-
-public class CustomThemeFragment extends AppCompatDialogFragment {
+public class DialogCreateCustomTheme extends AppCompatDialogFragment {
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_custom_theme, container, false);
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

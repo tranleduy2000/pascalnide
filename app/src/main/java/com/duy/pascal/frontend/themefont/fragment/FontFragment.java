@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.fragment;
+package com.duy.pascal.frontend.themefont.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -30,7 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.theme.adapter.FontAdapter;
+import com.duy.pascal.frontend.themefont.adapter.FontAdapter;
 
 /**
  * Created by Duy on 17-May-17.
@@ -45,7 +45,6 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
     private OnFontSelectListener onFontSelectListener;
 
     public static FontFragment newInstance() {
-
         Bundle args = new Bundle();
         FontFragment fragment = new FontFragment();
         fragment.setArguments(args);
@@ -69,14 +68,13 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
 
         fontAdapter = new FontAdapter(getContext());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(fontAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         fontAdapter.setOnFontSelectListener(onFontSelectListener);
     }
 
@@ -84,9 +82,9 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try{
+        try {
             onFontSelectListener = (OnFontSelectListener) getActivity();
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }
@@ -105,6 +103,6 @@ public class FontFragment extends Fragment implements SharedPreferences.OnShared
     }
 
     public interface OnFontSelectListener {
-        void onFontSelect(String name);
+        void onFontSelected(String name);
     }
 }

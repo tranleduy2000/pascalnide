@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.util;
+package com.duy.pascal.frontend.themefont;
 
-public class ForegroundColor {
-    private int foreground;
+public class FontEntry {
+    public boolean fromStorage;
+    public String name;
 
-    public ForegroundColor(int foreground) {
-        this.foreground = foreground;
-    }
-
-    @Override
-    public String toString() {
-        return "color: " + Integer.toHexString(foreground) + "; ";
-    }
-
-    public int getForeground() {
-        return this.foreground;
-    }
-
-    public void setForeground(int foreground) {
-        this.foreground = foreground;
+    public FontEntry(boolean fromStorage, String name) {
+        this.fromStorage = fromStorage;
+        this.name = name;
     }
 }

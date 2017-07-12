@@ -26,7 +26,7 @@ import android.support.annotation.ColorInt;
 import com.duy.pascal.backend.builtin_libraries.graphic.style.TextDirection;
 import com.duy.pascal.backend.builtin_libraries.graphic.style.TextFont;
 import com.duy.pascal.backend.builtin_libraries.graphic.style.TextJustify;
-import com.duy.pascal.frontend.theme.util.FontManager;
+import com.duy.pascal.frontend.themefont.FontManager;
 
 /**
  * Created by Duy on 20-Apr-17.

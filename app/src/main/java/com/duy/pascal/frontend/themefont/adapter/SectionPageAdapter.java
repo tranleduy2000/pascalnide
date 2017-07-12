@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.adapter;
+package com.duy.pascal.frontend.themefont.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -22,8 +22,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.theme.fragment.FontFragment;
-import com.duy.pascal.frontend.theme.fragment.ThemeFragment;
+import com.duy.pascal.frontend.themefont.fragment.FontFragment;
+import com.duy.pascal.frontend.themefont.fragment.ThemeFragment;
 
 /**
  * Created by Duy on 17-May-17.

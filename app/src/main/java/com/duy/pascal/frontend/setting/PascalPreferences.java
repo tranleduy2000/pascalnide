@@ -26,7 +26,8 @@ import android.support.annotation.NonNull;
 
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.theme.util.FontManager;
+import com.duy.pascal.frontend.themefont.FontEntry;
+import com.duy.pascal.frontend.themefont.FontManager;
 
 /**
  * Setting for application
@@ -183,7 +184,6 @@ public class PascalPreferences {
     }
 
 
-
     public int getConsoleFrameRate() {
         int i;
         try {
@@ -231,15 +231,17 @@ public class PascalPreferences {
         }
     }
 
-    public Typeface getFont() {
+    public Typeface getEditorFont() {
+        boolean fromStorage = getBoolean("key_font_from_storage");
         String name = getString(context.getString(R.string.key_pref_font));
-        if (name.trim().isEmpty()) name = "monospace";
-        return FontManager.getFontFromAsset(context, name);
+        return fromStorage ? FontManager.getFontFromStorage(name)
+                : FontManager.getFontFromAsset(context, name);
     }
 
 
-    public void setFont(String name) {
-        put("key_pref_font", name);
+    public void setFont(FontEntry fontEntry) {
+        put("key_pref_font", fontEntry.name);
+        put("key_font_from_storage", fontEntry.fromStorage);
     }
 
     public boolean isShowLines() {

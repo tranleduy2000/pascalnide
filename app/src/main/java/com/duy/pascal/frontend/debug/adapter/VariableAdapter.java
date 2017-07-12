@@ -30,7 +30,7 @@ import com.duy.pascal.backend.declaration.lang.value.VariableDeclaration;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.debug.utils.SpanUtils;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.theme.util.CodeTheme;
+import com.duy.pascal.frontend.themefont.util.CodeTheme;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -47,7 +47,7 @@ public class ApplicationFileManager {
     /**
      * storage path for saveFile code
      */
-    private static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath()
+    public static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath()
             + "/PascalCompiler/";
     private final String TAG = ApplicationFileManager.class.getSimpleName();
     private final String FILE_TEMP_NAME = "tmp.pas";

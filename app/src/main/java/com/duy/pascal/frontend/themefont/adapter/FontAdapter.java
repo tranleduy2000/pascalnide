@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.theme.adapter;
+package com.duy.pascal.frontend.themefont.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -28,16 +28,16 @@ import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.setting.PascalPreferences;
-import com.duy.pascal.frontend.theme.fragment.FontFragment;
-import com.duy.pascal.frontend.theme.util.FontManager;
+import com.duy.pascal.frontend.themefont.FontEntry;
+import com.duy.pascal.frontend.themefont.FontManager;
+import com.duy.pascal.frontend.themefont.fragment.FontFragment;
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
     private LayoutInflater inflater;
     private Context context;
-    private LinkedList<String> listPathFont = new LinkedList<>();
+    private LinkedList<FontEntry> listFonts = new LinkedList<>();
     private PascalPreferences pascalPreferences;
     @Nullable
     private FontFragment.OnFontSelectListener onFontSelectListener;
@@ -46,17 +46,7 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         this.context = context;
         inflater = LayoutInflater.from(context);
         pascalPreferences = new PascalPreferences(context);
-        try {
-            String[] fonts = context.getAssets().list("fonts");
-            for (String font : fonts) {
-                if (font.endsWith(".ttf")) {
-                    listPathFont.add(font);
-                }
-            }
-            listPathFont.addFirst("monospace");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.listFonts = FontManager.getAll(context);
     }
 
     @Override
@@ -67,12 +57,11 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int pos) {
-        final int position = pos;
-        holder.txtSample.setTextSize(pascalPreferences.getEditorTextSize() * 2);
-        holder.txtSample.setTypeface(FontManager.getFontFromAsset(context,
-                listPathFont.get(position)));
+        final FontEntry fontEntry = listFonts.get(pos);
 
-        String name = listPathFont.get(position);
+        holder.txtSample.setTextSize(pascalPreferences.getEditorTextSize() * 2);
+        holder.txtSample.setTypeface(FontManager.getFont(fontEntry, context));
+        String name = fontEntry.name;
         name = name.replace("_", " ").replace("-", " ").toLowerCase();
         if (name.contains(".")) {
             holder.txtName.setText(name.substring(0, name.indexOf(".")));
@@ -84,13 +73,14 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         holder.btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pascalPreferences.setFont(listPathFont.get(position));
+                pascalPreferences.setFont(fontEntry);
+
                 Toast.makeText(context,
                         context.getString(R.string.select) + " " + finalName,
                         Toast.LENGTH_SHORT).show();
 
                 if (onFontSelectListener != null) {
-                    onFontSelectListener.onFontSelect(finalName);
+                    onFontSelectListener.onFontSelected(finalName);
                 }
             }
         });
@@ -98,7 +88,7 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return listPathFont.size();
+        return listFonts.size();
     }
 
     @Nullable
@@ -117,10 +107,12 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtSample = (TextView) itemView.findViewById(R.id.txt_sample);
-            txtName = (TextView) itemView.findViewById(R.id.txt_name);
-            btnSelect = (Button) itemView.findViewById(R.id.btn_select);
+            txtSample = itemView.findViewById(R.id.txt_sample);
+            txtName = itemView.findViewById(R.id.txt_name);
+            btnSelect = itemView.findViewById(R.id.btn_select);
 
         }
     }
+
+
 }
