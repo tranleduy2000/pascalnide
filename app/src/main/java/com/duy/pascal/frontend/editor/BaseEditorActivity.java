@@ -48,7 +48,7 @@ import com.duy.pascal.frontend.EditorControl;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.activities.AbstractAppCompatActivity;
 import com.duy.pascal.frontend.code.CompileManager;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.file.FileActionListener;
 import com.duy.pascal.frontend.file.FragmentFileManager;
 import com.duy.pascal.frontend.file.TabFileUtils;
@@ -75,7 +75,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
     protected final boolean SAVE_LAST_FILE = true;
     protected final boolean UN_SELECT = false;
     protected final boolean UN_SAVE_LAST_FILE = false;
-    protected ApplicationFileManager mFileManager;
+    protected FileManager mFileManager;
     protected EditorPagerAdapter pagerAdapter;
     Toolbar toolbar;
     AppBarLayout appBarLayout;
@@ -118,7 +118,7 @@ public abstract class BaseEditorActivity extends AbstractAppCompatActivity //for
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mKeyList = (SymbolListView) findViewById(R.id.recycler_view);
-        mFileManager = new ApplicationFileManager(this);
+        mFileManager = new FileManager(this);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mContainerSymbol = findViewById(R.id.container_symbol);

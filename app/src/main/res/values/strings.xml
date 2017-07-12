@@ -167,7 +167,7 @@
     <string name="theme_font">Code theme and font</string>
     <string name="do_you_want_to_create_your_theme">Do you want to create your theme?</string>
     <string name="get_pro_version">Get Pro Version</string>
-    <string name="create_shortcut">Create shortcut (Pro)</string>
+    <string name="create_shortcut">Create shortcut</string>
     <string name="create_shortcut_msg">Select file to create shortcut</string>
     <string name="shortcut_created">Shortcut created</string>
     <string name="sort_date">Sort by date…</string>

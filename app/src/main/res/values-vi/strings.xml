@@ -164,7 +164,7 @@
     <string name="stack_size_desc">Maximum stack size when running the program. On some devices, this parameter has no effect. The default is 40000. Minimum is 5000</string>
     <string name="create_shortcut_msg">Chọn tệp để tạo lối tắt</string>
     <string name="do_you_want_to_create_your_theme">Bạn có muốn tự tạo giao diện?</string>
-    <string name="create_shortcut">Tạo lối tắt (Pro)</string>
+    <string name="create_shortcut">Tạo lối tắt</string>
     <string name="get_pro_version">Get Pro Version</string>
     <string name="shortcut_created">Đã tạo lối tắt</string>
     <string name="theme_font">Giao diện và phông chữ</string>

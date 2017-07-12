@@ -33,7 +33,7 @@ import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;
 import com.duy.pascal.frontend.code_sample.model.CodeCategory;
 import com.duy.pascal.frontend.code_sample.model.CodeSampleEntry;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,7 +105,7 @@ public class FragmentCodeSample extends Fragment {
                     for (String fileName : list) {
                         if (fileName.endsWith(".pas")) {
                             StringBuilder content =
-                                    ApplicationFileManager.streamToString(assets.open(path + "/" + fileName));
+                                    FileManager.streamToString(assets.open(path + "/" + fileName));
                             codeCategory.addCodeItem(new CodeSampleEntry(fileName, content));
                         }
                     }

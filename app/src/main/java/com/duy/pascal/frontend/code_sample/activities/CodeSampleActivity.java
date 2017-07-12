@@ -34,7 +34,7 @@ import com.duy.pascal.frontend.code_sample.adapters.CodePagerAdapter;
 import com.duy.pascal.frontend.code_sample.adapters.CodeSampleAdapter;
 import com.duy.pascal.frontend.code_sample.fragments.FragmentCodeSample;
 import com.duy.pascal.frontend.editor.EditorActivity;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -50,7 +50,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
     TabLayout tabLayout;
     MaterialSearchView searchView;
     Toolbar toolbar;
-    private ApplicationFileManager fileManager;
+    private FileManager fileManager;
     private CodePagerAdapter pagerAdapter;
 
     public CodeSampleActivity() {
@@ -65,7 +65,7 @@ public class CodeSampleActivity extends AbstractAppCompatActivity implements Cod
 
         FirebaseAnalytics.getInstance(getApplicationContext()).logEvent("open_code_sample", new Bundle());
 
-        fileManager = new ApplicationFileManager(getApplicationContext());
+        fileManager = new FileManager(getApplicationContext());
 
         setContentView(R.layout.activity_code_sample);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

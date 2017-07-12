@@ -165,7 +165,7 @@
     <string name="stack_size_desc">Максимальный размер стека при запуске программы. На некоторых устройствах этот параметр не действует. По умолчанию 40000. Минимальное значение - 5000.</string>
     <string name="create_shortcut_msg">Выберите файл для создания ярлыка</string>
     <string name="do_you_want_to_create_your_theme">Вы хотите создать свою тему?</string>
-    <string name="create_shortcut">Создать ярлык (PRO)</string>
+    <string name="create_shortcut">Создать ярлык</string>
     <string name="get_pro_version">Получить PRO-версию</string>
     <string name="shortcut_created">Ярлык создан</string>
     <string name="theme_font">Тема и шрифт кода</string>

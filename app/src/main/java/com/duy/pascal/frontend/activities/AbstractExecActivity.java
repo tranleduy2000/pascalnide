@@ -37,7 +37,7 @@ import com.duy.pascal.backend.source_include.ScriptSource;
 import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.alogrithm.InputData;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.utils.StringCompare;
 import com.duy.pascal.frontend.view.exec_screen.console.ConsoleView;
 
@@ -172,7 +172,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
             }
         }
     };
-    protected ApplicationFileManager mFileManager;
+    protected FileManager mFileManager;
 
     @Override
     public String getCurrentDirectory() {
@@ -204,7 +204,7 @@ public abstract class AbstractExecActivity extends RunnableActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFileManager = new ApplicationFileManager(this);
+        mFileManager = new FileManager(this);
     }
 
 

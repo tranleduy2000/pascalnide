@@ -24,9 +24,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.activities.ActivitySplashScreen;
-import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.file.FileActionListener;
+import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.file.FragmentFileManager;
 
 import java.io.File;
@@ -50,20 +49,8 @@ public class CreateShortcutActivity extends AppCompatActivity
 
     @Override
     public void onFileClick(File file) {
-        // create shortcut if requested
-        Intent.ShortcutIconResource icon =
-                Intent.ShortcutIconResource.fromContext(this, R.mipmap.ic_launcher);
-
-        Intent intent = new Intent();
-
-        Intent launchIntent = new Intent(this, ActivitySplashScreen.class);
-        launchIntent.putExtra(CompileManager.FILE_PATH, file.getPath());
-        launchIntent.setAction("run_from_shortcut");
-
-        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
-        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, file.getName());
-        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
-
+        FileManager fileManager = new FileManager(this);
+        Intent intent = fileManager.createShortcutIntent(this, file);
         setResult(RESULT_OK, intent);
         Toast.makeText(this, R.string.shortcut_created, Toast.LENGTH_SHORT).show();
         finish();

@@ -49,7 +49,7 @@ import com.duy.pascal.frontend.editor.completion.KeyWord;
 import com.duy.pascal.frontend.editor.view.EditorView;
 import com.duy.pascal.frontend.editor.view.LineUtils;
 import com.duy.pascal.frontend.editor.view.adapters.InfoItem;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.structure.viewholder.StructureType;
 import com.duy.pascal.frontend.view.LockableScrollView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -68,7 +68,7 @@ public class EditorFragment extends Fragment implements EditorListener {
     private EditorView mCodeEditor;
     @Nullable
     private LockableScrollView mScrollView;
-    private ApplicationFileManager mFileManager;
+    private FileManager mFileManager;
     private Handler handler = new Handler();
 
 
@@ -83,7 +83,7 @@ public class EditorFragment extends Fragment implements EditorListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFileManager = new ApplicationFileManager(getContext());
+        mFileManager = new FileManager(getContext());
     }
 
 //    private LockableHorizontalScrollView mHorizontalScrollView;
@@ -96,7 +96,7 @@ public class EditorFragment extends Fragment implements EditorListener {
         mScrollView = (LockableScrollView) view.findViewById(R.id.vertical_scroll);
 //        mHorizontalScrollView = (LockableHorizontalScrollView) view.findViewById(R.id.horizontal_scroll);
 
-        ApplicationFileManager fileManager = new ApplicationFileManager(getContext());
+        FileManager fileManager = new FileManager(getContext());
         StringBuilder code = fileManager.fileToString(getArguments().getString(CompileManager.FILE_PATH));
         mCodeEditor.setTextHighlighted(code);
 

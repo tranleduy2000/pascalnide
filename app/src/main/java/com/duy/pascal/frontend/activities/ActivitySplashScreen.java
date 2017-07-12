@@ -41,7 +41,7 @@ import com.duy.pascal.frontend.DLog;
 import com.duy.pascal.frontend.R;
 import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.editor.EditorActivity;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.utils.Utils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -157,7 +157,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private void saveLicence() {
         String path = getApplicationInfo().dataDir + "/license";
         String content = Utils.encodeString(Utils.getAndroidId(this));
-        ApplicationFileManager fileManager = new ApplicationFileManager(this);
+        FileManager fileManager = new FileManager(this);
         fileManager.saveFile(path, content);
     }
 
@@ -236,7 +236,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
             try {
                 //clone file
                 InputStream inputStream = getContentResolver().openInputStream(uri);
-                ApplicationFileManager fileManager = new ApplicationFileManager(this);
+                FileManager fileManager = new FileManager(this);
                 String filePath = fileManager.createRandomFile();
                 fileManager.copy(inputStream, new FileOutputStream(filePath));
 
@@ -252,9 +252,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private void handleActionSend(Intent from, Intent to) {
         String text = from.getStringExtra(Intent.EXTRA_TEXT);
 
-        ApplicationFileManager fileManager = new ApplicationFileManager(this);
+        FileManager fileManager = new FileManager(this);
         //create new temp file
-        String filePath = fileManager.createNewFile(ApplicationFileManager.getApplicationPath() +
+        String filePath = fileManager.createNewFile(FileManager.getApplicationPath() +
                 "new_" + Integer.toHexString((int) System.currentTimeMillis()) + ".pas");
         fileManager.saveFile(filePath, text);
         to.putExtra(CompileManager.FILE_PATH, filePath);

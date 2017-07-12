@@ -28,7 +28,7 @@ import android.widget.RadioButton
 
 import com.duy.pascal.frontend.R
 import com.duy.pascal.frontend.editor.completion.Template
-import com.duy.pascal.frontend.file.ApplicationFileManager
+import com.duy.pascal.frontend.file.FileManager
 
 import java.io.File
 
@@ -44,7 +44,7 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
     private var checkBoxPas: RadioButton? = null
     private var checkBoxInp: RadioButton? = null
     private var checkBoxUnit: RadioButton? = null
-    private var mFileManager: ApplicationFileManager? = null
+    private var mFileManager: FileManager? = null
 
     fun setListener(listener: OnCreateNewFileListener?) {
         this.listener = listener
@@ -57,7 +57,7 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        mFileManager = ApplicationFileManager(context)
+        mFileManager = FileManager(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -114,13 +114,13 @@ class DialogCreateNewFile : AppCompatDialogFragment() {
         } else if ((checkBoxPas!!.isChecked || checkBoxUnit!!.isChecked) && !fileName.contains(".")) {
             fileName += ".pas"
         }
-        var file = File(ApplicationFileManager.getApplicationPath() + fileName)
+        var file = File(FileManager.getApplicationPath() + fileName)
         if (file.exists()) {
             mEditFileName!!.error = getString(R.string.file_exist)
             return null
         }
         //create new file
-        val filePath = mFileManager!!.createNewFile(ApplicationFileManager.getApplicationPath() + fileName)
+        val filePath = mFileManager!!.createNewFile(FileManager.getApplicationPath() + fileName)
         file = File(filePath)
         if (checkBoxPas!!.isChecked) {
             mFileManager!!.saveFile(file,

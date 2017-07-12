@@ -17,11 +17,15 @@
 package com.duy.pascal.frontend.file;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
+import com.duy.pascal.frontend.R;
+import com.duy.pascal.frontend.activities.ActivitySplashScreen;
+import com.duy.pascal.frontend.code.CompileManager;
 import com.duy.pascal.frontend.setting.PascalPreferences;
 
 import java.io.BufferedReader;
@@ -43,20 +47,20 @@ import java.util.ArrayList;
  * Created by Duy on 10-Feb-17.
  */
 
-public class ApplicationFileManager {
+public class FileManager {
     /**
      * storage path for saveFile code
      */
     public static final String EXTERNAL_DIR_CODE = Environment.getExternalStorageDirectory().getPath()
             + "/PascalCompiler/";
-    private final String TAG = ApplicationFileManager.class.getSimpleName();
+    private final String TAG = FileManager.class.getSimpleName();
     private final String FILE_TEMP_NAME = "tmp.pas";
     private int mode = SAVE_MODE.EXTERNAL;
     private Context context;
     private Database mDatabase;
     private PascalPreferences mPascalPreferences;
 
-    public ApplicationFileManager(Context context) {
+    public FileManager(Context context) {
         this.context = context;
         mDatabase = new Database(context);
         mPascalPreferences = new PascalPreferences(context);
@@ -495,6 +499,23 @@ public class ApplicationFileManager {
         out.flush();
         out.close();
 
+    }
+
+    public Intent createShortcutIntent(Context context, File file) {
+        // create shortcut if requested
+        Intent.ShortcutIconResource icon =
+                Intent.ShortcutIconResource.fromContext(context, R.mipmap.ic_launcher);
+
+        Intent intent = new Intent();
+
+        Intent launchIntent = new Intent(context, ActivitySplashScreen.class);
+        launchIntent.putExtra(CompileManager.FILE_PATH, file.getPath());
+        launchIntent.setAction("run_from_shortcut");
+
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, file.getName());
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+        return intent;
     }
 
     public static class SAVE_MODE {

@@ -20,7 +20,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.file.ApplicationFileManager;
+import com.duy.pascal.frontend.file.FileManager;
 import com.duy.pascal.frontend.utils.Utils;
 
 import java.io.File;
@@ -78,7 +78,7 @@ public class FontManager {
             synchronized (cache) {
                 if (!cache.containsKey(name)) {
                     try {
-                        Typeface font = Typeface.createFromFile(ApplicationFileManager.EXTERNAL_DIR_CODE + "fonts/" + name);
+                        Typeface font = Typeface.createFromFile(FileManager.EXTERNAL_DIR_CODE + "fonts/" + name);
                         cache.put(name, font);
                     } catch (Exception e) {
                         throw new IOException("Could not get typeface '" + name + "' because " + e.getMessage());
@@ -110,7 +110,7 @@ public class FontManager {
             e.printStackTrace();
         }
         if (Utils.DONATED) {
-            File parent = new File(ApplicationFileManager.EXTERNAL_DIR_CODE + "fonts");
+            File parent = new File(FileManager.EXTERNAL_DIR_CODE + "fonts");
             if (parent.exists() && parent.isDirectory()) {
                 File[] files = parent.listFiles();
                 for (File f : files) {

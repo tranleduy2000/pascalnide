@@ -169,7 +169,7 @@
     <string name="theme_font">代码主题和字体</string>
     <string name="do_you_want_to_create_your_theme">您是否要创建你的专属主题？</string>
     <string name="get_pro_version">获取专业版</string>
-    <string name="create_shortcut">创建快捷方式 (专业版)</string>
+    <string name="create_shortcut">创建快捷方式</string>
     <string name="create_shortcut_msg">选择需要创建快捷方式的文件</string>
     <string name="shortcut_created">快捷方式已创建</string>
     <string name="sort_date">按日期排序…</string>
