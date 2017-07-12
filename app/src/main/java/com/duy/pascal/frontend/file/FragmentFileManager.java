@@ -47,7 +47,6 @@ import com.duy.pascal.frontend.file.adapter.FileDetail;
 import com.duy.pascal.frontend.file.adapter.FileListAdapter;
 import com.duy.pascal.frontend.utils.Build;
 import com.github.clans.fab.FloatingActionMenu;
-import com.spazedog.lib.rootfw4.RootFW;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -157,22 +156,22 @@ public class FragmentFileManager extends Fragment implements
     }
 
     private void bindView(View view) {
-        mSearchView = (SearchView) view.findViewById(R.id.search_view);
+        mSearchView = view.findViewById(R.id.search_view);
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setSubmitButtonEnabled(false);
 
-        listFiles = (RecyclerView) view.findViewById(R.id.list_file);
+        listFiles = view.findViewById(R.id.list_file);
         listFiles.setHasFixedSize(true);
         listFiles.setLayoutManager(new LinearLayoutManager(activity));
         listFiles.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_view);
+        swipeRefreshLayout = view.findViewById(R.id.refresh_view);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_key_word_color));
 
-        fabMenu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
+        fabMenu = view.findViewById(R.id.fab_menu);
         fabMenu.findViewById(R.id.action_new_file).setOnClickListener(this);
         fabMenu.findViewById(R.id.action_new_folder).setOnClickListener(this);
 
@@ -180,7 +179,7 @@ public class FragmentFileManager extends Fragment implements
         view.findViewById(R.id.img_sort_date).setOnClickListener(this);
         view.findViewById(R.id.img_sort_size).setOnClickListener(this);
 
-        txtPath = (TextView) view.findViewById(R.id.txt_path);
+        txtPath = view.findViewById(R.id.txt_path);
     }
 
 
@@ -445,33 +444,14 @@ public class FragmentFileManager extends Fragment implements
                 }
 
                 String[] unopenableExtensions = {"apk", "mp3", "mp4", "png", "jpg", "jpeg"};
+                String[] canOpen = {"txt", "pas", "nide", "inp", "out"};
 
                 final LinkedList<FileDetail> fileDetails = new LinkedList<>();
                 final LinkedList<FileDetail> folderDetails = new LinkedList<>();
                 currentFolder = tempFolder.getAbsolutePath();
 
                 if (!tempFolder.canRead()) {
-                    if (RootFW.connect()) {
-                        com.spazedog.lib.rootfw4.utils.File folder = RootFW.getFile(currentFolder);
-                        com.spazedog.lib.rootfw4.utils.File.FileStat[] stats = folder.getDetailedList();
 
-                        if (stats != null) {
-                            for (com.spazedog.lib.rootfw4.utils.File.FileStat stat : stats) {
-                                if (stat.type().equals("d")) {
-                                    folderDetails.add(new FileDetail(stat.name(),
-                                            getString(R.string.folder),
-                                            ""));
-                                } else if (!FilenameUtils.isExtension(stat.name().toLowerCase(), unopenableExtensions)
-                                        && stat.size() <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
-                                    final long fileSize = stat.size();
-                                    //SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a");
-                                    //String date = format.format("");
-                                    fileDetails.add(new FileDetail(stat.name(),
-                                            FileUtils.byteCountToDisplaySize(fileSize), ""));
-                                }
-                            }
-                        }
-                    }
                 } else {
                     File[] files = tempFolder.listFiles();
                     if (sortMode == SORT_BY_SIZE) {
@@ -481,13 +461,12 @@ public class FragmentFileManager extends Fragment implements
                     } else if (sortMode == SORT_BY_DATE) {
                         Arrays.sort(files, getFileDateComparator());
                     }
+
                     for (final File f : files) {
                         if (f.isDirectory()) {
-                            folderDetails.add(new FileDetail(f.getName(),
-                                    getString(R.string.folder),
-                                    ""));
+                            folderDetails.add(new FileDetail(f.getName(), getString(R.string.folder), ""));
                         } else if (f.isFile()
-                                && !FilenameUtils.isExtension(f.getName().toLowerCase(), unopenableExtensions)
+                                && FilenameUtils.isExtension(f.getName().toLowerCase(), canOpen)
                                 && FileUtils.sizeOf(f) <= Build.MAX_FILE_SIZE * FileUtils.ONE_KB) {
                             final long fileSize = f.length();
                             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  hh:mm a", Locale.getDefault());

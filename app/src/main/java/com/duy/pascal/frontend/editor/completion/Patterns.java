@@ -47,7 +47,7 @@ public class Patterns {
                     "|record|continue" +
                     "|unit|interface|initialization|finalization|implementation|with" +
                     "|null|nil|set|new)\\b",
-            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+            Pattern.CASE_INSENSITIVE);
     /**
      * match builtin pascal function
      */
