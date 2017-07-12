@@ -443,7 +443,6 @@ public class FragmentFileManager extends Fragment implements
                     tempFolder = tempFolder.getParentFile();
                 }
 
-                String[] unopenableExtensions = {"apk", "mp3", "mp4", "png", "jpg", "jpeg"};
                 String[] canOpen = {"txt", "pas", "nide", "inp", "out"};
 
                 final LinkedList<FileDetail> fileDetails = new LinkedList<>();
@@ -463,7 +462,7 @@ public class FragmentFileManager extends Fragment implements
                     }
 
                     for (final File f : files) {
-                        if (f.isDirectory()) {
+                        if (f.isDirectory() && !f.getName().equalsIgnoreCase("fonts")) {
                             folderDetails.add(new FileDetail(f.getName(), getString(R.string.folder), ""));
                         } else if (f.isFile()
                                 && FilenameUtils.isExtension(f.getName().toLowerCase(), canOpen)

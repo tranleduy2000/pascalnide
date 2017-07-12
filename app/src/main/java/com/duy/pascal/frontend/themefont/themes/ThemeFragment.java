@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.duy.pascal.frontend.themefont.fragment;
+package com.duy.pascal.frontend.themefont.themes;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.duy.pascal.frontend.R;
-import com.duy.pascal.frontend.themefont.adapter.ThemeAdapter;
 import com.duy.pascal.frontend.utils.StoreUtil;
 import com.duy.pascal.frontend.utils.Utils;
 
