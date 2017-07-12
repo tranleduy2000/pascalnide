@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 
 public class Util {
 
+
     public static Bitmap changeImageColor(Bitmap sourceBitmap, int color) {
         Bitmap resultBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0,
                 sourceBitmap.getWidth() - 1, sourceBitmap.getHeight() - 1);

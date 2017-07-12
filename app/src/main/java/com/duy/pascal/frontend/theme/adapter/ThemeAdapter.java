@@ -71,7 +71,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (Utils.PATCHED) {
+        if (Utils.DONATED) {
             return 1;
         } else {
             if (position == 0) {
@@ -97,7 +97,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int pos) {
         //free version
         final int position;
-        if (Utils.PATCHED) {
+        if (Utils.DONATED) {
             position = pos;
         } else {
             position = pos - 1;
@@ -132,7 +132,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (Utils.PATCHED) {
+        if (Utils.DONATED) {
             return mThemes.size();
         } else {
             return mThemes.size() + 1;

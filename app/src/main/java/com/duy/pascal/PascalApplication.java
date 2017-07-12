@@ -31,7 +31,7 @@ public class PascalApplication extends BasePascalApplication {
         super.onCreate();
         if (BuildConfig.DEBUG) {
             FirebaseCrash.setCrashCollectionEnabled(false);
-            Utils.PATCHED = true;
+            Utils.DONATED = true;
         }
     }
 }

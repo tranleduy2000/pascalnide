@@ -138,7 +138,7 @@ abstract class AbstractAppCompatActivity : AppCompatActivity(), SharedPreference
     protected fun showDialog(title: String, msg: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title).setMessage(msg)
-        builder.setNegativeButton(this.getString(R.string.close)) { dialogInterface, i -> dialogInterface.cancel() }
+        builder.setNegativeButton(this.getString(R.string.close)) { dialogInterface, _ -> dialogInterface.cancel() }
         builder.create().show()
     }
 

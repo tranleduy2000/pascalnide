@@ -275,7 +275,7 @@ public class ApplicationFileManager {
         try {
             File file = new File(filePath);
             if (!file.exists()) {
-                new File(file.getParent()).mkdirs();
+                file.getParentFile().mkdirs();
                 file.createNewFile();
             }
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");

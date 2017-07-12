@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -41,7 +40,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.duy.pascal.BasePascalApplication;
 import com.duy.pascal.backend.ast.codeunit.CodeUnit;
 import com.duy.pascal.backend.ast.expressioncontext.ExpressionContextMixin;
 import com.duy.pascal.backend.builtin_libraries.io.IOLib;
@@ -98,7 +96,6 @@ public class EditorActivity extends BaseEditorActivity implements
 
     private CompileManager mCompileManager;
     private MenuEditor menuEditor;
-    private Handler handler = new Handler();
     private Dialog mDialog;
 
     @Override
@@ -130,8 +127,7 @@ public class EditorActivity extends BaseEditorActivity implements
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        BasePascalApplication application = (BasePascalApplication) getApplication();
-        if (Utils.PATCHED) {
+        if (Utils.DONATED) {
             menu.findItem(R.id.action_create_shortcut).setEnabled(true);
         } else {
             menu.findItem(R.id.action_create_shortcut).setEnabled(false);

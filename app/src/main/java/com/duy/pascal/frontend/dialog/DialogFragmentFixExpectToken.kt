@@ -71,7 +71,7 @@ open class DialogFragmentFixExpectToken : BottomSheetDialogFragment() {
         val listView: ListView = view.findViewById(R.id.list_expect)
         if (true) {
             listView.adapter = adapter;
-            listView.setOnItemClickListener { parent, _, position, id ->
+            listView.setOnItemClickListener { _, _, position, _ ->
                 val get = stringArray.get(position)
                 listener?.onSelectedExpect(current, get, radInsert.isChecked, line, col);
                 dismiss();
